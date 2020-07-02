@@ -1,0 +1,35 @@
+version: 2.1
+
+executors:
+  main-executor:
+    docker:
+      - image: circleci/openjdk:8-jdk
+
+jobs:
+            
+  build:
+    executor: main-executor
+    
+    working_directory: ~/repo
+    
+    steps:
+      - checkout
+
+      - run:
+          name: Make gradlew executable
+          command: chmod +x gradlew
+
+      - run:
+          name: Download Dependencies
+          command: ./gradlew dependencies
+    
+      - run:
+          name: Build main jar
+          command: ./gradlew build
+          
+      - run:
+          name: Build dev jar
+          command: ./gradlew devJar   
+      
+      - store_artifacts:
+          path: ./build/libs
