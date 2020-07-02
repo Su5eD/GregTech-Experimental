@@ -1,8 +1,0 @@
-{
-  "down": "gregtechmod:blocks/machines/adv_machine_logo_bottom",
-  "up": "gregtechmod:blocks/machines/adv_machine_logo_bottom",
-  "north": "gregtechmod:blocks/machines/adv_machine_logo_bottom",
-  "south": "gregtechmod:blocks/machines/adv_machine_logo_bottom",
-  "east": "gregtechmod:blocks/machines/adv_machine_logo_bottom",
-  "west": "gregtechmod:blocks/machines/adv_machine_logo_bottom"
-}
