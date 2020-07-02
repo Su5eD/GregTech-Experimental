@@ -1,0 +1,22 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all"
+  },
+  "variants": {
+    "normal": [
+      {
+        "textures": {"all": "gregtechmod:blocks/block_zinc"}
+      }
+    ],
+    "inventory": [
+      {
+        "model": "cube_all",
+        "textures": {
+          "all": "gregtechmod:blocks/block_zinc"
+        },
+        "transform": "forge:default-block"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "normal": [{}],
+    "inventory": [
+      {
+        "model": "gregtechmod:block_centrifuge",
+        "transform": "forge:default-block"
+      }
+    ],
+    "active=true": [{
+      "model": "gregtechmod:block_centrifuge_active"
+    }],
+    "active=false": [{
+      "model": "gregtechmod:block_centrifuge"
+    }]
+  }
+}

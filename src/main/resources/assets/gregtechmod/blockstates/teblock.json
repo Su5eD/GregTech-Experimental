@@ -1,0 +1,22 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "type": {
+
+      "gtcentrifuge": {"model": "gregtechmod:gtcentrifuge"},
+      "gtcentrifuge_active": {"model": "gregtechmod:gtcentrifuge_active"},
+      "digital_chest": {"model": "gregtechmod:digital_chest"},
+      "quantum_chest": {"model": "gregtechmod:quantum_chest"},
+      "quantum_tank": {"model": "gregtechmod:quantum_tank"}
+    },
+    "facing": {
+      "down": { "x": 90 },
+      "up": { "x": 270 },
+      "north": { "transform": "forge:default-block" },
+      "south": { "y": 180 },
+      "west": { "y": 270 },
+      "east": { "y": 90 }
+    },
+    "inventory": [{}]
+  }
+}

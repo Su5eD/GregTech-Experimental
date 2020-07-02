@@ -1,0 +1,26 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_side_pipe",
+    "down": "gregtechmod:blocks/machines/machine_bottom_pipe",
+    "up": "gregtechmod:blocks/machines/machine_screen_data",
+    "north": "gregtechmod:blocks/machines/machine_side_pipe",
+    "south": "gregtechmod:blocks/machines/machine_side_pipe",
+    "east": "gregtechmod:blocks/machines/machine_side_pipe",
+    "west": "gregtechmod:blocks/machines/machine_side_pipe"
+  },
+  "elements": [
+        {
+           "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down": { "texture": "#down", "cullface": "down" },
+                "up": { "uv": [16, 16, 0, 0], "texture": "#up", "cullface": "up" },
+                "north": { "texture": "#north", "cullface": "north" },
+                "south": { "texture": "#south", "cullface": "south" },
+                "west": { "texture": "#west", "cullface": "west" },
+                "east": { "texture": "#east", "cullface": "east" }
+            }
+        }
+    ]
+}

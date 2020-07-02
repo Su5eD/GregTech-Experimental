@@ -1,0 +1,22 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all"
+  },
+  "variants": {
+    "normal": [
+      {
+        "textures": {"all": "gregtechmod:blocks/block_lesublock"}
+      }
+    ],
+    "inventory": [
+      {
+        "model": "cube_all",
+        "textures": {
+          "all": "gregtechmod:blocks/block_lesublock"
+        },
+        "transform": "forge:default-block"
+      }
+    ]
+  }
+}
