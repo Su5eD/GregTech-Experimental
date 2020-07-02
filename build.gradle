@@ -11,9 +11,9 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.0"
+version = version_major+'.'+version_minor+'-' + ("$System.env.CIRCLE_BUILD_NUM" != "null" ? "$System.env.CIRCLE_BUILD_NUM" : "0")
 group = "com.su5ed.gregtechmod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+archivesBaseName = "gregtechmod"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
@@ -41,8 +41,26 @@ repositories {
 }
 
 dependencies {
-    //compileOnly "net.industrial-craft:industrialcraft-2:2.8.197-ex112:api"
-    compileOnly "net.industrial-craft:industrialcraft-2:2.8.218-ex112:dev"
+    compileOnly "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:dev"
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title": "gregtechmod",
+                "Specification-Vendor": "Su5eD",
+                "Specification-Version": "1",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" : "Su5eD",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+task devJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = "dev"
 }
 
 processResources {
