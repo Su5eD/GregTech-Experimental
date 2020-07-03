@@ -32,10 +32,10 @@ jobs:
     - name: Build dev jar
       run: ./gradlew devJar
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-      path: build/libs/$BUILD_NAME
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        path: build/libs/$BUILD_NAME
 
     - name: Upload maven package
       run: ./gradlew publish
