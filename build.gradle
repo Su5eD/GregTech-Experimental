@@ -9,15 +9,20 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'maven-publish'
 
-
-version = version_major+'.'+version_minor+'-' + ("$System.env.CIRCLE_BUILD_NUM" != "null" ? "$System.env.CIRCLE_BUILD_NUM" : "0")
+version = version_major+'.'+version_minor+'-' + ("$System.env.GITHUB_RUN_NUMBER" != "null" ? "$System.env.GITHUB_RUN_NUMBER" : "0")
 group = "com.su5ed.gregtechmod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "gregtechmod"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
+}
+
+task setEnvVars {
+    System.setProperty("BUILD_NAME", archivesBaseName);
+    System.setProperty("BUILD_VERSION", version.toString());
 }
 
 minecraft {
@@ -79,5 +84,28 @@ processResources {
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = project.archivesBaseName
+            version = project.version
+            from components.java
+            artifact jar
+            artifact devJar
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username System.env.GITHUB_ACTOR
+                password System.env.GITHUB_TOKEN
+            }
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/Su5eD/GregTech-Experimental"
+        }
     }
 }
