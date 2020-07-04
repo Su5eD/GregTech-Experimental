@@ -28,6 +28,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
+        name: Outputs
         path: build/libs/*
 
     - name: Upload maven package
