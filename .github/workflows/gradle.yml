@@ -25,6 +25,11 @@ jobs:
     - name: Build dev jar
       run: ./gradlew devJar
 
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        path: build/libs/
+
     - name: Upload maven package
       run: ./gradlew publish
       env:
