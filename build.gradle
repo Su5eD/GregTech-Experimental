@@ -95,7 +95,7 @@ publishing {
             version = project.version
             from components.java
             artifact jar
-            artifact devJar
+            //artifact devJar
         }
     }
     repositories {
