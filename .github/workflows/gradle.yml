@@ -3,7 +3,7 @@
 
 name: Java CI with Gradle
 
-on: [push, pull_request]
+on: push
 
 jobs:
   build:
@@ -27,3 +27,5 @@ jobs:
 
     - name: Upload maven package
       run: ./gradlew publish
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
