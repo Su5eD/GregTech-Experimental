@@ -2,7 +2,7 @@ name: Build Branch
 
 on:
   push:
-    branches-ignore: [ master ]
+    branches-ignore: [ forge-1.12.2 ]
 
 jobs:
   build:

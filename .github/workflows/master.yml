@@ -2,7 +2,7 @@ name: Build Master
 
 on:
   push:
-    branches: [ master ]
+    branches: [ forge-1.12.2 ]
 
 jobs:
   build:
