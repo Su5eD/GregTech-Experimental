@@ -1,9 +1,8 @@
-# This workflow will build a Java project with Gradle
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+name: Build Master
 
-name: Main
-
-on: push
+on:
+  push:
+    branches: [ master ]
 
 jobs:
   build:
@@ -28,4 +27,4 @@ jobs:
     - name: Upload maven package
       run: ./gradlew publish
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
