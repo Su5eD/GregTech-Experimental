@@ -3,7 +3,7 @@
 </p>
 <p align="center">
   <a href="http://circleci.com/gh/Su5eD/GregTech-Experimental">
-      <img src="https://github.com/Su5eD/GregTech-Experimental/workflows/Main/badge.svg"  alt="Build status" align="center" />
+      <img src="https://github.com/Su5eD/GregTech-Experimental/workflows/Build Master/badge.svg"  alt="Build status" align="center" />
   </a>
   <a href="https://discord.gg/bRCvFy9">
     <img src="https://discord.com/api/guilds/728217881514606612/widget.png?style=shield" alt="Discord Server" align="center"/>
