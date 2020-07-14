@@ -8,6 +8,7 @@
   <a href="https://discord.gg/bRCvFy9">
     <img src="https://discord.com/api/guilds/728217881514606612/widget.png?style=shield" alt="Discord Server" align="center"/>
   </a>
+  <img src="https://www.gnu.org/graphics/lgplv3-88x31.png" align="center"/>
 </p>  
 
 **GregTech Experimental** is a fully-featured port of GregTech 3 for modern minecraft versions
