@@ -2,7 +2,7 @@
   <img src="https://github.com/Su5eD/GregTech-Experimental/blob/readme/src/main/resources/GTE_Logo_medium.png" align="center"/> 
 </p>
 <p align="center">
-  <a href="http://circleci.com/gh/Su5eD/GregTech-Experimental">
+  <a href="https://github.com/Su5eD/GregTech-Experimental/actions">
       <img src="https://github.com/Su5eD/GregTech-Experimental/workflows/Build Master/badge.svg"  alt="Build status" align="center" />
   </a>
   <a href="https://discord.gg/bRCvFy9">
