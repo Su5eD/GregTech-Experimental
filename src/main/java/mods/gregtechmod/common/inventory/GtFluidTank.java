@@ -4,8 +4,8 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import ic2.core.block.comp.Fluids;
 import ic2.core.util.Util;
-import mods.gregtechmod.common.cover.ICover;
-import mods.gregtechmod.common.cover.ICoverable;
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverable;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 

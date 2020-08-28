@@ -2,8 +2,7 @@ package mods.gregtechmod.common.core;
 
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
-import mods.gregtechmod.common.init.BlockInit;
-import mods.gregtechmod.common.init.ItemInit;
+import mods.gregtechmod.common.init.BlockItemLoader;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -21,15 +20,15 @@ public class GregTechTab extends CreativeTabs {
 
     @Override
     public ItemStack createIcon() {
-        return new ItemStack(ItemInit.GREG_COIN);
+        return new ItemStack(BlockItemLoader.Specials.greg_coin.getInstance());
     }
 
     @Override
     public void displayAllRelevantItems(@Nonnull NonNullList<ItemStack> list) {
         this.list = list;
 
-        BlockTileEntity block = TeBlockRegistry.get(GregtechTeBlock.location);
-        addBlock(BlockInit.BLOCK_LESUBLOCK);
+        BlockTileEntity block = TeBlockRegistry.get(GregtechTeBlock.LOCATION);
+        addBlock(BlockItemLoader.Blocks.lesublock.getInstance());
 
         list.add(block.getItemStack(GregtechTeBlock.gtcentrifuge));
     }
@@ -39,7 +38,6 @@ public class GregTechTab extends CreativeTabs {
     }
 
     private void addBlock(Block block) {
-        ItemStack stack = new ItemStack(block);
         block.getSubBlocks(this, list);
     }
 }

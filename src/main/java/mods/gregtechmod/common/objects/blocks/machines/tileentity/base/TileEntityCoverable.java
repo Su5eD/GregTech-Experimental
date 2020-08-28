@@ -3,12 +3,12 @@ package mods.gregtechmod.common.objects.blocks.machines.tileentity.base;
 import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState;
+import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.common.cover.CoverHandler;
-import mods.gregtechmod.common.cover.CoverRegistry;
-import mods.gregtechmod.common.cover.ICover;
-import mods.gregtechmod.common.cover.ICoverable;
-import mods.gregtechmod.common.cover.types.CoverGeneric;
-import mods.gregtechmod.common.cover.types.CoverVent;
+import mods.gregtechmod.common.cover.type.CoverGeneric;
+import mods.gregtechmod.common.cover.type.CoverVent;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,15 +21,15 @@ import java.util.*;
  * Let's you add/remove covers on a tile entity. <b>Isn't responsible</b>  for cover behavior.
  */
 public abstract class TileEntityCoverable extends TileEntityInventory implements ICoverable {
-    protected final CoverHandler handler;
+    protected final CoverHandler coverHandler;
     public Set<EnumFacing> sinkDirections = new HashSet<>(Arrays.asList(EnumFacing.DOWN, EnumFacing.UP, EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH));
     public boolean needsCoverBehaviorUpdate;
     protected Set<String> allowedCovers = new HashSet<>();
 
     public TileEntityCoverable() {
-        this.handler = addComponent(new CoverHandler(this, new Runnable() {
+        this.coverHandler = addComponent(new CoverHandler(this, new Runnable() {
             public void run() {
-                IC2.network.get(true).updateTileEntityField(TileEntityCoverable.this, "handler");
+                IC2.network.get(true).updateTileEntityField(TileEntityCoverable.this, "coverHandler");
                 needsCoverBehaviorUpdate = true;
                 rerender();
             }
@@ -49,35 +49,35 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
         return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
 
-    private void placeCover(EntityPlayer player, EnumFacing side, ItemStack stack, String name) {
+    private void placeCover(EntityPlayer player, EnumFacing side, ItemStack stack, String name) { //For generic covers and vents
         ItemStack tStack = stack.copy();
         tStack.setCount(1);
-        if (placeCoverAtSide(CoverRegistry.constructCover(name, side, this, tStack), side, false) && !player.capabilities.isCreativeMode) stack.splitStack(1);
+        if (placeCoverAtSide(CoverRegistry.constructCover(name, side, this, tStack), side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
     }
 
     @Override
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        CoverHandler value = this.handler;
-        if (value != null) state = state.withProperties(CoverHandler.coverHandlerProperty, value);
+        CoverHandler value = this.coverHandler;
+        if (value != null) state = state.withProperties(CoverHandler.COVER_HANDLER_PROPERTY, value);
         return state;
     }
 
     @Override
     public ICover getCoverAtSide(EnumFacing side) {
-        if (handler.covers.containsKey(side)) return this.handler.covers.get(side);
+        if (coverHandler.covers.containsKey(side)) return this.coverHandler.covers.get(side);
         return null;
     }
 
     @Override
     protected boolean canSetFacingWrench(EnumFacing facing, EntityPlayer player) {
-        if (this.handler.covers.containsKey(facing)) return false;
+        if (this.coverHandler.covers.containsKey(facing)) return false;
         return super.canSetFacingWrench(facing, player);
     }
 
     @Override
     public List<String> getNetworkedFields() {
         List<String> ret = new ArrayList<>();
-        ret.add("handler");
+        ret.add("coverHandler");
         ret.addAll(super.getNetworkedFields());
         return ret;
     }
@@ -85,7 +85,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     @Override
     public void onNetworkUpdate(String field) {
         super.onNetworkUpdate(field);
-        rerender();
+        if (field.equals("coverHandler")) rerender();
     }
 
     @Override
@@ -96,23 +96,23 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
 
     @Override
     public Collection<? extends ICover> getCovers() {
-        return handler.covers.values();
+        return coverHandler.covers.values();
     }
 
     @Override
     public boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate) {
         if (!allowedCovers.isEmpty() && !allowedCovers.contains(CoverRegistry.getCoverName(cover))) return false;
-        return this.handler.placeCoverAtSide(cover, side, simulate);
+        return this.coverHandler.placeCoverAtSide(cover, side, simulate);
     }
 
     @Override
     public boolean removeCover(EnumFacing side, boolean simulate) {
-        if (!this.handler.covers.containsKey(side)) return false;
+        if (!this.coverHandler.covers.containsKey(side)) return false;
 
-        ICover cover = this.handler.covers.get(side);
+        ICover cover = this.coverHandler.covers.get(side);
         ItemStack coverItem = cover.getItem();
-        cover.onCoverRemoved();
-        if (this.handler.removeCover(side, false)) {
+        cover.onCoverRemoval();
+        if (this.coverHandler.removeCover(side, false)) {
             if (coverItem != null) {
                 EntityItem tEntity = new EntityItem(world, pos.getX() + side.getXOffset()+0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ()+side.getZOffset()+0.5, coverItem);
                 tEntity.motionX = 0;
@@ -128,7 +128,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     @Override
     protected List<ItemStack> getWrenchDrops(EntityPlayer player, int fortune) {
         List<ItemStack> ret = super.getWrenchDrops(player, fortune);
-        for (ICover cover : handler.covers.values()) ret.add(cover.getItem());
+        for (ICover cover : coverHandler.covers.values()) ret.add(cover.getItem());
         return ret;
     }
 

@@ -1,7 +1,7 @@
 package mods.gregtechmod.common.objects.items.tools;
 
-import mods.gregtechmod.common.cover.ICoverable;
-import mods.gregtechmod.common.objects.items.base.ItemBase;
+import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.common.objects.items.base.ItemToolBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -11,11 +11,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemCrowbar extends ItemBase {
+public class ItemCrowbar extends ItemToolBase {
 
     public ItemCrowbar() {
-        super("crowbar", "To remove covers form machines");
-        setMaxDamage(256);
+        super("crowbar", "To remove covers form machines", 256, 6, ToolMaterial.IRON);
     }
 
     @Override

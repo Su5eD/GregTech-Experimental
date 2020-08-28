@@ -3,119 +3,61 @@ package mods.gregtechmod.common.objects.blocks.machines.tileentity.base;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import ic2.core.IC2;
-import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.item.upgrade.ItemUpgradeModule;
+import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.common.init.BlockItemLoader;
+import mods.gregtechmod.common.inventory.GtUpgradeSlot;
 import mods.gregtechmod.common.objects.blocks.machines.tileentity.TileEntityQuantumChest;
-import mods.gregtechmod.common.objects.items.GtUpgradeItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
-import java.util.Objects;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
 
-public abstract class TileEntityDigitalChestBase extends TileEntityCoverable {
+public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior implements IUpgradableMachine {
 
     protected GameProfile owner = null;
     protected boolean isPrivate = false;
     private boolean canDoubleClick;
     protected boolean isQuantumChest;
     protected InvSlot mainSlot;
+    protected final GtUpgradeSlot upgradeSlot;
     public long clickTime;
     public int maxItemCount;
     protected int availableSpace;
-    private final ItemStackHandler handler;
 
     public TileEntityDigitalChestBase(int stackLimit, boolean isQuantumChest) {
         this.maxItemCount = stackLimit;
         this.isQuantumChest = isQuantumChest;
         this.mainSlot = new InvSlot(this, "mainSlot", InvSlot.Access.IO, 1);
         this.mainSlot.setStackSizeLimit(stackLimit);
-        this.allowedCovers = Sets.newHashSet("generic", "normal", "item_meter", "crafting");
-        this.handler = new ItemStackHandler(1) {
-            @Nonnull
-            @Override
-            public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-                if (stack.isEmpty()) return ItemStack.EMPTY;
-                validateSlotIndex(slot);
-                availableSpace = maxItemCount - mainSlot.get().getCount();
-                ItemStack existing = mainSlot.get();
-
-                if (!existing.isEmpty()) {
-                    if (!ItemHandlerHelper.canItemStacksStack(stack, existing)) return stack;
-                }
-
-                if (maxItemCount <= existing.getCount()) return stack;
-
-                boolean reachedLimit = stack.getCount() >= maxItemCount;
-                int insertCount = Math.min(availableSpace, stack.getCount());
-                if (!simulate) {
-                    if (existing.isEmpty()) {
-                        mainSlot.put(reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, maxItemCount) : stack);
-                    } else {
-                        mainSlot.get().grow(insertCount);
-                    }
-                    onContentsChanged(slot);
-                }
-                return ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - insertCount);
-            }
-            //TODO: Bugcheck
-            @Nonnull
-            @Override
-            public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                if (amount == 0) return ItemStack.EMPTY;
-
-                validateSlotIndex(slot);
-
-                ItemStack existing = mainSlot.get();
-
-                if (existing.isEmpty()) return ItemStack.EMPTY;
-
-                int toExtract = Math.min(amount, existing.getMaxStackSize());
-
-                if (existing.getCount() <= toExtract)
-                {
-                    if (!simulate)
-                    {
-                        mainSlot.put(ItemStack.EMPTY);
-                        onContentsChanged(slot);
-                    }
-                    return existing;
-                }
-                else
-                {
-                    if (!simulate)
-                    {
-                        mainSlot.put(ItemHandlerHelper.copyStackWithSize(existing, existing.getCount() - toExtract));
-                        onContentsChanged(slot);
-                    }
-                    return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
-                }
-            }
-        };
-    }
-
-    @Override
-    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return false;
-        return super.hasCapability(capability, facing);
+        this.upgradeSlot = new GtUpgradeSlot(this, "lockUpgradeSlot", InvSlot.Access.NONE, 1);
+        this.allowedCovers = Sets.newHashSet("generic", "normal", "item_meter", "crafting", "machine_controller", "item_valve");
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(this.handler);
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new BarrelItemStackHandler(facing));
         else return super.getCapability(capability, facing);
     }
 
@@ -125,37 +67,43 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverable {
         ItemStack stack = player.getHeldItem(hand);
         ItemStack slot = mainSlot.get();
         availableSpace = maxItemCount - slot.getCount();
-        if (stack.getItem().getRegistryName().toString().contains("wrench")) return true; //TODO: Fix chceck
-        if (stack.getItem() instanceof GtUpgradeItem) {
-            if (stack.getMetadata() == 8 && !isPrivate &&!world.isRemote) { //has to be executed on server side only
-                stack.splitStack(1);
-                owner = player.getGameProfile();
-                isPrivate = true;
+        if (stack.getItem().getRegistryName().toString().contains("wrench")) return true;
+
+        if (isPrivate && !world.isRemote) { //has to be executed on server side only
+            if (!TileEntityUpgradable.checkAccess(owner, player.getGameProfile())) {
+                IC2.platform.messagePlayer(player, "Only "+this.owner.getName()+" can access this.");
                 return true;
             }
-            else if (stack.getMetadata() == 7 && !isQuantumChest) { //has to be executed on both sides
-                stack.splitStack(1);
+        }
+
+        if (this.upgradeSlot.accepts(stack)) {
+            Item currentItem = stack.getItem();
+            ItemStack upgradeStack = this.upgradeSlot.get();
+
+            if (((IGtUpgradeItem)currentItem).getType() == BlockItemLoader.Upgrades.Type.quantum_chest && !isQuantumChest) { //has to be executed on both sides
+                if (!player.capabilities.isCreativeMode) stack.shrink(1);
                 world.removeTileEntity(pos);
                 TileEntityQuantumChest te = new TileEntityQuantumChest(slot, isPrivate, player.getGameProfile());
                 te.markDirty();
                 world.setTileEntity(pos, te);
-                ((TileEntityQuantumChest) Objects.requireNonNull(world.getTileEntity(pos))).setFacing(this.getFacing());
+                ((TileEntityDigitalChestBase)world.getTileEntity(pos)).setFacing(this.getFacing());
+                return true;
+            }
+            else if (!world.isRemote && ((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) { //has to be executed server-side only
+                if (((IGtUpgradeItem)currentItem).onInsert(upgradeStack, this, player)) return true;
+                this.upgradeSlot.put(!player.capabilities.isCreativeMode ? stack.splitStack(1) : stack.copy().splitStack(1));
+                ((IGtUpgradeItem) currentItem).onUpdate(stack, this, player);
                 return true;
             }
         }
 
-        if (world.isRemote) return true;
+        if (world.isRemote || super.onActivated(player, hand, side, hitX, hitY, hitZ)) return true;
 
-        if (isPrivate) {
-            if (!TileEntityUpgradable.checkAccess(owner, player.getGameProfile())) {
-                IC2.platform.messagePlayer(player, "Only "+this.owner.getName()+" can access this.");
-                return true;
-            } else IC2.platform.messagePlayer(player,"access granted for "+player.getGameProfile().getName());
-        }
+        long time = world.getWorldTime();
 
         if (!stack.isEmpty() && availableSpace > 0) {
             int insertCount = Math.min(stack.getCount(), availableSpace);
-            boolean equal = areItemsEqual(stack, slot);
+            boolean equal = StackUtil.checkItemEquality(stack, slot);
 
             if (!slot.isEmpty() && !equal) {
                 IC2.platform.messagePlayer(player, slot.getCount()+" "+slot.getDisplayName());
@@ -166,37 +114,38 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverable {
                 mainSlot.put(bStack);
                 player.setHeldItem(hand, ItemStack.EMPTY);
             }
-            else if (equal) {
+            else {
                 slot.grow(insertCount);
-                stack.splitStack(insertCount);
+                stack.shrink(insertCount);
             }
             canDoubleClick = true;
-            return true;
         }
-        //doubleclick mechanics
-        long time = world.getWorldTime();
-        if (time - clickTime < 30L && canDoubleClick) {
+        else if (time - clickTime < 30 && canDoubleClick) { //doubleclick mechanics
+            canDoubleClick = false;
             int totalCount = 0;
-            for (int i = 0; i < player.inventory.mainInventory.size(); i++) {
-                ItemStack currentStack = player.inventory.mainInventory.get(i);
+            for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                ItemStack currentStack = player.inventory.getStackInSlot(i);
                 availableSpace = maxItemCount - slot.getCount() - totalCount;
-                if (areItemsEqual(currentStack, mainSlot.get())) {
+                if (StackUtil.checkItemEquality(currentStack, mainSlot.get())) {
                     if (availableSpace < 1) break;
-                    if (availableSpace >= currentStack.getMaxStackSize()) player.inventory.mainInventory.set(i, ItemStack.EMPTY);
-                    else if (availableSpace > 0) player.inventory.mainInventory.set(i, currentStack.splitStack(availableSpace));
+                    else if (availableSpace >= currentStack.getMaxStackSize()) player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                    else if (availableSpace > 0) player.inventory.setInventorySlotContents(i, currentStack.splitStack(availableSpace));
                     player.inventory.markDirty();
                     totalCount += Math.min(currentStack.getCount(), availableSpace);
                 }
             }
             if (totalCount < 1) return true;
+
             mainSlot.get().grow(totalCount);
             Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ENTITY_CHICKEN_EGG, 1.5F));
+        }
+        else if (!slot.isEmpty()) {
+            IC2.platform.messagePlayer(player, slot.getCount() + " " + slot.getDisplayName());
             canDoubleClick = false;
         }
-        else if (!slot.isEmpty()) IC2.platform.messagePlayer(player, slot.getCount()+" "+slot.getDisplayName());
+
         clickTime = time;
-        canDoubleClick = false;
-        return true;
+        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -251,7 +200,218 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverable {
         }
         return super.writeToNBT(nbt);
     }
-    private boolean areItemsEqual(ItemStack stack1, ItemStack stack2) {
-        return stack1.getItem() == stack2.getItem() && stack1.getMetadata() == stack2.getMetadata();
+
+    @Override
+    public double getProgress() {
+        return 0;
+    }
+
+    @Override
+    public int getMaxProgress() {
+        return 0;
+    }
+
+    @Override
+    public void increaseProgress(double amount) {
+
+    }
+
+    @Override
+    public double addEnergy(double amount) {
+        return 0;
+    }
+
+    @Override
+    public double useEnergy(double amount, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public double getUniversalEnergy() {
+        return 0;
+    }
+
+    @Override
+    public double getInputVoltage() {
+        return 0;
+    }
+
+    @Override
+    public double getStoredEU() {
+        return 0;
+    }
+
+    @Override
+    public double getEUCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getAverageEUInput() {
+        return 0;
+    }
+
+    @Override
+    public int getAverageEUOutput() {
+        return 0;
+    }
+
+    @Override
+    public double getStoredSteam() {
+        return 0;
+    }
+
+    @Override
+    public double getSteamCapacity() {
+        return 0;
+    }
+
+    @Override
+    public void markForCoverBehaviorUpdate() {}
+
+    @Override
+    public double getUniversalEnergyCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getTier() {
+        return 0;
+    }
+
+    @Override
+    public boolean hasSteamTank() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public FluidTank getSteamTank() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public GameProfile getOwner() {
+        return this.owner;
+    }
+
+    @Override
+    public int getSinkTier() {
+        return 0;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return 0;
+    }
+
+    @Override
+    public void setEUcapacity(double capacity) {}
+
+    @Override
+    public void setSinkTier(int tier) {}
+
+    @Override
+    public void setSourceTier(int tier) {}
+
+    @Override
+    public void setOverclockerCount(int count) {}
+
+    @Override
+    public boolean isPrivate() {
+        return this.isPrivate;
+    }
+
+    @Override
+    public void setPrivate(boolean value, GameProfile owner) {
+        this.isPrivate = true;
+    }
+
+    @Override
+    public void addSteamTank() {}
+
+    @Override
+    public double getExtraEnergyStorage() {
+        return 0;
+    }
+
+    @Override
+    public int getTransformerUpgradeCount() {
+        return 0;
+    }
+
+    @Override
+    public int getOverclockersCount() {
+        return 0;
+    }
+
+    @Override
+    public Set<BlockItemLoader.Upgrades.Type> getCompatibleGtUpgrades() {
+        return EnumSet.of(BlockItemLoader.Upgrades.Type.lock, BlockItemLoader.Upgrades.Type.quantum_chest);
+    }
+
+    @Override
+    public Set<ItemUpgradeModule.UpgradeType> getCompatibleIC2Upgrades() {
+        return Collections.emptySet();
+    }
+
+    private class BarrelItemStackHandler extends ItemStackHandler {
+        private final EnumFacing side;
+
+        private BarrelItemStackHandler(EnumFacing side) {
+            this.side = side;
+        }
+
+        @Nonnull
+        @Override
+        public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+            if (stack.isEmpty()) return ItemStack.EMPTY;
+            validateSlotIndex(slot);
+            availableSpace = maxItemCount - mainSlot.get().getCount();
+            ItemStack existing = mainSlot.get();
+
+            if (!existing.isEmpty()) {
+                if (!canInsertItem(slot, stack, this.side) || !ItemHandlerHelper.canItemStacksStack(existing, stack) || maxItemCount <= existing.getCount()) return stack;
+            }
+
+            boolean reachedLimit = stack.getCount() >= maxItemCount;
+            int insertCount = Math.min(availableSpace, stack.getCount());
+            if (!simulate) {
+                if (existing.isEmpty()) {
+                    mainSlot.put(reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, maxItemCount) : stack);
+                } else {
+                    mainSlot.get().grow(insertCount);
+                }
+                onContentsChanged(slot);
+            }
+            return ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - insertCount);
+        }
+        @Nonnull
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            ItemStack existing = mainSlot.get();
+
+            if (amount == 0 || !canExtractItem(slot, existing, side) || existing.isEmpty()) return ItemStack.EMPTY;
+
+            validateSlotIndex(slot);
+
+            int toExtract = Math.min(amount, existing.getMaxStackSize());
+
+            if (existing.getCount() <= toExtract) {
+                if (!simulate) {
+                    mainSlot.put(ItemStack.EMPTY);
+                    onContentsChanged(slot);
+                }
+                return existing;
+            }
+            else {
+                if (!simulate) {
+                    mainSlot.put(ItemHandlerHelper.copyStackWithSize(existing, existing.getCount() - toExtract));
+                    onContentsChanged(slot);
+                }
+                return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
+            }
+        }
     }
 }

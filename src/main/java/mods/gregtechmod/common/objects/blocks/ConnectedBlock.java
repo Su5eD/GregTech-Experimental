@@ -1,16 +1,15 @@
 package mods.gregtechmod.common.objects.blocks;
 
+import mods.gregtechmod.common.core.ConfigLoader;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.init.BlockInit;
-import mods.gregtechmod.common.init.ItemInit;
 import mods.gregtechmod.common.util.IHasModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -23,25 +22,26 @@ public class ConnectedBlock extends Block implements IHasModel {
     public static final PropertyBool CONNECTED_DOWN = PropertyBool.create("connected_down");
     public static final PropertyBool CONNECTED_UP = PropertyBool.create("connected_up");
 
-    public ConnectedBlock(String name, Material material, Float hardness) {
+    public ConnectedBlock(String name, Material material, float hardness, float resistance) {
         super(material);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(GregtechMod.gregtechtab);
+        setCreativeTab(GregtechMod.GREGTECH_TAB);
         setHardness(hardness);
         setDefaultState(blockState.getBaseState()
                 .withProperty(CONNECTED_NORTH, Boolean.FALSE)
                 .withProperty(CONNECTED_SOUTH, Boolean.FALSE)
                 .withProperty(CONNECTED_EAST, Boolean.FALSE)
                 .withProperty(CONNECTED_WEST, Boolean.FALSE));
+    }
 
-        BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.put(name, new ItemBlock(this).setRegistryName(name));
+    @Override
+    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
+        return false;
     }
 
     @Override
     public int getMetaFromState (IBlockState state) {
-
         return 0;
     }
 
@@ -63,9 +63,9 @@ public class ConnectedBlock extends Block implements IHasModel {
     }
 
     private boolean isSideConnectable (IBlockAccess world, BlockPos pos, EnumFacing side) {
-
+        if (!ConfigLoader.connectedMachineCasingTextures) return false;
         final IBlockState state = world.getBlockState(pos.offset(side));
-        return (state != null) && state.getBlock() == this;
+        return state.getBlock() == this;
     }
 
     @Override

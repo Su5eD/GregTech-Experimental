@@ -8,17 +8,19 @@ import org.apache.commons.lang3.ArrayUtils;
 
 
 public class CommonProxy {
-    public void registerModel(Item item, int metadata) {}
+    public void registerModel(Item item, int metadata) {
+        registerModel(item, metadata, null, null, null);
+    }
 
-    public void registerModel(Item item, int metadata, String prefix, String itemName) {}
+    public void registerModel(Item item, int metadata, String itemName, String prefix, String folder) {}
 
     public KeyBinding getModeKeyBinding() {
-        KeyBinding[] keybinding = (KeyBinding[]) ArrayUtils.clone(Minecraft.getMinecraft().gameSettings.keyBindings);
+        KeyBinding[] keybinding = ArrayUtils.clone(Minecraft.getMinecraft().gameSettings.keyBindings);
 
         for (KeyBinding keybind : keybinding) {
              String category = keybind.getKeyCategory();
              String desc = keybind.getKeyDescription();
-             if (category == "IC2" && desc.toLowerCase().contains("mode")) return keybind;
+             if (category.equals("IC2") && desc.toLowerCase().contains("mode")) return keybind;
         }
         return null;
     }

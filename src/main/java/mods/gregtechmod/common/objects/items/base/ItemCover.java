@@ -1,9 +1,8 @@
 package mods.gregtechmod.common.objects.items.base;
 
-import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.cover.CoverRegistry;
-import mods.gregtechmod.common.cover.ICover;
-import mods.gregtechmod.common.cover.ICoverable;
+import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -19,12 +18,15 @@ public class ItemCover extends ItemBase {
     private final String coverName;
 
     public ItemCover(String name, @Nullable String description) {
-        super(name, description);
-        this.coverName = name;
+        this(name, name, description);
     }
 
     public ItemCover(String name, String coverName, @Nullable String description) {
-        super(name, description);
+        this(name, coverName, description, null, "coveritem");
+    }
+
+    public ItemCover(String name, String coverName, @Nullable String description, String prefix, String folder) {
+        super(name, description, prefix, folder);
         this.coverName = coverName;
     }
 
@@ -38,15 +40,10 @@ public class ItemCover extends ItemBase {
         if (block instanceof ICoverable) {
             ICover cover = CoverRegistry.constructCover(this.coverName, side, (ICoverable) block, coverStack);
             if (((ICoverable)block).placeCoverAtSide(cover, side, false)) {
-                if (!player.capabilities.isCreativeMode) stack.splitStack(1);
+                if (!player.capabilities.isCreativeMode) stack.shrink(1);
                 return EnumActionResult.SUCCESS;
             }
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
-    }
-
-    @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, "coveritem", name);
     }
 }

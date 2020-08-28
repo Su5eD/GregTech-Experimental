@@ -1,7 +1,6 @@
 package mods.gregtechmod.common.objects.blocks;
 
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.init.BlockInit;
 import mods.gregtechmod.common.util.IFluidModel;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -14,15 +13,13 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluid extends BlockFluidClassic implements IFluidModel {
-    private String name;
+    private final String name;
 
     public BlockFluid(String name, Fluid fluid, Material material) {
         super(fluid, material);
         setTranslationKey(name);
         setRegistryName(name);
         this.name = name;
-
-        BlockInit.BLOCKS.add(this);
     }
 
     @Override

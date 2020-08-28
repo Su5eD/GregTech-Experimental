@@ -13,29 +13,29 @@ import java.util.Map;
 
 public class BakedModelLoader implements ICustomModelLoader {
 
-    private static Map<ResourceLocation, IReloadableModel> models = new HashMap<>();
+    private static final Map<ResourceLocation, IReloadableModel> MODELS = new HashMap<>();
 
     public void register(String path, IReloadableModel model) {
         register(new ResourceLocation(GregtechMod.MODID, path), model);
     }
 
     public void register(ResourceLocation location, IReloadableModel model) {
-        models.put(location, model);
+        MODELS.put(location, model);
     }
 
     @Override
     public boolean accepts(ResourceLocation modelLocation) {
-        return models.containsKey(modelLocation);
+        return MODELS.containsKey(modelLocation);
     }
 
     @Override
-    public IModel loadModel(ResourceLocation modelLocation) throws Exception {
-        return models.get(modelLocation);
+    public IModel loadModel(ResourceLocation modelLocation) {
+        return MODELS.get(modelLocation);
     }
 
     @Override
     public void onResourceManagerReload(IResourceManager resourceManager) {
-        for (IReloadableModel model : models.values()) {
+        for (IReloadableModel model : MODELS.values()) {
             model.onReload();
         }
         ModelComparator.onReload();

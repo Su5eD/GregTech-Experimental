@@ -1,7 +1,6 @@
 package mods.gregtechmod.common.init;
 
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.objects.items.Materials;
 import mods.gregtechmod.common.util.IFluidModel;
 import mods.gregtechmod.common.util.IHasModel;
 import net.minecraft.block.Block;
@@ -20,14 +19,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class RegistryHandler {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        for (Block block : BlockInit.BLOCKS) {
+        BlockItemLoader.init();
+        for (Block block : BlockItemLoader.getBlockRegistry()) {
             event.getRegistry().register(block);
         }
     }
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        Materials.register();
-        for (Item item : ItemInit.ITEMS.values()) {
+        for (Item item : BlockItemLoader.getItemRegistry()) {
             event.getRegistry().register(item);
         }
     }
@@ -41,13 +40,13 @@ public class RegistryHandler {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        for(Block block : BlockInit.BLOCKS) {
+        for(Block block : BlockItemLoader.getBlockRegistry()) {
             if(block instanceof IHasModel) {
                 ((IHasModel) block).registerModels();
             }
             else if (block instanceof IFluidModel) ((IFluidModel)block).registerCustomMeshAndState();
         }
-        for(Item item : ItemInit.ITEMS.values()) {
+        for(Item item : BlockItemLoader.getItemRegistry()) {
             if(item instanceof IHasModel) {
                 ((IHasModel) item).registerModels();
             }
@@ -79,6 +78,10 @@ public class RegistryHandler {
         map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"crafting"));
         map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"conveyor"));
         map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"pump"));
-        map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"item_valve"));
+        map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"valve"));
+        map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"energy_only"));
+        map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"redstone_only"));
+        map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"redstone_conductor"));
+        map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"redstone_signalizer"));
     }
 }

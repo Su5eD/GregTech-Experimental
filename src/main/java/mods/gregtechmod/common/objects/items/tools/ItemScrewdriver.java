@@ -1,10 +1,10 @@
 package mods.gregtechmod.common.objects.items.tools;
 
-import mods.gregtechmod.common.cover.CoverRegistry;
-import mods.gregtechmod.common.cover.ICover;
-import mods.gregtechmod.common.cover.ICoverable;
-import mods.gregtechmod.common.objects.items.base.ItemBase;
-import mods.gregtechmod.common.util.IGregtechMachine;
+import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.common.objects.items.base.ItemToolBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.block.BlockRedstoneRepeater;
@@ -17,11 +17,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemScrewdriver extends ItemBase {
+public class ItemScrewdriver extends ItemToolBase {
 
     public ItemScrewdriver() {
-        super("screwdriver", "To screw covers on machines \nCan switch the design of certain blocks \nCan rotate repeaters and comparators");
-        setMaxDamage(256);
+        super("screwdriver", "To screw covers on machines \nCan switch the design of certain blocks \nCan rotate repeaters and comparators", 256, 4, ToolMaterial.IRON);
     }
 
     @Override

@@ -5,7 +5,7 @@ import ic2.api.network.INetworkTileEntityEventListener;
 import ic2.api.recipe.IMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipeResult;
-import ic2.api.upgrade.IUpgradableBlock;
+import ic2.core.ExplosionIC2;
 import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.audio.AudioSource;
@@ -15,24 +15,23 @@ import ic2.core.block.invslot.InvSlotProcessableGeneric;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.network.GuiSynced;
 import ic2.core.ref.FluidName;
+import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.common.core.ConfigLoader;
-import mods.gregtechmod.common.cover.ICover;
-import mods.gregtechmod.common.util.IGregtechMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidTank;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-public abstract class TileEntityGTMachine extends TileEntityUpgradable implements IHasGui, IUpgradableBlock, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IGregtechMachine {
+public abstract class TileEntityGTMachine extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider {
     protected double progress;
-    public int operationLength = 40;
-    private boolean enableWorking = true;
+    public int operationLength = 0;
 
     @GuiSynced
     protected float guiProgress;
@@ -56,6 +55,8 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
         this.progress = nbt.getDouble("progress");
         this.operationLength = nbt.getInteger("operationLength");
         this.enableWorking = nbt.getBoolean("enableWorking");
+        this.enableInput = nbt.getBoolean("enableInput");
+        this.enableOutput = nbt.getBoolean("enableOutput");
         for (int i = 0; i < 4; i++) {
             if(nbt.getTag("mOutput"+i) != null) {
                 NBTTagCompound tNBT = (NBTTagCompound) nbt.getTag("mOutput"+i);
@@ -70,6 +71,8 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
         nbt.setDouble("progress", this.progress);
         nbt.setInteger("operationLength", this.operationLength);
         nbt.setBoolean("enableWorking", this.enableWorking);
+        nbt.setBoolean("enableInput", this.enableInput);
+        nbt.setBoolean("enableOutput", this.enableOutput);
         if(pendingRecipe.size() > 0) {
             for (int i = 0; i < pendingRecipe.size(); i++) {
                 NBTTagCompound tNBT = new NBTTagCompound();
@@ -129,6 +132,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     public float getSteamMultiplier() {
         float multiplier = 2;
+        if (this.steamTank.getFluidAmount() < 1) return multiplier;
         Fluid fluid = this.steamTank.getFluid().getFluid();
 
         if (fluid == FluidName.superheated_steam.getInstance()) multiplier *= supersteamBalance;
@@ -165,6 +169,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
                 (IC2.network.get(true)).initiateTileEntityEvent( this, 2, true);
                 setActive(false);
                 pendingRecipe.clear();
+                this.operationLength = 0;
             }
         return needsInvUpdate;
     }
@@ -235,6 +240,11 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
         throw new IllegalArgumentException(getClass().getSimpleName() + " Cannot get value for " + name);
     }
 
+    protected void explodeMachine(int power) {
+        world.setBlockToAir(this.pos);
+        new ExplosionIC2(world, null, pos.getX(), pos.getY(), pos.getZ(), power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
+    }
+
     @Override
     public double getProgress() {
         return progress;
@@ -253,26 +263,6 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     @Override
     public boolean isActive() {
         return this.getActive();
-    }
-
-    @Override
-    public void setRedstoneOutput(EnumFacing side, byte strength) {
-        this.rsEmitter.setLevel(side, strength);
-    }
-
-    @Override
-    protected int getWeakPower(EnumFacing side) {
-        return rsEmitter.getLevel(side.getOpposite());
-    }
-
-    @Override
-    protected boolean canConnectRedstone(EnumFacing side) {
-        EnumFacing aSide = side.getOpposite();
-        if (handler.covers.containsKey(aSide)) {
-            ICover cover = handler.covers.get(aSide);
-            return cover.letsRedstoneIn() || cover.letsRedstoneOut() || cover.acceptsRedstone();
-        }
-        return false;
     }
 
     @Override
@@ -318,22 +308,8 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     }
 
     @Override
-    public void disableWorking() {
-        this.enableWorking = false;
-    }
-
-    @Override
-    public void enableWorking() {
-        this.enableWorking = true;
-    }
-
-    @Override
-    public boolean isAllowedToWork() {
-        return this.enableWorking;
-    }
-
-    @Override
     public double addEnergy(double amount) {
+        if (amount > getInputVoltage()) explodeMachine((int) getExplosionPower(this.energy.getSinkTier(), 2.5F));
         return this.energy.addEnergy(amount);
     }
 
@@ -353,7 +329,48 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     @Override
     public double getUniversalEnergy() {
         double convertedSteam;
-        if (this.energy.getEnergy() < (convertedSteam = convertSteamToEU())) return convertedSteam;
+        if (steamTank != null && this.energy.getEnergy() < (convertedSteam = convertSteamToEU())) {
+            return convertedSteam;
+        }
         return this.energy.getEnergy();
+    }
+
+    @Override
+    public double getUniversalEnergyCapacity() {
+        if (steamTank != null) return Math.max(this.energy.getCapacity(), steamTank.getCapacity() / getSteamMultiplier());
+        else return this.energy.getCapacity();
+    }
+
+    @Override
+    public boolean shouldExplode() {
+        return true;
+    }
+
+    @Override
+    public float getExplosionPower(int i, float v) {
+        switch (this.energy.getSinkTier()) {
+            case 2:
+                return (float) ConfigLoader.MVExplosionPower;
+            case 3:
+                return (float) ConfigLoader.HVExplosionPower;
+
+            default: return (float) ConfigLoader.LVExplosionPower;
+        }
+    }
+
+    @Nonnull
+    @Override
+    public List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
+        List<String> ret = new ArrayList<>();
+        if (scanLevel > 2)
+            ret.add("Meta-ID: " + this.getBlockMetadata());
+        if (scanLevel > 1)
+            ret.add("Is" + (checkAccess(this.owner, player.getGameProfile()) ? " " : " not ") + "accessible for you");
+        if (scanLevel > 0) {
+            if (getSteamCapacity() > 0 && this.hasSteamUpgrade)
+                ret.add(this.steamTank.getFluidAmount() + " of " + this.steamTank.getCapacity() + " Steam");
+            ret.add("Machine is " + (this.isActive() ? "active" : "inactive"));
+        }
+        return ret;
     }
 }

@@ -3,6 +3,9 @@ package mods.gregtechmod.common.cover;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.block.state.UnlistedProperty;
+import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -12,7 +15,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import java.util.HashMap;
 
 public class CoverHandler extends TileEntityComponent {
-    public static final IUnlistedProperty<CoverHandler> coverHandlerProperty = new UnlistedProperty<>("coverhandler", CoverHandler.class);
+    public static final IUnlistedProperty<CoverHandler> COVER_HANDLER_PROPERTY = new UnlistedProperty<>("coverhandler", CoverHandler.class);
     public final HashMap<EnumFacing, ICover> covers = new HashMap<>();
     private final ICoverable te;
     protected final Runnable changeHandler;

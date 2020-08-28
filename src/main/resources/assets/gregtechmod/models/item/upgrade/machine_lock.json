@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "gregtechmod:items/components/machine_lock"
+    "layer0": "gregtechmod:items/upgrades/machine_lock"
   }
 }

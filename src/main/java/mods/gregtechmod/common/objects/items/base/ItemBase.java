@@ -1,7 +1,6 @@
 package mods.gregtechmod.common.objects.items.base;
 
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.init.ItemInit;
 import mods.gregtechmod.common.util.IHasModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
@@ -14,32 +13,37 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemBase extends Item implements IHasModel {
+    protected String name;
     protected String toolTip;
     protected String prefix;
-    protected String name;
+    protected String folder;
 
-    public ItemBase(String name, @Nullable String description, String prefix) {
-        this(prefix+"_"+name, description);
-        this.prefix = prefix;
-        this.name = name;
+    public ItemBase(String name) {
+        this(name, null, null, null);
     }
 
     public ItemBase(String name, @Nullable String description) {
-        this(name);
-        this.toolTip = description;
+        this(name, description, null, null);
     }
 
-    public ItemBase(String name) {
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(GregtechMod.gregtechtab);
-        ItemInit.ITEMS.put(name, this);
+    public ItemBase(String name, @Nullable String description, String prefix) {
+        this(name, description, prefix, null);
+    }
+
+    public ItemBase(String name, @Nullable String description, String prefix, String folder) {
+        String bName = prefix != null ? prefix+"_"+name : name;
+        setTranslationKey(bName);
+        setRegistryName(bName);
+        setCreativeTab(GregtechMod.GREGTECH_TAB);
         this.name = name;
+        this.toolTip = description;
+        this.prefix = prefix;
+        this.folder = folder;
     }
 
     @Override
     public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, prefix, name);
+        GregtechMod.proxy.registerModel(this, 0, name, prefix, folder);
     }
 
     @SideOnly(Side.CLIENT)

@@ -20,11 +20,6 @@ compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
-task setEnvVars {
-    System.setProperty("BUILD_NAME", archivesBaseName);
-    System.setProperty("BUILD_VERSION", version.toString());
-}
-
 minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
@@ -43,10 +38,15 @@ repositories {
         name = "ic2"
         url = "http://maven.ic2.player.to/"
     }
+    maven {
+        name "BuildCraft"
+        url = "https://mod-buildcraft.com/maven"
+    }
 }
 
 dependencies {
     compileOnly "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:dev"
+    compile "com.mod-buildcraft:buildcraft-api:${version_buildcraft}"
 }
 
 jar {

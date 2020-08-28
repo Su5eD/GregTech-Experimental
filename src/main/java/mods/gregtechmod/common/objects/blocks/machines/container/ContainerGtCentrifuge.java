@@ -2,6 +2,7 @@ package mods.gregtechmod.common.objects.blocks.machines.container;
 
 import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
+import mods.gregtechmod.common.inventory.SlotUpgradeInvSlot;
 import mods.gregtechmod.common.objects.blocks.machines.tileentity.TileEntityGtCentrifuge;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -18,30 +19,10 @@ public class ContainerGtCentrifuge extends ContainerFullInv<TileEntityGtCentrifu
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 2, 80, 65));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 3, 50, 35));
         //Hidden slots
-        addSlotToContainer(new SlotInvSlot(base.upgradeSlot, 0, 0, 0) {
-            @Override
-            public boolean isEnabled() {
-                return false;
-            }
-        });
-        addSlotToContainer(new SlotInvSlot(base.upgradeSlot, 1, 0, 16) {
-            @Override
-            public boolean isEnabled() {
-                return false;
-            }
-        });
-        addSlotToContainer(new SlotInvSlot(base.upgradeSlot, 2, 0, 32) {
-            @Override
-            public boolean isEnabled() {
-                return false;
-            }
-        });
-        addSlotToContainer(new SlotInvSlot(base.upgradeSlot, 3, 0, 48) {
-            @Override
-            public boolean isEnabled() {
-                return false;
-            }
-        });
+        addSlotToContainer(new SlotUpgradeInvSlot(base.upgradeSlot, 0, 0, 0));
+        addSlotToContainer(new SlotUpgradeInvSlot(base.upgradeSlot, 1, 0, 16));
+        addSlotToContainer(new SlotUpgradeInvSlot(base.upgradeSlot, 2, 0, 32));
+        addSlotToContainer(new SlotUpgradeInvSlot(base.upgradeSlot, 3, 0, 48));
     }
 
 

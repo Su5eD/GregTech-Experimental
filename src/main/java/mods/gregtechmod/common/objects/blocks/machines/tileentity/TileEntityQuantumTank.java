@@ -8,38 +8,45 @@ import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
 import ic2.core.block.invslot.InvSlotConsumableLiquidByTank;
 import ic2.core.block.invslot.InvSlotOutput;
+import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.client.gui.GuiQuantumTank;
 import mods.gregtechmod.common.core.ConfigLoader;
-import mods.gregtechmod.common.cover.ICover;
 import mods.gregtechmod.common.inventory.GtFluidTank;
 import mods.gregtechmod.common.objects.blocks.machines.container.ContainerQuantumTank;
-import mods.gregtechmod.common.objects.blocks.machines.tileentity.base.TileEntityCoverable;
-import mods.gregtechmod.common.util.IGregtechMachine;
-import mods.gregtechmod.common.util.SidedRedstoneEmitter;
+import mods.gregtechmod.common.objects.blocks.machines.tileentity.base.TileEntityCoverBehavior;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 
 import java.util.List;
 
-public class TileEntityQuantumTank extends TileEntityCoverable implements IHasGui, IGregtechMachine {
+public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IHasGui {
     public Fluids fluids;
     public GtFluidTank content;
     public final InvSlotConsumableLiquid inputSlot;
     public final InvSlotOutput outputSlot;
     private int timer = 0;
-    protected SidedRedstoneEmitter rsEmitter;
 
     public TileEntityQuantumTank() {
         this.fluids = addComponent(new Fluids(this));
         this.content = (GtFluidTank) fluids.addTank(new GtFluidTank(this, "content", ConfigLoader.quantumTankCapacity));
         this.inputSlot = new InvSlotConsumableLiquidByTank(this, "inputSlot", InvSlot.Access.I, 1, InvSlot.InvSide.TOP, InvSlotConsumableLiquid.OpType.Both, this.content);
         this.outputSlot = new InvSlotOutput(this, "outputSlot", 1);
-        this.allowedCovers = Sets.newHashSet("generic", "normal", "drain", "item_meter", "liquid_meter"); //TODO: check if filter works!
-        this.rsEmitter = addComponent(new SidedRedstoneEmitter(this));
+        this.allowedCovers = Sets.newHashSet("generic", "normal", "drain", "item_meter", "liquid_meter", "pump_module", "machine_controller", "item_valve");
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
+        super.readFromNBT(nbtTagCompound);
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+        return super.writeToNBT(nbt);
     }
 
     @Override
@@ -47,7 +54,7 @@ public class TileEntityQuantumTank extends TileEntityCoverable implements IHasGu
         if (world.isRemote) return true;
         else if (player.isSneaking()) return false;
 
-        for (ICover cover : handler.covers.values()) if (!cover.opensGui(side)) return false;
+        for (ICover cover : coverHandler.covers.values()) if (!cover.opensGui(side)) return false;
 
         return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
@@ -58,7 +65,7 @@ public class TileEntityQuantumTank extends TileEntityCoverable implements IHasGu
             if (this.inputSlot.processIntoTank(this.content, this.outputSlot)) System.out.println("processed!");
             if (this.inputSlot.processFromTank(this.content, this.outputSlot)) System.out.println("out!");
         }
-        for (ICover cover : handler.covers.values()) {
+        for (ICover cover : coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
             if (tickRate > 0 && timer%tickRate == 0) cover.doCoverThings();
         }
@@ -84,16 +91,6 @@ public class TileEntityQuantumTank extends TileEntityCoverable implements IHasGu
     }
 
     @Override
-    protected boolean canConnectRedstone(EnumFacing side) {
-        EnumFacing aSide = side.getOpposite();
-        if (handler.covers.containsKey(aSide)) {
-            ICover cover = handler.covers.get(aSide);
-            return cover.letsRedstoneIn() || cover.letsRedstoneOut() || cover.acceptsRedstone();
-        }
-        return false;
-    }
-
-    @Override
     public boolean isActive() {
         return false;
     }
@@ -111,16 +108,6 @@ public class TileEntityQuantumTank extends TileEntityCoverable implements IHasGu
     @Override
     public void increaseProgress(double amount) {
 
-    }
-
-    @Override
-    public void setRedstoneOutput(EnumFacing side, byte strength) {
-        this.rsEmitter.setLevel(side, strength);
-    }
-
-    @Override
-    protected int getWeakPower(EnumFacing side) {
-        return this.rsEmitter.getLevel(side.getOpposite());
     }
 
     @Override
@@ -164,21 +151,6 @@ public class TileEntityQuantumTank extends TileEntityCoverable implements IHasGu
     }
 
     @Override
-    public void disableWorking() {
-
-    }
-
-    @Override
-    public void enableWorking() {
-
-    }
-
-    @Override
-    public boolean isAllowedToWork() {
-        return false;
-    }
-
-    @Override
     public double addEnergy(double amount) {
         return 0;
     }
@@ -190,6 +162,11 @@ public class TileEntityQuantumTank extends TileEntityCoverable implements IHasGu
 
     @Override
     public double getUniversalEnergy() {
+        return 0;
+    }
+
+    @Override
+    public double getUniversalEnergyCapacity() {
         return 0;
     }
 }

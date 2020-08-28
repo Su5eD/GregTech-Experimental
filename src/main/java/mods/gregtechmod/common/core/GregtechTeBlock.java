@@ -5,6 +5,7 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.ITeBlock;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.item.block.ItemBlockTileEntity;
+import ic2.core.ref.IC2Material;
 import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
@@ -30,12 +31,12 @@ import java.util.Collections;
 import java.util.Set;
 
 public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegisterer, ITeBlockSpecialItem {
-    gtcentrifuge(TileEntityGtCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, Material.IRON, false, true),
-    digital_chest(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, Material.IRON, false, true),
-    quantum_chest(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, Material.IRON, false, true),
-    quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.UP), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, Material.IRON, false, true);
+    gtcentrifuge(TileEntityGtCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
+    digital_chest(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
+    quantum_chest(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
+    quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true);
 
-    public static final ResourceLocation location;
+    public static final ResourceLocation LOCATION;
     private final int itemMeta;
     private final boolean hasActive;
     private final Set<EnumFacing> supportedFacings;
@@ -48,7 +49,7 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     private final Material material;
     private final boolean transparent;
     private Class<? extends TileEntityBlock> teClass;
-    public static final GregtechTeBlock[] values;
+    public static final GregtechTeBlock[] VALUES;
     private TileEntityBlock dummyTe;
     private ITePlaceHandler placeHandler;
     private final boolean hasBakedModel;
@@ -74,8 +75,8 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         }
  	}
     static {
-        location = new ResourceLocation("gregtechmod", "teblock");
-        values = values();
+        LOCATION = new ResourceLocation("gregtechmod", "teblock");
+        VALUES = values();
     }
 
     public boolean hasBakedModel() {
@@ -84,7 +85,7 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public ResourceLocation getIdentifier() {
-        return location;
+        return LOCATION;
     }
 
     @Override
@@ -139,6 +140,11 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     }
 
     @Override
+    public Material getMaterial() {
+        return this.material;
+    }
+
+    @Override
     public void setPlaceHandler(ITePlaceHandler handler) {
         if (this.placeHandler != null)
             throw new RuntimeException("duplicate place handler");
@@ -169,9 +175,9 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @SideOnly(Side.CLIENT)
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
-        block.setCreativeTab(GregtechMod.gregtechtab);
+        block.setCreativeTab(GregtechMod.GREGTECH_TAB);
         if (tab == CreativeTabs.SEARCH)
-            for (GregtechTeBlock type : values) {
+            for (GregtechTeBlock type : VALUES) {
                 if (type.hasItem()) {
                     list.add(block.getItemStack(type));
                 }

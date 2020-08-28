@@ -17,7 +17,7 @@ public class GuiGtCentrifuge extends GuiIC2<ContainerGtCentrifuge> {
 
     public GuiGtCentrifuge(ContainerGtCentrifuge container) {
         super(container, 166);
-        addElement(CustomFluidSlot.createFluidSlot(this, 109, 64, container.base.lavaTank, GregtechMod.common_texture, 40, 0, false));
+        addElement(CustomFluidSlot.createFluidSlot(this, 109, 64, container.base.lavaTank, GregtechMod.COMMON_TEXTURE, 40, 0, false));
 
         addElement(new LinkedGauge(this, 98, 38, container.base, "progress", GregtechGauge.ArrowRight));
         addElement(new LinkedGauge(this, 83, 23, container.base, "progress", GregtechGauge.ArrowUp));
@@ -53,8 +53,8 @@ public class GuiGtCentrifuge extends GuiIC2<ContainerGtCentrifuge> {
 
 
     public ResourceLocation getTexture() {
-        return background;
+        return BACKGROUND;
     }
-    private static final ResourceLocation background = new ResourceLocation(GregtechMod.MODID, "textures/gui/guigtcentrifuge.png");
+    private static final ResourceLocation BACKGROUND = new ResourceLocation(GregtechMod.MODID, "textures/gui/guigtcentrifuge.png");
 
 }

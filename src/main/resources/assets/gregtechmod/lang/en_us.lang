@@ -3,9 +3,44 @@ itemGroup.gregtechtab=GregTech Experimental
 item.greg_coin.name=Greg Coin
 
 item.drill_advanced=Advanced Drill
-item.chainsaw_advanced=Advanced Chainsaw
 item.crowbar.name=Crowbar
 item.screwdriver.name=Screwdriver
+item.rock_cutter=Rock Cutter
+item.soldering_tool.name=Electric Soldering Tool
+item.soldering_tool_empty.name=Empty Soldering Tool
+item.tesla_staff=Tesla Staff
+item.scanner=Portable Scanner
+item.debug_scanner=Debug Scanner
+
+item.soldering_lead.name=Soldering Lead
+item.soldering_tin.name=Soldering Tin
+
+item.saw_iron.name=Iron Saw
+item.saw_bronze.name=Bronze Saw
+item.saw_steel.name=Steel Saw
+item.saw_tungstensteel.name=Tungstensteel Saw
+item.saw_advanced=Advanced Saw
+
+item.wrench_iron=Iron Wrench
+item.wrench_bronze=Bronze Wrench
+item.wrench_steel=Steel Wrench
+item.wrench_tungstensteel=Tungstensteel Wrench
+item.wrench_advanced=Advanced Wrench
+
+item.jack_hammer_bronze=Bronze Jack Hammer
+item.jack_hammer_steel=Steel Jack Hammer
+item.jack_hammer_diamond=Diamond Jack Hammer
+
+item.hammer_rubber.name=Rubber Hammer
+item.hammer_iron.name=Iron Hammer
+item.hammer_bronze.name=Bronze Hammer
+item.hammer_steel.name=Steel Hammer
+item.hammer_tungstensteel.name=Tungstensteel Hammer
+
+item.file_iron.name=Iron File
+item.file_bronze.name=Bronze File
+item.file_steel.name=Steel File
+item.file_tungstensteel.name=Tungstensteel File
 
 item.drain.name=Drain
 item.active_detector.name=Active Machine Detector
@@ -20,6 +55,13 @@ item.solar_panel_mv.name=MV Solar Panel
 item.solar_panel_hv.name=HV Solar Panel
 item.crafting.name=Crafting Module
 item.conveyor.name=Conveyor Module
+item.pump_module.name=Pump Module
+item.item_valve.name=Item Transport Valve
+item.redstone_conductor.name=Redstone Conductor
+item.redstone_signalizer.name=Redstone Signalizer
+
+item.energy_flow_circuit.name=Energy Flow Circuit
+item.data_control_circuit.name=Data Control Circuit
 
 item.ingot_aluminium.name=Aluminium Ingot
 item.ingot_antimony.name=Antimony Ingot
@@ -206,18 +248,18 @@ item.smalldust_tungsten.name=Tiny Pile of Tungsten Dust
 item.smalldust_olivine.name=Tiny Pile of Olivine Dust
 item.smalldust_green_sapphire.name=Tiny Pile of Green Sapphire Dust
 
-item.upgrade.hv_transformer.name=HV-Transformer Upgrade
-item.upgrade.energy_meter.name=Redstone Energy Meter
-item.upgrade.item_detector.name=Redstone Item Detector
-item.upgrade.liquid_detector.name=Redstone Liquid Detector
-item.upgrade.lithium_battery.name=Lithium Battery Upgrade
-item.upgrade.energy_crystal.name=Energy Crystal Upgrade
-item.upgrade.lapotron_crystal.name=Lapotron Crystal Upgrade
-item.upgrade.energy_orb.name=Energy Orb upgrade
-item.upgrade.quantum_chest.name=Quantum-Chest Upgrade
-item.upgrade.machine_lock.name=Lock Upgrade
-item.upgrade.steam_upgrade.name=Steam Upgrade
-item.upgrade.steam_tank.name=Steam Tank
+item.hv_transformer.name=HV-Transformer Upgrade
+item.energy_meter.name=Redstone Energy Meter
+item.item_detector.name=Redstone Item Detector
+item.liquid_detector.name=Redstone Liquid Detector
+item.lithium_battery.name=Lithium Battery Upgrade
+item.energy_crystal.name=Energy Crystal Upgrade
+item.lapotron_crystal.name=Lapotron Crystal Upgrade
+item.energy_orb.name=Energy Orb upgrade
+item.quantum_chest.name=Quantum-Chest Upgrade
+item.machine_lock.name=Lock Upgrade
+item.steam_upgrade.name=Steam Upgrade
+item.steam_tank.name=Steam Tank
 
 tile.block_standard_machine_casing.name=Standard Machine Casing
 tile.block_reinforced_machine_casing.name=Reinforced Machine Casing
@@ -255,6 +297,3 @@ gregtechmod.teblock.quantum_chest=Quantum Chest
 gregtechmod.teblock.quantum_tank=Quantum Tank
 
 fluid.seed_oil.name=Seed Oil
-
-
-
