@@ -14,6 +14,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -54,6 +56,7 @@ public class RegistryHandler {
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public static void registerIcons(TextureStitchEvent.Pre event) {
         TextureMap map = event.getMap();
         String path = "blocks/covers/";

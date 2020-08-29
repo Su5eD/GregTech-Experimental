@@ -11,6 +11,8 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockFluid extends BlockFluidClassic implements IFluidModel {
     private final String name;
@@ -28,6 +30,7 @@ public class BlockFluid extends BlockFluidClassic implements IFluidModel {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerCustomMeshAndState() {
         String location = GregtechMod.MODID+":"+name;
 

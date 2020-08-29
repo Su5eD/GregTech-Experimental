@@ -8,18 +8,13 @@ import ic2.core.block.comp.Components;
 import ic2.core.util.Log;
 import ic2.core.util.LogCategory;
 import mods.gregtechmod.api.cover.CoverRegistry;
-import mods.gregtechmod.client.render.RenderTeBlock;
 import mods.gregtechmod.common.cover.CoverHandler;
-import mods.gregtechmod.common.init.BakedModelLoader;
 import mods.gregtechmod.common.init.RecipeLoader;
 import mods.gregtechmod.common.init.RegistryHandler;
 import mods.gregtechmod.common.objects.blocks.machines.tileentity.TileEntityGtCentrifuge;
-import mods.gregtechmod.common.util.JsonHandler;
 import mods.gregtechmod.common.util.SidedRedstoneEmitter;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -41,7 +36,6 @@ public final class GregtechMod {
     public static final String NAME = "Gregtech Experimental";
     public static final String MODID = "gregtechmod";
     public static final String MC_VERSION = "1.12";
-    public static KeyBinding IC2_MODE_KEY;
     static final String VERSION = "0.01";
     public static Log LOGGER;
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(GregtechMod.MODID, "textures/gui/gtcommon.png");
@@ -73,28 +67,11 @@ public final class GregtechMod {
         Components.register(CoverHandler.class, "gtcover");
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
         CoverRegistry.init();
-        //init covers
-        BakedModelLoader loader = new BakedModelLoader();
-        for (GregtechTeBlock teBlock : GregtechTeBlock.values()) {
-            try {
-                if (teBlock.hasBakedModel()) {
-                    String name = teBlock.getName();
-                    JsonHandler json = new JsonHandler(name);
-                    loader.register("models/block/"+name, new RenderTeBlock(json.textures, json.particle));
-                    if (teBlock.hasActive()) {
-                        json = new JsonHandler(name+"_active");
-                        loader.register("models/block/"+name+"_active", new RenderTeBlock(json.textures, json.particle));
-                    }
-                }
-            } catch (Exception e) {
-                LOGGER.error(LogCategory.General, e.getMessage());
-            }
-        }
-        ModelLoaderRegistry.registerLoader(loader);
-
+        proxy.preInit();
         //TODO: Move to recipe loader(or modificator) class
         IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(ConfigLoader.upgradeStackSize);
     }
+
     @EventHandler
     public static void init(FMLInitializationEvent event) {
         GregtechTeBlock.buildDummies();
@@ -102,9 +79,7 @@ public final class GregtechMod {
         RecipeLoader.registerRecipes();
     }
     @EventHandler
-    public static void init(FMLPostInitializationEvent event) {
-        IC2_MODE_KEY = GregtechMod.proxy.getModeKeyBinding();
-    }
+    public static void init(FMLPostInitializationEvent event) {}
     @SubscribeEvent
     public void registerTileEntities(TeBlockFinalCallEvent event) {
         TeBlockRegistry.addAll(GregtechTeBlock.class, GregtechTeBlock.LOCATION);

@@ -24,6 +24,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
@@ -137,7 +139,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             if (totalCount < 1) return true;
 
             mainSlot.get().grow(totalCount);
-            Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ENTITY_CHICKEN_EGG, 1.5F));
+            if (world.isRemote) this.playEggSound();
         }
         else if (!slot.isEmpty()) {
             IC2.platform.messagePlayer(player, slot.getCount() + " " + slot.getDisplayName());
@@ -146,6 +148,11 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
         clickTime = time;
         return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void playEggSound() {
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ENTITY_CHICKEN_EGG, 1.5F));
     }
 
     @Override

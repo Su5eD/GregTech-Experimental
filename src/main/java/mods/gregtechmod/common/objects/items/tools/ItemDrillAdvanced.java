@@ -55,7 +55,7 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IHasModel {
     }
 
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-        if (!world.isRemote && GregtechMod.IC2_MODE_KEY.isKeyDown()) {
+        if (!world.isRemote && IC2.keyboard.isModeSwitchKeyDown(player)) {
             ItemStack stack = player.getHeldItem(hand);
             if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) == 0) {
                 stack.addEnchantment(Enchantments.SILK_TOUCH, 1);
@@ -78,7 +78,7 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IHasModel {
     }
 
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float xOffset, float yOffset, float zOffset) {
-        if (GregtechMod.IC2_MODE_KEY.isKeyDown()) return EnumActionResult.PASS;
+        if (IC2.keyboard.isModeSwitchKeyDown(player)) return EnumActionResult.PASS;
         return super.onItemUse(player, world, pos, hand, side, xOffset, yOffset, zOffset);
     }
 
