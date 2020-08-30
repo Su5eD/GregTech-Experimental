@@ -75,6 +75,7 @@ public class BlockItemLoader {
         initRods();
         initDusts();
         initSmallDusts();
+        initCells();
         initCovers();
         initTools();
         initComponents();
@@ -212,6 +213,12 @@ public class BlockItemLoader {
     private static void initSpecials() {
         for (Specials type : Specials.values()) {
             type.setInstance(registerItem(new ItemBase(type.name(), type.description)));
+        }
+    }
+
+    private static void initCells() {
+        for (Cells type : Cells.values()) {
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "cell")));
         }
     }
 
@@ -977,6 +984,36 @@ public class BlockItemLoader {
         }
 
         public ItemFile getInstance() {
+            return this.instance;
+        }
+    }
+
+    /**
+     * Items for fluid-less cells and the ice cell
+     */
+    public enum Cells {
+        ice("H2O"),
+        nitrocarbon("NC"),
+        sodium_sulfide("NaS"),
+        sulfur("S"),
+        sulfuric_acid("H2SO4");
+
+        private Item instance;
+        public final String description;
+
+        Cells(String description) {
+            this.description = description;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        private void setInstance(Item item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public Item getInstance() {
             return this.instance;
         }
     }

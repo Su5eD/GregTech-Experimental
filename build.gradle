@@ -46,6 +46,7 @@ repositories {
 
 dependencies {
     compileOnly "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:dev"
+    runtime "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112"
     compile "com.mod-buildcraft:buildcraft-api:${version_buildcraft}"
 }
 

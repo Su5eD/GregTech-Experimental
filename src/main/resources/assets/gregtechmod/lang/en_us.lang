@@ -261,6 +261,12 @@ item.machine_lock.name=Lock Upgrade
 item.steam_upgrade.name=Steam Upgrade
 item.steam_tank.name=Steam Tank
 
+item.cell_ice.name=Ice Cell
+item.cell_nitrocarbon.name=Nitrocarbon Cell
+item.cell_sodium_sulfide.name=Sodium Sulfide Cell
+item.cell_sulfur.name=Sulfur Cell
+item.cell_sulfuric_acid.name=Sulfuric Acid Cell
+
 tile.block_standard_machine_casing.name=Standard Machine Casing
 tile.block_reinforced_machine_casing.name=Reinforced Machine Casing
 tile.block_advanced_machine_casing.name=Advanced Machine Casing
