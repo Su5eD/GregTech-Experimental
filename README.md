@@ -12,4 +12,4 @@
 </p>  
 
 **GregTech Experimental** is a fully-featured port of GregTech 3 for modern minecraft versions. It expands the gameplay of [IndustrialCraft2](https://www.curseforge.com/minecraft/mc-mods/industrial-craft) by adding several new machines, fluids, tools, and adjusting recipes.  
-So far, there have been many attemps to recreate GT3, but none of them had all the features. *GregTech Experimental has them all*, in their original form, unchanged. Covers, upgrades, tools, as you know them.
+So far, there have been many attemps to recreate GT3, but none of them had all the features. *GregTech Experimental has them all* (not yet, of course...), in their original form, unchanged. Covers, upgrades, tools, as you know them.
