@@ -5,7 +5,6 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.common.core.GregtechMod;
 import mods.gregtechmod.common.objects.blocks.BlockBase;
-import mods.gregtechmod.common.objects.blocks.BlockFluid;
 import mods.gregtechmod.common.objects.blocks.ConnectedBlock;
 import mods.gregtechmod.common.objects.items.ItemSolderingMetal;
 import mods.gregtechmod.common.objects.items.base.ItemBase;
@@ -22,7 +21,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
@@ -75,6 +73,7 @@ public class BlockItemLoader {
         initRods();
         initDusts();
         initSmallDusts();
+        initCells();
         initCovers();
         initTools();
         initComponents();
@@ -92,11 +91,6 @@ public class BlockItemLoader {
             Block block = new ConnectedBlock("block_"+type.name(), Material.IRON, type.hardness, type.resistance);
             type.setInstance(registerBlock(block));
             registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-        }
-        for (FluidBlocks type : FluidBlocks.values()) {
-            BlockFluid block = new BlockFluid(type.name(), type.fluid, type.material);
-            registerBlock(block);
-            type.setInstance(block);
         }
     }
 
@@ -215,6 +209,12 @@ public class BlockItemLoader {
         }
     }
 
+    private static void initCells() {
+        for (Cells type : Cells.values()) {
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "cell")));
+        }
+    }
+
     public enum Blocks {
         advanced_machine(4, 30),
         aluminium(3, 30),
@@ -284,31 +284,6 @@ public class BlockItemLoader {
         }
 
         public Block getInstance() {
-            return this.instance;
-        }
-    }
-
-    public enum FluidBlocks {
-        seed_oil(FluidInit.SEED_OIL, Material.WATER);
-
-        private BlockFluid instance;
-        public final Fluid fluid;
-        public final Material material;
-
-        FluidBlocks(Fluid fluid, Material material) {
-            this.fluid = fluid;
-            this.material = material;
-        }
-
-        /**
-         * <b>Only GregTech may call this!!</b>
-         */
-        private void setInstance(BlockFluid block) {
-            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
-            this.instance = block;
-        }
-
-        public BlockFluid getInstance() {
             return this.instance;
         }
     }
@@ -977,6 +952,36 @@ public class BlockItemLoader {
         }
 
         public ItemFile getInstance() {
+            return this.instance;
+        }
+    }
+
+    /**
+     * Items for fluid-less cells and the ice cell
+     */
+    public enum Cells {
+        ice("H2O"),
+        nitrocarbon("NC"),
+        sodium_sulfide("NaS"),
+        sulfur("S"),
+        sulfuric_acid("H2SO4");
+
+        private Item instance;
+        public final String description;
+
+        Cells(String description) {
+            this.description = description;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        private void setInstance(Item item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public Item getInstance() {
             return this.instance;
         }
     }

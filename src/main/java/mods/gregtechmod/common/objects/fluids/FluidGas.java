@@ -4,12 +4,11 @@ import mods.gregtechmod.common.init.FluidLoader;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 
-public class FluidLiquid extends Fluid {
-
-    public FluidLiquid(String name, ResourceLocation still, ResourceLocation flow, int density) {
-        super(name, still, flow);
+public class FluidGas extends Fluid {
+    public FluidGas(String name, ResourceLocation still, ResourceLocation flowing) {
+        super(name, still, flowing);
         setUnlocalizedName(name);
         FluidLoader.FLUIDS.add(this);
-        setDensity(density);
+        setGaseous(true);
     }
 }

@@ -34,7 +34,8 @@ public class RegistryHandler {
     }
 
     public static void registerFluids() {
-        for (Fluid fluid : FluidInit.FLUIDS) {
+        FluidLoader.init();
+        for (Fluid fluid : FluidLoader.FLUIDS) {
             FluidRegistry.registerFluid(fluid);
             FluidRegistry.addBucketForFluid(fluid);
         }
@@ -86,5 +87,12 @@ public class RegistryHandler {
         map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"redstone_only"));
         map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"redstone_conductor"));
         map.registerSprite(new ResourceLocation(GregtechMod.MODID, path+"redstone_signalizer"));
+
+        for (FluidLoader.Liquids type : FluidLoader.Liquids.values()) {
+            map.registerSprite(type.texture);
+        }
+        for (FluidLoader.Gases type : FluidLoader.Gases.values()) {
+            map.registerSprite(type.texture);
+        }
     }
 }
