@@ -23,8 +23,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -173,7 +171,6 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         return this.itemMeta;
     }
 
-    @SideOnly(Side.CLIENT)
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
         block.setCreativeTab(GregtechMod.GREGTECH_TAB);
         if (tab == CreativeTabs.SEARCH)

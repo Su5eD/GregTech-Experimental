@@ -21,6 +21,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -62,8 +64,8 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     @Override
     protected void updateEntityServer() {
         if (timer%10 == 0) {
-            if (this.inputSlot.processIntoTank(this.content, this.outputSlot)) System.out.println("processed!");
-            if (this.inputSlot.processFromTank(this.content, this.outputSlot)) System.out.println("out!");
+            this.inputSlot.processIntoTank(this.content, this.outputSlot);
+            this.inputSlot.processFromTank(this.content, this.outputSlot);
         }
         for (ICover cover : coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
@@ -78,6 +80,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer entityPlayer, boolean b) {
         return new GuiQuantumTank(new ContainerQuantumTank(entityPlayer, this));
     }
