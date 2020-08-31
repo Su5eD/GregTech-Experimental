@@ -23,3 +23,6 @@ jobs:
 
       - name: Build dev jar
         run: ./gradlew devJar
+
+      - name: Build api jar
+        run: ./gradlew apiJar
