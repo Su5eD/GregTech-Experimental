@@ -123,6 +123,11 @@ publishing {
             groupId = project.group
             artifactId = project.archivesBaseName
             version = project.version
+
+            pom.withXml {
+                asNode().remove(asNode().dependencies)
+            }
+
             from components.java
             artifact apiJar
             artifact devJar
