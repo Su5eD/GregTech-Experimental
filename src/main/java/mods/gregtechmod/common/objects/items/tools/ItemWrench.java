@@ -19,6 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -84,7 +85,7 @@ public class ItemWrench extends ItemToolWrench implements IHasModel, IToolWrench
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Works as a BuildCraft wrench, too");
+        if (Loader.isModLoaded("buildcraft")) tooltip.add("Works as a BuildCraft wrench, too");
         tooltip.add("To dismantle and rotate blocks of most mods");
         tooltip.add("Rotation of target depends on where exactly you click");
     }

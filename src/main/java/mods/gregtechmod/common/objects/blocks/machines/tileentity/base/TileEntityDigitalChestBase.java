@@ -2,13 +2,13 @@ package mods.gregtechmod.common.objects.blocks.machines.tileentity.base;
 
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
+import ic2.api.upgrade.UpgradableProperty;
 import ic2.core.IC2;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
-import mods.gregtechmod.common.init.BlockItemLoader;
 import mods.gregtechmod.common.inventory.GtUpgradeSlot;
 import mods.gregtechmod.common.objects.blocks.machines.tileentity.TileEntityQuantumChest;
 import net.minecraft.client.Minecraft;
@@ -82,7 +82,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             Item currentItem = stack.getItem();
             ItemStack upgradeStack = this.upgradeSlot.get();
 
-            if (((IGtUpgradeItem)currentItem).getType() == BlockItemLoader.Upgrades.Type.quantum_chest && !isQuantumChest) { //has to be executed on both sides
+            if (((IGtUpgradeItem)currentItem).getType() == GtUpgradeType.quantum_chest && !isQuantumChest) { //has to be executed on both sides
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
                 world.removeTileEntity(pos);
                 TileEntityQuantumChest te = new TileEntityQuantumChest(slot, isPrivate, player.getGameProfile());
@@ -354,12 +354,12 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public Set<BlockItemLoader.Upgrades.Type> getCompatibleGtUpgrades() {
-        return EnumSet.of(BlockItemLoader.Upgrades.Type.lock, BlockItemLoader.Upgrades.Type.quantum_chest);
+    public Set<GtUpgradeType> getCompatibleGtUpgrades() {
+        return EnumSet.of(GtUpgradeType.lock, GtUpgradeType.quantum_chest);
     }
 
     @Override
-    public Set<ItemUpgradeModule.UpgradeType> getCompatibleIC2Upgrades() {
+    public Set<UpgradableProperty> getCompatibleIC2Upgrades() {
         return Collections.emptySet();
     }
 

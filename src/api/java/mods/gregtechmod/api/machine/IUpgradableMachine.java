@@ -1,8 +1,8 @@
 package mods.gregtechmod.api.machine;
 
 import com.mojang.authlib.GameProfile;
-import ic2.core.item.upgrade.ItemUpgradeModule;
-import mods.gregtechmod.common.init.BlockItemLoader;
+import ic2.api.upgrade.UpgradableProperty;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import net.minecraftforge.fluids.FluidTank;
 
 import javax.annotation.Nullable;
@@ -48,7 +48,7 @@ public interface IUpgradableMachine extends IGregtechMachine {
 
     void setPrivate(boolean value, GameProfile owner);
 
-    Set<BlockItemLoader.Upgrades.Type> getCompatibleGtUpgrades();
+    Set<GtUpgradeType> getCompatibleGtUpgrades();
 
-    Set<ItemUpgradeModule.UpgradeType> getCompatibleIC2Upgrades();
+    Set<UpgradableProperty> getCompatibleIC2Upgrades();
 }

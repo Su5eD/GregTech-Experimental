@@ -2,7 +2,10 @@ package mods.gregtechmod.common.init;
 
 import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.api.util.GtUtil;
+import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.common.core.GregtechMod;
 import mods.gregtechmod.common.objects.blocks.BlockBase;
 import mods.gregtechmod.common.objects.blocks.ConnectedBlock;
@@ -12,8 +15,6 @@ import mods.gregtechmod.common.objects.items.base.ItemCover;
 import mods.gregtechmod.common.objects.items.base.ItemHammer;
 import mods.gregtechmod.common.objects.items.base.ItemUpgrade;
 import mods.gregtechmod.common.objects.items.tools.*;
-import mods.gregtechmod.common.util.GtUtil;
-import mods.gregtechmod.common.util.TriFunction;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,10 +27,8 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import org.apache.logging.log4j.util.TriConsumer;
 
-import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BiPredicate;
 
 @SuppressWarnings("unused")
@@ -598,13 +597,13 @@ public class BlockItemLoader {
     }
 
     public enum Upgrades {
-        hv_transformer(Type.transformer, 2, 3, "Higher tier of the transformer upgrade", (stack, machine) -> machine.getTier() < 5, (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier()+stack.getCount(), 5))),
-        lithium_battery(Type.battery, 4, 1, "Adds 100000 EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
-        energy_crystal(Type.battery, 4, 2, "Adds 100000 EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
-        lapotron_crystal(Type.battery, 4, 3, "Adds 1 Million EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(1000000*stack.getCount()))),
-        energy_orb(Type.battery, 4, 4, "Adds 10 Million EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(1000000*stack.getCount()))),
-        quantum_chest(Type.quantum_chest, 1, 0, "Upgrades a Digital Chest to a Quantum chest"),
-        machine_lock(Type.lock, 1, 0, "Makes a machine private for the one, who applies this upgrade", (stack, machine, player) -> {
+        hv_transformer(GtUpgradeType.transformer, 2, 3, "Higher tier of the transformer upgrade", (stack, machine) -> machine.getTier() < 5, (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier()+stack.getCount(), 5))),
+        lithium_battery(GtUpgradeType.battery, 4, 1, "Adds 100000 EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
+        energy_crystal(GtUpgradeType.battery, 4, 2, "Adds 100000 EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
+        lapotron_crystal(GtUpgradeType.battery, 4, 3, "Adds 1 Million EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(1000000*stack.getCount()))),
+        energy_orb(GtUpgradeType.battery, 4, 4, "Adds 10 Million EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(1000000*stack.getCount()))),
+        quantum_chest(GtUpgradeType.quantum_chest, 1, 0, "Upgrades a Digital Chest to a Quantum chest"),
+        machine_lock(GtUpgradeType.lock, 1, 0, "Makes a machine private for the one, who applies this upgrade", (stack, machine, player) -> {
             GameProfile owner = machine.getOwner();
             if (owner != null && !player.getGameProfile().equals(owner)) {
                 if (!player.world.isRemote) player.sendMessage(new TextComponentString("You can't lock a machine you don't own!"));
@@ -614,17 +613,17 @@ public class BlockItemLoader {
         }, (stack, machine, player) -> {
             if (player != null && !machine.isPrivate()) machine.setPrivate(true, player.getGameProfile());
         }),
-        steam_upgrade(Type.steam, 1, 1,"Lets Machines consume Steam at 2mb per EU (lossless)", (stack, machine, player) -> {
+        steam_upgrade(GtUpgradeType.steam, 1, 1,"Lets Machines consume Steam at 2mb per EU (lossless)", (stack, machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
 
-        steam_tank(Type.steam, 4, 1, "Increases Steam Capacity by 64 Buckets", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
+        steam_tank(GtUpgradeType.steam, 4, 1, "Increases Steam Capacity by 64 Buckets", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
             if (steamTank != null) steamTank.setCapacity(2000 + stack.getCount() * 64000);
         });
 
         private IGtUpgradeItem instance;
-        public final Type type;
+        public final GtUpgradeType type;
         public final int maxCount;
         public final int requiredTier;
         public final String description;
@@ -632,23 +631,23 @@ public class BlockItemLoader {
         public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert;
         public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate;
 
-        Upgrades(Type type, int maxCount, int requiredTier, String description) {
+        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description) {
             this(type, maxCount, requiredTier, description, GtUtil.alwaysTrue(), (stack, machine, player) -> false, (stack, machine, player) -> {});
         }
 
-        Upgrades(Type type, int maxCount, int requiredTier, String description, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
             this(type, maxCount, requiredTier, description, GtUtil.alwaysTrue(), (stack, machine, player) -> false, onUpdate);
         }
 
-        Upgrades(Type type, int maxCount, int requiredTier, String description, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
             this(type, maxCount, requiredTier, description, condition, (stack, machine, player) -> false, onUpdate);
         }
 
-        Upgrades(Type type, int maxCount, int requiredTier, String description, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
             this(type, maxCount, requiredTier, description, GtUtil.alwaysTrue(), onInsert, onUpdate);
         }
 
-        Upgrades(Type type, int maxCount, int requiredTier, String description, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
             this.type = type;
             this.maxCount = maxCount;
             this.requiredTier = requiredTier;
@@ -668,16 +667,6 @@ public class BlockItemLoader {
 
         public IGtUpgradeItem getInstance() {
             return this.instance;
-        }
-
-        public enum Type {
-            transformer,
-            battery,
-            lock,
-            steam,
-            quantum_chest;
-
-            public static final Set<Type> MACHINE_PRESET = EnumSet.of(transformer, battery, lock, steam);
         }
     }
 

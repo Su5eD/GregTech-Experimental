@@ -1,6 +1,6 @@
 package mods.gregtechmod.common.objects.items.base;
 
-import mods.gregtechmod.common.util.GtUtil;
+import mods.gregtechmod.api.util.GtUtil;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;

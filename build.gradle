@@ -33,6 +33,18 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
+sourceSets {
+    api
+    main {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+    }
+}
+
+configurations {
+    apiCompile.extendsFrom(compile)
+}
+
 repositories {
     maven {
         name = "ic2"
@@ -46,11 +58,17 @@ repositories {
 
 dependencies {
     compileOnly "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:dev"
-    runtime "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112"
+    runtime "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112" //Separate ic2 for runtime to fix an issue caused by ic2 using old mappings
+    apiCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:api" //GTE api depends on the ic2 api
+
     compile "com.mod-buildcraft:buildcraft-api:${version_buildcraft}"
 }
 
 jar {
+    //Include api classes in the full jar
+    from sourceSets.api.output.classesDirs
+    from sourceSets.api.output.resourcesDir
+
     manifest {
         attributes([
                 "Specification-Title": "gregtechmod",
@@ -66,7 +84,18 @@ jar {
 
 task devJar(type: Jar) {
     from sourceSets.main.allSource
+    //Include api classes in the dev jar
+    from sourceSets.api.output
     classifier = "dev"
+}
+
+task apiJar(type: Jar) {
+    classifier = "api"
+    from sourceSets.api.output
+    include "mods/gregtechmod/api/**"
+
+    //Include sources in the api jar
+    from sourceSets.api.allJava
 }
 
 processResources {

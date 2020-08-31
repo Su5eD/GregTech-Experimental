@@ -1,4 +1,4 @@
-package mods.gregtechmod.common.util;
+package mods.gregtechmod.api.util;
 
 import java.util.Objects;
 import java.util.function.Function;

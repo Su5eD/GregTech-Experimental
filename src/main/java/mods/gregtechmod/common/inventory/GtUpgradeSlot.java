@@ -3,7 +3,6 @@ package mods.gregtechmod.common.inventory;
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.item.upgrade.ItemUpgradeModule;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import net.minecraft.item.Item;
@@ -18,13 +17,11 @@ public class GtUpgradeSlot extends InvSlot {
     @Override
     public boolean accepts(ItemStack stack) {
         Item item = stack.getItem();
-        int meta = stack.getMetadata();
         if (item instanceof IGtUpgradeItem) {
             return ((IUpgradableMachine)base).getCompatibleGtUpgrades().contains(((IGtUpgradeItem) item).getType());
         }
         else if (item instanceof IUpgradeItem) {
-            ItemUpgradeModule.UpgradeType type = ItemUpgradeModule.UpgradeType.values()[meta];
-            return ((IUpgradableMachine)base).getCompatibleIC2Upgrades().contains(type);
+            return ((IUpgradeItem)item).isSuitableFor(stack, ((IUpgradableMachine) base).getCompatibleIC2Upgrades());
         }
         return false;
     }

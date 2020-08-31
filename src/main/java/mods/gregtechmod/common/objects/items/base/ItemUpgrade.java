@@ -1,9 +1,9 @@
 package mods.gregtechmod.common.objects.items.base;
 
 import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
-import mods.gregtechmod.common.init.BlockItemLoader;
-import mods.gregtechmod.common.util.TriFunction;
+import mods.gregtechmod.api.util.TriFunction;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -11,13 +11,13 @@ import org.apache.logging.log4j.util.TriConsumer;
 import java.util.function.BiPredicate;
 
 public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
-    private final BlockItemLoader.Upgrades.Type type;
+    private final GtUpgradeType type;
     private final int requiredTier;
     private final BiPredicate<ItemStack, IUpgradableMachine> condition;
     private final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert;
     private final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate;
 
-    public ItemUpgrade(String name, String description, BlockItemLoader.Upgrades.Type type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+    public ItemUpgrade(String name, String description, GtUpgradeType type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
         super(name, description, null, "upgrade");
         setMaxStackSize(maxCount);
         this.type = type;
@@ -28,7 +28,7 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     }
 
     @Override
-    public BlockItemLoader.Upgrades.Type getType() {
+    public GtUpgradeType getType() {
         return this.type;
     }
 

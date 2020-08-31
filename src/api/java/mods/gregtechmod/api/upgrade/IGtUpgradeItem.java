@@ -1,13 +1,12 @@
 package mods.gregtechmod.api.upgrade;
 
 import mods.gregtechmod.api.machine.IUpgradableMachine;
-import mods.gregtechmod.common.init.BlockItemLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public interface IGtUpgradeItem {
 
-    BlockItemLoader.Upgrades.Type getType();
+    GtUpgradeType getType();
 
     int getRequiredTier();
 

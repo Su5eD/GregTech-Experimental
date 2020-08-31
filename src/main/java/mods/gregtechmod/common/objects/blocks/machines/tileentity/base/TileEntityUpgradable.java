@@ -2,20 +2,20 @@ package mods.gregtechmod.common.objects.blocks.machines.tileentity.base;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.upgrade.IUpgradeItem;
+import ic2.api.upgrade.UpgradableProperty;
 import ic2.core.IC2;
 import ic2.core.block.comp.Energy;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.common.core.ConfigLoader;
-import mods.gregtechmod.common.init.BlockItemLoader;
 import mods.gregtechmod.common.inventory.GtFluidTank;
 import mods.gregtechmod.common.inventory.GtUpgradeSlot;
 import net.minecraft.client.util.ITooltipFlag;
@@ -371,12 +371,12 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     @Override
-    public Set<BlockItemLoader.Upgrades.Type> getCompatibleGtUpgrades() {
-        return BlockItemLoader.Upgrades.Type.MACHINE_PRESET;
+    public Set<GtUpgradeType> getCompatibleGtUpgrades() {
+        return GtUpgradeType.MACHINE_PRESET;
     }
 
     @Override
-    public Set<ItemUpgradeModule.UpgradeType> getCompatibleIC2Upgrades() {
-        return EnumSet.of(ItemUpgradeModule.UpgradeType.overclocker, ItemUpgradeModule.UpgradeType.transformer);
+    public Set<UpgradableProperty> getCompatibleIC2Upgrades() {
+        return EnumSet.of(UpgradableProperty.Processing, UpgradableProperty.Transformer);
     }
 }

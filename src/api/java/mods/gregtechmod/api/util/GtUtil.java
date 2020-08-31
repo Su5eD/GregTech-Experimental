@@ -1,4 +1,4 @@
-package mods.gregtechmod.common.util;
+package mods.gregtechmod.api.util;
 
 import java.util.Random;
 import java.util.function.BiPredicate;

@@ -7,8 +7,8 @@ import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import ic2.core.util.Log;
 import ic2.core.util.LogCategory;
-import mods.gregtechmod.api.cover.CoverRegistry;
 import mods.gregtechmod.common.cover.CoverHandler;
+import mods.gregtechmod.common.init.CoverLoader;
 import mods.gregtechmod.common.init.RecipeLoader;
 import mods.gregtechmod.common.init.RegistryHandler;
 import mods.gregtechmod.common.objects.blocks.machines.tileentity.TileEntityGtCentrifuge;
@@ -66,7 +66,7 @@ public final class GregtechMod {
         RegistryHandler.registerFluids();
         Components.register(CoverHandler.class, "gtcover");
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
-        CoverRegistry.init();
+        CoverLoader.registerCovers();
         proxy.preInit();
         //TODO: Move to recipe loader(or modificator) class
         IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(ConfigLoader.upgradeStackSize);
