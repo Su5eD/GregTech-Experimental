@@ -1,6 +1,7 @@
 package mods.gregtechmod.common.init;
 
 import com.mojang.authlib.GameProfile;
+import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
@@ -10,10 +11,7 @@ import mods.gregtechmod.common.core.GregtechMod;
 import mods.gregtechmod.common.objects.blocks.BlockBase;
 import mods.gregtechmod.common.objects.blocks.ConnectedBlock;
 import mods.gregtechmod.common.objects.items.ItemSolderingMetal;
-import mods.gregtechmod.common.objects.items.base.ItemBase;
-import mods.gregtechmod.common.objects.items.base.ItemCover;
-import mods.gregtechmod.common.objects.items.base.ItemHammer;
-import mods.gregtechmod.common.objects.items.base.ItemUpgrade;
+import mods.gregtechmod.common.objects.items.base.*;
 import mods.gregtechmod.common.objects.items.tools.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -76,6 +74,7 @@ public class BlockItemLoader {
         initCovers();
         initTools();
         initComponents();
+        initNuclearComponents();
         initSpecials();
         initUpgrades();
     }
@@ -95,7 +94,7 @@ public class BlockItemLoader {
 
     private static void initIngots() {
         for (Ingots type : Ingots.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "ingot")));
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "ingot", type.hasEffect)));
         }
     }
 
@@ -119,13 +118,13 @@ public class BlockItemLoader {
 
     private static void initDusts() {
         for (Dusts type : Dusts.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "dust")));
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "dust", type.hasEffect)));
         }
     }
 
     private static void initSmallDusts() {
         for (Smalldusts type : Smalldusts.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "smalldust")));
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "smalldust", type.hasEffect)));
         }
     }
 
@@ -199,6 +198,15 @@ public class BlockItemLoader {
         for (Components type : Components.values()) {
             if (type.isCover) type.setInstance(registerItem(new ItemCover(type.name(), type.coverName, type.description, null, "component")));
             else type.setInstance(registerItem(new ItemBase(type.name(), type.description, null, "component")));
+        }
+    }
+
+    private static void initNuclearComponents() {
+        for (NuclearCoolantPacks type : NuclearCoolantPacks.values()) {
+            type.setInstance(registerItem(new ItemNuclearHeatStorage(type.name(), type.heatStorage)));
+        }
+        for (NuclearFuelRods type : NuclearFuelRods.values()) {
+            type.setInstance(registerItem(new ItemNuclearFuelRod("cell_"+type.name(), type.cells, type.duration, type.energy, type.radiation, type.heat, type.depletedStack)));
         }
     }
 
@@ -304,7 +312,7 @@ public class BlockItemLoader {
         platinum("Pt"),
         plutonium("Pu"),
         soldering_iron_alloy("Sn9Sb1"),
-        thorium("Th"),
+        thorium("Th", true),
         titanium("Ti"),
         tungsten("W"),
         tungstensteel("Vacuum Hardened"),
@@ -312,9 +320,15 @@ public class BlockItemLoader {
 
         private Item instance;
         public final String description;
+        public final boolean hasEffect;
 
         Ingots(String description) {
+            this(description, false);
+        }
+
+        Ingots(String description, boolean hasEffect) {
             this.description = description;
+            this.hasEffect = hasEffect;
         }
 
         /**
@@ -492,7 +506,7 @@ public class BlockItemLoader {
         spessartine("Al2Mn3Si3O12"),
         sphalerite("ZnS"),
         steel("Fe"),
-        thorium(Ingots.thorium.description),
+        thorium(Ingots.thorium.description, true),
         titanium(Ingots.titanium.description),
         tungsten(Ingots.tungsten.description),
         uranium("U"),
@@ -503,9 +517,15 @@ public class BlockItemLoader {
 
         private Item instance;
         public final String description;
+        public final boolean hasEffect;
 
         Dusts(String description) {
+           this(description, false);
+        }
+
+        Dusts(String description, boolean hasEffect) {
             this.description = description;
+            this.hasEffect = hasEffect;
         }
 
         /**
@@ -567,7 +587,7 @@ public class BlockItemLoader {
         spessartine(Dusts.spessartine.description),
         sphalerite(Dusts.sphalerite.description),
         steel(Dusts.steel.description),
-        thorium(Ingots.thorium.description),
+        thorium(Ingots.thorium.description, true),
         titanium(Ingots.titanium.description),
         tungsten(Ingots.tungsten.description),
         uranium(Dusts.uranium.description),
@@ -578,9 +598,15 @@ public class BlockItemLoader {
 
         private Item instance;
         public final String description;
+        public final boolean hasEffect;
 
         Smalldusts(String description) {
+            this(description, false);
+        }
+
+        Smalldusts(String description, boolean hasEffect) {
             this.description = description;
+            this.hasEffect = hasEffect;
         }
 
         /**
@@ -960,6 +986,76 @@ public class BlockItemLoader {
 
         Cells(String description) {
             this.description = description;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        private void setInstance(Item item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public Item getInstance() {
+            return this.instance;
+        }
+    }
+
+    public enum NuclearCoolantPacks {
+        coolant_nak_60k(60000),
+        coolant_nak_180k(180000),
+        coolant_nak_360k(360000),
+        coolant_helium_60k(60000),
+        coolant_helium_180k(180000),
+        coolant_helium_360k(360000);
+
+        private Item instance;
+        public final int heatStorage;
+
+        NuclearCoolantPacks(int heatStorage) {
+            this.heatStorage = heatStorage;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        private void setInstance(Item item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public Item getInstance() {
+            return this.instance;
+        }
+    }
+
+    public enum NuclearFuelRods {
+        thorium(1, 25000, 0.25F, 1, 0.25F),
+        thorium_dual(2, 25000, 0.25F, 1, 0.25F),
+        thorium_quad(4, 25000, 0.25F, 1, 0.25F),
+        plutonium(1, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_uranium")),
+        plutonium_dual(2, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_dual_uranium")),
+        plutonium_quad(4, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_quad_uranium"));
+
+        private Item instance;
+        public final int cells;
+        public final int duration;
+        public final float energy;
+        public final int radiation;
+        public final float heat;
+        public final ItemStack depletedStack;
+
+        NuclearFuelRods(int cells, int duration, float energy, int radiation, float heat) {
+            this(cells, duration, energy, radiation, heat, null);
+        }
+
+        NuclearFuelRods(int cells, int duration, float energy, int radiation, float heat, ItemStack depletedStack) {
+            this.cells = cells;
+            this.duration = duration;
+            this.energy = energy;
+            this.radiation = radiation;
+            this.heat = heat;
+            this.depletedStack = depletedStack;
         }
 
         /**

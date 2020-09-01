@@ -17,6 +17,7 @@ public class ItemBase extends Item implements IHasModel {
     protected String toolTip;
     protected String prefix;
     protected String folder;
+    protected boolean hasEffect;
 
     public ItemBase(String name) {
         this(name, null, null, null);
@@ -30,7 +31,15 @@ public class ItemBase extends Item implements IHasModel {
         this(name, description, prefix, null);
     }
 
+    public ItemBase(String name, @Nullable String description, String prefix, boolean hasEffect) {
+        this(name, description, prefix, null, hasEffect);
+    }
+
     public ItemBase(String name, @Nullable String description, String prefix, String folder) {
+        this(name, description, prefix, folder, false);
+    }
+
+    public ItemBase(String name, @Nullable String description, String prefix, String folder, boolean hasEffect) {
         String bName = prefix != null ? prefix+"_"+name : name;
         setTranslationKey(bName);
         setRegistryName(bName);
@@ -39,6 +48,12 @@ public class ItemBase extends Item implements IHasModel {
         this.toolTip = description;
         this.prefix = prefix;
         this.folder = folder;
+        this.hasEffect = hasEffect;
+    }
+
+    @Override
+    public boolean hasEffect(ItemStack stack) {
+        return this.hasEffect;
     }
 
     @Override

@@ -26,11 +26,15 @@ public class GregTechTab extends CreativeTabs {
     @Override
     public void displayAllRelevantItems(@Nonnull NonNullList<ItemStack> list) {
         this.list = list;
-
         BlockTileEntity block = TeBlockRegistry.get(GregtechTeBlock.LOCATION);
-        addBlock(BlockItemLoader.Blocks.lesublock.getInstance());
 
-        list.add(block.getItemStack(GregtechTeBlock.gtcentrifuge));
+        addBlock(BlockItemLoader.Blocks.lesublock.getInstance());
+        addTeBlock(GregtechTeBlock.gtcentrifuge, block);
+        addTeBlock(GregtechTeBlock.digital_chest, block);
+        addTeBlock(GregtechTeBlock.quantum_chest, block);
+        addTeBlock(GregtechTeBlock.quantum_tank, block);
+
+        super.displayAllRelevantItems(list); //TODO: Add stuff manually
     }
 
     private void addItem(Item item) {
@@ -39,5 +43,9 @@ public class GregTechTab extends CreativeTabs {
 
     private void addBlock(Block block) {
         block.getSubBlocks(this, list);
+    }
+
+    private void addTeBlock(GregtechTeBlock teBlock, BlockTileEntity block) {
+        this.list.add(block.getItemStack(teBlock));
     }
 }

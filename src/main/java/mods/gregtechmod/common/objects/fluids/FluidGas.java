@@ -10,5 +10,6 @@ public class FluidGas extends Fluid {
         setUnlocalizedName(name);
         FluidLoader.FLUIDS.add(this);
         setGaseous(true);
+        setDensity(-200);
     }
 }

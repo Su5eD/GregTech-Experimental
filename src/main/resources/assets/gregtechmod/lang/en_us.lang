@@ -267,6 +267,19 @@ item.cell_sodium_sulfide.name=Sodium Sulfide Cell
 item.cell_sulfur.name=Sulfur Cell
 item.cell_sulfuric_acid.name=Sulfuric Acid Cell
 
+item.coolant_nak_60k=60k NaK Coolant cell
+item.coolant_nak_180k=180k NaK Coolant cell
+item.coolant_nak_360k=360k NaK Coolant cell
+item.coolant_helium_60k=60k Helium Coolant cell
+item.coolant_helium_180k=180k Helium Coolant cell
+item.coolant_helium_360k=360k Helium Coolant cell
+item.cell_thorium=Thorium Cell
+item.cell_thorium_dual=Double Thorium Cell
+item.cell_thorium_quad=Quad Thorium Cell
+item.cell_plutonium=Plutonium Cell
+item.cell_plutonium_dual=Double Plutonium Cell
+item.cell_plutonium_quad=Quad Plutonium Cell
+
 tile.block_standard_machine_casing.name=Standard Machine Casing
 tile.block_reinforced_machine_casing.name=Reinforced Machine Casing
 tile.block_advanced_machine_casing.name=Advanced Machine Casing
