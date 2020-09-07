@@ -31,12 +31,12 @@ import java.util.Set;
 
 @SuppressWarnings("unused")
 @Mod(modid = GregtechMod.MODID, name = GregtechMod.NAME, version = GregtechMod.VERSION, acceptedMinecraftVersions = GregtechMod.MC_VERSION,
-     dependencies = "after:ic2@[2.8.218-ex112,]")
+     dependencies = "required-after:ic2@[2.8.218-ex112,]; after:energycontrol@[0.1.8,]")
 public final class GregtechMod {
     public static final String NAME = "Gregtech Experimental";
     public static final String MODID = "gregtechmod";
     public static final String MC_VERSION = "1.12";
-    static final String VERSION = "0.01";
+    static final String VERSION = "1.0";
     public static Log LOGGER;
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(GregtechMod.MODID, "textures/gui/gtcommon.png");
     @Instance

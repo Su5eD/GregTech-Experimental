@@ -2,19 +2,16 @@ package mods.gregtechmod.common.objects.blocks;
 
 import mods.gregtechmod.common.core.ConfigLoader;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class ConnectedBlock extends Block implements IHasModel {
+public class ConnectedBlock extends BlockBase {
     public static final PropertyBool CONNECTED_NORTH = PropertyBool.create("connected_north");
     public static final PropertyBool CONNECTED_EAST = PropertyBool.create("connected_east");
     public static final PropertyBool CONNECTED_SOUTH = PropertyBool.create("connected_south");
@@ -23,21 +20,12 @@ public class ConnectedBlock extends Block implements IHasModel {
     public static final PropertyBool CONNECTED_UP = PropertyBool.create("connected_up");
 
     public ConnectedBlock(String name, Material material, float hardness, float resistance) {
-        super(material);
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
-        setHardness(hardness);
+        super(name, material, hardness, resistance);
         setDefaultState(blockState.getBaseState()
                 .withProperty(CONNECTED_NORTH, Boolean.FALSE)
                 .withProperty(CONNECTED_SOUTH, Boolean.FALSE)
                 .withProperty(CONNECTED_EAST, Boolean.FALSE)
                 .withProperty(CONNECTED_WEST, Boolean.FALSE));
-    }
-
-    @Override
-    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
-        return false;
     }
 
     @Override

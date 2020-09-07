@@ -10,8 +10,11 @@ import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.common.core.GregtechMod;
 import mods.gregtechmod.common.objects.blocks.BlockBase;
 import mods.gregtechmod.common.objects.blocks.ConnectedBlock;
+import mods.gregtechmod.common.objects.items.ItemSensorCard;
+import mods.gregtechmod.common.objects.items.ItemSensorKit;
 import mods.gregtechmod.common.objects.items.ItemSolderingMetal;
 import mods.gregtechmod.common.objects.items.base.*;
+import mods.gregtechmod.common.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.common.objects.items.tools.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -195,10 +198,9 @@ public class BlockItemLoader {
     }
 
     private static void initComponents() {
-        for (Components type : Components.values()) {
-            if (type.isCover) type.setInstance(registerItem(new ItemCover(type.name(), type.coverName, type.description, null, "component")));
-            else type.setInstance(registerItem(new ItemBase(type.name(), type.description, null, "component")));
-        }
+        Components.data_control_circuit.setInstance(registerItem(new ItemCover(Components.data_control_circuit.name(), Components.data_control_circuit.coverName, Components.data_control_circuit.description, null, "component")));
+        Components.energy_flow_circuit.setInstance(registerItem(new ItemCover(Components.energy_flow_circuit.name(), Components.energy_flow_circuit.coverName, Components.energy_flow_circuit.description, null, "component")));
+        Components.lithium_battery.setInstance(registerItem(new ItemLithiumBattery()));
     }
 
     private static void initNuclearComponents() {
@@ -211,8 +213,11 @@ public class BlockItemLoader {
     }
 
     private static void initSpecials() {
-        for (Specials type : Specials.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description)));
+        Specials.greg_coin.setInstance(registerItem(new ItemBase(Specials.greg_coin.name(), "A minimalist GregTech logo on a coin")));
+
+        if (Loader.isModLoaded("energycontrol")) {
+            Specials.sensor_kit.setInstance(registerItem(new ItemSensorKit()));
+            Specials.sensor_card.setInstance(registerItem(new ItemSensorCard()));
         }
     }
 
@@ -738,12 +743,17 @@ public class BlockItemLoader {
     public enum Components {
         //Components go here
         data_control_circuit("redstone_only", "Basic computer processor"),
-        energy_flow_circuit("energy_only", "Manages large amounts of energy");
+        energy_flow_circuit("energy_only", "Manages large amounts of energy"),
+        lithium_battery;
 
         private Item instance;
         public final String description;
         public final boolean isCover;
         public final String coverName;
+
+        Components() {
+            this(null);
+        }
 
         Components(String coverName, String description) {
             this.description = description;
@@ -1072,14 +1082,11 @@ public class BlockItemLoader {
     }
 
     public enum Specials {
-        greg_coin("Greg's personal favorite"); //TODO: Change description
+        greg_coin, //TODO: Change description
+        sensor_kit,
+        sensor_card;
 
         private Item instance;
-        public final String description;
-
-        Specials(String description) {
-            this.description = description;
-        }
 
         /**
          * <b>Only GregTech may call this!!</b>
