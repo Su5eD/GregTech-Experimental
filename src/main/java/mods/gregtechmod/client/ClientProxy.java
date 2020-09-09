@@ -1,6 +1,5 @@
 package mods.gregtechmod.client;
 
-import ic2.core.util.LogCategory;
 import mods.gregtechmod.client.render.RenderTeBlock;
 import mods.gregtechmod.common.core.CommonProxy;
 import mods.gregtechmod.common.core.GregtechMod;
@@ -34,7 +33,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void registerBakedModels() {
-        //init covers
+        GregtechMod.LOGGER.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
         for (GregtechTeBlock teBlock : GregtechTeBlock.values()) {
             try {
@@ -48,7 +47,7 @@ public class ClientProxy extends CommonProxy {
                     }
                 }
             } catch (Exception e) {
-                GregtechMod.LOGGER.error(LogCategory.General, e.getMessage());
+                GregtechMod.LOGGER.error(e.getMessage());
             }
         }
         ModelLoaderRegistry.registerLoader(loader);

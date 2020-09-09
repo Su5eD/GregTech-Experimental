@@ -35,6 +35,7 @@ public class RegistryHandler {
 
     public static void registerFluids() {
         FluidLoader.init();
+        GregtechMod.LOGGER.info("Registering fluids");
         for (Fluid fluid : FluidLoader.FLUIDS) {
             FluidRegistry.registerFluid(fluid);
             FluidRegistry.addBucketForFluid(fluid);

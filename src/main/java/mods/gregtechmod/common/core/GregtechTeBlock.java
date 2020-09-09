@@ -182,12 +182,12 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     }
     public static void buildDummies() {
  		for (GregtechTeBlock block : values()) {
- 			System.out.printf("Building %s (with teClass %s)%n", block.getName(), block.teClass);
  			if (block.teClass != null) {
  				try {
+                    GregtechMod.LOGGER.info("Building dummy TeBlock for "+block.name());
  					block.dummyTe = block.teClass.newInstance();
  				} catch (Exception e) {
- 					e.printStackTrace();
+ 					GregtechMod.LOGGER.error(e.getMessage());
  				}
  			}
  		}

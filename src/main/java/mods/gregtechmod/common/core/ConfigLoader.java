@@ -19,8 +19,9 @@ public class ConfigLoader {
     public static double MVExplosionPower;
     public static double HVExplosionPower;
     public static int upgradeStackSize;
-
+    //TODO: Replace with an @Config class
     public static void loadConfig(FMLPreInitializationEvent event) {
+        GregtechMod.LOGGER.info("Loading config");
         File mainFile = new File(new File(event.getModConfigurationDirectory(), "GregTech"), "GregTech.cfg");
         Configuration mainConfig = new Configuration(mainFile);
         mainConfig.load();
@@ -43,7 +44,7 @@ public class ConfigLoader {
         Configuration dynamicCfg = new Configuration(dynamicCfgFile);
         dynamicCfg.load();
         */
-
+        GregtechMod.LOGGER.info("Config loaded successfully");
         if (mainConfig.hasChanged()) mainConfig.save();
     }
 }

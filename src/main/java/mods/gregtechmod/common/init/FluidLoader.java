@@ -13,6 +13,7 @@ public class FluidLoader {
     public static List<Fluid> FLUIDS = new ArrayList<>();
 
     public static void init() {
+        GregtechMod.LOGGER.info("Initializing fluids");
         for (Liquids type : Liquids.values()) {
             type.setInstance(new FluidLiquid(type.name(), type.texture, type.texture, type.density));
         }

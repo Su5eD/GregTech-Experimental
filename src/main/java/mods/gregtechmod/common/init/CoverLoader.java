@@ -4,6 +4,7 @@ import mods.gregtechmod.api.cover.CoverRegistry;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.TriFunction;
+import mods.gregtechmod.common.core.GregtechMod;
 import mods.gregtechmod.common.cover.type.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -41,7 +42,9 @@ public class CoverLoader {
     }
 
     public static void registerCovers() {
+        GregtechMod.LOGGER.info("Registering covers");
         for(Covers type : Covers.values()) {
+            GregtechMod.LOGGER.debug("Registering cover "+type.name());
             CoverRegistry.registerCover(type.name(), type.constructor);
         }
     }

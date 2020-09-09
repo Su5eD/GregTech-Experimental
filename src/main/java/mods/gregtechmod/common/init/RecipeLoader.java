@@ -5,14 +5,12 @@ import ic2.api.recipe.IRecipeInput;
 import ic2.core.init.Rezepte;
 import ic2.core.util.Config;
 import ic2.core.util.ConfigUtil;
-import ic2.core.util.LogCategory;
 import ic2.core.util.ReflectionUtil;
 import mods.gregtechmod.common.core.GregtechMod;
 import mods.gregtechmod.common.recipe.Recipes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -29,14 +27,14 @@ public class RecipeLoader {
 
     private static final Marker RECIPE = MarkerManager.getMarker("recipe");
 
-    static void loadRecipes() {
+    public static void loadRecipes() {
         //TODO: Replace with for loop + get an interface for detecting recipes
 
         Config gtcentrifuge = new Config("industrial centrifuge recipes");
         try {
             gtcentrifuge.load(getConfigFile("gtcentrifuge"));
         } catch (Exception e) {
-            GregtechMod.LOGGER.warn(LogCategory.Recipe, e, "Failed to load recipe.");
+            GregtechMod.LOGGER.warn(e.getMessage(), "Failed to load recipe.");
         }
         loadMachineRecipes(gtcentrifuge, Recipes.gtcentrifuge, MachineType.TimeBased);
     }
@@ -49,7 +47,7 @@ public class RecipeLoader {
             if (loadMachineRecipe(value, machine, type, false)) successful++;
         }
 
-        GregtechMod.LOGGER.log(LogCategory.Recipe, Level.INFO, "Successfully loaded " + successful + " from " + amount + " recipes for " + config.name);
+        GregtechMod.LOGGER.info("Successfully loaded " + successful + " from " + amount + " recipes for " + config.name);
     }
 
     private static boolean loadMachineRecipe(Config.Value value, IMachineRecipeManager<IRecipeInput, Collection<ItemStack>, ?> machine, MachineType type, boolean lastAttempt) {
@@ -63,7 +61,7 @@ public class RecipeLoader {
         }
         if (input == null) {
             if (lastAttempt) {
-                GregtechMod.LOGGER.warn(LogCategory.Recipe, new Config.ParseException("invalid input: " + value.name, value), "Skipping recipe due to unresolvable input %s.", value.name);
+                GregtechMod.LOGGER.warn(new Config.ParseException("invalid input: " + value.name, value).getMessage(), "Skipping recipe due to unresolvable input %s.", value.name);
             } else {
                 PENDING_RECIPES.add(() -> loadMachineRecipe(value, machine, type, true));
             }
@@ -85,7 +83,7 @@ public class RecipeLoader {
                 ItemStack cOutput = ConfigUtil.asStackWithAmount(part);
                 if (cOutput == null) {
                     if (lastAttempt) {
-                        GregtechMod.LOGGER.warn(LogCategory.Recipe, new Config.ParseException("invalid output specified: " + part, value), "Skipping recipe using %s due to unresolvable output %s.", new Object[] { value.name, part });
+                        GregtechMod.LOGGER.warn(new Config.ParseException("invalid output specified: " + part, value).getMessage(), "Skipping recipe using %s due to unresolvable output %s.", new Object[] { value.name, part });
                     } else {
                         PENDING_RECIPES.add(() -> loadMachineRecipe(value, machine, type, true));
                     }
@@ -94,7 +92,7 @@ public class RecipeLoader {
                 outputs.add(cOutput);
             }
             if (!type.tagsRequired.isEmpty() && (metadata.isEmpty() || !type.hasRequiredTags(metadata))) {
-                GregtechMod.LOGGER.warn(LogCategory.Recipe, "Could not add machine recipe: " + value.name + " missing tag.");
+                GregtechMod.LOGGER.warn( "Could not add machine recipe: " + value.name + " missing tag.");
                 return false;
             }
             if (metadata.isEmpty())
@@ -102,7 +100,7 @@ public class RecipeLoader {
             if (machine.addRecipe(input, outputs, metadata, false))
                 return true;
             throw new Exception("Conflicting recipe");
-        } catch (ic2.core.util.Config.ParseException e) {
+        } catch (Config.ParseException e) {
             throw e;
         } catch (Exception e) {
             throw new Config.ParseException("generic parse error", value, e);
@@ -135,8 +133,5 @@ public class RecipeLoader {
             }
             return true;
         }
-    }
-    public static void registerRecipes() {
-        loadRecipes();
     }
 }
