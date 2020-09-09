@@ -15,7 +15,6 @@ import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.init.Localization;
-import ic2.core.item.BaseElectricItem;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.event.ScannerEvent;
@@ -23,8 +22,7 @@ import mods.gregtechmod.api.machine.IGregtechMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.GtUtil;
-import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.objects.items.base.ItemElectricBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -48,20 +46,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("NullableProblems")
-public class ItemScanner extends BaseElectricItem implements IHasModel {
+public class ItemScanner extends ItemElectricBase {
 
     public ItemScanner() {
         this("scanner", 100000, 100, 1);
     }
 
     public ItemScanner(String name, int maxCharge, int transferLimit, int tier) {
-        super(null, maxCharge, transferLimit, tier);
-        setRegistryName(name);
-    }
-
-    @Override
-    public String getTranslationKey() {
-        return "item.scanner";
+        super(name, maxCharge, transferLimit, tier);
     }
 
     @Override
@@ -256,10 +248,5 @@ public class ItemScanner extends BaseElectricItem implements IHasModel {
             list.addAll(aList);
         }
         return tEvent.mEUCost;
-    }
-
-    @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, "scanner", null, "tool");
     }
 }

@@ -6,7 +6,8 @@ import ic2.core.IC2Potion;
 import ic2.core.item.armor.ItemArmorHazmat;
 import ic2.core.item.reactor.ItemReactorUranium;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.util.IModelInfoProvider;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,7 +20,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemNuclearFuelRod extends ItemReactorUranium implements IHasModel {
+public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfoProvider {
     private final String name;
     private final ItemStack depletedStack;
     private final float energy;
@@ -125,8 +126,8 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IHasModel 
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, this.name, null, "nuclear");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "nuclear"));
     }
 
     private static class ItemStackCoord {

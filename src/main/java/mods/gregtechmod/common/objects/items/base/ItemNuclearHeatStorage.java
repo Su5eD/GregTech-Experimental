@@ -3,14 +3,15 @@ package mods.gregtechmod.common.objects.items.base;
 import ic2.api.reactor.IReactor;
 import ic2.core.item.reactor.ItemReactorHeatStorage;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.util.IModelInfoProvider;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IHasModel {
+public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IModelInfoProvider {
     private final String name;
 
     public ItemNuclearHeatStorage(String name, int heatStorage) {
@@ -36,7 +37,7 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IH
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, this.name, null, "nuclear");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "nuclear"));
     }
 }

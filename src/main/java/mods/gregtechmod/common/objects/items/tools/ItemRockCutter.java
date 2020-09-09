@@ -5,7 +5,8 @@ import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.util.IModelInfoProvider;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,7 @@ import net.minecraft.world.World;
 
 import java.util.EnumSet;
 
-public class ItemRockCutter extends ItemElectricTool implements IHasModel {
+public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvider {
 
     public ItemRockCutter() {
         super(null, 500, HarvestLevel.Iron, EnumSet.of(ToolClass.Pickaxe));
@@ -67,7 +68,7 @@ public class ItemRockCutter extends ItemElectricTool implements IHasModel {
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, "rock_cutter", null, "tool");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation("rock_cutter", "tool"));
     }
 }

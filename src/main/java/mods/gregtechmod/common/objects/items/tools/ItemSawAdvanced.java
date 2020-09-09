@@ -9,7 +9,8 @@ import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.util.IModelInfoProvider;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -37,7 +38,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.EnumSet;
 import java.util.List;
 
-public class ItemSawAdvanced extends ItemElectricTool implements IHasModel {
+public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvider {
 
     public ItemSawAdvanced() {
         super(null, 200, HarvestLevel.Diamond, EnumSet.of(ToolClass.Axe, ToolClass.Sword, ToolClass.Shears));
@@ -128,7 +129,7 @@ public class ItemSawAdvanced extends ItemElectricTool implements IHasModel {
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, "saw_advanced", null, "tool");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation("saw_advanced", "tool"));
     }
 }

@@ -34,16 +34,8 @@ import java.util.function.BiPredicate;
 
 @SuppressWarnings("unused")
 public class BlockItemLoader {
-    public static List<Block> BLOCKS = new LinkedList<>();
-    private static final List<Item> ITEMS = new LinkedList<>();
-
-    public static List<Block> getBlockRegistry() {
-        return new LinkedList<>(BLOCKS);
-    }
-
-    public static List<Item> getItemRegistry() {
-        return new LinkedList<>(ITEMS);
-    }
+    static final List<Block> BLOCKS = new LinkedList<>();
+    static final List<Item> ITEMS = new LinkedList<>();
 
     private static Item registerItem(Item item) {
         ModContainer container;
@@ -65,7 +57,7 @@ public class BlockItemLoader {
         return block;
     }
 
-    public static void init() {
+    static void init() {
         initBlocks();
         initIngots();
         initNuggets();

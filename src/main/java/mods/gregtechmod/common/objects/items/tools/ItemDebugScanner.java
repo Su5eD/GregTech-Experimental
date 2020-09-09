@@ -2,7 +2,6 @@ package mods.gregtechmod.common.objects.items.tools;
 
 import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
-import mods.gregtechmod.common.core.GregtechMod;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -24,11 +23,6 @@ public class ItemDebugScanner extends ItemScanner {
     }
 
     @Override
-    public String getTranslationKey() {
-        return "item.debug_scanner";
-    }
-
-    @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {}
 
     @Override
@@ -44,10 +38,5 @@ public class ItemDebugScanner extends ItemScanner {
             return EnumActionResult.SUCCESS;
         }
         return EnumActionResult.PASS;
-    }
-
-    @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, "debug_scanner", null, "tool");
     }
 }

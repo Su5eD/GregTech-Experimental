@@ -1,12 +1,10 @@
 package mods.gregtechmod.common.objects.blocks;
 
 import mods.gregtechmod.common.core.ConfigLoader;
-import mods.gregtechmod.common.core.GregtechMod;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -54,10 +52,5 @@ public class ConnectedBlock extends BlockBase {
         if (!ConfigLoader.connectedMachineCasingTextures) return false;
         final IBlockState state = world.getBlockState(pos.offset(side));
         return state.getBlock() == this;
-    }
-
-    @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(Item.getItemFromBlock(this), 0);
     }
 }

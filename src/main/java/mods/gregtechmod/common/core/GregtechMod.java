@@ -18,7 +18,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -40,8 +39,6 @@ public final class GregtechMod {
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(GregtechMod.MODID, "textures/gui/gtcommon.png");
     @Instance
     public static GregtechMod instance;
-    @SidedProxy(modId = GregtechMod.MODID, clientSide = "mods.gregtechmod.client.ClientProxy", serverSide = "mods.gregtechmod.common.core.CommonProxy")
-    public static CommonProxy proxy;
 
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab("gregtechtab");
     private Set<ITeBlock> allTypes;
@@ -67,7 +64,7 @@ public final class GregtechMod {
         Components.register(CoverHandler.class, "gtcover");
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
         CoverLoader.registerCovers();
-        RegistryHandler.registerBakedModels();
+        if (event.getSide().isClient()) RegistryHandler.registerBakedModels();
         //TODO: Move to recipe loader(or modificator) class
         IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(ConfigLoader.upgradeStackSize);
     }
@@ -85,5 +82,9 @@ public final class GregtechMod {
         TeBlockRegistry.addAll(GregtechTeBlock.class, GregtechTeBlock.LOCATION);
         TeBlockRegistry.addCreativeRegisterer(GregtechTeBlock.gtcentrifuge, GregtechTeBlock.LOCATION);
         MinecraftForge.EVENT_BUS.unregister(this);
+    }
+
+    public static ResourceLocation getModelResourceLocation(String name, String folder) {
+        return new ResourceLocation(String.format("%s:%s/%s", MODID, folder, name));
     }
 }

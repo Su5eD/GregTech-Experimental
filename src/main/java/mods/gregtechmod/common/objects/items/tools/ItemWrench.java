@@ -7,7 +7,8 @@ import ic2.core.audio.PositionSpec;
 import ic2.core.item.tool.ItemToolWrench;
 import ic2.core.util.RotationUtil;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.util.IModelInfoProvider;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +25,7 @@ import net.minecraftforge.fml.common.Loader;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemWrench extends ItemToolWrench implements IHasModel, IToolWrench {
+public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IToolWrench {
     public final String name;
     protected final int durability;
     protected int rotateDamage = 1;
@@ -79,8 +80,8 @@ public class ItemWrench extends ItemToolWrench implements IHasModel, IToolWrench
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, name, null, "tool");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "tool"));
     }
 
     @Override

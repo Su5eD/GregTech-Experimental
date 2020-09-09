@@ -2,9 +2,9 @@ package mods.gregtechmod.common.objects.items.tools;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
-import ic2.core.item.BaseElectricItem;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.objects.items.base.ItemElectricBase;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,16 +15,10 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemTeslaStaff extends BaseElectricItem implements IHasModel {
+public class ItemTeslaStaff extends ItemElectricBase {
 
     public ItemTeslaStaff() {
-        super(null, 10000000, 8192, 4);
-        setRegistryName("tesla_staff");
-    }
-
-    @Override
-    public String getTranslationKey() {
-        return "item.tesla_staff";
+        super("tesla_staff", 10000000, 8192, 4);
     }
 
     @Override
@@ -52,7 +46,7 @@ public class ItemTeslaStaff extends BaseElectricItem implements IHasModel {
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, "tesla_staff", null, "tool");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation("tesla_staff", "tool"));
     }
 }

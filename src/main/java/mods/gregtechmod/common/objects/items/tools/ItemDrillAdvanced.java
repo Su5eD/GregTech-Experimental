@@ -5,7 +5,8 @@ import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.util.IModelInfoProvider;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -25,7 +26,7 @@ import java.util.EnumSet;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-public class ItemDrillAdvanced extends ItemElectricTool implements IHasModel {
+public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoProvider {
 
     public ItemDrillAdvanced() {
         super(null, 800, HarvestLevel.Iridium, EnumSet.of(ToolClass.Pickaxe, ToolClass.Shovel));
@@ -108,7 +109,7 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IHasModel {
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, "drill_advanced", null, "tool");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation("drill_advanced", "tool"));
     }
 }

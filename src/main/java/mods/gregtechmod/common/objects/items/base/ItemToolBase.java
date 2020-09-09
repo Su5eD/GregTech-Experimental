@@ -1,7 +1,8 @@
 package mods.gregtechmod.common.objects.items.base;
 
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.util.IModelInfoProvider;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class ItemToolBase extends ItemTool implements IHasModel {
+public class ItemToolBase extends ItemTool implements IModelInfoProvider {
     protected String name;
     protected String toolTip;
     protected boolean showDurability = true;
@@ -53,7 +54,7 @@ public class ItemToolBase extends ItemTool implements IHasModel {
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, name, null, "tool");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "tool"));
     }
 }

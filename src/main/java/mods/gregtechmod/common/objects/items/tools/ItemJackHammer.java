@@ -3,7 +3,8 @@ package mods.gregtechmod.common.objects.items.tools;
 import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import mods.gregtechmod.common.core.GregtechMod;
-import mods.gregtechmod.common.util.IHasModel;
+import mods.gregtechmod.common.util.IModelInfoProvider;
+import mods.gregtechmod.common.util.ModelInformation;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -11,7 +12,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Collections;
 
-public class ItemJackHammer extends ItemElectricTool implements IHasModel {
+public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvider {
     protected final String name;
 
     public ItemJackHammer(String material, int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency) {
@@ -37,7 +38,7 @@ public class ItemJackHammer extends ItemElectricTool implements IHasModel {
     }
 
     @Override
-    public void registerModels() {
-        GregtechMod.proxy.registerModel(this, 0, name, null, "tool");
+    public ModelInformation getModelInformation() {
+        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "tool"));
     }
 }
