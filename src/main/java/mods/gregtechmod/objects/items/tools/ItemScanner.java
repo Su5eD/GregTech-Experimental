@@ -189,7 +189,7 @@ public class ItemScanner extends ItemElectricBase {
                     ICover cover = ((ICoverable)tileEntity).getCoverAtSide(side);
                     if (cover != null) {
                         int tickRate = cover.getTickRate();
-                        String info = "Cover " + cover.getItem().getDisplayName() + ", ticked " + (tickRate < 1 ? "never" : tickRate == 1 ? "every tick" : "every "+tickRate+" ticks") + String.join(", ", cover.getAdditionalInformation());
+                        String info = "Cover " + cover.getItem().getDisplayName() + ", ticked " + (tickRate < 1 ? "never" : tickRate == 1 ? "every tick" : "every "+tickRate+" ticks") + String.join(", ", cover.getDescription());
                         aList.add(info);
                     }
                 }
@@ -242,11 +242,11 @@ public class ItemScanner extends ItemElectricBase {
         } catch(Throwable ignored) {}
 
         ScannerEvent tEvent = new ScannerEvent(world, player, pos, side, scanLevel, block, tileEntity, aList, hitX, hitY, hitZ);
-        tEvent.mEUCost = rEUAmount;
+        tEvent.EUCost = rEUAmount;
         MinecraftForge.EVENT_BUS.post(tEvent);
         if (!tEvent.isCanceled()) {
             list.addAll(aList);
         }
-        return tEvent.mEUCost;
+        return tEvent.EUCost;
     }
 }

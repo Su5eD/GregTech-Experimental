@@ -26,7 +26,7 @@ public class CoverCrafting extends CoverGeneric {
         if (player instanceof EntityPlayerMP) {
             ((EntityPlayerMP) player).getNextWindowId();
             ((EntityPlayerMP) player).connection.sendPacket(new SPacketOpenWindow(((EntityPlayerMP) player).currentWindowId, "minecraft:crafting_table", new TextComponentTranslation(Blocks.CRAFTING_TABLE.getTranslationKey() + ".name")));
-            player.openContainer = new ContainerWorkbench(player.inventory, ((TileEntity)te).getWorld(), ((TileEntity)te).getPos()) { //very hacky stuff here
+            player.openContainer = new ContainerWorkbench(player.inventory, ((TileEntity)te).getWorld(), ((TileEntity)te).getPos()) { //TODO: Move into separate subclass
                 @Override
                 public boolean canInteractWith(EntityPlayer playerIn) {
                     return ((TileEntity)te).getWorld().getBlockState(((TileEntity)te).getPos()).getBlock().equals(((TileEntity)te).getBlockType());

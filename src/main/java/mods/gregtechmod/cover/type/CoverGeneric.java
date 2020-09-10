@@ -115,7 +115,7 @@ public class CoverGeneric implements ICover {
 
     @Nonnull
     @Override
-    public List<String> getAdditionalInformation() {
+    public List<String> getDescription() {
         return Collections.emptyList();
     }
 
