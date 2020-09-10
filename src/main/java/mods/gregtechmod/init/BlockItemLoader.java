@@ -67,6 +67,7 @@ public class BlockItemLoader {
         initSmallDusts();
         initCells();
         initCovers();
+        initCraftingItems();
         initTools();
         initComponents();
         initNuclearComponents();
@@ -137,6 +138,11 @@ public class BlockItemLoader {
             registerItem(item);
             type.setInstance(item);
         }
+    }
+
+    private static void initCraftingItems() {
+        Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 64)));
+        Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust", null, "tool")));
     }
 
     private static void initTools() {
@@ -758,6 +764,25 @@ public class BlockItemLoader {
             this.isCover = false;
             this.coverName = "";
         }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        private void setInstance(Item item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public Item getInstance() {
+            return this.instance;
+        }
+    }
+
+    public enum Crafting {
+        mortar_iron,
+        mortar_flint;
+
+        private Item instance;
 
         /**
          * <b>Only GregTech may call this!!</b>
