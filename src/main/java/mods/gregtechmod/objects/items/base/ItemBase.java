@@ -21,26 +21,18 @@ public class ItemBase extends Item implements IModelInfoProvider {
     protected boolean hasEffect;
 
     public ItemBase(String name) {
-        this(name, null, null, null);
+        this(name, null);
     }
 
     public ItemBase(String name, @Nullable String description) {
-        this(name, description, null, null);
+        this(name, description, null);
     }
 
     public ItemBase(String name, @Nullable String description, String prefix) {
-        this(name, description, prefix, null);
+        this(name, description, prefix, false);
     }
 
-    public ItemBase(String name, @Nullable String description, String prefix, boolean hasEffect) {
-        this(name, description, prefix, null, hasEffect);
-    }
-
-    public ItemBase(String name, @Nullable String description, String prefix, String folder) {
-        this(name, description, prefix, folder, false);
-    }
-
-    public ItemBase(String name, @Nullable String description, String prefix, String folder, boolean hasEffect) {
+    public ItemBase(String name, @Nullable String description, @Nullable String prefix, boolean hasEffect) {
         String bName = prefix != null ? prefix+"_"+name : name;
         setTranslationKey(bName);
         setRegistryName(bName);
@@ -48,8 +40,13 @@ public class ItemBase extends Item implements IModelInfoProvider {
         this.name = name;
         this.toolTip = description;
         this.prefix = prefix;
-        this.folder = folder;
+        this.folder = prefix;
         this.hasEffect = hasEffect;
+    }
+
+    public Item setFolder(String folder) {
+        this.folder = folder;
+        return this;
     }
 
     @Override

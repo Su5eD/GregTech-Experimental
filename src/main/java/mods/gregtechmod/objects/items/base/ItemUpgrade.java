@@ -18,8 +18,9 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     private final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate;
 
     public ItemUpgrade(String name, String description, GtUpgradeType type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
-        super(name, description, null, "upgrade");
+        super(name, description);
         setMaxStackSize(maxCount);
+        this.folder = "upgrade";
         this.type = type;
         this.requiredTier = requiredTier;
         this.condition = condition;

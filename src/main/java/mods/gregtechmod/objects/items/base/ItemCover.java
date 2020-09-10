@@ -22,11 +22,12 @@ public class ItemCover extends ItemBase {
     }
 
     public ItemCover(String name, String coverName, @Nullable String description) {
-        this(name, coverName, description, null, "coveritem");
+        this(name, coverName, description, "coveritem");
     }
 
-    public ItemCover(String name, String coverName, @Nullable String description, String prefix, String folder) {
-        super(name, description, prefix, folder);
+    public ItemCover(String name, String coverName, @Nullable String description, String folder) {
+        super(name, description);
+        if (folder != null) setFolder(folder);
         this.coverName = coverName;
     }
 

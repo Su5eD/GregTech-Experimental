@@ -142,7 +142,7 @@ public class BlockItemLoader {
 
     private static void initCraftingItems() {
         Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 64)));
-        Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust", null, "tool")));
+        Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust").setFolder("tool")));
     }
 
     private static void initTools() {
@@ -196,8 +196,8 @@ public class BlockItemLoader {
     }
 
     private static void initComponents() {
-        Components.data_control_circuit.setInstance(registerItem(new ItemCover(Components.data_control_circuit.name(), Components.data_control_circuit.coverName, Components.data_control_circuit.description, null, "component")));
-        Components.energy_flow_circuit.setInstance(registerItem(new ItemCover(Components.energy_flow_circuit.name(), Components.energy_flow_circuit.coverName, Components.energy_flow_circuit.description, null, "component")));
+        Components.data_control_circuit.setInstance(registerItem(new ItemCover(Components.data_control_circuit.name(), Components.data_control_circuit.coverName, Components.data_control_circuit.description, "component")));
+        Components.energy_flow_circuit.setInstance(registerItem(new ItemCover(Components.energy_flow_circuit.name(), Components.energy_flow_circuit.coverName, Components.energy_flow_circuit.description, "component")));
         Components.lithium_battery.setInstance(registerItem(new ItemLithiumBattery()));
     }
 
