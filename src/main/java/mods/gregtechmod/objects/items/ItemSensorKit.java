@@ -22,7 +22,7 @@ public class ItemSensorKit extends ItemBase implements IItemKit {
 
     @Override
     public int getDamage() {
-        return -1;
+        return KIT_ID;
     }
 
     @Override

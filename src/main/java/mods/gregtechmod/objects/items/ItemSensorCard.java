@@ -25,7 +25,7 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
 
     @Override
     public int getDamage() {
-        return -1;
+        return CARD_ID;
     }
 
     @Override

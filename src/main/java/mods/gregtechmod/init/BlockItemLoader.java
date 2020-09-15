@@ -1,6 +1,9 @@
 package mods.gregtechmod.init;
 
 import com.mojang.authlib.GameProfile;
+import com.zuxelus.energycontrol.api.EnergyContolRegister;
+import com.zuxelus.energycontrol.api.IItemCard;
+import com.zuxelus.energycontrol.api.IItemKit;
 import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -214,8 +217,12 @@ public class BlockItemLoader {
         Specials.greg_coin.setInstance(registerItem(new ItemBase(Specials.greg_coin.name(), "A minimalist GregTech logo on a coin")));
 
         if (Loader.isModLoaded("energycontrol")) {
-            Specials.sensor_kit.setInstance(registerItem(new ItemSensorKit()));
-            Specials.sensor_card.setInstance(registerItem(new ItemSensorCard()));
+            Item sensorCard = new ItemSensorCard();
+            Item sensorKit = new ItemSensorKit();
+            Specials.sensor_kit.setInstance(sensorCard);
+            Specials.sensor_card.setInstance(sensorKit);
+            EnergyContolRegister.registerCard((IItemCard) sensorCard);
+            EnergyContolRegister.registerKit((IItemKit) sensorKit);
         }
     }
 

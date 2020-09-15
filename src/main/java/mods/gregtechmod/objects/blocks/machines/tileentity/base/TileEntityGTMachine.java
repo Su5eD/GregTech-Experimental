@@ -387,11 +387,11 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     @Override
     public String getSecondaryInfo() {
-        return  (this.progress / 20) + "secs";
+        return (int) (this.progress / 20) + " secs";
     }
 
     @Override
     public String getTertiaryInfo() {
-        return  "/" + (this.maxProgress / 20) + "secs";
+        return  "/" + (this.maxProgress / 20) + " secs";
     }
 }
