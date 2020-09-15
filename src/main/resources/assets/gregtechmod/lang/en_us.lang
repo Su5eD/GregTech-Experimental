@@ -62,6 +62,11 @@ item.redstone_signalizer.name=Redstone Signalizer
 
 item.energy_flow_circuit.name=Energy Flow Circuit
 item.data_control_circuit.name=Data Control Circuit
+item.gregtechmod.sensor_kit.name=GregTech Sensor Kit
+item.gregtechmod.sensor_card.name=GregTech Sensor Card
+item.mortar_iron.name=Iron Mortar
+item.mortar_flint.name=Flint Mortar
+item.lithium_re_battery=Lithium-Battery
 
 item.ingot_aluminium.name=Aluminium Ingot
 item.ingot_antimony.name=Antimony Ingot

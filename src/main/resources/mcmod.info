@@ -3,17 +3,17 @@
   "modList": [{
     "modid": "gregtechmod",
     "name": "GregTech Experimental",
-    "description": "This Addon adds the awesome Technology of GregTech-Intergalactical to your World! Fusionreactors, Lightningrods and many other Technologies and convenient Recipes are added by this Addon, if you let them enabled in the allmighty Config, of course",
-    "version": "0.01",
+    "description": "This addon adds the awesome technology of GregTech-Intergalactical to your world! Fusionreactors, lightningrods and many other technologies and convenient recipes are added by this addon, if you let them enabled in the allmighty config, of course",
+    "version": "1.0",
     "mcversion": "1.12",
     "authorList": [ "Su5eD" ],
-    "credits": "Alblaka and his Team for Industrialcraft, mistaqur for the original NEI-Plugin, Mr. Brain, TheSirusKing and matix for Textures",
+    "credits": "Alblaka and his Team for Industrialcraft, Mr. Brain, TheSirusKing and matix for Textures, Su5eD for porting to 1.12.2",
     "logoFile": "assets/gregtechmod/GTE_Logo.png",
     "screenshots": [],
     "parent": "",
     "requiredMods": [ "forge" ],
-    "dependencies": [],
-    "dependants": [ "Industrialcraft" ],
+    "dependencies": [ "IndustrialCraft2" ],
+    "dependants": [],
     "useDependencyInformation": false
   }]
 }

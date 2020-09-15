@@ -11,9 +11,12 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 
 import java.util.ArrayList;
 
+/**
+ * Collects additional information for the scanner.
+ * This event is <b>cancellable</b>.
+ */
 @Cancelable
 public class ScannerEvent extends WorldEvent {
-    //TODO: Documentation
     public final EntityPlayer player;
     public final int scanLevel;
     public final BlockPos pos;
@@ -23,10 +26,7 @@ public class ScannerEvent extends WorldEvent {
     public final TileEntity tileEntity;
     public final Block block;
 
-    /**
-     * used to determine the amount of Energy this Scan is costing.
-     */
-    public int mEUCost = 0;
+    public int EUCost = 0;
 
     public ScannerEvent(World world, EntityPlayer player, BlockPos pos, EnumFacing side, int scanLevel, Block block, TileEntity tileEntity, ArrayList<String> list, float hitX, float hitY, float hitZ) {
         super(world);

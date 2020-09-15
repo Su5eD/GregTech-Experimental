@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gregtechmod:items/components/lithium_battery_empty"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "gregtechmod:battery_charge": 1
+      },
+      "model": "gregtechmod:item/component/lithium_re_battery_full"
+    }
+  ]
+}

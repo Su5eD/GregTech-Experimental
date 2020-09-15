@@ -54,6 +54,10 @@ repositories {
         name "BuildCraft"
         url = "https://mod-buildcraft.com/maven"
     }
+    maven {
+        name = "CurseMaven"
+        url = "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
@@ -62,6 +66,7 @@ dependencies {
     apiCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:api" //GTE api depends on the ic2 api
 
     compile "com.mod-buildcraft:buildcraft-api:${version_buildcraft}"
+    compile "curse.maven:energy-control:3026320"
 }
 
 jar {
