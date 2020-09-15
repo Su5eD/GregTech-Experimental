@@ -4,6 +4,12 @@ import ic2.core.item.BaseElectricItem;
 import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 @SuppressWarnings("NullableProblems")
 public abstract class ItemElectricBase extends BaseElectricItem implements IModelInfoProvider {
@@ -23,5 +29,11 @@ public abstract class ItemElectricBase extends BaseElectricItem implements IMode
     @Override
     public ModelInformation getModelInformation() {
         return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "tool"));
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add("Tier: "+this.tier);
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }

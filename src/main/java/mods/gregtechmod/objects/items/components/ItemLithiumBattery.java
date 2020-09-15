@@ -22,6 +22,6 @@ public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvide
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation("lithium_battery", "component"));
+        return new ModelInformation(GregtechMod.getModelResourceLocation("lithium_re_battery", "component"));
     }
 }

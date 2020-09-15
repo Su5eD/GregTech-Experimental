@@ -141,8 +141,8 @@ public class BlockItemLoader {
     }
 
     private static void initCraftingItems() {
-        Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 64)));
-        Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust").setFolder("tool")));
+        Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 63)));
+        Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust").setFolder("crafting")));
     }
 
     private static void initTools() {

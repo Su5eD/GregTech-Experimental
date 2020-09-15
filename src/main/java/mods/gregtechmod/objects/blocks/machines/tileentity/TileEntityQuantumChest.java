@@ -17,7 +17,7 @@ public class TileEntityQuantumChest extends TileEntityDigitalChestBase {
 
     public TileEntityQuantumChest(ItemStack storedItems, boolean isPrivate, @Nullable GameProfile owner) {
         super(ConfigLoader.quantumChestMaxItemCount, true);
-        this.mainSlot.put(storedItems);
+        this.content.put(storedItems);
         if (isPrivate && owner != null) {
             this.isPrivate = true;
             this.owner = owner;

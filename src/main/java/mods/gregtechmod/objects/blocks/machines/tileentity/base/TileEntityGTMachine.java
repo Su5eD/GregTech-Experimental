@@ -15,6 +15,7 @@ import ic2.core.block.invslot.InvSlotProcessableGeneric;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.network.GuiSynced;
 import ic2.core.ref.FluidName;
+import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.core.ConfigLoader;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class TileEntityGTMachine extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider {
+public abstract class TileEntityGTMachine extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider, IPanelInfoProvider {
     protected double progress;
-    public int operationLength = 0;
+    public int maxProgress = 0;
 
     @GuiSynced
     protected float guiProgress;
@@ -53,7 +54,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         this.progress = nbt.getDouble("progress");
-        this.operationLength = nbt.getInteger("operationLength");
+        this.maxProgress = nbt.getInteger("operationLength");
         this.enableWorking = nbt.getBoolean("enableWorking");
         this.enableInput = nbt.getBoolean("enableInput");
         this.enableOutput = nbt.getBoolean("enableOutput");
@@ -69,7 +70,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
         nbt.setDouble("progress", this.progress);
-        nbt.setInteger("operationLength", this.operationLength);
+        nbt.setInteger("operationLength", this.maxProgress);
         nbt.setBoolean("enableWorking", this.enableWorking);
         nbt.setBoolean("enableInput", this.enableInput);
         nbt.setBoolean("enableOutput", this.enableOutput);
@@ -121,7 +122,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
             } else stop();
         }
 
-        this.guiProgress = (float) this.progress / this.operationLength;
+        this.guiProgress = (float) this.progress / this.maxProgress;
         if (needsInvUpdate) super.markDirty();
     }
 
@@ -156,20 +157,20 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
             if (this.progress == 0) (IC2.network.get(true)).initiateTileEntityEvent( this, 0, true);
             if (!getActive() && pendingRecipe.size() < 1) {
                 consumeInput(result);
-                this.operationLength = result.getRecipe().getMetaData().getInteger("duration");
+                this.maxProgress = result.getRecipe().getMetaData().getInteger("duration");
                 this.pendingRecipe.addAll(result.getOutput());
             }
             setOverclock();
             setActive(true);
             this.progress += Math.pow(2, overclockersCount);
-            if (this.progress >= this.operationLength) {
+            if (this.progress >= this.maxProgress) {
                 addOutput(pendingRecipe);
                 needsInvUpdate = true;
                 this.progress = 0;
                 (IC2.network.get(true)).initiateTileEntityEvent( this, 2, true);
                 setActive(false);
                 pendingRecipe.clear();
-                this.operationLength = 0;
+                this.maxProgress = 0;
             }
         return needsInvUpdate;
     }
@@ -252,7 +253,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     @Override
     public int getMaxProgress() {
-        return operationLength;
+        return maxProgress;
     }
 
     @Override
@@ -372,5 +373,25 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
             ret.add("Machine is " + (this.isActive() ? "active" : "inactive"));
         }
         return ret;
+    }
+
+    @Override
+    public boolean isGivingInformation() {
+        return true;
+    }
+
+    @Override
+    public String getMainInfo() {
+        return "Progress:";
+    }
+
+    @Override
+    public String getSecondaryInfo() {
+        return  (this.progress / 20) + "secs";
+    }
+
+    @Override
+    public String getTertiaryInfo() {
+        return  "/" + (this.maxProgress / 20) + "secs";
     }
 }

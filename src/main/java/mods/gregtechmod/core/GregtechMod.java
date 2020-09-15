@@ -85,6 +85,7 @@ public final class GregtechMod {
     }
 
     public static ResourceLocation getModelResourceLocation(String name, String folder) {
+        if (folder == null) return new ResourceLocation(GregtechMod.MODID, name);
         return new ResourceLocation(String.format("%s:%s/%s", MODID, folder, name));
     }
 }
