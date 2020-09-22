@@ -1,8 +1,8 @@
 package mods.gregtechmod.objects.blocks.machines.tileentity;
 
 import com.mojang.authlib.GameProfile;
+import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.core.ConfigLoader;
-import mods.gregtechmod.init.BlockItemLoader;
 import mods.gregtechmod.objects.blocks.machines.tileentity.base.TileEntityDigitalChestBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,7 +21,7 @@ public class TileEntityQuantumChest extends TileEntityDigitalChestBase {
         if (isPrivate && owner != null) {
             this.isPrivate = true;
             this.owner = owner;
-            this.upgradeSlot.put(new ItemStack((Item) BlockItemLoader.Upgrades.machine_lock.getInstance()));
+            this.upgradeSlot.put(new ItemStack((Item) BlockItems.Upgrades.machine_lock.getInstance()));
         }
     }
 
