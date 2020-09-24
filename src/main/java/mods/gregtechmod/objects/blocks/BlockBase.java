@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks;
 
-import mods.gregtechmod.core.GregtechMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -16,13 +15,8 @@ import java.util.List;
 
 public class BlockBase extends Block {
 
-    public BlockBase(String name, Material material, float hardness, float resistance) {
+    public BlockBase(Material material) {
         super(material);
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
-        setHardness(hardness);
-        setResistance(resistance);
     }
 
     @Override

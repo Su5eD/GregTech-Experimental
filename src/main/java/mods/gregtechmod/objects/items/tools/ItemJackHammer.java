@@ -15,9 +15,9 @@ import java.util.Collections;
 public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvider {
     protected final String name;
 
-    public ItemJackHammer(String material, int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency) {
+    public ItemJackHammer(String name, int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency) {
         super(null, operationEnergyCost, HarvestLevel.Diamond, Collections.emptySet());
-        this.name = "jack_hammer_"+material;
+        this.name = name;
         this.maxCharge = maxCharge;
         this.transferLimit = transferLimit;
         this.tier = tier;

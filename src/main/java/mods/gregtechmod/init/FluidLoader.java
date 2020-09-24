@@ -15,10 +15,17 @@ public class FluidLoader {
     public static void init() {
         GregtechMod.LOGGER.info("Initializing fluids");
         for (Liquids type : Liquids.values()) {
-            type.setInstance(new FluidLiquid(type.name(), type.texture, type.texture, type.density));
+            Fluid fluid = new FluidLiquid(type.name(), type.texture, type.texture)
+                    .setUnlocalizedName(type.name())
+                    .setDensity(type.density);
+            FLUIDS.add(fluid);
+            type.setInstance(fluid);
         }
         for (Gases type : Gases.values()) {
-            type.setInstance(new FluidGas(type.name(), type.texture, type.texture));
+            Fluid fluid = new FluidGas(type.name(), type.texture, type.texture)
+                    .setUnlocalizedName(type.name());
+            FLUIDS.add(fluid);
+            type.setInstance(fluid);
         }
     }
 
@@ -43,7 +50,7 @@ public class FluidLoader {
 
         public final int density;
         public final ResourceLocation texture;
-        private FluidLiquid instance;
+        private Fluid instance;
 
         Liquids() {
             this(1000);
@@ -61,12 +68,12 @@ public class FluidLoader {
         /**
          * <b>Only GregTech may call this!!</b>
          */
-        private void setInstance(FluidLiquid item) {
+        private void setInstance(Fluid item) {
             if (this.instance != null) throw new RuntimeException("The instance has been already set for "+this.name());
             this.instance = item;
         }
 
-        public FluidLiquid getInstance() {
+        public Fluid getInstance() {
             return this.instance;
         }
     }
@@ -82,7 +89,7 @@ public class FluidLoader {
         nitrogen_dioxide;
 
         public final ResourceLocation texture;
-        private FluidGas instance;
+        private Fluid instance;
 
         Gases() {
             this.texture = getTexture();
@@ -95,12 +102,12 @@ public class FluidLoader {
         /**
          * <b>Only GregTech may call this!!</b>
          */
-        private void setInstance(FluidGas item) {
+        private void setInstance(Fluid item) {
             if (this.instance != null) throw new RuntimeException("The instance has been already set for "+this.name());
             this.instance = item;
         }
 
-        public FluidGas getInstance() {
+        public Fluid getInstance() {
             return this.instance;
         }
     }

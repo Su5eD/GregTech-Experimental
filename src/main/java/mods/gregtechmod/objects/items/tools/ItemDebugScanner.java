@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
+import mods.gregtechmod.core.GregtechMod;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,7 +20,9 @@ import java.util.List;
 public class ItemDebugScanner extends ItemScanner {
 
     public ItemDebugScanner() {
-        super("debug_scanner",1000000000, 0, 4);
+        super("debug_scanner", null,1000000000, 0, 4);
+        setRegistryName("debug_scanner");
+        setCreativeTab(GregtechMod.GREGTECH_TAB);
     }
 
     @Override

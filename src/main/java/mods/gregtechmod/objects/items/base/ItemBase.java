@@ -16,7 +16,6 @@ import java.util.List;
 public class ItemBase extends Item implements IModelInfoProvider {
     protected String name;
     protected String toolTip;
-    protected String prefix;
     protected String folder;
     protected boolean hasEffect;
 
@@ -25,22 +24,12 @@ public class ItemBase extends Item implements IModelInfoProvider {
     }
 
     public ItemBase(String name, @Nullable String description) {
-        this(name, description, null);
+        this(name, description, false);
     }
 
-    public ItemBase(String name, @Nullable String description, String prefix) {
-        this(name, description, prefix, false);
-    }
-
-    public ItemBase(String name, @Nullable String description, @Nullable String prefix, boolean hasEffect) {
-        String bName = prefix != null ? prefix+"_"+name : name;
-        setTranslationKey(bName);
-        setRegistryName(bName);
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
+    public ItemBase(String name, @Nullable String description, boolean hasEffect) {
         this.name = name;
         this.toolTip = description;
-        this.prefix = prefix;
-        this.folder = prefix;
         this.hasEffect = hasEffect;
     }
 

@@ -28,9 +28,6 @@ public class ItemToolBase extends ItemTool implements IModelInfoProvider {
         super(attackDamage, 0, material, effectiveBlocks);
         this.name = name;
         this.toolTip = description;
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
         setMaxDamage(durability - 1);
         setMaxStackSize(1);
         setNoRepair();

@@ -4,6 +4,7 @@ import com.zuxelus.energycontrol.api.EnergyContolRegister;
 import com.zuxelus.energycontrol.api.IItemCard;
 import com.zuxelus.energycontrol.api.IItemKit;
 import mods.gregtechmod.api.BlockItems;
+import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
@@ -68,12 +69,22 @@ public class BlockItemLoader {
 
     private static void initBlocks() {
         for (BlockItems.Blocks type : BlockItems.Blocks.values()) {
-            Block block = new BlockBase("block_"+type.name(), Material.IRON, type.hardness, type.resistance);
+            Block block = new BlockBase(Material.IRON)
+                    .setRegistryName("block_"+type.name())
+                    .setTranslationKey("block_"+type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)
+                    .setHardness(type.hardness)
+                    .setResistance(type.resistance);
             type.setInstance(registerBlock(block));
             registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         }
         for (BlockItems.ConnectedBlocks type : BlockItems.ConnectedBlocks.values()) {
-            Block block = new ConnectedBlock("block_"+type.name(), Material.IRON, type.hardness, type.resistance);
+            Block block = new ConnectedBlock(Material.IRON)
+                    .setRegistryName("block_"+type.name())
+                    .setTranslationKey("block_"+type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)
+                    .setHardness(type.hardness)
+                    .setResistance(type.resistance);
             type.setInstance(registerBlock(block));
             registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         }
@@ -81,128 +92,201 @@ public class BlockItemLoader {
 
     private static void initIngots() {
         for (BlockItems.Ingots type : BlockItems.Ingots.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "ingot", type.hasEffect)));
+            String name = "ingot_"+type.name();
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description, type.hasEffect)
+                .setFolder("ingot")
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initNuggets() {
         for (BlockItems.Nuggets type : BlockItems.Nuggets.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "nugget")));
+            String name = "nugget_"+type.name();
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
+                    .setFolder("nugget")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initPlates() {
         for (BlockItems.Plates type : BlockItems.Plates.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "plate")));
+            String name = "plate_"+type.name();
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
+                    .setFolder("plate")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initRods() {
         for (BlockItems.Rods type : BlockItems.Rods.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "rod")));
+            String name = "rod_"+type.name();
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
+                    .setFolder("rod")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initDusts() {
         for (BlockItems.Dusts type : BlockItems.Dusts.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "dust", type.hasEffect)));
+            String name = "dust_"+type.name();
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description, type.hasEffect)
+                    .setFolder("dust")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initSmallDusts() {
         for (BlockItems.Smalldusts type : BlockItems.Smalldusts.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "smalldust", type.hasEffect)));
+            String name = "smalldust_"+type.name();
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description, type.hasEffect)
+                    .setFolder("smalldust")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initUpgrades() {
-        for (BlockItems.Upgrades upgrade : BlockItems.Upgrades.values()) {
-            ItemUpgrade item = new ItemUpgrade(upgrade.name(), upgrade.description, upgrade.type, upgrade.maxCount, upgrade.requiredTier, upgrade.condition, upgrade.onInsert, upgrade.onUpdate);
-            registerItem(item);
-            upgrade.setInstance(item);
+        for (BlockItems.Upgrades type : BlockItems.Upgrades.values()) {
+            type.setInstance((IGtUpgradeItem) registerItem(new ItemUpgrade(type.name(), type.description, type.type, type.maxCount, type.requiredTier, type.condition, type.onInsert, type.onUpdate)
+                    .setFolder("upgrade")
+                    .setRegistryName(type.name())
+                    .setTranslationKey(type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initCovers() {
         for (BlockItems.Covers type : BlockItems.Covers.values()) {
-            ItemCover item = new ItemCover(type.name(), type.description);
-            registerItem(item);
-            type.setInstance(item);
+            type.setInstance(registerItem(new ItemCover(type.name(), type.description)
+                    .setFolder("coveritem")
+                    .setRegistryName(type.name())
+                    .setTranslationKey(type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initCraftingItems() {
         BlockItems.Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 63)));
-        BlockItems.Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust").setFolder("crafting")));
+        BlockItems.Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust")
+                .setFolder("crafting")
+                .setRegistryName("mortar_flint")
+                .setTranslationKey("mortar_flint")
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
     }
 
     private static void initTools() {
         BlockItems.Tools.drill_advanced.setInstance(registerItem(new ItemDrillAdvanced()));
         BlockItems.Tools.saw_advanced.setInstance(registerItem(new ItemSawAdvanced()));
         BlockItems.Tools.wrench_advanced.setInstance(registerItem(new ItemWrenchAdvanced()));
-        BlockItems.Tools.crowbar.setInstance(registerItem(new ItemCrowbar()));
-        BlockItems.Tools.screwdriver.setInstance(registerItem(new ItemScrewdriver()));
-        BlockItems.Tools.rock_cutter.setInstance(registerItem(new ItemRockCutter()));
-        BlockItems.Tools.rubber_hammer.setInstance(registerItem(new ItemRubberHammer()));
-        BlockItems.Tools.soldering_tool.setInstance(registerItem(new ItemSolderingTool()));
+        BlockItems.Tools.crowbar.setInstance(registerItem(new ItemCrowbar("crowbar", "To remove covers form machines", 256, 6)
+                .setRegistryName("crowbar")
+                .setTranslationKey("crowbar")
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Tools.screwdriver.setInstance(registerItem(new ItemScrewdriver("screwdriver", "To screw covers on machines \nCan switch the design of certain blocks \nCan rotate repeaters and comparators", 256, 4)
+                .setRegistryName("screwdriver")
+                .setTranslationKey("screwdriver")
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Tools.rock_cutter.setInstance(registerItem(new ItemRockCutter()
+                .setRegistryName("rock_cutter")
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Tools.rubber_hammer.setInstance(registerItem(new ItemRubberHammer("rubber", "To give a machine a soft whack", 128, 4)
+                .setRegistryName("hammer_rubber")
+                .setTranslationKey("hammer_rubber")
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Tools.soldering_tool.setInstance(registerItem(new ItemSolderingTool("soldering_tool", "To repair and construct circuitry", 10)
+                .setRegistryName("soldering_tool")
+                .setTranslationKey("soldering_tool")
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Tools.tesla_staff.setInstance(registerItem(new ItemTeslaStaff()));
-        BlockItems.Tools.scanner.setInstance(registerItem(new ItemScanner()));
+        BlockItems.Tools.scanner.setInstance(registerItem(new ItemScanner("scanner", "Tricorder", 100000, 100, 1)
+                .setRegistryName("scanner")
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Tools.debug_scanner.setInstance(registerItem(new ItemDebugScanner()));
 
         for (BlockItems.Wrenches type : BlockItems.Wrenches.values()) {
-            ItemWrench item = new ItemWrench(type.name(), type.durability);
-            registerItem(item);
-            type.setInstance(item);
+            type.setInstance(registerItem(new ItemWrench("wrench_"+type.name(), type.durability)
+                    .setRegistryName("wrench_"+type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
 
         for (BlockItems.JackHammers type : BlockItems.JackHammers.values()) {
-            ItemJackHammer item = new ItemJackHammer(type.name(), type.operationEnergyCost, type.maxCharge, type.tier, type.transferLimit, type.efficiency);
-            registerItem(item);
-            type.setInstance(item);
+            type.setInstance(registerItem(new ItemJackHammer("jack_hammer_"+type.name(), type.operationEnergyCost, type.maxCharge, type.tier, type.transferLimit, type.efficiency)
+                .setRegistryName("jack_hammer_"+type.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
 
         for (BlockItems.Hammers type : BlockItems.Hammers.values()) {
-            ItemHammer item = new ItemHardHammer(type.name(), type.durability, type.entityDamage, type.toolMaterial);
-            registerItem(item);
-            type.setInstance(item);
+            type.setInstance(registerItem(new ItemHardHammer(type.name(), "To give a machine a hard whack", type.durability, type.entityDamage, type.toolMaterial)
+                    .setRegistryName("hammer_"+type.name())
+                    .setTranslationKey("hammer_"+type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
 
         for (BlockItems.Saws type : BlockItems.Saws.values()) {
-            ItemSaw item = new ItemSaw(type.name(), type.durability, type.efficiency, type.entityDamage, type.toolMaterial);
-            registerItem(item);
-            type.setInstance(item);
+            type.setInstance(registerItem(new ItemSaw(type.name(), type.durability, type.efficiency, type.entityDamage, type.toolMaterial)
+                    .setRegistryName("saw_"+type.name())
+                    .setTranslationKey("saw_"+type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
 
         for (BlockItems.SolderingMetals type : BlockItems.SolderingMetals.values()) {
-            ItemSolderingMetal item = new ItemSolderingMetal(type.name(), type.durability);
-            registerItem(item);
-            type.setInstance(item);
+            type.setInstance(registerItem(new ItemSolderingMetal(type.name(), type.durability)
+                    .setRegistryName("soldering_"+type.name())
+                    .setTranslationKey("soldering_"+type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
 
         for (BlockItems.Files type : BlockItems.Files.values()) {
-            ItemFile item = new ItemFile(type.name(), type.durability, type.entityDamage, Item.ToolMaterial.IRON);
-            registerItem(item);
-            type.setInstance(item);
+            type.setInstance(registerItem(new ItemFile(type.name(), type.durability, type.entityDamage, Item.ToolMaterial.IRON)
+                    .setRegistryName("file_"+type.name())
+                    .setTranslationKey("file_"+type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initComponents() {
-        BlockItems.Components.data_control_circuit.setInstance(registerItem(new ItemCover(BlockItems.Components.data_control_circuit.name(), BlockItems.Components.data_control_circuit.coverName, BlockItems.Components.data_control_circuit.description, "component")));
-        BlockItems.Components.energy_flow_circuit.setInstance(registerItem(new ItemCover(BlockItems.Components.energy_flow_circuit.name(), BlockItems.Components.energy_flow_circuit.coverName, BlockItems.Components.energy_flow_circuit.description, "component")));
+        BlockItems.Components.data_control_circuit.setInstance(registerItem(new ItemCover(BlockItems.Components.data_control_circuit.name(), BlockItems.Components.data_control_circuit.coverName, BlockItems.Components.data_control_circuit.description)
+            .setFolder("component")
+            .setRegistryName(BlockItems.Components.data_control_circuit.name())
+            .setTranslationKey(BlockItems.Components.data_control_circuit.name())
+            .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Components.energy_flow_circuit.setInstance(registerItem(new ItemCover(BlockItems.Components.energy_flow_circuit.name(), BlockItems.Components.energy_flow_circuit.coverName, BlockItems.Components.energy_flow_circuit.description)
+                .setFolder("component")
+                .setRegistryName(BlockItems.Components.data_control_circuit.name())
+                .setTranslationKey(BlockItems.Components.data_control_circuit.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Components.lithium_battery.setInstance(registerItem(new ItemLithiumBattery()));
     }
 
     private static void initNuclearComponents() {
         for (BlockItems.NuclearCoolantPacks type : BlockItems.NuclearCoolantPacks.values()) {
-            type.setInstance(registerItem(new ItemNuclearHeatStorage(type.name(), type.heatStorage)));
+            type.setInstance(registerItem(new ItemNuclearHeatStorage(type.name(), type.heatStorage)
+                    .setRegistryName(type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
         for (BlockItems.NuclearFuelRods type : BlockItems.NuclearFuelRods.values()) {
-            type.setInstance(registerItem(new ItemNuclearFuelRod("cell_"+type.name(), type.cells, type.duration, type.energy, type.radiation, type.heat, type.depletedStack)));
+            type.setInstance(registerItem(new ItemNuclearFuelRod("cell_"+type.name(), type.cells, type.duration, type.energy, type.radiation, type.heat, type.depletedStack)
+                    .setRegistryName("cell_"+type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 
     private static void initSpecials() {
-        BlockItems.Specials.greg_coin.setInstance(registerItem(new ItemBase(BlockItems.Specials.greg_coin.name(), "A minimalist GregTech logo on a coin")));
+        BlockItems.Specials.greg_coin.setInstance(registerItem(new ItemBase(BlockItems.Specials.greg_coin.name(), "A minimalist GregTech logo on a coin")
+            .setRegistryName(BlockItems.Specials.greg_coin.name())
+            .setTranslationKey(BlockItems.Specials.greg_coin.name())
+            .setCreativeTab(GregtechMod.GREGTECH_TAB)));
 
         if (Loader.isModLoaded("energycontrol")) {
             Item sensorCard = new ItemSensorCard();
@@ -216,7 +300,12 @@ public class BlockItemLoader {
 
     private static void initCells() {
         for (BlockItems.Cells type : BlockItems.Cells.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, "cell")));
+            String aName = "cell_"+type.name();
+            type.setInstance(registerItem(new ItemBase(aName, type.description)
+                .setFolder("cell")
+                .setRegistryName(aName)
+                .setTranslationKey(aName)
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         }
     }
 }

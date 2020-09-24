@@ -21,7 +21,6 @@ public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvid
 
     public ItemRockCutter() {
         super(null, 500, HarvestLevel.Iron, EnumSet.of(ToolClass.Pickaxe));
-        setRegistryName("rock_cutter");
         this.tier = 1;
         this.transferLimit = 200;
         this.maxCharge = 10000;

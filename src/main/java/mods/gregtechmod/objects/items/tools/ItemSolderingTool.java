@@ -27,8 +27,8 @@ import java.util.List;
 
 public class ItemSolderingTool extends ItemToolBase implements IElectricItem, IPseudoDamageItem {
 
-    public ItemSolderingTool() {
-        super("soldering_tool", "To repair and construct circuitry", 10, 0, ToolMaterial.IRON);
+    public ItemSolderingTool(String name, String description, int durability) {
+        super(name, description, durability, 0, ToolMaterial.IRON);
     }
 
     @Override

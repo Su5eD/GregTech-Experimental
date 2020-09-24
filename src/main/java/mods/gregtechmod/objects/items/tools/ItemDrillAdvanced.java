@@ -31,6 +31,7 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
     public ItemDrillAdvanced() {
         super(null, 800, HarvestLevel.Iridium, EnumSet.of(ToolClass.Pickaxe, ToolClass.Shovel));
         setRegistryName("drill_advanced");
+        setCreativeTab(GregtechMod.GREGTECH_TAB);
         this.maxCharge = 400000;
         this.transferLimit = 1000;
         this.tier = 4;

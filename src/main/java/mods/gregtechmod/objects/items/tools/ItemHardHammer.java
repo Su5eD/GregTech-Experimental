@@ -19,8 +19,8 @@ import java.util.List;
 
 public class ItemHardHammer extends ItemHammer {
 
-    public ItemHardHammer(String material, int durability, int entityDamage, ToolMaterial toolMaterial) {
-        super(material, "To give a machine a hard whack", durability, entityDamage, toolMaterial);
+    public ItemHardHammer(String material, String description, int durability, int entityDamage, ToolMaterial toolMaterial) {
+        super(material, description, durability, entityDamage, toolMaterial);
     }
 
     @Override

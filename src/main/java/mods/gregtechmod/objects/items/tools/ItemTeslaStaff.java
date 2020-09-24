@@ -5,25 +5,16 @@ import ic2.api.item.IElectricItem;
 import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
 import mods.gregtechmod.util.ModelInformation;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ItemTeslaStaff extends ItemElectricBase {
 
     public ItemTeslaStaff() {
-        super("tesla_staff", 10000000, 8192, 4);
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("No warranty!");
+        super("tesla_staff", "No warranty!", 10000000, 8192, 4);
+        setRegistryName("tesla_staff");
     }
 
     @Override

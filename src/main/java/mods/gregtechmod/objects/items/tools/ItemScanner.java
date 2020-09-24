@@ -25,7 +25,6 @@ import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -41,24 +40,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("NullableProblems")
 public class ItemScanner extends ItemElectricBase {
 
-    public ItemScanner() {
-        this("scanner", 100000, 100, 1);
-    }
-
-    public ItemScanner(String name, int maxCharge, int transferLimit, int tier) {
-        super(name, maxCharge, transferLimit, tier);
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-       tooltip.add("Tricorder");
+    public ItemScanner(String name, String description, int maxCharge, int transferLimit, int tier) {
+        super(name, description, maxCharge, transferLimit, tier);
     }
 
     @Override

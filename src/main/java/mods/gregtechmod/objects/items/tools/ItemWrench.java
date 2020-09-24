@@ -31,11 +31,10 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     protected int rotateDamage = 1;
     protected int removeDamage = 10;
 
-    public ItemWrench(String type, int durability) {
+    public ItemWrench(String name, int durability) {
         super(null);
-        this.name = "wrench_"+type;
+        this.name = name;
         this.durability = durability;
-        setRegistryName(name);
         setMaxDamage(durability);
     }
 

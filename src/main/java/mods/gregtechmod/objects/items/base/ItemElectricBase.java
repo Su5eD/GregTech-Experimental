@@ -13,12 +13,13 @@ import java.util.List;
 
 @SuppressWarnings("NullableProblems")
 public abstract class ItemElectricBase extends BaseElectricItem implements IModelInfoProvider {
-    private final String name;
+    public final String name;
+    private final String description;
 
-    public ItemElectricBase(String name, double maxCharge, double transferLimit, int tier) {
+    public ItemElectricBase(String name, String description, double maxCharge, double transferLimit, int tier) {
         super(null, maxCharge, transferLimit, tier);
-        setRegistryName(name);
         this.name = name;
+        this.description = description;
     }
 
     @Override
@@ -34,6 +35,7 @@ public abstract class ItemElectricBase extends BaseElectricItem implements IMode
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add("Tier: "+this.tier);
+        if (this.description != null) tooltip.add(this.description);
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }

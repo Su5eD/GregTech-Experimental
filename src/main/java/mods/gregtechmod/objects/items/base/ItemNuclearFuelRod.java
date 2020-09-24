@@ -29,7 +29,6 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     public ItemNuclearFuelRod(String name, int cells, int duration, float energy, int radiation, float heat, @Nullable ItemStack depletedStack) {
         super(null, cells, duration);
-        setRegistryName(name);
         setMaxStackSize(1);
         this.name = name;
         this.depletedStack = depletedStack;

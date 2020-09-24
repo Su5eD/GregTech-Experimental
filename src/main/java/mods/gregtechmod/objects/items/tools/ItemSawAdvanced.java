@@ -42,7 +42,8 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
 
     public ItemSawAdvanced() {
         super(null, 200, HarvestLevel.Diamond, EnumSet.of(ToolClass.Axe, ToolClass.Sword, ToolClass.Shears));
-        setRegistryName("saw_advanced");
+        setRegistryName("sae_advanced");
+        setCreativeTab(GregtechMod.GREGTECH_TAB);
         this.maxCharge = 128000;
         this.transferLimit = 1000;
         this.tier = 3;

@@ -16,7 +16,6 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IM
 
     public ItemNuclearHeatStorage(String name, int heatStorage) {
         super(null, heatStorage);
-        setRegistryName(name);
         setMaxStackSize(1);
         this.name = name;
     }
