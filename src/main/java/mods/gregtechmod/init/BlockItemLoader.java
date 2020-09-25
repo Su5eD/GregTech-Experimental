@@ -177,7 +177,10 @@ public class BlockItemLoader {
     }
 
     private static void initCraftingItems() {
-        BlockItems.Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 63)));
+        BlockItems.Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 63))
+                .setRegistryName("mortar_iron")
+                .setTranslationKey("mortar_iron")
+                .setCreativeTab(GregtechMod.GREGTECH_TAB));
         BlockItems.Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust")
                 .setFolder("crafting")
                 .setRegistryName("mortar_flint")
@@ -263,8 +266,8 @@ public class BlockItemLoader {
             .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Components.energy_flow_circuit.setInstance(registerItem(new ItemCover(BlockItems.Components.energy_flow_circuit.name(), BlockItems.Components.energy_flow_circuit.coverName, BlockItems.Components.energy_flow_circuit.description)
                 .setFolder("component")
-                .setRegistryName(BlockItems.Components.data_control_circuit.name())
-                .setTranslationKey(BlockItems.Components.data_control_circuit.name())
+                .setRegistryName(BlockItems.Components.energy_flow_circuit.name())
+                .setTranslationKey(BlockItems.Components.energy_flow_circuit.name())
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Components.lithium_battery.setInstance(registerItem(new ItemLithiumBattery()));
     }
@@ -301,7 +304,7 @@ public class BlockItemLoader {
     private static void initCells() {
         for (BlockItems.Cells type : BlockItems.Cells.values()) {
             String aName = "cell_"+type.name();
-            type.setInstance(registerItem(new ItemBase(aName, type.description)
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
                 .setFolder("cell")
                 .setRegistryName(aName)
                 .setTranslationKey(aName)

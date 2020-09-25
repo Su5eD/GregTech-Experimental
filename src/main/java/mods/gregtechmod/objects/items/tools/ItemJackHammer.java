@@ -22,7 +22,6 @@ public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvid
         this.transferLimit = transferLimit;
         this.tier = tier;
         this.efficiency = efficiency;
-        setRegistryName(name);
         setMaxStackSize(1);
     }
 
