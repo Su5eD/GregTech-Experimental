@@ -19,6 +19,9 @@ import java.util.function.BiPredicate;
 
 @SuppressWarnings("unused")
 public class BlockItems {
+    public static Item sensor_kit;
+    public static Item sensor_card;
+
     public enum Blocks {
         advanced_machine(4, 30),
         aluminium(3, 30),
@@ -892,12 +895,26 @@ public class BlockItems {
         }
     }
 
-    public enum Specials {
-        greg_coin, //TODO: Change description
-        sensor_kit,
-        sensor_card;
+    public enum Miscellaneous {
+        greg_coin("A minimalist GregTech logo on a coin"), //TODO: Change description
+        credit_copper("0.125 Credits"),
+        credit_silver("8 Credits"),
+        credit_gold("64 Credits"),
+        credit_diamond("512 Credits"),
+        ruby("Al206Cr"),
+        sapphire("Al206"),
+        green_sapphire("Al206"),
+        olivine("Mg2Fe2SiO4"),
+        lazurite_chunk("(Al6Si6Ca8Na8)8"),
+        red_garnet("(Al2Mg3Si3O12)3(Al2Fe3Si3O12)5(Al2Mn3Si3O12)8"),
+        yellow_garnet("(Ca3Fe2Si3O12)5(Ca3Al2Si3O12)8(Ca3Cr2Si3O12)3");
 
         private Item instance;
+        public final String description;
+
+        Miscellaneous(String description) {
+            this.description = description;
+        }
 
         /**
          * <b>Only GregTech may call this!!</b>

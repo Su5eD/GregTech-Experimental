@@ -67,6 +67,10 @@ item.gregtechmod.sensor_card.name=GregTech Sensor Card
 item.mortar_iron.name=Iron Mortar
 item.mortar_flint.name=Flint Mortar
 item.lithium_re_battery=Lithium-Battery
+item.credit_copper.name=Copper Credit
+item.credit_silver.name=Silver Credit
+item.credit_gold.name=Gold Credit
+item.credit_diamond.name=Diamond Credit
 
 item.ingot_aluminium.name=Aluminium Ingot
 item.ingot_antimony.name=Antimony Ingot

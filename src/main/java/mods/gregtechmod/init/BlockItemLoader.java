@@ -63,7 +63,7 @@ public class BlockItemLoader {
         initTools();
         initComponents();
         initNuclearComponents();
-        initSpecials();
+        initMiscellaneous();
         initUpgrades();
     }
 
@@ -182,7 +182,7 @@ public class BlockItemLoader {
                 .setTranslationKey("mortar_iron")
                 .setCreativeTab(GregtechMod.GREGTECH_TAB));
         BlockItems.Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust")
-                .setFolder("crafting")
+                .setFolder("component")
                 .setRegistryName("mortar_flint")
                 .setTranslationKey("mortar_flint")
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
@@ -285,19 +285,19 @@ public class BlockItemLoader {
         }
     }
 
-    private static void initSpecials() {
-        BlockItems.Specials.greg_coin.setInstance(registerItem(new ItemBase(BlockItems.Specials.greg_coin.name(), "A minimalist GregTech logo on a coin")
-            .setRegistryName(BlockItems.Specials.greg_coin.name())
-            .setTranslationKey(BlockItems.Specials.greg_coin.name())
-            .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+    private static void initMiscellaneous() {
+        for (BlockItems.Miscellaneous type : BlockItems.Miscellaneous.values()) {
+            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
+                    .setRegistryName(type.name())
+                    .setTranslationKey(type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        }
 
         if (Loader.isModLoaded("energycontrol")) {
-            Item sensorCard = new ItemSensorCard();
-            Item sensorKit = new ItemSensorKit();
-            BlockItems.Specials.sensor_kit.setInstance(sensorCard);
-            BlockItems.Specials.sensor_card.setInstance(sensorKit);
-            EnergyContolRegister.registerCard((IItemCard) sensorCard);
-            EnergyContolRegister.registerKit((IItemKit) sensorKit);
+            BlockItems.sensor_kit = new ItemSensorKit();
+            BlockItems.sensor_card = new ItemSensorCard();
+            EnergyContolRegister.registerCard((IItemCard) BlockItems.sensor_card);
+            EnergyContolRegister.registerKit((IItemKit) BlockItems.sensor_kit);
         }
     }
 

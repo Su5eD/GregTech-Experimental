@@ -20,7 +20,7 @@ public class GregTechTab extends CreativeTabs {
 
     @Override
     public ItemStack createIcon() {
-        return new ItemStack(BlockItems.Specials.greg_coin.getInstance());
+        return new ItemStack(BlockItems.Miscellaneous.greg_coin.getInstance());
     }
 
     @Override
