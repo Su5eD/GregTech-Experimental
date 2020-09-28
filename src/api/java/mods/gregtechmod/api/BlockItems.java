@@ -281,7 +281,7 @@ public class BlockItems {
         ender_pearl("BeK4N5Cl6"),
         flint("SiO2"),
         galena("Pb3Ag3S2"),
-        green_sapphire("Al2O6"),
+        green_sapphire(Miscellaneous.green_sapphire.description),
         grossular("Ca3Al2Si3O12"),
         invar(Ingots.invar.description),
         lazurite("Al6Si6Ca8Na8"),
@@ -290,18 +290,18 @@ public class BlockItems {
         marble("Mg(CaCO3)7"),
         netherrack(null),
         nickel("Ni"),
-        olivine("Mg2Fe2SiO4"),
+        olivine(Miscellaneous.olivine.description),
         osmium("Os"),
         phosphorus("Ca3(PO4)2"),
         platinum("Pt"),
         plutonium(Ingots.plutonium.description, true),
         pyrite("FeS2"),
         pyrope("Al2Mg3Si3O12"),
-        red_garnet("(Al2Mg3Si3O12)3(Al2Fe3Si3O12)5(Al2Mn3Si3O12)8"),
+        red_garnet(Miscellaneous.red_garnet.description),
         redrock("(Na2LiAl2Si2)((CaCO3)2SiO2)3"),
-        ruby("Al2O6Cr"),
+        ruby(Miscellaneous.ruby.description),
         saltpeter("KNO3"),
-        sapphire("Al2O6"), //TODO: Change to jewels' description when it's added
+        sapphire(Miscellaneous.sapphire.description),
         sodalite("Al3Si3Na4Cl"),
         spessartine("Al2Mn3Si3O12"),
         sphalerite("ZnS"),
@@ -312,7 +312,7 @@ public class BlockItems {
         uranium("U", true),
         uvarovite("Ca3Cr2Si3O12"),
         wood_pulp(null),
-        yellow_garnet("(Ca3Fe2Si3O12)5(Ca3Al2Si3O12)8(Ca3Cr2Si3O12)3"),
+        yellow_garnet(Miscellaneous.yellow_garnet.description),
         zinc(Ingots.zinc.description);
 
         private Item instance;
@@ -536,30 +536,70 @@ public class BlockItems {
     }
 
     public enum Components {
-        //Components go here
         data_control_circuit("redstone_only", "Basic computer processor"),
         energy_flow_circuit("energy_only", "Manages large amounts of energy"),
-        lithium_battery;
+        lithium_battery,
+        coil_kanthal("Standard Heating Coil"),
+        coil_nichrome("Advanced Heating Coil"),
+        coil_cupronickel("Cheap and simple Heating Coil"),
+        hull_aluminium("Machine Block"),
+        hull_brass("Cheap Machine Block"),
+        hull_bronze("Cheap Machine Block"),
+        hull_iron("Machine Block"),
+        hull_steel("Advanced Machine Block"),
+        hull_titanium("Very Advanced Machine Block"),
+        hull_tungstensteel("Very Advanced Machine Block"),
+        circuit_board_basic("Just a simple Circuit Plate"),
+        circuit_board_advanced("Standard Circuit Plate"),
+        circuit_board_processor("Highly advanced Circuit Plate"),
+        turbine_blade_bronze("Heavy Turbine Blade"),
+        turbine_blade_carbon("Ultralight Turbine Blade"),
+        turbine_blade_magnalium("Light Turbine Blade"),
+        turbine_blade_steel("Standard Turbine Blade"),
+        turbine_blade_tungstensteel("Durable Turbine Blade"),
+        gear_iron("A refined Iron Gear"), //TODO: Refined Iron is obsolete!
+        gear_bronze("A Bronze Gear"),
+        gear_steel("A Steel Gear"),
+        gear_titanium("A Titanium Gear"),
+        gear_tungstensteel("A Tungstensteel Gear"),
+        gear_iridium("An Iridium Gear"),
+        turbine_rotor_bronze("Turbine Efficiency:  60%", false),
+        turbine_rotor_steel("Turbine Efficiency:  80%", false),
+        turbine_rotor_magnalium("Turbine Efficiency: 100%", false),
+        turbine_rotor_tungstensteel("Turbine Efficiency:  90%", false),
+        turbine_rotor_carbon("Turbine Efficiency: 125%", false),
+        lava_filter("Filters Lava in Thermal Boilers", false),
+        superconductor("Conducts Energy losslessly"),
+        data_storage_circuit("Stores Data"),
+        diamond_sawblade("Caution! This is very sharp."),
+        diamond_grinder("Fancy Grinding Head"),
+        wolframium_grinder("Regular Grinding Head"),
+        machine_parts("Random Machine Parts"),
+        advanced_circuit_parts("Part of advanced Circuitry");
 
         private Item instance;
         public final String description;
-        public final boolean isCover;
+        public final boolean autoInit;
         public final String coverName;
 
         Components() {
             this(null);
         }
 
+        Components(String description) {
+            this(description, true);
+        }
+
         Components(String coverName, String description) {
             this.description = description;
-            this.isCover = true;
+            this.autoInit = false;
             this.coverName = coverName;
         }
 
-        Components(String description) {
+        Components(String description, boolean autoInit) {
             this.description = description;
-            this.isCover = false;
-            this.coverName = "";
+            this.autoInit = autoInit;
+            this.coverName = null;
         }
 
         /**
@@ -907,10 +947,18 @@ public class BlockItems {
         olivine("Mg2Fe2SiO4"),
         lazurite_chunk("(Al6Si6Ca8Na8)8"),
         red_garnet("(Al2Mg3Si3O12)3(Al2Fe3Si3O12)5(Al2Mn3Si3O12)8"),
-        yellow_garnet("(Ca3Fe2Si3O12)5(Ca3Al2Si3O12)8(Ca3Cr2Si3O12)3");
+        yellow_garnet("(Ca3Fe2Si3O12)5(Ca3Al2Si3O12)8(Ca3Cr2Si3O12)3"),
+        duct_tape("If you can't fix it with this, use more of it!"),
+        indigo_blossom,
+        indigo_dye,
+        flour;
 
         private Item instance;
         public final String description;
+
+        Miscellaneous() {
+            this(null);
+        }
 
         Miscellaneous(String description) {
             this.description = description;

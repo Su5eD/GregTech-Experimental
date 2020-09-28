@@ -18,10 +18,7 @@ public class ItemBase extends Item implements IModelInfoProvider {
     protected String toolTip;
     protected String folder;
     protected boolean hasEffect;
-
-    public ItemBase(String name) {
-        this(name, null);
-    }
+    protected boolean isEnchantable;
 
     public ItemBase(String name, @Nullable String description) {
         this(name, description, false);
@@ -33,14 +30,29 @@ public class ItemBase extends Item implements IModelInfoProvider {
         this.hasEffect = hasEffect;
     }
 
-    public Item setFolder(String folder) {
+    public ItemBase setFolder(String folder) {
         this.folder = folder;
         return this;
+    }
+
+    public ItemBase setEnchantable(boolean value) {
+        this.isEnchantable = value;
+        return this;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return this.isEnchantable;
     }
 
     @Override
     public boolean hasEffect(ItemStack stack) {
         return this.hasEffect;
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return this.isEnchantable;
     }
 
     @Override
@@ -50,6 +62,7 @@ public class ItemBase extends Item implements IModelInfoProvider {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        if (stack.getMaxDamage() > 0) tooltip.add((stack.getMaxDamage() - stack.getItemDamage()) + " / " + stack.getMaxDamage());
         if (this.toolTip != null) tooltip.add(this.toolTip);
     }
 }

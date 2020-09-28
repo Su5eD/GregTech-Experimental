@@ -270,6 +270,71 @@ public class BlockItemLoader {
                 .setTranslationKey(BlockItems.Components.energy_flow_circuit.name())
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Components.lithium_battery.setInstance(registerItem(new ItemLithiumBattery()));
+
+        BlockItems.Components.turbine_rotor_bronze.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_bronze.name(), BlockItems.Components.turbine_rotor_bronze.description, false)
+                .setFolder("component")
+                .setEnchantable(false)
+                .setRegistryName(BlockItems.Components.turbine_rotor_bronze.name())
+                .setTranslationKey(BlockItems.Components.turbine_rotor_bronze.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)
+                .setMaxDamage(15000)
+                .setMaxStackSize(1)
+                .setNoRepair()));
+        BlockItems.Components.turbine_rotor_steel.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_steel.name(), BlockItems.Components.turbine_rotor_steel.description, false)
+                .setFolder("component")
+                .setEnchantable(false)
+                .setRegistryName(BlockItems.Components.turbine_rotor_steel.name())
+                .setTranslationKey(BlockItems.Components.turbine_rotor_steel.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)
+                .setMaxDamage(10000)
+                .setMaxStackSize(1)
+                .setNoRepair()));
+        BlockItems.Components.turbine_rotor_magnalium.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_magnalium.name(), BlockItems.Components.turbine_rotor_magnalium.description, false)
+                .setFolder("component")
+                .setEnchantable(false)
+                .setRegistryName(BlockItems.Components.turbine_rotor_magnalium.name())
+                .setTranslationKey(BlockItems.Components.turbine_rotor_magnalium.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)
+                .setMaxDamage(10000)
+                .setMaxStackSize(1)
+                .setNoRepair()));
+        BlockItems.Components.turbine_rotor_tungstensteel.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_tungstensteel.name(), BlockItems.Components.turbine_rotor_tungstensteel.description, false)
+                .setFolder("component")
+                .setEnchantable(false)
+                .setRegistryName(BlockItems.Components.turbine_rotor_tungstensteel.name())
+                .setTranslationKey(BlockItems.Components.turbine_rotor_tungstensteel.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)
+                .setMaxDamage(30000)
+                .setMaxStackSize(1)
+                .setNoRepair()));
+        BlockItems.Components.turbine_rotor_carbon.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_carbon.name(), BlockItems.Components.turbine_rotor_carbon.description, false)
+                .setFolder("component")
+                .setEnchantable(false)
+                .setRegistryName(BlockItems.Components.turbine_rotor_carbon.name())
+                .setTranslationKey(BlockItems.Components.turbine_rotor_carbon.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)
+                .setMaxDamage(2500)
+                .setMaxStackSize(1)
+                .setNoRepair()));
+        BlockItems.Components.lava_filter.setInstance(registerItem(new ItemBase(BlockItems.Components.lava_filter.name(), BlockItems.Components.lava_filter.description, false)
+                .setFolder("component")
+                .setEnchantable(false)
+                .setRegistryName(BlockItems.Components.lava_filter.name())
+                .setTranslationKey(BlockItems.Components.lava_filter.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)
+                .setMaxDamage(100)
+                .setMaxStackSize(1)
+                .setNoRepair()));
+
+        for (BlockItems.Components type : BlockItems.Components.values()) {
+            if (type.autoInit) {
+                type.setInstance(registerItem(new ItemBase(type.name(), type.description)
+                        .setFolder("component")
+                        .setRegistryName(type.name())
+                        .setTranslationKey(type.name())
+                        .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+            }
+        }
     }
 
     private static void initNuclearComponents() {
