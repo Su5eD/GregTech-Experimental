@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.machines.tileentity.base;
+package mods.gregtechmod.objects.blocks.tileentities.machines.base;
 
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IGregtechMachine;

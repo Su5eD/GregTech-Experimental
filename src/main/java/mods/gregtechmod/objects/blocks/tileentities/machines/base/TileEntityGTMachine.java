@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.machines.tileentity.base;
+package mods.gregtechmod.objects.blocks.tileentities.machines.base;
 
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.api.network.INetworkTileEntityEventListener;

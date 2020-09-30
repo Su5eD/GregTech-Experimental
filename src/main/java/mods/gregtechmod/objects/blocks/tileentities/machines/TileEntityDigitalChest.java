@@ -1,7 +1,7 @@
-package mods.gregtechmod.objects.blocks.machines.tileentity;
+package mods.gregtechmod.objects.blocks.tileentities.machines;
 
 import mods.gregtechmod.core.ConfigLoader;
-import mods.gregtechmod.objects.blocks.machines.tileentity.base.TileEntityDigitalChestBase;
+import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityDigitalChestBase;
 
 public class TileEntityDigitalChest extends TileEntityDigitalChestBase {
 

@@ -9,7 +9,7 @@ import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.CoverLoader;
 import mods.gregtechmod.init.RecipeLoader;
 import mods.gregtechmod.init.RegistryHandler;
-import mods.gregtechmod.objects.blocks.machines.tileentity.TileEntityGtCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
@@ -72,7 +72,7 @@ public final class GregtechMod {
     @EventHandler
     public static void init(FMLInitializationEvent event) {
         GregtechTeBlock.buildDummies();
-        TileEntityGtCentrifuge.init();
+        TileEntityIndustrialCentrifuge.init();
         RecipeLoader.loadRecipes();
     }
     @EventHandler
@@ -80,7 +80,7 @@ public final class GregtechMod {
     @SubscribeEvent
     public void registerTileEntities(TeBlockFinalCallEvent event) {
         TeBlockRegistry.addAll(GregtechTeBlock.class, GregtechTeBlock.LOCATION);
-        TeBlockRegistry.addCreativeRegisterer(GregtechTeBlock.gtcentrifuge, GregtechTeBlock.LOCATION);
+        TeBlockRegistry.addCreativeRegisterer(GregtechTeBlock.industrial_centrifuge, GregtechTeBlock.LOCATION);
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 

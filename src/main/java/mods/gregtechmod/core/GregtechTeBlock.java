@@ -10,10 +10,10 @@ import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
-import mods.gregtechmod.objects.blocks.machines.tileentity.TileEntityDigitalChest;
-import mods.gregtechmod.objects.blocks.machines.tileentity.TileEntityGtCentrifuge;
-import mods.gregtechmod.objects.blocks.machines.tileentity.TileEntityQuantumChest;
-import mods.gregtechmod.objects.blocks.machines.tileentity.TileEntityQuantumTank;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityDigitalChest;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumChest;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumTank;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.Set;
 
 public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegisterer, ITeBlockSpecialItem {
-    gtcentrifuge(TileEntityGtCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
+    industrial_centrifuge(TileEntityIndustrialCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
     digital_chest(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
     quantum_chest(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
     quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true);

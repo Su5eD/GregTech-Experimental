@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.machines.tileentity;
+package mods.gregtechmod.objects.blocks.tileentities.machines;
 
 import com.google.common.collect.Sets;
 import ic2.api.item.IC2Items;
@@ -14,10 +14,10 @@ import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.core.ConfigLoader;
-import mods.gregtechmod.gui.GuiGtCentrifuge;
+import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTank;
-import mods.gregtechmod.objects.blocks.machines.container.ContainerGtCentrifuge;
-import mods.gregtechmod.objects.blocks.machines.tileentity.base.TileEntityGTMachine;
+import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityGTMachine;
+import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerIndustrialCentrifuge;
 import mods.gregtechmod.recipe.Recipes;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.client.gui.GuiScreen;
@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class TileEntityGtCentrifuge extends TileEntityGTMachine {
+public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine {
 
     public InvSlotConsumable cellSlot;
     public Fluids.InternalFluidTank lavaTank;
@@ -42,8 +42,8 @@ public class TileEntityGtCentrifuge extends TileEntityGTMachine {
     private static final List<ItemStack> lavaRecipeList = new ArrayList<>();
     private static final Set<EnumFacing> animatedSides = Sets.newHashSet(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP);
 
-    public TileEntityGtCentrifuge() {
-        super(1200, 5, (byte)4, (byte)1, 1,Recipes.gtcentrifuge);
+    public TileEntityIndustrialCentrifuge() {
+        super(1200, 5, (byte)4, (byte)1, 1,Recipes.industrial_centrifuge);
         this.cellSlot = new InvSlotConsumable(this, "cellSlot", 1) {
             @Override
             public boolean accepts(ItemStack stack) {
@@ -54,7 +54,7 @@ public class TileEntityGtCentrifuge extends TileEntityGTMachine {
     }
 
     public static void init() {
-        Recipes.gtcentrifuge = new BasicMachineRecipeManager();
+        Recipes.industrial_centrifuge = new BasicMachineRecipeManager();
         lavaRecipeList.add(IC2Items.getItem("ingot", "tin"));
         lavaRecipeList.add(new ItemStack(BlockItems.Ingots.electrum.getInstance(), 2));
     }
@@ -124,13 +124,13 @@ public class TileEntityGtCentrifuge extends TileEntityGTMachine {
     }
 
 
-    public ContainerBase<TileEntityGtCentrifuge> getGuiContainer(EntityPlayer player) {
-        return new ContainerGtCentrifuge(player, this);
+    public ContainerBase<TileEntityIndustrialCentrifuge> getGuiContainer(EntityPlayer player) {
+        return new ContainerIndustrialCentrifuge(player, this);
     }
 
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiGtCentrifuge(new ContainerGtCentrifuge(player, this));
+        return new GuiIndustrialCentrifuge(new ContainerIndustrialCentrifuge(player, this));
     }
 
     @Override

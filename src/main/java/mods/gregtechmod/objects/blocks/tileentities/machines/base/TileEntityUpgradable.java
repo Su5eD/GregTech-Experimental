@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.machines.tileentity.base;
+package mods.gregtechmod.objects.blocks.tileentities.machines.base;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.upgrade.IUpgradeItem;

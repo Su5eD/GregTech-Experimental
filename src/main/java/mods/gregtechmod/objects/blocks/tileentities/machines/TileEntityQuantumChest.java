@@ -1,9 +1,9 @@
-package mods.gregtechmod.objects.blocks.machines.tileentity;
+package mods.gregtechmod.objects.blocks.tileentities.machines;
 
 import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.core.ConfigLoader;
-import mods.gregtechmod.objects.blocks.machines.tileentity.base.TileEntityDigitalChestBase;
+import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityDigitalChestBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

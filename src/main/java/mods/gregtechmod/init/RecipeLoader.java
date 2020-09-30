@@ -30,13 +30,13 @@ public class RecipeLoader {
     public static void loadRecipes() {
         //TODO: Replace with for loop + get an interface for detecting recipes
 
-        Config gtcentrifuge = new Config("industrial centrifuge recipes");
+        Config industrial_centrifuge = new Config("industrial centrifuge recipes");
         try {
-            gtcentrifuge.load(getConfigFile("gtcentrifuge"));
+            industrial_centrifuge.load(getConfigFile("industrial_centrifuge"));
         } catch (Exception e) {
             GregtechMod.LOGGER.warn(e.getMessage(), "Failed to load recipe.");
         }
-        loadMachineRecipes(gtcentrifuge, Recipes.gtcentrifuge, MachineType.TimeBased);
+        loadMachineRecipes(industrial_centrifuge, Recipes.industrial_centrifuge, MachineType.TimeBased);
     }
     private static void loadMachineRecipes(Config config, IMachineRecipeManager<IRecipeInput, Collection<ItemStack>, ?> machine, MachineType type) {
         int amount = 0;

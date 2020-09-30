@@ -6,16 +6,16 @@ import ic2.core.gui.LinkedGauge;
 import ic2.core.init.Localization;
 import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.inventory.CustomFluidSlot;
-import mods.gregtechmod.objects.blocks.machines.container.ContainerGtCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerIndustrialCentrifuge;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiGtCentrifuge extends GuiIC2<ContainerGtCentrifuge> {
+public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifuge> {
 
-    public GuiGtCentrifuge(ContainerGtCentrifuge container) {
+    public GuiIndustrialCentrifuge(ContainerIndustrialCentrifuge container) {
         super(container, 166);
         addElement(CustomFluidSlot.createFluidSlot(this, 109, 64, container.base.lavaTank, GregtechMod.COMMON_TEXTURE, 40, 0, false));
 
@@ -53,8 +53,6 @@ public class GuiGtCentrifuge extends GuiIC2<ContainerGtCentrifuge> {
 
 
     public ResourceLocation getTexture() {
-        return BACKGROUND;
+        return new ResourceLocation(GregtechMod.MODID, "textures/gui/industrial_centrifuge.png");
     }
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(GregtechMod.MODID, "textures/gui/guigtcentrifuge.png");
-
 }

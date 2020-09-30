@@ -2,6 +2,18 @@ itemGroup.gregtechtab=GregTech Experimental
 
 item.greg_coin.name=Greg Coin
 
+item.armor.perk.rebreather.name=Rebreather
+item.armor.perk.inertia_damper.name=Inertia Damper
+item.armor.perk.food_replicator.name=Food Replicator
+item.armor.perk.medicine_module.name=Medicine Module
+item.armor.perk.lamp.name=Lamp
+item.armor.perk.solarpanel.name=Solarpanel
+item.armor.perk.extinguisher_module.name=Extinguisher Module
+item.armor.perk.jump_booster.name=Jump Booster
+item.armor.perk.speed_booster.name=Speed Booster
+item.armor.perk.invisibility_field.name=Invisibility Field
+item.armor.perk.infinite_charge.name=Infinite Charge
+
 item.drill_advanced=Advanced Drill
 item.crowbar.name=Crowbar
 item.screwdriver.name=Screwdriver
@@ -319,7 +331,7 @@ tile.block_highly_advanced_machine.name=Highly Advanced Machineblock
 tile.block_steel.name=Block of Steel
 tile.block_brass.name=Block of Brass
 
-gregtechmod.teblock.gtcentrifuge=Industrial Centrifuge
+gregtechmod.teblock.industrial_centrifuge=Industrial Centrifuge
 gregtechmod.teblock.digital_chest=Digital Chest
 gregtechmod.teblock.quantum_chest=Quantum Chest
 gregtechmod.teblock.quantum_tank=Quantum Tank

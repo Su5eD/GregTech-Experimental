@@ -1,8 +1,8 @@
-package mods.gregtechmod.objects.blocks.machines.container;
+package mods.gregtechmod.objects.blocks.tileentities.machines.container;
 
 import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
-import mods.gregtechmod.objects.blocks.machines.tileentity.TileEntityQuantumTank;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumTank;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;

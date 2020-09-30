@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.machines.tileentity;
+package mods.gregtechmod.objects.blocks.tileentities.machines;
 
 import com.google.common.collect.Sets;
 import ic2.core.ContainerBase;
@@ -12,8 +12,8 @@ import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.core.ConfigLoader;
 import mods.gregtechmod.gui.GuiQuantumTank;
 import mods.gregtechmod.inventory.GtFluidTank;
-import mods.gregtechmod.objects.blocks.machines.container.ContainerQuantumTank;
-import mods.gregtechmod.objects.blocks.machines.tileentity.base.TileEntityCoverBehavior;
+import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityCoverBehavior;
+import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerQuantumTank;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;

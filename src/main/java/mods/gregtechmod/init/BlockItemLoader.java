@@ -7,10 +7,9 @@ import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
+import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
-import mods.gregtechmod.objects.items.ItemSensorCard;
-import mods.gregtechmod.objects.items.ItemSensorKit;
-import mods.gregtechmod.objects.items.ItemSolderingMetal;
+import mods.gregtechmod.objects.items.*;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
@@ -63,11 +62,16 @@ public class BlockItemLoader {
         initTools();
         initComponents();
         initNuclearComponents();
+        initArmor();
         initMiscellaneous();
         initUpgrades();
     }
 
     private static void initBlocks() {
+        BlockItems.lightSource = registerBlock(new BlockLightSource()
+                .setRegistryName("light_source")
+                .setTranslationKey("light_source"));
+
         for (BlockItems.Blocks type : BlockItems.Blocks.values()) {
             Block block = new BlockBase(Material.IRON)
                     .setRegistryName("block_"+type.name())
@@ -213,6 +217,7 @@ public class BlockItemLoader {
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Tools.tesla_staff.setInstance(registerItem(new ItemTeslaStaff()));
         BlockItems.Tools.scanner.setInstance(registerItem(new ItemScanner("scanner", "Tricorder", 100000, 100, 1)
+                .setFolder("tool")
                 .setRegistryName("scanner")
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Tools.debug_scanner.setInstance(registerItem(new ItemDebugScanner()));
@@ -350,7 +355,25 @@ public class BlockItemLoader {
         }
     }
 
+    private static void initArmor() {
+        for (BlockItems.Armor type : BlockItems.Armor.values()) {
+            type.setInstance(registerItem(new ItemArmorElectricBase(type.name(), type.slot, type.maxCharge, type.transferLimit, type.tier, type.damageEnergyCost, type.absorbtionDamage, type.chargeProvider, type.perks)
+                    .setFolder("armor")
+                    .setRegistryName(type.name())
+                    .setTranslationKey(type.name())
+                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        }
+    }
+
     private static void initMiscellaneous() {
+        BlockItems.Miscellaneous.destructorpack.setInstance(registerItem(new ItemDestructorPack(BlockItems.Miscellaneous.destructorpack.name(), BlockItems.Miscellaneous.destructorpack.description)
+                .setRegistryName(BlockItems.Miscellaneous.destructorpack.name())
+                .setTranslationKey(BlockItems.Miscellaneous.destructorpack.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Miscellaneous.lapotronic_energy_orb.setInstance(registerItem(new ItemElectricBase(BlockItems.Miscellaneous.lapotronic_energy_orb.name(), null, 100000000, 8192, 5)
+                .setRegistryName(BlockItems.Miscellaneous.lapotronic_energy_orb.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+
         for (BlockItems.Miscellaneous type : BlockItems.Miscellaneous.values()) {
             type.setInstance(registerItem(new ItemBase(type.name(), type.description)
                     .setRegistryName(type.name())

@@ -5,10 +5,12 @@ import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.TriFunction;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
@@ -19,6 +21,7 @@ import java.util.function.BiPredicate;
 
 @SuppressWarnings("unused")
 public class BlockItems {
+    public static Block lightSource;
     public static Item sensor_kit;
     public static Item sensor_card;
 
@@ -935,6 +938,44 @@ public class BlockItems {
         }
     }
 
+    public enum Armor {
+        cloaking_device(EntityEquipmentSlot.CHEST, 100000000, 8192, 5, 0, 0, false, ArmorPerk.invisibility_field),
+        lapotronpack(EntityEquipmentSlot.CHEST, 100000000, 8192, 5, 0, 0, true);
+
+        private Item instance;
+        public final EntityEquipmentSlot slot;
+        public final int maxCharge;
+        public final int transferLimit;
+        public final int tier;
+        public final int damageEnergyCost;
+        public final double absorbtionDamage;
+        public final boolean chargeProvider;
+        public final ArmorPerk[] perks;
+
+        Armor(EntityEquipmentSlot slot, int maxCharge, int transferLimit, int tier, int damageEnergyCost, double absorbtionPercentage, boolean chargeProvider, ArmorPerk... perks) {
+            this.slot = slot;
+            this.maxCharge = maxCharge;
+            this.transferLimit = transferLimit;
+            this.tier = tier;
+            this.damageEnergyCost = damageEnergyCost;
+            this.absorbtionDamage = absorbtionPercentage;
+            this.chargeProvider = chargeProvider;
+            this.perks = perks;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        public void setInstance(Item item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public Item getInstance() {
+            return this.instance;
+        }
+    }
+
     public enum Miscellaneous {
         greg_coin("A minimalist GregTech logo on a coin"), //TODO: Change description
         credit_copper("0.125 Credits"),
@@ -951,17 +992,29 @@ public class BlockItems {
         duct_tape("If you can't fix it with this, use more of it!"),
         indigo_blossom,
         indigo_dye,
-        flour;
+        flour,
+        destructorpack("Mobile Trash Bin", false),
+        lapotronic_energy_orb(false);
 
         private Item instance;
         public final String description;
+        public final boolean autoInit;
 
         Miscellaneous() {
             this(null);
         }
 
+        Miscellaneous(boolean autoInit) {
+            this(null, autoInit);
+        }
+
         Miscellaneous(String description) {
+            this(description, true);
+        }
+
+        Miscellaneous(String description, boolean autoInit) {
             this.description = description;
+            this.autoInit = autoInit;
         }
 
         /**

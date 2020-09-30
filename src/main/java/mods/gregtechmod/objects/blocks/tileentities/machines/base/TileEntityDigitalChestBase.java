@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.machines.tileentity.base;
+package mods.gregtechmod.objects.blocks.tileentities.machines.base;
 
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
@@ -11,7 +11,7 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.inventory.GtUpgradeSlot;
-import mods.gregtechmod.objects.blocks.machines.tileentity.TileEntityQuantumChest;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.item.EntityItem;

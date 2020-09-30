@@ -29,7 +29,7 @@ public class GregTechTab extends CreativeTabs {
         BlockTileEntity block = TeBlockRegistry.get(GregtechTeBlock.LOCATION);
 
         addBlock(BlockItems.Blocks.lesublock.getInstance());
-        addTeBlock(GregtechTeBlock.gtcentrifuge, block);
+        addTeBlock(GregtechTeBlock.industrial_centrifuge, block);
         addTeBlock(GregtechTeBlock.digital_chest, block);
         addTeBlock(GregtechTeBlock.quantum_chest, block);
         addTeBlock(GregtechTeBlock.quantum_tank, block);

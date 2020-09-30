@@ -1,16 +1,16 @@
-package mods.gregtechmod.objects.blocks.machines.container;
+package mods.gregtechmod.objects.blocks.tileentities.machines.container;
 
 import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.inventory.SlotUpgradeInvSlot;
-import mods.gregtechmod.objects.blocks.machines.tileentity.TileEntityGtCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerGtCentrifuge extends ContainerFullInv<TileEntityGtCentrifuge> {
+public class ContainerIndustrialCentrifuge extends ContainerFullInv<TileEntityIndustrialCentrifuge> {
 
-    public ContainerGtCentrifuge(EntityPlayer player, TileEntityGtCentrifuge base) {
+    public ContainerIndustrialCentrifuge(EntityPlayer player, TileEntityIndustrialCentrifuge base) {
         super(player, base, 166);
         addSlotToContainer(new SlotInvSlot(base.cellSlot, 0, 50, 5));
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 80, 35));
