@@ -17,6 +17,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fluids.FluidTank;
 import org.apache.logging.log4j.util.TriConsumer;
 
+import java.util.EnumSet;
 import java.util.function.BiPredicate;
 
 @SuppressWarnings("unused")
@@ -940,7 +941,10 @@ public class BlockItems {
 
     public enum Armor {
         cloaking_device(EntityEquipmentSlot.CHEST, 100000000, 8192, 5, 0, 0, false, ArmorPerk.invisibility_field),
-        lapotronpack(EntityEquipmentSlot.CHEST, 100000000, 8192, 5, 0, 0, true);
+        lapotronpack(EntityEquipmentSlot.CHEST, 100000000, 8192, 5, 0, 0, true),
+        lithium_batpack(EntityEquipmentSlot.CHEST, 600000, 128, 1, 0, 0, true),
+        ultimate_cheat_armor(EntityEquipmentSlot.CHEST, 1000000000, Integer.MAX_VALUE, 1, 10, 100, true, EnumSet.allOf(ArmorPerk.class).toArray(new ArmorPerk[0])),
+        light_helmet(EntityEquipmentSlot.HEAD, 10000, 32, 1, 0, 0, false, ArmorPerk.lamp, ArmorPerk.solarpanel);
 
         private Item instance;
         public final EntityEquipmentSlot slot;

@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.items;
+package mods.gregtechmod.objects.items.base;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.init.Localization;
@@ -51,6 +51,11 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     public Item setFolder(String folder) {
         this.folder = folder;
         return this;
+    }
+
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+        return GregtechMod.MODID + ":textures/armor/"+this.name+".png";
     }
 
     @Override
