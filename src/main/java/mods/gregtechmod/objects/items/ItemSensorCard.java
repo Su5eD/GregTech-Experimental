@@ -35,7 +35,7 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
 
     @Override
     public String getUnlocalizedName() {
-        return "item.gregtechmod.sensor_card";
+        return GregtechMod.MODID+".item.gregtechmod.sensor_card";
     }
 
     @Override

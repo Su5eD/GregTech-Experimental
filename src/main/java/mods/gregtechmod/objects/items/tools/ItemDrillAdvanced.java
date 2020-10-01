@@ -40,7 +40,7 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
 
     @Override
     public String getTranslationKey() {
-        return "item.drill_advanced";
+        return GregtechMod.MODID+".item.drill_advanced";
     }
 
     protected ItemStack getItemStack(double charge) {

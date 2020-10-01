@@ -137,7 +137,10 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
                     totalCount += Math.min(currentStack.getCount(), availableSpace);
                 }
             }
-            if (totalCount < 1) return true;
+            if (totalCount < 1) {
+                IC2.platform.messagePlayer(player, slot.getCount() + " " + slot.getDisplayName());
+                return true;
+            }
 
             content.get().grow(totalCount);
             if (world.isRemote) this.playEggSound();

@@ -39,7 +39,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     @Override
     public String getTranslationKey() {
-        return "item."+this.name;
+        return GregtechMod.MODID+".item."+this.name;
     }
 
     @Override

@@ -17,7 +17,7 @@ public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvide
 
     @Override
     public String getTranslationKey() {
-        return "item.lithium_re_battery";
+        return GregtechMod.MODID+".item.lithium_re_battery";
     }
 
     @Override

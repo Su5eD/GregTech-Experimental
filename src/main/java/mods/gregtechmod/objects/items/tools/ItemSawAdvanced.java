@@ -52,7 +52,7 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
 
     @Override
     public String getTranslationKey() {
-        return "item.saw_advanced";
+        return GregtechMod.MODID+".item.saw_advanced";
     }
 
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {

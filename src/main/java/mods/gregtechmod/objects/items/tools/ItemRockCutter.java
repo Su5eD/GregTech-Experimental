@@ -29,7 +29,7 @@ public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public String getTranslationKey() {
-        return "item.rock_cutter";
+        return GregtechMod.MODID+".item.rock_cutter";
     }
 
     @Override

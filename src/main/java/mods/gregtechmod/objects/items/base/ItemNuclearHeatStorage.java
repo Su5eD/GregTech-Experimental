@@ -22,7 +22,7 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IM
 
     @Override
     public String getTranslationKey() {
-        return "item."+this.name;
+        return GregtechMod.MODID+".item."+this.name;
     }
 
     @Override

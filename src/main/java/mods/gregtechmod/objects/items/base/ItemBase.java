@@ -65,4 +65,9 @@ public class ItemBase extends Item implements IModelInfoProvider {
         if (stack.getMaxDamage() > 0) tooltip.add((stack.getMaxDamage() - stack.getItemDamage()) + " / " + stack.getMaxDamage());
         if (this.toolTip != null) tooltip.add(this.toolTip);
     }
+
+    @Override
+    public String getTranslationKey() {
+        return GregtechMod.MODID+"."+super.getTranslationKey();
+    }
 }

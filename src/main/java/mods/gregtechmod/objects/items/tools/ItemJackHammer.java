@@ -27,7 +27,7 @@ public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public String getTranslationKey() {
-        return "item."+name;
+        return GregtechMod.MODID+".item."+name;
     }
 
     @Override

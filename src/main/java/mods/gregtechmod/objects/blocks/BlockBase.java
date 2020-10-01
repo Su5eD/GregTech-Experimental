@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.blocks;
 
+import mods.gregtechmod.core.GregtechMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -27,5 +28,10 @@ public class BlockBase extends Block {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add("Mobs can't spawn on this block");
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return GregtechMod.MODID+"."+super.getTranslationKey();
     }
 }

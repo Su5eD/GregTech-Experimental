@@ -54,6 +54,11 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     }
 
     @Override
+    public String getTranslationKey() {
+        return GregtechMod.MODID+"."+super.getTranslationKey();
+    }
+
+    @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
         return GregtechMod.MODID + ":textures/armor/"+this.name+".png";
     }

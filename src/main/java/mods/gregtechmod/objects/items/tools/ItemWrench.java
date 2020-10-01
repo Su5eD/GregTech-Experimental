@@ -40,7 +40,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
 
     @Override
     public String getTranslationKey() {
-        return "item."+name;
+        return GregtechMod.MODID+".item."+name;
     }
 
     @Override
