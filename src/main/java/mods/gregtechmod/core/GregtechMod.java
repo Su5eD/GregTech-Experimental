@@ -77,6 +77,7 @@ public final class GregtechMod {
     }
     @EventHandler
     public static void init(FMLPostInitializationEvent event) {}
+
     @SubscribeEvent
     public void registerTileEntities(TeBlockFinalCallEvent event) {
         TeBlockRegistry.addAll(GregtechTeBlock.class, GregtechTeBlock.LOCATION);

@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/machines/adv_machine_logo_bottom"}
+        "textures": {"all": "gregtechmod:blocks/void"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/machines/adv_machine_logo_bottom"
+          "all": "gregtechmod:blocks/void"
         },
         "transform": "forge:default-block"
       }

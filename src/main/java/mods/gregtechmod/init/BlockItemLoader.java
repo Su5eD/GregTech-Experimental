@@ -9,7 +9,10 @@ import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
-import mods.gregtechmod.objects.items.*;
+import mods.gregtechmod.objects.items.ItemDestructorPack;
+import mods.gregtechmod.objects.items.ItemSensorCard;
+import mods.gregtechmod.objects.items.ItemSensorKit;
+import mods.gregtechmod.objects.items.ItemSolderingMetal;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
@@ -71,6 +74,7 @@ public class BlockItemLoader {
         BlockItems.lightSource = registerBlock(new BlockLightSource()
                 .setRegistryName("light_source")
                 .setTranslationKey("light_source"));
+        registerItem(new ItemBlock(BlockItems.lightSource).setRegistryName(BlockItems.lightSource.getRegistryName()));
 
         for (BlockItems.Blocks type : BlockItems.Blocks.values()) {
             Block block = new BlockBase(Material.IRON)
@@ -366,19 +370,18 @@ public class BlockItemLoader {
     }
 
     private static void initMiscellaneous() {
-        BlockItems.Miscellaneous.destructorpack.setInstance(registerItem(new ItemDestructorPack(BlockItems.Miscellaneous.destructorpack.name(), BlockItems.Miscellaneous.destructorpack.description)
-                .setRegistryName(BlockItems.Miscellaneous.destructorpack.name())
-                .setTranslationKey(BlockItems.Miscellaneous.destructorpack.name())
-                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Miscellaneous.destructorpack.setInstance(registerItem(new ItemDestructorPack()));
         BlockItems.Miscellaneous.lapotronic_energy_orb.setInstance(registerItem(new ItemElectricBase(BlockItems.Miscellaneous.lapotronic_energy_orb.name(), null, 100000000, 8192, 5)
                 .setRegistryName(BlockItems.Miscellaneous.lapotronic_energy_orb.name())
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
 
         for (BlockItems.Miscellaneous type : BlockItems.Miscellaneous.values()) {
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
-                    .setRegistryName(type.name())
-                    .setTranslationKey(type.name())
-                    .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+            if (type.autoInit) {
+                type.setInstance(registerItem(new ItemBase(type.name(), type.description)
+                        .setRegistryName(type.name())
+                        .setTranslationKey(type.name())
+                        .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+            }
         }
 
         if (Loader.isModLoaded("energycontrol")) {

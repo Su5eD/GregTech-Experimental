@@ -26,6 +26,11 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IM
     }
 
     @Override
+    public String getTranslationKey(ItemStack stack) {
+        return this.getTranslationKey();
+    }
+
+    @Override
     public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
         tooltip.add("Stored heat: "+this.getCustomDamage(stack));
     }

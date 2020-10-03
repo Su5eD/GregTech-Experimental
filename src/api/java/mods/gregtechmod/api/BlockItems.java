@@ -542,7 +542,7 @@ public class BlockItems {
     public enum Components {
         data_control_circuit("redstone_only", "Basic computer processor"),
         energy_flow_circuit("energy_only", "Manages large amounts of energy"),
-        lithium_battery,
+        lithium_battery(false),
         coil_kanthal("Standard Heating Coil"),
         coil_nichrome("Advanced Heating Coil"),
         coil_cupronickel("Cheap and simple Heating Coil"),
@@ -579,7 +579,8 @@ public class BlockItems {
         diamond_grinder("Fancy Grinding Head"),
         wolframium_grinder("Regular Grinding Head"),
         machine_parts("Random Machine Parts"),
-        advanced_circuit_parts("Part of advanced Circuitry");
+        advanced_circuit_parts("Part of advanced Circuitry"),
+        duct_tape("If you can't fix it with this, use more of it!");
 
         private Item instance;
         public final String description;
@@ -588,6 +589,10 @@ public class BlockItems {
 
         Components() {
             this(null);
+        }
+
+        Components(boolean autoInit) {
+            this(null, autoInit);
         }
 
         Components(String description) {
@@ -993,11 +998,10 @@ public class BlockItems {
         lazurite_chunk("(Al6Si6Ca8Na8)8"),
         red_garnet("(Al2Mg3Si3O12)3(Al2Fe3Si3O12)5(Al2Mn3Si3O12)8"),
         yellow_garnet("(Ca3Fe2Si3O12)5(Ca3Al2Si3O12)8(Ca3Cr2Si3O12)3"),
-        duct_tape("If you can't fix it with this, use more of it!"),
         indigo_blossom,
         indigo_dye,
         flour,
-        destructorpack("Mobile Trash Bin", false),
+        destructorpack(false),
         lapotronic_energy_orb(false);
 
         private Item instance;

@@ -35,6 +35,11 @@ public class ItemElectricBase extends BaseElectricItem implements IModelInfoProv
     }
 
     @Override
+    public String getTranslationKey(ItemStack stack) {
+        return this.getTranslationKey();
+    }
+
+    @Override
     public ModelInformation getModelInformation() {
         return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, this.folder));
     }

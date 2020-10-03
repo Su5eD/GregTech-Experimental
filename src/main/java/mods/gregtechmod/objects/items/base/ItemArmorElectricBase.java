@@ -55,7 +55,12 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+"."+super.getTranslationKey();
+        return GregtechMod.MODID+".armor."+this.name+".name";
+    }
+
+    @Override
+    public String getTranslationKey(ItemStack stack) {
+        return this.getTranslationKey();
     }
 
     @Override
@@ -66,12 +71,12 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add("Tier: " + this.tier);
-        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate("item.armor.perk."+perk.name()+".name"));
+        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate(GregtechMod.MODID+".item.armor.perk."+perk.name()+".name"));
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn) {
-        ItemStack armor = player.inventory.armorInventory.get(armorType.getSlotIndex());
+        ItemStack armor = player.inventory.armorInventory.get(armorType.getIndex());
         if (armor != ItemStack.EMPTY) {
             for (int i = 0; i < 9; i++) {
                 if (player.inventory.mainInventory.get(i) == player.inventory.getCurrentItem()) {
@@ -179,6 +184,11 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     @Override
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
         ElectricItem.manager.discharge(stack, damage * this.damageEnergyCost, Integer.MAX_VALUE, true, false, true);
+    }
+
+    @Override
+    public EntityEquipmentSlot getSlot() {
+        return this.armorType;
     }
 
     @Override

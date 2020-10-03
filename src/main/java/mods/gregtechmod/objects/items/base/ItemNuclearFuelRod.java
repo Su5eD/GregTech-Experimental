@@ -43,6 +43,11 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
     }
 
     @Override
+    public String getTranslationKey(ItemStack stack) {
+        return this.getTranslationKey();
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
         tooltip.add("Time left: "+(getMaxCustomDamage(stack) - getCustomDamage(stack)) + " secs");

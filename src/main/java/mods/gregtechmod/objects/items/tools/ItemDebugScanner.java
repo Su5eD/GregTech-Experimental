@@ -22,6 +22,7 @@ public class ItemDebugScanner extends ItemScanner {
     public ItemDebugScanner() {
         super("debug_scanner", null,1000000000, 0, 4);
         setRegistryName("debug_scanner");
+        setFolder("tool");
         setCreativeTab(GregtechMod.GREGTECH_TAB);
     }
 

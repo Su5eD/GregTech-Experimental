@@ -1,22 +1,30 @@
 package mods.gregtechmod.objects.items;
 
 import ic2.core.ContainerBase;
+import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.item.IHandHeldInventory;
 import ic2.core.item.tool.HandHeldInventory;
+import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.gui.GuiDestructorPack;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import mods.gregtechmod.objects.items.containers.ContainerDestructorpack;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-
-import javax.annotation.Nullable;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.world.World;
 
 public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
 
-    public ItemDestructorPack(String name, @Nullable String description) {
-        super(name, description);
+    public ItemDestructorPack() {
+        super("destructorpack", "Mobile Trash Bin");
+        setFolder("tool");
+        setRegistryName("destructorpack");
+        setTranslationKey("destructorpack");
+        setCreativeTab(GregtechMod.GREGTECH_TAB);
         setMaxStackSize(1);
         setNoRepair();
     }
@@ -24,6 +32,13 @@ public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
     @Override
     public IHasGui getInventory(EntityPlayer entityPlayer, ItemStack itemStack) {
         return new HandHeldDestructorPack(entityPlayer, itemStack, 1);
+    }
+
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+        if (IC2.platform.isSimulating())
+            IC2.platform.launchGui(player, getInventory(player, stack));
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 
     public static class HandHeldDestructorPack extends HandHeldInventory {

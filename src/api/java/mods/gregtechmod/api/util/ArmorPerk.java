@@ -93,7 +93,7 @@ public enum ArmorPerk {
     invisibility_field((stack, player, armor) -> {
         if (ElectricItem.manager.canUse(stack, 10000)) {
             ElectricItem.manager.use(stack, 10000, player);
-            player.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 25, 1));
+            player.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 25, 1, false, false));
         }
     }),
     infinite_charge((stack, player, armor) -> {});
@@ -111,10 +111,10 @@ public enum ArmorPerk {
                 ItemStack targetDechargeItem = stack;
 
                 if (ElectricItem.manager.charge(targetChargeItem, 1, Integer.MAX_VALUE, true, true) < 1) {
-                    targetChargeItem = player.inventory.armorInventory.get(2);
+                    targetChargeItem = player.inventory.armorInventory.get(armor.getSlot().getIndex());
                 }
                 if (ElectricItem.manager.discharge(targetDechargeItem, 10, Integer.MAX_VALUE, true, true, true) < 10) {
-                    targetDechargeItem = player.inventory.armorInventory.get(2);
+                    targetDechargeItem = player.inventory.armorInventory.get(armor.getSlot().getIndex());
                 }
 
                 if (targetChargeItem == ItemStack.EMPTY || !(stack.getItem() instanceof IElectricItem)) {
@@ -130,7 +130,7 @@ public enum ArmorPerk {
                     }
                 } else {
                     if (armor.getPerks().contains(ArmorPerk.lamp) && targetDechargeItem != null && ElectricItem.manager.canUse(targetDechargeItem, 10)) {
-                        if (player.world.getBlockState(player.getPosition().up()) == Blocks.AIR)
+                        if (player.world.getBlockState(player.getPosition().up()).getBlock() == Blocks.AIR)
                             player.world.setBlockState(player.getPosition().up(), BlockItems.lightSource.getDefaultState());
                         ElectricItem.manager.use(targetDechargeItem, 10, player);
                     }

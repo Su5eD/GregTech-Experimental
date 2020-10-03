@@ -59,4 +59,9 @@ public class ItemToolBase extends ItemTool implements IModelInfoProvider {
     public String getTranslationKey() {
         return GregtechMod.MODID+"."+super.getTranslationKey();
     }
+
+    @Override
+    public String getTranslationKey(ItemStack stack) {
+        return this.getTranslationKey();
+    }
 }

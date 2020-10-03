@@ -5,6 +5,7 @@ import ic2.core.item.ItemBattery;
 import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvider {
@@ -18,6 +19,11 @@ public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvide
     @Override
     public String getTranslationKey() {
         return GregtechMod.MODID+".item.lithium_re_battery";
+    }
+
+    @Override
+    public String getTranslationKey(ItemStack stack) {
+        return this.getTranslationKey();
     }
 
     @Override
