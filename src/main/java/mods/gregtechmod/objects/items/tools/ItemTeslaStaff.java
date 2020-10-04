@@ -2,28 +2,18 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
-import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
-import mods.gregtechmod.util.ModelInformation;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ItemTeslaStaff extends ItemElectricBase {
 
     public ItemTeslaStaff() {
-        super("tesla_staff", 10000000, 8192, 4);
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("No warranty!");
+        super("tesla_staff", "No warranty!", 10000000, 8192, 4);
+        setRegistryName("tesla_staff");
+        setFolder("tool");
     }
 
     @Override
@@ -43,10 +33,5 @@ public class ItemTeslaStaff extends ItemElectricBase {
             attacker.attackEntityFrom(DamageSource.MAGIC, 19);
         }
         return super.hitEntity(stack, target, attacker);
-    }
-
-    @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation("tesla_staff", "tool"));
     }
 }

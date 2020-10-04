@@ -3,6 +3,7 @@ package mods.gregtechmod.init;
 import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.core.GregtechTeBlock;
 import mods.gregtechmod.cover.RenderTeBlock;
+import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.JsonHandler;
 import mods.gregtechmod.util.ModelInformation;
@@ -19,6 +20,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,6 +30,7 @@ public class RegistryHandler {
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         BlockItemLoader.init();
         event.getRegistry().registerAll(BlockItemLoader.BLOCKS.toArray(new Block[0]));
+        GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(GregtechMod.MODID, "light_source"));
     }
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {

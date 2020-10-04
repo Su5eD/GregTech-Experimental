@@ -29,7 +29,6 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     public ItemNuclearFuelRod(String name, int cells, int duration, float energy, int radiation, float heat, @Nullable ItemStack depletedStack) {
         super(null, cells, duration);
-        setRegistryName(name);
         setMaxStackSize(1);
         this.name = name;
         this.depletedStack = depletedStack;
@@ -40,7 +39,12 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     @Override
     public String getTranslationKey() {
-        return "item."+this.name;
+        return GregtechMod.MODID+".item."+this.name;
+    }
+
+    @Override
+    public String getTranslationKey(ItemStack stack) {
+        return this.getTranslationKey();
     }
 
     @Override

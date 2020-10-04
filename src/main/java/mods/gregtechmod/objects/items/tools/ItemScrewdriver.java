@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 
 public class ItemScrewdriver extends ItemToolBase {
 
-    public ItemScrewdriver() {
-        super("screwdriver", "To screw covers on machines \nCan switch the design of certain blocks \nCan rotate repeaters and comparators", 256, 4, ToolMaterial.IRON);
+    public ItemScrewdriver(String name, String description, int durability, int attackDamage) {
+        super(name, description, durability, attackDamage, ToolMaterial.IRON);
     }
 
     @Override

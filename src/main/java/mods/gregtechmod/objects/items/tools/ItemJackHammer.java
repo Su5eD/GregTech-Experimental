@@ -15,20 +15,19 @@ import java.util.Collections;
 public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvider {
     protected final String name;
 
-    public ItemJackHammer(String material, int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency) {
+    public ItemJackHammer(String name, int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency) {
         super(null, operationEnergyCost, HarvestLevel.Diamond, Collections.emptySet());
-        this.name = "jack_hammer_"+material;
+        this.name = name;
         this.maxCharge = maxCharge;
         this.transferLimit = transferLimit;
         this.tier = tier;
         this.efficiency = efficiency;
-        setRegistryName(name);
         setMaxStackSize(1);
     }
 
     @Override
     public String getTranslationKey() {
-        return "item."+name;
+        return GregtechMod.MODID+".item."+name;
     }
 
     @Override

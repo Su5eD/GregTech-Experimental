@@ -7,6 +7,7 @@ import ic2.core.item.BaseElectricItem;
 import ic2.core.item.ElectricItemManager;
 import ic2.core.item.IPseudoDamageItem;
 import ic2.core.util.LogCategory;
+import mods.gregtechmod.core.GregtechMod;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,9 @@ import net.minecraft.util.NonNullList;
 public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPseudoDamageItem {
 
     public ItemWrenchAdvanced() {
-        super("advanced", 28);
+        super("wrench_advanced", 28);
+        setRegistryName("wrench_advanced");
+        setCreativeTab(GregtechMod.GREGTECH_TAB);
         setNoRepair();
         this.rotateDamage = 1000;
         this.removeDamage = 3000;

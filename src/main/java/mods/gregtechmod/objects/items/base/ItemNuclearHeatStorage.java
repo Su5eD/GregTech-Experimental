@@ -16,14 +16,18 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IM
 
     public ItemNuclearHeatStorage(String name, int heatStorage) {
         super(null, heatStorage);
-        setRegistryName(name);
         setMaxStackSize(1);
         this.name = name;
     }
 
     @Override
     public String getTranslationKey() {
-        return "item."+this.name;
+        return GregtechMod.MODID+".item."+this.name;
+    }
+
+    @Override
+    public String getTranslationKey(ItemStack stack) {
+        return this.getTranslationKey();
     }
 
     @Override

@@ -43,6 +43,7 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
     public ItemSawAdvanced() {
         super(null, 200, HarvestLevel.Diamond, EnumSet.of(ToolClass.Axe, ToolClass.Sword, ToolClass.Shears));
         setRegistryName("saw_advanced");
+        setCreativeTab(GregtechMod.GREGTECH_TAB);
         this.maxCharge = 128000;
         this.transferLimit = 1000;
         this.tier = 3;
@@ -51,7 +52,7 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
 
     @Override
     public String getTranslationKey() {
-        return "item.saw_advanced";
+        return GregtechMod.MODID+".item.saw_advanced";
     }
 
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {

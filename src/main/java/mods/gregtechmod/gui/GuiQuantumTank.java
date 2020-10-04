@@ -4,7 +4,7 @@ import ic2.core.GuiIC2;
 import ic2.core.init.Localization;
 import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.inventory.CustomFluidSlot;
-import mods.gregtechmod.objects.blocks.machines.container.ContainerQuantumTank;
+import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerQuantumTank;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiQuantumTank extends GuiIC2<ContainerQuantumTank> {

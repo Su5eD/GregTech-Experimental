@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 
 public class ItemCrowbar extends ItemToolBase {
 
-    public ItemCrowbar() {
-        super("crowbar", "To remove covers form machines", 256, 6, ToolMaterial.IRON);
+    public ItemCrowbar(String name, String description, int durability, int attackDamage) {
+        super(name, description, durability, attackDamage, ToolMaterial.IRON);
     }
 
     @Override

@@ -16,13 +16,8 @@ import java.util.List;
 
 public class BlockBase extends Block {
 
-    public BlockBase(String name, Material material, float hardness, float resistance) {
+    public BlockBase(Material material) {
         super(material);
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
-        setHardness(hardness);
-        setResistance(resistance);
     }
 
     @Override
@@ -33,5 +28,10 @@ public class BlockBase extends Block {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add("Mobs can't spawn on this block");
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return GregtechMod.MODID+"."+super.getTranslationKey();
     }
 }

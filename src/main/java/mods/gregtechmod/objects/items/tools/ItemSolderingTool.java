@@ -9,6 +9,7 @@ import ic2.core.item.IPseudoDamageItem;
 import ic2.core.util.LogCategory;
 import mods.gregtechmod.api.item.ISolderingMetal;
 import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.objects.items.base.ItemToolBase;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -27,13 +28,13 @@ import java.util.List;
 
 public class ItemSolderingTool extends ItemToolBase implements IElectricItem, IPseudoDamageItem {
 
-    public ItemSolderingTool() {
-        super("soldering_tool", "To repair and construct circuitry", 10, 0, ToolMaterial.IRON);
+    public ItemSolderingTool(String name, String description, int durability) {
+        super(name, description, durability, 0, ToolMaterial.IRON);
     }
 
     @Override
     public String getTranslationKey(ItemStack stack) {
-        return ElectricItem.manager.getCharge(stack) >= 1000 ? "item.soldering_tool" : "item.soldering_tool_empty";
+        return ElectricItem.manager.getCharge(stack) >= 1000 ? GregtechMod.MODID+ ".item.soldering_tool" : GregtechMod.MODID+".item.soldering_tool_empty";
     }
 
     public ItemStack findSolderingMetal(EntityPlayer player) {

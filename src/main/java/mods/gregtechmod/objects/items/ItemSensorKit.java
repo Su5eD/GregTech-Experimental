@@ -32,7 +32,7 @@ public class ItemSensorKit extends ItemBase implements IItemKit {
 
     @Override
     public String getUnlocalizedName() {
-        return "item.gregtechmod.sensor_kit";
+        return GregtechMod.MODID+".item.gregtechmod.sensor_kit";
     }
 
     @Override
