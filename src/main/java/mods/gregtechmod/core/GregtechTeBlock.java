@@ -10,10 +10,7 @@ import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
-import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityDigitalChest;
-import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
-import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumChest;
-import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumTank;
+import mods.gregtechmod.objects.blocks.tileentities.machines.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,7 +29,8 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     industrial_centrifuge(TileEntityIndustrialCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
     digital_chest(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
     quantum_chest(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
-    quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true);
+    quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
+    sonictron(TileEntitySonictron.class, 5, true, Collections.emptySet(), false, HarvestTool.Wrench, DefaultDrop.Self, 5, 10, EnumRarity.COMMON, Material.IRON, false, false);
 
     public static final ResourceLocation LOCATION;
     private final int itemMeta;

@@ -10,6 +10,8 @@ import mods.gregtechmod.init.CoverLoader;
 import mods.gregtechmod.init.RecipeLoader;
 import mods.gregtechmod.init.RegistryHandler;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntitySonictron;
+import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
@@ -18,6 +20,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -39,6 +42,8 @@ public final class GregtechMod {
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(GregtechMod.MODID, "textures/gui/gtcommon.png");
     @Instance
     public static GregtechMod instance;
+    @SidedProxy(clientSide = "mods.gregtechmod.core.ClientProxy")
+    public static IProxy proxy;
 
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab("gregtechtab");
     private Set<ITeBlock> allTypes;
@@ -76,7 +81,9 @@ public final class GregtechMod {
         RecipeLoader.loadRecipes();
     }
     @EventHandler
-    public static void init(FMLPostInitializationEvent event) {}
+    public static void init(FMLPostInitializationEvent event) {
+        TileEntitySonictron.loadSonictronSounds();
+    }
 
     @SubscribeEvent
     public void registerTileEntities(TeBlockFinalCallEvent event) {

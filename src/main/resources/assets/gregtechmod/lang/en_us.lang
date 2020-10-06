@@ -404,6 +404,7 @@ gregtechmod.teblock.industrial_centrifuge=Industrial Centrifuge
 gregtechmod.teblock.digital_chest=Digital Chest
 gregtechmod.teblock.quantum_chest=Quantum Chest
 gregtechmod.teblock.quantum_tank=Quantum Tank
+gregtechmod.teblock.sonictron=Sonictron
 
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium
