@@ -6,13 +6,11 @@ import ic2.core.init.Rezepte;
 import ic2.core.util.Config;
 import ic2.core.util.ConfigUtil;
 import ic2.core.util.ReflectionUtil;
+import mods.gregtechmod.api.recipe.Recipes;
 import mods.gregtechmod.core.GregtechMod;
-import mods.gregtechmod.recipe.Recipes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 
 import java.lang.reflect.Method;
 import java.text.ParseException;
@@ -21,11 +19,8 @@ import java.util.*;
 import static ic2.core.init.Rezepte.getConfigFile;
 
 public class RecipeLoader {
-    private static final Queue<Runnable> PENDING_RECIPES = new ArrayDeque<>();
 
     private static final Method WHITESPACE = ReflectionUtil.getMethod(Rezepte.class, new String[] { "splitWhitespace" }, String.class);
-
-    private static final Marker RECIPE = MarkerManager.getMarker("recipe");
 
     public static void loadRecipes() {
         //TODO: Replace with for loop + get an interface for detecting recipes
@@ -60,11 +55,7 @@ public class RecipeLoader {
             throw new Config.ParseException("invalid key", value, e);
         }
         if (input == null) {
-            if (lastAttempt) {
-                GregtechMod.LOGGER.warn(new Config.ParseException("invalid input: " + value.name, value).getMessage(), "Skipping recipe due to unresolvable input %s.", value.name);
-            } else {
-                PENDING_RECIPES.add(() -> loadMachineRecipe(value, machine, type, true));
-            }
+            GregtechMod.LOGGER.warn(new Config.ParseException("invalid input: " + value.name, value).getMessage(), "Skipping recipe due to unresolvable input %s.", value.name);
             return false;
         }
         try {
@@ -82,11 +73,7 @@ public class RecipeLoader {
                 }
                 ItemStack cOutput = ConfigUtil.asStackWithAmount(part);
                 if (cOutput == null) {
-                    if (lastAttempt) {
-                        GregtechMod.LOGGER.warn(new Config.ParseException("invalid output specified: " + part, value).getMessage(), "Skipping recipe using %s due to unresolvable output %s.", new Object[] { value.name, part });
-                    } else {
-                        PENDING_RECIPES.add(() -> loadMachineRecipe(value, machine, type, true));
-                    }
+                    GregtechMod.LOGGER.warn(new Config.ParseException("invalid output specified: " + part, value).getMessage(), "Skipping recipe using %s due to unresolvable output %s.", new Object[] { value.name, part });
                     return false;
                 }
                 outputs.add(cOutput);

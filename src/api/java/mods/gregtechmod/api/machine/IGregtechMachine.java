@@ -3,7 +3,6 @@ package mods.gregtechmod.api.machine;
 import net.minecraft.util.EnumFacing;
 
 public interface IGregtechMachine {
-    //TODO: Documentation
     boolean isActive();
 
     double getProgress();
@@ -23,6 +22,9 @@ public interface IGregtechMachine {
      */
     double getUniversalEnergy();
 
+    /**
+     * @return The maximum amount of universal energy this machine can store, either EU or Steam converted to EU
+     */
     double getUniversalEnergyCapacity();
 
     double getInputVoltage();
@@ -39,6 +41,9 @@ public interface IGregtechMachine {
 
     double getSteamCapacity();
 
+    /**
+     * Orders a machine to update it's cover behavior (such as cable connections)
+     */
     void markForCoverBehaviorUpdate();
 
     void disableWorking();

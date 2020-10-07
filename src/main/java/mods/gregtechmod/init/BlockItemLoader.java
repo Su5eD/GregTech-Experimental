@@ -222,6 +222,12 @@ public class BlockItemLoader {
                 .setRegistryName("scanner")
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Tools.debug_scanner.setInstance(registerItem(new ItemDebugScanner()));
+        BlockItems.Tools.destructorpack.setInstance(registerItem(new ItemDestructorPack()));
+        BlockItems.Tools.lapotronic_energy_orb.setInstance(registerItem(new ItemElectricBase(BlockItems.Tools.lapotronic_energy_orb.name(), null, 100000000, 8192, 5)
+                .setRegistryName(BlockItems.Tools.lapotronic_energy_orb.name())
+                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Tools.sonictron_portable.setInstance(registerItem(new ItemSonictron()));
+        BlockItems.Tools.data_orb.setInstance(registerItem(new ItemDataOrb()));
 
         for (BlockItems.Wrenches type : BlockItems.Wrenches.values()) {
             type.setInstance(registerItem(new ItemWrench("wrench_"+type.name(), type.durability)
@@ -367,13 +373,6 @@ public class BlockItemLoader {
     }
 
     private static void initMiscellaneous() {
-        BlockItems.Miscellaneous.destructorpack.setInstance(registerItem(new ItemDestructorPack()));
-        BlockItems.Miscellaneous.lapotronic_energy_orb.setInstance(registerItem(new ItemElectricBase(BlockItems.Miscellaneous.lapotronic_energy_orb.name(), null, 100000000, 8192, 5)
-                .setRegistryName(BlockItems.Miscellaneous.lapotronic_energy_orb.name())
-                .setCreativeTab(GregtechMod.GREGTECH_TAB)));
-        BlockItems.Miscellaneous.sonictron_portable.setInstance(registerItem(new ItemSonictron()));
-        BlockItems.Miscellaneous.data_orb.setInstance(registerItem(new ItemDataOrb()));
-
         for (BlockItems.Miscellaneous type : BlockItems.Miscellaneous.values()) {
             if (type.autoInit) {
                 type.setInstance(registerItem(new ItemBase(type.name(), type.description)

@@ -42,7 +42,7 @@ public interface ICover {
      * @param side the activated side
      * @return a <b>condition</b> under which the gui can be accessed. <b>NEVER</b> return <code>true</code> or <code>false</code> as it will break other covers (especially the Screen). For example, <code>side != this.side</code> or <code>side == this.side</code>
      */
-    boolean opensGui(EnumFacing side); //TODO: Is this covered by ICover#onCoverRightClick ?
+    boolean opensGui(EnumFacing side);
 
     boolean acceptsRedstone();
 

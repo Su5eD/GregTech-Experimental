@@ -48,8 +48,6 @@ public final class GregtechMod {
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab("gregtechtab");
     private Set<ITeBlock> allTypes;
 
-    //TODO: Add classic profile
-
     static {
         FluidRegistry.enableUniversalBucket();
     }

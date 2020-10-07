@@ -159,7 +159,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 break;
         }
     }
-    //TODO: Get rid of this. It triggers a double for loop
+
     public void updateUpgrades(EntityPlayer player) {
         if (world.isRemote) return;
 

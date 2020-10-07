@@ -31,7 +31,7 @@ public class ItemElectricBase extends BaseElectricItem implements IModelInfoProv
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item."+this.name; //TODO: Can this be exchanged for a setTranslationKey?
+        return GregtechMod.MODID+".item."+this.name;
     }
 
     @Override

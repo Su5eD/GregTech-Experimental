@@ -34,7 +34,7 @@ public class GregTechTab extends CreativeTabs {
         addTeBlock(GregtechTeBlock.quantum_chest, block);
         addTeBlock(GregtechTeBlock.quantum_tank, block);
 
-        super.displayAllRelevantItems(list); //TODO: Add stuff manually
+        super.displayAllRelevantItems(list);
     }
 
     private void addItem(Item item) {
