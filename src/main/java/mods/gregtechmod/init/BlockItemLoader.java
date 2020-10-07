@@ -9,10 +9,7 @@ import mods.gregtechmod.core.GregtechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
-import mods.gregtechmod.objects.items.ItemDestructorPack;
-import mods.gregtechmod.objects.items.ItemSensorCard;
-import mods.gregtechmod.objects.items.ItemSensorKit;
-import mods.gregtechmod.objects.items.ItemSolderingMetal;
+import mods.gregtechmod.objects.items.*;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
@@ -374,6 +371,7 @@ public class BlockItemLoader {
         BlockItems.Miscellaneous.lapotronic_energy_orb.setInstance(registerItem(new ItemElectricBase(BlockItems.Miscellaneous.lapotronic_energy_orb.name(), null, 100000000, 8192, 5)
                 .setRegistryName(BlockItems.Miscellaneous.lapotronic_energy_orb.name())
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
+        BlockItems.Miscellaneous.sonictron_portable.setInstance(registerItem(new ItemSonictron()));
 
         for (BlockItems.Miscellaneous type : BlockItems.Miscellaneous.values()) {
             if (type.autoInit) {

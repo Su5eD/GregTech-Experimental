@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities.machines;
+package mods.gregtechmod.objects.blocks.tileentities;
 
 import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
@@ -108,7 +108,7 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     }
 
     @Override
-    public ContainerBase<TileEntitySonictron> getGuiContainer(EntityPlayer entityPlayer) {
+    public ContainerBase<?> getGuiContainer(EntityPlayer entityPlayer) {
         return new ContainerSonictron(this);
     }
 

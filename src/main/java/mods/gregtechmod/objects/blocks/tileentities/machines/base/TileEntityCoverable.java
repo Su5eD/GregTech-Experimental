@@ -27,12 +27,10 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     protected Set<String> allowedCovers = new HashSet<>();
 
     public TileEntityCoverable() {
-        this.coverHandler = addComponent(new CoverHandler(this, new Runnable() {
-            public void run() {
-                IC2.network.get(true).updateTileEntityField(TileEntityCoverable.this, "coverHandler");
-                needsCoverBehaviorUpdate = true;
-                rerender();
-            }
+        this.coverHandler = addComponent(new CoverHandler(this, () -> {
+            IC2.network.get(true).updateTileEntityField(TileEntityCoverable.this, "coverHandler");
+            needsCoverBehaviorUpdate = true;
+            rerender();
         }));
     }
 
@@ -64,8 +62,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
 
     @Override
     public ICover getCoverAtSide(EnumFacing side) {
-        if (coverHandler.covers.containsKey(side)) return this.coverHandler.covers.get(side);
-        return null;
+        return this.coverHandler.covers.get(side);
     }
 
     @Override

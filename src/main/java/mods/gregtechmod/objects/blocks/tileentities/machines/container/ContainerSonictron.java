@@ -2,23 +2,22 @@ package mods.gregtechmod.objects.blocks.tileentities.machines.container;
 
 import ic2.api.util.Keys;
 import ic2.core.ContainerBase;
-import ic2.core.slot.SlotInvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntitySonictron;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerSonictron extends ContainerBase<TileEntitySonictron> {
+public class ContainerSonictron extends ContainerBase<IInventory> {
 
-    public ContainerSonictron(TileEntitySonictron base) {
+    public ContainerSonictron(IInventory base) {
         super(base);
 
         for (int j = 0; j < 8; j++)
             for (int i = 0; i < 8; i++)
-                addSlotToContainer(new SlotInvSlot(this.base.content, i+j*8, 24+16*i, 19+16*j));
+                addSlotToContainer(new Slot(base, i+j*8, 24+16*i, 19+16*j));
     }
 
     @Override

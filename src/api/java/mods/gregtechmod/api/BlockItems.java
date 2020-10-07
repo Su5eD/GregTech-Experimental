@@ -1001,8 +1001,9 @@ public class BlockItems {
         indigo_blossom,
         indigo_dye,
         flour,
-        destructorpack(false),
-        lapotronic_energy_orb(false);
+        destructorpack(false), //TODO: Move out of enum
+        lapotronic_energy_orb(false),
+        sonictron_portable(false);
 
         private Item instance;
         public final String description;

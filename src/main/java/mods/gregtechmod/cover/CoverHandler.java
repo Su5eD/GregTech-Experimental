@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CoverHandler extends TileEntityComponent {
     public static final IUnlistedProperty<CoverHandler> COVER_HANDLER_PROPERTY = new UnlistedProperty<>("coverhandler", CoverHandler.class);
@@ -44,18 +45,17 @@ public class CoverHandler extends TileEntityComponent {
     public NBTTagCompound writeToNbt() {
         if (this.covers.isEmpty()) return null;
         NBTTagCompound ret = new NBTTagCompound();
-        for (EnumFacing facing : EnumFacing.VALUES) {
-            ICover cover = this.covers.get(facing);
-            if (cover != null) {
-                ItemStack stack = cover.getItem();
-                NBTTagCompound nbt = new NBTTagCompound();
-                nbt.setString("name", CoverRegistry.getCoverName(cover));
-                NBTTagCompound tNbt = new NBTTagCompound();
-                if (stack != null) stack.writeToNBT(tNbt);
-                nbt.setTag("item", tNbt);
-                cover.writeToNBT(nbt);
-                ret.setTag(facing.getName(), nbt);
-            }
+        for (Map.Entry<EnumFacing, ICover> entry : this.covers.entrySet()) {
+            ICover cover = entry.getValue();
+            ItemStack stack = cover.getItem();
+            NBTTagCompound nbt = new NBTTagCompound();
+
+            nbt.setString("name", CoverRegistry.getCoverName(cover));
+            NBTTagCompound tNbt = new NBTTagCompound();
+            if (stack != null) stack.writeToNBT(tNbt);
+            nbt.setTag("item", tNbt);
+            cover.writeToNBT(nbt);
+            ret.setTag(entry.getKey().getName(), nbt);
         }
         return ret;
     }
