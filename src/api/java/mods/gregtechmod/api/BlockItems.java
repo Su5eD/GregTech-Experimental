@@ -1003,7 +1003,9 @@ public class BlockItems {
         flour,
         destructorpack(false), //TODO: Move out of enum
         lapotronic_energy_orb(false),
-        sonictron_portable(false);
+        sonictron_portable(false),
+        spray_can_empty("Used for making Sprays and storing Colors"),
+        data_orb(false);
 
         private Item instance;
         public final String description;

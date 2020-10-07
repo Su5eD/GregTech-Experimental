@@ -372,6 +372,7 @@ public class BlockItemLoader {
                 .setRegistryName(BlockItems.Miscellaneous.lapotronic_energy_orb.name())
                 .setCreativeTab(GregtechMod.GREGTECH_TAB)));
         BlockItems.Miscellaneous.sonictron_portable.setInstance(registerItem(new ItemSonictron()));
+        BlockItems.Miscellaneous.data_orb.setInstance(registerItem(new ItemDataOrb()));
 
         for (BlockItems.Miscellaneous type : BlockItems.Miscellaneous.values()) {
             if (type.autoInit) {
