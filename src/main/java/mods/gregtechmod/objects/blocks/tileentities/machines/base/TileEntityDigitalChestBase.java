@@ -10,7 +10,7 @@ import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.GtUpgradeSlot;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumChest;
 import net.minecraft.entity.item.EntityItem;
@@ -140,7 +140,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             }
 
             content.get().grow(totalCount);
-            GregtechMod.proxy.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.5F);
+            GregTechMod.proxy.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.5F);
         }
         else if (!slot.isEmpty()) {
             IC2.platform.messagePlayer(player, slot.getCount() + " " + slot.getDisplayName());

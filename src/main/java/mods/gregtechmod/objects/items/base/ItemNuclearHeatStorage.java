@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.items.base;
 
 import ic2.api.reactor.IReactor;
 import ic2.core.item.reactor.ItemReactorHeatStorage;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -22,7 +22,7 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IM
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item."+this.name;
+        return GregTechMod.MODID+".item."+this.name;
     }
 
     @Override
@@ -42,6 +42,6 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IM
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "nuclear"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "nuclear"));
     }
 }

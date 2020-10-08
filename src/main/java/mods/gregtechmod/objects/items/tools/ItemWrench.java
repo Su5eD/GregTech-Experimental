@@ -6,7 +6,7 @@ import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
 import ic2.core.item.tool.ItemToolWrench;
 import ic2.core.util.RotationUtil;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.Block;
@@ -40,7 +40,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item."+name;
+        return GregTechMod.MODID+".item."+name;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "tool"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "tool"));
     }
 
     @Override

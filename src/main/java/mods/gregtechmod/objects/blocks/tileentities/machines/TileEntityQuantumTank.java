@@ -9,7 +9,7 @@ import ic2.core.block.invslot.InvSlotConsumableLiquid;
 import ic2.core.block.invslot.InvSlotConsumableLiquidByTank;
 import ic2.core.block.invslot.InvSlotOutput;
 import mods.gregtechmod.api.cover.ICover;
-import mods.gregtechmod.core.ConfigLoader;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.gui.GuiQuantumTank;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityCoverBehavior;
@@ -35,7 +35,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
 
     public TileEntityQuantumTank() {
         this.fluids = addComponent(new Fluids(this));
-        this.content = (GtFluidTank) fluids.addTank(new GtFluidTank(this, "content", ConfigLoader.quantumTankCapacity));
+        this.content = (GtFluidTank) fluids.addTank(new GtFluidTank(this, "content", GregTechConfig.FEATURES.quantumTankCapacity));
         this.inputSlot = new InvSlotConsumableLiquidByTank(this, "inputSlot", InvSlot.Access.I, 1, InvSlot.InvSide.TOP, InvSlotConsumableLiquid.OpType.Both, this.content);
         this.outputSlot = new InvSlotOutput(this, "outputSlot", 1);
         this.allowedCovers = Sets.newHashSet("generic", "normal", "drain", "item_meter", "liquid_meter", "pump_module", "machine_controller", "item_valve");

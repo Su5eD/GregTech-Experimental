@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.blocks;
 
-import mods.gregtechmod.core.ConfigLoader;
+import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -49,7 +49,7 @@ public class ConnectedBlock extends BlockBase {
     }
 
     private boolean isSideConnectable (IBlockAccess world, BlockPos pos, EnumFacing side) {
-        if (!ConfigLoader.connectedMachineCasingTextures) return false;
+        if (!GregTechConfig.GENERAL.connectedMachineCasingTextures) return false;
         final IBlockState state = world.getBlockState(pos.offset(side));
         return state.getBlock() == this;
     }

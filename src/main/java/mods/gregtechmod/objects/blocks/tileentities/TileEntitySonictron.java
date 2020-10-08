@@ -6,7 +6,7 @@ import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.SonictronSound;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiSonictron;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerSonictron;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,6 +14,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
         this.isPowered = (this.currentIndex == 63);
 
         if (this.world.getWorldTime()%2 == 0 && this.currentIndex > -1) {
-            GregtechMod.proxy.doSonictronSound(this.content.get(currentIndex), this.world, this.pos.add(0.5, 0.5, 0.5));
+            GregTechMod.proxy.doSonictronSound(this.content.get(currentIndex), this.world, this.pos.add(0.5, 0.5, 0.5));
             if (++this.currentIndex > 63) this.currentIndex=-1;
         }
     }
@@ -57,7 +59,7 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     }
 
     public static void loadSonictronSounds() {
-        GregtechMod.LOGGER.info("Loading Sonictron sounds");
+        GregTechMod.LOGGER.info("Loading Sonictron sounds");
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.IRON_BLOCK, "block.note.harp", 25));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GOLD_BLOCK, "block.note.pling", 25));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.STONE, "block.note.basedrum", 25));
@@ -113,6 +115,7 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer entityPlayer, boolean b) {
         return new GuiSonictron(new ContainerSonictron(this));
     }

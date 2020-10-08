@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.items.base;
 
 import ic2.core.item.BaseElectricItem;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -31,7 +31,7 @@ public class ItemElectricBase extends BaseElectricItem implements IModelInfoProv
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item."+this.name;
+        return GregTechMod.MODID+".item."+this.name;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ItemElectricBase extends BaseElectricItem implements IModelInfoProv
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, this.folder));
+        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, this.folder));
     }
 
     @Override

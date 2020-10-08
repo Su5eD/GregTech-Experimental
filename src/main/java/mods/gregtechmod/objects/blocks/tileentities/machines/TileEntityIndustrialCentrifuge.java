@@ -14,7 +14,7 @@ import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.recipe.Recipes;
-import mods.gregtechmod.core.ConfigLoader;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityGTMachine;
@@ -68,7 +68,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine {
     @Override
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
         Ic2BlockState.Ic2BlockStateInstance aState = super.getExtendedState(state);
-        return getActive() ? aState.withProperty(PropertyHelper.ANIMATION_SPEED_PROPERTY, new PropertyHelper.AnimationSpeed(animatedSides, ConfigLoader.dynamicCentrifugeAnimationSpeed ? Math.min(this.overclockersCount + 1, 3) : 3)) : aState;
+        return getActive() ? aState.withProperty(PropertyHelper.ANIMATION_SPEED_PROPERTY, new PropertyHelper.AnimationSpeed(animatedSides, GregTechConfig.GENERAL.dynamicCentrifugeAnimationSpeed ? Math.min(this.overclockersCount + 1, 3) : 3)) : aState;
     }
 
     @Override

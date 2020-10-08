@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.items.base;
 
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.Block;
@@ -52,12 +52,12 @@ public class ItemToolBase extends ItemTool implements IModelInfoProvider {
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "tool"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "tool"));
     }
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+"."+super.getTranslationKey();
+        return GregTechMod.MODID+"."+super.getTranslationKey();
     }
 
     @Override

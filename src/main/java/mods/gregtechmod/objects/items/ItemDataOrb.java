@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.items;
 
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.client.util.ITooltipFlag;
@@ -26,7 +26,7 @@ public class ItemDataOrb extends ItemBase {
         super("data_orb", null);
         setRegistryName("data_orb");
         setTranslationKey("data_orb");
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
     @Override

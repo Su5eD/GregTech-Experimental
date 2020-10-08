@@ -1,6 +1,10 @@
 itemGroup.gregtechtab=GregTech Experimental
 
-gregtechmod.item.greg_coin.name=Greg Coin
+gregtechmod.config.title=GregTech Experimental Config
+gregtechmod.config.general=General
+gregtechmod.config.features=Features
+gregtechmod.config.balance=Balance
+gregtechmod.config.machines=Machines
 
 gregtechmod.item.armor.perk.rebreather.name=Rebreather
 gregtechmod.item.armor.perk.inertia_damper.name=Inertia Damper
@@ -141,6 +145,7 @@ gregtechmod.item.indigo_dye.name=Indigo Dye
 gregtechmod.item.flour.name=Flour
 gregtechmod.item.sonictron_portable.name=Sonictron
 gregtechmod.tile.light_source.name=Light Source
+gregtechmod.item.greg_coin.name=Greg Coin
 
 gregtechmod.armor.perk.rebreather.name=Rebreather
 gregtechmod.armor.perk.medicine_module.name=Medicine Module

@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.items;
 
 import com.zuxelus.energycontrol.api.*;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -30,12 +30,12 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
 
     @Override
     public String getName() {
-        return GregtechMod.MODID + ":sensor_card";
+        return GregTechMod.MODID + ":sensor_card";
     }
 
     @Override
     public String getUnlocalizedName() {
-        return GregtechMod.MODID+".item.gregtechmod.sensor_card";
+        return GregTechMod.MODID+".item.gregtechmod.sensor_card";
     }
 
     @Override

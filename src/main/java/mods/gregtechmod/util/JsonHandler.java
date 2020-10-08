@@ -2,7 +2,7 @@ package mods.gregtechmod.util;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
@@ -22,7 +22,7 @@ public class JsonHandler {
     public JsonHandler(String name) {
         this.rawTextures = readFromJSON(name);
         this.textures = generateMapFromJSON(rawTextures);
-        this.particle = new ResourceLocation(GregtechMod.MODID, rawTextures.get("particle").substring(GregtechMod.MODID.length()+1));
+        this.particle = new ResourceLocation(GregTechMod.MODID, rawTextures.get("particle").substring(GregTechMod.MODID.length()+1));
     }
 
     public LinkedTreeMap<String, String> readFromJSON(String name) {
@@ -31,7 +31,7 @@ public class JsonHandler {
             File file = Loader.instance().activeModContainer().getSource();
             FileSystem fs = FileSystems.newFileSystem(file.toPath(), null);
 
-            Reader reader = Files.newBufferedReader(fs.getPath("/assets/"+GregtechMod.MODID+"/models/item/teblock/"+name+".json"));
+            Reader reader = Files.newBufferedReader(fs.getPath("/assets/"+ GregTechMod.MODID+"/models/item/teblock/"+name+".json"));
 
             HashMap<String , LinkedTreeMap<String, String>> map = gson.fromJson(reader, HashMap.class);
 
@@ -48,7 +48,7 @@ public class JsonHandler {
         HashMap<EnumFacing, ResourceLocation> textures = new HashMap<>();
         assert map != null;
         for (String entry : map.keySet()) {
-            ResourceLocation location = new ResourceLocation(GregtechMod.MODID, map.get(entry).substring(GregtechMod.MODID.length()+1));
+            ResourceLocation location = new ResourceLocation(GregTechMod.MODID, map.get(entry).substring(GregTechMod.MODID.length()+1));
             EnumFacing facing;
             if ((facing = EnumFacing.byName(entry)) != null) textures.put(facing, location);
         }

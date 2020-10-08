@@ -5,7 +5,7 @@ import ic2.core.init.Localization;
 import ic2.core.item.armor.ItemArmorElectric;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.util.ArmorPerk;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -24,6 +24,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -55,7 +57,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".armor."+this.name+".name";
+        return GregTechMod.MODID+".armor."+this.name+".name";
     }
 
     @Override
@@ -65,13 +67,14 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-        return GregtechMod.MODID + ":textures/armor/"+this.name+".png";
+        return GregTechMod.MODID + ":textures/armor/"+this.name+".png";
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add("Tier: " + this.tier);
-        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate(GregtechMod.MODID+".item.armor.perk."+perk.name()+".name"));
+        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate(GregTechMod.MODID+".item.armor.perk."+perk.name()+".name"));
     }
 
     @Override
@@ -149,7 +152,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, this.folder));
+        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, this.folder));
     }
 
     @SubscribeEvent

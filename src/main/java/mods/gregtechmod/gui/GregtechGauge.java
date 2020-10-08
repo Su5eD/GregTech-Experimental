@@ -1,17 +1,17 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.Gauge;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 public enum GregtechGauge implements Gauge.IGaugeStyle {
-    ArrowRight((new Gauge.GaugePropertyBuilder(10, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Right)).withTexture(GregtechMod.COMMON_TEXTURE).withSmooth(false).build()),
-    ArrowUp((new Gauge.GaugePropertyBuilder(20, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)).withTexture(GregtechMod.COMMON_TEXTURE).withSmooth(false).build()),
-    ArrowLeft((new Gauge.GaugePropertyBuilder(30, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Left)).withTexture(GregtechMod.COMMON_TEXTURE).withSmooth(false).build()),
-    ArrowDown((new Gauge.GaugePropertyBuilder(0, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Down)).withTexture(GregtechMod.COMMON_TEXTURE).withSmooth(false).build());
+    ArrowRight((new Gauge.GaugePropertyBuilder(10, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Right)).withTexture(GregTechMod.COMMON_TEXTURE).withSmooth(false).build()),
+    ArrowUp((new Gauge.GaugePropertyBuilder(20, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)).withTexture(GregTechMod.COMMON_TEXTURE).withSmooth(false).build()),
+    ArrowLeft((new Gauge.GaugePropertyBuilder(30, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Left)).withTexture(GregTechMod.COMMON_TEXTURE).withSmooth(false).build()),
+    ArrowDown((new Gauge.GaugePropertyBuilder(0, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Down)).withTexture(GregTechMod.COMMON_TEXTURE).withSmooth(false).build());
 
     private static final Map<String, Gauge.IGaugeStyle> VALUES = getValues();
 

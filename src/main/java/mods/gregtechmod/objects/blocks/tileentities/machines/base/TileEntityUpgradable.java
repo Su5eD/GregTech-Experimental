@@ -15,7 +15,7 @@ import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
-import mods.gregtechmod.core.ConfigLoader;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.inventory.GtUpgradeSlot;
 import net.minecraft.client.util.ITooltipFlag;
@@ -64,8 +64,8 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public Fluids.InternalFluidTank steamTank;
     int neededSteam;
 
-    public double steamBalance = ConfigLoader.steamMultiplier;
-    public double supersteamBalance = ConfigLoader.superHeatedSteamMultiplier;
+    public double steamBalance = GregTechConfig.BALANCE.steamMultiplier;
+    public double supersteamBalance = GregTechConfig.BALANCE.superHeatedSteamMultiplier;
 
     protected TileEntityUpgradable(int maxEnergy, int defaultTier, int defaultEnergyConsume) {
         this.energy = addComponent(new Energy(this, maxEnergy, Util.allFacings, Collections.emptySet(), defaultTier));

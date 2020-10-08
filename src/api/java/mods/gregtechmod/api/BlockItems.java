@@ -580,7 +580,8 @@ public class BlockItems {
         wolframium_grinder("Regular Grinding Head"),
         machine_parts("Random Machine Parts"),
         advanced_circuit_parts("Part of advanced Circuitry"),
-        duct_tape("If you can't fix it with this, use more of it!");
+        duct_tape("If you can't fix it with this, use more of it!"),
+        data_orb(false);
 
         private Item instance;
         public final String description;
@@ -655,7 +656,6 @@ public class BlockItems {
         soldering_tool,
         tesla_staff,
         wrench_advanced,
-        data_orb,
         destructorpack,
         lapotronic_energy_orb,
         sonictron_portable;

@@ -17,7 +17,7 @@ import ic2.core.network.GuiSynced;
 import ic2.core.ref.FluidName;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
-import mods.gregtechmod.core.ConfigLoader;
+import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -177,7 +177,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     protected void stop() {
         if (this.progress != 0 && getActive()) (IC2.network.get(true)).initiateTileEntityEvent(this, 1, true);
-        if (ConfigLoader.constantNeedOfEnergy) this.progress = 0;
+        if (GregTechConfig.MACHINES.constantNeedOfEnergy) this.progress = 0;
         setActive(false);
     }
 
@@ -351,11 +351,11 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     public float getExplosionPower(int i, float v) {
         switch (this.energy.getSinkTier()) {
             case 2:
-                return (float) ConfigLoader.MVExplosionPower;
+                return (float) GregTechConfig.BALANCE.MVExplosionPower;
             case 3:
-                return (float) ConfigLoader.HVExplosionPower;
+                return (float) GregTechConfig.BALANCE.HVExplosionPower;
 
-            default: return (float) ConfigLoader.LVExplosionPower;
+            default: return (float) GregTechConfig.BALANCE.LVExplosionPower;
         }
     }
 

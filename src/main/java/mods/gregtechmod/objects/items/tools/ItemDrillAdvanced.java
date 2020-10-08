@@ -4,7 +4,7 @@ import ic2.core.IC2;
 import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.material.Material;
@@ -31,7 +31,7 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
     public ItemDrillAdvanced() {
         super(null, 800, HarvestLevel.Iridium, EnumSet.of(ToolClass.Pickaxe, ToolClass.Shovel));
         setRegistryName("drill_advanced");
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
         this.maxCharge = 400000;
         this.transferLimit = 1000;
         this.tier = 4;
@@ -40,7 +40,7 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item.drill_advanced";
+        return GregTechMod.MODID+".item.drill_advanced";
     }
 
     protected ItemStack getItemStack(double charge) {
@@ -111,6 +111,6 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation("drill_advanced", "tool"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation("drill_advanced", "tool"));
     }
 }

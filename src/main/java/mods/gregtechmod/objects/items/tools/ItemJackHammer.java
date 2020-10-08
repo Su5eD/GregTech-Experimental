@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.BlockOre;
@@ -27,7 +27,7 @@ public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item."+name;
+        return GregTechMod.MODID+".item."+name;
     }
 
     @Override
@@ -38,6 +38,6 @@ public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "tool"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "tool"));
     }
 }

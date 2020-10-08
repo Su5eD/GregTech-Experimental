@@ -5,7 +5,7 @@ import ic2.core.item.reactor.ItemReactorVentSpread;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregtechMachine;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -70,9 +70,9 @@ public class CoverVent extends CoverGeneric {
     }
 
     public enum VentType {
-        NORMAL(GregtechMod.MODID, VentType.COVER_PATH + "machine_vent_rotating"),
-        SPREAD(GregtechMod.MODID, VentType.COVER_PATH + "adv_machine_vent"),
-        ADVANCED(GregtechMod.MODID, VentType.COVER_PATH + "adv_machine_vent_rotating");
+        NORMAL(GregTechMod.MODID, VentType.COVER_PATH + "machine_vent_rotating"),
+        SPREAD(GregTechMod.MODID, VentType.COVER_PATH + "adv_machine_vent"),
+        ADVANCED(GregTechMod.MODID, VentType.COVER_PATH + "adv_machine_vent_rotating");
 
         private final String domain;
         private final String path;

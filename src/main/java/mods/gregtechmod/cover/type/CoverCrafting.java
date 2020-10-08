@@ -1,7 +1,7 @@
 package mods.gregtechmod.cover.type;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -40,7 +40,7 @@ public class CoverCrafting extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(GregtechMod.MODID, "blocks/covers/crafting");
+        return new ResourceLocation(GregTechMod.MODID, "blocks/covers/crafting");
     }
 
     private class CoverContainerWorkbench extends ContainerWorkbench{

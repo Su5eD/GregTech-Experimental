@@ -7,7 +7,7 @@ import ic2.core.block.invslot.InvSlot;
 import ic2.core.item.IHandHeldInventory;
 import ic2.core.item.tool.HandHeldInventory;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiSonictron;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerSonictron;
@@ -35,7 +35,7 @@ public class ItemSonictron extends ItemBase implements IHandHeldInventory {
         super("sonictron_portable", null);
         setRegistryName("sonictron_portable");
         setTranslationKey("sonictron_portable");
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ItemSonictron extends ItemBase implements IHandHeldInventory {
 
         if (tickTimer++%2 == 0 && currentIndex>-1) {
             ArrayList<ItemStack> inventory = getNBTInventory(stack);
-            GregtechMod.proxy.doSonictronSound(inventory.get(currentIndex), entityIn.world, entityIn.getPosition());
+            GregTechMod.proxy.doSonictronSound(inventory.get(currentIndex), entityIn.world, entityIn.getPosition());
             if (++currentIndex>63) currentIndex=-1;
         }
 

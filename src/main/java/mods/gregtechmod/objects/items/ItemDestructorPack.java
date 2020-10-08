@@ -5,7 +5,7 @@ import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.item.IHandHeldInventory;
 import ic2.core.item.tool.HandHeldInventory;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiDestructorPack;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import mods.gregtechmod.objects.items.containers.ContainerDestructorpack;
@@ -24,7 +24,7 @@ public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
         setFolder("tool");
         setRegistryName("destructorpack");
         setTranslationKey("destructorpack");
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
         setMaxStackSize(1);
         setNoRepair();
     }

@@ -4,7 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.state.IBlockState;
@@ -29,7 +29,7 @@ public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item.rock_cutter";
+        return GregTechMod.MODID+".item.rock_cutter";
     }
 
     @Override
@@ -68,6 +68,6 @@ public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation("rock_cutter", "tool"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation("rock_cutter", "tool"));
     }
 }

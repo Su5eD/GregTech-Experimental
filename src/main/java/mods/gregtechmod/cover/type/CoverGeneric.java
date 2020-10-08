@@ -5,7 +5,7 @@ import ic2.core.item.ItemMulti;
 import ic2.core.item.type.PlateResourceType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -155,19 +155,19 @@ public class CoverGeneric implements ICover {
 
     public enum CoverTextures {
         //Generic GregTech
-        aluminium(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"aluminium"),
-        brass(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"brass"),
-        chrome(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"chrome"),
-        electrum(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"electrum"),
-        invar(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"invar"),
-        iridium(GregtechMod.MODID, CoverTextures.BLOCK_CONNECTED_PATH +"block_iridium_reinforced_tungstensteel/block_iridium_reinforced_tungstensteel0c"),
-        nickel(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"nickel"),
-        osmium(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"osmium"),
-        platinum(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"platinum"),
-        titanium(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"titanium"),
-        tungsten(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"tungsten"),
-        tungstensteel(GregtechMod.MODID, CoverTextures.BLOCK_CONNECTED_PATH +"block_tungstensteel/block_tungstensteel0c"),
-        zinc(GregtechMod.MODID, CoverTextures.BLOCK_PATH +"zinc"),
+        aluminium(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"aluminium"),
+        brass(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"brass"),
+        chrome(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"chrome"),
+        electrum(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"electrum"),
+        invar(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"invar"),
+        iridium(GregTechMod.MODID, CoverTextures.BLOCK_CONNECTED_PATH +"block_iridium_reinforced_tungstensteel/block_iridium_reinforced_tungstensteel0c"),
+        nickel(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"nickel"),
+        osmium(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"osmium"),
+        platinum(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"platinum"),
+        titanium(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"titanium"),
+        tungsten(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"tungsten"),
+        tungstensteel(GregTechMod.MODID, CoverTextures.BLOCK_CONNECTED_PATH +"block_tungstensteel/block_tungstensteel0c"),
+        zinc(GregTechMod.MODID, CoverTextures.BLOCK_PATH +"zinc"),
         //Generic Minecraft
         iron("minecraft", "blocks/iron_block"),
         gold("minecraft", "blocks/gold_block"),
