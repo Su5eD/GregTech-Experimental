@@ -29,6 +29,8 @@ public interface IGregtechMachine {
 
     double getInputVoltage();
 
+    double getOutputVoltage();
+
     double getStoredEU();
 
     double getEUCapacity();
@@ -63,4 +65,9 @@ public interface IGregtechMachine {
     void enableOutput();
 
     boolean isOutputEnabled();
+
+    /**
+     * Instructs the machine to go <b>KABOOM</b
+     */
+    void markForExplosion();
 }

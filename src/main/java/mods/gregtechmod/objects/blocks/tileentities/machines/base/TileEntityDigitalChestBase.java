@@ -359,6 +359,14 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         return Collections.emptySet();
     }
 
+    @Override
+    public double getOutputVoltage() {
+        return 0;
+    }
+
+    @Override
+    public void markForExplosion() {}
+
     private class BarrelItemStackHandler extends ItemStackHandler {
         private final EnumFacing side;
 

@@ -43,13 +43,26 @@ public class GregTechConfig {
         public final double superHeatedSteamMultiplier = 0.5;
         @Config.Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public final boolean solarPanelCoverOvervoltageProtection = false;
-        public final double LVExplosionPower = 2.5;
+        public final double LVExplosionPower = 2;
         public final double MVExplosionPower = 3;
         public final double HVExplosionPower = 4;
+        public final double EVExplosionPower = 5;
+        public final double IVExplosionPower = 6;
     }
 
     public static class Machines {
         public final boolean constantNeedOfEnergy = true;
+        public final boolean machineFlammable = true;
+        @Config.Comment("Fire causes explosions")
+        public final boolean machineFireExplosions = true;
+        @Config.Comment("Wirefire on explosion")
+        public final boolean machineWireFire = true;
+        @Config.Comment("Rain causes explosions")
+        public final boolean machineRainExplosions = true;
+        @Config.Comment("Lightning causes explosions")
+        public final boolean machineThunderExplosions = true;
+        @Config.Comment("Nearby explosions cause machines to explode")
+        public final boolean machineChainExplosions = true;
     }
 
     @SubscribeEvent
