@@ -172,4 +172,14 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     public double getUniversalEnergyCapacity() {
         return 0;
     }
+
+    @Override
+    public double getOutputVoltage() {
+        return 0;
+    }
+
+    @Override
+    public void markForExplosion() {
+
+    }
 }
