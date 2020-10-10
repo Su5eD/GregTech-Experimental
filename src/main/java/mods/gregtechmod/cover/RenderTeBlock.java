@@ -129,10 +129,9 @@ public class RenderTeBlock extends AbstractModel {
             }
             else sprite = textures.get(initialTextures.get(currentFacing));
 
-            float zS = sp, yS = zS, xS = yS;
-            float zE = sp + th, yE = zE, xE = yE;
+            float zE = sp + th;
             IntBuffer buffer = VdUtil.getQuadBuffer();
-            generateQuad(xS, yS, zS, xE, yE, zE, side, face, sprite, state.hasValue(PropertyHelper.UV_LOCK_PROPERTY) ? state.getValue(PropertyHelper.UV_LOCK_PROPERTY) : true, buffer);
+            generateQuad(sp, sp, sp, zE, zE, zE, side, sprite, buffer);
             BakedQuad quad = new BakedQuad(Arrays.copyOf(buffer.array(), buffer.position()), -1, side, sprite, false, VdUtil.vertexFormat);
             arrayOfList[side.ordinal()].add(quad);
             generalQuads.add(quad);
@@ -151,7 +150,7 @@ public class RenderTeBlock extends AbstractModel {
         return new BasicBakedBlockModel(arrayOfList, generalQuads, null);
     }
 
-    private static void generateQuad(float xS, float yS, float zS, float xE, float yE, float zE, EnumFacing side, EnumFacing face, TextureAtlasSprite sprite, boolean uvlock, IntBuffer quadBuffer) {
+    public static void generateQuad(float xS, float yS, float zS, float xE, float yE, float zE, EnumFacing side, TextureAtlasSprite sprite, IntBuffer quadBuffer) {
         float spriteU = sprite.getMinU();
         float spriteV = sprite.getMinV();
 
@@ -163,22 +162,22 @@ public class RenderTeBlock extends AbstractModel {
 
         switch(side) {
             case DOWN:
-                generateBlockVertex(xS, yS, zS, spriteU + spriteWidth * xE, spriteV + spriteHeight * xE, side, quadBuffer); // 0 0
-                generateBlockVertex(xE, yS, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * xE, side, quadBuffer); // 1 0
-                generateBlockVertex(xE, yS, zE, spriteU + spriteWidth * xS, spriteV + spriteHeight * xS, side, quadBuffer); // 1 1
-                generateBlockVertex(xS, yS, zE, spriteU + spriteWidth * xE, spriteV + spriteHeight * xS, side, quadBuffer); // 0 1
+                generateBlockVertex(xS, yS, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * zS, side, quadBuffer); // 0 0
+                generateBlockVertex(xE, yS, zS, spriteU + spriteWidth * xE, spriteV + spriteHeight * zS, side, quadBuffer); // 1 0
+                generateBlockVertex(xE, yS, zE, spriteU + spriteWidth * xE, spriteV + spriteHeight * zE, side, quadBuffer); // 1 1
+                generateBlockVertex(xS, yS, zE, spriteU + spriteWidth * xS, spriteV + spriteHeight * zE, side, quadBuffer); // 0 1
                 break;
             case UP:
-                generateBlockVertex(xS, yE, zS, spriteU + spriteWidth * xE, spriteV + spriteHeight * xE, side, quadBuffer); // 0 0
-                generateBlockVertex(xS, yE, zE, spriteU + spriteWidth * xE, spriteV + spriteHeight * xS, side, quadBuffer); // 0 1
-                generateBlockVertex(xE, yE, zE, spriteU + spriteWidth * xS, spriteV + spriteHeight * xS, side, quadBuffer); // 1 1
-                generateBlockVertex(xE, yE, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * xE, side, quadBuffer); // 1 0
+                generateBlockVertex(xS, yE, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * zS, side, quadBuffer); // 0 0
+                generateBlockVertex(xS, yE, zE, spriteU + spriteWidth * xS, spriteV + spriteHeight * zE, side, quadBuffer); // 0 1
+                generateBlockVertex(xE, yE, zE, spriteU + spriteWidth * xE, spriteV + spriteHeight * zE, side, quadBuffer); // 1 1
+                generateBlockVertex(xE, yE, zS, spriteU + spriteWidth * xE, spriteV + spriteHeight * zS, side, quadBuffer); // 1 0
                 break;
             case NORTH:
-                generateBlockVertex(xS, yS, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * xS, side, quadBuffer); // 1 1
-                generateBlockVertex(xS, yE, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * xE, side, quadBuffer); // 1 0
-                generateBlockVertex(xE, yE, zS, spriteU + spriteWidth * xE, spriteV + spriteHeight * xE, side, quadBuffer); // 0 0
-                generateBlockVertex(xE, yS, zS, spriteU + spriteWidth * xE, spriteV + spriteHeight * xS, side, quadBuffer); // 0 1
+                generateBlockVertex(xS, yS, zS, spriteU + spriteWidth * xE, spriteV + spriteHeight * yE, side, quadBuffer); // 1 1
+                generateBlockVertex(xS, yE, zS, spriteU + spriteWidth * xE, spriteV + spriteHeight * yS, side, quadBuffer); // 1 0
+                generateBlockVertex(xE, yE, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * yS, side, quadBuffer); // 0 0
+                generateBlockVertex(xE, yS, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * yE, side, quadBuffer); // 0 1
                 break;
             case SOUTH:
                 generateBlockVertex(xS, yS, zE, reverseU + reverseWidth * xE, spriteV + spriteHeight * yE, side, quadBuffer); // 1 1
@@ -193,10 +192,10 @@ public class RenderTeBlock extends AbstractModel {
                 generateBlockVertex(xS, yE, zS, reverseU + reverseWidth * zE, spriteV + spriteHeight * yS, side, quadBuffer); // 1 0
                 break;
             case EAST:
-                generateBlockVertex(xE, yS, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * xS, side, quadBuffer); // 1 1
-                generateBlockVertex(xE, yE, zS, spriteU + spriteWidth * xS, spriteV + spriteHeight * xE, side, quadBuffer); // 1 0
-                generateBlockVertex(xE, yE, zE, spriteU + spriteWidth * xE, spriteV + spriteHeight * xE, side, quadBuffer); // 0 0
-                generateBlockVertex(xE, yS, zE, spriteU + spriteWidth * xE, spriteV + spriteHeight * xS, side, quadBuffer); // 0 1
+                generateBlockVertex(xE, yS, zS, spriteU + spriteWidth * zE, spriteV + spriteHeight * yE, side, quadBuffer); // 1 1
+                generateBlockVertex(xE, yE, zS, spriteU + spriteWidth * zE, spriteV + spriteHeight * yS, side, quadBuffer); // 1 0
+                generateBlockVertex(xE, yE, zE, spriteU + spriteWidth * zS, spriteV + spriteHeight * yS, side, quadBuffer); // 0 0
+                generateBlockVertex(xE, yS, zE, spriteU + spriteWidth * zS, spriteV + spriteHeight * yE, side, quadBuffer); // 0 1
                 break;
             default:
                 throw new IllegalArgumentException("Unexpected facing: " + side);
