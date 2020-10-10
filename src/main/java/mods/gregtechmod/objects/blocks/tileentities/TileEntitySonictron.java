@@ -43,12 +43,19 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
 
     @Override
     protected void updateEntityServer() {
-        this.isPowered = (this.currentIndex == 63);
+        if (this.world.getRedstonePowerFromNeighbors(pos) > 0) {
+            if (this.currentIndex < 0) {
+                this.currentIndex = 0;
+            }
+        }
 
         if (this.world.getWorldTime()%2 == 0 && this.currentIndex > -1) {
+            if (!this.getActive())
+                this.setActive(true);
             GregTechMod.proxy.doSonictronSound(this.content.get(currentIndex), this.world, this.pos.add(0.5, 0.5, 0.5));
             if (++this.currentIndex > 63) this.currentIndex=-1;
-        }
+        } else if (this.getActive())
+            this.setActive(false);
     }
 
     @Override
@@ -68,15 +75,15 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GLASS, "block.note.hat", 25));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.SAND, "block.note.snare", 25));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.RECORD_CAT, "record.", 12));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.TNT, "random.explode", 3));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.FIRE, "block.fire.ambient", 1));
+        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.TNT, "entity.generic.explode", 3));
+        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.FIRE_CHARGE, "block.fire.ambient", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.FLINT_AND_STEEL, "item.flintandsteel.use", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.FLOWING_LAVA, "block.lava.pop", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.FLOWING_WATER, "block.water.ambient", 1));
+        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.LAVA_BUCKET, "block.lava.pop", 1));
+        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.WATER_BUCKET, "block.water.ambient", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.BUCKET, "entity.generic.splash", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.LAVA_BUCKET, "block.fire.extinguish", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.PORTAL, "block.portal.ambient", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.END_PORTAL, "block.portal.travel", 1));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.LAVA_BUCKET, "block.fire.extinguish", 1));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.PORTAL, "block.portal.ambient", 1));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.END_PORTAL, "block.portal.travel", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.END_PORTAL_FRAME, "block.portal.trigger", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GLASS_PANE, "block.glass.break", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.ENDER_PEARL, "entity.experience_orb.pickup", 1));
@@ -90,7 +97,7 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.ARROW, "entity.arrow.shoot", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.FISHING_ROD, "entity.arrow.hit", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.IRON_SHOVEL, "entity.item.break", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.BUCKET, "entity.player.breath", 1));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.BUCKET, "entity.player.breath", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.POTIONITEM, "entity.generic.drink", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Items.GLASS_BOTTLE, "entity.player.burp", 1));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.ENDER_CHEST, "block.chest.open", 1));
@@ -121,7 +128,5 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     }
 
     @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {
-
-    }
+    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }

@@ -27,6 +27,7 @@ public class ItemDataOrb extends ItemBase {
         setRegistryName("data_orb");
         setTranslationKey("data_orb");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
+        setFolder("component");
     }
 
     @Override

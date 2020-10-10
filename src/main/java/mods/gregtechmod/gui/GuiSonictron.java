@@ -12,14 +12,13 @@ public class GuiSonictron extends GuiIC2<ContainerSonictron> {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        int x = (width - xSize) / 2;
-        int y = (height - ySize) / 2;
-        drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+    protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
+        this.bindTexture();
+        this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
     }
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(GregTechMod.MODID, "textures/gui/sonictron");
+        return new ResourceLocation(GregTechMod.MODID, "textures/gui/sonictron.png");
     }
 }

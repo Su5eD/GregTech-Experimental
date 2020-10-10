@@ -24,7 +24,7 @@ public class ClientProxy implements IProxy {
         float pitch = 1.0F;
         String name = "block.note.harp";
 
-        if (stack == ItemStack.EMPTY) return;
+        if (stack.isEmpty()) return;
 
         for (int i = 0; i < GregTechAPI.sonictronSounds.size(); i++) {
             if (StackUtil.checkItemEquality(stack, GregTechAPI.sonictronSounds.get(i).item)) {
@@ -32,6 +32,8 @@ public class ClientProxy implements IProxy {
                 break;
             }
         }
+
+        System.out.println("name: "+name);
 
         if (name.startsWith("random.explode")) {
             if (stack.getCount()==3) {
@@ -90,7 +92,7 @@ public class ClientProxy implements IProxy {
         }
 
         SoundEvent sound = SoundEvent.REGISTRY.getObject(new ResourceLocation(name));
-        if (sound == null) throw new IllegalArgumentException("Attempted to play invalid sound");
+        if (sound == null) throw new IllegalArgumentException("Attempted to play invalid sound "+name);
 
         if (name.startsWith("record.")) {
             world.playRecord(pos, sound);

@@ -1,18 +1,11 @@
 package mods.gregtechmod.objects.items;
 
-import ic2.core.ContainerBase;
 import ic2.core.IC2;
-import ic2.core.IHasGui;
-import ic2.core.block.invslot.InvSlot;
-import ic2.core.item.IHandHeldInventory;
-import ic2.core.item.tool.HandHeldInventory;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.gui.GuiSonictron;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerSonictron;
 import mods.gregtechmod.objects.items.base.ItemBase;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -29,7 +22,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ItemSonictron extends ItemBase implements IHandHeldInventory {
+public class ItemSonictron extends ItemBase {
 
     public ItemSonictron() {
         super("sonictron_portable", null);
@@ -41,9 +34,8 @@ public class ItemSonictron extends ItemBase implements IHandHeldInventory {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack stack = playerIn.inventory.getCurrentItem();
-        setCurrentIndex(stack, 0);
-        if (IC2.platform.isSimulating()) {
-            IC2.platform.launchGui(playerIn, this.getInventory(playerIn, stack));
+        if (IC2.platform.isSimulating() && !playerIn.isSneaking()) {
+            setCurrentIndex(stack, 0);
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
@@ -51,41 +43,45 @@ public class ItemSonictron extends ItemBase implements IHandHeldInventory {
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         ItemStack stack = player.inventory.getCurrentItem();
-        if (!world.isRemote && world.getTileEntity(pos) instanceof TileEntitySonictron) {
-            TileEntitySonictron sonictron = (TileEntitySonictron) world.getTileEntity(pos);
-
-            if (sonictron != null) {
+        if (!world.isRemote) {
+            setCurrentIndex(stack, -1);
+            if (world.getTileEntity(pos) instanceof TileEntitySonictron) {
+                TileEntitySonictron sonictron = (TileEntitySonictron) world.getTileEntity(pos);
                 ArrayList<ItemStack> inventory = getNBTInventory(stack);
+
                 if (player.isSneaking()) {
-                    setNBTInventory(player, stack, sonictron.content);
+                    setNBTInventory(stack, sonictron);
                 } else {
                     copyInventory(inventory.iterator(), sonictron);
                 }
                 return EnumActionResult.SUCCESS;
             }
         }
-        setCurrentIndex(stack, -1);
         return EnumActionResult.PASS;
     }
 
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        int	tickTimer = getTickTimer(stack),
-                currentIndex = getCurrentIndex(stack);
-
-        if (tickTimer++%2 == 0 && currentIndex>-1) {
-            ArrayList<ItemStack> inventory = getNBTInventory(stack);
-            GregTechMod.proxy.doSonictronSound(inventory.get(currentIndex), entityIn.world, entityIn.getPosition());
-            if (++currentIndex>63) currentIndex=-1;
+        if (!worldIn.isRemote) {
+            int	currentIndex = getCurrentIndex(stack);
+            System.out.println("index: "+currentIndex);
+            if (worldIn.getWorldTime()%2 == 0 && currentIndex > -1) {
+                ArrayList<ItemStack> inventory = getNBTInventory(stack);
+                if (inventory.isEmpty() || currentIndex >= inventory.size()) return;
+                System.out.println(inventory.get(currentIndex));
+                GregTechMod.proxy.doSonictronSound(inventory.get(currentIndex), entityIn.world, entityIn.getPosition());
+                if (++currentIndex>63)
+                    if (entityIn instanceof EntityPlayer && ((EntityPlayer)entityIn).openContainer instanceof ContainerSonictron)
+                        currentIndex = 0;
+                    else
+                        currentIndex = -1;
+                setCurrentIndex(stack, currentIndex);
+            }
         }
-
-        setTickTimer(stack, tickTimer);
-        setCurrentIndex(stack, currentIndex);
     }
 
     public static int getCurrentIndex(ItemStack stack) {
-        NBTTagCompound stackNBT = stack.getTagCompound();
-        if (stackNBT == null) stackNBT = new NBTTagCompound();
+        NBTTagCompound stackNBT = StackUtil.getOrCreateNbtData(stack);
         return stackNBT.getInteger("currentIndex");
     }
 
@@ -104,22 +100,8 @@ public class ItemSonictron extends ItemBase implements IHandHeldInventory {
         return inventory;
     }
 
-    public static int getTickTimer(ItemStack stack) {
-        NBTTagCompound stackNBT = stack.getTagCompound();
-        if (stackNBT == null) stackNBT = new NBTTagCompound();
-        return stackNBT.getInteger("tickTimer");
-    }
-
-    public static NBTTagCompound setTickTimer(ItemStack stack, int time) {
-        NBTTagCompound stackNBT = stack.getTagCompound();
-        if (stackNBT == null) stackNBT = new NBTTagCompound();
-        stackNBT.setInteger("tickTimer", time);
-        return stackNBT;
-    }
-
     public static NBTTagCompound setCurrentIndex(ItemStack stack, int index) {
-        NBTTagCompound nbt = stack.getTagCompound();
-        if (nbt == null) nbt = new NBTTagCompound();
+        NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
         nbt.setInteger("currentIndex", index);
         return nbt;
     }
@@ -130,41 +112,23 @@ public class ItemSonictron extends ItemBase implements IHandHeldInventory {
         }
     }
 
-    public static void setNBTInventory(EntityPlayer player, ItemStack stack, InvSlot slot) {
-        HandHeldSonictron inventory = new HandHeldSonictron(player, stack, 64);
-        copyInventory(slot.iterator(), inventory);
-        inventory.saveAsThrown(stack);
+    public static void setNBTInventory(ItemStack stack, IInventory inventory) {
+        NBTTagCompound stackNBT = StackUtil.getOrCreateNbtData(stack);
+
+        NBTTagList tagList = new NBTTagList();
+        for (int i = 0; i < inventory.getSizeInventory(); i++) {
+            ItemStack invStack = inventory.getStackInSlot(i);
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setByte("Slot", (byte) i);
+            invStack.writeToNBT(tag);
+            tagList.appendTag(tag);
+        }
+        stackNBT.setTag("Items", tagList);
+        stack.setTagCompound(stackNBT);
     }
 
     @Override
-    public IHasGui getInventory(EntityPlayer entityPlayer, ItemStack itemStack) {
-        return new HandHeldSonictron(entityPlayer, itemStack, 64);
-    }
-
-    public static class HandHeldSonictron extends HandHeldInventory {
-
-        public HandHeldSonictron(EntityPlayer player, ItemStack containerStack, int inventorySize) {
-            super(player, containerStack, inventorySize);
-        }
-
-        @Override
-        public ContainerBase<?> getGuiContainer(EntityPlayer entityPlayer) {
-            return new ContainerSonictron(this);
-        }
-
-        @Override
-        public GuiScreen getGui(EntityPlayer entityPlayer, boolean b) {
-            return new GuiSonictron(new ContainerSonictron(this));
-        }
-
-        @Override
-        public String getName() {
-            return "sonictron";
-        }
-
-        @Override
-        public boolean hasCustomName() {
-            return false;
-        }
+    public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+        setCurrentIndex(stack, -1);
     }
 }

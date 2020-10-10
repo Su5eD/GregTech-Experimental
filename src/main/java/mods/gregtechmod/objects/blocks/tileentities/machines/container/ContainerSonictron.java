@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.tileentities.machines.container;
 
-import ic2.api.util.Keys;
 import ic2.core.ContainerBase;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
@@ -26,21 +25,22 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
         Slot slot = this.inventorySlots.get(slotId);
         ItemStack content = slot.getStack();
 
-        if (Keys.instance.isSneakKeyDown(player))
+        if (clickType == ClickType.QUICK_MOVE)
             slot.putStack(ItemStack.EMPTY);
-        else if (clickType == ClickType.PICKUP) {
-            if (content == ItemStack.EMPTY) {
+        else if (clickType == ClickType.PICKUP && dragType < 1) {
+            if (content == ItemStack.EMPTY)
                 slot.putStack(StackUtil.copy(new ItemStack(GregTechAPI.sonictronSounds.get(0).item)));
-            } else {
+            else {
                 for (int i = 1; i < GregTechAPI.sonictronSounds.size(); i++) {
-                    if (StackUtil.checkItemEquality(content, GregTechAPI.sonictronSounds.get(i-1).item)) {
+                    if (StackUtil.checkItemEquality(content, GregTechAPI.sonictronSounds.get(i -1).item)) {
                         slot.putStack(StackUtil.copy(new ItemStack(GregTechAPI.sonictronSounds.get(i).item)));
                         return ItemStack.EMPTY;
                     }
                 }
                 slot.putStack(ItemStack.EMPTY);
             }
-        } else {
+        }
+        else {
             if (content != ItemStack.EMPTY) {
                 for (int i = 0; i < GregTechAPI.sonictronSounds.size(); i++) {
                     if (StackUtil.checkItemEquality(content, GregTechAPI.sonictronSounds.get(i).item)) {
@@ -52,6 +52,7 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
                 }
             }
         }
+
         return ItemStack.EMPTY;
     }
 }
