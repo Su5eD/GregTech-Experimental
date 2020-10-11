@@ -113,11 +113,11 @@ public class ItemDataOrb extends ItemBase {
         NBTTagCompound stackNBT = StackUtil.getOrCreateNbtData(stack);
 
         NBTTagList stackList = new NBTTagList();
-        for (byte i = 0; i < inventory.length; i++) {
+        for (int i = 0; i < inventory.length; i++) {
             ItemStack item = inventory[i];
             if (item != null) {
                 NBTTagCompound tag = new NBTTagCompound();
-                tag.setByte("Slot", i);
+                tag.setByte("Slot", (byte) i);
                 item.writeToNBT(tag);
                 stackList.appendTag(tag);
             }

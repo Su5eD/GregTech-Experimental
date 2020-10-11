@@ -5,7 +5,6 @@ import ic2.api.item.IElectricItem;
 import ic2.api.util.Keys;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.item.IElectricArmor;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -44,50 +43,48 @@ public enum ArmorPerk {
     lamp(ArmorPerk::tickLampOrSolarPanel),
     solarpanel(ArmorPerk::tickLampOrSolarPanel),
     extinguisher_module((stack, player, armor) -> {
-        if (player.isBurning()) player.setFire(0);
+        if (player.isBurning())
+            player.extinguish();
     }),
     jump_booster((stack, player, armor) -> {
-        if (!player.world.isRemote) {
-            float charge = armor.getJumpChargeMap().getOrDefault(player, 1.0F);
+        float charge = armor.getJumpChargeMap().getOrDefault(player, 1.0F);
 
-            if (ElectricItem.manager.canUse(stack, 1000) && player.onGround && charge < 1.0F) {
-                charge = 1.0F;
-                ElectricItem.manager.use(stack, 1000, player);
-            }
-
-            if (player.motionY >= 0.0D && charge > 0.0F && !player.isInWater()) {
-                if (Keys.instance.isJumpKeyDown(player) && Keys.instance.isBoostKeyDown(player)) {
-                    if (charge == 1.0F) {
-                        player.motionX *= 3.5D;
-                        player.motionZ *= 3.5D;
-                    }
-
-                    player.motionY += charge * 0.3F;
-                    charge = (float)(charge * 0.75);
-                } else if (charge < 1.0F) {
-                    charge = 0.0F;
-                }
-            }
-
-            armor.getJumpChargeMap().put(player, charge);
+        if (ElectricItem.manager.canUse(stack, 1000) && player.onGround && charge < 1.0F) {
+            charge = 1.0F;
+            ElectricItem.manager.use(stack, 1000, player);
         }
+
+        if (player.motionY >= 0.0D && charge > 0.0F && !player.isInWater()) {
+            if (Keys.instance.isJumpKeyDown(player) && Keys.instance.isBoostKeyDown(player)) {
+                if (charge == 1.0F) {
+                    player.motionX *= 3.5D;
+                    player.motionZ *= 3.5D;
+                }
+
+                player.motionY += charge * 0.3F;
+                charge *= 0.75F;
+            } else if (charge < 1.0F) {
+                charge = 0.0F;
+            }
+        }
+
+        armor.getJumpChargeMap().put(player, charge);
     }),
     speed_booster((stack, player, armor) -> {
         if (ElectricItem.manager.canUse(stack, 100) && player.isSprinting() && (player.onGround && Math.abs(player.motionX) + Math.abs(player.motionZ) > 0.10000000149011612D || player.isInWater())) {
             ElectricItem.manager.use(stack, 100, player);
-            float motionZ = 0.22F;
+            float speed = 0.22F;
 
             if (player.isInWater()) {
                 ElectricItem.manager.use(stack, 100, player);
-                motionZ = 0.1F;
+                speed = 0.1F;
 
-
-                if (player.motionY > 0) {
+                if (Keys.instance.isJumpKeyDown(player)) {
                     player.motionY += 0.10000000149011612D;
                 }
             }
 
-            player.move(MoverType.SELF, 0.0F, 1.0F, motionZ);
+            player.moveRelative(0.0F, 0.0F, 1.0F, speed);
         }
     }),
     invisibility_field((stack, player, armor) -> {

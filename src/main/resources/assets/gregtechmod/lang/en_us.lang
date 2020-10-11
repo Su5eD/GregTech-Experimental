@@ -146,6 +146,8 @@ gregtechmod.item.flour.name=Flour
 gregtechmod.item.sonictron_portable.name=Sonictron
 gregtechmod.tile.light_source.name=Light Source
 gregtechmod.item.greg_coin.name=Greg Coin
+gregtechmod.item.spray_can_empty.name=Empty Spray Can
+gregtechmod.item.data_orb.name=Data Orb
 
 gregtechmod.armor.perk.rebreather.name=Rebreather
 gregtechmod.armor.perk.medicine_module.name=Medicine Module
