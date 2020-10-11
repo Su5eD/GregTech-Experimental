@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.items;
 import com.zuxelus.energycontrol.api.IItemKit;
 import com.zuxelus.energycontrol.api.ItemStackHelper;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -27,12 +27,12 @@ public class ItemSensorKit extends ItemBase implements IItemKit {
 
     @Override
     public String getName() {
-        return GregtechMod.MODID + ":sensor_kit";
+        return GregTechMod.MODID + ":sensor_kit";
     }
 
     @Override
     public String getUnlocalizedName() {
-        return GregtechMod.MODID+".item.gregtechmod.sensor_kit";
+        return GregTechMod.MODID+".item.gregtechmod.sensor_kit";
     }
 
     @Override

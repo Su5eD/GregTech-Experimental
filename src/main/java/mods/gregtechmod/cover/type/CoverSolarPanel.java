@@ -2,8 +2,8 @@ package mods.gregtechmod.cover.type;
 
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregtechMachine;
-import mods.gregtechmod.core.ConfigLoader;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechConfig;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,7 +27,7 @@ public class CoverSolarPanel extends CoverGeneric {
     public void doCoverThings() {
         if (!(side == EnumFacing.UP) || !(te instanceof IGregtechMachine)) return;
 
-        if (ConfigLoader.solarPanelCoverOvervoltageProtection && !(((IGregtechMachine)te).getInputVoltage()*32 >= this.voltageDay)) return;
+        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && !(((IGregtechMachine)te).getInputVoltage()*32 >= this.voltageDay)) return;
 
         World world = ((TileEntity)te).getWorld();
         BlockPos pos = ((TileEntity)te).getPos();
@@ -50,7 +50,7 @@ public class CoverSolarPanel extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(GregtechMod.MODID, "blocks/covers/solar_panel");
+        return new ResourceLocation(GregTechMod.MODID, "blocks/covers/solar_panel");
     }
 
     @Override

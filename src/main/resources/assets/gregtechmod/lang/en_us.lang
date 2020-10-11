@@ -1,6 +1,10 @@
 itemGroup.gregtechtab=GregTech Experimental
 
-gregtechmod.item.greg_coin.name=Greg Coin
+gregtechmod.config.title=GregTech Experimental Config
+gregtechmod.config.general=General
+gregtechmod.config.features=Features
+gregtechmod.config.balance=Balance
+gregtechmod.config.machines=Machines
 
 gregtechmod.item.armor.perk.rebreather.name=Rebreather
 gregtechmod.item.armor.perk.inertia_damper.name=Inertia Damper
@@ -139,7 +143,11 @@ gregtechmod.item.yellow_garnet=Yellow Garnet
 gregtechmod.item.indigo_blossom.name=Indigo Blossom
 gregtechmod.item.indigo_dye.name=Indigo Dye
 gregtechmod.item.flour.name=Flour
+gregtechmod.item.sonictron_portable.name=Sonictron
 gregtechmod.tile.light_source.name=Light Source
+gregtechmod.item.greg_coin.name=Greg Coin
+gregtechmod.item.spray_can_empty.name=Empty Spray Can
+gregtechmod.item.data_orb.name=Data Orb
 
 gregtechmod.armor.perk.rebreather.name=Rebreather
 gregtechmod.armor.perk.medicine_module.name=Medicine Module
@@ -404,6 +412,7 @@ gregtechmod.teblock.industrial_centrifuge=Industrial Centrifuge
 gregtechmod.teblock.digital_chest=Digital Chest
 gregtechmod.teblock.quantum_chest=Quantum Chest
 gregtechmod.teblock.quantum_tank=Quantum Tank
+gregtechmod.teblock.sonictron=Sonictron
 
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium

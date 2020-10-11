@@ -5,7 +5,7 @@ import ic2.api.reactor.IReactorComponent;
 import ic2.core.IC2Potion;
 import ic2.core.item.armor.ItemArmorHazmat;
 import ic2.core.item.reactor.ItemReactorUranium;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -39,7 +39,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item."+this.name;
+        return GregTechMod.MODID+".item."+this.name;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, "nuclear"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "nuclear"));
     }
 
     private static class ItemStackCoord {

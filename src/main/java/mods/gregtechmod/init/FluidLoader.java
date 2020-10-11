@@ -1,6 +1,6 @@
 package mods.gregtechmod.init;
 
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.fluids.FluidGas;
 import mods.gregtechmod.objects.fluids.FluidLiquid;
 import net.minecraft.util.ResourceLocation;
@@ -13,7 +13,7 @@ public class FluidLoader {
     public static List<Fluid> FLUIDS = new ArrayList<>();
 
     public static void init() {
-        GregtechMod.LOGGER.info("Initializing fluids");
+        GregTechMod.LOGGER.info("Initializing fluids");
         for (Liquids type : Liquids.values()) {
             Fluid fluid = new FluidLiquid(type.name(), type.texture, type.texture)
                     .setUnlocalizedName(type.name())
@@ -62,7 +62,7 @@ public class FluidLoader {
         }
 
         private ResourceLocation getTexture() {
-            return new ResourceLocation(GregtechMod.MODID, "fluids/liquids/"+this.name());
+            return new ResourceLocation(GregTechMod.MODID, "fluids/liquids/"+this.name());
         }
 
         /**
@@ -96,7 +96,7 @@ public class FluidLoader {
         }
 
         private ResourceLocation getTexture() {
-            return new ResourceLocation(GregtechMod.MODID, "fluids/gases/"+this.name());
+            return new ResourceLocation(GregTechMod.MODID, "fluids/gases/"+this.name());
         }
 
         /**

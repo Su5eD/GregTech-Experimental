@@ -13,12 +13,12 @@ import ic2.core.block.state.Ic2BlockState;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.BlockItems;
-import mods.gregtechmod.core.ConfigLoader;
+import mods.gregtechmod.api.recipe.Recipes;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerIndustrialCentrifuge;
-import mods.gregtechmod.recipe.Recipes;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,7 +68,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine {
     @Override
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
         Ic2BlockState.Ic2BlockStateInstance aState = super.getExtendedState(state);
-        return getActive() ? aState.withProperty(PropertyHelper.ANIMATION_SPEED_PROPERTY, new PropertyHelper.AnimationSpeed(animatedSides, ConfigLoader.dynamicCentrifugeAnimationSpeed ? Math.min(this.overclockersCount + 1, 3) : 3)) : aState;
+        return getActive() ? aState.withProperty(PropertyHelper.ANIMATION_SPEED_PROPERTY, new PropertyHelper.AnimationSpeed(animatedSides, GregTechConfig.GENERAL.dynamicCentrifugeAnimationSpeed ? Math.min(this.overclockersCount + 1, 3) : 3)) : aState;
     }
 
     @Override

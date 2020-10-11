@@ -9,7 +9,7 @@ import ic2.core.item.IPseudoDamageItem;
 import ic2.core.util.LogCategory;
 import mods.gregtechmod.api.item.ISolderingMetal;
 import mods.gregtechmod.api.machine.IGregtechMachine;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolBase;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,7 +34,7 @@ public class ItemSolderingTool extends ItemToolBase implements IElectricItem, IP
 
     @Override
     public String getTranslationKey(ItemStack stack) {
-        return ElectricItem.manager.getCharge(stack) >= 1000 ? GregtechMod.MODID+ ".item.soldering_tool" : GregtechMod.MODID+".item.soldering_tool_empty";
+        return ElectricItem.manager.getCharge(stack) >= 1000 ? GregTechMod.MODID+ ".item.soldering_tool" : GregTechMod.MODID+".item.soldering_tool_empty";
     }
 
     public ItemStack findSolderingMetal(EntityPlayer player) {

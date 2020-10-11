@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.items.components;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.item.ItemBattery;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.item.ItemStack;
@@ -13,12 +13,12 @@ public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvide
     public ItemLithiumBattery() {
         super(null, 100000, 128, 1);
         setRegistryName("lithium_re_battery");
-        this.addPropertyOverride(new ResourceLocation(GregtechMod.MODID, "battery_charge"), (stack, worldIn, entityIn) -> ElectricItem.manager.getCharge(stack) > 1 ? 1 : 0);
+        this.addPropertyOverride(new ResourceLocation(GregTechMod.MODID, "battery_charge"), (stack, worldIn, entityIn) -> ElectricItem.manager.getCharge(stack) > 1 ? 1 : 0);
     }
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item.lithium_re_battery";
+        return GregTechMod.MODID+".item.lithium_re_battery";
     }
 
     @Override
@@ -28,6 +28,6 @@ public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvide
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation("lithium_re_battery", "component"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation("lithium_re_battery", "component"));
     }
 }

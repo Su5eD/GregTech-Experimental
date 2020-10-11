@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -23,7 +23,7 @@ public class ItemDebugScanner extends ItemScanner {
         super("debug_scanner", null,1000000000, 0, 4);
         setRegistryName("debug_scanner");
         setFolder("tool");
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
     @Override

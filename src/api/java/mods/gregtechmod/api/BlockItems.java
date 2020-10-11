@@ -561,7 +561,7 @@ public class BlockItems {
         turbine_blade_magnalium("Light Turbine Blade"),
         turbine_blade_steel("Standard Turbine Blade"),
         turbine_blade_tungstensteel("Durable Turbine Blade"),
-        gear_iron("A refined Iron Gear"), //TODO: Refined Iron is obsolete!
+        gear_iron("An Iron Gear"),
         gear_bronze("A Bronze Gear"),
         gear_steel("A Steel Gear"),
         gear_titanium("A Titanium Gear"),
@@ -580,7 +580,8 @@ public class BlockItems {
         wolframium_grinder("Regular Grinding Head"),
         machine_parts("Random Machine Parts"),
         advanced_circuit_parts("Part of advanced Circuitry"),
-        duct_tape("If you can't fix it with this, use more of it!");
+        duct_tape("If you can't fix it with this, use more of it!"),
+        data_orb(false);
 
         private Item instance;
         public final String description;
@@ -654,7 +655,10 @@ public class BlockItems {
         screwdriver,
         soldering_tool,
         tesla_staff,
-        wrench_advanced;
+        wrench_advanced,
+        destructorpack,
+        lapotronic_energy_orb,
+        sonictron_portable;
 
         private Item instance;
 
@@ -986,7 +990,7 @@ public class BlockItems {
     }
 
     public enum Miscellaneous {
-        greg_coin("A minimalist GregTech logo on a coin"), //TODO: Change description
+        greg_coin("I put the G in 'Gregoriette'"),
         credit_copper("0.125 Credits"),
         credit_silver("8 Credits"),
         credit_gold("64 Credits"),
@@ -1001,8 +1005,7 @@ public class BlockItems {
         indigo_blossom,
         indigo_dye,
         flour,
-        destructorpack(false),
-        lapotronic_energy_orb(false);
+        spray_can_empty("Used for making Sprays and storing Colors");
 
         private Item instance;
         public final String description;

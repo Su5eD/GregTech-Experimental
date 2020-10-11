@@ -8,7 +8,7 @@ import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.Block;
@@ -43,7 +43,7 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
     public ItemSawAdvanced() {
         super(null, 200, HarvestLevel.Diamond, EnumSet.of(ToolClass.Axe, ToolClass.Sword, ToolClass.Shears));
         setRegistryName("saw_advanced");
-        setCreativeTab(GregtechMod.GREGTECH_TAB);
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
         this.maxCharge = 128000;
         this.transferLimit = 1000;
         this.tier = 3;
@@ -52,7 +52,7 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+".item.saw_advanced";
+        return GregTechMod.MODID+".item.saw_advanced";
     }
 
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
@@ -131,6 +131,6 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation("saw_advanced", "tool"));
+        return new ModelInformation(GregTechMod.getModelResourceLocation("saw_advanced", "tool"));
     }
 }

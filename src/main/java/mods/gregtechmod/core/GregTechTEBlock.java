@@ -10,6 +10,7 @@ import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
+import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityDigitalChest;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumChest;
@@ -28,11 +29,12 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.Set;
 
-public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegisterer, ITeBlockSpecialItem {
+public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegisterer, ITeBlockSpecialItem {
     industrial_centrifuge(TileEntityIndustrialCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
     digital_chest(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
     quantum_chest(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
-    quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true);
+    quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
+    sonictron(TileEntitySonictron.class, 5, true, Collections.emptySet(), false, HarvestTool.Wrench, DefaultDrop.Self, 5, 10, EnumRarity.COMMON, Material.IRON, false, false);
 
     public static final ResourceLocation LOCATION;
     private final int itemMeta;
@@ -47,13 +49,13 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     private final Material material;
     private final boolean transparent;
     private Class<? extends TileEntityBlock> teClass;
-    public static final GregtechTeBlock[] VALUES;
+    public static final GregTechTEBlock[] VALUES;
     private TileEntityBlock dummyTe;
     private ITePlaceHandler placeHandler;
     private final boolean hasBakedModel;
 
     @SuppressWarnings("deprecation")
-    GregtechTeBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material, boolean transparent, boolean hasBakedModel) {
+    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material, boolean transparent, boolean hasBakedModel) {
         this.teClass = teClass;
         this.itemMeta = itemMeta;
         this.hasActive = hasActive;
@@ -172,22 +174,22 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     }
 
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
-        block.setCreativeTab(GregtechMod.GREGTECH_TAB);
+        block.setCreativeTab(GregTechMod.GREGTECH_TAB);
         if (tab == CreativeTabs.SEARCH)
-            for (GregtechTeBlock type : VALUES) {
+            for (GregTechTEBlock type : VALUES) {
                 if (type.hasItem()) {
                     list.add(block.getItemStack(type));
                 }
             }
     }
     public static void buildDummies() {
- 		for (GregtechTeBlock block : values()) {
+ 		for (GregTechTEBlock block : values()) {
  			if (block.teClass != null) {
  				try {
-                    GregtechMod.LOGGER.info("Building dummy TeBlock for "+block.name());
+                    GregTechMod.LOGGER.info("Building dummy TeBlock for "+block.name());
  					block.dummyTe = block.teClass.newInstance();
  				} catch (Exception e) {
- 					GregtechMod.LOGGER.error(e.getMessage());
+ 					GregTechMod.LOGGER.error(e.getMessage());
  				}
  			}
  		}
@@ -200,7 +202,7 @@ public enum GregtechTeBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public ModelResourceLocation getModelLocation(ItemStack itemStack) {
-        String location = GregtechMod.MODID+":teblock/"+this.name();
+        String location = GregTechMod.MODID+":teblock/"+this.name();
         return new ModelResourceLocation(location, this.name());
     }
 }

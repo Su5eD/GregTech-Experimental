@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.items.base;
 
-import mods.gregtechmod.core.GregtechMod;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -57,7 +57,7 @@ public class ItemBase extends Item implements IModelInfoProvider {
 
     @Override
     public ModelInformation getModelInformation() {
-        return new ModelInformation(GregtechMod.getModelResourceLocation(this.name, this.folder));
+        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, this.folder));
     }
 
     @SideOnly(Side.CLIENT)
@@ -68,7 +68,7 @@ public class ItemBase extends Item implements IModelInfoProvider {
 
     @Override
     public String getTranslationKey() {
-        return GregtechMod.MODID+"."+super.getTranslationKey();
+        return GregTechMod.MODID+"."+super.getTranslationKey();
     }
 
     @Override

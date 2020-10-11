@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ClientEventHandler {
 
     @SubscribeEvent
-    public void onRenderPlayer(RenderPlayerEvent.Pre event) {
+    public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         if (GtUtil.getFullInvisibility(event.getEntityPlayer())) event.setCanceled(true);
     }
 }
