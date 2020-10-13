@@ -400,4 +400,15 @@ public class BlockItemLoader {
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));
         }
     }
+
+    private static void initCropItems() {
+        for (BlockItems.Crops type : BlockItems.Crops.values()) {
+            if (type.hasItem) {
+                type.setInstance(registerItem(new ItemBase(type.name(), null)
+                    .setRegistryName(type.name())
+                    .setTranslationKey(type.name())
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
+            }
+        }
+    }
 }

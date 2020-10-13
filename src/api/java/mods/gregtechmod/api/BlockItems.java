@@ -153,13 +153,16 @@ public class BlockItems {
         antimony(Ingots.antimony.description),
         brass(Ingots.brass.description),
         chrome(Ingots.chrome.description),
+        copper("Cu"),
         electrum(Ingots.electrum.description),
         invar(Ingots.invar.description),
+        lead("Pg"),
         nickel(Ingots.nickel.description),
         osmium(Ingots.osmium.description),
         platinum(Ingots.platinum.description),
         silver(Plates.silver.description),
         steel("Fe"),
+        tin("Sn"),
         titanium(Ingots.titanium.description),
         tungsten(Ingots.tungsten.description),
         zinc(Ingots.zinc.description);
@@ -1026,6 +1029,67 @@ public class BlockItems {
         Miscellaneous(String description, boolean autoInit) {
             this.description = description;
             this.autoInit = autoInit;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        public void setInstance(Item item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public Item getInstance() {
+            return this.instance;
+        }
+    }
+
+    public enum Crops {
+        indigo("Eloraam", new ItemStack(Miscellaneous.indigo_blossom.instance), new ItemStack(Miscellaneous.indigo_blossom.instance, 4), 4, 4, 1, 0, 2, 1, 1, 0, 4, 0, true, "Flower", "Color", "Ingredient"),
+        tine("Gregorius Techneticies", new ItemStack(Nuggets.tin.instance), ItemStack.EMPTY, 3, 3, 2, 0, 5, 2, 0, 3, 0, 0, false, "Shiny", "Metal", "Pine", "Tin", "Bush"),
+        coppon("Mr. Brain", new ItemStack(Nuggets.copper.instance), ItemStack.EMPTY, 3, 3, 2, 0, 6, 2, 0, 1, 1, 1, false, "Shiny", "Metal", "Cotton", "Copper", "Bush"),
+        argentia("Eloraam", new ItemStack(Nuggets.silver.instance), ItemStack.EMPTY, 4, 4, 3, 0, 7, 2, 0, 1, 0, 0, false, "Shiny", "Metal", "Silver", "Reed"),
+        plumbilia("KingLemming", new ItemStack(Nuggets.lead.instance), ItemStack.EMPTY, 4, 4, 3, 0, 6, 2, 0, 3, 1, 1, false, "Heavy", "Metal", "Lead", "Reed");
+
+        private Item instance;
+        public final String discoverer;
+        public final ItemStack drop;
+        public final ItemStack[] specialDrops;
+        public final ItemStack baseSeed;
+        public final int maxSize;
+        public final int harvestSize;
+        public final int afterHarvestSize;
+        public final int growthSpeed;
+        public final int tier;
+        public final int statChemistry;
+        public final int statConsumable;
+        public final int statDefensive;
+        public final int statColorful;
+        public final int statWeed;
+        public final boolean hasItem;
+        public final String[] attributes;
+
+        Crops(String discoverer, ItemStack drop, ItemStack baseSeed, int maxSize, int harvestSize, int afterHarvestSize, int growthSpeed, int tier, int statChemistry, int statConsumable, int statDefensive, int statColorful, int statWeed, boolean hasItem, String... attributes) {
+            this(discoverer, drop, new ItemStack[0], baseSeed, maxSize, harvestSize, afterHarvestSize, growthSpeed, tier, statChemistry, statConsumable, statDefensive, statColorful, statWeed, hasItem, attributes);
+        }
+
+        Crops(String discoverer, ItemStack drop, ItemStack[] specialDrops, ItemStack baseSeed, int maxSize, int harvestSize, int afterHarvestSize, int growthSpeed, int tier, int statChemistry, int statConsumable, int statDefensive, int statColorful, int statWeed, boolean hasItem, String... attributes) {
+            this.discoverer = discoverer;
+            this.drop = drop;
+            this.specialDrops = specialDrops;
+            this.baseSeed = baseSeed;
+            this.maxSize = maxSize;
+            this.harvestSize = harvestSize;
+            this.afterHarvestSize = afterHarvestSize;
+            this.growthSpeed = growthSpeed;
+            this.tier = tier;
+            this.statChemistry = statChemistry;
+            this.statConsumable = statConsumable;
+            this.statDefensive = statDefensive;
+            this.statColorful = statColorful;
+            this.statWeed = statWeed;
+            this.hasItem = hasItem;
+            this.attributes = attributes;
         }
 
         /**
