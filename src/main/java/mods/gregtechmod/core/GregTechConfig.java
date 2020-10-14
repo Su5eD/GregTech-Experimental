@@ -43,11 +43,11 @@ public class GregTechConfig {
         public final double superHeatedSteamMultiplier = 0.5;
         @Config.Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public final boolean solarPanelCoverOvervoltageProtection = false;
-        public final double LVExplosionPower = 2;
-        public final double MVExplosionPower = 3;
-        public final double HVExplosionPower = 4;
-        public final double EVExplosionPower = 5;
-        public final double IVExplosionPower = 6;
+        public final float LVExplosionPower = 2;
+        public final float MVExplosionPower = 3;
+        public final float HVExplosionPower = 4;
+        public final float EVExplosionPower = 5;
+        public final float IVExplosionPower = 6;
     }
 
     public static class Machines {

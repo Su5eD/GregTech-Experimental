@@ -201,7 +201,7 @@ public class BlockItemLoader {
                 .setRegistryName("crowbar")
                 .setTranslationKey("crowbar")
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.screwdriver.setInstance(registerItem(new ItemScrewdriver("screwdriver", "To screw covers on machines \nCan switch the design of certain blocks \nCan rotate repeaters and comparators", 256, 4)
+        BlockItems.Tools.screwdriver.setInstance(registerItem(new ItemScrewdriver("screwdriver", null, 256, 4)
                 .setRegistryName("screwdriver")
                 .setTranslationKey("screwdriver")
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));

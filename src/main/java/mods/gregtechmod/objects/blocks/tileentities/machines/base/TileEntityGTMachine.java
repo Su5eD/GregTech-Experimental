@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.tileentities.machines.base;
 
-import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.api.network.INetworkTileEntityEventListener;
 import ic2.api.recipe.IMachineRecipeManager;
@@ -15,7 +14,6 @@ import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.block.invslot.InvSlotProcessable;
 import ic2.core.block.invslot.InvSlotProcessableGeneric;
 import ic2.core.gui.dynamic.IGuiValueProvider;
-import ic2.core.network.GuiSynced;
 import ic2.core.ref.FluidName;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
@@ -39,8 +37,8 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     protected double progress;
     public int maxProgress = 0;
     public boolean shouldExplode;
-    @GuiSynced
     protected float guiProgress;
+    private boolean explode;
 
     public AudioSource audioSource;
 
@@ -121,9 +119,11 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     protected void updateEntityServer() {
         super.updateEntityServer();
         boolean needsInvUpdate = false;
-        if(this.shouldExplode) {
+        if(this.explode) {
+            this.energy.onUnloaded();
             this.explodeMachine(getExplosionPower(this.getTier(), 1.5F));
         }
+        if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         MachineSafety.checkSafety(this);
         MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> result = getOutput();
         if (canOperate(result)) {
@@ -257,6 +257,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     public void explodeMachine(float power) {
         int x = this.pos.getX(), y = this.pos.getY(), z = this.pos.getZ();
+        this.energy.onUnloaded();
         world.setBlockToAir(this.pos);
         new ExplosionIC2(world, null, x+0.5, y+0.5, z+0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
     }
@@ -268,10 +269,10 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     @Override
     public void markForExplosion() {
-        this.shouldExplode = true; //This extra step is required so that wirefire has time to apply
+        this.shouldExplode = true;
         if (GregTechConfig.MACHINES.machineWireFire) {
-            EnergyNet.instance.removeTile(this.energy.getDelegate());
             double energy = this.energy.getEnergy();
+            this.energy.onUnloaded();
             this.energy = Energy.asBasicSource(this, this.energy.getCapacity(), 5);
             this.energy.onLoaded();
             this.energy.forceAddEnergy(energy);
@@ -386,17 +387,17 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     @Override
     public float getExplosionPower(int tier, float defaultPower) {
-        switch (this.energy.getSinkTier()) {
+        switch (tier) {
             case 2:
-                return (float) GregTechConfig.BALANCE.MVExplosionPower;
+                return GregTechConfig.BALANCE.MVExplosionPower;
             case 3:
-                return (float) GregTechConfig.BALANCE.HVExplosionPower;
+                return GregTechConfig.BALANCE.HVExplosionPower;
             case 4:
-                return (float) GregTechConfig.BALANCE.EVExplosionPower;
+                return GregTechConfig.BALANCE.EVExplosionPower;
             case 5:
-                return (float) GregTechConfig.BALANCE.IVExplosionPower;
+                return GregTechConfig.BALANCE.IVExplosionPower;
 
-            default: return (float) GregTechConfig.BALANCE.LVExplosionPower;
+            default: return GregTechConfig.BALANCE.LVExplosionPower;
         }
     }
 
