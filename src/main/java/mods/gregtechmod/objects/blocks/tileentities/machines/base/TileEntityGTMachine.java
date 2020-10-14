@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.blocks.tileentities.machines.base;
 
+import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.api.network.INetworkTileEntityEventListener;
 import ic2.api.recipe.IMachineRecipeManager;
@@ -9,13 +10,13 @@ import ic2.core.ExplosionIC2;
 import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.audio.AudioSource;
+import ic2.core.block.comp.Energy;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.block.invslot.InvSlotProcessable;
 import ic2.core.block.invslot.InvSlotProcessableGeneric;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.network.GuiSynced;
 import ic2.core.ref.FluidName;
-import ic2.core.util.Util;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.core.GregTechConfig;
@@ -23,6 +24,7 @@ import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.fluids.Fluid;
@@ -120,7 +122,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
         super.updateEntityServer();
         boolean needsInvUpdate = false;
         if(this.shouldExplode) {
-            this.explodeMachine(getExplosionPower(this.getTier(), 2.5F));
+            this.explodeMachine(getExplosionPower(this.getTier(), 1.5F));
         }
         MachineSafety.checkSafety(this);
         MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> result = getOutput();
@@ -260,12 +262,19 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     }
 
     @Override
+    protected boolean isFlammable(EnumFacing face) {
+        return true;
+    }
+
+    @Override
     public void markForExplosion() {
         this.shouldExplode = true; //This extra step is required so that wirefire has time to apply
         if (GregTechConfig.MACHINES.machineWireFire) {
-            this.energy.setSourceTier(5);
-            this.energy.setDirections(this.energy.getSinkDirs(), Util.allFacings);
-            this.energy.forceAddEnergy(8192);
+            EnergyNet.instance.removeTile(this.energy.getDelegate());
+            double energy = this.energy.getEnergy();
+            this.energy = Energy.asBasicSource(this, this.energy.getCapacity(), 5);
+            this.energy.onLoaded();
+            this.energy.forceAddEnergy(energy);
         }
     }
 
