@@ -8,6 +8,7 @@ import mods.gregtechmod.objects.items.base.ItemToolBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.block.BlockRedstoneRepeater;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,10 +18,21 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class ItemScrewdriver extends ItemToolBase {
 
     public ItemScrewdriver(String name, String description, int durability, int attackDamage) {
         super(name, description, durability, attackDamage, ToolMaterial.IRON);
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+        tooltip.add("To screw covers on machines");
+        tooltip.add("Can switch the design of certain blocks");
+        tooltip.add("Can rotate repeaters and comparators");
     }
 
     @Override

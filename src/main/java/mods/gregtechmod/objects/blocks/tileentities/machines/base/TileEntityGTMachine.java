@@ -9,13 +9,12 @@ import ic2.core.ExplosionIC2;
 import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.audio.AudioSource;
+import ic2.core.block.comp.Energy;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.block.invslot.InvSlotProcessable;
 import ic2.core.block.invslot.InvSlotProcessableGeneric;
 import ic2.core.gui.dynamic.IGuiValueProvider;
-import ic2.core.network.GuiSynced;
 import ic2.core.ref.FluidName;
-import ic2.core.util.Util;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.core.GregTechConfig;
@@ -23,6 +22,7 @@ import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.fluids.Fluid;
@@ -37,8 +37,8 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     protected double progress;
     public int maxProgress = 0;
     public boolean shouldExplode;
-    @GuiSynced
     protected float guiProgress;
+    private boolean explode;
 
     public AudioSource audioSource;
 
@@ -119,9 +119,11 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
     protected void updateEntityServer() {
         super.updateEntityServer();
         boolean needsInvUpdate = false;
-        if(this.shouldExplode) {
-            this.explodeMachine(getExplosionPower(this.getTier(), 2.5F));
+        if(this.explode) {
+            this.energy.onUnloaded();
+            this.explodeMachine(getExplosionPower(this.getTier(), 1.5F));
         }
+        if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         MachineSafety.checkSafety(this);
         MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> result = getOutput();
         if (canOperate(result)) {
@@ -255,17 +257,25 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     public void explodeMachine(float power) {
         int x = this.pos.getX(), y = this.pos.getY(), z = this.pos.getZ();
+        this.energy.onUnloaded();
         world.setBlockToAir(this.pos);
         new ExplosionIC2(world, null, x+0.5, y+0.5, z+0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
     }
 
     @Override
+    protected boolean isFlammable(EnumFacing face) {
+        return true;
+    }
+
+    @Override
     public void markForExplosion() {
-        this.shouldExplode = true; //This extra step is required so that wirefire has time to apply
+        this.shouldExplode = true;
         if (GregTechConfig.MACHINES.machineWireFire) {
-            this.energy.setSourceTier(5);
-            this.energy.setDirections(this.energy.getSinkDirs(), Util.allFacings);
-            this.energy.forceAddEnergy(8192);
+            double energy = this.energy.getEnergy();
+            this.energy.onUnloaded();
+            this.energy = Energy.asBasicSource(this, this.energy.getCapacity(), 5);
+            this.energy.onLoaded();
+            this.energy.forceAddEnergy(energy);
         }
     }
 
@@ -377,17 +387,17 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     @Override
     public float getExplosionPower(int tier, float defaultPower) {
-        switch (this.energy.getSinkTier()) {
+        switch (tier) {
             case 2:
-                return (float) GregTechConfig.BALANCE.MVExplosionPower;
+                return GregTechConfig.BALANCE.MVExplosionPower;
             case 3:
-                return (float) GregTechConfig.BALANCE.HVExplosionPower;
+                return GregTechConfig.BALANCE.HVExplosionPower;
             case 4:
-                return (float) GregTechConfig.BALANCE.EVExplosionPower;
+                return GregTechConfig.BALANCE.EVExplosionPower;
             case 5:
-                return (float) GregTechConfig.BALANCE.IVExplosionPower;
+                return GregTechConfig.BALANCE.IVExplosionPower;
 
-            default: return (float) GregTechConfig.BALANCE.LVExplosionPower;
+            default: return GregTechConfig.BALANCE.LVExplosionPower;
         }
     }
 

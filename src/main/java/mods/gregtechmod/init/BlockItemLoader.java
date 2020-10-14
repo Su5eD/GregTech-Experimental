@@ -201,7 +201,7 @@ public class BlockItemLoader {
                 .setRegistryName("crowbar")
                 .setTranslationKey("crowbar")
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.screwdriver.setInstance(registerItem(new ItemScrewdriver("screwdriver", "To screw covers on machines \nCan switch the design of certain blocks \nCan rotate repeaters and comparators", 256, 4)
+        BlockItems.Tools.screwdriver.setInstance(registerItem(new ItemScrewdriver("screwdriver", null, 256, 4)
                 .setRegistryName("screwdriver")
                 .setTranslationKey("screwdriver")
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));
@@ -398,6 +398,17 @@ public class BlockItemLoader {
                 .setRegistryName(aName)
                 .setTranslationKey(aName)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));
+        }
+    }
+
+    private static void initCropItems() {
+        for (BlockItems.Crops type : BlockItems.Crops.values()) {
+            if (type.hasItem) {
+                type.setInstance(registerItem(new ItemBase(type.name(), null)
+                    .setRegistryName(type.name())
+                    .setTranslationKey(type.name())
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
+            }
         }
     }
 }

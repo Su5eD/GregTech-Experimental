@@ -14,7 +14,7 @@ public class MachineSafety {
 
     public static <T extends TileEntity & IGregtechMachine> void checkSafety(T machine) {
         if (machine.getUniversalEnergyCapacity() > 0) {
-            if (GregTechConfig.MACHINES.machineFireExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && machine.getBlockType().isBurning(machine.getWorld(), machine.getPos())) {
+            if (GregTechConfig.MACHINES.machineFireExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && machine.getWorld().getBlockState(machine.getPos().offset(EnumFacing.random(GtUtil.RANDOM))).getBlock() == Blocks.FIRE) {
                 machine.markForExplosion();
             }
 
@@ -24,9 +24,9 @@ public class MachineSafety {
                     if (GregTechConfig.MACHINES.machineRainExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && machine.getWorld().isRaining()) {
                         if (GtUtil.RANDOM.nextInt(10)==0) {
                             machine.markForExplosion();
-                        } /*else if (GregTechConfig.MACHINES.machineFlammable) {
+                        } else if (GregTechConfig.MACHINES.machineFlammable) {
                             setBlockOnFire(machine.getWorld(), machine.getPos());
-                        }*/ //TODO: Implement after `isFlammeble` is exposed to TileEnttyBlock
+                        }
                     }
                     if (GregTechConfig.MACHINES.machineThunderExplosions && GtUtil.RANDOM.nextInt(2500) == 0 && machine.getWorld().isThundering()) {
                         machine.markForExplosion();
