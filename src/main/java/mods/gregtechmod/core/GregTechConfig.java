@@ -24,46 +24,46 @@ public class GregTechConfig {
     public static final Machines MACHINES = new Machines();
 
     public static class General {
-        public final boolean connectedMachineCasingTextures = true;
-        public final boolean dynamicCentrifugeAnimationSpeed = true;
-        public final boolean hiddenOres = true;
+        public boolean connectedMachineCasingTextures = true;
+        public boolean dynamicCentrifugeAnimationSpeed = true;
+        public boolean hiddenOres = true;
     }
 
     public static class Features {
-        public final int quantumChestMaxItemCount = 2000000000;
-        public final int quantumTankCapacity = 2000000000;
-        public final int digitalChestMaxItemCount = 32768;
+        public int quantumChestMaxItemCount = 2000000000;
+        public int quantumTankCapacity = 2000000000;
+        public int digitalChestMaxItemCount = 32768;
         @Config.Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
-        public final int upgradeStackSize = 4;
+        public int upgradeStackSize = 4;
     }
 
     public static class Balance {
         @Config.Comment("Indicates the amount of universal steam per ic2 steam. This is used by the steam upgrade to fairly convert all kinds of steam to the same value.")
-        public final double steamMultiplier = 1.6;
+        public double steamMultiplier = 1.6;
         @Config.Comment("Serves the same purpose as the above, for superheated steam.")
-        public final double superHeatedSteamMultiplier = 0.5;
+        public double superHeatedSteamMultiplier = 0.5;
         @Config.Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
-        public final boolean solarPanelCoverOvervoltageProtection = false;
-        public final float LVExplosionPower = 2;
-        public final float MVExplosionPower = 3;
-        public final float HVExplosionPower = 4;
-        public final float EVExplosionPower = 5;
-        public final float IVExplosionPower = 6;
+        public boolean solarPanelCoverOvervoltageProtection = false;
+        public float LVExplosionPower = 2;
+        public float MVExplosionPower = 3;
+        public float HVExplosionPower = 4;
+        public float EVExplosionPower = 5;
+        public float IVExplosionPower = 6;
     }
 
     public static class Machines {
-        public final boolean constantNeedOfEnergy = true;
-        public final boolean machineFlammable = true;
+        public boolean constantNeedOfEnergy = true;
+        public boolean machineFlammable = true;
         @Config.Comment("Fire causes explosions")
-        public final boolean machineFireExplosions = true;
+        public boolean machineFireExplosions = true;
         @Config.Comment("Wirefire on explosion")
-        public final boolean machineWireFire = true;
+        public boolean machineWireFire = true;
         @Config.Comment("Rain causes explosions")
-        public final boolean machineRainExplosions = true;
+        public boolean machineRainExplosions = true;
         @Config.Comment("Lightning causes explosions")
-        public final boolean machineThunderExplosions = true;
+        public boolean machineThunderExplosions = true;
         @Config.Comment("Nearby explosions cause machines to explode")
-        public final boolean machineChainExplosions = true;
+        public boolean machineChainExplosions = true;
     }
 
     @SubscribeEvent

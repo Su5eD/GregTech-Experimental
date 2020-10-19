@@ -84,7 +84,6 @@ public class RenderBlockOre extends AbstractModel {
                 if (textureIndexes[side.getIndex()] > -1) sprite = this.sprites.get(this.textures.get(EnumFacing.byIndex(textureIndexes[side.getIndex()])));
                 else sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/stone");
             } else sprite = this.sprites.get(this.textures.get(null));
-            System.out.println("side: "+side + " " + "sprite: "+sprite);
             float zE = sp + th;
             IntBuffer buffer = VdUtil.getQuadBuffer();
             generateQuad(sp, sp, sp, zE, zE, zE, side, sprite, buffer);
