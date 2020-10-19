@@ -26,6 +26,7 @@ public class GregTechConfig {
     public static class General {
         public final boolean connectedMachineCasingTextures = true;
         public final boolean dynamicCentrifugeAnimationSpeed = true;
+        public final boolean hiddenOres = true;
     }
 
     public static class Features {

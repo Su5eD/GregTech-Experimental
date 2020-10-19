@@ -14,10 +14,14 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTank;
 import org.apache.logging.log4j.util.TriConsumer;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 
 @SuppressWarnings("unused")
@@ -84,6 +88,39 @@ public class BlockItems {
         ConnectedBlocks(float hardness, float resistance) {
             this.hardness = hardness;
             this.resistance = resistance;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        public void setInstance(Block block) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = block;
+        }
+
+        public Block getInstance() {
+            return this.instance;
+        }
+    }
+
+    public enum Ores {
+        ruby(4, 3, 5, (world, fortune) -> {
+            List<ItemStack> ret = new ArrayList<>();
+            ret.add(new ItemStack(Miscellaneous.ruby.instance, 1 + world.rand.nextInt(1 + fortune)));
+            if (world.rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) ret.add(new ItemStack(Miscellaneous.red_garnet.instance));
+            return ret;
+        });
+        private Block instance;
+        public final float hardness;
+        public final int dropChance;
+        public final int dropRandom;
+        public final BiFunction<World, Integer, List<ItemStack>> loot;
+
+        Ores(float hardness, int dropChance, int dropRandom, BiFunction<World, Integer, List<ItemStack>> loot) {
+            this.hardness = hardness;
+            this.dropChance = dropChance;
+            this.dropRandom = dropRandom;
+            this.loot = loot;
         }
 
         /**

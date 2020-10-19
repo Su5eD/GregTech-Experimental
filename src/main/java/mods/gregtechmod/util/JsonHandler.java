@@ -19,8 +19,8 @@ public class JsonHandler {
     public final HashMap<EnumFacing, ResourceLocation> textures;
     public final ResourceLocation particle;
 
-    public JsonHandler(String name) {
-        this.rawTextures = readFromJSON(name);
+    public JsonHandler(String name, String path) {
+        this.rawTextures = readFromJSON(path+"/"+name);
         this.textures = generateMapFromJSON(rawTextures);
         this.particle = new ResourceLocation(GregTechMod.MODID, rawTextures.get("particle").substring(GregTechMod.MODID.length()+1));
     }
@@ -31,7 +31,7 @@ public class JsonHandler {
             File file = Loader.instance().activeModContainer().getSource();
             FileSystem fs = FileSystems.newFileSystem(file.toPath(), null);
 
-            Reader reader = Files.newBufferedReader(fs.getPath("/assets/"+ GregTechMod.MODID+"/models/item/teblock/"+name+".json"));
+            Reader reader = Files.newBufferedReader(fs.getPath("/assets/"+ GregTechMod.MODID+"/models/item/"+name+".json"));
 
             HashMap<String , LinkedTreeMap<String, String>> map = gson.fromJson(reader, HashMap.class);
 
@@ -49,8 +49,8 @@ public class JsonHandler {
         assert map != null;
         for (String entry : map.keySet()) {
             ResourceLocation location = new ResourceLocation(GregTechMod.MODID, map.get(entry).substring(GregTechMod.MODID.length()+1));
-            EnumFacing facing;
-            if ((facing = EnumFacing.byName(entry)) != null) textures.put(facing, location);
+            EnumFacing facing = EnumFacing.byName(entry);
+            textures.put(facing, location);
         }
         return textures;
     }

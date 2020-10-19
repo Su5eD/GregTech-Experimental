@@ -66,7 +66,7 @@ public final class GregTechMod {
         Components.register(CoverHandler.class, "gtcover");
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
         CoverLoader.registerCovers();
-        if (event.getSide().isClient()) RegistryHandler.registerBakedModels();
+        //if (event.getSide().isClient()) RegistryHandler.registerBakedModels(); //move to event
         //TODO: Move to recipe loader(or modificator) class
         IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
     }

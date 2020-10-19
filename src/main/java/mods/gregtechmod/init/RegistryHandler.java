@@ -1,9 +1,12 @@
 package mods.gregtechmod.init;
 
+import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.cover.RenderTeBlock;
+import mods.gregtechmod.objects.blocks.RenderBlockOre;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
+import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.JsonHandler;
 import mods.gregtechmod.util.ModelInformation;
@@ -50,7 +53,10 @@ public class RegistryHandler {
     @SideOnly(Side.CLIENT)
     public static void registerModels(ModelRegistryEvent event) {
         BlockItemLoader.BLOCKS
-                .forEach(block -> registerModel(Item.getItemFromBlock(block)));
+                .forEach(block -> {
+                    if (block instanceof IBlockCustomItem) registerModel(Item.getItemFromBlock(block), 0, ((IBlockCustomItem)block).getItemModel());
+                    else registerModel(Item.getItemFromBlock(block));
+                });
 
         BlockItemLoader.ITEMS.stream()
                 .filter(item -> item instanceof IModelInfoProvider)
@@ -58,6 +64,7 @@ public class RegistryHandler {
                     ModelInformation info = ((IModelInfoProvider) item).getModelInformation();
                     registerModel(item, info.metadata, info.path);
                 });
+        registerBakedModels();
     }
 
     @SideOnly(Side.CLIENT)
@@ -78,16 +85,20 @@ public class RegistryHandler {
             try {
                 if (teBlock.hasBakedModel()) {
                     String name = teBlock.getName();
-                    JsonHandler json = new JsonHandler(name);
+                    JsonHandler json = new JsonHandler(name, "teblock");
                     loader.register("models/block/"+name, new RenderTeBlock(json.textures, json.particle));
                     if (teBlock.hasActive()) {
-                        json = new JsonHandler(name+"_active");
+                        json = new JsonHandler(name+"_active", "teblock");
                         loader.register("models/block/"+name+"_active", new RenderTeBlock(json.textures, json.particle));
                     }
                 }
             } catch (Exception e) {
                 GregTechMod.LOGGER.error(e.getMessage());
             }
+        }
+        for (BlockItems.Ores ore : BlockItems.Ores.values()) {
+            JsonHandler json = new JsonHandler(ore.name(), "ore");
+            loader.register("models/block/ore/"+ore.name(), new RenderBlockOre(json.textures, json.particle));
         }
         ModelLoaderRegistry.registerLoader(loader);
     }

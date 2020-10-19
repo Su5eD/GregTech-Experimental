@@ -8,6 +8,7 @@ import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
+import mods.gregtechmod.objects.blocks.BlockOre;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
 import mods.gregtechmod.objects.items.*;
 import mods.gregtechmod.objects.items.base.*;
@@ -90,6 +91,16 @@ public class BlockItemLoader {
                     .setCreativeTab(GregTechMod.GREGTECH_TAB)
                     .setHardness(type.hardness)
                     .setResistance(type.resistance);
+            type.setInstance(registerBlock(block));
+            registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+        }
+
+        for (BlockItems.Ores type : BlockItems.Ores.values()) {
+            String name = "block_"+type.name()+"_ore";
+            Block block = new BlockOre(type.name(), type.hardness, type.dropChance, type.dropRandom, type.loot)
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
             type.setInstance(registerBlock(block));
             registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         }

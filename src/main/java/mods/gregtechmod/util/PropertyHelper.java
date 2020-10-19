@@ -1,6 +1,5 @@
 package mods.gregtechmod.util;
 
-import ic2.core.block.state.UnlistedBooleanProperty;
 import ic2.core.block.state.UnlistedProperty;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -12,7 +11,7 @@ import java.util.Set;
 public class PropertyHelper {
     public static final IUnlistedProperty<AnimationSpeed> ANIMATION_SPEED_PROPERTY = new UnlistedProperty<>("animationSpeed", AnimationSpeed.class);
     public static final IUnlistedProperty<TextureOverride> TEXTURE_OVERRIDE_PROPERTY = new UnlistedProperty<>("textureOverride", TextureOverride.class);
-    public static final IUnlistedProperty<Boolean> UV_LOCK_PROPERTY = new UnlistedBooleanProperty("uvLock");
+    public static final IUnlistedProperty<Integer[]> TEXTURE_INDEX_PROPERTY = new UnlistedProperty<>("textureIndex", Integer[].class);
 
     public static class AnimationSpeed {
         private final Set<EnumFacing> sides;

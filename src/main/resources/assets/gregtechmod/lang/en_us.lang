@@ -411,6 +411,8 @@ gregtechmod.tile.block_highly_advanced_machine.name=Highly Advanced Machineblock
 gregtechmod.tile.block_steel.name=Block of Steel
 gregtechmod.tile.block_brass.name=Block of Brass
 
+gregtechmod.tile.block_ruby_ore.name=Ruby Ore
+
 gregtechmod.teblock.industrial_centrifuge=Industrial Centrifuge
 gregtechmod.teblock.digital_chest=Digital Chest
 gregtechmod.teblock.quantum_chest=Quantum Chest
