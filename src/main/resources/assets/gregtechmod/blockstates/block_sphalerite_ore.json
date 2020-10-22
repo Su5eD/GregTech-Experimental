@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "gregtechmod:ore/sphalerite"
+  },
+  "variants": {
+    "normal": [
+      {
+        "model": "gregtechmod:ore/sphalerite"
+      }
+    ]
+  }
+}

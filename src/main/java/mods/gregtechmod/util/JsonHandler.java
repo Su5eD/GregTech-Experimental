@@ -15,17 +15,15 @@ import java.nio.file.Files;
 import java.util.HashMap;
 
 public class JsonHandler {
-    public final LinkedTreeMap<String, String> rawTextures;
-    public final HashMap<EnumFacing, ResourceLocation> textures;
+    public final HashMap<String , LinkedTreeMap<String, String>> jsonMap;
     public final ResourceLocation particle;
 
     public JsonHandler(String name, String path) {
-        this.rawTextures = readFromJSON(path+"/"+name);
-        this.textures = generateMapFromJSON(rawTextures);
-        this.particle = new ResourceLocation(GregTechMod.MODID, rawTextures.get("particle").substring(GregTechMod.MODID.length()+1));
+        this.jsonMap = readFromJSON(path+"/"+name);
+        this.particle = new ResourceLocation(GregTechMod.MODID, jsonMap.get("textures").get("particle").substring(GregTechMod.MODID.length()+1));
     }
 
-    public LinkedTreeMap<String, String> readFromJSON(String name) {
+    public HashMap<String , LinkedTreeMap<String, String>> readFromJSON(String name) {
         try {
             Gson gson = new Gson();
             File file = Loader.instance().activeModContainer().getSource();
@@ -36,7 +34,7 @@ public class JsonHandler {
             HashMap<String , LinkedTreeMap<String, String>> map = gson.fromJson(reader, HashMap.class);
 
             reader.close();
-            return map.get("textures");
+            return map;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -44,14 +42,16 @@ public class JsonHandler {
         return null;
     }
 
-    public HashMap<EnumFacing, ResourceLocation> generateMapFromJSON(LinkedTreeMap<String, String> map) {
-        HashMap<EnumFacing, ResourceLocation> textures = new HashMap<>();
-        assert map != null;
-        for (String entry : map.keySet()) {
-            ResourceLocation location = new ResourceLocation(GregTechMod.MODID, map.get(entry).substring(GregTechMod.MODID.length()+1));
-            EnumFacing facing = EnumFacing.byName(entry);
-            textures.put(facing, location);
+    public HashMap<EnumFacing, ResourceLocation> generateMapFromJSON(String elementName) {
+        HashMap<EnumFacing, ResourceLocation> elementMap = new HashMap<>();
+        LinkedTreeMap<String, String> map = this.jsonMap.get(elementName);
+        if (map != null) {
+            for (String entry : map.keySet()) {
+                ResourceLocation location = new ResourceLocation(GregTechMod.MODID, map.get(entry).substring(GregTechMod.MODID.length()+1));
+                EnumFacing facing = EnumFacing.byName(entry);
+                elementMap.put(facing, location);
+            }
         }
-        return textures;
+        return elementMap;
     }
 }

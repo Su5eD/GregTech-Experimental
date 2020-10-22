@@ -1,0 +1,21 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/ores/nether/pyrite_down_east",
+    "down": "gregtechmod:blocks/ores/nether/pyrite_down_east",
+    "up": "gregtechmod:blocks/ores/nether/pyrite_up_south",
+    "north": "gregtechmod:blocks/ores/nether/pyrite_north_west",
+    "south": "gregtechmod:blocks/ores/nether/pyrite_up_south",
+    "east": "gregtechmod:blocks/ores/nether/pyrite_down_east",
+    "west": "gregtechmod:blocks/ores/nether/pyrite_north_west",
+    "": "gregtechmod:blocks/ores/pyrite"
+  },
+  "textures_end": {
+    "down": "gregtechmod:blocks/ores/end/pyrite_all",
+    "up": "gregtechmod:blocks/ores/end/pyrite_all",
+    "north": "gregtechmod:blocks/ores/end/pyrite_all",
+    "south": "gregtechmod:blocks/ores/end/pyrite_all",
+    "east": "gregtechmod:blocks/ores/end/pyrite_all",
+    "west": "gregtechmod:blocks/ores/end/pyrite_all"
+  }
+}

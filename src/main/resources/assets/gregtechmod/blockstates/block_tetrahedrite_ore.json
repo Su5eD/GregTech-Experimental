@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "gregtechmod:ore/tetrahedrite"
+  },
+  "variants": {
+    "normal": [
+      {
+        "model": "gregtechmod:ore/tetrahedrite"
+      }
+    ]
+  }
+}

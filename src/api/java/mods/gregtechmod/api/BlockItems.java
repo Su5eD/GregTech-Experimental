@@ -7,24 +7,22 @@ import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.GtUtil;
+import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTank;
-import org.apache.logging.log4j.util.TriConsumer;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 
-@SuppressWarnings("unused")
 public class BlockItems {
     public static Block lightSource;
     public static Item sensor_kit;
@@ -104,19 +102,58 @@ public class BlockItems {
     }
 
     public enum Ores {
-        ruby(4, 3, 5, (world, fortune) -> {
-            List<ItemStack> ret = new ArrayList<>();
-            ret.add(new ItemStack(Miscellaneous.ruby.instance, 1 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) ret.add(new ItemStack(Miscellaneous.red_garnet.instance));
-            return ret;
-        });
+        galena(3, 0, 0, (world, fortune, drops) -> {}),
+        iridium(20, 30, 21, (world, fortune, drops) -> {
+            ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
+            iridium.setCount(1 + world.rand.nextInt(1 + fortune / 2));
+            drops.add(iridium);
+            //TODO: Add as oredict alternative
+            //GT_OreDictUnificator.getFirstOre("dustIridium", 1 + world.rand.nextInt(1 + fortune / 2)
+        }),
+        ruby(4, 3, 5, (world, fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.ruby.instance, 1 + world.rand.nextInt(1 + fortune)));
+            if (world.rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(new ItemStack(Miscellaneous.red_garnet.instance));
+        }),
+        sapphire(4, 3, 5, (world, fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.sapphire.instance, 1 + world.rand.nextInt(1 + fortune)));
+            if (world.rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
+                drops.add(new ItemStack(Miscellaneous.green_sapphire.instance, 1));
+        }),
+        bauxite(3, 0, 0, (world, fortune, drops) -> {}),
+        pyrite(2, 1, 1, (world, fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.pyrite.instance, 2 + world.rand.nextInt(1 + fortune)));
+        }),
+        cinnabar(3, 3, 3, (world, fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.cinnabar.instance, 2 + world.rand.nextInt(1 + fortune)));
+            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+                drops.add(new ItemStack(Items.REDSTONE, 1));
+        }),
+        sphalerite(2, 1, 1, (world, fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.sphalerite.instance, 2 + world.rand.nextInt(1 + fortune)));
+            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+                drops.add(new ItemStack(Dusts.zinc.instance));
+            if (world.rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0)
+                drops.add(new ItemStack(Dusts.yellow_garnet.instance));
+        }),
+        tungstate(4, 0, 0, (world, fortune, drops) -> {}),
+        sheldonite(3.5F, 0, 0, (world, fortune, drops) -> {}),
+        olivine(3, 0, 0, (world, fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.olivine.instance, 1 + world.rand.nextInt(1 + fortune)));
+        }),
+        sodalite(3, 0, 0, (world, fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.sodalite.instance, 6 + 3 * world.rand.nextInt(1 + fortune)));
+            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+                drops.add(new ItemStack(Dusts.aluminium.instance));
+        }),
+        tetrahedrite(3, 0, 0, (world, fortune, drops) -> {}),
+        cassiterite(3, 0, 0, (world, fortune, drops) -> {});
         private Block instance;
         public final float hardness;
         public final int dropChance;
         public final int dropRandom;
-        public final BiFunction<World, Integer, List<ItemStack>> loot;
+        public final TriConsumer<World, Integer, List<ItemStack>> loot;
 
-        Ores(float hardness, int dropChance, int dropRandom, BiFunction<World, Integer, List<ItemStack>> loot) {
+        Ores(float hardness, int dropChance, int dropRandom, TriConsumer<World, Integer, List<ItemStack>> loot) {
             this.hardness = hardness;
             this.dropChance = dropChance;
             this.dropRandom = dropRandom;
@@ -628,10 +665,6 @@ public class BlockItems {
         public final boolean autoInit;
         public final String coverName;
 
-        Components() {
-            this(null);
-        }
-
         Components(boolean autoInit) {
             this(null, autoInit);
         }
@@ -1055,10 +1088,6 @@ public class BlockItems {
             this(null);
         }
 
-        Miscellaneous(boolean autoInit) {
-            this(null, autoInit);
-        }
-
         Miscellaneous(String description) {
             this(description, true);
         }
@@ -1082,6 +1111,7 @@ public class BlockItems {
     }
 
     public enum Crops {
+        //Most crops have been already implemented by ic2, so don't be surprised why many are missing
         indigo("Eloraam", new ItemStack(Miscellaneous.indigo_blossom.instance), new ItemStack(Miscellaneous.indigo_blossom.instance, 4), 4, 4, 1, 0, 2, 1, 1, 0, 4, 0, true, "Flower", "Color", "Ingredient"),
         tine("Gregorius Techneticies", new ItemStack(Nuggets.tin.instance), ItemStack.EMPTY, 3, 3, 2, 0, 5, 2, 0, 3, 0, 0, false, "Shiny", "Metal", "Pine", "Tin", "Bush"),
         coppon("Mr. Brain", new ItemStack(Nuggets.copper.instance), ItemStack.EMPTY, 3, 3, 2, 0, 6, 2, 0, 1, 1, 1, false, "Shiny", "Metal", "Cotton", "Copper", "Bush"),

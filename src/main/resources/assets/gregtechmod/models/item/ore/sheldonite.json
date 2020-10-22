@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/ores/end/sheldonite_all",
+    "down": "gregtechmod:blocks/ores/end/sheldonite_all",
+    "up": "gregtechmod:blocks/ores/end/sheldonite_all",
+    "north": "gregtechmod:blocks/ores/end/sheldonite_all",
+    "south": "gregtechmod:blocks/ores/end/sheldonite_all",
+    "east": "gregtechmod:blocks/ores/end/sheldonite_all",
+    "west": "gregtechmod:blocks/ores/end/sheldonite_all",
+    "": "gregtechmod:blocks/ores/sheldonite"
+  }
+}

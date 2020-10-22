@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -26,6 +27,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.HashMap;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -86,10 +89,11 @@ public class RegistryHandler {
                 if (teBlock.hasBakedModel()) {
                     String name = teBlock.getName();
                     JsonHandler json = new JsonHandler(name, "teblock");
-                    loader.register("models/block/"+name, new RenderTeBlock(json.textures, json.particle));
+                    HashMap<EnumFacing, ResourceLocation> textures = json.generateMapFromJSON("textures");
+                    loader.register("models/block/"+name, new RenderTeBlock(textures, json.particle));
                     if (teBlock.hasActive()) {
                         json = new JsonHandler(name+"_active", "teblock");
-                        loader.register("models/block/"+name+"_active", new RenderTeBlock(json.textures, json.particle));
+                        loader.register("models/block/"+name+"_active", new RenderTeBlock(textures, json.particle));
                     }
                 }
             } catch (Exception e) {
@@ -98,7 +102,7 @@ public class RegistryHandler {
         }
         for (BlockItems.Ores ore : BlockItems.Ores.values()) {
             JsonHandler json = new JsonHandler(ore.name(), "ore");
-            loader.register("models/block/ore/"+ore.name(), new RenderBlockOre(json.textures, json.particle));
+            loader.register("models/block/ore/"+ore.name(), new RenderBlockOre(json.generateMapFromJSON("textures"), json.generateMapFromJSON("textures_nether"), json.generateMapFromJSON("textures_end"), json.particle));
         }
         ModelLoaderRegistry.registerLoader(loader);
     }
