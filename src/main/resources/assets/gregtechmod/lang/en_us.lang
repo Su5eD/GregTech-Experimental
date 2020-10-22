@@ -411,6 +411,21 @@ gregtechmod.tile.block_highly_advanced_machine.name=Highly Advanced Machineblock
 gregtechmod.tile.block_steel.name=Block of Steel
 gregtechmod.tile.block_brass.name=Block of Brass
 
+gregtechmod.tile.block_galena_ore.name=Galena Ore
+gregtechmod.tile.block_iridium_ore.name=Iridium Ore
+gregtechmod.tile.block_ruby_ore.name=Ruby Ore
+gregtechmod.tile.block_sapphire_ore.name=Sapphire Ore
+gregtechmod.tile.block_bauxite_ore.name=Bauxite Ore
+gregtechmod.tile.block_pyrite_ore.name=Pyrite Ore
+gregtechmod.tile.block_cinnabar_ore.name=Cinnabar Ore
+gregtechmod.tile.block_sphalerite_ore.name=Sphalerite Ore
+gregtechmod.tile.block_tungstate_ore.name=Tungstate Ore
+gregtechmod.tile.block_sheldonite_ore.name=Sheldonite Ore
+gregtechmod.tile.block_olivine_ore.name=Olivine Ore
+gregtechmod.tile.block_sodalite_ore.name=Sodalite Ore
+gregtechmod.tile.block_tetrahedrite_ore.name=Tetrahedrite Ore
+gregtechmod.tile.block_cassiterite_ore.name=Cassiterite Ore
+
 gregtechmod.teblock.industrial_centrifuge=Industrial Centrifuge
 gregtechmod.teblock.digital_chest=Digital Chest
 gregtechmod.teblock.quantum_chest=Quantum Chest
@@ -443,8 +458,8 @@ gregtechmod.fluid.nitrogen=Nitrogen
 gregtechmod.fluid.nitrogen_dioxide=Nitrogen Dioxide
 gregtechmod.fluid.tritium=Tritium
 
-ic2.crop.indigo=Indigo
-ic2.crop.tine=Tine
-ic2.crop.coppon=Coppon
-ic2.crop.argentia=Argentia
-ic2.crop.plumbilia=Plumbilia
+gregtechmod.crop.indigo=Indigo
+gregtechmod.crop.tine=Tine
+gregtechmod.crop.coppon=Coppon
+gregtechmod.crop.argentia=Argentia
+gregtechmod.crop.plumbilia=Plumbilia

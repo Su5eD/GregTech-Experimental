@@ -43,14 +43,6 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
         return GregTechMod.MODID+".item.drill_advanced";
     }
 
-    protected ItemStack getItemStack(double charge) {
-        ItemStack ret = super.getItemStack(charge);
-        Map<Enchantment, Integer> enchantmentMap = new IdentityHashMap<>();
-        enchantmentMap.put(Enchantments.FORTUNE, 3);
-        EnchantmentHelper.setEnchantments(enchantmentMap, ret);
-        return ret;
-    }
-
     @Override
     public int getTier(ItemStack stack) {
         return 2;
@@ -59,7 +51,6 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         if (!world.isRemote && IC2.keyboard.isModeSwitchKeyDown(player)) {
             Map<Enchantment, Integer> enchantmentMap = new IdentityHashMap<>();
-            enchantmentMap.put(Enchantments.FORTUNE, 3);
             ItemStack stack = player.getHeldItem(hand);
             if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) == 0) {
                 enchantmentMap.put(Enchantments.SILK_TOUCH, 1);
@@ -71,16 +62,6 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
             EnchantmentHelper.setEnchantments(enchantmentMap, stack);
         }
         return super.onItemRightClick(world, player, hand);
-    }
-
-    private void checkEnchantment(ItemStack stack) {
-        if (!stack.isItemEnchanted()) stack.addEnchantment(Enchantments.FORTUNE, 3);
-    }
-
-    @Override
-    public boolean hasEffect(ItemStack stack) {
-        checkEnchantment(stack);
-        return false;
     }
 
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float xOffset, float yOffset, float zOffset) {

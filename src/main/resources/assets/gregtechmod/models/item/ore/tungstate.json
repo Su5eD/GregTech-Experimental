@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/ores/end/tungstate_all",
+    "down": "gregtechmod:blocks/ores/end/tungstate_all",
+    "up": "gregtechmod:blocks/ores/end/tungstate_all",
+    "north": "gregtechmod:blocks/ores/end/tungstate_all",
+    "south": "gregtechmod:blocks/ores/end/tungstate_all",
+    "east": "gregtechmod:blocks/ores/end/tungstate_all",
+    "west": "gregtechmod:blocks/ores/end/tungstate_all",
+    "": "gregtechmod:blocks/ores/tungstate"
+  }
+}

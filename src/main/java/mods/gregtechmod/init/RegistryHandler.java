@@ -1,9 +1,12 @@
 package mods.gregtechmod.init;
 
+import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.cover.RenderTeBlock;
+import mods.gregtechmod.objects.blocks.RenderBlockOre;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
+import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.JsonHandler;
 import mods.gregtechmod.util.ModelInformation;
@@ -11,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -23,6 +27,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.HashMap;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -50,7 +56,10 @@ public class RegistryHandler {
     @SideOnly(Side.CLIENT)
     public static void registerModels(ModelRegistryEvent event) {
         BlockItemLoader.BLOCKS
-                .forEach(block -> registerModel(Item.getItemFromBlock(block)));
+                .forEach(block -> {
+                    if (block instanceof IBlockCustomItem) registerModel(Item.getItemFromBlock(block), 0, ((IBlockCustomItem)block).getItemModel());
+                    else registerModel(Item.getItemFromBlock(block));
+                });
 
         BlockItemLoader.ITEMS.stream()
                 .filter(item -> item instanceof IModelInfoProvider)
@@ -58,6 +67,7 @@ public class RegistryHandler {
                     ModelInformation info = ((IModelInfoProvider) item).getModelInformation();
                     registerModel(item, info.metadata, info.path);
                 });
+        registerBakedModels();
     }
 
     @SideOnly(Side.CLIENT)
@@ -78,16 +88,21 @@ public class RegistryHandler {
             try {
                 if (teBlock.hasBakedModel()) {
                     String name = teBlock.getName();
-                    JsonHandler json = new JsonHandler(name);
-                    loader.register("models/block/"+name, new RenderTeBlock(json.textures, json.particle));
+                    JsonHandler json = new JsonHandler(name, "teblock");
+                    HashMap<EnumFacing, ResourceLocation> textures = json.generateMapFromJSON("textures");
+                    loader.register("models/block/"+name, new RenderTeBlock(textures, json.particle));
                     if (teBlock.hasActive()) {
-                        json = new JsonHandler(name+"_active");
-                        loader.register("models/block/"+name+"_active", new RenderTeBlock(json.textures, json.particle));
+                        json = new JsonHandler(name+"_active", "teblock");
+                        loader.register("models/block/"+name+"_active", new RenderTeBlock(textures, json.particle));
                     }
                 }
             } catch (Exception e) {
                 GregTechMod.LOGGER.error(e.getMessage());
             }
+        }
+        for (BlockItems.Ores ore : BlockItems.Ores.values()) {
+            JsonHandler json = new JsonHandler(ore.name(), "ore");
+            loader.register("models/block/ore/"+ore.name(), new RenderBlockOre(json.generateMapFromJSON("textures"), json.generateMapFromJSON("textures_nether"), json.generateMapFromJSON("textures_end"), json.particle));
         }
         ModelLoaderRegistry.registerLoader(loader);
     }

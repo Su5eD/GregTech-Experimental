@@ -38,14 +38,6 @@ public class RenderTeBlock extends AbstractModel {
     private final HashMap<EnumFacing, ResourceLocation> initialTextures;
     private final Map<ResourceLocation, TextureAtlasSprite> textures;
     private final ResourceLocation particle;
-
-    public RenderTeBlock(HashMap<EnumFacing, ResourceLocation> map, ResourceLocation particle) {
-        this.initialTextures = map;
-        this.particle = particle;
-        this.textures = generateTextureLocations();
-        textures.put(this.particle, null);
-    }
-
     public LoadingCache<IBlockState, IBakedModel> cache = CacheBuilder.newBuilder()
             .maximumSize(100)
             .expireAfterAccess(7, TimeUnit.MINUTES)
@@ -54,6 +46,13 @@ public class RenderTeBlock extends AbstractModel {
                     return generateModel(key);
                 }
             });
+
+    public RenderTeBlock(HashMap<EnumFacing, ResourceLocation> map, ResourceLocation particle) {
+        this.initialTextures = map;
+        this.particle = particle;
+        this.textures = generateTextureLocations();
+        textures.put(this.particle, null);
+    }
 
     public Collection<ResourceLocation> getTextures() {
         return this.textures.keySet();
@@ -87,7 +86,6 @@ public class RenderTeBlock extends AbstractModel {
     }
 
     private IBakedModel generateModel(IBlockState rawState) {
-        //System.out.println("generating model");
         HashMap<EnumFacing, ResourceLocation> covers = new HashMap<>();
         EnumFacing face = rawState.getValue(BlockTileEntity.facingProperty);
         Ic2BlockState.Ic2BlockStateInstance state = (Ic2BlockState.Ic2BlockStateInstance)rawState;

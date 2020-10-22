@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "gregtechmod:ore/iridium"
+  },
+  "variants": {
+    "normal": [
+      {
+        "model": "gregtechmod:ore/iridium"
+      }
+    ]
+  }
+}

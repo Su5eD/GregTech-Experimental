@@ -14,10 +14,10 @@ public class CropLoader {
 
     @SubscribeEvent
     public static void registerCrops(Crops.CropRegisterEvent event) {
-        //Most crops have been already implemented by ic2, so don't be surprised why many are missing
         GregTechMod.LOGGER.info("Registering crops");
         for (BlockItems.Crops type : BlockItems.Crops.values()) {
             CropCard crop = GenericCropCard.create(type.name())
+                    .setOwner(GregTechMod.MODID)
                     .setDiscoveredBy(type.discoverer)
                     .setProperties(new CropProperties(type.tier, type.statChemistry, type.statConsumable, type.statDefensive, type.statColorful, type.statWeed))
                     .setAttributes(type.attributes)

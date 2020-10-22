@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/ores/overworld/ruby_y",
+    "down": "gregtechmod:blocks/ores/overworld/ruby_y",
+    "up": "gregtechmod:blocks/ores/overworld/ruby_y",
+    "north": "gregtechmod:blocks/ores/overworld/ruby_z",
+    "south": "gregtechmod:blocks/ores/overworld/ruby_z",
+    "east": "gregtechmod:blocks/ores/overworld/ruby_x",
+    "west": "gregtechmod:blocks/ores/overworld/ruby_x",
+    "": "gregtechmod:blocks/ores/ruby"
+  }
+}
