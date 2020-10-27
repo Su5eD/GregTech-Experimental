@@ -1,16 +1,19 @@
 package mods.gregtechmod.init;
 
-import com.zuxelus.energycontrol.api.EnergyContolRegister;
-import com.zuxelus.energycontrol.api.IItemCard;
-import com.zuxelus.energycontrol.api.IItemKit;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModuleBuildcraft;
+import mods.gregtechmod.compat.ModuleEnergyControl;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.blocks.BlockOre;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
-import mods.gregtechmod.objects.items.*;
+import mods.gregtechmod.objects.items.ItemDataOrb;
+import mods.gregtechmod.objects.items.ItemDestructorPack;
+import mods.gregtechmod.objects.items.ItemSolderingMetal;
+import mods.gregtechmod.objects.items.ItemSonictron;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
@@ -32,7 +35,7 @@ public class BlockItemLoader {
     private static Item registerItem(Item item) {
         ModContainer container;
 
-        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(GregTechMod.MODID)) throw new IllegalAccessError("only gregtech can call this");
+        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(Reference.MODID)) throw new IllegalAccessError("only gregtech can call this");
         else if (ITEMS.contains(item)) throw new IllegalStateException("duplicate item: "+item);
 
         ITEMS.add(item);
@@ -42,7 +45,7 @@ public class BlockItemLoader {
     private static Block registerBlock(Block block) {
         ModContainer container;
 
-        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(GregTechMod.MODID)) throw new IllegalAccessError("only gregtech can call this");
+        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(Reference.MODID)) throw new IllegalAccessError("only gregtech can call this");
         else if (BLOCKS.contains(block)) throw new IllegalStateException("duplicate block: "+block);
 
         BLOCKS.add(block);
@@ -207,7 +210,7 @@ public class BlockItemLoader {
     private static void initTools() {
         BlockItems.Tools.drill_advanced.setInstance(registerItem(new ItemDrillAdvanced()));
         BlockItems.Tools.saw_advanced.setInstance(registerItem(new ItemSawAdvanced()));
-        BlockItems.Tools.wrench_advanced.setInstance(registerItem(new ItemWrenchAdvanced()));
+        BlockItems.Tools.wrench_advanced.setInstance(registerItem(Loader.isModLoaded("buildcraftcore") ? ModuleBuildcraft.constructBuildcraftAdvancedWrench() : new ItemWrenchAdvanced()));
         BlockItems.Tools.crowbar.setInstance(registerItem(new ItemCrowbar("crowbar", "To remove covers form machines", 256, 6)
                 .setRegistryName("crowbar")
                 .setTranslationKey("crowbar")
@@ -235,12 +238,14 @@ public class BlockItemLoader {
         BlockItems.Tools.debug_scanner.setInstance(registerItem(new ItemDebugScanner()));
         BlockItems.Tools.destructorpack.setInstance(registerItem(new ItemDestructorPack()));
         BlockItems.Tools.lapotronic_energy_orb.setInstance(registerItem(new ItemElectricBase(BlockItems.Tools.lapotronic_energy_orb.name(), null, 100000000, 8192, 5)
+                .setFolder("tool")
                 .setRegistryName(BlockItems.Tools.lapotronic_energy_orb.name())
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));
         BlockItems.Tools.sonictron_portable.setInstance(registerItem(new ItemSonictron()));
 
         for (BlockItems.Wrenches type : BlockItems.Wrenches.values()) {
-            type.setInstance(registerItem(new ItemWrench("wrench_"+type.name(), type.durability)
+            ItemWrench wrench = Loader.isModLoaded("buildcraftcore") ? ModuleBuildcraft.constructBuildcraftWrench("wrench_"+type.name(), type.durability) : new ItemWrench("wrench_"+type.name(), type.durability);
+            type.setInstance(registerItem(wrench
                     .setRegistryName("wrench_"+type.name())
                     .setCreativeTab(GregTechMod.GREGTECH_TAB)));
         }
@@ -394,10 +399,7 @@ public class BlockItemLoader {
         }
 
         if (Loader.isModLoaded("energycontrol")) {
-            BlockItems.sensor_kit = new ItemSensorKit();
-            BlockItems.sensor_card = new ItemSensorCard();
-            EnergyContolRegister.registerCard((IItemCard) BlockItems.sensor_card);
-            EnergyContolRegister.registerKit((IItemKit) BlockItems.sensor_kit);
+            ModuleEnergyControl.registerEnergyControlItems();
         }
     }
 

@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -27,7 +28,7 @@ public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+".item."+name;
+        return Reference.MODID+".item."+name;
     }
 
     @Override

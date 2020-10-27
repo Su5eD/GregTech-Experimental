@@ -1,5 +1,6 @@
 package mods.gregtechmod.init;
 
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.fluids.FluidGas;
 import mods.gregtechmod.objects.fluids.FluidLiquid;
@@ -62,7 +63,7 @@ public class FluidLoader {
         }
 
         private ResourceLocation getTexture() {
-            return new ResourceLocation(GregTechMod.MODID, "fluids/liquids/"+this.name());
+            return new ResourceLocation(Reference.MODID, "fluids/liquids/"+this.name());
         }
 
         /**
@@ -96,7 +97,7 @@ public class FluidLoader {
         }
 
         private ResourceLocation getTexture() {
-            return new ResourceLocation(GregTechMod.MODID, "fluids/gases/"+this.name());
+            return new ResourceLocation(Reference.MODID, "fluids/gases/"+this.name());
         }
 
         /**

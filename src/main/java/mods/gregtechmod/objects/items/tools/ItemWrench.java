@@ -1,11 +1,11 @@
 package mods.gregtechmod.objects.items.tools;
 
-import buildcraft.api.tools.IToolWrench;
 import ic2.api.tile.IWrenchable;
 import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
 import ic2.core.item.tool.ItemToolWrench;
 import ic2.core.util.RotationUtil;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -18,14 +18,12 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IToolWrench {
+public class ItemWrench extends ItemToolWrench implements IModelInfoProvider {
     public final String name;
     protected final int durability;
     protected int rotateDamage = 1;
@@ -40,7 +38,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+".item."+name;
+        return Reference.MODID+".item."+name;
     }
 
     @Override
@@ -68,24 +66,12 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     }
 
     @Override
-    public boolean canWrench(EntityPlayer player, EnumHand hand, ItemStack wrench, RayTraceResult rayTrace) {
-        return true;
-    }
-
-    @Override
-    public void wrenchUsed(EntityPlayer player, EnumHand hand, ItemStack wrench, RayTraceResult rayTrace) {
-        wrench.damageItem(1, player);
-        IC2.audioManager.playOnce(player, "Tools/wrench.ogg");
-    }
-
-    @Override
     public ModelInformation getModelInformation() {
         return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "tool"));
     }
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (Loader.isModLoaded("buildcraft")) tooltip.add("Works as a BuildCraft wrench, too");
         tooltip.add("To dismantle and rotate blocks of most mods");
         tooltip.add("Rotation of target depends on where exactly you click");
     }

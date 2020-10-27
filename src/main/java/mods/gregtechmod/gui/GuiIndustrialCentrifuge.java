@@ -4,6 +4,7 @@ import ic2.core.GuiIC2;
 import ic2.core.gui.GuiElement;
 import ic2.core.gui.LinkedGauge;
 import ic2.core.init.Localization;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerIndustrialCentrifuge;
@@ -53,6 +54,6 @@ public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifug
 
 
     public ResourceLocation getTexture() {
-        return new ResourceLocation(GregTechMod.MODID, "textures/gui/industrial_centrifuge.png");
+        return new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
     }
 }

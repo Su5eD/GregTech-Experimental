@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.items.base;
 
 import ic2.core.item.BaseElectricItem;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -31,7 +32,7 @@ public class ItemElectricBase extends BaseElectricItem implements IModelInfoProv
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+".item."+this.name;
+        return Reference.MODID+".item."+this.name;
     }
 
     @Override

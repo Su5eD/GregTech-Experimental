@@ -1,6 +1,7 @@
 package mods.gregtechmod.init;
 
 import mods.gregtechmod.api.BlockItems;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.cover.RenderTeBlock;
@@ -36,7 +37,7 @@ public class RegistryHandler {
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         BlockItemLoader.init();
         event.getRegistry().registerAll(BlockItemLoader.BLOCKS.toArray(new Block[0]));
-        GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(GregTechMod.MODID, "light_source"));
+        GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(Reference.MODID, "light_source"));
     }
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -113,31 +114,31 @@ public class RegistryHandler {
         TextureMap map = event.getMap();
         String path = "blocks/covers/";
         String centrifuge = "blocks/machines/centrifuge/";
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"adv_machine_vent"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"adv_machine_vent_rotating"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, centrifuge+"centrifuge_top_active2"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, centrifuge+"centrifuge_top_active3"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, centrifuge+"centrifuge_side_active2"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, centrifuge+"centrifuge_side_active3"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, "blocks/machines/adv_machine_screen_random")); //TODO: Remove when implemented in another machine
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"machine_vent_rotating"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"drain"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"active_detector"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"eu_meter"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"item_meter"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"liquid_meter"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"normal"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"noredstone"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"machine_controller"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"solar_panel"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"crafting"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"conveyor"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"pump"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"valve"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"energy_only"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"redstone_only"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"redstone_conductor"));
-        map.registerSprite(new ResourceLocation(GregTechMod.MODID, path+"redstone_signalizer"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"adv_machine_vent"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"adv_machine_vent_rotating"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, centrifuge+"centrifuge_top_active2"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, centrifuge+"centrifuge_top_active3"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, centrifuge+"centrifuge_side_active2"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, centrifuge+"centrifuge_side_active3"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, "blocks/machines/adv_machine_screen_random")); //TODO: Remove when implemented in another machine
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"machine_vent_rotating"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"drain"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"active_detector"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"eu_meter"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"item_meter"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"liquid_meter"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"normal"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"noredstone"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"machine_controller"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"solar_panel"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"crafting"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"conveyor"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"pump"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"valve"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"energy_only"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_only"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_conductor"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_signalizer"));
 
         for (FluidLoader.Liquids type : FluidLoader.Liquids.values()) {
             map.registerSprite(type.texture);

@@ -5,11 +5,12 @@ import ic2.api.crops.CropProperties;
 import ic2.api.crops.Crops;
 import ic2.core.crop.cropcard.GenericCropCard;
 import mods.gregtechmod.api.BlockItems;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod.EventBusSubscriber(modid = GregTechMod.MODID)
+@Mod.EventBusSubscriber(modid = Reference.MODID)
 public class CropLoader {
 
     @SubscribeEvent
@@ -17,7 +18,7 @@ public class CropLoader {
         GregTechMod.LOGGER.info("Registering crops");
         for (BlockItems.Crops type : BlockItems.Crops.values()) {
             CropCard crop = GenericCropCard.create(type.name())
-                    .setOwner(GregTechMod.MODID)
+                    .setOwner(Reference.MODID)
                     .setDiscoveredBy(type.discoverer)
                     .setProperties(new CropProperties(type.tier, type.statChemistry, type.statConsumable, type.statDefensive, type.statColorful, type.statWeed))
                     .setAttributes(type.attributes)

@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.items.base;
 
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -57,7 +58,7 @@ public class ItemToolBase extends ItemTool implements IModelInfoProvider {
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+"."+super.getTranslationKey();
+        return Reference.MODID+"."+super.getTranslationKey();
     }
 
     @Override

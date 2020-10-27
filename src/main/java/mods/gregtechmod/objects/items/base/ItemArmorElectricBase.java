@@ -5,6 +5,7 @@ import ic2.core.init.Localization;
 import ic2.core.item.armor.ItemArmorElectric;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.util.ArmorPerk;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -57,7 +58,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+".armor."+this.name+".name";
+        return Reference.MODID+".armor."+this.name+".name";
     }
 
     @Override
@@ -67,14 +68,14 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-        return GregTechMod.MODID + ":textures/armor/"+this.name+".png";
+        return Reference.MODID + ":textures/armor/"+this.name+".png";
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add("Tier: " + this.tier);
-        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate(GregTechMod.MODID+".item.armor.perk."+perk.name()+".name"));
+        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate(Reference.MODID+".item.armor.perk."+perk.name()+".name"));
     }
 
     @Override

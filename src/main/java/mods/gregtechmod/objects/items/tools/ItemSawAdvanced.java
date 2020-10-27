@@ -8,6 +8,7 @@ import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -52,7 +53,7 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+".item.saw_advanced";
+        return Reference.MODID+".item.saw_advanced";
     }
 
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {

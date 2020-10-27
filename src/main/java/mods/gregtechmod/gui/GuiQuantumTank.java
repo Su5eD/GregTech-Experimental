@@ -2,7 +2,7 @@ package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
 import ic2.core.init.Localization;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.inventory.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerQuantumTank;
 import net.minecraft.util.ResourceLocation;
@@ -30,6 +30,6 @@ public class GuiQuantumTank extends GuiIC2<ContainerQuantumTank> {
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(GregTechMod.MODID, "textures/gui/basic_tank.png");
+        return new ResourceLocation(Reference.MODID, "textures/gui/basic_tank.png");
     }
 }

@@ -65,7 +65,7 @@ dependencies {
     runtime "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112" //Separate ic2 for runtime to fix an issue caused by ic2 using old mappings
     apiCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:api" //GTE api depends on the ic2 api
 
-    compile "com.mod-buildcraft:buildcraft-api:${version_buildcraft}"
+    compile "com.mod-buildcraft:buildcraft-all:${version_buildcraft}"
     compile "curse.maven:energy-control:3026320"
 }
 

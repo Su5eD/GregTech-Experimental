@@ -1,8 +1,8 @@
 package mods.gregtechmod.objects.blocks;
 
+import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
-import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.Block;
@@ -50,7 +50,7 @@ public class BlockOre extends Block implements IBlockCustomItem {
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+"."+super.getTranslationKey();
+        return Reference.MODID+"."+super.getTranslationKey();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class BlockOre extends Block implements IBlockCustomItem {
 
     @Override
     public ResourceLocation getItemModel() {
-        return new ResourceLocation(GregTechMod.MODID, "ore/"+this.name);
+        return new ResourceLocation(Reference.MODID, "ore/"+this.name);
     }
 
     @Override

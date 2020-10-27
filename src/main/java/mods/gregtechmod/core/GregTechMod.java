@@ -5,6 +5,8 @@ import ic2.api.item.IC2Items;
 import ic2.core.block.ITeBlock;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
+import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.CoverLoader;
 import mods.gregtechmod.init.RecipeLoader;
@@ -13,7 +15,9 @@ import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
+import mods.gregtechmod.world.OreGenerator;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -26,20 +30,18 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Set;
 
 @SuppressWarnings("unused")
-@Mod(modid = GregTechMod.MODID, name = GregTechMod.NAME, version = GregTechMod.VERSION, acceptedMinecraftVersions = GregTechMod.MC_VERSION,
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
      dependencies = "required-after:ic2@[2.8.218-ex112,]; after:energycontrol@[0.1.8,]")
 public final class GregTechMod {
-    public static final String NAME = "Gregtech Experimental";
-    public static final String MODID = "gregtechmod";
-    public static final String MC_VERSION = "1.12.2";
-    static final String VERSION = "1.0";
+
     public static Logger LOGGER;
-    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(GregTechMod.MODID, "textures/gui/gtcommon.png");
+    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     @Instance
     public static GregTechMod instance;
     @SidedProxy(clientSide = "mods.gregtechmod.core.ClientProxy", serverSide = "mods.gregtechmod.core.ServerProxy")
@@ -66,9 +68,11 @@ public final class GregTechMod {
         Components.register(CoverHandler.class, "gtcover");
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
         CoverLoader.registerCovers();
-        //if (event.getSide().isClient()) RegistryHandler.registerBakedModels(); //move to event
+        GameRegistry.registerWorldGenerator(OreGenerator.instance, 5);
+        MinecraftForge.EVENT_BUS.register(OreGenerator.instance);
         //TODO: Move to recipe loader(or modificator) class
-        IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
+        ItemStack stack = IC2Items.getItem("upgrade", "overclocker");
+        stack.getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
     }
 
     @EventHandler
@@ -90,7 +94,7 @@ public final class GregTechMod {
     }
 
     public static ResourceLocation getModelResourceLocation(String name, String folder) {
-        if (folder == null) return new ResourceLocation(GregTechMod.MODID, name);
-        return new ResourceLocation(String.format("%s:%s/%s", MODID, folder, name));
+        if (folder == null) return new ResourceLocation(Reference.MODID, name);
+        return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
     }
 }
