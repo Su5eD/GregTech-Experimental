@@ -16,11 +16,11 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTank;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
 public class BlockItems {
@@ -102,58 +102,58 @@ public class BlockItems {
     }
 
     public enum Ores {
-        galena(3, 0, 0, (world, fortune, drops) -> {}),
-        iridium(20, 30, 21, (world, fortune, drops) -> {
+        galena(3, 0, 0, (fortune, drops) -> {}),
+        iridium(20, 30, 21, (fortune, drops) -> {
             ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
-            iridium.setCount(1 + world.rand.nextInt(1 + fortune / 2));
+            iridium.setCount(1 + GtUtil.RANDOM.nextInt(1 + fortune / 2));
             drops.add(iridium);
             //TODO: Add as oredict alternative
-            //GT_OreDictUnificator.getFirstOre("dustIridium", 1 + world.rand.nextInt(1 + fortune / 2)
+            //GT_OreDictUnificator.getFirstOre("dustIridium", 1 + GtUtil.RANDOM.nextInt(1 + fortune / 2)
         }),
-        ruby(4, 3, 5, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.ruby.instance, 1 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(new ItemStack(Miscellaneous.red_garnet.instance));
+        ruby(4, 3, 5, (fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.ruby.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(new ItemStack(Miscellaneous.red_garnet.instance));
         }),
-        sapphire(4, 3, 5, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.sapphire.instance, 1 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
+        sapphire(4, 3, 5, (fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.sapphire.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Miscellaneous.green_sapphire.instance, 1));
         }),
-        bauxite(3, 0, 0, (world, fortune, drops) -> {}),
-        pyrite(2, 1, 1, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.pyrite.instance, 2 + world.rand.nextInt(1 + fortune)));
+        bauxite(3, 0, 0, (fortune, drops) -> {}),
+        pyrite(2, 1, 1, (fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.pyrite.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
         }),
-        cinnabar(3, 3, 3, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.cinnabar.instance, 2 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+        cinnabar(3, 3, 3, (fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.cinnabar.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Items.REDSTONE, 1));
         }),
-        sphalerite(2, 1, 1, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.sphalerite.instance, 2 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+        sphalerite(2, 1, 1, (fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.sphalerite.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Dusts.zinc.instance));
-            if (world.rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0)
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Dusts.yellow_garnet.instance));
         }),
-        tungstate(4, 0, 0, (world, fortune, drops) -> {}),
-        sheldonite(3.5F, 0, 0, (world, fortune, drops) -> {}),
-        olivine(3, 0, 0, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.olivine.instance, 1 + world.rand.nextInt(1 + fortune)));
+        tungstate(4, 0, 0, (fortune, drops) -> {}),
+        sheldonite(3.5F, 0, 0, (fortune, drops) -> {}),
+        olivine(3, 0, 0, (fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.olivine.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
         }),
-        sodalite(3, 0, 0, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.sodalite.instance, 6 + 3 * world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+        sodalite(3, 0, 0, (fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.sodalite.instance, 6 + 3 * GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Dusts.aluminium.instance));
         }),
-        tetrahedrite(3, 0, 0, (world, fortune, drops) -> {}),
-        cassiterite(3, 0, 0, (world, fortune, drops) -> {});
+        tetrahedrite(3, 0, 0, (fortune, drops) -> {}),
+        cassiterite(3, 0, 0, (fortune, drops) -> {});
         private Block instance;
         public final float hardness;
         public final int dropChance;
         public final int dropRandom;
-        public final TriConsumer<World, Integer, List<ItemStack>> loot;
+        public final BiConsumer<Integer, List<ItemStack>> loot;
 
-        Ores(float hardness, int dropChance, int dropRandom, TriConsumer<World, Integer, List<ItemStack>> loot) {
+        Ores(float hardness, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
             this.hardness = hardness;
             this.dropChance = dropChance;
             this.dropRandom = dropRandom;

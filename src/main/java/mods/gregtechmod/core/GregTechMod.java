@@ -16,6 +16,7 @@ import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustria
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
 import mods.gregtechmod.world.OreGenerator;
+import mods.gregtechmod.world.RetrogenHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -40,7 +41,7 @@ import java.util.Set;
      dependencies = "required-after:ic2@[2.8.218-ex112,]; after:energycontrol@[0.1.8,]")
 public final class GregTechMod {
 
-    public static Logger LOGGER;
+    public static Logger logger;
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     @Instance
     public static GregTechMod instance;
@@ -61,15 +62,17 @@ public final class GregTechMod {
 
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
-        LOGGER = event.getModLog();
+        logger = event.getModLog();
 
-        LOGGER.info("Pre-init started");
+        logger.info("Pre-init started");
+        MinecraftForge.EVENT_BUS.register(OreGenerator.instance);
+        MinecraftForge.EVENT_BUS.register(RetrogenHandler.instance);
+
         RegistryHandler.registerFluids();
         Components.register(CoverHandler.class, "gtcover");
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.instance, 5);
-        MinecraftForge.EVENT_BUS.register(OreGenerator.instance);
         //TODO: Move to recipe loader(or modificator) class
         ItemStack stack = IC2Items.getItem("upgrade", "overclocker");
         stack.getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);

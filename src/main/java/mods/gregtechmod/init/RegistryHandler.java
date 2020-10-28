@@ -46,7 +46,7 @@ public class RegistryHandler {
 
     public static void registerFluids() {
         FluidLoader.init();
-        GregTechMod.LOGGER.info("Registering fluids");
+        GregTechMod.logger.info("Registering fluids");
         FluidLoader.FLUIDS.forEach(fluid -> {
             FluidRegistry.registerFluid(fluid);
             FluidRegistry.addBucketForFluid(fluid);
@@ -83,7 +83,7 @@ public class RegistryHandler {
 
     @SideOnly(Side.CLIENT)
     public static void registerBakedModels() {
-        GregTechMod.LOGGER.info("Registering baked models");
+        GregTechMod.logger.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
         for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
             try {
@@ -98,7 +98,7 @@ public class RegistryHandler {
                     }
                 }
             } catch (Exception e) {
-                GregTechMod.LOGGER.error(e.getMessage());
+                GregTechMod.logger.error(e.getMessage());
             }
         }
         for (BlockItems.Ores ore : BlockItems.Ores.values()) {

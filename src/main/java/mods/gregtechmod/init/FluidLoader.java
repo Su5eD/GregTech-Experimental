@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FluidLoader {
-    public static List<Fluid> FLUIDS = new ArrayList<>();
+    public static final List<Fluid> FLUIDS = new ArrayList<>();
 
     public static void init() {
-        GregTechMod.LOGGER.info("Initializing fluids");
+        GregTechMod.logger.info("Initializing fluids");
         for (Liquids type : Liquids.values()) {
             Fluid fluid = new FluidLiquid(type.name(), type.texture, type.texture)
                     .setUnlocalizedName(type.name())

@@ -28,7 +28,7 @@ public class ModuleBuildcraft {
             Object itemWrenchBC = ITEM_WRENCH_BC_CLASS.getConstructors()[0].newInstance(name, durability);
             return (ItemWrench) itemWrenchBC;
         } catch(IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            GregTechMod.LOGGER.error("Failed to construct Buildcraft Wrench, defaulting to the normal one");
+            GregTechMod.logger.error("Failed to construct Buildcraft Wrench, defaulting to the normal one");
             e.printStackTrace();
             return new ItemWrench(name, durability);
         }
@@ -39,7 +39,7 @@ public class ModuleBuildcraft {
             Object itemWrenchAdvancedBC = ITEM_WRENCH_ADVANCED_BC_CLASS.getConstructors()[0].newInstance();
             return (ItemWrenchAdvanced) itemWrenchAdvancedBC;
         } catch(IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            GregTechMod.LOGGER.error("Failed to construct Buildcraft Advanced Wrench, defaulting to the normal one");
+            GregTechMod.logger.error("Failed to construct Buildcraft Advanced Wrench, defaulting to the normal one");
             e.printStackTrace();
             return new ItemWrenchAdvanced();
         }

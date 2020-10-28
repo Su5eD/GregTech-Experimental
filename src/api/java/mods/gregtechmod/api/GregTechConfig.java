@@ -71,11 +71,17 @@ public class GregTechConfig {
 
     public static class WorldGen {
         public boolean retrogen = true;
+        public boolean generateInVoid = false;
 
         public boolean galena = true;
+        public boolean iridium = true;
+        public boolean ruby = true;
+        public boolean sapphire = true;
         public boolean bauxite = true;
         public boolean tetrahedrite = true;
         public boolean cassiterite = true;
+        public boolean sphalerite_overworld = true;
+
         public boolean tungstate = true;
         public boolean sheldonite = true;
         public boolean olivine = true;

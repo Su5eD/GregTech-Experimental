@@ -113,7 +113,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     @Override
     protected void onExploded(Explosion explosion) {
-        markForExplosion();
+        if (GregTechConfig.MACHINES.machineChainExplosions) markForExplosion();
     }
 
     protected void updateEntityServer() {

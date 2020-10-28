@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.function.BiPredicate;
 
 public class GtUtil {
-    public static Random RANDOM = new Random();
+    public static final Random RANDOM = new Random();
 
     public static <T, U> BiPredicate<T, U> alwaysTrue() {
         return (a, b) -> true;

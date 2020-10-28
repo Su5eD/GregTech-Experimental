@@ -29,7 +29,7 @@ public class RecipeLoader {
         try {
             industrial_centrifuge.load(getConfigFile("industrial_centrifuge"));
         } catch (Exception e) {
-            GregTechMod.LOGGER.warn(e.getMessage(), "Failed to load recipe.");
+            GregTechMod.logger.warn(e.getMessage(), "Failed to load recipe.");
         }
         loadMachineRecipes(industrial_centrifuge, Recipes.industrial_centrifuge, MachineType.TimeBased);
     }
@@ -42,7 +42,7 @@ public class RecipeLoader {
             if (loadMachineRecipe(value, machine, type, false)) successful++;
         }
 
-        GregTechMod.LOGGER.info("Successfully loaded " + successful + " from " + amount + " recipes for " + config.name);
+        GregTechMod.logger.info("Successfully loaded " + successful + " from " + amount + " recipes for " + config.name);
     }
 
     private static boolean loadMachineRecipe(Config.Value value, IMachineRecipeManager<IRecipeInput, Collection<ItemStack>, ?> machine, MachineType type, boolean lastAttempt) {
@@ -55,7 +55,7 @@ public class RecipeLoader {
             throw new Config.ParseException("invalid key", value, e);
         }
         if (input == null) {
-            GregTechMod.LOGGER.warn(new Config.ParseException("invalid input: " + value.name, value).getMessage(), "Skipping recipe due to unresolvable input %s.", value.name);
+            GregTechMod.logger.warn(new Config.ParseException("invalid input: " + value.name, value).getMessage(), "Skipping recipe due to unresolvable input %s.", value.name);
             return false;
         }
         try {
@@ -73,13 +73,13 @@ public class RecipeLoader {
                 }
                 ItemStack cOutput = ConfigUtil.asStackWithAmount(part);
                 if (cOutput == null) {
-                    GregTechMod.LOGGER.warn(new Config.ParseException("invalid output specified: " + part, value).getMessage(), "Skipping recipe using %s due to unresolvable output %s.", new Object[] { value.name, part });
+                    GregTechMod.logger.warn(new Config.ParseException("invalid output specified: " + part, value).getMessage(), "Skipping recipe using %s due to unresolvable output %s.", new Object[] { value.name, part });
                     return false;
                 }
                 outputs.add(cOutput);
             }
             if (!type.tagsRequired.isEmpty() && (metadata.isEmpty() || !type.hasRequiredTags(metadata))) {
-                GregTechMod.LOGGER.warn( "Could not add machine recipe: " + value.name + " missing tag.");
+                GregTechMod.logger.warn( "Could not add machine recipe: " + value.name + " missing tag.");
                 return false;
             }
             if (metadata.isEmpty())

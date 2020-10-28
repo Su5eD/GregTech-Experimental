@@ -42,9 +42,9 @@ public class CoverLoader {
     }
 
     public static void registerCovers() {
-        GregTechMod.LOGGER.info("Registering covers");
+        GregTechMod.logger.info("Registering covers");
         for(Covers type : Covers.values()) {
-            GregTechMod.LOGGER.debug("Registering cover "+type.name());
+            GregTechMod.logger.debug("Registering cover "+type.name());
             CoverRegistry.registerCover(type.name(), type.constructor);
         }
     }

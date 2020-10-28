@@ -15,7 +15,7 @@ public class CropLoader {
 
     @SubscribeEvent
     public static void registerCrops(Crops.CropRegisterEvent event) {
-        GregTechMod.LOGGER.info("Registering crops");
+        GregTechMod.logger.info("Registering crops");
         for (BlockItems.Crops type : BlockItems.Crops.values()) {
             CropCard crop = GenericCropCard.create(type.name())
                     .setOwner(Reference.MODID)
@@ -31,10 +31,10 @@ public class CropLoader {
                     .register();
 
             if (type.baseSeed != null) {
-                GregTechMod.LOGGER.info("Registering base seed for crop "+type.name());
+                GregTechMod.logger.info("Registering base seed for crop "+type.name());
                 Crops.instance.registerBaseSeed(type.baseSeed, crop, 1, 1, 1, 1);
             }
         }
-        GregTechMod.LOGGER.info("Finished registering crops");
+        GregTechMod.logger.info("Finished registering crops");
     }
 }

@@ -66,7 +66,7 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     }
 
     public static void loadSonictronSounds() {
-        GregTechMod.LOGGER.info("Loading Sonictron sounds");
+        GregTechMod.logger.info("Loading Sonictron sounds");
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.IRON_BLOCK, "block.note.harp", 25));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GOLD_BLOCK, "block.note.pling", 25));
         GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.STONE, "block.note.basedrum", 25));
