@@ -1,8 +1,8 @@
 package mods.gregtechmod.init;
 
 import mods.gregtechmod.api.BlockItems;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.cover.RenderTeBlock;
 import mods.gregtechmod.objects.blocks.RenderBlockOre;
@@ -46,7 +46,7 @@ public class RegistryHandler {
 
     public static void registerFluids() {
         FluidLoader.init();
-        GregTechMod.logger.info("Registering fluids");
+        GregTechAPI.logger.info("Registering fluids");
         FluidLoader.FLUIDS.forEach(fluid -> {
             FluidRegistry.registerFluid(fluid);
             FluidRegistry.addBucketForFluid(fluid);
@@ -83,7 +83,7 @@ public class RegistryHandler {
 
     @SideOnly(Side.CLIENT)
     public static void registerBakedModels() {
-        GregTechMod.logger.info("Registering baked models");
+        GregTechAPI.logger.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
         for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
             try {
@@ -98,7 +98,7 @@ public class RegistryHandler {
                     }
                 }
             } catch (Exception e) {
-                GregTechMod.logger.error(e.getMessage());
+                GregTechAPI.logger.error(e.getMessage());
             }
         }
         for (BlockItems.Ores ore : BlockItems.Ores.values()) {

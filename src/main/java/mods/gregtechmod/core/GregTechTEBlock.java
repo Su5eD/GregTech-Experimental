@@ -10,6 +10,7 @@ import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityDigitalChest;
@@ -187,10 +188,10 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
  		for (GregTechTEBlock block : values()) {
  			if (block.teClass != null) {
  				try {
-                    GregTechMod.logger.info("Building dummy TeBlock for "+block.name());
+                    GregTechAPI.logger.info("Building dummy TeBlock for "+block.name());
  					block.dummyTe = block.teClass.newInstance();
  				} catch (Exception e) {
- 					GregTechMod.logger.error(e.getMessage());
+ 					GregTechAPI.logger.error(e.getMessage());
  				}
  			}
  		}

@@ -1171,4 +1171,40 @@ public class BlockItems {
             return this.instance;
         }
     }
+
+    public enum Books {
+        manual("Gregorius Techneticies", 11),
+        manual2("Gregorius Techneticies", 9),
+        machine_safety("Gregorius Techneticies", 7),
+        cover_up("Gregorius Techneticies", 5),
+        greg_os_manual("Gregorius Techneticies", 8),
+        greg_os_manual2("Gregorius Techneticies", 11),
+        upgrade_dictionary("Gregorius Techneticies", 21),
+        crop_dictionary("Mr. Kenny", 32),
+        energy_systems("Gregorius Techneticies", 7),
+        microwave_oven_manual("Kitchen Industries", 6),
+        turbine_manual("Gregorius Techneticies", 19),
+        thermal_boiler_manual("Gregorius Techneticies", 16);
+
+        public final String author;
+        public final int pages;
+        private ItemStack instance;
+
+        Books(String author, int pages) {
+            this.author = author;
+            this.pages = pages;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        public void setInstance(ItemStack item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public ItemStack getInstance() {
+            return this.instance;
+        }
+    }
 }

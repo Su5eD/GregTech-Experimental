@@ -2,8 +2,8 @@ package mods.gregtechmod.init;
 
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.ModuleBuildcraft;
 import mods.gregtechmod.compat.ModuleEnergyControl;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
@@ -210,7 +210,7 @@ public class BlockItemLoader {
     private static void initTools() {
         BlockItems.Tools.drill_advanced.setInstance(registerItem(new ItemDrillAdvanced()));
         BlockItems.Tools.saw_advanced.setInstance(registerItem(new ItemSawAdvanced()));
-        BlockItems.Tools.wrench_advanced.setInstance(registerItem(Loader.isModLoaded("buildcraftcore") ? ModuleBuildcraft.constructBuildcraftAdvancedWrench() : new ItemWrenchAdvanced()));
+        BlockItems.Tools.wrench_advanced.setInstance(registerItem(new ItemWrenchAdvanced()));
         BlockItems.Tools.crowbar.setInstance(registerItem(new ItemCrowbar("crowbar", "To remove covers form machines", 256, 6)
                 .setRegistryName("crowbar")
                 .setTranslationKey("crowbar")
@@ -244,7 +244,7 @@ public class BlockItemLoader {
         BlockItems.Tools.sonictron_portable.setInstance(registerItem(new ItemSonictron()));
 
         for (BlockItems.Wrenches type : BlockItems.Wrenches.values()) {
-            ItemWrench wrench = Loader.isModLoaded("buildcraftcore") ? ModuleBuildcraft.constructBuildcraftWrench("wrench_"+type.name(), type.durability) : new ItemWrench("wrench_"+type.name(), type.durability);
+            ItemWrench wrench = new ItemWrench("wrench_"+type.name(), type.durability);
             type.setInstance(registerItem(wrench
                     .setRegistryName("wrench_"+type.name())
                     .setCreativeTab(GregTechMod.GREGTECH_TAB)));
@@ -400,6 +400,10 @@ public class BlockItemLoader {
 
         if (Loader.isModLoaded("energycontrol")) {
             ModuleEnergyControl.registerEnergyControlItems();
+        }
+
+        for (BlockItems.Books type : BlockItems.Books.values()) {
+            type.setInstance(GtUtil.getWrittenBook(type.name(), type.author, type.pages, type.ordinal()));
         }
     }
 

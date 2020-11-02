@@ -1,7 +1,7 @@
 package mods.gregtechmod.compat;
 
 import mods.gregtechmod.api.BlockItems;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.GregTechAPI;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -44,7 +44,7 @@ public class ModuleEnergyControl {
             REGISTER_KIT_METHOD.invoke(null, itemKitInstance);
             REGISTER_CARD_METHOD.invoke(null, itemCardInstance);
         } catch (IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchFieldException e) {
-            GregTechMod.logger.error("Failed to register Energy Control items");
+            GregTechAPI.logger.error("Failed to register Energy Control items");
             e.printStackTrace();
         }
     }

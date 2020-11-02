@@ -5,6 +5,7 @@ import ic2.api.item.IC2Items;
 import ic2.core.block.ITeBlock;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.cover.CoverHandler;
@@ -21,6 +22,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -32,7 +34,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.logging.log4j.Logger;
 
 import java.util.Set;
 
@@ -41,7 +42,6 @@ import java.util.Set;
      dependencies = "required-after:ic2@[2.8.218-ex112,]; after:energycontrol@[0.1.8,]")
 public final class GregTechMod {
 
-    public static Logger logger;
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     @Instance
     public static GregTechMod instance;
@@ -62,9 +62,9 @@ public final class GregTechMod {
 
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
-        logger = event.getModLog();
+        GregTechAPI.logger = event.getModLog();
 
-        logger.info("Pre-init started");
+        GregTechAPI.logger.info("Pre-init started");
         MinecraftForge.EVENT_BUS.register(OreGenerator.instance);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.instance);
 
@@ -99,5 +99,12 @@ public final class GregTechMod {
     public static ResourceLocation getModelResourceLocation(String name, String folder) {
         if (folder == null) return new ResourceLocation(Reference.MODID, name);
         return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
+    }
+
+    @SubscribeEvent
+    public void onLootTableLoad(LootTableLoadEvent event) {
+        if (event.getName().getNamespace().equals("minecraft")) {
+
+        }
     }
 }

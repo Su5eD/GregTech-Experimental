@@ -33,6 +33,9 @@ public class GregTechTab extends CreativeTabs {
         addTeBlock(GregTechTEBlock.digital_chest, block);
         addTeBlock(GregTechTEBlock.quantum_chest, block);
         addTeBlock(GregTechTEBlock.quantum_tank, block);
+        for (BlockItems.Books type : BlockItems.Books.values()) {
+            list.add(type.getInstance());
+        }
 
         super.displayAllRelevantItems(list);
     }

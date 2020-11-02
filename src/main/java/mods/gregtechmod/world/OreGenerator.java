@@ -2,9 +2,9 @@ package mods.gregtechmod.world;
 
 import com.google.common.base.Predicate;
 import mods.gregtechmod.api.BlockItems;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.WorldOres;
-import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
@@ -81,7 +81,7 @@ public class OreGenerator implements IWorldGenerator {
 
     public void genSingleOre(Block oreBlock, Predicate<IBlockState> matcher, World world, Random random, int chunkX, int chunkZ, int amount, int minY, int maxY) {
         for (int i = 0; i < amount; i++) {
-            BlockPos orePos = getOrePos(random, chunkX, chunkZ, minY, maxY);
+            BlockPos orePos = getOrePos(random, chunkX, chunkZ, minY, maxY).add(8, 0, 8);
             IBlockState state = world.getBlockState(orePos);
             Block block = state.getBlock();
             if ((GregTechConfig.WORLDGEN.generateInVoid && block.isReplaceableOreGen(state, world, orePos, MATCHER_VOID)) || (block.isReplaceableOreGen(state, world, orePos, matcher))) {
@@ -92,7 +92,7 @@ public class OreGenerator implements IWorldGenerator {
 
     public void genSingleBlockUnderLava(Block oreBlock, Predicate<IBlockState> matcher, World world, Random random, int chunkX, int chunkZ, int amount, int minY, int maxY) {
         for (int i = 0; i < amount; i++) {
-            BlockPos orePos = getOrePos(random, chunkX, chunkZ, minY, maxY);
+            BlockPos orePos = getOrePos(random, chunkX, chunkZ, minY, maxY).add(8, 0, 8);
             IBlockState state = world.getBlockState(orePos);
             Block block = state.getBlock();
             if ((GregTechConfig.WORLDGEN.generateInVoid && block.isReplaceableOreGen(state, world, orePos, MATCHER_VOID) || block.isReplaceableOreGen(state, world, orePos, matcher)) && (world.getBlockState(orePos.offset(EnumFacing.UP)).getBlock() == Blocks.LAVA || world.getBlockState(orePos).getBlock() == Blocks.FLOWING_LAVA))
@@ -175,7 +175,7 @@ public class OreGenerator implements IWorldGenerator {
         if (tag != null) {
             boolean generated = GregTechConfig.WORLDGEN.retrogen && !tag.hasKey("generated");
             if (generated) {
-                GregTechMod.logger.debug("Queuing Retrogen for chunk: " + coord.toString() + ".");
+                GregTechAPI.logger.debug("Queuing Retrogen for chunk: " + coord.toString() + ".");
                 regen = true;
             }
         } else {
