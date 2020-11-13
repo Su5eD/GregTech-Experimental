@@ -77,8 +77,7 @@ public final class GregTechMod {
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.instance, 5);
         //TODO: Move to recipe loader(or modificator) class
-        ItemStack stack = IC2Items.getItem("upgrade", "overclocker");
-        stack.getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
+        IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
     }
 
     @EventHandler
@@ -94,6 +93,7 @@ public final class GregTechMod {
         LootTableList.register(new ResourceLocation(Reference.MODID, "jungle_temple_dispenser"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "simple_dungeon"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "stronghold_crossing"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "stronghold_library"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "village_blacksmith"));
     }
     @EventHandler
