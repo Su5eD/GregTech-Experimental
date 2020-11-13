@@ -1,27 +1,30 @@
-package mods.gregtechmod.core;
+package mods.gregtechmod.api;
 
+import mods.gregtechmod.api.util.Reference;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Config(modid = GregTechMod.MODID, category = "")
-@Config.LangKey(GregTechMod.MODID+".config.title")
-@Mod.EventBusSubscriber(modid = GregTechMod.MODID)
+@Config(modid = Reference.MODID, category = "")
+@Config.LangKey(Reference.MODID+".config.title")
+@Mod.EventBusSubscriber(modid = Reference.MODID)
 public class GregTechConfig {
 
-    @Config.LangKey(GregTechMod.MODID+".config.general")
+    @Config.LangKey(Reference.MODID+".config.general")
     public static final General GENERAL = new General();
 
-    @Config.LangKey(GregTechMod.MODID+".config.features")
+    @Config.LangKey(Reference.MODID+".config.features")
     public static final Features FEATURES = new Features();
 
-    @Config.LangKey(GregTechMod.MODID+".config.balance")
+    @Config.LangKey(Reference.MODID+".config.balance")
     public static final Balance BALANCE = new Balance();
 
-    @Config.LangKey(GregTechMod.MODID+".config.machines")
+    @Config.LangKey(Reference.MODID+".config.machines")
     public static final Machines MACHINES = new Machines();
+
+    public static final WorldGen WORLDGEN = new WorldGen();
 
     public static class General {
         public boolean connectedMachineCasingTextures = true;
@@ -66,10 +69,49 @@ public class GregTechConfig {
         public boolean machineChainExplosions = true;
     }
 
+    public static class WorldGen {
+        public boolean retrogen = true;
+        public boolean generateInVoid = false;
+
+        public boolean galena = true;
+        public boolean iridium = true;
+        public boolean ruby = true;
+        public boolean sapphire = true;
+        public boolean bauxite = true;
+        public boolean tetrahedrite = true;
+        public boolean cassiterite = true;
+        public boolean sphalerite_overworld = true;
+
+        public boolean tungstate = true;
+        public boolean sheldonite = true;
+        public boolean olivine = true;
+        public boolean sodalite = true;
+
+        public boolean pyrite_tiny = true;
+        public boolean pyrite_small = true;
+        public boolean pyrite_medium = true;
+        public boolean pyrite_large = true;
+        public boolean pyrite_huge = true;
+
+        public boolean cinnabar_tiny = true;
+        public boolean cinnabar_small = true;
+        public boolean cinnabar_medium = true;
+        public boolean cinnabar_large = false;
+        public boolean cinnabar_huge = false;
+
+        public boolean sphalerite_tiny = true;
+        public boolean sphalerite_small = true;
+        public boolean sphalerite_medium = true;
+        public boolean sphalerite_large = true;
+        public boolean sphalerite_huge = true;
+
+        public boolean endAsteroids = true;
+    }
+
     @SubscribeEvent
     public static void onConfigChanged(final ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals(GregTechMod.MODID)) {
-            ConfigManager.sync(GregTechMod.MODID, Config.Type.INSTANCE);
+        if (event.getModID().equals(Reference.MODID)) {
+            ConfigManager.sync(Reference.MODID, Config.Type.INSTANCE);
         }
     }
 }

@@ -26,6 +26,7 @@ public class ItemSonictron extends ItemBase {
 
     public ItemSonictron() {
         super("sonictron_portable", null);
+        setFolder("tool");
         setRegistryName("sonictron_portable");
         setTranslationKey("sonictron_portable");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

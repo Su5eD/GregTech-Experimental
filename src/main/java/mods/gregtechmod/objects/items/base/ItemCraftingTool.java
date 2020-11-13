@@ -6,11 +6,19 @@ import net.minecraft.item.ItemStack;
 import javax.annotation.Nullable;
 
 public class ItemCraftingTool extends ItemToolBase {
-    private final int craftingDamage;
+    protected final int craftingDamage;
 
     public ItemCraftingTool(String name, @Nullable String description, int durability, float attackDamage, ToolMaterial material, int craftingDamage) {
-        super(name, description, durability, attackDamage, material);
+        this(name, description, durability, attackDamage, material, craftingDamage, 3);
+    }
+
+    public ItemCraftingTool(String name, @Nullable String description, int durability, float attackDamage, ToolMaterial material, int craftingDamage, int damageOnHit) {
+        super(name, description, durability, attackDamage, material, damageOnHit);
         this.craftingDamage = craftingDamage;
+    }
+
+    public ItemStack getEmptyItem() {
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -21,7 +29,7 @@ public class ItemCraftingTool extends ItemToolBase {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         stack = stack.copy();
-        if (stack.attemptDamageItem(this.craftingDamage, GtUtil.RANDOM, null)) return ItemStack.EMPTY;
+        if (stack.attemptDamageItem(this.craftingDamage, GtUtil.RANDOM, null)) return getEmptyItem();
         return stack;
     }
 }

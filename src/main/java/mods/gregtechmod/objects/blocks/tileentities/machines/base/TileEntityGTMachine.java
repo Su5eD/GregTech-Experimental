@@ -15,9 +15,9 @@ import ic2.core.block.invslot.InvSlotProcessable;
 import ic2.core.block.invslot.InvSlotProcessableGeneric;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.ref.FluidName;
+import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
-import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -113,7 +113,7 @@ public abstract class TileEntityGTMachine extends TileEntityUpgradable implement
 
     @Override
     protected void onExploded(Explosion explosion) {
-        markForExplosion();
+        if (GregTechConfig.MACHINES.machineChainExplosions) markForExplosion();
     }
 
     protected void updateEntityServer() {

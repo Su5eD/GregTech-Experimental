@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.blocks.tileentities.machines;
 
-import mods.gregtechmod.core.GregTechConfig;
+import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityDigitalChestBase;
 
 public class TileEntityDigitalChest extends TileEntityDigitalChestBase {

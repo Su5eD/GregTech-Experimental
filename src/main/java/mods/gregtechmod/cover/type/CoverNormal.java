@@ -1,7 +1,7 @@
 package mods.gregtechmod.cover.type;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,7 +17,7 @@ public class CoverNormal extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(GregTechMod.MODID, "blocks/covers/"+(mode == 0 ? "normal" : "noredstone"));
+        return new ResourceLocation(Reference.MODID, "blocks/covers/"+(mode == 0 ? "normal" : "noredstone"));
     }
 
     @Override

@@ -4,6 +4,7 @@ import ic2.core.IC2;
 import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -40,7 +41,7 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+".item.drill_advanced";
+        return Reference.MODID+".item.drill_advanced";
     }
 
     @Override

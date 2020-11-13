@@ -16,11 +16,11 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTank;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
 public class BlockItems {
@@ -102,58 +102,58 @@ public class BlockItems {
     }
 
     public enum Ores {
-        galena(3, 0, 0, (world, fortune, drops) -> {}),
-        iridium(20, 30, 21, (world, fortune, drops) -> {
+        galena(3, 0, 0, (fortune, drops) -> {}),
+        iridium(20, 30, 21, (fortune, drops) -> {
             ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
-            iridium.setCount(1 + world.rand.nextInt(1 + fortune / 2));
+            iridium.setCount(1 + GtUtil.RANDOM.nextInt(1 + fortune / 2));
             drops.add(iridium);
             //TODO: Add as oredict alternative
-            //GT_OreDictUnificator.getFirstOre("dustIridium", 1 + world.rand.nextInt(1 + fortune / 2)
+            //GT_OreDictUnificator.getFirstOre("dustIridium", 1 + GtUtil.RANDOM.nextInt(1 + fortune / 2)
         }),
-        ruby(4, 3, 5, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.ruby.instance, 1 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(new ItemStack(Miscellaneous.red_garnet.instance));
+        ruby(4, 3, 5, (fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.ruby.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(new ItemStack(Miscellaneous.red_garnet.instance));
         }),
-        sapphire(4, 3, 5, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.sapphire.instance, 1 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
+        sapphire(4, 3, 5, (fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.sapphire.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Miscellaneous.green_sapphire.instance, 1));
         }),
-        bauxite(3, 0, 0, (world, fortune, drops) -> {}),
-        pyrite(2, 1, 1, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.pyrite.instance, 2 + world.rand.nextInt(1 + fortune)));
+        bauxite(3, 0, 0, (fortune, drops) -> {}),
+        pyrite(2, 1, 1, (fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.pyrite.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
         }),
-        cinnabar(3, 3, 3, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.cinnabar.instance, 2 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+        cinnabar(3, 3, 3, (fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.cinnabar.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Items.REDSTONE, 1));
         }),
-        sphalerite(2, 1, 1, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.sphalerite.instance, 2 + world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+        sphalerite(2, 1, 1, (fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.sphalerite.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Dusts.zinc.instance));
-            if (world.rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0)
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Dusts.yellow_garnet.instance));
         }),
-        tungstate(4, 0, 0, (world, fortune, drops) -> {}),
-        sheldonite(3.5F, 0, 0, (world, fortune, drops) -> {}),
-        olivine(3, 0, 0, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.olivine.instance, 1 + world.rand.nextInt(1 + fortune)));
+        tungstate(4, 0, 0, (fortune, drops) -> {}),
+        sheldonite(3.5F, 0, 0, (fortune, drops) -> {}),
+        olivine(3, 0, 0, (fortune, drops) -> {
+            drops.add(new ItemStack(Miscellaneous.olivine.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
         }),
-        sodalite(3, 0, 0, (world, fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.sodalite.instance, 6 + 3 * world.rand.nextInt(1 + fortune)));
-            if (world.rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
+        sodalite(3, 0, 0, (fortune, drops) -> {
+            drops.add(new ItemStack(Dusts.sodalite.instance, 6 + 3 * GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Dusts.aluminium.instance));
         }),
-        tetrahedrite(3, 0, 0, (world, fortune, drops) -> {}),
-        cassiterite(3, 0, 0, (world, fortune, drops) -> {});
+        tetrahedrite(3, 0, 0, (fortune, drops) -> {}),
+        cassiterite(3, 0, 0, (fortune, drops) -> {});
         private Block instance;
         public final float hardness;
         public final int dropChance;
         public final int dropRandom;
-        public final TriConsumer<World, Integer, List<ItemStack>> loot;
+        public final BiConsumer<Integer, List<ItemStack>> loot;
 
-        Ores(float hardness, int dropChance, int dropRandom, TriConsumer<World, Integer, List<ItemStack>> loot) {
+        Ores(float hardness, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
             this.hardness = hardness;
             this.dropChance = dropChance;
             this.dropRandom = dropRandom;
@@ -731,7 +731,29 @@ public class BlockItems {
         wrench_advanced,
         destructorpack,
         lapotronic_energy_orb,
-        sonictron_portable;
+        sonictron_portable,
+        spray_bug,
+        spray_ice,
+        spray_hardener,
+        spray_foam,
+        spray_pepper,
+        spray_hydration,
+        spray_color_white,
+        spray_color_orange,
+        spray_color_magenta,
+        spray_color_light_blue,
+        spray_color_yellow,
+        spray_color_lime,
+        spray_color_pink,
+        spray_color_gray,
+        spray_color_silver,
+        spray_color_cyan,
+        spray_color_purple,
+        spray_color_blue,
+        spray_color_brown,
+        spray_color_green,
+        spray_color_red,
+        spray_color_black;
 
         private Item instance;
 
@@ -1168,6 +1190,42 @@ public class BlockItems {
         }
 
         public Item getInstance() {
+            return this.instance;
+        }
+    }
+
+    public enum Books {
+        manual("Gregorius Techneticies", 11),
+        manual2("Gregorius Techneticies", 9),
+        machine_safety("Gregorius Techneticies", 7),
+        cover_up("Gregorius Techneticies", 5),
+        greg_os_manual("Gregorius Techneticies", 8),
+        greg_os_manual2("Gregorius Techneticies", 11),
+        upgrade_dictionary("Gregorius Techneticies", 21),
+        crop_dictionary("Mr. Kenny", 32),
+        energy_systems("Gregorius Techneticies", 7),
+        microwave_oven_manual("Kitchen Industries", 6),
+        turbine_manual("Gregorius Techneticies", 19),
+        thermal_boiler_manual("Gregorius Techneticies", 16);
+
+        public final String author;
+        public final int pages;
+        private ItemStack instance;
+
+        Books(String author, int pages) {
+            this.author = author;
+            this.pages = pages;
+        }
+
+        /**
+         * <b>Only GregTech may call this!!</b>
+         */
+        public void setInstance(ItemStack item) {
+            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+name());
+            this.instance = item;
+        }
+
+        public ItemStack getInstance() {
             return this.instance;
         }
     }

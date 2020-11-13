@@ -2,7 +2,7 @@ package mods.gregtechmod.cover.type;
 
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregtechMachine;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -27,7 +27,7 @@ public class CoverValve extends CoverPump {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(GregTechMod.MODID, "blocks/covers/valve");
+        return new ResourceLocation(Reference.MODID, "blocks/covers/valve");
     }
 
     @Override

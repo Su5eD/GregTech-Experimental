@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.fluids;
 
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 
@@ -12,6 +12,6 @@ public class FluidLiquid extends Fluid {
 
     @Override
     public String getUnlocalizedName() {
-        return GregTechMod.MODID+"."+super.getUnlocalizedName();
+        return Reference.MODID+"."+super.getUnlocalizedName();
     }
 }

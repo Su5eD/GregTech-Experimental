@@ -2,7 +2,7 @@ package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
 import ic2.core.init.Localization;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.containers.ContainerDestructorpack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,6 +24,6 @@ public class GuiDestructorPack extends GuiIC2<ContainerDestructorpack> {
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(GregTechMod.MODID, "textures/gui/destructorpack.png");
+        return new ResourceLocation(Reference.MODID, "textures/gui/destructorpack.png");
     }
 }

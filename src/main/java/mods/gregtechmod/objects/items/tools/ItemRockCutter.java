@@ -4,6 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -29,7 +30,7 @@ public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+".item.rock_cutter";
+        return Reference.MODID+".item.rock_cutter";
     }
 
     @Override

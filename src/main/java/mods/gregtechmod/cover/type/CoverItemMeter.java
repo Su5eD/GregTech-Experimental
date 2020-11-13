@@ -3,7 +3,7 @@ package mods.gregtechmod.cover.type;
 import ic2.core.IC2;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregtechMachine;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -65,7 +65,7 @@ public class CoverItemMeter extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(GregTechMod.MODID, "blocks/covers/item_meter");
+        return new ResourceLocation(Reference.MODID, "blocks/covers/item_meter");
     }
 
     @Override

@@ -1,21 +1,25 @@
 package mods.gregtechmod.init;
 
-import com.zuxelus.energycontrol.api.EnergyContolRegister;
-import com.zuxelus.energycontrol.api.IItemCard;
-import com.zuxelus.energycontrol.api.IItemKit;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.api.util.GtUtil;
+import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.ReflectionUtil;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.blocks.BlockOre;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
-import mods.gregtechmod.objects.items.*;
+import mods.gregtechmod.objects.items.ItemDataOrb;
+import mods.gregtechmod.objects.items.ItemDestructorPack;
+import mods.gregtechmod.objects.items.ItemSolderingMetal;
+import mods.gregtechmod.objects.items.ItemSonictron;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.Loader;
@@ -32,7 +36,7 @@ public class BlockItemLoader {
     private static Item registerItem(Item item) {
         ModContainer container;
 
-        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(GregTechMod.MODID)) throw new IllegalAccessError("only gregtech can call this");
+        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(Reference.MODID)) throw new IllegalAccessError("only gregtech can call this");
         else if (ITEMS.contains(item)) throw new IllegalStateException("duplicate item: "+item);
 
         ITEMS.add(item);
@@ -42,7 +46,7 @@ public class BlockItemLoader {
     private static Block registerBlock(Block block) {
         ModContainer container;
 
-        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(GregTechMod.MODID)) throw new IllegalAccessError("only gregtech can call this");
+        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(Reference.MODID)) throw new IllegalAccessError("only gregtech can call this");
         else if (BLOCKS.contains(block)) throw new IllegalStateException("duplicate block: "+block);
 
         BLOCKS.add(block);
@@ -235,12 +239,14 @@ public class BlockItemLoader {
         BlockItems.Tools.debug_scanner.setInstance(registerItem(new ItemDebugScanner()));
         BlockItems.Tools.destructorpack.setInstance(registerItem(new ItemDestructorPack()));
         BlockItems.Tools.lapotronic_energy_orb.setInstance(registerItem(new ItemElectricBase(BlockItems.Tools.lapotronic_energy_orb.name(), null, 100000000, 8192, 5)
+                .setFolder("tool")
                 .setRegistryName(BlockItems.Tools.lapotronic_energy_orb.name())
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));
         BlockItems.Tools.sonictron_portable.setInstance(registerItem(new ItemSonictron()));
 
         for (BlockItems.Wrenches type : BlockItems.Wrenches.values()) {
-            type.setInstance(registerItem(new ItemWrench("wrench_"+type.name(), type.durability)
+            ItemWrench wrench = new ItemWrench("wrench_"+type.name(), type.durability);
+            type.setInstance(registerItem(wrench
                     .setRegistryName("wrench_"+type.name())
                     .setCreativeTab(GregTechMod.GREGTECH_TAB)));
         }
@@ -277,6 +283,17 @@ public class BlockItemLoader {
                     .setRegistryName("file_"+type.name())
                     .setTranslationKey("file_"+type.name())
                     .setCreativeTab(GregTechMod.GREGTECH_TAB)));
+        }
+
+        BlockItems.Tools.spray_bug.setInstance(registerItem(new ItemSprayBug()));
+        BlockItems.Tools.spray_ice.setInstance(registerItem(new ItemSprayIce()));
+        BlockItems.Tools.spray_hardener.setInstance(registerItem(new ItemSprayHardener()));
+        BlockItems.Tools.spray_foam.setInstance(registerItem(new ItemSprayFoam()));
+        BlockItems.Tools.spray_pepper.setInstance(registerItem(new ItemSprayPepper()));
+        BlockItems.Tools.spray_hydration.setInstance(registerItem(new ItemSprayHydration()));
+        for (EnumDyeColor color : EnumDyeColor.values()) {
+            BlockItems.Tools.valueOf("spray_color_"+color.getName())
+                .setInstance(registerItem(new ItemSprayColor(color)));
         }
     }
 
@@ -394,10 +411,11 @@ public class BlockItemLoader {
         }
 
         if (Loader.isModLoaded("energycontrol")) {
-            BlockItems.sensor_kit = new ItemSensorKit();
-            BlockItems.sensor_card = new ItemSensorCard();
-            EnergyContolRegister.registerCard((IItemCard) BlockItems.sensor_card);
-            EnergyContolRegister.registerKit((IItemKit) BlockItems.sensor_kit);
+            ReflectionUtil.registerEnergyControlItems();
+        }
+
+        for (BlockItems.Books type : BlockItems.Books.values()) {
+            type.setInstance(GtUtil.getWrittenBook(type.name(), type.author, type.pages, type.ordinal()));
         }
     }
 

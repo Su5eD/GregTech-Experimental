@@ -2,7 +2,7 @@ package mods.gregtechmod.init;
 
 import ic2.core.model.IReloadableModel;
 import ic2.core.model.ModelComparator;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ICustomModelLoader;
@@ -16,7 +16,7 @@ public class BakedModelLoader implements ICustomModelLoader {
     private static final Map<ResourceLocation, IReloadableModel> MODELS = new HashMap<>();
 
     public void register(String path, IReloadableModel model) {
-        register(new ResourceLocation(GregTechMod.MODID, path), model);
+        register(new ResourceLocation(Reference.MODID, path), model);
     }
 
     public void register(ResourceLocation location, IReloadableModel model) {

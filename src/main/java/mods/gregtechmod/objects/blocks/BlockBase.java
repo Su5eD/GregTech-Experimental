@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.blocks;
 
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -32,6 +32,6 @@ public class BlockBase extends Block {
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+"."+super.getTranslationKey();
+        return Reference.MODID+"."+super.getTranslationKey();
     }
 }

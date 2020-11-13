@@ -2,7 +2,7 @@ package mods.gregtechmod.util;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
@@ -20,7 +20,7 @@ public class JsonHandler {
 
     public JsonHandler(String name, String path) {
         this.jsonMap = readFromJSON(path+"/"+name);
-        this.particle = new ResourceLocation(GregTechMod.MODID, jsonMap.get("textures").get("particle").substring(GregTechMod.MODID.length()+1));
+        this.particle = new ResourceLocation(Reference.MODID, jsonMap.get("textures").get("particle").substring(Reference.MODID.length()+1));
     }
 
     public HashMap<String , LinkedTreeMap<String, String>> readFromJSON(String name) {
@@ -29,7 +29,7 @@ public class JsonHandler {
             File file = Loader.instance().activeModContainer().getSource();
             FileSystem fs = FileSystems.newFileSystem(file.toPath(), null);
 
-            Reader reader = Files.newBufferedReader(fs.getPath("/assets/"+ GregTechMod.MODID+"/models/item/"+name+".json"));
+            Reader reader = Files.newBufferedReader(fs.getPath("/assets/"+ Reference.MODID+"/models/item/"+name+".json"));
 
             HashMap<String , LinkedTreeMap<String, String>> map = gson.fromJson(reader, HashMap.class);
 
@@ -47,7 +47,7 @@ public class JsonHandler {
         LinkedTreeMap<String, String> map = this.jsonMap.get(elementName);
         if (map != null) {
             for (String entry : map.keySet()) {
-                ResourceLocation location = new ResourceLocation(GregTechMod.MODID, map.get(entry).substring(GregTechMod.MODID.length()+1));
+                ResourceLocation location = new ResourceLocation(Reference.MODID, map.get(entry).substring(Reference.MODID.length()+1));
                 EnumFacing facing = EnumFacing.byName(entry);
                 elementMap.put(facing, location);
             }

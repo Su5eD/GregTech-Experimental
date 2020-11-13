@@ -1,7 +1,7 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerSonictron;
 import net.minecraft.util.ResourceLocation;
 
@@ -19,6 +19,6 @@ public class GuiSonictron extends GuiIC2<ContainerSonictron> {
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(GregTechMod.MODID, "textures/gui/sonictron.png");
+        return new ResourceLocation(Reference.MODID, "textures/gui/sonictron.png");
     }
 }

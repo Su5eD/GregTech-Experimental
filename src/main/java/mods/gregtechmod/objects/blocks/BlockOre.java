@@ -1,8 +1,7 @@
 package mods.gregtechmod.objects.blocks;
 
-import mods.gregtechmod.api.util.TriConsumer;
-import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.Block;
@@ -30,14 +29,15 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class BlockOre extends Block implements IBlockCustomItem {
     private final String name;
     private final int dropChance;
     private final int dropRandom;
-    private final TriConsumer<World, Integer, List<ItemStack>> loot;
+    private final BiConsumer<Integer, List<ItemStack>> loot;
 
-    public BlockOre(String name, float hardness, int dropChance, int dropRandom, TriConsumer<World, Integer, List<ItemStack>> loot) {
+    public BlockOre(String name, float hardness, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
         super(Material.ROCK);
         this.name = name;
         this.dropChance = dropChance;
@@ -50,7 +50,7 @@ public class BlockOre extends Block implements IBlockCustomItem {
 
     @Override
     public String getTranslationKey() {
-        return GregTechMod.MODID+"."+super.getTranslationKey();
+        return Reference.MODID+"."+super.getTranslationKey();
     }
 
     @Override
@@ -64,8 +64,7 @@ public class BlockOre extends Block implements IBlockCustomItem {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        assert world instanceof World;
-        this.loot.accept((World) world, fortune, drops);
+        this.loot.accept(fortune, drops);
         if (drops.isEmpty()) drops.add(new ItemStack(this.getItemDropped(state, ((World) world).rand, fortune)));
     }
 
@@ -77,7 +76,7 @@ public class BlockOre extends Block implements IBlockCustomItem {
 
     @Override
     public ResourceLocation getItemModel() {
-        return new ResourceLocation(GregTechMod.MODID, "ore/"+this.name);
+        return new ResourceLocation(Reference.MODID, "ore/"+this.name);
     }
 
     @Override
