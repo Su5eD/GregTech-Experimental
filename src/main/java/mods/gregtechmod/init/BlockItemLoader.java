@@ -4,7 +4,7 @@ import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.ModuleEnergyControl;
+import mods.gregtechmod.util.ReflectionUtil;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
@@ -19,6 +19,7 @@ import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.Loader;
@@ -283,6 +284,17 @@ public class BlockItemLoader {
                     .setTranslationKey("file_"+type.name())
                     .setCreativeTab(GregTechMod.GREGTECH_TAB)));
         }
+
+        BlockItems.Tools.spray_bug.setInstance(registerItem(new ItemSprayBug()));
+        BlockItems.Tools.spray_ice.setInstance(registerItem(new ItemSprayIce()));
+        BlockItems.Tools.spray_hardener.setInstance(registerItem(new ItemSprayHardener()));
+        BlockItems.Tools.spray_foam.setInstance(registerItem(new ItemSprayFoam()));
+        BlockItems.Tools.spray_pepper.setInstance(registerItem(new ItemSprayPepper()));
+        BlockItems.Tools.spray_hydration.setInstance(registerItem(new ItemSprayHydration()));
+        for (EnumDyeColor color : EnumDyeColor.values()) {
+            BlockItems.Tools.valueOf("spray_color_"+color.getName())
+                .setInstance(registerItem(new ItemSprayColor(color)));
+        }
     }
 
     private static void initComponents() {
@@ -399,7 +411,7 @@ public class BlockItemLoader {
         }
 
         if (Loader.isModLoaded("energycontrol")) {
-            ModuleEnergyControl.registerEnergyControlItems();
+            ReflectionUtil.registerEnergyControlItems();
         }
 
         for (BlockItems.Books type : BlockItems.Books.values()) {

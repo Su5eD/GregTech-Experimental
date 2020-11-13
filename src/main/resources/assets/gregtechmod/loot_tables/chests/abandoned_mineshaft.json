@@ -1,0 +1,275 @@
+{
+  "pools": [
+    {
+      "name": "gregtechmod_materials",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "manual_book",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "manual"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "manual2_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "manual2"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "machine_safety_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "machine_safety"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "cover_up_book",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "cover_up"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "turbine_manual_book",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "turbine_manual"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "thermal_boiler_manual_book",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "thermal_boiler_manual"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "silver_ingot",
+          "name": "ic2:ingot",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "set_data",
+              "data": 4
+            },
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "lead_ingot",
+          "name": "ic2:ingot",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "set_data",
+              "data": 3
+            },
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "steel_ingot",
+          "name": "ic2:ingot",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "set_data",
+              "data": 5
+            },
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "bronze_ingot",
+          "name": "ic2:ingot",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "set_data",
+              "data": 1
+            },
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:emerald",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "gregtechmod:ruby",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "gregtechmod:sapphire",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "gregtechmod:green_sapphire",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "gregtechmod:olivine",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "gregtechmod:red_garnet",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "gregtechmod:yellow_garnet",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "empty",
+          "weight": 60
+        }
+      ]
+    },
+    {
+      "name": "gregtechmod_sprays",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "gregtechmod:spray_ice",
+          "weight": 20
+        },
+        {
+          "type": "empty",
+          "weight": 20
+        }
+      ]
+    }
+  ]
+}

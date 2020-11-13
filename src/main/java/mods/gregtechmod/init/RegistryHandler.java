@@ -3,6 +3,7 @@ package mods.gregtechmod.init;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.cover.RenderTeBlock;
 import mods.gregtechmod.objects.blocks.RenderBlockOre;
@@ -17,10 +18,14 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -145,6 +150,21 @@ public class RegistryHandler {
         }
         for (FluidLoader.Gases type : FluidLoader.Gases.values()) {
             map.registerSprite(type.texture);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLootTableLoad(LootTableLoadEvent event) {
+        String path = event.getName().getPath();
+        if (event.getName().getNamespace().equals("minecraft") && path.startsWith("chests")) {
+            if (GregTechMod.class.getResource("/assets/"+Reference.MODID+"/loot_tables/"+path+".json") != null) {
+                LootTable table = event.getLootTableManager().getLootTableFromLocation(new ResourceLocation(Reference.MODID, event.getName().getPath()));
+                LootTable vanillaLoot = event.getTable();
+                LootPool materials = table.getPool("gregtechmod_materials");
+                LootPool sprays = table.getPool("gregtechmod_sprays");
+                if (materials != null) vanillaLoot.addPool(materials);
+                if (sprays != null) vanillaLoot.addPool(sprays);
+            }
         }
     }
 }

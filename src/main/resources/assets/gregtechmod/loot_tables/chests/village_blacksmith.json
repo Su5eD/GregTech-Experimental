@@ -1,0 +1,162 @@
+{
+  "pools": [
+    {
+      "name": "gregtechmod_materials",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "manual_book",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "manual"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "manual2_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "manual2"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "machine_safety_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "machine_safety"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "cover_up_book",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "cover_up"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "upgrade_dictionary_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "upgrade_dictionary"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "energy_systems_book",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "energy_systems"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "turbine_manual_book",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "turbine_manual"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:written_book",
+          "entryName": "thermal_boiler_manual_book",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "gregtechmod:write_book",
+              "name": "thermal_boiler_manual"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "steel_ingot",
+          "name": "ic2:ingot",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "set_data",
+              "data": 5
+            },
+            {
+              "function": "set_count",
+              "count": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "bronze_ingot",
+          "name": "ic2:ingot",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "set_data",
+              "data": 1
+            },
+            {
+              "function": "set_count",
+              "count": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "gregtechmod:ingot_brass",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 4,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "empty",
+          "weight": 48
+        }
+      ]
+    }
+  ]
+}

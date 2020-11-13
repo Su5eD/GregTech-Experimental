@@ -15,12 +15,15 @@ import mods.gregtechmod.init.RegistryHandler;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
 import mods.gregtechmod.util.IProxy;
+import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
 import mods.gregtechmod.world.OreGenerator;
 import mods.gregtechmod.world.RetrogenHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -39,7 +42,7 @@ import java.util.Set;
 
 @SuppressWarnings("unused")
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
-     dependencies = "required-after:ic2@[2.8.218-ex112,]; after:energycontrol@[0.1.8,]")
+     dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]")
 public final class GregTechMod {
 
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
@@ -83,6 +86,15 @@ public final class GregTechMod {
         GregTechTEBlock.buildDummies();
         TileEntityIndustrialCentrifuge.init();
         RecipeLoader.loadRecipes();
+
+        LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
+        LootTableList.register(new ResourceLocation(Reference.MODID, "abandoned_mineshaft"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "desert_pyramid"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "jungle_temple"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "jungle_temple_dispenser"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "simple_dungeon"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "stronghold_crossing"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "village_blacksmith"));
     }
     @EventHandler
     public static void init(FMLPostInitializationEvent event) {
@@ -90,7 +102,7 @@ public final class GregTechMod {
     }
 
     @SubscribeEvent
-    public void registerTileEntities(TeBlockFinalCallEvent event) {
+    public void registerTEBlocks(TeBlockFinalCallEvent event) {
         TeBlockRegistry.addAll(GregTechTEBlock.class, GregTechTEBlock.LOCATION);
         TeBlockRegistry.addCreativeRegisterer(GregTechTEBlock.industrial_centrifuge, GregTechTEBlock.LOCATION);
         MinecraftForge.EVENT_BUS.unregister(this);
@@ -99,12 +111,5 @@ public final class GregTechMod {
     public static ResourceLocation getModelResourceLocation(String name, String folder) {
         if (folder == null) return new ResourceLocation(Reference.MODID, name);
         return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
-    }
-
-    @SubscribeEvent
-    public void onLootTableLoad(LootTableLoadEvent event) {
-        if (event.getName().getNamespace().equals("minecraft")) {
-
-        }
     }
 }

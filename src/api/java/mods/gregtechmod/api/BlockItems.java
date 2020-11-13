@@ -731,7 +731,29 @@ public class BlockItems {
         wrench_advanced,
         destructorpack,
         lapotronic_energy_orb,
-        sonictron_portable;
+        sonictron_portable,
+        spray_bug,
+        spray_ice,
+        spray_hardener,
+        spray_foam,
+        spray_pepper,
+        spray_hydration,
+        spray_color_white,
+        spray_color_orange,
+        spray_color_magenta,
+        spray_color_light_blue,
+        spray_color_yellow,
+        spray_color_lime,
+        spray_color_pink,
+        spray_color_gray,
+        spray_color_silver,
+        spray_color_cyan,
+        spray_color_purple,
+        spray_color_blue,
+        spray_color_brown,
+        spray_color_green,
+        spray_color_red,
+        spray_color_black;
 
         private Item instance;
 
