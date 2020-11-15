@@ -5,7 +5,7 @@
   <a href="https://github.com/Su5eD/GregTech-Experimental/actions">
       <img src="https://github.com/Su5eD/GregTech-Experimental/workflows/Build Master/badge.svg"  alt="Build status" align="center" />
   </a>
-  <a href="https://discord.gg/bRCvFy9">
+  <a href="https://discord.gg/JPvmNbe">
     <img src="https://discord.com/api/guilds/728217881514606612/widget.png?style=shield" alt="Discord Server" align="center"/>
   </a>
   <img src="https://www.gnu.org/graphics/lgplv3-88x31.png" align="center"/>
