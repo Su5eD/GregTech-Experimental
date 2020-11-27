@@ -8,7 +8,7 @@
     "mcversion": "${mcversion}",
     "authorList": [ "Su5eD" ],
     "credits": "Alblaka and his Team for Industrialcraft, Mr. Brain, TheSirusKing and matix for Textures, Su5eD for porting to 1.12.2",
-    "logoFile": "assets/gregtechmod/GTE_Logo.png",
+    "logoFile": "GTE_Logo.png",
     "screenshots": [],
     "parent": "",
     "requiredMods": [ "forge" ],

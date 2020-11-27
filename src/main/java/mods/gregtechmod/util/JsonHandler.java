@@ -47,9 +47,10 @@ public class JsonHandler {
         LinkedTreeMap<String, String> map = this.jsonMap.get(elementName);
         if (map != null) {
             for (String entry : map.keySet()) {
-                ResourceLocation location = new ResourceLocation(Reference.MODID, map.get(entry).substring(Reference.MODID.length()+1));
-                EnumFacing facing = EnumFacing.byName(entry);
-                elementMap.put(facing, location);
+                if (!entry.equals("particle")) {
+                    ResourceLocation location = new ResourceLocation(Reference.MODID, map.get(entry).substring(Reference.MODID.length()+1));
+                    elementMap.put(EnumFacing.byName(entry), location);
+                }
             }
         }
         return elementMap;
