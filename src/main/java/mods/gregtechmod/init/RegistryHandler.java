@@ -5,8 +5,8 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
-import mods.gregtechmod.cover.RenderTeBlock;
 import mods.gregtechmod.objects.blocks.RenderBlockOre;
+import mods.gregtechmod.objects.blocks.RenderTeBlock;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
 import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.IModelInfoProvider;
@@ -16,9 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -33,8 +31,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.HashMap;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -95,11 +91,10 @@ public class RegistryHandler {
                 if (teBlock.hasBakedModel()) {
                     String name = teBlock.getName();
                     JsonHandler json = new JsonHandler(name, "teblock");
-                    HashMap<EnumFacing, ResourceLocation> textures = json.generateMapFromJSON("textures");
-                    loader.register("models/block/"+name, new RenderTeBlock(textures, json.particle));
+                    loader.register("models/block/"+name, new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle));
                     if (teBlock.hasActive()) {
                         json = new JsonHandler(name+"_active", "teblock");
-                        loader.register("models/block/"+name+"_active", new RenderTeBlock(textures, json.particle));
+                        loader.register("models/block/"+name+"_active", new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle));
                     }
                 }
             } catch (Exception e) {
