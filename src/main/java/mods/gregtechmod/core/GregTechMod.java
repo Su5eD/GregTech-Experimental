@@ -20,12 +20,10 @@ import mods.gregtechmod.util.SidedRedstoneEmitter;
 import mods.gregtechmod.world.OreGenerator;
 import mods.gregtechmod.world.RetrogenHandler;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -77,8 +75,7 @@ public final class GregTechMod {
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.instance, 5);
         //TODO: Move to recipe loader(or modificator) class
-        ItemStack stack = IC2Items.getItem("upgrade", "overclocker");
-        stack.getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
+        IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
     }
 
     @EventHandler
@@ -88,13 +85,14 @@ public final class GregTechMod {
         RecipeLoader.loadRecipes();
 
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
-        LootTableList.register(new ResourceLocation(Reference.MODID, "abandoned_mineshaft"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "desert_pyramid"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "jungle_temple"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "jungle_temple_dispenser"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "simple_dungeon"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "stronghold_crossing"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "village_blacksmith"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/abandoned_mineshaft"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/desert_pyramid"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/jungle_temple"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/jungle_temple_dispenser"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/simple_dungeon"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_crossing"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_library"));
+        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/village_blacksmith"));
     }
     @EventHandler
     public static void init(FMLPostInitializationEvent event) {
