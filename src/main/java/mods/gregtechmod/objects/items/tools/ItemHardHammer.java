@@ -21,6 +21,7 @@ public class ItemHardHammer extends ItemHammer {
 
     public ItemHardHammer(String material, String description, int durability, int entityDamage, ToolMaterial toolMaterial) {
         super(material, description, durability, entityDamage, toolMaterial);
+        //TODO: Add effective entities, as well as for other tool classes!
     }
 
     @Override

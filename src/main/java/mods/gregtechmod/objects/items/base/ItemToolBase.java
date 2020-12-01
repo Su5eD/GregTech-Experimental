@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.DamageSource;
@@ -60,7 +59,8 @@ public class ItemToolBase extends ItemTool implements IModelInfoProvider {
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         if (this.damageOnHit > 0) stack.damageItem(this.damageOnHit, attacker);
-        if (this.effectiveAganist.contains(EntityList.getEntityString(target))) target.attackEntityFrom(DamageSource.causeMobDamage(attacker), this.attackDamage);
+        ResourceLocation entityName = EntityList.getKey(target);
+        if (entityName != null && this.effectiveAganist.contains(entityName.toString())) target.attackEntityFrom(DamageSource.causeMobDamage(attacker), this.attackDamage);
         return true;
     }
 

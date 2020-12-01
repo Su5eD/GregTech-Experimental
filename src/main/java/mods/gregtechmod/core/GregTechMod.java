@@ -2,14 +2,17 @@ package mods.gregtechmod.core;
 
 import ic2.api.event.TeBlockFinalCallEvent;
 import ic2.api.item.IC2Items;
+import ic2.core.block.BlockTileEntity;
 import ic2.core.block.ITeBlock;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.GregTechTEBlocks;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.CoverLoader;
+import mods.gregtechmod.init.OreDictRegistrar;
 import mods.gregtechmod.init.RecipeLoader;
 import mods.gregtechmod.init.RegistryHandler;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
@@ -20,6 +23,7 @@ import mods.gregtechmod.util.SidedRedstoneEmitter;
 import mods.gregtechmod.world.OreGenerator;
 import mods.gregtechmod.world.RetrogenHandler;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
@@ -36,7 +40,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
@@ -82,8 +89,14 @@ public final class GregTechMod {
     public static void init(FMLInitializationEvent event) {
         GregTechTEBlock.buildDummies();
         TileEntityIndustrialCentrifuge.init();
+
+        BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
+        Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES).collect(Collectors.toMap(GregTechTEBlock::getName, teblock -> new ItemStack(blockTE, 1, teblock.getId())));
+        GregTechTEBlocks.setTileEntityMap(teblocks);
+
         RecipeLoader.loadRecipes();
 
+        GregTechAPI.logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/abandoned_mineshaft"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/desert_pyramid"));
@@ -93,6 +106,8 @@ public final class GregTechMod {
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_crossing"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_library"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/village_blacksmith"));
+
+        OreDictRegistrar.registerItems();
     }
     @EventHandler
     public static void init(FMLPostInitializationEvent event) {
@@ -103,7 +118,6 @@ public final class GregTechMod {
     public void registerTEBlocks(TeBlockFinalCallEvent event) {
         TeBlockRegistry.addAll(GregTechTEBlock.class, GregTechTEBlock.LOCATION);
         TeBlockRegistry.addCreativeRegisterer(GregTechTEBlock.industrial_centrifuge, GregTechTEBlock.LOCATION);
-        MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     public static ResourceLocation getModelResourceLocation(String name, String folder) {

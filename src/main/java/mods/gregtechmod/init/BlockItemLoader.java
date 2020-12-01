@@ -1,10 +1,9 @@
 package mods.gregtechmod.init;
 
+import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.BlockItems;
-import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.util.ReflectionUtil;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
@@ -17,6 +16,7 @@ import mods.gregtechmod.objects.items.ItemSonictron;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
+import mods.gregtechmod.util.ReflectionUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumDyeColor;
@@ -178,7 +178,7 @@ public class BlockItemLoader {
 
     private static void initUpgrades() {
         for (BlockItems.Upgrades type : BlockItems.Upgrades.values()) {
-            type.setInstance((IGtUpgradeItem) registerItem(new ItemUpgrade(type.name(), type.description, type.type, type.maxCount, type.requiredTier, type.condition, type.onInsert, type.onUpdate)
+            type.setInstance(registerItem(new ItemUpgrade(type.name(), type.description, type.type, type.maxCount, type.requiredTier, type.condition, type.onInsert, type.onUpdate)
                     .setFolder("upgrade")
                     .setRegistryName(type.name())
                     .setTranslationKey(type.name())
@@ -197,7 +197,7 @@ public class BlockItemLoader {
     }
 
     private static void initCraftingItems() {
-        BlockItems.Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 63))
+        BlockItems.Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 63, IC2Items.getItem("dust", "iron")))
                 .setRegistryName("mortar_iron")
                 .setTranslationKey("mortar_iron")
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -291,9 +291,10 @@ public class BlockItemLoader {
         BlockItems.Tools.spray_foam.setInstance(registerItem(new ItemSprayFoam()));
         BlockItems.Tools.spray_pepper.setInstance(registerItem(new ItemSprayPepper()));
         BlockItems.Tools.spray_hydration.setInstance(registerItem(new ItemSprayHydration()));
-        for (EnumDyeColor color : EnumDyeColor.values()) {
-            BlockItems.Tools.valueOf("spray_color_"+color.getName())
-                .setInstance(registerItem(new ItemSprayColor(color)));
+
+        for (BlockItems.ColorSprays type : BlockItems.ColorSprays.values()) {
+            EnumDyeColor color = EnumDyeColor.byMetadata(type.ordinal());
+            type.setInstance(registerItem(new ItemSprayColor(color)));
         }
     }
 
@@ -337,11 +338,11 @@ public class BlockItemLoader {
                 .setMaxDamage(10000)
                 .setMaxStackSize(1)
                 .setNoRepair()));
-        BlockItems.Components.turbine_rotor_tungstensteel.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_tungstensteel.name(), BlockItems.Components.turbine_rotor_tungstensteel.description, false)
+        BlockItems.Components.turbine_rotor_tungsten_steel.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_tungsten_steel.name(), BlockItems.Components.turbine_rotor_tungsten_steel.description, false)
                 .setFolder("component")
                 .setEnchantable(false)
-                .setRegistryName(BlockItems.Components.turbine_rotor_tungstensteel.name())
-                .setTranslationKey(BlockItems.Components.turbine_rotor_tungstensteel.name())
+                .setRegistryName(BlockItems.Components.turbine_rotor_tungsten_steel.name())
+                .setTranslationKey(BlockItems.Components.turbine_rotor_tungsten_steel.name())
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)
                 .setMaxDamage(30000)
                 .setMaxStackSize(1)

@@ -10,6 +10,7 @@ import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,8 +24,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoProvider {
@@ -37,6 +40,12 @@ public class ItemDrillAdvanced extends ItemElectricTool implements IModelInfoPro
         this.transferLimit = 1000;
         this.tier = 4;
         this.efficiency = 26.0F;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add("For quickly making holes");
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     @Override

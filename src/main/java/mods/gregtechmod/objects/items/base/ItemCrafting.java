@@ -19,6 +19,10 @@ public class ItemCrafting extends ItemBase {
         this.craftingDamage = craftingDamage;
     }
 
+    public ItemStack getEmptyItem() {
+        return ItemStack.EMPTY;
+    }
+
     @Override
     public boolean hasContainerItem() {
         return true;
@@ -27,7 +31,7 @@ public class ItemCrafting extends ItemBase {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         stack = stack.copy();
-        if (stack.attemptDamageItem(this.craftingDamage, GtUtil.RANDOM, null)) return ItemStack.EMPTY;
+        if (stack.attemptDamageItem(this.craftingDamage, GtUtil.RANDOM, null)) return this.getEmptyItem();
         return stack;
     }
 

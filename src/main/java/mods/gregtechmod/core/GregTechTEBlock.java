@@ -38,7 +38,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
     sonictron(TileEntitySonictron.class, 5, true, Collections.emptySet(), false, HarvestTool.Wrench, DefaultDrop.Self, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, false);
 
-    public static final ResourceLocation LOCATION;
+    public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;
     private final boolean hasActive;
     private final Set<EnumFacing> supportedFacings;
@@ -51,7 +51,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     private final Material material;
     private final boolean transparent;
     private Class<? extends TileEntityBlock> teClass;
-    public static final GregTechTEBlock[] VALUES;
+    public static final GregTechTEBlock[] VALUES = values();
     private TileEntityBlock dummyTe;
     private ITePlaceHandler placeHandler;
     private final boolean hasBakedModel;
@@ -76,10 +76,6 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
             GameRegistry.registerTileEntity(teClass, "gregtechmod:" + getName());
         }
  	}
-    static {
-        LOCATION = new ResourceLocation("gregtechmod", "teblock");
-        VALUES = values();
-    }
 
     public boolean hasBakedModel() {
         return this.hasBakedModel;
