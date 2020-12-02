@@ -81,7 +81,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn) {
         ItemStack armor = player.inventory.armorInventory.get(armorType.getIndex());
-        if (armor != ItemStack.EMPTY) {
+        if (!armor.isEmpty()) {
             for (int i = 0; i < 9; i++) {
                 if (player.inventory.mainInventory.get(i) == player.inventory.getCurrentItem()) {
                     player.inventory.armorInventory.set(armorType.getSlotIndex(), player.inventory.mainInventory.get(i));
@@ -161,12 +161,12 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
         Entity entity = event.getEntity();
         if (!entity.world.isRemote && entity instanceof EntityPlayer) {
             for (int i = 0; i < 4; i++) {
-                ItemStack var3 = ((EntityPlayer) entity).inventory.armorInventory.get(i);
-                if (var3 != ItemStack.EMPTY && var3.getItem() == this && this.perks.contains(ArmorPerk.inertia_damper)) {
-                    int var4 = (int) (event.getDistance() - 3);
-                    int var5 = (this.damageEnergyCost * var4) / 4;
-                    if (var5 <= ElectricItem.manager.discharge(var3, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true)) {
-                        ElectricItem.manager.discharge(var3, var5, Integer.MAX_VALUE, true, false, true);
+                ItemStack armor = ((EntityPlayer) entity).inventory.armorInventory.get(i);
+                if (!armor.isEmpty() && armor.getItem() == this && this.perks.contains(ArmorPerk.inertia_damper)) {
+                    int distance = (int) (event.getDistance() - 3);
+                    int cost = (this.damageEnergyCost * distance) / 4;
+                    if (cost <= ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true)) {
+                        ElectricItem.manager.discharge(armor, cost, Integer.MAX_VALUE, true, false, true);
                         event.setCanceled(true);
                         break;
                     }

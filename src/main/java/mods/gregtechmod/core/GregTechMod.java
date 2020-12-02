@@ -9,6 +9,7 @@ import ic2.core.block.comp.Components;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.GregTechTEBlocks;
+import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.CoverLoader;
@@ -87,6 +88,7 @@ public final class GregTechMod {
 
     @EventHandler
     public static void init(FMLInitializationEvent event) {
+        GtUtil.emptyCell = IC2Items.getItem("fluid_cell");
         GregTechTEBlock.buildDummies();
         TileEntityIndustrialCentrifuge.init();
 

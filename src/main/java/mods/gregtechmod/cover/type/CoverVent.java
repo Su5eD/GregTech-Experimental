@@ -63,7 +63,7 @@ public class CoverVent extends CoverGeneric {
     }
 
     public static VentType getVentType(ItemStack stack) {
-        if (stack == null) return null;
+        if (stack.isEmpty()) return null;
         if (stack.getItem() instanceof ItemReactorVent && stack.getTranslationKey().substring(4).matches("advanced_heat_vent|overclocked_heat_vent")) return VentType.ADVANCED;
         else if (stack.getItem() instanceof ItemReactorVentSpread) return VentType.SPREAD;
         return VentType.NORMAL;

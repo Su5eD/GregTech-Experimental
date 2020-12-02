@@ -1,15 +1,18 @@
 package mods.gregtechmod.api.util;
 
 import ic2.api.item.ElectricItem;
+import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.item.IElectricArmor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 
 import java.util.Random;
@@ -17,6 +20,7 @@ import java.util.function.BiPredicate;
 
 public class GtUtil {
     public static final Random RANDOM = new Random();
+    public static ItemStack emptyCell = null;
 
     public static <T, U> BiPredicate<T, U> alwaysTrue() {
         return (a, b) -> true;
@@ -30,7 +34,7 @@ public class GtUtil {
     public static boolean getFullInvisibility(EntityPlayer player) {
         if (player.isInvisible()) {
             for (ItemStack stack : player.inventory.armorInventory) {
-                if (stack != ItemStack.EMPTY && stack.getItem() instanceof IElectricArmor && ((IElectricArmor)stack.getItem()).getPerks().contains(ArmorPerk.invisibility_field) && ElectricItem.manager.canUse(stack, 10000)) return true;
+                if (!stack.isEmpty() && stack.getItem() instanceof IElectricArmor && ((IElectricArmor)stack.getItem()).getPerks().contains(ArmorPerk.invisibility_field) && ElectricItem.manager.canUse(stack, 10000)) return true;
             }
         }
         return false;
@@ -68,7 +72,7 @@ public class GtUtil {
                 {
                     if (stack.getItem().hasContainerItem(stack)) {
                         ItemStack containerStack = stack.getItem().getContainerItem(stack);
-                        if (containerStack != ItemStack.EMPTY) {
+                        if (!containerStack.isEmpty()) {
                             player.setHeldItem(player.getActiveHand(), containerStack.copy());
                         } else {
                             player.renderBrokenItemStack(stack);
@@ -85,8 +89,40 @@ public class GtUtil {
         return false;
     }
 
+    public static String getStackConfigName(ItemStack stack) {
+        if (stack.isEmpty()) return null;
+
+        String name = OreDictUnificator.getAssociation(stack);
+        if (name != null && !name.isEmpty()) return name;
+        else if (!(name = stack.getDisplayName()).isEmpty()) return name;
+
+        ResourceLocation regName = stack.getItem().getRegistryName();
+        return regName != null ? regName.toString() + ":" + stack.getItemDamage() : null;
+    }
+
     @SuppressWarnings("deprecation")
     public static String translate(String key) {
         return I18n.translateToLocal(key);
+    }
+
+    public static int getCapsuleCellContainerCount(ItemStack stack) {
+        if (stack.isEmpty()) return 0;
+        else if (stack.isItemEqual(emptyCell)) return 1;
+        Item item = stack.getItem();
+        ItemStack containerItem = item.getContainerItem(stack);
+        if (!containerItem.isEmpty() && containerItem.isItemEqual(emptyCell)) return containerItem.getCount();
+        ResourceLocation regName = item.getRegistryName();
+        if (regName != null) {
+            if (regName.toString().startsWith(Reference.MODID+":cell_") || regName.toString().equals("ic2:fluid_cell")) return 1;
+        }
+
+        if (stack.isItemEqual(IC2Items.getItem("heat_storage"))) return 1;
+        else if (stack.isItemEqual(IC2Items.getItem("tri_heat_storage"))) return 3;
+        else if (stack.isItemEqual(IC2Items.getItem("hex_heat_storage"))) return 6;
+        else if (stack.isItemEqual(IC2Items.getItem("uranium_fuel_rod"))) return 1;
+        else if (stack.isItemEqual(IC2Items.getItem("dual_uranium_fuel_rod"))) return 2;
+        else if (stack.isItemEqual(IC2Items.getItem("quad_uranium_fuel_rod"))) return 4;
+
+        return 0;
     }
 }

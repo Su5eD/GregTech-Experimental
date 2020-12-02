@@ -24,12 +24,18 @@ public class GregTechConfig {
     @Config.LangKey(Reference.MODID+".config.machines")
     public static final Machines MACHINES = new Machines();
 
+    @Config.LangKey(Reference.MODID+".config.unification")
+    public static final Unification UNIFICATION = new Unification();
+
+    @Config.LangKey(Reference.MODID+".config.worldgen")
     public static final WorldGen WORLDGEN = new WorldGen();
 
     public static class General {
         public boolean connectedMachineCasingTextures = true;
         public boolean dynamicCentrifugeAnimationSpeed = true;
         public boolean hiddenOres = true;
+
+        public String[] specialUnificationTargets = new String[0];
     }
 
     public static class Features {
@@ -67,6 +73,14 @@ public class GregTechConfig {
         public boolean machineThunderExplosions = true;
         @Config.Comment("Nearby explosions cause machines to explode")
         public boolean machineChainExplosions = true;
+    }
+
+    public static class Unification {
+        public boolean forestry = true;
+        public boolean railcraft = true;
+        public boolean projectred = true;
+        public boolean thaumcraft = true;
+        public boolean thermalfoundation = true;
     }
 
     public static class WorldGen {

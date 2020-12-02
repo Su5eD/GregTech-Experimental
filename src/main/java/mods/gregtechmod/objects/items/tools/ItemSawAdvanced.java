@@ -94,7 +94,7 @@ public class ItemSawAdvanced extends ItemElectricTool implements IModelInfoProvi
         Entity entity = event.getTarget();
         EntityPlayer player = event.getEntityPlayer();
         ItemStack itemstack = player.inventory.getStackInSlot(player.inventory.currentItem);
-        if (itemstack != ItemStack.EMPTY && itemstack.getItem() == this && entity instanceof IShearable && !StackUtil.getOrCreateNbtData(itemstack).getBoolean("disableShear") && ElectricItem.manager.use(itemstack, this.operationEnergyCost, player)) {
+        if (!itemstack.isEmpty() && itemstack.getItem() == this && entity instanceof IShearable && !StackUtil.getOrCreateNbtData(itemstack).getBoolean("disableShear") && ElectricItem.manager.use(itemstack, this.operationEnergyCost, player)) {
             IShearable target = (IShearable)entity;
             World world = entity.getEntityWorld();
             BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);

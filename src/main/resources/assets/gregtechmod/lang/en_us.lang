@@ -5,6 +5,8 @@ gregtechmod.config.general=General
 gregtechmod.config.features=Features
 gregtechmod.config.balance=Balance
 gregtechmod.config.machines=Machines
+gregtechmod.config.unification=Unification Targets
+gregtechmod.config.worldgen=World Generation
 
 gregtechmod.item.armor.perk.rebreather.name=Rebreather
 gregtechmod.item.armor.perk.inertia_damper.name=Inertia Damper
@@ -388,6 +390,9 @@ gregtechmod.item.smalldust_magnesium.name=Tiny Pile of Magnesium Dust
 gregtechmod.item.smalldust_tungsten.name=Tiny Pile of Tungsten Dust
 gregtechmod.item.smalldust_olivine.name=Tiny Pile of Olivine Dust
 gregtechmod.item.smalldust_green_sapphire.name=Tiny Pile of Green Sapphire Dust
+gregtechmod.item.smalldust_redstone.name=Tiny Pile of Redstone Dust
+gregtechmod.item.smalldust_glowstone.name=Tiny Pile of Glowstone Dust
+gregtechmod.item.smalldust_gunpowder.name=Tiny Pile of Gunpowder Dust
 
 gregtechmod.item.hv_transformer.name=HV-Transformer Upgrade
 gregtechmod.item.energy_meter.name=Redstone Energy Meter

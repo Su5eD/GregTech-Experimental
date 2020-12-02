@@ -28,7 +28,7 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
         if (clickType == ClickType.QUICK_MOVE)
             slot.putStack(ItemStack.EMPTY);
         else if (clickType == ClickType.PICKUP && dragType < 1) {
-            if (content == ItemStack.EMPTY)
+            if (content.isEmpty())
                 slot.putStack(StackUtil.copy(new ItemStack(GregTechAPI.sonictronSounds.get(0).item)));
             else {
                 for (int i = 1; i < GregTechAPI.sonictronSounds.size(); i++) {
@@ -41,7 +41,7 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
             }
         }
         else {
-            if (content != ItemStack.EMPTY) {
+            if (!content.isEmpty()) {
                 for (int i = 0; i < GregTechAPI.sonictronSounds.size(); i++) {
                     if (StackUtil.checkItemEquality(content, GregTechAPI.sonictronSounds.get(i).item)) {
                         content.grow(1);

@@ -59,6 +59,10 @@ repositories {
         name = "CurseMaven"
         url = "https://www.cursemaven.com"
     }
+    maven {
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven/"
+    }
 }
 
 dependencies {
@@ -68,6 +72,7 @@ dependencies {
 
     compile "com.mod-buildcraft:buildcraft-all:${version_buildcraft}"
     compile "curse.maven:energy-control:3026320"
+    compile "mezz.jei:jei_${mcversion}:${version_jei}"
 }
 
 jar {
