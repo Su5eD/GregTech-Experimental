@@ -1,5 +1,6 @@
 package mods.gregtechmod.util;
 
+import ic2.api.item.IC2Items;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,12 @@ public class ModHandler {
         return new ItemStack(base, 1, meta);
     }
 
+    public static ItemStack getRCItem(String baseItem, int meta, ItemStack alternative) {
+        ItemStack stack = getRCItem(baseItem, meta);
+        if (stack.isEmpty()) return alternative;
+        return stack;
+    }
+
     public static ItemStack getPRItem(String baseItem, int meta) {
         Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("projectred-core", baseItem));
         if (base == null) return ItemStack.EMPTY;
@@ -48,5 +55,11 @@ public class ModHandler {
         Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thaumcraft", baseItem));
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base, 1, meta);
+    }
+
+    public static ItemStack getICItem(String baseItem, String type, int count) {
+        ItemStack stack = IC2Items.getItem(baseItem, type);
+        stack.setCount(count);
+        return stack;
     }
 }

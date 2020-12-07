@@ -62,6 +62,10 @@ public class OreDictUnificator {
         if (stack.getItem().getRegistryName() == null || stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(GtUtil.getStackConfigName(stack))) set(name, stack);
     }
 
+    public static ItemStack getFirstOre(String name) {
+        return getFirstOre(name, 1);
+    }
+
     public static ItemStack getFirstOre(String name, int amount) {
         if (name == null || name.isEmpty()) return null;
         if (name2OreMap.containsKey(name)) return get(name, null, amount);
@@ -98,6 +102,10 @@ public class OreDictUnificator {
             }
         }
         return stack;
+    }
+
+    public static ItemStack get(String name) {
+        return get(name, 1);
     }
 
     public static ItemStack get(String name, int amount) {
@@ -138,7 +146,11 @@ public class OreDictUnificator {
         return item2OreMap.get(stack);
     }
 
-    public static boolean isItemStackInstanceOf(ItemStack stack, String name, boolean prefix) {
+    public static boolean isItemInstanceOf(Block block, String name, boolean prefix) {
+        return isItemInstanceOf(new ItemStack(block), name, prefix);
+    }
+
+    public static boolean isItemInstanceOf(ItemStack stack, String name, boolean prefix) {
         if (stack.isEmpty() || name == null || name.isEmpty()) return false;
         String string = item2OreMap.get(stack);
         if (string == null) {
@@ -161,7 +173,7 @@ public class OreDictUnificator {
     public static boolean isItemStackDye(ItemStack stack) {
         if (stack.isEmpty()) return false;
         for (EnumDyeColor dye : EnumDyeColor.values()) {
-            if (isItemStackInstanceOf(stack, dye.getName(), false)) return true;
+            if (isItemInstanceOf(stack, dye.getName(), false)) return true;
         }
         return false;
     }

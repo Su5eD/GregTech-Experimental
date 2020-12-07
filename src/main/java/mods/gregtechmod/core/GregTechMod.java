@@ -3,7 +3,6 @@ package mods.gregtechmod.core;
 import ic2.api.event.TeBlockFinalCallEvent;
 import ic2.api.item.IC2Items;
 import ic2.core.block.BlockTileEntity;
-import ic2.core.block.ITeBlock;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import mods.gregtechmod.api.GregTechAPI;
@@ -41,9 +40,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
@@ -58,7 +57,8 @@ public final class GregTechMod {
     public static IProxy proxy;
 
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab("gregtechtab");
-    private Set<ITeBlock> allTypes;
+    public static boolean postLoadFinished;
+    public static File configDir;
 
     static {
         FluidRegistry.enableUniversalBucket();
@@ -74,6 +74,7 @@ public final class GregTechMod {
         GregTechAPI.logger = event.getModLog();
 
         GregTechAPI.logger.info("Pre-init started");
+        configDir = event.getSuggestedConfigurationFile().getParentFile();
         MinecraftForge.EVENT_BUS.register(OreGenerator.instance);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.instance);
 
@@ -96,7 +97,7 @@ public final class GregTechMod {
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES).collect(Collectors.toMap(GregTechTEBlock::getName, teblock -> new ItemStack(blockTE, 1, teblock.getId())));
         GregTechTEBlocks.setTileEntityMap(teblocks);
 
-        RecipeLoader.loadRecipes();
+        RecipeLoader.load();
 
         GregTechAPI.logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
@@ -114,6 +115,8 @@ public final class GregTechMod {
     @EventHandler
     public static void init(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
+
+        postLoadFinished = true;
     }
 
     @SubscribeEvent

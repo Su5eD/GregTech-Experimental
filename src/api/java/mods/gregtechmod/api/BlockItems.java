@@ -849,9 +849,9 @@ public class BlockItems {
     }
 
     public enum JackHammers {
-        bronze(50, 10000, 1, 50, 7.5F),
-        steel(100, 10000, 1, 100, 15F),
-        diamond(250, 100000, 2, 500, 45F);
+        bronze(50, 10000, 1, 50, 7.5F, false),
+        steel(100, 10000, 1, 50, 15F, false),
+        diamond(250, 100000, 2, 100, 45F, true);
 
         private Item instance;
         public final int operationEnergyCost;
@@ -859,13 +859,15 @@ public class BlockItems {
         public final int tier;
         public final int transferLimit;
         public final float efficiency;
+        public final boolean canMineObsidian;
 
-        JackHammers(int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency) {
+        JackHammers(int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency, boolean canMineObsidian) {
             this.operationEnergyCost = operationEnergyCost;
             this.maxCharge = maxCharge;
             this.tier = tier;
             this.transferLimit = transferLimit;
             this.efficiency = efficiency;
+            this.canMineObsidian = canMineObsidian;
         }
 
         /**

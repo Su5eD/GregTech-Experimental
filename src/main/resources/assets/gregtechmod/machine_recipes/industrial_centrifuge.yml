@@ -1,0 +1,22 @@
+# Industrial Centrifuge recipes
+#
+# Example recipe with all possible options:
+# input:                                <-- a single ItemStack, required
+#   item: examplemod:simple_item        <-- item registry name, required
+#   count: 3                            <-- item amount, optional, default: 1
+#   meta: 7                             <-- item meta, optional, default: 0
+# output:                               <-- a list of ItemStacks, required with at least 1 entry
+#   - item: examplemod:fancy_item
+#     count: 2
+#     meta: 4
+#   - item: ic2:fluid_cell#fancy_fluid  <-- IC2 IMultiItem variants can be defined using #<variant name>
+# duration: 400                         <-- amount of ticks to process the recipe, required
+# cells: 1                              <-- amount of cells required to process the recipe, optional, default: 0
+#
+---
+- input:
+    item: minecraft:wheat_seeds
+  output:
+    - item: ic2:fluid_cell#seed_oil
+  cells: 1
+  duration: 600

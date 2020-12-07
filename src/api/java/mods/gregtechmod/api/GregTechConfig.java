@@ -44,6 +44,8 @@ public class GregTechConfig {
         public int digitalChestMaxItemCount = 32768;
         @Config.Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
         public int upgradeStackSize = 4;
+        @Config.RangeInt(min = 16, max = 64)
+        public int maxOtherBlockStackSize = 64;
     }
 
     public static class Balance {

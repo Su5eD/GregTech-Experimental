@@ -2,48 +2,44 @@ package mods.gregtechmod.objects.blocks.tileentities.machines;
 
 import com.google.common.collect.Sets;
 import ic2.api.item.IC2Items;
-import ic2.api.recipe.IRecipeInput;
-import ic2.api.recipe.MachineRecipe;
-import ic2.api.recipe.MachineRecipeResult;
 import ic2.core.ContainerBase;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumable;
 import ic2.core.block.state.Ic2BlockState;
-import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.GregTechConfig;
-import mods.gregtechmod.api.recipe.Recipes;
+import mods.gregtechmod.api.recipe.GtRecipes;
+import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerIndustrialCentrifuge;
+import mods.gregtechmod.recipe.RecipeCentrifuge;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine {
+public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCentrifuge> {
 
     public InvSlotConsumable cellSlot;
     public Fluids.InternalFluidTank lavaTank;
     private boolean usingLavaRecipe = false;
-    private static final List<ItemStack> lavaRecipeList = new ArrayList<>();
+    private static IRecipeCentrifuge lavaRecipe;
     private static final Set<EnumFacing> animatedSides = Sets.newHashSet(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP);
 
     public TileEntityIndustrialCentrifuge() {
-        super(1200, 5, (byte)4, (byte)1, 1,Recipes.industrial_centrifuge);
+        super(1200, 5, (byte)4, (byte)1, 1, GtRecipes.industrial_centrifuge);
         this.cellSlot = new InvSlotConsumable(this, "cellSlot", 1) {
             @Override
             public boolean accepts(ItemStack stack) {
@@ -54,9 +50,9 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine {
     }
 
     public static void init() {
-        Recipes.industrial_centrifuge = new BasicMachineRecipeManager();
-        lavaRecipeList.add(IC2Items.getItem("ingot", "tin"));
-        lavaRecipeList.add(new ItemStack(BlockItems.Ingots.electrum.getInstance(), 2));
+        List<ItemStack> lavaRecipeOutput = Arrays.asList(IC2Items.getItem("ingot", "tin"),
+                new ItemStack(BlockItems.Ingots.electrum.getInstance(), 2));
+        lavaRecipe = new RecipeCentrifuge(null, lavaRecipeOutput, 200, 0);
     }
 
     @Override
@@ -72,43 +68,34 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine {
     }
 
     @Override
-    public void consumeInput(MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> result) {
+    public void consumeInput(IRecipeCentrifuge recipe) {
         if (this.usingLavaRecipe) {
             this.lavaTank.drainInternal(16000, true);
             return;
         }
-        else if(result.getOutput().toString().contains("cell")) {
-            this.cellSlot.consume(1);
-        }
-        super.consumeInput(result);
+        this.cellSlot.consume(recipe.getCells());
+        super.consumeInput(recipe);
     }
 
     @Override
-    public MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> getOutput() {
+    public IRecipeCentrifuge getOutput() {
         this.usingLavaRecipe = false;
         if(this.getActive() && (!this.inputSlot.isEmpty() && this.lavaTank.getFluidAmount() >= 16000)) {
-            return getLavaRecipe();
+            return lavaRecipe;
         }
-        MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> output;
+        IRecipeCentrifuge recipe;
         if(this.inputSlot.isEmpty() && this.lavaTank.getFluidAmount() < 16000) return null;
-        else if (this.inputSlot.process() != null) {
-            output = this.inputSlot.process();
-            if (output.getOutput().toString().contains("cell") && this.cellSlot.isEmpty()) return null;
-            return output;
+        else if ((recipe = this.inputSlot.process()) != null) {
+            if (this.cellSlot.get().getCount() < recipe.getCells()) return null;
+            return recipe;
         }
-        if((this.inputSlot.isEmpty() && this.outputSlot.canAdd(lavaRecipeList))) {
+        if((this.inputSlot.isEmpty() && this.outputSlot.canAdd(lavaRecipe.getOutput()))) {
             if (this.lavaTank.getFluid().getFluid() == FluidRegistry.LAVA && this.lavaTank.getFluidAmount() >= 16000) {
                 this.usingLavaRecipe = true;
-                return getLavaRecipe();
+                return lavaRecipe;
             }
         }
         return null;
-    }
-
-    private MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> getLavaRecipe() {
-        NBTTagCompound meta = new NBTTagCompound();
-        meta.setInteger("duration", 200);
-        return new MachineRecipe<IRecipeInput, Collection<ItemStack>>(null, lavaRecipeList, meta).getResult(null);
     }
 
     protected void onLoaded() {

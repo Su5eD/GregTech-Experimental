@@ -252,7 +252,7 @@ public class BlockItemLoader {
         }
 
         for (BlockItems.JackHammers type : BlockItems.JackHammers.values()) {
-            type.setInstance(registerItem(new ItemJackHammer("jack_hammer_"+type.name(), type.operationEnergyCost, type.maxCharge, type.tier, type.transferLimit, type.efficiency)
+            type.setInstance(registerItem(new ItemJackHammer("jack_hammer_"+type.name(), type.operationEnergyCost, type.maxCharge, type.tier, type.transferLimit, type.efficiency, type.canMineObsidian)
                 .setRegistryName("jack_hammer_"+type.name())
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)));
         }

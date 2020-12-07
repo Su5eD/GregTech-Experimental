@@ -7,8 +7,11 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
+}
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'maven-publish'
 
 version = version_major+'.'+version_minor+'-' + ("$System.env.GITHUB_RUN_NUMBER" != "null" ? "$System.env.GITHUB_RUN_NUMBER" : "0")
@@ -24,14 +27,8 @@ minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
     replace '@VERSION@', project.version
-    
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
+
     mappings = "stable_39"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 sourceSets {
@@ -44,6 +41,17 @@ sourceSets {
 
 configurations {
     apiCompile.extendsFrom(compile)
+    shadow
+    compile.extendsFrom(shadow)
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+}
+
+build {
+    finalizedBy 'devJar'
+    finalizedBy 'apiJar'
 }
 
 repositories {
@@ -73,9 +81,22 @@ dependencies {
     compile "com.mod-buildcraft:buildcraft-all:${version_buildcraft}"
     compile "curse.maven:energy-control:3026320"
     compile "mezz.jei:jei_${mcversion}:${version_jei}"
+
+    def databind  = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
+    implementation databind
+    shadow databind
+
+    def yaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.0"
+    implementation yaml
+    shadow yaml
 }
 
 jar {
+    configurations.shadow.each { dep ->
+        from(project.zipTree(dep)) {
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
     finalizedBy 'reobfJar'
     //Include api classes in the full jar
     from sourceSets.api.output.classesDirs
@@ -95,19 +116,28 @@ jar {
 }
 
 task devJar(type: Jar) {
-    from sourceSets.main.allSource
-    //Include api classes in the dev jar
-    from sourceSets.api.output
+    configurations.shadow.each { dep ->
+        from(project.zipTree(dep)) {
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+    manifest = jar.manifest
+    from sourceSets.main.output
+    from sourceSets.api.output.classesDirs
+    from sourceSets.api.output.resourcesDir
     classifier = "dev"
 }
 
 task apiJar(type: Jar) {
     classifier = "api"
-    from sourceSets.api.output
-    include "mods/gregtechmod/api/**"
+    from sourceSets.api.output.classesDirs
 
     //Include sources in the api jar
     from sourceSets.api.allJava
+}
+
+sourceJar {
+    manifest = jar.manifest
 }
 
 processResources {
@@ -143,6 +173,7 @@ publishing {
             from components.java
             artifact apiJar
             artifact devJar
+            artifact sourceJar
         }
     }
     repositories {
