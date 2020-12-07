@@ -6,7 +6,7 @@ import mods.gregtechmod.api.recipe.IGtRecipeManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class RecipeManager<I, R extends IGtMachineRecipe<I, ?>> implements IGtRecipeManager<I, R> {
+public abstract class RecipeManager<I, R extends IGtMachineRecipe<I, ?>, M> implements IGtRecipeManager<I, R, M> {
     protected final List<R> recipes = new ArrayList<>();
 
     @Override

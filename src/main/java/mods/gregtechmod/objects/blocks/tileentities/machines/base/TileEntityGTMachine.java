@@ -31,7 +31,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, Collection<ItemStack>>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider, IPanelInfoProvider {
+/**
+ * Base class for all GT machines
+ * @param <R> The recipe type for this machine
+ * @param <M> Optional recipe metadata (such as the amount of cells for the centrifuge). Pass in an <code>Object</code> if unused
+ */
+public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, Collection<ItemStack>>, M> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider, IPanelInfoProvider {
     protected double progress;
     public int maxProgress = 0;
     public boolean shouldExplode;
@@ -40,12 +45,12 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, 
 
     public AudioSource audioSource;
 
-    public final GtSlotProcessableItemStack<R> inputSlot;
+    public final GtSlotProcessableItemStack<R, M> inputSlot;
     public InvSlotOutput outputSlot;
 
     protected Collection<ItemStack> pendingRecipe = new ArrayList<>();
 
-    public TileEntityGTMachine(int maxEnergy, int energyConsume, byte outputSlots, byte inputSlots, int aDefaultTier, IGtRecipeManager<ItemStack, R> recipeManager) {
+    public TileEntityGTMachine(int maxEnergy, int energyConsume, byte outputSlots, byte inputSlots, int aDefaultTier, IGtRecipeManager<ItemStack, R, M> recipeManager) {
         super(maxEnergy, aDefaultTier, energyConsume);
         this.progress = 0;
         this.inputSlot = new GtSlotProcessableItemStack<>(this, "input", inputSlots, recipeManager);

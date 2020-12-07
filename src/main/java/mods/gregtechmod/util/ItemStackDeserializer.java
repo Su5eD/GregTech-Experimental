@@ -20,18 +20,23 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
         JsonNode node = parser.getCodec().readTree(parser);
 
         String name = node.get("item").asText();
+        int count = node.has("count") ? node.get("count").asInt(1) : 1;
+        int meta = node.has("meta") ? node.get("meta").asInt(0) : 0;
+
         if (name.contains("#")) {
             String[] parts = name.split("#");
             Item item = IC2Items.getItemAPI().getItem(parts[0].split(":")[1]);
-            if (item instanceof IMultiItem) return ((IMultiItem)item).getItemStack(parts[1]);
+            if (item instanceof IMultiItem) {
+                ItemStack stack = ((IMultiItem<?>) item).getItemStack(parts[1]);
+                stack.setCount(count);
+                return stack;
+            }
         }
+
         ResourceLocation registryName = new ResourceLocation(name);
         Item item = ForgeRegistries.ITEMS.getValue(registryName);
-        if (item == null) item = Item.getItemFromBlock(ForgeRegistries.BLOCKS.getValue(registryName));
-        if (item == Items.AIR || item == null) throw new IllegalArgumentException("Item "+name+" not found");
-
-        int count = node.has("count") ? node.get("count").asInt(1) : 1;
-        int meta = node.has("meta") ? node.get("meta").asInt(0) : 0;
+        if (item == Items.AIR || item == null) item = Item.getItemFromBlock(ForgeRegistries.BLOCKS.getValue(registryName));
+        if (item == Items.AIR) throw new IllegalArgumentException("Item/Block "+name+" not found");
 
         return new ItemStack(item, count, meta);
     }

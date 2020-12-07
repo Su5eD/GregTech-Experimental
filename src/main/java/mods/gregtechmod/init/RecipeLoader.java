@@ -10,7 +10,7 @@ import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
-import mods.gregtechmod.recipe.manager.RecipeManagerBasic;
+import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
 import mods.gregtechmod.util.ItemStackDeserializer;
 import mods.gregtechmod.util.RecipeType;
 import net.minecraft.item.ItemStack;
@@ -40,7 +40,7 @@ public class RecipeLoader {
                 GregTechAPI.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
                 gtConfig = recipesPath;
             }
-            GtRecipes.industrial_centrifuge = new RecipeManagerBasic<>();
+            GtRecipes.industrial_centrifuge = new RecipeManagerCentrifuge();
             RecipeLoader.<RecipeCentrifuge, RecipeType.Default>parseRecipe("industrial_centrifuge", RecipeType.Default.class, gtConfig)
                     .ifPresent(recipes -> recipes.forEach(GtRecipes.industrial_centrifuge::addRecipe));
         } catch (IOException e) {

@@ -27,10 +27,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCentrifuge> {
+public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCentrifuge, Integer> {
 
     public InvSlotConsumable cellSlot;
     public Fluids.InternalFluidTank lavaTank;
@@ -85,10 +86,8 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
         }
         IRecipeCentrifuge recipe;
         if(this.inputSlot.isEmpty() && this.lavaTank.getFluidAmount() < 16000) return null;
-        else if ((recipe = this.inputSlot.process()) != null) {
-            if (this.cellSlot.get().getCount() < recipe.getCells()) return null;
-            return recipe;
-        }
+        else if ((recipe = this.inputSlot.process(Collections.singletonMap("cells", this.cellSlot.get().getCount()))) != null) return recipe;
+
         if((this.inputSlot.isEmpty() && this.outputSlot.canAdd(lavaRecipe.getOutput()))) {
             if (this.lavaTank.getFluid().getFluid() == FluidRegistry.LAVA && this.lavaTank.getFluidAmount() >= 16000) {
                 this.usingLavaRecipe = true;

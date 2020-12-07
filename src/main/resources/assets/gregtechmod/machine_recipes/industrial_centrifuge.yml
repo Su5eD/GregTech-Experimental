@@ -1,5 +1,6 @@
 # Industrial Centrifuge recipes
 #
+# Recipes priority goes from top to bottom.
 # Example recipe with all possible options:
 # input:                                <-- a single ItemStack, required
 #   item: examplemod:simple_item        <-- item registry name, required
