@@ -79,7 +79,7 @@ dependencies {
     apiCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:api" //GTE api depends on the ic2 api
 
     compile "com.mod-buildcraft:buildcraft-all:${version_buildcraft}"
-    compile "curse.maven:energy-control:3026320"
+    compile "curse.maven:energy-control-373450:3026320"
     compile "mezz.jei:jei_${mcversion}:${version_jei}"
 
     def databind  = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
