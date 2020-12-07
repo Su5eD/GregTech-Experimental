@@ -1,6 +1,5 @@
 package mods.gregtechmod.init;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -41,7 +40,7 @@ public class RecipeLoader {
                 gtConfig = recipesPath;
             }
             GtRecipes.industrial_centrifuge = new RecipeManagerCentrifuge();
-            RecipeLoader.<RecipeCentrifuge, RecipeType.Default>parseRecipe("industrial_centrifuge", RecipeType.Default.class, gtConfig)
+            RecipeLoader.parseRecipe("industrial_centrifuge", RecipeCentrifuge.class, RecipeType.Default.class, gtConfig)
                     .ifPresent(recipes -> recipes.forEach(GtRecipes.industrial_centrifuge::addRecipe));
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,12 +55,12 @@ public class RecipeLoader {
         });*/
     }
 
-    public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeType> Optional<Collection<R>> parseRecipe(String name, @Nullable Class<T> recipeType, Path recipesDir) {
+    public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeType> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType, Path recipesDir) {
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
             if (recipeType != null) mapper.addMixIn(IGtMachineRecipe.class, recipeType);
             mapper.registerModule(new SimpleModule().addDeserializer(ItemStack.class, new ItemStackDeserializer()));
-            return Optional.ofNullable(mapper.readValue(Files.newBufferedReader(recipesDir.resolve(name+".yml")), new TypeReference<List<RecipeCentrifuge>>() {}));
+            return Optional.ofNullable(mapper.readValue(Files.newBufferedReader(recipesDir.resolve(name+".yml")), mapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
         } catch (IOException e) {
             GregTechAPI.logger.error("Failed to parse recipes for "+name+": "+e.getMessage());
             return Optional.empty();
