@@ -74,13 +74,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:dev"
-    runtime "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112" //Separate ic2 for runtime to fix an issue caused by ic2 using old mappings
+    deobfCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112"
+    //runtime "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112" //Separate ic2 for runtime to fix an issue caused by ic2 using old mappings
     apiCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:api" //GTE api depends on the ic2 api
 
-    compile "com.mod-buildcraft:buildcraft-all:${version_buildcraft}"
-    compile "curse.maven:energy-control-373450:3026320"
-    compile "mezz.jei:jei_${mcversion}:${version_jei}"
+    deobfCompile "com.mod-buildcraft:buildcraft-api:${version_buildcraft}"
+    deobfCompile "curse.maven:energy-control-373450:3026320"
+    deobfCompile "mezz.jei:jei_${mcversion}:${version_jei}"
 
     def databind  = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
     implementation databind
