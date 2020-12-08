@@ -73,9 +73,8 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
 
     @Override
     public List<String> getNetworkedFields() {
-        List<String> ret = new ArrayList<>();
+        List<String> ret = super.getNetworkedFields();
         ret.add("coverHandler");
-        ret.addAll(super.getNetworkedFields());
         return ret;
     }
 

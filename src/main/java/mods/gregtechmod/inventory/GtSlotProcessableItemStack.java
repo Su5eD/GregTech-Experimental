@@ -38,9 +38,6 @@ public class GtSlotProcessableItemStack<R extends IGtMachineRecipe<ItemStack, Co
     }
 
     public void consume(@Nonnull IGtMachineRecipe<ItemStack, ?> recipe) {
-        ItemStack input = this.get();
-        if (input.isEmpty()) throw new IllegalStateException("Tried to consume item from an empty slot");
-
-        this.put(ItemStack.EMPTY);
+        this.consume(recipe.getInput().getCount());
     }
 }

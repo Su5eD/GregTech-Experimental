@@ -58,7 +58,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public final int defaultEnergyConsume;
     public int energyConsume;
     public InvSlot upgradeSlot;
-    protected int overclockersCount = 0;
+    public int overclockersCount;
     protected boolean hasSteamUpgrade = false;
     public Fluids fluids;
     public Fluids.InternalFluidTank steamTank;
@@ -128,6 +128,13 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         }
     }
 
+    @Override
+    public List<String> getNetworkedFields() {
+        List<String> ret = super.getNetworkedFields();
+        ret.add("overclockersCount");
+        return ret;
+    }
+
     public static boolean checkAccess(GameProfile owner, GameProfile playerProfile) {
         if (owner == null) return true;
         return owner.equals(playerProfile);
@@ -152,7 +159,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         switch (meta) {
             case 0:
                 this.overclockersCount = stack.getCount();
-                IC2.network.get(true).updateTileEntityField(TileEntityUpgradable.this, "overclockersCount");
+                IC2.network.get(true).updateTileEntityField(this, "overclockersCount");
                 break;
             case 1:
                 this.energy.setSinkTier(Math.min(defaultTier+stack.getCount(), 3));
