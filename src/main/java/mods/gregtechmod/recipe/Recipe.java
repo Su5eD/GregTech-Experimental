@@ -3,10 +3,10 @@ package mods.gregtechmod.recipe;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 
 public abstract class Recipe<I, O> implements IGtMachineRecipe<I, O> {
-    private final I input;
-    private final O output;
-    private final double energyCost;
-    private final int duration;
+    protected final I input;
+    protected final O output;
+    protected final double energyCost;
+    protected final int duration;
 
     public Recipe(I input, O output, double energyCost, int duration) {
         this.input = input;

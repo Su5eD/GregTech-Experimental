@@ -3,11 +3,16 @@ package mods.gregtechmod.recipe.manager;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.IGtRecipeManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public abstract class RecipeManager<I, R extends IGtMachineRecipe<I, ?>, M> implements IGtRecipeManager<I, R, M> {
-    protected final List<R> recipes = new ArrayList<>();
+    protected final SortedSet<R> recipes;
+
+    public RecipeManager(Comparator<R> comparator) {
+        this.recipes = new TreeSet<>(comparator);
+    }
 
     @Override
     public void addRecipe(R recipe) {
@@ -20,7 +25,7 @@ public abstract class RecipeManager<I, R extends IGtMachineRecipe<I, ?>, M> impl
     }
 
     @Override
-    public List<R> getRecipes() {
+    public SortedSet<R> getRecipes() {
         return this.recipes;
     }
 }

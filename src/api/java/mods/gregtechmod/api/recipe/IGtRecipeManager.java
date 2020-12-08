@@ -1,7 +1,7 @@
 package mods.gregtechmod.api.recipe;
 
-import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
 public interface IGtRecipeManager<I, R extends IGtMachineRecipe<I, ?>, M> {
     void addRecipe(R recipe);
@@ -12,5 +12,5 @@ public interface IGtRecipeManager<I, R extends IGtMachineRecipe<I, ?>, M> {
 
     void removeRecipe(R recipe);
 
-    List<R> getRecipes();
+    SortedSet<R> getRecipes();
 }

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,16 +46,10 @@ public class RecipeLoader {
             e.printStackTrace();
         }
 
-        /*GtRecipes.industrial_centrifuge.getRecipes().forEach(recipe -> {
-            System.out.println(recipe.getInput());
-            recipe.getOutput().forEach(System.out::println);
-            System.out.println(recipe.getDuration());
-            System.out.println(recipe.getEnergyCost());
-            System.out.println(recipe.getCells());
-        });*/
+        //GtRecipes.industrial_centrifuge.getRecipes().forEach(recipe -> System.out.println(recipe.getInput().getItem().getRegistryName()+" "+recipe.getInput().getCount()+" "+recipe.getCells()));
     }
 
-    public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeType> Optional<List<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType, Path recipesDir) {
+    public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeType> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType, Path recipesDir) {
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
             if (recipeType != null) mapper.addMixIn(IGtMachineRecipe.class, recipeType);
