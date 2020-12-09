@@ -1,7 +1,7 @@
 package mods.gregtechmod.api.recipe;
 
-import net.minecraft.item.ItemStack;
+import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
 
 public class GtRecipes {
-    public static IGtRecipeManager<ItemStack, IRecipeCentrifuge, Integer> industrial_centrifuge;
+    public static IRecipeManagerCentrifuge industrial_centrifuge;
 }

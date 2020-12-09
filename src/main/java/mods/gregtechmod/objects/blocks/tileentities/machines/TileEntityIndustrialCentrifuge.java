@@ -12,6 +12,7 @@ import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
+import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityGTMachine;
@@ -27,11 +28,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCentrifuge, Integer> {
+public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCentrifuge, IRecipeManagerCentrifuge> {
 
     public InvSlotConsumable cellSlot;
     public Fluids.InternalFluidTank lavaTank;
@@ -85,8 +85,9 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
             return lavaRecipe;
         }
         IRecipeCentrifuge recipe;
-        if(this.inputSlot.isEmpty() && this.lavaTank.getFluidAmount() < 16000) return null;
-        else if ((recipe = this.inputSlot.process(Collections.singletonMap("cells", this.cellSlot.get().getCount()))) != null) return recipe;
+        ItemStack input = this.inputSlot.get();
+        if(input.isEmpty() && this.lavaTank.getFluidAmount() < 16000) return null;
+        else if ((recipe = input.isEmpty() ? null : this.recipeManager.getRecipeFor(input, this.cellSlot.get().getCount())) != null) return recipe;
 
         if((this.inputSlot.isEmpty() && this.outputSlot.canAdd(lavaRecipe.getOutput()))) {
             if (this.lavaTank.getFluid().getFluid() == FluidRegistry.LAVA && this.lavaTank.getFluidAmount() >= 16000) {
@@ -95,10 +96,6 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
             }
         }
         return null;
-    }
-
-    protected void onLoaded() {
-        super.onLoaded();
     }
 
     public String getStartSoundFile() {

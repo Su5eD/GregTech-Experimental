@@ -1,34 +1,24 @@
 package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
+import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
 import net.minecraft.item.ItemStack;
 
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Map;
 
-public class RecipeManagerCentrifuge extends RecipeManager<ItemStack, IRecipeCentrifuge, Integer> {
+public class RecipeManagerCentrifuge extends RecipeManager<ItemStack, IRecipeCentrifuge, Integer> implements IRecipeManagerCentrifuge {
 
     public RecipeManagerCentrifuge() {
         super(new CentrifugeRecipeComparator());
     }
 
     /**
-     * @deprecated Use {@link RecipeManagerCentrifuge#getRecipeFor(ItemStack input, Map metadata)} instead
+     * @param cells The amount of cells required for this recipe. Pass in -1 to ignore
      */
     @Override
-    @Deprecated
-    public IRecipeCentrifuge getRecipeFor(ItemStack input) {
-        return getRecipeFor(input, Collections.emptyMap());
-    }
-
-    /**
-     * @param metadata Contains the amount of required cells for this recipe under the <code>cells</code> key
-     */
-    @Override
-    public IRecipeCentrifuge getRecipeFor(ItemStack input, Map<String, Integer> metadata) {
+    public IRecipeCentrifuge getRecipeFor(ItemStack input, int cells) {
         for (IRecipeCentrifuge recipe : this.recipes) {
-            if (recipe.getInput().isItemEqual(input) && (!metadata.containsKey("cells") || metadata.get("cells") >= recipe.getCells())) return recipe;
+            if (recipe.getInput().isItemEqual(input) && (cells >= 0 == cells >= recipe.getCells())) return recipe;
         }
         return null;
     }

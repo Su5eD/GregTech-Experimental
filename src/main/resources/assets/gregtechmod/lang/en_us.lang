@@ -488,8 +488,6 @@ gregtechmod.fluid.nitro_coalfuel=Nitro-Coalfuel
 gregtechmod.fluid.nitro_diesel=Nitro-Diesel
 gregtechmod.fluid.plasma=Helium Plasma
 gregtechmod.fluid.potassium=Potassium
-gregtechmod.fluid.seed_oil.name=Seed Oil
-#IC2 Universal fluid cell name
 gregtechmod.fluid.seed_oil=Seed Oil
 gregtechmod.fluid.silicon=Silicon
 gregtechmod.fluid.sodium=Sodium
