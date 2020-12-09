@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks;
 
 import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.PropertyHelper;
@@ -65,7 +66,7 @@ public class BlockOre extends Block implements IBlockCustomItem {
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         this.loot.accept(fortune, drops);
-        if (drops.isEmpty()) drops.add(new ItemStack(this.getItemDropped(state, ((World) world).rand, fortune)));
+        if (drops.isEmpty()) drops.add(new ItemStack(this.getItemDropped(state, world instanceof World ? ((World)world).rand : GtUtil.RANDOM, fortune)));
     }
 
     @Override
