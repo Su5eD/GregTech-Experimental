@@ -35,8 +35,9 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, 
     protected double progress;
     public int maxProgress = 0;
     public boolean shouldExplode;
-    protected float guiProgress;
     private boolean explode;
+    private int explosionTier;
+    protected float guiProgress;
 
     public AudioSource audioSource;
 
@@ -121,7 +122,7 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, 
         boolean needsInvUpdate = false;
         if(this.explode) {
             this.energy.onUnloaded();
-            this.explodeMachine(getExplosionPower(this.getTier(), 1.5F));
+            this.explodeMachine(getExplosionPower(this.explosionTier, 1.5F));
         }
         if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         MachineSafety.checkSafety(this);
@@ -271,6 +272,7 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, 
     @Override
     public void markForExplosion() {
         this.shouldExplode = true;
+        this.explosionTier = this.energy.getSinkTier() + 1;
         if (GregTechConfig.MACHINES.machineWireFire) {
             double energy = this.energy.getEnergy();
             this.energy.onUnloaded();
