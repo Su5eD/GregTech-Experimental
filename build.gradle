@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 buildscript {
     repositories {
         jcenter()
@@ -5,20 +7,20 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
 
-plugins {
-    id 'com.github.johnrengelman.shadow' version '4.0.4'
-}
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
 
 version = version_major+'.'+version_minor+'-' + ("$System.env.GITHUB_RUN_NUMBER" != "null" ? "$System.env.GITHUB_RUN_NUMBER" : "0")
-group = "mods.su5ed" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "mods.su5ed"
 archivesBaseName = "gregtechmod"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
@@ -41,16 +43,27 @@ sourceSets {
 
 configurations {
     apiCompile.extendsFrom(compile)
-    shadow
-    compile.extendsFrom(shadow)
+    shade
+}
+
+reobf {
+    shadowJar {}
 }
 
 shadowJar {
-    configurations = [project.configurations.shadow]
+    dependsOn classes
+    finalizedBy reobfShadowJar
+
+    configurations = [project.configurations.shade]
+    from sourceSets.api.output
+    relocate "com.fasterxml", "mods.gregtechmod.repack.fasterxml"
+    relocate "org.yaml", "mods.gregtechmod.repack.yaml"
+    classifier ""
 }
 
 build {
-    finalizedBy 'devJar'
+    dependsOn reobfShadowJar
+    finalizedBy "devJar"
     finalizedBy 'apiJar'
 }
 
@@ -74,33 +87,24 @@ repositories {
 }
 
 dependencies {
-    deobfCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112"
-    //runtime "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112" //Separate ic2 for runtime to fix an issue caused by ic2 using old mappings
-    apiCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:api" //GTE api depends on the ic2 api
+    deobfCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${version_ic2}-ex112"
+    apiCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${version_ic2}-ex112", classifier: "api" //GTE api depends on the ic2 api
 
-    deobfCompile "com.mod-buildcraft:buildcraft-api:${version_buildcraft}"
-    deobfCompile "curse.maven:energy-control-373450:3026320"
-    deobfCompile "mezz.jei:jei_${mcversion}:${version_jei}"
+    deobfCompile group: "com.mod-buildcraft", name: "buildcraft-api", version: "${version_buildcraft}"
+    deobfCompile group: "curse.maven", name: "energy-control-373450", version: "3026320"
+    deobfCompile group: "mezz.jei", name: "jei_${mcversion}", version: "${version_jei}"
 
-    def databind  = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
+    def databind = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
     implementation databind
-    shadow databind
+    shade databind
 
     def yaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.0"
     implementation yaml
-    shadow yaml
+    shade yaml
 }
 
 jar {
-    configurations.shadow.each { dep ->
-        from(project.zipTree(dep)) {
-            exclude 'META-INF', 'META-INF/**'
-        }
-    }
     finalizedBy 'reobfJar'
-    //Include api classes in the full jar
-    from sourceSets.api.output.classesDirs
-    from sourceSets.api.output.resourcesDir
 
     manifest {
         attributes([
@@ -115,33 +119,45 @@ jar {
     }
 }
 
-task devJar(type: Jar) {
-    configurations.shadow.each { dep ->
-        from(project.zipTree(dep)) {
-            exclude 'META-INF', 'META-INF/**'
-        }
+task devJar(type: ShadowJar, dependsOn: classes) {
+    configurations = [project.configurations.shade]
+
+    manifest {
+        attributes([
+                "Specification-Title": "gregtechmod",
+                "Specification-Vendor": "Su5eD",
+                "Specification-Version": "1",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" : "Su5eD",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
-    manifest = jar.manifest
+
+    relocate "com.fasterxml", "mods.gregtechmod.repack.fasterxml"
+    relocate "org.yaml", "mods.gregtechmod.repack.yaml"
+
     from sourceSets.main.output
     from sourceSets.api.output.classesDirs
     from sourceSets.api.output.resourcesDir
+
     classifier = "dev"
 }
 
 task apiJar(type: Jar) {
     classifier = "api"
     from sourceSets.api.output.classesDirs
-
     //Include sources in the api jar
     from sourceSets.api.allJava
+
+    exclude 'META-INF/**'
 }
 
 sourceJar {
-    manifest = jar.manifest
+    from sourceSets.api.allSource
 }
 
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
@@ -166,14 +182,9 @@ publishing {
             artifactId = project.archivesBaseName
             version = project.version
 
-            pom.withXml {
-                asNode().remove(asNode().dependencies)
-            }
-
-            from components.java
+            artifact shadowJar
             artifact apiJar
             artifact devJar
-            artifact sourceJar
         }
     }
     repositories {
