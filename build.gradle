@@ -48,6 +48,7 @@ configurations {
 }
 
 reobf {
+    apiJar {}
     shadowJar {}
 }
 
@@ -64,8 +65,8 @@ shadowJar {
 
 build {
     dependsOn reobfShadowJar
-    finalizedBy "devJar"
-    finalizedBy 'apiJar'
+    dependsOn "devJar"
+    dependsOn 'apiJar'
 }
 
 repositories {
@@ -147,13 +148,15 @@ task devJar(type: ShadowJar, dependsOn: classes) {
     classifier = "dev"
 }
 
-task apiJar(type: Jar) {
-    classifier = "api"
+task apiJar(type: Jar, dependsOn: classes) {
+    finalizedBy reobfApiJar
+
     from sourceSets.api.output.classesDirs
     //Include sources in the api jar
     from sourceSets.api.allJava
 
     exclude 'META-INF/**'
+    classifier = "api"
 }
 
 sourceJar {
