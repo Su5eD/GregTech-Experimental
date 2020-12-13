@@ -12,8 +12,7 @@ public class ItemCrafting extends ItemBase {
     private final int craftingDamage;
 
     public ItemCrafting(String name, @Nullable String description, int durability, int craftingDamage) {
-        super(name, description);
-        setMaxDamage(durability - 1);
+        super(name, description, durability);
         setMaxStackSize(1);
         setNoRepair();
         this.craftingDamage = craftingDamage;

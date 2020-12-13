@@ -1,47 +1,43 @@
 package mods.gregtechmod.objects.items.tools;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import ic2.api.item.ElectricItem;
 import ic2.core.item.tool.HarvestLevel;
-import ic2.core.item.tool.ItemElectricTool;
 import ic2.core.item.tool.ToolClass;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
+import mods.gregtechmod.objects.items.base.ItemToolElectricBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
 
-public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvider {
+public class ItemRockCutter extends ItemToolElectricBase {
 
     public ItemRockCutter() {
-        super(null, 500, HarvestLevel.Iron, EnumSet.of(ToolClass.Pickaxe));
-        this.tier = 1;
-        this.transferLimit = 200;
-        this.maxCharge = 10000;
-        this.efficiency = 3;
+        super("rock_cutter", null, 10000D, 100, 1, 500, HarvestLevel.Iron.level, EnumSet.of(ToolClass.Pickaxe));
+        setRegistryName("rock_cutter");
+        setTranslationKey("rock_cutter");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
+        this.efficiency = 2;
     }
 
     @Override
-    public String getTranslationKey() {
-        return Reference.MODID+".item.rock_cutter";
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+        return HashMultimap.create();
     }
 
-    @Override
-    protected ItemStack getItemStack(double charge) {
-        ItemStack ret = super.getItemStack(charge);
-        ret.addEnchantment(Enchantments.SILK_TOUCH, 3);
-        return ret;
-    }
-
-    public void checkEnchantments(ItemStack stack) {
-        if (ElectricItem.manager.canUse(stack, operationEnergyCost) && !stack.isItemEnchanted()) stack.addEnchantment(Enchantments.SILK_TOUCH, 3);
+    private void checkEnchantments(ItemStack stack) {
+        if (ElectricItem.manager.canUse(stack, operationEnergyCost)) {
+            if (!stack.isItemEnchanted()) stack.addEnchantment(Enchantments.SILK_TOUCH, 3);
+        }
         else if (stack.isItemEnchanted()) stack.getTagCompound().removeTag("ench");
     }
 
@@ -53,6 +49,7 @@ public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvid
 
     @Override
     public boolean hasEffect(ItemStack stack) {
+        checkEnchantments(stack);
         return false;
     }
 
@@ -65,10 +62,5 @@ public class ItemRockCutter extends ItemElectricTool implements IModelInfoProvid
     public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
         checkEnchantments(stack);
         return super.onBlockStartBreak(stack, pos, player);
-    }
-
-    @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation("rock_cutter", "tool"));
     }
 }

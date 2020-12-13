@@ -44,6 +44,7 @@ sourceSets {
 configurations {
     apiCompile.extendsFrom(compile)
     shade
+    compile.extendsFrom(shade)
 }
 
 reobf {
@@ -105,6 +106,8 @@ dependencies {
 
 jar {
     finalizedBy 'reobfJar'
+
+    from sourceSets.api.output
 
     manifest {
         attributes([

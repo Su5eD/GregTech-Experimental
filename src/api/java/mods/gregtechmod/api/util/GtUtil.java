@@ -4,6 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.item.IElectricArmor;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 
@@ -124,5 +126,16 @@ public class GtUtil {
         else if (stack.isItemEqual(IC2Items.getItem("quad_uranium_fuel_rod"))) return 4;
 
         return 0;
+    }
+
+    public static double getTransferLimit(int tier) {
+        return Math.pow(2, tier) * 128;
+    }
+
+    public static void damageEntity(EntityLivingBase entity, EntityLivingBase attacker, float damage) {
+        int oldHurtResistanceTime = entity.hurtResistantTime;
+        entity.hurtResistantTime = 0;
+        entity.attackEntityFrom(DamageSource.causeMobDamage(attacker), damage);
+        entity.hurtResistantTime = oldHurtResistanceTime;
     }
 }

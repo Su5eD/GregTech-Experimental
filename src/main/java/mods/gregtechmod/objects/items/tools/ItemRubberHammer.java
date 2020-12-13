@@ -22,7 +22,7 @@ import java.util.List;
 public class ItemRubberHammer extends ItemHammer {
 
     public ItemRubberHammer(String material, String description, int durability, int attackDamage) {
-        super(material, description, durability, attackDamage, ToolMaterial.STONE);
+        super(material, description, durability, attackDamage);
     }
 
     @Override

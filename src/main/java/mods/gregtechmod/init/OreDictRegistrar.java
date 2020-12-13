@@ -2,6 +2,7 @@ package mods.gregtechmod.init;
 
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
@@ -280,15 +281,15 @@ public class OreDictRegistrar {
         registerOre("craftingIndustrialDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
         registerOre("itemDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
         registerOre("craftingUUMatter", IC2Items.getItem("misc_resource", "matter"));
-        registerOre("crafting10kEUStore", IC2Items.getItem("re_battery"));
+        registerOre("crafting10kEUStore", StackUtil.copyWithWildCard(IC2Items.getItem("re_battery")));
         registerOre("crafting60kEUPack", IC2Items.getItem("te", "batbox"));
-        registerOre("crafting300kEUPack", IC2Items.getItem("lappack"));
-        registerOre("crafting100kEUStore", IC2Items.getItem("energy_crystal"));
-        registerOre("crafting100kEUStore", IC2Items.getItem("advanced_re_battery"));
-        registerOre("crafting1kkEUStore", IC2Items.getItem("lapotron_crystal"));
-        registerOre("crafting10kCoolantStore", IC2Items.getItem("heat_storage"));
-        registerOre("crafting30kCoolantStore", IC2Items.getItem("tri_heat_storage"));
-        registerOre("crafting60kCoolantStore", IC2Items.getItem("hex_heat_storage"));
+        registerOre("crafting300kEUPack", StackUtil.copyWithWildCard(IC2Items.getItem("lappack")));
+        registerOre("crafting100kEUStore", StackUtil.copyWithWildCard(IC2Items.getItem("energy_crystal")));
+        registerOre("crafting100kEUStore", StackUtil.copyWithWildCard(IC2Items.getItem("advanced_re_battery")));
+        registerOre("crafting10kkEUStore", StackUtil.copyWithWildCard(IC2Items.getItem("lapotron_crystal")));
+        registerOre("crafting10kCoolantStore", StackUtil.copyWithWildCard(IC2Items.getItem("heat_storage")));
+        registerOre("crafting30kCoolantStore", StackUtil.copyWithWildCard(IC2Items.getItem("tri_heat_storage")));
+        registerOre("crafting60kCoolantStore", StackUtil.copyWithWildCard(IC2Items.getItem("hex_heat_storage")));
         registerOre("craftingWireCopper", IC2Items.getItem("cable", "type:copper,insulation:1"));
         registerOre("craftingWireGold", IC2Items.getItem("cable", "type:gold,insulation:2"));
         registerOre("craftingWireIron", IC2Items.getItem("cable", "type:iron,insulation:3"));
@@ -332,19 +333,19 @@ public class OreDictRegistrar {
     }
 
     public static void registerOre(String base, String name, Item instance) {
-        registerOre(base+ CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), new ItemStack(instance));
+        registerOre(base+ CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), new ItemStack(instance, 1, OreDictionary.WILDCARD_VALUE));
     }
 
     public static void registerOre(String base, String name, Block instance) {
-        registerOre(base+CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), new ItemStack(instance));
+        registerOre(base+CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), new ItemStack(instance, 1, OreDictionary.WILDCARD_VALUE));
     }
 
     public static void registerOre(String name, Block block) {
-        registerOre(name, new ItemStack(block));
+        registerOre(name, new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE));
     }
 
     public static void registerOre(String name, Item item) {
-        registerOre(name, new ItemStack(item));
+        registerOre(name, new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
     }
 
     public static void registerOre(String name, ItemStack stack) {

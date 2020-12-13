@@ -46,8 +46,9 @@ import java.util.List;
 @SuppressWarnings("NullableProblems")
 public class ItemScanner extends ItemElectricBase {
 
-    public ItemScanner(String name, String description, int maxCharge, int transferLimit, int tier) {
+    public ItemScanner(String name, String description, int maxCharge, double transferLimit, int tier) {
         super(name, description, maxCharge, transferLimit, tier);
+        this.showTier = false;
     }
 
     @Override
@@ -58,9 +59,9 @@ public class ItemScanner extends ItemElectricBase {
         }
         ItemStack stack = player.inventory.getCurrentItem();
         if (player instanceof EntityPlayerMP && ElectricItem.manager.canUse(stack, 25000)) {
-            ArrayList<String> aList = new ArrayList<>();
-            ElectricItem.manager.use(stack, getCoordinateScan(aList, player, world, 1, pos, side, hitX, hitY, hitZ), player);
-            for (String s : aList) IC2.platform.messagePlayer(player, s);
+            ArrayList<String> list = new ArrayList<>();
+            ElectricItem.manager.use(stack, getCoordinateScan(list, player, world, 1, pos, side, hitX, hitY, hitZ), player);
+            for (String s : list) IC2.platform.messagePlayer(player, s);
             return EnumActionResult.SUCCESS;
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);

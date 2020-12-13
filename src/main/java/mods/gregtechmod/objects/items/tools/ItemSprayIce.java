@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.items.tools;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.items.base.ItemCraftingTool;
+import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,10 +18,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemSprayIce extends ItemCraftingTool {
+public class ItemSprayIce extends ItemToolCrafting {
 
     public ItemSprayIce() {
-        super("spray_ice", "Very effective against Slimes", 512, 4, ToolMaterial.IRON, 32, 16);
+        super("spray_ice", "Very effective against Slimes", 512, 4, 32, 16);
         setRegistryName("spray_ice");
         setTranslationKey("spray_ice");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

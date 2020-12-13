@@ -20,15 +20,14 @@ gregtechmod.item.armor.perk.speed_booster.name=Speed Booster
 gregtechmod.item.armor.perk.invisibility_field.name=Invisibility Field
 gregtechmod.item.armor.perk.infinite_charge.name=Infinite Charge
 
-gregtechmod.item.drill_advanced=Advanced Drill
+gregtechmod.item.drill_advanced.name=Advanced Drill
 gregtechmod.item.crowbar.name=Crowbar
 gregtechmod.item.screwdriver.name=Screwdriver
-gregtechmod.item.rock_cutter=Rock Cutter
+gregtechmod.item.rock_cutter.name=Rock Cutter
 gregtechmod.item.soldering_tool.name=Electric Soldering Tool
-gregtechmod.item.soldering_tool_empty.name=Empty Soldering Tool
-gregtechmod.item.tesla_staff=Tesla Staff
-gregtechmod.item.scanner=Portable Scanner
-gregtechmod.item.debug_scanner=Debug Scanner
+gregtechmod.item.tesla_staff.name=Tesla Staff
+gregtechmod.item.scanner.name=Portable Scanner
+gregtechmod.item.debug_scanner.name=Debug Scanner
 
 gregtechmod.item.soldering_lead.name=Soldering Lead
 gregtechmod.item.soldering_tin.name=Soldering Tin
@@ -37,7 +36,7 @@ gregtechmod.item.saw_iron.name=Iron Saw
 gregtechmod.item.saw_bronze.name=Bronze Saw
 gregtechmod.item.saw_steel.name=Steel Saw
 gregtechmod.item.saw_tungsten_steel.name=Tungstensteel Saw
-gregtechmod.item.saw_advanced=Advanced Saw
+gregtechmod.item.saw_advanced.name=Advanced Saw
 
 gregtechmod.item.wrench_iron=Iron Wrench
 gregtechmod.item.wrench_bronze=Bronze Wrench
@@ -45,9 +44,9 @@ gregtechmod.item.wrench_steel=Steel Wrench
 gregtechmod.item.wrench_tungsten_steel=Tungstensteel Wrench
 gregtechmod.item.wrench_advanced=Advanced Wrench
 
-gregtechmod.item.jack_hammer_bronze=Bronze Jack Hammer
-gregtechmod.item.jack_hammer_steel=Steel Jack Hammer
-gregtechmod.item.jack_hammer_diamond=Diamond Jack Hammer
+gregtechmod.item.jack_hammer_bronze.name=Bronze Jack Hammer
+gregtechmod.item.jack_hammer_steel.name=Steel Jack Hammer
+gregtechmod.item.jack_hammer_diamond.name=Diamond Jack Hammer
 
 gregtechmod.item.hammer_rubber.name=Rubber Hammer
 gregtechmod.item.hammer_iron.name=Iron Hammer
@@ -134,7 +133,7 @@ gregtechmod.armor.lithium_batpack.name=Lithium-Batpack
 gregtechmod.armor.ultimate_cheat_armor.name=Ultimate Cheat Armor
 gregtechmod.armor.light_helmet.name=Light Helmet
 gregtechmod.item.destructorpack.name=Destructorpack
-gregtechmod.item.lapotronic_energy_orb=Lapotronic Energy Orb
+gregtechmod.item.lapotronic_energy_orb.name=Lapotronic Energy Orb
 gregtechmod.item.ruby.name=Ruby
 gregtechmod.item.sapphire.name=Sapphire
 gregtechmod.item.green_sapphire.name=Green Sapphire

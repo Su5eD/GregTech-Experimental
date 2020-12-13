@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class ItemCrowbar extends ItemToolBase {
 
     public ItemCrowbar(String name, String description, int durability, int attackDamage) {
-        super(name, description, durability, attackDamage, ToolMaterial.IRON);
+        super(name, description, durability, attackDamage);
     }
 
     @Override

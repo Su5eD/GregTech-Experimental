@@ -20,15 +20,25 @@ public class ItemBase extends Item implements IModelInfoProvider {
     protected String folder;
     protected boolean hasEffect;
     protected boolean isEnchantable;
+    protected boolean showDurability = true;
 
     public ItemBase(String name, @Nullable String description) {
         this(name, description, false);
     }
 
     public ItemBase(String name, @Nullable String description, boolean hasEffect) {
+        this(name, description, 0, hasEffect);
+    }
+
+    public ItemBase(String name, @Nullable String description, int durability) {
+        this(name, description, durability, false);
+    }
+
+    public ItemBase(String name, @Nullable String description, int durability, boolean hasEffect) {
         this.name = name;
         this.toolTip = description;
         this.hasEffect = hasEffect;
+        setMaxDamage(durability - 1);
     }
 
     public ItemBase setFolder(String folder) {
@@ -61,9 +71,15 @@ public class ItemBase extends Item implements IModelInfoProvider {
         return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, this.folder));
     }
 
+    protected final String getDurabilityInfo(ItemStack stack) {
+        if (stack.getMaxDamage() > 0) return (stack.getMaxDamage() - stack.getItemDamage() + 1) + " / " + (stack.getMaxDamage() + 1);
+        else return "";
+    }
+
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (stack.getMaxDamage() > 0) tooltip.add((stack.getMaxDamage() - stack.getItemDamage()) + " / " + stack.getMaxDamage());
+        String durability = getDurabilityInfo(stack);
+        if (this.showDurability && !durability.isEmpty()) tooltip.add(durability);
         if (this.toolTip != null) tooltip.add(this.toolTip);
     }
 

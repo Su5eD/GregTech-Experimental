@@ -5,7 +5,7 @@ import ic2.core.block.wiring.TileEntityCable;
 import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.items.base.ItemCraftingTool;
+import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import mods.gregtechmod.util.ReflectionUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -21,10 +21,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemSprayHardener extends ItemCraftingTool {
+public class ItemSprayHardener extends ItemToolCrafting {
 
     public ItemSprayHardener() {
-        super("spray_hardener", "Construction Foam Hardener", 256, 0, ToolMaterial.IRON, 16, 0);
+        super("spray_hardener", "Construction Foam Hardener", 256, 0, 16, 0);
         setRegistryName("spray_hardener");
         setTranslationKey("spray_hardener");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

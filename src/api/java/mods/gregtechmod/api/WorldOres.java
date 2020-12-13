@@ -30,7 +30,7 @@ public enum WorldOres {
     sphalerite_small("sphalerite", GregTechConfig.WORLDGEN.sphalerite_small, DimensionType.NETHER, 8, 8, 2, 32, 96),
     sphalerite_medium("sphalerite", GregTechConfig.WORLDGEN.sphalerite_medium, DimensionType.NETHER, 4, 12, 4, 32, 96),
     sphalerite_large("sphalerite", GregTechConfig.WORLDGEN.sphalerite_large, DimensionType.NETHER, 2, 24, 8, 32, 96),
-    sphalerite_huge("sphalerite", GregTechConfig.WORLDGEN.sphalerite_large, DimensionType.NETHER, 1, 32, 16, 32, 96),
+    sphalerite_huge("sphalerite", GregTechConfig.WORLDGEN.sphalerite_huge, DimensionType.NETHER, 1, 32, 16, 32, 96),
     tungstate(GregTechConfig.WORLDGEN.tungstate, DimensionType.THE_END, 4, 16),
     sheldonite(GregTechConfig.WORLDGEN.sheldonite, DimensionType.THE_END, 1, 4),
     olivine(GregTechConfig.WORLDGEN.olivine, DimensionType.THE_END, 5, 8),

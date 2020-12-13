@@ -512,7 +512,7 @@ public class BlockItems {
 
     public enum Upgrades {
         hv_transformer(GtUpgradeType.transformer, 2, 3, "Higher tier of the transformer upgrade", "craftingHVTUpgrade", (stack, machine) -> machine.getTier() < 5, (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier()+stack.getCount(), 5))),
-        lithium_battery(GtUpgradeType.battery, 4, 1, "Adds 100000 EU to the energy capacity", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
+        lithium_battery(GtUpgradeType.battery, 4, 1, "Adds 100000 EU to the energy capacity", "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
         energy_crystal(GtUpgradeType.battery, 4, 2, "Adds 100000 EU to the energy capacity", "crafting100kEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
         lapotron_crystal(GtUpgradeType.battery, 4, 3, "Adds 1 Million EU to the energy capacity", "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(1000000*stack.getCount()))),
         energy_orb(GtUpgradeType.battery, 4, 4, "Adds 10 Million EU to the energy capacity", "crafting10kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(1000000*stack.getCount()))),
@@ -823,16 +823,18 @@ public class BlockItems {
     }
 
     public enum Wrenches {
-        iron(128),
-        bronze(256),
-        steel(1280),
-        tungsten_steel(5120);
+        iron(128, 4),
+        bronze(256, 6),
+        steel(512, 8),
+        tungsten_steel(5120, 10);
 
         private Item instance;
         public final int durability;
+        public final int entityDamage;
 
-        Wrenches(int durability) {
+        Wrenches(int durability, int entityDamage) {
             this.durability = durability;
+            this.entityDamage = entityDamage;
         }
 
         /**
@@ -884,20 +886,18 @@ public class BlockItems {
     }
 
     public enum Hammers {
-        iron(128, 4, Item.ToolMaterial.IRON),
-        bronze(256, 6, Item.ToolMaterial.IRON),
-        steel(512, 8, Item.ToolMaterial.IRON),
-        tungsten_steel(5120, 10, Item.ToolMaterial.IRON);
+        iron(128, 4),
+        bronze(256, 6),
+        steel(512, 8),
+        tungsten_steel(5120, 10);
 
         private Item instance;
         public final int durability;
         public final int entityDamage;
-        public final Item.ToolMaterial toolMaterial;
 
-        Hammers(int durability, int entityDamage, Item.ToolMaterial toolMaterial) {
+        Hammers(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
-            this.toolMaterial = toolMaterial;
         }
 
         /**
@@ -914,22 +914,20 @@ public class BlockItems {
     }
 
     public enum Saws {
-        iron(128, 3, 2, Item.ToolMaterial.IRON),
-        bronze(256, 4, 3, Item.ToolMaterial.IRON),
-        steel(1280, 6, 4, Item.ToolMaterial.IRON),
-        tungsten_steel(5120, 8, 5, Item.ToolMaterial.DIAMOND);
+        iron(128, 3, 2),
+        bronze(256, 4, 3),
+        steel(1280, 6, 4),
+        tungsten_steel(5120, 8, 5);
 
         private Item instance;
         public final int durability;
         public final int efficiency;
         public final int entityDamage;
-        public final Item.ToolMaterial toolMaterial;
 
-        Saws(int durability, int efficiency, int entityDamage, Item.ToolMaterial toolMaterial) {
+        Saws(int durability, int efficiency, int entityDamage) {
             this.durability = durability;
             this.efficiency = efficiency;
             this.entityDamage = entityDamage;
-            this.toolMaterial = toolMaterial;
         }
 
         /**
@@ -1100,8 +1098,8 @@ public class BlockItems {
     }
 
     public enum Armor {
-        cloaking_device(EntityEquipmentSlot.CHEST, 100000000, 8192, 5, 0, 0, false, ArmorPerk.invisibility_field),
-        lapotronpack(EntityEquipmentSlot.CHEST, 100000000, 8192, 5, 0, 0, true, "crafting10kkEUPack"),
+        cloaking_device(EntityEquipmentSlot.CHEST, 10000000, 8192, 4, 0, 0, false, ArmorPerk.invisibility_field),
+        lapotronpack(EntityEquipmentSlot.CHEST, 10000000, 8192, 4, 0, 0, true, "crafting10kkEUPack"),
         lithium_batpack(EntityEquipmentSlot.CHEST, 600000, 128, 1, 0, 0, true, "crafting600kEUPack"),
         ultimate_cheat_armor(EntityEquipmentSlot.CHEST, 1000000000, Integer.MAX_VALUE, 1, 10, 100, true, EnumSet.allOf(ArmorPerk.class).toArray(new ArmorPerk[0])),
         light_helmet(EntityEquipmentSlot.HEAD, 10000, 32, 1, 0, 0, false, ArmorPerk.lamp, ArmorPerk.solarpanel);
@@ -1160,8 +1158,8 @@ public class BlockItems {
         red_garnet("(Al2Mg3Si3O12)3(Al2Fe3Si3O12)5(Al2Mn3Si3O12)8", "gemGarnetRed"),
         yellow_garnet("(Ca3Fe2Si3O12)5(Ca3Al2Si3O12)8(Ca3Cr2Si3O12)3", "gemGarnetYellow"),
         indigo_blossom,
-        indigo_dye("dyeBlue"),
-        flour("dustWheat"),
+        indigo_dye(null, "dyeBlue"),
+        flour(null, "dustWheat"),
         spray_can_empty("Used for making Sprays and storing Colors", "craftingSprayCan");
 
         private Item instance;

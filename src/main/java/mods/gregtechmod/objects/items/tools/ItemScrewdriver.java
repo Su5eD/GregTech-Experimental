@@ -24,7 +24,13 @@ import java.util.List;
 public class ItemScrewdriver extends ItemToolBase {
 
     public ItemScrewdriver(String name, String description, int durability, int attackDamage) {
-        super(name, description, durability, attackDamage, ToolMaterial.IRON);
+        super(name, description, durability, attackDamage);
+        this.effectiveAganist.add("minecraft:spider");
+        this.effectiveAganist.add("minecraft:cave_spider");
+        this.effectiveAganist.add("twilightforest:hedge_spider");
+        this.effectiveAganist.add("twilightforest:king_spider");
+        this.effectiveAganist.add("twilightforest:swarm_spider");
+        this.effectiveAganist.add("twilightforest:tower_broodling");
     }
 
     @Override

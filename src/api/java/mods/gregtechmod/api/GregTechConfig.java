@@ -89,38 +89,66 @@ public class GregTechConfig {
         public boolean retrogen = true;
         public boolean generateInVoid = false;
 
+        @Config.RequiresMcRestart
         public boolean galena = true;
+        @Config.RequiresMcRestart
         public boolean iridium = true;
+        @Config.RequiresMcRestart
         public boolean ruby = true;
+        @Config.RequiresMcRestart
         public boolean sapphire = true;
+        @Config.RequiresMcRestart
         public boolean bauxite = true;
+        @Config.RequiresMcRestart
         public boolean tetrahedrite = true;
+        @Config.RequiresMcRestart
         public boolean cassiterite = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_overworld = true;
 
+        @Config.RequiresMcRestart
         public boolean tungstate = true;
+        @Config.RequiresMcRestart
         public boolean sheldonite = true;
+        @Config.RequiresMcRestart
         public boolean olivine = true;
+        @Config.RequiresMcRestart
         public boolean sodalite = true;
 
+        @Config.RequiresMcRestart
         public boolean pyrite_tiny = true;
+        @Config.RequiresMcRestart
         public boolean pyrite_small = true;
+        @Config.RequiresMcRestart
         public boolean pyrite_medium = true;
+        @Config.RequiresMcRestart
         public boolean pyrite_large = true;
+        @Config.RequiresMcRestart
         public boolean pyrite_huge = true;
 
+        @Config.RequiresMcRestart
         public boolean cinnabar_tiny = true;
+        @Config.RequiresMcRestart
         public boolean cinnabar_small = true;
+        @Config.RequiresMcRestart
         public boolean cinnabar_medium = true;
+        @Config.RequiresMcRestart
         public boolean cinnabar_large = false;
+        @Config.RequiresMcRestart
         public boolean cinnabar_huge = false;
 
+        @Config.RequiresMcRestart
         public boolean sphalerite_tiny = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_small = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_medium = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_large = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_huge = true;
 
+        @Config.RequiresMcRestart
         public boolean endAsteroids = true;
     }
 
