@@ -1,14 +1,18 @@
 package mods.gregtechmod.recipe;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 
-public abstract class Recipe<I, O> implements IGtMachineRecipe<I, O> {
+public class Recipe<I, O> implements IGtMachineRecipe<I, O> {
     protected final I input;
     protected final O output;
     protected final double energyCost;
     protected final int duration;
 
-    public Recipe(I input, O output, double energyCost, int duration) {
+    public Recipe(@JsonProperty(value = "input", required = true) I input,
+                  @JsonProperty(value = "input", required = true) O output,
+                  @JsonProperty(value = "input", required = true) double energyCost,
+                  @JsonProperty(value = "input", required = true) int duration) {
         this.input = input;
         this.output = output;
         this.energyCost = energyCost;

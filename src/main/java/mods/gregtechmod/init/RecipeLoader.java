@@ -9,6 +9,8 @@ import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
+import mods.gregtechmod.recipe.RecipeFactory;
+import mods.gregtechmod.recipe.manager.RecipeManagerAssembler;
 import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
 import mods.gregtechmod.util.ItemStackDeserializer;
 import mods.gregtechmod.util.RecipeType;
@@ -29,6 +31,7 @@ public class RecipeLoader {
 
     public static void load() {
         GregTechAPI.logger.info("Loading machine recipes");
+        GregTechAPI.recipeFactory = new RecipeFactory();
         try {
             File modFile = Loader.instance().activeModContainer().getSource();
             FileSystem fs = FileSystems.newFileSystem(modFile.toPath(), null);
@@ -42,6 +45,8 @@ public class RecipeLoader {
             GtRecipes.industrial_centrifuge = new RecipeManagerCentrifuge();
             RecipeLoader.parseRecipe("industrial_centrifuge", RecipeCentrifuge.class, RecipeType.Default.class, gtConfig)
                     .ifPresent(recipes -> GtRecipes.industrial_centrifuge.getRecipes().addAll(recipes));
+
+            GtRecipes.assembler = new RecipeManagerAssembler();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +69,7 @@ public class RecipeLoader {
     private static Path relocateRecipeConfig(Path source) {
         try {
             DirectoryStream<Path> stream = Files.newDirectoryStream(source);
-            File configDir = new File(GregTechMod.configDir.toURI().getPath()+"/GregTech");
+            File configDir = new File(GregTechMod.configDir.toURI().getPath()+"/GregTech/machine recipes");
             configDir.mkdirs();
             for(Path path : stream) {
                 GregTechAPI.logger.debug("Copying recipe config: "+path.getFileName());

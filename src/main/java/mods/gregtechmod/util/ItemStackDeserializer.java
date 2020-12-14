@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import ic2.api.item.IC2Items;
 import ic2.core.ref.IMultiItem;
+import mods.gregtechmod.api.GregTechAPI;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,6 +29,7 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
             Item item = IC2Items.getItemAPI().getItem(parts[0].split(":")[1]);
             if (item instanceof IMultiItem) {
                 ItemStack stack = ((IMultiItem<?>) item).getItemStack(parts[1]);
+                if (stack == null) GregTechAPI.logger.info(((IMultiItem<?>) item).getItemStack("superheated_steam").getItem());
                 stack.setCount(count);
                 return stack;
             }

@@ -53,7 +53,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
     public static void init() {
         List<ItemStack> lavaRecipeOutput = Arrays.asList(IC2Items.getItem("ingot", "tin"),
                 new ItemStack(BlockItems.Ingots.electrum.getInstance(), 2));
-        lavaRecipe = new RecipeCentrifuge(null, lavaRecipeOutput, 200, 0);
+        lavaRecipe = RecipeCentrifuge.create(null, lavaRecipeOutput, 0, 200);
     }
 
     @Override

@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Comparator;
 
-public class RecipeManagerCentrifuge extends RecipeManager<ItemStack, IRecipeCentrifuge, Integer> implements IRecipeManagerCentrifuge {
+public class RecipeManagerCentrifuge extends RecipeManager<ItemStack, IRecipeCentrifuge> implements IRecipeManagerCentrifuge {
 
     public RecipeManagerCentrifuge() {
         super(new CentrifugeRecipeComparator());
@@ -18,7 +18,7 @@ public class RecipeManagerCentrifuge extends RecipeManager<ItemStack, IRecipeCen
     @Override
     public IRecipeCentrifuge getRecipeFor(ItemStack input, int cells) {
         for (IRecipeCentrifuge recipe : this.recipes) {
-            if (recipe.getInput().isItemEqual(input) && (cells >= 0 == cells >= recipe.getCells())) return recipe;
+            if (recipe.getInput().isItemEqual(input) && recipe.getInput().getCount() <= input.getCount() && (cells < 0 || cells >= recipe.getCells())) return recipe;
         }
         return null;
     }
