@@ -16,10 +16,14 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import java.io.IOException;
 
 public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
+    public static final ItemStackDeserializer INSTANCE = new ItemStackDeserializer();
+
     @Override
     public ItemStack deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException {
-        JsonNode node = parser.getCodec().readTree(parser);
+        return deserialize(parser.getCodec().readTree(parser));
+    }
 
+    public ItemStack deserialize(JsonNode node) {
         String name = node.get("item").asText();
         int count = node.has("count") ? node.get("count").asInt(1) : 1;
         int meta = node.has("meta") ? node.get("meta").asInt(0) : 0;
@@ -29,7 +33,10 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
             Item item = IC2Items.getItemAPI().getItem(parts[0].split(":")[1]);
             if (item instanceof IMultiItem) {
                 ItemStack stack = ((IMultiItem<?>) item).getItemStack(parts[1]);
-                if (stack == null) GregTechAPI.logger.info(((IMultiItem<?>) item).getItemStack("superheated_steam").getItem());
+                if (stack == null) {
+                    GregTechAPI.logger.error("MultiItem " + name + " not found");
+                    return ItemStack.EMPTY;
+                }
                 stack.setCount(count);
                 return stack;
             }

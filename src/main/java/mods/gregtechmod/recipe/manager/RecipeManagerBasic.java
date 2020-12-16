@@ -1,12 +1,12 @@
 package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
-import mods.gregtechmod.util.ItemStackComparator;
+import mods.gregtechmod.api.recipe.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import java.util.Comparator;
 
-public class RecipeManagerBasic<R extends IGtMachineRecipe<ItemStack, ?>> extends RecipeManager<ItemStack, R> {
+public class RecipeManagerBasic<R extends IGtMachineRecipe<IRecipeIngredient, ?>> extends RecipeManager<IRecipeIngredient, ItemStack, R> {
 
     public RecipeManagerBasic() {
         super(new RecipeComparator<>());
@@ -19,16 +19,30 @@ public class RecipeManagerBasic<R extends IGtMachineRecipe<ItemStack, ?>> extend
     @Override
     public R getRecipeFor(ItemStack input) {
         for (R recipe : this.recipes) {
-            if (recipe.getInput().isItemEqual(input) && recipe.getInput().getCount() <= input.getCount()) return recipe;
+            if (recipe.getInput().apply(input)) return recipe;
         }
         return null;
     }
 
-    private static class RecipeComparator<T extends IGtMachineRecipe<ItemStack, ?>> implements Comparator<T> {
+    @Override
+    public boolean hasRecipeFor(ItemStack input) {
+        for (R recipe : this.recipes) {
+            if (recipe.getInput().asIngredient().apply(input)) return true;
+        }
+        return false;
+    }
+
+    private static class RecipeComparator<T extends IGtMachineRecipe<IRecipeIngredient, ?>> implements Comparator<T> {
 
         @Override
         public int compare(T first, T second) {
-            return ItemStackComparator.INSTANCE.compare(first.getInput(), second.getInput());
+            int ret = 0;
+            for (ItemStack firstInput : first.getInput().getMatchingInputs()) {
+                for (ItemStack secondInput : second.getInput().getMatchingInputs()) {
+                    ret += firstInput.getItem().getRegistryName().compareTo(secondInput.getItem().getRegistryName());
+                }
+            }
+            return ret;
         }
     }
 }

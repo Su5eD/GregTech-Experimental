@@ -1,12 +1,15 @@
 package mods.gregtechmod.recipe.manager;
 
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
+import mods.gregtechmod.api.recipe.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
+import mods.gregtechmod.util.ItemStackComparator;
 import net.minecraft.item.ItemStack;
 
 import java.util.Comparator;
 
-public class RecipeManagerCentrifuge extends RecipeManager<ItemStack, IRecipeCentrifuge> implements IRecipeManagerCentrifuge {
+public class RecipeManagerCentrifuge extends RecipeManager<IRecipeIngredient, ItemStack, IRecipeCentrifuge> implements IRecipeManagerCentrifuge {
 
     public RecipeManagerCentrifuge() {
         super(new CentrifugeRecipeComparator());
@@ -18,21 +21,35 @@ public class RecipeManagerCentrifuge extends RecipeManager<ItemStack, IRecipeCen
     @Override
     public IRecipeCentrifuge getRecipeFor(ItemStack input, int cells) {
         for (IRecipeCentrifuge recipe : this.recipes) {
-            if (recipe.getInput().isItemEqual(input) && recipe.getInput().getCount() <= input.getCount() && (cells < 0 || cells >= recipe.getCells())) return recipe;
+            if (recipe.getInput().apply(input) && (cells < 0 || cells >= recipe.getCells())) return recipe;
         }
         return null;
+    }
+
+    @Override
+    public boolean hasRecipeFor(ItemStack input) {
+        for (IRecipeCentrifuge recipe : this.recipes) {
+            if (recipe.getInput().asIngredient().apply(input)) return true;
+        }
+        return false;
     }
 
     private static class CentrifugeRecipeComparator implements Comparator<IRecipeCentrifuge> {
 
         @Override
         public int compare(IRecipeCentrifuge first, IRecipeCentrifuge second) {
-            int nameDiff = first.getInput().getItem().getRegistryName().compareTo(second.getInput().getItem().getRegistryName());
-            int inputCountDiff = second.getInput().getCount() - first.getInput().getCount();
+            int itemdiff = 0;
+            IRecipeIngredient firstInput = first.getInput();
+            IRecipeIngredient secondInput = second.getInput();
+            for (ItemStack firstStack : firstInput.getMatchingInputs()) {
+                for (ItemStack secondStack : secondInput.getMatchingInputs()) {
+                    itemdiff += ItemStackComparator.INSTANCE.compare(StackUtil.setSize(firstStack, firstInput.getCount()), StackUtil.setSize(secondStack, secondInput.getCount()));
+                }
+            }
             int cellsDiff = second.getCells() - first.getCells();
 
-            int total = nameDiff + inputCountDiff;
-            if (inputCountDiff == 0) total += cellsDiff;
+            int total = itemdiff;
+            if (itemdiff == 0) total += cellsDiff;
 
             return total;
         }

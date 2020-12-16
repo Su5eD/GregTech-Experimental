@@ -4,22 +4,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
+import mods.gregtechmod.api.recipe.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RecipeCentrifuge extends Recipe<ItemStack, Collection<ItemStack>> implements IRecipeCentrifuge {
+public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemStack>> implements IRecipeCentrifuge {
     private final int cells;
 
-    private RecipeCentrifuge(ItemStack input, List<ItemStack> output, int cells, int duration) {
+    private RecipeCentrifuge(IRecipeIngredient input, List<ItemStack> output, int cells, int duration) {
         super(input, output, 5, duration);
         this.cells = cells;
     }
 
     @JsonCreator
-    public static RecipeCentrifuge create(@JsonProperty(value = "input", required = true) ItemStack input,
+    public static RecipeCentrifuge create(@JsonProperty(value = "input", required = true) IRecipeIngredient input,
                                           @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                           @JsonProperty(value = "cells") int cells,
                                           @JsonProperty(value = "duration", required = true) int duration) {

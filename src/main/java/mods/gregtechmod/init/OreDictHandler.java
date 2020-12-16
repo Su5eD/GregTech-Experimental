@@ -1,6 +1,5 @@
 package mods.gregtechmod.init;
 
-import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import net.minecraft.item.ItemStack;
@@ -15,19 +14,12 @@ import java.util.List;
 public class OreDictHandler {
     private List<OreDictionary.OreRegisterEvent> events = new ArrayList<>();
 
-    private List<String> ignoredNames = Arrays.asList("naquadah", "brickXyEngineering", "breederUranium", "diamondNugget", "infiniteBattery", "superconductor", "itemCharcoalSugar", "aluminumWire", "aluminiumWire", "silverWire",
+    private final List<String> ignoredNames = Arrays.asList("naquadah", "brickXyEngineering", "breederUranium", "diamondNugget", "infiniteBattery", "superconductor", "itemCharcoalSugar", "aluminumWire", "aluminiumWire", "silverWire",
             "tinWire", "eliteBattery", "advancedBattery", "transformer", "coil", "wireMill", "multimeter", "itemMultimeter", "chunkLazurite", "itemRecord", "aluminumNatural", "aluminiumNatural", "naturalAluminum", "naturalAluminium",
             "antimatterMilligram", "antimatterGram", "strangeMatter", "HSLivingmetalIngot", "oilMoving", "oilStill", "oilBucket", "orePetroleum", "dieselFuel", "lava", "water", "obsidianRod", "motor", "wrench", "coalGenerator",
             "electricFurnace", "ironTube", "netherTube", "obbyTube", "valvePart", "aquaRegia", "leatherSeal", "leatherSlimeSeal", "enrichedUranium", "batteryInfinite", "itemSuperconductor", "camoPaste", "CAMO_PASTE");
 
-    private List<String> validPrefixes = Arrays.asList("crafting", "ore", "oreNether", "oreEnd", "netherOre", "endOre", "stone", "pulp", "dust", "dustSmall", "dustTiny", "nugget", "ingot", "gem", "log", "tree", "flower",
-            "item", "wax", "brick", "plank", "sand", "glass", "dye", "slab", "stair", "stick", "clump", "paper", "book", "seed", "material", "storage", "tool", "crop", "list", "lumar", "plasma_", "molecule_");
-
     private boolean activated = false;
-
-    public OreDictHandler() {
-
-    }
 
     @SubscribeEvent
     public void registerOre(OreDictionary.OreRegisterEvent event) {
@@ -35,188 +27,147 @@ public class OreDictHandler {
         String name = event.getName();
         ItemStack ore = event.getOre();
 
-        if (ore.getCount() != 1) GregTechAPI.logger.error("'" + name + "' is either being misused by another Mod or has been wrongly registered, as the stackSize of the Event-Stack is not 1.");
+        if (ore.getCount() != 1) GregTechAPI.logger.error("'" + name + "' is either being misused by another Mod or has been wrongly registered, as the stackSize of the Event-Stack is not 1");
         event.getOre().setCount(1);
 
         if (name.toLowerCase().contains("xych") || name.toLowerCase().contains("xyore") || name.toLowerCase().contains("aluminum")) return;
 
-        if (this.validPrefixes.contains(name)) {
-            GregTechAPI.logger.error("'" + name + "' is an invalid OreDictionary Name, as it is identical to the prefix '" + name + "'!");
-            return;
+        switch (name) {
+            case "blueDye":
+                GregTechAPI.logger.error("'blueDye'?, Are you sure that it shouldn't be using the more valid Name 'dyeBlue'?");
+                return;
+            case "sapling":
+                GregTechAPI.logger.error("'sapling'?, Are you sure that it shouldn't be using the more valid Name 'treeSapling'?");
+                return;
+            case "saplingPalm":
+                GregTechAPI.logger.error("'saplingPalm'?, Are you sure that it shouldn't be using the more valid Name 'treeSaplingPalm'?");
+                return;
+            case "leaves":
+                GregTechAPI.logger.error("'leaves'?, Are you sure that it shouldn't be using the more valid Name 'treeLeaves'?");
+                return;
+            case "leavesPalm":
+                GregTechAPI.logger.error("'leavesPalm'?, Are you sure that it shouldn't be using the more valid Name 'treeLeavesPalm'?");
+                return;
+            case "battery":
+                ore.setItemDamage(OreDictionary.WILDCARD_VALUE);
+                OreDictUnificator.registerOre("crafting10kEUStore", ore);
+                return;
+            case "basicCircuit":
+            case "circuitBasic":
+                OreDictUnificator.registerOre("craftingCircuitTier02", ore);
+                return;
+            case "advancedCircuit":
+            case "circuitAdvanced":
+                OreDictUnificator.registerOre("craftingCircuitTier04", ore);
+                return;
+            case "eliteCircuit":
+            case "circuitElite":
+                OreDictUnificator.registerOre("craftingCircuitTier06", ore);
+                return;
+            case "basalt":
+                OreDictUnificator.registerOre("stoneBasalt", ore);
+                return;
+            case "marble":
+                OreDictUnificator.registerOre("stoneMarble", ore);
+                return;
+            case "mossystone":
+                OreDictUnificator.registerOre("stoneMossy", ore);
+                return;
+            case "MonazitOre":
+                OreDictUnificator.registerOre("oreMonazit", ore);
+                return;
+            case "blockQuickSilver":
+                OreDictUnificator.registerOre("blockQuicksilver", ore);
+                return;
+            case "ingotQuickSilver":
+                OreDictUnificator.registerOre("ingotQuicksilver", ore);
+                return;
+            case "dustQuickSilver":
+                OreDictUnificator.registerOre("dustQuicksilver", ore);
+                return;
+            case "itemQuickSilver":
+                OreDictUnificator.registerOre("itemQuicksilver", ore);
+                return;
+            case "dustCharCoal":
+                OreDictUnificator.registerOre("dustCharcoal", ore);
+                return;
+            case "quartzCrystal":
+            case "quartz":
+                OreDictUnificator.registerOre("crystalQuartz", ore);
+                return;
+            case "woodGas":
+                OreDictUnificator.registerOre("gasWood", ore);
+                return;
+            case "woodLog":
+                OreDictUnificator.registerOre("logWood", ore);
+                return;
+            case "pulpWood":
+                OreDictUnificator.registerOre("dustWood", ore);
+                return;
+            case "blockCobble":
+                OreDictUnificator.registerOre("stoneCobble", ore);
+                return;
+            case "itemCopperWire":
+                OreDictUnificator.registerOre("calclavia:WIRE", ore);
+                return;
+            case "copperWire":
+                OreDictUnificator.registerOre("calclavia:WIRE", ore);
+                return;
+            case "gemPeridot":
+                OreDictUnificator.registerOre("gemOlivine", ore);
+                return;
+            case "dustPeridot":
+                OreDictUnificator.registerOre("dustOlivine", ore);
+                return;
+            case "dustDiamond":
+            case "gemDiamond":
+                OreDictUnificator.registerOre("itemDiamond", ore);
+                break;
+            case "dustLapis":
+            case "dustLapisLazuli":
+            case "dustLazurite":
+                OreDictUnificator.registerOre("itemLazurite", ore);
+                break;
+            case "dustQuicksilver":
+            case "ingotQuicksilver":
+                OreDictUnificator.registerOre("itemQuicksilver", ore);
+                break;
+            case "craftingRawMachineTier01":
+                OreDictUnificator.registerOre("craftingRawMachineTier00", ore);
+                break;
+            case "dustSulfur":
+                OreDictUnificator.registerOre("craftingSulfurToGunpowder", ore);
+                break;
+            case "dustSaltpeter":
+                OreDictUnificator.registerOre("craftingSaltpeterToGunpowder", ore);
+                break;
+            case "crystalQuartz":
+            case "crystalNetherQuartz":
+            case "crystalCertusQuartz":
+            case "dustQuartz":
+            case "dustCertusQuartz":
+            case "dustNetherQuartz":
+            case "ingotQuartz":
+            case "ingotNetherQuartz":
+            case "ingotCertusQuartz":
+                OreDictUnificator.registerOre("craftingQuartz", ore);
+                break;
         }
 
-        if (name.startsWith("itemDust")) {
-            GregTechAPI.logger.error("'" + name + "' is an invalid OreDictionary Name, as it uses the prefix 'itemDust' instead of 'dust'. It will be re-registered with the correct 'dust'-prefix, and then be thrown into the recycle Bin to become Scrap.");
-            OreDictUnificator.registerOre(name.replaceFirst("itemDust", "dust"), ore.copy());
-            ore = IC2Items.getItem("crafting", "scrap");
-            ore.setStackDisplayName("Invalid OreDictionary Tag");
-            return;
-        }
-
-        if (name.equals("blueDye")) {
-            GregTechAPI.logger.error("'blueDye'?, Are you sure that it shouldn't be using the more valid Name 'dyeBlue'?");
-            return;
-        }
-        else if (name.equals("sapling")) {
-            GregTechAPI.logger.error("'sapling'?, Are you sure that it shouldn't be using the more valid Name 'treeSapling'?");
-            return;
-        }
-        else if (name.equals("saplingPalm")) {
-            GregTechAPI.logger.error("'saplingPalm'?, Are you sure that it shouldn't be using the more valid Name 'treeSaplingPalm'?");
-            return;
-        }
-        else if (name.equals("leaves")) {
-            GregTechAPI.logger.error("'leaves'?, Are you sure that it shouldn't be using the more valid Name 'treeLeaves'?");
-            return;
-        }
-        else if (name.equals("leavesPalm")) {
-            GregTechAPI.logger.error("'leavesPalm'?, Are you sure that it shouldn't be using the more valid Name 'treeLeavesPalm'?");
-            return;
-        }
-        
-        if (name.equals("battery")) {
-            ore.setItemDamage(OreDictionary.WILDCARD_VALUE);
-            OreDictUnificator.registerOre("crafting10kEUStore", ore);
-            return;
-        }
-        else if (name.equals("basicCircuit")) {
-            OreDictUnificator.registerOre("craftingCircuitTier02", ore);
-            return;
-        }
-        else if (name.equals("advancedCircuit")) {
-            OreDictUnificator.registerOre("craftingCircuitTier04", ore);
-            return;
-        }
-        else if (name.equals("eliteCircuit")) {
-            OreDictUnificator.registerOre("craftingCircuitTier06", ore);
-            return;
-        }
-        else if (name.equals("circuitBasic")) {
-            OreDictUnificator.registerOre("craftingCircuitTier02", ore);
-            return;
-        }
-        else if (name.equals("circuitAdvanced")) {
-            OreDictUnificator.registerOre("craftingCircuitTier04", ore);
-            return;
-        }
-        else if (name.equals("circuitElite")) {
-            OreDictUnificator.registerOre("craftingCircuitTier06", ore);
-            return;
-        }
-        else if (name.equals("basalt")) {
-            OreDictUnificator.registerOre("stoneBasalt", ore);
-            return;
-        }
-        else if (name.equals("marble")) {
-            OreDictUnificator.registerOre("stoneMarble", ore);
-            return;
-        }
-        else if (name.equals("mossystone")) {
-            OreDictUnificator.registerOre("stoneMossy", ore);
-            return;
-        }
-        else if (name.equals("MonazitOre")) {
-            OreDictUnificator.registerOre("oreMonazit", ore);
-            return;
-        }
-        else if (name.equals("blockQuickSilver")) {
-            OreDictUnificator.registerOre("blockQuicksilver", ore);
-            return;
-        }
-        else if (name.equals("ingotQuickSilver")) {
-            OreDictUnificator.registerOre("ingotQuicksilver", ore);
-            return;
-        }
-        else if (name.equals("dustQuickSilver")) {
-            OreDictUnificator.registerOre("dustQuicksilver", ore);
-            return;
-        }
-        else if (name.equals("itemQuickSilver")) {
-            OreDictUnificator.registerOre("itemQuicksilver", ore);
-            return;
-        }
-        else if (name.equals("dustCharCoal")) {
-            OreDictUnificator.registerOre("dustCharcoal", ore);
-            return;
-        }
-        else if (name.equals("quartzCrystal")) {
-            OreDictUnificator.registerOre("crystalQuartz", ore);
-            return;
-        }
-        else if (name.equals("quartz")) {
-            OreDictUnificator.registerOre("crystalQuartz", ore);
-            return;
-        }
-        else if (name.equals("woodGas")) {
-            OreDictUnificator.registerOre("gasWood", ore);
-            return;
-        }
-        else if (name.equals("woodLog")) {
-            OreDictUnificator.registerOre("logWood", ore);
-            return;
-        }
-        else if (name.equals("pulpWood")) {
-            OreDictUnificator.registerOre("dustWood", ore);
-            return;
-        }
-        else if (name.equals("blockCobble")) {
-            OreDictUnificator.registerOre("stoneCobble", ore);
-            return;
-        }
-        else if (name.equals("itemCopperWire")) {
-            OreDictUnificator.registerOre("calclavia:WIRE", ore);
-            return;
-        }
-        else if (name.equals("copperWire")) {
-            OreDictUnificator.registerOre("calclavia:WIRE", ore);
-            return;
-        }
-        else if (name.equals("gemPeridot")) {
-            OreDictUnificator.registerOre("gemOlivine", ore);
-            return;
-        }
-        else if (name.equals("dustPeridot")) {
-            OreDictUnificator.registerOre("dustOlivine", ore);
-            return;
-        }
-        else if (name.startsWith("denseOre")) {
+        if (name.startsWith("denseOre")) {
             OreDictUnificator.registerOre(name.replaceFirst("denseOre", "oreDense"), ore);
             return;
-        }
-        else if (name.startsWith("netherOre")) {
+        } else if (name.startsWith("netherOre")) {
             OreDictUnificator.registerOre(name.replaceFirst("netherOre", "oreNether"), ore);
             return;
-        }
-        else if (name.startsWith("endOre")) {
+        } else if (name.startsWith("endOre")) {
             OreDictUnificator.registerOre(name.replaceFirst("endOre", "oreEnd"), ore);
             return;
-        }
-        else if (name.startsWith("itemDrop")) {
+        } else if (name.startsWith("itemDrop")) {
             OreDictUnificator.registerOre(name.replaceFirst("itemDrop", "item"), ore);
             return;
-        }
-
-        if (name.startsWith("stoneBlackGranite")) OreDictUnificator.registerOre("stoneGranite", ore);
+        } else if (name.startsWith("stoneBlackGranite")) OreDictUnificator.registerOre("stoneGranite", ore);
         else if (name.startsWith("stoneRedGranite")) OreDictUnificator.registerOre("stoneGranite", ore);
-        else if (name.equals("dustDiamond")) OreDictUnificator.registerOre("itemDiamond", ore);
-        else if (name.equals("gemDiamond")) OreDictUnificator.registerOre("itemDiamond", ore);
-        else if (name.equals("dustLapis")) OreDictUnificator.registerOre("itemLazurite", ore);
-        else if (name.equals("dustLapisLazuli")) OreDictUnificator.registerOre("itemLazurite", ore);
-        else if (name.equals("dustLazurite")) OreDictUnificator.registerOre("itemLazurite", ore);
-        else if (name.equals("dustQuicksilver")) OreDictUnificator.registerOre("itemQuicksilver", ore);
-        else if (name.equals("ingotQuicksilver")) OreDictUnificator.registerOre("itemQuicksilver", ore);
-        else if (name.equals("craftingRawMachineTier01")) OreDictUnificator.registerOre("craftingRawMachineTier00", ore);
-        else if (name.equals("dustSulfur")) OreDictUnificator.registerOre("craftingSulfurToGunpowder", ore);
-        else if (name.equals("dustSaltpeter")) OreDictUnificator.registerOre("craftingSaltpeterToGunpowder", ore);
-        else if (name.equals("crystalQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
-        else if (name.equals("crystalNetherQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
-        else if (name.equals("crystalCertusQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
-        else if (name.equals("dustQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
-        else if (name.equals("dustNetherQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
-        else if (name.equals("dustCertusQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
-        else if (name.equals("ingotQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
-        else if (name.equals("ingotNetherQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
-        else if (name.equals("ingotCertusQuartz")) OreDictUnificator.registerOre("craftingQuartz", ore);
 
         if (name.startsWith("plate") || name.startsWith("ore") || name.startsWith("dust") || name.startsWith("gem") || name.startsWith("ingot") || name.startsWith("nugget") || name.startsWith("block") || name.startsWith("stick")) OreDictUnificator.addAssociation(name, ore.copy());
         if (this.activated) {
@@ -237,14 +188,15 @@ public class OreDictHandler {
         if (ore.isEmpty()) return;
 
         ore.setCount(1);
-        int cellCount = 0, meta = ore.getItemDamage();
         Item item = ore.getItem();
+        int meta = ore.getItemDamage();
+        int cellCount = 0;
         String name = event.getName();
         ItemStack stack = new ItemStack(item, 1, meta);
         if (name.startsWith("plate") || name.startsWith("ore") || name.startsWith("dust") || name.startsWith("gem") || name.startsWith("ingot") || name.startsWith("nugget") || name.startsWith("block") || name.startsWith("stick")) OreDictUnificator.add(name, ore.copy());
-        
+
         if (name.startsWith("drop")) name = name.replaceFirst("drop", "item");
-        
+
         if (name.startsWith("stone")) {
             registerStoneRecipes(stack, name, event);
         } else if (name.startsWith("ore")) {
@@ -839,11 +791,11 @@ public class OreDictHandler {
         }*/
     }
 
-    private void registerStoneRecipes(ItemStack stack, String eventName, OreDictionary.OreRegisterEvent event) {
-        /*Item item = stack.getItem();
+    /*private void registerStoneRecipes(ItemStack stack, String eventName, OreDictionary.OreRegisterEvent event) {
+        Item item = stack.getItem();
 
         if (item instanceof ItemBlock) {
-            GregTechAPI.recipeManager.addJackHammerMinableBlock(((ItemBlock)item).getBlock());
+            GregTechAPI.jackHammerMinableBlocks.add(((ItemBlock)item).getBlock());
             if (stack.getMaxStackSize() > GregTechConfig.FEATURES.maxOtherBlockStackSize) item.setMaxStackSize(GregTechConfig.FEATURES.maxOtherBlockStackSize);
         }
 
@@ -854,7 +806,7 @@ public class OreDictHandler {
                     reinforcedStone.setCount(8);
                     ItemStack input = stack.copy();
                     input.setCount(8);
-                    GregTechAPI.recipeManager.addAssemblerRecipe(ore.copy(), input, reinforcedStone, 400, 4);
+                    GtRecipes.assembler.addRecipe(GregTechAPI.recipeFactory.makeAssemblerRecipe(ore.copy(), input, reinforcedStone, 400, 4));
                 }
             } else if (!eventName.startsWith("stoneBricks") && !eventName.startsWith("stoneMossy") && !eventName.startsWith("stoneCracked") && !eventName.startsWith("stoneChiseled") && !eventName.startsWith("stoneVanilla")) {
                 if (eventName.equals("stoneSand")) ModHandler.addPulverisationRecipe(stack, new ItemStack(Blocks.SAND), null, 10, false);
@@ -873,8 +825,8 @@ public class OreDictHandler {
                     else if (eventName.startsWith("stoneQuarried")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustMarble"), OreDictUnificator.get("dustMarble"), 10, false);
                 }
             }
-        }*/
-    }
+        }
+    }*/
 
     private void registerOreRecipes(ItemStack stack, String eventName, OreDictionary.OreRegisterEvent event) {
         /*boolean nether = false, end = false, dense = false;

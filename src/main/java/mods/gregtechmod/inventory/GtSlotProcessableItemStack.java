@@ -4,11 +4,12 @@ import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlotConsumable;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.IGtRecipeManager;
+import mods.gregtechmod.api.recipe.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<ItemStack, ?>> extends InvSlotConsumable {
+public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<IRecipeIngredient, ItemStack, ?>> extends InvSlotConsumable {
     protected final RM recipeManager;
 
     public GtSlotProcessableItemStack(IInventorySlotHolder<?> base, String name, int count, RM recipeManager) {
@@ -22,10 +23,10 @@ public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<ItemStack, ?
 
     @Override
     public boolean accepts(ItemStack stack) {
-        return this.recipeManager.getRecipeFor(stack) != null;
+        return this.recipeManager.hasRecipeFor(stack);
     }
 
-    public void consume(@Nonnull IGtMachineRecipe<ItemStack, ?> recipe) {
+    public void consume(@Nonnull IGtMachineRecipe<IRecipeIngredient, ?> recipe) {
         this.consume(recipe.getInput().getCount());
     }
 }

@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public abstract class RecipeManager<I, R extends IGtMachineRecipe<I, ?>> implements IGtRecipeManager<I, R> {
+public abstract class RecipeManager<RI, I, R extends IGtMachineRecipe<RI, ?>> implements IGtRecipeManager<RI, I, R> {
     protected final SortedSet<R> recipes;
 
     public RecipeManager(Comparator<R> comparator) {

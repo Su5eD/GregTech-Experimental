@@ -276,7 +276,7 @@ public class OreDictRegistrar {
 
         registerOre("itemIridium", IC2Items.getItem("misc_resource", "iridium_ore"));
         registerOre("glassReinforced", IC2Items.getItem("glass", "reinforced"));
-        registerOre("molecule_2o", IC2Items.getItem("fluid_cell", "ic2air"));
+        //registerOre("molecule_2o", IC2Items.getItem("fluid_cell", "ic2air"));
         registerOre("gemDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
         registerOre("craftingIndustrialDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
         registerOre("itemDiamond", IC2Items.getItem("crafting", "industrial_diamond"));

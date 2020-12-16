@@ -49,10 +49,10 @@ public class GregTechConfig {
     }
 
     public static class Balance {
-        @Config.Comment("Indicates the amount of universal steam per ic2 steam. This is used by the steam upgrade to fairly convert all kinds of steam to the same value.")
+        @Config.Comment("Indicates the amount of 1mb universal steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
         public double steamMultiplier = 1.6;
-        @Config.Comment("Serves the same purpose as the above, for superheated steam.")
-        public double superHeatedSteamMultiplier = 0.5;
+        @Config.Comment("Indicates the amount of 1mb ic2 steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
+        public double superHeatedSteamMultiplier = 2;
         @Config.Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public boolean solarPanelCoverOvervoltageProtection = false;
         public float LVExplosionPower = 2;

@@ -10,7 +10,6 @@ import ic2.core.block.invslot.InvSlot;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
@@ -63,9 +62,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public Fluids fluids;
     public Fluids.InternalFluidTank steamTank;
     int neededSteam;
-
-    public double steamBalance = GregTechConfig.BALANCE.steamMultiplier;
-    public double supersteamBalance = GregTechConfig.BALANCE.superHeatedSteamMultiplier;
 
     protected TileEntityUpgradable(int maxEnergy, int defaultTier, int defaultEnergyConsume) {
         this.energy = addComponent(new Energy(this, maxEnergy, Util.allFacings, Collections.emptySet(), defaultTier));

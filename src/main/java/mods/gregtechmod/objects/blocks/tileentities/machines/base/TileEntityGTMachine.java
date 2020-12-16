@@ -15,6 +15,7 @@ import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.IGtRecipeManager;
+import mods.gregtechmod.api.recipe.IRecipeIngredient;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, Collection<ItemStack>>, RM extends IGtRecipeManager<ItemStack, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider, IPanelInfoProvider {
+public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngredient, Collection<ItemStack>>, RM extends IGtRecipeManager<IRecipeIngredient, ItemStack, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider, IPanelInfoProvider {
     protected double progress;
     public int maxProgress = 0;
     public boolean shouldExplode;
@@ -147,18 +148,18 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, 
     }
 
     public float getSteamMultiplier() {
-        float multiplier = 2;
+        float multiplier = 0.5F;
         if (this.steamTank.getFluidAmount() < 1) return multiplier;
         Fluid fluid = this.steamTank.getFluid().getFluid();
 
-        if (fluid == FluidName.superheated_steam.getInstance()) multiplier *= supersteamBalance;
-        else if (fluid == FluidRegistry.getFluid("steam")) multiplier *= steamBalance;
+        if (fluid == FluidName.superheated_steam.getInstance()) multiplier *= GregTechConfig.BALANCE.superHeatedSteamMultiplier;
+        else if (fluid == FluidRegistry.getFluid("steam")) multiplier /= GregTechConfig.BALANCE.steamMultiplier;
 
         return multiplier;
     }
 
     public int getRequiredSteam() {
-        return (int) (this.energyConsume * getSteamMultiplier());
+        return Math.round(this.energyConsume / getSteamMultiplier());
     }
 
     protected boolean canOperate(R result) {
@@ -364,22 +365,16 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<ItemStack, 
         return 0;
     }
 
-    public double convertSteamToEU() {
-        return steamTank.getFluidAmount() / getSteamMultiplier();
-    }
-
     @Override
     public double getUniversalEnergy() {
-        double convertedSteam;
-        if (steamTank != null && this.energy.getEnergy() < (convertedSteam = convertSteamToEU())) {
-            return convertedSteam;
-        }
+        double convertedSteam = steamTank.getFluidAmount() * getSteamMultiplier();
+        if (steamTank != null && this.energy.getEnergy() < convertedSteam) return convertedSteam;
         return this.energy.getEnergy();
     }
 
     @Override
     public double getUniversalEnergyCapacity() {
-        if (steamTank != null) return Math.max(this.energy.getCapacity(), steamTank.getCapacity() / getSteamMultiplier());
+        if (steamTank != null) return Math.max(this.energy.getCapacity(), steamTank.getCapacity() * getSteamMultiplier());
         else return this.energy.getCapacity();
     }
 
