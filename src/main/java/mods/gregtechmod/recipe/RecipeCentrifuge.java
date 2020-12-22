@@ -25,8 +25,8 @@ public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemS
                                           @JsonProperty(value = "cells") int cells,
                                           @JsonProperty(value = "duration", required = true) int duration) {
         if (output.size() > 4) {
-            List<String> names = output.stream().map(ItemStack::getDisplayName).collect(Collectors.toList());
-            GregTechAPI.logger.error("Tried to add a centrifuge recipe with way too many outputs! Listing the output items: "+String.join(", ", names));
+            GregTechAPI.logger.error("Tried to add a centrifuge recipe for " + output.stream().map(ItemStack::getTranslationKey).collect(Collectors.joining(", ")) + " with way too many outputs! Reducing their size to 4");
+            output = output.subList(0, 4);
         }
 
         return new RecipeCentrifuge(input, output, cells, duration);

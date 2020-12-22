@@ -12,6 +12,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
 import mods.gregtechmod.recipe.RecipeFactory;
+import mods.gregtechmod.recipe.RecipeIngredientFactory;
 import mods.gregtechmod.recipe.manager.RecipeManagerAssembler;
 import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
 import mods.gregtechmod.util.ItemStackDeserializer;
@@ -38,7 +39,10 @@ public class RecipeLoader {
 
     public static void load() {
         GregTechAPI.logger.info("Loading machine recipes");
+
         GregTechAPI.recipeFactory = new RecipeFactory();
+        GregTechAPI.ingredientFactory = new RecipeIngredientFactory();
+
         try {
             File modFile = Loader.instance().activeModContainer().getSource();
             FileSystem fs = FileSystems.newFileSystem(modFile.toPath(), null);

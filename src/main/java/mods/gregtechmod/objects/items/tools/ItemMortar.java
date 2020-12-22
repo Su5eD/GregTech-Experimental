@@ -8,7 +8,6 @@ public class ItemMortar extends ItemCrafting {
 
     public ItemMortar(String material, int durability, ItemStack emptyItem) {
         super("mortar_"+material, "Used to turn ingots into dust", durability, 1);
-        setFolder("component");
         this.emptyItem = emptyItem;
     }
 

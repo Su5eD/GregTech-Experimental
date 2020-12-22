@@ -1,6 +1,5 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipeIngredient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,21 +11,31 @@ import java.util.Collection;
 public class RecipeIngredientItemStack extends Ingredient implements IRecipeIngredient {
     private final int count;
 
-    public RecipeIngredientItemStack(Item item) {
-        this(item, 1);
+    private RecipeIngredientItemStack(int count, ItemStack... stacks) {
+        super(stacks);
+        this.count = count;
     }
 
-    public RecipeIngredientItemStack(Item item, int count) {
-        this(item, count, 0);
+    public static RecipeIngredientItemStack create(Item item) {
+        return create(item, 1);
     }
 
-    public RecipeIngredientItemStack(Item item, int count, int meta) {
-        this(new ItemStack(item, count, meta));
+    public static RecipeIngredientItemStack create(Item item, int count) {
+        return create(item, count, 0);
     }
 
-    public RecipeIngredientItemStack(ItemStack stack) {
-        super(StackUtil.copyWithSize(stack, 1));
-        this.count = stack.getCount();
+    public static RecipeIngredientItemStack create(Item item, int count, int meta) {
+        return create(new ItemStack(item, count, meta));
+    }
+
+    public static RecipeIngredientItemStack create(ItemStack stack) {
+        if (stack.isEmpty()) return null;
+        return create(stack.getCount(), stack);
+    }
+
+    public static RecipeIngredientItemStack create(int count, ItemStack... stacks) {
+        if (stacks.length < 1) return null;
+        return new RecipeIngredientItemStack(count, stacks);
     }
 
     @Override

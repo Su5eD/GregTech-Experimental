@@ -2,9 +2,9 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.item.IC2Items;
 import ic2.core.block.wiring.TileEntityCable;
-import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.init.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import mods.gregtechmod.util.ReflectionUtil;
 import net.minecraft.block.Block;
@@ -32,7 +32,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.spray_can_empty.getInstance());
+        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
     }
 
     @Override

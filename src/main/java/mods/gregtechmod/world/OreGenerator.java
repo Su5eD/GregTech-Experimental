@@ -1,10 +1,10 @@
 package mods.gregtechmod.world;
 
 import com.google.common.base.Predicate;
-import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
-import mods.gregtechmod.api.WorldOres;
+import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.WorldOres;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
@@ -113,23 +113,23 @@ public class OreGenerator implements IWorldGenerator {
             if (random.nextInt(25) == 0) {
                 new WorldGenMinable(Blocks.END_STONE.getDefaultState(), 100 + random.nextInt(101), MATCHER_VOID).generate(world, random, new BlockPos(chunkX + random.nextInt(16), posY, chunkZ + random.nextInt(16)));
                 if (GregTechConfig.WORLDGEN.tungstate) {
-                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.tungstate.getInstance().getDefaultState(), WorldOres.tungstate.size, MATCHER_VOID);
-                    for (int j = 0; j < (WorldOres.tungstate.amount*5)/4; j++)
+                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.TUNGSTATE.getInstance().getDefaultState(), WorldOres.TUNGSTATE.size, MATCHER_VOID);
+                    for (int j = 0; j < (WorldOres.TUNGSTATE.amount*5)/4; j++)
                         ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
                 }
                 if (GregTechConfig.WORLDGEN.sheldonite) {
-                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.sheldonite.getInstance().getDefaultState(), WorldOres.sheldonite.size, MATCHER_VOID);
-                    for (int j = 0; j < WorldOres.sheldonite.amount+1; j++)
+                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.SHELDONITE.getInstance().getDefaultState(), WorldOres.SHELDONITE.size, MATCHER_VOID);
+                    for (int j = 0; j < WorldOres.SHELDONITE.amount+1; j++)
                        ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
                 }
                 if (GregTechConfig.WORLDGEN.olivine) {
-                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.olivine.getInstance().getDefaultState(), WorldOres.olivine.size, MATCHER_VOID);
-                    for (int j = 0; j < (WorldOres.olivine.amount*7)/5; j++)
+                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.OLIVINE.getInstance().getDefaultState(), WorldOres.OLIVINE.size, MATCHER_VOID);
+                    for (int j = 0; j < (WorldOres.OLIVINE.amount*7)/5; j++)
                         ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
                 }
                 if (GregTechConfig.WORLDGEN.sodalite) {
-                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.sodalite.getInstance().getDefaultState(), WorldOres.sodalite.size, MATCHER_VOID);
-                    for (int j = 0; j < WorldOres.sodalite.amount*1.5; j++)
+                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.SODALITE.getInstance().getDefaultState(), WorldOres.SODALITE.size, MATCHER_VOID);
+                    for (int j = 0; j < WorldOres.SODALITE.amount*1.5; j++)
                         ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
                 }
             }
@@ -137,14 +137,14 @@ public class OreGenerator implements IWorldGenerator {
             for (i = 0; i < 5; i++)
                 (new WorldGenMinable(Blocks.END_STONE.getDefaultState(), 30 + random.nextInt(31), MATCHER_VOID)).generate(world, random, new BlockPos(chunkX + random.nextInt(16), posY + random.nextInt(51) - 25, chunkZ + random.nextInt(16)));
             if (GregTechConfig.WORLDGEN.tungstate)
-                for (i = 0; i < (WorldOres.tungstate.amount*5)/4; i++)
-                    new WorldGenMinable(BlockItems.Ores.tungstate.getInstance().getDefaultState(), (int) (WorldOres.tungstate.size*0.75), MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
+                for (i = 0; i < (WorldOres.TUNGSTATE.amount*5)/4; i++)
+                    new WorldGenMinable(BlockItems.Ores.TUNGSTATE.getInstance().getDefaultState(), (int) (WorldOres.TUNGSTATE.size*0.75), MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
             if (GregTechConfig.WORLDGEN.sheldonite)
-                for (i = 0; i < WorldOres.sheldonite.amount; i++)
-                    new WorldGenMinable(BlockItems.Ores.sheldonite.getInstance().getDefaultState(), WorldOres.sheldonite.size, MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
+                for (i = 0; i < WorldOres.SHELDONITE.amount; i++)
+                    new WorldGenMinable(BlockItems.Ores.SHELDONITE.getInstance().getDefaultState(), WorldOres.SHELDONITE.size, MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
             if (GregTechConfig.WORLDGEN.olivine)
-                for (i = 0; i < WorldOres.olivine.amount*0.6; i++)
-                    new WorldGenMinable(BlockItems.Ores.olivine.getInstance().getDefaultState(), WorldOres.olivine.size/2, MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
+                for (i = 0; i < WorldOres.OLIVINE.amount*0.6; i++)
+                    new WorldGenMinable(BlockItems.Ores.OLIVINE.getInstance().getDefaultState(), WorldOres.OLIVINE.size/2, MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
         }
     }
 

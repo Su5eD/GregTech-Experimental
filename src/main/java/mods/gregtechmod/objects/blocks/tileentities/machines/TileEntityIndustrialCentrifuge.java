@@ -8,12 +8,12 @@ import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumable;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.ref.ItemName;
-import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
 import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
+import mods.gregtechmod.init.BlockItems;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerIndustrialCentrifuge;
@@ -52,7 +52,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
 
     public static void init() {
         List<ItemStack> lavaRecipeOutput = Arrays.asList(IC2Items.getItem("ingot", "tin"),
-                new ItemStack(BlockItems.Ingots.electrum.getInstance(), 2));
+                new ItemStack(BlockItems.Ingots.ELECTRUM.getInstance(), 2));
         lavaRecipe = RecipeCentrifuge.create(null, lavaRecipeOutput, 0, 200);
     }
 

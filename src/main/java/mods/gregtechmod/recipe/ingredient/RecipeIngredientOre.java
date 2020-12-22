@@ -4,7 +4,16 @@ import net.minecraftforge.oredict.OreIngredient;
 
 public class RecipeIngredientOre extends RecipeIngredientBase<OreIngredient> {
 
-    public RecipeIngredientOre(String ore, int count) {
+    private RecipeIngredientOre(String ore, int count) {
         super(new OreIngredient(ore), count);
+    }
+
+    public static RecipeIngredientOre create(String ore) {
+        return create(ore, 1);
+    }
+
+    public static RecipeIngredientOre create(String ore, int count) {
+        if (ore.isEmpty()) return null;
+        return new RecipeIngredientOre(ore, count);
     }
 }

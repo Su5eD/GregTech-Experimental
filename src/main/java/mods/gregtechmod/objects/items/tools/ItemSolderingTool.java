@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.items.tools;
 import ic2.api.item.ElectricItem;
 import mods.gregtechmod.api.item.ISolderingMetal;
 import mods.gregtechmod.api.item.ISolderingTool;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,9 +15,12 @@ import java.util.List;
 
 public class ItemSolderingTool extends ItemElectricBase implements ISolderingTool {
 
-    public ItemSolderingTool(String name, String description) {
-        super(name, description, 10000, 1000, 1, 1000, false);
+    public ItemSolderingTool() {
+        super("soldering_tool", "To repair and construct circuitry", 10000, 1000, 1, 1000, false);
         setFolder("tool");
+        setRegistryName("soldering_tool");
+        setTranslationKey("soldering_tool");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
         this.hasEmptyVariant = true;
     }
 

@@ -6,13 +6,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //Good luck reading this ;)
 public class OreDictHandler {
-    private List<OreDictionary.OreRegisterEvent> events = new ArrayList<>();
+    private Map<String, ItemStack> events = new HashMap<>();
+
+    public static final Map<String, String> GTOreNames = new HashMap<>();
 
     private final List<String> ignoredNames = Arrays.asList("naquadah", "brickXyEngineering", "breederUranium", "diamondNugget", "infiniteBattery", "superconductor", "itemCharcoalSugar", "aluminumWire", "aluminiumWire", "silverWire",
             "tinWire", "eliteBattery", "advancedBattery", "transformer", "coil", "wireMill", "multimeter", "itemMultimeter", "chunkLazurite", "itemRecord", "aluminumNatural", "aluminiumNatural", "naturalAluminum", "naturalAluminium",
@@ -21,138 +24,65 @@ public class OreDictHandler {
 
     private boolean activated = false;
 
+    static {
+        GTOreNames.put("battery", "crafting10kEUStore");
+        GTOreNames.put("basicCircuit", "craftingCircuitTier02");
+        GTOreNames.put("circuitBasic", "craftingCircuitTier02");
+        GTOreNames.put("advancedCircuit", "craftingCircuitTier04");
+        GTOreNames.put("circuitAdvanced", "craftingCircuitTier04");
+        GTOreNames.put("eliteCircuit", "craftingCircuitTier06");
+        GTOreNames.put("circuitElite", "craftingCircuitTier06");
+        GTOreNames.put("basalt", "stoneBasalt");
+        GTOreNames.put("marble", "stoneMarble");
+        GTOreNames.put("mossystone", "stoneMossy");
+        GTOreNames.put("MonazitOre", "oreMonazit");
+        GTOreNames.put("blockQuickSilver", "blockQuicksilver");
+        GTOreNames.put("ingotQuickSilver", "ingotQuicksilver");
+        GTOreNames.put("ingotQuicksilver", "itemQuicksilver");
+        GTOreNames.put("dustQuickSilver", "dustQuicksilver");
+        GTOreNames.put("dustQuicksilver", "itemQuicksilver");
+        GTOreNames.put("itemQuickSilver", "itemQuicksilver");
+        GTOreNames.put("dustCharCoal", "dustCharcoal");
+        GTOreNames.put("quartzCrystal", "crystalQuartz");
+        GTOreNames.put("quartz", "crystalQuartz");
+        GTOreNames.put("woodGas", "gasWood");
+        GTOreNames.put("woodLog", "logWood");
+        GTOreNames.put("pulpWood", "dustWood");
+        GTOreNames.put("blockCobble", "stoneCobble");
+        GTOreNames.put("gemPeridot", "gemOlivine");
+        GTOreNames.put("dustPeridot", "dustOlivine");
+        GTOreNames.put("dustDiamond", "itemDiamond");
+        GTOreNames.put("gemDiamond", "itemDiamond");
+        GTOreNames.put("dustLapis", "itemLazurite");
+        GTOreNames.put("dustLapisLazuli", "itemLazurite");
+        GTOreNames.put("dustLazurite", "itemLazurite");
+        GTOreNames.put("craftingRawMachineTier01", "craftingRawMachineTier00");
+        GTOreNames.put("dustSulfur", "craftingSulfurToGunpowder");
+        GTOreNames.put("dustSaltpeter", "craftingSaltpeterToGunpowder");
+        GTOreNames.put("crystalQuartz", "craftingQuartz");
+        GTOreNames.put("crystalNetherQuartz", "craftingQuartz");
+        GTOreNames.put("crystalCertusQuartz", "craftingQuartz");
+        GTOreNames.put("dustQuartz", "craftingQuartz");
+        GTOreNames.put("dustCertusQuartz", "craftingQuartz");
+        GTOreNames.put("dustNetherQuartz", "craftingQuartz");
+        GTOreNames.put("ingotQuartz", "craftingQuartz");
+        GTOreNames.put("ingotNetherQuartz", "craftingQuartz");
+        GTOreNames.put("ingotCertusQuartz", "craftingQuartz");
+    }
+
     @SubscribeEvent
     public void registerOre(OreDictionary.OreRegisterEvent event) {
-        if (event == null || event.getOre().isEmpty() || event.getName() == null || event.getName().isEmpty() || this.ignoredNames.contains(event.getName())) return;
-        String name = event.getName();
-        ItemStack ore = event.getOre();
+        String name;
+        ItemStack ore;
+        if (event == null || (ore = event.getOre()).isEmpty() || (name = event.getName()) == null || event.getName().isEmpty() || this.ignoredNames.contains(event.getName())) return;
 
         if (ore.getCount() != 1) GregTechAPI.logger.error("'" + name + "' is either being misused by another Mod or has been wrongly registered, as the stackSize of the Event-Stack is not 1");
         event.getOre().setCount(1);
 
         if (name.toLowerCase().contains("xych") || name.toLowerCase().contains("xyore") || name.toLowerCase().contains("aluminum")) return;
 
-        switch (name) {
-            case "blueDye":
-                GregTechAPI.logger.error("'blueDye'?, Are you sure that it shouldn't be using the more valid Name 'dyeBlue'?");
-                return;
-            case "sapling":
-                GregTechAPI.logger.error("'sapling'?, Are you sure that it shouldn't be using the more valid Name 'treeSapling'?");
-                return;
-            case "saplingPalm":
-                GregTechAPI.logger.error("'saplingPalm'?, Are you sure that it shouldn't be using the more valid Name 'treeSaplingPalm'?");
-                return;
-            case "leaves":
-                GregTechAPI.logger.error("'leaves'?, Are you sure that it shouldn't be using the more valid Name 'treeLeaves'?");
-                return;
-            case "leavesPalm":
-                GregTechAPI.logger.error("'leavesPalm'?, Are you sure that it shouldn't be using the more valid Name 'treeLeavesPalm'?");
-                return;
-            case "battery":
-                ore.setItemDamage(OreDictionary.WILDCARD_VALUE);
-                OreDictUnificator.registerOre("crafting10kEUStore", ore);
-                return;
-            case "basicCircuit":
-            case "circuitBasic":
-                OreDictUnificator.registerOre("craftingCircuitTier02", ore);
-                return;
-            case "advancedCircuit":
-            case "circuitAdvanced":
-                OreDictUnificator.registerOre("craftingCircuitTier04", ore);
-                return;
-            case "eliteCircuit":
-            case "circuitElite":
-                OreDictUnificator.registerOre("craftingCircuitTier06", ore);
-                return;
-            case "basalt":
-                OreDictUnificator.registerOre("stoneBasalt", ore);
-                return;
-            case "marble":
-                OreDictUnificator.registerOre("stoneMarble", ore);
-                return;
-            case "mossystone":
-                OreDictUnificator.registerOre("stoneMossy", ore);
-                return;
-            case "MonazitOre":
-                OreDictUnificator.registerOre("oreMonazit", ore);
-                return;
-            case "blockQuickSilver":
-                OreDictUnificator.registerOre("blockQuicksilver", ore);
-                return;
-            case "ingotQuickSilver":
-                OreDictUnificator.registerOre("ingotQuicksilver", ore);
-                return;
-            case "dustQuickSilver":
-                OreDictUnificator.registerOre("dustQuicksilver", ore);
-                return;
-            case "itemQuickSilver":
-                OreDictUnificator.registerOre("itemQuicksilver", ore);
-                return;
-            case "dustCharCoal":
-                OreDictUnificator.registerOre("dustCharcoal", ore);
-                return;
-            case "quartzCrystal":
-            case "quartz":
-                OreDictUnificator.registerOre("crystalQuartz", ore);
-                return;
-            case "woodGas":
-                OreDictUnificator.registerOre("gasWood", ore);
-                return;
-            case "woodLog":
-                OreDictUnificator.registerOre("logWood", ore);
-                return;
-            case "pulpWood":
-                OreDictUnificator.registerOre("dustWood", ore);
-                return;
-            case "blockCobble":
-                OreDictUnificator.registerOre("stoneCobble", ore);
-                return;
-            case "itemCopperWire":
-                OreDictUnificator.registerOre("calclavia:WIRE", ore);
-                return;
-            case "copperWire":
-                OreDictUnificator.registerOre("calclavia:WIRE", ore);
-                return;
-            case "gemPeridot":
-                OreDictUnificator.registerOre("gemOlivine", ore);
-                return;
-            case "dustPeridot":
-                OreDictUnificator.registerOre("dustOlivine", ore);
-                return;
-            case "dustDiamond":
-            case "gemDiamond":
-                OreDictUnificator.registerOre("itemDiamond", ore);
-                break;
-            case "dustLapis":
-            case "dustLapisLazuli":
-            case "dustLazurite":
-                OreDictUnificator.registerOre("itemLazurite", ore);
-                break;
-            case "dustQuicksilver":
-            case "ingotQuicksilver":
-                OreDictUnificator.registerOre("itemQuicksilver", ore);
-                break;
-            case "craftingRawMachineTier01":
-                OreDictUnificator.registerOre("craftingRawMachineTier00", ore);
-                break;
-            case "dustSulfur":
-                OreDictUnificator.registerOre("craftingSulfurToGunpowder", ore);
-                break;
-            case "dustSaltpeter":
-                OreDictUnificator.registerOre("craftingSaltpeterToGunpowder", ore);
-                break;
-            case "crystalQuartz":
-            case "crystalNetherQuartz":
-            case "crystalCertusQuartz":
-            case "dustQuartz":
-            case "dustCertusQuartz":
-            case "dustNetherQuartz":
-            case "ingotQuartz":
-            case "ingotNetherQuartz":
-            case "ingotCertusQuartz":
-                OreDictUnificator.registerOre("craftingQuartz", ore);
-                break;
-        }
+        String unifiedName = GTOreNames.get(name);
+        if (unifiedName != null) OreDictUnificator.registerOre(unifiedName, ore);
 
         if (name.startsWith("denseOre")) {
             OreDictUnificator.registerOre(name.replaceFirst("denseOre", "oreDense"), ore);
@@ -169,21 +99,48 @@ public class OreDictHandler {
         } else if (name.startsWith("stoneBlackGranite")) OreDictUnificator.registerOre("stoneGranite", ore);
         else if (name.startsWith("stoneRedGranite")) OreDictUnificator.registerOre("stoneGranite", ore);
 
-        if (name.startsWith("plate") || name.startsWith("ore") || name.startsWith("dust") || name.startsWith("gem") || name.startsWith("ingot") || name.startsWith("nugget") || name.startsWith("block") || name.startsWith("stick")) OreDictUnificator.addAssociation(name, ore.copy());
-        if (this.activated) {
-            registerRecipes(event);
-        } else {
-            this.events.add(event);
-        }
+        if (name.startsWith("plate") || name.startsWith("ore") || name.startsWith("dust") || name.startsWith("gem")
+            || name.startsWith("ingot") || name.startsWith("nugget") || name.startsWith("block") || name.startsWith("stick")) OreDictUnificator.addAssociation(name, ore.copy());
+
+        if (this.activated) registerRecipes(event.getName(), event.getOre());
+        else this.events.put(event.getName(), event.getOre());
     }
 
     public void activateHandler() {
         this.activated = true;
-        for (OreDictionary.OreRegisterEvent event : this.events) registerRecipes(event);
+        for (Map.Entry<String, ItemStack> entry : this.events.entrySet()) registerRecipes(entry.getKey(), entry.getValue());
         this.events = null;
     }
 
-    public void registerRecipes(OreDictionary.OreRegisterEvent event) {
+    private void registerStoneRecipes(ItemStack stack, String name) {
+        /*ItemStack reinforcedStone = StackUtil.setSize(IC2Items.getItem("resource", "reinforced_stone"), 8);
+        GtRecipes.assembler.addRecipe(GregTechAPI.recipeFactory.makeAssemblerRecipe(RecipeIngredientOre.create("plateAlloyAdvanced"), RecipeIngredientOre.create("stoneSmooth", 8), reinforcedStone, 400, 4));
+        RecipePulverizer.manager.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("sandstone"), new ItemStack(Blocks.SAND), 10));
+        GtRecipes.assembler.addRecipe(GregTechAPI.recipeFactory.makeAssemblerRecipe(RecipeIngredientItemStack.create(coalBall), RecipeIngredientItemStack.create(stack), IC2Items.getItem("crafting", "coal_chunk"), 400, 4));
+
+        Item item = stack.getItem();
+        if (name.startsWith("stone") && item instanceof ItemBlock) { //Dynamic: if name starts with stone
+            GregTechAPI.jackHammerMinableBlocks.add(((ItemBlock)item).getBlock());
+            if (stack.getMaxStackSize() > GregTechConfig.FEATURES.maxOtherBlockStackSize) item.setMaxStackSize(GregTechConfig.FEATURES.maxOtherBlockStackSize);
+        }
+
+        if (name.equals("dustEndstone")) RecipePulverizer.manager.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneEnd"), stack, stack, 10));
+        if (name.equals("dustNetherrack")) RecipePulverizer.manager.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneNetherrack"), stack, stack, 10));
+        if (name.equals("stoneObsidian")) {
+            if (item instanceof ItemBlock) ((ItemBlock)item).getBlock().setResistance(20.0F);
+            ItemStack coalBall = StackUtil.setSize(IC2Items.getItem("crafting", "coal_ball"), 8);
+            RecipePulverizer.manager.addRecipe(stack, ModHandler.getRCItem("generic", 7, OreDictUnificator.get("dustObsidian")), OreDictUnificator.get("dustObsidian"), 10, true);
+        } else if (!name.equals("stoneNetherBrick") && !name.equals("stoneNetherQuartz") && !name.equals("stoneGranite")) {
+            if (name.equals("stoneRedrock") || name.equals("stoneRedRock")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustRedRock"), OreDictUnificator.get("dustRedRock"), 10, false);
+            else if (name.startsWith("stoneMarble")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustMarble"), OreDictUnificator.get("dustMarble"), 10, false);
+            else if (name.startsWith("stoneBasalt")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustBasalt"), OreDictUnificator.get("dustBasalt"), 10, false);
+            else if (name.startsWith("stoneFlint")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustFlint", 2), new ItemStack(Items.FLINT), 50, false);
+            else if (name.startsWith("stoneAbyssal")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustBasalt"), OreDictUnificator.get("dustBasalt"), 10, false);
+            else if (name.startsWith("stoneQuarried")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustMarble"), OreDictUnificator.get("dustMarble"), 10, false);
+        }*/
+    }
+
+    public void registerRecipes(String name, ItemStack ore) {
         /*ItemStack ore = event.getOre();
         if (ore.isEmpty()) return;
 
@@ -790,43 +747,6 @@ public class OreDictHandler {
             }
         }*/
     }
-
-    /*private void registerStoneRecipes(ItemStack stack, String eventName, OreDictionary.OreRegisterEvent event) {
-        Item item = stack.getItem();
-
-        if (item instanceof ItemBlock) {
-            GregTechAPI.jackHammerMinableBlocks.add(((ItemBlock)item).getBlock());
-            if (stack.getMaxStackSize() > GregTechConfig.FEATURES.maxOtherBlockStackSize) item.setMaxStackSize(GregTechConfig.FEATURES.maxOtherBlockStackSize);
-        }
-
-        if (!eventName.startsWith("stoneCobble")) {
-            if (eventName.startsWith("stoneSmooth")) {
-                for (ItemStack ore : OreDictUnificator.getOres("plateAlloyAdvanced")) {
-                    ItemStack reinforcedStone = IC2Items.getItem("resource", "reinforced_stone");
-                    reinforcedStone.setCount(8);
-                    ItemStack input = stack.copy();
-                    input.setCount(8);
-                    GtRecipes.assembler.addRecipe(GregTechAPI.recipeFactory.makeAssemblerRecipe(ore.copy(), input, reinforcedStone, 400, 4));
-                }
-            } else if (!eventName.startsWith("stoneBricks") && !eventName.startsWith("stoneMossy") && !eventName.startsWith("stoneCracked") && !eventName.startsWith("stoneChiseled") && !eventName.startsWith("stoneVanilla")) {
-                if (eventName.equals("stoneSand")) ModHandler.addPulverisationRecipe(stack, new ItemStack(Blocks.SAND), null, 10, false);
-                else if (eventName.equals("stoneEnd")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustEndstone"), OreDictUnificator.get("dustEndstone"), 10, false);
-                else if (eventName.equals("stoneNetherrack")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustNetherrack"), OreDictUnificator.get("dustNetherrack"), 10, false);
-                else if (eventName.equals("stoneObsidian")) {
-                    if (item instanceof ItemBlock) ((ItemBlock)item).getBlock().setResistance(20.0F);
-                    GregTechAPI.recipeManager.addAssemblerRecipe(ModHandler.getICItem("crafting", "coal_ball", 8), stack, IC2Items.getItem("crafting", "coal_chunk"), 400, 4);
-                    ModHandler.addPulverisationRecipe(stack, ModHandler.getRCItem("generic", 7, OreDictUnificator.get("dustObsidian")), OreDictUnificator.get("dustObsidian"), 10, true);
-                } else if (!eventName.equals("stoneNetherBrick") && !eventName.equals("stoneNetherQuartz") && !eventName.equals("stoneGranite")) {
-                    if (eventName.equals("stoneRedrock") || eventName.equals("stoneRedRock")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustRedRock"), OreDictUnificator.get("dustRedRock"), 10, false);
-                    else if (eventName.startsWith("stoneMarble")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustMarble"), OreDictUnificator.get("dustMarble"), 10, false);
-                    else if (eventName.startsWith("stoneBasalt")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustBasalt"), OreDictUnificator.get("dustBasalt"), 10, false);
-                    else if (eventName.startsWith("stoneFlint")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustFlint", 2), new ItemStack(Items.FLINT), 50, false);
-                    else if (eventName.startsWith("stoneAbyssal")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustBasalt"), OreDictUnificator.get("dustBasalt"), 10, false);
-                    else if (eventName.startsWith("stoneQuarried")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustMarble"), OreDictUnificator.get("dustMarble"), 10, false);
-                }
-            }
-        }
-    }*/
 
     private void registerOreRecipes(ItemStack stack, String eventName, OreDictionary.OreRegisterEvent event) {
         /*boolean nether = false, end = false, dense = false;

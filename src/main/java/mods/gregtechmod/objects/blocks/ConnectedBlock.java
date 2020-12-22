@@ -17,8 +17,8 @@ public class ConnectedBlock extends BlockBase {
     public static final PropertyBool CONNECTED_DOWN = PropertyBool.create("connected_down");
     public static final PropertyBool CONNECTED_UP = PropertyBool.create("connected_up");
 
-    public ConnectedBlock(Material material) {
-        super(material);
+    public ConnectedBlock() {
+        super(Material.IRON);
         setDefaultState(blockState.getBaseState()
                 .withProperty(CONNECTED_NORTH, Boolean.FALSE)
                 .withProperty(CONNECTED_SOUTH, Boolean.FALSE)

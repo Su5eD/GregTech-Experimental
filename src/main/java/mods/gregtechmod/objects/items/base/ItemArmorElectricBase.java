@@ -75,7 +75,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add("Tier: " + this.tier);
-        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate(Reference.MODID+".item.armor.perk."+perk.name()+".name"));
+        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate(Reference.MODID+".item.armor.perk."+perk.name().toLowerCase(Locale.ROOT)+".name"));
     }
 
     @Override
@@ -114,25 +114,25 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public boolean canProvideEnergy(ItemStack stack) {
-        if (this.perks.contains(ArmorPerk.infinite_charge)) setCharge(stack);
+        if (this.perks.contains(ArmorPerk.INFINITE_CHARGE)) setCharge(stack);
         return this.chargeProvider;
     }
 
     @Override
     public double getMaxCharge(ItemStack stack) {
-        if (this.perks.contains(ArmorPerk.infinite_charge)) setCharge(stack);
+        if (this.perks.contains(ArmorPerk.INFINITE_CHARGE)) setCharge(stack);
         return this.maxCharge;
     }
 
     @Override
     public int getTier(ItemStack stack) {
-        if (this.perks.contains(ArmorPerk.infinite_charge)) setCharge(stack);
+        if (this.perks.contains(ArmorPerk.INFINITE_CHARGE)) setCharge(stack);
         return this.tier;
     }
 
     @Override
     public double getTransferLimit(ItemStack stack) {
-        if (this.perks.contains(ArmorPerk.infinite_charge)) setCharge(stack);
+        if (this.perks.contains(ArmorPerk.INFINITE_CHARGE)) setCharge(stack);
         return this.transferLimit;
     }
 
@@ -162,7 +162,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
         if (!entity.world.isRemote && entity instanceof EntityPlayer) {
             for (int i = 0; i < 4; i++) {
                 ItemStack armor = ((EntityPlayer) entity).inventory.armorInventory.get(i);
-                if (!armor.isEmpty() && armor.getItem() == this && this.perks.contains(ArmorPerk.inertia_damper)) {
+                if (!armor.isEmpty() && armor.getItem() == this && this.perks.contains(ArmorPerk.INERTIA_DAMPER)) {
                     int distance = (int) (event.getDistance() - 3);
                     int cost = (this.damageEnergyCost * distance) / 4;
                     if (cost <= ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true)) {
@@ -177,7 +177,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
-        return new ArmorProperties((source == DamageSource.FALL && this.perks.contains(ArmorPerk.inertia_damper))?10:0, getBaseAbsorptionRatio() * this.absorbtionPercentage, this.damageEnergyCost > 0 ? (int) (25 * ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true) / this.damageEnergyCost) : 0);
+        return new ArmorProperties((source == DamageSource.FALL && this.perks.contains(ArmorPerk.INERTIA_DAMPER))?10:0, getBaseAbsorptionRatio() * this.absorbtionPercentage, this.damageEnergyCost > 0 ? (int) (25 * ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true) / this.damageEnergyCost) : 0);
     }
 
     @Override

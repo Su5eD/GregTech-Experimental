@@ -1,9 +1,9 @@
 package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.crops.ICropTile;
-import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.init.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,7 +25,7 @@ public class ItemSprayHydration extends ItemToolCrafting {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.spray_can_empty.getInstance());
+        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
     }
 
     @Override

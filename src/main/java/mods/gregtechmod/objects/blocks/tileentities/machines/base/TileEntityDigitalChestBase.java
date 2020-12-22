@@ -80,7 +80,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             Item currentItem = stack.getItem();
             ItemStack upgradeStack = this.upgradeSlot.get();
 
-            if (((IGtUpgradeItem)currentItem).getType() == GtUpgradeType.quantum_chest && !isQuantumChest) { //has to be executed on both sides
+            if (((IGtUpgradeItem)currentItem).getType() == GtUpgradeType.QUANTUM_CHEST && !isQuantumChest) { //has to be executed on both sides
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
                 world.removeTileEntity(pos);
                 TileEntityQuantumChest te = new TileEntityQuantumChest(slot, isPrivate, player.getGameProfile());
@@ -351,7 +351,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public Set<GtUpgradeType> getCompatibleGtUpgrades() {
-        return EnumSet.of(GtUpgradeType.lock, GtUpgradeType.quantum_chest);
+        return EnumSet.of(GtUpgradeType.LOCK, GtUpgradeType.QUANTUM_CHEST);
     }
 
     @Override

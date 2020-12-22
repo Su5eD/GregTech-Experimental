@@ -224,8 +224,8 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
         Set<String> possibleUpgrades = new LinkedHashSet<>();
-        possibleUpgrades.addAll(this.getCompatibleIC2Upgrades().stream().sorted().map(entry -> entry.toString().substring(0, 1).toUpperCase()).sorted().collect(Collectors.toCollection(LinkedHashSet::new)));
-        possibleUpgrades.addAll(this.getCompatibleGtUpgrades().stream().map(entry -> entry.toString().substring(0, 1).toUpperCase()).sorted().collect(Collectors.toCollection(LinkedHashSet::new)));
+        possibleUpgrades.addAll(this.getCompatibleIC2Upgrades().stream().sorted().map(entry -> entry.toString().substring(0, 1)).sorted().collect(Collectors.toCollection(LinkedHashSet::new)));
+        possibleUpgrades.addAll(this.getCompatibleGtUpgrades().stream().map(entry -> entry.toString().substring(0, 1)).sorted().collect(Collectors.toCollection(LinkedHashSet::new)));
         tooltip.add("Possible Upgrades: " + String.join(" ", possibleUpgrades));
     }
 

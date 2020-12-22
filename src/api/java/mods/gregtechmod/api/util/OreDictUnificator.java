@@ -1,6 +1,6 @@
 package mods.gregtechmod.api.util;
 
-import mods.gregtechmod.api.GregTechAPI;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechConfig;
 import net.minecraft.block.Block;
 import net.minecraft.item.EnumDyeColor;
@@ -42,7 +42,7 @@ public class OreDictUnificator {
     }
 
     public static void set(String name, ItemStack stack, boolean overwrite) {
-        if (name == null || name.isEmpty() || name.startsWith("itemDust") || stack.isEmpty() || stack.getItemDamage() < 0) return;
+        if (name == null || name.isEmpty() || stack.isEmpty() || stack.getItemDamage() < 0) return;
         stack = stack.copy().splitStack(1);
         addAssociation(name, stack);
         if (!name2OreMap.containsKey(name)) {
@@ -109,19 +109,19 @@ public class OreDictUnificator {
     }
 
     public static ItemStack get(String name, int amount) {
-        return get(name, null, amount);
+        return get(name, ItemStack.EMPTY, amount);
     }
 
     public static ItemStack get(String name, ItemStack replacement, int amount) {
         ItemStack stack = name2OreMap.get(name);
-        if (!name2OreMap.containsKey(name) && replacement.isEmpty()) GregTechAPI.logger.error("Unknown key for unification, typo? " + name);
-        if (stack.isEmpty()) {
-            stack = (replacement.isEmpty()) ? null : replacement.copy();
-        } else {
-            stack = stack.copy();
-            stack.setCount(amount);
-        }
-        return stack;
+        if (stack == null) {
+            if (replacement.isEmpty()) {
+                List<ItemStack> ores = OreDictionary.getOres(name);
+                if (!ores.isEmpty()) return ores.get(0);
+                else return ItemStack.EMPTY;
+            }
+            else return replacement.copy();
+        } else return StackUtil.copyWithSize(stack, amount);
     }
 
     public static ItemStack get(ItemStack stack) {

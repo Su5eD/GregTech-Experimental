@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.items.tools;
 
-import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.init.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,7 +24,7 @@ public class ItemSprayPepper extends ItemToolCrafting {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.spray_can_empty.getInstance());
+        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
     }
 
     @Override

@@ -38,13 +38,12 @@ public class BlockOre extends Block implements IBlockCustomItem {
     private final int dropRandom;
     private final BiConsumer<Integer, List<ItemStack>> loot;
 
-    public BlockOre(String name, float hardness, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
+    public BlockOre(String name, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
         super(Material.ROCK);
         this.name = name;
         this.dropChance = dropChance;
         this.dropRandom = dropRandom;
         this.loot = loot;
-        setHardness(hardness);
         setResistance(10);
         setSoundType(SoundType.STONE);
     }

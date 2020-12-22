@@ -16,6 +16,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Random;
 import java.util.function.BiPredicate;
@@ -36,10 +37,15 @@ public class GtUtil {
     public static boolean getFullInvisibility(EntityPlayer player) {
         if (player.isInvisible()) {
             for (ItemStack stack : player.inventory.armorInventory) {
-                if (!stack.isEmpty() && stack.getItem() instanceof IElectricArmor && ((IElectricArmor)stack.getItem()).getPerks().contains(ArmorPerk.invisibility_field) && ElectricItem.manager.canUse(stack, 10000)) return true;
+                if (!stack.isEmpty() && stack.getItem() instanceof IElectricArmor && ((IElectricArmor)stack.getItem()).getPerks().contains(ArmorPerk.INVISIBILITY_FIELD) && ElectricItem.manager.canUse(stack, 10000)) return true;
             }
         }
         return false;
+    }
+
+    public static ItemStack setWildcard(ItemStack stack) {
+        stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
+        return stack;
     }
 
     public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {

@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.IRecipeIngredient;
+import mods.gregtechmod.util.ItemStackComparator;
 import net.minecraft.item.ItemStack;
 
 import java.util.Comparator;
@@ -37,9 +38,9 @@ public class RecipeManagerBasic<R extends IGtMachineRecipe<IRecipeIngredient, ?>
         @Override
         public int compare(T first, T second) {
             int ret = 0;
-            for (ItemStack firstInput : first.getInput().getMatchingInputs()) {
-                for (ItemStack secondInput : second.getInput().getMatchingInputs()) {
-                    ret += firstInput.getItem().getRegistryName().compareTo(secondInput.getItem().getRegistryName());
+            for (ItemStack firstInput : first.getInput().asIngredient().getMatchingStacks()) {
+                for (ItemStack secondInput : second.getInput().asIngredient().getMatchingStacks()) {
+                    ret += ItemStackComparator.INSTANCE.compare(firstInput, secondInput);
                 }
             }
             return ret;

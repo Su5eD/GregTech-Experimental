@@ -29,14 +29,15 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Set;
 
 public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegisterer, ITeBlockSpecialItem {
-    industrial_centrifuge(TileEntityIndustrialCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
-    digital_chest(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
-    quantum_chest(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
-    quantum_tank(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
-    sonictron(TileEntitySonictron.class, 5, true, Collections.emptySet(), false, HarvestTool.Wrench, DefaultDrop.Self, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, false);
+    INDUSTRIAL_CENTRIFUGE(TileEntityIndustrialCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
+    DIGITAL_CHEST(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
+    QUANTUM_CHEST(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
+    QUANTUM_TANK(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
+    SONICTRON(TileEntitySonictron.class, 5, true, Collections.emptySet(), false, HarvestTool.Wrench, DefaultDrop.Self, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, false);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;
@@ -73,7 +74,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         this.hasBakedModel = hasBakedModel;
 
         if(teClass != null) {
-            GameRegistry.registerTileEntity(teClass, "gregtechmod:" + getName());
+            GameRegistry.registerTileEntity(teClass, "gregtechmod:" + getName().toLowerCase(Locale.ROOT));
         }
  	}
 
@@ -163,7 +164,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public String getName() {
-        return name();
+        return name().toLowerCase(Locale.ROOT);
     }
 
     @Override
@@ -184,7 +185,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
  		for (GregTechTEBlock block : values()) {
  			if (block.teClass != null) {
  				try {
-                    GregTechAPI.logger.info("Building dummy TeBlock for "+block.name());
+                    GregTechAPI.logger.info("Building dummy TeBlock for "+block.name().toLowerCase(Locale.ROOT));
  					block.dummyTe = block.teClass.newInstance();
  				} catch (Exception e) {
  					GregTechAPI.logger.error(e.getMessage());
@@ -200,8 +201,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public ModelResourceLocation getModelLocation(ItemStack itemStack) {
-        String location = Reference.MODID+":teblock/"+this.name();
-        return new ModelResourceLocation(location, this.name());
+        String location = Reference.MODID+":teblock/"+this.name().toLowerCase(Locale.ROOT);
+        return new ModelResourceLocation(location, this.name().toLowerCase(Locale.ROOT));
     }
 }
 

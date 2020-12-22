@@ -4,6 +4,7 @@ import mods.gregtechmod.api.cover.CoverRegistry;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
@@ -23,8 +24,11 @@ import java.util.List;
 
 public class ItemScrewdriver extends ItemToolBase {
 
-    public ItemScrewdriver(String name, String description, int durability, int attackDamage) {
-        super(name, description, durability, attackDamage);
+    public ItemScrewdriver() {
+        super("screwdriver", null, 256, 4);
+        setRegistryName("screwdriver");
+        setTranslationKey("screwdriver");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
         this.effectiveAganist.add("minecraft:spider");
         this.effectiveAganist.add("minecraft:cave_spider");
         this.effectiveAganist.add("twilightforest:hedge_spider");

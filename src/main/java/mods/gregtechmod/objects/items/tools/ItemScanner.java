@@ -22,6 +22,7 @@ import mods.gregtechmod.api.machine.IGregtechMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.GtUtil;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -45,6 +46,14 @@ import java.util.List;
 
 @SuppressWarnings("NullableProblems")
 public class ItemScanner extends ItemElectricBase {
+
+    public ItemScanner() {
+        this("scanner", "Tricorder", 100000, 100, 1);
+        setFolder("tool");
+        setRegistryName("scanner");
+        setTranslationKey("scanner");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
+    }
 
     public ItemScanner(String name, String description, int maxCharge, double transferLimit, int tier) {
         super(name, description, maxCharge, transferLimit, tier);

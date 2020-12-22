@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.items.tools;
 
 import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,8 +14,11 @@ import net.minecraft.world.World;
 
 public class ItemCrowbar extends ItemToolBase {
 
-    public ItemCrowbar(String name, String description, int durability, int attackDamage) {
-        super(name, description, durability, attackDamage);
+    public ItemCrowbar() {
+        super("crowbar", "To remove covers from machines", 256, 6);
+        setRegistryName("crowbar");
+        setTranslationKey("crowbar");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
     @Override
