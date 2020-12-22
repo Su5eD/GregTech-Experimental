@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Su5eD/GregTech-Experimental/blob/readme/src/main/resources/GTE_Logo_medium.png" align="center"/> 
+  <img src="https://github.com/Su5eD/GregTech-Experimental/blob/forge-1.12.2/src/main/resources/GTE_Logo_medium.png" align="center"/> 
 </p>
 <p align="center">
   <a href="https://github.com/Su5eD/GregTech-Experimental/actions">
