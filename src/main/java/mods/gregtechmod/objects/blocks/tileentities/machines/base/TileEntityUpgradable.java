@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.blocks.tileentities.machines.base;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.upgrade.IUpgradeItem;
-import ic2.api.upgrade.UpgradableProperty;
 import ic2.core.IC2;
 import ic2.core.block.comp.Energy;
 import ic2.core.block.comp.Fluids;
@@ -14,7 +13,9 @@ import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.inventory.GtUpgradeSlot;
 import net.minecraft.client.util.ITooltipFlag;
@@ -93,13 +94,16 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         if(upgradeSlot.accepts(stack)) {
             for (int i = 0; i < upgradeSlot.size(); i++) {
                 ItemStack upgradeStack = upgradeSlot.get(i);
-                int stackMeta = stack.getMetadata();
+                int upgradeCount = upgradeStack.getCount();
                 boolean areItemsEqual = StackUtil.checkItemEquality(stack, upgradeStack);
 
                 if (currentItem instanceof IUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
-                    if ((stackMeta == 0 && upgradeStack.getCount() >= 4) || (stackMeta == 1 && upgradeStack.getCount() >= 3 - defaultTier)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+                    IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
+                    if (upgradeType != null) {
+                        if (upgradeCount >= upgradeType.maxCount || (upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultTier + 1)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+                    }
                 }
-                else if (currentItem instanceof IGtUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())){
+                else if (currentItem instanceof IGtUpgradeItem && ((areItemsEqual || upgradeStack.isEmpty()))) {
                     if (((IGtUpgradeItem)currentItem).onInsert(upgradeStack, this, player)) return true;
                     else if (!((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
                 }
@@ -146,20 +150,24 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         if (placer instanceof EntityPlayer && !world.isRemote) this.owner = ((EntityPlayer) placer).getGameProfile();
     }
 
-    public void updateUpgrade(ItemStack stack, int meta, EntityPlayer player) {
+    public void updateUpgrade(ItemStack stack, EntityPlayer player) {
         Item currentItem = stack.getItem();
         if (currentItem instanceof IGtUpgradeItem) {
             ((IGtUpgradeItem)currentItem).onUpdate(stack, this, player);
-            return;
-        }
-        switch (meta) {
-            case 0:
-                this.overclockersCount = stack.getCount();
-                IC2.network.get(true).updateTileEntityField(this, "overclockersCount");
-                break;
-            case 1:
-                this.energy.setSinkTier(Math.min(defaultTier+stack.getCount(), 3));
-                break;
+        } else if (currentItem instanceof IUpgradeItem) {
+            IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
+            switch (upgradeType) {
+                case OVERCLOCKER:
+                    this.overclockersCount = stack.getCount();
+                    IC2.network.get(true).updateTileEntityField(this, "overclockersCount");
+                    break;
+                case TRANSFORMER:
+                    this.energy.setSinkTier(Math.min(defaultTier+stack.getCount(), 3));
+                    break;
+                case BATTERY:
+                    this.energy.setCapacity(this.defaultEnergyStorage+(10000*stack.getCount()));
+                    break;
+            }
         }
     }
 
@@ -169,9 +177,8 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         for (int i = 0; i < upgradeSlot.size(); i++) {
             ItemStack currentStack = upgradeSlot.get(i);
             if (currentStack.isEmpty()) continue;
-            int currentMeta = currentStack.getItem() instanceof IUpgradeItem ? currentStack.getMetadata() : -1;
 
-            updateUpgrade(currentStack, currentMeta, player);
+            updateUpgrade(currentStack, player);
         }
     }
 
@@ -221,11 +228,25 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     @Override
+    protected List<ItemStack> getAuxDrops(int fortune) {
+        return GtUtil.correctStacksize(super.getAuxDrops(fortune));
+    }
+
+    @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
         Set<String> possibleUpgrades = new LinkedHashSet<>();
-        possibleUpgrades.addAll(this.getCompatibleIC2Upgrades().stream().sorted().map(entry -> entry.toString().substring(0, 1)).sorted().collect(Collectors.toCollection(LinkedHashSet::new)));
-        possibleUpgrades.addAll(this.getCompatibleGtUpgrades().stream().map(entry -> entry.toString().substring(0, 1)).sorted().collect(Collectors.toCollection(LinkedHashSet::new)));
+        possibleUpgrades.addAll(this.getCompatibleIC2Upgrades()
+                .stream()
+                .sorted(Comparator.comparing(Enum::ordinal))
+                .map(entry -> entry.toString().substring(0, 1))
+                .collect(Collectors.toCollection(LinkedHashSet::new)));
+        possibleUpgrades.addAll(this.getCompatibleGtUpgrades()
+                .stream()
+                .filter(upgrade -> upgrade.display)
+                .map(entry -> entry.toString().substring(0, 1))
+                .sorted()
+                .collect(Collectors.toCollection(LinkedHashSet::new)));
         tooltip.add("Possible Upgrades: " + String.join(" ", possibleUpgrades));
     }
 
@@ -325,8 +346,18 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     @Override
+    public int getDefaultSinkTier() {
+        return this.defaultTier;
+    }
+
+    @Override
     public int getSourceTier() {
         return this.energy.getSourceTier();
+    }
+
+    @Override
+    public double getDefaultEUCapacity() {
+        return this.defaultEnergyStorage;
     }
 
     @Override
@@ -375,11 +406,11 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     @Override
     public Set<GtUpgradeType> getCompatibleGtUpgrades() {
-        return GtUpgradeType.MACHINE_PRESET;
+        return GtUpgradeType.DEFAULT;
     }
 
     @Override
-    public Set<UpgradableProperty> getCompatibleIC2Upgrades() {
-        return EnumSet.of(UpgradableProperty.Processing, UpgradableProperty.Transformer);
+    public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
+        return IC2UpgradeType.DEFAULT;
     }
 }

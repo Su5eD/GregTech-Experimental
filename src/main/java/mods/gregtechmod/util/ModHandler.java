@@ -5,7 +5,6 @@ import ic2.api.recipe.IBasicMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.core.recipe.BasicMachineRecipeManager;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -15,20 +14,14 @@ import java.util.Collection;
 
 public class ModHandler {
 
-    public static ItemStack getTEBlock(String baseBlock, int meta) {
-        Block base = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("thermalexpansion", baseBlock));
+    public static ItemStack getTEItem(String baseItem, int meta) {
+        Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalexpansion", baseItem));
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base, 1, meta);
     }
 
     public static ItemStack getTFItem(String baseItem, int meta) {
         Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", baseItem));
-        if (base == null) return ItemStack.EMPTY;
-        return new ItemStack(base, 1, meta);
-    }
-
-    public static ItemStack getRCBlock(String baseItem, int meta) {
-        Block base = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("railcraft", baseItem));
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base, 1, meta);
     }

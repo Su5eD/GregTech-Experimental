@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.items.base;
 
+import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
@@ -19,7 +20,7 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
 
     public ItemUpgrade(String name, String description, GtUpgradeType type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
         super(name, description);
-        setMaxStackSize(maxCount);
+        setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
         this.type = type;
         this.requiredTier = requiredTier;
         this.condition = condition;
@@ -30,6 +31,11 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     @Override
     public GtUpgradeType getType() {
         return this.type;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     @Override

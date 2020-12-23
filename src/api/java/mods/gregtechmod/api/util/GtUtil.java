@@ -18,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.List;
 import java.util.Random;
 import java.util.function.BiPredicate;
 
@@ -143,5 +144,20 @@ public class GtUtil {
         entity.hurtResistantTime = 0;
         entity.attackEntityFrom(DamageSource.causeMobDamage(attacker), damage);
         entity.hurtResistantTime = oldHurtResistanceTime;
+    }
+
+    public static List<ItemStack> correctStacksize(List<ItemStack> list) {
+        for (int i = 0; i < list.size(); i++) {
+            ItemStack stack = list.get(i);
+            int maxSize = stack.getMaxStackSize();
+            if (stack.getCount() > maxSize) {
+                list.remove(i);
+                int cycles = (stack.getCount() / maxSize) + 1;
+                for (int j = 0; j < cycles; j++) {
+                    list.add(stack.splitStack(maxSize));
+                }
+            }
+        }
+        return list;
     }
 }

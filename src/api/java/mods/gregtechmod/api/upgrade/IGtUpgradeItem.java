@@ -8,6 +8,8 @@ public interface IGtUpgradeItem {
 
     GtUpgradeType getType();
 
+    String getName();
+
     int getRequiredTier();
 
     /**

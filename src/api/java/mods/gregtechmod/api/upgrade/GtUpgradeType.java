@@ -6,9 +6,19 @@ import java.util.Set;
 public enum GtUpgradeType {
     TRANSFORMER,
     BATTERY,
-    LOCK,
+    LOCK(false),
     STEAM,
-    QUANTUM_CHEST;
+    OTHER(false);
 
-    public static final Set<GtUpgradeType> MACHINE_PRESET = EnumSet.of(TRANSFORMER, BATTERY, LOCK, STEAM);
+    public final boolean display;
+
+    GtUpgradeType() {
+        this(true);
+    }
+
+    GtUpgradeType(boolean display) {
+        this.display = display;
+    }
+
+    public static final Set<GtUpgradeType> DEFAULT = EnumSet.of(TRANSFORMER, BATTERY, LOCK, STEAM);
 }

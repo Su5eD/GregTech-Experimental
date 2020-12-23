@@ -109,9 +109,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public void increaseProgress(double amount) {
-
-    }
+    public void increaseProgress(double amount) {}
 
     @Override
     public double getInputVoltage() {
@@ -120,6 +118,11 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
 
     @Override
     public double getStoredEU() {
+        return 0;
+    }
+
+    @Override
+    public double getDefaultEUCapacity() {
         return 0;
     }
 
@@ -149,9 +152,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public void markForCoverBehaviorUpdate() {
-
-    }
+    public void markForCoverBehaviorUpdate() {}
 
     @Override
     public double addEnergy(double amount) {

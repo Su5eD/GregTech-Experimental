@@ -158,7 +158,7 @@ public class BlockItems {
 
         public Block getInstance() {
             if (this.instance == null) {
-                String name = "block_"+this.name().toLowerCase(Locale.ROOT)+"_ore";
+                String name = this.name().toLowerCase(Locale.ROOT)+"_ore";
                 this.instance = new BlockOre(this.name().toLowerCase(Locale.ROOT), this.dropChance, this.dropRandom, this.loot)
                         .setRegistryName(name)
                         .setTranslationKey(name)
@@ -520,12 +520,12 @@ public class BlockItems {
     }
 
     public enum Upgrades {
-        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "Higher tier of the transformer upgrade", "craftingHVTUpgrade", (stack, machine) -> machine.getTier() < 5, (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier()+stack.getCount(), 5))),
-        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "Adds 100000 EU to the energy capacity", "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, 2, "Adds 100000 EU to the energy capacity", "crafting100kEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000*stack.getCount()))),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, 3, "Adds 1 Million EU to the energy capacity", "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(1000000*stack.getCount()))),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 4, 4, "Adds 10 Million EU to the energy capacity", "crafting10kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(1000000*stack.getCount()))),
-        QUANTUM_CHEST(GtUpgradeType.QUANTUM_CHEST, 1, 0, "Upgrades a Digital Chest to a Quantum chest", "craftingQuantumChestUpgrade"),
+        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "Higher tier of the transformer upgrade", "craftingHVTUpgrade", (stack, machine) -> machine.getTier() < 5, (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getDefaultSinkTier()+stack.getCount(), 5))),
+        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "Adds 100000 EU to the energy capacity", "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(100000*stack.getCount()))),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, 2, "Adds 100000 EU to the energy capacity", "crafting100kEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(100000*stack.getCount()))),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, 3, "Adds 1 Million EU to the energy capacity", "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(1000000*stack.getCount()))),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 4, 4, "Adds 10 Million EU to the energy capacity", "crafting10kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(1000000*stack.getCount()))),
+        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "Upgrades a Digital Chest to a Quantum chest", "craftingQuantumChestUpgrade"),
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "Makes a machine private for the one, who applies this upgrade", "craftingLock", (stack, machine, player) -> {
             GameProfile owner = machine.getOwner();
             if (owner != null && !player.getGameProfile().equals(owner)) {
@@ -628,7 +628,7 @@ public class BlockItems {
         }
 
         Covers(String description, String oreDict) {
-            this.registryName = name();
+            this.registryName = name().toLowerCase(Locale.ROOT);
             this.description = description;
             this.oreDict = oreDict;
         }

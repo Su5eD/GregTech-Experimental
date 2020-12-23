@@ -1,8 +1,8 @@
 package mods.gregtechmod.api.machine;
 
 import com.mojang.authlib.GameProfile;
-import ic2.api.upgrade.UpgradableProperty;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import net.minecraftforge.fluids.FluidTank;
 
 import javax.annotation.Nullable;
@@ -28,6 +28,8 @@ public interface IUpgradableMachine extends IGregtechMachine {
 
     int getSinkTier();
 
+    int getDefaultSinkTier();
+
     int getSourceTier();
 
     void setEUcapacity(double capacity);
@@ -50,5 +52,5 @@ public interface IUpgradableMachine extends IGregtechMachine {
 
     Set<GtUpgradeType> getCompatibleGtUpgrades();
 
-    Set<UpgradableProperty> getCompatibleIC2Upgrades();
+    Set<IC2UpgradeType> getCompatibleIC2Upgrades();
 }

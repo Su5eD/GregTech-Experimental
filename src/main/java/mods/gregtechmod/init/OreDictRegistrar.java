@@ -187,8 +187,8 @@ public class OreDictRegistrar {
         }
 
         if (Loader.isModLoaded("railcraft")) {
-            registerOre("stoneAbyssal", ModHandler.getRCBlock("generic", 8));
-            registerOre("stoneQuarried", ModHandler.getRCBlock("generic", 9));
+            registerOre("stoneAbyssal", ModHandler.getRCItem("generic", 8));
+            registerOre("stoneQuarried", ModHandler.getRCItem("generic", 9));
 
             OreDictUnificator.override("plateIron", ModHandler.getRCItem("plate", 0));
             OreDictUnificator.override("plateSteel", ModHandler.getRCItem("plate", 1));
@@ -322,11 +322,14 @@ public class OreDictRegistrar {
         //registerOre("craftingExtractor", GregTechTEBlock.automatic_extractor); TODO add automatic extractor to oredict when added
         //registerOre("craftingElectricFurnace", GregTechTEBlock.automatic_electric_furnace); TODO add automatic electric furnace to oredict when added
 
+        if (Loader.isModLoaded("thermalfoundation")) {
+            registerOre("glassReinforced", ModHandler.getTFItem("glass", OreDictionary.WILDCARD_VALUE));
+            registerOre("glassReinforced", ModHandler.getTFItem("glass_alloy", OreDictionary.WILDCARD_VALUE));
+        }
+
         if (Loader.isModLoaded("thermalexpansion")) {
-            registerOre("glassReinforced", ModHandler.getTEBlock("glass", OreDictionary.WILDCARD_VALUE));
-            registerOre("glassReinforced", ModHandler.getTEBlock("glass_alloy", OreDictionary.WILDCARD_VALUE));
-            registerOre("craftingMacerator", ModHandler.getTEBlock("machine", 1));
-            registerOre("craftingInductionFurnace", ModHandler.getTEBlock("machine", 3));
+            registerOre("craftingMacerator", ModHandler.getTEItem("machine", 1));
+            registerOre("craftingInductionFurnace", ModHandler.getTEItem("machine", 3));
         }
     }
 

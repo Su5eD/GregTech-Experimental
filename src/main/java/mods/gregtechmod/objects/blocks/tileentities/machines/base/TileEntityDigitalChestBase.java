@@ -2,14 +2,15 @@ package mods.gregtechmod.objects.blocks.tileentities.machines.base;
 
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
-import ic2.api.upgrade.UpgradableProperty;
 import ic2.core.IC2;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.GtUpgradeSlot;
 import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumChest;
@@ -32,6 +33,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior implements IUpgradableMachine, IPanelInfoProvider {
@@ -80,7 +82,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             Item currentItem = stack.getItem();
             ItemStack upgradeStack = this.upgradeSlot.get();
 
-            if (((IGtUpgradeItem)currentItem).getType() == GtUpgradeType.QUANTUM_CHEST && !isQuantumChest) { //has to be executed on both sides
+            if (((IGtUpgradeItem)currentItem).getName().equals("quantum_chest") && !isQuantumChest) { //has to be executed on both sides
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
                 world.removeTileEntity(pos);
                 TileEntityQuantumChest te = new TileEntityQuantumChest(slot, isPrivate, player.getGameProfile());
@@ -178,7 +180,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         if (nbt.hasKey("ownerProfile")) this.owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("ownerProfile"));
         this.isPrivate = nbt.getBoolean("private");
         if (nbt.hasKey("content")) {
-            int count = nbt.getInteger("sCount");
+            int count = nbt.getInteger("contentCount");
             ItemStack content = new ItemStack((NBTTagCompound) nbt.getTag("content"));
             content.setCount(count);
             this.content.put(content);
@@ -199,9 +201,14 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             content.setCount(1);
             content.writeToNBT(tNBT);
             nbt.setTag("content", tNBT);
-            nbt.setInteger("sCount", this.content.get().getCount());
+            nbt.setInteger("contentCount", this.content.get().getCount());
         }
         return super.writeToNBT(nbt);
+    }
+
+    @Override
+    protected List<ItemStack> getAuxDrops(int fortune) {
+        return GtUtil.correctStacksize(super.getAuxDrops(fortune));
     }
 
     @Override
@@ -215,9 +222,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public void increaseProgress(double amount) {
-
-    }
+    public void increaseProgress(double amount) {}
 
     @Override
     public double addEnergy(double amount) {
@@ -241,6 +246,11 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public double getStoredEU() {
+        return 0;
+    }
+
+    @Override
+    public double getDefaultEUCapacity() {
         return 0;
     }
 
@@ -305,6 +315,11 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
+    public int getDefaultSinkTier() {
+        return 0;
+    }
+
+    @Override
     public int getSourceTier() {
         return 0;
     }
@@ -351,11 +366,11 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public Set<GtUpgradeType> getCompatibleGtUpgrades() {
-        return EnumSet.of(GtUpgradeType.LOCK, GtUpgradeType.QUANTUM_CHEST);
+        return EnumSet.of(GtUpgradeType.LOCK, GtUpgradeType.OTHER);
     }
 
     @Override
-    public Set<UpgradableProperty> getCompatibleIC2Upgrades() {
+    public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return Collections.emptySet();
     }
 

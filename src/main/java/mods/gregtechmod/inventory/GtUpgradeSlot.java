@@ -1,12 +1,16 @@
 package mods.gregtechmod.inventory;
 
 import ic2.api.upgrade.IUpgradeItem;
+import ic2.api.upgrade.UpgradableProperty;
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class GtUpgradeSlot extends InvSlot {
 
@@ -21,7 +25,8 @@ public class GtUpgradeSlot extends InvSlot {
             return ((IUpgradableMachine)base).getCompatibleGtUpgrades().contains(((IGtUpgradeItem) item).getType());
         }
         else if (item instanceof IUpgradeItem) {
-            return ((IUpgradeItem)item).isSuitableFor(stack, ((IUpgradableMachine) base).getCompatibleIC2Upgrades());
+            Set<UpgradableProperty> properties = ((IUpgradableMachine) base).getCompatibleIC2Upgrades().stream().map(type -> UpgradableProperty.valueOf(type.property)).collect(Collectors.toSet());
+            return ((IUpgradeItem)item).isSuitableFor(stack, properties);
         }
         return false;
     }

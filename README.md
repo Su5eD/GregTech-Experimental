@@ -36,7 +36,7 @@ So far, there have been many attemps to recreate GT3, but none of them had all t
 *GregTech Experimental has them all*, in their original form, unchanged. Covers, upgrades, tools, as you know them.
 
 ## Development Status
-GTE is currently in early development, which is splot into 2 main phases - the first one consists of adding the base game mechanics and
+GTE is currently in early development, which is split into 2 main phases - the first one consists of adding the base game mechanics and
 materials, and the second one involves adding all the machines. Progress can be tracked under the 
 [Projects](https://github.com/Su5eD/GregTech-Experimental/projects) tab. If you have qny questions, join us on discord
 

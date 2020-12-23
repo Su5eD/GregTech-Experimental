@@ -33,6 +33,8 @@ public interface IGregtechMachine {
 
     double getStoredEU();
 
+    double getDefaultEUCapacity();
+
     double getEUCapacity();
 
     int getAverageEUInput();

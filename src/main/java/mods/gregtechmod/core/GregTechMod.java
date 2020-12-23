@@ -28,7 +28,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -43,7 +42,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -100,6 +98,8 @@ public final class GregTechMod {
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES).collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
         GregTechObjectAPI.setTileEntityMap(teblocks);
 
+        OreDictRegistrar.registerItems();
+
         RecipeLoader.load();
 
         GregTechAPI.logger.debug("Registering loot");
@@ -112,8 +112,6 @@ public final class GregTechMod {
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_crossing"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_library"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/village_blacksmith"));
-
-        OreDictRegistrar.registerItems();
     }
     @EventHandler
     public static void init(FMLPostInitializationEvent event) {
@@ -131,24 +129,5 @@ public final class GregTechMod {
     public static ResourceLocation getModelResourceLocation(String name, String folder) {
         if (folder == null) return new ResourceLocation(Reference.MODID, name);
         return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
-    }
-
-    @SubscribeEvent
-    public void onItemTooltip(ItemTooltipEvent event) {
-        ItemStack stack = event.getItemStack();
-        List<String> tooltip = event.getToolTip();
-
-        if (stack.isItemEqual(IC2Items.getItem("dust", "diamond"))) tooltip.add("C128");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "lead"))) tooltip.add("Pb");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "obsidian"))) tooltip.add("MgFeSi2O8");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "coal"))) tooltip.add("C2");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "iron"))) tooltip.add("Fe");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "gold"))) tooltip.add("Au");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "copper"))) tooltip.add("Cu");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "tin"))) tooltip.add("Sn");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "bronze"))) tooltip.add("SnCu3");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "silver"))) tooltip.add("Ag");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "clay"))) tooltip.add("Na2LiAl2Si2");
-        else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "ashes"))) tooltip.add("C");
     }
 }
