@@ -8,11 +8,12 @@ public class Recipe<I, O> implements IGtMachineRecipe<I, O> {
     protected final O output;
     protected final double energyCost;
     protected final int duration;
+    protected boolean invalid;
 
     public Recipe(@JsonProperty(value = "input", required = true) I input,
-                  @JsonProperty(value = "input", required = true) O output,
-                  @JsonProperty(value = "input", required = true) double energyCost,
-                  @JsonProperty(value = "input", required = true) int duration) {
+                  @JsonProperty(value = "output", required = true) O output,
+                  @JsonProperty(value = "energyCost", required = true) double energyCost,
+                  @JsonProperty(value = "duration", required = true) int duration) {
         this.input = input;
         this.output = output;
         this.energyCost = energyCost;
@@ -37,5 +38,9 @@ public class Recipe<I, O> implements IGtMachineRecipe<I, O> {
     @Override
     public int getDuration() {
         return this.duration;
+    }
+
+    public boolean isInvalid() {
+        return this.invalid;
     }
 }

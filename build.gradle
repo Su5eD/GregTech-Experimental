@@ -86,15 +86,33 @@ repositories {
         name = "Progwml6 maven"
         url = "http://dvs1.progwml6.com/files/maven/"
     }
+    maven {
+        name = "CoFH Maven"
+        url = "https://maven.covers1624.net"
+    }
 }
 
 dependencies {
     deobfCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${version_ic2}-ex112"
     apiCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${version_ic2}-ex112", classifier: "api" //GTE api depends on the ic2 api
 
+    deobfCompile group: "cofh", name: "RedstoneFlux", version: "1.12-${version_rf}", classifier: "universal"
+    deobfCompile (group: "cofh", name: "CoFHCore", version: "1.12.2-${version_cofhcore}", classifier: "universal") {
+        exclude group: "mezz.jei"
+    }
+    deobfCompile group: "cofh", name: "CoFHWorld", version: "1.12.2-${version_cofhworld}", classifier: "universal"
+    deobfCompile group: "cofh", name: "ThermalFoundation", version: "1.12.2-${version_thermalfoundation}", classifier: "universal"
+    deobfCompile group: "codechicken", name: "CodeChickenLib", version: "1.12.2-${version_codechickenlib}", classifier: "universal"
+    deobfCompile (group: "cofh", name: "ThermalExpansion", version: "1.12.2-${version_thermalexpansion}", classifier: "universal") {
+        exclude group: "mezz.jei"
+    }
+    deobfCompile group: "mezz.jei", name: "jei_${mcversion}", version: "${version_jei}"
+
     deobfCompile group: "com.mod-buildcraft", name: "buildcraft-api", version: "${version_buildcraft}"
     deobfCompile group: "curse.maven", name: "energy-control-373450", version: "3026320"
-    deobfCompile group: "mezz.jei", name: "jei_${mcversion}", version: "${version_jei}"
+    compile (group: "appeng", name: "appliedenergistics2", version: "rv6-stable-7", classifier: "api") {
+        exclude group: "mezz.jei"
+    }
 
     def databind = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
     implementation databind

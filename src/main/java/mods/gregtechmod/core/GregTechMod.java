@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
-     dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]")
+     dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion")
 public final class GregTechMod {
 
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
@@ -58,7 +58,6 @@ public final class GregTechMod {
     public static IProxy proxy;
 
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab("gregtechtab");
-    public static boolean postLoadFinished;
     public static File configDir;
 
     static {
@@ -116,8 +115,6 @@ public final class GregTechMod {
     @EventHandler
     public static void init(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
-
-        postLoadFinished = true;
     }
 
     @SubscribeEvent

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
-import mods.gregtechmod.api.recipe.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import java.util.Collection;
@@ -29,7 +29,22 @@ public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemS
             output = output.subList(0, 4);
         }
 
-        return new RecipeCentrifuge(input, output, cells, duration);
+        RecipeCentrifuge recipe = new RecipeCentrifuge(input, output, cells, duration);
+
+        if (input == null) {
+            GregTechAPI.logger.error("Tried to add a centrifuge recipe with null input");
+            recipe.invalid = true;
+        }
+
+        for (ItemStack stack : output) {
+            if (stack.isEmpty()) {
+                GregTechAPI.logger.error("Tried to add a centrifuge recipe with an empty ItemStack among its outputs");
+                recipe.invalid = true;
+                break;
+            }
+        }
+
+        return recipe;
     }
 
     @Override

@@ -4,7 +4,7 @@ import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlotConsumable;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.IGtRecipeManager;
-import mods.gregtechmod.api.recipe.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;

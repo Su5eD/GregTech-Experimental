@@ -15,7 +15,7 @@ import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.IGtRecipeManager;
-import mods.gregtechmod.api.recipe.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;

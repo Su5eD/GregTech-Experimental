@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import ic2.api.item.IC2Items;
-import ic2.core.ref.IMultiItem;
 import mods.gregtechmod.api.GregTechAPI;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -30,22 +29,28 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
 
         if (name.contains("#")) {
             String[] parts = name.split("#");
-            Item item = IC2Items.getItemAPI().getItem(parts[0].split(":")[1]);
-            if (item instanceof IMultiItem) {
-                ItemStack stack = ((IMultiItem<?>) item).getItemStack(parts[1]);
-                if (stack == null) {
-                    GregTechAPI.logger.error("MultiItem " + name + " not found");
-                    return ItemStack.EMPTY;
-                }
-                stack.setCount(count);
-                return stack;
+            String[] nameParts = parts[0].split(":");
+            ItemStack stack;
+            try {
+                stack = IC2Items.getItem(nameParts[1], parts[1]);
+            } catch (Throwable throwable) {
+                stack = ItemStack.EMPTY;
             }
+            if (stack == null || stack.isEmpty()) {
+                GregTechAPI.logger.error("MultiItem " + name + " not found");
+                return ItemStack.EMPTY;
+            }
+            stack.setCount(count);
+            return stack;
         }
 
         ResourceLocation registryName = new ResourceLocation(name);
         Item item = ForgeRegistries.ITEMS.getValue(registryName);
         if (item == Items.AIR || item == null) item = Item.getItemFromBlock(ForgeRegistries.BLOCKS.getValue(registryName));
-        if (item == Items.AIR) throw new IllegalArgumentException("Item/Block "+name+" not found");
+        if (item == Items.AIR) {
+            GregTechAPI.logger.error("Failed to deserialize ItemStack: Registry entry " + name + " not found");
+            return ItemStack.EMPTY;
+        }
 
         return new ItemStack(item, count, meta);
     }

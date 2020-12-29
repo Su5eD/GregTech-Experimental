@@ -19,8 +19,11 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GtUtil {
     public static final Random RANDOM = new Random();
@@ -47,6 +50,12 @@ public class GtUtil {
     public static ItemStack setWildcard(ItemStack stack) {
         stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
         return stack;
+    }
+
+    public static <T> List<T> nonNullList(T... elements) {
+        return Stream.of(elements)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {

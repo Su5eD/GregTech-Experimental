@@ -1,7 +1,7 @@
 package mods.gregtechmod.recipe;
 
-import mods.gregtechmod.api.recipe.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import net.minecraft.item.ItemStack;

@@ -1,19 +1,13 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import mods.gregtechmod.api.recipe.IRecipeIngredient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 
-import java.util.Arrays;
-import java.util.Collection;
+public class RecipeIngredientItemStack extends RecipeIngredientBase<Ingredient> {
 
-public class RecipeIngredientItemStack extends Ingredient implements IRecipeIngredient {
-    private final int count;
-
-    private RecipeIngredientItemStack(int count, ItemStack... stacks) {
-        super(stacks);
-        this.count = count;
+    protected RecipeIngredientItemStack(int count, ItemStack... stacks) {
+        super(Ingredient.fromStacks(stacks), count);
     }
 
     public static RecipeIngredientItemStack create(Item item) {
@@ -36,20 +30,5 @@ public class RecipeIngredientItemStack extends Ingredient implements IRecipeIngr
     public static RecipeIngredientItemStack create(int count, ItemStack... stacks) {
         if (stacks.length < 1) return null;
         return new RecipeIngredientItemStack(count, stacks);
-    }
-
-    @Override
-    public Ingredient asIngredient() {
-        return this;
-    }
-
-    @Override
-    public int getCount() {
-        return this.count;
-    }
-
-    @Override
-    public Collection<ItemStack> getMatchingInputs() {
-        return Arrays.asList(super.getMatchingStacks());
     }
 }

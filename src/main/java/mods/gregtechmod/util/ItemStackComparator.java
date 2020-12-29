@@ -13,6 +13,10 @@ public class ItemStackComparator implements Comparator<ItemStack> {
         int countDiff = second.getCount() - first.getCount();
         int metaDiff = second.getMetadata() - first.getMetadata();
 
-        return nameDiff + countDiff + metaDiff;
+        int total = nameDiff;
+        if (total == 0) total += metaDiff;
+        if (total == 0) total += countDiff;
+
+        return total;
     }
 }

@@ -1,5 +1,6 @@
 package mods.gregtechmod.api.recipe;
 
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
@@ -12,4 +13,10 @@ public interface IRecipeFactory {
     }
 
     IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAssemblerRecipe(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost);
+
+    default IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack output) {
+        return makePulverizerRecipe(input, output, ItemStack.EMPTY, 0);
+    }
+
+    IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance);
 }

@@ -1,7 +1,17 @@
 package mods.gregtechmod.init;
 
+import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.recipe.RecipePulverizer;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
+import mods.gregtechmod.util.ModHandler;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -113,31 +123,28 @@ public class OreDictHandler {
     }
 
     private void registerStoneRecipes(ItemStack stack, String name) {
-        /*ItemStack reinforcedStone = StackUtil.setSize(IC2Items.getItem("resource", "reinforced_stone"), 8);
-        GtRecipes.assembler.addRecipe(GregTechAPI.recipeFactory.makeAssemblerRecipe(RecipeIngredientOre.create("plateAlloyAdvanced"), RecipeIngredientOre.create("stoneSmooth", 8), reinforcedStone, 400, 4));
-        RecipePulverizer.manager.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("sandstone"), new ItemStack(Blocks.SAND), 10));
-        GtRecipes.assembler.addRecipe(GregTechAPI.recipeFactory.makeAssemblerRecipe(RecipeIngredientItemStack.create(coalBall), RecipeIngredientItemStack.create(stack), IC2Items.getItem("crafting", "coal_chunk"), 400, 4));
+        //GtRecipes.assembler.addRecipe(RecipeAssembler.create(RecipeIngredientOre.create("plateAlloyAdvanced"), RecipeIngredientOre.create("stoneSmooth", 8), StackUtil.setSize(IC2Items.getItem("resource", "reinforced_stone"), 8), 400, 4));
+        //GtRecipes.assembler.addRecipe(RecipeAssembler.create(RecipeIngredientItemStack.create(StackUtil.setSize(IC2Items.getItem("crafting", "coal_block"), 8)), RecipeIngredientOre.create("stoneObsidian"), IC2Items.getItem("crafting", "coal_chunk"), 400, 4));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("sandstone"), new ItemStack(Blocks.SAND), 10));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneEnd"), new ItemStack(BlockItems.Dusts.ENDSTONE.getInstance()), new ItemStack(BlockItems.Dusts.ENDSTONE.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneObsidian"), ModHandler.getRCItem("generic", 7, OreDictUnificator.get("dustObsidian")), OreDictUnificator.get("dustObsidian")), true);
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneNetherrack"), IC2Items.getItem("dust", "netherrack"), IC2Items.getItem("dust", "netherrack")));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneRedrock"), new ItemStack(BlockItems.Dusts.REDROCK.getInstance()), new ItemStack(BlockItems.Dusts.REDROCK.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneMarble"), new ItemStack(BlockItems.Dusts.MARBLE.getInstance()), new ItemStack(BlockItems.Dusts.MARBLE.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneBasalt"), new ItemStack(BlockItems.Dusts.BASALT.getInstance()), new ItemStack(BlockItems.Dusts.BASALT.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("itemFlint"), new ItemStack(BlockItems.Dusts.BASALT.getInstance(), 2), new ItemStack(Items.FLINT), 50));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneAbyssal"), new ItemStack(BlockItems.Dusts.BASALT.getInstance()), new ItemStack(BlockItems.Dusts.BASALT.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneQuarried"), new ItemStack(BlockItems.Dusts.MARBLE.getInstance()), new ItemStack(BlockItems.Dusts.MARBLE.getInstance())));
 
         Item item = stack.getItem();
-        if (name.startsWith("stone") && item instanceof ItemBlock) { //Dynamic: if name starts with stone
+        if (name.startsWith("stone") && item instanceof ItemBlock) {
             GregTechAPI.jackHammerMinableBlocks.add(((ItemBlock)item).getBlock());
             if (stack.getMaxStackSize() > GregTechConfig.FEATURES.maxOtherBlockStackSize) item.setMaxStackSize(GregTechConfig.FEATURES.maxOtherBlockStackSize);
         }
 
-        if (name.equals("dustEndstone")) RecipePulverizer.manager.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneEnd"), stack, stack, 10));
-        if (name.equals("dustNetherrack")) RecipePulverizer.manager.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneNetherrack"), stack, stack, 10));
         if (name.equals("stoneObsidian")) {
             if (item instanceof ItemBlock) ((ItemBlock)item).getBlock().setResistance(20.0F);
-            ItemStack coalBall = StackUtil.setSize(IC2Items.getItem("crafting", "coal_ball"), 8);
-            RecipePulverizer.manager.addRecipe(stack, ModHandler.getRCItem("generic", 7, OreDictUnificator.get("dustObsidian")), OreDictUnificator.get("dustObsidian"), 10, true);
-        } else if (!name.equals("stoneNetherBrick") && !name.equals("stoneNetherQuartz") && !name.equals("stoneGranite")) {
-            if (name.equals("stoneRedrock") || name.equals("stoneRedRock")) ModHandler.addPulverisationRecipe(stack, OreDictUnificator.get("dustRedRock"), OreDictUnificator.get("dustRedRock"), 10, false);
-            else if (name.startsWith("stoneMarble")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustMarble"), OreDictUnificator.get("dustMarble"), 10, false);
-            else if (name.startsWith("stoneBasalt")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustBasalt"), OreDictUnificator.get("dustBasalt"), 10, false);
-            else if (name.startsWith("stoneFlint")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustFlint", 2), new ItemStack(Items.FLINT), 50, false);
-            else if (name.startsWith("stoneAbyssal")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustBasalt"), OreDictUnificator.get("dustBasalt"), 10, false);
-            else if (name.startsWith("stoneQuarried")) RecipePulverizer.manager.addRecipe(stack, OreDictUnificator.get("dustMarble"), OreDictUnificator.get("dustMarble"), 10, false);
-        }*/
+        }
     }
 
     public void registerRecipes(String name, ItemStack ore) {

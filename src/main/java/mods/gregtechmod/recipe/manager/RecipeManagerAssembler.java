@@ -1,8 +1,7 @@
 package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
-import mods.gregtechmod.api.recipe.IRecipeIngredient;
-import mods.gregtechmod.util.ItemStackComparator;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import java.util.Comparator;
@@ -11,7 +10,7 @@ import java.util.List;
 public class RecipeManagerAssembler extends RecipeManager<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, ItemStack>> {
 
     public RecipeManagerAssembler() {
-        super(AssemblerRecipeComparator.INSTANCE);
+        super(new AssemblerRecipeComparator());
     }
 
     @Override
@@ -33,19 +32,16 @@ public class RecipeManagerAssembler extends RecipeManager<List<IRecipeIngredient
     }
 
     private static class AssemblerRecipeComparator implements Comparator<IGtMachineRecipe<List<IRecipeIngredient>, ItemStack>> {
-        public static final AssemblerRecipeComparator INSTANCE = new AssemblerRecipeComparator();
 
         @Override
         public int compare(IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> first, IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> second) {
-            int ret = 0;
-            for (int i = 0; i < 2; i++) {
-                for (ItemStack firstStack : first.getInput().get(i).getMatchingInputs()) {
-                    for (ItemStack secondStack : second.getInput().get(i).getMatchingInputs()) {
-                        ret += ItemStackComparator.INSTANCE.compare(firstStack, secondStack);
-                    }
+            int itemDiff = 0;
+            for (IRecipeIngredient firstInput : first.getInput()) {
+                for (IRecipeIngredient secondInput : second.getInput()) {
+                    itemDiff += firstInput.compareTo(secondInput);
                 }
             }
-            return ret;
+            return itemDiff;
         }
     }
 }

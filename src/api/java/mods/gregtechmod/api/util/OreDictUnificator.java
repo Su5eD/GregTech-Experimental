@@ -143,7 +143,12 @@ public class OreDictUnificator {
     }
 
     public static String getAssociation(ItemStack stack) {
-        return item2OreMap.get(stack);
+        String name = item2OreMap.get(stack);
+        if (name == null) {
+            int[] ids = OreDictionary.getOreIDs(stack);
+            if (ids.length > 0) name = OreDictionary.getOreName(ids[0]);
+        }
+        return name != null && !name.equalsIgnoreCase("unknown") ? name : "";
     }
 
     public static boolean isItemInstanceOf(Block block, String name, boolean prefix) {
@@ -154,8 +159,7 @@ public class OreDictUnificator {
         if (stack.isEmpty() || name == null || name.isEmpty()) return false;
         String string = item2OreMap.get(stack);
         if (string == null) {
-            ItemStack ore = stack.copy();
-            ore.setItemDamage(OreDictionary.WILDCARD_VALUE);
+            ItemStack ore = StackUtil.copyWithWildCard(stack);
             string = item2OreMap.get(ore);
             if (string == null) {
                 if (!prefix) {

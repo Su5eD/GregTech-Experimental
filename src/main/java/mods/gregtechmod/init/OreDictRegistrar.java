@@ -111,6 +111,7 @@ public class OreDictRegistrar {
         registerOre("stoneChiseled", Blocks.STONEBRICK);
         registerOre("stoneNetherrack", Blocks.NETHERRACK);
         registerOre("stoneNetherBrick", Blocks.NETHER_BRICK);
+        registerOre("stoneRedrock", Blocks.RED_SANDSTONE);
         registerOre("stoneEnd", Blocks.END_STONE);
         registerOre("craftingRedstoneTorch", Blocks.REDSTONE_TORCH);
         registerOre("craftingRedstoneTorch", Blocks.UNLIT_REDSTONE_TORCH);
@@ -330,6 +331,19 @@ public class OreDictRegistrar {
         if (Loader.isModLoaded("thermalexpansion")) {
             registerOre("craftingMacerator", ModHandler.getTEItem("machine", 1));
             registerOre("craftingInductionFurnace", ModHandler.getTEItem("machine", 3));
+        }
+
+        if (Loader.isModLoaded("quark")) {
+            registerOre("stoneRedrock", ModHandler.getModItem("quark", "jasper", OreDictionary.WILDCARD_VALUE));
+        }
+
+        if (Loader.isModLoaded("traverse")) {
+            registerOre("stoneRedrock", ModHandler.getModItem("traverse", "red_rock", OreDictionary.WILDCARD_VALUE));
+        }
+
+        if (Loader.isModLoaded("pvj")) {
+            registerOre("stoneMarble", ModHandler.getModItem("pvj", "marble"));
+            registerOre("stoneBasalt", ModHandler.getModItem("pvj", "basalt"));
         }
     }
 

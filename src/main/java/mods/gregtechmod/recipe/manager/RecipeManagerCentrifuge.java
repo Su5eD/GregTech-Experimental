@@ -1,10 +1,8 @@
 package mods.gregtechmod.recipe.manager;
 
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
-import mods.gregtechmod.api.recipe.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
-import mods.gregtechmod.util.ItemStackComparator;
 import net.minecraft.item.ItemStack;
 
 import java.util.Comparator;
@@ -38,20 +36,13 @@ public class RecipeManagerCentrifuge extends RecipeManager<IRecipeIngredient, It
 
         @Override
         public int compare(IRecipeCentrifuge first, IRecipeCentrifuge second) {
-            int itemdiff = 0;
-            IRecipeIngredient firstInput = first.getInput();
-            IRecipeIngredient secondInput = second.getInput();
-            for (ItemStack firstStack : firstInput.getMatchingInputs()) {
-                for (ItemStack secondStack : secondInput.getMatchingInputs()) {
-                    itemdiff += ItemStackComparator.INSTANCE.compare(StackUtil.setSize(firstStack, firstInput.getCount()), StackUtil.setSize(secondStack, secondInput.getCount()));
-                }
-            }
-            int cellsDiff = second.getCells() - first.getCells();
+            int itemdiff = first.getInput().compareTo(second.getInput());
 
-            int total = itemdiff;
-            if (itemdiff == 0) total += cellsDiff;
+            if (itemdiff == 0) itemdiff += second.getCells() - first.getCells();
 
-            return total;
+            System.out.println("Comparing "+first.getDuration()+" <-> "+second.getDuration()+" "+itemdiff);
+
+            return itemdiff;
         }
     }
 }

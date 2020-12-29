@@ -21,10 +21,8 @@ public abstract class RecipeManager<RI, I, R extends IGtMachineRecipe<RI, ?>> im
 
     @Override
     public void addRecipe(R recipe, boolean overwrite) {
-        if (this.recipes.contains(recipe)) {
-            if (!overwrite) return;
-            else this.recipes.remove(recipe);
-        }
+        if (overwrite) this.recipes.remove(recipe);
+
         this.recipes.add(recipe);
     }
 

@@ -1,18 +1,37 @@
 package mods.gregtechmod.util;
 
-import ic2.api.item.IC2Items;
-import ic2.api.recipe.IBasicMachineRecipeManager;
+import appeng.api.AEApi;
+import appeng.api.features.IGrinderRecipe;
+import appeng.api.features.IGrinderRegistry;
+import cofh.thermalexpansion.util.managers.machine.PulverizerManager;
+import cofh.thermalexpansion.util.managers.machine.SawmillManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ModHandler {
+
+    public static ItemStack getModItem(String modid, String itemName) {
+        return getModItem(modid, itemName, 0);
+    }
+
+    public static ItemStack getModItem(String modid, String itemName, int meta) {
+        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(modid, itemName));
+        if (item == null) return ItemStack.EMPTY;
+        return new ItemStack(item, 1, meta);
+    }
 
     public static ItemStack getTEItem(String baseItem, int meta) {
         Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalexpansion", baseItem));
@@ -56,79 +75,76 @@ public class ModHandler {
         return new ItemStack(base, 1, meta);
     }
 
-    public static ItemStack getICItem(String baseItem, String type, int count) {
-        ItemStack stack = IC2Items.getItem(baseItem, type);
-        stack.setCount(count);
-        return stack;
+    public static void addTESawmillRecipe(int energy, ItemStack input, ItemStack output) {
+        addTESawmillRecipe(energy, input, output, ItemStack.EMPTY, 0);
     }
 
-    /*public static boolean addPulverisationRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
-        primaryOutput = OreDictUnificator.get(primaryOutput);
-        secondaryOutput = OreDictUnificator.get(secondaryOutput);
+    public static void addTESawmillRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
+        if (Loader.isModLoaded("thermalexpansion")) registerSawmillRecipe(energy, input, primaryOutput, secondaryOutput, chance);
+    }
 
-        removeSimpleIC2MachineRecipe(input, ItemStack.EMPTY, Recipes.macerator);
-        if (!input.getItem().hasContainerItem(input)) {
-            if (input.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-                for (int i = 0; i < 16; i++) {
-                    ItemStack metaInput = input.copy();
-                    metaInput.setItemDamage(i);
-                    removeSimpleIC2MachineRecipe(metaInput, ItemStack.EMPTY, Recipes.macerator);
-                    Recipes.macerator.addRecipe(Recipes.inputFactory.forStack(metaInput), null, true, primaryOutput);
-                }
-            } else {
-                Recipes.macerator.addRecipe(Recipes.inputFactory.forStack(input), null, true, primaryOutput);
+    @Optional.Method(modid = "thermalexpansion")
+    private static void registerSawmillRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
+        SawmillManager.addRecipe(energy, input, primaryOutput, secondaryOutput, chance);
+    }
+
+    public static void addTEPulverizerRecipe(int energy, ItemStack input, ItemStack output) {
+        addTEPulverizerRecipe(energy, input, output, ItemStack.EMPTY, 0);
+    }
+
+    public static void addTEPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
+        if (Loader.isModLoaded("thermalexpansion")) registerPulverizerRecipe(energy, input, primaryOutput, secondaryOutput, chance);
+    }
+
+    @Optional.Method(modid = "thermalexpansion")
+    private static void registerPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
+        PulverizerManager.addRecipe(energy, input, primaryOutput, secondaryOutput, chance);
+    }
+
+    public static void addRockCrusherRecipe(ItemStack input, boolean matchMeta, boolean matchNBT, Map<ItemStack, Float> outputs) {
+        NBTTagCompound nbt = new NBTTagCompound();
+
+        NBTTagCompound inputNBT = new NBTTagCompound();
+        input.writeToNBT(inputNBT);
+        nbt.setTag("input", inputNBT);
+
+        nbt.setBoolean("matchMeta", matchMeta);
+        nbt.setBoolean("matchNBT", matchNBT);
+
+        int outCount = 0;
+        for (Map.Entry<ItemStack, Float> output : outputs.entrySet()) {
+            NBTTagCompound outputNBT = new NBTTagCompound();
+            output.getKey().writeToNBT(outputNBT);
+            outputNBT.setFloat("chance", output.getValue());
+            nbt.setTag("output" + outCount++, outputNBT);
+        }
+
+        FMLInterModComms.sendMessage("Railcraft", "rock-crusher", nbt);
+    }
+
+    public static void addAEGrinderRecipe(ItemStack input, ItemStack output, int turns) {
+        if (Loader.isModLoaded("appliedenergistics2")) registerAEGrinderRecipe(input, output, turns);
+    }
+
+    @Optional.Method(modid = "appliedenergistics2")
+    private static void registerAEGrinderRecipe(ItemStack input, ItemStack output, int turns) {
+        IGrinderRegistry registry = AEApi.instance().registries().grinder();
+        IGrinderRecipe recipe = registry.builder()
+                .withInput(input)
+                .withOutput(output)
+                .withTurns(turns)
+                .build();
+        registry.addRecipe(recipe);
+    }
+
+    public static void removeSimpleIC2MachineRecipe(ItemStack input, BasicMachineRecipeManager manager) {
+        Iterator<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> iterator = manager.getRecipes().iterator();
+        while (iterator.hasNext()) {
+            MachineRecipe<IRecipeInput, Collection<ItemStack>> recipe = iterator.next();
+            if (recipe.getInput().matches(input)) {
+                iterator.remove();
+                return;
             }
         }
-        try {
-            sPulverizerRecipes.put(Integer.valueOf(GT_Utility.stackToInt(input)), new GT_PulverizerRecipe(input, primaryOutput, secondaryOutput, (chance <= 0) ? 10 : chance));
-        } catch (Throwable e) {}
-        if (!GT_OreDictUnificator.isItemStackInstanceOf(primaryOutput, "dustWood", false) && !GT_OreDictUnificator.isItemStackInstanceOf(primaryOutput, "dustSmallWood", false)) {
-            try {
-                if (!input.getItem().hasContainerItem() &&
-                        GT_OreDictUnificator.isItemStackInstanceOf(input, "ingot", true))
-                    Util.getGrinderRecipeManage().addRecipe(input, primaryOutput, 5);
-            } catch (Throwable e) {}
-            try {
-                if (!input.getItem().hasContainerItem() &&
-                        input.itemID != Block.obsidian.blockID) {
-                    IRockCrusherRecipe tRecipe = RailcraftCraftingManager.rockCrusher.createNewRecipe(input.copy().splitStack(1), (input.getItemDamage() != 32767), false);
-                    tRecipe.addOutput(primaryOutput.copy(), 1.0F / input.stackSize);
-                    tRecipe.addOutput(secondaryOutput.copy(), 0.01F * ((chance <= 0) ? 10 : chance) / input.stackSize);
-                }
-            } catch (Throwable e) {}
-            try {
-                if (!input.getItem().hasContainerItem())
-                    if (secondaryOutput == null) {
-                        CraftingManagers.pulverizerManager.addRecipe(400, input.copy(), primaryOutput.copy(), overwrite);
-                    } else {
-                        CraftingManagers.pulverizerManager.addRecipe(400, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), (chance <= 0) ? 10 : chance, overwrite);
-                    }
-            } catch (Throwable e) {}
-        } else {
-            try {
-                if (!input.getItem().hasContainerItem())
-                    if (secondaryOutput == null) {
-                        CraftingManagers.sawmillManager.addRecipe(80, input.copy(), primaryOutput.copy(), overwrite);
-                    } else {
-                        CraftingManagers.sawmillManager.addRecipe(80, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), (chance <= 0) ? 10 : chance, overwrite);
-                    }
-            } catch (Throwable e) {}
-        }
-        return true;
-    }*/
-
-    public static boolean removeSimpleIC2MachineRecipe(ItemStack input, ItemStack output, IBasicMachineRecipeManager manager) {
-        if ((input.isEmpty() && output.isEmpty()) || manager == null) return false;
-
-        for (MachineRecipe<IRecipeInput, Collection<ItemStack>> recipe : manager.getRecipes()) {
-            ItemStack recipeInput = recipe.getInput().getInputs().get(0);
-            Collection<ItemStack> recipeOutput = recipe.getOutput();
-            if ((input.isEmpty() || recipeInput.isItemEqual(input)) && (output.isEmpty() || recipeOutput.toArray(new ItemStack[0])[0].isItemEqual(output))) {
-                ((BasicMachineRecipeManager) manager).removeRecipe(recipeInput, recipeOutput);
-                removeSimpleIC2MachineRecipe(input, output, manager);
-                return true;
-            }
-        }
-        return false;
     }
 }
