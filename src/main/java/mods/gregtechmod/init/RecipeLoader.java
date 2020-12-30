@@ -14,6 +14,7 @@ import mods.gregtechmod.recipe.RecipeAssembler;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
 import mods.gregtechmod.recipe.RecipeFactory;
 import mods.gregtechmod.recipe.RecipeIngredientFactory;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.RecipeManagerAssembler;
 import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
@@ -22,6 +23,7 @@ import mods.gregtechmod.util.ItemStackDeserializer;
 import mods.gregtechmod.util.RecipeFilter;
 import mods.gregtechmod.util.RecipeIngredientDeserializer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.Loader;
 
 import javax.annotation.Nullable;
@@ -60,10 +62,10 @@ public class RecipeLoader {
 
             GtRecipes.industrial_centrifuge = new RecipeManagerCentrifuge();
             RecipeLoader.parseRecipe("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Default.class)
-                    .ifPresent(recipes -> recipes.stream().filter(recipe -> !recipe.isInvalid()).forEach(GtRecipes.industrial_centrifuge::addRecipe));
+                    .ifPresent(recipes -> recipes.forEach(GtRecipes.industrial_centrifuge::addRecipe));
             GtRecipes.assembler = new RecipeManagerAssembler();
             RecipeLoader.parseRecipe("assembler", RecipeAssembler.class, null)
-                    .ifPresent(recipes -> recipes.stream().filter(recipe -> !recipe.isInvalid()).forEach(GtRecipes.assembler::addRecipe));
+                    .ifPresent(recipes -> recipes.stream().forEach(GtRecipes.assembler::addRecipe));
 
             GtRecipes.pulverizer = new RecipeManagerPulverizer();
 
@@ -73,9 +75,19 @@ public class RecipeLoader {
 
         GtRecipes.industrial_centrifuge.getRecipes().forEach(recipe -> {
             System.out.println("Input:");
-            List<ItemStack> matchingInputs = recipe.getInput().getMatchingInputs();
-            if (matchingInputs.isEmpty() && recipe.getInput() instanceof RecipeIngredientOre) System.out.println(" " + ((RecipeIngredientOre) recipe.getInput()).getOre() + " " + recipe.getInput().getCount());
-            recipe.getInput().getMatchingInputs().forEach(stack -> System.out.println(" " + stack.getItem().getRegistryName() + " x " + recipe.getInput().getCount() + " @ " + stack.getMetadata()));
+            IRecipeIngredient input = recipe.getInput();
+            List<ItemStack> matchingInputs = input.getMatchingInputs();
+            if (matchingInputs.isEmpty() && input instanceof RecipeIngredientOre) System.out.println(" " + ((RecipeIngredientOre) input).getOre() + " x " + input.getCount());
+            input.getMatchingInputs().forEach(stack -> System.out.println(" " + stack.getItem().getRegistryName() + " x " + input.getCount() + " @ " + stack.getMetadata()));
+            if (input instanceof RecipeIngredientFluid) {
+                System.out.println(" Bucket meta:");
+                input.getMatchingInputs().forEach(stack -> System.out.println("  "+stack.getTagCompound()));
+
+                System.out.println(" Fluids: ");
+                for (Fluid fluid : ((RecipeIngredientFluid) input).getMatchingFluids()) {
+                    System.out.println("  "+fluid.getName()+" x "+((RecipeIngredientFluid) input).getFluidAmount());
+                }
+            }
             System.out.println("Output:");
             recipe.getOutput().forEach(stack -> {
                 String name;

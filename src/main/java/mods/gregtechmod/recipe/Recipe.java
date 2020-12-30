@@ -40,6 +40,7 @@ public class Recipe<I, O> implements IGtMachineRecipe<I, O> {
         return this.duration;
     }
 
+    @Override
     public boolean isInvalid() {
         return this.invalid;
     }

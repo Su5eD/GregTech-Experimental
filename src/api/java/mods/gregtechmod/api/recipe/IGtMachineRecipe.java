@@ -8,4 +8,6 @@ public interface IGtMachineRecipe<I, O> {
     double getEnergyCost();
 
     int getDuration();
+
+    boolean isInvalid();
 }

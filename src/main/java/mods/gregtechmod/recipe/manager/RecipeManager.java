@@ -16,7 +16,7 @@ public abstract class RecipeManager<RI, I, R extends IGtMachineRecipe<RI, ?>> im
 
     @Override
     public void addRecipe(R recipe) {
-        addRecipe(recipe, false);
+        if (!recipe.isInvalid()) addRecipe(recipe, false);
     }
 
     @Override
