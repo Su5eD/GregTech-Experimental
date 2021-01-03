@@ -21,6 +21,7 @@ import mods.gregtechmod.api.event.ScannerEvent;
 import mods.gregtechmod.api.machine.IGregtechMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
@@ -149,7 +150,7 @@ public class ItemScanner extends ItemElectricBase {
                 EUCost+=500;
                 int tValue;
                 if (0 < (tValue = ((IUpgradableMachine)tileEntity).getOverclockersCount())) ret.add(tValue	+ " Overclocker Upgrades");
-                if (0 < (tValue = ((IUpgradableMachine)tileEntity).getTransformerUpgradeCount())) ret.add(tValue	+ " Transformer Upgrades");
+                if (0 < (tValue = ((IUpgradableMachine)tileEntity).getUpgradeCount(GtUpgradeType.TRANSFORMER))) ret.add(tValue	+ " Transformer Upgrades");
                 if (0 < (tValue = (int) ((IUpgradableMachine)tileEntity).getExtraEnergyStorage())) ret.add(tValue	+ " Upgraded EU Capacity");
             }
 

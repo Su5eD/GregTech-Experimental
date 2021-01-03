@@ -51,7 +51,7 @@ public class ItemSprayColor extends ItemToolCrafting {
         Block block = state.getBlock();
         if (block == Blocks.AIR) return EnumActionResult.PASS;
         ItemStack stack = player.inventory.getCurrentItem();
-        if (block == Blocks.WOOL || (block.getRegistryName() != null && block.getRegistryName().toString().equals("thermalfoundation:rockwool"))) {
+        if (block == Blocks.WOOL || (block.getRegistryName().toString().equals("thermalfoundation:rockwool"))) {
             int meta = block.getMetaFromState(state);
             int targetMeta = this.color.getMetadata();
             if (block != Blocks.WOOL) targetMeta = 15 - targetMeta;

@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities.machines.container;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks.container;
 
 import ic2.core.ContainerBase;
 import ic2.core.util.StackUtil;

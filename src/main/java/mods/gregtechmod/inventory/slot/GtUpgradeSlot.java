@@ -1,4 +1,4 @@
-package mods.gregtechmod.inventory;
+package mods.gregtechmod.inventory.slot;
 
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.api.upgrade.UpgradableProperty;

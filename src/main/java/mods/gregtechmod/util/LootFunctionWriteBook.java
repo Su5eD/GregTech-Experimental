@@ -24,7 +24,7 @@ public class LootFunctionWriteBook extends LootFunction {
 
     @Override
     public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
-        ItemStack book = BlockItems.Books.valueOf(this.name).getInstance();
+        ItemStack book = BlockItems.Book.valueOf(this.name).getInstance();
         stack.setTagCompound(book.getTagCompound());
         return stack;
     }

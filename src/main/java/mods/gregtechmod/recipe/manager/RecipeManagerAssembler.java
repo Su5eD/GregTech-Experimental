@@ -26,7 +26,7 @@ public class RecipeManagerAssembler extends RecipeManager<List<IRecipeIngredient
     public boolean hasRecipeFor(List<ItemStack> input) {
         for (IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> recipe : this.recipes) {
             List<IRecipeIngredient> recipeInput = recipe.getInput();
-            if (recipeInput.get(0).asIngredient().apply(input.get(0)) && recipeInput.get(1).asIngredient().apply(input.get(1))) return true;
+            if (recipeInput.get(0).apply(input.get(0), false) && recipeInput.get(1).apply(input.get(1), false)) return true;
         }
         return false;
     }

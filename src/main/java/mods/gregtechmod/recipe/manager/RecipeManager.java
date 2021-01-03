@@ -1,7 +1,7 @@
 package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
-import mods.gregtechmod.api.recipe.IGtRecipeManager;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 
 import java.util.Comparator;
 import java.util.SortedSet;

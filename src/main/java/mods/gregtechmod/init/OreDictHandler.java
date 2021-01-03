@@ -126,15 +126,15 @@ public class OreDictHandler {
         //GtRecipes.assembler.addRecipe(RecipeAssembler.create(RecipeIngredientOre.create("plateAlloyAdvanced"), RecipeIngredientOre.create("stoneSmooth", 8), StackUtil.setSize(IC2Items.getItem("resource", "reinforced_stone"), 8), 400, 4));
         //GtRecipes.assembler.addRecipe(RecipeAssembler.create(RecipeIngredientItemStack.create(StackUtil.setSize(IC2Items.getItem("crafting", "coal_block"), 8)), RecipeIngredientOre.create("stoneObsidian"), IC2Items.getItem("crafting", "coal_chunk"), 400, 4));
         GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("sandstone"), new ItemStack(Blocks.SAND), 10));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneEnd"), new ItemStack(BlockItems.Dusts.ENDSTONE.getInstance()), new ItemStack(BlockItems.Dusts.ENDSTONE.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneEnd"), new ItemStack(BlockItems.Dust.ENDSTONE.getInstance()), new ItemStack(BlockItems.Dust.ENDSTONE.getInstance())));
         GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneObsidian"), ModHandler.getRCItem("generic", 7, OreDictUnificator.get("dustObsidian")), OreDictUnificator.get("dustObsidian")), true);
         GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneNetherrack"), IC2Items.getItem("dust", "netherrack"), IC2Items.getItem("dust", "netherrack")));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneRedrock"), new ItemStack(BlockItems.Dusts.REDROCK.getInstance()), new ItemStack(BlockItems.Dusts.REDROCK.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneMarble"), new ItemStack(BlockItems.Dusts.MARBLE.getInstance()), new ItemStack(BlockItems.Dusts.MARBLE.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneBasalt"), new ItemStack(BlockItems.Dusts.BASALT.getInstance()), new ItemStack(BlockItems.Dusts.BASALT.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("itemFlint"), new ItemStack(BlockItems.Dusts.BASALT.getInstance(), 2), new ItemStack(Items.FLINT), 50));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneAbyssal"), new ItemStack(BlockItems.Dusts.BASALT.getInstance()), new ItemStack(BlockItems.Dusts.BASALT.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneQuarried"), new ItemStack(BlockItems.Dusts.MARBLE.getInstance()), new ItemStack(BlockItems.Dusts.MARBLE.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneRedrock"), new ItemStack(BlockItems.Dust.REDROCK.getInstance()), new ItemStack(BlockItems.Dust.REDROCK.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneMarble"), new ItemStack(BlockItems.Dust.MARBLE.getInstance()), new ItemStack(BlockItems.Dust.MARBLE.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneBasalt"), new ItemStack(BlockItems.Dust.BASALT.getInstance()), new ItemStack(BlockItems.Dust.BASALT.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("itemFlint"), new ItemStack(BlockItems.Dust.BASALT.getInstance(), 2), new ItemStack(Items.FLINT), 50));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneAbyssal"), new ItemStack(BlockItems.Dust.BASALT.getInstance()), new ItemStack(BlockItems.Dust.BASALT.getInstance())));
+        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneQuarried"), new ItemStack(BlockItems.Dust.MARBLE.getInstance()), new ItemStack(BlockItems.Dust.MARBLE.getInstance())));
 
         Item item = stack.getItem();
         if (name.startsWith("stone") && item instanceof ItemBlock) {

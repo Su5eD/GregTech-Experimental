@@ -1,4 +1,6 @@
-package mods.gregtechmod.api.recipe;
+package mods.gregtechmod.api.recipe.manager;
+
+import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 
 import java.util.SortedSet;
 

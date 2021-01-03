@@ -17,7 +17,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -52,8 +51,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
         }
         Item itemFoam = IC2Items.getItem("foam", "normal").getItem(),
              itemWall = IC2Items.getItem("wall", "light_gray").getItem();
-        ResourceLocation blockName = block.getRegistryName();
-        if (blockName != null && blockName.equals(itemFoam.getRegistryName())) {
+        if (block.getRegistryName().equals(itemFoam.getRegistryName())) {
             if (GtUtil.damageStack(player, stack, 1))
                 world.setBlockState(pos, Block.getBlockFromItem(itemWall).getStateFromMeta(7));
             return EnumActionResult.SUCCESS;

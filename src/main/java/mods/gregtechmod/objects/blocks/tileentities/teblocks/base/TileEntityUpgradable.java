@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities.machines.base;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.upgrade.IUpgradeItem;
@@ -17,7 +17,7 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.inventory.GtFluidTank;
-import mods.gregtechmod.inventory.GtUpgradeSlot;
+import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -253,8 +253,8 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     private int calculateAverageInput() {
         if (this.energy.getSinkDirs().isEmpty()) return 0;
         int currentEU = (int) this.energy.getEnergy();
-        input = currentEU - previousEU;
-        previousEU = currentEU;
+        this.input = currentEU - previousEU;
+        this.previousEU = currentEU;
 
         if (input > 0) averageEUInputRaw[averageEUInputIndex] = input;
         if (++averageEUInputIndex  >= averageEUInputRaw.length) averageEUInputIndex  = 0;
@@ -379,8 +379,37 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     @Override
-    public int getTransformerUpgradeCount() {
-        return this.energy.getSinkTier() - this.defaultTier;
+    public int getUpgradeCount(GtUpgradeType type) {
+        int total = 0;
+        for (ItemStack stack : this.upgradeSlot) {
+            Item item = stack.getItem();
+            if (item instanceof IGtUpgradeItem && ((IGtUpgradeItem) item).getType() == type) total += stack.getCount();
+        }
+        return total;
+    }
+
+    @Override
+    public int getUpgradecount(IC2UpgradeType type) {
+        int total = 0;
+        for (ItemStack stack : this.upgradeSlot) {
+            IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
+            if (upgradeType != null && upgradeType == type) total += stack.getCount();
+        }
+        return total;
+    }
+
+    @Override
+    public int getUpgradecount(IGtUpgradeItem upgrade) {
+        int total = 0;
+        for (ItemStack stack : this.upgradeSlot) {
+            Item item = stack.getItem();
+            if (item instanceof IGtUpgradeItem && ((IGtUpgradeItem) item).getName().equals(upgrade.getName())) total += stack.getCount();
+            else if (item instanceof IUpgradeItem) {
+                IC2UpgradeType type = IC2UpgradeType.fromStack(stack);
+                if (type != null && type.itemType.equals(upgrade.getType().name())) total += stack.getCount();
+            }
+        }
+        return total;
     }
 
     @Override

@@ -59,7 +59,7 @@ public class OreDictUnificator {
     public static void override(String name, ItemStack stack) {
         if (name == null || name.isEmpty() || name.startsWith("itemDust") || stack.isEmpty() || stack.getItemDamage() < 0) return;
 
-        if (stack.getItem().getRegistryName() == null || stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(GtUtil.getStackConfigName(stack))) set(name, stack);
+        if (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(GtUtil.getStackConfigName(stack))) set(name, stack);
     }
 
     public static ItemStack getFirstOre(String name) {

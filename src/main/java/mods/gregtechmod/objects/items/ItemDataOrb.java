@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.items;
 
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;

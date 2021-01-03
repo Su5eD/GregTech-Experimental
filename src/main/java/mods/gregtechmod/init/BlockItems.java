@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.TriConsumer;
@@ -12,14 +13,10 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockOre;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
-import mods.gregtechmod.objects.items.ItemDataOrb;
-import mods.gregtechmod.objects.items.ItemDestructorPack;
-import mods.gregtechmod.objects.items.ItemSolderingMetal;
-import mods.gregtechmod.objects.items.ItemSonictron;
+import mods.gregtechmod.objects.items.*;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -38,11 +35,11 @@ import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class BlockItems {
-    public static Block lightSource;
+    public static net.minecraft.block.Block lightSource;
     public static Item sensorKit;
     public static Item sensorCard;
 
-    public enum Blocks {
+    public enum Block {
         ADVANCED_MACHINE(4, 30),
         ADVANCED_MACHINE_CASING(ConnectedBlock::new, 3, 30),
         ALUMINIUM(3, 30),
@@ -70,22 +67,22 @@ public class BlockItems {
         TUNGSTEN_STEEL(ConnectedBlock::new, 100, 300),
         ZINC(3.5F, 30);
 
-        private Block instance;
-        private final Supplier<Block> constructor;
+        private net.minecraft.block.Block instance;
+        private final Supplier<net.minecraft.block.Block> constructor;
         private final float hardness;
         private final float resistance;
 
-        Blocks(float hardness, float resistance) {
+        Block(float hardness, float resistance) {
             this(() -> new BlockBase(Material.IRON), hardness, resistance);
         }
 
-        Blocks(Supplier<Block> constructor, float hardness, float resistance) {
+        Block(Supplier<net.minecraft.block.Block> constructor, float hardness, float resistance) {
             this.constructor = constructor;
             this.hardness = hardness;
             this.resistance = resistance;
         }
 
-        public Block getInstance() {
+        public net.minecraft.block.Block getInstance() {
             if (this.instance == null) {
                 this.instance = this.constructor.get()
                         .setRegistryName("block_" + this.name().toLowerCase(Locale.ROOT))
@@ -99,7 +96,7 @@ public class BlockItems {
         }
     }
 
-    public enum Ores {
+    public enum Ore {
         GALENA(3, 0, 0, (fortune, drops) -> {}),
         IRIDIUM(20, 30, 21, (fortune, drops) -> {
             ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
@@ -117,19 +114,19 @@ public class BlockItems {
         }),
         BAUXITE(3, 0, 0, (fortune, drops) -> {}),
         PYRITE(2, 1, 1, (fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.PYRITE.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Dust.PYRITE.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
         }),
         CINNABAR(3, 3, 3, (fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.CINNABAR.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Dust.CINNABAR.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Items.REDSTONE, 1));
         }),
         SPHALERITE(2, 1, 1, (fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.SPHALERITE.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Dust.SPHALERITE.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dusts.ZINC.instance));
+                drops.add(new ItemStack(Dust.ZINC.instance));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dusts.YELLOW_GARNET.instance));
+                drops.add(new ItemStack(Dust.YELLOW_GARNET.instance));
         }),
         TUNGSTATE(4, 0, 0, (fortune, drops) -> {}),
         SHELDONITE(3.5F, 0, 0, (fortune, drops) -> {}),
@@ -137,26 +134,26 @@ public class BlockItems {
             drops.add(new ItemStack(Miscellaneous.OLIVINE.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
         }),
         SODALITE(3, 0, 0, (fortune, drops) -> {
-            drops.add(new ItemStack(Dusts.SODALITE.instance, 6 + 3 * GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Dust.SODALITE.instance, 6 + 3 * GtUtil.RANDOM.nextInt(1 + fortune)));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dusts.ALUMINIUM.instance));
+                drops.add(new ItemStack(Dust.ALUMINIUM.instance));
         }),
         TETRAHEDRITE(3, 0, 0, (fortune, drops) -> {}),
         CASSITERITE(3, 0, 0, (fortune, drops) -> {});
-        private Block instance;
+        private net.minecraft.block.Block instance;
         public final float hardness;
         public final int dropChance;
         public final int dropRandom;
         public final BiConsumer<Integer, List<ItemStack>> loot;
 
-        Ores(float hardness, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
+        Ore(float hardness, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
             this.hardness = hardness;
             this.dropChance = dropChance;
             this.dropRandom = dropRandom;
             this.loot = loot;
         }
 
-        public Block getInstance() {
+        public net.minecraft.block.Block getInstance() {
             if (this.instance == null) {
                 String name = this.name().toLowerCase(Locale.ROOT)+"_ore";
                 this.instance = new BlockOre(this.name().toLowerCase(Locale.ROOT), this.dropChance, this.dropRandom, this.loot)
@@ -170,7 +167,7 @@ public class BlockItems {
         }
     }
 
-    public enum Ingots {
+    public enum Ingot {
         ALUMINIUM("Al"),
         ANTIMONY("Sb"),
         BATTERY_ALLOY("Pb4Sb1"),
@@ -197,11 +194,11 @@ public class BlockItems {
         public final String description;
         public final boolean hasEffect;
 
-        Ingots(String description) {
+        Ingot(String description) {
             this(description, false);
         }
 
-        Ingots(String description, boolean hasEffect) {
+        Ingot(String description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
         }
@@ -220,29 +217,29 @@ public class BlockItems {
         }
     }
 
-    public enum Nuggets {
-        ALUMINIUM(Ingots.ALUMINIUM.description),
-        ANTIMONY(Ingots.ANTIMONY.description),
-        BRASS(Ingots.BRASS.description),
-        CHROME(Ingots.CHROME.description),
+    public enum Nugget {
+        ALUMINIUM(Ingot.ALUMINIUM.description),
+        ANTIMONY(Ingot.ANTIMONY.description),
+        BRASS(Ingot.BRASS.description),
+        CHROME(Ingot.CHROME.description),
         COPPER("Cu"),
-        ELECTRUM(Ingots.ELECTRUM.description),
-        INVAR(Ingots.INVAR.description),
+        ELECTRUM(Ingot.ELECTRUM.description),
+        INVAR(Ingot.INVAR.description),
         LEAD("Pg"),
-        NICKEL(Ingots.NICKEL.description),
-        OSMIUM(Ingots.OSMIUM.description),
-        PLATINUM(Ingots.PLATINUM.description),
-        SILVER(Plates.SILVER.description),
+        NICKEL(Ingot.NICKEL.description),
+        OSMIUM(Ingot.OSMIUM.description),
+        PLATINUM(Ingot.PLATINUM.description),
+        SILVER(Plate.SILVER.description),
         STEEL("Fe"),
         TIN("Sn"),
-        TITANIUM(Ingots.TITANIUM.description),
-        TUNGSTEN(Ingots.TUNGSTEN.description),
-        ZINC(Ingots.ZINC.description);
+        TITANIUM(Ingot.TITANIUM.description),
+        TUNGSTEN(Ingot.TUNGSTEN.description),
+        ZINC(Ingot.ZINC.description);
 
         private Item instance;
         public final String description;
 
-        Nuggets(String description) {
+        Nugget(String description) {
             this.description = description;
         }
 
@@ -260,29 +257,29 @@ public class BlockItems {
         }
     }
 
-    public enum Plates {
-        ALUMINIUM(Ingots.ALUMINIUM.description),
-        BATTERY_ALLOY(Ingots.BATTERY_ALLOY.description),
-        BRASS(Ingots.BRASS.description),
-        CHROME(Ingots.CHROME.description),
-        ELECTRUM(Ingots.ELECTRUM.description),
-        INVAR(Ingots.INVAR.description),
-        MAGNALIUM(Ingots.MAGNALIUM.description),
-        NICKEL(Ingots.NICKEL.description),
-        OSMIUM(Ingots.OSMIUM.description),
-        PLATINUM(Ingots.PLATINUM.description),
+    public enum Plate {
+        ALUMINIUM(Ingot.ALUMINIUM.description),
+        BATTERY_ALLOY(Ingot.BATTERY_ALLOY.description),
+        BRASS(Ingot.BRASS.description),
+        CHROME(Ingot.CHROME.description),
+        ELECTRUM(Ingot.ELECTRUM.description),
+        INVAR(Ingot.INVAR.description),
+        MAGNALIUM(Ingot.MAGNALIUM.description),
+        NICKEL(Ingot.NICKEL.description),
+        OSMIUM(Ingot.OSMIUM.description),
+        PLATINUM(Ingot.PLATINUM.description),
         SILICON("Si2"),
         SILVER("Ag"),
-        TITANIUM(Ingots.TITANIUM.description),
-        TUNGSTEN(Ingots.TUNGSTEN.description),
-        TUNGSTEN_STEEL(Ingots.TUNGSTEN_STEEL.description),
+        TITANIUM(Ingot.TITANIUM.description),
+        TUNGSTEN(Ingot.TUNGSTEN.description),
+        TUNGSTEN_STEEL(Ingot.TUNGSTEN_STEEL.description),
         WOOD(null),
-        ZINC(Ingots.ZINC.description);
+        ZINC(Ingot.ZINC.description);
 
         private Item instance;
         public final String description;
 
-        Plates(String description) {
+        Plate(String description) {
             this.description = description;
         }
 
@@ -300,33 +297,33 @@ public class BlockItems {
         }
     }
 
-    public enum Rods {
+    public enum Rod {
         LEAD("Pb"),
         BRONZE("SnCu3"),
-        TUNGSTEN_STEEL(Ingots.TUNGSTEN_STEEL.description),
-        ZINC(Ingots.ZINC.description),
-        OSMIUM(Ingots.OSMIUM.description),
-        BRASS(Ingots.BRASS.description),
+        TUNGSTEN_STEEL(Ingot.TUNGSTEN_STEEL.description),
+        ZINC(Ingot.ZINC.description),
+        OSMIUM(Ingot.OSMIUM.description),
+        BRASS(Ingot.BRASS.description),
         COPPER("Cu"),
         TIN("Sn"),
         IRON("Fe"),
         STEEL("Fe"),
-        TITANIUM(Ingots.TITANIUM.description),
-        PLATINUM(Ingots.PLATINUM.description),
-        INVAR(Ingots.INVAR.description),
-        NICKEL(Ingots.NICKEL.description),
-        CHROME(Ingots.CHROME.description),
-        ALUMINIUM(Ingots.ALUMINIUM.description),
+        TITANIUM(Ingot.TITANIUM.description),
+        PLATINUM(Ingot.PLATINUM.description),
+        INVAR(Ingot.INVAR.description),
+        NICKEL(Ingot.NICKEL.description),
+        CHROME(Ingot.CHROME.description),
+        ALUMINIUM(Ingot.ALUMINIUM.description),
         GOLD("Au"),
-        ELECTRUM(Ingots.ELECTRUM.description),
+        ELECTRUM(Ingot.ELECTRUM.description),
         SILVER("Ag"),
-        IRIDIUM(Ingots.IRIDIUM.description),
-        TUNGSTEN(Ingots.TUNGSTEN.description);
+        IRIDIUM(Ingot.IRIDIUM.description),
+        TUNGSTEN(Ingot.TUNGSTEN.description);
 
         private Item instance;
         public final String description;
 
-        Rods(String description) {
+        Rod(String description) {
             this.description = description;
         }
 
@@ -344,20 +341,20 @@ public class BlockItems {
         }
     }
 
-    public enum Dusts {
+    public enum Dust {
         ALMANDINE("Al2Fe3Si3O12"),
-        ALUMINIUM(Ingots.ALUMINIUM.description),
+        ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE("Ca3Fe2Si3O12"),
-        ANTIMONY(Ingots.ANTIMONY.description),
+        ANTIMONY(Ingot.ANTIMONY.description),
         BASALT("(Mg2Fe2SiO4)(CaCO3)3(SiO2)8C4"),
         BAUXITE("TiAl16H10O12"),
-        BRASS(Ingots.BRASS.description),
+        BRASS(Ingot.BRASS.description),
         CALCITE("CaCO3"),
         CHARCOAL("C"),
-        CHROME(Ingots.CHROME.description),
+        CHROME(Ingot.CHROME.description),
         CINNABAR("HgS"),
         DARK_ASHES("C"),
-        ELECTRUM(Ingots.ELECTRUM.description),
+        ELECTRUM(Ingot.ELECTRUM.description),
         EMERALD("Be3Al2Si6O18"),
         ENDER_EYE("BeK4N5Cl6C4S2"),
         ENDER_PEARL("BeK4N5Cl6"),
@@ -366,7 +363,7 @@ public class BlockItems {
         GALENA("Pb3Ag3S2"),
         GREEN_SAPPHIRE("Al206"),
         GROSSULAR("Ca3Al2Si3O12"),
-        INVAR(Ingots.INVAR.description),
+        INVAR(Ingot.INVAR.description),
         LAZURITE("Al6Si6Ca8Na8"),
         MAGNESIUM("Mg"),
         MANGANESE("Mn"),
@@ -376,7 +373,7 @@ public class BlockItems {
         OSMIUM("Os"),
         PHOSPHORUS("Ca3(PO4)2"),
         PLATINUM("Pt"),
-        PLUTONIUM(Ingots.PLUTONIUM.description, true),
+        PLUTONIUM(Ingot.PLUTONIUM.description, true),
         PYRITE("FeS2"),
         PYROPE("Al2Mg3Si3O12"),
         RED_GARNET("(Al2Mg3Si3O12)3(Al2Fe3Si3O12)5(Al2Mn3Si3O12)8"),
@@ -388,28 +385,28 @@ public class BlockItems {
         SPESSARTINE("Al2Mn3Si3O12"),
         SPHALERITE("ZnS"),
         STEEL("Fe"),
-        THORIUM(Ingots.THORIUM.description, true),
-        TITANIUM(Ingots.TITANIUM.description),
-        TUNGSTEN(Ingots.TUNGSTEN.description),
+        THORIUM(Ingot.THORIUM.description, true),
+        TITANIUM(Ingot.TITANIUM.description),
+        TUNGSTEN(Ingot.TUNGSTEN.description),
         URANIUM("U", true),
         UVAROVITE("Ca3Cr2Si3O12"),
         WOOD,
         YELLOW_GARNET("(Ca3Fe2Si3O12)5(Ca3Al2Si3O12)8(Ca3Cr2Si3O12)3"),
-        ZINC(Ingots.ZINC.description);
+        ZINC(Ingot.ZINC.description);
 
         private Item instance;
         public final String description;
         public final boolean hasEffect;
 
-        Dusts() {
+        Dust() {
             this(null);
         }
 
-        Dusts(String description) {
+        Dust(String description) {
             this(description, false);
         }
 
-        Dusts(String description, boolean hasEffect) {
+        Dust(String description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
         }
@@ -428,79 +425,79 @@ public class BlockItems {
         }
     }
 
-    public enum Smalldusts {
-        ALMANDINE(Dusts.ALMANDINE.description),
-        ALUMINIUM(Ingots.ALUMINIUM.description),
-        ANDRADITE(Dusts.ANDRADITE.description),
-        ANTIMONY(Ingots.ANTIMONY.description),
-        BASALT(Dusts.BASALT.description),
-        BAUXITE(Dusts.BAUXITE.description),
-        BRASS(Ingots.BRASS.description),
-        CALCITE(Dusts.CALCITE.description),
-        CHARCOAL(Dusts.CHARCOAL.description),
-        CHROME(Ingots.CHROME.description),
-        CINNABAR(Dusts.CINNABAR.description),
+    public enum Smalldust {
+        ALMANDINE(Dust.ALMANDINE.description),
+        ALUMINIUM(Ingot.ALUMINIUM.description),
+        ANDRADITE(Dust.ANDRADITE.description),
+        ANTIMONY(Ingot.ANTIMONY.description),
+        BASALT(Dust.BASALT.description),
+        BAUXITE(Dust.BAUXITE.description),
+        BRASS(Ingot.BRASS.description),
+        CALCITE(Dust.CALCITE.description),
+        CHARCOAL(Dust.CHARCOAL.description),
+        CHROME(Ingot.CHROME.description),
+        CINNABAR(Dust.CINNABAR.description),
         CLAY("Na2LiAl2Si2"),
         COAL("C2"),
-        DARK_ASHES(Dusts.DARK_ASHES.description),
+        DARK_ASHES(Dust.DARK_ASHES.description),
         DIAMOND("C128"),
-        ELECTRUM(Ingots.ELECTRUM.description),
-        EMERALD(Dusts.EMERALD.description),
-        ENDER_EYE(Dusts.ENDER_EYE.description),
-        ENDER_PEARL(Dusts.ENDER_PEARL.description),
+        ELECTRUM(Ingot.ELECTRUM.description),
+        EMERALD(Dust.EMERALD.description),
+        ENDER_EYE(Dust.ENDER_EYE.description),
+        ENDER_PEARL(Dust.ENDER_PEARL.description),
         ENDSTONE,
-        FLINT(Dusts.FLINT.description),
-        GALENA(Dusts.GALENA.description),
+        FLINT(Dust.FLINT.description),
+        GALENA(Dust.GALENA.description),
         GLOWSTONE,
-        GREEN_SAPPHIRE(Dusts.GREEN_SAPPHIRE.description),
-        GROSSULAR(Dusts.GROSSULAR.description),
+        GREEN_SAPPHIRE(Dust.GREEN_SAPPHIRE.description),
+        GROSSULAR(Dust.GROSSULAR.description),
         GUNPOWDER,
-        INVAR(Ingots.INVAR.description),
-        LAZURITE(Dusts.LAZURITE.description),
-        MAGNESIUM(Dusts.MAGNESIUM.description),
-        MANGANESE(Dusts.MANGANESE.description),
-        MARBLE(Dusts.MARBLE.description),
+        INVAR(Ingot.INVAR.description),
+        LAZURITE(Dust.LAZURITE.description),
+        MAGNESIUM(Dust.MAGNESIUM.description),
+        MANGANESE(Dust.MANGANESE.description),
+        MARBLE(Dust.MARBLE.description),
         NETHERRACK,
-        NICKEL(Ingots.NICKEL.description),
-        OLIVINE(Dusts.OLIVINE.description),
-        OSMIUM(Ingots.OSMIUM.description),
-        PHOSPHORUS(Dusts.PHOSPHORUS.description),
-        PLATINUM(Ingots.PLATINUM.description),
-        PLUTONIUM(Ingots.PLUTONIUM.description, true),
-        PYRITE(Dusts.PYRITE.description),
-        PYROPE(Dusts.PYROPE.description),
-        RED_GARNET(Dusts.RED_GARNET.description),
-        REDROCK(Dusts.REDROCK.description),
+        NICKEL(Ingot.NICKEL.description),
+        OLIVINE(Dust.OLIVINE.description),
+        OSMIUM(Ingot.OSMIUM.description),
+        PHOSPHORUS(Dust.PHOSPHORUS.description),
+        PLATINUM(Ingot.PLATINUM.description),
+        PLUTONIUM(Ingot.PLUTONIUM.description, true),
+        PYRITE(Dust.PYRITE.description),
+        PYROPE(Dust.PYROPE.description),
+        RED_GARNET(Dust.RED_GARNET.description),
+        REDROCK(Dust.REDROCK.description),
         REDSTONE,
-        RUBY(Dusts.RUBY.description),
-        SALTPETER(Dusts.SALTPETER.description),
-        SAPPHIRE(Dusts.SAPPHIRE.description),
-        SODALITE(Dusts.SODALITE.description),
-        SPESSARTINE(Dusts.SPESSARTINE.description),
-        SPHALERITE(Dusts.SPHALERITE.description),
-        STEEL(Dusts.STEEL.description),
-        THORIUM(Ingots.THORIUM.description, true),
-        TITANIUM(Ingots.TITANIUM.description),
-        TUNGSTEN(Ingots.TUNGSTEN.description),
-        URANIUM(Dusts.URANIUM.description, true),
-        UVAROVITE(Dusts.UVAROVITE.description),
-        WOOD(Dusts.WOOD.description),
-        YELLOW_GARNET(Dusts.YELLOW_GARNET.description),
-        ZINC(Ingots.ZINC.description);
+        RUBY(Dust.RUBY.description),
+        SALTPETER(Dust.SALTPETER.description),
+        SAPPHIRE(Dust.SAPPHIRE.description),
+        SODALITE(Dust.SODALITE.description),
+        SPESSARTINE(Dust.SPESSARTINE.description),
+        SPHALERITE(Dust.SPHALERITE.description),
+        STEEL(Dust.STEEL.description),
+        THORIUM(Ingot.THORIUM.description, true),
+        TITANIUM(Ingot.TITANIUM.description),
+        TUNGSTEN(Ingot.TUNGSTEN.description),
+        URANIUM(Dust.URANIUM.description, true),
+        UVAROVITE(Dust.UVAROVITE.description),
+        WOOD(Dust.WOOD.description),
+        YELLOW_GARNET(Dust.YELLOW_GARNET.description),
+        ZINC(Ingot.ZINC.description);
 
         private Item instance;
         public final String description;
         public final boolean hasEffect;
 
-        Smalldusts() {
+        Smalldust() {
             this(null);
         }
 
-        Smalldusts(String description) {
+        Smalldust(String description) {
             this(description, false);
         }
 
-        Smalldusts(String description, boolean hasEffect) {
+        Smalldust(String description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
         }
@@ -519,8 +516,8 @@ public class BlockItems {
         }
     }
 
-    public enum Upgrades {
-        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "Higher tier of the transformer upgrade", "craftingHVTUpgrade", (stack, machine) -> machine.getTier() < 5, (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getDefaultSinkTier()+stack.getCount(), 5))),
+    public enum Upgrade {
+        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "Higher tier of the transformer upgrade", "craftingHVTUpgrade", (stack, machine) -> machine.getTier() < 5, (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getUpgradecount(IC2UpgradeType.TRANSFORMER) + stack.getCount(), 5))),
         LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "Adds 100000 EU to the energy capacity", "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(100000*stack.getCount()))),
         ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, 2, "Adds 100000 EU to the energy capacity", "crafting100kEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(100000*stack.getCount()))),
         LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, 3, "Adds 1 Million EU to the energy capacity", "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(1000000*stack.getCount()))),
@@ -555,23 +552,23 @@ public class BlockItems {
         public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert;
         public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate;
 
-        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict) {
             this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, (stack, machine, player) -> {});
         }
 
-        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
             this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, onUpdate);
         }
 
-        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
             this(type, maxCount, requiredTier, description, oreDict, condition, (stack, machine, player) -> false, onUpdate);
         }
 
-        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
             this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), onInsert, onUpdate);
         }
 
-        Upgrades(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
             this.type = type;
             this.maxCount = maxCount;
             this.requiredTier = requiredTier;
@@ -595,7 +592,7 @@ public class BlockItems {
         }
     }
 
-    public enum Covers {
+    public enum Cover {
         ACTIVE_DETECTOR("Emits redstone if the machine has work", "craftingWorkDetector"),
         CONVEYOR("Moves items around", "craftingConveyor"),
         CRAFTING("A workbench on a cover", "craftingWorkBench"),
@@ -621,13 +618,13 @@ public class BlockItems {
         public final String description;
         public final String oreDict;
 
-        Covers(String registryName, String description, String oreDict) {
+        Cover(String registryName, String description, String oreDict) {
             this.registryName = registryName;
             this.description = description;
             this.oreDict = oreDict;
         }
 
-        Covers(String description, String oreDict) {
+        Cover(String description, String oreDict) {
             this.registryName = name().toLowerCase(Locale.ROOT);
             this.description = description;
             this.oreDict = oreDict;
@@ -646,7 +643,7 @@ public class BlockItems {
         }
     }
 
-    public enum TurbineRotors {
+    public enum TurbineRotor {
         TURBINE_ROTOR_BRONZE(60, 15000),
         TURBINE_ROTOR_STEEL(80, 10000),
         TURBINE_ROTOR_MAGNALIUM(100, 10000),
@@ -657,7 +654,7 @@ public class BlockItems {
         private final int efficiency;
         private final int durability;
 
-        TurbineRotors(int efficiency, int durability) {
+        TurbineRotor(int efficiency, int durability) {
             this.efficiency = efficiency;
             this.durability = durability;
         }
@@ -678,7 +675,7 @@ public class BlockItems {
         }
     }
 
-    public enum Components {
+    public enum Component {
         SUPERCONDUCTOR("Conducts Energy losslessly", "craftingSuperconductor"),
         DATA_STORAGE_CIRCUIT("Stores Data", "craftingCircuitTier05"),
         LITHIUM_BATTERY(ItemLithiumBattery::new, "craftingLiBattery"),
@@ -718,12 +715,12 @@ public class BlockItems {
         private final Supplier<Item> constructor;
         public final String oreDict;
 
-        Components(Supplier<Item> constructor, String oreDict) {
+        Component(Supplier<Item> constructor, String oreDict) {
             this.constructor = constructor;
             this.oreDict = oreDict;
         }
 
-        Components(String description, String oreDict) {
+        Component(String description, String oreDict) {
             this.constructor = () -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description)
                                         .setFolder("component")
                                         .setRegistryName(this.name().toLowerCase(Locale.ROOT))
@@ -741,7 +738,7 @@ public class BlockItems {
         }
     }
 
-    public enum Tools {
+    public enum Tool {
         CROWBAR(ItemCrowbar::new, "craftingToolCrowbar"),
         DEBUG_SCANNER(ItemDebugScanner::new),
         DRILL_ADVANCED(ItemDrillAdvanced::new, "craftingToolLargeDrill"),
@@ -771,11 +768,11 @@ public class BlockItems {
         public final String oreDict;
         private Item instance;
 
-        Tools(Supplier<Item> constructor) {
+        Tool(Supplier<Item> constructor) {
             this(constructor, null);
         }
 
-        Tools(Supplier<Item> constructor, String oreDict) {
+        Tool(Supplier<Item> constructor, String oreDict) {
             this.constructor = constructor;
             this.oreDict = oreDict;
         }
@@ -789,7 +786,7 @@ public class BlockItems {
         }
     }
     
-    public enum ColorSprays {
+    public enum ColorSpray {
         WHITE,
         ORANGE,
         MAGENTA,
@@ -818,7 +815,7 @@ public class BlockItems {
         }
     }
 
-    public enum Wrenches {
+    public enum Wrenche {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -828,7 +825,7 @@ public class BlockItems {
         public final int durability;
         public final int entityDamage;
 
-        Wrenches(int durability, int entityDamage) {
+        Wrenche(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
         }
@@ -844,7 +841,7 @@ public class BlockItems {
         }
     }
 
-    public enum JackHammers {
+    public enum JackHammer {
         BRONZE(50, 10000, 1, 50, 7.5F, false),
         STEEL(100, 10000, 1, 50, 15F, false),
         DIAMOND(250, 100000, 2, 100, 45F, true);
@@ -857,7 +854,7 @@ public class BlockItems {
         public final float efficiency;
         public final boolean canMineObsidian;
 
-        JackHammers(int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency, boolean canMineObsidian) {
+        JackHammer(int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency, boolean canMineObsidian) {
             this.operationEnergyCost = operationEnergyCost;
             this.maxCharge = maxCharge;
             this.tier = tier;
@@ -878,7 +875,7 @@ public class BlockItems {
         }
     }
 
-    public enum Hammers {
+    public enum Hammer {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -888,7 +885,7 @@ public class BlockItems {
         public final int durability;
         public final int entityDamage;
 
-        Hammers(int durability, int entityDamage) {
+        Hammer(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
         }
@@ -905,7 +902,7 @@ public class BlockItems {
         }
     }
 
-    public enum Saws {
+    public enum Saw {
         IRON(128, 3, 2),
         BRONZE(256, 4, 3),
         STEEL(1280, 6, 4),
@@ -916,7 +913,7 @@ public class BlockItems {
         public final int efficiency;
         public final int entityDamage;
 
-        Saws(int durability, int efficiency, int entityDamage) {
+        Saw(int durability, int efficiency, int entityDamage) {
             this.durability = durability;
             this.efficiency = efficiency;
             this.entityDamage = entityDamage;
@@ -934,14 +931,14 @@ public class BlockItems {
         }
     }
 
-    public enum SolderingMetals {
+    public enum SolderingMetal {
         LEAD(10),
         TIN(50);
 
         private Item instance;
         public final int durability;
 
-        SolderingMetals(int durability) {
+        SolderingMetal(int durability) {
             this.durability = durability;
         }
 
@@ -957,7 +954,7 @@ public class BlockItems {
         }
     }
 
-    public enum Files {
+    public enum File {
         IRON(128, 2),
         BRONZE(256, 3),
         STEEL(1280, 3),
@@ -967,7 +964,7 @@ public class BlockItems {
         public final int durability;
         public final int entityDamage;
 
-        Files(int durability, int entityDamage) {
+        File(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
         }
@@ -984,7 +981,8 @@ public class BlockItems {
         }
     }
 
-    public enum Cells {
+    public enum Cell {
+        CARBON("C"),
         ICE("H2O"),
         NITROCARBON("NC"),
         SODIUM_SULFIDE("NaS"),
@@ -994,7 +992,7 @@ public class BlockItems {
         private Item instance;
         public final String description;
 
-        Cells(String description) {
+        Cell(String description) {
             this.description = description;
         }
 
@@ -1012,7 +1010,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearCoolantPacks {
+    public enum NuclearCoolantPack {
         COOLANT_NAK_60K(60000, "crafting60kCoolantStore"),
         COOLANT_NAK_180K(180000, "crafting180kCoolantStore"),
         COOLANT_NAK_360K(360000, "crafting360kCoolantStore"),
@@ -1024,7 +1022,7 @@ public class BlockItems {
         public final int heatStorage;
         public final String oreDict;
 
-        NuclearCoolantPacks(int heatStorage, String oreDict) {
+        NuclearCoolantPack(int heatStorage, String oreDict) {
             this.heatStorage = heatStorage;
             this.oreDict = oreDict;
         }
@@ -1040,7 +1038,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearFuelRods {
+    public enum NuclearFuelRod {
         THORIUM(1, 25000, 0.25F, 1, 0.25F),
         THORIUM_DUAL(2, 25000, 0.25F, 1, 0.25F),
         THORIUM_QUAD(4, 25000, 0.25F, 1, 0.25F),
@@ -1056,11 +1054,11 @@ public class BlockItems {
         public final float heat;
         public final ItemStack depletedStack;
 
-        NuclearFuelRods(int cells, int duration, float energy, int radiation, float heat) {
+        NuclearFuelRod(int cells, int duration, float energy, int radiation, float heat) {
             this(cells, duration, energy, radiation, heat, null);
         }
 
-        NuclearFuelRods(int cells, int duration, float energy, int radiation, float heat, ItemStack depletedStack) {
+        NuclearFuelRod(int cells, int duration, float energy, int radiation, float heat, ItemStack depletedStack) {
             this.cells = cells;
             this.duration = duration;
             this.energy = energy;
@@ -1133,13 +1131,13 @@ public class BlockItems {
         CREDIT_SILVER("8 Credits"),
         CREDIT_GOLD("64 Credits"),
         CREDIT_DIAMOND("512 Credits"),
-        RUBY(Dusts.RUBY.description, "gemRuby"),
-        SAPPHIRE(Dusts.SAPPHIRE.description, "gemSapphire"),
-        GREEN_SAPPHIRE(Dusts.GREEN_SAPPHIRE.description, "gemGreenSapphire"),
-        OLIVINE(Dusts.OLIVINE.description, "gemOlivine"),
+        RUBY(Dust.RUBY.description, "gemRuby"),
+        SAPPHIRE(Dust.SAPPHIRE.description, "gemSapphire"),
+        GREEN_SAPPHIRE(Dust.GREEN_SAPPHIRE.description, "gemGreenSapphire"),
+        OLIVINE(Dust.OLIVINE.description, "gemOlivine"),
         LAZURITE_CHUNK("(Al6Si6Ca8Na8)8", "chunkLazurite"),
-        RED_GARNET(Dusts.RED_GARNET.description, "gemGarnetRed"),
-        YELLOW_GARNET(Dusts.YELLOW_GARNET.description, "gemGarnetYellow"),
+        RED_GARNET(Dust.RED_GARNET.description, "gemGarnetRed"),
+        YELLOW_GARNET(Dust.YELLOW_GARNET.description, "gemGarnetYellow"),
         INDIGO_BLOSSOM,
         INDIGO_DYE(null, "dyeBlue"),
         FLOUR(null, "dustWheat"),
@@ -1192,7 +1190,7 @@ public class BlockItems {
         }
     }
 
-    public enum Books {
+    public enum Book {
         MANUAL("Gregorius Techneticies", 11),
         MANUAL2("Gregorius Techneticies", 9),
         MACHINE_SAFETY("Gregorius Techneticies", 7),
@@ -1210,7 +1208,7 @@ public class BlockItems {
         public final int pages;
         private ItemStack instance;
 
-        Books(String author, int pages) {
+        Book(String author, int pages) {
             this.author = author;
             this.pages = pages;
         }

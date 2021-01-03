@@ -1,7 +1,7 @@
-package mods.gregtechmod.objects.blocks.tileentities.machines;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks;
 
 import mods.gregtechmod.api.GregTechConfig;
-import mods.gregtechmod.objects.blocks.tileentities.machines.base.TileEntityDigitalChestBase;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityDigitalChestBase;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 

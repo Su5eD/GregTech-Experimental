@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks;
+package mods.gregtechmod.render;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -143,8 +143,7 @@ public class RenderTeBlock extends AbstractModel {
     }
 
     @Override
-    public void onReload() {
-    }
+    public void onReload() {}
 
     @Override
     public TextureAtlasSprite getParticleTexture() {

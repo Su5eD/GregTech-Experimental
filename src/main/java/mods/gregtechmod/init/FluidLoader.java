@@ -16,23 +16,15 @@ public class FluidLoader {
 
     public static void init() {
         GregTechAPI.logger.info("Initializing fluids");
-        for (Liquids type : Liquids.values()) {
-            Fluid fluid = new FluidLiquid(type.name().toLowerCase(Locale.ROOT), type.texture, type.texture)
-                    .setUnlocalizedName(type.name().toLowerCase(Locale.ROOT))
-                    .setDensity(type.density);
-            FLUIDS.add(fluid);
-            type.setInstance(fluid);
+        for (Liquid type : Liquid.values()) {
+            FLUIDS.add(type.getInstance());
         }
-        for (Gases type : Gases.values()) {
-            Fluid fluid = new FluidGas(type.name().toLowerCase(Locale.ROOT), type.texture, type.texture)
-                    .setUnlocalizedName(type.name().toLowerCase(Locale.ROOT));
-            FLUIDS.add(fluid);
-            type.setInstance(fluid);
+        for (Gas type : Gas.values()) {
+            FLUIDS.add(type.getInstance());
         }
     }
 
-    //TODO: Descriptions
-    public enum Liquids {
+    public enum Liquid {
         BERYLIUM(1690),
         CALCIUM(1378),
         CALCIUM_CARBONATE(2711),
@@ -44,43 +36,49 @@ public class FluidLoader {
         NITRO_DIESEL(832),
         PLASMA,
         POTASSIUM(828),
-        SEED_OIL(918),
+        SEED_OIL("seed.oil", 918),
         SILICON(2570),
         SODIUM(927),
         SODIUM_PERSULFATE(1120),
         WOLFRAMIUM(17600);
 
+        public final String name;
         public final int density;
         public final ResourceLocation texture;
         private Fluid instance;
 
-        Liquids() {
+        Liquid() {
             this(1000);
         }
 
-        Liquids(int density) {
+        Liquid(int density) {
+            this.name = name().toLowerCase(Locale.ROOT);
+            this.density = density;
+            this.texture = getTexture();
+        }
+
+        Liquid(String name, int density) {
+            this.name = name;
             this.density = density;
             this.texture = getTexture();
         }
 
         private ResourceLocation getTexture() {
-            return new ResourceLocation(Reference.MODID, "fluids/liquids/"+this.name().toLowerCase(Locale.ROOT));
-        }
-
-        /**
-         * <b>Only GregTech may call this!!</b>
-         */
-        private void setInstance(Fluid item) {
-            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+this.name().toLowerCase(Locale.ROOT));
-            this.instance = item;
+            return new ResourceLocation(Reference.MODID, "fluids/liquids/"+this.name);
         }
 
         public Fluid getInstance() {
+            if (this.instance == null) {
+                this.instance = new FluidLiquid(this.name, this.texture, this.texture)
+                                    .setUnlocalizedName(this.name)
+                                    .setDensity(this.density);
+            }
+
             return this.instance;
         }
     }
 
-    public enum Gases {
+    public enum Gas {
         HYDROGEN,
         DEUTERIUM,
         TRITIUM,
@@ -93,7 +91,7 @@ public class FluidLoader {
         public final ResourceLocation texture;
         private Fluid instance;
 
-        Gases() {
+        Gas() {
             this.texture = getTexture();
         }
 
@@ -101,15 +99,13 @@ public class FluidLoader {
             return new ResourceLocation(Reference.MODID, "fluids/gases/"+this.name().toLowerCase(Locale.ROOT));
         }
 
-        /**
-         * <b>Only GregTech may call this!!</b>
-         */
-        private void setInstance(Fluid item) {
-            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+this.name().toLowerCase(Locale.ROOT));
-            this.instance = item;
-        }
-
         public Fluid getInstance() {
+            if (this.instance == null) {
+                String name = this.name().toLowerCase(Locale.ROOT);
+                this.instance = new FluidGas(name, this.texture, this.texture)
+                                    .setUnlocalizedName(name);
+            }
+
             return this.instance;
         }
     }

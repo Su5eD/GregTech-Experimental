@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities.machines.base;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
@@ -12,8 +12,8 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.inventory.GtUpgradeSlot;
-import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityQuantumChest;
+import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityQuantumChest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -355,7 +355,17 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public int getTransformerUpgradeCount() {
+    public int getUpgradecount(IGtUpgradeItem upgrade) {
+        return 0;
+    }
+
+    @Override
+    public int getUpgradeCount(GtUpgradeType type) {
+        return 0;
+    }
+
+    @Override
+    public int getUpgradecount(IC2UpgradeType type) {
         return 0;
     }
 

@@ -1,6 +1,7 @@
 package mods.gregtechmod.api.recipe;
 
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
 import net.minecraft.item.ItemStack;
 

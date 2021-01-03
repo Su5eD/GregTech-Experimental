@@ -4,9 +4,9 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
-import mods.gregtechmod.objects.blocks.RenderBlockOre;
-import mods.gregtechmod.objects.blocks.RenderTeBlock;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
+import mods.gregtechmod.render.RenderBlockOre;
+import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.JsonHandler;
@@ -105,7 +105,7 @@ public class RegistryHandler {
                 GregTechAPI.logger.error(e.getMessage());
             }
         }
-        for (BlockItems.Ores ore : BlockItems.Ores.values()) {
+        for (BlockItems.Ore ore : BlockItems.Ore.values()) {
             JsonHandler json = new JsonHandler(ore.name().toLowerCase(Locale.ROOT), "ore");
             loader.register("models/block/ore/"+ore.name().toLowerCase(Locale.ROOT), new RenderBlockOre(json.generateMapFromJSON("textures"), json.generateMapFromJSON("textures_nether"), json.generateMapFromJSON("textures_end"), json.particle));
         }
@@ -144,10 +144,10 @@ public class RegistryHandler {
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_conductor"));
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_signalizer"));
 
-        for (FluidLoader.Liquids type : FluidLoader.Liquids.values()) {
+        for (FluidLoader.Liquid type : FluidLoader.Liquid.values()) {
             map.registerSprite(type.texture);
         }
-        for (FluidLoader.Gases type : FluidLoader.Gases.values()) {
+        for (FluidLoader.Gas type : FluidLoader.Gas.values()) {
             map.registerSprite(type.texture);
         }
     }

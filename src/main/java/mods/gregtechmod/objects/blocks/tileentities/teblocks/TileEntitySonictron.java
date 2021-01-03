@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks;
 
 import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
@@ -8,7 +8,7 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.SonictronSound;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiSonictron;
-import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerSonictron;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerSonictron;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -22,7 +22,6 @@ import java.util.List;
 public class TileEntitySonictron extends TileEntityInventory implements IHasGui {
     public int currentIndex = -1;
     public final InvSlot content;
-    public boolean isPowered;
 
     public TileEntitySonictron() {
         this.content = new InvSlot(this, "content", InvSlot.Access.NONE, 64);

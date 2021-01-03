@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public enum WorldOres {
+public enum WorldOre {
     GALENA(GregTechConfig.WORLDGEN.galena, DimensionType.OVERWORLD, 1, 16, 3, 0, 32),
     IRIDIUM(GregTechConfig.WORLDGEN.iridium, DimensionType.OVERWORLD, OreType.SINGLE, 1, 0, 5, 0, 100),
     RUBY(GregTechConfig.WORLDGEN.ruby, DimensionType.OVERWORLD, OreType.SINGLE, 8, 0, 1, 0, 32, "desert", "desert_hills", "mutated_desert", "savanna", "mutated_savanna", "biomesoplenty:shrubland", "biomesoplenty:wasteland", "twilightforest:fire_swamp", "biomesoplenty:volcanic_island", "biomesoplenty:steppe", "biomesoplenty:prairie", "biomesoplenty:lush_desert", "minecraft:mesa", "minecraft:mesa_rock", "biomesoplenty:outback"),
@@ -50,19 +50,19 @@ public enum WorldOres {
     public final int maxY;
     public final List<ResourceLocation> biomeList = new ArrayList<>();
 
-    WorldOres(boolean enabled, DimensionType dimension, int amount, int size) {
+    WorldOre(boolean enabled, DimensionType dimension, int amount, int size) {
         this(enabled, dimension, OreType.NORMAL, amount, size, 0, 0, 0);
     }
 
-    WorldOres(boolean enabled, DimensionType dimension, int amount, int size, int probability, int minY, int maxY, String... biomes) {
+    WorldOre(boolean enabled, DimensionType dimension, int amount, int size, int probability, int minY, int maxY, String... biomes) {
         this(null, enabled, dimension, amount, size, probability, minY, maxY, biomes);
     }
 
-    WorldOres(boolean enabled, DimensionType dimension, OreType type, int amount, int size, int probability, int minY, int maxY, String... biomes) {
+    WorldOre(boolean enabled, DimensionType dimension, OreType type, int amount, int size, int probability, int minY, int maxY, String... biomes) {
         this(null, enabled, dimension, type, amount, size, probability, minY, maxY, biomes);
     }
 
-    WorldOres(String oreName, boolean enabled, DimensionType dimension, int amount, int size, int probability, int minY, int maxY, String... biomes) {
+    WorldOre(String oreName, boolean enabled, DimensionType dimension, int amount, int size, int probability, int minY, int maxY, String... biomes) {
         this(oreName, enabled, dimension, OreType.NORMAL, amount, size, probability, minY, maxY, biomes);
     }
 
@@ -77,7 +77,7 @@ public enum WorldOres {
      * @param maxY Maximum Y to generate
      * @param biomes Biomes in which the ore spawns. Leave empty for all biomes.
      */
-    WorldOres(String oreName, boolean enabled, DimensionType dimension, OreType type, int amount, int size, int probability, int minY, int maxY, String... biomes) {
+    WorldOre(String oreName, boolean enabled, DimensionType dimension, OreType type, int amount, int size, int probability, int minY, int maxY, String... biomes) {
         if (oreName != null) this.oreName = oreName;
         this.enabled = enabled;
         this.dimension = dimension;
@@ -91,7 +91,7 @@ public enum WorldOres {
     }
 
     public Block getBlock() {
-        return BlockItems.Ores.valueOf(this.oreName.toUpperCase(Locale.ROOT)).getInstance();
+        return BlockItems.Ore.valueOf(this.oreName.toUpperCase(Locale.ROOT)).getInstance();
     }
 
     public enum OreType {

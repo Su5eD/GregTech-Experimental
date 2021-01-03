@@ -14,7 +14,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -111,11 +110,10 @@ public class GtUtil {
         if (stack.isEmpty()) return null;
 
         String name = OreDictUnificator.getAssociation(stack);
-        if (name != null && !name.isEmpty()) return name;
+        if (!name.isEmpty()) return name;
         else if (!(name = stack.getDisplayName()).isEmpty()) return name;
 
-        ResourceLocation regName = stack.getItem().getRegistryName();
-        return regName != null ? regName.toString() + ":" + stack.getItemDamage() : null;
+        return stack.getItem().getRegistryName().toString() + ":" + stack.getItemDamage();
     }
 
     @SuppressWarnings("deprecation")
@@ -129,10 +127,8 @@ public class GtUtil {
         Item item = stack.getItem();
         ItemStack containerItem = item.getContainerItem(stack);
         if (!containerItem.isEmpty() && containerItem.isItemEqual(emptyCell)) return containerItem.getCount();
-        ResourceLocation regName = item.getRegistryName();
-        if (regName != null) {
-            if (regName.toString().startsWith(Reference.MODID+":cell_") || regName.toString().equals("ic2:fluid_cell")) return 1;
-        }
+        String regName = item.getRegistryName().toString();
+        if (regName.startsWith(Reference.MODID+":cell_") || regName.equals("ic2:fluid_cell")) return 1;
 
         if (stack.isItemEqual(IC2Items.getItem("heat_storage"))) return 1;
         else if (stack.isItemEqual(IC2Items.getItem("tri_heat_storage"))) return 3;

@@ -8,7 +8,6 @@ import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.util.ModHandler;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -27,65 +26,65 @@ public class OreDictRegistrar {
 
         GregTechAPI.logger.debug("Registering GregTech items to the Ore Dictionary");
 
-        for (BlockItems.Blocks block : BlockItems.Blocks.values()) registerOre("block", block.name().toLowerCase(Locale.ROOT), block.getInstance());
-        registerOre("craftingRawMachineTier04", BlockItems.Blocks.HIGHLY_ADVANCED_MACHINE.getInstance());
+        for (BlockItems.Block block : BlockItems.Block.values()) registerOre("block", block.name().toLowerCase(Locale.ROOT), block.getInstance());
+        registerOre("craftingRawMachineTier04", BlockItems.Block.HIGHLY_ADVANCED_MACHINE.getInstance());
 
-        for (BlockItems.Ores ore : BlockItems.Ores.values()) registerOre("ore", ore.name().toLowerCase(Locale.ROOT), ore.getInstance());
+        for (BlockItems.Ore ore : BlockItems.Ore.values()) registerOre("ore", ore.name().toLowerCase(Locale.ROOT), ore.getInstance());
 
-        for (BlockItems.Ingots ingot : BlockItems.Ingots.values()) registerOre("ingot", ingot.name().toLowerCase(Locale.ROOT), ingot.getInstance());
+        for (BlockItems.Ingot ingot : BlockItems.Ingot.values()) registerOre("ingot", ingot.name().toLowerCase(Locale.ROOT), ingot.getInstance());
 
-        for (BlockItems.Nuggets nugget : BlockItems.Nuggets.values()) registerOre("nugget", nugget.name().toLowerCase(Locale.ROOT), nugget.getInstance());
+        for (BlockItems.Nugget nugget : BlockItems.Nugget.values()) registerOre("nugget", nugget.name().toLowerCase(Locale.ROOT), nugget.getInstance());
 
-        for (BlockItems.Plates plate : BlockItems.Plates.values()) registerOre("plate", plate.name().toLowerCase(Locale.ROOT), plate.getInstance());
-        OreDictUnificator.add("pulpWood", BlockItems.Dusts.WOOD.getInstance());
-        registerOre("plankWood", BlockItems.Plates.WOOD.getInstance());
+        for (BlockItems.Plate plate : BlockItems.Plate.values()) registerOre("plate", plate.name().toLowerCase(Locale.ROOT), plate.getInstance());
+        OreDictUnificator.add("pulpWood", BlockItems.Dust.WOOD.getInstance());
+        registerOre("plankWood", BlockItems.Plate.WOOD.getInstance());
 
-        for (BlockItems.Rods rod : BlockItems.Rods.values()) registerOre("stick", rod.name().toLowerCase(Locale.ROOT), rod.getInstance());
+        for (BlockItems.Rod rod : BlockItems.Rod.values()) registerOre("stick", rod.name().toLowerCase(Locale.ROOT), rod.getInstance());
 
-        for (BlockItems.Dusts dust : BlockItems.Dusts.values()) registerOre("dust", dust.name().toLowerCase(Locale.ROOT), dust.getInstance());
-        registerOre("dyeCyan", BlockItems.Dusts.LAZURITE.getInstance());
-        registerOre("dyeBlue", BlockItems.Dusts.SODALITE.getInstance());
+        for (BlockItems.Dust dust : BlockItems.Dust.values()) registerOre("dust", dust.name().toLowerCase(Locale.ROOT), dust.getInstance());
+        registerOre("dyeCyan", BlockItems.Dust.LAZURITE.getInstance());
+        registerOre("dyeBlue", BlockItems.Dust.SODALITE.getInstance());
 
-        for (BlockItems.Smalldusts smallDust : BlockItems.Smalldusts.values()) registerOre("dustTiny", smallDust.name().toLowerCase(Locale.ROOT), smallDust.getInstance());
+        for (BlockItems.Smalldust smallDust : BlockItems.Smalldust.values()) registerOre("dustTiny", smallDust.name().toLowerCase(Locale.ROOT), smallDust.getInstance());
 
-        for (BlockItems.Upgrades upgrade : BlockItems.Upgrades.values()) {
+        for (BlockItems.Upgrade upgrade : BlockItems.Upgrade.values()) {
             if (upgrade.oreDict != null) registerOre(upgrade.oreDict, upgrade.getInstance());
         }
 
-        for (BlockItems.Covers cover : BlockItems.Covers.values()) {
+        for (BlockItems.Cover cover : BlockItems.Cover.values()) {
             if (cover.oreDict != null) registerOre(cover.oreDict, cover.getInstance());
         }
 
-        for (BlockItems.Components component : BlockItems.Components.values()) {
+        for (BlockItems.Component component : BlockItems.Component.values()) {
             if (component.oreDict != null) registerOre(component.oreDict, component.getInstance());
         }
-        registerOre("crafting100kEUStore", BlockItems.Components.LITHIUM_BATTERY.getInstance());
-        registerOre("craftingGearTier01", BlockItems.Components.GEAR_IRON.getInstance());
-        registerOre("craftingGearTier01", BlockItems.Components.GEAR_BRONZE.getInstance());
-        registerOre("craftingGearTier02", BlockItems.Components.GEAR_STEEL.getInstance());
-        registerOre("craftingGearTier03", BlockItems.Components.GEAR_TITANIUM.getInstance());
-        registerOre("craftingGearTier03", BlockItems.Components.GEAR_TUNGSTEN_STEEL.getInstance());
-        registerOre("craftingGearTier04", BlockItems.Components.GEAR_IRIDIUM.getInstance());
+        registerOre("crafting100kEUStore", BlockItems.Component.LITHIUM_BATTERY.getInstance());
+        registerOre("craftingGearTier01", BlockItems.Component.GEAR_IRON.getInstance());
+        registerOre("craftingGearTier01", BlockItems.Component.GEAR_BRONZE.getInstance());
+        registerOre("craftingGearTier02", BlockItems.Component.GEAR_STEEL.getInstance());
+        registerOre("craftingGearTier03", BlockItems.Component.GEAR_TITANIUM.getInstance());
+        registerOre("craftingGearTier03", BlockItems.Component.GEAR_TUNGSTEN_STEEL.getInstance());
+        registerOre("craftingGearTier04", BlockItems.Component.GEAR_IRIDIUM.getInstance());
 
-        for (BlockItems.Tools tool : BlockItems.Tools.values()) {
+        for (BlockItems.Tool tool : BlockItems.Tool.values()) {
             if (tool.oreDict != null) registerOre(tool.oreDict, tool.getInstance());
         }
 
-        for (BlockItems.Files file : BlockItems.Files.values()) registerOre("craftingToolFile", file.getInstance());
+        for (BlockItems.File file : BlockItems.File.values()) registerOre("craftingToolFile", file.getInstance());
 
-        for (BlockItems.Hammers hammer : BlockItems.Hammers.values()) registerOre("craftingToolHardHammer", hammer.getInstance());
+        for (BlockItems.Hammer hammer : BlockItems.Hammer.values()) registerOre("craftingToolHardHammer", hammer.getInstance());
 
-        for (BlockItems.Saws saw : BlockItems.Saws.values()) registerOre("craftingToolSaw", saw.getInstance());
+        for (BlockItems.Saw saw : BlockItems.Saw.values()) registerOre("craftingToolSaw", saw.getInstance());
 
-        for (BlockItems.SolderingMetals solderingMetal : BlockItems.SolderingMetals.values()) registerOre("craftingToolSolderingMetal", solderingMetal.getInstance());
+        for (BlockItems.SolderingMetal solderingMetal : BlockItems.SolderingMetal.values()) registerOre("craftingToolSolderingMetal", solderingMetal.getInstance());
 
-        for (BlockItems.ColorSprays spray : BlockItems.ColorSprays.values()) registerOre("dye", spray.name().toLowerCase(Locale.ROOT), spray.getInstance());
+        for (BlockItems.ColorSpray spray : BlockItems.ColorSpray.values()) registerOre("dye", spray.name().toLowerCase(Locale.ROOT), spray.getInstance());
 
-        for (BlockItems.Wrenches wrench : BlockItems.Wrenches.values()) registerOre("craftingToolWrench", wrench.getInstance());
+        for (BlockItems.Wrenche wrench : BlockItems.Wrenche.values()) registerOre("craftingToolWrench", wrench.getInstance());
 
-        for (BlockItems.Cells cell : BlockItems.Cells.values()) registerOre("cell", cell.name().toLowerCase(Locale.ROOT), cell.getInstance());
+        for (BlockItems.Cell cell : BlockItems.Cell.values()) registerOre("cell", cell.name().toLowerCase(Locale.ROOT), cell.getInstance());
 
-        for (BlockItems.NuclearCoolantPacks pack : BlockItems.NuclearCoolantPacks.values()) {
+        for (BlockItems.NuclearCoolantPack pack : BlockItems.NuclearCoolantPack.values()) {
             if (pack.oreDict != null) registerOre(pack.oreDict, pack.getInstance());
         }
 
@@ -351,11 +350,11 @@ public class OreDictRegistrar {
         registerOre(base+ CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), new ItemStack(instance, 1, OreDictionary.WILDCARD_VALUE));
     }
 
-    public static void registerOre(String base, String name, Block instance) {
+    public static void registerOre(String base, String name, net.minecraft.block.Block instance) {
         registerOre(base+CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), new ItemStack(instance, 1, OreDictionary.WILDCARD_VALUE));
     }
 
-    public static void registerOre(String name, Block block) {
+    public static void registerOre(String name, net.minecraft.block.Block block) {
         registerOre(name, new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE));
     }
 

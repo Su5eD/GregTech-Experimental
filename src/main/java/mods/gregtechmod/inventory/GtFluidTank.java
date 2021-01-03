@@ -15,8 +15,7 @@ public class GtFluidTank extends Fluids.InternalFluidTank {
     private final ICoverable parent;
 
     public GtFluidTank(ICoverable parent, String identifier, int capacity) {
-        super(identifier, Util.allFacings, Util.allFacings, Predicates.alwaysTrue(), capacity);
-        this.parent = parent;
+        this(parent, identifier, Util.allFacings, Util.allFacings, Predicates.alwaysTrue(), capacity);
     }
 
     public GtFluidTank(ICoverable parent, String identifier, Collection<EnumFacing> inputSides, Collection<EnumFacing> outputSides, Predicate<Fluid> acceptedFluids, int capacity) {

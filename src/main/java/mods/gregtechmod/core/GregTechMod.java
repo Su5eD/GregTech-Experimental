@@ -15,8 +15,7 @@ import mods.gregtechmod.init.CoverLoader;
 import mods.gregtechmod.init.OreDictRegistrar;
 import mods.gregtechmod.init.RecipeLoader;
 import mods.gregtechmod.init.RegistryHandler;
-import mods.gregtechmod.objects.blocks.tileentities.TileEntitySonictron;
-import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
@@ -91,7 +90,6 @@ public final class GregTechMod {
     public static void init(FMLInitializationEvent event) {
         GtUtil.emptyCell = IC2Items.getItem("fluid_cell");
         GregTechTEBlock.buildDummies();
-        TileEntityIndustrialCentrifuge.init();
 
         BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES).collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));

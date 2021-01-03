@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities.machines.base;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.api.network.INetworkTileEntityEventListener;
@@ -14,8 +14,8 @@ import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
-import mods.gregtechmod.api.recipe.IGtRecipeManager;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,8 +48,8 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngr
 
     protected Collection<ItemStack> pendingRecipe = new ArrayList<>();
 
-    public TileEntityGTMachine(int maxEnergy, int energyConsume, byte outputSlots, byte inputSlots, int aDefaultTier, RM recipeManager) {
-        super(maxEnergy, aDefaultTier, energyConsume);
+    public TileEntityGTMachine(int maxEnergy, int energyConsume, byte outputSlots, byte inputSlots, int defaultTier, RM recipeManager) {
+        super(maxEnergy, defaultTier, energyConsume);
         this.progress = 0;
         this.recipeManager = recipeManager;
         this.inputSlot = new GtSlotProcessableItemStack<>(this, "input", inputSlots, recipeManager);
@@ -127,7 +127,7 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngr
         }
         if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         MachineSafety.checkSafety(this);
-        R recipe = getOutput();
+        R recipe = getRecipe();
         if (canOperate(recipe)) {
             if (this.energy.canUseEnergy(energyConsume)) {
                 this.energy.useEnergy(energyConsume);
@@ -162,19 +162,19 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngr
         return Math.round(this.energyConsume / getSteamMultiplier());
     }
 
-    protected boolean canOperate(R result) {
+    protected boolean canOperate(R recipe) {
         boolean canWork = getActive() || pendingRecipe.size() > 0;
         if (!canWork && !enableWorking) return false;
-        return canWork || result != null;
+        return canWork || recipe != null;
     }
 
     protected boolean operate(R recipe) {
         boolean needsInvUpdate = false;
             if (this.progress == 0) (IC2.network.get(true)).initiateTileEntityEvent( this, 0, true);
             if (!getActive() && pendingRecipe.size() < 1) {
-                consumeInput(recipe);
+                recipe.getOutput().stream().map(ItemStack::copy).forEach(this.pendingRecipe::add);
                 this.maxProgress = recipe.getDuration();
-                this.pendingRecipe.addAll(recipe.getOutput());
+                consumeInput(recipe);
             }
             setOverclock();
             setActive(true);
@@ -197,15 +197,19 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngr
         setActive(false);
     }
 
-    public void consumeInput(R result) {
-        this.inputSlot.consume(result);
+    public void consumeInput(R recipe) {
+        consumeInput(recipe, false);
+    }
+
+    public void consumeInput(R recipe, boolean consumeContainers) {
+        this.inputSlot.consume(recipe, consumeContainers);
     }
 
     public void addOutput(Collection<ItemStack> processResult) {
         this.outputSlot.add(processResult);
     }
 
-    public R getOutput() {
+    public R getRecipe() {
         if (this.inputSlot.isEmpty()) return null;
         ItemStack input = this.inputSlot.get();
         R recipe = input.isEmpty() ? null : this.recipeManager.getRecipeFor(input);
@@ -427,11 +431,11 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngr
 
     @Override
     public String getSecondaryInfo() {
-        return (int) (this.progress / 20) + " secs";
+        return Math.round(this.progress / Math.pow(2, this.overclockersCount) / 20) + " secs";
     }
 
     @Override
     public String getTertiaryInfo() {
-        return  "/" + (this.maxProgress / 20) + " secs";
+        return  "/" + Math.round(this.maxProgress / Math.pow(2, this.overclockersCount) / 20) + " secs";
     }
 }

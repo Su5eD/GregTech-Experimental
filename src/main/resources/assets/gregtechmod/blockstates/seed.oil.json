@@ -3,7 +3,7 @@
   "variants": {
     "fluid": {
       "model": "forge:fluid",
-      "custom": {"fluid": "seed_oil"}
+      "custom": {"fluid": "seed.oil"}
     }
   }
 }

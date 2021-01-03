@@ -1,8 +1,8 @@
-package mods.gregtechmod.objects.blocks.tileentities.machines.container;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks.container;
 
 import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
-import mods.gregtechmod.objects.blocks.tileentities.machines.TileEntityIndustrialCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifuge;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class ContainerIndustrialCentrifuge extends ContainerFullInv<TileEntityIn
     public List<String> getNetworkedFields() {
         List<String> ret = super.getNetworkedFields();
         ret.add("guiProgress");
-        ret.add("lavaTank");
+        ret.add("tank");
         return ret;
     }
 }

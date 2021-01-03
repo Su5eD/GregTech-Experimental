@@ -4,7 +4,7 @@ import com.google.common.base.Predicate;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.init.BlockItems;
-import mods.gregtechmod.objects.WorldOres;
+import mods.gregtechmod.objects.WorldOre;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
@@ -53,14 +53,14 @@ public class OreGenerator implements IWorldGenerator {
             if (GregTechConfig.WORLDGEN.endAsteroids) generateEndAsteroids(world, random, chunkX, chunkZ);
             dimensionType = DimensionType.THE_END;
         }
-        for (WorldOres ore : WorldOres.values()) {
+        for (WorldOre ore : WorldOre.values()) {
             if (ore.enabled && dimensionType == ore.dimension && (ore.biomeList.isEmpty() || ore.biomeList.contains(biome.getRegistryName())) && (ore.probability <= 1 || random.nextInt(ore.probability) == 0)) {
-                if (ore.type == WorldOres.OreType.NORMAL) {
+                if (ore.type == WorldOre.OreType.NORMAL) {
                     if (ore.dimension == DimensionType.THE_END) genEndOre(ore.getBlock(), MATCHER, world, random, chunkX, chunkZ, ore.size, ore.amount);
                     else genNormalOre(ore.getBlock(), GregTechConfig.WORLDGEN.generateInVoid ? MATCHER_VOID : MATCHER, world, random, chunkX, chunkZ, ore.size, ore.amount, ore.minY, ore.maxY);
                 }
-                else if (ore.type == WorldOres.OreType.SINGLE) genSingleOre(ore.getBlock(), MATCHER, world, random, chunkX, chunkZ, ore.amount, ore.minY, ore.maxY);
-                else if (ore.type == WorldOres.OreType.SINGLE_UNDER_LAVA) genSingleBlockUnderLava(ore.getBlock(), MATCHER, world, random, chunkX, chunkZ, ore.amount, ore.minY, ore.maxY);
+                else if (ore.type == WorldOre.OreType.SINGLE) genSingleOre(ore.getBlock(), MATCHER, world, random, chunkX, chunkZ, ore.amount, ore.minY, ore.maxY);
+                else if (ore.type == WorldOre.OreType.SINGLE_UNDER_LAVA) genSingleBlockUnderLava(ore.getBlock(), MATCHER, world, random, chunkX, chunkZ, ore.amount, ore.minY, ore.maxY);
             }
         }
 
@@ -113,23 +113,23 @@ public class OreGenerator implements IWorldGenerator {
             if (random.nextInt(25) == 0) {
                 new WorldGenMinable(Blocks.END_STONE.getDefaultState(), 100 + random.nextInt(101), MATCHER_VOID).generate(world, random, new BlockPos(chunkX + random.nextInt(16), posY, chunkZ + random.nextInt(16)));
                 if (GregTechConfig.WORLDGEN.tungstate) {
-                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.TUNGSTATE.getInstance().getDefaultState(), WorldOres.TUNGSTATE.size, MATCHER_VOID);
-                    for (int j = 0; j < (WorldOres.TUNGSTATE.amount*5)/4; j++)
+                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ore.TUNGSTATE.getInstance().getDefaultState(), WorldOre.TUNGSTATE.size, MATCHER_VOID);
+                    for (int j = 0; j < (WorldOre.TUNGSTATE.amount*5)/4; j++)
                         ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
                 }
                 if (GregTechConfig.WORLDGEN.sheldonite) {
-                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.SHELDONITE.getInstance().getDefaultState(), WorldOres.SHELDONITE.size, MATCHER_VOID);
-                    for (int j = 0; j < WorldOres.SHELDONITE.amount+1; j++)
+                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ore.SHELDONITE.getInstance().getDefaultState(), WorldOre.SHELDONITE.size, MATCHER_VOID);
+                    for (int j = 0; j < WorldOre.SHELDONITE.amount+1; j++)
                        ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
                 }
                 if (GregTechConfig.WORLDGEN.olivine) {
-                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.OLIVINE.getInstance().getDefaultState(), WorldOres.OLIVINE.size, MATCHER_VOID);
-                    for (int j = 0; j < (WorldOres.OLIVINE.amount*7)/5; j++)
+                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ore.OLIVINE.getInstance().getDefaultState(), WorldOre.OLIVINE.size, MATCHER_VOID);
+                    for (int j = 0; j < (WorldOre.OLIVINE.amount*7)/5; j++)
                         ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
                 }
                 if (GregTechConfig.WORLDGEN.sodalite) {
-                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ores.SODALITE.getInstance().getDefaultState(), WorldOres.SODALITE.size, MATCHER_VOID);
-                    for (int j = 0; j < WorldOres.SODALITE.amount*1.5; j++)
+                    WorldGenMinable ore = new WorldGenMinable(BlockItems.Ore.SODALITE.getInstance().getDefaultState(), WorldOre.SODALITE.size, MATCHER_VOID);
+                    for (int j = 0; j < WorldOre.SODALITE.amount*1.5; j++)
                         ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
                 }
             }
@@ -137,14 +137,14 @@ public class OreGenerator implements IWorldGenerator {
             for (i = 0; i < 5; i++)
                 (new WorldGenMinable(Blocks.END_STONE.getDefaultState(), 30 + random.nextInt(31), MATCHER_VOID)).generate(world, random, new BlockPos(chunkX + random.nextInt(16), posY + random.nextInt(51) - 25, chunkZ + random.nextInt(16)));
             if (GregTechConfig.WORLDGEN.tungstate)
-                for (i = 0; i < (WorldOres.TUNGSTATE.amount*5)/4; i++)
-                    new WorldGenMinable(BlockItems.Ores.TUNGSTATE.getInstance().getDefaultState(), (int) (WorldOres.TUNGSTATE.size*0.75), MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
+                for (i = 0; i < (WorldOre.TUNGSTATE.amount*5)/4; i++)
+                    new WorldGenMinable(BlockItems.Ore.TUNGSTATE.getInstance().getDefaultState(), (int) (WorldOre.TUNGSTATE.size*0.75), MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
             if (GregTechConfig.WORLDGEN.sheldonite)
-                for (i = 0; i < WorldOres.SHELDONITE.amount; i++)
-                    new WorldGenMinable(BlockItems.Ores.SHELDONITE.getInstance().getDefaultState(), WorldOres.SHELDONITE.size, MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
+                for (i = 0; i < WorldOre.SHELDONITE.amount; i++)
+                    new WorldGenMinable(BlockItems.Ore.SHELDONITE.getInstance().getDefaultState(), WorldOre.SHELDONITE.size, MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
             if (GregTechConfig.WORLDGEN.olivine)
-                for (i = 0; i < WorldOres.OLIVINE.amount*0.6; i++)
-                    new WorldGenMinable(BlockItems.Ores.OLIVINE.getInstance().getDefaultState(), WorldOres.OLIVINE.size/2, MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
+                for (i = 0; i < WorldOre.OLIVINE.amount*0.6; i++)
+                    new WorldGenMinable(BlockItems.Ore.OLIVINE.getInstance().getDefaultState(), WorldOre.OLIVINE.size/2, MATCHER_VOID).generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
         }
     }
 

@@ -34,7 +34,7 @@ public class RecipeIngredientDeserializer extends JsonDeserializer<IRecipeIngred
             int count = node.has("count") ? node.get("count").asInt(1) : 1;
             return RecipeIngredientOre.create(node.get("ore").asText(), count);
         } else if (node.has("fluid")) {
-            int amount = node.has("count") ? node.get("count").asInt(1000) : 1000;
+            int amount = node.has("count") ? node.get("count").asInt(1) : 1;
             JsonNode fluid = node.get("fluid");
             List<String> names = new ArrayList<>();
             if (fluid.isArray()) fluid.elements().forEachRemaining(name -> names.add(name.asText()));
@@ -44,7 +44,7 @@ public class RecipeIngredientDeserializer extends JsonDeserializer<IRecipeIngred
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
 
-            return new RecipeIngredientFluid(amount, fluids);
+            return new RecipeIngredientFluid(fluids, amount);
         }
 
         return null;

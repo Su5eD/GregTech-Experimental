@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities.machines.base;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;

@@ -85,7 +85,7 @@ public class RecipeLoader {
 
                 System.out.println(" Fluids: ");
                 for (Fluid fluid : ((RecipeIngredientFluid) input).getMatchingFluids()) {
-                    System.out.println("  "+fluid.getName()+" x "+((RecipeIngredientFluid) input).getFluidAmount());
+                    System.out.println("  "+fluid.getName()+" x "+((RecipeIngredientFluid) input).getMilliBuckets());
                 }
             }
             System.out.println("Output:");

@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.items.base;
+package mods.gregtechmod.objects.items;
 
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
@@ -6,6 +6,7 @@ import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
+import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -14,6 +15,7 @@ import java.util.function.BiPredicate;
 public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     private final GtUpgradeType type;
     private final int requiredTier;
+    private final int maxCount;
     private final BiPredicate<ItemStack, IUpgradableMachine> condition;
     private final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert;
     private final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate;
@@ -23,6 +25,7 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
         setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
         this.type = type;
         this.requiredTier = requiredTier;
+        this.maxCount = maxCount;
         this.condition = condition;
         this.onInsert = onInsert;
         this.onUpdate = onUpdate;
@@ -45,7 +48,7 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
 
     @Override
     public boolean canBeInserted(ItemStack stack, IUpgradableMachine machine) {
-        return this.maxStackSize > stack.getCount() && requiredTier <= machine.getTier() && this.condition.test(stack, machine);
+        return this.maxCount > stack.getCount() && requiredTier <= machine.getTier() && this.condition.test(stack, machine);
     }
 
     @Override

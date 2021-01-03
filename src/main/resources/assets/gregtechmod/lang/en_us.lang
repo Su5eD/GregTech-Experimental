@@ -408,6 +408,7 @@ gregtechmod.item.machine_lock.name=Lock Upgrade
 gregtechmod.item.steam_upgrade.name=Steam Upgrade
 gregtechmod.item.steam_tank.name=Steam Tank
 
+gregtechmod.item.cell_carbon.name=Carbon Cell
 gregtechmod.item.cell_ice.name=Ice Cell
 gregtechmod.item.cell_nitrocarbon.name=Nitrocarbon Cell
 gregtechmod.item.cell_sodium_sulfide.name=Sodium Sulfide Cell
@@ -489,7 +490,7 @@ gregtechmod.fluid.nitro_coalfuel=Nitro-Coalfuel
 gregtechmod.fluid.nitro_diesel=Nitro-Diesel
 gregtechmod.fluid.plasma=Helium Plasma
 gregtechmod.fluid.potassium=Potassium
-gregtechmod.fluid.seed_oil=Seed Oil
+gregtechmod.fluid.seed.oil=Seed Oil
 gregtechmod.fluid.silicon=Silicon
 gregtechmod.fluid.sodium=Sodium
 gregtechmod.fluid.sodium_persulfate=Sodium Persulfate

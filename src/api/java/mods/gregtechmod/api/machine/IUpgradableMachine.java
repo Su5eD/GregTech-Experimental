@@ -3,6 +3,7 @@ package mods.gregtechmod.api.machine;
 import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
+import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import net.minecraftforge.fluids.FluidTank;
 
 import javax.annotation.Nullable;
@@ -40,7 +41,11 @@ public interface IUpgradableMachine extends IGregtechMachine {
 
     double getExtraEnergyStorage();
 
-    int getTransformerUpgradeCount();
+    int getUpgradecount(IGtUpgradeItem upgrade);
+
+    int getUpgradeCount(GtUpgradeType type);
+
+    int getUpgradecount(IC2UpgradeType type);
 
     int getOverclockersCount();
 

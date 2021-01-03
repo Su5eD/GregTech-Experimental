@@ -27,7 +27,7 @@ public class RecipeManagerBasic<R extends IGtMachineRecipe<IRecipeIngredient, ?>
     @Override
     public boolean hasRecipeFor(ItemStack input) {
         for (R recipe : this.recipes) {
-            if (recipe.getInput().asIngredient().apply(input)) return true;
+            if (recipe.getInput().apply(input, false)) return true;
         }
         return false;
     }
