@@ -25,6 +25,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -50,10 +51,12 @@ public class RegistryHandler {
     public static void registerFluids() {
         FluidLoader.init();
         GregTechAPI.logger.info("Registering fluids");
-        FluidLoader.FLUIDS.forEach(fluid -> {
+        for (FluidLoader.IFluidProvider provider : FluidLoader.FLUIDS) {
+            Fluid fluid = provider.getFluid();
+            if (provider.isFallbackFluid() && FluidRegistry.isFluidRegistered(fluid.getName())) continue;
             FluidRegistry.registerFluid(fluid);
             FluidRegistry.addBucketForFluid(fluid);
-        });
+        }
     }
 
     @SubscribeEvent
@@ -144,12 +147,9 @@ public class RegistryHandler {
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_conductor"));
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_signalizer"));
 
-        for (FluidLoader.Liquid type : FluidLoader.Liquid.values()) {
-            map.registerSprite(type.texture);
-        }
-        for (FluidLoader.Gas type : FluidLoader.Gas.values()) {
-            map.registerSprite(type.texture);
-        }
+        FluidLoader.FLUIDS.forEach(provider -> {
+            map.registerSprite(provider.getTexture());
+        });
     }
 
     @SubscribeEvent

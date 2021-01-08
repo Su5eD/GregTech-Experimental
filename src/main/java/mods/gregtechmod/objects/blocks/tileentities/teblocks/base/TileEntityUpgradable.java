@@ -68,7 +68,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         this.energy = addComponent(new Energy(this, maxEnergy, Util.allFacings, Collections.emptySet(), defaultTier));
         this.defaultTier = defaultTier;
         this.defaultEnergyConsume = this.energyConsume =defaultEnergyConsume;
-        this.upgradeSlot = new GtUpgradeSlot(this, "upgrades", InvSlot.Access.NONE, 4);
+        this.upgradeSlot = new GtUpgradeSlot(this, "upgrades", InvSlot.Access.NONE, 8);
         this.defaultEnergyStorage = maxEnergy;
         this.fluids = addComponent(new Fluids(this));
     }
