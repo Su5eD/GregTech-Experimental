@@ -71,7 +71,7 @@ public class OreDictUnificator {
         if (name2OreMap.containsKey(name)) return get(name, null, amount);
 
         ItemStack stack = null;
-        List<ItemStack> ores = getOres(name);
+        List<ItemStack> ores = OreDictionary.getOres(name);
         if (ores.size() > 0) stack = ores.get(0).copy();
         if (stack != null) stack.setCount(amount);
 
@@ -81,7 +81,7 @@ public class OreDictUnificator {
     public static ItemStack getFirstCapsulatedOre(String name, int amount) {
         if (name2OreMap.containsKey(name)) return get(name, null, amount);
         ItemStack stack = null;
-        List<ItemStack> ores = getOres(name);
+        List<ItemStack> ores = OreDictionary.getOres(name);
         for (ItemStack ore : ores) {
             if (ore != null && GtUtil.getCapsuleCellContainerCount(ore) == 1) {
                 stack = ore.copy().splitStack(amount);
@@ -94,7 +94,7 @@ public class OreDictUnificator {
     public static ItemStack getFirstUnCapsulatedOre(String name, int amount) {
         if (name2OreMap.containsKey(name)) return get(name, null, amount);
         ItemStack stack = null;
-        List<ItemStack> ores = getOres(name);
+        List<ItemStack> ores = OreDictionary.getOres(name);
         for (ItemStack ore : ores) {
             if (ore != null && GtUtil.getCapsuleCellContainerCount(ore) <= 0) {
                 stack = ore.copy().splitStack(amount);
@@ -163,7 +163,7 @@ public class OreDictUnificator {
             string = item2OreMap.get(ore);
             if (string == null) {
                 if (!prefix) {
-                    for (ItemStack oreStack : getOres(name)) {
+                    for (ItemStack oreStack : OreDictionary.getOres(name)) {
                         if (!oreStack.isItemEqual(stack)) continue;
                         return true;
                     }
@@ -184,7 +184,7 @@ public class OreDictUnificator {
 
     public static boolean registerOre(String name, ItemStack stack) {
         if (name == null || name.isEmpty() || stack.isEmpty()) return false;
-        List<ItemStack> ores = getOres(name);
+        List<ItemStack> ores = OreDictionary.getOres(name);
         for (int i = 0; i < ores.size(); ) {
             if (ores.get(i).isItemEqual(stack))
                 return false;
@@ -193,9 +193,5 @@ public class OreDictUnificator {
         stack = stack.copy().splitStack(1);
         OreDictionary.registerOre(name, stack);
         return true;
-    }
-
-    public static List<ItemStack> getOres(String name) {
-        return OreDictionary.getOres(name);
     }
 }

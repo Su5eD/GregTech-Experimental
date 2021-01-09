@@ -68,8 +68,6 @@ public class RecipeLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        GtRecipes.industrial_centrifuge.getRecipes().forEach(System.out::println);
     }
 
     public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {
