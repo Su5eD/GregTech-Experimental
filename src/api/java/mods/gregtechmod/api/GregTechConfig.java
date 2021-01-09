@@ -24,12 +24,18 @@ public class GregTechConfig {
     @Config.LangKey(Reference.MODID+".config.machines")
     public static final Machines MACHINES = new Machines();
 
+    @Config.LangKey(Reference.MODID+".config.unification")
+    public static final Unification UNIFICATION = new Unification();
+
+    @Config.LangKey(Reference.MODID+".config.worldgen")
     public static final WorldGen WORLDGEN = new WorldGen();
 
     public static class General {
         public boolean connectedMachineCasingTextures = true;
         public boolean dynamicCentrifugeAnimationSpeed = true;
         public boolean hiddenOres = true;
+
+        public String[] specialUnificationTargets = new String[0];
     }
 
     public static class Features {
@@ -38,13 +44,15 @@ public class GregTechConfig {
         public int digitalChestMaxItemCount = 32768;
         @Config.Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
         public int upgradeStackSize = 4;
+        @Config.RangeInt(min = 16, max = 64)
+        public int maxOtherBlockStackSize = 64;
     }
 
     public static class Balance {
-        @Config.Comment("Indicates the amount of universal steam per ic2 steam. This is used by the steam upgrade to fairly convert all kinds of steam to the same value.")
+        @Config.Comment("Indicates the amount of 1mb universal steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
         public double steamMultiplier = 1.6;
-        @Config.Comment("Serves the same purpose as the above, for superheated steam.")
-        public double superHeatedSteamMultiplier = 0.5;
+        @Config.Comment("Indicates the amount of 1mb ic2 steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
+        public double superHeatedSteamMultiplier = 2;
         @Config.Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public boolean solarPanelCoverOvervoltageProtection = false;
         public float LVExplosionPower = 2;
@@ -69,42 +77,78 @@ public class GregTechConfig {
         public boolean machineChainExplosions = true;
     }
 
+    public static class Unification {
+        public boolean forestry = true;
+        public boolean railcraft = true;
+        public boolean projectred = true;
+        public boolean thaumcraft = true;
+        public boolean thermalfoundation = true;
+    }
+
     public static class WorldGen {
         public boolean retrogen = true;
         public boolean generateInVoid = false;
 
+        @Config.RequiresMcRestart
         public boolean galena = true;
+        @Config.RequiresMcRestart
         public boolean iridium = true;
+        @Config.RequiresMcRestart
         public boolean ruby = true;
+        @Config.RequiresMcRestart
         public boolean sapphire = true;
+        @Config.RequiresMcRestart
         public boolean bauxite = true;
+        @Config.RequiresMcRestart
         public boolean tetrahedrite = true;
+        @Config.RequiresMcRestart
         public boolean cassiterite = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_overworld = true;
 
+        @Config.RequiresMcRestart
         public boolean tungstate = true;
+        @Config.RequiresMcRestart
         public boolean sheldonite = true;
+        @Config.RequiresMcRestart
         public boolean olivine = true;
+        @Config.RequiresMcRestart
         public boolean sodalite = true;
 
+        @Config.RequiresMcRestart
         public boolean pyrite_tiny = true;
+        @Config.RequiresMcRestart
         public boolean pyrite_small = true;
+        @Config.RequiresMcRestart
         public boolean pyrite_medium = true;
+        @Config.RequiresMcRestart
         public boolean pyrite_large = true;
+        @Config.RequiresMcRestart
         public boolean pyrite_huge = true;
 
+        @Config.RequiresMcRestart
         public boolean cinnabar_tiny = true;
+        @Config.RequiresMcRestart
         public boolean cinnabar_small = true;
+        @Config.RequiresMcRestart
         public boolean cinnabar_medium = true;
+        @Config.RequiresMcRestart
         public boolean cinnabar_large = false;
+        @Config.RequiresMcRestart
         public boolean cinnabar_huge = false;
 
+        @Config.RequiresMcRestart
         public boolean sphalerite_tiny = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_small = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_medium = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_large = true;
+        @Config.RequiresMcRestart
         public boolean sphalerite_huge = true;
 
+        @Config.RequiresMcRestart
         public boolean endAsteroids = true;
     }
 

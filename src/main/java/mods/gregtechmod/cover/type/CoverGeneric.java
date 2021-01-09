@@ -100,7 +100,7 @@ public class CoverGeneric implements ICover {
 
     @Override
     public ResourceLocation getIcon() {
-        return CoverTextures.valueOf(getCoverName(stack)).getResourceLocation();
+        return CoverTexture.valueOf(getCoverName(stack)).getResourceLocation();
     }
 
     @Override
@@ -153,41 +153,41 @@ public class CoverGeneric implements ICover {
         else return stack.getTranslationKey().substring(11); //GT plate
     }
 
-    public enum CoverTextures {
+    public enum CoverTexture {
         //Generic GregTech
-        aluminium(Reference.MODID, CoverTextures.BLOCK_PATH +"aluminium"),
-        brass(Reference.MODID, CoverTextures.BLOCK_PATH +"brass"),
-        chrome(Reference.MODID, CoverTextures.BLOCK_PATH +"chrome"),
-        electrum(Reference.MODID, CoverTextures.BLOCK_PATH +"electrum"),
-        invar(Reference.MODID, CoverTextures.BLOCK_PATH +"invar"),
-        iridium(Reference.MODID, CoverTextures.BLOCK_CONNECTED_PATH +"block_iridium_reinforced_tungstensteel/block_iridium_reinforced_tungstensteel0c"),
-        nickel(Reference.MODID, CoverTextures.BLOCK_PATH +"nickel"),
-        osmium(Reference.MODID, CoverTextures.BLOCK_PATH +"osmium"),
-        platinum(Reference.MODID, CoverTextures.BLOCK_PATH +"platinum"),
-        titanium(Reference.MODID, CoverTextures.BLOCK_PATH +"titanium"),
-        tungsten(Reference.MODID, CoverTextures.BLOCK_PATH +"tungsten"),
-        tungstensteel(Reference.MODID, CoverTextures.BLOCK_CONNECTED_PATH +"block_tungstensteel/block_tungstensteel0c"),
-        zinc(Reference.MODID, CoverTextures.BLOCK_PATH +"zinc"),
+        ALUMINIUM(Reference.MODID, CoverTexture.BLOCK_PATH +"aluminium"),
+        BRASS(Reference.MODID, CoverTexture.BLOCK_PATH +"brass"),
+        CHROME(Reference.MODID, CoverTexture.BLOCK_PATH +"chrome"),
+        ELECTRUM(Reference.MODID, CoverTexture.BLOCK_PATH +"electrum"),
+        INVAR(Reference.MODID, CoverTexture.BLOCK_PATH +"invar"),
+        IRIDIUM(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH +"block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c"),
+        NICKEL(Reference.MODID, CoverTexture.BLOCK_PATH +"nickel"),
+        OSMIUM(Reference.MODID, CoverTexture.BLOCK_PATH +"osmium"),
+        PLATINUM(Reference.MODID, CoverTexture.BLOCK_PATH +"platinum"),
+        TITANIUM(Reference.MODID, CoverTexture.BLOCK_PATH +"titanium"),
+        TUNGSTEN(Reference.MODID, CoverTexture.BLOCK_PATH +"tungsten"),
+        TUNGSTEN_STEEL(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH +"block_tungsten_steel/block_tungsten_steel0c"),
+        ZINC(Reference.MODID, CoverTexture.BLOCK_PATH +"zinc"),
         //Generic Minecraft
-        iron("minecraft", "blocks/iron_block"),
-        gold("minecraft", "blocks/gold_block"),
-        lapis("minecraft", "blocks/lapis_block"),
-        obsidian("minecraft", "blocks/obsidian"),
-        wood("minecraft", "blocks/planks_oak"),
+        IRON("minecraft", "blocks/iron_block"),
+        GOLD("minecraft", "blocks/gold_block"),
+        LAPIS("minecraft", "blocks/lapis_block"),
+        OBSIDIAN("minecraft", "blocks/obsidian"),
+        WOOD("minecraft", "blocks/planks_oak"),
         //Generic IC2
-        copper("ic2", CoverTextures.IC2_BLOCK_PATH +"bronze_block"),
-        silver("ic2", CoverTextures.IC2_BLOCK_PATH +"silver_block"),
-        bronze("ic2", CoverTextures.IC2_BLOCK_PATH +"bronze_block"),
-        tin("ic2", CoverTextures.IC2_BLOCK_PATH +"tin_block"),
-        lead("ic2", CoverTextures.IC2_BLOCK_PATH +"lead_block"),
-        steel("ic2", CoverTextures.IC2_BLOCK_PATH +"steel_block");
+        COPPER("ic2", CoverTexture.IC2_BLOCK_PATH +"bronze_block"),
+        SILVER("ic2", CoverTexture.IC2_BLOCK_PATH +"silver_block"),
+        BRONZE("ic2", CoverTexture.IC2_BLOCK_PATH +"bronze_block"),
+        TIN("ic2", CoverTexture.IC2_BLOCK_PATH +"tin_block"),
+        LEAD("ic2", CoverTexture.IC2_BLOCK_PATH +"lead_block"),
+        STEEL("ic2", CoverTexture.IC2_BLOCK_PATH +"steel_block");
         private final String domain;
         private final String path;
         private static final String BLOCK_PATH = "blocks/block_";
         private static final String IC2_BLOCK_PATH = "blocks/resource/";
         private static final String BLOCK_CONNECTED_PATH = "blocks/connected/";
 
-        CoverTextures(String domain, String path) {
+        CoverTexture(String domain, String path) {
             this.domain = domain;
             this.path = path;
         }

@@ -8,9 +8,8 @@ import net.minecraft.item.ItemStack;
 public class ItemSolderingMetal extends ItemBase implements ISolderingMetal {
 
     public ItemSolderingMetal(String material, int durability) {
-        super("soldering_"+material, "Used in conjunction with soldering tools");
+        super("soldering_"+material, "Used in conjunction with soldering tools", durability);
         setMaxStackSize(1);
-        setMaxDamage(durability - 1);
         setNoRepair();
     }
 

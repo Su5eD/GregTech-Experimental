@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 buildscript {
     repositories {
         jcenter()
@@ -5,17 +7,20 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
+
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'maven-publish'
 
 version = version_major+'.'+version_minor+'-' + ("$System.env.GITHUB_RUN_NUMBER" != "null" ? "$System.env.GITHUB_RUN_NUMBER" : "0")
-group = "mods.su5ed" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "mods.su5ed"
 archivesBaseName = "gregtechmod"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
@@ -24,14 +29,8 @@ minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
     replace '@VERSION@', project.version
-    
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
+
     mappings = "stable_39"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 sourceSets {
@@ -44,6 +43,30 @@ sourceSets {
 
 configurations {
     apiCompile.extendsFrom(compile)
+    shade
+    compile.extendsFrom(shade)
+}
+
+reobf {
+    apiJar {}
+    shadowJar {}
+}
+
+shadowJar {
+    dependsOn classes
+    finalizedBy reobfShadowJar
+
+    configurations = [project.configurations.shade]
+    from sourceSets.api.output
+    relocate "com.fasterxml", "mods.gregtechmod.repack.fasterxml"
+    relocate "org.yaml", "mods.gregtechmod.repack.yaml"
+    classifier ""
+}
+
+build {
+    dependsOn reobfShadowJar
+    dependsOn "devJar"
+    dependsOn 'apiJar'
 }
 
 repositories {
@@ -59,22 +82,51 @@ repositories {
         name = "CurseMaven"
         url = "https://www.cursemaven.com"
     }
+    maven {
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        name = "CoFH Maven"
+        url = "https://maven.covers1624.net"
+    }
 }
 
 dependencies {
-    compileOnly "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:dev"
-    runtime "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112" //Separate ic2 for runtime to fix an issue caused by ic2 using old mappings
-    apiCompile "net.industrial-craft:industrialcraft-2:2.8.${version_ic2}-ex112:api" //GTE api depends on the ic2 api
+    deobfCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${version_ic2}-ex112"
+    apiCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${version_ic2}-ex112", classifier: "api" //GTE api depends on the ic2 api
 
-    compile "com.mod-buildcraft:buildcraft-all:${version_buildcraft}"
-    compile "curse.maven:energy-control:3026320"
+    deobfCompile group: "cofh", name: "RedstoneFlux", version: "1.12-${version_rf}", classifier: "universal"
+    deobfCompile (group: "cofh", name: "CoFHCore", version: "1.12.2-${version_cofhcore}", classifier: "universal") {
+        exclude group: "mezz.jei"
+    }
+    deobfCompile group: "cofh", name: "CoFHWorld", version: "1.12.2-${version_cofhworld}", classifier: "universal"
+    deobfCompile group: "cofh", name: "ThermalFoundation", version: "1.12.2-${version_thermalfoundation}", classifier: "universal"
+    deobfCompile group: "codechicken", name: "CodeChickenLib", version: "1.12.2-${version_codechickenlib}", classifier: "universal"
+    deobfCompile (group: "cofh", name: "ThermalExpansion", version: "1.12.2-${version_thermalexpansion}", classifier: "universal") {
+        exclude group: "mezz.jei"
+    }
+    deobfCompile group: "mezz.jei", name: "jei_${mcversion}", version: "${version_jei}"
+
+    deobfCompile group: "com.mod-buildcraft", name: "buildcraft-api", version: "${version_buildcraft}"
+    deobfCompile group: "curse.maven", name: "energy-control-373450", version: "3026320"
+    compile (group: "appeng", name: "appliedenergistics2", version: "rv6-stable-7", classifier: "api") {
+        exclude group: "mezz.jei"
+    }
+
+    def databind = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
+    implementation databind
+    shade databind
+
+    def yaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.0"
+    implementation yaml
+    shade yaml
 }
 
 jar {
     finalizedBy 'reobfJar'
-    //Include api classes in the full jar
-    from sourceSets.api.output.classesDirs
-    from sourceSets.api.output.resourcesDir
+
+    from sourceSets.api.output
 
     manifest {
         attributes([
@@ -89,24 +141,47 @@ jar {
     }
 }
 
-task devJar(type: Jar) {
-    from sourceSets.main.allSource
-    //Include api classes in the dev jar
-    from sourceSets.api.output
+task devJar(type: ShadowJar, dependsOn: classes) {
+    configurations = [project.configurations.shade]
+
+    manifest {
+        attributes([
+                "Specification-Title": "gregtechmod",
+                "Specification-Vendor": "Su5eD",
+                "Specification-Version": "1",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" : "Su5eD",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+
+    relocate "com.fasterxml", "mods.gregtechmod.repack.fasterxml"
+    relocate "org.yaml", "mods.gregtechmod.repack.yaml"
+
+    from sourceSets.main.output
+    from sourceSets.api.output.classesDirs
+    from sourceSets.api.output.resourcesDir
+
     classifier = "dev"
 }
 
-task apiJar(type: Jar) {
-    classifier = "api"
-    from sourceSets.api.output
-    include "mods/gregtechmod/api/**"
+task apiJar(type: Jar, dependsOn: classes) {
+    finalizedBy reobfApiJar
 
+    from sourceSets.api.output.classesDirs
     //Include sources in the api jar
     from sourceSets.api.allJava
+
+    exclude 'META-INF/**'
+    classifier = "api"
+}
+
+sourceJar {
+    from sourceSets.api.allSource
 }
 
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
@@ -131,11 +206,7 @@ publishing {
             artifactId = project.archivesBaseName
             version = project.version
 
-            pom.withXml {
-                asNode().remove(asNode().dependencies)
-            }
-
-            from components.java
+            artifact shadowJar
             artifact apiJar
             artifact devJar
         }

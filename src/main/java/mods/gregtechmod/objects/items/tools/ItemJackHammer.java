@@ -1,44 +1,27 @@
 package mods.gregtechmod.objects.items.tools;
 
-import ic2.core.item.tool.HarvestLevel;
-import ic2.core.item.tool.ItemElectricTool;
-import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
-import net.minecraft.block.BlockOre;
-import net.minecraft.block.material.Material;
+import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.objects.items.base.ItemToolElectricBase;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
 import java.util.Collections;
 
-public class ItemJackHammer extends ItemElectricTool implements IModelInfoProvider {
-    protected final String name;
+public class ItemJackHammer extends ItemToolElectricBase {
+    protected final boolean canMineObsidian;
 
-    public ItemJackHammer(String name, int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency) {
-        super(null, operationEnergyCost, HarvestLevel.Diamond, Collections.emptySet());
-        this.name = name;
-        this.maxCharge = maxCharge;
-        this.transferLimit = transferLimit;
-        this.tier = tier;
+    public ItemJackHammer(String name, int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency, boolean canMineObsidian) {
+        super(name, null, maxCharge, transferLimit, tier, operationEnergyCost, Collections.emptySet());
         this.efficiency = efficiency;
+        this.canMineObsidian = canMineObsidian;
         setMaxStackSize(1);
     }
 
     @Override
-    public String getTranslationKey() {
-        return Reference.MODID+".item."+name;
-    }
-
-    @Override
     public boolean canHarvestBlock(IBlockState state, ItemStack itemStack) {
-        if (state.getMaterial() == Material.ROCK && !(state.getBlock() instanceof BlockOre)) return true;
-        return super.canHarvestBlock(state, itemStack);
-    }
-
-    @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "tool"));
+        Block block = state.getBlock();
+        return GregTechAPI.jackHammerMinableBlocks.contains(block) && (this.canMineObsidian || !OreDictUnificator.isItemInstanceOf(block, "stoneObsidian", false));
     }
 }

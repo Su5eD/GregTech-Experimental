@@ -21,7 +21,9 @@ import mods.gregtechmod.api.event.ScannerEvent;
 import mods.gregtechmod.api.machine.IGregtechMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.util.GtUtil;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -46,8 +48,17 @@ import java.util.List;
 @SuppressWarnings("NullableProblems")
 public class ItemScanner extends ItemElectricBase {
 
-    public ItemScanner(String name, String description, int maxCharge, int transferLimit, int tier) {
+    public ItemScanner() {
+        this("scanner", "Tricorder", 100000, 100, 1);
+        setFolder("tool");
+        setRegistryName("scanner");
+        setTranslationKey("scanner");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
+    }
+
+    public ItemScanner(String name, String description, int maxCharge, double transferLimit, int tier) {
         super(name, description, maxCharge, transferLimit, tier);
+        this.showTier = false;
     }
 
     @Override
@@ -58,9 +69,9 @@ public class ItemScanner extends ItemElectricBase {
         }
         ItemStack stack = player.inventory.getCurrentItem();
         if (player instanceof EntityPlayerMP && ElectricItem.manager.canUse(stack, 25000)) {
-            ArrayList<String> aList = new ArrayList<>();
-            ElectricItem.manager.use(stack, getCoordinateScan(aList, player, world, 1, pos, side, hitX, hitY, hitZ), player);
-            for (String s : aList) IC2.platform.messagePlayer(player, s);
+            ArrayList<String> list = new ArrayList<>();
+            ElectricItem.manager.use(stack, getCoordinateScan(list, player, world, 1, pos, side, hitX, hitY, hitZ), player);
+            for (String s : list) IC2.platform.messagePlayer(player, s);
             return EnumActionResult.SUCCESS;
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
@@ -139,7 +150,7 @@ public class ItemScanner extends ItemElectricBase {
                 EUCost+=500;
                 int tValue;
                 if (0 < (tValue = ((IUpgradableMachine)tileEntity).getOverclockersCount())) ret.add(tValue	+ " Overclocker Upgrades");
-                if (0 < (tValue = ((IUpgradableMachine)tileEntity).getTransformerUpgradeCount())) ret.add(tValue	+ " Transformer Upgrades");
+                if (0 < (tValue = ((IUpgradableMachine)tileEntity).getUpgradeCount(GtUpgradeType.TRANSFORMER))) ret.add(tValue	+ " Transformer Upgrades");
                 if (0 < (tValue = (int) ((IUpgradableMachine)tileEntity).getExtraEnergyStorage())) ret.add(tValue	+ " Upgraded EU Capacity");
             }
 

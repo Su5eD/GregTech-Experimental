@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.IC2;
 import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,8 +22,11 @@ import java.util.List;
 
 public class ItemRubberHammer extends ItemHammer {
 
-    public ItemRubberHammer(String material, String description, int durability, int attackDamage) {
-        super(material, description, durability, attackDamage, ToolMaterial.STONE);
+    public ItemRubberHammer() {
+        super("rubber", "To give a machine a soft whack", 128, 4);
+        setRegistryName("hammer_rubber");
+        setTranslationKey("hammer_rubber");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
     @Override

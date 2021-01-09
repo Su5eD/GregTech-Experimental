@@ -1,0 +1,20 @@
+# Assembler recipes
+#
+---
+- input:
+    - ore: plateAlloyAdvanced
+    - ore: stoneSmooth
+      count: 8
+  output:
+    item: ic2:resource#reinforced_stone
+    count: 8
+  duration: 400
+  energyCost: 4
+- input:
+    - item: ic2:crafting#coal_block
+      count: 8
+    - ore: stoneObsidian
+  output:
+    item: ic2:crafting#coal_chunk
+  duration: 400
+  energyCost: 4

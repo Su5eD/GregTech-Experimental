@@ -1,13 +1,12 @@
 package mods.gregtechmod.init;
 
-import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
-import mods.gregtechmod.objects.blocks.RenderBlockOre;
-import mods.gregtechmod.objects.blocks.RenderTeBlock;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
+import mods.gregtechmod.render.RenderBlockOre;
+import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.JsonHandler;
@@ -15,6 +14,7 @@ import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootPool;
@@ -25,12 +25,15 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Locale;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -48,10 +51,12 @@ public class RegistryHandler {
     public static void registerFluids() {
         FluidLoader.init();
         GregTechAPI.logger.info("Registering fluids");
-        FluidLoader.FLUIDS.forEach(fluid -> {
+        for (FluidLoader.IFluidProvider provider : FluidLoader.FLUIDS) {
+            Fluid fluid = provider.getFluid();
+            if (provider.isFallbackFluid() && FluidRegistry.isFluidRegistered(fluid.getName())) continue;
             FluidRegistry.registerFluid(fluid);
             FluidRegistry.addBucketForFluid(fluid);
-        });
+        }
     }
 
     @SubscribeEvent
@@ -59,8 +64,10 @@ public class RegistryHandler {
     public static void registerModels(ModelRegistryEvent event) {
         BlockItemLoader.BLOCKS
                 .forEach(block -> {
-                    if (block instanceof IBlockCustomItem) registerModel(Item.getItemFromBlock(block), 0, ((IBlockCustomItem)block).getItemModel());
-                    else registerModel(Item.getItemFromBlock(block));
+                    Item blockItem = Item.getItemFromBlock(block);
+                    if (blockItem == Items.AIR) return;
+                    if (block instanceof IBlockCustomItem) registerModel(blockItem, 0, ((IBlockCustomItem)block).getItemModel());
+                    else registerModel(blockItem);
                 });
 
         BlockItemLoader.ITEMS.stream()
@@ -101,9 +108,9 @@ public class RegistryHandler {
                 GregTechAPI.logger.error(e.getMessage());
             }
         }
-        for (BlockItems.Ores ore : BlockItems.Ores.values()) {
-            JsonHandler json = new JsonHandler(ore.name(), "ore");
-            loader.register("models/block/ore/"+ore.name(), new RenderBlockOre(json.generateMapFromJSON("textures"), json.generateMapFromJSON("textures_nether"), json.generateMapFromJSON("textures_end"), json.particle));
+        for (BlockItems.Ore ore : BlockItems.Ore.values()) {
+            JsonHandler json = new JsonHandler(ore.name().toLowerCase(Locale.ROOT), "ore");
+            loader.register("models/block/ore/"+ore.name().toLowerCase(Locale.ROOT), new RenderBlockOre(json.generateMapFromJSON("textures"), json.generateMapFromJSON("textures_nether"), json.generateMapFromJSON("textures_end"), json.particle));
         }
         ModelLoaderRegistry.registerLoader(loader);
     }
@@ -140,12 +147,9 @@ public class RegistryHandler {
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_conductor"));
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_signalizer"));
 
-        for (FluidLoader.Liquids type : FluidLoader.Liquids.values()) {
-            map.registerSprite(type.texture);
-        }
-        for (FluidLoader.Gases type : FluidLoader.Gases.values()) {
-            map.registerSprite(type.texture);
-        }
+        FluidLoader.FLUIDS.forEach(provider -> {
+            map.registerSprite(provider.getTexture());
+        });
     }
 
     @SubscribeEvent

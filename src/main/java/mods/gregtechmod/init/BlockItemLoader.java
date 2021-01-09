@@ -1,443 +1,81 @@
 package mods.gregtechmod.init;
 
-import mods.gregtechmod.api.BlockItems;
-import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
-import mods.gregtechmod.api.util.GtUtil;
-import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.util.ReflectionUtil;
-import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.blocks.BlockBase;
+import com.zuxelus.energycontrol.api.EnergyContolRegister;
+import com.zuxelus.energycontrol.api.IItemCard;
+import com.zuxelus.energycontrol.api.IItemKit;
+import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
-import mods.gregtechmod.objects.blocks.BlockOre;
-import mods.gregtechmod.objects.blocks.ConnectedBlock;
-import mods.gregtechmod.objects.items.ItemDataOrb;
-import mods.gregtechmod.objects.items.ItemDestructorPack;
-import mods.gregtechmod.objects.items.ItemSolderingMetal;
-import mods.gregtechmod.objects.items.ItemSonictron;
-import mods.gregtechmod.objects.items.base.*;
-import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
-import mods.gregtechmod.objects.items.tools.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.EnumDyeColor;
+import mods.gregtechmod.objects.items.ItemSensorCard;
+import mods.gregtechmod.objects.items.ItemSensorKit;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.Optional;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
 public class BlockItemLoader {
-    static final List<Block> BLOCKS = new LinkedList<>();
-    static final List<Item> ITEMS = new LinkedList<>();
+    static final Set<net.minecraft.block.Block> BLOCKS = new LinkedHashSet<>();
+    static final Set<Item> ITEMS = new LinkedHashSet<>();
 
     private static Item registerItem(Item item) {
-        ModContainer container;
-
-        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(Reference.MODID)) throw new IllegalAccessError("only gregtech can call this");
-        else if (ITEMS.contains(item)) throw new IllegalStateException("duplicate item: "+item);
-
-        ITEMS.add(item);
+        if (!ITEMS.add(item)) throw new IllegalStateException("Duplicate registry entry: "+item.getRegistryName());
         return item;
     }
 
-    private static Block registerBlock(Block block) {
-        ModContainer container;
+    private static net.minecraft.block.Block registerBlock(net.minecraft.block.Block block) {
+        if (!BLOCKS.add(block)) throw new IllegalStateException("Duplicate registry entry: "+block.getRegistryName());
+        return block;
+    }
 
-        if ((container = Loader.instance().activeModContainer()) != null && !container.getModId().equals(Reference.MODID)) throw new IllegalAccessError("only gregtech can call this");
-        else if (BLOCKS.contains(block)) throw new IllegalStateException("duplicate block: "+block);
-
-        BLOCKS.add(block);
+    private static net.minecraft.block.Block registerBlockItem(net.minecraft.block.Block block) {
+        registerBlock(block);
+        registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         return block;
     }
 
     static void init() {
-        initBlocks();
-        initIngots();
-        initNuggets();
-        initPlates();
-        initRods();
-        initDusts();
-        initSmallDusts();
-        initCells();
-        initCovers();
-        initCraftingItems();
-        initTools();
-        initComponents();
-        initNuclearComponents();
-        initArmor();
-        initMiscellaneous();
-        initUpgrades();
+        BlockItems.lightSource = registerBlock(new BlockLightSource());
+        Arrays.stream(BlockItems.Block.values()).forEach(block -> registerBlockItem(block.getInstance()));
+        Arrays.stream(BlockItems.Ore.values()).forEach(block -> registerBlockItem(block.getInstance()));
+        Arrays.stream(BlockItems.Miscellaneous.values()).forEach(misc -> registerItem(misc.getInstance()));
+        Arrays.stream(BlockItems.Ingot.values()).forEach(ingot -> registerItem(ingot.getInstance()));
+        Arrays.stream(BlockItems.Plate.values()).forEach(plate -> registerItem(plate.getInstance()));
+        Arrays.stream(BlockItems.Rod.values()).forEach(rod -> registerItem(rod.getInstance()));
+        Arrays.stream(BlockItems.Dust.values()).forEach(dust -> registerItem(dust.getInstance()));
+        Arrays.stream(BlockItems.Smalldust.values()).forEach(smallDust -> registerItem(smallDust.getInstance()));
+        Arrays.stream(BlockItems.Nugget.values()).forEach(nugget -> registerItem(nugget.getInstance()));
+        Arrays.stream(BlockItems.Cell.values()).forEach(cell -> registerItem(cell.getInstance()));
+        Arrays.stream(BlockItems.Cover.values()).forEach(coverItem -> registerItem(coverItem.getInstance()));
+        Arrays.stream(BlockItems.Component.values()).forEach(component -> registerItem(component.getInstance()));
+        Arrays.stream(BlockItems.Upgrade.values()).forEach(upgrade -> registerItem(upgrade.getInstance()));
+        if (Loader.isModLoaded("energycontrol")) registerEnergyControlItems();
+        Arrays.stream(BlockItems.Armor.values()).forEach(armor -> registerItem(armor.getInstance()));
+        Arrays.stream(BlockItems.NuclearCoolantPack.values()).forEach(pack -> registerItem(pack.getInstance()));
+        Arrays.stream(BlockItems.NuclearFuelRod.values()).forEach(nuclearRod -> registerItem(nuclearRod.getInstance()));
+        Arrays.stream(BlockItems.JackHammer.values()).forEach(jackHammer -> registerItem(jackHammer.getInstance()));
+        Arrays.stream(BlockItems.Tool.values()).forEach(tool -> registerItem(tool.getInstance()));
+        Arrays.stream(BlockItems.Wrenche.values()).forEach(wrench -> registerItem(wrench.getInstance()));
+        Arrays.stream(BlockItems.Hammer.values()).forEach(hammer -> registerItem(hammer.getInstance()));
+        Arrays.stream(BlockItems.SolderingMetal.values()).forEach(solderingMetal -> registerItem(solderingMetal.getInstance()));
+        Arrays.stream(BlockItems.TurbineRotor.values()).forEach(rotor -> registerItem(rotor.getInstance()));
+        Arrays.stream(BlockItems.File.values()).forEach(file -> registerItem(file.getInstance()));
+        Arrays.stream(BlockItems.Saw.values()).forEach(saw -> registerItem(saw.getInstance()));
+        Arrays.stream(BlockItems.ColorSpray.values()).forEach(spray -> registerItem(spray.getInstance()));
+
+        GregTechObjectAPI.setItemMap(ITEMS.stream().collect(Collectors.toMap(value -> value.getRegistryName().toString().split(":")[1], ItemStack::new)));
+        GregTechObjectAPI.setBlockMap(BLOCKS.stream().collect(Collectors.toMap(value -> value.getRegistryName().toString().split(":")[1], value -> value)));
     }
 
-    private static void initBlocks() {
-        BlockItems.lightSource = registerBlock(new BlockLightSource()
-                .setRegistryName("light_source")
-                .setTranslationKey("light_source"));
-        registerItem(new ItemBlock(BlockItems.lightSource).setRegistryName(BlockItems.lightSource.getRegistryName()));
-
-        for (BlockItems.Blocks type : BlockItems.Blocks.values()) {
-            Block block = new BlockBase(Material.IRON)
-                    .setRegistryName("block_"+type.name())
-                    .setTranslationKey("block_"+type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                    .setHardness(type.hardness)
-                    .setResistance(type.resistance);
-            type.setInstance(registerBlock(block));
-            registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-        }
-        for (BlockItems.ConnectedBlocks type : BlockItems.ConnectedBlocks.values()) {
-            Block block = new ConnectedBlock(Material.IRON)
-                    .setRegistryName("block_"+type.name())
-                    .setTranslationKey("block_"+type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                    .setHardness(type.hardness)
-                    .setResistance(type.resistance);
-            type.setInstance(registerBlock(block));
-            registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-        }
-
-        for (BlockItems.Ores type : BlockItems.Ores.values()) {
-            String name = "block_"+type.name()+"_ore";
-            Block block = new BlockOre(type.name(), type.hardness, type.dropChance, type.dropRandom, type.loot)
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            type.setInstance(registerBlock(block));
-            registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-        }
-    }
-
-    private static void initIngots() {
-        for (BlockItems.Ingots type : BlockItems.Ingots.values()) {
-            String name = "ingot_"+type.name();
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, type.hasEffect)
-                .setFolder("ingot")
-                .setRegistryName(name)
-                .setTranslationKey(name)
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initNuggets() {
-        for (BlockItems.Nuggets type : BlockItems.Nuggets.values()) {
-            String name = "nugget_"+type.name();
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
-                    .setFolder("nugget")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initPlates() {
-        for (BlockItems.Plates type : BlockItems.Plates.values()) {
-            String name = "plate_"+type.name();
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
-                    .setFolder("plate")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initRods() {
-        for (BlockItems.Rods type : BlockItems.Rods.values()) {
-            String name = "rod_"+type.name();
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
-                    .setFolder("rod")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initDusts() {
-        for (BlockItems.Dusts type : BlockItems.Dusts.values()) {
-            String name = "dust_"+type.name();
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, type.hasEffect)
-                    .setFolder("dust")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initSmallDusts() {
-        for (BlockItems.Smalldusts type : BlockItems.Smalldusts.values()) {
-            String name = "smalldust_"+type.name();
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description, type.hasEffect)
-                    .setFolder("smalldust")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initUpgrades() {
-        for (BlockItems.Upgrades type : BlockItems.Upgrades.values()) {
-            type.setInstance((IGtUpgradeItem) registerItem(new ItemUpgrade(type.name(), type.description, type.type, type.maxCount, type.requiredTier, type.condition, type.onInsert, type.onUpdate)
-                    .setFolder("upgrade")
-                    .setRegistryName(type.name())
-                    .setTranslationKey(type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initCovers() {
-        for (BlockItems.Covers type : BlockItems.Covers.values()) {
-            type.setInstance(registerItem(new ItemCover(type.name(), type.description)
-                    .setFolder("coveritem")
-                    .setRegistryName(type.name())
-                    .setTranslationKey(type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initCraftingItems() {
-        BlockItems.Crafting.mortar_iron.setInstance(registerItem(new ItemMortar("iron", 63))
-                .setRegistryName("mortar_iron")
-                .setTranslationKey("mortar_iron")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB));
-        BlockItems.Crafting.mortar_flint.setInstance(registerItem(new ItemBase("mortar_flint", "Used to turn ingots into dust")
-                .setFolder("component")
-                .setRegistryName("mortar_flint")
-                .setTranslationKey("mortar_flint")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-    }
-
-    private static void initTools() {
-        BlockItems.Tools.drill_advanced.setInstance(registerItem(new ItemDrillAdvanced()));
-        BlockItems.Tools.saw_advanced.setInstance(registerItem(new ItemSawAdvanced()));
-        BlockItems.Tools.wrench_advanced.setInstance(registerItem(new ItemWrenchAdvanced()));
-        BlockItems.Tools.crowbar.setInstance(registerItem(new ItemCrowbar("crowbar", "To remove covers form machines", 256, 6)
-                .setRegistryName("crowbar")
-                .setTranslationKey("crowbar")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.screwdriver.setInstance(registerItem(new ItemScrewdriver("screwdriver", null, 256, 4)
-                .setRegistryName("screwdriver")
-                .setTranslationKey("screwdriver")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.rock_cutter.setInstance(registerItem(new ItemRockCutter()
-                .setRegistryName("rock_cutter")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.rubber_hammer.setInstance(registerItem(new ItemRubberHammer("rubber", "To give a machine a soft whack", 128, 4)
-                .setRegistryName("hammer_rubber")
-                .setTranslationKey("hammer_rubber")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.soldering_tool.setInstance(registerItem(new ItemSolderingTool("soldering_tool", "To repair and construct circuitry", 10)
-                .setRegistryName("soldering_tool")
-                .setTranslationKey("soldering_tool")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.tesla_staff.setInstance(registerItem(new ItemTeslaStaff()));
-        BlockItems.Tools.scanner.setInstance(registerItem(new ItemScanner("scanner", "Tricorder", 100000, 100, 1)
-                .setFolder("tool")
-                .setRegistryName("scanner")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.debug_scanner.setInstance(registerItem(new ItemDebugScanner()));
-        BlockItems.Tools.destructorpack.setInstance(registerItem(new ItemDestructorPack()));
-        BlockItems.Tools.lapotronic_energy_orb.setInstance(registerItem(new ItemElectricBase(BlockItems.Tools.lapotronic_energy_orb.name(), null, 100000000, 8192, 5)
-                .setFolder("tool")
-                .setRegistryName(BlockItems.Tools.lapotronic_energy_orb.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Tools.sonictron_portable.setInstance(registerItem(new ItemSonictron()));
-
-        for (BlockItems.Wrenches type : BlockItems.Wrenches.values()) {
-            ItemWrench wrench = new ItemWrench("wrench_"+type.name(), type.durability);
-            type.setInstance(registerItem(wrench
-                    .setRegistryName("wrench_"+type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-
-        for (BlockItems.JackHammers type : BlockItems.JackHammers.values()) {
-            type.setInstance(registerItem(new ItemJackHammer("jack_hammer_"+type.name(), type.operationEnergyCost, type.maxCharge, type.tier, type.transferLimit, type.efficiency)
-                .setRegistryName("jack_hammer_"+type.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-
-        for (BlockItems.Hammers type : BlockItems.Hammers.values()) {
-            type.setInstance(registerItem(new ItemHardHammer(type.name(), "To give a machine a hard whack", type.durability, type.entityDamage, type.toolMaterial)
-                    .setRegistryName("hammer_"+type.name())
-                    .setTranslationKey("hammer_"+type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-
-        for (BlockItems.Saws type : BlockItems.Saws.values()) {
-            type.setInstance(registerItem(new ItemSaw(type.name(), type.durability, type.efficiency, type.entityDamage, type.toolMaterial)
-                    .setRegistryName("saw_"+type.name())
-                    .setTranslationKey("saw_"+type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-
-        for (BlockItems.SolderingMetals type : BlockItems.SolderingMetals.values()) {
-            type.setInstance(registerItem(new ItemSolderingMetal(type.name(), type.durability)
-                    .setRegistryName("soldering_"+type.name())
-                    .setTranslationKey("soldering_"+type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-
-        for (BlockItems.Files type : BlockItems.Files.values()) {
-            type.setInstance(registerItem(new ItemFile(type.name(), type.durability, type.entityDamage, Item.ToolMaterial.IRON)
-                    .setRegistryName("file_"+type.name())
-                    .setTranslationKey("file_"+type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-
-        BlockItems.Tools.spray_bug.setInstance(registerItem(new ItemSprayBug()));
-        BlockItems.Tools.spray_ice.setInstance(registerItem(new ItemSprayIce()));
-        BlockItems.Tools.spray_hardener.setInstance(registerItem(new ItemSprayHardener()));
-        BlockItems.Tools.spray_foam.setInstance(registerItem(new ItemSprayFoam()));
-        BlockItems.Tools.spray_pepper.setInstance(registerItem(new ItemSprayPepper()));
-        BlockItems.Tools.spray_hydration.setInstance(registerItem(new ItemSprayHydration()));
-        for (EnumDyeColor color : EnumDyeColor.values()) {
-            BlockItems.Tools.valueOf("spray_color_"+color.getName())
-                .setInstance(registerItem(new ItemSprayColor(color)));
-        }
-    }
-
-    private static void initComponents() {
-        BlockItems.Components.data_control_circuit.setInstance(registerItem(new ItemCover(BlockItems.Components.data_control_circuit.name(), BlockItems.Components.data_control_circuit.coverName, BlockItems.Components.data_control_circuit.description)
-            .setFolder("component")
-            .setRegistryName(BlockItems.Components.data_control_circuit.name())
-            .setTranslationKey(BlockItems.Components.data_control_circuit.name())
-            .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Components.energy_flow_circuit.setInstance(registerItem(new ItemCover(BlockItems.Components.energy_flow_circuit.name(), BlockItems.Components.energy_flow_circuit.coverName, BlockItems.Components.energy_flow_circuit.description)
-                .setFolder("component")
-                .setRegistryName(BlockItems.Components.energy_flow_circuit.name())
-                .setTranslationKey(BlockItems.Components.energy_flow_circuit.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        BlockItems.Components.lithium_battery.setInstance(registerItem(new ItemLithiumBattery()));
-
-        BlockItems.Components.turbine_rotor_bronze.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_bronze.name(), BlockItems.Components.turbine_rotor_bronze.description, false)
-                .setFolder("component")
-                .setEnchantable(false)
-                .setRegistryName(BlockItems.Components.turbine_rotor_bronze.name())
-                .setTranslationKey(BlockItems.Components.turbine_rotor_bronze.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                .setMaxDamage(15000)
-                .setMaxStackSize(1)
-                .setNoRepair()));
-        BlockItems.Components.turbine_rotor_steel.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_steel.name(), BlockItems.Components.turbine_rotor_steel.description, false)
-                .setFolder("component")
-                .setEnchantable(false)
-                .setRegistryName(BlockItems.Components.turbine_rotor_steel.name())
-                .setTranslationKey(BlockItems.Components.turbine_rotor_steel.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                .setMaxDamage(10000)
-                .setMaxStackSize(1)
-                .setNoRepair()));
-        BlockItems.Components.turbine_rotor_magnalium.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_magnalium.name(), BlockItems.Components.turbine_rotor_magnalium.description, false)
-                .setFolder("component")
-                .setEnchantable(false)
-                .setRegistryName(BlockItems.Components.turbine_rotor_magnalium.name())
-                .setTranslationKey(BlockItems.Components.turbine_rotor_magnalium.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                .setMaxDamage(10000)
-                .setMaxStackSize(1)
-                .setNoRepair()));
-        BlockItems.Components.turbine_rotor_tungstensteel.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_tungstensteel.name(), BlockItems.Components.turbine_rotor_tungstensteel.description, false)
-                .setFolder("component")
-                .setEnchantable(false)
-                .setRegistryName(BlockItems.Components.turbine_rotor_tungstensteel.name())
-                .setTranslationKey(BlockItems.Components.turbine_rotor_tungstensteel.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                .setMaxDamage(30000)
-                .setMaxStackSize(1)
-                .setNoRepair()));
-        BlockItems.Components.turbine_rotor_carbon.setInstance(registerItem(new ItemBase(BlockItems.Components.turbine_rotor_carbon.name(), BlockItems.Components.turbine_rotor_carbon.description, false)
-                .setFolder("component")
-                .setEnchantable(false)
-                .setRegistryName(BlockItems.Components.turbine_rotor_carbon.name())
-                .setTranslationKey(BlockItems.Components.turbine_rotor_carbon.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                .setMaxDamage(2500)
-                .setMaxStackSize(1)
-                .setNoRepair()));
-        BlockItems.Components.lava_filter.setInstance(registerItem(new ItemBase(BlockItems.Components.lava_filter.name(), BlockItems.Components.lava_filter.description, false)
-                .setFolder("component")
-                .setEnchantable(false)
-                .setRegistryName(BlockItems.Components.lava_filter.name())
-                .setTranslationKey(BlockItems.Components.lava_filter.name())
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                .setMaxDamage(100)
-                .setMaxStackSize(1)
-                .setNoRepair()));
-        BlockItems.Components.data_orb.setInstance(registerItem(new ItemDataOrb()));
-
-        for (BlockItems.Components type : BlockItems.Components.values()) {
-            if (type.autoInit) {
-                type.setInstance(registerItem(new ItemBase(type.name(), type.description)
-                        .setFolder("component")
-                        .setRegistryName(type.name())
-                        .setTranslationKey(type.name())
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-            }
-        }
-    }
-
-    private static void initNuclearComponents() {
-        for (BlockItems.NuclearCoolantPacks type : BlockItems.NuclearCoolantPacks.values()) {
-            type.setInstance(registerItem(new ItemNuclearHeatStorage(type.name(), type.heatStorage)
-                    .setRegistryName(type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-        for (BlockItems.NuclearFuelRods type : BlockItems.NuclearFuelRods.values()) {
-            type.setInstance(registerItem(new ItemNuclearFuelRod("cell_"+type.name(), type.cells, type.duration, type.energy, type.radiation, type.heat, type.depletedStack)
-                    .setRegistryName("cell_"+type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initArmor() {
-        for (BlockItems.Armor type : BlockItems.Armor.values()) {
-            type.setInstance(registerItem(new ItemArmorElectricBase(type.name(), type.slot, type.maxCharge, type.transferLimit, type.tier, type.damageEnergyCost, type.absorbtionDamage, type.chargeProvider, type.perks)
-                    .setFolder("armor")
-                    .setRegistryName(type.name())
-                    .setTranslationKey(type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initMiscellaneous() {
-        for (BlockItems.Miscellaneous type : BlockItems.Miscellaneous.values()) {
-            if (type.autoInit) {
-                type.setInstance(registerItem(new ItemBase(type.name(), type.description)
-                        .setRegistryName(type.name())
-                        .setTranslationKey(type.name())
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-            }
-        }
-
-        if (Loader.isModLoaded("energycontrol")) {
-            ReflectionUtil.registerEnergyControlItems();
-        }
-
-        for (BlockItems.Books type : BlockItems.Books.values()) {
-            type.setInstance(GtUtil.getWrittenBook(type.name(), type.author, type.pages, type.ordinal()));
-        }
-    }
-
-    private static void initCells() {
-        for (BlockItems.Cells type : BlockItems.Cells.values()) {
-            String aName = "cell_"+type.name();
-            type.setInstance(registerItem(new ItemBase(type.name(), type.description)
-                .setFolder("cell")
-                .setRegistryName(aName)
-                .setTranslationKey(aName)
-                .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-        }
-    }
-
-    private static void initCropItems() {
-        for (BlockItems.Crops type : BlockItems.Crops.values()) {
-            if (type.hasItem) {
-                type.setInstance(registerItem(new ItemBase(type.name(), null)
-                    .setRegistryName(type.name())
-                    .setTranslationKey(type.name())
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)));
-            }
-        }
+    @Optional.Method(modid = "energycontrol")
+    public static void registerEnergyControlItems() {
+        BlockItems.sensorKit = new ItemSensorKit();
+        BlockItems.sensorCard = new ItemSensorCard();
+        EnergyContolRegister.registerKit((IItemKit) BlockItems.sensorKit);
+        EnergyContolRegister.registerCard((IItemCard) BlockItems.sensorCard);
     }
 }

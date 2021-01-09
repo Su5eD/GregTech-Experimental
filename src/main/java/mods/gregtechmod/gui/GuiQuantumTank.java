@@ -3,8 +3,8 @@ package mods.gregtechmod.gui;
 import ic2.core.GuiIC2;
 import ic2.core.init.Localization;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.inventory.CustomFluidSlot;
-import mods.gregtechmod.objects.blocks.tileentities.machines.container.ContainerQuantumTank;
+import mods.gregtechmod.inventory.slot.CustomFluidSlot;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerQuantumTank;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiQuantumTank extends GuiIC2<ContainerQuantumTank> {

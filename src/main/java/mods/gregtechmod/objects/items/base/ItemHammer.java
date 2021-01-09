@@ -17,8 +17,8 @@ import java.util.Set;
 public class ItemHammer extends ItemToolBase {
     private static final Set<Block> ROTATABLE_BLOCKS = Sets.newHashSet(Blocks.LOG, Blocks.HAY_BLOCK, Blocks.PISTON, Blocks.STICKY_PISTON, Blocks.DROPPER, Blocks.DISPENSER, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.FURNACE, Blocks.LIT_FURNACE, Blocks.CHEST, Blocks.HOPPER);
 
-    public ItemHammer(String material, @Nullable String description, int durability, int entityDamage, ToolMaterial toolMaterial) {
-        super("hammer_"+material, description, durability, entityDamage, toolMaterial);
+    public ItemHammer(String material, @Nullable String description, int durability, int entityDamage) {
+        super("hammer_"+material, description, durability, entityDamage, ToolMaterial.WOOD);
     }
 
     @Override

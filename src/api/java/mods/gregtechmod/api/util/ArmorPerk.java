@@ -3,7 +3,7 @@ package mods.gregtechmod.api.util;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.util.Keys;
-import mods.gregtechmod.api.BlockItems;
+import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.item.IElectricArmor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,7 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 public enum ArmorPerk {
-    rebreather((stack, player, armor) -> {
+    REBREATHER((stack, player, armor) -> {
         if (!player.world.isRemote) {
             int air = player.getAir();
             if (ElectricItem.manager.canUse(stack, 1000) && air < 50) {
@@ -21,7 +21,7 @@ public enum ArmorPerk {
             }
         }
     }),
-    inertia_damper((stack, player, armor) -> {}),
+    INERTIA_DAMPER((stack, player, armor) -> {}),
     food_replicator((stack, player, armor) -> {
         if (!player.world.isRemote) {
             if (ElectricItem.manager.canUse(stack, 50000) && player.getFoodStats().needFood()) {
@@ -30,7 +30,7 @@ public enum ArmorPerk {
             }
         }
     }),
-    medicine_module((stack, player, armor) -> {
+    MEDICINE_MODULE((stack, player, armor) -> {
         if (ElectricItem.manager.canUse(stack, 10000) && player.isPotionActive(Potion.getPotionById(19))) {
             player.removeActivePotionEffect(Potion.getPotionById(19));
             ElectricItem.manager.use(stack, 10000, player);
@@ -40,13 +40,13 @@ public enum ArmorPerk {
             ElectricItem.manager.use(stack, 100000, player);
         }
     }),
-    lamp(ArmorPerk::tickLampOrSolarPanel),
-    solarpanel(ArmorPerk::tickLampOrSolarPanel),
-    extinguisher_module((stack, player, armor) -> {
+    LAMP(ArmorPerk::tickLampOrSolarPanel),
+    SOLARPANEL(ArmorPerk::tickLampOrSolarPanel),
+    EXTINGUISHER_MODULE((stack, player, armor) -> {
         if (player.isBurning())
             player.extinguish();
     }),
-    jump_booster((stack, player, armor) -> {
+    JUMP_BOOSTER((stack, player, armor) -> {
         float charge = armor.getJumpChargeMap().getOrDefault(player, 1.0F);
 
         if (ElectricItem.manager.canUse(stack, 1000) && player.onGround && charge < 1.0F) {
@@ -70,7 +70,7 @@ public enum ArmorPerk {
 
         armor.getJumpChargeMap().put(player, charge);
     }),
-    speed_booster((stack, player, armor) -> {
+    SPEED_BOOSTER((stack, player, armor) -> {
         if (ElectricItem.manager.canUse(stack, 100) && player.isSprinting() && (player.onGround && Math.abs(player.motionX) + Math.abs(player.motionZ) > 0.10000000149011612D || player.isInWater())) {
             ElectricItem.manager.use(stack, 100, player);
             float speed = 0.22F;
@@ -87,13 +87,13 @@ public enum ArmorPerk {
             player.moveRelative(0.0F, 0.0F, 1.0F, speed);
         }
     }),
-    invisibility_field((stack, player, armor) -> {
+    INVISIBILITY_FIELD((stack, player, armor) -> {
         if (ElectricItem.manager.canUse(stack, 10000)) {
             ElectricItem.manager.use(stack, 10000, player);
             player.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 25, 1, false, false));
         }
     }),
-    infinite_charge((stack, player, armor) -> {});
+    INFINITE_CHARGE((stack, player, armor) -> {});
 
     public final TriConsumer<ItemStack, EntityPlayer, IElectricArmor> onTick;
 
@@ -114,21 +114,21 @@ public enum ArmorPerk {
                     targetDechargeItem = player.inventory.armorInventory.get(armor.getSlot().getIndex());
                 }
 
-                if (targetChargeItem == ItemStack.EMPTY || !(stack.getItem() instanceof IElectricItem)) {
+                if (targetChargeItem.isEmpty() || !(stack.getItem() instanceof IElectricItem)) {
                     targetChargeItem = null;
                 }
-                if (targetDechargeItem == ItemStack.EMPTY || !(stack.getItem() instanceof IElectricItem) || !(stack == targetDechargeItem || (targetDechargeItem.getItem() instanceof IElectricItem && ((IElectricItem)targetDechargeItem.getItem()).canProvideEnergy(targetDechargeItem)))) {
+                if (targetDechargeItem.isEmpty() || !(stack.getItem() instanceof IElectricItem) || !(stack == targetDechargeItem || (targetDechargeItem.getItem() instanceof IElectricItem && ((IElectricItem)targetDechargeItem.getItem()).canProvideEnergy(targetDechargeItem)))) {
                     targetDechargeItem = null;
                 }
 
                 if (player.world.isDaytime() && player.world.canSeeSky(player.getPosition().up())) {
-                    if (armor.getPerks().contains(ArmorPerk.solarpanel) && targetChargeItem != null) {
+                    if (armor.getPerks().contains(ArmorPerk.SOLARPANEL) && targetChargeItem != null) {
                         ElectricItem.manager.charge(targetChargeItem, 20, Integer.MAX_VALUE, true, false);
                     }
                 } else {
-                    if (armor.getPerks().contains(ArmorPerk.lamp) && targetDechargeItem != null && ElectricItem.manager.canUse(targetDechargeItem, 10)) {
+                    if (armor.getPerks().contains(ArmorPerk.LAMP) && targetDechargeItem != null && ElectricItem.manager.canUse(targetDechargeItem, 10)) {
                         if (player.world.getBlockState(player.getPosition().up()).getBlock() == Blocks.AIR)
-                            player.world.setBlockState(player.getPosition().up(), BlockItems.lightSource.getDefaultState());
+                            player.world.setBlockState(player.getPosition().up(), GregTechObjectAPI.getBlock("light_source").getDefaultState());
                         ElectricItem.manager.use(targetDechargeItem, 10, player);
                     }
                 }

@@ -2,10 +2,10 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.item.IC2Items;
 import ic2.core.block.wiring.TileEntityCable;
-import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.items.base.ItemCraftingTool;
+import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import mods.gregtechmod.util.ReflectionUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -17,14 +17,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemSprayHardener extends ItemCraftingTool {
+public class ItemSprayHardener extends ItemToolCrafting {
 
     public ItemSprayHardener() {
-        super("spray_hardener", "Construction Foam Hardener", 256, 0, ToolMaterial.IRON, 16, 0);
+        super("spray_hardener", "Construction Foam Hardener", 256, 0, 16, 0);
         setRegistryName("spray_hardener");
         setTranslationKey("spray_hardener");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -32,7 +31,7 @@ public class ItemSprayHardener extends ItemCraftingTool {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.spray_can_empty.getInstance());
+        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
     }
 
     @Override
@@ -52,8 +51,7 @@ public class ItemSprayHardener extends ItemCraftingTool {
         }
         Item itemFoam = IC2Items.getItem("foam", "normal").getItem(),
              itemWall = IC2Items.getItem("wall", "light_gray").getItem();
-        ResourceLocation blockName = block.getRegistryName();
-        if (blockName != null && blockName.equals(itemFoam.getRegistryName())) {
+        if (block.getRegistryName().equals(itemFoam.getRegistryName())) {
             if (GtUtil.damageStack(player, stack, 1))
                 world.setBlockState(pos, Block.getBlockFromItem(itemWall).getStateFromMeta(7));
             return EnumActionResult.SUCCESS;

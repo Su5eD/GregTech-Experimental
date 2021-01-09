@@ -4,14 +4,13 @@ import ic2.api.item.IC2Items;
 import ic2.core.IC2;
 import ic2.core.block.wiring.TileEntityCable;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.BlockItems;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.items.base.ItemCraftingTool;
+import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,10 +27,10 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemSprayFoam extends ItemCraftingTool {
+public class ItemSprayFoam extends ItemToolCrafting {
 
     public ItemSprayFoam() {
-        super("spray_foam", "Precision Spray", 400, 0, ToolMaterial.IRON, 25, 0);
+        super("spray_foam", "Precision Spray", 400, 0, 25, 0);
         setRegistryName("spray_foam");
         setTranslationKey("spray_foam");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -39,7 +38,7 @@ public class ItemSprayFoam extends ItemCraftingTool {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.spray_can_empty.getInstance());
+        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
     }
 
     @Override

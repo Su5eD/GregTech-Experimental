@@ -7,11 +7,13 @@ import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+@Optional.Interface(iface = "com.zuxelus.energycontrol.api.IItemCard", modid = "energycontrol")
 public class ItemSensorCard extends ItemBase implements IItemCard {
     public static final int DISPLAY_MAIN = 1;
     public static final int DISPLAY_SECOND = 2;

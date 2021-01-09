@@ -8,15 +8,6 @@
       {
         "textures": {"all": "gregtechmod:blocks/void"}
       }
-    ],
-    "inventory": [
-      {
-        "model": "cube_all",
-        "textures": {
-          "all": "gregtechmod:blocks/void"
-        },
-        "transform": "forge:default-block"
-      }
     ]
   }
 }

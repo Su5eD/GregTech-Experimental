@@ -29,6 +29,8 @@ public class BlockLightSource extends BlockBase implements ITileEntityProvider {
         super(Material.AIR);
         setLightLevel(1);
         setLightOpacity(1);
+        setRegistryName("light_source");
+        setTranslationKey("light_source");
     }
 
     public EnumBlockRenderType getRenderType(IBlockState state)

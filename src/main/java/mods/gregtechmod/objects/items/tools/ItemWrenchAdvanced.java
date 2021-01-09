@@ -1,27 +1,34 @@
 package mods.gregtechmod.objects.items.tools;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
-import ic2.core.IC2;
-import ic2.core.item.BaseElectricItem;
 import ic2.core.item.ElectricItemManager;
 import ic2.core.item.IPseudoDamageItem;
-import ic2.core.util.LogCategory;
 import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
 public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPseudoDamageItem {
 
     public ItemWrenchAdvanced() {
-        super("wrench_advanced", 28);
+        super("wrench_advanced", 0);
         setRegistryName("wrench_advanced");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
         setNoRepair();
         this.rotateDamage = 1000;
         this.removeDamage = 3000;
+        this.showDurability = false;
+    }
+
+    @Override
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+        return HashMultimap.create();
     }
 
     public boolean canTakeDamage(ItemStack stack, int amount) {
@@ -44,20 +51,12 @@ public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPs
 
     @Override
     public int getTier(ItemStack itemStack) {
-        return 2;
+        return 1;
     }
 
     @Override
     public double getTransferLimit(ItemStack itemStack) {
-        return 1000;
-    }
-
-    @Override
-    public void setDamage(ItemStack stack, int damage) {
-        int prev = this.getDamage(stack);
-        if (damage != prev && BaseElectricItem.logIncorrectItemDamaging) {
-            IC2.log.warn(LogCategory.Armor, new Throwable(), "Detected invalid armor damage application (%d):", damage - prev);
-        }
+        return 128;
     }
 
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {

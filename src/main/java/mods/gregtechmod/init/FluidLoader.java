@@ -8,108 +8,170 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class FluidLoader {
-    public static final List<Fluid> FLUIDS = new ArrayList<>();
+    public static final List<IFluidProvider> FLUIDS = new ArrayList<>();
 
     public static void init() {
         GregTechAPI.logger.info("Initializing fluids");
-        for (Liquids type : Liquids.values()) {
-            Fluid fluid = new FluidLiquid(type.name(), type.texture, type.texture)
-                    .setUnlocalizedName(type.name())
-                    .setDensity(type.density);
-            FLUIDS.add(fluid);
-            type.setInstance(fluid);
-        }
-        for (Gases type : Gases.values()) {
-            Fluid fluid = new FluidGas(type.name(), type.texture, type.texture)
-                    .setUnlocalizedName(type.name());
-            FLUIDS.add(fluid);
-            type.setInstance(fluid);
-        }
+        FLUIDS.addAll(Arrays.asList(Liquid.values()));
+        FLUIDS.addAll(Arrays.asList(Gas.values()));
     }
 
-    //TODO: Descriptions
-    public enum Liquids {
-        berylium(1690),
-        calcium(1378),
-        calcium_carbonate(2711),
-        chlorite(15625),
-        glyceryl(1261),
-        lithium(512),
-        mercury(13534),
-        nitro_coalfuel,
-        nitro_diesel(832),
-        plasma,
-        potassium(828),
-        seed_oil(918),
-        silicon(2570),
-        sodium(927),
-        sodium_persulfate(1120),
-        wolframium(17600);
+    public interface IFluidProvider {
+        Fluid getFluid();
 
+        String getDescription();
+
+        ResourceLocation getTexture();
+
+        boolean isFallbackFluid();
+    }
+
+    public enum Liquid implements IFluidProvider {
+        BERYLIUM("Be", 1690),
+        CALCIUM("Ca", 1378),
+        CALCIUM_CARBONATE("CaCO3", 2711),
+        CHLORITE("Cl", 15625),
+        DIESEL(860),
+        GLYCERYL("C3H5N3O9", 1261),
+        HELIUM_PLASMA("He"),
+        LITHIUM("Li", 512),
+        MERCURY("Hg", 13534),
+        NITRO_COALFUEL,
+        NITRO_DIESEL(832),
+        OIL(800, true),
+        POTASSIUM("K", 828),
+        SEED_OIL(null, "seed.oil", 918, true),
+        SILICON("Si", 2570),
+        SODIUM("Na", 927),
+        SODIUM_PERSULFATE("Na2S2O8", 1120),
+        WOLFRAMIUM("W", 17600);
+
+        public final String name;
+        public final String description;
         public final int density;
         public final ResourceLocation texture;
+        public final boolean fallback;
         private Fluid instance;
 
-        Liquids() {
+        Liquid() {
             this(1000);
         }
 
-        Liquids(int density) {
+        Liquid(int density) {
+            this(null, density);
+        }
+
+        Liquid(String description) {
+            this(description, 1000);
+        }
+
+        Liquid(String description, int density) {
+            this(description, density, false);
+        }
+
+        Liquid(int density, boolean fallback) {
+            this(null, density, fallback);
+        }
+
+        Liquid(String description, int density, boolean fallback) {
+            this.name = name().toLowerCase(Locale.ROOT);
+            this.description = description;
             this.density = density;
-            this.texture = getTexture();
+            this.texture = getTexturePath();
+            this.fallback = fallback;
         }
 
-        private ResourceLocation getTexture() {
-            return new ResourceLocation(Reference.MODID, "fluids/liquids/"+this.name());
+        Liquid(String description, String name, int density, boolean fallback) {
+            this.name = name;
+            this.description = description;
+            this.density = density;
+            this.texture = getTexturePath();
+            this.fallback = fallback;
         }
 
-        /**
-         * <b>Only GregTech may call this!!</b>
-         */
-        private void setInstance(Fluid item) {
-            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+this.name());
-            this.instance = item;
-        }
+        @Override
+        public Fluid getFluid() {
+            if (this.instance == null) {
+                this.instance = new FluidLiquid(this.name, this.texture, this.texture)
+                        .setUnlocalizedName(this.name)
+                        .setDensity(this.density);
+            }
 
-        public Fluid getInstance() {
             return this.instance;
+        }
+
+        @Override
+        public String getDescription() {
+            return this.description;
+        }
+
+        @Override
+        public ResourceLocation getTexture() {
+            return this.texture;
+        }
+
+        @Override
+        public boolean isFallbackFluid() {
+            return this.fallback;
+        }
+
+        private ResourceLocation getTexturePath() {
+            return new ResourceLocation(Reference.MODID, "fluids/liquids/"+this.name);
         }
     }
 
-    public enum Gases {
-        hydrogen,
-        deuterium,
-        tritium,
-        helium,
-        helium3,
-        methane,
-        nitrogen,
-        nitrogen_dioxide;
+    public enum Gas implements IFluidProvider {
+        HYDROGEN("H"),
+        DEUTERIUM("H-2"),
+        TRITIUM("H-3"),
+        HELIUM("He"),
+        HELIUM3("He-3"),
+        METHANE("CH4"),
+        NITROGEN("N"),
+        NITROGEN_DIOXIDE("NO2");
 
+        public final String description;
         public final ResourceLocation texture;
         private Fluid instance;
 
-        Gases() {
-            this.texture = getTexture();
+        Gas(String description) {
+            this.description = description;
+            this.texture = getTextureLocation();
         }
 
-        private ResourceLocation getTexture() {
-            return new ResourceLocation(Reference.MODID, "fluids/gases/"+this.name());
-        }
+        @Override
+        public Fluid getFluid() {
+            if (this.instance == null) {
+                String name = this.name().toLowerCase(Locale.ROOT);
+                this.instance = new FluidGas(name, this.texture, this.texture)
+                        .setUnlocalizedName(name);
+            }
 
-        /**
-         * <b>Only GregTech may call this!!</b>
-         */
-        private void setInstance(Fluid item) {
-            if (this.instance != null) throw new RuntimeException("The instance has been already set for "+this.name());
-            this.instance = item;
-        }
-
-        public Fluid getInstance() {
             return this.instance;
+        }
+
+        @Override
+        public String getDescription() {
+            return this.description;
+        }
+
+        @Override
+        public ResourceLocation getTexture() {
+            return this.texture;
+        }
+
+        @Override
+        public boolean isFallbackFluid() {
+            return false;
+        }
+
+        private ResourceLocation getTextureLocation() {
+            return new ResourceLocation(Reference.MODID, "fluids/gases/"+this.name().toLowerCase(Locale.ROOT));
         }
     }
 }

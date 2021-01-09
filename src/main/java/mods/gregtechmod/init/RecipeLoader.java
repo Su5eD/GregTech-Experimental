@@ -1,124 +1,112 @@
 package mods.gregtechmod.init;
 
-import ic2.api.recipe.IMachineRecipeManager;
-import ic2.api.recipe.IRecipeInput;
-import ic2.core.init.Rezepte;
-import ic2.core.util.Config;
-import ic2.core.util.ConfigUtil;
-import ic2.core.util.ReflectionUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.recipe.Recipes;
+import mods.gregtechmod.api.recipe.GtRecipes;
+import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.recipe.RecipeAssembler;
+import mods.gregtechmod.recipe.RecipeCentrifuge;
+import mods.gregtechmod.recipe.RecipeFactory;
+import mods.gregtechmod.recipe.RecipeIngredientFactory;
+import mods.gregtechmod.recipe.manager.RecipeManagerAssembler;
+import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
+import mods.gregtechmod.recipe.manager.RecipeManagerPulverizer;
+import mods.gregtechmod.util.ItemStackDeserializer;
+import mods.gregtechmod.util.RecipeFilter;
+import mods.gregtechmod.util.RecipeIngredientDeserializer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import org.apache.commons.lang3.ArrayUtils;
+import net.minecraftforge.fml.common.Loader;
 
-import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.util.*;
-
-import static ic2.core.init.Rezepte.getConfigFile;
+import javax.annotation.Nullable;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class RecipeLoader {
+    private static Path configPath = null;
+    private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
+            .registerModule(new SimpleModule()
+                    .addDeserializer(ItemStack.class, ItemStackDeserializer.INSTANCE)
+                    .addDeserializer(IRecipeIngredient.class, RecipeIngredientDeserializer.INSTANCE));
 
-    private static final Method WHITESPACE = ReflectionUtil.getMethod(Rezepte.class, new String[] { "splitWhitespace" }, String.class);
+    public static void load() {
+        GregTechAPI.logger.info("Loading machine recipes");
 
-    public static void loadRecipes() {
-        //TODO: Replace with for loop + get an interface for detecting recipes
+        GregTechAPI.recipeFactory = new RecipeFactory();
+        GregTechAPI.ingredientFactory = new RecipeIngredientFactory();
 
-        Config industrial_centrifuge = new Config("industrial centrifuge recipes");
         try {
-            industrial_centrifuge.load(getConfigFile("industrial_centrifuge"));
-        } catch (Exception e) {
-            GregTechAPI.logger.warn(e.getMessage(), "Failed to load recipe.");
+            File modFile = Loader.instance().activeModContainer().getSource();
+            FileSystem fs = FileSystems.newFileSystem(modFile.toPath(), null);
+
+            Path recipesPath = fs.getPath("assets", Reference.MODID, "machine_recipes");
+            Path gtConfig = relocateRecipeConfig(recipesPath);
+            if (gtConfig == null) {
+                GregTechAPI.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
+                configPath = recipesPath;
+            } else configPath = gtConfig;
+
+            GtRecipes.industrial_centrifuge = new RecipeManagerCentrifuge();
+            RecipeLoader.parseRecipe("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Default.class)
+                    .ifPresent(recipes -> recipes.forEach(GtRecipes.industrial_centrifuge::addRecipe));
+            GtRecipes.assembler = new RecipeManagerAssembler();
+            RecipeLoader.parseRecipe("assembler", RecipeAssembler.class, null)
+                    .ifPresent(recipes -> recipes.stream().forEach(GtRecipes.assembler::addRecipe));
+
+            GtRecipes.pulverizer = new RecipeManagerPulverizer();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        loadMachineRecipes(industrial_centrifuge, Recipes.industrial_centrifuge, MachineType.TimeBased);
+
+        GtRecipes.industrial_centrifuge.getRecipes().forEach(System.out::println);
     }
-    private static void loadMachineRecipes(Config config, IMachineRecipeManager<IRecipeInput, Collection<ItemStack>, ?> machine, MachineType type) {
-        int amount = 0;
-        int successful = 0;
 
-        for (Iterator<Config.Value> it = config.valueIterator(); it.hasNext(); amount++) {
-            Config.Value value = it.next();
-            if (loadMachineRecipe(value, machine, type, false)) successful++;
+    public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {
+        try {
+            ObjectMapper recipeMapper = mapper.copy();
+            if (recipeType != null) recipeMapper.addMixIn(IGtMachineRecipe.class, recipeType);
+
+            return Optional.ofNullable(recipeMapper.readValue(Files.newBufferedReader(configPath.resolve(name+".yml")), recipeMapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
+        } catch (IOException e) {
+            GregTechAPI.logger.error("Failed to parse recipes for "+name+": "+e.getMessage());
+            return Optional.empty();
         }
-
-        GregTechAPI.logger.info("Successfully loaded " + successful + " from " + amount + " recipes for " + config.name);
     }
 
-    private static boolean loadMachineRecipe(Config.Value value, IMachineRecipeManager<IRecipeInput, Collection<ItemStack>, ?> machine, MachineType type, boolean lastAttempt) {
-        IRecipeInput input;
-        List<ItemStack> outputs = new ArrayList<>();
-        NBTTagCompound metadata = new NBTTagCompound();
+    private static Path relocateRecipeConfig(Path source) {
         try {
-            input = ConfigUtil.asRecipeInputWithAmount(value.name);
-        } catch (ParseException e) {
-            throw new Config.ParseException("invalid key", value, e);
-        }
-        if (input == null) {
-            GregTechAPI.logger.warn(new Config.ParseException("invalid input: " + value.name, value).getMessage(), "Skipping recipe due to unresolvable input %s.", value.name);
-            return false;
-        }
-        try {
-            for (String part : splitWhitespace(value.getString())) {
-                if (part.startsWith("@")) {
-                    if (part.startsWith("@duration:") && type == MachineType.TimeBased || type == MachineType.TimeAndEUt) {
-                        metadata.setInteger("duration", Integer.parseInt(part.substring(10)));
-                        continue;
+            DirectoryStream<Path> stream = Files.newDirectoryStream(source);
+            File configDir = new File(GregTechMod.configDir.toURI().getPath()+"/GregTech/machine recipes");
+            configDir.mkdirs();
+            for(Path path : stream) {
+                GregTechAPI.logger.debug("Copying recipe config: "+path.getFileName());
+                File dest = new File(Paths.get(configDir.getPath(), path.getFileName().toString()).toUri());
+                if(!dest.exists()) {
+                    BufferedReader in = Files.newBufferedReader(path);
+                    FileOutputStream out = new FileOutputStream(dest);
+                    for (int i; (i = in.read()) != -1; ) {
+                        out.write(i);
                     }
-                    /*if (part.startsWith("@MaxEU/t:") && type == MachineType.TimeAndEUt) {
-                        metadata.setInteger("MaxEU/t", Integer.parseInt(part.substring(6)));
-                        continue;
-                    }*/
-                    throw new Config.ParseException("invalid attribute: " + part, value);
+
+                    in.close();
+                    out.close();
                 }
-                ItemStack cOutput = ConfigUtil.asStackWithAmount(part);
-                if (cOutput == null) {
-                    GregTechAPI.logger.warn(new Config.ParseException("invalid output specified: " + part, value).getMessage(), "Skipping recipe using %s due to unresolvable output %s.", new Object[] { value.name, part });
-                    return false;
-                }
-                outputs.add(cOutput);
             }
-            if (!type.tagsRequired.isEmpty() && (metadata.isEmpty() || !type.hasRequiredTags(metadata))) {
-                GregTechAPI.logger.warn( "Could not add machine recipe: " + value.name + " missing tag.");
-                return false;
-            }
-            if (metadata.isEmpty())
-                metadata = null;
-            if (machine.addRecipe(input, outputs, metadata, false))
-                return true;
-            throw new Exception("Conflicting recipe");
-        } catch (Config.ParseException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new Config.ParseException("generic parse error", value, e);
-        }
-    }
-
-    private static List<String> splitWhitespace(String text) {
-        try {
-            return (List<String>)WHITESPACE.invoke(null, text);
-        } catch (Exception e) {
-            throw new RuntimeException("Error reflecting whitespace", e);
-        }
-    }
-
-    private enum MachineType {
-        Normal(),
-        TimeBased("duration"),
-        TimeAndEUt("duration", "MaxEU/t");
-
-        private final Set<String> tagsRequired;
-
-        MachineType(String... tagsRequired) {
-            this.tagsRequired = new HashSet<>(Arrays.asList(ArrayUtils.nullToEmpty(tagsRequired)));
-        }
-
-        private boolean hasRequiredTags(NBTTagCompound metadata) {
-            for (String key : this.tagsRequired) {
-                if (!metadata.hasKey(key))
-                    return false;
-            }
-            return true;
+            return configDir.toPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

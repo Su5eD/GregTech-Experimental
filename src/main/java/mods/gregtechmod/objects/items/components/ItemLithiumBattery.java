@@ -6,15 +6,27 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvider {
 
     public ItemLithiumBattery() {
         super(null, 100000, 128, 1);
         setRegistryName("lithium_re_battery");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
         this.addPropertyOverride(new ResourceLocation(Reference.MODID, "battery_charge"), (stack, worldIn, entityIn) -> ElectricItem.manager.getCharge(stack) > 1 ? 1 : 0);
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add("Tier: "+this.tier);
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     @Override

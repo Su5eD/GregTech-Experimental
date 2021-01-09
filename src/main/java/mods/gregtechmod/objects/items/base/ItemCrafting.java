@@ -12,11 +12,14 @@ public class ItemCrafting extends ItemBase {
     private final int craftingDamage;
 
     public ItemCrafting(String name, @Nullable String description, int durability, int craftingDamage) {
-        super(name, description);
-        setMaxDamage(durability - 1);
+        super(name, description, durability);
         setMaxStackSize(1);
         setNoRepair();
         this.craftingDamage = craftingDamage;
+    }
+
+    public ItemStack getEmptyItem() {
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class ItemCrafting extends ItemBase {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         stack = stack.copy();
-        if (stack.attemptDamageItem(this.craftingDamage, GtUtil.RANDOM, null)) return ItemStack.EMPTY;
+        if (stack.attemptDamageItem(this.craftingDamage, GtUtil.RANDOM, null)) return this.getEmptyItem();
         return stack;
     }
 

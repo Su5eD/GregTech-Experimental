@@ -11,7 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 
+@Optional.Interface(iface = "com.zuxelus.energycontrol.api.IItemKit", modid = "energycontrol")
 public class ItemSensorKit extends ItemBase implements IItemKit {
     public static final int KIT_ID = 800;
 
