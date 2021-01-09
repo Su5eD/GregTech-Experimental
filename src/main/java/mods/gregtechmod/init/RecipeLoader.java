@@ -3,7 +3,6 @@ package mods.gregtechmod.init;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
@@ -14,8 +13,6 @@ import mods.gregtechmod.recipe.RecipeAssembler;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
 import mods.gregtechmod.recipe.RecipeFactory;
 import mods.gregtechmod.recipe.RecipeIngredientFactory;
-import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
-import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.RecipeManagerAssembler;
 import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
 import mods.gregtechmod.recipe.manager.RecipeManagerPulverizer;
@@ -23,7 +20,6 @@ import mods.gregtechmod.util.ItemStackDeserializer;
 import mods.gregtechmod.util.RecipeFilter;
 import mods.gregtechmod.util.RecipeIngredientDeserializer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.Loader;
 
 import javax.annotation.Nullable;
@@ -73,50 +69,7 @@ public class RecipeLoader {
             e.printStackTrace();
         }
 
-        GtRecipes.industrial_centrifuge.getRecipes().forEach(recipe -> {
-            System.out.println("Input:");
-            IRecipeIngredient input = recipe.getInput();
-            List<ItemStack> matchingInputs = input.getMatchingInputs();
-            if (matchingInputs.isEmpty() && input instanceof RecipeIngredientOre) System.out.println(" " + ((RecipeIngredientOre) input).getOre() + " x " + input.getCount());
-            input.getMatchingInputs().forEach(stack -> System.out.println(" " + stack.getItem().getRegistryName() + " x " + input.getCount() + " @ " + stack.getMetadata()));
-            if (input instanceof RecipeIngredientFluid) {
-                System.out.println(" Bucket meta:");
-                input.getMatchingInputs().forEach(stack -> System.out.println("  "+stack.getTagCompound()));
-
-                System.out.println(" Fluids: ");
-                for (Fluid fluid : ((RecipeIngredientFluid) input).getMatchingFluids()) {
-                    System.out.println("  "+fluid.getName()+" x "+((RecipeIngredientFluid) input).getMilliBuckets());
-                }
-            }
-            System.out.println("Output:");
-            recipe.getOutput().forEach(stack -> {
-                String name;
-                if (stack.getItem() instanceof ItemFluidCell) name = ((ItemFluidCell)stack.getItem()).getVariant(stack);
-                else name = stack.getItem().getRegistryName().toString();
-                System.out.println(" "+name+" x "+stack.getCount()+" @ "+stack.getMetadata());
-            });
-            System.out.println("cells: "+recipe.getCells());
-            System.out.println("duration: "+recipe.getDuration());
-            System.out.println("energyCost: "+recipe.getEnergyCost());
-            System.out.println();
-        });
-
-        /*GtRecipes.assembler.getRecipes().forEach(recipe -> {
-            System.out.println("Input:");
-            recipe.getInput().forEach(input -> {
-                if (input.getMatchingInputs().isEmpty() && input instanceof RecipeIngredientOre) System.out.println(" "+((RecipeIngredientOre) input).getOre() + "x" + input.getCount());
-                else input.getMatchingInputs().forEach(stack -> System.out.println(" " + stack.getItem().getRegistryName() + " x " + input.getCount() + " @ " + stack.getMetadata()));
-            });
-            System.out.println("Output:");
-            ItemStack output = recipe.getOutput();
-            String name;
-            if (output.getItem() instanceof ItemFluidCell) name = ((ItemFluidCell)output.getItem()).getVariant(output);
-            else name = output.getItem().getRegistryName().toString();
-            System.out.println(" "+name+" x "+output.getCount()+" @ "+output.getMetadata());
-            System.out.println("duration: "+recipe.getDuration());
-            System.out.println("energyCost: "+recipe.getEnergyCost());
-            System.out.println();
-        });*/
+        GtRecipes.industrial_centrifuge.getRecipes().forEach(System.out::println);
     }
 
     public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {

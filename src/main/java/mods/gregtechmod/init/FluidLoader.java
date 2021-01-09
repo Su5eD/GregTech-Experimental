@@ -37,7 +37,6 @@ public class FluidLoader {
         CALCIUM_CARBONATE("CaCO3", 2711),
         CHLORITE("Cl", 15625),
         DIESEL(860),
-        ETHANOL(null, "bio.ethanol", 789, true),
         GLYCERYL("C3H5N3O9", 1261),
         HELIUM_PLASMA("He"),
         LITHIUM("Li", 512),

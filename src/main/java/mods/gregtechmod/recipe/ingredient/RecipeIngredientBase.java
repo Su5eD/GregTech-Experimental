@@ -53,18 +53,26 @@ public abstract class RecipeIngredientBase<T extends Ingredient> implements IRec
 
     @Override
     public int compareTo(IRecipeIngredient other) {
-        int diff = 0;
+        int total = 0;
         List<ItemStack> matchingInputs = this.getMatchingInputs();
         List<ItemStack> otherMatchingInputs = other.getMatchingInputs();
 
         if (otherMatchingInputs.isEmpty()) return -other.compareTo(this);
 
+        outerloop:
         for (ItemStack firstStack : matchingInputs) {
             for (ItemStack secondStack : otherMatchingInputs) {
-                diff += ItemStackComparator.INSTANCE.compare(StackUtil.copyWithSize(firstStack, this.count), StackUtil.copyWithSize(secondStack, other.getCount()));
+                int diff = ItemStackComparator.INSTANCE.compare(firstStack, secondStack);
+                if (diff == 0) {
+                    total = 0;
+                    break outerloop;
+                }
+                total += diff;
             }
         }
 
-        return diff;
+        if (total == 0) total += other.getCount() - this.count;
+
+        return total;
     }
 }

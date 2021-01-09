@@ -58,4 +58,10 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     public int getChance() {
         return this.chance;
     }
+
+    @Override
+    public String toString() {
+        ItemStack secondaryOutput = this.getSecondaryOutput();
+        return "RecipePulverizer{input="+this.input+",output="+this.getPrimaryOutput().toString()+(!secondaryOutput.isEmpty() ? ",secondaryOutput="+secondaryOutput.toString()+",chance="+this.chance : "")+"}";
+    }
 }

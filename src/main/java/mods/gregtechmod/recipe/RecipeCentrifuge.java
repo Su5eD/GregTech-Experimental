@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemStack>> implements IRecipeCentrifuge {
@@ -50,5 +51,13 @@ public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemS
     @Override
     public int getCells() {
         return this.cells;
+    }
+
+    @Override
+    public String toString() {
+        List<String> outputs = this.output.stream()
+                .map(Objects::toString)
+                .collect(Collectors.toList());
+        return "RecipeCentrifuge{input="+this.input+",output=["+String.join(",", outputs)+"],cells="+this.cells+",duration="+this.duration+",energyCost="+this.energyCost+"}";
     }
 }

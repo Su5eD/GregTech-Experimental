@@ -33,7 +33,6 @@ public class RecipeManagerBasic<R extends IGtMachineRecipe<IRecipeIngredient, ?>
     }
 
     private static class RecipeComparator<T extends IGtMachineRecipe<IRecipeIngredient, ?>> implements Comparator<T> {
-
         @Override
         public int compare(T first, T second) {
             return first.getInput().compareTo(second.getInput());

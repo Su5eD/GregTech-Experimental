@@ -50,4 +50,9 @@ public class RecipeIngredientOre extends RecipeIngredientBase<OreIngredient> {
 
         return diff;
     }
+
+    @Override
+    public String toString() {
+        return "RecipeIngredientOre{ore="+this.ore+",count="+this.count+"}";
+    }
 }

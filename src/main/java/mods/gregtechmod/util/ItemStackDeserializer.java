@@ -23,8 +23,7 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
     }
 
     public ItemStack deserialize(JsonNode node) {
-        String name = node.get("item").asText();
-        int count = node.has("count") ? node.get("count").asInt(1) : 1;
+        String name = node.has("item") ? node.get("item").asText() : node.asText();
         int meta = node.has("meta") ? node.get("meta").asInt(0) : 0;
 
         if (name.contains("#")) {
@@ -40,7 +39,7 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
                 GregTechAPI.logger.error("MultiItem " + name + " not found");
                 return ItemStack.EMPTY;
             }
-            stack.setCount(count);
+            stack.setCount(1);
             return stack;
         }
 
@@ -52,6 +51,6 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
             return ItemStack.EMPTY;
         }
 
-        return new ItemStack(item, count, meta);
+        return new ItemStack(item, 1, meta);
     }
 }

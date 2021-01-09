@@ -42,4 +42,9 @@ public class RecipeAssembler extends Recipe<List<IRecipeIngredient>, ItemStack> 
 
         return recipe;
     }
+
+    @Override
+    public String toString() {
+        return "RecipeAssembler{input=[["+this.input.get(0)+"],["+this.input.get(0)+"],output="+this.output.toString()+",duration="+this.duration+",energyCost="+this.energyCost+"}";
+    }
 }
