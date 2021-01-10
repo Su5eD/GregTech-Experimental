@@ -11,4 +11,6 @@ public interface IRecipePulverizer extends IGtMachineRecipe<IRecipeIngredient, L
     ItemStack getSecondaryOutput();
 
     int getChance();
+
+    boolean overwrite();
 }

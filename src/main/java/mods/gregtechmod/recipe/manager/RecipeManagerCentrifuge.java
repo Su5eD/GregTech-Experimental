@@ -84,8 +84,6 @@ public class RecipeManagerCentrifuge extends RecipeManager<IRecipeIngredient, It
 
             if (itemdiff == 0) itemdiff += first.getInput().compareTo(second.getInput());
 
-            System.out.println("Comparing "+first.getDuration()+" <-> "+second.getDuration()+" "+itemdiff);
-
             return itemdiff;
         }
     }

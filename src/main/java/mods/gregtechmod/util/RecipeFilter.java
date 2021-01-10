@@ -12,12 +12,12 @@ public abstract class RecipeFilter {
         public abstract int getDuration();
     }
 
-    public abstract static class Time extends RecipeFilter {
+    public abstract static class Energy extends RecipeFilter {
         @JsonIgnore
         public abstract double getEnergyCost();
     }
 
-    public abstract static class Energy extends RecipeFilter {
+    public abstract static class Time extends RecipeFilter {
         @JsonIgnore
         public abstract int getDuration();
     }

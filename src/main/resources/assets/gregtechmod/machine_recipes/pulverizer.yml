@@ -1,0 +1,51 @@
+# Pulverizer recipes
+#
+---
+- input:
+    ore: sandstone
+  output:
+    - item: minecraft:sand
+- input:
+    ore: stoneEnd
+  output:
+    - item: gregtechmod:dust_endstone
+    - item: gregtechmod:dust_endstone
+- input:
+    ore: stoneObsidian
+  output:
+    - item: railcraft:generic
+      meta: 7
+      fallback:
+        ore: dustObsidian
+  overwrite: true
+- input:
+    ore: stoneNetherrack
+  output:
+    - item: ic2:dust#netherrack
+    - item: ic2:dust#netherrack
+- input:
+    ore: stoneRedrock
+  output:
+    - item: gregtechmod:dust_redrock
+    - item: gregtechmod:dust_redrock
+- input:
+    ores:
+      - stoneMarble
+      - stoneQuarried
+  output:
+    - item: gregtechmod:dust_marble
+    - item: gregtechmod:dust_marble
+- input:
+    ores:
+      - stoneBasalt
+      - stoneAbyssal
+  output:
+    - item: gregtechmod:dust_basalt
+    - item: gregtechmod:dust_basalt
+- input:
+    ore: itemFlint
+  output:
+    - item: gregtechmod:dust_basalt
+      count: 2
+    - item: minecraft:flint
+  chance: 50

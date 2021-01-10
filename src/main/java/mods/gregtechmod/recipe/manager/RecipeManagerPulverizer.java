@@ -15,7 +15,7 @@ import java.util.Map;
 public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverizer> {
     @Override
     public void addRecipe(IRecipePulverizer recipe, boolean overwrite) {
-        super.addRecipe(recipe, overwrite);
+        super.addRecipe(recipe, overwrite || recipe.overwrite());
 
         for (ItemStack input : recipe.getInput().getMatchingInputs()) {
             addPulverisationRecipe(input, recipe.getPrimaryOutput(), recipe.getSecondaryOutput(), recipe.getChance());

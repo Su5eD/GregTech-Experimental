@@ -1,15 +1,8 @@
 package mods.gregtechmod.init;
 
-import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
-import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.OreDictUnificator;
-import mods.gregtechmod.recipe.RecipePulverizer;
-import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
-import mods.gregtechmod.util.ModHandler;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -122,28 +115,15 @@ public class OreDictHandler {
         this.events = null;
     }
 
-    private void registerStoneRecipes(ItemStack stack, String name) {
-        //GtRecipes.assembler.addRecipe(RecipeAssembler.create(RecipeIngredientOre.create("plateAlloyAdvanced"), RecipeIngredientOre.create("stoneSmooth", 8), StackUtil.setSize(IC2Items.getItem("resource", "reinforced_stone"), 8), 400, 4));
-        //GtRecipes.assembler.addRecipe(RecipeAssembler.create(RecipeIngredientItemStack.create(StackUtil.setSize(IC2Items.getItem("crafting", "coal_block"), 8)), RecipeIngredientOre.create("stoneObsidian"), IC2Items.getItem("crafting", "coal_chunk"), 400, 4));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("sandstone"), new ItemStack(Blocks.SAND), 10));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneEnd"), new ItemStack(BlockItems.Dust.ENDSTONE.getInstance()), new ItemStack(BlockItems.Dust.ENDSTONE.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneObsidian"), ModHandler.getRCItem("generic", 7, OreDictUnificator.get("dustObsidian")), OreDictUnificator.get("dustObsidian")), true);
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneNetherrack"), IC2Items.getItem("dust", "netherrack"), IC2Items.getItem("dust", "netherrack")));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneRedrock"), new ItemStack(BlockItems.Dust.REDROCK.getInstance()), new ItemStack(BlockItems.Dust.REDROCK.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneMarble"), new ItemStack(BlockItems.Dust.MARBLE.getInstance()), new ItemStack(BlockItems.Dust.MARBLE.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneBasalt"), new ItemStack(BlockItems.Dust.BASALT.getInstance()), new ItemStack(BlockItems.Dust.BASALT.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("itemFlint"), new ItemStack(BlockItems.Dust.BASALT.getInstance(), 2), new ItemStack(Items.FLINT), 50));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneAbyssal"), new ItemStack(BlockItems.Dust.BASALT.getInstance()), new ItemStack(BlockItems.Dust.BASALT.getInstance())));
-        GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create("stoneQuarried"), new ItemStack(BlockItems.Dust.MARBLE.getInstance()), new ItemStack(BlockItems.Dust.MARBLE.getInstance())));
-
+    private void processStoneOre(ItemStack stack, String name) {
         Item item = stack.getItem();
-        if (name.startsWith("stone") && item instanceof ItemBlock) {
+        if (item instanceof ItemBlock) {
             GregTechAPI.jackHammerMinableBlocks.add(((ItemBlock)item).getBlock());
             if (stack.getMaxStackSize() > GregTechConfig.FEATURES.maxOtherBlockStackSize) item.setMaxStackSize(GregTechConfig.FEATURES.maxOtherBlockStackSize);
         }
 
-        if (name.equals("stoneObsidian")) {
-            if (item instanceof ItemBlock) ((ItemBlock)item).getBlock().setResistance(20.0F);
+        if (name.equals("stoneObsidian") && item instanceof ItemBlock) {
+            ((ItemBlock)item).getBlock().setResistance(20.0F);
         }
     }
 

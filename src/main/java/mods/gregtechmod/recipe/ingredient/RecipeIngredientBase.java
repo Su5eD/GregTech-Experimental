@@ -21,7 +21,7 @@ public abstract class RecipeIngredientBase<T extends Ingredient> implements IRec
     }
 
     @Override
-    public Ingredient asIngredient() {
+    public T asIngredient() {
         return this.ingredient;
     }
 

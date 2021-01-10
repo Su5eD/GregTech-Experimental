@@ -9,10 +9,7 @@ import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.recipe.RecipeAssembler;
-import mods.gregtechmod.recipe.RecipeCentrifuge;
-import mods.gregtechmod.recipe.RecipeFactory;
-import mods.gregtechmod.recipe.RecipeIngredientFactory;
+import mods.gregtechmod.recipe.*;
 import mods.gregtechmod.recipe.manager.RecipeManagerAssembler;
 import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
 import mods.gregtechmod.recipe.manager.RecipeManagerPulverizer;
@@ -57,17 +54,21 @@ public class RecipeLoader {
             } else configPath = gtConfig;
 
             GtRecipes.industrial_centrifuge = new RecipeManagerCentrifuge();
-            RecipeLoader.parseRecipe("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Default.class)
+            RecipeLoader.parseRecipe("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
                     .ifPresent(recipes -> recipes.forEach(GtRecipes.industrial_centrifuge::addRecipe));
             GtRecipes.assembler = new RecipeManagerAssembler();
             RecipeLoader.parseRecipe("assembler", RecipeAssembler.class, null)
-                    .ifPresent(recipes -> recipes.stream().forEach(GtRecipes.assembler::addRecipe));
+                    .ifPresent(recipes -> recipes.forEach(GtRecipes.assembler::addRecipe));
 
             GtRecipes.pulverizer = new RecipeManagerPulverizer();
+            parseRecipe("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
+                    .ifPresent(recipes -> recipes.forEach(GtRecipes.pulverizer::addRecipe));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        GtRecipes.pulverizer.getRecipes().forEach(System.out::println);
     }
 
     public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {
