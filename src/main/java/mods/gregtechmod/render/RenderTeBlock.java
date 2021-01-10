@@ -20,8 +20,6 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.annotation.Nonnull;
@@ -30,7 +28,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-@SideOnly(Side.CLIENT)
 public class RenderTeBlock extends AbstractModel {
     private final HashMap<EnumFacing, ResourceLocation> textures;
     private final Map<ResourceLocation, TextureAtlasSprite> sprites;

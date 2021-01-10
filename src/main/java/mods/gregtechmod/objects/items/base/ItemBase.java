@@ -76,6 +76,7 @@ public class ItemBase extends Item implements IModelInfoProvider {
         else return "";
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         String durability = getDurabilityInfo(stack);

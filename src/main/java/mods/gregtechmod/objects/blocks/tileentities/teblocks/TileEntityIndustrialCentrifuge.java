@@ -178,6 +178,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
         return new ContainerIndustrialCentrifuge(player, this);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiIndustrialCentrifuge(new ContainerIndustrialCentrifuge(player, this));

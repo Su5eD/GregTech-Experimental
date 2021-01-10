@@ -371,8 +371,10 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngr
 
     @Override
     public double getUniversalEnergy() {
-        double convertedSteam = steamTank.getFluidAmount() * getSteamMultiplier();
-        if (steamTank != null && this.energy.getEnergy() < convertedSteam) return convertedSteam;
+        if (this.steamTank != null) {
+            double convertedSteam = steamTank.getFluidAmount() * getSteamMultiplier();
+            if (this.energy.getEnergy() < convertedSteam) return convertedSteam;
+        }
         return this.energy.getEnergy();
     }
 

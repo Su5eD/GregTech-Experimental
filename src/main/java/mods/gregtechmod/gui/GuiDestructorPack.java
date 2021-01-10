@@ -5,10 +5,7 @@ import ic2.core.init.Localization;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.containers.ContainerDestructorpack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class GuiDestructorPack extends GuiIC2<ContainerDestructorpack> {
 
     public GuiDestructorPack(ContainerDestructorpack container) {

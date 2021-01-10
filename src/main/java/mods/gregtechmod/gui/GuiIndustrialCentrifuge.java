@@ -10,10 +10,7 @@ import mods.gregtechmod.inventory.slot.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerIndustrialCentrifuge;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifuge> {
 
     public GuiIndustrialCentrifuge(ContainerIndustrialCentrifuge container) {
