@@ -1,0 +1,10 @@
+# Grinder recipes
+#
+- input:
+    ore: stoneNetherrack
+    count: 16
+  fluid: water
+  output:
+    - item: minecraft:gold_nugget
+    - item: gregtechmod:dust_netherrack
+      count: 16

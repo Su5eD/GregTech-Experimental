@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.Collection;
@@ -26,24 +27,13 @@ public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemS
                                           @JsonProperty(value = "cells") int cells,
                                           @JsonProperty(value = "duration", required = true) int duration) {
         if (output.size() > 4) {
-            GregTechAPI.logger.error("Tried to add a centrifuge recipe for " + output.stream().map(ItemStack::getTranslationKey).collect(Collectors.joining(", ")) + " with way too many outputs! Reducing their size to 4");
+            GregTechAPI.logger.error("Tried to add a centrifuge recipe for " + output.stream().map(ItemStack::getTranslationKey).collect(Collectors.joining(", ")) + " with way too many outputs! Reducing them to 4");
             output = output.subList(0, 4);
         }
 
         RecipeCentrifuge recipe = new RecipeCentrifuge(input, output, cells, duration);
 
-        if (input == null) {
-            GregTechAPI.logger.error("Tried to add a centrifuge recipe with null input");
-            recipe.invalid = true;
-        }
-
-        for (ItemStack stack : output) {
-            if (stack.isEmpty()) {
-                GregTechAPI.logger.error("Tried to add a centrifuge recipe with an empty ItemStack among its outputs");
-                recipe.invalid = true;
-                break;
-            }
-        }
+        if (!RecipeUtil.validateRecipeIO("centrifuge", input, output)) recipe.invalid = true;
 
         return recipe;
     }

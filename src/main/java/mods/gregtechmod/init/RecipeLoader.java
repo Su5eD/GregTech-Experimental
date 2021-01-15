@@ -7,15 +7,18 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.*;
 import mods.gregtechmod.recipe.manager.RecipeManagerAssembler;
 import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
+import mods.gregtechmod.recipe.manager.RecipeManagerGrinder;
 import mods.gregtechmod.recipe.manager.RecipeManagerPulverizer;
 import mods.gregtechmod.util.ItemStackDeserializer;
 import mods.gregtechmod.util.RecipeFilter;
 import mods.gregtechmod.util.RecipeIngredientDeserializer;
+import mods.gregtechmod.util.RecipeIngredientFluidDeserializer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
@@ -34,7 +37,8 @@ public class RecipeLoader {
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
             .registerModule(new SimpleModule()
                     .addDeserializer(ItemStack.class, ItemStackDeserializer.INSTANCE)
-                    .addDeserializer(IRecipeIngredient.class, RecipeIngredientDeserializer.INSTANCE));
+                    .addDeserializer(IRecipeIngredient.class, RecipeIngredientDeserializer.INSTANCE)
+                    .addDeserializer(IRecipeIngredientFluid.class, RecipeIngredientFluidDeserializer.INSTANCE));
 
     public static void load() {
         GregTechAPI.logger.info("Loading machine recipes");
@@ -64,11 +68,14 @@ public class RecipeLoader {
             parseRecipe("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
                     .ifPresent(recipes -> recipes.forEach(GtRecipes.pulverizer::addRecipe));
 
+            GtRecipes.grinder = new RecipeManagerGrinder();
+            parseRecipe("grinder", RecipeGrinder.class, RecipeFilter.Energy.class)
+                    .ifPresent(recipes -> recipes.forEach(GtRecipes.grinder::addRecipe));
         } catch (IOException e) {
             e.printStackTrace();
         }
         
-        GtRecipes.pulverizer.getRecipes().forEach(System.out::println);
+        GtRecipes.grinder.getRecipes().forEach(System.out::println);
     }
 
     public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {

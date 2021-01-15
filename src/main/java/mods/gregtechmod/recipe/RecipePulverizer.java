@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
@@ -40,10 +41,15 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
                                           @JsonProperty(value = "chance") int chance,
                                           @JsonProperty(value = "overwrite") boolean overwrite) {
         if (output.size() > 2) {
-            GregTechAPI.logger.error("Tried to add a pulverizer recipe for " + output.stream().map(ItemStack::getTranslationKey).collect(Collectors.joining()) + " with way too many outputs! Reducing the outputs to 2");
+            GregTechAPI.logger.error("Tried to add a pulverizer recipe for " + output.stream().map(ItemStack::getTranslationKey).collect(Collectors.joining()) + " with way too many outputs! Reducing them to 2");
             output = output.subList(0, 2);
         }
-        return new RecipePulverizer(input, output, chance < 1 ? 10 : chance, overwrite);
+
+        RecipePulverizer recipe = new RecipePulverizer(input, output, chance < 1 ? 10 : chance, overwrite);
+
+        if (!RecipeUtil.validateRecipeIO("pulverizer", input, output)) recipe.invalid = true;
+
+        return recipe;
     }
 
     @Override

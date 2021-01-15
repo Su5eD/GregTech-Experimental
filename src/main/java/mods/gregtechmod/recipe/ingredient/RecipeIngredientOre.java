@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe.ingredient;
 
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.RecipeIngredientType;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import net.minecraft.item.ItemStack;
 
@@ -35,33 +36,49 @@ public class RecipeIngredientOre extends RecipeIngredientBase<GtOreIngredient> {
     }
 
     @Override
+    public RecipeIngredientType getType() {
+        return RecipeIngredientType.ORE;
+    }
+
+    @Override
     public int compareTo(IRecipeIngredient other) {
-        int diff = 0;
+        int total = 0;
         List<ItemStack> matchingStacks = this.getMatchingInputs();
         List<ItemStack> otherMatchingStacks = other.getMatchingInputs();
 
         if (other instanceof RecipeIngredientOre) {
+            outerLoop:
             for (String firstOre : this.ingredient.getOres()) {
                 for (String secondOre : ((RecipeIngredientOre) other).ingredient.getOres()) {
-                    System.out.println(firstOre + " <-> " + secondOre + " => " + firstOre.compareTo(secondOre));
-                    diff -= firstOre.compareTo(secondOre);
+                    int oreDiff = Math.abs(firstOre.compareTo(secondOre));
+                    if (oreDiff == 0) {
+                        total = 0;
+                        break outerLoop;
+                    }
+                    total -= oreDiff;
                 }
             }
 
-            if (diff == 0) diff -= this.count - other.getCount();
+            if (total == 0) total -= this.count - other.getCount();
         } else if (matchingStacks.isEmpty()) {
+            outerLoop:
             for (ItemStack stack : otherMatchingStacks) {
                 String association = OreDictUnificator.getAssociation(stack);
                 if (association.isEmpty()) association = stack.getItem().getRegistryName().toString();
                 for (String ore : this.ingredient.getOres()) {
-                    diff += ore.compareTo(association);
+                    int diff = ore.compareTo(association);
+                    if (diff == 0) {
+                        total = 0;
+                        break outerLoop;
+                    }
+                    total += diff;
                 }
             }
 
-            if (diff == 0) diff += this.count - other.getCount();
-        } else diff -= super.compareTo(other);
+            if (total == 0) total += this.count - other.getCount();
+        } else total -= super.compareTo(other);
 
-        return diff;
+        return total;
     }
 
     @Override

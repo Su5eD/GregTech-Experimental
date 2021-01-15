@@ -147,4 +147,8 @@ public class ModHandler {
             }
         }
     }
+
+    public static void addCraftingRecipe(ItemStack stack, Object... args) {
+
+    }
 }

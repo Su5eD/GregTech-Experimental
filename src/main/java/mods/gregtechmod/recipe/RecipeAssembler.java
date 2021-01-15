@@ -36,8 +36,8 @@ public class RecipeAssembler extends Recipe<List<IRecipeIngredient>, ItemStack> 
             recipe.invalid = true;
         }
         if (output.isEmpty()) {
-            recipe.invalid = true;
             GregTechAPI.logger.error("Tried to add an assembler recipe with empty output");
+            recipe.invalid = true;
         }
 
         return recipe;

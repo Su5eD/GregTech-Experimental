@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-public class RecipeManagerCentrifuge extends RecipeManager<IRecipeIngredient, ItemStack, IRecipeCentrifuge> implements IRecipeManagerCentrifuge {
+public class RecipeManagerCentrifuge extends RecipeManagerBase<IRecipeCentrifuge> implements IRecipeManagerCentrifuge {
 
     public RecipeManagerCentrifuge() {
         super(new CentrifugeRecipeComparator());
@@ -41,14 +41,6 @@ public class RecipeManagerCentrifuge extends RecipeManager<IRecipeIngredient, It
             if (recipe.getInput().apply(input) && (cells < 0 || availableCells >= recipe.getCells())) return recipe;
         }
         return null;
-    }
-
-    @Override
-    public boolean hasRecipeFor(ItemStack input) {
-        for (IRecipeCentrifuge recipe : this.recipes) {
-            if (recipe.getInput().apply(input, false)) return true;
-        }
-        return false;
     }
 
     @Override

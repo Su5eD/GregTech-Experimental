@@ -7,6 +7,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public interface IRecipeIngredient extends Comparable<IRecipeIngredient> {
+    RecipeIngredientType getType();
+
     Ingredient asIngredient();
 
     int getCount();

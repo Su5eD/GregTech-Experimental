@@ -46,7 +46,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
     private static final Set<EnumFacing> animatedSides = Sets.newHashSet(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP);
 
     public TileEntityIndustrialCentrifuge() {
-        super(10000, 5, (byte)4, (byte)1, 1, GtRecipes.industrial_centrifuge);
+        super(10000, 4, 1, 1, GtRecipes.industrial_centrifuge);
         this.cellSlot = new InvSlotConsumable(this, "cellSlot", 1) {
             @Override
             public boolean accepts(ItemStack stack) {

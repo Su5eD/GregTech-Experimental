@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import net.minecraft.item.ItemStack;
@@ -39,13 +38,7 @@ public class RecipeIngredientDeserializer extends JsonDeserializer<IRecipeIngred
             List<String> ores = new ArrayList<>();
             node.get("ores").elements().forEachRemaining(ore -> ores.add(ore.asText()));
             ingredient = RecipeIngredientOre.create(ores, count);
-        } else if (node.has("fluid")) {
-            ingredient = RecipeIngredientFluid.fromName(node.get("fluid").asText(), count);
-        } else if (node.has("fluids")) {
-            List<String> names = new ArrayList<>();
-            node.get("fluids").elements().forEachRemaining(name -> names.add(name.asText()));
-            ingredient = RecipeIngredientFluid.fromNames(names, count);
-        }
+        } else if (node.has("fluid") || node.has("fluids")) ingredient = RecipeIngredientFluidDeserializer.INSTANCE.deserialize(node);
 
         if (ingredient == null && node.has("fallback")) {
             ingredient = deserialize(node.get("fallback"));

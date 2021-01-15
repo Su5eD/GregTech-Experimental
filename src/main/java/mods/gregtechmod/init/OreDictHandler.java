@@ -1,12 +1,16 @@
 package mods.gregtechmod.init;
 
+import com.google.common.base.CaseFormat;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Arrays;
@@ -736,7 +740,9 @@ public class OreDictHandler {
     }
 
     private void registerOreRecipes(ItemStack stack, String eventName, OreDictionary.OreRegisterEvent event) {
-        /*boolean nether = false, end = false, dense = false;
+        ResourceLocation recipeGroup = new ResourceLocation(Reference.MODID, "ores");
+
+        boolean nether = false, end = false, dense = false;
         if (eventName.startsWith("oreDense")) {
             eventName = eventName.replaceFirst("oreDense", "ore");
             dense = true;
@@ -750,14 +756,20 @@ public class OreDictHandler {
             end = true;
         }
 
-        ItemStack ore = OreDictUnificator.getFirstOre(eventName.replaceFirst("ore", "dust"));
+        String dustName = eventName.replaceFirst("ore", "dust");
+        ItemStack ore = OreDictUnificator.getFirstOre(dustName);
         Item item = stack.getItem();
 
-        if (!ore.isEmpty() && item instanceof ItemBlock) ModHandler.addCraftingRecipe(ore, "T  ", "O  ", 'T', "craftingToolHardHammer", 'O', eventName);
+        if (!ore.isEmpty() && item instanceof ItemBlock) {
+            GameRegistry.addShapedRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, dustName)),
+                    recipeGroup,
+                    ore,
+                    "T", "O", 'T', "craftingToolHardHammer", 'O', eventName);
+        }
 
         if (item instanceof ItemBlock && stack.getMaxStackSize() > GregTechConfig.FEATURES.maxOtherBlockStackSize) item.setMaxStackSize(GregTechConfig.FEATURES.maxOtherBlockStackSize);
 
-        if (eventName.equals("oreLapis")) {
+        /*if (eventName.equals("oreLapis")) {
             GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, new ItemStack(Item.dyePowder, (dense || nether) ? 18 : 12, 4), GT_Metitem_Dust.instance.getStack(2, 3), null, ModHandler.getEmptyCell(1));
             ModHandler.addPulverisationRecipe(stack, new ItemStack(Item.dyePowder, 12, 4), GT_Metitem_Dust.instance.getStack(2, 1), 0, true);
             ModHandler.addValuableOre(item.itemID, aMeta, 3);
@@ -1011,7 +1023,7 @@ public class OreDictHandler {
                 ModHandler.addValuableOre(item.itemID, aMeta, 3);
             } else if (eventName.equals("orePrometheum")) {
                 ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            } else if (eventName.equals("oreDeep Iron")) {
+            } else if (eventName.equals("oreDeepIron")) {
                 ModHandler.addValuableOre(item.itemID, aMeta, 2);
             } else if (eventName.equals("oreDeepIron")) {
                 ModHandler.addValuableOre(item.itemID, aMeta, 2);

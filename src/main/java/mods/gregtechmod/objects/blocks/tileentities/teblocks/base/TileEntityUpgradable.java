@@ -55,8 +55,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     public final int defaultTier;
     public final int defaultEnergyStorage;
-    public final int defaultEnergyConsume;
-    public int energyConsume;
     public InvSlot upgradeSlot;
     public int overclockersCount;
     protected boolean hasSteamUpgrade = false;
@@ -64,10 +62,9 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public Fluids.InternalFluidTank steamTank;
     int neededSteam;
 
-    protected TileEntityUpgradable(int maxEnergy, int defaultTier, int defaultEnergyConsume) {
+    protected TileEntityUpgradable(int maxEnergy, int defaultTier) {
         this.energy = addComponent(new Energy(this, maxEnergy, Util.allFacings, Collections.emptySet(), defaultTier));
         this.defaultTier = defaultTier;
-        this.defaultEnergyConsume = this.energyConsume =defaultEnergyConsume;
         this.upgradeSlot = new GtUpgradeSlot(this, "upgrades", InvSlot.Access.NONE, 8);
         this.defaultEnergyStorage = maxEnergy;
         this.fluids = addComponent(new Fluids(this));
@@ -140,10 +137,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         return owner.equals(playerProfile);
     }
 
-    protected void setOverclock() {
-        this.energyConsume = this.defaultEnergyConsume * (int)Math.pow(4, overclockersCount);
-    }
-
     @Override
     public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {
         super.onPlaced(stack, placer, facing);
@@ -158,8 +151,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
             IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
             switch (upgradeType) {
                 case OVERCLOCKER:
-                    this.overclockersCount = stack.getCount();
-                    IC2.network.get(true).updateTileEntityField(this, "overclockersCount");
+                    setOverclockerCount(stack.getCount());
                     break;
                 case TRANSFORMER:
                     this.energy.setSinkTier(Math.min(defaultTier+stack.getCount(), 3));
@@ -183,7 +175,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     public Fluids.InternalFluidTank createSteamTank() {
-        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), Fluids.fluidPredicate(FluidRegistry.getFluid("steam"), FluidName.steam.getInstance(), FluidName.superheated_steam.getInstance()), 2000);
+        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), Fluids.fluidPredicate(FluidRegistry.getFluid("steam"), FluidName.steam.getInstance(), FluidName.superheated_steam.getInstance()), 10000);
     }
 
     @Override
@@ -206,6 +198,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         super.readFromNBT(nbt);
         if (nbt.hasKey("ownerProfile")) owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("ownerProfile"));
         if (nbt.hasKey("steamTank")) {
+            this.hasSteamUpgrade = true;
             this.steamTank = createSteamTank();
             this.fluids.addTank(steamTank);
             steamTank.readFromNBT((NBTTagCompound)nbt.getTag("steamTank"));
@@ -420,6 +413,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     @Override
     public void setOverclockerCount(int count) {
         this.overclockersCount = count;
+        IC2.network.get(true).updateTileEntityField(this, "overclockersCount");
     }
 
     @Override
