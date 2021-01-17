@@ -6,6 +6,7 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechTEBlock;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifuge;
 import mods.gregtechmod.render.RenderBlockOre;
 import mods.gregtechmod.render.RenderTeBlock;

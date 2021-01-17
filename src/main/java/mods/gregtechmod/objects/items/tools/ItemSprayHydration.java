@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.items.tools;
 import ic2.api.crops.ICropTile;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

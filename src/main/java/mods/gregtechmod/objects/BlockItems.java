@@ -1,4 +1,4 @@
-package mods.gregtechmod.init;
+package mods.gregtechmod.objects;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.item.IC2Items;

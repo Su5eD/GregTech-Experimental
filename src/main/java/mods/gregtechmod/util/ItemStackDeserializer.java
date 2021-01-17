@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.util.OreDictUnificator;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,34 +24,37 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
     }
 
     public ItemStack deserialize(JsonNode node) {
+        ItemStack ret = ItemStack.EMPTY;
         String name = node.has("item") ? node.get("item").asText() : node.asText();
-        int meta = node.has("meta") ? node.get("meta").asInt(0) : 0;
 
-        if (name.contains("#")) {
+        if (node.has("ore")) {
+            name = node.get("ore").asText();
+            ret = OreDictUnificator.get(name);
+            if (ret.isEmpty()) GregTechAPI.logger.error("Could not find an OreDict entry for "+name);
+        } else if (name.contains("#")) {
             String[] parts = name.split("#");
             String[] nameParts = parts[0].split(":");
-            ItemStack stack;
+            ItemStack stack = ItemStack.EMPTY;
             try {
                 stack = IC2Items.getItem(nameParts[1], parts[1]);
-            } catch (Throwable throwable) {
-                stack = ItemStack.EMPTY;
+            } catch (Throwable ignored) {}
+
+            if (stack.isEmpty()) GregTechAPI.logger.error("MultiItem " + name + " not found");
+
+            ret = stack;
+        } else {
+            ResourceLocation registryName = new ResourceLocation(name);
+            Item item = ForgeRegistries.ITEMS.getValue(registryName);
+            if (item == Items.AIR || item == null) {
+                GregTechAPI.logger.error("Failed to deserialize ItemStack: Registry entry " + name + " not found");
+            } else {
+                int meta = node.has("meta") ? node.get("meta").asInt(0) : 0;
+                ret = new ItemStack(item, 1, meta);
             }
-            if (stack == null || stack.isEmpty()) {
-                GregTechAPI.logger.error("MultiItem " + name + " not found");
-                return ItemStack.EMPTY;
-            }
-            stack.setCount(1);
-            return stack;
         }
 
-        ResourceLocation registryName = new ResourceLocation(name);
-        Item item = ForgeRegistries.ITEMS.getValue(registryName);
-        if (item == Items.AIR || item == null) item = Item.getItemFromBlock(ForgeRegistries.BLOCKS.getValue(registryName));
-        if (item == Items.AIR) {
-            GregTechAPI.logger.error("Failed to deserialize ItemStack: Registry entry " + name + " not found");
-            return ItemStack.EMPTY;
-        }
+        if (ret.isEmpty() && node.has("fallback")) return deserialize(node.get("fallback"));
 
-        return new ItemStack(item, 1, meta);
+        return ret;
     }
 }

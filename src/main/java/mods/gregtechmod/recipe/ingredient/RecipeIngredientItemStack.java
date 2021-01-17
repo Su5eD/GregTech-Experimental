@@ -43,8 +43,8 @@ public class RecipeIngredientItemStack extends RecipeIngredientBase<Ingredient> 
                 List<String> stacksToString = stacks.stream()
                         .map(Objects::toString)
                         .collect(Collectors.toList());
-                GregTechAPI.logger.error("Tried to parse a RecipeIngredientItemStack with an empty stack among the matching stacks: "+String.join(",", stacksToString));
-                return null;
+                GregTechAPI.logger.error("Tried to parse a RecipeIngredientItemStack with an empty stack among the matching stacks: ["+String.join(",", stacksToString)+"], removing it...");
+                stacks.remove(stack);
             }
         }
         return new RecipeIngredientItemStack(count, stacks.toArray(new ItemStack[0]));

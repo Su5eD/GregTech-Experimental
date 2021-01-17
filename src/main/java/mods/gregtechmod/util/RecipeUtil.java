@@ -16,7 +16,7 @@ public class RecipeUtil {
         for (ItemStack stack : output) {
             if (stack.isEmpty()) {
                 GregTechAPI.logger.error("Tried to add a " + name + " recipe with an empty ItemStack among its outputs. Invalidating...");
-                return true;
+                return false;
             }
         }
 

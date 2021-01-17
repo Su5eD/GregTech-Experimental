@@ -32,8 +32,10 @@ public class GregTechConfig {
 
     public static class General {
         public boolean connectedMachineCasingTextures = true;
+        @Config.Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
         public boolean dynamicCentrifugeAnimationSpeed = true;
         public boolean hiddenOres = true;
+        public boolean harderStone = false;
 
         public String[] specialUnificationTargets = new String[0];
     }
@@ -42,10 +44,12 @@ public class GregTechConfig {
         public int quantumChestMaxItemCount = 2000000000;
         public int quantumTankCapacity = 2000000000;
         public int digitalChestMaxItemCount = 32768;
-        @Config.Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
+        @Config.RangeInt(min = 1, max = 64)
         public int upgradeStackSize = 4;
         @Config.RangeInt(min = 16, max = 64)
-        public int maxOtherBlockStackSize = 64;
+        public int maxLogStackSize = 64;
+        @Config.RangeInt(min = 16, max = 64)
+        public int maxPlankStackSize = 64;
     }
 
     public static class Balance {

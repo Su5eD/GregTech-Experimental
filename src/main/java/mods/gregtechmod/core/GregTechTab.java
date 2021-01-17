@@ -2,7 +2,7 @@ package mods.gregtechmod.core;
 
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

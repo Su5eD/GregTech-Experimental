@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.items.tools;
 
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;

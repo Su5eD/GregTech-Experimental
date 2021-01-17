@@ -3,7 +3,7 @@ package mods.gregtechmod.world;
 import com.google.common.base.Predicate;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.WorldOre;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

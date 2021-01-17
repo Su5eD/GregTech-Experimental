@@ -4,6 +4,7 @@ import com.zuxelus.energycontrol.api.EnergyContolRegister;
 import com.zuxelus.energycontrol.api.IItemCard;
 import com.zuxelus.energycontrol.api.IItemKit;
 import mods.gregtechmod.api.GregTechObjectAPI;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.items.ItemSensorCard;
 import mods.gregtechmod.objects.items.ItemSensorKit;

@@ -4,7 +4,7 @@ import ic2.api.item.IC2Items;
 import ic2.core.block.wiring.TileEntityCable;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import mods.gregtechmod.util.ReflectionUtil;
 import net.minecraft.block.Block;

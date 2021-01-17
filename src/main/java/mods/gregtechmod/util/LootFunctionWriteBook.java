@@ -4,7 +4,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;

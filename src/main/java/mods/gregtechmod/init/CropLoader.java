@@ -7,6 +7,7 @@ import ic2.core.crop.cropcard.GenericCropCard;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

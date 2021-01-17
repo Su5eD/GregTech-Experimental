@@ -75,29 +75,31 @@ public class ModHandler {
         return new ItemStack(base, 1, meta);
     }
 
-    public static void addTESawmillRecipe(int energy, ItemStack input, ItemStack output) {
-        addTESawmillRecipe(energy, input, output, ItemStack.EMPTY, 0);
+    public static void addTESawmillRecipe(int energy, ItemStack input, ItemStack output, boolean overwrite) {
+        addTESawmillRecipe(energy, input, output, ItemStack.EMPTY, 0, overwrite);
     }
 
-    public static void addTESawmillRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
-        if (Loader.isModLoaded("thermalexpansion")) registerSawmillRecipe(energy, input, primaryOutput, secondaryOutput, chance);
+    public static void addTESawmillRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
+        if (Loader.isModLoaded("thermalexpansion")) registerSawmillRecipe(energy, input, primaryOutput, secondaryOutput, chance, overwrite);
     }
 
     @Optional.Method(modid = "thermalexpansion")
-    private static void registerSawmillRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
+    private static void registerSawmillRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
+        if (overwrite && SawmillManager.recipeExists(input)) SawmillManager.removeRecipe(input);
         SawmillManager.addRecipe(energy, input, primaryOutput, secondaryOutput, chance);
     }
 
-    public static void addTEPulverizerRecipe(int energy, ItemStack input, ItemStack output) {
-        addTEPulverizerRecipe(energy, input, output, ItemStack.EMPTY, 0);
+    public static void addTEPulverizerRecipe(int energy, ItemStack input, ItemStack output, boolean overwrite) {
+        addTEPulverizerRecipe(energy, input, output, ItemStack.EMPTY, 0, overwrite);
     }
 
-    public static void addTEPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
-        if (Loader.isModLoaded("thermalexpansion")) registerPulverizerRecipe(energy, input, primaryOutput, secondaryOutput, chance);
+    public static void addTEPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
+        if (Loader.isModLoaded("thermalexpansion")) registerPulverizerRecipe(energy, input, primaryOutput, secondaryOutput, chance, overwrite);
     }
 
     @Optional.Method(modid = "thermalexpansion")
-    private static void registerPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
+    private static void registerPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
+        if (overwrite && PulverizerManager.recipeExists(input)) PulverizerManager.removeRecipe(input);
         PulverizerManager.addRecipe(energy, input, primaryOutput, secondaryOutput, chance);
     }
 

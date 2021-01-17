@@ -68,18 +68,18 @@ public class OreDictUnificator {
 
     public static ItemStack getFirstOre(String name, int amount) {
         if (name == null || name.isEmpty()) return null;
-        if (name2OreMap.containsKey(name)) return get(name, null, amount);
+        if (name2OreMap.containsKey(name)) return get(name, ItemStack.EMPTY, amount);
 
-        ItemStack stack = null;
+        ItemStack stack = ItemStack.EMPTY;
         List<ItemStack> ores = OreDictionary.getOres(name);
         if (ores.size() > 0) stack = ores.get(0).copy();
-        if (stack != null) stack.setCount(amount);
+        if (stack.isEmpty()) stack.setCount(amount);
 
         return stack;
     }
 
     public static ItemStack getFirstCapsulatedOre(String name, int amount) {
-        if (name2OreMap.containsKey(name)) return get(name, null, amount);
+        if (name2OreMap.containsKey(name)) return get(name, ItemStack.EMPTY, amount);
         ItemStack stack = null;
         List<ItemStack> ores = OreDictionary.getOres(name);
         for (ItemStack ore : ores) {
@@ -92,7 +92,7 @@ public class OreDictUnificator {
     }
 
     public static ItemStack getFirstUnCapsulatedOre(String name, int amount) {
-        if (name2OreMap.containsKey(name)) return get(name, null, amount);
+        if (name2OreMap.containsKey(name)) return get(name, ItemStack.EMPTY, amount);
         ItemStack stack = null;
         List<ItemStack> ores = OreDictionary.getOres(name);
         for (ItemStack ore : ores) {
@@ -115,12 +115,9 @@ public class OreDictUnificator {
     public static ItemStack get(String name, ItemStack replacement, int amount) {
         ItemStack stack = name2OreMap.get(name);
         if (stack == null) {
-            if (replacement.isEmpty()) {
-                List<ItemStack> ores = OreDictionary.getOres(name);
-                if (!ores.isEmpty()) return ores.get(0);
-                else return ItemStack.EMPTY;
-            }
-            else return replacement.copy();
+            List<ItemStack> ores = OreDictionary.getOres(name);
+            if (!ores.isEmpty()) return ores.get(0);
+            else return replacement;
         } else return StackUtil.copyWithSize(stack, amount);
     }
 

@@ -6,7 +6,7 @@ import ic2.core.block.wiring.TileEntityCable;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;

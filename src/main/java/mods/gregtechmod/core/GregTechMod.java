@@ -6,15 +6,11 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.cover.CoverHandler;
-import mods.gregtechmod.init.CoverLoader;
-import mods.gregtechmod.init.OreDictRegistrar;
-import mods.gregtechmod.init.RecipeLoader;
-import mods.gregtechmod.init.RegistryHandler;
+import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
@@ -82,8 +78,6 @@ public final class GregTechMod {
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.instance, 5);
-        //TODO: Move to recipe loader(or modificator) class
-        IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
     }
 
     @EventHandler
@@ -111,8 +105,9 @@ public final class GregTechMod {
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/village_blacksmith"));
     }
     @EventHandler
-    public static void init(FMLPostInitializationEvent event) {
+    public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
+        ItemStackModificator.init();
     }
 
     @SubscribeEvent

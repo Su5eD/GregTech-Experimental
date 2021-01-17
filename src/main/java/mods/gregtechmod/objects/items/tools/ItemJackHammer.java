@@ -5,7 +5,10 @@ import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.objects.items.base.ItemToolElectricBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Collections;
 
@@ -22,6 +25,14 @@ public class ItemJackHammer extends ItemToolElectricBase {
     @Override
     public boolean canHarvestBlock(IBlockState state, ItemStack itemStack) {
         Block block = state.getBlock();
-        return GregTechAPI.jackHammerMinableBlocks.contains(block) && (this.canMineObsidian || !OreDictUnificator.isItemInstanceOf(block, "stoneObsidian", false));
+        for (ItemStack stack : GregTechAPI.jackHammerMinableBlocks) {
+            Item item = stack.getItem();
+            int meta = stack.getMetadata();
+            if (item instanceof ItemBlock && ((ItemBlock) item).getBlock() == block && (meta == OreDictionary.WILDCARD_VALUE || block.getMetaFromState(state) == meta)) {
+                GregTechAPI.logger.info("JackHammer can mine "+state);
+                return this.canMineObsidian || !OreDictUnificator.isItemInstanceOf(block, "stoneObsidian", false);
+            }
+        }
+        return false;
     }
 }

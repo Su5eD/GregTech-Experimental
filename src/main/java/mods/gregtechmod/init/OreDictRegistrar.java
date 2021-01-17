@@ -7,6 +7,7 @@ import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -42,6 +43,7 @@ public class OreDictRegistrar {
         for (BlockItems.Rod rod : BlockItems.Rod.values()) registerOre("stick", rod.name().toLowerCase(Locale.ROOT), rod.getInstance());
 
         for (BlockItems.Dust dust : BlockItems.Dust.values()) registerOre("dust", dust.name().toLowerCase(Locale.ROOT), dust.getInstance());
+        registerOre("dustQuartz", BlockItems.Dust.NETHER_QUARTZ.getInstance());
         registerOre("dyeCyan", BlockItems.Dust.LAZURITE.getInstance());
         registerOre("dyeBlue", BlockItems.Dust.SODALITE.getInstance());
 
