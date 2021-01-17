@@ -1,0 +1,12 @@
+# Blast Furnace recipes
+#
+- input:
+    - ore: oreIron
+      count: 2
+    - ore: dustCalcite
+  output:
+    - item: minecraft:iron_ingot
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+  heat: 1500
+  duration: 500

@@ -1,10 +1,8 @@
 package mods.gregtechmod.recipe;
 
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
-import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
-import mods.gregtechmod.api.recipe.IRecipeFactory;
-import mods.gregtechmod.api.recipe.IRecipePulverizer;
+import mods.gregtechmod.api.recipe.*;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
@@ -24,5 +22,15 @@ public class RecipeFactory implements IRecipeFactory {
     @Override
     public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
         return RecipePulverizer.create(input, primaryOutput, secondaryOutput, chance);
+    }
+
+    @Override
+    public IRecipeGrinder makeGrinderRecipe(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output, int duration) {
+        return RecipeGrinder.create(input, fluid, output, duration);
+    }
+
+    @Override
+    public IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int heat, int duration) {
+        return RecipeBlastFurnace.create(input, output, heat, duration);
     }
 }

@@ -20,10 +20,12 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
 
     @Override
     public ItemStack deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException {
-        return deserialize(parser.getCodec().readTree(parser));
+        JsonNode node = parser.getCodec().readTree(parser);
+        int count = node.has("count") ? node.get("count").asInt(1) : 1;
+        return deserialize(node, count);
     }
 
-    public ItemStack deserialize(JsonNode node) {
+    public ItemStack deserialize(JsonNode node, int count) {
         ItemStack ret = ItemStack.EMPTY;
         String name = node.has("item") ? node.get("item").asText() : node.asText();
 
@@ -53,8 +55,9 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
             }
         }
 
-        if (ret.isEmpty() && node.has("fallback")) return deserialize(node.get("fallback"));
+        if (ret.isEmpty() && node.has("fallback")) return deserialize(node.get("fallback"), 1);
 
+        ret.setCount(count);
         return ret;
     }
 }

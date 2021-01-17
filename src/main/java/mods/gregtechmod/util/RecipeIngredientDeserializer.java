@@ -26,11 +26,11 @@ public class RecipeIngredientDeserializer extends JsonDeserializer<IRecipeIngred
         int count = node.has("count") ? node.get("count").asInt(1) : 1;
 
         if (node.has("item")) {
-            ItemStack stack = ItemStackDeserializer.INSTANCE.deserialize(node);
+            ItemStack stack = ItemStackDeserializer.INSTANCE.deserialize(node, 1);
             ingredient = RecipeIngredientItemStack.create(stack, count);
         } else if (node.has("items")) {
             List<ItemStack> stacks = new ArrayList<>();
-            node.get("items").elements().forEachRemaining(item -> stacks.add(ItemStackDeserializer.INSTANCE.deserialize(item)));
+            node.get("items").elements().forEachRemaining(item -> stacks.add(ItemStackDeserializer.INSTANCE.deserialize(item, 1)));
             ingredient = RecipeIngredientItemStack.create(stacks, count);
         } else if (node.has("ore")) {
             ingredient = RecipeIngredientOre.create(node.get("ore").asText(), count);

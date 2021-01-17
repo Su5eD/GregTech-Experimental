@@ -1,6 +1,7 @@
 package mods.gregtechmod.api.recipe;
 
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface IRecipeFactory {
     }
 
     IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance);
+
+    IRecipeGrinder makeGrinderRecipe(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output, int duration);
+
+    IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int heat, int duration);
 }

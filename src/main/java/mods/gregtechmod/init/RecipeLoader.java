@@ -11,10 +11,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.*;
-import mods.gregtechmod.recipe.manager.RecipeManagerAssembler;
-import mods.gregtechmod.recipe.manager.RecipeManagerCentrifuge;
-import mods.gregtechmod.recipe.manager.RecipeManagerGrinder;
-import mods.gregtechmod.recipe.manager.RecipeManagerPulverizer;
+import mods.gregtechmod.recipe.manager.*;
 import mods.gregtechmod.util.ItemStackDeserializer;
 import mods.gregtechmod.util.RecipeFilter;
 import mods.gregtechmod.util.RecipeIngredientDeserializer;
@@ -71,11 +68,13 @@ public class RecipeLoader {
             GtRecipes.grinder = new RecipeManagerGrinder();
             parseRecipe("grinder", RecipeGrinder.class, RecipeFilter.Energy.class)
                     .ifPresent(recipes -> recipes.forEach(GtRecipes.grinder::addRecipe));
+
+            GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
+            parseRecipe("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
+                    .ifPresent(recipes -> recipes.forEach(GtRecipes.blastFurnace::addRecipe));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        GtRecipes.grinder.getRecipes().forEach(System.out::println);
     }
 
     public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {

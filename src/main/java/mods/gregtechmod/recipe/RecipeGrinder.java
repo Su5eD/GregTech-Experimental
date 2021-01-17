@@ -30,7 +30,7 @@ public class RecipeGrinder extends Recipe<IRecipeIngredient, List<ItemStack>> im
             output = output.subList(0, 3);
         }
 
-        RecipeGrinder recipe = new RecipeGrinder(input, fluid, output, duration < 1 ? 100 : duration);
+        RecipeGrinder recipe = new RecipeGrinder(input, fluid, output, duration);
 
         if (!RecipeUtil.validateRecipeIO("grinder", input, output)) recipe.invalid = true;
         if (fluid == null) {

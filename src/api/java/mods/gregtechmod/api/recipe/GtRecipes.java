@@ -14,4 +14,5 @@ public class GtRecipes {
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, ItemStack>> assembler;
     public static IGtRecipeManager<IRecipeIngredient, ItemStack, IRecipePulverizer> pulverizer;
     public static IRecipeManagerGrinder grinder;
+    public static IGtRecipeManager<List<IRecipeIngredient>, ItemStack, IRecipeBlastFurnace> blastFurnace;
 }
