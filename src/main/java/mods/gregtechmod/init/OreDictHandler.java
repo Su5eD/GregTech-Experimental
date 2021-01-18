@@ -121,10 +121,8 @@ public class OreDictHandler {
 
     private void processStoneOre(ItemStack stack, String name) {
         Item item = stack.getItem();
-        if (item instanceof ItemBlock) {
-            GregTechAPI.jackHammerMinableBlocks.add(((ItemBlock)item).getBlock());
-            if (stack.getMaxStackSize() > GregTechConfig.FEATURES.maxOtherBlockStackSize) item.setMaxStackSize(GregTechConfig.FEATURES.maxOtherBlockStackSize);
-        }
+        if (item instanceof ItemBlock) GregTechAPI.jackHammerMinableBlocks.add(stack);
+
 
         if (name.equals("stoneObsidian") && item instanceof ItemBlock) {
             ((ItemBlock)item).getBlock().setResistance(20.0F);
