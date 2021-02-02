@@ -30,6 +30,9 @@ public class GregTechConfig {
     @Config.LangKey(Reference.MODID+".config.worldgen")
     public static final WorldGen WORLDGEN = new WorldGen();
 
+    @Config.LangKey(Reference.MODID+".config,blastfurnacerequirements")
+    public static final BlastFurnaceRequirements BLAST_FURNACE_REQUIREMENTS = new BlastFurnaceRequirements();
+
     public static class General {
         public boolean connectedMachineCasingTextures = true;
         @Config.Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
@@ -154,6 +157,14 @@ public class GregTechConfig {
 
         @Config.RequiresMcRestart
         public boolean endAsteroids = true;
+    }
+
+    public static class BlastFurnaceRequirements {
+        public boolean aluminium = true;
+        public boolean steel = true;
+        public boolean titanium = true;
+        public boolean chrome = true;
+        public boolean tungsten = true;
     }
 
     @SubscribeEvent

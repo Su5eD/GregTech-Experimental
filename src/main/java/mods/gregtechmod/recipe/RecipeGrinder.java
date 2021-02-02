@@ -32,9 +32,10 @@ public class RecipeGrinder extends Recipe<IRecipeIngredient, List<ItemStack>> im
 
         RecipeGrinder recipe = new RecipeGrinder(input, fluid, output, duration);
 
-        if (!RecipeUtil.validateRecipeIO("grinder", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("grinder", input, output))
+            recipe.invalid = true;
         if (fluid == null) {
-            GregTechAPI.logger.error("Tried to add a grinder recipe with a null fluid!");
+            GregTechAPI.logger.warn("Tried to add a grinder recipe with a null fluid!");
             recipe.invalid = true;
         }
 

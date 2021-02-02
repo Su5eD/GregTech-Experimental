@@ -36,11 +36,11 @@ public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverize
                     if (!secondaryOutput.isEmpty()) outputs.put(secondaryOutput.copy(), 0.01F * ((chance <= 0) ? 10 : chance) / input.getCount());
                     ModHandler.addRockCrusherRecipe(input.copy().splitStack(1), (input.getItemDamage() != OreDictionary.WILDCARD_VALUE), false, outputs);
                 }
-                if (secondaryOutput.isEmpty()) ModHandler.addTEPulverizerRecipe(400, input.copy(), primaryOutput.copy(), overwrite);
-                else ModHandler.addTEPulverizerRecipe(400, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), (chance <= 0) ? 10 : chance, overwrite);
+                if (secondaryOutput.isEmpty()) ModHandler.addTEPulverizerRecipe(4000, input.copy(), primaryOutput.copy(), overwrite);
+                else ModHandler.addTEPulverizerRecipe(4000, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), (chance <= 0) ? 10 : chance, overwrite);
             } else {
-                if (secondaryOutput.isEmpty()) ModHandler.addTESawmillRecipe(80, input.copy(), primaryOutput.copy(), overwrite);
-                else ModHandler.addTESawmillRecipe(80, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), (chance <= 0) ? 10 : chance, overwrite);
+                if (secondaryOutput.isEmpty()) ModHandler.addTESawmillRecipe(800, input.copy(), primaryOutput.copy(), overwrite);
+                else ModHandler.addTESawmillRecipe(800, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), (chance <= 0) ? 10 : chance, overwrite);
             }
         }
     }

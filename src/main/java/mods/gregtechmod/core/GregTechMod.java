@@ -14,6 +14,7 @@ import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
+import mods.gregtechmod.util.ModHandler;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
 import mods.gregtechmod.world.OreGenerator;
 import mods.gregtechmod.world.RetrogenHandler;
@@ -82,6 +83,7 @@ public final class GregTechMod {
 
     @EventHandler
     public static void init(FMLInitializationEvent event) {
+        ModHandler.gatherModItems();
         GtUtil.emptyCell = IC2Items.getItem("fluid_cell");
         GregTechTEBlock.buildDummies();
 

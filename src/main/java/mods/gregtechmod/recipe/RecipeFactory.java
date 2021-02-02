@@ -30,7 +30,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int heat, int duration) {
-        return RecipeBlastFurnace.create(input, output, heat, duration);
+    public IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost, int heat) {
+        return RecipeBlastFurnace.create(input, output, duration, energyCost, heat);
     }
 }

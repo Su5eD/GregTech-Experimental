@@ -148,6 +148,7 @@ public class ClientEventHandler {
         else if (stack.isItemEqual(IC2Items.getItem("dust", "silver"))) tooltip.add("Ag");
         else if (stack.isItemEqual(IC2Items.getItem("dust", "clay"))) tooltip.add("Na2LiAl2Si2");
         else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "ashes"))) tooltip.add("C");
+        else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "iridium_shard"))) tooltip.add("Ir");
 
         FluidStack fluidContained = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();

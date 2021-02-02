@@ -1,9 +1,16 @@
 package mods.gregtechmod.init;
 
 import com.google.common.base.CaseFormat;
+import ic2.api.item.IC2Items;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.util.ModHandler;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -22,6 +29,7 @@ public class OreDictHandler {
     private Map<String, ItemStack> events = new HashMap<>();
 
     public static final Map<String, String> GTOreNames = new HashMap<>();
+    public static final Map<String, Integer> valuableOres = new HashMap<>();
 
     private final List<String> ignoredNames = Arrays.asList("naquadah", "brickXyEngineering", "breederUranium", "diamondNugget", "infiniteBattery", "superconductor", "itemCharcoalSugar", "aluminumWire", "aluminiumWire", "silverWire",
             "tinWire", "eliteBattery", "advancedBattery", "transformer", "coil", "wireMill", "multimeter", "itemMultimeter", "chunkLazurite", "itemRecord", "aluminumNatural", "aluminiumNatural", "naturalAluminum", "naturalAluminium",
@@ -74,6 +82,129 @@ public class OreDictHandler {
         GTOreNames.put("ingotQuartz", "craftingQuartz");
         GTOreNames.put("ingotNetherQuartz", "craftingQuartz");
         GTOreNames.put("ingotCertusQuartz", "craftingQuartz");
+
+        valuableOres.put("oreLapis", 3);
+        valuableOres.put("oreSodalite", 3);
+        valuableOres.put("oreRedstone", 3);
+        valuableOres.put("oreQuartz", 4);
+        valuableOres.put("oreNikolite", 3);
+        valuableOres.put("oreIron", 3);
+        valuableOres.put("oreGold", 4);
+        valuableOres.put("oreSilver", 3);
+        valuableOres.put("oreLead", 3);
+        valuableOres.put("oreSilverLead", 4);
+        valuableOres.put("oreGalena", 4);
+        valuableOres.put("oreDiamond", 5);
+        valuableOres.put("oreEmerald", 5);
+        valuableOres.put("oreRuby", 4);
+        valuableOres.put("oreSapphire", 4);
+        valuableOres.put("oreGreenSapphire", 4);
+        valuableOres.put("oreOlivine", 4);
+        valuableOres.put("oreCoal", 1);
+        valuableOres.put("oreCopper", 3);
+        valuableOres.put("oreTin", 3);
+        valuableOres.put("oreZinc", 2);
+        valuableOres.put("oreCassiterite", 3);
+        valuableOres.put("oreTetrahedrite", 3);
+        valuableOres.put("oreAntimony", 3);
+        valuableOres.put("oreIridium", 10);
+        valuableOres.put("oreCooperite", 10);
+        valuableOres.put("oreSheldonite", 10);
+        valuableOres.put("orePlatinum", 7);
+        valuableOres.put("oreNickel", 4);
+        valuableOres.put("orePyrite", 1);
+        valuableOres.put("oreCinnabar", 3);
+        valuableOres.put("oreSphalerite", 2);
+        valuableOres.put("oreAluminium", 2);
+        valuableOres.put("oreAluminum", 2);
+        valuableOres.put("oreSteel", 4);
+        valuableOres.put("oreTitan", 5);
+        valuableOres.put("oreTitanium", 5);
+        valuableOres.put("oreChrome", 10);
+        valuableOres.put("oreChromium", 10);
+        valuableOres.put("oreElectrum", 5);
+        valuableOres.put("oreTungsten", 4);
+        valuableOres.put("oreTungstate", 4);
+        valuableOres.put("oreBauxite", 2);
+        valuableOres.put("oreApatite", 1);
+        valuableOres.put("oreSulfur", 1);
+        valuableOres.put("oreSaltpeter", 2);
+        valuableOres.put("orePhosphorite", 2);
+        valuableOres.put("oreMagnesium", 2);
+        valuableOres.put("oreManganese", 2);
+        valuableOres.put("oreMonazit", 3);
+        valuableOres.put("oreMonazite", 3);
+        valuableOres.put("oreFortronite", 3);
+        valuableOres.put("oreThorium", 5);
+        valuableOres.put("orePlutonium", 15);
+        valuableOres.put("oreOsmium", 20);
+        valuableOres.put("oreEximite", 3);
+        valuableOres.put("oreMeutoite", 3);
+        valuableOres.put("orePrometheum", 3);
+        valuableOres.put("oreDeepIron", 2);
+        valuableOres.put("oreInfuscolium", 3);
+        valuableOres.put("oreOureclase", 3);
+        valuableOres.put("oreAredrite", 3);
+        valuableOres.put("oreAstralSilver", 4);
+        valuableOres.put("oreCarmot", 4);
+        valuableOres.put("oreMithril", 4);
+        valuableOres.put("oreRubracium", 3);
+        valuableOres.put("oreOrichalcum", 3);
+        valuableOres.put("oreAdamantine", 5);
+        valuableOres.put("oreAtlarus", 3);
+        valuableOres.put("oreIgnatius", 3);
+        valuableOres.put("oreShadowIron", 4);
+        valuableOres.put("oreMidasium", 3);
+        valuableOres.put("oreVyroxeres", 3);
+        valuableOres.put("oreCeruclase", 3);
+        valuableOres.put("oreKalendrite", 3);
+        valuableOres.put("oreVulcanite", 3);
+        valuableOres.put("oreSanguinite", 3);
+        valuableOres.put("oreLemurite", 3);
+        valuableOres.put("oreAdluorite", 3);
+        valuableOres.put("oreNaquadah", 8);
+        valuableOres.put("oreBitumen", 2);
+        valuableOres.put("oreForce", 3);
+        valuableOres.put("oreCertusQuartz", 4);
+        valuableOres.put("oreVinteum", 3);
+        valuableOres.put("orePotash", 2);
+        valuableOres.put("oreArdite", 2);
+        valuableOres.put("oreCobalt", 2);
+        valuableOres.put("oreUranium", 5);
+    }
+
+    public OreDictHandler() {
+        /*registerOre(new OreDictionary.OreRegisterEvent("stickWood", new ItemStack(Item.stick, 1, 0)));
+        registerOre(new OreDictionary.OreRegisterEvent("logWood", new ItemStack(Block.wood, 1, 32767)));
+        registerOre(new OreDictionary.OreRegisterEvent("slabWood", new ItemStack((Block)Block.woodSingleSlab, 1, 32767)));
+        registerOre(new OreDictionary.OreRegisterEvent("plankWood", new ItemStack(Block.planks, 1, 32767)));
+        registerOre(new OreDictionary.OreRegisterEvent("treeLeaves", new ItemStack((Block)Block.leaves, 1, 32767)));
+        registerOre(new OreDictionary.OreRegisterEvent("treeSapling", new ItemStack(Block.sapling, 1, 32767)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreCoal", new ItemStack(Block.oreCoal, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreIron", new ItemStack(Block.oreIron, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreLapis", new ItemStack(Block.oreLapis, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreRedstone", new ItemStack(Block.oreRedstone, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreRedstone", new ItemStack(Block.oreRedstoneGlowing, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreGold", new ItemStack(Block.oreGold, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreDiamond", new ItemStack(Block.oreDiamond, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreEmerald", new ItemStack(Block.oreEmerald, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("oreNetherQuartz", new ItemStack(Block.oreNetherQuartz, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("gemDiamond", new ItemStack(Item.diamond, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("gemEmerald", new ItemStack(Item.emerald, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("nuggetGold", new ItemStack(Item.goldNugget, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("ingotGold", new ItemStack(Item.ingotGold, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("ingotIron", new ItemStack(Item.ingotIron, 1)));
+        registerOre(new OreDictionary.OreRegisterEvent("blockIron", new ItemStack(Block.blockIron, 1, 0)));
+        registerOre(new OreDictionary.OreRegisterEvent("blockGold", new ItemStack(Block.blockGold, 1, 0)));
+        registerOre(new OreDictionary.OreRegisterEvent("blockDiamond", new ItemStack(Block.blockDiamond, 1, 0)));
+        registerOre(new OreDictionary.OreRegisterEvent("blockEmerald", new ItemStack(Block.blockEmerald, 1, 0)));
+        registerOre(new OreDictionary.OreRegisterEvent("blockLapis", new ItemStack(Block.blockLapis, 1, 0)));
+        registerOre(new OreDictionary.OreRegisterEvent("blockRedstone", new ItemStack(Block.blockRedstone, 1, 0)));
+        String[] dyes = {
+                "dyeBlack", "dyeRed", "dyeGreen", "dyeBrown", "dyeBlue", "dyePurple", "dyeCyan", "dyeLightGray", "dyeGray", "dyePink",
+                "dyeLime", "dyeYellow", "dyeLightBlue", "dyeMagenta", "dyeOrange", "dyeWhite" };
+        for (int i = 0; i < 16; i++)
+            registerOre(new OreDictionary.OreRegisterEvent(dyes[i], new ItemStack(Item.dyePowder, 1, i)));*/
     }
 
     @SubscribeEvent
@@ -736,297 +867,95 @@ public class OreDictHandler {
         }*/
     }
 
-    private void registerOreRecipes(ItemStack stack, String eventName, OreDictionary.OreRegisterEvent event) {
+    private void registerOreRecipes(ItemStack stack, String name) {
         ResourceLocation recipeGroup = new ResourceLocation(Reference.MODID, "ores");
 
-        boolean nether = false, end = false, dense = false;
-        if (eventName.startsWith("oreDense")) {
-            eventName = eventName.replaceFirst("oreDense", "ore");
-            dense = true;
-        }
-        if (eventName.startsWith("oreNether")) {
-            eventName = eventName.replaceFirst("oreNether", "ore");
-            nether = true;
-        }
-        if (eventName.startsWith("oreEnd")) {
-            eventName = eventName.replaceFirst("oreEnd", "ore");
-            end = true;
-        }
+        String dustName = name.replaceFirst("ore", "dust");
+        ItemStack dust = OreDictUnificator.getFirstOre(dustName);
 
-        String dustName = eventName.replaceFirst("ore", "dust");
-        ItemStack ore = OreDictUnificator.getFirstOre(dustName);
-        Item item = stack.getItem();
-
-        if (!ore.isEmpty() && item instanceof ItemBlock) {
+        if (!dust.isEmpty()) {
             GameRegistry.addShapedRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, dustName)),
                     recipeGroup,
-                    ore,
-                    "T", "O", 'T', "craftingToolHardHammer", 'O', eventName);
+                    dust,
+                    "T", "O", 'T', "craftingToolHardHammer", 'O', name);
         }
 
-        // GRINDER: oreLapis + 1xWATER => 12xminecraft:dye@11 3xic2:dust#lapis
-        // GRINDER: oreSodalite + 1xWATER => 12xgregtechnod:dust_sodalite 3xgregtechmod:dust_aluminium
-        // GRINDER: oreRedstone + 1xWATER => 15xminecraft:redstone 2xgregtechmod:smalldust_glowstone
-        // GRINDER: oreQuartz + 1xWATER => 1xminecraft:quartz (3xoreNetherQuartz / 3xminecraft:quartz) 1xic2:dust#netherrack
-        // GRINDER: oreIron + 1xWATER => 2xic2:dust#iron 1xic2:dust#small_tin 1xgregtechmod:smalldust_nickel
-        // PULVERIZER: oreLapis => 12xminecraft:dye@11 1xic2:dust#lapis 10 OVERWRITE
-        // PULVERIZER: oreSodalite => 12xgregtechmod:dust_sodalite 1xgregtechmod:dust_aluminium 10
-        // PULVERIZER: oreRedstone => 10xminecraft:redstone 1xminecraft:glowstone_dust 10 OVERWRITE
-        // PULVERIZER: oreQuartz => (3xoreNetherQuartz / 3xminecraft:quartz) 1xic2:dust#netherrack 10
-        // PULVERIZER: oreIron => 2xic2:dust#iron 1xgregtechmod:dust_nickel 10
-        // BLAST: oreIron + dustCalcite => 3xminecraft:iron_ingot 1xgregtechmod:dust_dark_ashes
+        if (name.equals("orePyrite")) {
+            ModHandler.addInductionSmelterRecipe(stack, new ItemStack(Blocks.SAND), new ItemStack(Items.IRON_INGOT), ModHandler.SLAG, 3000, 10);
+            ModHandler.addInductionSmelterRecipe(stack, ModHandler.SLAG_RICH, new ItemStack(Items.IRON_INGOT, 2), ModHandler.SLAG, 3000, 95);
+        }
 
-        /*if (eventName.equals("oreNikolite")) {
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.getFirstOre("dustNikolite", (dense || nether) ? 18 : 12), GT_Metitem_SmallDust.instance.getStack(36, (dense || nether) ? 2 : 1), null, ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.getFirstOre("dustNikolite", (dense || nether) ? 15 : 10), GT_Metitem_Dust.instance.getStack(36, 1), 0, false);
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);*/
-        /*if (eventName.equals("oreIron")) {
-            //ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustIron", (dense || nether) ? 3 : 2), GT_OreDictUnificator.get("dustNickel", 1), 0, false);
-            //GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustIron", (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(244, 1), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-            //GregTech_API.sRecipeAdder.addBlastRecipe(stack, GT_Metitem_Cell.instance.getStack(33, 1), GT_OreDictUnificator.get("ingotRefinedIron", (dense || nether) ? 5 : 3), ModHandler.getEmptyCell(1), 100, 128, 1000);
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-        } else if (eventName.equals("oreGold")) {
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustGold", (dense || nether) ? 3 : 2), GT_OreDictUnificator.get("dustCopper", 1), 0, false);
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_OreDictUnificator.get("ingotGold", 1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustGold", (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(243, 1), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), GT_OreDictUnificator.get("dustGold", (dense || nether) ? 5 : 3), GT_Metitem_SmallDust.instance.getStack(243, 1), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(32, 1), GT_OreDictUnificator.get("dustGold", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustCopper", 1), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-            ModHandler.addValuableOre(item.itemID, aMeta, 4);
-        } else if (eventName.equals("oreSilver")) {
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustSilver", (dense || nether) ? 3 : 2), GT_OreDictUnificator.get("dustLead", 1), 0, false);
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_OreDictUnificator.get("ingotSilver", 1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustSilver", (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(23, 2), null, ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), GT_OreDictUnificator.get("dustSilver", (dense || nether) ? 5 : 3), GT_Metitem_SmallDust.instance.getStack(23, 2), null, ModHandler.getEmptyCell(1));
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-        } else if (eventName.equals("oreLead")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(23, (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustSilver", 1), 0, false);
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_OreDictUnificator.get("ingotLead", 1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(23, (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(246, 1), null, ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), GT_OreDictUnificator.get("dustLead", (dense || nether) ? 4 : 2), GT_Metitem_Dust.instance.getStack(246, 1), null, ModHandler.getEmptyCell(1));
-        } else if (eventName.equals("oreSilverLead") || eventName.equals("oreGalena")) {
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustGalena", (dense || nether) ? 3 : 2), GT_OreDictUnificator.get("dustSulfur", 1), (dense || nether) ? 100 : 50, false);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustGalena", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustSulfur", (dense || nether) ? 2 : 1), null, ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), GT_OreDictUnificator.get("dustGalena", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustSulfur", (dense || nether) ? 2 : 1), GT_OreDictUnificator.get("dustSilver", (dense || nether) ? 2 : 1), ModHandler.getEmptyCell(1));
-            ModHandler.addValuableOre(item.itemID, aMeta, 4);
-        } else if (eventName.equals("oreDiamond")) {
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, new ItemStack(Item.diamond, (dense || nether) ? 2 : 1), GT_Metitem_SmallDust.instance.getStack(36, 6), ModHandler.getIC2Item("hydratedCoalDust", 1), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(36, (dense || nether) ? 3 : 2), GT_OreDictUnificator.get("dustCoal", 1), 0, true);
-            ModHandler.addValuableOre(item.itemID, aMeta, 5);
-        } else if (eventName.equals("oreEmerald")) {
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, new ItemStack(Item.emerald, (dense || nether) ? 2 : 1), GT_Metitem_SmallDust.instance.getStack(35, (dense || nether) ? 12 : 6), GT_Metitem_SmallDust.instance.getStack(37, 2), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(35, (dense || nether) ? 3 : 2), GT_Metitem_Dust.instance.getStack(37, 1), 0, true);
-            ModHandler.addValuableOre(item.itemID, aMeta, 5);
-        } else if (eventName.equals("oreRuby")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 4);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("gemRuby", (dense || nether) ? 2 : 1), GT_Metitem_SmallDust.instance.getStack(32, (dense || nether) ? 12 : 6), GT_Metitem_SmallDust.instance.getStack(54, 2), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(32, (dense || nether) ? 3 : 2), GT_Metitem_Dust.instance.getStack(54, 1), 0, true);
-        } else if (eventName.equals("oreSapphire")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 4);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("gemSapphire", (dense || nether) ? 2 : 1), GT_Metitem_SmallDust.instance.getStack(33, (dense || nether) ? 12 : 6), GT_Metitem_SmallDust.instance.getStack(34, 2), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(33, (dense || nether) ? 3 : 2), GT_Metitem_Dust.instance.getStack(34, 1), 0, true);
-        } else if (eventName.equals("oreGreenSapphire")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 4);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("gemGreenSapphire", (dense || nether) ? 2 : 1), GT_Metitem_SmallDust.instance.getStack(34, (dense || nether) ? 12 : 6), GT_Metitem_SmallDust.instance.getStack(33, 2), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(34, (dense || nether) ? 3 : 2), GT_Metitem_Dust.instance.getStack(33, 1), 0, true);
-        } else if (eventName.equals("oreOlivine")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 4);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Material.instance.getStack(37, (dense || nether) ? 2 : 1), GT_Metitem_SmallDust.instance.getStack(37, (dense || nether) ? 12 : 6), GT_Metitem_SmallDust.instance.getStack(35, 2), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(37, (dense || nether) ? 3 : 2), GT_Metitem_Dust.instance.getStack(35, 1), 0, true);
-        } else if (eventName.equals("oreCoal")) {
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, new ItemStack(Item.coal, (dense || nether) ? 2 : 1), GT_OreDictUnificator.get("dustCoal", (dense || nether) ? 2 : 1), GT_OreDictUnificator.get("dustSmallThorium", 1), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustCoal", (dense || nether) ? 3 : 2), GT_OreDictUnificator.get("dustThorium", 1), 0, true);
-            ModHandler.addValuableOre(item.itemID, aMeta, 1);
-        } else if (eventName.equals("oreCopper")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustCopper", (dense || nether) ? 3 : 2), GT_OreDictUnificator.get("dustGold", 1), 0, false);
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_OreDictUnificator.get("ingotCopper", 1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustCopper", (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(242, 1), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(32, 1), GT_OreDictUnificator.get("dustCopper", (dense || nether) ? 5 : 3), GT_Metitem_SmallDust.instance.getStack(242, 1), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), GT_OreDictUnificator.get("dustCopper", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustGold", 1), null, ModHandler.getEmptyCell(1));
-        } else if (eventName.equals("oreTin")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustTin", (dense || nether) ? 3 : 2), GT_OreDictUnificator.get("dustIron", 1), 0, false);
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_OreDictUnificator.get("ingotTin", 1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustTin", (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(241, 1), GT_Metitem_SmallDust.instance.getStack(24, 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(32, 1), GT_OreDictUnificator.get("dustTin", (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(241, 1), GT_Metitem_Dust.instance.getStack(24, 1), ModHandler.getEmptyCell(1));
-        } else if (eventName.equals("oreZinc")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 2);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(24, (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(244, 2), null, ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(32, 1), GT_Metitem_Dust.instance.getStack(24, (dense || nether) ? 6 : 3), GT_Metitem_SmallDust.instance.getStack(244, 2), null, ModHandler.getEmptyCell(1));
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_Metitem_Material.instance.getStack(24, 1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(24, (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustTin", 1), 0, false);
-        } else if (eventName.equals("oreCassiterite")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustTin", (dense || nether) ? 6 : 3), GT_OreDictUnificator.get("dustTin", 1), 0, false);
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_OreDictUnificator.get("ingotTin", 2));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustTin", (dense || nether) ? 10 : 5), null, null, ModHandler.getEmptyCell(1));
-        } else if (eventName.equals("oreTetrahedrite")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustTetrahedrite", GT_OreDictUnificator.get("dustCopper", (dense || nether) ? 4 : 2), (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustZinc", 1), 0, false);
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_OreDictUnificator.get("ingotCopper", 1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(32, 1), GT_OreDictUnificator.get("dustTetrahedrite", GT_OreDictUnificator.get("dustCopper", (dense || nether) ? 5 : 3), (dense || nether) ? 5 : 3), GT_OreDictUnificator.get("dustSmallZinc", 2), GT_OreDictUnificator.get("dustSmallAntimony", GT_OreDictUnificator.get("dustSmallIron", 2), 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustTetrahedrite", GT_OreDictUnificator.get("dustCopper", (dense || nether) ? 4 : 2), (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustSmallZinc", 2), GT_OreDictUnificator.get("dustSmallAntimony", GT_OreDictUnificator.get("dustSmallIron", 2), 1), ModHandler.getEmptyCell(1));
-        } else if (eventName.equals("oreAntimony")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustAntimony", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustZinc", 1), 0, false);
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_OreDictUnificator.get("ingotAntimony", 1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustAntimony", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustSmallZinc", 2), GT_OreDictUnificator.get("dustSmallIron", 2), ModHandler.getEmptyCell(1));
-        } else if (eventName.equals("oreIridium")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 10);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, ModHandler.getIC2Item("iridiumOre", (dense || nether) ? 3 : 2, GT_OreDictUnificator.getFirstOre("dustIridium", (dense || nether) ? 3 : 2)), GT_Metitem_SmallDust.instance.getStack(27, 2), null, ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), ModHandler.getIC2Item("iridiumOre", (dense || nether) ? 3 : 2, GT_OreDictUnificator.getFirstOre("dustIridium", (dense || nether) ? 3 : 2)), GT_Metitem_Dust.instance.getStack(27, 1), null, ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, ModHandler.getIC2Item("iridiumOre", (dense || nether) ? 3 : 2, GT_OreDictUnificator.getFirstOre("dustIridium", (dense || nether) ? 3 : 2)), GT_Metitem_Dust.instance.getStack(27, 1), 0, true);
-        } else if (eventName.equals("oreCooperite") || eventName.equals("oreSheldonite")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 10);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(27, (dense || nether) ? 4 : 2), GT_Metitem_Dust.instance.getStack(28, 1), GT_OreDictUnificator.get("nuggetIridium", 2), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), GT_Metitem_Dust.instance.getStack(27, (dense || nether) ? 6 : 3), GT_Metitem_Dust.instance.getStack(28, 1), GT_OreDictUnificator.get("nuggetIridium", 2), ModHandler.getEmptyCell(1));
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_Metitem_Material.instance.getStack(27, 1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(27, (dense || nether) ? 4 : 2), ModHandler.getIC2Item("iridiumOre", 1, GT_OreDictUnificator.getFirstOre("dustIridium", 1)), 0, true);
-        } else if (eventName.equals("orePlatinum")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 7);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(27, (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("nuggetIridium", 2), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), GT_Metitem_Dust.instance.getStack(27, (dense || nether) ? 6 : 3), GT_OreDictUnificator.get("nuggetIridium", 2), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_Metitem_Material.instance.getStack(27, 1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(27, (dense || nether) ? 4 : 2), ModHandler.getIC2Item("iridiumOre", 1, GT_OreDictUnificator.getFirstOre("dustIridium", 1)), 0, false);
-        } else if (eventName.equals("oreNickel")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 4);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(28, (dense || nether) ? 6 : 3), GT_Metitem_SmallDust.instance.getStack(27, 1), GT_Metitem_SmallDust.instance.getStack(243, 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(16, 1), GT_Metitem_Dust.instance.getStack(28, (dense || nether) ? 6 : 3), GT_Metitem_Dust.instance.getStack(27, 1), null, ModHandler.getEmptyCell(1));
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GT_Metitem_Material.instance.getStack(28, 1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(28, (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustTin", 1), 0, false);
-        } else if (eventName.equals("orePyrite")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 1);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(3, 5), GT_Metitem_Dust.instance.getStack(8, 2), null, ModHandler.getEmptyCell(1));
-            // replace BF recipes that take calcium carbonate with calcite dust to <output1> and dark ashes
-            GregTech_API.sRecipeAdder.addBlastRecipe(stack, GT_Metitem_Cell.instance.getStack(33, 1), GT_OreDictUnificator.get("ingotRefinedIron", 2), ModHandler.getEmptyCell(1), 100, 128, 1500);
-            ModHandler.addInductionSmelterRecipe(stack, new ItemStack(Block.sand, 1), new ItemStack(Item.ingotIron, 1), ModHandler.getTEItem("slagRich", 1), 300, 10);
-            ModHandler.addInductionSmelterRecipe(stack, ModHandler.getTEItem("slagRich", 1), new ItemStack(Item.ingotIron, 2), ModHandler.getTEItem("slag", 1), 300, 95);
-            ModHandler.addOreToIngotSmeltingRecipe(stack, new ItemStack(Item.ingotIron, 1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(3, 5), GT_OreDictUnificator.get("dustIron", 1), 0, true);
-        } else if (eventName.equals("oreCinnabar")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(11, 5), GT_Metitem_SmallDust.instance.getStack(249, 2), GT_Metitem_SmallDust.instance.getStack(250, 1), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(11, 3), new ItemStack(Item.redstone, 1), 0, true);
-        } else if (eventName.equals("oreSphalerite")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 2);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(14, 5), GT_Metitem_Dust.instance.getStack(24, 1), GT_Metitem_SmallDust.instance.getStack(55, 1), ModHandler.getEmptyCell(1));
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, GT_Metitem_Cell.instance.getStack(32, 1), GT_Metitem_Dust.instance.getStack(14, 5), GT_Metitem_Dust.instance.getStack(24, 3), GT_Metitem_SmallDust.instance.getStack(55, 1), ModHandler.getEmptyCell(1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(14, 4), GT_Metitem_Dust.instance.getStack(24, 1), 0, true);
-        } else if (eventName.equals("oreAluminium") || eventName.equals("oreAluminum")) {
-            ModHandler.addValuableOre(item.itemID, aMeta, 2);
-            GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(18, (dense || nether) ? 6 : 3), GT_Metitem_SmallDust.instance.getStack(19, 1), null, ModHandler.getEmptyCell(1));
-            if (!dense && !nether)
-                ModHandler.addOreToIngotSmeltingRecipe(stack, GregTech_API.sConfiguration.addAdvConfig("blastfurnacerequirements", "aluminium", true) ? GT_OreDictUnificator.get("dustAluminium", 1) : GT_OreDictUnificator.get("ingotAluminium", 1));
-            ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(18, (dense || nether) ? 4 : 2), GT_Metitem_Dust.instance.getStack(19, 1), 0, true);
-        } else if (!eventName.equals("oreNaturalAluminium") && !eventName.equals("oreNaturalAluminum")) {
-            if (eventName.equals("oreSteel")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 4);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustSteel", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustSmallNickel", 2), null, ModHandler.getEmptyCell(1));
-                if (!dense && !nether)
-                    ModHandler.addOreToIngotSmeltingRecipe(stack, GregTech_API.sConfiguration.addAdvConfig("blastfurnacerequirements", "steel", true) ? GT_OreDictUnificator.get("dustSteel", 1) : GT_OreDictUnificator.get("ingotSteel", 1));
-                ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustSteel", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustNickel", 2), 0, true);
-            } else if (eventName.equals("oreTitan") || eventName.equals("oreTitanium")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 5);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(19, (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(18, 2), null, ModHandler.getEmptyCell(1));
-                if (!dense && !nether)
-                    ModHandler.addOreToIngotSmeltingRecipe(stack, GregTech_API.sConfiguration.addAdvConfig("blastfurnacerequirements", "titanium", true) ? GT_OreDictUnificator.get("dustTitanium", 1) : GT_OreDictUnificator.get("ingotTitanium", 1));
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(19, (dense || nether) ? 4 : 2), GT_Metitem_Dust.instance.getStack(18, 1), 0, true);
-            } else if (eventName.equals("oreChrome") || eventName.equals("oreChromium")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 10);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(20, (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(32, 1), null, ModHandler.getEmptyCell(1));
-                if (!dense && !nether)
-                    ModHandler.addOreToIngotSmeltingRecipe(stack, GregTech_API.sConfiguration.addAdvConfig("blastfurnacerequirements", "chrome", true) ? GT_OreDictUnificator.get("dustChrome", 1) : GT_OreDictUnificator.get("ingotChrome", 1));
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(20, (dense || nether) ? 4 : 2), GT_Metitem_Dust.instance.getStack(32, 1), 0, true);
-            } else if (eventName.equals("oreElectrum")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 5);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(21, (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(242, 1), GT_Metitem_SmallDust.instance.getStack(246, 1), ModHandler.getEmptyCell(1));
-                if (!dense && !nether)
-                    ModHandler.addOreToIngotSmeltingRecipe(stack, GT_Metitem_Material.instance.getStack(21, 1));
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Material.instance.getStack(21, (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustGold", 1), 0, false);
-            } else if (eventName.equals("oreTungsten") || eventName.equals("oreTungstate")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 4);
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(22, (dense || nether) ? 4 : 2), GT_Metitem_Dust.instance.getStack(12, 1), 0, true);
-                if (!dense && !nether)
-                    ModHandler.addOreToIngotSmeltingRecipe(stack, GregTech_API.sConfiguration.addAdvConfig("blastfurnacerequirements", "tungsten", true) ? GT_OreDictUnificator.get("dustTungsten", 1) : GT_OreDictUnificator.get("ingotTungsten", 1));
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(22, (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(241, 3), GT_Metitem_SmallDust.instance.getStack(12, 3), ModHandler.getEmptyCell(1));
-            } else if (eventName.equals("oreBauxite")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 2);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(17, (dense || nether) ? 8 : 4), GT_Metitem_Dust.instance.getStack(18, (dense || nether) ? 2 : 1), null, ModHandler.getEmptyCell(1));
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(17, (dense || nether) ? 8 : 4), GT_Metitem_Dust.instance.getStack(18, 1), 0, true);
-            } else if (eventName.equals("oreApatite")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 1);
-                ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.getFirstOre("gemApatite", (dense || nether) ? 16 : 8), GT_OreDictUnificator.get("dustPhosphorus", 1), 0, false);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.getFirstOre("gemApatite", (dense || nether) ? 24 : 12), GT_OreDictUnificator.get("dustPhosphorus", 1), null, ModHandler.getEmptyCell(1));
-            } else if (eventName.equals("oreSulfur")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 1);
-                ModHandler.addSmeltingRecipe(stack, GT_OreDictUnificator.get("dustSulfur", 3));
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(8, (dense || nether) ? 16 : 8), GT_OreDictUnificator.get("dustSulfur", 1), 0, false);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(8, (dense || nether) ? 20 : 10), null, null, ModHandler.getEmptyCell(1));
-            } else if (eventName.equals("oreSaltpeter")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 2);
-                ModHandler.addSmeltingRecipe(stack, GT_OreDictUnificator.get("dustSaltpeter", 3));
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(9, (dense || nether) ? 10 : 5), GT_OreDictUnificator.get("dustSaltpeter", 1), 0, false);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(9, (dense || nether) ? 14 : 7), null, null, ModHandler.getEmptyCell(1));
-            } else if (eventName.equals("orePhosphorite")) {
-                ModHandler.addSmeltingRecipe(stack, GT_OreDictUnificator.get("dustPhosphorus", 2));
-                ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustPhosphorus", (dense || nether) ? 6 : 3), GT_OreDictUnificator.get("dustPhosphorus", 1), 0, false);
-                ModHandler.addValuableOre(item.itemID, aMeta, 2);
-            } else if (eventName.equals("oreMagnesium")) {
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(13, (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(241, 2), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-                ModHandler.addValuableOre(item.itemID, aMeta, 2);
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(13, (dense || nether) ? 4 : 2), GT_Metitem_Dust.instance.getStack(28, 1), 0, false);
-            } else if (eventName.equals("oreManganese")) {
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(12, (dense || nether) ? 4 : 2), GT_Metitem_SmallDust.instance.getStack(241, 2), GT_Metitem_SmallDust.instance.getStack(28, 1), ModHandler.getEmptyCell(1));
-                ModHandler.addValuableOre(item.itemID, aMeta, 2);
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(12, (dense || nether) ? 4 : 2), GT_Metitem_Dust.instance.getStack(28, 1), 0, false);
-            } else if (eventName.equals("oreMonazit") || eventName.equals("oreMonazite")) {
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, new ItemStack(ModHandler.mForcicium.getItem(), (dense || nether) ? 20 : 10, ModHandler.mForcicium.getItemDamage()), GT_OreDictUnificator.get("dustThorium", 2), null, ModHandler.getEmptyCell(1));
-                ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            } else if (eventName.equals("oreFortronite")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 3);
-            } else if (eventName.equals("oreThorium")) {
-                ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustThorium", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustUranium", 1), 0, true);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustThorium", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustSmallUranium", 1), null, ModHandler.getEmptyCell(1));
-                ModHandler.addValuableOre(item.itemID, aMeta, 5);
-            } else if (eventName.equals("orePlutonium")) {
-                ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.get("dustPlutonium", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustUranium", 1), 0, true);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.get("dustPlutonium", (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustUranium", 1), null, ModHandler.getEmptyCell(1));
-                ModHandler.addValuableOre(item.itemID, aMeta, 15);
-            } else if (eventName.equals("oreCertusQuartz")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 4);
-                ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.getFirstOre("dustCertusQuartz", 5), GT_OreDictUnificator.getFirstOre("crystalCertusQuartz", 1), 0, true);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.getFirstOre("crystalCertusQuartz", 2), GT_OreDictUnificator.getFirstOre("dustCertusQuartz", 3), null, ModHandler.getEmptyCell(1));
-            } else if (eventName.equals("oreVinteum")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 3);
-                ModHandler.addPulverisationRecipe(stack, GT_OreDictUnificator.getFirstOre("dustVinteum", 2), GT_OreDictUnificator.getFirstOre("dustVinteum", 1), 0, true);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_OreDictUnificator.getFirstOre("dustVinteum", 3), null, null, ModHandler.getEmptyCell(1));
-            } else if (eventName.equals("orePotash")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 2);
-            } else if (eventName.equals("oreArdite")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 2);
-            } else if (eventName.equals("oreCobalt")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 2);
-            } else if (eventName.equals("oreUranium")) {
-                ModHandler.addValuableOre(item.itemID, aMeta, 5);
-                ModHandler.addPulverisationRecipe(stack, GT_Metitem_Dust.instance.getStack(16, (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustPlutonium", 1), 0, false);
-                GregTech_API.sRecipeAdder.addGrinderRecipe(stack, -1, GT_Metitem_Dust.instance.getStack(16, (dense || nether) ? 4 : 2), GT_OreDictUnificator.get("dustSmallPlutonium", 2), GT_OreDictUnificator.get("dustThorium", 1), ModHandler.getEmptyCell(1));
-            } else {
-                ModHandler.addValuableOre(item.itemID, aMeta, 1);
-                System.out.println("Ore Name: " + event.Name + " !!!Unknown Ore detected!!! Please report to GregTech Intergalactical for additional compatiblity. This is not an Error, it's just an Information. This Ore will still get added to the List of the IC2-Miner, but with a low Value.");
-            }
-        }*/
+        switch (name) {
+            case "oreSulfur":
+                GameRegistry.addSmelting(stack, StackUtil.copyWithSize(IC2Items.getItem("dust", "sulfur"), 3), 0);
+                break;
+            case "oreSaltpeter":
+                GameRegistry.addSmelting(stack, new ItemStack(BlockItems.Dust.SALTPETER.getInstance(), 3), 0);
+                break;
+            case "orePhosphorite":
+                GameRegistry.addSmelting(stack, new ItemStack(BlockItems.Dust.PHOSPHORUS.getInstance(), 2), 0);
+                break;
+        }
+
+        switch (name) {
+            case "oreIron":
+            case "orePyrite":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, Items.IRON_INGOT);
+                break;
+            case "oreGold":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, Items.GOLD_INGOT);
+                break;
+            case "oreSilver":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, IC2Items.getItem("ingot", "silver"));
+                break;
+            case "oreLead":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, IC2Items.getItem("ingot", "lead"));
+                break;
+            case "oreCopper":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, IC2Items.getItem("ingot", "copper"));
+                break;
+            case "oreTin":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, IC2Items.getItem("ingot", "tin"));
+                break;
+            case "oreZinc":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.ZINC.getInstance());
+                break;
+            case "oreCassiterite":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, StackUtil.copyWithSize(IC2Items.getItem("ingot", "tin"), 2));
+                break;
+            case "oreAntimony":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.ANTIMONY.getInstance());
+                break;
+            case "oreCooperite":
+            case "oreSheldonite":
+            case "orePlatinum":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.PLATINUM.getInstance());
+                break;
+            case "oreNickel":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.NICKEL.getInstance());
+                break;
+            case "oreAluminium":
+            case "oreAluminum":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, GregTechConfig.BLAST_FURNACE_REQUIREMENTS.aluminium ? BlockItems.Dust.ALUMINIUM.getInstance() : BlockItems.Ingot.ALUMINIUM.getInstance());
+                break;
+            case "oreSteel":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, GregTechConfig.BLAST_FURNACE_REQUIREMENTS.steel ? new ItemStack(BlockItems.Dust.STEEL.getInstance()) : IC2Items.getItem("ingot", "steel"));
+                break;
+            case "oreTitan":
+            case "oreTitanium":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, GregTechConfig.BLAST_FURNACE_REQUIREMENTS.titanium ? BlockItems.Dust.TITANIUM.getInstance() : BlockItems.Ingot.TITANIUM.getInstance());
+                break;
+            case "oreChrome":
+            case "oreChromium":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, GregTechConfig.BLAST_FURNACE_REQUIREMENTS.chrome ? BlockItems.Dust.CHROME.getInstance() : BlockItems.Ingot.CHROME.getInstance());
+                break;
+            case "oreElectrum":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.ELECTRUM.getInstance());
+                break;
+            case "oreTungsten":
+            case "oreTungstate":
+                ModHandler.addSmelterOreToIngotsRecipe(stack, GregTechConfig.BLAST_FURNACE_REQUIREMENTS.tungsten ? BlockItems.Dust.TUNGSTEN.getInstance() : BlockItems.Ingot.TUNGSTEN.getInstance());
+                break;
+        }
     }
 }

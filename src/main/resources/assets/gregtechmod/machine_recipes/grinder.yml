@@ -6,5 +6,530 @@
   fluid: water
   output:
     - item: minecraft:gold_nugget
-    - item: gregtechmod:dust_netherrack
+    - item: ic2:dust#netherrack
       count: 16
+- input:
+    ore: oreLapis
+  fluid: water
+  output:
+    - item: minecraft:dye
+      meta: 11
+      count: 12
+    - item: ic2:dust#lapis
+      count: 3
+- input:
+    ore: oreSodalite
+  fluid: water
+  output:
+    - item: gregtechmod:dust_sodalite
+      count: 12
+    - item: gregtechmod:dust_aluminium
+      count: 3
+- input:
+    ore: oreRedstone
+  fluid: water
+  output:
+    - item: minecraft:redstone
+      count: 15
+    - item: gregtechmod:smalldust_glowstone
+      count: 2
+- input:
+    ore: oreQuartz
+  fluid: water
+  output:
+    - item: minecraft:quartz
+    - ore: dustNetherQuartz
+      count: 3
+      fallback:
+        item: minecraft:quartz
+        count: 3
+    - item: ic2:dust#netherrack
+- input:
+    ore: oreIron
+  fluid: water
+  output:
+    - item: ic2:dust#iron
+      count: 2
+    - item: ic2:dust#small_tin
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: oreGold
+  fluid: water
+  output:
+    - item: ic2:dust#gold
+      count: 2
+    - item: ic2:dust#small_copper
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: oreGold
+  fluid: mercury
+  output:
+    - item: ic2:dust#gold
+      count: 3
+    - item: ic2:dust#small_copper
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: oreGold
+  fluid: sodium_persulfate
+  output:
+    - item: ic2:dust#gold
+      count: 2
+    - item: ic2:dust#copper
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: oreSilver
+  fluid: water
+  output:
+    - item: ic2:dust#silver
+      count: 2
+    - item: ic2:dust#lead
+      count: 2
+- input:
+    ore: oreSilver
+  fluid: mercury
+  output:
+    - item: ic2:dust#silver
+      count: 3
+    - item: ic2:dust#lead
+      count: 2
+- input:
+    ore: oreLead
+  fluid: water
+  output:
+    - item: ic2:dust#lead
+      count: 2
+    - item: ic2:dust#small_silver
+- input:
+    ore: oreLead
+  fluid: mercury
+  output:
+    - item: ic2:dust#lead
+      count: 2
+    - item: ic2:dust#silver
+- input:
+    ores:
+      - oreSilverLead
+      - oreGalena
+  fluid: water
+  output:
+    - item: gregtechmod:dust_galena
+      count: 2
+    - item: ic2:dust#sulfur
+- input:
+    ores:
+      - oreSilverLead
+      - oreGalena
+  fluid: mercury
+  output:
+    - item: gregtechmod:dust_galena
+      count: 2
+    - item: ic2:dust#sulfur
+    - item: ic2:dust#silver
+- input:
+    ore: oreDiamond
+  fluid: water
+  output:
+    - item: minecraft:diamond
+    - item: gregtechmod:smalldust_diamond
+      count: 6
+    - item: ic2:dust#coal_fuel
+- input:
+    ore: oreEmerald
+  fluid: water
+  output:
+    - item: minecraft:emerald
+    - item: gregtechmod:smalldust_emerald
+      count: 6
+    - item: gregtechmod:smalldust_olivine
+      count: 2
+- input:
+    ore: oreRuby
+  fluid: water
+  output:
+    - item: gregtechmod:ruby
+    - item: gregtechmod:smalldust_ruby
+      count: 6
+    - item: gregtechmod:smalldust_red_garnet
+      count: 2
+- input:
+    ore: oreSapphire
+  fluid: water
+  output:
+    - item: gregtechmod:sapphire
+    - item: gregtechmod:smalldust_sapphire
+      count: 6
+    - item: gregtechmod:smalldust_green_sapphire
+      count: 2
+- input:
+    ore: oreGreenSapphire
+  fluid: water
+  output:
+    - item: gregtechmod:green_sapphire
+    - item: gregtechmod:smalldust_green_sapphire
+      count: 6
+    - item: gregtechmod:smalldust_sapphire
+      count: 2
+- input:
+    ore: oreOlivine
+  fluid: water
+  output:
+    - item: gregtechmod:olivine
+    - item: gregtechmod:smalldust_olivine
+      count: 6
+    - item: gregtechmod:smalldust_emerald
+      count: 2
+- input:
+    ore: oreCoal
+  fluid: water
+  output:
+    - item: minecraft:coal
+    - item: ic2:dust#coal
+    - item: gregtechmod:smalldust_thorium
+- input:
+    ore: oreCopper
+  fluid: water
+  output:
+    - item: ic2:dust#copper
+      count: 2
+    - item: ic2:dust#small_gold
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: oreCopper
+  fluid: sodium_persulfate
+  output:
+    - item: ic2:dust#copper
+      count: 3
+    - item: ic2:dust#small_gold
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: oreCopper
+  fluid: mercury
+  output:
+    - item: ic2:dust#copper
+      count: 2
+    - item: ic2:dust#gold
+- input:
+    ore: oreTin
+  fluid: water
+  output:
+    - item: ic2:dust#tin
+      count: 2
+    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_zinc
+- input:
+    ore: oreTin
+  fluid: sodium_persulfate
+  output:
+    - item: ic2:dust#tin
+      count: 2
+    - item: ic2:dust#small_iron
+    - item: gregtechmod:dust_zinc
+- input:
+    ore: oreZinc
+  fluid: water
+  output:
+    - item: gregtechmod:dust_zinc
+      count: 2
+    - item: ic2:dust#small_tin
+      count: 2
+- input:
+    ore: oreZinc
+  fluid: sodium_persulfate
+  output:
+    - item: gregtechmod:dust_zinc
+      count: 3
+    - item: ic2:dust#small_tin
+      count: 2
+- input:
+    ore: oreCassiterite
+  fluid: water
+  output:
+    - item: ic2:dust#tin
+      count: 5
+- input:
+    ore: oreTetrahedrite
+  fluid: water
+  output:
+    - ore: dustTetrahedrite
+      count: 2
+      fallback:
+        item: ic2:dust#copper
+        count: 2
+    - item: gregtechmod:smalldust_zinc
+      count: 2
+    - item: gregtechmod:smalldust_antimony
+- input:
+    ore: oreTetrahedrite
+  fluid: sodium_persulfate
+  output:
+    - ore: dustTetrahedrite
+      count: 3
+      fallback:
+        item: ic2:dust#copper
+        count: 3
+    - item: gregtechmod:smalldust_zinc
+      count: 2
+    - item: gregtechmod:smalldust_antimony
+- input:
+    ore: oreAntimony
+  fluid: water
+  output:
+    - item: gregtechmod:dust_antimony
+      count: 2
+    - item: gregtechmod:smalldust_zinc
+      count: 2
+    - item: ic2:dust#small_iron
+      count: 2
+- input:
+    ore: oreIridium
+  fluid: water
+  output:
+    - item: ic2:misc_resource#iridium_ore
+      count: 2
+    - item: gregtechmod:smalldust_platinum
+      count: 2
+- input:
+    ore: oreIridium
+  fluid: mercury
+  output:
+    - item: ic2:misc_resource#iridium_ore
+      count: 2
+    - item: gregtechmod:dust_platinum
+      count: 2
+- input:
+    ores:
+      - oreCooperite
+      - oreSheldonite
+  fluid: water
+  output:
+    - item: gregtechmod:dust_platinum
+      count: 2
+    - item: gregtechmod:dust_nickel
+    - item: ic2:misc_resource#iridium_shard
+      count: 2
+- input:
+    ores:
+      - oreCooperite
+      - oreSheldonite
+  fluid: mercury
+  output:
+    - item: gregtechmod:dust_platinum
+      count: 3
+    - item: gregtechmod:dust_nickel
+    - item: ic2:misc_resource#iridium_shard
+      count: 2
+- input:
+    ore: orePlatinum
+  fluid: water
+  output:
+    - item: gregtechmod:dust_platinum
+      count: 2
+    - item: ic2:misc_resource#iridium_shard
+      count: 2
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: orePlatinum
+  fluid: mercury
+  output:
+    - item: gregtechmod:dust_platinum
+      count: 3
+    - item: ic2:misc_resource#iridium_shard
+      count: 2
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: oreNickel
+  fluid: water
+  output:
+    - item: gregtechmod:dust_nickel
+      count: 3
+    - item: gregtechmod:smalldust_platinum
+    - item: ic2:dust#small_copper
+- input:
+    ore: oreNickel
+  fluid: mercury
+  output:
+    - item: gregtechmod:dust_nickel
+      count: 3
+    - item: gregtechmod:dust_platinum
+- input:
+    ore: orePyrite
+  fluid: water
+  output:
+    - item: gregtechmod:dust_pyrite
+      count: 5
+    - item: ic2:dust#sulfur
+      count: 2
+- input:
+    ore: oreCinnabar
+  fluid: water
+  output:
+    - item: gregtechmod:dust_cinnabar
+      count: 5
+    - item: gregtechmod:smalldust_redstone
+      count: 2
+    - item: gregtechmod:smalldust_glowstone
+- input:
+    ore: oreSphalerite
+  fluid: water
+  output:
+    - item: gregtechmod:dust_sphalerite
+      count: 5
+    - item: gregtechmod:dust_zinc
+    - item: gregtechmod:smalldust_yellow_garnet
+- input:
+    ore: oreSphalerite
+  fluid: sodium_persulfate
+  output:
+    - item: gregtechmod:dust_sphalerite
+      count: 5
+    - item: gregtechmod:dust_zinc
+      count: 3
+    - item: gregtechmod:smalldust_yellow_garnet
+- input:
+    ores:
+      - oreAluminium
+      - oreAluminum
+  fluid: water
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 3
+    - item: gregtechmod:smalldust_titanium
+- input:
+    ore: oreSteel
+  fluid: water
+  output:
+    - item: gregtechmod:dust_steel
+      count: 2
+    - item: gregtechmod:smalldust_nickel
+      count: 2
+- input:
+    ores:
+      - oreTitan
+      - oreTitanium
+  fluid: water
+  output:
+    - item: gregtechmod:dust_titanium
+      count: 2
+    - item: gregtechmod:smalldust_aluminium
+      count: 2
+- input:
+    ores:
+      - oreChrome
+      - oreChromium
+  fluid: water
+  output:
+    - item: gregtechmod:dust_chrome
+      count: 2
+    - item: gregtechmod:smalldust_ruby
+- input:
+    ore: oreElectrum
+  fluid: water
+  output:
+    - item: gregtechmod:dust_electrum
+      count: 2
+    - item: ic2:dust#small_gold
+    - item: ic2:dust#small_silver
+- input:
+    ores:
+      - oreTungsten
+      - oreTungstate
+  fluid: water
+  output:
+    - item: gregtechmod:dust_electrum
+      count: 2
+    - item: ic2:dust#small_iron
+      count: 3
+    - item: gregtechmod:smalldust_manganese
+      count: 3
+- input:
+    ore: oreBauxite
+  fluid: water
+  output:
+    - item: gregtechmod:dust_bauxite
+      count: 4
+    - item: gregtechmod:dust_aluminium
+- input:
+    ore: oreApatite
+  fluid: water
+  output:
+    - ore: gemApatite
+      count: 12
+    - item: gregtechmod:dust_phosphorus
+- input:
+    ore: oreSulfur
+  fluid: water
+  output:
+    - item: ic2:dust#sulfur
+      count: 10
+- input:
+    ore: oreSaltpeter
+  fluid: water
+  output:
+    - item: gregtechmod:dust_saltpeter
+      count: 7
+- input:
+    ore: oreMagnesium
+  fluid: water
+  output:
+    - item: gregtechmod:dust_magnesium
+      count: 2
+    - item: ic2:dust#small_iron
+      count: 2
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ore: oreManganese
+  fluid: water
+  output:
+    - item: gregtechmod:dust_manganese
+      count: 2
+    - item: ic2:dust#small_iron
+      count: 2
+    - item: gregtechmod:smalldust_nickel
+- input:
+    ores:
+      - oreMonazit
+      - oreMonazite
+  fluid: water
+  output:
+    - item: mffs:forcicium
+      count: 10
+    - item: gregtechmod:dust_thorium
+      count: 2
+- input:
+    ore: oreThorium
+  fluid: water
+  output:
+    - item: gregtechmod:dust_thorium
+      count: 2
+    - item: gregtechmod:smalldust_uranium
+- input:
+    ore: orePlutonium
+  fluid: water
+  output:
+    - item: gregtechmod:dust_plutonium
+      count: 2
+    - item: gregtechmod:dust_uranium
+- input:
+    ore: oreCertusQuartz
+  fluid: water
+  output:
+    - ore: crystalCertusQuartz
+      count: 2
+    - ore: dustCertusQuartz
+      count: 3
+- input:
+    ore: oreUranium
+  fluid: water
+  output:
+    - item: gregtechmod:dust_uranium
+      count: 2
+    - item: gregtechmod:smalldust_plutonium
+      count: 2
+    - item: gregtechmod:dust_thorium
+- input:
+    ore: oreElectrotine
+  fluid: water
+  output:
+    - ore: dustElectrotine
+      count: 12
+    - item: ic2:dust#diamond

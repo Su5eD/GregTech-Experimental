@@ -7,6 +7,7 @@ gregtechmod.config.balance=Balance
 gregtechmod.config.machines=Machines
 gregtechmod.config.unification=Unification Targets
 gregtechmod.config.worldgen=World Generation
+gregtechmod.config.blastfurnacerequirements=Blast Furnace Requirements
 
 gregtechmod.item.armor.perk.rebreather.name=Rebreather
 gregtechmod.item.armor.perk.inertia_damper.name=Inertia Damper
