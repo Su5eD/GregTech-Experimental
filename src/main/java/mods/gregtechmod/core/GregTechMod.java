@@ -110,6 +110,7 @@ public final class GregTechMod {
     public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
         ItemStackModificator.init();
+        OreDictHandler.registerValuableOres();
     }
 
     @SubscribeEvent

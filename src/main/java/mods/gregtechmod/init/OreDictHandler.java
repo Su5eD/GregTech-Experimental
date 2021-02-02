@@ -2,6 +2,7 @@ package mods.gregtechmod.init;
 
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
+import ic2.core.init.OreValues;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
@@ -83,6 +84,8 @@ public class OreDictHandler {
         GTOreNames.put("ingotNetherQuartz", "craftingQuartz");
         GTOreNames.put("ingotCertusQuartz", "craftingQuartz");
 
+        valuableOres.put("soulsand", 1);
+        valuableOres.put("glowstone", 1);
         valuableOres.put("oreLapis", 3);
         valuableOres.put("oreSodalite", 3);
         valuableOres.put("oreRedstone", 3);
@@ -205,6 +208,11 @@ public class OreDictHandler {
                 "dyeLime", "dyeYellow", "dyeLightBlue", "dyeMagenta", "dyeOrange", "dyeWhite" };
         for (int i = 0; i < 16; i++)
             registerOre(new OreDictionary.OreRegisterEvent(dyes[i], new ItemStack(Item.dyePowder, 1, i)));*/
+    }
+
+    public static void registerValuableOres() {
+        valuableOres.forEach((key, value) -> OreDictionary.getOres(key)
+                        .forEach(stack -> OreValues.add(stack, value)));
     }
 
     @SubscribeEvent

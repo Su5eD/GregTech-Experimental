@@ -99,6 +99,7 @@ public class OreDictRegistrar {
 
         GregTechAPI.logger.debug("Adding vanilla items to the Ore Dictionary");
 
+        registerOre("soulsand", Blocks.SOUL_SAND);
         registerOre("chunkLazurite", Blocks.LAPIS_BLOCK);
         registerOre("stoneObsidian", Blocks.OBSIDIAN);
         registerOre("stoneMossy", Blocks.MOSSY_COBBLESTONE);
