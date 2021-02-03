@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Su5eD/GregTech-Experimental/blob/forge-1.12.2/src/main/resources/GTE_Logo_medium.png" align="center"/> 
+  <img src="https://raw.githubusercontent.com/Su5eD/GregTech-Experimental/forge-1.12.2/src/main/resources/GTE_Logo_medium.png" align="center"/> 
 </p>
 <p align="center">
   <a href="https://github.com/Su5eD/GregTech-Experimental/actions">
@@ -38,7 +38,7 @@ So far, there have been many attemps to recreate GT3, but none of them had all t
 ## Development Status
 GTE is currently in early development, which is split into 2 main phases - the first one consists of adding the base game mechanics and
 materials, and the second one involves adding all the machines. Progress can be tracked under the 
-[Projects](https://github.com/Su5eD/GregTech-Experimental/projects) tab. If you have qny questions, join us on discord
+[Projects](https://github.com/Su5eD/GregTech-Experimental/projects) tab. If you have any questions, use Discussions or Discord.
 
 ## Documentation
 All documentation is available on the [wiki](https://github.com/Su5eD/GregTech-Experimental/wiki)
