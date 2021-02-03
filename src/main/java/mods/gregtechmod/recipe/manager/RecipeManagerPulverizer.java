@@ -14,12 +14,12 @@ import java.util.Map;
 
 public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverizer> {
     @Override
-    public void addRecipe(IRecipePulverizer recipe, boolean overwrite) {
+    public boolean addRecipe(IRecipePulverizer recipe, boolean overwrite) {
         overwrite |= recipe.overwrite();
-        super.addRecipe(recipe, overwrite);
         for (ItemStack input : recipe.getInput().getMatchingInputs()) {
             addPulverisationRecipe(input, recipe.getPrimaryOutput(), recipe.getSecondaryOutput(), recipe.getChance(), overwrite);
         }
+        return super.addRecipe(recipe, overwrite);
     }
 
     private static void addPulverisationRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {

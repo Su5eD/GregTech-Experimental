@@ -5,11 +5,11 @@ import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import java.util.SortedSet;
 
 public interface IGtRecipeManager<RI, I, R extends IGtMachineRecipe<RI, ?>> {
-    default void addRecipe(R recipe) {
-        addRecipe(recipe, false);
+    default boolean addRecipe(R recipe) {
+       return addRecipe(recipe, false);
     }
 
-    void addRecipe(R recipe, boolean overwrite);
+    boolean addRecipe(R recipe, boolean overwrite);
 
     /**
      * Checks if a recipe exists for the target input without checking the stacksize

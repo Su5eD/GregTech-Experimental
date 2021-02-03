@@ -8,6 +8,7 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.*;
@@ -56,22 +57,22 @@ public class RecipeLoader {
 
             GtRecipes.industrial_centrifuge = new RecipeManagerCentrifuge();
             RecipeLoader.parseRecipe("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
-                    .ifPresent(recipes -> recipes.forEach(GtRecipes.industrial_centrifuge::addRecipe));
+                    .ifPresent(recipes -> registerRecipes("industrial_centrifuge", recipes, GtRecipes.industrial_centrifuge));
             GtRecipes.assembler = new RecipeManagerAssembler();
             RecipeLoader.parseRecipe("assembler", RecipeAssembler.class, null)
-                    .ifPresent(recipes -> recipes.forEach(GtRecipes.assembler::addRecipe));
+                    .ifPresent(recipes -> registerRecipes("assembler", recipes, GtRecipes.assembler));
 
             GtRecipes.pulverizer = new RecipeManagerPulverizer();
             parseRecipe("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
-                    .ifPresent(recipes -> recipes.forEach(GtRecipes.pulverizer::addRecipe));
+                    .ifPresent(recipes -> registerRecipes("pulverizer", recipes, GtRecipes.pulverizer));
 
             GtRecipes.grinder = new RecipeManagerGrinder();
             parseRecipe("grinder", RecipeGrinder.class, RecipeFilter.Energy.class)
-                    .ifPresent(recipes -> recipes.forEach(GtRecipes.grinder::addRecipe));
+                    .ifPresent(recipes -> registerRecipes("grinder", recipes, GtRecipes.grinder));
 
             GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
             parseRecipe("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
-                    .ifPresent(recipes -> recipes.forEach(GtRecipes.blastFurnace::addRecipe));
+                    .ifPresent(recipes -> registerRecipes("blast_furnace", recipes, GtRecipes.blastFurnace));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,5 +114,14 @@ public class RecipeLoader {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static <T extends IGtMachineRecipe<?, ?>> void registerRecipes(String name, Collection<? extends T> recipes, IGtRecipeManager<?, ?, T> manager) {
+        int total = recipes.size();
+        long successful = recipes.stream()
+                .map(manager::addRecipe)
+                .filter(Boolean::booleanValue)
+                .count();
+        GregTechAPI.logger.info("Loaded "+successful+" out of "+total+" recipes for "+name);
     }
 }
