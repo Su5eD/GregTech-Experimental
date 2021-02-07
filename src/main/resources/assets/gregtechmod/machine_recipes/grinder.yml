@@ -13,7 +13,7 @@
   fluid: water
   output:
     - item: minecraft:dye
-      meta: 11
+      meta: 4
       count: 12
     - item: ic2:dust#lapis
       count: 3

@@ -7,9 +7,9 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 
 public interface IRecipeFactory {
-    IRecipeCentrifuge makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration);
+    IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration);
 
-    default IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAssemblerRecipe(IRecipeIngredient input, ItemStack output, double energyCost, int duration) {
+    default IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAssemblerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
         return makeAssemblerRecipe(input, null, output, duration, energyCost);
     }
 
@@ -24,8 +24,22 @@ public interface IRecipeFactory {
     IRecipeGrinder makeGrinderRecipe(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output, int duration);
 
     default IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, int heat) {
-        return makeBlastFurnaceRecipe(input, output, duration, 128, heat);
+        return makeBlastFurnaceRecipe(input, output, duration, 128, heat, false);
     }
 
-    IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost, int heat);
+    IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost, int heat, boolean universal);
+
+    default IRecipeCellular makeElectrolyzerRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration) {
+        return makeElectrolyzerRecipe(input, outputs, cells, duration, 128);
+    }
+
+    IRecipeCellular makeElectrolyzerRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration, double energyCost);
+
+    IGtMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeCannerRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost);
+
+    IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost);
+
+    IGtMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeImplosionRecipe(IRecipeIngredient input, int tnt, List<ItemStack> output);
+
+    IGtMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillReicpe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
 }

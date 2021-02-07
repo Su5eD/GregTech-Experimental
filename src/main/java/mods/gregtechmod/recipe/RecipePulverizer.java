@@ -18,7 +18,7 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     private final boolean overwrite;
 
     private RecipePulverizer(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite) {
-        super(input, output, 3, 300 * input.getCount());
+        super(input, output, 300 * input.getCount(), 3);
         this.chance = chance;
         this.overwrite = overwrite;
     }

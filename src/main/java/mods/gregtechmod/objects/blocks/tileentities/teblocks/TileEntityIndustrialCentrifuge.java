@@ -12,10 +12,10 @@ import ic2.core.ref.ItemName;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
+import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
-import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
+import mods.gregtechmod.api.recipe.manager.IRecipeManagerCellular;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTankProcessable;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityGTMachine;
@@ -39,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Set;
 
-public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCentrifuge, IRecipeManagerCentrifuge> {
+public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCellular, IRecipeManagerCellular> {
 
     public InvSlotConsumable cellSlot;
     public Fluids.InternalFluidTank tank;
@@ -69,7 +69,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
     }
 
     @Override
-    public void consumeInput(IRecipeCentrifuge recipe) {
+    public void consumeInput(IRecipeCellular recipe) {
         IRecipeIngredient ingredient = recipe.getInput();
         if (ingredient instanceof IRecipeIngredientFluid) {
             ItemStack input = this.inputSlot.get();
@@ -150,10 +150,10 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
     }
 
     @Override
-    public IRecipeCentrifuge getRecipe() {
+    public IRecipeCellular getRecipe() {
         ItemStack stack = this.inputSlot.get();
         int cells = this.cellSlot.get().getCount();
-        IRecipeCentrifuge recipe = this.recipeManager.getRecipeFor(stack, cells);
+        IRecipeCellular recipe = this.recipeManager.getRecipeFor(stack, cells);
         if (recipe == null) {
             FluidStack fluidInTank = this.tank.getFluid();
             recipe = this.recipeManager.getRecipeFor(fluidInTank, cells);
@@ -162,7 +162,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
                 FluidStack fluidContained = FluidUtil.getFluidContained(stack);
                 if (fluidContained != null && fluidContained.isFluidEqual(fluidInTank)) {
                     fluidContained.amount = fluidContained.amount * stack.getCount() + this.tank.getFluidAmount();
-                    IRecipeCentrifuge availableRecipe = this.recipeManager.getRecipeFor(fluidContained);
+                    IRecipeCellular availableRecipe = this.recipeManager.getRecipeFor(fluidContained);
                     if (availableRecipe != null) {
                         IRecipeIngredient input = availableRecipe.getInput();
                         if (stack.getItem() instanceof ItemFluidCell) cells += input.getCount() - this.tank.getFluidAmount() / Fluid.BUCKET_VOLUME;

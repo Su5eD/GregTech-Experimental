@@ -19,3 +19,57 @@
     - item: gregtechmod:dust_dark_ashes
   heat: 1500
   duration: 500
+- input:
+    - ore: dustSteel
+  output:
+    - item: ic2:ingot#steel
+  heat: 1000
+  duration: 100
+  universal: true
+- input:
+    - ore: dustChrome
+  output:
+    - item: gregtechmod:ingot_chrome
+  heat: 1700
+  duration: 800
+- input:
+    - ore: dustTitanium
+  output:
+    - item: gregtechmod:ingot_titanium
+  heat: 1500
+  duration: 1000
+- input:
+    - ores:
+        - dustAluminium
+        - dustAluminum
+  output:
+    - item: gregtechmod:ingot_aluminium
+  heat: 1700
+  duration: 200
+  universal: true
+- input:
+    - ore: dustTungsten
+  output:
+    - item: gregtechmod:ingot_tungsten
+  heat: 2500
+  duration: 2000
+- input:
+    - ores:
+        - dustSilverLead
+        - dustGalena
+      count: 2
+  output:
+    - item: ic2:ingot#silver
+    - item: ic2:ingot#lead
+  duration: 20
+  heat: 1500
+- input:
+    - ore: ingotIron
+    - ore: dustCoal
+      count: 2
+  output:
+    - item: ic2:ingot#steel
+    - item: gregtechmod:dust_dark_ashes
+      count: 2
+  duration: 500
+  heat: 1000

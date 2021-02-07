@@ -2,23 +2,31 @@ package mods.gregtechmod.init;
 
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
+import ic2.api.recipe.Recipes;
 import ic2.core.init.OreValues;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.recipe.RecipeCentrifuge;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -212,19 +220,22 @@ public class OreDictHandler {
 
     public static void registerValuableOres() {
         valuableOres.forEach((key, value) -> OreDictionary.getOres(key)
-                        .forEach(stack -> OreValues.add(stack, value)));
+                .forEach(stack -> OreValues.add(stack, value)));
     }
 
     @SubscribeEvent
     public void registerOre(OreDictionary.OreRegisterEvent event) {
         String name;
         ItemStack ore;
-        if (event == null || (ore = event.getOre()).isEmpty() || (name = event.getName()) == null || event.getName().isEmpty() || this.ignoredNames.contains(event.getName())) return;
+        if (event == null || (ore = event.getOre()).isEmpty() || (name = event.getName()) == null || event.getName().isEmpty() || this.ignoredNames.contains(event.getName()))
+            return;
 
-        if (ore.getCount() != 1) GregTechAPI.logger.error("'" + name + "' is either being misused by another Mod or has been wrongly registered, as the stackSize of the Event-Stack is not 1");
+        if (ore.getCount() != 1)
+            GregTechAPI.logger.error("'" + name + "' is either being misused by another Mod or has been wrongly registered, as the stackSize of the Event-Stack is not 1");
         event.getOre().setCount(1);
 
-        if (name.toLowerCase().contains("xych") || name.toLowerCase().contains("xyore") || name.toLowerCase().contains("aluminum")) return;
+        if (name.toLowerCase().contains("xych") || name.toLowerCase().contains("xyore") || name.toLowerCase().contains("aluminum"))
+            return;
 
         String unifiedName = GTOreNames.get(name);
         if (unifiedName != null) OreDictUnificator.registerOre(unifiedName, ore);
@@ -245,7 +256,8 @@ public class OreDictHandler {
         else if (name.startsWith("stoneRedGranite")) OreDictUnificator.registerOre("stoneGranite", ore);
 
         if (name.startsWith("plate") || name.startsWith("ore") || name.startsWith("dust") || name.startsWith("gem")
-            || name.startsWith("ingot") || name.startsWith("nugget") || name.startsWith("block") || name.startsWith("stick")) OreDictUnificator.addAssociation(name, ore.copy());
+                || name.startsWith("ingot") || name.startsWith("nugget") || name.startsWith("block") || name.startsWith("stick"))
+            OreDictUnificator.addAssociation(name, ore.copy());
 
         if (this.activated) registerRecipes(event.getName(), event.getOre());
         else this.events.put(event.getName(), event.getOre());
@@ -253,7 +265,8 @@ public class OreDictHandler {
 
     public void activateHandler() {
         this.activated = true;
-        for (Map.Entry<String, ItemStack> entry : this.events.entrySet()) registerRecipes(entry.getKey(), entry.getValue());
+        for (Map.Entry<String, ItemStack> entry : this.events.entrySet())
+            registerRecipes(entry.getKey(), entry.getValue());
         this.events = null;
     }
 
@@ -263,7 +276,7 @@ public class OreDictHandler {
 
 
         if (name.equals("stoneObsidian") && item instanceof ItemBlock) {
-            ((ItemBlock)item).getBlock().setResistance(20.0F);
+            ((ItemBlock) item).getBlock().setResistance(20.0F);
         }
     }
 
@@ -875,8 +888,131 @@ public class OreDictHandler {
         }*/
     }
 
+    private void registerDustRecipes(ItemStack stack, String eventName) {
+        ResourceLocation recipeGroup = new ResourceLocation(Reference.MODID, "dusts");
+
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustElectrotine"), 5000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustTungsten"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustManganese"), 5000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustRedstone"), 5000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustGlowstone"), 25000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustPlatinum"), 100000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustIridium"), 100000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEnderPearl"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEnderEye"), 75000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustOlivine"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEmerald"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustDiamond"), 125000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustRuby"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustSapphire"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustGreenSapphire"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustUranium"), 1000000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustOsmium"), 200000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustPlutonium"), 2000000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustThorium"), 500000, null, true);
+
+        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustWood", 8), null, true, new ItemStack(BlockItems.Plate.WOOD.getInstance()));
+        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustIridium"), null, true, new ItemStack(BlockItems.Ingot.IRIDIUM.getInstance()));
+        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustOsmium"), null, true, new ItemStack(BlockItems.Ingot.OSMIUM.getInstance()));
+        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustUranium"), null, true, IC2Items.getItem("ingot", "uranium"));
+        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustPlutonium"), null, true, new ItemStack(BlockItems.Ingot.PLUTONIUM.getInstance()));
+        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustThorium"), null, true, new ItemStack(BlockItems.Ingot.THORIUM.getInstance()));
+        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustLazurite", 8), null, true, new ItemStack(BlockItems.Miscellaneous.LAZURITE_CHUNK.getInstance()));
+
+        if (eventName.startsWith("dustSmall")) {
+            Recipes.recyclerBlacklist.add(Recipes.inputFactory.forStack(stack));
+            ModHandler.addShapelessRecipe(eventName.replaceFirst("dustSmall", "dust"), recipeGroup, stack, stack, stack, stack);
+            ModHandler.addShapelessRecipe(eventName, recipeGroup, StackUtil.copyWithSize(stack, 4), new OreIngredient(eventName.replaceFirst("dustSmall", "dust")));
+        }
+
+        switch (eventName) {
+            case "dustSteel":
+                if (GregTechConfig.BLAST_FURNACE_REQUIREMENTS.steel) FurnaceRecipes.instance().getSmeltingList().remove(stack);
+                else ModHandler.addDustToIngotSmeltingRecipe(stack, IC2Items.getItem("ingot", "steel"));
+                break;
+            case "dustChrome":
+                if (GregTechConfig.BLAST_FURNACE_REQUIREMENTS.chrome) FurnaceRecipes.instance().getSmeltingList().remove(stack);
+                else ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.CHROME.getInstance());
+                break;
+            case "dustTitanium":
+                if (GregTechConfig.BLAST_FURNACE_REQUIREMENTS.titanium) FurnaceRecipes.instance().getSmeltingList().remove(stack);
+                else ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.TITANIUM.getInstance());
+                break;
+            case "dustAluminium":
+            case "dustAluminum":
+                if (GregTechConfig.BLAST_FURNACE_REQUIREMENTS.aluminium) FurnaceRecipes.instance().getSmeltingList().remove(stack);
+                else ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.ALUMINIUM.getInstance());
+                break;
+            case "dustTungsten":
+                if (GregTechConfig.BLAST_FURNACE_REQUIREMENTS.tungsten) FurnaceRecipes.instance().getSmeltingList().remove(stack);
+                else ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.TUNGSTEN.getInstance());
+                break;
+            case "dustInvar":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.INVAR.getInstance());
+                break;
+            case "dustBronze":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, IC2Items.getItem("ingot", "bronze"));
+                ItemStack copper = IC2Items.getItem("ingot", "copper");
+                int bronze = ModHandler.getCraftingResult(copper, copper, ItemStack.EMPTY, copper, IC2Items.getItem("ingot", "tin")).getCount();
+                GtRecipes.industrial_centrifuge.addRecipe(
+                        RecipeCentrifuge.create(RecipeIngredientOre.create("dustBronze", bronze < 3 ? 1 : bronze / 2),
+                                Arrays.asList(StackUtil.copyWithSize(IC2Items.getItem("dust", "small_copper"), 6),
+                                        StackUtil.copyWithSize(IC2Items.getItem("dust", "small_tin"), 2)),
+                                0,
+                                1500));
+                break;
+            case "dustBrass":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.BRASS.getInstance());
+                break;
+            case "dustCopper":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, IC2Items.getItem("ingot", "copper"));
+                break;
+            case "dustGold":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, IC2Items.getItem("ingot", "gold"));
+                break;
+            case "dustNickel":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.NICKEL.getInstance());
+                break;
+            case "dustIron":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, Items.IRON_INGOT);
+                break;
+            case "dustRefinedIron":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, IC2Items.getItem("ingot", "refined_iron"));
+                Recipes.extractor.addRecipe(Recipes.inputFactory.forOreDict("dustRefinedIron"), null, true, IC2Items.getItem("dust", "iron"));
+                break;
+            case "dustAntimony":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.ANTIMONY.getInstance());
+                break;
+            case "dustTin":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, IC2Items.getItem("ingot", "tin"));
+                break;
+            case "dustZinc":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.ZINC.getInstance());
+                break;
+            case "dustPlatinum":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.PLATINUM.getInstance());
+                break;
+            case "dustLead":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, IC2Items.getItem("ingot", "lead"));
+                break;
+            case "dustSilver":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, IC2Items.getItem("ingot", "silver"));
+                break;
+            case "dustCoal":
+                ModHandler.addLiquidTransposerFillRecipe(stack, new FluidStack(FluidRegistry.WATER, 125), IC2Items.getItem("dust", "coal_fuel"), 1250);
+                break;
+            case "dustElectrum":
+                ModHandler.addDustToIngotSmeltingRecipe(stack, BlockItems.Ingot.ELECTRUM.getInstance());
+                break;
+            case "dustWheat":
+            case "dustFlour":
+                GameRegistry.addSmelting(stack, new ItemStack(Items.BREAD), 0);
+                break;
+        }
+    }
+
     private void registerOreRecipes(ItemStack stack, String name) {
-        ResourceLocation recipeGroup = new ResourceLocation(Reference.MODID, "ores");
+        ResourceLocation recipeGroup = new ResourceLocation(Reference.MODID, "ores"); //TODO: Field
 
         String dustName = name.replaceFirst("ore", "dust");
         ItemStack dust = OreDictUnificator.getFirstOre(dustName);

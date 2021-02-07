@@ -2,21 +2,21 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<ItemStack>> implements IRecipeBlastFurnace {
     private final int heat;
+    private final boolean universal;
 
-    private RecipeBlastFurnace(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost, int heat) {
-        super(input, output, energyCost, duration);
+    private RecipeBlastFurnace(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost, int heat, boolean universal) {
+        super(input, output, duration, energyCost);
         this.heat = heat;
+        this.universal = universal;
     }
 
     @JsonCreator
@@ -24,15 +24,13 @@ public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<Ite
                                             @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                             @JsonProperty(value = "duration", required = true) int duration,
                                             @JsonProperty(value = "energyCost") double energyCost,
-                                            @JsonProperty(value = "heat", required = true) int heat) {
-        if (output.size() > 2) {
-            GregTechAPI.logger.error("Tried to add a blast furnace recipe for " + output.stream().map(ItemStack::getTranslationKey).collect(Collectors.joining(", ")) + " with way too many outputs! Reducing them to 2");
-            output = output.subList(0, 2);
-        }
+                                            @JsonProperty(value = "heat", required = true) int heat,
+                                            @JsonProperty(value = "universal") boolean universal) {
+        RecipeUtil.adjustOutputCount("blast furnace", output, 2);
 
-        RecipeBlastFurnace recipe = new RecipeBlastFurnace(input, output, duration, energyCost <= 0 ? 128 : energyCost, heat);
+        RecipeBlastFurnace recipe = new RecipeBlastFurnace(input, output, duration, energyCost <= 0 ? 128 : energyCost, heat, universal);
 
-        if (!RecipeUtil.validateRecipeIO("grinder", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("blast furnace", input, output)) recipe.invalid = true;
 
         return recipe;
     }
@@ -43,7 +41,12 @@ public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<Ite
     }
 
     @Override
+    public boolean isUniversal() {
+        return this.universal;
+    }
+
+    @Override
     public String toString() {
-        return "RecipeBlastFurnace{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+",heat="+this.heat+"}";
+        return "RecipeBlastFurnace{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+",heat="+this.heat+",universal="+this.universal+"}";
     }
 }

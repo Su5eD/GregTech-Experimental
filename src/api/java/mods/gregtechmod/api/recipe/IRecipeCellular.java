@@ -5,6 +5,6 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Collection;
 
-public interface IRecipeCentrifuge extends IGtMachineRecipe<IRecipeIngredient, Collection<ItemStack>> {
+public interface IRecipeCellular extends IGtMachineRecipe<IRecipeIngredient, Collection<ItemStack>> {
     int getCells();
 }

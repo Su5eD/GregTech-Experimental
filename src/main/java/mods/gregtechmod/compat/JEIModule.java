@@ -1,4 +1,4 @@
-package mods.gregtechmod.plugin;
+package mods.gregtechmod.compat;
 
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;

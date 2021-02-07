@@ -1,0 +1,23 @@
+# Alloy Smelter recipes
+---
+- input:
+    - ores:
+        - dustLead
+        - ingotLead
+    - ore: dustObsidian
+      count: 2
+  output:
+    item: thermalfoundation:glass
+    meta: 3
+    count: 2
+  duration: 400
+  energyCost: 16
+- input:
+    - ore: ingotAluminium
+      count: 2
+    - ore: dustMagnesium
+  output:
+    item: gregtechmod:ingot_magnalium
+    count: 3
+  duration: 150
+  energyCost: 16

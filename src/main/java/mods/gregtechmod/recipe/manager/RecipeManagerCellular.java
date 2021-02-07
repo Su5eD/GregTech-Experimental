@@ -2,10 +2,10 @@ package mods.gregtechmod.recipe.manager;
 
 import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
-import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
+import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
-import mods.gregtechmod.api.recipe.manager.IRecipeManagerCentrifuge;
+import mods.gregtechmod.api.recipe.manager.IRecipeManagerCellular;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -15,18 +15,18 @@ import net.minecraftforge.fluids.FluidUtil;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-public class RecipeManagerCentrifuge extends RecipeManagerBase<IRecipeCentrifuge> implements IRecipeManagerCentrifuge {
+public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> implements IRecipeManagerCellular {
 
-    public RecipeManagerCentrifuge() {
-        super(new CentrifugeRecipeComparator());
+    public RecipeManagerCellular() {
+        super(new CellularRecipeComparator());
     }
 
     /**
      * @param cells The amount of cells required for this recipe. Pass in -1 to ignore
      */
     @Override
-    public IRecipeCentrifuge getRecipeFor(ItemStack input, int cells) {
-        for (IRecipeCentrifuge recipe : this.recipes) {
+    public IRecipeCellular getRecipeFor(ItemStack input, int cells) {
+        for (IRecipeCellular recipe : this.recipes) {
             int availableCells = cells;
             IRecipeIngredient ingredient = recipe.getInput();
             if (ingredient instanceof IRecipeIngredientFluid) {
@@ -44,11 +44,11 @@ public class RecipeManagerCentrifuge extends RecipeManagerBase<IRecipeCentrifuge
     }
 
     @Override
-    public IRecipeCentrifuge getRecipeFor(FluidStack input, int cells) {
+    public IRecipeCellular getRecipeFor(FluidStack input, int cells) {
         return this.recipes.stream()
                 .filter(recipe -> Stream.of(recipe)
                             .map(IGtMachineRecipe::getInput)
-                            .anyMatch(ingredient -> ingredient instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells())))
+                            .allMatch(ingredient -> ingredient instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells())))
                 .findFirst().orElse(null);
     }
 
@@ -68,10 +68,10 @@ public class RecipeManagerCentrifuge extends RecipeManagerBase<IRecipeCentrifuge
                 .anyMatch(ingredient -> ((IRecipeIngredientFluid) ingredient).apply(input));
     }
 
-    private static class CentrifugeRecipeComparator implements Comparator<IRecipeCentrifuge> {
+    private static class CellularRecipeComparator implements Comparator<IRecipeCellular> {
 
         @Override
-        public int compare(IRecipeCentrifuge first, IRecipeCentrifuge second) {
+        public int compare(IRecipeCellular first, IRecipeCellular second) {
             int itemdiff = second.getCells() - first.getCells();
 
             if (itemdiff == 0) itemdiff += first.getInput().compareTo(second.getInput());

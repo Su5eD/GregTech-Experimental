@@ -1,5 +1,4 @@
 # Assembler recipes
-#
 ---
 - input:
     - ore: plateAlloyAdvanced
@@ -18,3 +17,95 @@
     item: ic2:crafting#coal_chunk
   duration: 400
   energyCost: 4
+- input:
+    - ore: dustGunpowder
+      count: 4
+    - ore: sand
+      count: 4
+  output:
+    item: minecraft:tnt
+  duration: 400
+  energyCost: 1
+- input:
+    - ore: dustRedstone
+    - item: ic2:fluid_cell
+  output:
+    item: gregtechmod:spray_can_empty
+  duration: 800
+  energyCost: 2
+- input:
+    - ore: dustGlowstone
+      count: 4
+    - ore: dustRedstone
+      count: 4
+  output:
+    item: minecraft:redstone_lamp
+  duration: 400
+  energyCost: 1
+- input:
+    - ore: stickWood
+    - ore: dustRedstone
+  output:
+    item: minecraft:redstone_torch
+  duration: 400
+  energyCost: 1
+- input:
+    - ore: ingotIron
+      count: 4
+    - ore: dustRedstone
+  output:
+    item: minecraft:compass
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: ingotGold
+      count: 4
+    - ore: dustRedstone
+  output:
+    item: minecraft:clock
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: plankWood
+      count: 8
+    - ore: dustRedstone
+  output:
+    item: minecraft:noteblock
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: gemLapis
+    - ore: dustGlowstone
+  output:
+    item: gregtechmod:advanced_circuit_parts
+    count: 2
+  duration: 800
+  energyCost: 2
+- input:
+    - ores:
+        - dustOlivine
+        - dustEmerald
+      count: 8
+    - item: ic2:crafting#advanced_circuit
+  output:
+    item: gregtechmod:data_storage_circuit
+    count: 4
+  duration: 6400
+  energyCost: 8
+- input:
+    - ore: dustCoal
+      count: 8
+    - item: minecraft:flint
+  output:
+    item: ic2:crafting#coal_block
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: dustFlint
+      count: 5
+    - item: minecraft:tnt
+      count: 3
+  output:
+    item: ic2:te#itnt
+  duration: 800
+  energyCost: 2

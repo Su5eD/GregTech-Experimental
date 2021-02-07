@@ -1,5 +1,7 @@
 package mods.gregtechmod.recipe.manager;
 
+import ic2.api.recipe.IRecipeInput;
+import ic2.api.recipe.MachineRecipe;
 import ic2.api.recipe.Recipes;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
@@ -9,23 +11,27 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverizer> {
     @Override
     public boolean addRecipe(IRecipePulverizer recipe, boolean overwrite) {
         overwrite |= recipe.overwrite();
-        for (ItemStack input : recipe.getInput().getMatchingInputs()) {
-            addPulverisationRecipe(input, recipe.getPrimaryOutput(), recipe.getSecondaryOutput(), recipe.getChance(), overwrite);
+        boolean ret = super.addRecipe(recipe, overwrite);
+        if (ret) {
+            for (ItemStack input : recipe.getInput().getMatchingInputs()) {
+                addPulverisationRecipe(input, recipe.getPrimaryOutput(), recipe.getSecondaryOutput(), recipe.getChance(), overwrite);
+            }
         }
-        return super.addRecipe(recipe, overwrite);
+        return ret;
     }
 
     private static void addPulverisationRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
-        ModHandler.removeSimpleIC2MachineRecipe(input, (BasicMachineRecipeManager) Recipes.macerator);
-
         if (!input.getItem().hasContainerItem(input)) {
+            removeIC2Recipe(input, (BasicMachineRecipeManager) Recipes.macerator);
             Recipes.macerator.addRecipe(Recipes.inputFactory.forStack(input), null, true, primaryOutput);
 
             if (!OreDictUnificator.isItemInstanceOf(primaryOutput, "dustWood", false) && !OreDictUnificator.isItemInstanceOf(primaryOutput, "dustSmallWood", false)) {
@@ -41,6 +47,17 @@ public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverize
             } else {
                 if (secondaryOutput.isEmpty()) ModHandler.addTESawmillRecipe(800, input.copy(), primaryOutput.copy(), overwrite);
                 else ModHandler.addTESawmillRecipe(800, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), (chance <= 0) ? 10 : chance, overwrite);
+            }
+        }
+    }
+
+    private static void removeIC2Recipe(ItemStack input, BasicMachineRecipeManager manager) {
+        Iterator<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> iterator = manager.getRecipes().iterator();
+        while (iterator.hasNext()) {
+            MachineRecipe<IRecipeInput, Collection<ItemStack>> recipe = iterator.next();
+            if (recipe.getInput().matches(input)) {
+                iterator.remove();
+                return;
             }
         }
     }

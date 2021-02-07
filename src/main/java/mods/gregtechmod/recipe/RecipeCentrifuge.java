@@ -2,21 +2,19 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.recipe.IRecipeCentrifuge;
+import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemStack>> implements IRecipeCentrifuge {
+public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemStack>> implements IRecipeCellular {
     private final int cells;
 
     private RecipeCentrifuge(IRecipeIngredient input, List<ItemStack> output, int cells, int duration) {
-        super(input, output, 5, duration);
+        super(input, output, duration, 5);
         this.cells = cells;
     }
 
@@ -25,10 +23,7 @@ public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemS
                                           @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                           @JsonProperty(value = "cells") int cells,
                                           @JsonProperty(value = "duration", required = true) int duration) {
-        if (output.size() > 4) {
-            GregTechAPI.logger.error("Tried to add a centrifuge recipe for " + output.stream().map(ItemStack::getTranslationKey).collect(Collectors.joining(", ")) + " with way too many outputs! Reducing them to 4");
-            output = output.subList(0, 4);
-        }
+        RecipeUtil.adjustOutputCount("centrifuge", output, 4);
 
         RecipeCentrifuge recipe = new RecipeCentrifuge(input, output, cells, duration);
 

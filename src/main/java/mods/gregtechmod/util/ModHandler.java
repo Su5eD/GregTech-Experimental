@@ -6,15 +6,20 @@ import appeng.api.features.IGrinderRegistry;
 import cofh.thermalexpansion.util.managers.machine.PulverizerManager;
 import cofh.thermalexpansion.util.managers.machine.SawmillManager;
 import cofh.thermalexpansion.util.managers.machine.SmelterManager;
-import ic2.api.recipe.IRecipeInput;
-import ic2.api.recipe.MachineRecipe;
-import ic2.core.recipe.BasicMachineRecipeManager;
+import cofh.thermalexpansion.util.managers.machine.TransposerManager;
+import com.google.common.base.CaseFormat;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
@@ -22,20 +27,24 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class ModHandler {
     public static ItemStack SLAG = ItemStack.EMPTY;
     public static ItemStack SLAG_RICH = ItemStack.EMPTY;
+    public static ItemStack HARDENED_GLASS = ItemStack.EMPTY;
 
     public static void gatherModItems() {
         Item material = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
+        Item glass = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "glass"));
         if (material != null) {
             SLAG = new ItemStack(material, 1, 864);
             SLAG_RICH = new ItemStack(material, 1, 865);
+        }
+        if (glass != null) {
+            HARDENED_GLASS = new ItemStack(glass, 1, 3);
         }
     }
 
@@ -149,6 +158,14 @@ public class ModHandler {
         GameRegistry.addSmelting(input, output, 0);
     }
 
+    public static void addLiquidTransposerFillRecipe(ItemStack emptyContainer, FluidStack fluid, ItemStack fullContainer, int energy) {
+        if (Loader.isModLoaded("thermalexpansion")) registerLiquidTransposerFillRecipe(emptyContainer, fluid, fullContainer, energy);
+    }
+    @Optional.Method(modid = "thermalexpansion")
+    public static void registerLiquidTransposerFillRecipe(ItemStack emptyContainer, FluidStack fluid, ItemStack fullContainer, int energy) {
+        TransposerManager.addFillRecipe(energy, emptyContainer, fullContainer, fluid, false);
+    }
+
     public static void addRockCrusherRecipe(ItemStack input, boolean matchMeta, boolean matchNBT, Map<ItemStack, Float> outputs) {
         NBTTagCompound nbt = new NBTTagCompound();
 
@@ -170,6 +187,32 @@ public class ModHandler {
         FMLInterModComms.sendMessage("Railcraft", "rock-crusher", nbt);
     }
 
+    public static ItemStack getCraftingResult(ItemStack... stacks) {
+        InventoryCrafting crafting = new InventoryCrafting(new DummyContainer(),  3, 3);
+        for (int i = 0; i < 9 && i < stacks.length; i++) {
+            crafting.setInventorySlotContents(i, stacks[i]);
+        }
+        for (IRecipe recipe : ForgeRegistries.RECIPES.getValuesCollection()) {
+            try {
+                if (recipe.matches(crafting, DummyWorld.INSTANCE)) {
+                    return recipe.getRecipeOutput();
+                }
+            } catch (Throwable ignored) {}
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    public static void addDustToIngotSmeltingRecipe(ItemStack input, Item output) {
+        addDustToIngotSmeltingRecipe(input, new ItemStack(output));
+    }
+
+    public static void addDustToIngotSmeltingRecipe(ItemStack input, ItemStack output) {
+        ItemStack dust = StackUtil.copyWithSize(input, 2);
+        ItemStack ingots = StackUtil.copyWithSize(output, 2);
+        SmelterManager.addRecipe(800, dust, new ItemStack(Blocks.SAND), ingots, SLAG, 25);
+    }
+
     public static void addAEGrinderRecipe(ItemStack input, ItemStack output, int turns) {
         if (Loader.isModLoaded("appliedenergistics2")) registerAEGrinderRecipe(input, output, turns);
     }
@@ -185,14 +228,20 @@ public class ModHandler {
         registry.addRecipe(recipe);
     }
 
-    public static void removeSimpleIC2MachineRecipe(ItemStack input, BasicMachineRecipeManager manager) {
-        Iterator<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> iterator = manager.getRecipes().iterator();
-        while (iterator.hasNext()) {
-            MachineRecipe<IRecipeInput, Collection<ItemStack>> recipe = iterator.next();
-            if (recipe.getInput().matches(input)) {
-                iterator.remove();
-                return;
-            }
+    public static void addShapelessRecipe(String ore, ResourceLocation group, ItemStack... inputs) {
+        ItemStack output = OreDictUnificator.get(ore);
+        if (!output.isEmpty()) {
+            Ingredient[] ingredients = Arrays.stream(inputs)
+                    .map(Ingredient::fromStacks)
+                    .toArray(Ingredient[]::new);
+            addShapelessRecipe(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, ore), group, output, ingredients);
         }
+    }
+
+    public static void addShapelessRecipe(String name, ResourceLocation group, ItemStack output, Ingredient... inputs) {
+        GameRegistry.addShapelessRecipe(new ResourceLocation(Reference.MODID, name),
+                group,
+                output,
+                inputs);
     }
 }

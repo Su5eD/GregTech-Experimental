@@ -1,0 +1,23 @@
+# Canner recipes
+---
+- input:
+    - ore: dustTungsten
+    - item: ic2:fluid_cell
+  output:
+    - item: ic2:fluid_cell#wolframium
+  duration: 100
+  energyCost: 1
+- input:
+    - ore: dustSulfur
+    - item: ic2:fluid_cell
+  output:
+    - item: gregtechmod:cell_sulfur
+  duration: 100
+  energyCost: 1
+- input:
+    - ore: dustCalcite
+    - item: ic2:fluid_cell
+  output:
+    - item: ic2:fluid_cell#calcium_carbonate
+  duration: 100
+  energyCost: 1

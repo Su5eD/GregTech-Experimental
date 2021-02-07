@@ -1,0 +1,9 @@
+# Wiremill recipes
+---
+- input:
+    ore: dustCoal
+    count: 4
+  output:
+    item: ic2:crafting#carbon_fibre
+  duration: 400
+  energyCost: 2

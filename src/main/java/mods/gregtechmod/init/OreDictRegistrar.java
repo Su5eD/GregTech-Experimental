@@ -183,7 +183,7 @@ public class OreDictRegistrar {
             OreDictUnificator.override("ingotCopper", ModHandler.getFRItem("ingot_copper"));
             OreDictUnificator.override("ingotTin", ModHandler.getFRItem("ingot_tin"));
             OreDictUnificator.override("ingotBronze", ModHandler.getFRItem("ingot_bronze"));
-            OreDictUnificator.override("dustAsh", ModHandler.getFRItem("ash"));
+            OreDictUnificator.override("dustAshes", ModHandler.getFRItem("ash"));
             OreDictUnificator.override("dustWood", ModHandler.getFRItem("wood_pulp"));
             OreDictUnificator.override("pulpWood", ModHandler.getFRItem("wood_pulp"));
         }

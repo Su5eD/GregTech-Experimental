@@ -10,13 +10,13 @@ import java.util.List;
 public class RecipeFactory implements IRecipeFactory {
 
     @Override
-    public IRecipeCentrifuge makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration) {
+    public IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration) {
         return RecipeCentrifuge.create(input, outputs, cells, duration);
     }
 
     @Override
     public IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAssemblerRecipe(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost) {
-        return RecipeAssembler.create(primaryInput, secondaryInput, output, duration, energyCost);
+        return RecipeDualInput.create(primaryInput, secondaryInput, output, duration, energyCost);
     }
 
     @Override
@@ -30,7 +30,32 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost, int heat) {
-        return RecipeBlastFurnace.create(input, output, duration, energyCost, heat);
+    public IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost, int heat, boolean universal) {
+        return RecipeBlastFurnace.create(input, output, duration, energyCost, heat, universal);
+    }
+
+    @Override
+    public IRecipeCellular makeElectrolyzerRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration, double energyCost) {
+        return RecipeElectrolyzer.create(input, outputs, cells, duration, energyCost);
+    }
+
+    @Override
+    public IGtMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeCannerRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost) {
+        return RecipeCanner.create(input, output, duration, energyCost);
+    }
+
+    @Override
+    public IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost) {
+        return RecipeDualInput.create(input, output, duration, energyCost);
+    }
+
+    @Override
+    public IGtMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeImplosionRecipe(IRecipeIngredient input, int tnt, List<ItemStack> output) {
+        return RecipeImplosion.create(input, tnt, output);
+    }
+
+    @Override
+    public IGtMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillReicpe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
+        return RecipeWiremill.create(input, output, duration, energyCost);
     }
 }

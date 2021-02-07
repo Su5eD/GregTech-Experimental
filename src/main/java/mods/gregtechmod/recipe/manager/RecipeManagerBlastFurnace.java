@@ -1,36 +1,41 @@
 package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.railcraft.api.crafting.Crafters;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Optional;
 
-import java.util.Comparator;
-import java.util.List;
-
-public class RecipeManagerBlastFurnace extends RecipeManager<List<IRecipeIngredient>, ItemStack, IRecipeBlastFurnace> {
+public class RecipeManagerBlastFurnace extends RecipeManagerMultiInput<IRecipeBlastFurnace> {
 
     public RecipeManagerBlastFurnace() {
         super(new BlastFurnaceRecipeComparator());
     }
 
     @Override
-    public boolean hasRecipeFor(ItemStack input) {
-        return this.recipes.stream()
-                .anyMatch(recipe -> recipe.getInput()
-                        .stream()
-                        .anyMatch(ingredient -> ingredient.apply(input)));
+    public boolean addRecipe(IRecipeBlastFurnace recipe, boolean overwrite) {
+        boolean ret = super.addRecipe(recipe, overwrite);
+        if (ret && recipe.isUniversal() && Loader.isModLoaded("railcraft")) addRCBlastFurnaceRecipe(recipe.getInput().get(0).asIngredient(), recipe.getOutput().get(0), recipe.getDuration());
+        return ret;
     }
 
-    private static class BlastFurnaceRecipeComparator implements Comparator<IRecipeBlastFurnace> {
+    @Optional.Method(modid = "railcraft")
+    public static void addRCBlastFurnaceRecipe(Ingredient input, ItemStack output, int duration) {
+        Crafters.blastFurnace()
+                .newRecipe(input)
+                .output(output)
+                .time(duration)
+                .name(output.getItem().getRegistryName())
+                .register();
+    }
+
+    private static class BlastFurnaceRecipeComparator extends MultiInputRecipeComparator<IRecipeBlastFurnace> {
 
         @Override
         public int compare(IRecipeBlastFurnace first, IRecipeBlastFurnace second) {
-            int diff = 0;
-            for (IRecipeIngredient firstInput : first.getInput()) {
-                for (IRecipeIngredient secondInput : second.getInput()) {
-                    diff += firstInput.compareTo(secondInput);
-                }
-            }
+            int diff = super.compare(first, second);
+
             if (diff == 0) diff += second.getHeat() - first.getHeat();
             return diff;
         }

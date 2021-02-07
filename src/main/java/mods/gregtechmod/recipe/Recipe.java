@@ -2,9 +2,6 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
-import mods.gregtechmod.api.recipe.ingredient.RecipeIngredientType;
-
-import java.util.EnumSet;
 
 public class Recipe<I, O> implements IGtMachineRecipe<I, O> {
     protected final I input;
@@ -15,16 +12,12 @@ public class Recipe<I, O> implements IGtMachineRecipe<I, O> {
 
     public Recipe(@JsonProperty(value = "input", required = true) I input,
                   @JsonProperty(value = "output", required = true) O output,
-                  @JsonProperty(value = "energyCost", required = true) double energyCost,
-                  @JsonProperty(value = "duration", required = true) int duration) {
+                  @JsonProperty(value = "duration", required = true) int duration,
+                  @JsonProperty(value = "energyCost", required = true) double energyCost) {
         this.input = input;
         this.output = output;
         this.energyCost = energyCost;
         this.duration = duration;
-    }
-
-    protected EnumSet<RecipeIngredientType> getAccptedIngredientTypes() {
-        return EnumSet.allOf(RecipeIngredientType.class);
     }
 
     @Override

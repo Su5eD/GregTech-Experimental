@@ -1,0 +1,74 @@
+# Implosion recipes
+---
+- input:
+    ore: dustRedGarnet
+    count: 4
+  output:
+    - item: gregtechmod:red_garnet
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+      count: 8
+  tnt: 16
+- input:
+    ore: dustYellowGarnet
+    count: 4
+  output:
+    - item: gregtechmod:yellow_garnet
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+      count: 8
+  tnt: 16
+- input:
+    ore: dustOlivine
+    count: 4
+  output:
+    - item: gregtechmod:olivine
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+      count: 12
+  tnt: 24
+- input:
+    ore: dustEmerald
+    count: 4
+  output:
+    - item: minecraft:emerald
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+      count: 12
+  tnt: 24
+- input:
+    ore: dustDiamond
+    count: 4
+  output:
+    - item: ic2:crafting#industrial_diamond
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+      count: 16
+  tnt: 32
+- input:
+    ore: dustRuby
+    count: 4
+  output:
+    - item: gregtechmod:ruby
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+      count: 12
+  tnt: 24
+- input:
+    ore: dustSapphire
+    count: 4
+  output:
+    - item: gregtechmod:sapphire
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+      count: 12
+  tnt: 24
+- input:
+    ore: dustGreenSapphire
+    count: 4
+  output:
+    - item: gregtechmod:green_sapphire
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+      count: 12
+  tnt: 24
