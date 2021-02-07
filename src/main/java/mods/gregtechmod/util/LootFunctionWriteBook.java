@@ -12,6 +12,7 @@ import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class LootFunctionWriteBook extends LootFunction {
@@ -24,7 +25,7 @@ public class LootFunctionWriteBook extends LootFunction {
 
     @Override
     public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
-        ItemStack book = BlockItems.Book.valueOf(this.name).getInstance();
+        ItemStack book = BlockItems.Book.valueOf(this.name.toUpperCase(Locale.ROOT)).getInstance();
         stack.setTagCompound(book.getTagCompound());
         return stack;
     }
