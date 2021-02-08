@@ -183,7 +183,7 @@ public class BlockItems {
         OSMIUM("Os"),
         PLATINUM("Pt"),
         PLUTONIUM("Pu", true),
-        SOLDERING_IRON_ALLOY("Sn9Sb1"),
+        SOLDERING_ALLOY("Sn9Sb1"),
         THORIUM("Th", true),
         TITANIUM("Ti"),
         TUNGSTEN("W"),

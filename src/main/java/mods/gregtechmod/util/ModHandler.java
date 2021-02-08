@@ -35,17 +35,20 @@ public class ModHandler {
     public static ItemStack SLAG = ItemStack.EMPTY;
     public static ItemStack SLAG_RICH = ItemStack.EMPTY;
     public static ItemStack HARDENED_GLASS = ItemStack.EMPTY;
+    public static ItemStack BC_STONE_GEAR = ItemStack.EMPTY;
 
     public static void gatherModItems() {
         Item material = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
-        Item glass = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "glass"));
         if (material != null) {
             SLAG = new ItemStack(material, 1, 864);
             SLAG_RICH = new ItemStack(material, 1, 865);
         }
-        if (glass != null) {
-            HARDENED_GLASS = new ItemStack(glass, 1, 3);
-        }
+
+        Item glass = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "glass"));
+        if (glass != null) HARDENED_GLASS = new ItemStack(glass, 1, 3);
+
+        Item stoneGear = ForgeRegistries.ITEMS.getValue(new ResourceLocation("buildcraftcore", "gear_stone"));
+        if (stoneGear != null) BC_STONE_GEAR = new ItemStack(stoneGear);
     }
 
     public static ItemStack getModItem(String modid, String itemName) {
@@ -188,6 +191,22 @@ public class ModHandler {
     }
 
     public static ItemStack getCraftingResult(ItemStack... stacks) {
+        IRecipe recipe = getCraftingRecipe(stacks);
+
+        return recipe != null ? recipe.getRecipeOutput() : ItemStack.EMPTY;
+    }
+
+    public static ItemStack removeCraftingRecipe(ItemStack... stacks) {
+        IRecipe recipe = getCraftingRecipe(stacks);
+        if (recipe != null) {
+            ForgeRegistries.RECIPES.getValuesCollection().remove(recipe);
+            return recipe.getRecipeOutput();
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    public static IRecipe getCraftingRecipe(ItemStack... stacks) {
         InventoryCrafting crafting = new InventoryCrafting(new DummyContainer(),  3, 3);
         for (int i = 0; i < 9 && i < stacks.length; i++) {
             crafting.setInventorySlotContents(i, stacks[i]);
@@ -195,12 +214,12 @@ public class ModHandler {
         for (IRecipe recipe : ForgeRegistries.RECIPES.getValuesCollection()) {
             try {
                 if (recipe.matches(crafting, DummyWorld.INSTANCE)) {
-                    return recipe.getRecipeOutput();
+                    return recipe;
                 }
             } catch (Throwable ignored) {}
         }
 
-        return ItemStack.EMPTY;
+        return null;
     }
 
     public static void addDustToIngotSmeltingRecipe(ItemStack input, Item output) {

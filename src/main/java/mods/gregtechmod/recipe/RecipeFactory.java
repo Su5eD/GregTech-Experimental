@@ -56,6 +56,6 @@ public class RecipeFactory implements IRecipeFactory {
 
     @Override
     public IGtMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillReicpe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
-        return RecipeWiremill.create(input, output, duration, energyCost);
+        return RecipeSimple.create(input, output, duration, energyCost);
     }
 }

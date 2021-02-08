@@ -21,3 +21,94 @@
     count: 3
   duration: 150
   energyCost: 16
+- input:
+    - ore: ingotGold
+    - ore: ingotSilver
+  output:
+    item: gregtechmod:ingot_electrum
+    count: 2
+  duration: 100
+  energyCost: 16
+- input:
+    - ore: ingotCopper
+      count: 3
+    - ore: ingotTin
+  output:
+    item: ic2:ingot#bronze
+    count: 2
+  duration: 100
+  energyCost: 16
+- input:
+    - ore: ingotCopper
+      count: 3
+    - ore: ingotZinc
+  output:
+    item: gregtechmod:ingot_brass
+    count: 4
+  duration: 200
+  energyCost: 16
+- input:
+    - ore: ingotCopper
+    - ores:
+        - ingotCopper
+        - ingotNickel
+  output:
+    ore: ingotCupronickel
+    count: 2
+  duration: 100
+  energyCost: 16
+- input:
+    - ore: ingotTin
+      count: 9
+    - ore: ingotAntimony
+  output:
+    item: gregtechmod:ingot_soldering_alloy
+    count: 10
+  duration: 500
+  energyCost: 16
+- input:
+    - ore: ingotLead
+      count: 4
+    - ore: ingotAntimony
+  output:
+    item: gregtechmod:ingot_battery_alloy
+    count: 5
+  duration: 250
+  energyCost: 16
+- input:
+    - ore: ingotIron
+      count: 2
+    - ore: ingotNickel
+  output:
+    item: gregtechmod:ingot_invar
+    count: 3
+  duration: 150
+  energyCost: 16
+- input:
+    - ore: ingotGold
+    - ore: ingotSilver
+  output:
+    item: gregtechmod:ingot_electrum
+    count: 2
+  duration: 100
+  energyCost: 16
+- input:
+    - ore: ingotAluminium
+      count: 2
+    - ores:
+        - ingotMagnesium
+        - dustMagnesium
+  output:
+    item: gregtechmod:ingot_magnalium
+    count: 3
+  duration: 150
+  energyCost: 16
+- input:
+    - ore: ingotChrome
+    - ore: ingotNickel
+      count: 4
+  output:
+    ore: ingotNichrome
+    count: 5
+  duration: 250
+  energyCost: 16

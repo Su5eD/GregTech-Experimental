@@ -71,6 +71,7 @@ public final class GregTechMod {
 
         GregTechAPI.logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
+        DynamicConfig.init();
         MinecraftForge.EVENT_BUS.register(OreGenerator.instance);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.instance);
 

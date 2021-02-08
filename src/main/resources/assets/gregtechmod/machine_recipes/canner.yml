@@ -21,3 +21,23 @@
     - item: ic2:fluid_cell#calcium_carbonate
   duration: 100
   energyCost: 1
+- input:
+    - ore: ingotUranium
+    - item: ic2:fluid_cell
+  output:
+    - item: ic2:uranium_fuel_rod
+  duration: 100
+  energyCost: 2
+- input:
+    - ore: ingotPlutonium
+    - item: ic2:fluid_cell
+  output:
+    - item: gregtechmod:cell_plutonium
+  duration: 100
+  energyCost: 2
+- input:
+    - ore: ingotThorium
+  output:
+    - item: gregtechmod:cell_thorium
+  duration: 100
+  energyCost: 2

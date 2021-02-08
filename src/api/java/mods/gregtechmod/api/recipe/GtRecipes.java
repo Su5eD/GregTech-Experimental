@@ -20,4 +20,6 @@ public class GtRecipes {
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, ItemStack>> alloy_smelter;
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> implosion;
     public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IGtMachineRecipe<IRecipeIngredient, ItemStack>> wiremill;
+    public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IGtMachineRecipe<IRecipeIngredient, ItemStack>> bender;
+    public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IGtMachineRecipe<IRecipeIngredient, List<ItemStack>>> lathe;
 }

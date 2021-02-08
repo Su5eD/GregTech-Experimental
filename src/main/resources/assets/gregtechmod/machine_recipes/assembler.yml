@@ -109,3 +109,41 @@
     item: ic2:te#itnt
   duration: 800
   energyCost: 2
+- input:
+    - ore: ingotTin
+      count: 2
+  output:
+    item: ic2:fluid_cell
+  duration: 400
+  energyCost: 1
+- input:
+    - ore: ingotTin
+  output:
+    item: ic2:cable#type:tin,insulation:0
+    count: 4
+  duration: 150
+  energyCost: 1
+- input:
+    - ore: ingotIron
+      count: 4
+    - ore: dustRedstone
+  output:
+    item: minecraft:compass
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: gearIron
+    - ore: ingotGold
+      count: 4
+  output:
+    ore: gearGold
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: ingotGold
+      count: 4
+    - ore: dustRedstone
+  output:
+    item: minecraft:clock
+  duration: 400
+  energyCost: 4

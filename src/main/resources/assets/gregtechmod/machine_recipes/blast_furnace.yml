@@ -73,3 +73,22 @@
       count: 2
   duration: 500
   heat: 1000
+- input:
+    - ore: ingotIron
+    - ore: dustCoal
+      count: 4
+  output:
+    - item: ic2:ingot#steel
+    - item: gregtechmod:dust_dark_Ashes
+      count: 2
+  duration: 500
+  heat: 1000
+- input:
+    - ore: ingotTungsten
+    - ore: ingotSteel
+  output:
+    - item: gregtechmod:ingot_hot_tungsten_steel
+    - item: gregtechmod:dust_dark_ashes
+      count: 4
+  duration: 2000
+  heat: 3000

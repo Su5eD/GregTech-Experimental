@@ -3,9 +3,11 @@ package mods.gregtechmod.init;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import ic2.api.item.IC2Items;
 import ic2.api.recipe.IBasicMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.Recipes;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
@@ -15,8 +17,10 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.*;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;
 import mods.gregtechmod.recipe.util.*;
+import mods.gregtechmod.util.ModHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
@@ -26,6 +30,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -57,53 +62,64 @@ public class RecipeLoader {
             } else configPath = gtConfig;
 
             GtRecipes.industrial_centrifuge = new RecipeManagerCellular();
-            parseRecipe("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
+            parseRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
                     .ifPresent(recipes -> registerRecipes("industrial_centrifuge", recipes, GtRecipes.industrial_centrifuge));
             GtRecipes.assembler = new RecipeManagerMultiInput<>();
-            parseRecipe("assembler", RecipeDualInput.class, null)
+            parseRecipes("assembler", RecipeDualInput.class, null)
                     .ifPresent(recipes -> registerRecipes("assembler", recipes, GtRecipes.assembler));
 
             GtRecipes.pulverizer = new RecipeManagerPulverizer();
-            parseRecipe("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
+            parseRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
                     .ifPresent(recipes -> registerRecipes("pulverizer", recipes, GtRecipes.pulverizer));
 
             GtRecipes.grinder = new RecipeManagerGrinder();
-            parseRecipe("grinder", RecipeGrinder.class, RecipeFilter.Energy.class)
+            parseRecipes("grinder", RecipeGrinder.class, RecipeFilter.Energy.class)
                     .ifPresent(recipes -> registerRecipes("grinder", recipes, GtRecipes.grinder));
 
             GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
-            parseRecipe("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
+            parseRecipes("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
                     .ifPresent(recipes -> registerRecipes("blast_furnace", recipes, GtRecipes.blastFurnace));
 
             GtRecipes.electrolyzer = new RecipeManagerCellular();
-            parseRecipe("electrolyzer", RecipeElectrolyzer.class, null)
+            parseRecipes("electrolyzer", RecipeElectrolyzer.class, null)
                     .ifPresent(recipes -> registerRecipes("electrolyzer", recipes, GtRecipes.electrolyzer));
 
             GtRecipes.canner = new RecipeManagerMultiInput<>();
-            parseRecipe("canner", RecipeCanner.class, null)
+            parseRecipes("canner", RecipeCanner.class, null)
                     .ifPresent(recipes -> registerRecipes("canner", recipes, GtRecipes.canner));
 
             GtRecipes.alloy_smelter = new RecipeManagerMultiInput<>();
-            parseRecipe("alloy_smelter", RecipeDualInput.class, null)
+            parseRecipes("alloy_smelter", RecipeDualInput.class, null)
                     .ifPresent(recipes -> registerRecipes("alloy_smelter", recipes, GtRecipes.alloy_smelter));
 
             GtRecipes.implosion = new RecipeManagerMultiInput<>();
-            parseRecipe("implosion", RecipeImplosion.class, RecipeFilter.Default.class)
+            parseRecipes("implosion", RecipeImplosion.class, RecipeFilter.Default.class)
                     .ifPresent(recipes -> registerRecipes("implosion", recipes, GtRecipes.implosion));
 
             GtRecipes.wiremill = new RecipeManagerBasic<>();
-            parseRecipe("wiremill", RecipeWiremill.class, null)
-                    .ifPresent(recipe -> registerRecipes("wiremill", recipe, GtRecipes.wiremill));
+            parseRecipes("wiremill", RecipeSimple.class, null)
+                    .ifPresent(recipes -> registerRecipes("wiremill", recipes, GtRecipes.wiremill));
+
+            GtRecipes.bender = new RecipeManagerBasic<>();
+            parseRecipes("bender", RecipeSimple.class, null)
+                    .ifPresent(recipes -> registerRecipes("bender", recipes, GtRecipes.bender));
+
+            GtRecipes.lathe = new RecipeManagerBasic<>();
+            parseRecipes("lathe", RecipeLathe.class, null)
+                    .ifPresent(recipes -> registerRecipes("lathe", recipes, GtRecipes.lathe));
 
             // IC2 Recipes
-            parseRecipe("compressor", BasicMachineRecipe.class, null)
+            parseRecipes("compressor", BasicMachineRecipe.class, null)
                     .ifPresent(recipes -> registerRecipes("compresor", recipes, Recipes.compressor));
+
+            registerDynamicRecipes();
+            registerMatterAmplifiers();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static <R, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {
+    public static <R, T extends RecipeFilter> Optional<Collection<R>> parseRecipes(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {
         try {
             ObjectMapper recipeMapper = mapper.copy();
             if (recipeType != null) recipeMapper.addMixIn(IGtMachineRecipe.class, recipeType);
@@ -157,5 +173,38 @@ public class RecipeLoader {
                 .filter(Boolean::booleanValue)
                 .count();
         GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
+    }
+
+    private static void registerDynamicRecipes() {
+        ItemStack copper = IC2Items.getItem("ingot", "copper");
+        int bronze = ModHandler.getCraftingResult(copper, copper, ItemStack.EMPTY, copper, IC2Items.getItem("ingot", "tin")).getCount();
+        GtRecipes.industrial_centrifuge.addRecipe(
+                RecipeCentrifuge.create(RecipeIngredientOre.create("dustBronze", bronze < 3 ? 1 : bronze / 2),
+                        Arrays.asList(StackUtil.copyWithSize(IC2Items.getItem("dust", "small_copper"), 6),
+                                StackUtil.copyWithSize(IC2Items.getItem("dust", "small_tin"), 2)),
+                        0,
+                        1500));
+    }
+
+    private static void registerMatterAmplifiers() {
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustElectrotine"), 5000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustTungsten"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustManganese"), 5000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustRedstone"), 5000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustGlowstone"), 25000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustPlatinum"), 100000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustIridium"), 100000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEnderPearl"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEnderEye"), 75000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustOlivine"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEmerald"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustDiamond"), 125000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustRuby"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustSapphire"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustGreenSapphire"), 50000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustUranium"), 1000000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustOsmium"), 200000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustPlutonium"), 2000000, null, true);
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustThorium"), 500000, null, true);
     }
 }

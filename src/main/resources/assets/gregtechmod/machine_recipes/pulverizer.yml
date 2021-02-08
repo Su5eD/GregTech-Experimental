@@ -374,3 +374,91 @@
   output:
     - ore: oreElectrotine
     - item: ic2:dust#diamond
+- input:
+    ore: ingotUranium
+  output:
+    - item: gregtechmod:dust_uranium
+- input:
+    ore: ingotPlutonium
+  output:
+    - item: gregtechmod:dust_plutonium
+- input:
+    ore: ingotThorium
+  output:
+    - item: gregtechmod:dust_thorium
+- input:
+    ore: ingotManganese
+  output:
+    - item: gregtechmod:dust_manganese
+- input:
+    ore: ingotMagnesium
+  output:
+    - item: gregtechmod:dust_magnesium
+- input:
+    ore: ingotSilver
+  output:
+    - item: ic2:dust#silver
+- input:
+    ore: ingotBronze
+  output:
+    - item: ic2:dust#bronze
+- input:
+    ore: ingotCopper
+  output:
+    - item: ic2:dust#copper
+- input:
+    ore: ingotTin
+  output:
+    - item: ic2:dust#tin
+- input:
+    ore: ingotIron
+  output:
+    - item: ic2:dust#iron
+- input:
+    ore: ingotGold
+  output:
+    - item: ic2:dust#gold
+- input:
+    ore: ingotAluminium
+  output:
+    - item: gregtechmod:dust_aluminium
+- input:
+    ore: ingotTitanium
+  output:
+    - item: gregtechmod:dust_titanium
+- input:
+    ore: ingotChrome
+  output:
+    - item: gregtechmod:dust_chrome
+- input:
+    ore: ingotElectrum
+  output:
+    - item: gregtechmod:dust_electrum
+- input:
+    ore: ingotTungsten
+  output:
+    - item: gregtechmod:dust_tungsten
+- input:
+    ore: ingotSteel
+  output:
+    - item: gregtechmod:dust_steel
+- input:
+    ore: ingotLead
+  output:
+    - item: ic2:dust#lead
+- input:
+    ore: ingotZinc
+  output:
+    - item: gregtechmod:dust_zinc
+- input:
+    ore: ingotBrass
+  output:
+    - item: gregtechmod:dust_brass
+- input:
+    ore: ingotPlatinum
+  output:
+    - item: gregtechmod:dust_platinum
+- input:
+    ore: ingotNickel
+  output:
+    - item: gregtechmod:dust_nickel
