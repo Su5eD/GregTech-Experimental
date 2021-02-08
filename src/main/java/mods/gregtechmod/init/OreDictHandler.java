@@ -911,14 +911,6 @@ public class OreDictHandler {
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustPlutonium"), 2000000, null, true);
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustThorium"), 500000, null, true);
 
-        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustWood", 8), null, true, new ItemStack(BlockItems.Plate.WOOD.getInstance()));
-        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustIridium"), null, true, new ItemStack(BlockItems.Ingot.IRIDIUM.getInstance()));
-        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustOsmium"), null, true, new ItemStack(BlockItems.Ingot.OSMIUM.getInstance()));
-        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustUranium"), null, true, IC2Items.getItem("ingot", "uranium"));
-        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustPlutonium"), null, true, new ItemStack(BlockItems.Ingot.PLUTONIUM.getInstance()));
-        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustThorium"), null, true, new ItemStack(BlockItems.Ingot.THORIUM.getInstance()));
-        Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict("dustLazurite", 8), null, true, new ItemStack(BlockItems.Miscellaneous.LAZURITE_CHUNK.getInstance()));
-
         if (eventName.startsWith("dustSmall")) {
             Recipes.recyclerBlacklist.add(Recipes.inputFactory.forStack(stack));
             ModHandler.addShapelessRecipe(eventName.replaceFirst("dustSmall", "dust"), recipeGroup, stack, stack, stack, stack);
@@ -1016,7 +1008,6 @@ public class OreDictHandler {
 
         String dustName = name.replaceFirst("ore", "dust");
         ItemStack dust = OreDictUnificator.getFirstOre(dustName);
-
         if (!dust.isEmpty()) {
             GameRegistry.addShapedRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, dustName)),
                     recipeGroup,

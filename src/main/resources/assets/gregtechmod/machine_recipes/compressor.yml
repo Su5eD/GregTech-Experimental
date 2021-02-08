@@ -1,0 +1,32 @@
+# IC2 Compressor recipes
+---
+- input:
+    ore: dustWood
+    count: 8
+  output:
+    item: gregtechmod:plate_wood
+- input:
+    ore: dustIridium
+  output:
+    item: gregtechmod:ingot_iridium
+- input:
+    ore: dustOsmium
+  output:
+    item: gregtechmod:ingot_osmium
+- input:
+    ore: dustUranium
+  output:
+    item: ic2:ingot#uranium
+- input:
+    ore: dustPlutonium
+  output:
+    item: gregtechmod:ingot_plutonium
+- input:
+    ore: dustThorium
+  output:
+    item: gregtechmod:ingot_thorium
+- input:
+    ore: dustLazurite
+    count: 8
+  output:
+    item: gregtechmod:lazurite_chunk

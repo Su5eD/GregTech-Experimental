@@ -3,6 +3,9 @@ package mods.gregtechmod.init;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import ic2.api.recipe.IBasicMachineRecipeManager;
+import ic2.api.recipe.IRecipeInput;
+import ic2.api.recipe.Recipes;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
@@ -13,10 +16,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.*;
 import mods.gregtechmod.recipe.manager.*;
-import mods.gregtechmod.util.ItemStackDeserializer;
-import mods.gregtechmod.util.RecipeFilter;
-import mods.gregtechmod.util.RecipeIngredientDeserializer;
-import mods.gregtechmod.util.RecipeIngredientFluidDeserializer;
+import mods.gregtechmod.recipe.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
@@ -36,7 +36,8 @@ public class RecipeLoader {
             .registerModule(new SimpleModule()
                     .addDeserializer(ItemStack.class, ItemStackDeserializer.INSTANCE)
                     .addDeserializer(IRecipeIngredient.class, RecipeIngredientDeserializer.INSTANCE)
-                    .addDeserializer(IRecipeIngredientFluid.class, RecipeIngredientFluidDeserializer.INSTANCE));
+                    .addDeserializer(IRecipeIngredientFluid.class, RecipeIngredientFluidDeserializer.INSTANCE)
+                    .addDeserializer(IRecipeInput.class, RecipeInputDeserializer.INSTANCE));
 
     public static void load() {
         GregTechAPI.logger.info("Loading machine recipes");
@@ -93,12 +94,16 @@ public class RecipeLoader {
             GtRecipes.wiremill = new RecipeManagerBasic<>();
             parseRecipe("wiremill", RecipeWiremill.class, null)
                     .ifPresent(recipe -> registerRecipes("wiremill", recipe, GtRecipes.wiremill));
+
+            // IC2 Recipes
+            parseRecipe("compressor", BasicMachineRecipe.class, null)
+                    .ifPresent(recipes -> registerRecipes("compresor", recipes, Recipes.compressor));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static <R extends IGtMachineRecipe<?, ?>, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {
+    public static <R, T extends RecipeFilter> Optional<Collection<R>> parseRecipe(String name, Class<R> recipeClass, @Nullable Class<T> recipeType) {
         try {
             ObjectMapper recipeMapper = mapper.copy();
             if (recipeType != null) recipeMapper.addMixIn(IGtMachineRecipe.class, recipeType);
@@ -140,6 +145,15 @@ public class RecipeLoader {
         int total = recipes.size();
         long successful = recipes.stream()
                 .map(manager::addRecipe)
+                .filter(Boolean::booleanValue)
+                .count();
+        GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
+    }
+
+    private static <T extends IBasicMachineRecipe> void registerRecipes(String name, Collection<? extends T> recipes, IBasicMachineRecipeManager manager) {
+        int total = recipes.size();
+        long successful = recipes.stream()
+                .map(recipe -> manager.addRecipe(recipe.getInput(), null, true, recipe.getOutput()))
                 .filter(Boolean::booleanValue)
                 .count();
         GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");

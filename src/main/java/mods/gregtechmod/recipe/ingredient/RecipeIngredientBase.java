@@ -2,7 +2,7 @@ package mods.gregtechmod.recipe.ingredient;
 
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.util.ItemStackComparator;
+import mods.gregtechmod.recipe.util.ItemStackComparator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.oredict.OreDictionary;

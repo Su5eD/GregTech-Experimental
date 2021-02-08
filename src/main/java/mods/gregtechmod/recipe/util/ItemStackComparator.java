@@ -1,4 +1,4 @@
-package mods.gregtechmod.util;
+package mods.gregtechmod.recipe.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;

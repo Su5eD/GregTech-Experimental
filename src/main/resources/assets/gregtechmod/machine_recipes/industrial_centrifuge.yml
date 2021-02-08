@@ -16,12 +16,6 @@
 #
 ---
 - input:
-    item: minecraft:wheat_seeds
-  output:
-    - item: ic2:fluid_cell#seed_oil
-  cells: 1
-  duration: 600
-- input:
     ores:
       - dustRedrock
       - dustRedRock

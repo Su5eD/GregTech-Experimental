@@ -1,4 +1,4 @@
-package mods.gregtechmod.util;
+package mods.gregtechmod.recipe.util;
 
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;

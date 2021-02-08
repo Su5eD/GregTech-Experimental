@@ -1,4 +1,4 @@
-package mods.gregtechmod.util;
+package mods.gregtechmod.recipe.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

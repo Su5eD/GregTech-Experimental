@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
-import mods.gregtechmod.util.RecipeUtil;
+import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;

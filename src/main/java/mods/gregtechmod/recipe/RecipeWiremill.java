@@ -3,7 +3,7 @@ package mods.gregtechmod.recipe;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.util.RecipeUtil;
+import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
 public class RecipeWiremill extends Recipe<IRecipeIngredient, ItemStack> {
