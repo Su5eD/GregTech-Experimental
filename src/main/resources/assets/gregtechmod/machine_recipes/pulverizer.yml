@@ -462,3 +462,60 @@
     ore: ingotNickel
   output:
     - item: gregtechmod:dust_nickel
+- input:
+    ore: gemRuby
+  output:
+    - item: gregtechmod:dust_ruby
+- input:
+    ore: gemSapphire
+  output:
+    - item: gregtechmod:dust_sapphire
+- input:
+    ore: gemGreenSapphire
+  output:
+    - item: gregtechmod:dust_green_sapphire
+- input:
+    ore: gemEnderPearl
+  output:
+    - item: gregtechmod:dust_ender_pearl
+- input:
+    ore: gemDiamond
+  output:
+    - item: ic2:dust#diamond
+- input:
+    ore: gemEmerald
+  output:
+    - item: gregtechmod:dust_emerald
+- input:
+    ore: gemOlivine
+  output:
+    - item: gregtechmod:dust_olivine
+- input:
+    ores:
+      - gemGarnet
+      - gemGarnetRed
+  output:
+    - item: gregtechmod:dust_red_garnet
+- input:
+    ore: gemGarnetYellow
+  output:
+    - item: gregtechmod:dust_yellow_garnet
+- input:
+    ore: gemApatite
+  output:
+    - item: ic2:crop_res#fertilizer
+      count: 4
+    - item: gregtechmod:dust_phosphorus
+  chance: 50
+- input:
+    ore: gemTopaz
+  output:
+    - ore: dustTopaz
+- input:
+    ore: gemTanzanite
+  output:
+    - ore: dustTanzanite
+- input:
+    ore: gemCoal
+  output:
+    - item: ic2:dust#coal

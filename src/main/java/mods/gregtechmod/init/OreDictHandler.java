@@ -887,7 +887,12 @@ public class OreDictHandler {
         }*/
     }
 
-    private void registerBlockRecipes(ItemStack stack, String name) {
+    private void processGem(ItemStack stack, String name) {
+        ItemStack block = OreDictUnificator.get(name.replaceFirst("gem", "block"));
+        if (!block.isEmpty()) Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict(name, 9), null, true, block);
+    }
+
+    private void processBlock(ItemStack stack, String name) {
         ItemStack ingot = OreDictUnificator.getFirstOre(name.replaceFirst("block", "ingot"));
         ItemStack gem = OreDictUnificator.getFirstOre(name.replaceFirst("block", "gem"));
         String dustName = name.replaceFirst("block", "dust");

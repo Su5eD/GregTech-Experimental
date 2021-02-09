@@ -130,6 +130,7 @@ public class OreDictRegistrar {
         registerOre("bookWritable", Items.WRITABLE_BOOK);
         registerOre("bookWritten", Items.WRITTEN_BOOK);
         registerOre("bookEnchanted", Items.ENCHANTED_BOOK);
+        registerOre("gemCoal", Items.COAL);
 
         GregTechAPI.logger.debug("Registering unification entries");
 

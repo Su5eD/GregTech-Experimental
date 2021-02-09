@@ -155,3 +155,45 @@
     item: ic2:crafting#coal_chunk
   duration: 400
   energyCost: 4
+- input:
+    - ore: gemEnderPearl
+    - item: minecraft:blaze_powder
+  output:
+    item: minecraft:ender_eye
+  duration: 400
+  energyCost: 2
+- input:
+    - ore: gemEnderPearl
+      count: 6
+    - item: minecraft:blaze_rod
+  output:
+    item: minecraft:ender_eye
+    count: 6
+  duration: 2400
+  energyCost: 2
+- input:
+    - ore: plankWood
+      count: 8
+    - ore: gemDiamond
+  output:
+    item: minecraft:jukebox
+  duration: 1600
+  energyCost: 1
+- input:
+    - ore: gemEmerald
+      count: 8
+    - item: ic2:crafting#advanced_circuit
+  output:
+    item: gregtechmod:data_storage_circuit
+    count: 4
+  duration: 3200
+  energyCost: 4
+- input:
+    - ore: gemOlivine
+      count: 8
+    - item: ic2:crafting#advanced_circuit
+  output:
+    item: gregtechmod:data_storage_circuit
+    count: 4
+  duration: 6400
+  energyCost: 8
