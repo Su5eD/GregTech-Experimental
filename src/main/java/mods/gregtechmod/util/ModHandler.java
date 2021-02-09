@@ -9,8 +9,11 @@ import cofh.thermalexpansion.util.managers.machine.SmelterManager;
 import cofh.thermalexpansion.util.managers.machine.TransposerManager;
 import com.google.common.base.CaseFormat;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.recipe.RecipeDualInput;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -28,6 +31,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -247,18 +251,24 @@ public class ModHandler {
         registry.addRecipe(recipe);
     }
 
+    public static void addSmeltingAndAlloySmeltingRecipe(ItemStack input, ItemStack output) {
+        GameRegistry.addSmelting(input, output, 0);
+        GtRecipes.alloy_smelter.addRecipe(RecipeDualInput.create(Collections.singletonList(RecipeIngredientItemStack.create(input)), output, 130, 3));
+        addInductionSmelterRecipe(input, new ItemStack(Blocks.SAND), output, ItemStack.EMPTY, output.getCount() * 1000, 0);
+    }
+
     public static void addShapelessRecipe(String ore, ResourceLocation group, ItemStack... inputs) {
         ItemStack output = OreDictUnificator.get(ore);
         if (!output.isEmpty()) {
             Ingredient[] ingredients = Arrays.stream(inputs)
                     .map(Ingredient::fromStacks)
                     .toArray(Ingredient[]::new);
-            addShapelessRecipe(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, ore), group, output, ingredients);
+            addShapelessRecipe(ore, group, output, ingredients);
         }
     }
 
     public static void addShapelessRecipe(String name, ResourceLocation group, ItemStack output, Ingredient... inputs) {
-        GameRegistry.addShapelessRecipe(new ResourceLocation(Reference.MODID, name),
+        GameRegistry.addShapelessRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
                 group,
                 output,
                 inputs);

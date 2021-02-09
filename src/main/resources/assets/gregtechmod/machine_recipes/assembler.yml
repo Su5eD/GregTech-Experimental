@@ -147,3 +147,11 @@
     item: minecraft:clock
   duration: 400
   energyCost: 4
+- input:
+    - item: ic2:crafting#coal_block
+      count: 8
+    - ore: blockIron
+  output:
+    item: ic2:crafting#coal_chunk
+  duration: 400
+  energyCost: 4

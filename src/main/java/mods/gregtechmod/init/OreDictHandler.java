@@ -10,10 +10,10 @@ import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.DynamicConfig;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.RecipeDualInput;
 import mods.gregtechmod.recipe.RecipeLathe;
+import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.RecipeSimple;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
@@ -53,6 +53,7 @@ public class OreDictHandler {
     private static final ResourceLocation RECIPE_GROUP_ARMOR = new ResourceLocation(Reference.MODID, "armor");
     private static final ResourceLocation RECIPE_GROUP_TOOLS = new ResourceLocation(Reference.MODID, "tools");
     private static final ResourceLocation RECIPE_GROUP_STICKS = new ResourceLocation(Reference.MODID, "sticks");
+    private static final ResourceLocation RECIPE_GROUP_BLOCKS = new ResourceLocation(Reference.MODID, "blocks");
 
     static {
         GTOreNames.put("battery", "crafting10kEUStore");
@@ -886,6 +887,35 @@ public class OreDictHandler {
         }*/
     }
 
+    private void registerBlockRecipes(ItemStack stack, String name) {
+        ItemStack ingot = OreDictUnificator.getFirstOre(name.replaceFirst("block", "ingot"));
+        ItemStack gem = OreDictUnificator.getFirstOre(name.replaceFirst("block", "gem"));
+        String dustName = name.replaceFirst("block", "dust");
+        ItemStack dust = OreDictUnificator.getFirstOre(dustName);
+
+        ModHandler.removeCraftingRecipe(stack);
+        if (!GregTechAPI.dynamicConfig.get("storageBlockCrafting", name, false).getBoolean()) {
+            if (ingot.isEmpty() && gem.isEmpty() && !dust.isEmpty()) ModHandler.removeCraftingRecipe(dust, dust, dust, dust, dust, dust, dust, dust, dust);
+            if (!gem.isEmpty()) ModHandler.removeCraftingRecipe(gem, gem, gem, gem, gem, gem, gem, gem, gem);
+            if (!ingot.isEmpty()) ModHandler.removeCraftingRecipe(ingot, ingot, ingot, ingot, ingot, ingot, ingot, ingot, ingot);
+        }
+
+        ingot.setCount(9);
+        gem.setCount(9);
+        dust.setCount(9);
+        if (GregTechAPI.dynamicConfig.get("storageBlockDeCrafting", name, !gem.isEmpty()).getBoolean()) {
+            ModHandler.addShapelessRecipe(name+"Dust", RECIPE_GROUP_BLOCKS, dust, new OreIngredient(name));
+            ModHandler.addShapelessRecipe(name+"Ingot", RECIPE_GROUP_BLOCKS, ingot, new OreIngredient(name));
+            ModHandler.addShapelessRecipe(name+"Gem", RECIPE_GROUP_BLOCKS, gem, new OreIngredient(name));
+        }
+
+        if (!ingot.isEmpty()) ModHandler.addSmeltingAndAlloySmeltingRecipe(stack, ingot);
+        if (!dust.isEmpty()) {
+            if (ingot.isEmpty() && gem.isEmpty()) Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict(dustName, 9), null, true, stack);
+            GtRecipes.pulverizer.addRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), dust));
+        }
+    }
+
     private void processIngot(ItemStack stack, String name) {
         ItemStack block = OreDictUnificator.get(name.replaceFirst("ingot", "block"));
         if (!block.isEmpty()) Recipes.compressor.addRecipe(Recipes.inputFactory.forOreDict(name, 9), null, true, block);
@@ -898,7 +928,7 @@ public class OreDictHandler {
             GtRecipes.bender.addRecipe(RecipeSimple.create(RecipeIngredientOre.create(name), plate, 50, 20));
             ItemStack result;
 
-            if (DynamicConfig.config.get("recipes", "platesNeededForArmorMadeOf"+material, true).getBoolean()) {
+            if (GregTechAPI.dynamicConfig.get("recipes", "platesNeededForArmorMadeOf"+material, true).getBoolean()) {
                 if (!(result = ModHandler.removeCraftingRecipe(stack, stack, stack, stack, ItemStack.EMPTY, stack)).isEmpty()) {
                     GameRegistry.addShapedRecipe(
                             new ResourceLocation(Reference.MODID, "helmet_" + materialName),
@@ -934,7 +964,7 @@ public class OreDictHandler {
             }
 
 
-            if (DynamicConfig.config.get("recipes", "platesNeededForToolsMadeOf"+name.replace("ingot", ""), true).getBoolean()) {
+            if (GregTechAPI.dynamicConfig.get("recipes", "platesNeededForToolsMadeOf"+name.replace("ingot", ""), true).getBoolean()) {
                 ItemStack stick = new ItemStack(Items.STICK);
                 if (!(result = ModHandler.removeCraftingRecipe(ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
                     GameRegistry.addShapedRecipe(
@@ -1037,7 +1067,7 @@ public class OreDictHandler {
             GtRecipes.lathe.addRecipe(RecipeLathe.create(RecipeIngredientOre.create(name), Arrays.asList(stick, !smallDust.isEmpty() ? smallDust : stick), !smallDust.isEmpty() ? 50 : 150, 16));
         }
 
-        if (DynamicConfig.config.hasChanged()) DynamicConfig.config.save();
+        if (GregTechAPI.dynamicConfig.hasChanged()) GregTechAPI.dynamicConfig.save();
     }
 
     private void processDust(ItemStack stack, String eventName) {
@@ -1125,7 +1155,8 @@ public class OreDictHandler {
         String dustName = name.replaceFirst("ore", "dust");
         ItemStack dust = OreDictUnificator.getFirstOre(dustName);
         if (!dust.isEmpty()) {
-            GameRegistry.addShapedRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, dustName)),
+            GameRegistry.addShapedRecipe(
+                    new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, dustName+"Crushing")),
                     RECIPE_GROUP_ORES,
                     dust,
                     "T", "O", 'T', "craftingToolHardHammer", 'O', name);

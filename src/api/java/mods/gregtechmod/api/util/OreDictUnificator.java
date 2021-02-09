@@ -73,7 +73,7 @@ public class OreDictUnificator {
         ItemStack stack = ItemStack.EMPTY;
         List<ItemStack> ores = OreDictionary.getOres(name);
         if (ores.size() > 0) stack = ores.get(0).copy();
-        if (stack.isEmpty()) stack.setCount(amount);
+        if (!stack.isEmpty()) stack.setCount(amount);
 
         return stack;
     }

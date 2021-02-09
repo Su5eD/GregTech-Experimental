@@ -4,6 +4,7 @@ import mods.gregtechmod.api.recipe.IRecipeFactory;
 import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import mods.gregtechmod.api.util.SonictronSound;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
@@ -16,4 +17,5 @@ public class GregTechAPI {
     public static IRecipeFactory recipeFactory;
     public static IRecipeIngredientFactory ingredientFactory;
     public static final Set<ItemStack> jackHammerMinableBlocks = new HashSet<>();
+    public static Configuration dynamicConfig;
 }
