@@ -109,7 +109,7 @@ dependencies {
     deobfCompile group: "mezz.jei", name: "jei_${mcversion}", version: "${version_jei}"
 
     deobfCompile group: "com.mod-buildcraft", name: "buildcraft-api", version: "${version_buildcraft}"
-    deobfCompile group: "curse.maven", name: "energy-control-373450", version: "3026320"
+    deobfCompile group: "curse.maven", name: "energy-control-373450", version: "3207144"
     deobfCompile group: "curse.maven", name: "railcraft-51195", version: "2687757"
     compile (group: "appeng", name: "appliedenergistics2", version: "rv6-stable-7", classifier: "api") {
         exclude group: "mezz.jei"

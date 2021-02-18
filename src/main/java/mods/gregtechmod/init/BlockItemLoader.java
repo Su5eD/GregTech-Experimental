@@ -1,6 +1,6 @@
 package mods.gregtechmod.init;
 
-import com.zuxelus.energycontrol.api.EnergyContolRegister;
+import com.zuxelus.energycontrol.api.EnergyControlRegister;
 import com.zuxelus.energycontrol.api.IItemCard;
 import com.zuxelus.energycontrol.api.IItemKit;
 import mods.gregtechmod.api.GregTechObjectAPI;
@@ -76,7 +76,7 @@ public class BlockItemLoader {
     public static void registerEnergyControlItems() {
         BlockItems.sensorKit = new ItemSensorKit();
         BlockItems.sensorCard = new ItemSensorCard();
-        EnergyContolRegister.registerKit((IItemKit) BlockItems.sensorKit);
-        EnergyContolRegister.registerCard((IItemCard) BlockItems.sensorCard);
+        EnergyControlRegister.registerKit((IItemKit) BlockItems.sensorKit);
+        EnergyControlRegister.registerCard((IItemCard) BlockItems.sensorCard);
     }
 }
