@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
@@ -38,10 +39,9 @@ public class ItemSensorKit extends ItemBase implements IItemKit {
     }
 
     @Override
-    public ItemStack getSensorCard(ItemStack stack, Item card, EntityPlayer player, World world, BlockPos pos) {
+    public ItemStack getSensorCard(ItemStack itemStack, Item card, EntityPlayer entityPlayer, World world, BlockPos pos, EnumFacing enumFacing) {
         TileEntity te = world.getTileEntity(pos);
-        if (!(te instanceof IPanelInfoProvider))
-            return ItemStack.EMPTY;
+        if (!(te instanceof IPanelInfoProvider)) return ItemStack.EMPTY;
 
         ItemStack sensorLocationCard = new ItemStack(card, 1, ItemSensorCard.CARD_ID);
         ItemStackHelper.setCoordinates(sensorLocationCard, pos);

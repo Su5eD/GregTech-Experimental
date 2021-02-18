@@ -53,7 +53,7 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
     }
 
     @Override
-    public List<PanelString> getStringData(int displaySettings, ICardReader card, boolean showLabels) {
+    public List<PanelString> getStringData(int displaySettings, ICardReader card, boolean b, boolean b1) {
         List<PanelString> result = new LinkedList<>();
 
         if((displaySettings & DISPLAY_MAIN) != 0)  {
@@ -81,11 +81,6 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
         result.add(new PanelSetting("Secondary", DISPLAY_SECOND, 800));
         result.add(new PanelSetting("Tertiary", DISPLAY_TERTIARY, 800));
         return result;
-    }
-
-    @Override
-    public ICardGui getSettingsScreen(ICardReader iCardReader) {
-        return null;
     }
 
     @Override
