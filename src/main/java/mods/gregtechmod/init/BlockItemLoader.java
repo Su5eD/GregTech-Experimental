@@ -60,7 +60,7 @@ public class BlockItemLoader {
         Arrays.stream(BlockItems.NuclearFuelRod.values()).forEach(nuclearRod -> registerItem(nuclearRod.getInstance()));
         Arrays.stream(BlockItems.JackHammer.values()).forEach(jackHammer -> registerItem(jackHammer.getInstance()));
         Arrays.stream(BlockItems.Tool.values()).forEach(tool -> registerItem(tool.getInstance()));
-        Arrays.stream(BlockItems.Wrenche.values()).forEach(wrench -> registerItem(wrench.getInstance()));
+        Arrays.stream(BlockItems.Wrench.values()).forEach(wrench -> registerItem(wrench.getInstance()));
         Arrays.stream(BlockItems.Hammer.values()).forEach(hammer -> registerItem(hammer.getInstance()));
         Arrays.stream(BlockItems.SolderingMetal.values()).forEach(solderingMetal -> registerItem(solderingMetal.getInstance()));
         Arrays.stream(BlockItems.TurbineRotor.values()).forEach(rotor -> registerItem(rotor.getInstance()));

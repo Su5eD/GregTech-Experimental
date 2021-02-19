@@ -23,7 +23,7 @@ public class RecipeCentrifuge extends Recipe<IRecipeIngredient, Collection<ItemS
                                           @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                           @JsonProperty(value = "cells") int cells,
                                           @JsonProperty(value = "duration", required = true) int duration) {
-        RecipeUtil.adjustOutputCount("centrifuge", output, 4);
+        output = RecipeUtil.adjustOutputCount("centrifuge", output, 4);
 
         RecipeCentrifuge recipe = new RecipeCentrifuge(input, output, cells, duration);
 

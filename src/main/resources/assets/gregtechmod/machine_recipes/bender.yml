@@ -1,2 +1,58 @@
 # Bender recipes
 ---
+- input:
+    ore: stickAluminium
+    count: 3
+  output:
+    item: railcraft:rail
+  duration: 150
+  energyCost: 10
+- input:
+    ore: stickIron
+    count: 3
+  output:
+    item: railcraft:rail
+    count: 2
+  duration: 150
+  energyCost: 10
+# Classic Recipe
+#- input:
+#    ore: stickRefinedIron
+#    count: 6
+#  output:
+#    item: railcraft:rail
+#    count: 5
+#  duration: 150
+#  energyCost: 20
+- input:
+    ore: stickBronze
+    count: 2
+  output:
+    item: railcraft:rail
+  duration: 50
+  energyCost: 20
+- input:
+    ore: stickSteel
+    count: 3
+  output:
+    item: railcraft:rail
+    count: 4
+  duration: 150
+  energyCost: 30
+- input:
+    ores:
+      - stickTitanium
+      - stickTungsten
+    count: 3
+  output:
+    item: railcraft:rail
+    count: 8
+  duration: 150
+  energyCost: 30
+- input:
+    ore: stickTungstenSteel
+  output:
+    item: railcraft:rail
+    count: 4
+  duration: 100
+  energyCost: 30

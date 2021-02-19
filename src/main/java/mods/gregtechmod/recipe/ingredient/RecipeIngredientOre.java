@@ -2,14 +2,14 @@ package mods.gregtechmod.recipe.ingredient;
 
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.recipe.ingredient.RecipeIngredientType;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import net.minecraft.item.ItemStack;
 
 import java.util.Collections;
 import java.util.List;
 
-public class RecipeIngredientOre extends RecipeIngredientBase<GtOreIngredient> {
+public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
+    public static final RecipeIngredientOre EMPTY = new RecipeIngredientOre(Collections.emptyList(), 0);
 
     private RecipeIngredientOre(List<String> ores, int count) {
         super(new GtOreIngredient(ores), count);
@@ -20,7 +20,7 @@ public class RecipeIngredientOre extends RecipeIngredientBase<GtOreIngredient> {
     }
 
     public static RecipeIngredientOre create(String ore, int count) {
-        if (ore.isEmpty()) return null;
+        if (ore.isEmpty()) return EMPTY;
         return new RecipeIngredientOre(Collections.singletonList(ore), count);
     }
 
@@ -28,16 +28,11 @@ public class RecipeIngredientOre extends RecipeIngredientBase<GtOreIngredient> {
         for (String ore : ores) {
             if (ore.isEmpty()) {
                 GregTechAPI.logger.error("Found empty string among ores: "+String.join(", ", ores));
-                return null;
+                return EMPTY;
             }
         }
 
         return new RecipeIngredientOre(ores, count);
-    }
-
-    @Override
-    public RecipeIngredientType getType() {
-        return RecipeIngredientType.ORE;
     }
 
     @Override
@@ -79,6 +74,11 @@ public class RecipeIngredientOre extends RecipeIngredientBase<GtOreIngredient> {
         } else total -= super.compareTo(other);
 
         return total;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.ingredient.getOres().isEmpty();
     }
 
     @Override

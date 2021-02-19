@@ -372,8 +372,8 @@
 - input:
     ore: oreElectrotine
   output:
-    - ore: oreElectrotine
-    - item: ic2:dust#diamond
+    - ore: dustElectrotine
+      count: 2
 - input:
     ore: ingotUranium
   output:
@@ -519,3 +519,54 @@
     ore: gemCoal
   output:
     - item: ic2:dust#coal
+- input:
+    ore: crystalNetherQuartz
+  output:
+    - ore: dustNetherQuartz
+  overwrite: true
+- input:
+    ores:
+      - itemManganese
+      - manganese
+  output:
+    - item: gregtechmod:dust_manganese
+- input:
+    ores:
+      - itemMagnesium
+      - magnesium
+  output:
+    - item: gregtechmod:dust_magnesium
+- input:
+    ores:
+      - itemPhosphorite
+      - phosphorite
+      - itemPhosphorus
+      - phosphorus
+  output:
+    - item: gregtechmod:dust_phosphorus
+- input:
+    ores:
+      - itemSulfur
+      - sulfur
+  output:
+    - item: ic2:dust#sulfur
+- input:
+    ores:
+      - itemAluminum
+      - aluminum
+      - itemAluminium
+      - aluminium
+  output:
+    - item: gregtechmod:dust_aluminium
+- input:
+    ores:
+      - itemSaltpeter
+      - saltpeter
+  output:
+    - item: gregtechmod:dust_saltpeter
+- input:
+    ores:
+      - itemUranium
+      - uranium
+  output:
+    - item: gregtechmod:dust_uranium

@@ -11,7 +11,7 @@ import java.util.ArrayDeque;
 import java.util.Random;
 
 public class RetrogenHandler {
-    public static RetrogenHandler instance = new RetrogenHandler();
+    public static final RetrogenHandler INSTANCE = new RetrogenHandler();
 
     public static TIntObjectHashMap<ArrayDeque<ChunkPos>> chunksToGen = new TIntObjectHashMap<>();
 
@@ -31,7 +31,7 @@ public class RetrogenHandler {
                 long xSeed = rand.nextLong() >> 2 + 1L;
                 long zSeed = rand.nextLong() >> 2 + 1L;
                 rand.setSeed(xSeed * c.x + zSeed * c.z ^ worldSeed);
-                OreGenerator.instance.generateWorld(rand, c.x*16, c.z*16, world, false, null);
+                OreGenerator.INSTANCE.generateWorld(rand, c.x*16, c.z*16, world, false, null);
                 chunksToGen.put(dimension, chunks);
             } else if (chunks != null) {
                 chunksToGen.remove(dimension);

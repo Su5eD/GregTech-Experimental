@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
-     dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry")
+     dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
 
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
@@ -72,14 +72,16 @@ public final class GregTechMod {
         GregTechAPI.logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
         DynamicConfig.init();
-        MinecraftForge.EVENT_BUS.register(OreGenerator.instance);
-        MinecraftForge.EVENT_BUS.register(RetrogenHandler.instance);
+        MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(OreDictHandler.INSTANCE);
+        ModHandler.checkLoadedMods();
 
         RegistryHandler.registerFluids();
         Components.register(CoverHandler.class, "gtcover");
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
         CoverLoader.registerCovers();
-        GameRegistry.registerWorldGenerator(OreGenerator.instance, 5);
+        GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
     }
 
     @EventHandler
@@ -94,7 +96,8 @@ public final class GregTechMod {
 
         OreDictRegistrar.registerItems();
 
-        RecipeLoader.load();
+        RecipeLoader.loadRecipes();
+        RecipeLoader.loadDynamicRecipes();
 
         GregTechAPI.logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
@@ -111,7 +114,12 @@ public final class GregTechMod {
     public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
         ItemStackModificator.init();
+
+        GregTechAPI.logger.info("Activating OreDictionary Handler");
+        OreDictHandler.INSTANCE.activateHandler();
         OreDictHandler.registerValuableOres();
+
+        RecipeLoader.registerDynamicRecipes();
     }
 
     @SubscribeEvent

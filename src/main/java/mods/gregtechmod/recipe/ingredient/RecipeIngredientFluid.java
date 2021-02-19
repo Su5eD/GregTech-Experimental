@@ -15,7 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> implements IRecipeIngredientFluid {
+public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implements IRecipeIngredientFluid {
+    public static final RecipeIngredientFluid EMPTY = new RecipeIngredientFluid(Collections.emptyList(), 0);
     private final int buckets;
     private final List<Fluid> matchingFluids;
 
@@ -39,7 +40,11 @@ public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> impl
             GregTechAPI.logger.error("Tried to create an IRecipeIngredientfluid with an invalid fluid among its matching fluids: " + String.join(", ", names));
         } else return fromFluids(fluids, buckets);
 
-        return null;
+        return EMPTY;
+    }
+
+    public static RecipeIngredientFluid fromFluid(Fluid fluid) {
+        return new RecipeIngredientFluid(Collections.singletonList(fluid), 1);
     }
 
     public static RecipeIngredientFluid fromFluid(Fluid fluid, int buckets) {
@@ -112,11 +117,16 @@ public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> impl
     }
 
     @Override
+    public boolean isEmpty() {
+        return this.matchingFluids.isEmpty();
+    }
+
+    @Override
     public String toString() {
         List<String> fluids = this.matchingFluids.stream()
                 .map(Fluid::getName)
                 .collect(Collectors.toList());
-        return "RecipeIngredientFluid{fluids=["+String.join(",", fluids)+"],buckets="+this.buckets+"}";
+        return "RecipeIngredientFluid{fluids="+fluids+",buckets="+this.buckets+"}";
     }
 
     public static List<ItemStack> getContainersForFluids(List<Fluid> fluids) {

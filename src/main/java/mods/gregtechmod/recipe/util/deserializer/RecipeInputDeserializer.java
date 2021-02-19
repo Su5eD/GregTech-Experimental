@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.util;
+package mods.gregtechmod.recipe.util.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

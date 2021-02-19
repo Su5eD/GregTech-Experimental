@@ -1,0 +1,104 @@
+# Chemical recipes
+---
+- input:
+    - item: gregtechmod:cell_carbon
+    - item: ic2:fluid_cell#hydrogen
+      count: 4
+  output:
+    item: ic2:fluid_cell#methane
+    count: 5
+  duration: 3500
+- input:
+    - item: ic2:fluid_cell#hydrogen
+      count: 4
+    - item: ic2:fluid_Cell#ic2air
+  output:
+    item: ic2:fluid_Cell#water
+    count: 5
+  duration: 10
+- input:
+    - item: gregtechmod:cell_carbon
+    - item: ic2:fluid_cell#hydrogen
+      count: 4
+  output:
+    item: ic2:fluid_cell#methane
+    count: 5
+  duration: 3500
+- input:
+    - item: ic2:fluid_cell#nitrogen
+    - item: gregtechmod:cell_carbon
+  output:
+    item: gregtechmod:cell_nitrocarbon
+    count: 2
+  duration: 1500
+- input:
+    - item: ic2:fluid_cell#calcium
+    - item: gregtechmod:cell_carbon
+  output:
+    item: ic2:fluid_cell#calcium_carbonate
+    count: 2
+  duration: 250
+- input:
+    - item: gregtechmod:cell_sulfur
+    - item: ic2:fluid_cell#sodium
+  output:
+    item: gregtechmod:cell_sodium_sulfide
+    count: 2
+  duration: 100
+- input:
+    - item: gregtechmod:cell_sulfur
+    - item: ic2:fluid_cell#water
+      count: 2
+  output:
+    item: gregtechmod:cell_sulfuric_acid
+    count: 3
+  duration: 1150
+- input:
+    - item: gregtechmod:cell_sodium_sulfide
+      count: 2
+    - item: ic2:fluid_cell#ic2air
+      count: 3
+  output:
+    item: ic2:fluid_cell#sodium_persulfate
+    count: 5
+  duration: 4000
+- input:
+    - item: ic2:fluid_cell#nitrogen
+    - item: ic2:fluid_cell#ic2air
+  output:
+    item: ic2:fluid_cell#nitrogen_dioxide
+    count: 2
+  duration: 1250
+- input:
+    - item: ic2:fluid_cell#nitrogen
+    - item: gregtechmod:cell_carbon
+  output:
+    item: gregtechmod:cell_nitrocarbon
+    count: 2
+  duration: 1500
+- input:
+    - item: gregtechmod:cell_nitrocarbon
+      count: 3
+    - item: ic2:fluid_cell#water
+      count: 3
+  output:
+    item: ic2:fluid_cell#glyceryl
+    count: 6
+  duration: 1750
+- input:
+    - item: ic2:fluid_cell#glyceryl
+    - item: ic2:fluid_cell#diesel
+      count: 4
+  output:
+    item: ic2:fluid_cell#nitro_diesel
+    count: 5
+  duration: 250
+# Classic recipe
+#- input:
+#    - item: ic2:fluid_cell#glyceryl
+#    - item: ic2:cell#coalfuel
+#      count: 4
+#  output:
+#    item: ic2:fluid_cell#nitro_coalfuel
+#    count: 5
+#  duration: 250

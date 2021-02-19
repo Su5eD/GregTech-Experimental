@@ -32,7 +32,8 @@ public class RecipeManagerMultiInput<R extends IGtMachineRecipe<List<IRecipeIngr
                 .filter(recipe -> recipe.getInput().stream()
                         .allMatch(ingreident -> input.stream()
                                 .allMatch(ingreident::apply)))
-                .findFirst().orElse(null);
+                .findFirst()
+                .orElse(null);
     }
 
     protected static class MultiInputRecipeComparator<R extends IGtMachineRecipe<List<IRecipeIngredient>, ?>> implements Comparator<R> {

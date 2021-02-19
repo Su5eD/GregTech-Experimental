@@ -11,6 +11,7 @@ import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.IModelInfoProvider;
+import mods.gregtechmod.util.ModHandler;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
@@ -29,7 +30,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nullable;
@@ -103,7 +103,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (this.showDurability) tooltip.add((stack.getMaxDamage() - stack.getItemDamage() + 1) + " / " + (stack.getMaxDamage() + 1));
-        if (Loader.isModLoaded("buildcraftcore")) tooltip.add("Works as a BuildCraft wrench, too");
+        if (ModHandler.buildcraftCore) tooltip.add("Works as a BuildCraft wrench, too");
         tooltip.add("To dismantle and rotate blocks of most mods");
         tooltip.add("Rotation of target depends on where exactly you click");
     }

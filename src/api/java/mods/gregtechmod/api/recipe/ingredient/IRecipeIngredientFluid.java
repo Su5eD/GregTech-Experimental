@@ -14,8 +14,4 @@ public interface IRecipeIngredientFluid extends IRecipeIngredient {
     int getMilliBuckets();
 
     List<Fluid> getMatchingFluids();
-
-    default RecipeIngredientType getType() {
-        return RecipeIngredientType.FLUID;
-    }
 }

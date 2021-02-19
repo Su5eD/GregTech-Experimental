@@ -2,12 +2,13 @@ package mods.gregtechmod.objects.items.base;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.item.tool.ToolClass;
+import mods.gregtechmod.util.IElectricCraftingItem;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.Set;
 
-public class ItemToolElectricCrafting extends ItemToolElectricBase {
+public class ItemToolElectricCrafting extends ItemToolElectricBase implements IElectricCraftingItem {
     protected final int craftingEnergyCost;
 
     public ItemToolElectricCrafting(String name, @Nullable String description, int craftingEnergyCost, float attackDamage, double maxCharge, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
@@ -23,6 +24,11 @@ public class ItemToolElectricCrafting extends ItemToolElectricBase {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         ElectricItem.manager.use(stack, this.craftingEnergyCost, null);
-        return stack;
+        return stack.copy();
+    }
+
+    @Override
+    public boolean canUse(ItemStack stack) {
+        return ElectricItem.manager.canUse(stack, this.craftingEnergyCost);
     }
 }

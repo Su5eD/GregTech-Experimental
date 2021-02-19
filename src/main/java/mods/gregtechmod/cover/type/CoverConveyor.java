@@ -39,7 +39,7 @@ public class CoverConveyor extends CoverGeneric {
 
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
-        mode = (byte) ((mode + 1)%12); //TODO: Cleanup dupllicate code
+        mode = (byte) ((mode + 1)%12); //TODO: Cleanup duplicate code
         if (!player.world.isRemote) return true;
 
         switch (mode) {

@@ -39,6 +39,7 @@ public class GregTechConfig {
         public boolean dynamicCentrifugeAnimationSpeed = true;
         public boolean hiddenOres = true;
         public boolean harderStone = false;
+        public boolean woodNeedsSawForCrafting = true;
 
         public String[] specialUnificationTargets = new String[0];
     }
@@ -85,11 +86,11 @@ public class GregTechConfig {
     }
 
     public static class Unification {
-        public boolean forestry = true;
-        public boolean railcraft = true;
+        public boolean forestry = false;
+        public boolean railcraft = false;
         public boolean projectred = true;
         public boolean thaumcraft = true;
-        public boolean thermalfoundation = true;
+        public boolean thermalfoundation = false;
     }
 
     public static class WorldGen {

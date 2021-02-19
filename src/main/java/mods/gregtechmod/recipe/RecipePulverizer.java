@@ -2,16 +2,14 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>> implements IRecipePulverizer {
     private final int chance;
@@ -28,11 +26,11 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput) {
-        return create(input, Arrays.asList(primaryOutput, secondaryOutput), 10, false);
+        return create(input, GtUtil.nonEmptyList(primaryOutput, secondaryOutput), 10, false);
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
-        return create(input, Arrays.asList(primaryOutput, secondaryOutput), chance, false);
+        return create(input, GtUtil.nonEmptyList(primaryOutput, secondaryOutput), chance, false);
     }
 
     @JsonCreator
@@ -40,10 +38,7 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
                                           @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                           @JsonProperty(value = "chance") int chance,
                                           @JsonProperty(value = "overwrite") boolean overwrite) {
-        if (output.size() > 2) {
-            GregTechAPI.logger.error("Tried to add a pulverizer recipe for " + output.stream().map(ItemStack::getTranslationKey).collect(Collectors.joining()) + " with way too many outputs! Reducing them to 2");
-            output = output.subList(0, 2);
-        }
+        output = RecipeUtil.adjustOutputCount("pulverizer", output, 2);
 
         RecipePulverizer recipe = new RecipePulverizer(input, output, chance < 1 ? 10 : chance, overwrite);
 
@@ -69,13 +64,13 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     }
 
     @Override
-    public boolean overwrite() {
+    public boolean shouldOverwrite() {
         return this.overwrite;
     }
 
     @Override
     public String toString() {
         ItemStack secondaryOutput = this.getSecondaryOutput();
-        return "RecipePulverizer{input="+this.input+",output="+this.getPrimaryOutput().toString()+(!secondaryOutput.isEmpty() ? ",secondaryOutput="+secondaryOutput.toString()+",chance="+this.chance : "")+",overwrite="+this.overwrite+"}";
+        return "RecipePulverizer{input="+this.input+",output="+this.getPrimaryOutput().toString()+(!secondaryOutput.isEmpty() ? ",secondaryOutput="+secondaryOutput.toString()+",chance="+this.chance : "")+"duration="+this.duration+",overwrite="+this.overwrite+"}";
     }
 }

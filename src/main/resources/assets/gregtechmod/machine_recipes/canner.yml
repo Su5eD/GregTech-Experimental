@@ -41,3 +41,192 @@
     - item: gregtechmod:cell_thorium
   duration: 100
   energyCost: 2
+- input:
+    - item: ic2:fluid_cell#nitrogen
+      count: 16
+    - item: gregtechmod:spray_can_empty
+  output:
+    - item: gregtechmod:spray_ice
+    - item: ic2:fluid_cell
+      count: 16
+  duration: 1600
+  energyCost: 2
+# Classic recipe
+#- input:
+#    - item: ic2:crop_res#grin_powder
+#    - ore: craftingSprayCan
+#  output:
+#    - item: ic2:cell#weed_ex
+#  duration: 800
+#  energyCost: 1
+- input:
+    - item: ic2:crop_res#grin_powder
+    - item: ic2:fluid_cell
+  output:
+    - item: ic2:fluid_cell#ic2weed_ex
+  duration: 800
+  energyCost: 1
+- input:
+    - item: ic2:fluid_cell#water
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_hydration
+    - item: ic2:fluid_cell
+      count: 16
+  duration: 1600
+  energyCost: 2
+- input:
+    - item: ic2:crafting#pellet
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_foam
+  duration: 1600
+  energyCost: 2
+- input:
+    - item: minecraft:sand
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_hardener
+  duration: 1600
+  energyCost: 2
+- input:
+    - item: ic2:fluid_cell#nitrogen
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_ice
+    - item: ic2:fluid_cell
+      count: 16
+  duration: 1600
+  energyCost: 2
+- input:
+    - ore: dyeBlack
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_black
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeRed
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_red
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeGreen
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_green
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeBrown
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_brown
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeBlue
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_blue
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyePurple
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_purple
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeCyan
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_cyan
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeLightGray
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_silver
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyePink
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_pink
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeLime
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_lime
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeYellow
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_yellow
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeLightBlue
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_light_blue
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeMagenta
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_magenta
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeOrange
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_orange
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: dyeWhite
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_color_white
+  duration: 800
+  energyCost: 1
+- input:
+    - ores:
+        - itemQuicksilver
+        - quicksilver
+  output:
+    - item: ic2:fluid_cell#mercury
+  duration: 100
+  energyCost: 1

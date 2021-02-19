@@ -1,10 +1,10 @@
 package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
+import mods.gregtechmod.util.ModHandler;
 import mods.railcraft.api.crafting.Crafters;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
 public class RecipeManagerBlastFurnace extends RecipeManagerMultiInput<IRecipeBlastFurnace> {
@@ -16,7 +16,7 @@ public class RecipeManagerBlastFurnace extends RecipeManagerMultiInput<IRecipeBl
     @Override
     public boolean addRecipe(IRecipeBlastFurnace recipe, boolean overwrite) {
         boolean ret = super.addRecipe(recipe, overwrite);
-        if (ret && recipe.isUniversal() && Loader.isModLoaded("railcraft")) addRCBlastFurnaceRecipe(recipe.getInput().get(0).asIngredient(), recipe.getOutput().get(0), recipe.getDuration());
+        if (ret && recipe.isUniversal() && ModHandler.railcraft) addRCBlastFurnaceRecipe(recipe.getInput().get(0).asIngredient(), recipe.getOutput().get(0), recipe.getDuration());
         return ret;
     }
 

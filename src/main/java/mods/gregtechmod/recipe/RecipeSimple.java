@@ -16,8 +16,8 @@ public class RecipeSimple extends Recipe<IRecipeIngredient, ItemStack> {
     public static RecipeSimple create(@JsonProperty(value = "input", required = true) IRecipeIngredient input,
                                       @JsonProperty(value = "output", required = true) ItemStack output,
                                       @JsonProperty(value = "duration", required = true) int duration,
-                                      @JsonProperty(value = "energyCost", required = true) double energycost) {
-        RecipeSimple recipe = new RecipeSimple(input, output, duration, energycost);
+                                      @JsonProperty(value = "energyCost", required = true) double energyCost) {
+        RecipeSimple recipe = new RecipeSimple(input, output, duration, energyCost);
 
         if (!RecipeUtil.validateRecipeIO("simple", input, output)) recipe.invalid = true;
 

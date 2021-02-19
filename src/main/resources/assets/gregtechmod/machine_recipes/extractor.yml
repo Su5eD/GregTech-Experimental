@@ -1,0 +1,6 @@
+# Extractor recipes
+---
+- input:
+    ore: woodRubber
+  output:
+    - item: ic2:crafting#rubber

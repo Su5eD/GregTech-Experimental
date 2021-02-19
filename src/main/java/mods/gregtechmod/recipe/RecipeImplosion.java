@@ -22,7 +22,7 @@ public class RecipeImplosion extends Recipe<List<IRecipeIngredient>, List<ItemSt
                                          @JsonProperty(value = "tnt", required = true) int tnt,
                                          @JsonProperty(value = "output", required = true) List<ItemStack> output) {
         tnt = tnt > 0 ? Math.min(tnt, 64) : 1;
-        RecipeUtil.adjustOutputCount("implosion", output, 2);
+        output = RecipeUtil.adjustOutputCount("implosion", output, 2);
 
         RecipeImplosion recipe = new RecipeImplosion(input, tnt, output);
 

@@ -62,6 +62,11 @@ public class OreDictUnificator {
         if (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(GtUtil.getStackConfigName(stack))) set(name, stack);
     }
 
+    public static ItemStack getUnifiedOre(String name) {
+        ItemStack stack = name2OreMap.get(name);
+        return stack == null ? ItemStack.EMPTY : stack;
+    }
+
     public static ItemStack getFirstOre(String name) {
         return getFirstOre(name, 1);
     }

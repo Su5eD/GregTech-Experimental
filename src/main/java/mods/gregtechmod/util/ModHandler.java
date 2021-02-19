@@ -3,43 +3,73 @@ package mods.gregtechmod.util;
 import appeng.api.AEApi;
 import appeng.api.features.IGrinderRecipe;
 import appeng.api.features.IGrinderRegistry;
+import cofh.thermalexpansion.util.managers.device.FactorizerManager;
 import cofh.thermalexpansion.util.managers.machine.PulverizerManager;
 import cofh.thermalexpansion.util.managers.machine.SawmillManager;
 import cofh.thermalexpansion.util.managers.machine.SmelterManager;
 import cofh.thermalexpansion.util.managers.machine.TransposerManager;
 import com.google.common.base.CaseFormat;
-import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.util.OreDictUnificator;
+import ic2.api.item.IC2Items;
+import ic2.api.recipe.IRecipeInput;
+import ic2.api.recipe.MachineRecipe;
+import ic2.core.recipe.BasicMachineRecipeManager;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.recipe.RecipeDualInput;
-import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
-import net.minecraft.init.Blocks;
+import mods.railcraft.api.crafting.Crafters;
+import mods.railcraft.api.crafting.IRockCrusherCrafter;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.registries.IForgeRegistryModifiable;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ModHandler {
+    public static boolean thermalfoundation;
+    public static boolean thermalExpansion;
+    public static boolean appliedEnergistics;
+    public static boolean forestry;
+    public static boolean railcraft;
+    public static boolean projectredCore;
+    public static boolean thaumcraft;
+    public static boolean quark;
+    public static boolean traverse;
+    public static boolean projectVibrantJourneys;
+    public static boolean buildcraftCore;
+
     public static ItemStack SLAG = ItemStack.EMPTY;
     public static ItemStack SLAG_RICH = ItemStack.EMPTY;
     public static ItemStack HARDENED_GLASS = ItemStack.EMPTY;
     public static ItemStack BC_STONE_GEAR = ItemStack.EMPTY;
+    public static ItemStack WOODEN_TIE = ItemStack.EMPTY;
+
+    public static void checkLoadedMods() {
+        thermalfoundation = Loader.isModLoaded("thermalfoundation");
+        thermalExpansion = Loader.isModLoaded("thermalexpansion");
+        appliedEnergistics = Loader.isModLoaded("appliedenergistics2");
+        forestry = Loader.isModLoaded("forestry");
+        railcraft = Loader.isModLoaded("railcraft");
+        projectredCore = Loader.isModLoaded("projectred-core");
+        thaumcraft = Loader.isModLoaded("thaumcraft");
+        quark = Loader.isModLoaded("quark");
+        traverse = Loader.isModLoaded("traverse");
+        projectVibrantJourneys = Loader.isModLoaded("pvj");
+        buildcraftCore = Loader.isModLoaded("buildcraftcore");
+    }
 
     public static void gatherModItems() {
         Item material = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
@@ -53,6 +83,9 @@ public class ModHandler {
 
         Item stoneGear = ForgeRegistries.ITEMS.getValue(new ResourceLocation("buildcraftcore", "gear_stone"));
         if (stoneGear != null) BC_STONE_GEAR = new ItemStack(stoneGear);
+
+        Item tie = ForgeRegistries.ITEMS.getValue(new ResourceLocation("railcraft", "tie"));
+        if (tie != null) WOODEN_TIE = new ItemStack(tie);
     }
 
     public static ItemStack getModItem(String modid, String itemName) {
@@ -106,7 +139,7 @@ public class ModHandler {
     }
 
     public static void addTESawmillRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
-        if (Loader.isModLoaded("thermalexpansion")) registerSawmillRecipe(energy, input, primaryOutput, secondaryOutput, chance, overwrite);
+        if (thermalExpansion) registerSawmillRecipe(energy, input, primaryOutput, secondaryOutput, chance, overwrite);
     }
 
     @Optional.Method(modid = "thermalexpansion")
@@ -120,7 +153,16 @@ public class ModHandler {
     }
 
     public static void addTEPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
-        if (Loader.isModLoaded("thermalexpansion")) registerPulverizerRecipe(energy, input, primaryOutput, secondaryOutput, chance, overwrite);
+        if (thermalExpansion) registerPulverizerRecipe(energy, input, primaryOutput, secondaryOutput, chance, overwrite);
+    }
+
+    public static void removeTEPulverizerRecipe(ItemStack input) {
+        if (thermalExpansion) _removeTEPulverizerRecipe(input);
+    }
+
+    @Optional.Method(modid = "thermalexpansion")
+    private static void _removeTEPulverizerRecipe(ItemStack input) {
+        PulverizerManager.removeRecipe(input);
     }
 
     @Optional.Method(modid = "thermalexpansion")
@@ -130,7 +172,7 @@ public class ModHandler {
     }
 
     public static void addInductionSmelterRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
-        if (Loader.isModLoaded("thermalexpansion")) registerInductionsmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
+        if (thermalExpansion) registerInductionsmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
     }
 
     @Optional.Method(modid = "thermalexpansion")
@@ -138,76 +180,76 @@ public class ModHandler {
         SmelterManager.addRecipe(energy, primaryInput, secondaryInput, primaryOutput, secondaryOutput, chance);
     }
 
-    public static void addSmelterOreToIngotsRecipe(String ore, Item output) {
-        addSmelterOreToIngotsRecipe(ore, new ItemStack(output));
-    }
-
-    public static void addSmelterOreToIngotsRecipe(ItemStack input, Item output) {
-        addSmelterOreToIngotsRecipe(input, new ItemStack(output));
-    }
-
-    public static void addSmelterOreToIngotsRecipe(List<String> ores, Item output) {
-        ItemStack outputStack = new ItemStack(output);
-        ores.forEach(ore -> addSmelterOreToIngotsRecipe(ore, outputStack));
-    }
-
-    public static void addSmelterOreToIngotsRecipe(String ore, ItemStack output) {
-        OreDictionary.getOres(ore).forEach(stack -> addSmelterOreToIngotsRecipe(stack, output));
-    }
-
-    public static void addSmelterOreToIngotsRecipe(ItemStack input, ItemStack output) {
-        ItemStack ore = StackUtil.copyWithSize(input, 1);
-        ItemStack ingots2 = StackUtil.copyWithSize(output, 2);
-        ItemStack ingots3 = StackUtil.copyWithSize(output, 3);
-
-        addInductionSmelterRecipe(ore, new ItemStack(Blocks.SAND), ingots2, SLAG_RICH, 3200, 5);
-        addInductionSmelterRecipe(ore, SLAG_RICH, ingots3, SLAG, 4000, 75);
-        GameRegistry.addSmelting(input, output, 0);
-    }
-
     public static void addLiquidTransposerFillRecipe(ItemStack emptyContainer, FluidStack fluid, ItemStack fullContainer, int energy) {
-        if (Loader.isModLoaded("thermalexpansion")) registerLiquidTransposerFillRecipe(emptyContainer, fluid, fullContainer, energy);
+        if (thermalExpansion) registerLiquidTransposerFillRecipe(emptyContainer, fluid, fullContainer, energy);
     }
+
     @Optional.Method(modid = "thermalexpansion")
-    public static void registerLiquidTransposerFillRecipe(ItemStack emptyContainer, FluidStack fluid, ItemStack fullContainer, int energy) {
+    private static void registerLiquidTransposerFillRecipe(ItemStack emptyContainer, FluidStack fluid, ItemStack fullContainer, int energy) {
         TransposerManager.addFillRecipe(energy, emptyContainer, fullContainer, fluid, false);
     }
 
-    public static void addRockCrusherRecipe(ItemStack input, boolean matchMeta, boolean matchNBT, Map<ItemStack, Float> outputs) {
-        NBTTagCompound nbt = new NBTTagCompound();
+    public static void addFactorizerRecipe(ItemStack input, ItemStack output, boolean reverse) {
+        if (thermalExpansion) registerFactorizerRecipe(input, output, reverse);
+    }
 
-        NBTTagCompound inputNBT = new NBTTagCompound();
-        input.writeToNBT(inputNBT);
-        nbt.setTag("input", inputNBT);
+    @Optional.Method(modid = "thermalexpansion")
+    private static void registerFactorizerRecipe(ItemStack input, ItemStack output, boolean reverse) {
+        FactorizerManager.addRecipe(input, output, reverse);
+    }
 
-        nbt.setBoolean("matchMeta", matchMeta);
-        nbt.setBoolean("matchNBT", matchNBT);
+    public static void removeFactorizerRecipe(ItemStack input, boolean reverse) {
+        if (thermalExpansion) _removeFactorizerRecipe(input, reverse);
+    }
 
-        int outCount = 0;
+    @Optional.Method(modid = "thermalexpansion")
+    private static void _removeFactorizerRecipe(ItemStack input, boolean reverse) {
+        FactorizerManager.removeRecipe(input, reverse);
+    }
+
+    public static void addAEGrinderRecipe(ItemStack input, ItemStack output, int turns) {
+        if (appliedEnergistics) registerAEGrinderRecipe(input, output, turns);
+    }
+
+    @Optional.Method(modid = "appliedenergistics2")
+    private static void registerAEGrinderRecipe(ItemStack input, ItemStack output, int turns) {
+        IGrinderRegistry registry = AEApi.instance().registries().grinder();
+        IGrinderRecipe recipe = registry.builder()
+                .withInput(input)
+                .withOutput(output)
+                .withTurns(turns)
+                .build();
+        registry.addRecipe(recipe);
+    }
+
+    public static void addRockCrusherRecipe(ItemStack input, Map<ItemStack, Float> outputs) {
+        if (railcraft) registerRockCrusherRecipe(input, outputs);
+    }
+
+    @Optional.Method(modid = "railcraft")
+    private static void registerRockCrusherRecipe(ItemStack input, Map<ItemStack, Float> outputs) {
+        IRockCrusherCrafter.IRockCrusherRecipeBuilder builder = Crafters.rockCrusher()
+                .makeRecipe(input);
         for (Map.Entry<ItemStack, Float> output : outputs.entrySet()) {
-            NBTTagCompound outputNBT = new NBTTagCompound();
-            output.getKey().writeToNBT(outputNBT);
-            outputNBT.setFloat("chance", output.getValue());
-            nbt.setTag("output" + outCount++, outputNBT);
+            builder.addOutput(output.getKey(), output.getValue());
         }
-
-        FMLInterModComms.sendMessage("Railcraft", "rock-crusher", nbt);
+        builder.register();
     }
 
-    public static ItemStack getCraftingResult(ItemStack... stacks) {
-        IRecipe recipe = getCraftingRecipe(stacks);
-
-        return recipe != null ? recipe.getRecipeOutput() : ItemStack.EMPTY;
+    public static void addShapedRecipe(String name, ResourceLocation group, @Nonnull ItemStack output, Object... params) {
+        GameRegistry.addShapedRecipe(
+                new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
+                group,
+                output,
+                params
+        );
     }
 
-    public static ItemStack removeCraftingRecipe(ItemStack... stacks) {
-        IRecipe recipe = getCraftingRecipe(stacks);
-        if (recipe != null) {
-            ForgeRegistries.RECIPES.getValuesCollection().remove(recipe);
-            return recipe.getRecipeOutput();
-        }
-
-        return ItemStack.EMPTY;
+    public static void addShapelessRecipe(String name, ResourceLocation group, ItemStack output, Ingredient... inputs) {
+        GameRegistry.addShapelessRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
+                group,
+                output,
+                inputs);
     }
 
     public static IRecipe getCraftingRecipe(ItemStack... stacks) {
@@ -226,51 +268,56 @@ public class ModHandler {
         return null;
     }
 
-    public static void addDustToIngotSmeltingRecipe(ItemStack input, Item output) {
-        addDustToIngotSmeltingRecipe(input, new ItemStack(output));
+    public static ItemStack getCraftingResult(ItemStack... stacks) {
+        IRecipe recipe = getCraftingRecipe(stacks);
+
+        return recipe != null ? recipe.getRecipeOutput().copy() : ItemStack.EMPTY;
     }
 
-    public static void addDustToIngotSmeltingRecipe(ItemStack input, ItemStack output) {
-        ItemStack dust = StackUtil.copyWithSize(input, 2);
-        ItemStack ingots = StackUtil.copyWithSize(output, 2);
-        SmelterManager.addRecipe(800, dust, new ItemStack(Blocks.SAND), ingots, SLAG, 25);
+    public static ItemStack removeCraftingRecipeFromInputs(ItemStack... stacks) {
+        IRecipe recipe = getCraftingRecipe(stacks);
+        if (recipe != null) {
+            ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(recipe.getRegistryName());
+            return recipe.getRecipeOutput();
+        }
+
+        return ItemStack.EMPTY;
     }
 
-    public static void addAEGrinderRecipe(ItemStack input, ItemStack output, int turns) {
-        if (Loader.isModLoaded("appliedenergistics2")) registerAEGrinderRecipe(input, output, turns);
+    public static void removeCraftingRecipe(ItemStack output) {
+        new ArrayList<>(ForgeRegistries.RECIPES.getValuesCollection()).stream()
+                .filter(recipe -> ItemHandlerHelper.canItemStacksStack(recipe.getRecipeOutput(), output))
+                .map(IRecipe::getRegistryName)
+                .forEach(((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES)::remove);
     }
 
-    @Optional.Method(modid = "appliedenergistics2")
-    private static void registerAEGrinderRecipe(ItemStack input, ItemStack output, int turns) {
-        IGrinderRegistry registry = AEApi.instance().registries().grinder();
-        IGrinderRecipe recipe = registry.builder()
-                .withInput(input)
-                .withOutput(output)
-                .withTurns(turns)
-                .build();
-        registry.addRecipe(recipe);
-    }
-
-    public static void addSmeltingAndAlloySmeltingRecipe(ItemStack input, ItemStack output) {
-        GameRegistry.addSmelting(input, output, 0);
-        GtRecipes.alloy_smelter.addRecipe(RecipeDualInput.create(Collections.singletonList(RecipeIngredientItemStack.create(input)), output, 130, 3));
-        addInductionSmelterRecipe(input, new ItemStack(Blocks.SAND), output, ItemStack.EMPTY, output.getCount() * 1000, 0);
-    }
-
-    public static void addShapelessRecipe(String ore, ResourceLocation group, ItemStack... inputs) {
-        ItemStack output = OreDictUnificator.get(ore);
-        if (!output.isEmpty()) {
-            Ingredient[] ingredients = Arrays.stream(inputs)
-                    .map(Ingredient::fromStacks)
-                    .toArray(Ingredient[]::new);
-            addShapelessRecipe(ore, group, output, ingredients);
+    public static void removeIC2Recipe(ItemStack input, BasicMachineRecipeManager manager) {
+        Iterator<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> iterator = manager.getRecipes().iterator();
+        while (iterator.hasNext()) {
+            MachineRecipe<IRecipeInput, Collection<ItemStack>> recipe = iterator.next();
+            if (recipe.getInput().matches(input)) {
+                iterator.remove();
+                return;
+            }
         }
     }
 
-    public static void addShapelessRecipe(String name, ResourceLocation group, ItemStack output, Ingredient... inputs) {
-        GameRegistry.addShapelessRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
-                group,
-                output,
-                inputs);
+    public static void removeSmeltingRecipe(ItemStack input) {
+        Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
+        recipes.keySet()
+                .stream()
+                .filter(input::isItemEqual)
+                .collect(Collectors.toList())
+                .forEach(recipes::remove);
+    }
+
+    public static ItemStack getIC2ItemSafely(String name, String variant) {
+        ItemStack stack = ItemStack.EMPTY;
+        try {
+            ItemStack item = IC2Items.getItem(name, variant);
+            if (item != null) stack = item;
+        } catch (Throwable ignored) {}
+
+        return stack;
     }
 }

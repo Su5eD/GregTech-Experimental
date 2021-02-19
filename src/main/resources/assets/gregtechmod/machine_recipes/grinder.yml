@@ -531,5 +531,4 @@
   fluid: water
   output:
     - ore: dustElectrotine
-      count: 12
-    - item: ic2:dust#diamond
+      count: 3

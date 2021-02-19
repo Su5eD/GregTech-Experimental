@@ -5,13 +5,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 public interface IGtRecipeManagerFluid<RI, I, R extends IGtMachineRecipe<RI, ?>> extends IGtRecipeManager<RI, I, R> {
-    default R getRecipeFor(FluidStack input) {
-        return getRecipeFor(input, -1);
-    }
+    R getRecipeFor(FluidStack input);
 
-    R getRecipeFor(FluidStack input, int cells);
-
-    boolean hasRecipeFor(FluidStack fluid);
+    boolean hasRecipeFor(FluidStack input);
 
     boolean hasRecipeFor(Fluid input);
 }

@@ -245,3 +245,78 @@
     - item: ic2:dust#small_silver
       count: 2
   duration: 975
+- input:
+    fluid: hydrogen
+    count: 4
+  output:
+    - item: ic2:fluid_cell#deuterium
+    - item: ic2:fluid_Cell
+      count: 3
+  cells: 4
+  duration: 3000
+- input:
+    fluid: helium
+    count: 16
+  output:
+    - item: ic2:fluid_cell#helium3
+    - item: ic2:fluid_cell
+      count: 15
+  cells: 16
+  duration: 10000
+- input:
+    fluid: helium3
+    count: 4
+  output:
+    - item: ic2:fluid_cell#deuterium
+    - item: ic2:fluid_cell
+      count: 3
+  cells: 4
+  duration: 3000
+- input:
+    item: gregtechmod:cell_sulfur
+  output:
+    - item: ic2:dust#sulfur
+    - item: ic2:fluid_cell
+  duration: 40
+- input:
+    fluid: calcium_carbonate
+  output:
+    - item: gregtechmod:dust_calcite
+  duration: 40
+- input:
+    ores:
+      - woodRubber
+      - logRubber
+    count: 16
+  output:
+    - item: ic2:misc_resource#resin
+      count: 8
+    - item: ic2:crafting#plant_ball
+      count: 6
+    - item: ic2:fluid_cell#methane
+    - item: gregtechmod:cell_carbon
+      count: 4
+  cells: 1
+  duration: 5000
+- input:
+    ores:
+      - sandOil
+      - oilsandsOre
+    count: 2
+  output:
+    - item: ic2:fluid_cell#oil
+    - item: minecraft:sand
+  duration: 1000
+- input:
+    ore: sandCracked
+    count: 16
+  output:
+    - item: ic2:filled_fuel_can
+      nbt:
+        value: 5000
+    - item: gregtechmod:dust_saltpeter
+      count: 8
+    - item: minecraft:sand
+      count: 10
+  cells: -1
+  duration: 2500

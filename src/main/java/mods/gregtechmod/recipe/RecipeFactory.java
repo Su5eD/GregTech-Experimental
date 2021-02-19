@@ -4,6 +4,7 @@ import mods.gregtechmod.api.recipe.*;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
@@ -57,5 +58,40 @@ public class RecipeFactory implements IRecipeFactory {
     @Override
     public IGtMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillReicpe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
         return RecipeSimple.create(input, output, duration, energyCost);
+    }
+
+    @Override
+    public IGtMachineRecipe<IRecipeIngredient, ItemStack> makeBenderRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
+        return RecipeSimple.create(input, output, duration, energyCost);
+    }
+
+    @Override
+    public IGtMachineRecipe<IRecipeIngredient, List<ItemStack>> makeLatheRecipe(IRecipeIngredient input, List<ItemStack> output, int duration, double energyCost) {
+        return RecipeLathe.create(input, output, duration, energyCost);
+    }
+
+    @Override
+    public IGtMachineRecipe<IRecipeIngredient, ItemStack> makeVacuumFreezerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
+        return RecipeSimple.create(input, output, duration, energyCost);
+    }
+
+    @Override
+    public IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> makeChemicalRecipe(List<IRecipeIngredient> input, ItemStack output, int duration) {
+        return RecipeChemical.create(input, output, duration);
+    }
+
+    @Override
+    public IRecipeFusion<IRecipeIngredientFluid, FluidStack> makeFluidFusionRecipe(List<IRecipeIngredientFluid> input, FluidStack output, int duration, double energyCost, double startEnergy) {
+        return RecipeFusionFluid.create(input, output, duration, energyCost, startEnergy);
+    }
+
+    @Override
+    public IRecipeFusion<IRecipeIngredient, ItemStack> makeSolidFusionRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost, double startEnergy) {
+        return RecipeFusionSolid.create(input, output, duration, energyCost, startEnergy);
+    }
+
+    @Override
+    public IRecipeSawmill makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water) {
+        return RecipeSawmill.create(input, output, water);
     }
 }

@@ -24,7 +24,7 @@ public class RecipeElectrolyzer extends Recipe<IRecipeIngredient, Collection<Ite
                                             @JsonProperty(value = "cells") int cells,
                                             @JsonProperty(value = "duration", required = true) int duration,
                                             @JsonProperty(value = "energyCost") double energyCost) {
-        RecipeUtil.adjustOutputCount("electrolyzer", output, 4);
+        output = RecipeUtil.adjustOutputCount("electrolyzer", output, 4);
 
         RecipeElectrolyzer recipe = new RecipeElectrolyzer(input, output, cells, duration, energyCost);
 

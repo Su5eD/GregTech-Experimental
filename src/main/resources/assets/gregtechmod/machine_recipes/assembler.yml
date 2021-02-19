@@ -1,4 +1,38 @@
 # Assembler recipes
+#
+# TODO Add these recipes then their output TE is implemented
+#- input:
+#    - ore: craftingRawMachineTier01
+#    - item: minecraft:noteblock
+#      count: 4
+#  output:
+#    item: gregtechmod:redstone_note_block
+#  duration: 800
+#  energyCost: 1
+#- input:
+#    - ore: craftingRawMachineTier01
+#    - item: minecraft:stone_button
+#      count: 16
+#  output:
+#    item: gregtechmod:button_panel
+#  duration: 800
+#  energyCost: 1
+#- input:
+#    - ore: craftingRawMachineTier01
+#    - ore: craftingMachineParts
+#  output:
+#    item: gregtechmod:machine_box
+#  duration: 1600
+#  energyCost: 2
+#
+# TODO: Add after MJ support is implemented
+#- input:
+#    - ore: craftingGearTier02
+#    - ore: craftingGenerator
+#  output:
+#    item: gregtechmod:pneumatic_generator
+#  duration: 3200
+#  energyCost: 4
 ---
 - input:
     - ore: plateAlloyAdvanced
@@ -74,7 +108,10 @@
   duration: 800
   energyCost: 1
 - input:
-    - ore: gemLapis
+    - ores:
+        - gemLapis
+        - itemLazurite
+        - lazurite
     - ore: dustGlowstone
   output:
     item: gregtechmod:advanced_circuit_parts
@@ -197,3 +234,571 @@
     count: 4
   duration: 6400
   energyCost: 8
+- input:
+    - ore: craftingLiBattery
+    - item: ic2:cropnalyzer
+  output:
+    item: gregtechmod:scanner
+  duration: 12800
+  energyCost: 16
+- input:
+    - ore: lithiumBattery
+    - ore: plateAluminium
+      count: 4
+  output:
+    item: gregtechmod:lithium_battery
+  duration: 3200
+  energyCost: 4
+- input:
+    - ore: craftingRawMachineTier01
+    - item: gregtechmod:solar_panel
+  output:
+    item: ic2:te#solar_generator
+  duration: 1600
+  energyCost: 2
+- input:
+    - item: gregtechmod:circuit_board_basic
+    - ore: craftingWireCopper
+      count: 3
+  output:
+    item: ic2:crafting#circuit
+  duration: 800
+  energyCost: 1
+- input:
+    - item: ic2:crafting#circuit
+    - ore: craftingWireCopper
+  output:
+    item: ic2:frequency_transmitter
+  duration: 800
+  energyCost: 1
+- input:
+    - item: ic2:te#generator
+    - ore: plateAlloyCarbon
+      count: 4
+  output:
+    item: ic2:te#wind_generator
+  duration: 6400
+  energyCost: 8
+- input:
+    - ore: plateAlloyAdvanced
+    - ore: stoneSmooth
+      count: 8
+  output:
+    item: ic2:resource#reinforced_stone
+    count: 8
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: plateAlloyAdvanced
+      count: 2
+    - item: minecraft:glass
+      count: 7
+  output:
+    item: ic2:glass#reinforced
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: plateTin
+  output:
+    item: ic2:crafting#tin_can
+  duration: 400
+  energyCost: 1
+- input:
+    - ore: plateIron
+      count: 3
+  output:
+    item: minecraft:bucket
+  duration: 400
+  energyCost: 1
+- input:
+    - ore: plateBronze
+      count: 6
+    - item: gregtechmod:machine_parts
+  output:
+    item: gregtechmod:hull_bronze
+  duration: 400
+  energyCost: 8
+- input:
+    - ore: stickBronze
+      count: 4
+    - ore: plateBronze
+      count: 4
+  output:
+    item: gregtechmod:gear_bronze
+  duration: 3200
+  energyCost: 4
+- input:
+    - ore: plateBrass
+      count: 6
+    - item: gregtechmod:machine_parts
+  output:
+    item: gregtechmod:hull_brass
+  duration: 400
+  energyCost: 8
+# Classic recipes (using plateRefinedIron)
+#- input:
+#    - ore: plateRefinedIron
+#      count: 8
+#    - item: gregtechmod:machine_parts
+#  output:
+#    item: ic2:resource#machine
+#  duration: 400
+#  energyCost: 8
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#      count: 5
+#    - ores:
+#        - chestWood
+#        - chestTrapped
+#  output:
+#    item: minecraft:hopper
+#  duration: 800
+#  energyCost: 2
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: ic2:te#pump
+#  output:
+#    item: gregtechmod:pump_module
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: minecraft:heavy_weighted_pressure_plate
+#  output:
+#    item: gregtechmod:item_meter
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: minecraft:light_weighted_pressure_plate
+#  output:
+#    item: gregtechmod:liquid_meter
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: ic2:meter
+#  output:
+#    item: gregtechmod:eu_meter
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#      count: 2
+#    - item: minecraft:iron_bars
+#      count: 2
+#  output:
+#    item: gregtechmod:drain
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: minecraft:redstone_torch
+#  output:
+#    item: gregtechmod:redstone_signalizer
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ore: plateRefinedIron
+#    - items:
+#        - minecraft:unpowered_comparator
+#        - minecraft:powered_comparator
+#  output:
+#    item: gregtechmod:active_detector
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: minecraft:lever
+#  output:
+#    item: gregtechmod:machine_controller
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: minecraft:crafting_table
+#  output:
+#    item: gregtechmod:crafting
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: ic2:energy_crystal
+#  output:
+#    item: gregtechmod:energy_crystal
+#  duration: 1600
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: ic2:lapotron_crystal
+#  output:
+#    item: gregtechmod:lapotron_crystal
+#  duration: 3200
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - item: gregtechmod:lapotronic_energy_orb
+#  output:
+#    item: gregtechmod:energy_orb
+#  duration: 6400
+#  energyCost: 16
+#- input:
+#    - ore: plateRefinedIron
+#      count: 2
+#    - item: ic2:crafting#circuit
+#  output:
+#    item: gregtechmod:machine_parts
+#    count: 4
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - ore: plateElectrum
+#      count: 2
+#  output:
+#    item: gregtechmod:circuit_board_basic
+#    count: 2
+#  duration: 800
+#  energyCost: 1
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - ore: plateIridium
+#  output:
+#    item: gregtechmod:machine_lock
+#  duration: 1600
+#  energyCost: 2
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - ore: dustRedstone
+#  output:
+#    item: gregtechmod:redstone_conductor
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ores:
+#        - plateRefinedIron
+#        - plateAluminium
+#    - ore: craftingRedstoneTorch
+#  output:
+#    item: gregtechmod:redstone_signalizer
+#  duration: 800
+#  energyCost: 16
+#- input:
+#    - ore: stickRefinedIron
+#      count: 4
+#    - ore: plateRefinedIron
+#      count: 4
+#  output:
+#    item: gregtechmod:gear_iron
+#  duration: 3200
+#  energyCost: 4
+# TODO: Add when Railcraft PR #2000 is merged
+#- input:
+#    - ore: plateSteel
+#      count: 2
+#    - item: railcraft:engine_steam_high
+#      # TODO: Add Gas Turbine as fallback when implemented
+#      #fallback:
+#      #  item: gregtechmod:steam_turbine
+#  output:
+#    item: gregtechmod:steam_upgrade
+#  duration: 1600
+#  energyCost: 32
+- input:
+    - ore: plateSteel
+      count: 2
+    - item: minecraft:glass_pane
+  output:
+    item: gregtechmod:steam_tank
+  duration: 1600
+  energyCost: 32
+- input:
+    - ore: plateSteel
+      count: 6
+    - item: gregtechmod:machine_parts
+  output:
+    item: gregtechmod:hull_steel
+  duration: 400
+  energyCost: 8
+- input:
+    - ore: stickSteel
+      count: 4
+    - ore: plateSteel
+      count: 4
+  output:
+    item: gregtechmod:gear_steel
+  duration: 3200
+  energyCost: 4
+- input:
+    - ore: plateTitanium
+      count: 6
+    - item: gregtechmod:machine_parts
+  output:
+    item: gregtechmod:hull_titanium
+  duration: 400
+  energyCost: 8
+- input:
+    - ore: stickTitanium
+      count: 4
+    - ore: plateTitanium
+      count: 4
+  output:
+    item: gregtechmod:gear_titanium
+  duration: 3200
+  energyCost: 4
+- input:
+    - ore: plateTungstenSteel
+      count: 6
+    - item: gregtechmod:machine_parts
+  output:
+    item: gregtechmod:hull_tungsten_steel
+  duration: 800
+  energyCost: 16
+- input:
+    - ore: plateTungstenSteel
+    - item: ic2:resource#reinforced_stone
+  output:
+    item: gregtechmod:block_tungsten_steel
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: plateTungstenSteel
+    - item: gregtechmod:block_iridium_reinforced_stone
+  output:
+    item: gregtechmod:block_iridium_reinforced_tungsten_steel
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: stickTungstenSteel
+      count: 4
+    - ore: plateTungstenSteel
+      count: 4
+  output:
+    item: gregtechmod:gear_tungsten_steel
+  duration: 3200
+  energyCost: 4
+- input:
+    - ore: plateIridium
+    - item: ic2:resource#reinforced_stone
+  output:
+    item: gregtechmod:block_iridium_reinforced_stone
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: plateIridium
+    - item: ic2:resource#reinforced_stone
+  output:
+    item: gregtechmod:block_iridium_reinforced_tungsten_steel
+  duration: 400
+  energyCost: 4
+- input:
+    - ore: plateAluminium
+    - ore: plateIridium
+  output:
+    item: gregtechmod:machine_lock
+  duration: 1600
+  energyCost: 2
+- input:
+    - ore: stickIridium
+      count: 4
+    - ore: plateIridium
+      count: 4
+  output:
+    item: gregtechmod:gear_iridium
+  duration: 3200
+  energyCost: 4
+- input:
+    - ore: plateAluminium
+      count: 2
+    - item: ic2:crafting#circuit
+  output:
+    item: gregtechmod:machine_parts
+    count: 3
+  duration: 800
+  energyCost: 16
+- input:
+    - ore: plateAluminium
+      count: 6
+    - item: gregtechmod:machine_parts
+  output:
+    item: gregtechmod:hull_aluminium
+  duration: 400
+  energyCost: 8
+- input:
+    - item: ic2:te#generator
+    - ore: plateAluminium
+      count: 4
+  output:
+    item: ic2:te#water_generator
+    count: 2
+  duration: 6400
+  energyCost: 8
+- input:
+    - item: ic2:crafting#circuit
+    - ore: plateElectrum
+      count: 2
+  output:
+    item: gregtechmod:circuit_board_advanced
+  duration: 1600
+  energyCost: 2
+- input:
+    - ore: plateSilicon
+    - ore: plateElectrum
+      count: 4
+  output:
+    item: gregtechmod:circuit_board_advanced
+  duration: 1600
+  energyCost: 2
+- input:
+    - ore: platePlatinum
+    - item: ic2:crafting#advanced_circuit
+  output:
+    item: gregtechmod:circuit_board_processor
+  duration: 3200
+  energyCost: 4
+- input:
+    - item: ic2:te#generator
+    - ore: plateMagnalium
+      count: 2
+  output:
+    item: ic2:te#wind_generator
+  duration: 6400
+  energyCost: 8
+- input:
+    - ore: stickWood
+    - ore: stoneCobble
+  output:
+    item: minecraft:lever
+  duration: 400
+  energyCost: 1
+- input:
+    - ore: stickWood
+    - items:
+        - minecraft:coal
+        - ic2:misc_resource#resin
+  output:
+    item: minecraft:torch
+    count: 4
+  duration: 400
+  energyCost: 1
+- input:
+    - ore: stickIron
+      count: 3
+  output:
+    item: minecraft:iron_bars
+    count: 4
+  duration: 400
+  energyCost: 1
+- input:
+    - item: buildcraftcore:gear_gold
+    - ores:
+        - itemDiamond
+        - diamond
+      count: 4
+  output:
+    item: buildcraftcore:gear_diamond
+  duration: 1600
+  energyCost: 2
+- input:
+    - item: ic2:cable#type:copper,insulation:0
+    - ores:
+        - itemRubber
+        - rubber
+  output:
+    item: ic2:cable#type:copper,insulation:1
+  duration: 100
+  energyCost: 2
+- input:
+    - item: ic2:cable#type:glass,insulation:0
+    - ores:
+        - itemRubber
+        - rubber
+      count: 2
+  output:
+    item: ic2:cable#type:gold,insulation:2
+  duration: 200
+  energyCost: 2
+- input:
+    - item: ic2:cable#type:iron,insulation:0
+    - ores:
+        - itemRubber
+        - rubber
+      count: 3
+  output:
+    item: ic2:cable#type:iron,insulation:3
+  duration: 300
+  energyCost: 2
+- input:
+    - item: ic2:cable#type:gold,insulation:1
+    - ores:
+        - itemRubber
+        - rubber
+  output:
+    item: ic2:cable#type:gold,insulation:2
+  duration: 100
+  energyCost: 2
+- input:
+    - item: ic2:cable#type:iron,insulation:1
+    - ores:
+        - itemRubber
+        - rubber
+      count: 2
+  output:
+    item: ic2:cable#type:iron,insulation:3
+  duration: 200
+  energyCost: 2
+- input:
+    - item: ic2:cable#type:iron,insulation:2
+    - ores:
+        - itemRubber
+        - rubber
+  output:
+    item: ic2:cable#type:iron,insulation:3
+  duration: 100
+  energyCost: 2
+- input:
+    - ore: plankWood
+      count: 8
+    - ore: dustRedstone
+  output:
+    item: minecraft:noteblock
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: plankWood
+      count: 8
+    - ore: gemDiamond
+  output:
+    item: minecraft:jukebox
+  duration: 1600
+  energyCost: 1

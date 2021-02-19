@@ -114,6 +114,8 @@ dependencies {
     compile (group: "appeng", name: "appliedenergistics2", version: "rv6-stable-7", classifier: "api") {
         exclude group: "mezz.jei"
     }
+    deobfCompile group: "slimeknights.mantle", name: "Mantle", version: "${version_mantle}"
+    deobfCompile group: "slimeknights", name: "TConstruct", version: "${version_tconstruct}"
 
     def databind = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
     implementation databind

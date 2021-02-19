@@ -7,8 +7,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public interface IRecipeIngredient extends Comparable<IRecipeIngredient> {
-    RecipeIngredientType getType();
-
     Ingredient asIngredient();
 
     int getCount();
@@ -20,4 +18,6 @@ public interface IRecipeIngredient extends Comparable<IRecipeIngredient> {
     boolean apply(@Nullable ItemStack stack, boolean checkCount);
 
     List<ItemStack> getMatchingInputs();
+
+    boolean isEmpty();
 }

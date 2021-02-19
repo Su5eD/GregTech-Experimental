@@ -1,0 +1,18 @@
+# Fluid Fusion recipes
+---
+- input:
+    - fluid: tritium
+    - fluid: deuterium
+  output:
+    fluid: helium_plasma
+  duration: 128
+  energyCost: 4096
+  startEnergy: 40000000
+- input:
+    - fluid: helium3
+    - fluid: deuterium
+  output:
+    fluid: helium_plasma
+  duration: 128
+  energyCost: 2048
+  startEnergy: 60000000

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class RecipeUtil {
-    public static boolean validateRecipeIO(String name, List<IRecipeIngredient> input, List<ItemStack> output) {
+    public static boolean validateRecipeIO(String name, List<? extends IRecipeIngredient> input, List<ItemStack> output) {
         return validateRecipeInput(name, input) && validateRecipeOutput(name, output);
     }
 
@@ -20,15 +20,21 @@ public class RecipeUtil {
         return validateRecipeInput(name, Collections.singletonList(input)) && validateRecipeOutput(name, Collections.singletonList(output));
     }
 
-    public static boolean validateRecipeInput(String name, List<IRecipeIngredient> input) {
-        if (input.contains(null)) {
-            GregTechAPI.logger.error("Tried to add a(n) " + name + " recipe with a null among its inputs. Invalidating...");
-            return false;
+    public static boolean validateRecipeInput(String name, List<? extends IRecipeIngredient> input) {
+        for (IRecipeIngredient ingredient : input) {
+            if (ingredient.isEmpty()) {
+                GregTechAPI.logger.error("Tried to add a(n) " + name + " recipe with an empty ingredient among its inputs. Invalidating...");
+                return false;
+            }
         }
         return true;
     }
 
     public static boolean validateRecipeOutput(String name, List<ItemStack> output) {
+        if (output.isEmpty()) {
+            GregTechAPI.logger.error("Tried to add a(n) " + name + " recipe with no output. Invalidating...");
+            return false;
+        }
         for (ItemStack stack : output) {
             if (stack.isEmpty()) {
                 GregTechAPI.logger.error("Tried to add a(n) " + name + " recipe with an empty ItemStack among its outputs. Invalidating...");
@@ -38,22 +44,21 @@ public class RecipeUtil {
         return true;
     }
 
-    public static void adjustRecipeIOCount(String name, List<?> input, List<?> output, int maxIn, int maxOut) {
-        adjustInputCount(name, input, output, maxIn);
-        adjustOutputCount(name, output, maxOut);
-    }
-
-    public static void adjustInputCount(String name, List<?> input, List<?> output, int max) {
+    public static <T> List<T> adjustInputCount(String name, List<T> input, List<?> output, int max) {
         if (input.size() > max) {
             GregTechAPI.logger.error("Tried to add a " + name + " recipe for " + output + " with too many inputs! Reducing them to "+max);
-            input = input.subList(0, max);
+            return input.subList(0, max);
         }
+
+        return input;
     }
 
-    public static void adjustOutputCount(String name, List<?> output, int max) {
+    public static <T> List<T> adjustOutputCount(String name, List<T> output, int max) {
         if (output.size() > max) {
             GregTechAPI.logger.error("Tried to add a " + name + " recipe for " + output + " with too many outputs! Reducing them to "+max);
-            output = output.subList(0, max);
+            return output.subList(0, max);
         }
+
+        return output;
     }
 }

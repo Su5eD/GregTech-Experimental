@@ -2,6 +2,7 @@ package mods.gregtechmod.init;
 
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.GregTechObjectAPI;
@@ -13,7 +14,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Locale;
@@ -39,6 +39,7 @@ public class OreDictRegistrar {
         for (BlockItems.Plate plate : BlockItems.Plate.values()) registerOre("plate", plate.name().toLowerCase(Locale.ROOT), plate.getInstance());
         OreDictUnificator.add("pulpWood", BlockItems.Dust.WOOD.getInstance());
         registerOre("plankWood", BlockItems.Plate.WOOD.getInstance());
+        OreDictUnificator.override("plateAluminum", new ItemStack(BlockItems.Plate.ALUMINIUM.getInstance()));
 
         for (BlockItems.Rod rod : BlockItems.Rod.values()) registerOre("stick", rod.name().toLowerCase(Locale.ROOT), rod.getInstance());
 
@@ -46,7 +47,7 @@ public class OreDictRegistrar {
         registerOre("dyeCyan", BlockItems.Dust.LAZURITE.getInstance());
         registerOre("dyeBlue", BlockItems.Dust.SODALITE.getInstance());
 
-        for (BlockItems.Smalldust smallDust : BlockItems.Smalldust.values()) registerOre("dustTiny", smallDust.name().toLowerCase(Locale.ROOT), smallDust.getInstance());
+        for (BlockItems.Smalldust smallDust : BlockItems.Smalldust.values()) registerOre("dustSmall", smallDust.name().toLowerCase(Locale.ROOT), smallDust.getInstance());
 
         for (BlockItems.Upgrade upgrade : BlockItems.Upgrade.values()) {
             if (upgrade.oreDict != null) registerOre(upgrade.oreDict, upgrade.getInstance());
@@ -57,9 +58,10 @@ public class OreDictRegistrar {
         }
 
         for (BlockItems.Component component : BlockItems.Component.values()) {
-            if (component.oreDict != null) registerOre(component.oreDict, component.getInstance());
+            if (component.oreDict != null) registerOreWildcard(component.oreDict, component.getInstance());
         }
-        registerOre("crafting100kEUStore", BlockItems.Component.LITHIUM_BATTERY.getInstance());
+        registerOreWildcard("lithiumBattery", BlockItems.Component.LITHIUM_BATTERY.getInstance());
+        registerOreWildcard("crafting100kEUStore", BlockItems.Component.LITHIUM_BATTERY.getInstance());
         registerOre("craftingGearTier01", BlockItems.Component.GEAR_IRON.getInstance());
         registerOre("craftingGearTier01", BlockItems.Component.GEAR_BRONZE.getInstance());
         registerOre("craftingGearTier02", BlockItems.Component.GEAR_STEEL.getInstance());
@@ -68,33 +70,35 @@ public class OreDictRegistrar {
         registerOre("craftingGearTier04", BlockItems.Component.GEAR_IRIDIUM.getInstance());
 
         for (BlockItems.Tool tool : BlockItems.Tool.values()) {
-            if (tool.oreDict != null) registerOre(tool.oreDict, tool.getInstance());
+            if (tool.oreDict != null) registerOreWildcard(tool.oreDict, tool.getInstance());
         }
+        registerOreWildcard("craftingToolSaw", BlockItems.Tool.SAW_ADVANCED.getInstance());
 
-        for (BlockItems.File file : BlockItems.File.values()) registerOre("craftingToolFile", file.getInstance());
+        for (BlockItems.File file : BlockItems.File.values()) registerOreWildcard("craftingToolFile", file.getInstance());
 
-        for (BlockItems.Hammer hammer : BlockItems.Hammer.values()) registerOre("craftingToolHardHammer", hammer.getInstance());
+        for (BlockItems.Hammer hammer : BlockItems.Hammer.values()) registerOreWildcard("craftingToolHardHammer", hammer.getInstance());
 
-        for (BlockItems.Saw saw : BlockItems.Saw.values()) registerOre("craftingToolSaw", saw.getInstance());
+        for (BlockItems.Saw saw : BlockItems.Saw.values()) registerOreWildcard("craftingToolSaw", saw.getInstance());
+        registerOre("craftingToolSaw", StackUtil.copyWithWildCard(IC2Items.getItem("chainsaw")));
 
-        for (BlockItems.SolderingMetal solderingMetal : BlockItems.SolderingMetal.values()) registerOre("craftingToolSolderingMetal", solderingMetal.getInstance());
+        for (BlockItems.SolderingMetal solderingMetal : BlockItems.SolderingMetal.values()) registerOreWildcard("craftingToolSolderingMetal", solderingMetal.getInstance());
 
-        for (BlockItems.ColorSpray spray : BlockItems.ColorSpray.values()) registerOre("dye", spray.name().toLowerCase(Locale.ROOT), spray.getInstance());
+        for (BlockItems.ColorSpray spray : BlockItems.ColorSpray.values()) registerOreWildcard("dye", spray.name().toLowerCase(Locale.ROOT), spray.getInstance());
 
-        for (BlockItems.Wrenche wrench : BlockItems.Wrenche.values()) registerOre("craftingToolWrench", wrench.getInstance());
+        for (BlockItems.Wrench wrench : BlockItems.Wrench.values()) registerOreWildcard("craftingToolWrench", wrench.getInstance());
 
-        for (BlockItems.Cell cell : BlockItems.Cell.values()) registerOre("cell", cell.name().toLowerCase(Locale.ROOT), cell.getInstance());
+        for (BlockItems.Cell cell : BlockItems.Cell.values()) registerOreWildcard("cell", cell.name().toLowerCase(Locale.ROOT), cell.getInstance());
 
         for (BlockItems.NuclearCoolantPack pack : BlockItems.NuclearCoolantPack.values()) {
-            if (pack.oreDict != null) registerOre(pack.oreDict, pack.getInstance());
+            if (pack.oreDict != null) registerOreWildcard(pack.oreDict, pack.getInstance());
         }
 
         for (BlockItems.Armor armor : BlockItems.Armor.values()) {
-            if (armor.oreDict != null) registerOre(armor.oreDict, armor.getInstance());
+            if (armor.oreDict != null) registerOreWildcard(armor.oreDict, armor.getInstance());
         }
 
         for (BlockItems.Miscellaneous misc : BlockItems.Miscellaneous.values()) {
-            if (misc.oreDict != null) registerOre(misc.oreDict, misc.getInstance());
+            if (misc.oreDict != null) registerOreWildcard(misc.oreDict, misc.getInstance());
         }
 
         GregTechAPI.logger.debug("Adding vanilla items to the Ore Dictionary");
@@ -162,7 +166,7 @@ public class OreDictRegistrar {
         OreDictUnificator.add("dustGlowstone", Items.GLOWSTONE_DUST);
         OreDictUnificator.add("blockIron", Blocks.IRON_BLOCK);
         OreDictUnificator.add("blockGold", Blocks.GOLD_BLOCK);
-        OreDictUnificator.add("blockDiamond", Blocks.GOLD_BLOCK);
+        OreDictUnificator.add("blockDiamond", Blocks.DIAMOND_BLOCK);
         OreDictUnificator.add("blockEmerald", Blocks.EMERALD_BLOCK);
         OreDictUnificator.add("blockLapis", Blocks.LAPIS_BLOCK);
         OreDictUnificator.add("blockRedstone", Blocks.REDSTONE_BLOCK);
@@ -180,7 +184,7 @@ public class OreDictRegistrar {
 
         GregTechAPI.logger.debug("Registering other mods' unification targets");
 
-        if (GregTechConfig.UNIFICATION.forestry && Loader.isModLoaded("forestry")) {
+        if (GregTechConfig.UNIFICATION.forestry && ModHandler.forestry) {
             OreDictUnificator.override("ingotCopper", ModHandler.getFRItem("ingot_copper"));
             OreDictUnificator.override("ingotTin", ModHandler.getFRItem("ingot_tin"));
             OreDictUnificator.override("ingotBronze", ModHandler.getFRItem("ingot_bronze"));
@@ -189,7 +193,7 @@ public class OreDictRegistrar {
             OreDictUnificator.override("pulpWood", ModHandler.getFRItem("wood_pulp"));
         }
 
-        if (Loader.isModLoaded("railcraft")) {
+        if (ModHandler.railcraft) {
             registerOre("stoneAbyssal", ModHandler.getRCItem("generic", 8));
             registerOre("stoneQuarried", ModHandler.getRCItem("generic", 9));
 
@@ -207,7 +211,7 @@ public class OreDictRegistrar {
             }
         }
 
-        if (Loader.isModLoaded("thermalfoundation")) {
+        if (ModHandler.thermalfoundation) {
             OreDictUnificator.add("craftingSaltpeterToGunpowder", ModHandler.getTFItem("material", 772));
             OreDictUnificator.add("craftingSulfurToGunpowder", ModHandler.getTFItem("material", 771));
 
@@ -256,7 +260,7 @@ public class OreDictRegistrar {
             }
         }
 
-        if (GregTechConfig.UNIFICATION.projectred && Loader.isModLoaded("projectred-core")) {
+        if (GregTechConfig.UNIFICATION.projectred && ModHandler.projectredCore) {
             OreDictUnificator.override("gemRuby", ModHandler.getPRItem("resource_item", 200));
             OreDictUnificator.override("gemSapphire", ModHandler.getPRItem("resource_item", 201));
             OreDictUnificator.override("gemGreenSapphire", ModHandler.getPRItem("resource_item", 202));
@@ -265,7 +269,7 @@ public class OreDictRegistrar {
             OreDictUnificator.override("ingotTin", ModHandler.getPRItem("resource_item", 101));
         }
 
-        if (GregTechConfig.UNIFICATION.thaumcraft && Loader.isModLoaded("thaumcraft")) {
+        if (GregTechConfig.UNIFICATION.thaumcraft && ModHandler.thaumcraft) {
             OreDictUnificator.override("nuggetIron", ModHandler.getTCItem("nugget", 0));
             OreDictUnificator.override("nuggetSilver", ModHandler.getTCItem("nugget", 3));
             OreDictUnificator.override("nuggetTin", ModHandler.getTCItem("nugget", 2));
@@ -277,7 +281,6 @@ public class OreDictRegistrar {
 
         registerOre("itemIridium", IC2Items.getItem("misc_resource", "iridium_ore"));
         registerOre("glassReinforced", IC2Items.getItem("glass", "reinforced"));
-        //registerOre("molecule_2o", IC2Items.getItem("fluid_cell", "ic2air"));
         registerOre("gemDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
         registerOre("craftingIndustrialDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
         registerOre("itemDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
@@ -325,48 +328,60 @@ public class OreDictRegistrar {
         //registerOre("craftingExtractor", GregTechTEBlock.automatic_extractor); TODO add automatic extractor to oredict when added
         //registerOre("craftingElectricFurnace", GregTechTEBlock.automatic_electric_furnace); TODO add automatic electric furnace to oredict when added
 
-        if (Loader.isModLoaded("thermalfoundation")) {
+        if (ModHandler.thermalfoundation) {
             registerOre("glassReinforced", ModHandler.getTFItem("glass", OreDictionary.WILDCARD_VALUE));
             registerOre("glassReinforced", ModHandler.getTFItem("glass_alloy", OreDictionary.WILDCARD_VALUE));
         }
 
-        if (Loader.isModLoaded("thermalexpansion")) {
+        if (ModHandler.thermalExpansion) {
             registerOre("craftingMacerator", ModHandler.getTEItem("machine", 1));
             registerOre("craftingInductionFurnace", ModHandler.getTEItem("machine", 3));
         }
 
-        if (Loader.isModLoaded("quark")) {
+        if (ModHandler.quark) {
             registerOre("stoneRedrock", ModHandler.getModItem("quark", "jasper", OreDictionary.WILDCARD_VALUE));
         }
 
-        if (Loader.isModLoaded("traverse")) {
+        if (ModHandler.traverse) {
             registerOre("stoneRedrock", ModHandler.getModItem("traverse", "red_rock", OreDictionary.WILDCARD_VALUE));
         }
 
-        if (Loader.isModLoaded("pvj")) {
+        if (ModHandler.projectVibrantJourneys) {
             registerOre("stoneMarble", ModHandler.getModItem("pvj", "marble"));
             registerOre("stoneBasalt", ModHandler.getModItem("pvj", "basalt"));
         }
     }
 
-    public static void registerOre(String base, String name, Item instance) {
-        registerOre(base+ CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), new ItemStack(instance, 1, OreDictionary.WILDCARD_VALUE));
+    public static void registerOreWildcard(String base, String name, Item item) {
+        registerOre(base, name, new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
     }
 
-    public static void registerOre(String base, String name, net.minecraft.block.Block instance) {
-        registerOre(base+CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), new ItemStack(instance, 1, OreDictionary.WILDCARD_VALUE));
+    public static void registerOre(String base, String name, Item item) {
+        registerOre(base, name, new ItemStack(item));
+    }
+
+    public static void registerOre(String base, String name, net.minecraft.block.Block block) {
+        registerOre(base, name, new ItemStack(block));
+    }
+
+    public static void registerOre(String base, String name, ItemStack stack) {
+        registerOre(base+CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), stack);
     }
 
     public static void registerOre(String name, net.minecraft.block.Block block) {
-        registerOre(name, new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE));
+        registerOre(name, new ItemStack(block, 1));
     }
 
-    public static void registerOre(String name, Item item) {
+    public static void registerOreWildcard(String name, Item item) {
         registerOre(name, new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
     }
 
+    public static void registerOre(String name, Item item) {
+        registerOre(name, new ItemStack(item, 1));
+    }
+
     public static void registerOre(String name, ItemStack stack) {
-        if (name.startsWith("ore") || name.startsWith("block") || name.startsWith("ingot") || name.startsWith("gem") || name.startsWith("dust") || name.startsWith("plate") || name.startsWith("nugget") || name.startsWith("dustTiny")) OreDictUnificator.add(name, stack);
+        if (name.startsWith("ore") || name.startsWith("block") || name.startsWith("ingot") || name.startsWith("gem") || name.startsWith("dust") || name.startsWith("plate") || name.startsWith("nugget") || name.startsWith("dustSmall")) OreDictUnificator.add(name, stack);
         else OreDictUnificator.registerOre(name, stack);
     }
 }

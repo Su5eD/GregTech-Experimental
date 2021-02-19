@@ -1,0 +1,7 @@
+# Vacuum Freezer recipes
+---
+- input:
+    item: ic2:fluid_cell#helium_plasma
+  output:
+    item: ic2:fluid_cell#helium
+  duration: 100

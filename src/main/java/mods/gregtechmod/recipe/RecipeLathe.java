@@ -18,8 +18,8 @@ public class RecipeLathe extends Recipe<IRecipeIngredient, List<ItemStack>> {
     public static RecipeLathe create(@JsonProperty(value = "input", required = true) IRecipeIngredient input,
                                      @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                      @JsonProperty(value = "duration", required = true) int duration,
-                                     @JsonProperty(value = "energyCost", required = true) double energycost) {
-        RecipeLathe recipe = new RecipeLathe(input, output, duration, energycost);
+                                     @JsonProperty(value = "energyCost", required = true) double energyCost) {
+        RecipeLathe recipe = new RecipeLathe(input, output, duration, energyCost);
 
         if (!RecipeUtil.validateRecipeIO("lathe", input, output)) recipe.invalid = true;
 

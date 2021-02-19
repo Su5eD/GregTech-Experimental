@@ -5,7 +5,7 @@ import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
-import mods.gregtechmod.api.recipe.manager.IRecipeManagerCellular;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> implements IRecipeManagerCellular {
+public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> implements IGtRecipeManagerCellular {
 
     public RecipeManagerCellular() {
         super(new CellularRecipeComparator());
@@ -49,7 +49,8 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                 .filter(recipe -> Stream.of(recipe)
                             .map(IGtMachineRecipe::getInput)
                             .allMatch(ingredient -> ingredient instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells())))
-                .findFirst().orElse(null);
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

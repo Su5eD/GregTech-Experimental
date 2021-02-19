@@ -30,7 +30,7 @@ import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator {
     public static final String RETRO_NAME = "GregTechOreGen";
-    public static OreGenerator instance = new OreGenerator();
+    public static final OreGenerator INSTANCE = new OreGenerator();
     public static final Predicate<IBlockState> MATCHER = blockstate -> blockstate.getBlock() == Blocks.STONE || blockstate.getBlock() == Blocks.NETHERRACK || blockstate.getBlock() == Blocks.END_STONE;
     public static final Predicate<IBlockState> MATCHER_VOID = blockstate -> blockstate.getBlock() == Blocks.AIR || blockstate.getBlock() == Blocks.STONE || blockstate.getBlock() == Blocks.NETHERRACK || blockstate.getBlock() == Blocks.END_STONE;
 

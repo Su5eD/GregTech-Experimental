@@ -92,3 +92,31 @@
       count: 4
   duration: 2000
   heat: 3000
+- input:
+    - item: ic2:fluid_cell#wolframium
+  output:
+    - item: gregtechmod:plate_silicon
+    - item: ic2:fluid_cell
+      count: 2
+  duration: 1000
+  heat: 1500
+# Classic recipe
+#- input:
+#    - ore: oreIron
+#    - item: ic2:fluid_cell#calcium_carbonate
+#  output:
+#    - item: ic2:ingot#refined_iron
+#      count: 3
+#    - item: ic2:fluid_cell
+#  duration: 100
+#  heat: 1000
+# Classic recipe
+#- input:
+#    - ore: orePyrite
+#    - item: ic2:fluid_Cell#calcium_carbonate
+#  output:
+#    - item: ic2:ingot#refined_iron
+#      count: 2
+#    - item: ic2:fluid_cell
+#  duration: 100
+#  heat: 1500

@@ -5,6 +5,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-public interface IRecipeManagerGrinder extends IGtRecipeManager<IRecipeIngredient, ItemStack, IRecipeGrinder> {
+public interface IGtRecipeManagerGrinder extends IGtRecipeManager<IRecipeIngredient, ItemStack, IRecipeGrinder> {
     IRecipeGrinder getRecipeFor(ItemStack stack, FluidStack fluid);
 }

@@ -298,27 +298,27 @@ public class BlockItems {
     }
 
     public enum Rod {
-        LEAD("Pb"),
-        BRONZE("SnCu3"),
-        TUNGSTEN_STEEL(Ingot.TUNGSTEN_STEEL.description),
-        ZINC(Ingot.ZINC.description),
-        OSMIUM(Ingot.OSMIUM.description),
-        BRASS(Ingot.BRASS.description),
-        COPPER("Cu"),
-        TIN("Sn"),
-        IRON("Fe"),
-        STEEL("Fe"),
-        TITANIUM(Ingot.TITANIUM.description),
-        PLATINUM(Ingot.PLATINUM.description),
-        INVAR(Ingot.INVAR.description),
-        NICKEL(Ingot.NICKEL.description),
-        CHROME(Ingot.CHROME.description),
         ALUMINIUM(Ingot.ALUMINIUM.description),
-        GOLD("Au"),
+        BRASS(Ingot.BRASS.description),
+        BRONZE("SnCu3"),
+        CHROME(Ingot.CHROME.description),
+        COPPER("Cu"),
         ELECTRUM(Ingot.ELECTRUM.description),
-        SILVER("Ag"),
+        GOLD("Au"),
+        INVAR(Ingot.INVAR.description),
         IRIDIUM(Ingot.IRIDIUM.description),
-        TUNGSTEN(Ingot.TUNGSTEN.description);
+        IRON("Fe"),
+        LEAD("Pb"),
+        NICKEL(Ingot.NICKEL.description),
+        OSMIUM(Ingot.OSMIUM.description),
+        PLATINUM(Ingot.PLATINUM.description),
+        SILVER("Ag"),
+        STEEL("Fe"),
+        TIN("Sn"),
+        TITANIUM(Ingot.TITANIUM.description),
+        TUNGSTEN(Ingot.TUNGSTEN.description),
+        TUNGSTEN_STEEL(Ingot.TUNGSTEN_STEEL.description),
+        ZINC(Ingot.ZINC.description);
 
         private Item instance;
         public final String description;
@@ -815,7 +815,7 @@ public class BlockItems {
         }
     }
 
-    public enum Wrenche {
+    public enum Wrench {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -825,7 +825,7 @@ public class BlockItems {
         public final int durability;
         public final int entityDamage;
 
-        Wrenche(int durability, int entityDamage) {
+        Wrench(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
         }

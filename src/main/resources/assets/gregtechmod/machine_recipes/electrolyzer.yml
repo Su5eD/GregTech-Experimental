@@ -338,6 +338,30 @@
     - item: ic2:fluid_cell#hydrogen
       count: 5
     - item: ic2:fluid_cell#ic2air
+      count: 3
   cells: 8
   duration: 2000
   energyCost: 128
+- input:
+    item: ic2:fluid_cell#methane
+    count: 5
+  output:
+    - item: ic2:fluid_cell#hydrogen
+      count: 4
+    - item: gregtechmod:cell_carbon
+  cells: 5
+  duration: 150
+  energyCost: 50
+- input:
+    item: gregtechmod:cell_sulfuric_acid
+    count: 7
+  output:
+    - item: ic2:fluid_cell#hydrogen
+      count: 2
+    - item: gregtechmod:cell_sulfur
+    - item: ic2:fluid_cell#ic2air
+      count: 2
+    - item: ic2:fluid_cell
+      count: 2
+  duration: 40
+  energyCost: 100

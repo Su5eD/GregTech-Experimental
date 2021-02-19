@@ -1,0 +1,18 @@
+# Solid Fusion recipes
+---
+- input:
+    - fluid: wolframium
+    - fluid: lithium
+  output:
+    item: ic2:misc_resource#iridium_ore
+  duration: 512
+  energyCost: 32768
+  startEnergy: 150000000
+- input:
+    - fluid: wolframium
+    - fluid: berylium
+  output:
+    item: gregtechmod:dust_platinum
+  duration: 512
+  energyCost: 32768
+  startEnergy: 100000000

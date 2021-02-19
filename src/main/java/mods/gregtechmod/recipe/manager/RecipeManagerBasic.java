@@ -19,10 +19,10 @@ public class RecipeManagerBasic<R extends IGtMachineRecipe<IRecipeIngredient, ?>
 
     @Override
     public R getRecipeFor(ItemStack input) {
-        for (R recipe : this.recipes) {
-            if (recipe.getInput().apply(input)) return recipe;
-        }
-        return null;
+        return this.recipes.stream()
+                .filter(recipe -> recipe.getInput().apply(input))
+                .findFirst()
+                .orElse(null);
     }
 
     private static class RecipeComparator<T extends IGtMachineRecipe<IRecipeIngredient, ?>> implements Comparator<T> {

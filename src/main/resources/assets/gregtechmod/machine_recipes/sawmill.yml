@@ -1,0 +1,9 @@
+# Sawmill recipes
+---
+- input:
+    item: projectred-core:resource_item
+    meta: 300
+  output:
+    - item: projectred-core:resource_item
+      meta: 301
+      count: 8

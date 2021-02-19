@@ -11,11 +11,11 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class RecipeIngredientBase<T extends Ingredient> implements IRecipeIngredient {
+public abstract class RecipeIngredient<T extends Ingredient> implements IRecipeIngredient {
     protected final T ingredient;
     protected final int count;
 
-    protected RecipeIngredientBase(T ingredient, int count) {
+    protected RecipeIngredient(T ingredient, int count) {
         this.ingredient = ingredient;
         this.count = count;
     }
@@ -32,7 +32,7 @@ public abstract class RecipeIngredientBase<T extends Ingredient> implements IRec
 
     @Override
     public boolean apply(@Nullable ItemStack input, boolean checkSize) {
-        if (input != null) {
+        if (input != null && !this.isEmpty()) {
             for (ItemStack stack : this.getMatchingInputs()) {
                 if (stack.getItem() == input.getItem()
                         && (input.getMetadata() == OreDictionary.WILDCARD_VALUE || input.getMetadata() == stack.getMetadata())

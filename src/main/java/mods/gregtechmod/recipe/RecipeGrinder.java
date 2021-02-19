@@ -24,7 +24,7 @@ public class RecipeGrinder extends Recipe<IRecipeIngredient, List<ItemStack>> im
                                        @JsonProperty(value = "fluid", required = true) IRecipeIngredientFluid fluid,
                                        @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                        @JsonProperty(value = "duration") int duration) {
-        RecipeUtil.adjustOutputCount("grinder", output, 3);
+        output = RecipeUtil.adjustOutputCount("grinder", output, 3);
 
         RecipeGrinder recipe = new RecipeGrinder(input, fluid, output, duration);
 

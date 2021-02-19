@@ -57,6 +57,12 @@ public class GtUtil {
                 .collect(Collectors.toList());
     }
 
+    public static List<ItemStack> nonEmptyList(ItemStack... elements) {
+        return Stream.of(elements)
+                .filter(stack -> !stack.isEmpty())
+                .collect(Collectors.toList());
+    }
+
     public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {
         ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
         stack.setTagInfo("title", new NBTTagString(GtUtil.translate(Reference.MODID+".book."+name+".name")));
@@ -128,7 +134,8 @@ public class GtUtil {
         ItemStack containerItem = item.getContainerItem(stack);
         if (!containerItem.isEmpty() && containerItem.isItemEqual(emptyCell)) return containerItem.getCount();
         String regName = item.getRegistryName().toString();
-        if (regName.startsWith(Reference.MODID+":cell_") || regName.equals("ic2:fluid_cell")) return 1;
+        if (regName.startsWith(Reference.MODID+":cell_") || regName.equals("ic2:fluid_cell") || regName.equals("forestry:can") ||
+                regName.equals("forestry:capsule") || regName.equals("forestry:refractory")) return 1;
 
         if (stack.isItemEqual(IC2Items.getItem("heat_storage"))) return 1;
         else if (stack.isItemEqual(IC2Items.getItem("tri_heat_storage"))) return 3;
@@ -164,5 +171,10 @@ public class GtUtil {
             }
         }
         return list;
+    }
+
+    public static String toStringStack(ItemStack stack) {
+        String ore = OreDictUnificator.getAssociation(stack);
+        return !ore.isEmpty() ? ore : stack.getCount() > 1 ? stack.toString() : stack.toString().substring(2);
     }
 }

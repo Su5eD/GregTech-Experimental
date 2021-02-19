@@ -1,13 +1,13 @@
 package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeGrinder;
-import mods.gregtechmod.api.recipe.manager.IRecipeManagerGrinder;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerGrinder;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Comparator;
 
-public class RecipeManagerGrinder extends RecipeManagerBase<IRecipeGrinder> implements IRecipeManagerGrinder {
+public class RecipeManagerGrinder extends RecipeManagerBase<IRecipeGrinder> implements IGtRecipeManagerGrinder {
 
     public RecipeManagerGrinder() {
         super(new GrinderRecipeComparator());
@@ -17,7 +17,8 @@ public class RecipeManagerGrinder extends RecipeManagerBase<IRecipeGrinder> impl
     public IRecipeGrinder getRecipeFor(ItemStack stack, FluidStack fluid) {
         return this.recipes.stream()
                 .filter(recipe -> recipe.getInput().apply(stack) && recipe.getFluid().apply(fluid))
-                .findFirst().orElse(null);
+                .findFirst()
+                .orElse(null);
     }
 
     private static class GrinderRecipeComparator implements Comparator<IRecipeGrinder> {

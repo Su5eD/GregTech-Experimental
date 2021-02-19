@@ -31,7 +31,6 @@ public class JEIModule implements IModPlugin {
         jeiRuntime = iJeiRuntime;
         GregTechAPI.logger.debug("Hiding some items from JEI... look away");
         List<ItemStack> itemsToRemove = Arrays.asList(
-                //TODO: Hide Smalldusts?
                 new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ic2", "dust")), 1, 31),
                 new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("ic2", "dust")), 1, 32)
         );

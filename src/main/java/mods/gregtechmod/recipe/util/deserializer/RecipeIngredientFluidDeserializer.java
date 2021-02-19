@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.util;
+package mods.gregtechmod.recipe.util.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -20,7 +20,7 @@ public class RecipeIngredientFluidDeserializer extends JsonDeserializer<IRecipeI
     }
 
     public IRecipeIngredientFluid deserialize(JsonNode node) {
-        IRecipeIngredientFluid ingredient = null;
+        IRecipeIngredientFluid ingredient = RecipeIngredientFluid.EMPTY;
         int count = node.has("count") ? node.get("count").asInt(1) : 1;
 
         if (node.isTextual()) {
@@ -33,7 +33,7 @@ public class RecipeIngredientFluidDeserializer extends JsonDeserializer<IRecipeI
             ingredient = RecipeIngredientFluid.fromNames(names, count);
         }
 
-        if (ingredient == null && node.has("fallback")) {
+        if (ingredient.isEmpty() && node.has("fallback")) {
             ingredient = deserialize(node.get("fallback"));
         }
 
