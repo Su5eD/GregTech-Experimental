@@ -5,25 +5,34 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import net.minecraft.item.ItemStack;
 
-import java.util.Comparator;
 import java.util.List;
 
-public class RecipeManagerMultiInput<R extends IGtMachineRecipe<List<IRecipeIngredient>, ?>> extends RecipeManager<List<IRecipeIngredient>, List<ItemStack>, R> implements IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, R> {
-
-    public RecipeManagerMultiInput() {
-        super(new MultiInputRecipeComparator<>());
-    }
-
-    protected RecipeManagerMultiInput(Comparator<R> comparator) {
-        super(comparator);
-    }
+public class RecipeManagerMultiInput<R extends IGtMachineRecipe<List<I>, ?>, I extends IRecipeIngredient> extends RecipeManager<List<I>, List<ItemStack>, R> implements IGtRecipeManagerBasic<List<I>, List<ItemStack>, R> {
 
     @Override
     public boolean hasRecipeFor(List<ItemStack> input) {
         return this.recipes.stream()
                 .anyMatch(recipe -> recipe.getInput().stream()
                         .allMatch(ingredient -> input.stream()
-                                .allMatch(stack -> ingredient.apply(stack, false))));
+                                .anyMatch(stack -> ingredient.apply(stack, false))));
+    }
+
+    @Override
+    protected R getRecipeForExact(R recipe) {
+        return this.recipes.stream()
+                .filter(r -> r.getInput().stream()
+                    .allMatch(ingredient -> recipe.getInput().stream()
+                            .anyMatch(ingredient::apply)) && compareCount(r, recipe) == 0)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public int compareCount(R first, R second) {
+        return second.getInput().stream()
+                .mapToInt(IRecipeIngredient::getCount)
+                .sum() - first.getInput().stream()
+                .mapToInt(IRecipeIngredient::getCount)
+                .sum();
     }
 
     @Override
@@ -31,22 +40,8 @@ public class RecipeManagerMultiInput<R extends IGtMachineRecipe<List<IRecipeIngr
         return this.recipes.stream()
                 .filter(recipe -> recipe.getInput().stream()
                         .allMatch(ingreident -> input.stream()
-                                .allMatch(ingreident::apply)))
-                .findFirst()
+                                .anyMatch(ingreident::apply)))
+                .min(this::compareCount)
                 .orElse(null);
-    }
-
-    protected static class MultiInputRecipeComparator<R extends IGtMachineRecipe<List<IRecipeIngredient>, ?>> implements Comparator<R> {
-
-        @Override
-        public int compare(R first, R second) {
-            int total = 0;
-            for (IRecipeIngredient firstInput : first.getInput()) {
-                for (IRecipeIngredient secondInput : second.getInput()) {
-                    total += Math.abs(firstInput.compareTo(secondInput));
-                }
-            }
-            return total;
-        }
     }
 }

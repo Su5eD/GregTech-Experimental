@@ -17,14 +17,6 @@
     count: 5
   duration: 10
 - input:
-    - item: gregtechmod:cell_carbon
-    - item: ic2:fluid_cell#hydrogen
-      count: 4
-  output:
-    item: ic2:fluid_cell#methane
-    count: 5
-  duration: 3500
-- input:
     - item: ic2:fluid_cell#nitrogen
     - item: gregtechmod:cell_carbon
   output:
@@ -69,13 +61,6 @@
     item: ic2:fluid_cell#nitrogen_dioxide
     count: 2
   duration: 1250
-- input:
-    - item: ic2:fluid_cell#nitrogen
-    - item: gregtechmod:cell_carbon
-  output:
-    item: gregtechmod:cell_nitrocarbon
-    count: 2
-  duration: 1500
 - input:
     - item: gregtechmod:cell_nitrocarbon
       count: 3

@@ -41,16 +41,6 @@
     - item: gregtechmod:cell_thorium
   duration: 100
   energyCost: 2
-- input:
-    - item: ic2:fluid_cell#nitrogen
-      count: 16
-    - item: gregtechmod:spray_can_empty
-  output:
-    - item: gregtechmod:spray_ice
-    - item: ic2:fluid_cell
-      count: 16
-  duration: 1600
-  energyCost: 2
 # Classic recipe
 #- input:
 #    - item: ic2:crop_res#grin_powder

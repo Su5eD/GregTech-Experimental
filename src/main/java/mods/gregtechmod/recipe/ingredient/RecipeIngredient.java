@@ -2,7 +2,6 @@ package mods.gregtechmod.recipe.ingredient;
 
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.recipe.util.ItemStackComparator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.oredict.OreDictionary;
@@ -52,27 +51,8 @@ public abstract class RecipeIngredient<T extends Ingredient> implements IRecipeI
     }
 
     @Override
-    public int compareTo(IRecipeIngredient other) {
-        int total = 0;
-        List<ItemStack> matchingInputs = this.getMatchingInputs();
-        List<ItemStack> otherMatchingInputs = other.getMatchingInputs();
-
-        if (otherMatchingInputs.isEmpty()) return -other.compareTo(this);
-
-        outerloop:
-        for (ItemStack firstStack : matchingInputs) {
-            for (ItemStack secondStack : otherMatchingInputs) {
-                int diff = ItemStackComparator.INSTANCE.compare(firstStack, secondStack);
-                if (diff == 0) {
-                    total = 0;
-                    break outerloop;
-                }
-                total += diff;
-            }
-        }
-
-        if (total == 0) total += other.getCount() - this.count;
-
-        return total;
+    public boolean apply(IRecipeIngredient ingredient) {
+        return ingredient.getMatchingInputs().stream()
+                .anyMatch(stack -> this.apply(stack, false)) && ingredient.getCount() >= this.count;
     }
 }

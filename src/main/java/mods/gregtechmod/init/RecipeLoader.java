@@ -148,7 +148,7 @@ public class RecipeLoader {
             parseRecipes("fusion_fluid", RecipeFusionFluid.class, null)
                     .ifPresent(recipes -> registerRecipes("fluid fusion", recipes, GtRecipes.fusionFluid));
 
-            GtRecipes.fusionSolid = new RecipeManagerFusion<>();
+            GtRecipes.fusionSolid = new RecipeManagerMultiInput<>();
             parseRecipes("fusion_solid", RecipeFusionSolid.class, null)
                     .ifPresent(recipes -> registerRecipes("solid fusion", recipes, GtRecipes.fusionSolid));
 

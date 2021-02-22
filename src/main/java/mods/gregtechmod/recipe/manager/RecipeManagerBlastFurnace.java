@@ -1,17 +1,14 @@
 package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.util.ModHandler;
 import mods.railcraft.api.crafting.Crafters;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.fml.common.Optional;
 
-public class RecipeManagerBlastFurnace extends RecipeManagerMultiInput<IRecipeBlastFurnace> {
-
-    public RecipeManagerBlastFurnace() {
-        super(new BlastFurnaceRecipeComparator());
-    }
+public class RecipeManagerBlastFurnace extends RecipeManagerMultiInput<IRecipeBlastFurnace, IRecipeIngredient> {
 
     @Override
     public boolean addRecipe(IRecipeBlastFurnace recipe, boolean overwrite) {
@@ -28,16 +25,5 @@ public class RecipeManagerBlastFurnace extends RecipeManagerMultiInput<IRecipeBl
                 .time(duration)
                 .name(output.getItem().getRegistryName())
                 .register();
-    }
-
-    private static class BlastFurnaceRecipeComparator extends MultiInputRecipeComparator<IRecipeBlastFurnace> {
-
-        @Override
-        public int compare(IRecipeBlastFurnace first, IRecipeBlastFurnace second) {
-            int diff = super.compare(first, second);
-
-            if (diff == 0) diff += second.getHeat() - first.getHeat();
-            return diff;
-        }
     }
 }

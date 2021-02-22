@@ -13,15 +13,6 @@
   duration: 400
   energyCost: 16
 - input:
-    - ore: ingotAluminium
-      count: 2
-    - ore: dustMagnesium
-  output:
-    item: gregtechmod:ingot_magnalium
-    count: 3
-  duration: 150
-  energyCost: 16
-- input:
     - ore: ingotGold
     - ore: ingotSilver
   output:
@@ -83,14 +74,6 @@
     item: gregtechmod:ingot_invar
     count: 3
   duration: 150
-  energyCost: 16
-- input:
-    - ore: ingotGold
-    - ore: ingotSilver
-  output:
-    item: gregtechmod:ingot_electrum
-    count: 2
-  duration: 100
   energyCost: 16
 - input:
     - ore: ingotAluminium

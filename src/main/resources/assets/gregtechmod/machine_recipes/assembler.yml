@@ -161,14 +161,6 @@
   duration: 150
   energyCost: 1
 - input:
-    - ore: ingotIron
-      count: 4
-    - ore: dustRedstone
-  output:
-    item: minecraft:compass
-  duration: 400
-  energyCost: 4
-- input:
     - ore: gearIron
     - ore: ingotGold
       count: 4
@@ -176,14 +168,6 @@
     ore: gearGold
   duration: 800
   energyCost: 1
-- input:
-    - ore: ingotGold
-      count: 4
-    - ore: dustRedstone
-  output:
-    item: minecraft:clock
-  duration: 400
-  energyCost: 4
 - input:
     - item: ic2:crafting#coal_block
       count: 8
@@ -279,15 +263,6 @@
     item: ic2:te#wind_generator
   duration: 6400
   energyCost: 8
-- input:
-    - ore: plateAlloyAdvanced
-    - ore: stoneSmooth
-      count: 8
-  output:
-    item: ic2:resource#reinforced_stone
-    count: 8
-  duration: 400
-  energyCost: 4
 - input:
     - ore: plateAlloyAdvanced
       count: 2
@@ -616,7 +591,7 @@
   energyCost: 4
 - input:
     - ore: plateIridium
-    - item: ic2:resource#reinforced_stone
+    - item: gregtechmod:block_tungsten_steel
   output:
     item: gregtechmod:block_iridium_reinforced_tungsten_steel
   duration: 400
@@ -786,19 +761,3 @@
     item: ic2:cable#type:iron,insulation:3
   duration: 100
   energyCost: 2
-- input:
-    - ore: plankWood
-      count: 8
-    - ore: dustRedstone
-  output:
-    item: minecraft:noteblock
-  duration: 800
-  energyCost: 1
-- input:
-    - ore: plankWood
-      count: 8
-    - ore: gemDiamond
-  output:
-    item: minecraft:jukebox
-  duration: 1600
-  energyCost: 1

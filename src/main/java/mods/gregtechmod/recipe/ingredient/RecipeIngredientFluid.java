@@ -17,12 +17,10 @@ import java.util.stream.Collectors;
 
 public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implements IRecipeIngredientFluid {
     public static final RecipeIngredientFluid EMPTY = new RecipeIngredientFluid(Collections.emptyList(), 0);
-    private final int buckets;
     private final List<Fluid> matchingFluids;
 
     private RecipeIngredientFluid(List<Fluid> fluids, int buckets) {
         super(Ingredient.fromStacks(getContainersForFluids(fluids).toArray(new ItemStack[0])), buckets);
-        this.buckets = buckets;
         this.matchingFluids = fluids;
     }
 
@@ -56,24 +54,6 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
     }
 
     @Override
-    public int compareTo(IRecipeIngredient other) {
-        if (other instanceof IRecipeIngredientFluid) {
-            int diff = 0;
-            for (Fluid firstFluid : this.matchingFluids) {
-                for (Fluid secondFluid : ((IRecipeIngredientFluid) other).getMatchingFluids()) {
-                    if (firstFluid.getName().equals(secondFluid.getName())) {
-                        diff = 0;
-                        break;
-                    }
-                    else diff += firstFluid.getName().compareTo(secondFluid.getName());
-                }
-            }
-            diff += ((IRecipeIngredientFluid) other).getMilliBuckets() - this.getMilliBuckets();
-            return diff;
-        } else return super.compareTo(other);
-    }
-
-    @Override
     public boolean apply(@Nullable FluidStack input) {
         if (input != null) {
             for (Fluid fluid : this.matchingFluids) {
@@ -93,7 +73,7 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
 
     @Override
     public int getMilliBuckets() {
-        return this.buckets * 1000;
+        return this.count * 1000;
     }
 
     @Override
@@ -112,6 +92,16 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
     }
 
     @Override
+    public boolean apply(IRecipeIngredient ingredient) {
+        if (ingredient instanceof IRecipeIngredientFluid) {
+            return this.matchingFluids.stream()
+                    .anyMatch(firstFluid -> ((IRecipeIngredientFluid) ingredient).getMatchingFluids().stream()
+                        .anyMatch(secondFluid -> firstFluid.getName().equals(secondFluid.getName()))) && this.count <= ingredient.getCount();
+        }
+        return super.apply(ingredient);
+    }
+
+    @Override
     public List<Fluid> getMatchingFluids() {
         return this.matchingFluids;
     }
@@ -126,7 +116,7 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
         List<String> fluids = this.matchingFluids.stream()
                 .map(Fluid::getName)
                 .collect(Collectors.toList());
-        return "RecipeIngredientFluid{fluids="+fluids+",buckets="+this.buckets+"}";
+        return "RecipeIngredientFluid{fluids="+fluids+",count="+this.count+"}";
     }
 
     public static List<ItemStack> getContainersForFluids(List<Fluid> fluids) {

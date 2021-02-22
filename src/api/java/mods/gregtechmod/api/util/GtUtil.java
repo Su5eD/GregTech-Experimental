@@ -172,9 +172,4 @@ public class GtUtil {
         }
         return list;
     }
-
-    public static String toStringStack(ItemStack stack) {
-        String ore = OreDictUnificator.getAssociation(stack);
-        return !ore.isEmpty() ? ore : stack.getCount() > 1 ? stack.toString() : stack.toString().substring(2);
-    }
 }

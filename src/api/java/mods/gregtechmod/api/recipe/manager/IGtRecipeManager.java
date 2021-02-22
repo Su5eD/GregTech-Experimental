@@ -2,7 +2,7 @@ package mods.gregtechmod.api.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 
-import java.util.SortedSet;
+import java.util.Set;
 
 public interface IGtRecipeManager<RI, I, R extends IGtMachineRecipe<RI, ?>> {
     default boolean addRecipe(R recipe) {
@@ -18,5 +18,5 @@ public interface IGtRecipeManager<RI, I, R extends IGtMachineRecipe<RI, ?>> {
 
     void removeRecipe(R recipe);
 
-    SortedSet<R> getRecipes();
+    Set<R> getRecipes();
 }

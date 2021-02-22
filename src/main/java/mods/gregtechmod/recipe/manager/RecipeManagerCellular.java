@@ -6,41 +6,39 @@ import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
-import java.util.Comparator;
 import java.util.stream.Stream;
 
 public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> implements IGtRecipeManagerCellular {
-
-    public RecipeManagerCellular() {
-        super(new CellularRecipeComparator());
-    }
 
     /**
      * @param cells The amount of cells required for this recipe. Pass in -1 to ignore
      */
     @Override
     public IRecipeCellular getRecipeFor(ItemStack input, int cells) {
-        for (IRecipeCellular recipe : this.recipes) {
-            int availableCells = cells;
-            IRecipeIngredient ingredient = recipe.getInput();
-            if (ingredient instanceof IRecipeIngredientFluid) {
-                FluidStack fluid = FluidUtil.getFluidContained(input);
-                if (fluid != null) {
-                    Item item = input.getItem();
-                    if (fluid.amount == Fluid.BUCKET_VOLUME && item instanceof ItemFluidCell) {
-                        availableCells += Math.min(ingredient.getCount(), input.getCount());
+        return this.recipes.stream()
+                .filter(recipe -> {
+                    int availableCells = cells;
+                    IRecipeIngredient ingredient = recipe.getInput();
+                    if (ingredient instanceof IRecipeIngredientFluid) {
+                        FluidStack fluid = FluidUtil.getFluidContained(input);
+                        if (fluid != null) {
+                            Item item = input.getItem();
+                            if (fluid.amount == Fluid.BUCKET_VOLUME && item instanceof ItemFluidCell) {
+                                availableCells += Math.min(ingredient.getCount(), input.getCount());
+                            }
+                        }
                     }
-                }
-            }
-            if (recipe.getInput().apply(input) && (cells < 0 || availableCells >= recipe.getCells())) return recipe;
-        }
-        return null;
+                    return recipe.getInput().apply(input) && (cells < 0 || availableCells >= recipe.getCells());
+                })
+                .min(this::compareCount)
+                .orElse(null);
     }
 
     @Override
@@ -48,7 +46,18 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
         return this.recipes.stream()
                 .filter(recipe -> Stream.of(recipe)
                             .map(IGtMachineRecipe::getInput)
-                            .allMatch(ingredient -> ingredient instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells())))
+                            .filter(ingredient -> ingredient instanceof RecipeIngredientFluid)
+                            .allMatch(ingredient -> ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells())))
+                .min(this::compareCount)
+                .orElse(null);
+    }
+
+    @Override
+    protected IRecipeCellular getRecipeForExact(IRecipeCellular recipe) {
+        IRecipeIngredient input = recipe.getInput();
+        int cells = recipe.getCells();
+        return this.recipes.stream()
+                .filter(r -> r.getInput().apply(input) && r.getCells() <= cells && compareCount(r, recipe) == 0)
                 .findFirst()
                 .orElse(null);
     }
@@ -69,15 +78,12 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                 .anyMatch(ingredient -> ((IRecipeIngredientFluid) ingredient).apply(input));
     }
 
-    private static class CellularRecipeComparator implements Comparator<IRecipeCellular> {
+    @Override
+    public int compareCount(IRecipeCellular first, IRecipeCellular second) {
+        int diff = second.getCells() - first.getCells();
 
-        @Override
-        public int compare(IRecipeCellular first, IRecipeCellular second) {
-            int itemdiff = second.getCells() - first.getCells();
+        if (diff == 0) diff += super.compareCount(first, second);
 
-            if (itemdiff == 0) itemdiff += first.getInput().compareTo(second.getInput());
-
-            return itemdiff;
-        }
+        return diff;
     }
 }

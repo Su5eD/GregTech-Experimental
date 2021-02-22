@@ -11,7 +11,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RecipeManagerFusionFluid extends RecipeManagerFusion<IRecipeIngredientFluid, FluidStack> implements IGtRecipeManagerFusionFluid {
+public class RecipeManagerFusionFluid extends RecipeManagerMultiInput<IRecipeFusion<IRecipeIngredientFluid, FluidStack>, IRecipeIngredientFluid> implements IGtRecipeManagerFusionFluid {
 
     @Override
     public IRecipeFusion<IRecipeIngredientFluid, FluidStack> getRecipeForFluid(List<FluidStack> input) {
@@ -19,7 +19,7 @@ public class RecipeManagerFusionFluid extends RecipeManagerFusion<IRecipeIngredi
                 .filter(recipe -> recipe.getInput().stream()
                     .allMatch(ingredient -> input.stream()
                         .anyMatch(ingredient::apply)))
-                .findFirst()
+                .min(this::compareCount)
                 .orElse(null);
     }
 
@@ -58,7 +58,7 @@ public class RecipeManagerFusionFluid extends RecipeManagerFusion<IRecipeIngredi
                 .filter(recipe -> recipe.getInput().stream()
                         .allMatch(ingredient -> fluids.stream()
                                 .anyMatch(ingredient::apply)))
-                .findFirst()
+                .min(this::compareCount)
                 .orElse(null);
     }
 }

@@ -3,37 +3,39 @@ package mods.gregtechmod.recipe.manager;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 
-import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class RecipeManager<RI, I, R extends IGtMachineRecipe<RI, ?>> implements IGtRecipeManager<RI, I, R> {
-    protected final SortedSet<R> recipes;
+    protected final Set<R> recipes;
 
-    public RecipeManager(Comparator<R> comparator) {
-        this.recipes = new TreeSet<>(comparator);
-    }
-
-    @Override
-    public boolean addRecipe(R recipe) {
-        return addRecipe(recipe, false);
+    public RecipeManager() {
+        this.recipes = new HashSet<>();
     }
 
     @Override
     public boolean addRecipe(R recipe, boolean overwrite) {
         if (recipe.isInvalid()) return false;
-        if (overwrite) this.recipes.remove(recipe);
+
+        R existing = getRecipeForExact(recipe);
+        if (existing != null) {
+            if (overwrite) this.recipes.remove(existing);
+            else return false;
+        }
 
         return this.recipes.add(recipe);
     }
 
     @Override
     public void removeRecipe(R recipe) {
-        this.recipes.remove(recipe);
+        R existing = getRecipeForExact(recipe);
+        if (existing != null) this.recipes.remove(existing);
     }
 
     @Override
-    public SortedSet<R> getRecipes() {
+    public Set<R> getRecipes() {
         return this.recipes;
     }
+
+    protected abstract R getRecipeForExact(R recipe);
 }

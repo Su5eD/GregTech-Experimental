@@ -6,31 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
-import java.util.Comparator;
 
-public class RecipeManagerSawmill extends RecipeManagerBasic<IRecipeSawmill> implements IGtRecipeManagerSawmill {
-
-    public RecipeManagerSawmill() {
-        super(RecipeSawmillComparator.INSTANCE);
-    }
+public class RecipeManagerSawmill extends RecipeManagerBase<IRecipeSawmill> implements IGtRecipeManagerSawmill {
 
     @Override
     public IRecipeSawmill getRecipeFor(ItemStack input, @Nullable FluidStack fluid) {
         return this.recipes.stream()
                 .filter(recipe -> recipe.getInput().apply(input) && (fluid == null || fluid.containsFluid(recipe.getRequiredWater())))
-                .findFirst()
+                .min(this::compareCount)
                 .orElse(null);
-    }
-
-    private static class RecipeSawmillComparator implements Comparator<IRecipeSawmill> {
-        public static final RecipeSawmillComparator INSTANCE = new RecipeSawmillComparator();
-
-        @Override
-        public int compare(IRecipeSawmill first, IRecipeSawmill second) {
-            int diff = first.getInput().compareTo(second.getInput());
-            if (diff == 0) diff += second.getRequiredWater().amount - first.getRequiredWater().amount;
-
-            return diff;
-        }
     }
 }
