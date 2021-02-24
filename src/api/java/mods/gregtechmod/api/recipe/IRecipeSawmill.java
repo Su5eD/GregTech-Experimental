@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface IRecipeSawmill extends IGtMachineRecipe<IRecipeIngredient, List<ItemStack>> {
     FluidStack getRequiredWater();
+
+    boolean isUniversal();
 }

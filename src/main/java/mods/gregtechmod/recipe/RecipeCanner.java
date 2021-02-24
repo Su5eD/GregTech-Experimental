@@ -23,7 +23,7 @@ public class RecipeCanner extends Recipe<List<IRecipeIngredient>, List<ItemStack
     public static RecipeCanner create(@JsonProperty(value = "input", required = true) List<IRecipeIngredient> input,
                                       @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                       @JsonProperty(value = "duration", required = true) int duration,
-                                      @JsonProperty(value = "energyCost", required = true) double energyCost) {
+                                      @JsonProperty(value = "energyCost") double energyCost) {
         input = RecipeUtil.adjustInputCount("canner", input, output, 2);
         output = RecipeUtil.adjustOutputCount("canner", output, 2);
 

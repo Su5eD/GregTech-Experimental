@@ -1,0 +1,89 @@
+# Magic fuels
+- input:
+    ore: waxMagical
+  energy: 6
+- input:
+    item: twilightforest:fiery_blood
+  energy: 2048
+- input:
+    item: twilightforest:liveroot
+  output:
+    item: minecraft:stick
+    count: 2
+  energy: 16
+- input:
+    item: twilightforest:root
+    meta: 1
+  output:
+    item: minecraft:stick
+    count: 4
+  energy: 32
+- input:
+    ore: ingotIronwood
+  output:
+    item: minecraft:iron_ingot
+  energy: 8
+- input:
+    ore: ingotSteeleaf
+  output:
+    item: gregtechmod:dust_steel
+  energy: 24
+- input:
+    ore: ingotFiery
+  output:
+    item: ic2:ingot#steel
+  energy: 2048
+- input:
+    item: thaumcraft:phial
+    meta: 1
+    nbt:
+      Aspects:
+        - amount: 10
+          key: ignis
+  output:
+    item: thaumcraft:phial
+  energy: 80
+- input:
+    item: thaumcraft:phial
+    meta: 1
+    nbt:
+      Aspects:
+        - amount: 10
+          key: potentia
+  output:
+    item: thaumcraft:phial
+  energy: 160
+- input:
+    item: thaumcraft:phial
+    meta: 1
+    nbt:
+      Aspects:
+        - amount: 10
+          key: praecantatio
+  output:
+    item: thaumcraft:phial
+  energy: 120
+- input:
+    item: thaumcraft:quicksilver
+  energy: 16
+- input:
+    item: thaumcraft:tallow
+  energy: 4
+- input:
+    item: thaumcraft:amber
+  energy: 6
+- input:
+    ore: oreCrystalAir
+  energy: 160
+- input:
+    ore: oreCrystalFire
+  energy: 320
+- input:
+    ore: oreCrystalWater
+  energy: 160
+- input:
+    ore: oreCrystalEarth
+  energy: 160
+- input:
+    ore: oreCrystalTaint
+  energy: 240

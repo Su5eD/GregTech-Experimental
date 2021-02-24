@@ -25,7 +25,9 @@ public class GtUpgradeSlot extends InvSlot {
             return ((IUpgradableMachine)base).getCompatibleGtUpgrades().contains(((IGtUpgradeItem) item).getType());
         }
         else if (item instanceof IUpgradeItem) {
-            Set<UpgradableProperty> properties = ((IUpgradableMachine) base).getCompatibleIC2Upgrades().stream().map(type -> UpgradableProperty.valueOf(type.property)).collect(Collectors.toSet());
+            Set<UpgradableProperty> properties = ((IUpgradableMachine) base).getCompatibleIC2Upgrades().stream()
+                    .map(type -> UpgradableProperty.valueOf(type.property))
+                    .collect(Collectors.toSet());
             return ((IUpgradeItem)item).isSuitableFor(stack, properties);
         }
         return false;

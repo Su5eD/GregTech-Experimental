@@ -1,8 +1,10 @@
 package mods.gregtechmod.init;
 
 import cofh.thermalexpansion.util.managers.machine.SmelterManager;
+import ic2.api.item.IC2Items;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.Recipes;
+import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
@@ -12,11 +14,15 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSawmill;
+import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.recipe.RecipeDualInput;
+import mods.gregtechmod.recipe.RecipePulverizer;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;
 import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -73,11 +79,7 @@ class DynamicRecipes {
     }
 
     static void addSawmillRecipe(IRecipeSawmill recipe) {
-        if (addSawmillRecipes) {
-            SAWMILL.addRecipe(recipe);
-            List<ItemStack> outputs = recipe.getOutput();
-            ModHandler.addTESawmillRecipe(1600, recipe.getInput().getMatchingInputs().get(0), outputs.get(0), outputs.size() > 1 ? outputs.get(1) : ItemStack.EMPTY, 100, false);
-        }
+        if (addSawmillRecipes) SAWMILL.addRecipe(recipe);
     }
 
     static void addCompressorRecipe(IRecipeInput input, ItemStack output) {
@@ -144,5 +146,56 @@ class DynamicRecipes {
 
         if (!decrafting) ModHandler.removeFactorizerRecipe(output, true);
         else ModHandler.addFactorizerRecipe(output, input, true);
+    }
+
+    public static void processCraftingRecipes() {
+        GregTechAPI.logger.info("Scanning for certain kinds of compatible machine blocks");
+        ItemStack stack;
+
+        ItemStack input = IC2Items.getItem("ingot", "bronze");
+        ItemStack plateBronze = IC2Items.getItem("plate", "bronze");
+        if (!(stack = ModHandler.getCraftingResult(input, input, input, input, ItemStack.EMPTY, input, input, input, input)).isEmpty() || !(stack = ModHandler.getCraftingResult(plateBronze, plateBronze, plateBronze, plateBronze, ItemStack.EMPTY, plateBronze, plateBronze, plateBronze, plateBronze)).isEmpty()) {
+            OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
+            addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "bronze"), 8)));
+            addSmeltingRecipe(stack.getTranslationKey(), stack, StackUtil.setSize(IC2Items.getItem("ingot", "bronze"), 8));
+        }
+
+        if (IC2.version.isClassic()) {
+            ItemStack ingotRefinedIron = OreDictUnificator.get("ingotRefinedIron");
+            ItemStack plateRefinedIron = OreDictUnificator.get("plateRefinedIron");
+            if (!(stack = ModHandler.getCraftingResult(ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ItemStack.EMPTY, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron)).isEmpty() ||
+                    !(stack = ModHandler.getCraftingResult(plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron, ItemStack.EMPTY, plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron)).isEmpty()) {
+                OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
+                addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), OreDictUnificator.get("dustRefinedIron", StackUtil.setSize(IC2Items.getItem("dust", "iron"), 8), 8)));
+                addSmeltingRecipe(stack.getTranslationKey(), stack, StackUtil.copyWithSize(ingotRefinedIron, 8));
+            }
+        }
+
+        ItemStack glass = new ItemStack(Blocks.GLASS);
+        ItemStack gearTin = OreDictUnificator.get("gearTin");
+        ItemStack dustTin = StackUtil.setSize(IC2Items.getItem("dust", "tin"), 4);
+        ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
+        if (!(stack = ModHandler.getCraftingResult(ingotIron, glass, ingotIron, glass, gearTin, glass, ingotIron, glass, ingotIron)).isEmpty()) {
+            OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
+            addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "iron"), 4), dustTin));
+        }
+
+        ItemStack ingotSteel = IC2Items.getItem("ingot", "steel");
+        if (!(stack = ModHandler.getCraftingResult(ingotSteel, glass, ingotSteel, glass, gearTin, glass, ingotSteel, glass, ingotSteel)).isEmpty()) {
+            OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
+            addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "steel"), 4), dustTin));
+        }
+
+        GregTechAPI.logger.info("Registering various tools to be usable on GregTech machines");
+        if (ModHandler.projectredCore) {
+            ItemStack screwdriver = ModHandler.getPRItem("screwdriver", OreDictionary.WILDCARD_VALUE);
+            GregTechAPI.registerScrewdriver(screwdriver);
+        }
+        if (ModHandler.railcraft) {
+            ItemStack ironCrowbar = ModHandler.getRCItem("tool_crowbar_iron", OreDictionary.WILDCARD_VALUE);
+            ItemStack steelCrowbar = ModHandler.getRCItem("tool_crowbar_steel", OreDictionary.WILDCARD_VALUE);
+            GregTechAPI.registerCrowbar(ironCrowbar);
+            GregTechAPI.registerCrowbar(steelCrowbar);
+        }
     }
 }

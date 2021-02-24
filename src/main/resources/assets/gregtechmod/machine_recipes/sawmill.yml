@@ -7,3 +7,10 @@
     - item: projectred-core:resource_item
       meta: 301
       count: 8
+- input:
+    item: twilightforest:root
+  output:
+    - item: minecraft:stick
+      count: 4
+    - item: minecraft:stick
+      count: 2

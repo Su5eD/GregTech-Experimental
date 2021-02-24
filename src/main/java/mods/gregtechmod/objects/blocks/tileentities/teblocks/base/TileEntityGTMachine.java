@@ -127,7 +127,6 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngr
 
             if (this.energy.canUseEnergy(energyConsume)) {
                 this.energy.useEnergy(energyConsume);
-                System.out.println(this.energyConsume);
                 needsInvUpdate = operate(recipe);
             } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getRequiredSteam())) {
                 needsInvUpdate = operate(recipe);
@@ -318,11 +317,6 @@ public abstract class TileEntityGTMachine<R extends IGtMachineRecipe<IRecipeIngr
     public double getSteamCapacity() {
         if (steamTank != null) return steamTank.getCapacity();
         return 0;
-    }
-
-    @Override
-    public void markForCoverBehaviorUpdate() {
-        this.needsCoverBehaviorUpdate = true;
     }
 
     @Override

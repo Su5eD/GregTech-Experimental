@@ -570,3 +570,16 @@
       - uranium
   output:
     - item: gregtechmod:dust_uranium
+- input:
+    item: twilightforest:root
+  output:
+    - item: minecraft:stick
+      count: 2
+    - item: minecraft:stick
+  chance: 30
+- input:
+    item: twilightforest:minotaur_axe
+  output:
+    - item: ic2:dust#diamond
+    - item: gregtechmod:dust_wood
+  chance: 50

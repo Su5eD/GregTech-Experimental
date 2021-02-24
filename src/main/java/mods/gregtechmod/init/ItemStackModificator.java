@@ -49,10 +49,10 @@ public class ItemStackModificator {
         IItemAPI api = IC2Items.getItemAPI();
         addJackHammerMinableBlock(api.getBlock("foam"), OreDictionary.WILDCARD_VALUE);
         addJackHammerMinableBlock(api.getBlock("wall"), OreDictionary.WILDCARD_VALUE);
-        GregTechAPI.jackHammerMinableBlocks.add(IC2Items.getItem("resource", "reinforced_stone"));
-        GregTechAPI.jackHammerMinableBlocks.add(IC2Items.getItem("glass", "reinforced"));
-        GregTechAPI.jackHammerMinableBlocks.add(IC2Items.getItem("reinforced_door"));
-        GregTechAPI.jackHammerMinableBlocks.add(IC2Items.getItem("resource", "basalt"));
+        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(IC2Items.getItem("resource", "reinforced_stone"));
+        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(IC2Items.getItem("glass", "reinforced"));
+        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(IC2Items.getItem("reinforced_door"));
+        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(IC2Items.getItem("resource", "basalt"));
     }
 
     private static void addJackHammerMinableBlock(Block block) {
@@ -60,6 +60,6 @@ public class ItemStackModificator {
     }
 
     private static void addJackHammerMinableBlock(Block block, int metadata) {
-        GregTechAPI.jackHammerMinableBlocks.add(new ItemStack(block, 1, metadata));
+        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(new ItemStack(block, 1, metadata));
     }
 }

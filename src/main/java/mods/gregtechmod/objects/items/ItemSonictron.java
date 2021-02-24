@@ -65,11 +65,9 @@ public class ItemSonictron extends ItemBase {
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!worldIn.isRemote) {
             int	currentIndex = getCurrentIndex(stack);
-            System.out.println("index: "+currentIndex);
             if (worldIn.getWorldTime()%2 == 0 && currentIndex > -1) {
                 ArrayList<ItemStack> inventory = getNBTInventory(stack);
                 if (inventory.isEmpty() || currentIndex >= inventory.size()) return;
-                System.out.println(inventory.get(currentIndex));
                 GregTechMod.proxy.doSonictronSound(inventory.get(currentIndex), entityIn.world, entityIn.getPosition());
                 if (++currentIndex>63)
                     if (entityIn instanceof EntityPlayer && ((EntityPlayer)entityIn).openContainer instanceof ContainerSonictron)

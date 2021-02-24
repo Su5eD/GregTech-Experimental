@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-@Optional.Interface(iface = "com.zuxelus.energycontrol.api.IItemCard", modid = "energycontrol")
+@Optional.Interface(modid = "energycontrol", iface = "com.zuxelus.energycontrol.api.IItemCard")
 public class ItemSensorCard extends ItemBase implements IItemCard {
     public static final int DISPLAY_MAIN = 1;
     public static final int DISPLAY_SECOND = 2;

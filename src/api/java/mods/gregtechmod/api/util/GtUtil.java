@@ -2,6 +2,7 @@ package mods.gregtechmod.api.util;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IC2Items;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.item.IElectricArmor;
 import net.minecraft.entity.EntityLivingBase;
@@ -171,5 +172,11 @@ public class GtUtil {
             }
         }
         return list;
+    }
+
+    public static boolean stackEquals(ItemStack first, ItemStack second) {
+        return first.getItem() == second.getItem()
+                && (first.getMetadata() == OreDictionary.WILDCARD_VALUE || first.getMetadata() == second.getMetadata())
+                && StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound());
     }
 }

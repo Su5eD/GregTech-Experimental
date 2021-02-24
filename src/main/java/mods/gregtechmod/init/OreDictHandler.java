@@ -339,7 +339,7 @@ public class OreDictHandler {
         } else if (name.startsWith("paper") || name.startsWith("book") || name.equals("treeLeaves")) {
             OreDictUnificator.addAssociation(name, ore);
         } else if (name.equals("woodRubber") || name.equals("logRubber")) {
-            DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(IC2Items.getItem("misc_resource", "resin"), new ItemStack(BlockItems.Dust.WOOD.getInstance(), 16)), 1));
+            DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(IC2Items.getItem("misc_resource", "resin"), new ItemStack(BlockItems.Dust.WOOD.getInstance(), 16)), 1, true));
         } else if (name.startsWith("log")) {
             if (meta == OreDictionary.WILDCARD_VALUE) {
                 for (int i = 0; i < 16; i++) {
@@ -414,7 +414,7 @@ public class OreDictHandler {
             ItemStack result = recipe.getRecipeOutput();
             if (!result.isEmpty()) {
                 ItemStack planks = StackUtil.copyWithSize(result, result.getCount() * 3 / 2);
-                DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1));
+                DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1, true));
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
 
@@ -440,7 +440,7 @@ public class OreDictHandler {
 
     private void processStone(ItemStack stack, String name) {
         Item item = stack.getItem();
-        if (item instanceof ItemBlock) GregTechAPI.jackHammerMinableBlocks.add(stack);
+        if (item instanceof ItemBlock) GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(stack);
 
         if (name.equals("stoneObsidian") && item instanceof ItemBlock) {
             ((ItemBlock) item).getBlock().setResistance(20);

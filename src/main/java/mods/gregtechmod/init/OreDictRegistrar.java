@@ -128,6 +128,7 @@ public class OreDictRegistrar {
         registerOre("craftingPiston", Blocks.STICKY_PISTON);
         registerOre("craftingChest", Blocks.CHEST);
         registerOre("craftingChest", Blocks.TRAPPED_CHEST);
+        registerOre("craftingEnderChest", Blocks.ENDER_CHEST);
         registerOre("paperMap", Items.MAP);
         registerOre("paperMap", Items.FILLED_MAP);
         registerOre("bookEmpty", Items.BOOK);
@@ -332,24 +333,35 @@ public class OreDictRegistrar {
             registerOre("glassReinforced", ModHandler.getTFItem("glass", OreDictionary.WILDCARD_VALUE));
             registerOre("glassReinforced", ModHandler.getTFItem("glass_alloy", OreDictionary.WILDCARD_VALUE));
         }
-
         if (ModHandler.thermalExpansion) {
             registerOre("craftingMacerator", ModHandler.getTEItem("machine", 1));
             registerOre("craftingInductionFurnace", ModHandler.getTEItem("machine", 3));
         }
-
         if (ModHandler.quark) {
             registerOre("stoneRedrock", ModHandler.getModItem("quark", "jasper", OreDictionary.WILDCARD_VALUE));
         }
-
         if (ModHandler.traverse) {
             registerOre("stoneRedrock", ModHandler.getModItem("traverse", "red_rock", OreDictionary.WILDCARD_VALUE));
         }
-
         if (ModHandler.projectVibrantJourneys) {
             registerOre("stoneMarble", ModHandler.getModItem("pvj", "marble"));
             registerOre("stoneBasalt", ModHandler.getModItem("pvj", "basalt"));
         }
+        if (ModHandler.projectredExploration) {
+            Item stone = ModHandler.getItem("projectred-exploration", "stone");
+            registerOre("stoneMarble", new ItemStack(stone, 1, 1));
+            registerOre("stoneBasalt", new ItemStack(stone, 1, 2));
+            registerOre("stoneBasalt", new ItemStack(stone, 1, 4));
+        }
+        if (ModHandler.enderStorage) {
+            registerOre("craftingEnderChest", ModHandler.getModItem("enderstorage", "ender-storage"));
+        }
+        if (ModHandler.buildcraftFactory) {
+            registerOre("craftingWorkBench", ModHandler.getModItem("buildcraftfactory", "autoworkbench_item"));
+            registerOre("craftingPump", ModHandler.getModItem("buildcraftfactory", "pump"));
+            registerOre("craftingTank", ModHandler.getModItem("buildcraftfactory", "tank"));
+        }
+        registerOre("stoneBasalt", IC2Items.getItem("resource", "basalt"));
     }
 
     public static void registerOreWildcard(String base, String name, Item item) {

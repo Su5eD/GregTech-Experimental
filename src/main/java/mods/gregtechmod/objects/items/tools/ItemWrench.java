@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-@Optional.Interface(iface = "buildcraft.api.tools.IToolWrench", modid = "buildcraftlib")
+@Optional.Interface(modid = "buildcraftlib", iface = "buildcraft.api.tools.IToolWrench")
 public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IToolWrench {
     public final String name;
     protected final int durability;

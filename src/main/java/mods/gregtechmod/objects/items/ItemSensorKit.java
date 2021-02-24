@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(iface = "com.zuxelus.energycontrol.api.IItemKit", modid = "energycontrol")
+@Optional.Interface(modid = "energycontrol", iface = "com.zuxelus.energycontrol.api.IItemKit")
 public class ItemSensorKit extends ItemBase implements IItemKit {
     public static final int KIT_ID = 800;
 

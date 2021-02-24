@@ -39,8 +39,8 @@ public class RecipeManagerMultiInput<R extends IGtMachineRecipe<List<I>, ?>, I e
     public R getRecipeFor(List<ItemStack> input) {
         return this.recipes.stream()
                 .filter(recipe -> recipe.getInput().stream()
-                        .allMatch(ingreident -> input.stream()
-                                .anyMatch(ingreident::apply)))
+                        .allMatch(ingredient -> input.stream()
+                                .anyMatch(ingredient::apply)))
                 .min(this::compareCount)
                 .orElse(null);
     }

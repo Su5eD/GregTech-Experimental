@@ -14,9 +14,11 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
     public ContainerSonictron(IInventory base) {
         super(base);
 
-        for (int j = 0; j < 8; j++)
-            for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++) {
+            for (int i = 0; i < 8; i++) {
                 addSlotToContainer(new Slot(base, i+j*8, 24+16*i, 19+16*j));
+            }
+        }
     }
 
     @Override
@@ -25,30 +27,26 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
         Slot slot = this.inventorySlots.get(slotId);
         ItemStack content = slot.getStack();
 
-        if (clickType == ClickType.QUICK_MOVE)
-            slot.putStack(ItemStack.EMPTY);
+        if (clickType == ClickType.QUICK_MOVE) slot.putStack(ItemStack.EMPTY);
         else if (clickType == ClickType.PICKUP && dragType < 1) {
-            if (content.isEmpty())
-                slot.putStack(StackUtil.copy(new ItemStack(GregTechAPI.sonictronSounds.get(0).item)));
+            if (content.isEmpty()) slot.putStack(StackUtil.copy(GregTechAPI.SONICTRON_SOUNDS.get(0).item));
             else {
-                for (int i = 1; i < GregTechAPI.sonictronSounds.size(); i++) {
-                    if (StackUtil.checkItemEquality(content, GregTechAPI.sonictronSounds.get(i -1).item)) {
-                        slot.putStack(StackUtil.copy(new ItemStack(GregTechAPI.sonictronSounds.get(i).item)));
+                for (int i = 1; i < GregTechAPI.SONICTRON_SOUNDS.size(); i++) {
+                    if (StackUtil.checkItemEquality(content, GregTechAPI.SONICTRON_SOUNDS.get(i -1).item)) {
+                        slot.putStack(StackUtil.copy(GregTechAPI.SONICTRON_SOUNDS.get(i).item));
                         return ItemStack.EMPTY;
                     }
                 }
                 slot.putStack(ItemStack.EMPTY);
             }
         }
-        else {
-            if (!content.isEmpty()) {
-                for (int i = 0; i < GregTechAPI.sonictronSounds.size(); i++) {
-                    if (StackUtil.checkItemEquality(content, GregTechAPI.sonictronSounds.get(i).item)) {
-                        content.grow(1);
-                        content.setCount(content.getCount()%(GregTechAPI.sonictronSounds.get(i).count+1));
-                        if (content.getCount() == 0) content.grow(1);
-                        break;
-                    }
+        else if (!content.isEmpty()) {
+            for (int i = 0; i < GregTechAPI.SONICTRON_SOUNDS.size(); i++) {
+                if (StackUtil.checkItemEquality(content, GregTechAPI.SONICTRON_SOUNDS.get(i).item)) {
+                    content.grow(1);
+                    content.setCount(content.getCount()%(GregTechAPI.SONICTRON_SOUNDS.get(i).count+1));
+                    if (content.getCount() == 0) content.grow(1);
+                    break;
                 }
             }
         }

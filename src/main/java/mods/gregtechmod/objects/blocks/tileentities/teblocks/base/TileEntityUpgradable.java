@@ -72,7 +72,13 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.inventory.getCurrentItem();
+        if (attemptUseCrowbar(stack, side, player) || attemptUseScrewdriver(stack, side, player)) return true;
+
         if (world.isRemote) return true;
+
+        if (this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
+        for (ICover cover : coverHandler.covers.values()) if (!cover.opensGui(side)) return false;
 
         if (isPrivate) {
             if (!checkAccess(owner, player.getGameProfile())) {
@@ -81,11 +87,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
             }
         }
 
-        if (this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
-
-        for (ICover cover : coverHandler.covers.values()) if (!cover.opensGui(side)) return false;
-
-        ItemStack stack = player.inventory.getCurrentItem();
         Item currentItem = stack.getItem();
 
         if(upgradeSlot.accepts(stack)) {

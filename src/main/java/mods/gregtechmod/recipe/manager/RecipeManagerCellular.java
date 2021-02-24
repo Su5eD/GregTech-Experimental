@@ -6,14 +6,13 @@ import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
-import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
-import java.util.stream.Stream;
+import javax.annotation.Nullable;
 
 public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> implements IGtRecipeManagerCellular {
 
@@ -42,12 +41,17 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
     }
 
     @Override
-    public IRecipeCellular getRecipeFor(FluidStack input, int cells) {
+    public IRecipeCellular getRecipeFor(@Nullable FluidStack input, int cells) {
+        if (input == null) return null;
+
         return this.recipes.stream()
-                .filter(recipe -> Stream.of(recipe)
-                            .map(IGtMachineRecipe::getInput)
-                            .filter(ingredient -> ingredient instanceof RecipeIngredientFluid)
-                            .allMatch(ingredient -> ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells())))
+                .filter(recipe -> {
+                    IRecipeIngredient ingredient = recipe.getInput();
+                    if (ingredient instanceof IRecipeIngredientFluid) {
+                        return ((IRecipeIngredientFluid) input).apply(input) && (cells < 0 || cells >= recipe.getCells());
+                    }
+                    return false;
+                })
                 .min(this::compareCount)
                 .orElse(null);
     }

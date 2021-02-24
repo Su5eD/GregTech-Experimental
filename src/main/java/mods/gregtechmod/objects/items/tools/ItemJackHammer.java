@@ -25,7 +25,7 @@ public class ItemJackHammer extends ItemToolElectricBase {
     @Override
     public boolean canHarvestBlock(IBlockState state, ItemStack itemStack) {
         Block block = state.getBlock();
-        for (ItemStack stack : GregTechAPI.jackHammerMinableBlocks) {
+        for (ItemStack stack : GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS) {
             Item item = stack.getItem();
             int meta = stack.getMetadata();
             if (item instanceof ItemBlock && ((ItemBlock) item).getBlock() == block && (meta == OreDictionary.WILDCARD_VALUE || block.getMetaFromState(state) == meta)) {

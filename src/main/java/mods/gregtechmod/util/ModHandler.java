@@ -45,17 +45,22 @@ public class ModHandler {
     public static boolean forestry;
     public static boolean railcraft;
     public static boolean projectredCore;
+    public static boolean projectredExploration;
     public static boolean thaumcraft;
     public static boolean quark;
     public static boolean traverse;
     public static boolean projectVibrantJourneys;
     public static boolean buildcraftCore;
+    public static boolean buildcraftFactory;
+    public static boolean twilightForest;
+    public static boolean enderStorage;
 
     public static ItemStack SLAG = ItemStack.EMPTY;
     public static ItemStack SLAG_RICH = ItemStack.EMPTY;
     public static ItemStack HARDENED_GLASS = ItemStack.EMPTY;
     public static ItemStack BC_STONE_GEAR = ItemStack.EMPTY;
     public static ItemStack WOODEN_TIE = ItemStack.EMPTY;
+    public static ItemStack ESSENTIA_PHIAL = ItemStack.EMPTY;
 
     public static void checkLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
@@ -64,28 +69,37 @@ public class ModHandler {
         forestry = Loader.isModLoaded("forestry");
         railcraft = Loader.isModLoaded("railcraft");
         projectredCore = Loader.isModLoaded("projectred-core");
+        projectredExploration = Loader.isModLoaded("projectred-exploration");
         thaumcraft = Loader.isModLoaded("thaumcraft");
         quark = Loader.isModLoaded("quark");
         traverse = Loader.isModLoaded("traverse");
         projectVibrantJourneys = Loader.isModLoaded("pvj");
         buildcraftCore = Loader.isModLoaded("buildcraftcore");
+        buildcraftFactory = Loader.isModLoaded("buildcraftfactory");
+        twilightForest = Loader.isModLoaded("twilightforest");
+        enderStorage = Loader.isModLoaded("enderstorage");
     }
 
     public static void gatherModItems() {
-        Item material = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "material"));
+        Item material = getItem("thermalfoundation", "material");
         if (material != null) {
             SLAG = new ItemStack(material, 1, 864);
             SLAG_RICH = new ItemStack(material, 1, 865);
         }
 
-        Item glass = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "glass"));
+        Item glass = getItem("thermalfoundation", "glass");
         if (glass != null) HARDENED_GLASS = new ItemStack(glass, 1, 3);
 
-        Item stoneGear = ForgeRegistries.ITEMS.getValue(new ResourceLocation("buildcraftcore", "gear_stone"));
-        if (stoneGear != null) BC_STONE_GEAR = new ItemStack(stoneGear);
+        BC_STONE_GEAR = getModItem("buildcraftcore", "gear_stone");
 
-        Item tie = ForgeRegistries.ITEMS.getValue(new ResourceLocation("railcraft", "tie"));
+        Item tie = getItem("railcraft", "tie");
         if (tie != null) WOODEN_TIE = new ItemStack(tie);
+
+        ESSENTIA_PHIAL = getModItem("thaumcraft", "phial");
+    }
+
+    public static Item getItem(String modid, String itemName) {
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(modid, itemName));
     }
 
     public static ItemStack getModItem(String modid, String itemName) {
@@ -93,43 +107,51 @@ public class ModHandler {
     }
 
     public static ItemStack getModItem(String modid, String itemName, int meta) {
-        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(modid, itemName));
+        Item item = getItem(modid, itemName);
         if (item == null) return ItemStack.EMPTY;
         return new ItemStack(item, 1, meta);
     }
 
     public static ItemStack getTEItem(String baseItem, int meta) {
-        Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalexpansion", baseItem));
+        Item base = getItem("thermalexpansion", baseItem);
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base, 1, meta);
     }
 
     public static ItemStack getTFItem(String baseItem, int meta) {
-        Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", baseItem));
+        Item base = getItem("thermalfoundation", baseItem);
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base, 1, meta);
+    }
+
+    public static ItemStack getRCItem(String baseItem) {
+        return getRCItem(baseItem, 0);
     }
 
     public static ItemStack getRCItem(String baseItem, int meta) {
-        Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("railcraft", baseItem));
+        Item base = getItem("railcraft", baseItem);
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base, 1, meta);
     }
 
+    public static ItemStack getPRItem(String baseItem) {
+        return getPRItem(baseItem, 0);
+    }
+
     public static ItemStack getPRItem(String baseItem, int meta) {
-        Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("projectred-core", baseItem));
+        Item base = getItem("projectred-core", baseItem);
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base, 1, meta);
     }
 
     public static ItemStack getFRItem(String baseItem) {
-        Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("forestry", baseItem));
+        Item base = getItem("forestry", baseItem);
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base);
     }
 
     public static ItemStack getTCItem(String baseItem, int meta) {
-        Item base = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thaumcraft", baseItem));
+        Item base = getItem("thaumcraft", baseItem);
         if (base == null) return ItemStack.EMPTY;
         return new ItemStack(base, 1, meta);
     }

@@ -6,21 +6,18 @@
   output:
     - item: ic2:fluid_cell#wolframium
   duration: 100
-  energyCost: 1
 - input:
     - ore: dustSulfur
     - item: ic2:fluid_cell
   output:
     - item: gregtechmod:cell_sulfur
   duration: 100
-  energyCost: 1
 - input:
     - ore: dustCalcite
     - item: ic2:fluid_cell
   output:
     - item: ic2:fluid_cell#calcium_carbonate
   duration: 100
-  energyCost: 1
 - input:
     - ore: ingotUranium
     - item: ic2:fluid_cell
@@ -48,14 +45,12 @@
 #  output:
 #    - item: ic2:cell#weed_ex
 #  duration: 800
-#  energyCost: 1
 - input:
     - item: ic2:crop_res#grin_powder
     - item: ic2:fluid_cell
   output:
     - item: ic2:fluid_cell#ic2weed_ex
   duration: 800
-  energyCost: 1
 - input:
     - item: ic2:fluid_cell#water
       count: 16
@@ -99,7 +94,6 @@
   output:
     - item: gregtechmod:spray_color_black
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeRed
       count: 16
@@ -107,7 +101,6 @@
   output:
     - item: gregtechmod:spray_color_red
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeGreen
       count: 16
@@ -115,7 +108,6 @@
   output:
     - item: gregtechmod:spray_color_green
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeBrown
       count: 16
@@ -123,7 +115,6 @@
   output:
     - item: gregtechmod:spray_color_brown
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeBlue
       count: 16
@@ -131,7 +122,6 @@
   output:
     - item: gregtechmod:spray_color_blue
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyePurple
       count: 16
@@ -139,7 +129,6 @@
   output:
     - item: gregtechmod:spray_color_purple
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeCyan
       count: 16
@@ -147,7 +136,6 @@
   output:
     - item: gregtechmod:spray_color_cyan
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeLightGray
       count: 16
@@ -155,7 +143,6 @@
   output:
     - item: gregtechmod:spray_color_silver
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyePink
       count: 16
@@ -163,7 +150,6 @@
   output:
     - item: gregtechmod:spray_color_pink
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeLime
       count: 16
@@ -171,7 +157,6 @@
   output:
     - item: gregtechmod:spray_color_lime
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeYellow
       count: 16
@@ -179,7 +164,6 @@
   output:
     - item: gregtechmod:spray_color_yellow
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeLightBlue
       count: 16
@@ -187,7 +171,6 @@
   output:
     - item: gregtechmod:spray_color_light_blue
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeMagenta
       count: 16
@@ -195,7 +178,6 @@
   output:
     - item: gregtechmod:spray_color_magenta
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeOrange
       count: 16
@@ -203,7 +185,6 @@
   output:
     - item: gregtechmod:spray_color_orange
   duration: 800
-  energyCost: 1
 - input:
     - ore: dyeWhite
       count: 16
@@ -211,7 +192,6 @@
   output:
     - item: gregtechmod:spray_color_white
   duration: 800
-  energyCost: 1
 - input:
     - ores:
         - itemQuicksilver
@@ -219,4 +199,216 @@
   output:
     - item: ic2:fluid_cell#mercury
   duration: 100
-  energyCost: 1
+# TODO: Introduce rotten filled tin can?
+- input:
+    - item: minecraft:rotten_flesh
+    - item: ic2:crafting#tin_can
+      count: 2
+  output:
+    item: ic2:filled_tin_can
+    count: 2
+  duration: 200
+- input:
+    - item: minecraft:spider_eye
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:poisonous_potato
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:cake
+    - item: ic2:crafting#tin_can
+      count: 6
+  output:
+    item: ic2:filled_tin_can
+    count: 6
+  duration: 600
+- input:
+    - items:
+        - minecraft:mushroom_stew
+        - minecraft:beetroot_soup
+    - item: ic2:crafting#tin_can
+      count: 3
+  output:
+    item: ic2:filled_tin_can
+    count: 3
+  duration: 300
+- input:
+    - item: minecraft:rabbit_stew
+    - item: ic2:crafting#tin_can
+      count: 5
+  output:
+    item: ic2:filled_tin_can
+    count: 5
+  duration: 500
+- input:
+    - item: minecraft:apple
+    - item: ic2:crafting#tin_can
+      count: 2
+  output:
+    item: ic2:filled_tin_can
+    count: 2
+  duration: 200
+- input:
+    - item: minecraft:bread
+    - item: ic2:crafting#tin_can
+      count: 3
+  output:
+    item: ic2:filled_tin_can
+    count: 3
+  duration: 300
+- input:
+    - item: minecraft:porkchop
+    - item: ic2:crafting#tin_can
+      count: 2
+  output:
+    item: ic2:filled_tin_can
+    count: 2
+  duration: 200
+- input:
+    - item: minecraft:cooked_porkchop
+    - item: ic2:crafting#tin_can
+      count: 4
+  output:
+    item: ic2:filled_tin_can
+    count: 4
+  duration: 400
+- input:
+    - item: minecraft:golden_apple
+    - item: ic2:crafting#tin_can
+      count: 2
+  output:
+    item: ic2:filled_tin_can
+    count: 2
+  duration: 200
+- input:
+    - item: minecraft:fish
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:fish
+      meta: 1
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:fish
+      meta: 2
+      count: 2
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:fish
+      meta: 3
+      count: 2
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:cooked_fish
+    - item: ic2:crafting#tin_can
+      count: 3
+  output:
+    item: ic2:filled_tin_can
+    count: 3
+  duration: 300
+- input:
+    - item: minecraft:cooked_fish
+      meta: 1
+    - item: ic2:crafting#tin_can
+      count: 3
+  output:
+    item: ic2:filled_tin_can
+    count: 3
+  duration: 300
+- input:
+    - item: minecraft:cookie
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:melon
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:beef
+    - item: ic2:crafting#tin_can
+      count: 2
+  output:
+    item: ic2:filled_tin_can
+    count: 2
+  duration: 200
+- input:
+    - item: minecraft:cooked_beef
+    - item: ic2:crafting#tin_can
+      count: 4
+  output:
+    item: ic2:filled_tin_can
+    count: 4
+  duration: 400
+- input:
+    - item: minecraft:chicken
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:cooked_chicken
+    - item: ic2:crafting#tin_can
+      count: 3
+  output:
+    item: ic2:filled_tin_can
+    count: 3
+  duration: 300
+- input:
+    - item: minecraft:carrot
+    - item: ic2:crafting#tin_can
+      count: 2
+  output:
+    item: ic2:filled_tin_can
+    count: 2
+  duration: 200
+- input:
+    - item: minecraft:potato
+    - item: ic2:crafting#tin_can
+  output:
+    item: ic2:filled_tin_can
+  duration: 100
+- input:
+    - item: minecraft:baked_potato
+    - item: ic2:crafting#tin_can
+      count: 3
+  output:
+    item: ic2:filled_tin_can
+    count: 3
+  duration: 300
+- input:
+    - item: minecraft:golden_carrot
+    - item: ic2:crafting#tin_can
+      count: 3
+  output:
+    item: ic2:filled_tin_can
+    count: 3
+  duration: 300
+- input:
+    - item: minecraft:pumpkin_pie
+    - item: ic2:crafting#tin_can
+      count: 4
+  output:
+    item: ic2:filled_tin_can
+    count: 4
+  duration: 400

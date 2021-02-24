@@ -169,6 +169,14 @@
   duration: 800
   energyCost: 1
 - input:
+    - ore: gearGold
+    - ore: gemDiamond
+      count: 4
+  output:
+    ore: gearDiamond
+  duration: 1600
+  energyCost: 1
+- input:
     - item: ic2:crafting#coal_block
       count: 8
     - ore: blockIron
@@ -760,4 +768,33 @@
   output:
     item: ic2:cable#type:iron,insulation:3
   duration: 100
+  energyCost: 2
+- input:
+    - item: ic2:crafting#circuit
+    - item: ic2:frequency_transmitter
+  output:
+    item: energycontrol:item_kit
+    meta: 800
+  duration: 1600
+  energyCost: 2
+- input:
+    - item: twilightforest:charm_of_life_1
+      count: 4
+  output:
+    item: twilightforest:charm_of_life_2
+  duration: 800
+  energyCost: 2
+- input:
+    - item: twilightforest:charm_of_keeping_1
+      count: 4
+  output:
+    item: twilightforest:charm_of_keeping_2
+  duration: 800
+  energyCost: 2
+- input:
+    - item: twilightforest:charm_of_keeping_2
+      count: 4
+  output:
+    item: twilightforest:charm_of_keeping_3
+  duration: 800
   energyCost: 2

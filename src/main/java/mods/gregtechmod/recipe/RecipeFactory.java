@@ -56,7 +56,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IGtMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillReicpe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
+    public IGtMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
         return RecipeSimple.create(input, output, duration, energyCost);
     }
 
@@ -91,7 +91,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IRecipeSawmill makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water) {
-        return RecipeSawmill.create(input, output, water);
+    public IRecipeSawmill makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water, boolean universal) {
+        return RecipeSawmill.create(input, output, water, universal);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.util.ModHandler;
@@ -11,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -84,6 +86,12 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
                 else if (num instanceof Double) tag.setDouble(name, num.doubleValue());
                 else if (num instanceof Long) tag.setLong(name, num.longValue());
             } else if (field.isTextual()) tag.setString(name, field.asText());
+            else if (field.isArray()) {
+                NBTTagList list = new NBTTagList();
+                field.elements().forEachRemaining(jsonNode -> {
+                    if (jsonNode instanceof ObjectNode) list.appendTag(parseNBT(jsonNode));
+                });
+            }
         }
 
         return tag;

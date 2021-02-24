@@ -18,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class CoverGeneric implements ICover {
     protected final ICoverable te;
@@ -100,7 +101,7 @@ public class CoverGeneric implements ICover {
 
     @Override
     public ResourceLocation getIcon() {
-        return CoverTexture.valueOf(getCoverName(stack)).getResourceLocation();
+        return CoverTexture.valueOf(getCoverName(stack).toUpperCase(Locale.ROOT)).getResourceLocation();
     }
 
     @Override

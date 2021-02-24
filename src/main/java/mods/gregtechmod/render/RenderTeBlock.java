@@ -51,7 +51,6 @@ public class RenderTeBlock extends AbstractModel {
             { 0, 0, 16, 16}
     };
 
-
     public RenderTeBlock(HashMap<EnumFacing, ResourceLocation> map, ResourceLocation particle) {
         this.textures = map;
         this.particle = particle;

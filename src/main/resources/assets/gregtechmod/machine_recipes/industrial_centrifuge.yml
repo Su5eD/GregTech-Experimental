@@ -250,27 +250,21 @@
     count: 4
   output:
     - item: ic2:fluid_cell#deuterium
-    - item: ic2:fluid_Cell
-      count: 3
-  cells: 4
+  cells: 1
   duration: 3000
 - input:
     fluid: helium
     count: 16
   output:
     - item: ic2:fluid_cell#helium3
-    - item: ic2:fluid_cell
-      count: 15
-  cells: 16
+  cells: 1
   duration: 10000
 - input:
     fluid: helium3
     count: 4
   output:
     - item: ic2:fluid_cell#deuterium
-    - item: ic2:fluid_cell
-      count: 3
-  cells: 4
+  cells: 1
   duration: 3000
 - input:
     item: gregtechmod:cell_sulfur
@@ -307,16 +301,40 @@
     - item: ic2:fluid_cell#oil
     - item: minecraft:sand
   duration: 1000
+# TODO: Add fuel can support for the centrifuge
+#- input:
+#    ore: sandCracked
+#    count: 16
+#  output:
+#    - item: ic2:filled_fuel_can
+#      nbt:
+#        value: 5000
+#    - item: gregtechmod:dust_saltpeter
+#      count: 8
+#    - item: minecraft:sand
+#      count: 10
+#  cells: -1
+#  duration: 2500
 - input:
-    ore: sandCracked
+    items:
+      - twilightforest:cooked_meef
+      - harvestcraft:venisoncookeditem
     count: 16
   output:
-    - item: ic2:filled_fuel_can
-      nbt:
-        value: 5000
-    - item: gregtechmod:dust_saltpeter
-      count: 8
-    - item: minecraft:sand
-      count: 10
-  cells: -1
-  duration: 2500
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - twilightforest:raw_meef
+      - harvestcraft:venisonrawitem
+    count: 12
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    item: ic2:fluid_cell#mercury
+  output:
+    - item: thaumcraft:quicksilver
+  duration: 40

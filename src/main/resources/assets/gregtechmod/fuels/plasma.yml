@@ -1,0 +1,6 @@
+# Plasma fuels
+- input:
+    fluid: helium_plasma
+  output:
+    item: ic2:fluid_cell
+  energy: 8192

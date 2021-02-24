@@ -1,10 +1,9 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -33,9 +32,7 @@ public abstract class RecipeIngredient<T extends Ingredient> implements IRecipeI
     public boolean apply(@Nullable ItemStack input, boolean checkSize) {
         if (input != null && !this.isEmpty()) {
             for (ItemStack stack : this.getMatchingInputs()) {
-                if (stack.getItem() == input.getItem()
-                        && (input.getMetadata() == OreDictionary.WILDCARD_VALUE || input.getMetadata() == stack.getMetadata())
-                        && StackUtil.checkNbtEquality(stack.getTagCompound(), input.getTagCompound())) {
+                if (GtUtil.stackEquals(stack, input)) {
                     if (checkSize) return input.getCount() >= this.count;
                     else return true;
                 }
