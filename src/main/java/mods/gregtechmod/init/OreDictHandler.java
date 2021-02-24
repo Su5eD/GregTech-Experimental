@@ -2,6 +2,7 @@ package mods.gregtechmod.init;
 
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.Recipes;
+import ic2.core.IC2;
 import ic2.core.init.OreValues;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
@@ -380,6 +381,22 @@ public class OreDictHandler {
                     DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), tinyDust));
                 }
             }
+        } else if (name.startsWith("seed")) {
+            DynamicRecipes.addCentrifugeRecipe(RecipeCentrifuge.create(RecipeIngredientOre.create(name, 64), Collections.singletonList(IC2Items.getItem("fluid_cell", "seed.oil")), 1, 200));
+        } else if (name.startsWith("plant") || name.startsWith("flower")) {
+            if (IC2.version.isClassic()) {
+                DynamicRecipes.COMPRESSOR.addRecipe(Recipes.inputFactory.forOreDict(name, 8), IC2Items.getItem("crafting", "compressed_plants"));
+            } else if (name.startsWith("plant")) {
+                ModHandler.addShapedRecipe(
+                        name+"ToPlantBall",
+                        RECIPE_GROUP_SHAPED,
+                        IC2Items.getItem("crafting", "plant_ball"),
+                        "XXX", "X X", "XXX", 'X', name
+                );
+            }
+
+            ItemStack dye = ModHandler.getCraftingResult(ore);
+            if (!dye.isEmpty()) DynamicRecipes.addExtractorRecipe(Recipes.inputFactory.forOreDict(name), StackUtil.copyWithSize(dye, dye.getCount() + 1));
         }
     }
 

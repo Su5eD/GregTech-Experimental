@@ -171,10 +171,10 @@ public class RecipeLoader {
 
         // IC2 Recipes
         parseConfig("compressor", BasicMachineRecipe.class, null)
-                .ifPresent(recipes -> registerRecipes("compressor", recipes, Recipes.compressor));
+                .ifPresent(recipes -> registerRecipes("compressor", recipes, (BasicMachineRecipeManager) Recipes.compressor));
 
         parseConfig("extractor", BasicMachineRecipe.class, null)
-                .ifPresent(recipes -> registerRecipes("extractor", recipes, Recipes.extractor));
+                .ifPresent(recipes -> registerRecipes("extractor", recipes, (BasicMachineRecipeManager) Recipes.extractor));
 
         registerMatterAmplifiers();
     }
@@ -210,7 +210,9 @@ public class RecipeLoader {
         DynamicRecipes.addAssemblerRecipes = parseDynamicRecipes("assembler", RecipeDualInput.class, null, DynamicRecipes.ASSEMBLER);
         DynamicRecipes.addBenderRecipes = parseDynamicRecipes("bender", RecipeSimple.class, null, DynamicRecipes.BENDER);
         DynamicRecipes.addSawmillRecipes = parseDynamicRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class, DynamicRecipes.SAWMILL);
+        DynamicRecipes.addCentrifugeRecipes = parseDynamicRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class, DynamicRecipes.INDUSTRIAL_CENTRIFUGE);
         DynamicRecipes.addCompressorRecipes = parseDynamicRecipes("compressor", BasicMachineRecipe.class, null, DynamicRecipes.COMPRESSOR);
+        DynamicRecipes.addExtractorRecipes = parseDynamicRecipes("extractor", BasicMachineRecipe.class, null, DynamicRecipes.EXTRACTOR);
 
         DynamicRecipes.processCraftingRecipes();
         ItemStack copper = IC2Items.getItem("ingot", "copper");
@@ -234,15 +236,15 @@ public class RecipeLoader {
         if (DynamicRecipes.addAssemblerRecipes) serializeRecipes("Assembler", DynamicRecipes.ASSEMBLER.getRecipes(), GtRecipes.assembler);
         if (DynamicRecipes.addBenderRecipes) serializeRecipes("Bender", DynamicRecipes.BENDER.getRecipes(), GtRecipes.bender);
         if (DynamicRecipes.addSawmillRecipes) serializeRecipes("Sawmill", DynamicRecipes.SAWMILL.getRecipes(), GtRecipes.sawmill);
+        if (DynamicRecipes.addCentrifugeRecipes) serializeRecipes("Industrial Centrifuge", DynamicRecipes.INDUSTRIAL_CENTRIFUGE.getRecipes(), GtRecipes.industrialCentrifuge);
 
-        List<?> compressorRecipes = StreamSupport.stream(DynamicRecipes.COMPRESSOR.getRecipes().spliterator(), false)
-                .peek(recipe -> {
-                    IRecipeInput input = recipe.getInput();
-                    input.getInputs().forEach(stack -> ModHandler.removeIC2Recipe(stack, (BasicMachineRecipeManager) Recipes.compressor));
-                    Recipes.compressor.addRecipe(input, null, false, recipe.getOutput().toArray(new ItemStack[0]));
-                })
+        List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> compressorRecipes = StreamSupport.stream(DynamicRecipes.COMPRESSOR.getRecipes().spliterator(), false)
                 .collect(Collectors.toList());
-        if (DynamicRecipes.addCompressorRecipes) serializeRecipes("Compressor", compressorRecipes);
+        if (DynamicRecipes.addCompressorRecipes) serializeRecipes("Compressor", compressorRecipes, (BasicMachineRecipeManager) Recipes.compressor);
+
+        List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> extractorRecipes = StreamSupport.stream(DynamicRecipes.EXTRACTOR.getRecipes().spliterator(), false)
+                .collect(Collectors.toList());
+        if (DynamicRecipes.addExtractorRecipes) serializeRecipes("Extractor", extractorRecipes, (BasicMachineRecipeManager) Recipes.extractor);
     }
 
     public static <R> Optional<Collection<R>> parseConfig(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
@@ -273,29 +275,10 @@ public class RecipeLoader {
     private static <T extends IBasicMachineRecipe> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IBasicMachineRecipeManager manager) {
         if (!shouldAddNewDynamicRecipes(name)) {
             parseConfig(name, recipeClass, filter, dynamicRecipesDir)
-                    .ifPresent(recipes -> registerRecipes("dynamic "+name.replace('_', ' '), recipes, manager));
+                    .ifPresent(recipes -> registerRecipes("dynamic "+name.replace('_', ' '), recipes, (BasicMachineRecipeManager) manager));
             return false;
         }
         return true;
-    }
-
-    public static <R extends IGtMachineRecipe<?, ?>, M extends IGtRecipeManager<?, ?, R>> void serializeRecipes(String name, Collection<R> recipes, M recipeManager) {
-        recipes.forEach(recipeManager::addRecipe);
-        serializeRecipes(name, recipes);
-    }
-
-    public static <R extends IGtMachineRecipe<?, ?>, M extends IGtRecipeManager<?, ?, R>> void serializeRecipes(String name, Collection<?> recipes) {
-        try {
-            File file = dynamicRecipesDir.resolve(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name) +".yml").toFile();
-            file.createNewFile();
-
-            OutputStream output = Files.newOutputStream(file.toPath());
-            output.write(("# Dynamic " + name + " recipes\n").getBytes(StandardCharsets.UTF_8));
-
-            mapper.writeValue(output, recipes);
-        } catch (IOException e) {
-            GregTechAPI.logger.error("Failed to serialize " + name + " recipes: " + e.getMessage());
-        }
     }
 
     private static <T extends IGtMachineRecipe<?, ?>> void registerRecipes(String name, Collection<? extends T> recipes, IGtRecipeManager<?, ?, T> manager) {
@@ -307,12 +290,12 @@ public class RecipeLoader {
         GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
     }
 
-    private static <T extends IBasicMachineRecipe> void registerRecipes(String name, Collection<? extends T> recipes, IBasicMachineRecipeManager manager) {
+    private static <T extends IBasicMachineRecipe> void registerRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager) {
         int total = recipes.size();
         long successful = recipes.stream()
                 .map(recipe -> {
                     IRecipeInput input = recipe.getInput();
-                    if (recipe.shouldOverwrite()) input.getInputs().forEach(stack -> ModHandler.removeIC2Recipe(stack, (BasicMachineRecipeManager) manager));
+                    if (recipe.shouldOverwrite()) input.getInputs().forEach(stack -> ModHandler.removeIC2Recipe(stack, manager));
                     return manager.addRecipe(input, null, false, recipe.getOutput().toArray(new ItemStack[0]));
                 })
                 .filter(Boolean::booleanValue)
@@ -327,6 +310,34 @@ public class RecipeLoader {
                 .filter(Boolean::booleanValue)
                 .count();
         GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " fuels");
+    }
+
+    private static <T extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> void serializeRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager) {
+        recipes.forEach(recipe -> {
+            IRecipeInput input = recipe.getInput();
+            input.getInputs().forEach(stack -> ModHandler.removeIC2Recipe(stack, manager));
+            manager.addRecipe(input, null, false, recipe.getOutput().toArray(new ItemStack[0]));
+        });
+        serializeRecipes(name, recipes);
+    }
+
+    public static <R extends IGtMachineRecipe<?, ?>, M extends IGtRecipeManager<?, ?, R>> void serializeRecipes(String name, Collection<R> recipes, M recipeManager) {
+        recipes.forEach(recipeManager::addRecipe);
+        serializeRecipes(name, recipes);
+    }
+
+    public static <R extends IGtMachineRecipe<?, ?>> void serializeRecipes(String name, Collection<?> recipes) {
+        try {
+            File file = dynamicRecipesDir.resolve(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name) +".yml").toFile();
+            file.createNewFile();
+
+            OutputStream output = Files.newOutputStream(file.toPath());
+            output.write(("# Dynamic " + name + " recipes\n").getBytes(StandardCharsets.UTF_8));
+
+            mapper.writeValue(output, recipes);
+        } catch (IOException e) {
+            GregTechAPI.logger.error("Failed to serialize " + name + " recipes: " + e.getMessage());
+        }
     }
 
     private static boolean shouldAddNewDynamicRecipes(String name) {

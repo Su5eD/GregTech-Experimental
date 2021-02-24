@@ -136,6 +136,28 @@ public class OreDictRegistrar {
         registerOre("bookWritten", Items.WRITTEN_BOOK);
         registerOre("bookEnchanted", Items.ENCHANTED_BOOK);
         registerOre("gemCoal", Items.COAL);
+        registerOre("plantGrass", new ItemStack(Blocks.TALLGRASS, 1, 1));
+        registerOre("plantFern", new ItemStack(Blocks.TALLGRASS, 1, 2));
+        registerOre("plantFernLarge", new ItemStack(Blocks.DOUBLE_PLANT, 1, 3));
+        registerOre("plantTallGrass", new ItemStack(Blocks.DOUBLE_PLANT, 1, 2));
+        registerOre("seedWheat", Items.WHEAT_SEEDS);
+        registerOre("seedMelon", Items.MELON_SEEDS);
+        registerOre("seedPumpkin", Items.PUMPKIN_SEEDS);
+        registerOre("seedBeet", Items.BEETROOT_SEEDS);
+        registerOre("flowerRed", Blocks.RED_FLOWER);
+        registerOre("flowerRed", new ItemStack(Blocks.RED_FLOWER, 1, 4));
+        registerOre("flowerDoubleRed", new ItemStack(Blocks.DOUBLE_PLANT, 1, 4));
+        registerOre("flowerYellow", Blocks.YELLOW_FLOWER);
+        registerOre("flowerDoubleYellow", Blocks.DOUBLE_PLANT);
+        registerOre("flowerLightBlue", new ItemStack(Blocks.RED_FLOWER, 1, 1));
+        registerOre("flowerMagenta", new ItemStack(Blocks.RED_FLOWER, 1, 2));
+        registerOre("flowerDoubleMagenta", new ItemStack(Blocks.DOUBLE_PLANT, 1, 1));
+        registerOre("flowerLightGray", new ItemStack(Blocks.RED_FLOWER, 1, 3));
+        registerOre("flowerLightGray", new ItemStack(Blocks.RED_FLOWER, 1, 6));
+        registerOre("flowerLightGray", new ItemStack(Blocks.RED_FLOWER, 1, 8));
+        registerOre("flowerOrange", new ItemStack(Blocks.RED_FLOWER, 1, 5));
+        registerOre("flowerPink", new ItemStack(Blocks.RED_FLOWER, 1, 7));
+        registerOre("flowerDoublePink", new ItemStack(Blocks.DOUBLE_PLANT, 1, 5));
 
         GregTechAPI.logger.debug("Registering unification entries");
 
@@ -360,6 +382,12 @@ public class OreDictRegistrar {
             registerOre("craftingWorkBench", ModHandler.getModItem("buildcraftfactory", "autoworkbench_item"));
             registerOre("craftingPump", ModHandler.getModItem("buildcraftfactory", "pump"));
             registerOre("craftingTank", ModHandler.getModItem("buildcraftfactory", "tank"));
+        }
+        if (ModHandler.agricraft) {
+            registerOre("seedAgri", ModHandler.getModItem("agricraft", "agri_seed", OreDictionary.WILDCARD_VALUE));
+        }
+        if (ModHandler.twilightForest) {
+            registerOre("plantForestGrass", ModHandler.getModItem("twilightforest", "twilight_plant", 5));
         }
         registerOre("stoneBasalt", IC2Items.getItem("resource", "basalt"));
     }

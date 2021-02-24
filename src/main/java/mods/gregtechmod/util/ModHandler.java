@@ -54,6 +54,7 @@ public class ModHandler {
     public static boolean buildcraftFactory;
     public static boolean twilightForest;
     public static boolean enderStorage;
+    public static boolean agricraft;
 
     public static ItemStack SLAG = ItemStack.EMPTY;
     public static ItemStack SLAG_RICH = ItemStack.EMPTY;
@@ -78,6 +79,7 @@ public class ModHandler {
         buildcraftFactory = Loader.isModLoaded("buildcraftfactory");
         twilightForest = Loader.isModLoaded("twilightforest");
         enderStorage = Loader.isModLoaded("enderstorage");
+        agricraft = Loader.isModLoaded("agricraft");
     }
 
     public static void gatherModItems() {

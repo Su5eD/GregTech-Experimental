@@ -1,7 +1,6 @@
 package mods.gregtechmod.recipe.ingredient;
 
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,16 +35,6 @@ public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
     @Override
     public boolean isEmpty() {
         return this.ingredient.getOres().isEmpty();
-    }
-
-    @Override
-    public boolean apply(IRecipeIngredient ingredient) {
-        if (ingredient instanceof RecipeIngredientOre) {
-            return this.ingredient.getOres().stream()
-                    .anyMatch(ore -> ((RecipeIngredientOre) ingredient).ingredient.getOres().stream()
-                        .anyMatch(ore::equals)) && this.count <= ingredient.getCount();
-        }
-        return super.apply(ingredient);
     }
 
     @Override

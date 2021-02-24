@@ -8,11 +8,13 @@ import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.IRecipeSawmill;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSawmill;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.recipe.RecipeDualInput;
@@ -43,6 +45,8 @@ class DynamicRecipes {
     static boolean addBenderRecipes;
     static boolean addSawmillRecipes;
     static boolean addCompressorRecipes;
+    static boolean addExtractorRecipes;
+    static boolean addCentrifugeRecipes;
 
     static final IGtRecipeManager<IRecipeIngredient, ItemStack, IRecipePulverizer> PULVERIZER = new RecipeManagerPulverizer();
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, ItemStack>> ALLOY_SMELTER = new RecipeManagerMultiInput<>();
@@ -51,8 +55,9 @@ class DynamicRecipes {
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, ItemStack>> ASSEMBLER = new RecipeManagerMultiInput<>();
     static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IGtMachineRecipe<IRecipeIngredient, ItemStack>> BENDER = new RecipeManagerBasic<>();
     static final IGtRecipeManagerSawmill SAWMILL = new RecipeManagerSawmill();
-
+    static final IGtRecipeManagerCellular INDUSTRIAL_CENTRIFUGE = new RecipeManagerCellular();
     static final GtBasicMachineRecipeManager COMPRESSOR = new GtBasicMachineRecipeManager();
+    static final GtBasicMachineRecipeManager EXTRACTOR = new GtBasicMachineRecipeManager();
 
     static void addPulverizerRecipe(IRecipePulverizer recipe) {
         if (addPulverizerRecipes) PULVERIZER.addRecipe(recipe);
@@ -82,8 +87,16 @@ class DynamicRecipes {
         if (addSawmillRecipes) SAWMILL.addRecipe(recipe);
     }
 
+    static void addCentrifugeRecipe(IRecipeCellular recipe) {
+        if (addCentrifugeRecipes) INDUSTRIAL_CENTRIFUGE.addRecipe(recipe);
+    }
+
     static void addCompressorRecipe(IRecipeInput input, ItemStack output) {
         if (addCompressorRecipes) COMPRESSOR.addRecipe(input, output);
+    }
+
+    static void addExtractorRecipe(IRecipeInput input, ItemStack output) {
+        if (addExtractorRecipes) EXTRACTOR.addRecipe(input, output);
     }
 
     static void addInductionSmelterRecipe(String name, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
