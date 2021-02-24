@@ -1,15 +1,13 @@
 package mods.gregtechmod.api.recipe.fuel;
 
-import net.minecraft.item.ItemStack;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 
-public interface IFuel<T, I> {
-    T getInput();
+public interface IFuel<I extends IRecipeIngredient, O> {
+    I getInput();
 
     double getEnergy();
 
-    boolean apply(I fuel);
-
-    ItemStack getOutput();
+    O getOutput();
 
     boolean isInvalid();
 }

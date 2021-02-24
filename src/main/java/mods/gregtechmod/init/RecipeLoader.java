@@ -22,11 +22,12 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.RailcraftModule;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.*;
 import mods.gregtechmod.recipe.fuel.FluidFuelManager;
-import mods.gregtechmod.recipe.fuel.FuelFluid;
-import mods.gregtechmod.recipe.fuel.FuelSolid;
+import mods.gregtechmod.recipe.fuel.FuelMulti;
+import mods.gregtechmod.recipe.fuel.FuelSimple;
 import mods.gregtechmod.recipe.fuel.SolidFuelManager;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;
@@ -189,13 +190,27 @@ public class RecipeLoader {
             RecipeLoader.fuelsPath = recipesPath;
         } else RecipeLoader.fuelsPath = gtConfig;
 
-        GtFuels.plasmaFuels = new FluidFuelManager();
-        parseConfig("plasma", FuelFluid.class, null, fuelsPath)
-                .ifPresent(fuels -> registerFuels("plasma", fuels, GtFuels.plasmaFuels));
+        GtFuels.plasma = new FluidFuelManager<>();
+        parseConfig("plasma", FuelSimple.class, null, fuelsPath)
+                .ifPresent(fuels -> registerFuels("plasma", fuels, GtFuels.plasma));
 
-        GtFuels.magicFuels = new SolidFuelManager();
-        parseConfig("magic", FuelSolid.class, null, fuelsPath)
-                .ifPresent(fuels -> registerFuels("magic", fuels, GtFuels.magicFuels));
+        GtFuels.magic = new SolidFuelManager<>();
+        parseConfig("magic", FuelSimple.class, null, fuelsPath)
+                .ifPresent(fuels -> registerFuels("magic", fuels, GtFuels.magic));
+
+        GtFuels.diesel = new FluidFuelManager<>();
+        parseConfig("diesel", FuelSimple.class, null, fuelsPath)
+                .ifPresent(fuels -> registerFuels("diesel", fuels, GtFuels.diesel));
+
+        GtFuels.hot = new FluidFuelManager<>();
+        parseConfig("hot", FuelMulti.class, null, fuelsPath)
+                .ifPresent(fuels -> registerFuels("hot", fuels, GtFuels.hot));
+
+        GtFuels.denseLiquid = new FluidFuelManager<>();
+        parseConfig("dense_liquid", FuelSimple.class, null, fuelsPath)
+                .ifPresent(fuels -> registerFuels("dense liquid", fuels, GtFuels.denseLiquid));
+
+        RailcraftModule.registerBoilerFuels();
     }
 
     public static void loadDynamicRecipes() {
@@ -303,7 +318,7 @@ public class RecipeLoader {
         GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
     }
 
-    private static <T extends IFuel<?, ?>> void registerFuels(String name, Collection<? extends T> fuels, IFuelManager<T, ?, ?> manager) {
+    private static <T extends IFuel<?, ?>, I> void registerFuels(String name, Collection<? extends T> fuels, IFuelManager<T, I> manager) {
         int total = fuels.size();
         long successful = fuels.stream()
                 .map(manager::addFuel)

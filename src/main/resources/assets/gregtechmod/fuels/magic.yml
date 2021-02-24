@@ -1,4 +1,5 @@
 # Magic fuels
+---
 - input:
     ore: waxMagical
   energy: 6
@@ -87,3 +88,18 @@
 - input:
     ore: oreCrystalTaint
   energy: 240
+- input:
+    item: minecraft:experience_bottle
+  energy: 10
+- input:
+    item: minecraft:ender_eye
+  energy: 20
+- input:
+    item: minecraft:ghast_tear
+  energy: 500
+- input:
+    item: minecraft:nether_star
+  energy: 100000
+- input:
+    item: minecraft:beacon
+  energy: 100000
