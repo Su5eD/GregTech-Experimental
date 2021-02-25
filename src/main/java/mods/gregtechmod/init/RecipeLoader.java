@@ -24,6 +24,7 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.RailcraftModule;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.*;
 import mods.gregtechmod.recipe.fuel.FluidFuelManager;
 import mods.gregtechmod.recipe.fuel.FuelMulti;
@@ -36,6 +37,9 @@ import mods.gregtechmod.recipe.util.RecipeFilter;
 import mods.gregtechmod.recipe.util.deserializer.*;
 import mods.gregtechmod.recipe.util.serializer.*;
 import mods.gregtechmod.util.ModHandler;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
@@ -178,6 +182,7 @@ public class RecipeLoader {
                 .ifPresent(recipes -> registerRecipes("extractor", recipes, (BasicMachineRecipeManager) Recipes.extractor));
 
         registerMatterAmplifiers();
+        addScrapboxDrops();
     }
 
     public static void loadFuels() {
@@ -387,6 +392,7 @@ public class RecipeLoader {
     }
 
     private static void registerMatterAmplifiers() {
+        GregTechAPI.logger.info("Adding matter amplifiers");
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustElectrotine"), 5000, null, true);
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustTungsten"), 50000, null, true);
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustManganese"), 5000, null, true);
@@ -406,5 +412,60 @@ public class RecipeLoader {
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustOsmium"), 200000, null, true);
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustPlutonium"), 2000000, null, true);
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustThorium"), 500000, null, true);
+    }
+
+    private static void addScrapboxDrops() {
+        GregTechAPI.logger.info("Adding Scrapbox drops");
+        addScrapboxDrop(Items.WOODEN_AXE, 2);
+        addScrapboxDrop(Items.WOODEN_SWORD, 2);
+        addScrapboxDrop(Items.WOODEN_SHOVEL, 2);
+        addScrapboxDrop(Items.WOODEN_PICKAXE, 2);
+        addScrapboxDrop(Items.SIGN, 2);
+        addScrapboxDrop(Items.STICK, 9.5F);
+        Recipes.scrapboxDrops.addDrop(new ItemStack(Blocks.PUMPKIN), (float) 0.5);
+        addScrapboxDrop(Items.ROTTEN_FLESH, 9);
+        addScrapboxDrop(Items.COOKED_PORKCHOP, 0.4F);
+        addScrapboxDrop(Items.COOKED_BEEF, 0.4F);
+        addScrapboxDrop(Items.COOKED_CHICKEN, 0.4F);
+        addScrapboxDrop(Items.APPLE, 0.5F);
+        addScrapboxDrop(Items.BREAD, 0.5F);
+        addScrapboxDrop(Items.CAKE, 0.1F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("filled_tin_can"), 1);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("fluid_cell", "silicon"), 0.2F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("fluid_cell", "water"), 1);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("fluid_cell"), 2);
+        addScrapboxDrop(Items.PAPER, 5);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("crafting", "plant_ball"), 0.7F);
+        addScrapboxDrop(BlockItems.Dust.WOOD.getInstance(), 3.8F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("single_use_battery"), 2.7F);
+        addScrapboxDrop(BlockItems.Component.MACHINE_PARTS.getInstance(), 0.8F);
+        addScrapboxDrop(BlockItems.Component.ADVANCED_CIRCUIT_PARTS.getInstance(), 1.2F);
+        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_BASIC.getInstance(), 1.8F);
+        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_ADVANCED.getInstance(), 0.4F);
+        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_PROCESSOR.getInstance(), 0.2F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("cable", "type:copper,insulation:1"), 2);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("cable", "type:gold,insulation:2"), 0.4F);
+        addScrapboxDrop(BlockItems.Dust.CHARCOAL.getInstance(), 2.5F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "iron"), 1);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "gold"), 1);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "silver"), 0.5F);
+        addScrapboxDrop(BlockItems.Dust.ELECTRUM.getInstance(), 0.5F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "tin"), 1.2F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "copper"), 1.2F);
+        addScrapboxDrop(BlockItems.Dust.BAUXITE.getInstance(), 0.5F);
+        addScrapboxDrop(BlockItems.Dust.ALUMINIUM.getInstance(), 0.5F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "lead"), 0.5F);
+        addScrapboxDrop(BlockItems.Dust.NICKEL.getInstance(), 0.5F);
+        addScrapboxDrop(BlockItems.Dust.ZINC.getInstance(), 0.5F);
+        addScrapboxDrop(BlockItems.Dust.BRASS.getInstance(), 0.5F);
+        addScrapboxDrop(BlockItems.Dust.STEEL.getInstance(), 0.5F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "obsidian"), 1.5F);
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "sulfur"), 1.5F);
+        addScrapboxDrop(BlockItems.Dust.SALTPETER.getInstance(), 2);
+        addScrapboxDrop(BlockItems.Dust.LAZURITE.getInstance(), 2);
+    }
+
+    private static void addScrapboxDrop(Item item, float value) {
+        Recipes.scrapboxDrops.addDrop(new ItemStack(item), value);
     }
 }

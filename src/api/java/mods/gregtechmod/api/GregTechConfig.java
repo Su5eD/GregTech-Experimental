@@ -83,6 +83,7 @@ public class GregTechConfig {
         public boolean machineThunderExplosions = true;
         @Config.Comment("Nearby explosions cause machines to explode")
         public boolean machineChainExplosions = true;
+        public int matterFabricationRate = 10000000;
     }
 
     public static class Unification {

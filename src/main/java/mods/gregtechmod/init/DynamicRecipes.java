@@ -1,6 +1,5 @@
 package mods.gregtechmod.init;
 
-import cofh.thermalexpansion.util.managers.machine.SmelterManager;
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.Recipes;
@@ -118,7 +117,7 @@ class DynamicRecipes {
     static void addDustToIngotSmeltingRecipe(String name, ItemStack input, ItemStack output) {
         ItemStack dust = StackUtil.copyWithSize(input, 2);
         ItemStack ingots = StackUtil.copyWithSize(output, 2);
-        SmelterManager.addRecipe(800, dust, new ItemStack(Blocks.SAND), ingots, ModHandler.SLAG, 25);
+        ModHandler.addInductionSmelterRecipe(dust, new ItemStack(Blocks.SAND), ingots, ModHandler.SLAG, 800, 25);
         addSmeltingRecipe(name, input, output);
     }
 

@@ -277,11 +277,15 @@ public class ModHandler {
     }
 
     public static IRecipe getCraftingRecipe(ItemStack... stacks) {
+        return getCraftingRecipe(ForgeRegistries.RECIPES.getValuesCollection(), stacks);
+    }
+
+    public static IRecipe getCraftingRecipe(Collection<IRecipe> recipes, ItemStack... stacks) {
         InventoryCrafting crafting = new InventoryCrafting(new DummyContainer(),  3, 3);
         for (int i = 0; i < 9 && i < stacks.length; i++) {
             crafting.setInventorySlotContents(i, stacks[i]);
         }
-        for (IRecipe recipe : ForgeRegistries.RECIPES.getValuesCollection()) {
+        for (IRecipe recipe : recipes) {
             try {
                 if (recipe.matches(crafting, DummyWorld.INSTANCE)) {
                     return recipe;

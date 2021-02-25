@@ -476,7 +476,7 @@
 - input:
     ore: gemEnderPearl
   output:
-    - item: gregtechmod:dust_ender_pearl
+    - item: ic2:dust#ender_pearl
 - input:
     ore: gemDiamond
   output:

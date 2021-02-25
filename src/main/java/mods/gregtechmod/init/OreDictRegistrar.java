@@ -98,7 +98,7 @@ public class OreDictRegistrar {
         }
 
         for (BlockItems.Miscellaneous misc : BlockItems.Miscellaneous.values()) {
-            if (misc.oreDict != null) registerOreWildcard(misc.oreDict, misc.getInstance());
+            if (misc.oreDict != null) registerOre(misc.oreDict, misc.getInstance());
         }
 
         GregTechAPI.logger.debug("Adding vanilla items to the Ore Dictionary");

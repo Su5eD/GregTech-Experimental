@@ -95,9 +95,9 @@ public final class GregTechMod {
         GregTechObjectAPI.setTileEntityMap(teblocks);
 
         OreDictRegistrar.registerItems();
-
         RecipeLoader.loadRecipes();
         RecipeLoader.loadDynamicRecipes();
+        MatterRecipeLoader.init();
         RecipeLoader.loadFuels();
 
         GregTechAPI.logger.debug("Registering loot");

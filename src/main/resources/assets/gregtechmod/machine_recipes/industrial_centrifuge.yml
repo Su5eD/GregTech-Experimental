@@ -192,7 +192,7 @@
     ore: dustEnderEye
     count: 2
   output:
-    - item: gregtechmod:dust_ender_pearl
+    - item: ic2:dust#ender_pearl
     - item: minecraft:blaze_powder
   duration: 1850
 - input:
