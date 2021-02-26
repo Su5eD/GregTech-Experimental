@@ -13,6 +13,7 @@ import ic2.api.item.IC2Items;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.core.recipe.BasicMachineRecipeManager;
+import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.railcraft.api.crafting.Crafters;
 import mods.railcraft.api.crafting.IRockCrusherCrafter;
@@ -32,10 +33,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ModHandler {
@@ -136,10 +134,6 @@ public class ModHandler {
         return new ItemStack(base, 1, meta);
     }
 
-    public static ItemStack getPRItem(String baseItem) {
-        return getPRItem(baseItem, 0);
-    }
-
     public static ItemStack getPRItem(String baseItem, int meta) {
         Item base = getItem("projectred-core", baseItem);
         if (base == null) return ItemStack.EMPTY;
@@ -196,12 +190,24 @@ public class ModHandler {
     }
 
     public static void addInductionSmelterRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
-        if (thermalExpansion) registerInductionsmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
+        if (thermalExpansion) registerInductionSmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
     }
 
     @Optional.Method(modid = "thermalexpansion")
-    private static void registerInductionsmelterRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
+    private static void registerInductionSmelterRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
         SmelterManager.addRecipe(energy, primaryInput, secondaryInput, primaryOutput, secondaryOutput, chance);
+    }
+
+    public static void removeInductionSelterRecipe(ItemStack input) {
+        if (thermalExpansion) _removeInductionSelterRecipe(input);
+    }
+
+    @Optional.Method(modid = "thermalexpansion")
+    private static void _removeInductionSelterRecipe(ItemStack input) {
+        Arrays.stream(SmelterManager.getRecipeList())
+                .filter(recipe -> GtUtil.stackEquals(recipe.getPrimaryInput(), input) || GtUtil.stackEquals(recipe.getSecondaryInput(), input))
+                .collect(Collectors.toList())
+                .forEach(recipe -> SmelterManager.removeRecipe(recipe.getPrimaryInput(), recipe.getSecondaryInput()));
     }
 
     public static void addLiquidTransposerFillRecipe(ItemStack emptyContainer, FluidStack fluid, ItemStack fullContainer, int energy) {
@@ -310,6 +316,10 @@ public class ModHandler {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public static void removeCraftingRecipe(IRecipe recipe) {
+        ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(recipe.getRegistryName());
     }
 
     public static void removeCraftingRecipe(ItemStack output) {

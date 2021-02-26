@@ -14,7 +14,7 @@
     fluid: bio.ethanol
   energy: 128
 - input:
-    fuel: diesel
+    fluid: diesel
   energy: 384
 - input:
     fluid: nitro_diesel

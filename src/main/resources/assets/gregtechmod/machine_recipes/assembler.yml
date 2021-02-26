@@ -175,7 +175,7 @@
   output:
     ore: gearDiamond
   duration: 1600
-  energyCost: 1
+  energyCost: 2
 - input:
     - item: ic2:crafting#coal_block
       count: 8
@@ -702,16 +702,6 @@
     count: 4
   duration: 400
   energyCost: 1
-- input:
-    - item: buildcraftcore:gear_gold
-    - ores:
-        - itemDiamond
-        - diamond
-      count: 4
-  output:
-    item: buildcraftcore:gear_diamond
-  duration: 1600
-  energyCost: 2
 - input:
     - item: ic2:cable#type:copper,insulation:0
     - ores:

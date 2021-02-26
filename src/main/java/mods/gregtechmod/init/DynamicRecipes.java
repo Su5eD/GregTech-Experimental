@@ -6,17 +6,15 @@ import ic2.api.recipe.Recipes;
 import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
-import mods.gregtechmod.api.recipe.IRecipeCellular;
-import mods.gregtechmod.api.recipe.IRecipePulverizer;
-import mods.gregtechmod.api.recipe.IRecipeSawmill;
+import mods.gregtechmod.api.recipe.*;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSawmill;
 import mods.gregtechmod.api.util.OreDictUnificator;
-import mods.gregtechmod.recipe.RecipeDualInput;
+import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.recipe.RecipeAlloySmelter;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
@@ -27,12 +25,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class DynamicRecipes {
@@ -48,7 +46,7 @@ class DynamicRecipes {
     static boolean addCentrifugeRecipes;
 
     static final IGtRecipeManager<IRecipeIngredient, ItemStack, IRecipePulverizer> PULVERIZER = new RecipeManagerPulverizer();
-    static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, ItemStack>> ALLOY_SMELTER = new RecipeManagerMultiInput<>();
+    static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeAlloySmelter> ALLOY_SMELTER = new RecipeManagerAlloySmelter();
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> CANNER = new RecipeManagerMultiInput<>();
     static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IGtMachineRecipe<IRecipeIngredient, List<ItemStack>>> LATHE = new RecipeManagerBasic<>();
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IGtMachineRecipe<List<IRecipeIngredient>, ItemStack>> ASSEMBLER = new RecipeManagerMultiInput<>();
@@ -58,11 +56,29 @@ class DynamicRecipes {
     static final GtBasicMachineRecipeManager COMPRESSOR = new GtBasicMachineRecipeManager();
     static final GtBasicMachineRecipeManager EXTRACTOR = new GtBasicMachineRecipeManager();
 
+    private static final Set<MaterialUsage> MATERIAL_USAGES = new HashSet<>();
+
+    static void addPulverizerRecipe(ItemStack input, ItemStack output, boolean overwrite) {
+        addPulverizerRecipe(input, output, 10, overwrite);
+    }
+
+    static void addPulverizerRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
+        addPulverizerRecipe(input, primaryOutput, secondaryOutput, chance, false);
+    }
+
+    static void addPulverizerRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
+        addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(input), Arrays.asList(primaryOutput, secondaryOutput), chance, overwrite));
+    }
+
+    static void addPulverizerRecipe(ItemStack input, ItemStack output, int chance, boolean overwrite) {
+        addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(input), Collections.singletonList(output), chance, overwrite));
+    }
+
     static void addPulverizerRecipe(IRecipePulverizer recipe) {
         if (addPulverizerRecipes) PULVERIZER.addRecipe(recipe);
     }
 
-    static void addAlloySmelterRecipe(IGtMachineRecipe<List<IRecipeIngredient>, ItemStack> recipe) {
+    static void addAlloySmelterRecipe(IRecipeAlloySmelter recipe) {
         if (addAlloySmelterRecipes) ALLOY_SMELTER.addRecipe(recipe);
     }
 
@@ -102,12 +118,24 @@ class DynamicRecipes {
         if (GregTechAPI.dynamicConfig.get("inductionSmelter", name, true).getBoolean()) ModHandler.addInductionSmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
     }
 
-    static void addSmeltingAndAlloySmeltingRecipe(String inputName, ItemStack input, ItemStack output) {
-        if (input.isEmpty() || output.isEmpty()) return;
+    static void addSmeltingAndAlloySmeltingRecipe(ItemStack input, ItemStack output) {
+        addSmeltingAndAlloySmeltingRecipe(input, output, false);
+    }
 
-        addSmeltingRecipe(inputName, input, output);
-        addAlloySmelterRecipe(RecipeDualInput.create(Collections.singletonList(RecipeIngredientOre.create(inputName)), output, 130, 3));
-        ModHandler.addInductionSmelterRecipe(input, new ItemStack(Blocks.SAND), output, ItemStack.EMPTY, output.getCount() * 1000, 0);
+    static void addSmeltingAndAlloySmeltingRecipe(ItemStack input, ItemStack output, boolean overwrite) {
+        addSmeltingAndAlloySmeltingRecipe(null, input, output, overwrite);
+    }
+
+    static void addSmeltingAndAlloySmeltingRecipe(@Nullable String oredict, ItemStack input, ItemStack output) {
+        addSmeltingAndAlloySmeltingRecipe(oredict, input, output, false);
+    }
+
+    static void addSmeltingAndAlloySmeltingRecipe(@Nullable String oredict, ItemStack input, ItemStack output, boolean overwrite) {
+        if (!input.isEmpty() && !output.isEmpty()) {
+            if (overwrite) ModHandler.removeInductionSelterRecipe(input);
+            IRecipeIngredient ingredient = oredict != null ? RecipeIngredientOre.create(oredict) : RecipeIngredientItemStack.create(input);
+            addAlloySmelterRecipe(RecipeAlloySmelter.create(Collections.singletonList(ingredient), output, 130, 3, true));
+        }
     }
 
     static void addDustToIngotSmeltingRecipe(String name, ItemStack input, Item output) {
@@ -208,6 +236,150 @@ class DynamicRecipes {
             ItemStack steelCrowbar = ModHandler.getRCItem("tool_crowbar_steel", OreDictionary.WILDCARD_VALUE);
             GregTechAPI.registerCrowbar(ironCrowbar);
             GregTechAPI.registerCrowbar(steelCrowbar);
+        }
+    }
+
+    public static void applyMaterialUsages() {
+        gatherMaterialUsage(BlockItems.Miscellaneous.RUBY.getInstance(), BlockItems.Dust.RUBY.getInstance(), false, true);
+        gatherMaterialUsage(BlockItems.Miscellaneous.SAPPHIRE.getInstance(), BlockItems.Dust.SAPPHIRE.getInstance(), false, true);
+        gatherMaterialUsage(BlockItems.Miscellaneous.GREEN_SAPPHIRE.getInstance(), BlockItems.Dust.GREEN_SAPPHIRE.getInstance(), false, true);
+        gatherMaterialUsage(BlockItems.Ingot.BRASS.getInstance(), BlockItems.Dust.BRASS.getInstance(), true, true);
+        gatherMaterialUsage(IC2Items.getItem("ingot", "silver"), IC2Items.getItem("dust", "silver"), true, true);
+        gatherMaterialUsage(BlockItems.Miscellaneous.OLIVINE.getInstance(), BlockItems.Dust.OLIVINE.getInstance(), false, true);
+        gatherMaterialUsage(BlockItems.Ingot.ALUMINIUM.getInstance(), BlockItems.Dust.ALUMINIUM.getInstance(), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.TITANIUM.getInstance(), BlockItems.Dust.TITANIUM.getInstance(), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.CHROME.getInstance(), BlockItems.Dust.CHROME.getInstance(), true, true);
+        gatherMaterialUsage(IC2Items.getItem("ingot", "steel"), new ItemStack(BlockItems.Dust.STEEL.getInstance()), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.ELECTRUM.getInstance(), BlockItems.Dust.ELECTRUM.getInstance(), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.TUNGSTEN.getInstance(), BlockItems.Dust.TUNGSTEN.getInstance(), true, true);
+        gatherMaterialUsage(IC2Items.getItem("ingot", "lead"), IC2Items.getItem("dust", "lead"), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.ZINC.getInstance(), BlockItems.Dust.ZINC.getInstance(), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.PLATINUM.getInstance(), BlockItems.Dust.PLATINUM.getInstance(), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.NICKEL.getInstance(), BlockItems.Dust.NICKEL.getInstance(), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.INVAR.getInstance(), BlockItems.Dust.INVAR.getInstance(), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.ANTIMONY.getInstance(), BlockItems.Dust.ANTIMONY.getInstance(), true, true);
+        gatherMaterialUsage(BlockItems.Ingot.TUNGSTEN_STEEL.getInstance(), BlockItems.Ingot.TUNGSTEN_STEEL.getInstance(), true, false);
+        ItemStack iridiumOre = IC2Items.getItem("misc_resource", "iridium_ore");
+        gatherMaterialUsage(new ItemStack(BlockItems.Ingot.IRIDIUM.getInstance()), iridiumOre, true, true);
+        gatherMaterialUsage(iridiumOre, iridiumOre, false, true);
+        gatherMaterialUsage(BlockItems.Ingot.OSMIUM.getInstance(), BlockItems.Dust.OSMIUM.getInstance(), false, true);
+        ItemStack dustIron = IC2Items.getItem("dust", "iron");
+        if (IC2.version.isClassic()) gatherMaterialUsage(IC2Items.getItem("ingot", "refined_iron"), dustIron, true, true);
+        gatherMaterialUsage(IC2Items.getItem("ingot", "bronze"), IC2Items.getItem("dust", "bronze"), true, true);
+        gatherMaterialUsage(IC2Items.getItem("ingot", "copper"), IC2Items.getItem("dust", "copper"), true, true);
+        gatherMaterialUsage(IC2Items.getItem("ingot", "tin"), IC2Items.getItem("dust", "tin"), true, true);
+        gatherMaterialUsage(new ItemStack(Items.IRON_INGOT), dustIron, true, true);
+        gatherMaterialUsage(new ItemStack(Items.GOLD_INGOT), IC2Items.getItem("dust", "gold"), true, true);
+        gatherMaterialUsage(new ItemStack(Items.DIAMOND), IC2Items.getItem("dust", "diamond"), false, true);
+        gatherMaterialUsage(new ItemStack(Blocks.PLANKS), new ItemStack(BlockItems.Smalldust.WOOD.getInstance()), false, true);
+        if (ModHandler.thaumcraft) {
+            ItemStack ingotThaumium = ModHandler.getTCItem("ingot", 0);
+            gatherMaterialUsage(ingotThaumium, ingotThaumium, true, false);
+        }
+    }
+
+    public static void gatherMaterialUsage(Item input, Item output, boolean backSmelting, boolean backMacerating) {
+        gatherMaterialUsage(new ItemStack(input), new ItemStack(output), backSmelting, backMacerating);
+    }
+
+    private static void gatherMaterialUsage(ItemStack input, ItemStack output, boolean backSmelting, boolean backMacerating) {
+        if (input.isEmpty() || output.isEmpty()) return;
+        input = input.copy();
+        output = output.copy();
+        ItemStack stick = new ItemStack(Items.STICK);
+        if (output.getCount() < 1) output.setCount(1);
+
+        boolean isSawdust = OreDictUnificator.isItemInstanceOf(output, "dustSmallWood", false);
+        IRecipe recipe;
+        if (!input.isItemEqual(new ItemStack(Items.IRON_INGOT))) {
+            ItemStack bucket = new ItemStack(Items.BUCKET);
+            ItemStack minecart = new ItemStack(Items.MINECART);
+            if ((recipe = ModHandler.getCraftingRecipe(input, ItemStack.EMPTY, input, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY)) != null &&
+                    recipe.getRecipeOutput().isItemEqual(bucket))
+                ModHandler.removeCraftingRecipe(recipe);
+            if ((recipe = ModHandler.getCraftingRecipe(ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY, input, ItemStack.EMPTY, input, ItemStack.EMPTY)) != null &&
+                    recipe.getRecipeOutput().isItemEqual(bucket))
+                ModHandler.removeCraftingRecipe(recipe);
+            if ((recipe = ModHandler.getCraftingRecipe(input, ItemStack.EMPTY, input, input, input, input, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY)) != null &&
+                    recipe.getRecipeOutput().isItemEqual(minecart))
+                ModHandler.removeCraftingRecipe(recipe);
+            if ((recipe = ModHandler.getCraftingRecipe(ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY, input, input, input, input)) != null &&
+                    recipe.getRecipeOutput().isItemEqual(minecart))
+                ModHandler.removeCraftingRecipe(recipe);
+        }
+
+        findMaterialUsage(input, output, 6, backMacerating, backSmelting, input, ItemStack.EMPTY, input, input, input, input, ItemStack.EMPTY, input, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 6, backMacerating, backSmelting, ItemStack.EMPTY, input, ItemStack.EMPTY, input, input, input, input, ItemStack.EMPTY, input);
+        findMaterialUsage(input, output, 5, backMacerating, backSmelting, input, input, input, input, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 8, backMacerating, backSmelting, input, ItemStack.EMPTY, input, input, input, input, input, input, input);
+        findMaterialUsage(input, output, 7, backMacerating, backSmelting, input, input, input, input, ItemStack.EMPTY, input, input, ItemStack.EMPTY, input);
+        findMaterialUsage(input, output, 4, backMacerating, backSmelting, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY, input, input, ItemStack.EMPTY, input);
+        findMaterialUsage(input, output, 2, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY, input, input, ItemStack.EMPTY, input);
+        findMaterialUsage(input, output, 2, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 5, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, input, input, input, input, stick, input, ItemStack.EMPTY, stick, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 3, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, input, input, input, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 1, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 3, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, input, input, ItemStack.EMPTY, input, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 3, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, ItemStack.EMPTY, input, input, ItemStack.EMPTY, stick, input, ItemStack.EMPTY, stick, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 2, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, input, input, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 2, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, ItemStack.EMPTY, input, input, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 3, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, ItemStack.EMPTY, input, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, input, stick);
+        findMaterialUsage(input, output, 3, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, input, stick, input, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 3, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, ItemStack.EMPTY, input, ItemStack.EMPTY, input, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, stick);
+        findMaterialUsage(input, output, 3, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, ItemStack.EMPTY, input, ItemStack.EMPTY, input, ItemStack.EMPTY, input, stick, ItemStack.EMPTY, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 2, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, ItemStack.EMPTY, input, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 3, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, input, input, input);
+        findMaterialUsage(input, output, 1, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 3, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, input, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, input, input, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 3, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, ItemStack.EMPTY, stick, input, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, input, input);
+        findMaterialUsage(input, output, 2, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, input, input, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 1, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, input, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, stick);
+        findMaterialUsage(input, output, 1, isSawdust ? 4 : 0, 100, backMacerating, backSmelting, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY, stick, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 1, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, input, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 1, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, ItemStack.EMPTY, ItemStack.EMPTY, input, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 1, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, input, stick, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+        findMaterialUsage(input, output, 1, isSawdust ? 2 : 0, 50, backMacerating, backSmelting, input, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+    }
+
+    private static void findMaterialUsage(ItemStack input, ItemStack output, int count, boolean backMacerating, boolean backSmelting, ItemStack... pattern) {
+        findMaterialUsage(input, output, count, 0, 0, backMacerating, backSmelting, pattern);
+    }
+
+    private static void findMaterialUsage(ItemStack input, ItemStack output, int count, int bonus, int chance, boolean backMacerating, boolean backSmelting, ItemStack... pattern) {
+        IRecipe recipe = ModHandler.getCraftingRecipe(pattern);
+        if (recipe != null) MATERIAL_USAGES.add(new MaterialUsage(recipe.getRecipeOutput(), input, output, count, bonus, chance, backMacerating, backSmelting));
+    }
+
+    public static void processMaterialUsages() {
+        ItemStack sawdust = new ItemStack(BlockItems.Dust.WOOD.getInstance());
+        MATERIAL_USAGES.forEach(material -> {
+            if (material.backMacerating) {
+                if (material.bonus > 0) addPulverizerRecipe(material.recipeOutput, StackUtil.copyWithSize(material.output, material.count * material.output.getCount() + material.bonus), material.chance, true);
+                else addPulverizerRecipe(material.recipeOutput, StackUtil.copyWithSize(material.output, material.count * material.output.getCount()), sawdust, material.chance, true);
+            }
+            if (material.backSmelting && material.recipeOutput.getCount() == 1 && material.input.getCount() == 1) addSmeltingAndAlloySmeltingRecipe(material.recipeOutput, StackUtil.copyWithSize(material.input, material.count), true);
+        });
+    }
+
+    private static class MaterialUsage {
+        public final ItemStack recipeOutput;
+        public final ItemStack input;
+        public final ItemStack output;
+        public final int count;
+        public final int bonus;
+        public final int chance;
+        public final boolean backMacerating;
+        public final boolean backSmelting;
+
+        private MaterialUsage(ItemStack recipeOutput, ItemStack input, ItemStack output, int count, int bonus, int chance, boolean backMacerating, boolean backSmelting) {
+            this.recipeOutput = recipeOutput;
+            this.input = input;
+            this.output = output;
+            this.count = count;
+            this.bonus = bonus;
+            this.chance = chance;
+            this.backMacerating = backMacerating;
+            this.backSmelting = backSmelting;
         }
     }
 }

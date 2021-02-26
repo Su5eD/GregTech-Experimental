@@ -2,7 +2,6 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.recipe.util.RecipeUtil;
@@ -29,12 +28,7 @@ public class RecipeDualInput extends Recipe<List<IRecipeIngredient>, ItemStack> 
 
         RecipeDualInput recipe = new RecipeDualInput(input, output, duration, energyCost);
 
-        if (!RecipeUtil.validateRecipeInput("dual input", input)) recipe.invalid = true;
-
-        if (output.isEmpty()) {
-            GregTechAPI.logger.error("Tried to add a dual input recipe with empty output");
-            recipe.invalid = true;
-        }
+        if (!RecipeUtil.validateRecipeIO("dual input", input, Collections.singletonList(output))) recipe.invalid = true;
 
         return recipe;
     }

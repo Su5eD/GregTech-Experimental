@@ -1,7 +1,8 @@
 # Pulverizer recipes
 ---
 - input:
-    ore: sandstone
+    item: minecraft:sandstone
+    meta: 32767
   output:
     - item: minecraft:sand
 - input:
@@ -582,3 +583,262 @@
     - item: ic2:dust#diamond
     - item: gregtechmod:dust_wood
   chance: 50
+- input:
+    item: minecraft:chainmail_helmet
+  output:
+    - item: gregtechmod:smalldust_steel
+      count: 5
+  overwrite: true
+- input:
+    item: minecraft:chainmail_chestplate
+  output:
+    - item: gregtechmod:smalldust_steel
+      count: 8
+  overwrite: true
+- input:
+    item: minecraft:chainmail_leggings
+  output:
+    - item: gregtechmod:smalldust_steel
+      count: 7
+  overwrite: true
+- input:
+    item: minecraft:chainmail_boots
+  output:
+    - item: gregtechmod:smalldust_steel
+      count: 4
+  overwrite: true
+- input:
+    item: minecraft:clock
+  output:
+    - item: ic2:dust#gold
+      count: 4
+    - item: minecraft:redstone
+  chance: 95
+- input:
+    item: minecraft:compass
+  output:
+    - item: ic2:dust#iron
+      count: 4
+    - item: minecraft:redstone
+  chance: 95
+- input:
+    item: minecraft:shears
+  output:
+    - item: ic2:dust#iron
+      count: 2
+- input:
+    item: minecraft:minecart
+  output:
+    - item: ic2:dust#iron
+      count: 5
+  overwrite: true
+- input:
+    item: minecraft:bucket
+  output:
+    - item: ic2:dust#iron
+      count: 3
+  overwrite: true
+- input:
+    item: minecraft:iron_door
+  output:
+    - item: ic2:dust#iron
+      count: 6
+  overwrite: true
+- input:
+    item: minecraft:cauldron
+  output:
+    - item: ic2:dust#iron
+      count: 7
+  overwrite: true
+- input:
+    item: minecraft:iron_bars
+    count: 2
+  output:
+    - item: ic2:dust#small_iron
+      count: 3
+  overwrite: true
+- input:
+    item: ic2:fence#iron
+    count: 2
+  output:
+    - item: ic2:dust#small_iron
+      count: 3
+  overwrite: true
+# TODO: Classic recipes
+#- input:
+#    item: ic2:crafting#empty_fuel_can
+#  output:
+#    - item: ic2:dust#tin
+#  overwrite: true
+#- input:
+#    item: ic2:cell#empty
+#  output:
+#    - item: ic2:dust#tin
+#  overwrite: true
+- input:
+    item: ic2:fluid_cell
+  output:
+    - item: ic2:dust#tin
+      count: 2
+  overwrite: true
+- input:
+    item: ic2:te#iron_furnace
+  output:
+    - item: ic2:dust#iron
+      count: 5
+  overwrite: true
+- input:
+    item: minecraft:light_weighted_pressure_plate
+  output:
+    - item: ic2:dust#gold
+      count: 2
+  overwrite: true
+- input:
+    item: minecraft:heavy_weighted_pressure_plate
+  output:
+    - item: ic2:dust#iron
+      count: 2
+  overwrite: true
+- input:
+    item: gregtechmod:hull_aluminium
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 6
+- input:
+    item: gregtechmod:hull_bronze
+  output:
+    - item: ic2:dust#bronze
+      count: 6
+- input:
+    item: gregtechmod:hull_brass
+  output:
+    - item: gregtechmod:dust_brass
+      count: 6
+- input:
+    item: gregtechmod:hull_steel
+  output:
+    - item: gregtechmod:dust_steel
+      count: 6
+- input:
+    item: gregtechmod:hull_titanium
+  output:
+    - item: gregtechmod:dust_titanium
+      count: 6
+# TODO: Classic recipe
+#- input:
+#    item: gregtechmod:gear_iron
+#  output:
+#    - ore: dustRefinediron
+#      count: 6
+#      fallback:
+#        item: ic2:dust#iron
+#        count: 6
+- input:
+    item: gregtechmod:gear_iron
+  output:
+    - item: ic2:dust#iron
+      count: 6
+- input:
+    item: gregtechmod:gear_bronze
+  output:
+    - item: ic2:dust#bronze
+      count: 6
+- input:
+    item: gregtechmod:gear_steel
+  output:
+    - item: gregtechmod:dust_steel
+      count: 6
+- input:
+    item: gregtechmod:gear_titanium
+  output:
+    - item: gregtechmod:dust_titanium
+      count: 6
+- input:
+    item: gregtechmod:gear_tungsten_steel
+  output:
+    - ore: dustTungstenSteel
+      count: 6
+- input:
+    item: gregtechmod:gear_iridium
+  output:
+    - ore: dustIridium
+      count: 6
+- input:
+    item: minecraft:enchanting_table
+  output:
+    - item: ic2:dust#diamond
+      count: 2
+    - item: ic2:dust#obsidian
+      count: 4
+  chance: 95
+- input:
+    item: minecraft:furnace
+  output:
+    - item: minecraft:sand
+      count: 7
+- input:
+    item: minecraft:stone_button
+  output:
+    - item: minecraft:sand
+- input:
+    item: minecraft:sign
+  output:
+    - item: gregtechmod:dust_wood
+      count: 2
+- input:
+    item: minecraft:wooden_door
+  output:
+    - item: gregtechmod:dust_wood
+      count: 6
+- input:
+    item: minecraft:chest
+  output:
+    - item: gregtechmod:dust_wood
+      count: 8
+- input:
+    item: minecraft:wooden_button
+  output:
+    - item: gregtechmod:dust_wood
+- input:
+    item: minecraft:stone_pressure_plate
+  output:
+    - item: minecraft:sand
+      count: 2
+- input:
+    item: minecraft:wooden_pressure_plate
+  output:
+    - item: gregtechmod:dust_wood
+      count: 2
+- input:
+    item: minecraft:redstone_torch
+  output:
+    - item: gregtechmod:smalldust_wood
+      count: 2
+    - item: minecraft:redstone
+  chance: 95
+- input:
+    item: minecraft:lever
+  output:
+    - item: minecraft:sand
+    - item: gregtechmod:smalldust_wood
+      count: 2
+  chance: 95
+- input:
+    item: minecraft:ladder
+  output:
+    - item: gregtechmod:dust_wood
+- input:
+    item: minecraft:item_frame
+  output:
+    - item: minecraft:leather
+    - item: gregtechmod:dust_wood
+      count: 4
+  chance: 95
+- input:
+    item: minecraft:bow
+  output:
+    - item: minecraft:string
+      count: 3
+    - item: gregtechmod:smalldust_wood
+      count: 3
+  chance: 95

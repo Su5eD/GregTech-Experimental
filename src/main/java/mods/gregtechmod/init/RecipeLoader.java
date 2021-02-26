@@ -134,8 +134,8 @@ public class RecipeLoader {
         parseConfig("canner", RecipeCanner.class, null)
                 .ifPresent(recipes -> registerRecipes("canner", recipes, GtRecipes.canner));
 
-        GtRecipes.alloySmelter = new RecipeManagerMultiInput<>();
-        parseConfig("alloy_smelter", RecipeDualInput.class, null)
+        GtRecipes.alloySmelter = new RecipeManagerAlloySmelter();
+        parseConfig("alloy_smelter", RecipeAlloySmelter.class, null)
                 .ifPresent(recipes -> registerRecipes("alloy smelter", recipes, GtRecipes.alloySmelter));
 
         GtRecipes.implosion = new RecipeManagerMultiInput<>();
@@ -224,7 +224,7 @@ public class RecipeLoader {
         dynamicRecipesDir.toFile().mkdirs();
 
         DynamicRecipes.addPulverizerRecipes = parseDynamicRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class, DynamicRecipes.PULVERIZER);
-        DynamicRecipes.addAlloySmelterRecipes = parseDynamicRecipes("alloy_smelter", RecipeDualInput.class, null, DynamicRecipes.ALLOY_SMELTER);
+        DynamicRecipes.addAlloySmelterRecipes = parseDynamicRecipes("alloy_smelter", RecipeAlloySmelter.class, null, DynamicRecipes.ALLOY_SMELTER);
         DynamicRecipes.addCannerRecipes = parseDynamicRecipes("canner", RecipeCanner.class, null, DynamicRecipes.CANNER);
         DynamicRecipes.addLatheRecipes = parseDynamicRecipes("lathe", RecipeLathe.class, null, DynamicRecipes.LATHE);
         DynamicRecipes.addAssemblerRecipes = parseDynamicRecipes("assembler", RecipeDualInput.class, null, DynamicRecipes.ASSEMBLER);
@@ -235,6 +235,7 @@ public class RecipeLoader {
         DynamicRecipes.addExtractorRecipes = parseDynamicRecipes("extractor", BasicMachineRecipe.class, null, DynamicRecipes.EXTRACTOR);
 
         DynamicRecipes.processCraftingRecipes();
+        DynamicRecipes.applyMaterialUsages();
         ItemStack copper = IC2Items.getItem("ingot", "copper");
         ItemStack bronze = ModHandler.getCraftingResult(copper, copper, ItemStack.EMPTY, copper, IC2Items.getItem("ingot", "tin"));
         if (!bronze.isEmpty()) {
@@ -246,9 +247,35 @@ public class RecipeLoader {
                             0,
                             1500));
         }
+
+        ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
+        ItemStack stick = new ItemStack(Items.STICK);
+        ItemStack rail = ModHandler.getCraftingResult(ingotIron, ItemStack.EMPTY, ingotIron, ingotIron, stick, ingotIron, ingotIron, ItemStack.EMPTY, ingotIron);
+        if (!rail.isEmpty()) DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), new ItemStack(BlockItems.Smalldust.WOOD.getInstance(), 2), 95);
+        ItemStack ingotGold = new ItemStack(Items.GOLD_INGOT);
+        ItemStack redstone = new ItemStack(Items.REDSTONE);
+        ItemStack poweredRail = ModHandler.getCraftingResult(ingotGold, ItemStack.EMPTY, ingotGold, ingotGold, stick, ingotGold, ingotGold, redstone, ingotGold);
+        if (!poweredRail.isEmpty()) DynamicRecipes.addPulverizerRecipe(poweredRail, StackUtil.setSize(IC2Items.getItem("dust", "gold"), 6), redstone, 95);
+
+        ItemStack ingotTin = IC2Items.getItem("ingot", "tin");
+        ItemStack tinCan = ModHandler.getCraftingResult(ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+        if (!tinCan.isEmpty()) {
+            int tinNuggetCount = 27 / tinCan.getCount();
+            if (tinNuggetCount > 0) {
+                tinCan.setCount(1);
+                if (tinNuggetCount % 9 == 0) {
+                    DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, StackUtil.setSize(ingotTin, tinNuggetCount / 9));
+                }
+                else DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, new ItemStack(BlockItems.Nugget.TIN.getInstance(), tinNuggetCount));
+            }
+        }
+
+        DynamicRecipes.addPulverizerRecipe(IC2Items.getItem("fluid_cell"), StackUtil.setSize(IC2Items.getItem("dust", "small_tin"), 9), true);
     }
 
     public static void registerDynamicRecipes() {
+        DynamicRecipes.processMaterialUsages();
+
         if (DynamicRecipes.addPulverizerRecipes) serializeRecipes("Pulverizer", DynamicRecipes.PULVERIZER.getRecipes(), GtRecipes.pulverizer);
         if (DynamicRecipes.addAlloySmelterRecipes) serializeRecipes("Alloy Smelter", DynamicRecipes.ALLOY_SMELTER.getRecipes(), GtRecipes.alloySmelter);
         if (DynamicRecipes.addCannerRecipes) serializeRecipes("Canner", DynamicRecipes.CANNER.getRecipes(), GtRecipes.canner);
