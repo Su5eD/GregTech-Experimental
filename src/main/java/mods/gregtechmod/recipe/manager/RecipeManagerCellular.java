@@ -1,7 +1,7 @@
 package mods.gregtechmod.recipe.manager;
 
 import ic2.core.item.ItemFluidCell;
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
@@ -69,7 +69,7 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
     @Override
     public boolean hasRecipeFor(FluidStack input) {
         return this.recipes.stream()
-                .map(IGtMachineRecipe::getInput)
+                .map(IMachineRecipe::getInput)
                 .filter(ingredient -> ingredient instanceof IRecipeIngredientFluid)
                 .anyMatch(ingredient -> ((IRecipeIngredientFluid) ingredient).apply(input));
     }
@@ -77,7 +77,7 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
     @Override
     public boolean hasRecipeFor(Fluid input) {
         return this.recipes.stream()
-                .map(IGtMachineRecipe::getInput)
+                .map(IMachineRecipe::getInput)
                 .filter(ingredient -> ingredient instanceof IRecipeIngredientFluid)
                 .anyMatch(ingredient -> ((IRecipeIngredientFluid) ingredient).apply(input));
     }

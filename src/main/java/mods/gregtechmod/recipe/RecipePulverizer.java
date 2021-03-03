@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.recipe.util.RecipeUtil;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.Collections;

@@ -1,6 +1,11 @@
 # Extractor recipes
 ---
 - input:
-    ore: woodRubber
+    item: gregtechmod:indigo_blossom
   output:
-    - item: ic2:crafting#rubber
+    - item: gregtechmod:indigo_dye
+- input:
+    item: minecraft:slime_ball
+  output:
+    - item: ic2:misc_resource#resin
+      count: 2

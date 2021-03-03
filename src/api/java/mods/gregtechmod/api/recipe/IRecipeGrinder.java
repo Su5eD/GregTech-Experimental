@@ -6,6 +6,6 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public interface IRecipeGrinder extends IGtMachineRecipe<IRecipeIngredient, List<ItemStack>> {
+public interface IRecipeGrinder extends IMachineRecipe<IRecipeIngredient, List<ItemStack>> {
     IRecipeIngredientFluid getFluid();
 }

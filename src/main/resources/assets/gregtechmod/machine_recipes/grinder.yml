@@ -9,6 +9,14 @@
     - item: ic2:dust#netherrack
       count: 16
 - input:
+    ore: stoneNetherrack
+    count: 8
+  fluid: mercury
+  output:
+    - item: minecraft:gold_nugget
+    - item: ic2:dust#netherrack
+      count: 8
+- input:
     ore: oreLapis
   fluid: water
   output:

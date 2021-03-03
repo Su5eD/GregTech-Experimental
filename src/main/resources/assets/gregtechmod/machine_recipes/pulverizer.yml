@@ -842,3 +842,99 @@
     - item: gregtechmod:smalldust_wood
       count: 3
   chance: 95
+- input:
+    ore: glowstone
+  output:
+    - item: minecraft:glowstone_dust
+      count: 4
+- input:
+    item: minecraft:redstone_lamp
+  output:
+    - item: minecraft:glowstone_dust
+      count: 4
+    - item: minecraft:redstone
+      count: 4
+  chance: 90
+- input:
+    item: railcraft:generic
+    meta: 7
+  output:
+    - item: ic2:dust#obsidian
+  overwrite: true
+- input:
+    ore: sugarcane
+  output:
+    - item: minecraft:sugar
+      count: 2
+- input:
+    ore: blockClay
+  output:
+    - item: ic2:dust#clay
+      count: 2
+- input:
+    item: minecraft:snow
+  output:
+    - item: minecraft:snowball
+      count: 4
+- input:
+    item: minecraft:stick
+  output:
+    - item: gregtechmod:smalldust_wood
+      count: 2
+- input:
+    ore: charcoal
+  output:
+    - item: gregtechmod:dust_charcoal
+  overwrite: true
+- input:
+    item: minecraft:melon_block
+  output:
+    - item: minecraft:melon
+      count: 8
+    - item: minecraft:melon_seeds
+  chance: 80
+- input:
+    item: minecraft:pumpkin
+  output:
+    - item: minecraft:pumpkin_seeds
+      count: 4
+- input:
+    item: minecraft:melon
+  output:
+    - item: minecraft:melon_seeds
+- input:
+    item: minecraft:wheat
+  output:
+    - item: gregtechmod:flour
+- input:
+    item: ic2:crafting#plant_ball
+  output:
+    - item: minecraft:dirt
+- input:
+    item: ic2:crop_stick
+  output:
+    - item: gregtechmod:dust_wood
+- input:
+    item: minecraft:ender_eye
+  output:
+    - item: ic2:dust#ender_eye
+      count: 2
+  overwrite: true
+- input:
+    item: minecraft:flint
+  output:
+    - item: gregtechmod:dust_flint
+      count: 2
+    - item: gregtechmod:smalldust_flint
+  overwrite: true
+# Classic recipe
+#- input:
+#    item: ic2:resource#machine
+#  output:
+#    - item: gregtechmod:dust_refined_iron
+#      count: 8
+- input:
+    item: ic2:resource#machine
+  output:
+    - item: ic2:dust#iron
+      count: 8

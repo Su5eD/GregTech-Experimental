@@ -412,3 +412,55 @@
     - item: ic2:filled_tin_can
       count: 4
   duration: 400
+- input:
+    - item: ic2:crop_res#oil_berry
+      count: 4
+    - item: ic2:fluid_cell
+  output:
+    - item: ic2:fluid_cell#oil
+  duration: 100
+# Classic recipes
+#- input:
+#    - item: ic2:crafting#compressed_plants
+#    - item: ic2:fluid_cell
+#  output:
+#    - item: ic2:cell#bio
+#  duration: 100
+#- input:
+#    - item: ic2:crafting#compressed_hydrated_coal
+#    - item: ic2:fluid_cell
+#  output:
+#    - item: ic2:cell#hydrated_coal
+#  duration: 100
+#- input:
+#    - item: ic2:cell#biofuel
+#      count: 6
+#    - item: ic2:crafting#empty_fuel_can
+#  output:
+#    - item: ic2:crafting#filled_fuel_can
+#      nbt:
+#        value: 26040
+#    - item: ic2:cell#empty
+#  duration: 600
+#- input:
+#    - item: ic2:cell#coalfuel
+#      count: 6
+#    - item: ic2:crafting#empty_fuel_can
+#  output:
+#    - item: ic2:crafting#filled_fuel_can
+#      nbt:
+#        value: 76440
+#    - item: ic2:cell#empty
+#  duration: 600
+- input:
+    - item: minecraft:water_bucket
+    - item: ic2:fluid_cell
+  output:
+    - item: ic2:fluid_cell#water
+  duration: 100
+- input:
+    - item: minecraft:lava_bucket
+    - item: ic2:fluid_cell
+  output:
+    - item: ic2:fluid_cell#lava
+  duration: 100

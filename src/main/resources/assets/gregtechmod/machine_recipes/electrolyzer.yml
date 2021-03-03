@@ -365,3 +365,63 @@
       count: 2
   duration: 40
   energyCost: 100
+- input:
+    fluid: water
+    count: 6
+  output:
+    - item: ic2:fluid_cell#hydrogen
+      count: 4
+    - item: ic2:fluid_cell#ic2air
+  cells: 5
+  duration: 775
+  energyCost: 120
+# Classic recipes
+#- input:
+#    item: ic2:cell#electrolyzed_water
+#    count: 6
+#  output:
+#    - item: ic2:fluid_cell#hydrogen
+#      count: 4
+#    - item: ic2:fluid_cell#ic2air
+#    - item: ic2:fluid_cell
+#  duration: 100
+#  energyCost: 30
+#- input:
+#    item: ic2:cell#water
+#  output:
+#    - item: ic2:cell#electrolyzed_water
+#  duration: 200
+#  energyCost: 128
+#- input:
+#    item: minecraft:water_bucket
+#  output:
+#    - item: ic2:cell#electrolyzed_water
+#  cells: 1
+#  duration: 200
+#  energyCost: 128
+- input:
+    item: minecraft:dye
+    meta: 15
+    count: 3
+  output:
+    - item: ic2:fluid_cell#calcium
+  cells: 1
+  duration: 24
+  energyCost: 106
+- input:
+    item: minecraft:blaze_powder
+    count: 4
+  output:
+    - item: gregtechmod:dust_dark_ashes
+    - item: ic2:dust#sulfur
+  duration: 300
+  energyCost: 25
+- input:
+    item: minecraft:sand
+    count: 16
+  output:
+    - item: ic2:fluid_cell#silicon
+    - item: ic2:fluid_cell#ic2air
+  cells: 2
+  duration: 1000
+  energyCost: 25

@@ -1,9 +1,9 @@
 package mods.gregtechmod.api.util;
 
+import ic2.api.item.IC2Items;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechConfig;
 import net.minecraft.block.Block;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -14,12 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OreDictUnificator {
-
     private static final HashMap<String, ItemStack> name2OreMap = new HashMap<>();
-
     private static final HashMap<ItemStack, String> item2OreMap = new HashMap<>();
-
     private static final ArrayList<ItemStack> sBlackList = new ArrayList<>();
+    private static ItemStack emptyCell = null;
 
     public static void addToBlacklist(ItemStack stack) {
         sBlackList.add(stack);
@@ -48,7 +46,7 @@ public class OreDictUnificator {
         if (!name2OreMap.containsKey(name)) {
             name2OreMap.put(name, stack);
         } else {
-            if (overwrite && Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(GtUtil.getStackConfigName(stack))) {
+            if (overwrite && Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(getStackConfigName(stack))) {
                 name2OreMap.remove(name);
                 name2OreMap.put(name, stack);
             }
@@ -59,7 +57,7 @@ public class OreDictUnificator {
     public static void override(String name, ItemStack stack) {
         if (name == null || name.isEmpty() || name.startsWith("itemDust") || stack.isEmpty() || stack.getItemDamage() < 0) return;
 
-        if (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(GtUtil.getStackConfigName(stack))) set(name, stack);
+        if (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(getStackConfigName(stack))) set(name, stack);
     }
 
     public static ItemStack getUnifiedOre(String name) {
@@ -88,7 +86,7 @@ public class OreDictUnificator {
         ItemStack stack = null;
         List<ItemStack> ores = OreDictionary.getOres(name);
         for (ItemStack ore : ores) {
-            if (ore != null && GtUtil.getCapsuleCellContainerCount(ore) == 1) {
+            if (ore != null && getCapsuleCellContainerCount(ore) == 1) {
                 stack = ore.copy().splitStack(amount);
                 break;
             }
@@ -101,7 +99,7 @@ public class OreDictUnificator {
         ItemStack stack = null;
         List<ItemStack> ores = OreDictionary.getOres(name);
         for (ItemStack ore : ores) {
-            if (ore != null && GtUtil.getCapsuleCellContainerCount(ore) <= 0) {
+            if (ore != null && getCapsuleCellContainerCount(ore) <= 0) {
                 stack = ore.copy().splitStack(amount);
                 break;
             }
@@ -176,14 +174,6 @@ public class OreDictUnificator {
         return prefix ? string.startsWith(name) : string.equals(name);
     }
 
-    public static boolean isItemStackDye(ItemStack stack) {
-        if (stack.isEmpty()) return false;
-        for (EnumDyeColor dye : EnumDyeColor.values()) {
-            if (isItemInstanceOf(stack, dye.getName(), false)) return true;
-        }
-        return false;
-    }
-
     public static boolean registerOre(String name, ItemStack stack) {
         if (name == null || name.isEmpty() || stack.isEmpty()) return false;
         List<ItemStack> ores = OreDictionary.getOres(name);
@@ -195,5 +185,40 @@ public class OreDictUnificator {
         stack = stack.copy().splitStack(1);
         OreDictionary.registerOre(name, stack);
         return true;
+    }
+
+    public static String getStackConfigName(ItemStack stack) {
+        if (stack.isEmpty()) return null;
+
+        String name = OreDictUnificator.getAssociation(stack);
+        if (!name.isEmpty()) return name;
+        else if (!(name = stack.getDisplayName()).isEmpty()) return name;
+
+        return stack.getItem().getRegistryName().toString() + ":" + stack.getItemDamage();
+    }
+
+    public static int getCapsuleCellContainerCount(ItemStack stack) {
+        if (stack.isEmpty()) return 0;
+        else if (stack.isItemEqual(emptyCell())) return 1;
+        Item item = stack.getItem();
+        ItemStack containerItem = item.getContainerItem(stack);
+        if (!containerItem.isEmpty() && containerItem.isItemEqual(emptyCell())) return containerItem.getCount();
+        String regName = item.getRegistryName().toString();
+        if (regName.startsWith(Reference.MODID+":cell_") || regName.equals("ic2:fluid_cell") || regName.equals("forestry:can") ||
+                regName.equals("forestry:capsule") || regName.equals("forestry:refractory")) return 1;
+
+        if (stack.isItemEqual(IC2Items.getItem("heat_storage"))) return 1;
+        else if (stack.isItemEqual(IC2Items.getItem("tri_heat_storage"))) return 3;
+        else if (stack.isItemEqual(IC2Items.getItem("hex_heat_storage"))) return 6;
+        else if (stack.isItemEqual(IC2Items.getItem("uranium_fuel_rod"))) return 1;
+        else if (stack.isItemEqual(IC2Items.getItem("dual_uranium_fuel_rod"))) return 2;
+        else if (stack.isItemEqual(IC2Items.getItem("quad_uranium_fuel_rod"))) return 4;
+
+        return 0;
+    }
+
+    private static ItemStack emptyCell() {
+        if (emptyCell == null) emptyCell = IC2Items.getItem("fluid_cell");
+        return emptyCell;
     }
 }

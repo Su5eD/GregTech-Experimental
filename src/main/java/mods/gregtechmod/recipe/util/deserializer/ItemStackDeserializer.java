@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -41,12 +42,21 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
         } else if (name.contains("#")) {
             String[] parts = name.split("#");
             String[] nameParts = parts[0].split(":");
-            ItemStack stack = ModHandler.getIC2ItemSafely(nameParts[1], parts[1]);
-            if (stack.isEmpty()) {
-                GregTechAPI.logger.warn("MultiItem " + name + " not found");
-                stack = ItemStack.EMPTY;
-            }
 
+            ItemStack stack;
+            if (parts[0].equals(GregTechTEBlock.LOCATION.toString())) {
+                stack = ModHandler.getTEBlockSafely(parts[1]);
+                if (stack.isEmpty()) {
+                    GregTechAPI.logger.warn("TE Block " + name + " not found");
+                    stack = ItemStack.EMPTY;
+                }
+            } else {
+                stack = ModHandler.getIC2ItemSafely(nameParts[1], parts[1]);
+                if (stack.isEmpty()) {
+                    GregTechAPI.logger.warn("MultiItem " + name + " not found");
+                    stack = ItemStack.EMPTY;
+                }
+            }
             ret = stack.copy();
         } else {
             ResourceLocation registryName = new ResourceLocation(name);

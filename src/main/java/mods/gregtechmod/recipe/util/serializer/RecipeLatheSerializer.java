@@ -2,14 +2,14 @@ package mods.gregtechmod.recipe.util.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import java.io.IOException;
 import java.util.List;
 
-public class RecipeLatheSerializer extends RecipeSerializer<IGtMachineRecipe<IRecipeIngredient, List<ItemStack>>, IRecipeIngredient, List<ItemStack>> {
+public class RecipeLatheSerializer extends RecipeSerializer<IMachineRecipe<IRecipeIngredient, List<ItemStack>>, IRecipeIngredient, List<ItemStack>> {
     public static final RecipeLatheSerializer INSTANCE = new RecipeLatheSerializer();
 
     @Override
@@ -31,5 +31,5 @@ public class RecipeLatheSerializer extends RecipeSerializer<IGtMachineRecipe<IRe
     }
 
     @Override
-    public void serializeExtraFields(IGtMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, JsonGenerator gen, SerializerProvider serializers) {}
+    public void serializeExtraFields(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, JsonGenerator gen, SerializerProvider serializers) {}
 }

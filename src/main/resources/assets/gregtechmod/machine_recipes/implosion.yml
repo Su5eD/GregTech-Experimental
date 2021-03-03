@@ -72,3 +72,17 @@
     - item: gregtechmod:dust_dark_ashes
       count: 12
   tnt: 24
+- input:
+    item: ic2:crafting#coal_chunk
+  output:
+    - item: minecraft:diamond
+    - item: gregtechmod:dust_dark_ashes
+      count: 4
+  tnt: 8
+- input:
+    item: gregtechmod:ingot_iridium_alloy
+  output:
+    - item: ic2:crafting#iridium
+    - item: gregtechmod:dust_dark_ashes
+      count: 4
+  tnt: 8

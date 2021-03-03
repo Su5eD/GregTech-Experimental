@@ -1,8 +1,8 @@
 package mods.gregtechmod.objects.blocks;
 
 import mods.gregtechmod.api.GregTechConfig;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.Block;

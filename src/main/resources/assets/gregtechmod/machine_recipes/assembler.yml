@@ -788,3 +788,172 @@
     item: twilightforest:charm_of_keeping_3
   duration: 800
   energyCost: 2
+- input:
+    - item: ic2:crafting#coal_block
+      count: 8
+    - item: minecraft:brick_block
+  output:
+    item: ic2:crafting#coal_chunk
+  duration: 400
+  energyCost: 4
+- input:
+    - item: gregtechmod:circuit_board_advanced
+    - item: gregtechmod:advanced_circuit_parts
+      count: 2
+  output:
+    item: ic2:crafting#advanced_circuit
+  duration: 1600
+  energyCost: 2
+- input:
+    - item: gregtechmod:circuit_board_processor
+    - item: gregtechmod:data_storage_circuit
+  output:
+    item: gregtechmod:data_control_circuit
+  duration: 3200
+  energyCost: 4
+- input:
+    - item: gregtechmod:circuit_board_processor
+    - item: ic2:lapotron_crystal
+      meta: 32767
+  output:
+    item: gregtechmod:energy_flow_circuit
+  duration: 3200
+  energyCost: 4
+- input:
+    - item: gregtechmod:data_control_circuit
+    - item: gregtechmod:data_storage_circuit
+      count: 8
+  output:
+    item: gregtechmod:data_orb
+  duration: 12800
+  energyCost: 16
+- input:
+    - item: gregtechmod:teblock#sonictron
+    - item: gregtechmod:data_storage_circuit
+      count: 4
+  output:
+    item: gregtechmod:sonictron_portable
+  duration: 6400
+  energyCost: 8
+- input:
+    - item: ic2:te#water_generator
+      count: 2
+  output:
+    item: ic2:te#generator
+  duration: 6400
+  energyCost: 8
+- input:
+    - item: gregtechmod:lithium_batpack
+      meta: 32767
+  output:
+    item: gregtechmod:lithium_re_battery
+    count: 6
+  duration: 3200
+  energyCost: 4
+- input:
+    - item: ic2:batpack
+      meta: 32767
+  output:
+    item: ic2:re_battery
+    count: 6
+  duration: 1600
+  energyCost: 2
+- input:
+    - item: ic2:te#hv_transformer
+    - item: ic2:upgrade#transformer
+  output:
+    item: gregtechmod:hv_transformer
+  duration: 3200
+  energyCost: 4
+- input:
+    - item: railcraft:tie
+      count: 4
+  output:
+    item: railcraft:railbed
+  duration: 800
+- input:
+    - item: railcraft:tie
+      meta: 1
+      count: 4
+  output:
+    item: railcraft:railbed
+    meta: 1
+  duration: 800
+# TODO: Add when MJ support is implemented
+#- input:
+#    - item: thermalexpansion_cell
+#    - item: ic2:upgrade#energy_storage
+#  output:
+#    - item: gregtechmod:energy_cell
+#      count: 4
+#  duration: 6400
+#  energyCost: 8
+- input:
+    - items:
+        - railcraft:railbed
+        - railcraft:tie
+    - item: railcraft:rail
+      count: 6
+  output:
+    item: minecraft:rail
+    count: 32
+  duration: 1600
+- input:
+    - item: railcraft:railbed
+      meta: 1
+    - item: railcraft:rail
+      meta: 2
+      count: 6
+  output:
+    item: railcraft:track_flex_strap_iron
+    count: 32
+  duration: 1600
+- input:
+    - item: railcraft:railbed
+      meta: 1
+    - item: railcraft:rail
+      meta: 3
+      count: 6
+  output:
+    item: railcraft:track_flex_high_speed
+    count: 32
+  duration: 1600
+- input:
+    - item: railcraft:railbed
+      meta: 1
+    - item: railcraft:rail
+      meta: 4
+      count: 6
+  output:
+    item: railcraft:track_flex_reinforced
+    count: 32
+  duration: 1600
+- input:
+    - item: gregtechmod:conveyor
+    - item: gregtechmod:pump_module
+  output:
+    item: gregtechmod:item_valve
+  duration: 3200
+  energyCost: 4
+- input:
+    - item: ic2:crafting#carbon_fibre
+      count: 2
+  output:
+    item: ic2:crafting#carbon_mesh
+  duration: 800
+  energyCost: 2
+- input:
+    - item: ic2:crafting#carbon_mesh
+      count: 16
+  output:
+    item: gregtechmod:lava_filter
+  duration: 1600
+  energyCost: 8
+- input:
+    - item: energycontrol:item_card
+      meta: 800
+  output:
+    item: ic2:crafting#circuit
+    count: 2
+  duration: 1600
+  energyCost: 2

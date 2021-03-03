@@ -1,12 +1,12 @@
 package mods.gregtechmod.recipe.manager;
 
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class RecipeManager<RI, I, R extends IGtMachineRecipe<RI, ?>> implements IGtRecipeManager<RI, I, R> {
+public abstract class RecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> implements IGtRecipeManager<RI, I, R> {
     protected final Set<R> recipes;
 
     public RecipeManager() {

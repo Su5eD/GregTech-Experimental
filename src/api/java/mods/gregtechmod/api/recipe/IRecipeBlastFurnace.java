@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public interface IRecipeBlastFurnace extends IGtMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> {
+public interface IRecipeBlastFurnace extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> {
     int getHeat();
 
     boolean isUniversal();

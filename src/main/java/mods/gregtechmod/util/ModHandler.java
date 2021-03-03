@@ -12,9 +12,11 @@ import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
+import ic2.core.block.BlockTileEntity;
+import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechTEBlock;
 import mods.railcraft.api.crafting.Crafters;
 import mods.railcraft.api.crafting.IRockCrusherCrafter;
 import net.minecraft.inventory.InventoryCrafting;
@@ -219,6 +221,15 @@ public class ModHandler {
         TransposerManager.addFillRecipe(energy, emptyContainer, fullContainer, fluid, false);
     }
 
+    public static void addLiquidTransposerEmptyRecipe(ItemStack fullContainer, FluidStack fluid, ItemStack emptyContainer, int energy) {
+        if (thermalExpansion) registerLiquidTransposerEmptyRecipe(emptyContainer, fluid, fullContainer, energy);
+    }
+
+    @Optional.Method(modid = "thermalexpansion")
+    private static void registerLiquidTransposerEmptyRecipe(ItemStack fullContainer, FluidStack fluid, ItemStack emptyContainer, int energy) {
+        TransposerManager.addExtractRecipe(energy, fullContainer, emptyContainer, fluid, 100, false);
+    }
+
     public static void addFactorizerRecipe(ItemStack input, ItemStack output, boolean reverse) {
         if (thermalExpansion) registerFactorizerRecipe(input, output, reverse);
     }
@@ -357,5 +368,15 @@ public class ModHandler {
         } catch (Throwable ignored) {}
 
         return stack;
+    }
+
+    public static ItemStack getTEBlockSafely(String variant) {
+        try {
+            BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
+            ItemStack stack = blockTE.getItemStack(variant);
+            if (stack != null) return stack;
+        } catch (Throwable ignored) {}
+
+        return ItemStack.EMPTY;
     }
 }

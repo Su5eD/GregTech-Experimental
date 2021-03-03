@@ -2,9 +2,9 @@ package mods.gregtechmod.objects.items.base;
 
 import ic2.core.item.IPseudoDamageItem;
 import ic2.core.item.tool.ToolClass;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.Block;

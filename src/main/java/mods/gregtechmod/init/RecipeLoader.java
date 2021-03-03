@@ -10,11 +10,12 @@ import ic2.api.recipe.IBasicMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.api.recipe.Recipes;
+import ic2.core.IC2;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.fuel.IFuelManager;
@@ -41,6 +42,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 
@@ -119,7 +121,7 @@ public class RecipeLoader {
                 .ifPresent(recipes -> registerRecipes("pulverizer", recipes, GtRecipes.pulverizer));
 
         GtRecipes.grinder = new RecipeManagerGrinder();
-        RecipeLoader.parseConfig("grinder", RecipeGrinder.class, RecipeFilter.Energy.class)
+        RecipeLoader.parseConfig("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("grinder", recipes, GtRecipes.grinder));
 
         GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
@@ -173,6 +175,10 @@ public class RecipeLoader {
         GtRecipes.sawmill = new RecipeManagerSawmill();
         parseConfig("sawmill", RecipeSawmill.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("sawmill", recipes, GtRecipes.sawmill));
+
+        GtRecipes.distillation = new RecipeManagerBasic<>();
+        parseConfig("distillation", RecipeDistillation.class, RecipeFilter.Energy.class)
+                .ifPresent(recipes -> registerRecipes("distillation", recipes, GtRecipes.distillation));
 
         // IC2 Recipes
         parseConfig("compressor", BasicMachineRecipe.class, null)
@@ -271,6 +277,24 @@ public class RecipeLoader {
         }
 
         DynamicRecipes.addPulverizerRecipe(IC2Items.getItem("fluid_cell"), StackUtil.setSize(IC2Items.getItem("dust", "small_tin"), 9), true);
+        ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
+        ItemStack cell;
+        if (IC2.version.isClassic()) {
+            cell = IC2Items.getItem("cell", "empty");
+            ModHandler.removeCraftingRecipeFromInputs(IC2Items.getItem("crafting", "compressed_plants"), cell);
+            ModHandler.removeCraftingRecipeFromInputs(IC2Items.getItem("crafting", "compressed_hydrated_coal"), cell);
+            DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));
+        } else {
+            cell = IC2Items.getItem("fluid_cell");
+            DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), new ItemStack(Items.IRON_INGOT, 8));
+        }
+        ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.WATER_BUCKET), cell);
+        ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.LAVA_BUCKET), cell);
+        if (!GregTechAPI.dynamicConfig.get("StorageBlockCrafting", "blockGlowstone", false).getBoolean()) {
+            ItemStack dustGlowstone = new ItemStack(Items.GLOWSTONE_DUST);
+            ModHandler.removeCraftingRecipeFromInputs(dustGlowstone, dustGlowstone, ItemStack.EMPTY, dustGlowstone, dustGlowstone);
+        }
+        DynamicRecipes.addSmeltingRecipe("resing", new ItemStack(Items.SLIME_BALL), IC2Items.getItem("misc_resource", "resin"));
     }
 
     public static void registerDynamicRecipes() {
@@ -301,7 +325,7 @@ public class RecipeLoader {
     public static <R> Optional<Collection<R>> parseConfig(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Path path) {
         try {
             ObjectMapper recipeMapper = mapper.copy();
-            if (filter != null) recipeMapper.addMixIn(IGtMachineRecipe.class, filter);
+            if (filter != null) recipeMapper.addMixIn(IMachineRecipe.class, filter);
 
             return Optional.ofNullable(recipeMapper.readValue(Files.newBufferedReader(path.resolve(name + ".yml")), mapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
         } catch (IOException e) {
@@ -310,7 +334,7 @@ public class RecipeLoader {
         }
     }
 
-    private static <T extends IGtMachineRecipe<?, ?>> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IGtRecipeManager<?, ?, T> manager) {
+    private static <T extends IMachineRecipe<?, ?>> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IGtRecipeManager<?, ?, T> manager) {
         if(!shouldAddNewDynamicRecipes(name)) {
             parseConfig(name, recipeClass, filter, dynamicRecipesDir)
                     .ifPresent(recipes -> registerRecipes("dynamic "+name.replace('_', ' '), recipes, manager));
@@ -328,7 +352,7 @@ public class RecipeLoader {
         return true;
     }
 
-    private static <T extends IGtMachineRecipe<?, ?>> void registerRecipes(String name, Collection<? extends T> recipes, IGtRecipeManager<?, ?, T> manager) {
+    private static <T extends IMachineRecipe<?, ?>> void registerRecipes(String name, Collection<? extends T> recipes, IGtRecipeManager<?, ?, T> manager) {
         int total = recipes.size();
         long successful = recipes.stream()
                 .map(manager::addRecipe)
@@ -368,12 +392,12 @@ public class RecipeLoader {
         serializeRecipes(name, recipes);
     }
 
-    public static <R extends IGtMachineRecipe<?, ?>, M extends IGtRecipeManager<?, ?, R>> void serializeRecipes(String name, Collection<R> recipes, M recipeManager) {
+    public static <R extends IMachineRecipe<?, ?>, M extends IGtRecipeManager<?, ?, R>> void serializeRecipes(String name, Collection<R> recipes, M recipeManager) {
         recipes.forEach(recipeManager::addRecipe);
         serializeRecipes(name, recipes);
     }
 
-    public static <R extends IGtMachineRecipe<?, ?>> void serializeRecipes(String name, Collection<?> recipes) {
+    public static <R extends IMachineRecipe<?, ?>> void serializeRecipes(String name, Collection<?> recipes) {
         try {
             File file = dynamicRecipesDir.resolve(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name) +".yml").toFile();
             file.createNewFile();

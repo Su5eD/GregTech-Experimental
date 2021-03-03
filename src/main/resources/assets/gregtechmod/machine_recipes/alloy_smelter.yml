@@ -323,3 +323,10 @@
   duration: 130
   energyCost: 3
   universal: true
+- input:
+    - items:
+        - minecraft:milk_bucket
+        - minecraft:water_bucket
+  output:
+    item: minecraft:bucket
+  duration: 100

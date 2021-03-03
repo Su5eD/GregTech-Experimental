@@ -1,13 +1,11 @@
 package mods.gregtechmod.core;
 
 import ic2.api.event.TeBlockFinalCallEvent;
-import ic2.api.item.IC2Items;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechObjectAPI;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.*;
@@ -87,11 +85,11 @@ public final class GregTechMod {
     @EventHandler
     public static void init(FMLInitializationEvent event) {
         ModHandler.gatherModItems();
-        GtUtil.emptyCell = IC2Items.getItem("fluid_cell");
         GregTechTEBlock.buildDummies();
 
         BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
-        Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES).collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
+        Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
+                .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
         GregTechObjectAPI.setTileEntityMap(teblocks);
 
         OreDictRegistrar.registerItems();

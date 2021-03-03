@@ -1,10 +1,10 @@
 package mods.gregtechmod.recipe.manager;
 
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
-public abstract class RecipeManagerBase<R extends IGtMachineRecipe<IRecipeIngredient, ?>> extends RecipeManager<IRecipeIngredient, ItemStack, R> {
+public abstract class RecipeManagerBase<R extends IMachineRecipe<IRecipeIngredient, ?>> extends RecipeManager<IRecipeIngredient, ItemStack, R> {
     @Override
     public boolean hasRecipeFor(ItemStack input) {
         return this.recipes.stream()

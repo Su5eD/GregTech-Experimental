@@ -56,3 +56,9 @@
     count: 4
   duration: 100
   energyCost: 30
+- input:
+    item: ic2:ingot#alloy
+  output:
+    item: ic2:crafting#alloy
+  duration: 100
+  energyCost: 8

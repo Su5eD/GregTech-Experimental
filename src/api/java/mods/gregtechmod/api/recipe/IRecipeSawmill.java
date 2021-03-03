@@ -6,7 +6,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public interface IRecipeSawmill extends IGtMachineRecipe<IRecipeIngredient, List<ItemStack>> {
+public interface IRecipeSawmill extends IMachineRecipe<IRecipeIngredient, List<ItemStack>> {
     FluidStack getRequiredWater();
 
     boolean isUniversal();

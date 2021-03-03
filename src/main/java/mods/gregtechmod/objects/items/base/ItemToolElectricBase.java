@@ -5,7 +5,7 @@ import ic2.api.item.IElectricItem;
 import ic2.core.item.ElectricItemManager;
 import ic2.core.item.IPseudoDamageItem;
 import ic2.core.item.tool.ToolClass;
-import mods.gregtechmod.api.util.GtUtil;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;

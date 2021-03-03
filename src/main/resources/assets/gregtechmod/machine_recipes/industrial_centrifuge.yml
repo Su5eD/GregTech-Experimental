@@ -338,3 +338,206 @@
   output:
     - item: thaumcraft:quicksilver
   duration: 40
+- input:
+    item: gregtechmod:cell_ice
+  output:
+    - item: minecraft:ice
+    - item: ic2:fluid_cell
+  duration: 40
+- input:
+    item: minecraft:magma_cream
+  output:
+    - item: minecraft:blaze_powder
+    - item: minecraft:slime_ball
+  duration: 500
+# Classic recipes
+#- input:
+#    item: ic2:nuclear#near_depleted_uranium
+#  output:
+#    - item: gregtechmod:dust_thorium
+#    - item: ic2:cell#empty
+#  duration: 500
+#- input:
+#    item: ic2:nuclear#re_enriched_uranium
+#    count: 8
+#  output:
+#    - item: ic2:nuclear#near_depleted_uranium
+#      count: 3
+#    - item: gregtechmod:dust_plutonium
+#    - item: gregtechmod:dust_thorium
+#      count: 4
+#    - item: ic2:cell#empty
+#      count: 5
+#  duration: 20000
+#- input:
+#    item: minecraft:dirt
+#    count: 16
+#  output:
+#    - item: ic2:crafting#compressed_plants
+#    - item: ic2:crafting#plantball
+#    - item: minecraft:clay_ball
+#    - item: minecraft:sand
+#      count: 8
+#  duration: 2500
+#- input:
+#    item: minecraft:grass
+#    count: 16
+#  output:
+#    - item: ic2:crafting#compressed_plants
+#      count: 2
+#    - item: ic2:crafting#plantball
+#      count: 2
+#    - item: minecraft:clay_ball
+#    - item: minecraft:sand
+#      count: 8
+#  duration: 2500
+- input:
+    item: minecraft:mycelium
+    count: 8
+  output:
+    - item: minecraft:brown_mushroom
+      count: 2
+    - item: minecraft:red_mushroom
+      count: 2
+    - item: minecraft:clay_ball
+    - item: minecraft:sand
+      count: 4
+  duration: 1650
+- input:
+    item: minecraft:golden_apple
+    meta: 1
+  output:
+    - item: ic2:fluid_cell#methane
+      count: 2
+    - item: minecraft:gold_ingot
+      count: 64
+  cells: 2
+  duration: 10000
+- input:
+    items:
+      - minecraft:golden_apple
+      - minecraft:golden_carrot
+  output:
+    - item: ic2:fluid_cell#methane
+    - item: minecraft:gold_nugget
+      count: 6
+  cells: 1
+  duration: 10000
+- input:
+    item: minecraft:speckled_melon
+    count: 8
+  output:
+    - item: ic2:fluid_cell#methane
+    - item: minecraft:gold_nugget
+      count: 6
+  cells: 1
+  duration: 10000
+- input:
+    item: minecraft:apple
+    count: 32
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    ore: foodRaw
+    count: 12
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    ore: foodCooked
+    count: 16
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - minecraft:melon
+      - minecraft:cookie
+      - minecraft:bread
+    count: 64
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - minecraft:pumpkin
+      - minecraft:rotten_flesh
+      - minecraft:carrot
+      - minecraft:potato
+      - minecraft:mushroom_stew
+      - ic2:terra_wart
+    count: 16
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - minecraft:spider_eye
+      - minecraft:nether_wart
+    count: 32
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - minecraft:poisonous_potato
+      - minecraft:brown_mushroom_block
+      - minecraft:red_mushroom_block
+    count: 12
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    item: minecraft:baked_potato
+    count: 24
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+- input:
+    item: minecraft:cake
+    count: 8
+  output:
+    - item: ic2:fluid_cell#methane
+  cells: 1
+  duration: 5000
+# Classic recipe TODO: Add normal variant
+#- input:
+#    item: ic2:misc_resource#resin
+#    count: 4
+#  output:
+#    - item: ic2:crafting#rubber
+#      count: 14
+#    - item: ic2:crafting#compressed_plants
+#    - item: ic2:crafting#plantball
+#  duration: 1300
+- input:
+    item: minecraft:soul_sand
+    count: 16
+  output:
+    - item: ic2:fluid_cell#oil
+    - item: gregtechmod:dust_saltpeter
+      count: 4
+    - item: ic2:dust#coal
+    - item: minecraft:sand
+      count: 10
+  duration: 2500
+- input:
+    fluid: lava
+    count: 16
+  output:
+    - item: gregtechmod:ingot_electrum
+    - item: ic2:ingot#copper
+      count: 4
+    - item: gregtechmod:smalldust_tungsten
+    - item: ic2:ingot#tin
+      count: 2
+  duration: 10000

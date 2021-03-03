@@ -6,9 +6,9 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.GregTechObjectAPI;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -158,6 +158,21 @@ public class OreDictRegistrar {
         registerOre("flowerOrange", new ItemStack(Blocks.RED_FLOWER, 1, 5));
         registerOre("flowerPink", new ItemStack(Blocks.RED_FLOWER, 1, 7));
         registerOre("flowerDoublePink", new ItemStack(Blocks.DOUBLE_PLANT, 1, 5));
+        registerOre("foodRaw", Items.PORKCHOP);
+        registerOre("foodRaw", Items.BEEF);
+        registerOre("foodRaw", Items.CHICKEN);
+        registerOre("foodRaw", Items.MUTTON);
+        registerOre("foodRaw", Items.RABBIT);
+        registerOre("foodRaw", new ItemStack(Items.FISH));
+        registerOre("foodRaw", new ItemStack(Items.FISH, 1, 1));
+
+        registerOre("foodCooked", Items.COOKED_PORKCHOP);
+        registerOre("foodCooked", Items.COOKED_BEEF);
+        registerOre("foodCooked", Items.COOKED_CHICKEN);
+        registerOre("foodCooked", Items.COOKED_MUTTON);
+        registerOre("foodCooked", Items.COOKED_RABBIT);
+        registerOre("foodCooked", new ItemStack(Items.COOKED_FISH));
+        registerOre("foodCooked", new ItemStack(Items.COOKED_FISH, 1, 1));
 
         GregTechAPI.logger.debug("Registering unification entries");
 
@@ -409,7 +424,7 @@ public class OreDictRegistrar {
     }
 
     public static void registerOre(String name, net.minecraft.block.Block block) {
-        registerOre(name, new ItemStack(block, 1));
+        registerOre(name, new ItemStack(block));
     }
 
     public static void registerOreWildcard(String name, Item item) {
@@ -417,7 +432,7 @@ public class OreDictRegistrar {
     }
 
     public static void registerOre(String name, Item item) {
-        registerOre(name, new ItemStack(item, 1));
+        registerOre(name, new ItemStack(item));
     }
 
     public static void registerOre(String name, ItemStack stack) {

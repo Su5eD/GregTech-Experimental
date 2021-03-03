@@ -14,19 +14,18 @@ import java.util.List;
 public class RecipeGrinder extends Recipe<IRecipeIngredient, List<ItemStack>> implements IRecipeGrinder {
     private final IRecipeIngredientFluid fluid;
 
-    private RecipeGrinder(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output, int duration) {
-        super(input, output, duration < 1 ? 100 : duration, 128);
+    private RecipeGrinder(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output) {
+        super(input, output, input.getCount() * 100, 128);
         this.fluid = fluid;
     }
 
     @JsonCreator
     public static RecipeGrinder create(@JsonProperty(value = "input", required = true) IRecipeIngredient input,
                                        @JsonProperty(value = "fluid", required = true) IRecipeIngredientFluid fluid,
-                                       @JsonProperty(value = "output", required = true) List<ItemStack> output,
-                                       @JsonProperty(value = "duration") int duration) {
+                                       @JsonProperty(value = "output", required = true) List<ItemStack> output) {
         output = RecipeUtil.adjustOutputCount("grinder", output, 3);
 
-        RecipeGrinder recipe = new RecipeGrinder(input, fluid, output, duration);
+        RecipeGrinder recipe = new RecipeGrinder(input, fluid, output);
 
         if (!RecipeUtil.validateRecipeIO("grinder", input, output)) recipe.invalid = true;
         if (fluid == null) {

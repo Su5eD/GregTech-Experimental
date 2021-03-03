@@ -1,15 +1,15 @@
-package mods.gregtechmod.api.util;
+package mods.gregtechmod.util;
 
 import ic2.api.item.ElectricItem;
-import ic2.api.item.IC2Items;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.item.IElectricArmor;
+import mods.gregtechmod.api.util.ArmorPerk;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 
 public class GtUtil {
     public static final Random RANDOM = new Random();
-    public static ItemStack emptyCell = null;
 
     public static <T, U> BiPredicate<T, U> alwaysTrue() {
         return (a, b) -> true;
@@ -113,39 +112,9 @@ public class GtUtil {
         return false;
     }
 
-    public static String getStackConfigName(ItemStack stack) {
-        if (stack.isEmpty()) return null;
-
-        String name = OreDictUnificator.getAssociation(stack);
-        if (!name.isEmpty()) return name;
-        else if (!(name = stack.getDisplayName()).isEmpty()) return name;
-
-        return stack.getItem().getRegistryName().toString() + ":" + stack.getItemDamage();
-    }
-
     @SuppressWarnings("deprecation")
     public static String translate(String key) {
         return I18n.translateToLocal(key);
-    }
-
-    public static int getCapsuleCellContainerCount(ItemStack stack) {
-        if (stack.isEmpty()) return 0;
-        else if (stack.isItemEqual(emptyCell)) return 1;
-        Item item = stack.getItem();
-        ItemStack containerItem = item.getContainerItem(stack);
-        if (!containerItem.isEmpty() && containerItem.isItemEqual(emptyCell)) return containerItem.getCount();
-        String regName = item.getRegistryName().toString();
-        if (regName.startsWith(Reference.MODID+":cell_") || regName.equals("ic2:fluid_cell") || regName.equals("forestry:can") ||
-                regName.equals("forestry:capsule") || regName.equals("forestry:refractory")) return 1;
-
-        if (stack.isItemEqual(IC2Items.getItem("heat_storage"))) return 1;
-        else if (stack.isItemEqual(IC2Items.getItem("tri_heat_storage"))) return 3;
-        else if (stack.isItemEqual(IC2Items.getItem("hex_heat_storage"))) return 6;
-        else if (stack.isItemEqual(IC2Items.getItem("uranium_fuel_rod"))) return 1;
-        else if (stack.isItemEqual(IC2Items.getItem("dual_uranium_fuel_rod"))) return 2;
-        else if (stack.isItemEqual(IC2Items.getItem("quad_uranium_fuel_rod"))) return 4;
-
-        return 0;
     }
 
     public static double getTransferLimit(int tier) {

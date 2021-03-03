@@ -2,8 +2,8 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.IC2;
 import mods.gregtechmod.api.machine.IGregtechMachine;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.objects.items.base.ItemHammer;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

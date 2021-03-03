@@ -2,7 +2,6 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
@@ -10,12 +9,10 @@ import net.minecraft.item.ItemStack;
 import java.util.Collection;
 import java.util.List;
 
-public class RecipeElectrolyzer extends Recipe<IRecipeIngredient, Collection<ItemStack>> implements IRecipeCellular {
-    private final int cells;
+public class RecipeElectrolyzer extends RecipeCellular {
 
-    private RecipeElectrolyzer(IRecipeIngredient input, List<ItemStack> output, int cells, int duration, double energyCost) {
-        super(input, output, duration, energyCost);
-        this.cells = cells;
+    private RecipeElectrolyzer(IRecipeIngredient input, Collection<ItemStack> output, int cells, int duration, double energyCost) {
+        super(input, output, cells, duration, energyCost);
     }
 
     @JsonCreator
@@ -26,20 +23,10 @@ public class RecipeElectrolyzer extends Recipe<IRecipeIngredient, Collection<Ite
                                             @JsonProperty(value = "energyCost") double energyCost) {
         output = RecipeUtil.adjustOutputCount("electrolyzer", output, 4);
 
-        RecipeElectrolyzer recipe = new RecipeElectrolyzer(input, output, cells, duration, energyCost);
+        RecipeElectrolyzer recipe = new RecipeElectrolyzer(input, output, cells, duration, Math.max(energyCost, 1));
 
         if (!RecipeUtil.validateRecipeIO("electrolyzer", input, output)) recipe.invalid = true;
 
         return recipe;
-    }
-
-    @Override
-    public int getCells() {
-        return this.cells;
-    }
-
-    @Override
-    public String toString() {
-        return "RecipeElectrolyzer{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+",cells="+this.cells+"}";
     }
 }

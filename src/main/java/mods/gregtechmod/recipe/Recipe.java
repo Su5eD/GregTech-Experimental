@@ -1,9 +1,9 @@
 package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 
-public class Recipe<I, O> implements IGtMachineRecipe<I, O> {
+public class Recipe<I, O> implements IMachineRecipe<I, O> {
     protected final I input;
     protected final O output;
     protected final double energyCost;

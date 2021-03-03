@@ -3,11 +3,11 @@ package mods.gregtechmod.recipe.util.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 
 import java.io.IOException;
 
-public abstract class RecipeSerializer<R extends IGtMachineRecipe<I, O>, I, O> extends JsonSerializer<R> {
+public abstract class RecipeSerializer<R extends IMachineRecipe<I, O>, I, O> extends JsonSerializer<R> {
     protected boolean writeDuration = true;
     protected boolean writeEnergyCost = true;
 
