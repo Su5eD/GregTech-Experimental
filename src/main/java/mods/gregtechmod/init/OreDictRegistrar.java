@@ -7,9 +7,9 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -33,6 +33,7 @@ public class OreDictRegistrar {
         for (BlockItems.Ore ore : BlockItems.Ore.values()) registerOre("ore", ore.name().toLowerCase(Locale.ROOT), ore.getInstance());
 
         for (BlockItems.Ingot ingot : BlockItems.Ingot.values()) registerOre("ingot", ingot.name().toLowerCase(Locale.ROOT), ingot.getInstance());
+        registerOre("ingotAlloyIridium", BlockItems.Ingot.IRIDIUM_ALLOY.getInstance());
 
         for (BlockItems.Nugget nugget : BlockItems.Nugget.values()) registerOre("nugget", nugget.name().toLowerCase(Locale.ROOT), nugget.getInstance());
 
@@ -86,6 +87,9 @@ public class OreDictRegistrar {
         for (BlockItems.ColorSpray spray : BlockItems.ColorSpray.values()) registerOreWildcard("dye", spray.name().toLowerCase(Locale.ROOT), spray.getInstance());
 
         for (BlockItems.Wrench wrench : BlockItems.Wrench.values()) registerOreWildcard("craftingToolWrench", wrench.getInstance());
+        registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("wrench")));
+        registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("wrench_new")));
+        registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("electric_wrench")));
 
         for (BlockItems.Cell cell : BlockItems.Cell.values()) registerOreWildcard("cell", cell.name().toLowerCase(Locale.ROOT), cell.getInstance());
 
@@ -165,7 +169,6 @@ public class OreDictRegistrar {
         registerOre("foodRaw", Items.RABBIT);
         registerOre("foodRaw", new ItemStack(Items.FISH));
         registerOre("foodRaw", new ItemStack(Items.FISH, 1, 1));
-
         registerOre("foodCooked", Items.COOKED_PORKCHOP);
         registerOre("foodCooked", Items.COOKED_BEEF);
         registerOre("foodCooked", Items.COOKED_CHICKEN);
@@ -173,6 +176,9 @@ public class OreDictRegistrar {
         registerOre("foodCooked", Items.COOKED_RABBIT);
         registerOre("foodCooked", new ItemStack(Items.COOKED_FISH));
         registerOre("foodCooked", new ItemStack(Items.COOKED_FISH, 1, 1));
+        for (int i = 1; i < 16; i++) {
+            registerOre("woolColored", new ItemStack(Blocks.WOOL, 1, i));
+        }
 
         GregTechAPI.logger.debug("Registering unification entries");
 
@@ -320,18 +326,17 @@ public class OreDictRegistrar {
         registerOre("itemIridium", IC2Items.getItem("misc_resource", "iridium_ore"));
         registerOre("glassReinforced", IC2Items.getItem("glass", "reinforced"));
         registerOre("gemDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
-        registerOre("craftingIndustrialDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
         registerOre("itemDiamond", IC2Items.getItem("crafting", "industrial_diamond"));
         registerOre("craftingUUMatter", IC2Items.getItem("misc_resource", "matter"));
-        registerOre("crafting10kEUStore", GtUtil.setWildcard(IC2Items.getItem("re_battery")));
-        registerOre("crafting60kEUPack", IC2Items.getItem("te", "batbox"));
-        registerOre("crafting300kEUPack", GtUtil.setWildcard(IC2Items.getItem("lappack")));
-        registerOre("crafting100kEUStore", GtUtil.setWildcard(IC2Items.getItem("energy_crystal")));
-        registerOre("crafting100kEUStore", GtUtil.setWildcard(IC2Items.getItem("advanced_re_battery")));
-        registerOre("crafting10kkEUStore", GtUtil.setWildcard(IC2Items.getItem("lapotron_crystal")));
-        registerOre("crafting10kCoolantStore", GtUtil.setWildcard(IC2Items.getItem("heat_storage")));
-        registerOre("crafting30kCoolantStore", GtUtil.setWildcard(IC2Items.getItem("tri_heat_storage")));
-        registerOre("crafting60kCoolantStore", GtUtil.setWildcard(IC2Items.getItem("hex_heat_storage")));
+        registerOre("crafting10kEUStore", StackUtil.copyWithWildCard(IC2Items.getItem("re_battery")));
+        registerOre("crafting60kEUPack", IC2Items.getItem("batpack"));
+        registerOre("craftingLappack", StackUtil.copyWithWildCard(IC2Items.getItem("lappack")));
+        registerOre("craftingEnergyPack", StackUtil.copyWithWildCard(IC2Items.getItem("energy_pack")));
+        registerOre(GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", StackUtil.copyWithWildCard(IC2Items.getItem("energy_crystal")));
+        registerOre(GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", StackUtil.copyWithWildCard(IC2Items.getItem("lapotron_crystal")));
+        registerOre("crafting10kCoolantStore", StackUtil.copyWithWildCard(IC2Items.getItem("heat_storage")));
+        registerOre("crafting30kCoolantStore", StackUtil.copyWithWildCard(IC2Items.getItem("tri_heat_storage")));
+        registerOre("crafting60kCoolantStore", StackUtil.copyWithWildCard(IC2Items.getItem("hex_heat_storage")));
         registerOre("craftingWireCopper", IC2Items.getItem("cable", "type:copper,insulation:1"));
         registerOre("craftingWireGold", IC2Items.getItem("cable", "type:gold,insulation:2"));
         registerOre("craftingWireIron", IC2Items.getItem("cable", "type:iron,insulation:3"));

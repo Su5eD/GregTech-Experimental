@@ -46,11 +46,6 @@ public class GtUtil {
         return false;
     }
 
-    public static ItemStack setWildcard(ItemStack stack) {
-        stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
-        return stack;
-    }
-
     public static <T> List<T> nonNullList(T... elements) {
         return Stream.of(elements)
                 .filter(Objects::nonNull)
@@ -144,8 +139,16 @@ public class GtUtil {
     }
 
     public static boolean stackEquals(ItemStack first, ItemStack second) {
+        if (first.isEmpty() || second.isEmpty()) return false;
+
         return first.getItem() == second.getItem()
                 && (first.getMetadata() == OreDictionary.WILDCARD_VALUE || first.getMetadata() == second.getMetadata())
                 && StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound());
+    }
+
+    public static ItemStack copyWithMeta(ItemStack stack, int meta) {
+        ItemStack ret = stack.copy();
+        ret.setItemDamage(meta);
+        return stack;
     }
 }

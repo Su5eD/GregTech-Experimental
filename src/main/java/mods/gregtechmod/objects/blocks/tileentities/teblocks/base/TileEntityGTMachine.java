@@ -93,12 +93,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
     }
 
     @Override
-    protected void onLoaded() {
-        super.onLoaded();
-        updateUpgrades(null);
-    }
-
-    @Override
     protected boolean wrenchCanRemove(EntityPlayer player) {
         if (isPrivate && !checkAccess(owner, player.getGameProfile())) {
             IC2.platform.messagePlayer(player, "This block is owned by "+player.getGameProfile().getName()+", only they can remove it.");

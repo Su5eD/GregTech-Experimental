@@ -7,7 +7,7 @@ gregtechmod.config.balance=Balance
 gregtechmod.config.machines=Machines
 gregtechmod.config.unification=Unification Targets
 gregtechmod.config.worldgen=World Generation
-gregtechmod.config.blastfurnacerequirements=Blast Furnace Requirements
+gregtechmod.config.disabled_recipes=Disabled Recipes
 
 gregtechmod.item.armor.perk.rebreather.name=Rebreather
 gregtechmod.item.armor.perk.inertia_damper.name=Inertia Damper
@@ -141,7 +141,7 @@ gregtechmod.item.green_sapphire.name=Green Sapphire
 gregtechmod.item.lazurite_chunk.name=Chunk of Lazurite
 gregtechmod.item.olivine.name=Olivine
 gregtechmod.item.red_garnet.name=Red Garnet
-gregtechmod.item.yellow_garnet=Yellow Garnet
+gregtechmod.item.yellow_garnet.name=Yellow Garnet
 gregtechmod.item.indigo_blossom.name=Indigo Blossom
 gregtechmod.item.indigo_dye.name=Indigo Dye
 gregtechmod.item.flour.name=Flour

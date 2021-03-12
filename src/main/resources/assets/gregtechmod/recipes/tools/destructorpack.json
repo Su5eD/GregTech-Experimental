@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "ARA",
+    "RLR",
+    "ARA"
+  ],
+  "key":
+  {
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    },
+    "L":
+    {
+      "item": "minecraft:lava_bucket"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:destructorpack"
+  }
+}

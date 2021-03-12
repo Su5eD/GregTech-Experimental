@@ -1,0 +1,36 @@
+{
+  "type": "gregtechmod:replace",
+  "pattern":
+  [
+    " C ",
+    "TST",
+    "TLT"
+  ],
+  "key":
+  {
+    "S":
+    {
+      "item": "gregtechmod:cell_sulfuric_acid"
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustLead"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingWireCopper"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateBatteryAlloy"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:re_battery",
+    "count": 3
+  }
+}

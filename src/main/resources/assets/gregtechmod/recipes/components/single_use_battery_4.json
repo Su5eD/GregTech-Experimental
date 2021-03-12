@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "C",
+    "R",
+    "S"
+  ],
+  "key":
+  {
+    "S":
+    {
+      "item": "gregtechmod:cell_sulfuric_acid"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustLead"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingWireCopper"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:single_use_battery",
+    "count": 32
+  }
+}

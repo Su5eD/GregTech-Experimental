@@ -2,7 +2,7 @@ package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.util.ModHandler;
+import mods.gregtechmod.compat.ModHandler;
 import mods.railcraft.api.crafting.Crafters;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;

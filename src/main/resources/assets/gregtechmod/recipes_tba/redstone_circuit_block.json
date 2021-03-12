@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "PRP",
+    "CAC",
+    "PRP"
+  ],
+  "key":
+  {
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "C":
+    {
+      "item": "minecraft:comparator"
+    },
+    "R":
+    {
+      "item": "minecraft:repeater"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

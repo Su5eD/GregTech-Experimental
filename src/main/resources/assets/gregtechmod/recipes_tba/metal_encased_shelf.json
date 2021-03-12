@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "III",
+    "A A",
+    "III"
+  ],
+  "key":
+  {
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateIron"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???",
+    "count": 4
+  }
+}

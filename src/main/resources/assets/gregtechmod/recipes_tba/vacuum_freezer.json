@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "RPR",
+    "CGC",
+    "RPR"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingPump"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "glassReinforced"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

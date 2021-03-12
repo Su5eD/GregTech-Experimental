@@ -92,9 +92,9 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
                 return true;
             }
             else if (!world.isRemote && ((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) { //has to be executed server-side only
-                if (((IGtUpgradeItem)currentItem).onInsert(upgradeStack, this, player)) return true;
+                if (((IGtUpgradeItem)currentItem).beforeInsert(upgradeStack, this, player)) return true;
                 this.upgradeSlot.put(!player.capabilities.isCreativeMode ? stack.splitStack(1) : stack.copy().splitStack(1));
-                ((IGtUpgradeItem) currentItem).onUpdate(stack, this, player);
+                ((IGtUpgradeItem) currentItem).afterInsert(stack, this, player);
                 return true;
             }
         }

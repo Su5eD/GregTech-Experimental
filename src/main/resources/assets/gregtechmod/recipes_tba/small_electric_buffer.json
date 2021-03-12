@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:teblock",
+      "data": "???",
+      "_comment": "large electric buffer"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???",
+    "count": 8
+  }
+}

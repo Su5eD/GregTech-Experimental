@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "WWW",
+    "CBC",
+    "CRC"
+  ],
+  "key":
+  {
+    "W":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stoneCobble"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    },
+    "B":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "ingotBronze", "ingotAluminium", "ingotSteel", "ingotTitanium" ]
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:piston"
+  }
+}

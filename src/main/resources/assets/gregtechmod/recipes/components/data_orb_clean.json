@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:data_orb",
+      "data": 32767
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:data_orb"
+  }
+}

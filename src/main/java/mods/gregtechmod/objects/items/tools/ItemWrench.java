@@ -8,10 +8,10 @@ import ic2.core.audio.PositionSpec;
 import ic2.core.item.tool.ItemToolWrench;
 import ic2.core.util.RotationUtil;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModHandler;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
@@ -126,5 +126,17 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     public void wrenchUsed(EntityPlayer player, EnumHand hand, ItemStack wrench, RayTraceResult rayTrace) {
         wrench.damageItem(1, player);
         IC2.audioManager.playOnce(player, "Tools/wrench.ogg");
+    }
+
+    @Override
+    public boolean hasContainerItem(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack stack) {
+        stack = stack.copy();
+        if (stack.attemptDamageItem(8, GtUtil.RANDOM, null)) return ItemStack.EMPTY;
+        return stack;
     }
 }

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "SBS",
+    " C ",
+    " I "
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kEUStore"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stickSteel"
+    },
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "ingotSteel"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:jack_hammer_steel"
+  }
+}

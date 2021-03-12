@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "SSS",
+    "STS",
+    "SSS"
+  ],
+  "key":
+  {
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingSolarPanelLV"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingMVTUpgrade"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:solar_panel_mv"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "gregtech_recipes",
+        "name": "SolarPanelMV",
+        "value": false
+      }
+    }
+  ]
+}

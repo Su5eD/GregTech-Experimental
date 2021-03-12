@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CCC",
+    "RRR",
+    "SSS"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "item": "ic2:crafting",
+      "data": 14
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "itemRubber"
+    },
+    "S":
+    {
+      "item": "ic2:misc_resource",
+      "data": 4
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:duct_tape",
+    "count": 4
+  }
+}

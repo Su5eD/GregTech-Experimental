@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallSilver"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallSilver"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallGold"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallGold"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:dust_electrum"
+  }
+}

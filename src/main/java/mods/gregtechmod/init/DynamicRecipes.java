@@ -13,13 +13,14 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSawmill;
 import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.compat.ModCompat;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.RecipeAlloySmelter;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;
-import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -115,7 +116,7 @@ class DynamicRecipes {
     }
 
     static void addInductionSmelterRecipe(String name, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
-        if (GregTechAPI.dynamicConfig.get("inductionSmelter", name, true).getBoolean()) ModHandler.addInductionSmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
+        if (GregTechAPI.getDynamicConfig("induction_smelter", name, true)) ModHandler.addInductionSmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
     }
 
     static void addSmeltingAndAlloySmeltingRecipe(ItemStack input, ItemStack output) {
@@ -145,12 +146,12 @@ class DynamicRecipes {
     static void addDustToIngotSmeltingRecipe(String name, ItemStack input, ItemStack output) {
         ItemStack dust = StackUtil.copyWithSize(input, 2);
         ItemStack ingots = StackUtil.copyWithSize(output, 2);
-        ModHandler.addInductionSmelterRecipe(dust, new ItemStack(Blocks.SAND), ingots, ModHandler.SLAG, 800, 25);
+        ModHandler.addInductionSmelterRecipe(dust, new ItemStack(Blocks.SAND), ingots, ModHandler.slag, 800, 25);
         addSmeltingRecipe(name, input, output);
     }
 
     static boolean addSmeltingRecipe(String name, ItemStack input, ItemStack output) {
-        if (!GregTechAPI.dynamicConfig.get("smelting", name, true).getBoolean()) return false;
+        if (!GregTechAPI.getDynamicConfig("smelting", name, true)) return false;
 
         FurnaceRecipes recipes = FurnaceRecipes.instance();
         Map<ItemStack, ItemStack> smeltingList = recipes.getSmeltingList();
@@ -172,8 +173,8 @@ class DynamicRecipes {
         ItemStack ingots2 = StackUtil.copyWithSize(output, 2);
         ItemStack ingots3 = StackUtil.copyWithSize(output, 3);
 
-        ModHandler.addInductionSmelterRecipe(ore, new ItemStack(Blocks.SAND), ingots2, ModHandler.SLAG_RICH, 3200, 5);
-        ModHandler.addInductionSmelterRecipe(ore, ModHandler.SLAG_RICH, ingots3, ModHandler.SLAG, 4000, 75);
+        ModHandler.addInductionSmelterRecipe(ore, new ItemStack(Blocks.SAND), ingots2, ModHandler.slagRich, 3200, 5);
+        ModHandler.addInductionSmelterRecipe(ore, ModHandler.slagRich, ingots3, ModHandler.slag, 4000, 75);
         GameRegistry.addSmelting(input, output, 0);
     }
 
@@ -200,17 +201,6 @@ class DynamicRecipes {
             addSmeltingRecipe(stack.getTranslationKey(), stack, StackUtil.setSize(IC2Items.getItem("ingot", "bronze"), 8));
         }
 
-        if (IC2.version.isClassic()) {
-            ItemStack ingotRefinedIron = OreDictUnificator.get("ingotRefinedIron");
-            ItemStack plateRefinedIron = OreDictUnificator.get("plateRefinedIron");
-            if (!(stack = ModHandler.getCraftingResult(ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ItemStack.EMPTY, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron)).isEmpty() ||
-                    !(stack = ModHandler.getCraftingResult(plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron, ItemStack.EMPTY, plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron)).isEmpty()) {
-                OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
-                addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), OreDictUnificator.get("dustRefinedIron", StackUtil.setSize(IC2Items.getItem("dust", "iron"), 8), 8)));
-                addSmeltingRecipe(stack.getTranslationKey(), stack, StackUtil.copyWithSize(ingotRefinedIron, 8));
-            }
-        }
-
         ItemStack glass = new ItemStack(Blocks.GLASS);
         ItemStack gearTin = OreDictUnificator.get("gearTin");
         ItemStack dustTin = StackUtil.setSize(IC2Items.getItem("dust", "tin"), 4);
@@ -226,17 +216,25 @@ class DynamicRecipes {
             addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "steel"), 4), dustTin));
         }
 
-        GregTechAPI.logger.info("Registering various tools to be usable on GregTech machines");
-        if (ModHandler.projectredCore) {
-            ItemStack screwdriver = ModHandler.getPRItem("screwdriver", OreDictionary.WILDCARD_VALUE);
-            GregTechAPI.registerScrewdriver(screwdriver);
+        if (IC2.version.isClassic()) {
+            ItemStack ingotRefinedIron = OreDictUnificator.get("ingotRefinedIron");
+            ItemStack plateRefinedIron = OreDictUnificator.get("plateRefinedIron");
+            if (!(stack = ModHandler.getCraftingResult(ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ItemStack.EMPTY, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron)).isEmpty() ||
+                    !(stack = ModHandler.getCraftingResult(plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron, ItemStack.EMPTY, plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron)).isEmpty()) {
+                OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
+                addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), OreDictUnificator.get("dustRefinedIron", StackUtil.setSize(IC2Items.getItem("dust", "iron"), 8), 8)));
+                addSmeltingRecipe(stack.getTranslationKey(), stack, StackUtil.copyWithSize(ingotRefinedIron, 8));
+            }
         }
-        if (ModHandler.railcraft) {
-            ItemStack ironCrowbar = ModHandler.getRCItem("tool_crowbar_iron", OreDictionary.WILDCARD_VALUE);
-            ItemStack steelCrowbar = ModHandler.getRCItem("tool_crowbar_steel", OreDictionary.WILDCARD_VALUE);
-            GregTechAPI.registerCrowbar(ironCrowbar);
-            GregTechAPI.registerCrowbar(steelCrowbar);
-        }
+
+        ItemStack iridiumAlloy = IC2Items.getItem("crafting", "iridium");
+        ModHandler.removeCraftingRecipe(iridiumAlloy);
+        boolean harder = GregTechAPI.getDynamicConfig("harder_recipes", "iridium_plate", true);
+        ModCompat.addRollingMachineRecipe(
+                "plateAlloyIridium",
+                harder ? new ItemStack(BlockItems.Ingot.IRIDIUM_ALLOY.getInstance()) : iridiumAlloy,
+                "IAI", "ADA", "IAI", 'D', "dustDiamond", 'A', "plateAlloyAdvanced", 'I', "plateIridium"
+        );
     }
 
     public static void applyMaterialUsages() {

@@ -1,0 +1,35 @@
+{
+  "type": "gregtechmod:replace",
+  "pattern":
+  [
+    " D ",
+    "DMD",
+    "TAT"
+  ],
+  "key":
+  {
+    "M":
+    {
+      "item": "ic2:drill"
+    },
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "gemDiamond"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTitanium"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:diamond_drill"
+  }
+}

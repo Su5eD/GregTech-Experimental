@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "C",
+    "Q",
+    "R"
+  ],
+  "key":
+  {
+    "Q":
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "mercury"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingWireCopper"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:single_use_battery",
+    "count": 32
+  }
+}

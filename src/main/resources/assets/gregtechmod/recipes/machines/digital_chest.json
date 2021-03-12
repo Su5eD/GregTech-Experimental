@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "AAA",
+    "ADA",
+    "ASA"
+  ],
+  "key":
+  {
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier08"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingMonitorTier02"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 2
+  }
+}

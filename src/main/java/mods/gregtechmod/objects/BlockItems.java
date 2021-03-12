@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
-import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
@@ -517,11 +516,11 @@ public class BlockItems {
     }
 
     public enum Upgrade {
-        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "Higher tier of the transformer upgrade", "craftingHVTUpgrade", (stack, machine) -> machine.getTier() < 5, (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getUpgradecount(IC2UpgradeType.TRANSFORMER) + stack.getCount(), 5))),
-        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "Adds 100000 EU to the energy capacity", "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(100000*stack.getCount()))),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, 2, "Adds 100000 EU to the energy capacity", "crafting100kEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(100000*stack.getCount()))),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, 3, "Adds 1 Million EU to the energy capacity", "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(1000000*stack.getCount()))),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 4, 4, "Adds 10 Million EU to the energy capacity", "crafting10kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getDefaultEUCapacity()+(1000000*stack.getCount()))),
+        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "Higher tier of the transformer upgrade", "craftingHVTUpgrade", (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier() + stack.getCount(), 5))),
+        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "Adds 100000 EU to the energy capacity", "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000 * stack.getCount()))),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 2 : 3, String.format("Adds %s EU to the energy capacity", GregTechMod.classic ? "100000" : "1 Million"), GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 100000 : 1000000) * stack.getCount()))),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 3 : 4, String.format("Adds %s Million EU to the energy capacity", GregTechMod.classic ? 1 : 2), GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 1000000 : 10000000) * stack.getCount()))),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 4 : 5, String.format("Adds %s Million EU to the energy capacity", GregTechMod.classic ? 10 : 100), GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 10000000 : 100000000) * stack.getCount()))),
         QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "Upgrades a Digital Chest to a Quantum chest", "craftingQuantumChestUpgrade"),
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "Makes a machine private for the one, who applies this upgrade", "craftingLock", (stack, machine, player) -> {
             GameProfile owner = machine.getOwner();
@@ -539,7 +538,7 @@ public class BlockItems {
 
         STEAM_TANK(GtUpgradeType.STEAM, 4, 1, "Increases Steam Capacity by 64 Buckets", "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
-            if (steamTank != null) steamTank.setCapacity(2000 + stack.getCount() * 64000);
+            if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + (64000 * stack.getCount()));
         });
 
         private Item instance;
@@ -549,39 +548,39 @@ public class BlockItems {
         public final String description;
         public final String oreDict;
         public BiPredicate<ItemStack, IUpgradableMachine> condition;
-        public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert;
-        public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate;
+        public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert;
+        public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict) {
             this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, (stack, machine, player) -> {});
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
-            this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, onUpdate);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
-            this(type, maxCount, requiredTier, description, oreDict, condition, (stack, machine, player) -> false, onUpdate);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, description, oreDict, condition, (stack, machine, player) -> false, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
-            this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), onInsert, onUpdate);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), beforeInsert, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
             this.type = type;
             this.maxCount = maxCount;
             this.requiredTier = requiredTier;
             this.description = description;
             this.oreDict = oreDict;
             this.condition = condition;
-            this.onInsert = onInsert;
-            this.onUpdate = onUpdate;
+            this.beforeInsert = beforeInsert;
+            this.afterInsert = afterInsert;
         }
 
         public Item getInstance() {
             if (this.instance == null) {
-                this.instance = new ItemUpgrade(this.name().toLowerCase(Locale.ROOT), this.description, this.type, this.maxCount, this.requiredTier, this.condition, this.onInsert, this.onUpdate)
+                this.instance = new ItemUpgrade(this.name().toLowerCase(Locale.ROOT), this.description, this.type, this.maxCount, this.requiredTier, this.condition, this.beforeInsert, this.afterInsert)
                         .setFolder("upgrade")
                         .setRegistryName(this.name().toLowerCase(Locale.ROOT))
                         .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
@@ -605,7 +604,7 @@ public class BlockItems {
         MACHINE_CONTROLLER("This can control machines with redstone", "craftingWorkController"),
         PUMP_MODULE("Moves liquids around", "craftingPump"),
         REDSTONE_CONDUCTOR("Throughputs redstone to the cover facing", "craftingRedstoneConductor"),
-        REDSTONE_ONLY("data_control_circuit", "Basic computer processor", "craftingCircuitTier03"),
+        REDSTONE_ONLY("data_control_circuit", "Basic computer processor", "craftingCircuitTier06"),
         REDSTONE_SIGNALIZER("Applies a constant redstone signal to a machine", "craftingRedstoneSignalizer"),
         SCREEN("Displays things", "craftingMonitorTier02"),
         SOLAR_PANEL("Makes energy from the Sun", "craftingSolarPanel"),
@@ -644,11 +643,11 @@ public class BlockItems {
     }
 
     public enum TurbineRotor {
-        TURBINE_ROTOR_BRONZE(60, 15000),
-        TURBINE_ROTOR_STEEL(80, 10000),
-        TURBINE_ROTOR_MAGNALIUM(100, 10000),
-        TURBINE_ROTOR_TUNGSTEN_STEEL(90, 30000),
-        TURBINE_ROTOR_CARBON(125, 2500);
+        BRONZE(60, 15000),
+        STEEL(80, 10000),
+        MAGNALIUM(100, 10000),
+        TUNGSTEN_STEEL(90, 30000),
+        CARBON(125, 2500);
 
         private Item instance;
         private final int efficiency;
@@ -661,11 +660,12 @@ public class BlockItems {
 
         public Item getInstance() {
             if (this.instance == null) {
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), "Turbine Efficiency:  "+this.efficiency+"%", this.durability)
+                String name = "turbine_rotor_"+this.name().toLowerCase(Locale.ROOT);
+                this.instance = new ItemBase(name, "Turbine Efficiency:  "+this.efficiency+"%", this.durability)
                         .setFolder("component")
                         .setEnchantable(false)
-                        .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                        .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
+                        .setRegistryName(name)
+                        .setTranslationKey(name)
                         .setCreativeTab(GregTechMod.GREGTECH_TAB)
                         .setMaxStackSize(1)
                         .setNoRepair();
@@ -751,11 +751,11 @@ public class BlockItems {
         TESLA_STAFF(ItemTeslaStaff::new),
         WRENCH_ADVANCED(ItemWrenchAdvanced::new),
         DESTRUCTORPACK(ItemDestructorPack::new),
-        LAPOTRONIC_ENERGY_ORB(() -> new ItemElectricBase("lapotronic_energy_orb", null, 10000000, 8192, 4)
+        LAPOTRONIC_ENERGY_ORB(() -> new ItemElectricBase("lapotronic_energy_orb", null, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, true)
                 .setFolder("tool")
                 .setRegistryName("lapotronic_energy_orb")
                 .setTranslationKey("lapotronic_energy_orb")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB), "crafting10kkEUStore"),
+                .setCreativeTab(GregTechMod.GREGTECH_TAB), GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore"),
         SONICTRON_PORTABLE(ItemSonictron::new),
         SPRAY_BUG(ItemSprayBug::new),
         SPRAY_ICE(ItemSprayIce::new, "molecule_1n"),
@@ -1068,7 +1068,7 @@ public class BlockItems {
         }
 
         public Item getInstance() {
-            if (this.instance == null) {
+            if (this.instance == null) { //TODO: Rename prefix to rod (or fuel_rod)
                 this.instance = new ItemNuclearFuelRod("cell_"+this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
                                     .setRegistryName("cell_"+this.name().toLowerCase(Locale.ROOT))
                                     .setCreativeTab(GregTechMod.GREGTECH_TAB);

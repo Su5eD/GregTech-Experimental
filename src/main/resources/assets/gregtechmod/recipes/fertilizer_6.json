@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ic2:crop_res",
+      "data": 2
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustDarkAsh"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:crop_res",
+    "data": 2,
+    "count": 2
+  }
+}

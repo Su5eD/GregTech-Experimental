@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "AEA",
+    "EIE",
+    "AEA"
+  ],
+  "key":
+  {
+    "E":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier05"
+    },
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAlloyIridium"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:data_control_circuit",
+    "count": 4
+  }
+}

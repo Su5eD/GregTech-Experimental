@@ -9,3 +9,7 @@
   output:
     - item: ic2:misc_resource#resin
       count: 2
+- input:
+    ore: woolColored
+  output:
+    - item: minecraft:wool

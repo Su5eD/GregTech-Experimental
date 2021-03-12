@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ic2:solar_helmet"
+    },
+    {
+      "item": "ic2:te",
+      "data": 36
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:light_helmet"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:credit_copper"
+    },
+    {
+      "item": "gregtechmod:credit_copper"
+    },
+    {
+      "item": "gregtechmod:credit_copper"
+    },
+    {
+      "item": "gregtechmod:credit_copper"
+    },
+    {
+      "item": "gregtechmod:credit_copper"
+    },
+    {
+      "item": "gregtechmod:credit_copper"
+    },
+    {
+      "item": "gregtechmod:credit_copper"
+    },
+    {
+      "item": "gregtechmod:credit_copper"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:crafting",
+    "data": 38
+  }
+}

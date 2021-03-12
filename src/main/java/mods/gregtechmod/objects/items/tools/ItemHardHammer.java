@@ -34,7 +34,7 @@ public class ItemHardHammer extends ItemHammer {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         stack = stack.copy();
-        if (stack.attemptDamageItem(1, GtUtil.RANDOM, null)) return ItemStack.EMPTY;
+        if (stack.attemptDamageItem(4, GtUtil.RANDOM, null)) return ItemStack.EMPTY;
         return stack;
     }
 

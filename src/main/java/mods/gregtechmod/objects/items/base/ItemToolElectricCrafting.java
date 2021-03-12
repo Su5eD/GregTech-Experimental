@@ -2,13 +2,13 @@ package mods.gregtechmod.objects.items.base;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.item.tool.ToolClass;
-import mods.gregtechmod.util.IElectricCraftingItem;
+import mods.gregtechmod.util.IElectricCraftingTool;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.Set;
 
-public class ItemToolElectricCrafting extends ItemToolElectricBase implements IElectricCraftingItem {
+public class ItemToolElectricCrafting extends ItemToolElectricBase implements IElectricCraftingTool {
     protected final int craftingEnergyCost;
 
     public ItemToolElectricCrafting(String name, @Nullable String description, int craftingEnergyCost, float attackDamage, double maxCharge, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {

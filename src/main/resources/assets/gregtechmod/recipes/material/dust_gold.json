@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "#MORTARS"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "ingotGold"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:dust",
+    "data": 7
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "LEL",
+    "CAC",
+    "LEL"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingSuperconductor"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier04"
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "E":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kkEUStore"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:classic"
+    }
+  ]
+}

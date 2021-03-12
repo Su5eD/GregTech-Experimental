@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "GCG",
+    "CMC",
+    "GCG"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting100kEUStore"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingWireGold"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier01"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:te",
+    "data": 74
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:classic"
+    }
+  ]
+}

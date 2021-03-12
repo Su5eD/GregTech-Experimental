@@ -349,7 +349,6 @@
     - item: ic2:fluid_cell#hydrogen
       count: 4
     - item: gregtechmod:cell_carbon
-  cells: 5
   duration: 150
   energyCost: 50
 - input:
@@ -380,16 +379,18 @@
 #    item: ic2:cell#electrolyzed_water
 #    count: 6
 #  output:
-#    - item: ic2:fluid_cell#hydrogen
+#    - item: gregtechmod:cell_hydrogen
 #      count: 4
-#    - item: ic2:fluid_cell#ic2air
-#    - item: ic2:fluid_cell
+#    - item: ic2:cell#ic2air
+#    - item: ic2:cell
+#  cells: 5
 #  duration: 100
 #  energyCost: 30
 #- input:
 #    item: ic2:cell#water
 #  output:
 #    - item: ic2:cell#electrolyzed_water
+#  cells: 1
 #  duration: 200
 #  energyCost: 128
 #- input:

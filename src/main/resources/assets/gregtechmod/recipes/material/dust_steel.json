@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustIron"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustCoal"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustCoal"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:dust_steel"
+  },
+  "conditions":
+  [
+    {
+      "type": "forge:not",
+      "value":
+      {
+        "type": "gregtechmod:config",
+        "config":
+        {
+          "category": "blast_furnace_requirements",
+          "name": "steel",
+          "value": true
+        }
+      }
+    }
+  ]
+}

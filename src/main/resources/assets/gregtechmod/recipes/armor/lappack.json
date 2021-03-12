@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "LCL",
+    "LBL",
+    "L L"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting60kEUPack"
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "chunkLazurite"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:lappack"
+  }
+}

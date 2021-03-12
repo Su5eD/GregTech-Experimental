@@ -2,7 +2,7 @@ package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeAlloySmelter;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.util.ModHandler;
+import mods.gregtechmod.compat.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;

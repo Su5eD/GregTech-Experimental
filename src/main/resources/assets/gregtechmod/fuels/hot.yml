@@ -8,3 +8,9 @@
     - item: ic2:ingot#tin
     - item: gregtechmod:ingot_electrum
   energy: 30
+# Classic recipe
+#- input:
+#    item: ic2:heatpack
+#  output:
+#    - item: ic2:cell#empty
+#  energy: 30

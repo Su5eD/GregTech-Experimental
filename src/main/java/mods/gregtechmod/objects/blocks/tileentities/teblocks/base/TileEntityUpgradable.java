@@ -102,7 +102,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                     }
                 }
                 else if (currentItem instanceof IGtUpgradeItem && ((areItemsEqual || upgradeStack.isEmpty()))) {
-                    if (((IGtUpgradeItem)currentItem).onInsert(upgradeStack, this, player)) return true;
+                    if (((IGtUpgradeItem)currentItem).beforeInsert(upgradeStack, this, player)) return true;
                     else if (!((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
                 }
                 else continue;
@@ -110,15 +110,13 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 if (areItemsEqual) {
                     upgradeStack.grow(1);
                 } else {
-                    ItemStack bStack = stack.copy();
-                    bStack.setCount(upgradeStack.getCount()+1);
-                    this.upgradeSlot.put(i, bStack);
+                    this.upgradeSlot.put(i, StackUtil.copyWithSize(stack, 1));
                 }
 
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
+                updateUpgrade(StackUtil.copyWithSize(stack, 1), player);
                 break;
             }
-            updateUpgrades(player);
             return true;
         }
         else {
@@ -145,33 +143,37 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     public void updateUpgrade(ItemStack stack, EntityPlayer player) {
+        if (world.isRemote) return;
+
         Item currentItem = stack.getItem();
         if (currentItem instanceof IGtUpgradeItem) {
-            ((IGtUpgradeItem)currentItem).onUpdate(stack, this, player);
+            ((IGtUpgradeItem)currentItem).afterInsert(stack, this, player);
         } else if (currentItem instanceof IUpgradeItem) {
             IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
             switch (upgradeType) {
                 case OVERCLOCKER:
-                    setOverclockerCount(stack.getCount());
+                    setOverclockerCount(this.overclockersCount + stack.getCount());
                     break;
                 case TRANSFORMER:
-                    this.energy.setSinkTier(Math.min(defaultTier+stack.getCount(), 3));
+                    this.energy.setSinkTier(Math.min(this.energy.getSinkTier() + stack.getCount(), 3));
                     break;
                 case BATTERY:
-                    this.energy.setCapacity(this.defaultEnergyStorage+(10000*stack.getCount()));
+                    this.energy.setCapacity(this.energy.getCapacity()+(10000 * stack.getCount()));
                     break;
             }
         }
     }
 
-    public void updateUpgrades(EntityPlayer player) {
-        if (world.isRemote) return;
+    @Override
+    protected void onLoaded() {
+        super.onLoaded();
+        if (!world.isRemote) {
+            for (int i = 0; i < upgradeSlot.size(); i++) {
+                ItemStack currentStack = upgradeSlot.get(i);
+                if (currentStack.isEmpty()) continue;
 
-        for (int i = 0; i < upgradeSlot.size(); i++) {
-            ItemStack currentStack = upgradeSlot.get(i);
-            if (currentStack.isEmpty()) continue;
-
-            updateUpgrade(currentStack, player);
+                updateUpgrade(currentStack, null);
+            }
         }
     }
 
@@ -424,7 +426,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     @Override
     public void setPrivate(boolean value, GameProfile owner) {
-        this.isPrivate = true;
+        this.isPrivate = value;
         this.owner = owner;
     }
 

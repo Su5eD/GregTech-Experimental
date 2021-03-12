@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "GHG",
+    "DPM",
+    "GCG"
+  ],
+  "key":
+  {
+    "P":
+    {
+      "item": "minecraft:wooden_pressure_plate"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateElectrum"
+    },
+    "D":
+    {
+      "item": "minecraft:dispenser"
+    },
+    "H":
+    {
+      "item": "gregtechmod:teblock",
+      "data": "???",
+      "_comment": "item clearer"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CCC",
+    "WIW",
+    "LLL"
+  ],
+  "key":
+  {
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "W":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTungsten"
+    },
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAlloyIridium"
+    },
+    "C":
+    {
+      "item": "gregtechmod:coolant_nak_60k"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:superconductor",
+    "count": 4
+  }
+}

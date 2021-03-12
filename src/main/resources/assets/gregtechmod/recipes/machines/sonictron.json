@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CRC",
+    "NAN",
+    "CJC"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "N":
+    {
+      "item": "minecraft:noteblock"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "J":
+    {
+      "item": "minecraft:jukebox"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "itemRecord"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 5
+  }
+}

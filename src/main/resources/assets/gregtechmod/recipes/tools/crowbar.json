@@ -1,0 +1,26 @@
+{
+  "type": "gregtechmod:replace",
+  "pattern":
+  [
+    " BI",
+    "BIB",
+    "IB "
+  ],
+  "key":
+  {
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dyeBlue"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:crowbar"
+  }
+}

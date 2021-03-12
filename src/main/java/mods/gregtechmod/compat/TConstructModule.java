@@ -36,7 +36,7 @@ public class TConstructModule {
                 if (unifiedName != null) name = unifiedName;
 
                 ItemStack unified = OreDictUnificator.getUnifiedOre(name);
-                if (!unified.isEmpty() && !output.isItemEqual(unified) && GregTechAPI.dynamicConfig.get(type, name, true).getBoolean()) {
+                if (!unified.isEmpty() && !output.isItemEqual(unified) && GregTechAPI.getDynamicConfig(type, name, true)) {
                     TinkerRegistry.registerBasinCasting(new CastingRecipe(unified, ((CastingRecipe) recipe).cast, ((CastingRecipe) recipe).getFluid(), false, false));
                     return true;
                 }

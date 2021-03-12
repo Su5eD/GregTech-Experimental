@@ -10,8 +10,8 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -58,8 +58,8 @@ public class MatterRecipeLoader {
 
         ItemStack dustPlutonium = new ItemStack(BlockItems.Dust.PLUTONIUM.getInstance());
         List<Object> pattern;
-        if (GregTechAPI.dynamicConfig.get("gregtechrecipes", "matterfabricator", true).getBoolean() &&
-                GregTechAPI.dynamicConfig.get("disabledrecipes", "massfabricator", true).getBoolean() &&
+        if (GregTechAPI.getDynamicConfig("gregtech_recipes", "matterfabricator", true) &&
+                GregTechConfig.DISABLED_RECIPES.massFabricator &&
                 GregTechConfig.MACHINES.matterFabricationRate >= 10000000) {
             pattern = Arrays.asList("U", "R", 'R', "dustUranium");
         } else pattern = Arrays.asList("UUU", "URU", "UUU", 'R', "dustUranium");
@@ -83,7 +83,7 @@ public class MatterRecipeLoader {
     }
 
     private static boolean addMatterRecipe(String name, IRecipe recipe) {
-        if (!GregTechAPI.dynamicConfig.get("uumrecipe", name, true).getBoolean()) return false;
+        if (!GregTechAPI.getDynamicConfig("uumrecipe", name, true)) return false;
         return TileEntityAssemblyBench.RECIPES.add(recipe);
     }
 

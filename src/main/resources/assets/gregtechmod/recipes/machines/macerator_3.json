@@ -1,0 +1,52 @@
+{
+  "type": "gregtechmod:replace",
+  "pattern":
+  [
+    "FFF",
+    "SMS",
+    " C "
+  ],
+  "key":
+  {
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier01"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "F":
+    {
+      "item": "minecraft:flint"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stoneCobble"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:te",
+    "data": 47
+  },
+  "conditions":
+  [
+    {
+      "type": "forge:not",
+      "value":
+      {
+        "type": "gregtechmod:config",
+        "config":
+        {
+          "category": "harder_recipes",
+          "name": "macerator",
+          "value": true
+        }
+      }
+    }
+  ]
+}

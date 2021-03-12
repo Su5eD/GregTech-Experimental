@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "SSS",
+    "PPS",
+    "FH "
+  ],
+  "key":
+  {
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stickSteel"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTungstenSteel"
+    },
+    "F":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingToolFile"
+    },
+    "H":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingToolHardHammer"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:saw_tungsten_steel"
+  }
+}

@@ -1,9 +1,9 @@
 package mods.gregtechmod.objects.items.tools;
 
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolBase;
-import mods.gregtechmod.util.ModHandler;
 import mods.railcraft.api.items.IToolCrowbar;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityMinecart;

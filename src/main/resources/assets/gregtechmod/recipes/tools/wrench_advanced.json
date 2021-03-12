@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "T T",
+    "TCT",
+    " B "
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingLiBattery"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTungstenSteel"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:wrench_advanced"
+  }
+}

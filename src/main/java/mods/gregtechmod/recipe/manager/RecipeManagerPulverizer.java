@@ -6,7 +6,7 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.OreDictUnificator;
-import mods.gregtechmod.util.ModHandler;
+import mods.gregtechmod.compat.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 

@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "ESE",
+    "CMC",
+    "EIE"
+  ],
+  "key":
+  {
+    "I":
+    {
+      "item": "ic2:iridium_reflector"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingSuperconductor"
+    },
+    "E":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingHeatingCoilTier02"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier04"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:block_advanced_machine_casing",
+    "count": 4
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "gregtech_recipes",
+        "name": "fusionreactor",
+        "value": true
+      }
+    }
+  ]
+}

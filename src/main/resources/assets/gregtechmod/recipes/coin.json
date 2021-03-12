@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:credit_silver"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:crafting",
+    "data": 38,
+    "count": 8
+  }
+}

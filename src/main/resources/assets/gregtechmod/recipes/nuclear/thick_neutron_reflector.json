@@ -1,0 +1,37 @@
+{
+  "type": "gregtechmod:replace",
+  "pattern":
+  [
+    " N ",
+    "NBN",
+    " N "
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "berylium"
+    },
+    "N":
+    {
+      "item": "ic2:neutron_reflector"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:thick_neutron_reflector"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "harder_recipes",
+        "name": "berylium_reflector",
+        "value": true
+      }
+    }
+  ]
+}

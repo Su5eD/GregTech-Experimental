@@ -23,7 +23,8 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.RailcraftModule;
+import mods.gregtechmod.compat.ModCompat;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.*;
@@ -37,7 +38,6 @@ import mods.gregtechmod.recipe.util.IBasicMachineRecipe;
 import mods.gregtechmod.recipe.util.RecipeFilter;
 import mods.gregtechmod.recipe.util.deserializer.*;
 import mods.gregtechmod.recipe.util.serializer.*;
-import mods.gregtechmod.util.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -221,7 +221,7 @@ public class RecipeLoader {
         parseConfig("dense_liquid", FuelSimple.class, null, fuelsPath)
                 .ifPresent(fuels -> registerFuels("dense liquid", fuels, GtFuels.denseLiquid));
 
-        RailcraftModule.registerBoilerFuels();
+        ModCompat.registerBoilerFuels();
     }
 
     public static void loadDynamicRecipes() {
@@ -242,8 +242,11 @@ public class RecipeLoader {
 
         DynamicRecipes.processCraftingRecipes();
         DynamicRecipes.applyMaterialUsages();
-        ItemStack copper = IC2Items.getItem("ingot", "copper");
-        ItemStack bronze = ModHandler.getCraftingResult(copper, copper, ItemStack.EMPTY, copper, IC2Items.getItem("ingot", "tin"));
+        ModCompat.addRollingMachineRecipes();
+        ModCompat.registerTools();
+
+        ItemStack ingotCopper = IC2Items.getItem("ingot", "copper");
+        ItemStack bronze = ModHandler.getCraftingResult(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, IC2Items.getItem("ingot", "tin"));
         if (!bronze.isEmpty()) {
             int count = bronze.getCount();
             GtRecipes.industrialCentrifuge.addRecipe(
@@ -278,23 +281,12 @@ public class RecipeLoader {
 
         DynamicRecipes.addPulverizerRecipe(IC2Items.getItem("fluid_cell"), StackUtil.setSize(IC2Items.getItem("dust", "small_tin"), 9), true);
         ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
-        ItemStack cell;
         if (IC2.version.isClassic()) {
-            cell = IC2Items.getItem("cell", "empty");
-            ModHandler.removeCraftingRecipeFromInputs(IC2Items.getItem("crafting", "compressed_plants"), cell);
-            ModHandler.removeCraftingRecipeFromInputs(IC2Items.getItem("crafting", "compressed_hydrated_coal"), cell);
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));
         } else {
-            cell = IC2Items.getItem("fluid_cell");
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), new ItemStack(Items.IRON_INGOT, 8));
         }
-        ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.WATER_BUCKET), cell);
-        ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.LAVA_BUCKET), cell);
-        if (!GregTechAPI.dynamicConfig.get("StorageBlockCrafting", "blockGlowstone", false).getBoolean()) {
-            ItemStack dustGlowstone = new ItemStack(Items.GLOWSTONE_DUST);
-            ModHandler.removeCraftingRecipeFromInputs(dustGlowstone, dustGlowstone, ItemStack.EMPTY, dustGlowstone, dustGlowstone);
-        }
-        DynamicRecipes.addSmeltingRecipe("resing", new ItemStack(Items.SLIME_BALL), IC2Items.getItem("misc_resource", "resin"));
+        DynamicRecipes.addSmeltingRecipe("resin", new ItemStack(Items.SLIME_BALL), IC2Items.getItem("misc_resource", "resin"));
     }
 
     public static void registerDynamicRecipes() {

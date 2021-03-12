@@ -1,0 +1,44 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CRC",
+    "SMS",
+    "CEC"
+  ],
+  "key":
+  {
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier10"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier05"
+    },
+    "R":
+    {
+      "item": "gregtechmod:teblock",
+      "data": "???",
+      "_comment": "advanced regulator"
+    },
+    "S":
+    {
+      "item": "gregtechmod:teblock",
+      "data": "???",
+      "_comment": "electric sorter"
+    },
+    "E":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting100kEUStore"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

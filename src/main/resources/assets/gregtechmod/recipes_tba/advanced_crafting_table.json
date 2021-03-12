@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "PWP",
+    "PMP",
+    "PCP"
+  ],
+  "key":
+  {
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "W":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingWorkBench"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier01"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

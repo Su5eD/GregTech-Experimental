@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallCopper"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallCopper"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallCopper"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallZinc"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:dust_brass"
+  }
+}

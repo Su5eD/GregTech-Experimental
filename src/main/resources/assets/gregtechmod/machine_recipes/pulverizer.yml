@@ -938,3 +938,11 @@
   output:
     - item: ic2:dust#iron
       count: 8
+- input:
+    item: minecraft:wool
+    meta: 32767
+  output:
+    - item: minecraft:string
+      count: 2
+    - item: minecraft:string
+  chance: 50

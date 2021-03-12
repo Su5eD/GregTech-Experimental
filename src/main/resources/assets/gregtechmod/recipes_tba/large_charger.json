@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CCC",
+    "CMC",
+    "CTC"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingChest"
+    },
+    "M":
+    {
+      "item": "gregtechmod:teblock",
+      "data": "???",
+      "_comment": "battery_charger"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

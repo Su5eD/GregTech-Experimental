@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:credit_diamond"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:credit_gold",
+    "count": 8
+  }
+}

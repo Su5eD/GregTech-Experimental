@@ -1,0 +1,59 @@
+{
+  "type": "gregtechmod:replace",
+  "pattern":
+  [
+    "RGR",
+    "RPR",
+    "RCR"
+  ],
+  "key":
+  {
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingGrinder"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingPiston"
+    }
+  },
+  "result":
+  {
+    "item": "projectred-expansion:machine2",
+    "data": 0
+  },
+  "conditions":
+  [
+    {
+      "type": "forge:and",
+      "values":
+      [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "projectred-expansion"
+        },
+        {
+          "type": "gregtechmod:config",
+          "config":
+          {
+            "category": "harder_recipes",
+            "name": "block_breaker",
+            "value": false
+          }
+        }
+      ]
+    }
+  ]
+}

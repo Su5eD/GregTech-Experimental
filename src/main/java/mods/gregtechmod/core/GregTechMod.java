@@ -1,18 +1,19 @@
 package mods.gregtechmod.core;
 
 import ic2.api.event.TeBlockFinalCallEvent;
+import ic2.core.IC2;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
-import mods.gregtechmod.util.ModHandler;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
 import mods.gregtechmod.world.OreGenerator;
 import mods.gregtechmod.world.RetrogenHandler;
@@ -44,15 +45,15 @@ import java.util.stream.Collectors;
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
      dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
-
-    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     @Instance
     public static GregTechMod instance;
     @SidedProxy(clientSide = "mods.gregtechmod.core.ClientProxy", serverSide = "mods.gregtechmod.core.ServerProxy")
     public static IProxy proxy;
 
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab("gregtechtab");
+    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     public static File configDir;
+    public static boolean classic;
 
     static {
         FluidRegistry.enableUniversalBucket();
@@ -69,6 +70,7 @@ public final class GregTechMod {
 
         GregTechAPI.logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
+        classic = IC2.version.isClassic();
         DynamicConfig.init();
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
@@ -94,6 +96,7 @@ public final class GregTechMod {
 
         OreDictRegistrar.registerItems();
         RecipeLoader.loadRecipes();
+        CraftingRecipeLoader.init();
         RecipeLoader.loadDynamicRecipes();
         MatterRecipeLoader.init();
         RecipeLoader.loadFuels();

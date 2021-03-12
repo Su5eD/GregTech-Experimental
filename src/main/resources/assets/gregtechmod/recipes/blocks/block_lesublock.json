@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "LLL",
+    "LML",
+    "LLL"
+  ],
+  "key":
+  {
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "chunkLazurite"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:block_lesublock"
+  }
+}

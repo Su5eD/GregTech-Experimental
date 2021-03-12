@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "R",
+    "C",
+    "B"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kEUStore"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:soldering_tool"
+  }
+}

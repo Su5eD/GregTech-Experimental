@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "IMI",
+    "MCM",
+    "IMI"
+  ],
+  "key":
+  {
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAlloyIridium"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingEnderChest"
+    },
+    "M":
+    {
+      "item": "gregtechmod:teblock",
+      "data": "???",
+      "_comment": "AESU"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "gregtechmod:replace",
+  "pattern":
+  [
+    " C ",
+    "RMR"
+  ],
+  "key":
+  {
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingIronFurnace"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:te",
+    "data": 44
+  }
+}

@@ -19,7 +19,7 @@ public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudo
     protected final int tier;
     protected final double operationEnergyCost;
     protected final boolean providesEnergy;
-    protected boolean hasEmptyVariant = false;
+    protected boolean hasEmptyVariant;
     protected boolean showTier = true;
 
     public ItemElectricBase(String name, @Nullable String description, double maxCharge, double transferLimit, int tier) {

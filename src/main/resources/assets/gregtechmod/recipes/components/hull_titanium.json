@@ -1,0 +1,27 @@
+{
+  "type": "gregtechmod:crafting_wrench_shaped",
+  "pattern":
+  [
+    "RRR",
+    "RWR",
+    "RRR"
+  ],
+  "key":
+  {
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTitanium"
+    },
+    "W":
+    {
+      "type": "gregtechmod:tool",
+      "ore": "craftingToolWrench",
+      "damage": 8
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:hull_titanium"
+  }
+}

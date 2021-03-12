@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CTC",
+    "PSP",
+    "CLC"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kkEUStore"
+    },
+    "S":
+    {
+      "item": "minecraft:beacon"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingTeleporter"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "platePlatinum"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  },
+  "conditions":
+  [
+    {
+      "type": "forge:and",
+      "values":
+      [
+        {
+          "type": "forge:not",
+          "value":
+          {
+            "type": "forge:mod_loaded",
+            "modid": "thaumcraft"
+          }
+        },
+        {
+          "type": "gregtechmod:experimental"
+        }
+      ]
+    }
+  ]
+}

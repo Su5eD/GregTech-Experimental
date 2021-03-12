@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "ASA",
+    "BTB",
+    "ADA"
+  ],
+  "key":
+  {
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier08"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingMonitorTier02"
+    },
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingTeleporter"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier04"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:quantum_chest"
+  }
+}

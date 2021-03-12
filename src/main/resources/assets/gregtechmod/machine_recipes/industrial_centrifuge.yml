@@ -76,6 +76,7 @@
     - item: gregtechmod:dust_ruby
     - item: ic2:fluid_cell#mercury
       count: 3
+  cells: 2
   duration: 7000
 - input:
     ore: dustGlowstone
@@ -290,7 +291,7 @@
     - item: ic2:fluid_cell#methane
     - item: gregtechmod:cell_carbon
       count: 4
-  cells: 1
+  cells: 5
   duration: 5000
 - input:
     ores:
@@ -300,6 +301,7 @@
   output:
     - item: ic2:fluid_cell#oil
     - item: minecraft:sand
+  cells: 1
   duration: 1000
 # TODO: Add fuel can support for the centrifuge
 #- input:
@@ -529,6 +531,7 @@
     - item: ic2:dust#coal
     - item: minecraft:sand
       count: 10
+  cells: 1
   duration: 2500
 - input:
     fluid: lava

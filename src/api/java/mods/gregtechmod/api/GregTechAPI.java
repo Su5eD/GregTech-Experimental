@@ -39,4 +39,14 @@ public class GregTechAPI {
     public static Set<ItemStack> getCrowbars() {
         return Collections.unmodifiableSet(CROWBARS);
     }
+
+    public static boolean getDynamicConfig(String category, String name, boolean value) {
+        return getDynamicConfig(category, name, value, null);
+    }
+
+    public static boolean getDynamicConfig(String category, String name, boolean value, String comment) {
+        boolean ret = dynamicConfig.get(category, name, value).getBoolean();
+        if (dynamicConfig.hasChanged()) dynamicConfig.save();
+        return ret;
+    }
 }

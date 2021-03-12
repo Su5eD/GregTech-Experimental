@@ -2,7 +2,7 @@ package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeSawmill;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSawmill;
-import mods.gregtechmod.util.ModHandler;
+import mods.gregtechmod.compat.ModHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

@@ -1,0 +1,43 @@
+{
+  "type": "gregtechmod:replace",
+  "pattern":
+  [
+    "LCL",
+    "LSL",
+    "LCL"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "gemSapphire"
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "itemLazurite"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:lapotron_crystal"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "gregtech_recipes",
+        "name": "lapotron_crystal_sapphire",
+        "value": true
+      }
+    }
+  ]
+}
