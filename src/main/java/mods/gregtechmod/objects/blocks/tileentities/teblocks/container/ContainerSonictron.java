@@ -40,7 +40,7 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
                 slot.putStack(ItemStack.EMPTY);
             }
         }
-        else if (!content.isEmpty()) {
+        else if (clickType != ClickType.PICKUP_ALL && !content.isEmpty()) {
             for (int i = 0; i < GregTechAPI.SONICTRON_SOUNDS.size(); i++) {
                 if (StackUtil.checkItemEquality(content, GregTechAPI.SONICTRON_SOUNDS.get(i).item)) {
                     content.grow(1);
