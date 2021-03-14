@@ -5,7 +5,6 @@ import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import mods.gregtechmod.api.util.SonictronSound;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +12,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GregTechAPI {
-    public static Logger logger;
 
     public static final ArrayList<SonictronSound> SONICTRON_SOUNDS = new ArrayList<>();
     public static final Set<ItemStack> JACK_HAMMER_MINABLE_BLOCKS = new HashSet<>();

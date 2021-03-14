@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -29,7 +29,7 @@ public class FluidStackDeserializer extends JsonDeserializer<FluidStack> {
             fluid = FluidRegistry.getFluid(name);
             if (fluid == null) {
                 if (!hasFallback) {
-                    GregTechAPI.logger.warn("Unable to find fluid "+name);
+                    GregTechMod.logger.warn("Unable to find fluid "+name);
                 } else {
                     JsonNode fallback = node.get("fallback");
                     return deserialize(fallback, getAmount(fallback));

@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.OreDictUnificator;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolElectricBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -29,7 +30,7 @@ public class ItemJackHammer extends ItemToolElectricBase {
             Item item = stack.getItem();
             int meta = stack.getMetadata();
             if (item instanceof ItemBlock && ((ItemBlock) item).getBlock() == block && (meta == OreDictionary.WILDCARD_VALUE || block.getMetaFromState(state) == meta)) {
-                GregTechAPI.logger.info("JackHammer can mine "+state);
+                GregTechMod.logger.info("JackHammer can mine "+state);
                 return this.canMineObsidian || !OreDictUnificator.isItemInstanceOf(block, "stoneObsidian", false);
             }
         }

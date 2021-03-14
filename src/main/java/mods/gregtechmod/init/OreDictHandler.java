@@ -10,6 +10,7 @@ import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.*;
 import mods.gregtechmod.recipe.crafting.ToolCraftingRecipeShaped;
@@ -219,7 +220,7 @@ public class OreDictHandler {
     public void registerOre(String name, ItemStack ore) {
         if (ore.isEmpty() || name.isEmpty() || IGNORED_NAMES.contains(name)) return;
 
-        if (ore.getCount() != 1) GregTechAPI.logger.error("'" + name + "' is either being misused by another mod or has been wrongly registered, as the stack size of the event stack is not 1");
+        if (ore.getCount() != 1) GregTechMod.logger.error("'" + name + "' is either being misused by another mod or has been wrongly registered, as the stack size of the event stack is not 1");
         ore.setCount(1);
 
         if (name.toLowerCase(Locale.ROOT).contains("xych") || name.toLowerCase(Locale.ROOT).contains("xyore")) return;

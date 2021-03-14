@@ -1,6 +1,6 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.core.GregTechMod;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +24,7 @@ public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
     public static RecipeIngredientOre create(List<String> ores, int count) {
         for (String ore : ores) {
             if (ore.isEmpty()) {
-                GregTechAPI.logger.error("Found empty string among ores: "+ores);
+                GregTechMod.logger.error("Found empty string among ores: "+ores);
                 return EMPTY;
             }
         }

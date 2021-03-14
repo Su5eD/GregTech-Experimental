@@ -2,8 +2,8 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -25,7 +25,7 @@ public class RecipeFusionFluid extends RecipeFusion<IRecipeIngredientFluid, Flui
 
         RecipeUtil.validateRecipeInput("fusion", input);
         if (output == null) {
-            GregTechAPI.logger.warn("Tried to add a fusion recipe with null output! Invalidating...");
+            GregTechMod.logger.warn("Tried to add a fusion recipe with null output! Invalidating...");
             recipe.invalid = true;
         }
 

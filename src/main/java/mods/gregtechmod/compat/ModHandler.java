@@ -56,6 +56,7 @@ public class ModHandler {
     public static boolean projectVibrantJourneys;
     public static boolean buildcraftCore;
     public static boolean buildcraftFactory;
+    public static boolean buildcraftTransport;
     public static boolean twilightForest;
     public static boolean enderStorage;
     public static boolean agricraft;
@@ -82,6 +83,7 @@ public class ModHandler {
         projectVibrantJourneys = Loader.isModLoaded("pvj");
         buildcraftCore = Loader.isModLoaded("buildcraftcore");
         buildcraftFactory = Loader.isModLoaded("buildcraftfactory");
+        buildcraftTransport = Loader.isModLoaded("buildcrafttransport");
         twilightForest = Loader.isModLoaded("twilightforest");
         enderStorage = Loader.isModLoaded("enderstorage");
         agricraft = Loader.isModLoaded("agricraft");
@@ -367,6 +369,16 @@ public class ModHandler {
                 .filter(input::isItemEqual)
                 .collect(Collectors.toList())
                 .forEach(recipes::remove);
+    }
+
+    public static ItemStack getSmeltingOutput(ItemStack input) {
+        return FurnaceRecipes.instance().getSmeltingList()
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().isItemEqual(input))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse(ItemStack.EMPTY);
     }
 
     public static ItemStack getIC2ItemSafely(String name, String variant) {

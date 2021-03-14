@@ -4,6 +4,7 @@ import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.init.FluidLoader;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.util.GtUtil;
@@ -17,7 +18,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModCompat {
 
     public static void registerTools() {
-        GregTechAPI.logger.info("Registering various tools to be usable on GregTech machines");
+        GregTechMod.logger.info("Registering various tools to be usable on GregTech machines");
         if (ModHandler.projectredCore) {
             ItemStack screwdriver = ModHandler.getPRItem("screwdriver", OreDictionary.WILDCARD_VALUE);
             GregTechAPI.registerScrewdriver(screwdriver);
@@ -36,7 +37,7 @@ public class ModCompat {
 
     @Optional.Method(modid = "railcraft")
     private static void _registerBoilerFuels() {
-        GregTechAPI.logger.info("Adding fuels to Railcraft's boiler");
+        GregTechMod.logger.info("Adding fuels to Railcraft's boiler");
         FluidFuelManager.addFuel(FluidLoader.Gas.HYDROGEN.getFluid(), 2000);
         FluidFuelManager.addFuel(FluidLoader.Gas.METHANE.getFluid(), 3000);
         if (IC2.version.isClassic()) FluidFuelManager.addFuel(FluidLoader.Liquid.NITRO_COALFUEL.getFluid(), 18000);
@@ -45,7 +46,7 @@ public class ModCompat {
 
     public static void addRollingMachineRecipes() {
         if (!ModHandler.railcraft) return;
-        GregTechAPI.logger.info("Adding Rolling Machine recipes");
+        GregTechMod.logger.info("Adding Rolling Machine recipes");
 
         addRollingMachineRecipe("coil_kanthal", new ItemStack(BlockItems.Component.COIL_KANTHAL.getInstance(), 3), "AAA", "BCC", "BBC", 'A', "ingotRefinedIron", 'B', "ingotChrome", 'C', "ingotAluminium");
         addRollingMachineRecipe("coil_nichrome", new ItemStack(BlockItems.Component.COIL_NICHROME.getInstance()), " B ", "BAB", " B ", 'A', "ingotChrome", 'B', "ingotNickel");

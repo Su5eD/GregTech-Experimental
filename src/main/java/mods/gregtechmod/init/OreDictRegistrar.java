@@ -3,7 +3,6 @@ package mods.gregtechmod.init;
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.OreDictUnificator;
@@ -21,11 +20,11 @@ import java.util.Locale;
 public class OreDictRegistrar {
 
     public static void registerItems() {
-        GregTechAPI.logger.debug("Adding certain items to the OreDict unification blacklist");
+        GregTechMod.logger.debug("Adding certain items to the OreDict unification blacklist");
 
         OreDictUnificator.addToBlacklist(IC2Items.getItem("crafting", "industrial_diamond"));
 
-        GregTechAPI.logger.debug("Registering GregTech items to the Ore Dictionary");
+        GregTechMod.logger.debug("Registering GregTech items to the Ore Dictionary");
 
         for (BlockItems.Block block : BlockItems.Block.values()) registerOre("block", block.name().toLowerCase(Locale.ROOT), block.getInstance());
         registerOre("craftingRawMachineTier04", BlockItems.Block.HIGHLY_ADVANCED_MACHINE.getInstance());
@@ -105,7 +104,7 @@ public class OreDictRegistrar {
             if (misc.oreDict != null) registerOre(misc.oreDict, misc.getInstance());
         }
 
-        GregTechAPI.logger.debug("Adding vanilla items to the Ore Dictionary");
+        GregTechMod.logger.debug("Adding vanilla items to the Ore Dictionary");
 
         registerOre("soulsand", Blocks.SOUL_SAND);
         registerOre("chunkLazurite", Blocks.LAPIS_BLOCK);
@@ -180,7 +179,7 @@ public class OreDictRegistrar {
             registerOre("woolColored", new ItemStack(Blocks.WOOL, 1, i));
         }
 
-        GregTechAPI.logger.debug("Registering unification entries");
+        GregTechMod.logger.debug("Registering unification entries");
 
         OreDictUnificator.add("oreCoal", Blocks.COAL_ORE);
         OreDictUnificator.add("oreIron", Blocks.IRON_ORE);
@@ -226,7 +225,7 @@ public class OreDictRegistrar {
         OreDictUnificator.add("stickWood", Items.STICK);
         OreDictUnificator.add("crystalNetherQuartz", Items.QUARTZ);
 
-        GregTechAPI.logger.debug("Registering other mods' unification targets");
+        GregTechMod.logger.debug("Registering other mods' unification targets");
 
         if (GregTechConfig.UNIFICATION.forestry && ModHandler.forestry) {
             OreDictUnificator.override("ingotCopper", ModHandler.getFRItem("ingot_copper"));
@@ -321,7 +320,7 @@ public class OreDictRegistrar {
             OreDictUnificator.override("nuggetLead", ModHandler.getTCItem("nugget", 4));
         }
 
-        GregTechAPI.logger.debug("Registering GT/IC2 circuitry and similar to the Ore Dictionary");
+        GregTechMod.logger.debug("Registering GT/IC2 circuitry and similar to the Ore Dictionary");
 
         registerOre("itemIridium", IC2Items.getItem("misc_resource", "iridium_ore"));
         registerOre("glassReinforced", IC2Items.getItem("glass", "reinforced"));

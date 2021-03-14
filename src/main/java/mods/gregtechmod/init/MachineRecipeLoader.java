@@ -14,6 +14,7 @@ import ic2.core.IC2;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
@@ -38,6 +39,7 @@ import mods.gregtechmod.recipe.util.IBasicMachineRecipe;
 import mods.gregtechmod.recipe.util.RecipeFilter;
 import mods.gregtechmod.recipe.util.deserializer.*;
 import mods.gregtechmod.recipe.util.serializer.*;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -45,6 +47,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -59,7 +62,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class RecipeLoader {
+public class MachineRecipeLoader {
     private static Path recipesPath = null;
     private static Path fuelsPath = null;
     private static Path dynamicRecipesDir = null;
@@ -97,7 +100,7 @@ public class RecipeLoader {
     }
 
     public static void loadRecipes() {
-        GregTechAPI.logger.info("Loading machine recipes");
+        GregTechMod.logger.info("Loading machine recipes");
 
         GregTechAPI.recipeFactory = new RecipeFactory();
         GregTechAPI.ingredientFactory = new RecipeIngredientFactory();
@@ -105,27 +108,27 @@ public class RecipeLoader {
         Path recipesPath = getModFile().getPath("assets", Reference.MODID, "machine_recipes");
         Path gtConfig = relocateConfig(recipesPath, "machine_recipes");
         if (gtConfig == null) {
-            GregTechAPI.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
-            RecipeLoader.recipesPath = recipesPath;
-        } else RecipeLoader.recipesPath = gtConfig;
+            GregTechMod.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
+            MachineRecipeLoader.recipesPath = recipesPath;
+        } else MachineRecipeLoader.recipesPath = gtConfig;
 
         GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
-        RecipeLoader.parseConfig("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
+        MachineRecipeLoader.parseConfig("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("industrial centrifuge", recipes, GtRecipes.industrialCentrifuge));
         GtRecipes.assembler = new RecipeManagerMultiInput<>();
-        RecipeLoader.parseConfig("assembler", RecipeDualInput.class, null)
+        MachineRecipeLoader.parseConfig("assembler", RecipeDualInput.class, null)
                 .ifPresent(recipes -> registerRecipes("assembler", recipes, GtRecipes.assembler));
 
         GtRecipes.pulverizer = new RecipeManagerPulverizer();
-        RecipeLoader.parseConfig("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
+        MachineRecipeLoader.parseConfig("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("pulverizer", recipes, GtRecipes.pulverizer));
 
         GtRecipes.grinder = new RecipeManagerGrinder();
-        RecipeLoader.parseConfig("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
+        MachineRecipeLoader.parseConfig("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("grinder", recipes, GtRecipes.grinder));
 
         GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
-        RecipeLoader.parseConfig("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
+        MachineRecipeLoader.parseConfig("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.blastFurnace));
 
         GtRecipes.electrolyzer = new RecipeManagerCellular();
@@ -189,17 +192,18 @@ public class RecipeLoader {
 
         registerMatterAmplifiers();
         addScrapboxDrops();
+        loadRecyclerBlackList();
     }
 
     public static void loadFuels() {
-        GregTechAPI.logger.info("Loading fuels");
+        GregTechMod.logger.info("Loading fuels");
 
         Path recipesPath = getModFile().getPath("assets", Reference.MODID, "fuels");
         Path gtConfig = relocateConfig(recipesPath, "fuels");
         if (gtConfig == null) {
-            GregTechAPI.logger.error("Couldn't find the fuels config directory. Loading default fuels...");
-            RecipeLoader.fuelsPath = recipesPath;
-        } else RecipeLoader.fuelsPath = gtConfig;
+            GregTechMod.logger.error("Couldn't find the fuels config directory. Loading default fuels...");
+            MachineRecipeLoader.fuelsPath = recipesPath;
+        } else MachineRecipeLoader.fuelsPath = gtConfig;
 
         GtFuels.plasma = new FluidFuelManager<>();
         parseConfig("plasma", FuelSimple.class, null, fuelsPath)
@@ -225,7 +229,7 @@ public class RecipeLoader {
     }
 
     public static void loadDynamicRecipes() {
-        GregTechAPI.logger.info("Loading dynamic recipes");
+        GregTechMod.logger.info("Loading dynamic recipes");
         dynamicRecipesDir = GregTechMod.configDir.toPath().resolve("GregTech/machine_recipes/dynamic");
         dynamicRecipesDir.toFile().mkdirs();
 
@@ -321,7 +325,7 @@ public class RecipeLoader {
 
             return Optional.ofNullable(recipeMapper.readValue(Files.newBufferedReader(path.resolve(name + ".yml")), mapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
         } catch (IOException e) {
-            GregTechAPI.logger.error("Failed to parse " + name + " recipes: " + e.getMessage());
+            GregTechMod.logger.error("Failed to parse " + name + " recipes: " + e.getMessage());
             return Optional.empty();
         }
     }
@@ -350,7 +354,7 @@ public class RecipeLoader {
                 .map(manager::addRecipe)
                 .filter(Boolean::booleanValue)
                 .count();
-        GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
+        GregTechMod.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
     }
 
     private static <T extends IBasicMachineRecipe> void registerRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager) {
@@ -363,7 +367,7 @@ public class RecipeLoader {
                 })
                 .filter(Boolean::booleanValue)
                 .count();
-        GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
+        GregTechMod.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
     }
 
     private static <T extends IFuel<?, ?>, I> void registerFuels(String name, Collection<? extends T> fuels, IFuelManager<T, I> manager) {
@@ -372,7 +376,7 @@ public class RecipeLoader {
                 .map(manager::addFuel)
                 .filter(Boolean::booleanValue)
                 .count();
-        GregTechAPI.logger.info("Loaded " + successful + " out of " + total + " " + name + " fuels");
+        GregTechMod.logger.info("Loaded " + successful + " out of " + total + " " + name + " fuels");
     }
 
     private static <T extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> void serializeRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager) {
@@ -399,7 +403,7 @@ public class RecipeLoader {
 
             mapper.writeValue(output, recipes);
         } catch (IOException e) {
-            GregTechAPI.logger.error("Failed to serialize " + name + " recipes: " + e.getMessage());
+            GregTechMod.logger.error("Failed to serialize " + name + " recipes: " + e.getMessage());
         }
     }
 
@@ -414,7 +418,7 @@ public class RecipeLoader {
             File configDir = new File(GregTechMod.configDir.toURI().getPath() + "/GregTech/"+target);
             configDir.mkdirs();
             for (Path path : stream) {
-                GregTechAPI.logger.debug("Copying config: " + path.getFileName());
+                GregTechMod.logger.debug("Copying config: " + path.getFileName());
                 File dest = new File(Paths.get(configDir.getPath(), path.getFileName().toString()).toUri());
                 if (!dest.exists()) {
                     BufferedReader in = Files.newBufferedReader(path);
@@ -435,7 +439,7 @@ public class RecipeLoader {
     }
 
     private static void registerMatterAmplifiers() {
-        GregTechAPI.logger.info("Adding matter amplifiers");
+        GregTechMod.logger.info("Adding matter amplifiers");
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustElectrotine"), 5000, null, true);
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustTungsten"), 50000, null, true);
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustManganese"), 5000, null, true);
@@ -458,7 +462,7 @@ public class RecipeLoader {
     }
 
     private static void addScrapboxDrops() {
-        GregTechAPI.logger.info("Adding Scrapbox drops");
+        GregTechMod.logger.info("Adding Scrapbox drops");
         addScrapboxDrop(Items.WOODEN_AXE, 2);
         addScrapboxDrop(Items.WOODEN_SWORD, 2);
         addScrapboxDrop(Items.WOODEN_SHOVEL, 2);
@@ -510,5 +514,77 @@ public class RecipeLoader {
 
     private static void addScrapboxDrop(Item item, float value) {
         Recipes.scrapboxDrops.addDrop(new ItemStack(item), value);
+    }
+
+    public static void loadRecyclerBlackList() {
+        GregTechMod.logger.info("Adding stuff to the Recycler blacklist");
+
+        if (GregTechConfig.DISABLED_RECIPES.easyMobGrinderRecycling) {
+            addToRecyclerBlacklist(Items.ARROW);
+            addToRecyclerBlacklist(Items.BONE);
+            addToRecyclerBlacklist(new ItemStack(Items.DYE, 1, 15));
+            addToRecyclerBlacklist(Items.ROTTEN_FLESH);
+            addToRecyclerBlacklist(Items.STRING);
+            addToRecyclerBlacklist(Items.EGG);
+        }
+
+        if (GregTechConfig.DISABLED_RECIPES.easyStoneRecycling) {
+            addToRecyclerBlacklist(Blocks.SAND);
+            addToRecyclerBlacklist(new ItemStack(Blocks.SANDSTONE, 1, OreDictionary.WILDCARD_VALUE));
+            addToRecyclerBlacklist(new ItemStack(Blocks.RED_SANDSTONE, 1, OreDictionary.WILDCARD_VALUE));
+            addToRecyclerBlacklist(Blocks.GLASS);
+            addToRecyclerBlacklist(Items.GLASS_BOTTLE);
+            addToRecyclerBlacklist(Items.POTIONITEM);
+            addToRecyclerBlacklist(Items.SPLASH_POTION);
+            addToRecyclerBlacklist(Items.LINGERING_POTION);
+            ItemStack stone = new ItemStack(Blocks.STONE);
+            addToRecyclerBlacklist(new ItemStack(Blocks.STONE, 1, OreDictionary.WILDCARD_VALUE));
+            addToRecyclerBlacklist(ModHandler.getSmeltingOutput(stone));
+            addToRecyclerBlacklistOreDict("rodStone");
+            addToRecyclerBlacklist(ModHandler.getCraftingResult(stone, ItemStack.EMPTY, stone, ItemStack.EMPTY, stone));
+            if (ModHandler.buildcraftTransport) {
+                addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_stone_item"));
+                addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_cobble_item"));
+                addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_sandstone_item"));
+            }
+            addToRecyclerBlacklist(Blocks.GLASS_PANE);
+            addToRecyclerBlacklist(Blocks.STAINED_GLASS);
+            addToRecyclerBlacklist(Blocks.STAINED_GLASS_PANE);
+            addToRecyclerBlacklist(Blocks.COBBLESTONE);
+            addToRecyclerBlacklist(Blocks.COBBLESTONE_WALL);
+            addToRecyclerBlacklist(Blocks.SANDSTONE_STAIRS);
+            addToRecyclerBlacklist(Blocks.RED_SANDSTONE_STAIRS);
+            addToRecyclerBlacklist(Blocks.STONE_STAIRS);
+            addToRecyclerBlacklist(Blocks.STONE_BRICK_STAIRS);
+            addToRecyclerBlacklist(Blocks.FURNACE);
+            addToRecyclerBlacklist(new ItemStack(Blocks.WOODEN_SLAB, 1, OreDictionary.WILDCARD_VALUE));
+            addToRecyclerBlacklist(new ItemStack(Blocks.STONE_SLAB, 1, OreDictionary.WILDCARD_VALUE));
+            addToRecyclerBlacklist(new ItemStack(Blocks.STONE_SLAB2));
+            addToRecyclerBlacklist(new ItemStack(Blocks.PURPUR_SLAB));
+            addToRecyclerBlacklist(new ItemStack(Blocks.STONE_PRESSURE_PLATE));
+            addToRecyclerBlacklist(new ItemStack(Blocks.STONE_BUTTON));
+            addToRecyclerBlacklist(new ItemStack(Blocks.STONEBRICK, 1, OreDictionary.WILDCARD_VALUE));
+            addToRecyclerBlacklist(Blocks.LEVER);
+        }
+        addToRecyclerBlacklist(Items.SNOWBALL);
+        addToRecyclerBlacklist(Blocks.ICE);
+        addToRecyclerBlacklist(Blocks.SNOW);
+        addToRecyclerBlacklist(Blocks.SNOW_LAYER);
+    }
+
+    private static void addToRecyclerBlacklist(Block block) {
+        addToRecyclerBlacklist(new ItemStack(block));
+    }
+
+    private static void addToRecyclerBlacklist(Item item) {
+        addToRecyclerBlacklist(new ItemStack(item));
+    }
+
+    private static void addToRecyclerBlacklist(ItemStack stack) {
+        if (!stack.isEmpty()) Recipes.recyclerBlacklist.add(Recipes.inputFactory.forStack(stack));
+    }
+
+    private static void addToRecyclerBlacklistOreDict(String ore) {
+        Recipes.recyclerBlacklist.add(Recipes.inputFactory.forOreDict(ore));
     }
 }

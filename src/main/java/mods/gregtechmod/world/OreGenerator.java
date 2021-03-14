@@ -1,8 +1,8 @@
 package mods.gregtechmod.world;
 
 import com.google.common.base.Predicate;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.WorldOre;
 import net.minecraft.block.Block;
@@ -175,7 +175,7 @@ public class OreGenerator implements IWorldGenerator {
         if (tag != null) {
             boolean generated = GregTechConfig.WORLDGEN.retrogen && !tag.hasKey("generated");
             if (generated) {
-                GregTechAPI.logger.debug("Queuing Retrogen for chunk: " + coord.toString() + ".");
+                GregTechMod.logger.debug("Queuing Retrogen for chunk: " + coord.toString() + ".");
                 regen = true;
             }
         } else {

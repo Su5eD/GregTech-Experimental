@@ -2,10 +2,10 @@ package mods.gregtechmod.util;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -70,10 +70,10 @@ public class GtUtil {
                 if (page.length() < 256) {
                     tagList.appendTag(new NBTTagString(page));
                 } else {
-                    GregTechAPI.logger.warn("WARNING: String for written book too long! -> " + page);
+                    GregTechMod.logger.warn("WARNING: String for written book too long! -> " + page);
                 }
             } else {
-                GregTechAPI.logger.warn("WARNING: Too many pages for written book! -> " + name);
+                GregTechMod.logger.warn("WARNING: Too many pages for written book! -> " + name);
                 break;
             }
         }

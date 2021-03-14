@@ -5,7 +5,6 @@ import ic2.core.IC2;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
@@ -34,6 +33,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.Arrays;
@@ -54,6 +54,7 @@ public final class GregTechMod {
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     public static File configDir;
     public static boolean classic;
+    public static Logger logger;
 
     static {
         FluidRegistry.enableUniversalBucket();
@@ -66,9 +67,9 @@ public final class GregTechMod {
 
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
-        GregTechAPI.logger = event.getModLog();
+        logger = event.getModLog();
 
-        GregTechAPI.logger.info("Pre-init started");
+        logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
         classic = IC2.version.isClassic();
         DynamicConfig.init();
@@ -95,13 +96,13 @@ public final class GregTechMod {
         GregTechObjectAPI.setTileEntityMap(teblocks);
 
         OreDictRegistrar.registerItems();
-        RecipeLoader.loadRecipes();
+        MachineRecipeLoader.loadRecipes();
         CraftingRecipeLoader.init();
-        RecipeLoader.loadDynamicRecipes();
-        MatterRecipeLoader.init();
-        RecipeLoader.loadFuels();
+        MachineRecipeLoader.loadDynamicRecipes();
+        if (IC2.version.isClassic()) MatterRecipeLoader.init();
+        MachineRecipeLoader.loadFuels();
 
-        GregTechAPI.logger.debug("Registering loot");
+        logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/abandoned_mineshaft"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/desert_pyramid"));
@@ -117,11 +118,11 @@ public final class GregTechMod {
         TileEntitySonictron.loadSonictronSounds();
         ItemStackModificator.init();
 
-        GregTechAPI.logger.info("Activating OreDictionary Handler");
+        logger.info("Activating OreDictionary Handler");
         OreDictHandler.INSTANCE.activateHandler();
         OreDictHandler.registerValuableOres();
 
-        RecipeLoader.registerDynamicRecipes();
+        MachineRecipeLoader.registerDynamicRecipes();
     }
 
     @SubscribeEvent

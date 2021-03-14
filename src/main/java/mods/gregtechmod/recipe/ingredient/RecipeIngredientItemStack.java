@@ -1,6 +1,6 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -38,7 +38,7 @@ public class RecipeIngredientItemStack extends RecipeIngredient<Ingredient> {
     public static RecipeIngredientItemStack create(List<ItemStack> stacks, int count) {
         for (ItemStack stack : stacks) {
             if (stack.isEmpty()) {
-                GregTechAPI.logger.error("Tried to parse a RecipeIngredientItemStack with an empty stack among the matching stacks: "+stacks);
+                GregTechMod.logger.error("Tried to parse a RecipeIngredientItemStack with an empty stack among the matching stacks: "+stacks);
                 return EMPTY;
             }
         }

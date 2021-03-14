@@ -15,6 +15,7 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSawmill;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.compat.ModCompat;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.RecipeAlloySmelter;
 import mods.gregtechmod.recipe.RecipePulverizer;
@@ -190,7 +191,7 @@ class DynamicRecipes {
     }
 
     public static void processCraftingRecipes() {
-        GregTechAPI.logger.info("Scanning for certain kinds of compatible machine blocks");
+        GregTechMod.logger.info("Scanning for certain kinds of compatible machine blocks");
         ItemStack stack;
 
         ItemStack input = IC2Items.getItem("ingot", "bronze");

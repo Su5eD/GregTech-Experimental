@@ -2,10 +2,13 @@ package mods.gregtechmod.api;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
 public class GregTechObjectAPI {
+    private static final Logger LOGGER = LogManager.getLogger();
     private static Map<String, ItemStack> ITEMS = null;
     private static Map<String, Block> BLOCKS = null;
     private static Map<String, ItemStack> TEBlocks = null;
@@ -25,7 +28,7 @@ public class GregTechObjectAPI {
 
     public static void setItemMap(Map<String, ItemStack> map) {
         if (ITEMS != null) {
-            GregTechAPI.logger.error("Tried to set the ITEMS map for the GregTechObjectAPI again!");
+            LOGGER.error("The ITEMS map has already been set");
             return;
         }
 
@@ -34,7 +37,7 @@ public class GregTechObjectAPI {
 
     public static void setBlockMap(Map<String, Block> map) {
         if (BLOCKS != null) {
-            GregTechAPI.logger.error("Tried to set the BLOCKS map for the GregTechObjectAPI again!");
+            LOGGER.error("The BLOCKS map has already been set");
             return;
         }
 
@@ -43,7 +46,7 @@ public class GregTechObjectAPI {
 
     public static void setTileEntityMap(Map<String, ItemStack> map) {
         if (TEBlocks != null) {
-            GregTechAPI.logger.error("Tried to set the TEBlocks map for the GregTechObjectAPI again!");
+            LOGGER.error("The TEBlocks map has already been set");
             return;
         }
 

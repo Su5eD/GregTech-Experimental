@@ -1,8 +1,8 @@
 package mods.gregtechmod.recipe.fuel;
 
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.core.GregTechMod;
 
 public abstract class Fuel<O> implements IFuel<IRecipeIngredient, O> {
     protected final IRecipeIngredient input;
@@ -38,7 +38,7 @@ public abstract class Fuel<O> implements IFuel<IRecipeIngredient, O> {
 
     protected void validate() {
         if (input.isEmpty()) {
-            GregTechAPI.logger.warn("Tried to add a solid fuel with empty input. Invalidating...");
+            GregTechMod.logger.warn("Tried to add a solid fuel with empty input. Invalidating...");
             this.invalid = true;
         }
     }

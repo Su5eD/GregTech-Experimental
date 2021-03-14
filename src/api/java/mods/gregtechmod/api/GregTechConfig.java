@@ -168,6 +168,8 @@ public class GregTechConfig {
         public boolean enderChest = false;
         @Config.Comment("Classic profile only")
         public boolean depletedUranium8 = true;
+        public boolean easyMobGrinderRecycling = true;
+        public boolean easyStoneRecycling = true;
     }
 
     @SubscribeEvent

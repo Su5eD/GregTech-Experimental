@@ -3,7 +3,6 @@ package mods.gregtechmod.init;
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.ICraftingRecipeManager;
-import ic2.core.IC2;
 import ic2.core.block.machine.tileentity.TileEntityAssemblyBench;
 import ic2.core.recipe.AdvRecipe;
 import mods.gregtechmod.api.GregTechAPI;
@@ -88,16 +87,14 @@ public class MatterRecipeLoader {
     }
 
     private static void addMatterCraftingRecipe(String name, ItemStack output, Object... pattern) {
-        if (IC2.version.isClassic()) {
-            List<Object> args = new ArrayList<>(Arrays.asList(pattern));
-            args.add('U');
-            args.add("craftingUUMatter");
-            args.add(ATTRIBUTES);
-            AdvRecipe recipe = new AdvRecipe(output, args.toArray());
-            recipe.setRegistryName(new ResourceLocation(Reference.MODID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name+"FromMatter")));
-            if (recipe.masksMirrored != null) Arrays.fill(recipe.masksMirrored, -1);
+        List<Object> args = new ArrayList<>(Arrays.asList(pattern));
+        args.add('U');
+        args.add("craftingUUMatter");
+        args.add(ATTRIBUTES);
+        AdvRecipe recipe = new AdvRecipe(output, args.toArray());
+        recipe.setRegistryName(new ResourceLocation(Reference.MODID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name+"FromMatter")));
+        if (recipe.masksMirrored != null) Arrays.fill(recipe.masksMirrored, -1);
 
-            ForgeRegistries.RECIPES.register(recipe);
-        }
+        ForgeRegistries.RECIPES.register(recipe);
     }
 }

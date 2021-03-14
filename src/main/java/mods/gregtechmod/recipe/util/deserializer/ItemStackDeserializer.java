@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -38,7 +38,7 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
         if (node.has("ore")) {
             name = node.get("ore").asText();
             ret = OreDictUnificator.get(name);
-            if (ret.isEmpty() && logErrors) GregTechAPI.logger.warn("Could not find an OreDict entry for "+name);
+            if (ret.isEmpty() && logErrors) GregTechMod.logger.warn("Could not find an OreDict entry for "+name);
         } else if (name.contains("#")) {
             String[] parts = name.split("#");
             String[] nameParts = parts[0].split(":");
@@ -47,13 +47,13 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
             if (parts[0].equals(GregTechTEBlock.LOCATION.toString())) {
                 stack = ModHandler.getTEBlockSafely(parts[1]);
                 if (stack.isEmpty()) {
-                    GregTechAPI.logger.warn("TE Block " + name + " not found");
+                    GregTechMod.logger.warn("TE Block " + name + " not found");
                     stack = ItemStack.EMPTY;
                 }
             } else {
                 stack = ModHandler.getIC2ItemSafely(nameParts[1], parts[1]);
                 if (stack.isEmpty()) {
-                    GregTechAPI.logger.warn("MultiItem " + name + " not found");
+                    GregTechMod.logger.warn("MultiItem " + name + " not found");
                     stack = ItemStack.EMPTY;
                 }
             }
@@ -62,7 +62,7 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
             ResourceLocation registryName = new ResourceLocation(name);
             Item item = ForgeRegistries.ITEMS.getValue(registryName);
             if (item == Items.AIR || item == null) {
-                if (logErrors) GregTechAPI.logger.warn("Failed to deserialize ItemStack: Registry entry " + name + " not found");
+                if (logErrors) GregTechMod.logger.warn("Failed to deserialize ItemStack: Registry entry " + name + " not found");
             } else {
                 int meta = node.has("meta") ? node.get("meta").asInt(0) : 0;
                 ret = new ItemStack(item, 1, meta);

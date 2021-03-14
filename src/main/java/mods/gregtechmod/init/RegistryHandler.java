@@ -1,6 +1,5 @@
 package mods.gregtechmod.init;
 
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
@@ -32,7 +31,7 @@ public class RegistryHandler {
 
     public static void registerFluids() {
         FluidLoader.init();
-        GregTechAPI.logger.info("Registering fluids");
+        GregTechMod.logger.info("Registering fluids");
         for (FluidLoader.IFluidProvider provider : FluidLoader.FLUIDS) {
             Fluid fluid = provider.getFluid();
             if (provider.isFallbackFluid() && FluidRegistry.isFluidRegistered(fluid.getName())) continue;

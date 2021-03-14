@@ -2,10 +2,10 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipeGrinder;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
@@ -29,7 +29,7 @@ public class RecipeGrinder extends Recipe<IRecipeIngredient, List<ItemStack>> im
 
         if (!RecipeUtil.validateRecipeIO("grinder", input, output)) recipe.invalid = true;
         if (fluid == null) {
-            GregTechAPI.logger.warn("Tried to add a grinder recipe with a null fluid!");
+            GregTechMod.logger.warn("Tried to add a grinder recipe with a null fluid!");
             recipe.invalid = true;
         }
 

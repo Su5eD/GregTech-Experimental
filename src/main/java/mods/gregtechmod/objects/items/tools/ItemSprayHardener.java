@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.item.IC2Items;
 import ic2.core.block.wiring.TileEntityCable;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
@@ -41,7 +40,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
         } catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException e) {
             handleChangeFoam = null;
             cableFoamHardened = null;
-            GregTechAPI.logger.error("Failed to set up foam hardening methods");
+            GregTechMod.logger.error("Failed to set up foam hardening methods");
             e.printStackTrace();
         }
         CHANGE_FOAM_HANDLE = handleChangeFoam;

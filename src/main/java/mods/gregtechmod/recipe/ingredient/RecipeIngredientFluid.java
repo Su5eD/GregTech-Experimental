@@ -1,8 +1,8 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.fluids.Fluid;
@@ -33,9 +33,9 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
                 .map(FluidRegistry::getFluid)
                 .collect(Collectors.toList());
         if (fluids.isEmpty()) {
-            GregTechAPI.logger.error("Tried to a create an IRecipeIngredientFluid with no matching inputs");
+            GregTechMod.logger.error("Tried to a create an IRecipeIngredientFluid with no matching inputs");
         } else if (fluids.contains(null)) {
-            GregTechAPI.logger.error("Tried to create an IRecipeIngredientfluid with an invalid fluid among its matching fluids: " + String.join(", ", names));
+            GregTechMod.logger.error("Tried to create an IRecipeIngredientfluid with an invalid fluid among its matching fluids: " + String.join(", ", names));
         } else return fromFluids(fluids, buckets);
 
         return EMPTY;

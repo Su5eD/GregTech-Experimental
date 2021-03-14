@@ -1,7 +1,7 @@
 package mods.gregtechmod.init;
 
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.fluids.FluidGas;
 import mods.gregtechmod.objects.fluids.FluidLiquid;
 import net.minecraft.util.ResourceLocation;
@@ -16,7 +16,7 @@ public class FluidLoader {
     public static final List<IFluidProvider> FLUIDS = new ArrayList<>();
 
     public static void init() {
-        GregTechAPI.logger.info("Initializing fluids");
+        GregTechMod.logger.info("Initializing fluids");
         FLUIDS.addAll(Arrays.asList(Liquid.values()));
         FLUIDS.addAll(Arrays.asList(Gas.values()));
     }

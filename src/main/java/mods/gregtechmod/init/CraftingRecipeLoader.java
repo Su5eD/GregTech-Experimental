@@ -8,6 +8,7 @@ import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
@@ -21,7 +22,7 @@ import net.minecraftforge.oredict.OreIngredient;
 public class CraftingRecipeLoader {
 
     public static void init() {
-        GregTechAPI.logger.info("Loading static crafting recipes");
+        GregTechMod.logger.info("Loading static crafting recipes");
 
         if (IC2.version.isClassic()) {
             if (GregTechConfig.DISABLED_RECIPES.depletedUranium8) {
@@ -61,7 +62,7 @@ public class CraftingRecipeLoader {
         ItemStack ingotTin = IC2Items.getItem("ingot", "tin");
         Ingredient ingotCopperIngredient = new OreIngredient("ingotCopper");
         if (!ModHandler.removeCraftingRecipeFromInputs(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, ingotTin).isEmpty()) {
-            GregTechAPI.logger.info("Changing Forestry's Bronze Recipe");
+            GregTechMod.logger.info("Changing Forestry's Bronze Recipe");
             int count = GregTechConfig.DISABLED_RECIPES.bronzeIngotCrafting ? 1 : 2;
             ModHandler.addShapelessRecipe(
                     "ingotBronze",
@@ -72,7 +73,7 @@ public class CraftingRecipeLoader {
         }
 
         if (GregTechConfig.DISABLED_RECIPES.enchantingTable) {
-            GregTechAPI.logger.info("Removing the recipe of the Enchantment Table, to have more fun at enchanting with the Anvil and Books from Dungeons.");
+            GregTechMod.logger.info("Removing the recipe of the Enchantment Table, to have more fun at enchanting with the Anvil and Books from Dungeons.");
             ModHandler.removeCraftingRecipe(new ItemStack(Blocks.ENCHANTING_TABLE));
         }
         if (GregTechConfig.DISABLED_RECIPES.enderChest) ModHandler.removeCraftingRecipe(new ItemStack(Blocks.ENDER_CHEST));
@@ -83,7 +84,7 @@ public class CraftingRecipeLoader {
 
         ModHandler.removeCraftingRecipe(IC2Items.getItem("ingot", "alloy"));
 
-        GregTechAPI.logger.info("Adding 'The holy Planks of Sengir'");
+        GregTechMod.logger.info("Adding 'The holy Planks of Sengir'");
         ItemStack holyPlanks = new ItemStack(BlockItems.Plate.WOOD.getInstance());
         holyPlanks.setStackDisplayName("The holy Planks of Sengir");
         holyPlanks.addEnchantment(Enchantments.SMITE, 10);

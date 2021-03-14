@@ -2,8 +2,8 @@ package mods.gregtechmod.init;
 
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifuge;
@@ -62,7 +62,7 @@ public class ClientEventHandler {
     }
 
     public static void registerBakedModels() {
-        GregTechAPI.logger.info("Registering baked models");
+        GregTechMod.logger.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
         for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
             try {
@@ -76,7 +76,7 @@ public class ClientEventHandler {
                     }
                 }
             } catch (Exception e) {
-                GregTechAPI.logger.error(e.getMessage());
+                GregTechMod.logger.error(e.getMessage());
             }
         }
         for (BlockItems.Ore ore : BlockItems.Ore.values()) {
