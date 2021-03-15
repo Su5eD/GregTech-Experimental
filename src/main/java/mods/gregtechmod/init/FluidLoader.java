@@ -6,6 +6,7 @@ import mods.gregtechmod.objects.fluids.FluidGas;
 import mods.gregtechmod.objects.fluids.FluidLiquid;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +23,8 @@ public class FluidLoader {
     }
 
     public interface IFluidProvider {
+        String getName();
+
         Fluid getFluid();
 
         String getDescription();
@@ -95,9 +98,15 @@ public class FluidLoader {
         }
 
         @Override
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
         public Fluid getFluid() {
             if (this.instance == null) {
-                this.instance = new FluidLiquid(this.name, this.texture, this.texture)
+                if (FluidRegistry.isFluidRegistered(this.name)) this.instance = FluidRegistry.getFluid(this.name);
+                else this.instance = new FluidLiquid(this.name, this.texture, this.texture)
                         .setUnlocalizedName(this.name)
                         .setDensity(this.density);
             }
@@ -142,6 +151,11 @@ public class FluidLoader {
         Gas(String description) {
             this.description = description;
             this.texture = getTextureLocation();
+        }
+
+        @Override
+        public String getName() {
+            return name().toLowerCase(Locale.ROOT);
         }
 
         @Override

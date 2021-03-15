@@ -51,6 +51,7 @@ public class BlockItemLoader {
         Arrays.stream(BlockItems.Smalldust.values()).forEach(smallDust -> registerItem(smallDust.getInstance()));
         Arrays.stream(BlockItems.Nugget.values()).forEach(nugget -> registerItem(nugget.getInstance()));
         Arrays.stream(BlockItems.Cell.values()).forEach(cell -> registerItem(cell.getInstance()));
+        BlockItems.CLASSIC_CELLS.values().forEach(BlockItemLoader::registerItem);
         Arrays.stream(BlockItems.Cover.values()).forEach(coverItem -> registerItem(coverItem.getInstance()));
         Arrays.stream(BlockItems.Component.values()).forEach(component -> registerItem(component.getInstance()));
         Arrays.stream(BlockItems.Upgrade.values()).forEach(upgrade -> registerItem(upgrade.getInstance()));

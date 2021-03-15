@@ -8,6 +8,7 @@ import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.init.FluidLoader;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockOre;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
@@ -26,17 +27,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fluids.FluidTank;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BlockItems {
     public static net.minecraft.block.Block lightSource;
     public static Item sensorKit;
     public static Item sensorCard;
+    public static final Map<String, ItemCellClassic> CLASSIC_CELLS = Stream.<FluidLoader.IFluidProvider>concat(
+            Arrays.stream(FluidLoader.Liquid.values()),
+            Arrays.stream(FluidLoader.Gas.values())
+    ).collect(Collectors.toMap(FluidLoader.IFluidProvider::getName,
+            provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
 
     public enum Block {
         ADVANCED_MACHINE(4, 30),

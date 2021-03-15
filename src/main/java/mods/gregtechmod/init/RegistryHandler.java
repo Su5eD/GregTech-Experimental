@@ -33,8 +33,8 @@ public class RegistryHandler {
         FluidLoader.init();
         GregTechMod.logger.info("Registering fluids");
         for (FluidLoader.IFluidProvider provider : FluidLoader.FLUIDS) {
+            if (provider.isFallbackFluid() && FluidRegistry.isFluidRegistered(provider.getName())) continue;
             Fluid fluid = provider.getFluid();
-            if (provider.isFallbackFluid() && FluidRegistry.isFluidRegistered(fluid.getName())) continue;
             FluidRegistry.registerFluid(fluid);
             FluidRegistry.addBucketForFluid(fluid);
         }
