@@ -9,100 +9,120 @@ import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 public class OreDictRegistrar {
 
     public static void registerItems() {
         GregTechMod.logger.debug("Adding certain items to the OreDict unification blacklist");
-
         OreDictUnificator.addToBlacklist(IC2Items.getItem("crafting", "industrial_diamond"));
 
         GregTechMod.logger.debug("Registering GregTech items to the Ore Dictionary");
 
-        for (BlockItems.Block block : BlockItems.Block.values()) registerOre("block", block.name().toLowerCase(Locale.ROOT), block.getInstance());
+        Arrays.stream(BlockItems.Block.values())
+                .forEach(block -> registerOre("block", block.name().toLowerCase(Locale.ROOT), block.getInstance()));
         registerOre("craftingRawMachineTier04", BlockItems.Block.HIGHLY_ADVANCED_MACHINE.getInstance());
 
-        for (BlockItems.Ore ore : BlockItems.Ore.values()) registerOre("ore", ore.name().toLowerCase(Locale.ROOT), ore.getInstance());
+        Arrays.stream(BlockItems.Ore.values())
+                .forEach(ore -> registerOre("ore", ore.name().toLowerCase(Locale.ROOT), ore.getInstance()));
 
-        for (BlockItems.Ingot ingot : BlockItems.Ingot.values()) registerOre("ingot", ingot.name().toLowerCase(Locale.ROOT), ingot.getInstance());
+        Arrays.stream(BlockItems.Ingot.values())
+                .forEach(ingot -> registerOre("ingot", ingot.name().toLowerCase(Locale.ROOT), ingot.getInstance()));
         registerOre("ingotAlloyIridium", BlockItems.Ingot.IRIDIUM_ALLOY.getInstance());
 
-        for (BlockItems.Nugget nugget : BlockItems.Nugget.values()) registerOre("nugget", nugget.name().toLowerCase(Locale.ROOT), nugget.getInstance());
+        Arrays.stream(BlockItems.Nugget.values())
+                .forEach(nugget -> registerOre("nugget", nugget.name().toLowerCase(Locale.ROOT), nugget.getInstance()));
 
-        for (BlockItems.Plate plate : BlockItems.Plate.values()) registerOre("plate", plate.name().toLowerCase(Locale.ROOT), plate.getInstance());
+        Arrays.stream(BlockItems.Plate.values())
+                .filter(GtUtil::shouldEnable)
+                .forEach(plate -> registerOre("plate", plate.name().toLowerCase(Locale.ROOT), plate.getInstance()));
         OreDictUnificator.add("pulpWood", BlockItems.Dust.WOOD.getInstance());
         registerOre("plankWood", BlockItems.Plate.WOOD.getInstance());
         OreDictUnificator.override("plateAluminum", new ItemStack(BlockItems.Plate.ALUMINIUM.getInstance()));
 
-        for (BlockItems.Rod rod : BlockItems.Rod.values()) registerOre("stick", rod.name().toLowerCase(Locale.ROOT), rod.getInstance());
+        Arrays.stream(BlockItems.Rod.values())
+                .filter(GtUtil::shouldEnable)
+                .forEach(rod -> registerOre("stick", rod.name().toLowerCase(Locale.ROOT), rod.getInstance()));
 
-        for (BlockItems.Dust dust : BlockItems.Dust.values()) registerOre("dust", dust.name().toLowerCase(Locale.ROOT), dust.getInstance());
+        Arrays.stream(BlockItems.Dust.values())
+                .forEach(dust -> registerOre("dust", dust.name().toLowerCase(Locale.ROOT), dust.getInstance()));
         registerOre("dyeCyan", BlockItems.Dust.LAZURITE.getInstance());
         registerOre("dyeBlue", BlockItems.Dust.SODALITE.getInstance());
 
-        for (BlockItems.Smalldust smallDust : BlockItems.Smalldust.values()) registerOre("dustSmall", smallDust.name().toLowerCase(Locale.ROOT), smallDust.getInstance());
+        Arrays.stream(BlockItems.Smalldust.values())
+                .forEach(smallDust -> registerOre("dustSmall", smallDust.name().toLowerCase(Locale.ROOT), smallDust.getInstance()));
 
-        for (BlockItems.Upgrade upgrade : BlockItems.Upgrade.values()) {
-            if (upgrade.oreDict != null) registerOre(upgrade.oreDict, upgrade.getInstance());
-        }
+        Arrays.stream(BlockItems.Upgrade.values())
+                .filter(upgrade -> upgrade.oreDict != null)
+                .forEach(upgrade -> registerOre(upgrade.oreDict, upgrade.getInstance()));
 
-        for (BlockItems.Cover cover : BlockItems.Cover.values()) {
-            if (cover.oreDict != null) registerOre(cover.oreDict, cover.getInstance());
-        }
+        Arrays.stream(BlockItems.Cover.values())
+                .filter(cover -> cover.oreDict != null)
+                .forEach(cover -> registerOre(cover.oreDict, cover.getInstance()));
 
-        for (BlockItems.Component component : BlockItems.Component.values()) {
-            if (component.oreDict != null) registerOreWildcard(component.oreDict, component.getInstance());
-        }
+        Arrays.stream(BlockItems.Component.values())
+                .filter(component -> component.oreDict != null)
+                .forEach(component -> registerOreWildcard(component.oreDict, component.getInstance()));
         registerOreWildcard("lithiumBattery", BlockItems.Component.LITHIUM_BATTERY.getInstance());
         registerOreWildcard("crafting100kEUStore", BlockItems.Component.LITHIUM_BATTERY.getInstance());
-        registerOre("craftingGearTier01", BlockItems.Component.GEAR_IRON.getInstance());
+        Item gearIron = BlockItems.Component.GEAR_IRON.getInstance();
+        if (GregTechMod.classic) registerOre("gearRefinedIron", gearIron);
+        registerOre("craftingGearTier01", gearIron);
         registerOre("craftingGearTier01", BlockItems.Component.GEAR_BRONZE.getInstance());
         registerOre("craftingGearTier02", BlockItems.Component.GEAR_STEEL.getInstance());
         registerOre("craftingGearTier03", BlockItems.Component.GEAR_TITANIUM.getInstance());
         registerOre("craftingGearTier03", BlockItems.Component.GEAR_TUNGSTEN_STEEL.getInstance());
         registerOre("craftingGearTier04", BlockItems.Component.GEAR_IRIDIUM.getInstance());
 
-        for (BlockItems.Tool tool : BlockItems.Tool.values()) {
-            if (tool.oreDict != null) registerOreWildcard(tool.oreDict, tool.getInstance());
-        }
+        Arrays.stream(BlockItems.Tool.values())
+                .filter(tool -> tool.oreDict != null)
+                .forEach(tool -> registerOreWildcard(tool.oreDict, tool.getInstance()));
         registerOreWildcard("craftingToolSaw", BlockItems.Tool.SAW_ADVANCED.getInstance());
 
-        for (BlockItems.File file : BlockItems.File.values()) registerOreWildcard("craftingToolFile", file.getInstance());
+        Arrays.stream(BlockItems.File.values())
+                .forEach(file -> registerOreWildcard("craftingToolFile", file.getInstance()));
 
-        for (BlockItems.Hammer hammer : BlockItems.Hammer.values()) registerOreWildcard("craftingToolHardHammer", hammer.getInstance());
+        Arrays.stream(BlockItems.Hammer.values())
+                .forEach(hammer -> registerOreWildcard("craftingToolHardHammer", hammer.getInstance()));
 
-        for (BlockItems.Saw saw : BlockItems.Saw.values()) registerOreWildcard("craftingToolSaw", saw.getInstance());
+        Arrays.stream(BlockItems.Saw.values())
+                .forEach(saw -> registerOreWildcard("craftingToolSaw", saw.getInstance()));
         registerOre("craftingToolSaw", StackUtil.copyWithWildCard(IC2Items.getItem("chainsaw")));
 
-        for (BlockItems.SolderingMetal solderingMetal : BlockItems.SolderingMetal.values()) registerOreWildcard("craftingToolSolderingMetal", solderingMetal.getInstance());
+        Arrays.stream(BlockItems.SolderingMetal.values())
+                .forEach(solderingMetal -> registerOreWildcard("craftingToolSolderingMetal", solderingMetal.getInstance()));
 
-        for (BlockItems.ColorSpray spray : BlockItems.ColorSpray.values()) registerOreWildcard("dye", spray.name().toLowerCase(Locale.ROOT), spray.getInstance());
+        Arrays.stream(BlockItems.ColorSpray.values())
+                .forEach(spray -> registerOreWildcard("dye", spray.name().toLowerCase(Locale.ROOT), spray.getInstance()));
 
-        for (BlockItems.Wrench wrench : BlockItems.Wrench.values()) registerOreWildcard("craftingToolWrench", wrench.getInstance());
+        Arrays.stream(BlockItems.Wrench.values())
+                .forEach(wrench -> registerOreWildcard("craftingToolWrench", wrench.getInstance()));
         registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("wrench")));
         registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("wrench_new")));
         registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("electric_wrench")));
 
-        for (BlockItems.Cell cell : BlockItems.Cell.values()) registerOreWildcard("cell", cell.name().toLowerCase(Locale.ROOT), cell.getInstance());
+        Arrays.stream(BlockItems.Cell.values())
+                .forEach(cell -> registerOreWildcard("cell", cell.name().toLowerCase(Locale.ROOT), cell.getInstance()));
 
-        for (BlockItems.NuclearCoolantPack pack : BlockItems.NuclearCoolantPack.values()) {
-            if (pack.oreDict != null) registerOreWildcard(pack.oreDict, pack.getInstance());
-        }
+        Arrays.stream(BlockItems.NuclearCoolantPack.values())
+                .filter(pack -> pack.oreDict != null)
+                .forEach(pack -> registerOreWildcard(pack.oreDict, pack.getInstance()));
 
-        for (BlockItems.Armor armor : BlockItems.Armor.values()) {
-            if (armor.oreDict != null) registerOreWildcard(armor.oreDict, armor.getInstance());
-        }
+        Arrays.stream(BlockItems.Armor.values())
+                .filter(armor -> armor.oreDict != null)
+                .forEach(armor -> registerOreWildcard(armor.oreDict, armor.getInstance()));
 
-        for (BlockItems.Miscellaneous misc : BlockItems.Miscellaneous.values()) {
-            if (misc.oreDict != null) registerOre(misc.oreDict, misc.getInstance());
-        }
+        Arrays.stream(BlockItems.Miscellaneous.values())
+                .filter(misc -> misc.oreDict != null)
+                .forEach(misc -> registerOre(misc.oreDict, misc.getInstance()));
 
         GregTechMod.logger.debug("Adding vanilla items to the Ore Dictionary");
 

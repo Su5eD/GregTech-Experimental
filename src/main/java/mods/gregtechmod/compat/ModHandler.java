@@ -35,7 +35,6 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
 import javax.annotation.Nonnull;
@@ -345,7 +344,7 @@ public class ModHandler {
 
     public static void removeCraftingRecipe(ItemStack output) {
         new ArrayList<>(ForgeRegistries.RECIPES.getValuesCollection()).stream()
-                .filter(recipe -> ItemHandlerHelper.canItemStacksStack(recipe.getRecipeOutput(), output))
+                .filter(recipe -> GtUtil.stackEquals(recipe.getRecipeOutput(), output))
                 .map(IRecipe::getRegistryName)
                 .filter(name -> !name.getNamespace().equals(Reference.MODID))
                 .forEach(((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES)::remove);

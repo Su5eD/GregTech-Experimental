@@ -1,5 +1,5 @@
 {
-  "type": "gregtechmod:replace",
+  "type": "gregtechmod:replace_shaped",
   "pattern":
   [
     "FDF",
@@ -15,12 +15,12 @@
     "A":
     {
       "type": "forge:ore_dict",
-      "ore": "circuitTier04"
+      "ore": "craftingCircuitTier04"
     },
     "M":
     {
       "type": "forge:ore_dict",
-      "ore": "rawMachineTier01"
+      "ore": "craftingRawMachineTier01"
     },
     "D":
     {

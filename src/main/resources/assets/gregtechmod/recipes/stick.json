@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": [
+  "ingredients":
+  [
     {
       "item": "minecraft:deadbush"
     }

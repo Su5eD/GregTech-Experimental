@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " B ",
+    "RRR",
+    " F "
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kEUStore"
+    },
+    "R":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "ingotAluminium", "ingotInvar", "plateRefinedIron", "plateAluminium", "plateInvar" ]
+    },
+    "F":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingIronFurnace"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:te",
+    "data": 3
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:classic"
+    }
+  ]
+}

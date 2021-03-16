@@ -30,29 +30,6 @@ public class CraftingRecipeLoader {
             }
             ModHandler.removeCraftingRecipeFromInputs(IC2Items.getItem("crafting", "compressed_plants"), ModHandler.emptyCell);
             ModHandler.removeCraftingRecipeFromInputs(IC2Items.getItem("crafting", "compressed_hydrated_coal"), ModHandler.emptyCell);
-            ModHandler.removeCraftingRecipe(ModHandler.emptyCell);
-            ModHandler.addShapedRecipe(
-                    "emptyCell",
-                    null,
-                    StackUtil.copyWithSize(ModHandler.emptyCell, 4),
-                    " T ", "T T", " T ", 'T', GregTechAPI.getDynamicConfig("harder_recipes", "tin_cells_from_plates", true, "Classic Profile only") ? "plateTin" : "ingotTin"
-            );
-            if (GregTechAPI.getDynamicConfig("harder_recipes", "machine_block", true, "Classic Profile only")) {
-                ItemStack machineBlock = IC2Items.getItem("resource", "machine");
-                ModHandler.removeCraftingRecipe(machineBlock);
-                ModHandler.addShapedRecipe(
-                        "machineBlock",
-                        null,
-                        machineBlock,
-                        "RRR", "RWR", "RRR", 'R', "plateRefinedIron", 'W', "craftingToolWrench"
-                );
-            }
-            ModHandler.addShapedRecipe(
-                    "piston_refined_iron",
-                    null,
-                    new ItemStack(Blocks.PISTON),
-                    "WWW", "CBC", "CRC", 'W', "plankWood", 'C', "stoneCobble", 'R', "dustRedstone", 'B', "ingotRefinedIron"
-            );
         }
 
         ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.WATER_BUCKET), ModHandler.emptyCell);
@@ -130,5 +107,22 @@ public class CraftingRecipeLoader {
         if (GregTechAPI.getDynamicConfig("harder_recipes", "wind_generator", true)) ModHandler.removeCraftingRecipe(IC2Items.getItem("te", "wind_generator"));
         if (GregTechAPI.getDynamicConfig("harder_recipes", "water_generator", true)) ModHandler.removeCraftingRecipe(IC2Items.getItem("te", "water_generator"));
         if (GregTechAPI.getDynamicConfig("harder_recipes", "solar_generator", true)) ModHandler.removeCraftingRecipe(IC2Items.getItem("te", "solar_generator"));
+
+        ItemStack planks = new ItemStack(Blocks.PLANKS);
+        ItemStack result = ModHandler.removeCraftingRecipeFromInputs(planks, ItemStack.EMPTY, ItemStack.EMPTY, planks);
+        if (!result.isEmpty()) {
+            ModHandler.addShapedRecipe(
+                    "planksSawing",
+                    null,
+                    StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() : result.getCount() * 5 / 4),
+                    "S", "P", "P", 'P', "plankWood", 'S', "craftingToolSaw"
+            );
+            ModHandler.addShapedRecipe(
+                    "sticksFromPlanks",
+                    null,
+                    StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() / 2 : result.getCount()),
+                    "P", "P", 'P', "plankWood"
+            );
+        }
     }
 }

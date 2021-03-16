@@ -4,6 +4,7 @@ import ic2.api.item.IC2Items;
 import ic2.api.item.IItemAPI;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -15,6 +16,26 @@ public class ItemStackModificator {
         modifyBlockHardnessAndResistance();
         modifyItemMaxStacksize();
         addJackHammerMinableBlocks();
+        modifyToolDurability();
+    }
+
+    private static void modifyToolDurability() {
+        if (GregTechConfig.GENERAL.smallerWoodToolDurability) {
+            GregTechMod.logger.info("Nerfing Wood Tool Durability");
+            Items.WOODEN_SWORD.setMaxDamage(12);
+            Items.WOODEN_PICKAXE.setMaxDamage(12);
+            Items.WOODEN_SHOVEL.setMaxDamage(12);
+            Items.WOODEN_AXE.setMaxDamage(12);
+            Items.WOODEN_HOE.setMaxDamage(12);
+        }
+        if (GregTechConfig.GENERAL.smallerStoneToolDurability) {
+            GregTechMod.logger.info("Nerfing Stone Tool Durability");
+            Items.STONE_SWORD.setMaxDamage(48);
+            Items.STONE_PICKAXE.setMaxDamage(48);
+            Items.STONE_SHOVEL.setMaxDamage(48);
+            Items.STONE_AXE.setMaxDamage(48);
+            Items.STONE_HOE.setMaxDamage(48);
+        }
     }
 
     private static void modifyBlockHardnessAndResistance() {

@@ -40,6 +40,8 @@ public class GregTechConfig {
         public boolean hiddenOres = true;
         public boolean harderStone = false;
         public boolean woodNeedsSawForCrafting = true;
+        public boolean smallerWoodToolDurability = true;
+        public boolean smallerStoneToolDurability = true;
 
         public String[] specialUnificationTargets = new String[0];
     }

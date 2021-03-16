@@ -13,7 +13,8 @@
     "multi": "mods.gregtechmod.recipe.crafting.MultiItemIngredient"
   },
   "recipes": {
-    "replace": "mods.gregtechmod.recipe.crafting.ReplaceRecipeFactory",
+    "replace_shaped": "mods.gregtechmod.recipe.crafting.ReplaceShapedRecipeFactory",
+    "replace_shapeless": "mods.gregtechmod.recipe.crafting.ReplaceShapelessRecipeFactory",
     "crafting_wrench_shaped": "mods.gregtechmod.recipe.crafting.WrenchCraftingRecipeShapedFactory",
     "crafting_wrench_shapeless": "mods.gregtechmod.recipe.crafting.WrenchCraftingRecipeShapelessFactory"
   }

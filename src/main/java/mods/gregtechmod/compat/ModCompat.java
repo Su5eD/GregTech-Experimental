@@ -48,7 +48,7 @@ public class ModCompat {
         if (!ModHandler.railcraft) return;
         GregTechMod.logger.info("Adding Rolling Machine recipes");
 
-        addRollingMachineRecipe("coil_kanthal", new ItemStack(BlockItems.Component.COIL_KANTHAL.getInstance(), 3), "AAA", "BCC", "BBC", 'A', "ingotRefinedIron", 'B', "ingotChrome", 'C', "ingotAluminium");
+        addRollingMachineRecipe("coil_kanthal", new ItemStack(BlockItems.Component.COIL_KANTHAL.getInstance(), 3), "AAA", "BCC", "BBC", 'A', GregTechMod.classic ? "ingotRefinedIron" : "ingotIron", 'B', "ingotChrome", 'C', "ingotAluminium");
         addRollingMachineRecipe("coil_nichrome", new ItemStack(BlockItems.Component.COIL_NICHROME.getInstance()), " B ", "BAB", " B ", 'A', "ingotChrome", 'B', "ingotNickel");
         addRollingMachineRecipe("coil_cupronickel", new ItemStack(BlockItems.Component.COIL_CUPRONICKEL.getInstance()), "BAB", "A A", "BAB", 'A', "ingotCopper", 'B', "ingotNickel");
         ItemStack railStandard = ModHandler.getRCItem("rail");

@@ -463,6 +463,7 @@ public class MachineRecipeLoader {
 
     private static void addScrapboxDrops() {
         GregTechMod.logger.info("Adding Scrapbox drops");
+        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("crafting", "scrap"), 200);
         addScrapboxDrop(Items.WOODEN_AXE, 2);
         addScrapboxDrop(Items.WOODEN_SWORD, 2);
         addScrapboxDrop(Items.WOODEN_SHOVEL, 2);

@@ -1,5 +1,5 @@
 {
-  "type": "gregtechmod:replace",
+  "type": "gregtechmod:replace_shaped",
   "pattern":
   [
     " D ",
@@ -10,7 +10,8 @@
   {
     "M":
     {
-      "item": "ic2:drill"
+      "item": "ic2:drill",
+      "data": 32767
     },
     "D":
     {

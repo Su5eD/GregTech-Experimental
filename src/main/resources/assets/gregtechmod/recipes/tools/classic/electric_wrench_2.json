@@ -1,0 +1,56 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "S S",
+    "SCS",
+    " B "
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kEUStore"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateRefinedIron"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:electric_wrench"
+  },
+  "conditions":
+  [
+    {
+      "type": "forge:and",
+      "values":
+      [
+        {
+          "type": "gregtechmod:classic"
+        },
+        {
+          "type": "forge:not",
+          "value":
+          {
+            "type": "gregtechmod:config",
+            "config":
+            {
+              "category": "harder_recipes",
+              "name": "electric_steel_tools",
+              "value": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

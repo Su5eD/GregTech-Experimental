@@ -4,6 +4,7 @@ import ic2.core.IC2;
 import ic2.core.item.ItemClassicCell;
 import ic2.core.item.ItemIC2;
 import ic2.core.item.type.CellType;
+import ic2.core.profile.NotExperimental;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@NotExperimental
 public class ItemCellClassic extends ItemBase {
     private final Fluid fluid;
 

@@ -1,6 +1,7 @@
 package mods.gregtechmod.util;
 
 import ic2.api.item.ElectricItem;
+import ic2.core.profile.Version;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.util.ArmorPerk;
@@ -18,6 +19,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -150,5 +152,16 @@ public class GtUtil {
         ItemStack ret = stack.copy();
         ret.setItemDamage(meta);
         return stack;
+    }
+
+    public static boolean shouldEnable(IObjectHolder holder) {
+        try {
+            Field field = holder.getClass().getField(holder.name());
+            return Version.shouldEnable(field);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

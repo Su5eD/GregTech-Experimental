@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "RRR",
+    "RRR",
+    " S "
+  ],
+  "key":
+  {
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:hammer_iron"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
+}

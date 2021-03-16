@@ -1,0 +1,49 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    " T ",
+    "T T",
+    " T "
+  ],
+  "key":
+  {
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "ingotTin"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:cell",
+    "data": 0,
+    "count": 4
+  },
+  "conditions":
+  [
+    {
+      "type": "forge:and",
+      "values":
+      [
+        {
+          "type": "forge:not",
+          "value":
+          {
+            "type": "gregtechmod:config",
+            "config":
+            {
+              "category": "harder_recipes",
+              "name": "tin_cells_from_plates",
+              "value": true,
+              "comment": "Classic Profile only"
+            }
+          }
+        },
+        {
+          "type": "gregtechmod:classic"
+        }
+      ]
+    }
+  ]
+}

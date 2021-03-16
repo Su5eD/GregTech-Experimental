@@ -2,6 +2,7 @@ package mods.gregtechmod.objects;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.item.IC2Items;
+import ic2.core.profile.NotExperimental;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.util.ArmorPerk;
@@ -17,6 +18,7 @@ import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.IObjectHolder;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -262,7 +264,7 @@ public class BlockItems {
         }
     }
 
-    public enum Plate {
+    public enum Plate implements IObjectHolder {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         BATTERY_ALLOY(Ingot.BATTERY_ALLOY.description),
         BRASS(Ingot.BRASS.description),
@@ -273,6 +275,8 @@ public class BlockItems {
         NICKEL(Ingot.NICKEL.description),
         OSMIUM(Ingot.OSMIUM.description),
         PLATINUM(Ingot.PLATINUM.description),
+        @NotExperimental
+        REFINED_IRON("Fe"),
         SILICON("Si2"),
         SILVER("Ag"),
         TITANIUM(Ingot.TITANIUM.description),
@@ -288,21 +292,22 @@ public class BlockItems {
             this.description = description;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "plate_"+this.name().toLowerCase(Locale.ROOT);
                 this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
                         .setFolder("plate")
                         .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
+                        .setTranslationKey(name);
+                if (GtUtil.shouldEnable(this)) this.instance.setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 
             return this.instance;
         }
     }
 
-    public enum Rod {
+    public enum Rod implements IObjectHolder {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         BRASS(Ingot.BRASS.description),
         BRONZE("SnCu3"),
@@ -317,6 +322,8 @@ public class BlockItems {
         NICKEL(Ingot.NICKEL.description),
         OSMIUM(Ingot.OSMIUM.description),
         PLATINUM(Ingot.PLATINUM.description),
+        @NotExperimental
+        REFINED_IRON("Fe"),
         SILVER("Ag"),
         STEEL("Fe"),
         TIN("Sn"),
@@ -332,14 +339,15 @@ public class BlockItems {
             this.description = description;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "rod_"+this.name().toLowerCase(Locale.ROOT);
                 this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
                         .setFolder("rod")
                         .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
+                        .setTranslationKey(name);
+                if (GtUtil.shouldEnable(this)) this.instance.setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 
             return this.instance;
@@ -703,7 +711,7 @@ public class BlockItems {
         TURBINE_BLADE_MAGNALIUM("Light Turbine Blade", "craftingTurbineBladeMagnalium"),
         TURBINE_BLADE_STEEL("Standard Turbine Blade", "craftingTurbineBladeSteel"),
         TURBINE_BLADE_TUNGSTEN_STEEL("Durable Turbine Blade", "craftingTurbineBladeTungstenSteel"),
-        GEAR_IRON("An Iron Gear", "gearIron"),
+        GEAR_IRON(GregTechMod.classic ? "A Refined Iron Gear" : "An Iron Gear", "gearIron"),
         GEAR_BRONZE("A Bronze Gear", "gearBronze"),
         GEAR_STEEL("A Steel Gear", "gearSteel"),
         GEAR_TITANIUM("A Titanium Gear", "gearTitanium"),

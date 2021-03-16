@@ -1,10 +1,10 @@
 {
-  "type": "gregtechmod:replace",
+  "type": "gregtechmod:replace_shaped",
   "pattern":
   [
-    "BS ",
+    " SS",
     "SCS",
-    " SS"
+    "BS "
   ],
   "key":
   {

@@ -1,0 +1,43 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CPC",
+    "RQR",
+    "CRC"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingPiston"
+    },
+    "R":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "plateIron", "plateAluminium" ]
+    },
+    "Q":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingConveyor"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
+}
