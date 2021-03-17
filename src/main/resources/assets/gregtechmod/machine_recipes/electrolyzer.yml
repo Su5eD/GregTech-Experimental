@@ -4,11 +4,11 @@
     ore: dustSaltpeter
     count: 10
   output:
-    - item: ic2:fluid_cell#potassium
+    - cell: potassium
       count: 2
-    - item: ic2:fluid_cell#nitrogen
+    - cell: nitrogen
       count: 2
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 3
   cells: 7
   duration: 50
@@ -21,8 +21,8 @@
       count: 2
     - item: ic2:dust#small_iron
       count: 2
-    - item: ic2:fluid_cell#silicon
-    - item: ic2:fluid_cell#ic2air
+    - cell: silicon
+    - cell: ic2air
       count: 2
   cells: 3
   duration: 500
@@ -33,7 +33,7 @@
   output:
     - item: gregtechmod:cell_carbon
       count: 2
-    - item: ic2:fluid_cell#water
+    - cell: water
       count: 5
   cells: 7
   duration: 210
@@ -42,12 +42,12 @@
     ore: dustClay
     count: 8
   output:
-    - item: ic2:fluid_cell#lithium
-    - item: ic2:fluid_cell#silicon
+    - cell: lithium
+    - cell: silicon
       count: 2
     - item: gregtechmod:dust_aluminium
       count: 2
-    - item: ic2:fluid_cell#sodium
+    - cell: sodium
       count: 2
   cells: 5
   duration: 200
@@ -60,9 +60,9 @@
       count: 3
     - item: gregtechmod:dust_aluminium
       count: 2
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 3
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 6
   cells: 9
   duration: 1790
@@ -75,9 +75,9 @@
       count: 3
     - item: gregtechmod:dust_aluminium
       count: 2
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 3
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 6
   cells: 9
   duration: 1640
@@ -90,9 +90,9 @@
       count: 2
     - item: gregtechmod:dust_manganese
       count: 3
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 3
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 6
   cells: 9
   duration: 1810
@@ -101,13 +101,13 @@
     ore: dustAndradite
     count: 20
   output:
-    - item: ic2:fluid_cell#calcium
+    - cell: calcium
       count: 3
     - item: ic2:dust#iron
       count: 2
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 3
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 6
   cells: 12
   duration: 1280
@@ -116,13 +116,13 @@
     ore: dustGrossular
     count: 20
   output:
-    - item: ic2:fluid_cell#calcium
+    - cell: calcium
       count: 3
     - item: ic2:dust#iron
       count: 2
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 3
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 6
   cells: 12
   duration: 2050
@@ -131,13 +131,13 @@
     ore: dustUvarovite
     count: 20
   output:
-    - item: ic2:fluid_cell#calcium
+    - cell: calcium
       count: 3
     - item: gregtechmod:dust_chrome
       count: 2
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 3
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 6
   cells: 12
   duration: 2200
@@ -154,7 +154,7 @@
     ore: dustCinnabar
     count: 2
   output:
-    - item: ic2:fluid_cell#mercury
+    - cell: mercury
     - item: ic2:dust#sulfur
   cells: 1
   duration: 100
@@ -177,12 +177,12 @@
     ore: dustEnderPearl
     count: 16
   output:
-    - item: ic2:fluid_cell#nitrogen
+    - cell: nitrogen
       count: 5
-    - item: ic2:fluid_cell#berylium
-    - item: ic2:fluid_cell#potassium
+    - cell: berylium
+    - cell: potassium
       count: 4
-    - item: ic2:fluid_cell#chlorite
+    - cell: chlorite
       count: 6
   cells: 16
   duration: 1300
@@ -195,8 +195,8 @@
       count: 2
     - item: ic2:dust#iron
       count: 2
-    - item: ic2:fluid_cell#silicon
-    - item: ic2:fluid_cell#ic2air
+    - cell: silicon
+    - cell: ic2air
   cells: 3
   duration: 600
   energyCost: 60
@@ -206,11 +206,11 @@
   output:
     - item: gregtechmod:dust_aluminium
       count: 2
-    - item: ic2:fluid_cell#berylium
+    - cell: berylium
       count: 3
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 6
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 9
   cells: 18
   duration: 600
@@ -222,7 +222,7 @@
     - item: gregtechmod:dust_aluminium
       count: 2
     - item: gregtechmod:dust_chrome
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 3
   cells: 3
   duration: 500
@@ -233,7 +233,7 @@
   output:
     - item: gregtechmod:dust_aluminium
       count: 2
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 3
   cells: 3
   duration: 400
@@ -273,11 +273,11 @@
   output:
     - item: gregtechmod:dust_aluminium
       count: 3
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 3
-    - item: ic2:fluid_cell#calcium
+    - cell: calcium
       count: 4
-    - item: ic2:fluid_cell#sodium
+    - cell: sodium
       count: 4
   cells: 11
   duration: 1475
@@ -295,11 +295,11 @@
     ore: dustCalcite
     count: 10
   output:
-    - item: ic2:fluid_cell#calcium
+    - cell: calcium
       count: 2
     - item: gregtechmod:cell_carbon
       count: 2
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 3
   cells: 7
   duration: 700
@@ -308,13 +308,13 @@
     ore: dustSodalite
     count: 23
   output:
-    - item: ic2:fluid_cell#sodium
+    - cell: sodium
       count: 4
     - item: gregtechmod:dust_aluminium
       count: 3
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
       count: 3
-    - item: ic2:fluid_cell#chlorite
+    - cell: chlorite
   cells: 8
   duration: 1350
   energyCost: 90
@@ -322,8 +322,8 @@
     ore: dustFlint
     count: 8
   output:
-    - item: ic2:fluid_cell#silicon
-    - item: ic2:fluid_cell#ic2air
+    - cell: silicon
+    - cell: ic2air
   cells: 2
   duration: 1000
   energyCost: 5
@@ -335,18 +335,18 @@
       count: 8
     - item: gregtechmod:smalldust_titanium
       count: 2
-    - item: ic2:fluid_cell#hydrogen
+    - cell: hydrogen
       count: 5
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 3
   cells: 8
   duration: 2000
   energyCost: 128
 - input:
-    item: ic2:fluid_cell#methane
+    cell: methane
     count: 5
   output:
-    - item: ic2:fluid_cell#hydrogen
+    - cell: hydrogen
       count: 4
     - item: gregtechmod:cell_carbon
   duration: 150
@@ -355,12 +355,12 @@
     item: gregtechmod:cell_sulfuric_acid
     count: 7
   output:
-    - item: ic2:fluid_cell#hydrogen
+    - cell: hydrogen
       count: 2
     - item: gregtechmod:cell_sulfur
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
       count: 2
-    - item: ic2:fluid_cell
+    - cell: empty
       count: 2
   duration: 40
   energyCost: 100
@@ -368,9 +368,9 @@
     fluid: water
     count: 6
   output:
-    - item: ic2:fluid_cell#hydrogen
+    - cell: hydrogen
       count: 4
-    - item: ic2:fluid_cell#ic2air
+    - cell: ic2air
   cells: 5
   duration: 775
   energyCost: 120
@@ -405,7 +405,7 @@
     meta: 15
     count: 3
   output:
-    - item: ic2:fluid_cell#calcium
+    - cell: calcium
   cells: 1
   duration: 24
   energyCost: 106
@@ -421,8 +421,8 @@
     item: minecraft:sand
     count: 16
   output:
-    - item: ic2:fluid_cell#silicon
-    - item: ic2:fluid_cell#ic2air
+    - cell: silicon
+    - cell: ic2air
   cells: 2
   duration: 1000
   energyCost: 25

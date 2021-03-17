@@ -1,6 +1,6 @@
 # Industrial Centrifuge recipes
 #
-# Recipes priority goes from top to bottom.
+# Recipe priority goes from top to bottom.
 # Example recipe with all possible options:
 # input:                                <-- a single ItemStack, required
 #   item: examplemod:simple_item        <-- item registry name, required
@@ -10,7 +10,7 @@
 #   - item: examplemod:fancy_item
 #     count: 2
 #     meta: 4
-#   - item: ic2:fluid_cell#fancy_fluid  <-- IC2 IMultiItem variants can be defined using #<variant name>
+#   - item: ic2:crafting#power_unit     <-- IC2 IMultiItem variants can be defined using #<variant name>
 # duration: 400                         <-- amount of ticks to process the recipe, required
 # cells: 1                              <-- amount of cells required to process the recipe, optional, default: 0
 #
@@ -70,11 +70,11 @@
     ore: dustRedstone
     count: 10
   output:
-    - item: ic2:fluid_cell#silicon
+    - cell: silicon
     - item: gregtechmod:dust_pyrite
       count: 5
     - item: gregtechmod:dust_ruby
-    - item: ic2:fluid_cell#mercury
+    - cell: mercury
       count: 3
   cells: 2
   duration: 7000
@@ -86,7 +86,7 @@
       count: 8
     - item: ic2:dust#gold
       count: 8
-    - item: ic2:fluid_cell#helium
+    - cell: helium
   cells: 1
   duration: 25000
 - input:
@@ -140,7 +140,7 @@
 - input:
     ore: dustQuicksilver
   output:
-    - item: ic2:fluid_cell#mercury
+    - cell: mercury
   cells: 1
   duration: 100
 - input:
@@ -231,8 +231,8 @@
     ore: dustEndstone
     count: 16
   output:
-    - item: ic2:fluid_cell#helium3
-    - item: ic2:fluid_cell#wolframium
+    - cell: helium3
+    - cell: wolframium
     - item: gregtechmod:smalldust_tungsten
     - item: minecraft:sand
       count: 16
@@ -250,28 +250,28 @@
     fluid: hydrogen
     count: 4
   output:
-    - item: ic2:fluid_cell#deuterium
+    - cell: deuterium
   cells: 1
   duration: 3000
 - input:
     fluid: helium
     count: 16
   output:
-    - item: ic2:fluid_cell#helium3
+    - cell: helium3
   cells: 1
   duration: 10000
 - input:
     fluid: helium3
     count: 4
   output:
-    - item: ic2:fluid_cell#deuterium
+    - cell: deuterium
   cells: 1
   duration: 3000
 - input:
     item: gregtechmod:cell_sulfur
   output:
     - item: ic2:dust#sulfur
-    - item: ic2:fluid_cell
+    - cell: empty
   duration: 40
 - input:
     fluid: calcium_carbonate
@@ -288,7 +288,7 @@
       count: 8
     - item: ic2:crafting#plant_ball
       count: 6
-    - item: ic2:fluid_cell#methane
+    - cell: methane
     - item: gregtechmod:cell_carbon
       count: 4
   cells: 5
@@ -299,7 +299,7 @@
       - oilsandsOre
     count: 2
   output:
-    - item: ic2:fluid_cell#oil
+    - cell: oil
     - item: minecraft:sand
   cells: 1
   duration: 1000
@@ -323,7 +323,7 @@
       - harvestcraft:venisoncookeditem
     count: 16
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
@@ -332,11 +332,11 @@
       - harvestcraft:venisonrawitem
     count: 12
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
-    item: ic2:fluid_cell#mercury
+    cell: mercury
   output:
     - item: thaumcraft:quicksilver
   duration: 40
@@ -344,7 +344,7 @@
     item: gregtechmod:cell_ice
   output:
     - item: minecraft:ice
-    - item: ic2:fluid_cell
+    - cell: empty
   duration: 40
 - input:
     item: minecraft:magma_cream
@@ -409,7 +409,7 @@
     item: minecraft:golden_apple
     meta: 1
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
       count: 2
     - item: minecraft:gold_ingot
       count: 64
@@ -420,7 +420,7 @@
       - minecraft:golden_apple
       - minecraft:golden_carrot
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
     - item: minecraft:gold_nugget
       count: 6
   cells: 1
@@ -429,7 +429,7 @@
     item: minecraft:speckled_melon
     count: 8
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
     - item: minecraft:gold_nugget
       count: 6
   cells: 1
@@ -438,21 +438,21 @@
     item: minecraft:apple
     count: 32
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
     ore: foodRaw
     count: 12
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
     ore: foodCooked
     count: 16
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
@@ -462,7 +462,7 @@
       - minecraft:bread
     count: 64
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
@@ -475,7 +475,7 @@
       - ic2:terra_wart
     count: 16
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
@@ -484,7 +484,7 @@
       - minecraft:nether_wart
     count: 32
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
@@ -494,21 +494,21 @@
       - minecraft:red_mushroom_block
     count: 12
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
     item: minecraft:baked_potato
     count: 24
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 - input:
     item: minecraft:cake
     count: 8
   output:
-    - item: ic2:fluid_cell#methane
+    - cell: methane
   cells: 1
   duration: 5000
 # Classic recipe TODO: Add normal variant
@@ -525,7 +525,7 @@
     item: minecraft:soul_sand
     count: 16
   output:
-    - item: ic2:fluid_cell#oil
+    - cell: oil
     - item: gregtechmod:dust_saltpeter
       count: 4
     - item: ic2:dust#coal

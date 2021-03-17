@@ -1,7 +1,7 @@
 package mods.gregtechmod.recipe.crafting;
 
 import com.google.gson.JsonObject;
-import ic2.api.item.IC2Items;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.JsonUtils;
@@ -15,7 +15,7 @@ public class FluidCellIngredientFactory implements IIngredientFactory {
     @Override
     public Ingredient parse(JsonContext context, JsonObject json) {
         String fluidName = JsonUtils.getString(json, "fluid");
-        ItemStack fluidCell = IC2Items.getItem("fluid_cell", fluidName);
+        ItemStack fluidCell = GtUtil.getCell(fluidName);
         return Ingredient.fromStacks(fluidCell);
     }
 }

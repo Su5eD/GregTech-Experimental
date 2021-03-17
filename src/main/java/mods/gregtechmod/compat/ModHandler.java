@@ -12,7 +12,6 @@ import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
-import ic2.core.IC2;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
@@ -89,8 +88,7 @@ public class ModHandler {
     }
 
     public static void gatherModItems() {
-        if (IC2.version.isClassic()) emptyCell = IC2Items.getItem("cell", "empty");
-        else emptyCell = IC2Items.getItem("fluid_cell");
+        emptyCell = GtUtil.getCell(null);
 
         Item material = getItem("thermalfoundation", "material");
         if (material != null) {

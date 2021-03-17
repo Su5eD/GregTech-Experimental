@@ -18,6 +18,7 @@ import mods.gregtechmod.recipe.crafting.ToolOreIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -382,7 +383,7 @@ public class OreDictHandler {
                 }
             }
         } else if (name.startsWith("seed")) {
-            DynamicRecipes.addCentrifugeRecipe(RecipeCentrifuge.create(RecipeIngredientOre.create(name, 64), Collections.singletonList(IC2Items.getItem("fluid_cell", "seed.oil")), 1, 200));
+            DynamicRecipes.addCentrifugeRecipe(RecipeCentrifuge.create(RecipeIngredientOre.create(name, 64), Collections.singletonList(GtUtil.getCell("seed.oil")), 1, 200));
         } else if (name.startsWith("plant") || name.startsWith("flower")) {
             if (IC2.version.isClassic()) {
                 DynamicRecipes.COMPRESSOR.addRecipe(Recipes.inputFactory.forOreDict(name, 8), IC2Items.getItem("crafting", "compressed_plants"));

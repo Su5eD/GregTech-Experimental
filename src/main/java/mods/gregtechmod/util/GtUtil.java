@@ -1,16 +1,20 @@
 package mods.gregtechmod.util;
 
 import ic2.api.item.ElectricItem;
+import ic2.api.item.IC2Items;
+import ic2.core.IC2;
 import ic2.core.profile.Version;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.objects.BlockItems;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -19,6 +23,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Objects;
@@ -163,5 +168,17 @@ public class GtUtil {
         }
 
         return false;
+    }
+
+    public static ItemStack getCell(@Nullable String fluid) {
+        if (IC2.version.isClassic()) {
+            Item cell = BlockItems.CLASSIC_CELLS.get(fluid);
+            if (cell != null) return new ItemStack(cell);
+            else {
+                if (fluid == null) fluid = "empty";
+                else if (fluid.startsWith("ic2")) fluid = fluid.substring(3);
+                return IC2Items.getItem("cell", fluid);
+            }
+        } else return IC2Items.getItem("fluid_cell", fluid == null || fluid.equals("empty") ? null : fluid);
     }
 }

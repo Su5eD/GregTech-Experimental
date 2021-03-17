@@ -190,7 +190,7 @@
 #    item: ic2:ingot#tin
 #  universal: true
 - input:
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
     item: ic2:ingot#tin
     count: 2

@@ -10,5 +10,11 @@
   {
     "item": "ic2:fluid_cell",
     "data": 0
-  }
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
 }

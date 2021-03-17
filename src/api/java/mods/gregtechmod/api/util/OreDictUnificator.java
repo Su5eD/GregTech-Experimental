@@ -1,6 +1,7 @@
 package mods.gregtechmod.api.util;
 
 import ic2.api.item.IC2Items;
+import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechConfig;
 import net.minecraft.block.Block;
@@ -204,7 +205,7 @@ public class OreDictUnificator {
         ItemStack containerItem = item.getContainerItem(stack);
         if (!containerItem.isEmpty() && containerItem.isItemEqual(emptyCell())) return containerItem.getCount();
         String regName = item.getRegistryName().toString();
-        if (regName.startsWith(Reference.MODID+":cell_") || regName.equals("ic2:fluid_cell") || regName.equals("forestry:can") ||
+        if (regName.startsWith(Reference.MODID+":cell_") || regName.equals("forestry:can") ||
                 regName.equals("forestry:capsule") || regName.equals("forestry:refractory")) return 1;
 
         if (stack.isItemEqual(IC2Items.getItem("heat_storage"))) return 1;
@@ -218,7 +219,7 @@ public class OreDictUnificator {
     }
 
     private static ItemStack emptyCell() {
-        if (emptyCell == null) emptyCell = IC2Items.getItem("fluid_cell");
+        if (emptyCell == null) emptyCell = IC2.version.isClassic() ? IC2Items.getItem("cell", "empty") : IC2Items.getItem("fluid_cell");
         return emptyCell;
     }
 }

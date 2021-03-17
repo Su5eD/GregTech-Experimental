@@ -9,6 +9,7 @@ import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,11 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
 
     public ItemStack deserialize(JsonNode node, int count) {
         ItemStack ret = ItemStack.EMPTY;
-        String name = node.has("item") ? node.get("item").asText() : node.asText();
+        String name;
+        if (node.has("item")) name = node.get("item").asText();
+        else if (node.has("damaged")) name = node.get("damaged").asText();
+        else name = node.asText();
+
         boolean logErrors = !node.has("fallback");
 
         if (node.has("ore")) {
@@ -58,6 +63,9 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
                 }
             }
             ret = stack.copy();
+        } else if (node.has("cell")) {
+            String fluid = node.get("cell").asText();
+            ret = GtUtil.getCell(fluid);
         } else {
             ResourceLocation registryName = new ResourceLocation(name);
             Item item = ForgeRegistries.ITEMS.getValue(registryName);

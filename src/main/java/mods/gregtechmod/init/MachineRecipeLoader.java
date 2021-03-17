@@ -39,6 +39,7 @@ import mods.gregtechmod.recipe.util.IBasicMachineRecipe;
 import mods.gregtechmod.recipe.util.RecipeFilter;
 import mods.gregtechmod.recipe.util.deserializer.*;
 import mods.gregtechmod.recipe.util.serializer.*;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -283,7 +284,7 @@ public class MachineRecipeLoader {
             }
         }
 
-        DynamicRecipes.addPulverizerRecipe(IC2Items.getItem("fluid_cell"), StackUtil.setSize(IC2Items.getItem("dust", "small_tin"), 9), true);
+        DynamicRecipes.addPulverizerRecipe(GtUtil.getCell(null), StackUtil.setSize(IC2Items.getItem("dust", "small_tin"), 9), true);
         ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
         if (IC2.version.isClassic()) {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));
@@ -420,7 +421,7 @@ public class MachineRecipeLoader {
             for (Path path : stream) {
                 GregTechMod.logger.debug("Copying config: " + path.getFileName());
                 File dest = new File(Paths.get(configDir.getPath(), path.getFileName().toString()).toUri());
-                if (!dest.exists()) {
+                if (!dest.exists() && path.toString().endsWith(".yml")) {
                     BufferedReader in = Files.newBufferedReader(path);
                     FileOutputStream out = new FileOutputStream(dest);
                     for (int i; (i = in.read()) != -1; ) {
@@ -479,9 +480,9 @@ public class MachineRecipeLoader {
         addScrapboxDrop(Items.BREAD, 0.5F);
         addScrapboxDrop(Items.CAKE, 0.1F);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("filled_tin_can"), 1);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("fluid_cell", "silicon"), 0.2F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("fluid_cell", "water"), 1);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("fluid_cell"), 2);
+        Recipes.scrapboxDrops.addDrop(GtUtil.getCell("silicon"), 0.2F);
+        Recipes.scrapboxDrops.addDrop(GtUtil.getCell("water"), 1);
+        Recipes.scrapboxDrops.addDrop(GtUtil.getCell(null), 2);
         addScrapboxDrop(Items.PAPER, 5);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("crafting", "plant_ball"), 0.7F);
         addScrapboxDrop(BlockItems.Dust.WOOD.getInstance(), 3.8F);

@@ -2,32 +2,32 @@
 ---
 - input:
     - ore: dustTungsten
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
-    - item: ic2:fluid_cell#wolframium
+    - cell: wolframium
   duration: 100
 - input:
     - ore: dustSulfur
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
     - item: gregtechmod:cell_sulfur
   duration: 100
 - input:
     - ore: dustCalcite
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
-    - item: ic2:fluid_cell#calcium_carbonate
+    - cell: calcium_carbonate
   duration: 100
 - input:
     - ore: ingotUranium
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
     - item: ic2:uranium_fuel_rod
   duration: 100
   energyCost: 2
 - input:
     - ore: ingotPlutonium
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
     - item: gregtechmod:cell_plutonium
   duration: 100
@@ -47,17 +47,17 @@
 #  duration: 800
 - input:
     - item: ic2:crop_res#grin_powder
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
-    - item: ic2:fluid_cell#ic2weed_ex
+    - cell: ic2weed_ex
   duration: 800
 - input:
-    - item: ic2:fluid_cell#water
+    - cell: water
       count: 16
     - ore: craftingSprayCan
   output:
     - item: gregtechmod:spray_hydration
-    - item: ic2:fluid_cell
+    - cell: empty
       count: 16
   duration: 1600
   energyCost: 2
@@ -78,12 +78,12 @@
   duration: 1600
   energyCost: 2
 - input:
-    - item: ic2:fluid_cell#nitrogen
+    - cell: nitrogen
       count: 16
     - ore: craftingSprayCan
   output:
     - item: gregtechmod:spray_ice
-    - item: ic2:fluid_cell
+    - cell: empty
       count: 16
   duration: 1600
   energyCost: 2
@@ -197,7 +197,7 @@
         - itemQuicksilver
         - quicksilver
   output:
-    - item: ic2:fluid_cell#mercury
+    - cell: mercury
   duration: 100
 # TODO: Introduce rotten filled tin can?
 - input:
@@ -415,20 +415,20 @@
 - input:
     - item: ic2:crop_res#oil_berry
       count: 4
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
-    - item: ic2:fluid_cell#oil
+    - cell: oil
   duration: 100
 # Classic recipes
 #- input:
 #    - item: ic2:crafting#compressed_plants
-#    - item: ic2:fluid_cell
+#    - cell: empty
 #  output:
 #    - item: ic2:cell#bio
 #  duration: 100
 #- input:
 #    - item: ic2:crafting#compressed_hydrated_coal
-#    - item: ic2:fluid_cell
+#    - cell: empty
 #  output:
 #    - item: ic2:cell#hydrated_coal
 #  duration: 100
@@ -454,13 +454,13 @@
 #  duration: 600
 - input:
     - item: minecraft:water_bucket
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
-    - item: ic2:fluid_cell#water
+    - cell: water
   duration: 100
 - input:
     - item: minecraft:lava_bucket
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
-    - item: ic2:fluid_cell#lava
+    - cell: lava
   duration: 100

@@ -1,24 +1,24 @@
 # Distillation recipes
 ---
 - input:
-    item: ic2:fluid_cell#oil
+    cell: oil
     count: 16
   output:
-    - item: ic2:fluid_cell#diesel
+    - cell: diesel
       count: 16
     - item: gregtechmod:cell_sulfuric_acid
       count: 16
-    - item: ic2:fluid_cell#glyceryl
-    - item: ic2:fluid_cell#methane
+    - cell: glyceryl
+    - cell: methane
       count: 16
   cells: 33
   duration: 16000
 - input:
-    item: ic2:fluid_cell#biomass
+    cell: biomass
     count: 16
   output:
-    - item: ic2:fluid_cell#ethanol
+    - cell: ethanol
       count: 8
-    - item: ic2:fluid_cell
+    - cell: empty
       count: 8
   duration: 400

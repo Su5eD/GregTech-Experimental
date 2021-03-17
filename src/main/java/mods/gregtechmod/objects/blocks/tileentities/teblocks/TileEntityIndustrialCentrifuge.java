@@ -7,8 +7,8 @@ import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumable;
 import ic2.core.block.state.Ic2BlockState;
+import ic2.core.item.ItemClassicCell;
 import ic2.core.item.ItemFluidCell;
-import ic2.core.ref.ItemName;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.recipe.GtRecipes;
@@ -16,10 +16,13 @@ import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTankProcessable;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerIndustrialCentrifuge;
+import mods.gregtechmod.objects.items.ItemCellClassic;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,7 +53,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
         this.cellSlot = new InvSlotConsumable(this, "cellSlot", 1) {
             @Override
             public boolean accepts(ItemStack stack) {
-                return (stack.getItem() == ItemName.fluid_cell.getInstance()) && stack.getTagCompound() == null;
+                return stack.isItemEqual(ModHandler.emptyCell) && stack.getTagCompound() == null;
             }
         };
         this.tank = this.fluids.addTank(new GtFluidTankProcessable<>(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), 32000));
@@ -130,7 +133,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
     public void addCellsToOutput(ItemStack input) {
         Item item = input.getItem();
         if (this.pendingRecipe.size() < 4) {
-            if (item instanceof ItemFluidCell) this.pendingRecipe.add(StackUtil.copyWithSize(IC2Items.getItem("fluid_cell"), input.getCount()));
+            if (item instanceof ItemFluidCell) this.pendingRecipe.add(StackUtil.copyWithSize(GtUtil.getCell(null), input.getCount()));
             else this.pendingRecipe.add(StackUtil.copyWithSize(IC2Items.getItem("ingot", "tin"), getTinForCells(input)));
         } else {
             for (ItemStack stack : this.pendingRecipe) {
@@ -144,7 +147,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
 
     private int getTinForCells(ItemStack stack) {
         Item item = stack.getItem();
-        if (item instanceof ItemFluidCell) return stack.getCount();
+        if (item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic) return stack.getCount();
         else if (item.getRegistryName().toString().equals("forestry:can")) return stack.getCount() / 4;
         return 0;
     }

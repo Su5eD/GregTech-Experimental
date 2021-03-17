@@ -1,9 +1,9 @@
 # Vacuum Freezer recipes
 ---
 - input:
-    item: ic2:fluid_cell#helium_plasma
+    cell: helium_plasma
   output:
-    item: ic2:fluid_cell#helium
+    cell: helium
   duration: 100
 - input:
     damaged: ic2:heat_storage
@@ -57,7 +57,7 @@
   duration: 450
 # TODO: Add Classic variant / Classic recipe
 - input:
-    item: ic2:fluid_cell#water
+    cell: water
   output:
     item: gregtechmod:cell_ice
   duration: 50

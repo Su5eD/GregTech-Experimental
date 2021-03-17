@@ -34,8 +34,8 @@ public class ItemCellClassic extends ItemBase {
         super(name, description);
         this.fluid = fluid;
         setFolder("cell/classic");
-        setRegistryName("cell_"+name);
-        setTranslationKey("cell_"+name);
+        setRegistryName("cell_classic_"+name);
+        setTranslationKey("cell_classic_"+name);
         if (IC2.version.isClassic()) setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 

@@ -62,7 +62,7 @@
   energyCost: 1
 - input:
     - ore: dustRedstone
-    - item: ic2:fluid_cell
+    - cell: empty
   output:
     item: gregtechmod:spray_can_empty
   duration: 800
@@ -150,7 +150,7 @@
     - ore: ingotTin
       count: 2
   output:
-    item: ic2:fluid_cell
+    cell: empty
   duration: 400
   energyCost: 1
 - input:
