@@ -51,7 +51,7 @@ public final class GregTechMod {
     @SidedProxy(clientSide = "mods.gregtechmod.core.ClientProxy", serverSide = "mods.gregtechmod.core.ServerProxy")
     public static IProxy proxy;
 
-    public static final CreativeTabs GREGTECH_TAB = new GregTechTab("gregtechtab");
+    public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     public static File configDir;
     public static boolean classic;

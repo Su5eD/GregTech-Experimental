@@ -4,15 +4,15 @@
     "normal": [{}],
     "inventory": [
       {
-        "model": "gregtechmod:block_centrifuge",
+        "model": "gregtechmod:centrifuge",
         "transform": "forge:default-block"
       }
     ],
     "active=true": [{
-      "model": "gregtechmod:block_centrifuge_active"
+      "model": "gregtechmod:centrifuge_active"
     }],
     "active=false": [{
-      "model": "gregtechmod:block_centrifuge"
+      "model": "gregtechmod:centrifuge"
     }]
   }
 }

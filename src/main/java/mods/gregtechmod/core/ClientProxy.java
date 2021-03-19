@@ -2,6 +2,7 @@ package mods.gregtechmod.core;
 
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.init.ClientEventHandler;
 import mods.gregtechmod.util.IProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -13,6 +14,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ClientProxy implements IProxy {
+
+    @Override
+    public void preInit() {
+        ClientEventHandler.gatherModItems();
+    }
 
     @Override
     public void playSound(SoundEvent sound, float pitch) {

@@ -7,6 +7,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ServerProxy implements IProxy {
+
+    @Override
+    public void preInit() {}
+
     @Override
     public void playSound(SoundEvent sound, float pitch) {}
 

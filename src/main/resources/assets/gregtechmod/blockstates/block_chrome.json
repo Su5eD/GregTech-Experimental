@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_chrome"}
+        "textures": {"all": "gregtechmod:blocks/chrome"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_chrome"
+          "all": "gregtechmod:blocks/chrome"
         },
         "transform": "forge:default-block"
       }

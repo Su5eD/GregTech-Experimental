@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_silver"}
+        "textures": {"all": "gregtechmod:blocks/silver"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_silver"
+          "all": "gregtechmod:blocks/silver"
         }
       }
     ]

@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_zinc"}
+        "textures": {"all": "gregtechmod:blocks/zinc"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_zinc"
+          "all": "gregtechmod:blocks/zinc"
         },
         "transform": "forge:default-block"
       }

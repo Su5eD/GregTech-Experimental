@@ -1,8 +1,8 @@
 package mods.gregtechmod.compat;
 
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.init.OreDictHandler;
+import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Optional;

@@ -44,7 +44,6 @@ public class BlockItems {
     public static Map<String, ItemCellClassic> classicCells;
 
     public enum Block {
-        ADVANCED_MACHINE(4, 30),
         ADVANCED_MACHINE_CASING(ConnectedBlock::new, 3, 30),
         ALUMINIUM(3, 30),
         BRASS(3.5F, 30),
@@ -447,7 +446,7 @@ public class BlockItems {
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "dust_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
                         .setFolder("dust")
                         .setRegistryName(name)
                         .setTranslationKey(name)

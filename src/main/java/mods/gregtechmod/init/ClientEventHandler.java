@@ -33,6 +33,21 @@ import java.util.Locale;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ClientEventHandler {
+    private static ItemStack dustCoal = ItemStack.EMPTY;
+    private static ItemStack dustIron = ItemStack.EMPTY;
+    private static ItemStack dustGold = ItemStack.EMPTY;
+    private static ItemStack dustCopper = ItemStack.EMPTY;
+    private static ItemStack dustTin = ItemStack.EMPTY;
+    private static ItemStack dustBronze = ItemStack.EMPTY;
+
+    public static void gatherModItems() {
+        dustCoal = IC2Items.getItem("dust", "coal");
+        dustIron = IC2Items.getItem("dust", "iron");
+        dustGold = IC2Items.getItem("dust", "gold");
+        dustCopper = IC2Items.getItem("dust", "copper");
+        dustTin = IC2Items.getItem("dust", "tin");
+        dustBronze = IC2Items.getItem("dust", "bronze");
+    }
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
@@ -117,9 +132,7 @@ public class ClientEventHandler {
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_conductor"));
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_signalizer"));
 
-        FluidLoader.FLUIDS.forEach(provider -> {
-            map.registerSprite(provider.getTexture());
-        });
+        FluidLoader.FLUIDS.forEach(provider -> map.registerSprite(provider.getTexture()));
     }
 
     @SubscribeEvent
@@ -132,19 +145,12 @@ public class ClientEventHandler {
         ItemStack stack = event.getItemStack();
         List<String> tooltip = event.getToolTip();
 
-        //if (stack.isItemEqual(IC2Items.getItem("dust", "diamond"))) tooltip.add("C128");
-        //else if (stack.isItemEqual(IC2Items.getItem("dust", "lead"))) tooltip.add("Pb");
-        //else if (stack.isItemEqual(IC2Items.getItem("dust", "obsidian"))) tooltip.add("MgFeSi2O8");
-        if (stack.isItemEqual(IC2Items.getItem("dust", "coal"))) tooltip.add("C2");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "iron"))) tooltip.add("Fe");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "gold"))) tooltip.add("Au");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "copper"))) tooltip.add("Cu");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "tin"))) tooltip.add("Sn");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "bronze"))) tooltip.add("SnCu3");
-        //else if (stack.isItemEqual(IC2Items.getItem("dust", "silver"))) tooltip.add("Ag");
-        //else if (stack.isItemEqual(IC2Items.getItem("dust", "clay"))) tooltip.add("Na2LiAl2Si2");
-        //else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "ashes"))) tooltip.add("C");
-        //else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "iridium_shard"))) tooltip.add("Ir");
+        if (stack.isItemEqual(dustCoal)) tooltip.add("C2");
+        else if (stack.isItemEqual(dustIron)) tooltip.add("Fe");
+        else if (stack.isItemEqual(dustGold)) tooltip.add("Au");
+        else if (stack.isItemEqual(dustCopper)) tooltip.add("Cu");
+        else if (stack.isItemEqual(dustTin)) tooltip.add("Sn");
+        else if (stack.isItemEqual(dustBronze)) tooltip.add("SnCu3");
 
         FluidStack fluidContained = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();

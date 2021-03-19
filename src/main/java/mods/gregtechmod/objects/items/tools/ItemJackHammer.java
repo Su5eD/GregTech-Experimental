@@ -1,9 +1,9 @@
 package mods.gregtechmod.objects.items.tools;
 
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolElectricBase;
+import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;

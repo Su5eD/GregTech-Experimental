@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_iridium_reinforced_stone"}
+        "textures": {"all": "gregtechmod:blocks/iridium_reinforced_stone"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_iridium_reinforced_stone"
+          "all": "gregtechmod:blocks/iridium_reinforced_stone"
         },
         "transform": "forge:default-block"
       }

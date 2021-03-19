@@ -1,9 +1,10 @@
-package mods.gregtechmod.api.util;
+package mods.gregtechmod.util;
 
 import ic2.api.item.IC2Items;
 import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

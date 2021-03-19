@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_tungsten"}
+        "textures": {"all": "gregtechmod:blocks/tungsten"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_tungsten"
+          "all": "gregtechmod:blocks/tungsten"
         },
         "transform": "forge:default-block"
       }

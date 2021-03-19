@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_olivine"}
+        "textures": {"all": "gregtechmod:blocks/olivine"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_olivine"
+          "all": "gregtechmod:blocks/olivine"
         },
         "transform": "forge:default-block"
       }

@@ -8,701 +8,701 @@
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c"
+          "all": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c"
         },
         "transform": "forge:default-block"
       }
     ],
       "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c"
         }
       }],
       "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u"
         }
       }],
       "connected_down=true,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u"
         },
         "x": 180
       }],
       "connected_down=false,connected_east=false,connected_north=true,connected_south=false,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u"
         },
         "x": 90
       }],
       "connected_down=false,connected_east=false,connected_north=false,connected_south=true,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u"
         },
         "x": -90
       }],
       "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u"
         },
         "x": 90,
         "y": -90
       }],
       "connected_down=false,connected_east=true,connected_north=false,connected_south=false,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u"
         },
         "x": 90,
         "y": 90
       }],
       "connected_down=false,connected_east=true,connected_north=false,connected_south=false,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "y": 180
       }],
       "connected_down=true,connected_east=true,connected_north=false,connected_south=false,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 180
       }],
       "connected_down=true,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 180,
         "y": 180
       }],
       "connected_down=false,connected_east=false,connected_north=true,connected_south=false,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "y": -90
       }],
       "connected_down=false,connected_east=false,connected_north=false,connected_south=true,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "y": 90
       }],
       "connected_down=true,connected_east=false,connected_north=true,connected_south=false,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 180,
         "y": -90
       }],
       "connected_down=true,connected_east=false,connected_north=false,connected_south=true,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 180,
         "y": 90
       }],
       "connected_down=false,connected_east=true,connected_north=true,connected_south=false,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 90
       }],
       "connected_down=false,connected_east=true,connected_north=false,connected_south=true,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": -90
       }],
       "connected_down=false,connected_east=false,connected_north=true,connected_south=false,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 90,
         "y": -90
       }],
       "connected_down=false,connected_east=false,connected_north=false,connected_south=true,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_e",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel1c_u",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_e",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel1c_u",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": -90,
         "y": 90
       }],
       "connected_down=true,connected_east=false,connected_north=false,connected_south=false,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         }
       }],
       "connected_down=false,connected_east=true,connected_north=false,connected_south=false,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         },
         "x": -90,
         "y": 90
       }],
       "connected_down=false,connected_east=false,connected_north=true,connected_south=true,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         },
         "x": -90
       }],
       "connected_down=true,connected_east=false,connected_north=false,connected_south=false,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         }
       }],
       "connected_down=true,connected_east=false,connected_north=false,connected_south=true,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         },
         "y": -90
       }],
       "connected_down=true,connected_east=true,connected_north=false,connected_south=false,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         },
         "y": -180
       }],
       "connected_down=true,connected_east=false,connected_north=true,connected_south=false,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         },
         "y": 90
       }],
       "connected_down=false,connected_east=false,connected_north=true,connected_south=true,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         },
         "x": -90
       }],
       "connected_down=false,connected_east=true,connected_north=true,connected_south=true,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ud"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ud"
         },
         "x": -90,
         "y": 180
       }],
       "connected_down=false,connected_east=true,connected_north=false,connected_south=false,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_we",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_we",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=false,connected_east=true,connected_north=false,connected_south=true,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_we",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_we",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": -90
       }],
       "connected_down=true,connected_east=true,connected_north=false,connected_south=false,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_we",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_we",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 180
       }],
       "connected_down=false,connected_east=true,connected_north=true,connected_south=false,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_we",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_we",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 90
       }],
       "connected_down=false,connected_east=false,connected_north=true,connected_south=true,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_we",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_we",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "y": 90
       }],
       "connected_down=true,connected_east=false,connected_north=true,connected_south=true,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_we",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwe",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_we",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwe",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 180,
         "y": 90
       }],
       "connected_down=false,connected_east=true,connected_north=false,connected_south=true,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=false,connected_east=false,connected_north=false,connected_south=true,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "y": 90
       }],
       "connected_down=false,connected_east=true,connected_north=true,connected_south=false,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 90
       }],
       "connected_down=true,connected_east=true,connected_north=true,connected_south=false,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 180
       }],
       "connected_down=true,connected_east=true,connected_north=false,connected_south=true,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 270
       }],
       "connected_down=true,connected_east=false,connected_north=false,connected_south=true,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 180,
         "y": -180
       }],
       "connected_down=true,connected_east=false,connected_north=true,connected_south=false,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": -90,
         "y": -180
       }],
       "connected_down=false,connected_east=false,connected_north=true,connected_south=false,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_uw",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel2c_ue",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_uw",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel2c_ue",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 90,
         "y": -90
       }],
       "connected_down=true,connected_east=true,connected_north=false,connected_south=false,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=false,connected_east=true,connected_north=true,connected_south=true,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "x": 90
       }],
       "connected_down=true,connected_east=false,connected_north=true,connected_south=true,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         },
         "y": 90
       }],
       "connected_down=true,connected_east=false,connected_north=true,connected_south=false,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         }
       }],
       "connected_down=true,connected_east=false,connected_north=true,connected_south=true,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "x": 90
       }],
       "connected_down=false,connected_east=false,connected_north=true,connected_south=true,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "x": -90
       }],
       "connected_down=true,connected_east=false,connected_north=false,connected_south=true,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "y": -90
       }],
       "connected_down=true,connected_east=true,connected_north=true,connected_south=false,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "y": 90
       }],
       "connected_down=true,connected_east=true,connected_north=false,connected_south=true,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "y": 180
       }],
       "connected_down=false,connected_east=true,connected_north=true,connected_south=true,connected_up=true,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "x": -90,
         "y": 180
       }],
       "connected_down=true,connected_east=true,connected_north=true,connected_south=true,connected_up=false,connected_west=false": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "x": 90,
         "y": 180
       }],
       "connected_down=false,connected_east=true,connected_north=false,connected_south=true,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "x": -90,
         "y": -90
       }],
       "connected_down=true,connected_east=true,connected_north=false,connected_south=true,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "x": -270,
         "y": -90
       }],
       "connected_down=false,connected_east=true,connected_north=true,connected_south=false,connected_up=true,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "x": -90,
         "y": 90
       }],
       "connected_down=true,connected_east=true,connected_north=true,connected_south=false,connected_up=false,connected_west=true": [{
         "textures": {
-          "particle": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c",
-          "down": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "up": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "north": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "south": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_uwd",
-          "west": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c",
-          "east": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel3c_ued"
+          "particle": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel0c",
+          "down": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "up": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "north": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "south": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_uwd",
+          "west": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c",
+          "east": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel3c_ued"
         },
         "x": -270,
         "y": -270
@@ -710,43 +710,43 @@
       "connected_down=true,connected_east=true,connected_north=true,connected_south=true,connected_up=false,connected_west=true": [{
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "all": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=true,connected_east=true,connected_north=false,connected_south=true,connected_up=true,connected_west=true": [{
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "all": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=true,connected_east=false,connected_north=true,connected_south=true,connected_up=true,connected_west=true": [{
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "all": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=true,connected_east=true,connected_north=true,connected_south=true,connected_up=true,connected_west=false": [{
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "all": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=true,connected_east=true,connected_north=true,connected_south=false,connected_up=true,connected_west=true": [{
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "all": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=false,connected_east=true,connected_north=true,connected_south=true,connected_up=true,connected_west=true": [{
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "all": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }],
       "connected_down=true,connected_east=true,connected_north=true,connected_south=true,connected_up=true,connected_west=true": [{
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/connected/block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel4c"
+          "all": "gregtechmod:blocks/connected/iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel4c"
         }
       }]
     }
