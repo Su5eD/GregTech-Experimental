@@ -55,7 +55,6 @@
   output:
     item: gregtechmod:ingot_tungsten_steel
   duration: 450
-# TODO: Add Classic variant / Classic recipe
 - input:
     cell: water
   output:

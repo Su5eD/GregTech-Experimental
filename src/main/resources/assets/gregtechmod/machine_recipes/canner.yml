@@ -19,13 +19,6 @@
     - cell: calcium_carbonate
   duration: 100
 - input:
-    - ore: ingotUranium
-    - cell: empty
-  output:
-    - item: ic2:uranium_fuel_rod
-  duration: 100
-  energyCost: 2
-- input:
     - ore: ingotPlutonium
     - cell: empty
   output:
@@ -38,19 +31,6 @@
     - item: gregtechmod:cell_thorium
   duration: 100
   energyCost: 2
-# Classic recipe
-#- input:
-#    - item: ic2:crop_res#grin_powder
-#    - ore: craftingSprayCan
-#  output:
-#    - item: ic2:cell#weed_ex
-#  duration: 800
-- input:
-    - item: ic2:crop_res#grin_powder
-    - cell: empty
-  output:
-    - cell: ic2weed_ex
-  duration: 800
 - input:
     - cell: water
       count: 16
@@ -419,39 +399,6 @@
   output:
     - cell: oil
   duration: 100
-# Classic recipes
-#- input:
-#    - item: ic2:crafting#compressed_plants
-#    - cell: empty
-#  output:
-#    - item: ic2:cell#bio
-#  duration: 100
-#- input:
-#    - item: ic2:crafting#compressed_hydrated_coal
-#    - cell: empty
-#  output:
-#    - item: ic2:cell#hydrated_coal
-#  duration: 100
-#- input:
-#    - item: ic2:cell#biofuel
-#      count: 6
-#    - item: ic2:crafting#empty_fuel_can
-#  output:
-#    - item: ic2:crafting#filled_fuel_can
-#      nbt:
-#        value: 26040
-#    - item: ic2:cell#empty
-#  duration: 600
-#- input:
-#    - item: ic2:cell#coalfuel
-#      count: 6
-#    - item: ic2:crafting#empty_fuel_can
-#  output:
-#    - item: ic2:crafting#filled_fuel_can
-#      nbt:
-#        value: 76440
-#    - item: ic2:cell#empty
-#  duration: 600
 - input:
     - item: minecraft:water_bucket
     - cell: empty

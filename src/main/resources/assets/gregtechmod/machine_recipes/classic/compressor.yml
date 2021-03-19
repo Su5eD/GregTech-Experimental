@@ -1,0 +1,25 @@
+# Classic IC2 Compressor Recipes
+---
+- input:
+    ore: nuggetUranium
+    count: 9
+  output:
+    item: ic2:ingot#uranium
+- input:
+    ores:
+      - treeLeaves
+      - cropWheat
+      - sugarcane
+      - blockCactus
+    count: 8
+  output:
+    item: ic2:crafting#plant_ball
+- input:
+    item: gregtechmod:indigo_blossom
+    count: 8
+  output:
+    - item: ic2:crafting#plant_ball
+- input:
+    ore: dustUranium
+  output:
+    - item: ic2:ingot#uranium

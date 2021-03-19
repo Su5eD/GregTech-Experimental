@@ -177,26 +177,6 @@
   duration: 130
   energyCost: 3
   universal: true
-# TODO: Classic recipes
-#- input:
-#    - item: ic2:crafting#empty_fuel_can
-#  output:
-#    item: ic2:ingot#tin
-#    count: 7
-#  universal: true
-#- input:
-#    - item: ic2:cell#empty
-#  output:
-#    item: ic2:ingot#tin
-#  universal: true
-- input:
-    - cell: empty
-  output:
-    item: ic2:ingot#tin
-    count: 2
-  duration: 130
-  energyCost: 3
-  universal: true
 - input:
     - item: ic2:te#iron_furnace
   output:
@@ -256,7 +236,7 @@
 - input:
     - item: gregtechmod:hull_steel
   output:
-    item: ic2:ingot#steel
+    item: gregtechmod:ingot_steel
     count: 6
   duration: 130
   energyCost: 3
@@ -265,20 +245,6 @@
     - item: gregtechmod:hull_titanium
   output:
     item: gregtechmod:ingot_titanium
-    count: 6
-  duration: 130
-  energyCost: 3
-  universal: true
-# TODO: Classic recipe
-#- input:
-#    - item: gregtechmod:gear_iron
-#  output:
-#    item: ic2:ingot#refined_iron
-#  universal: true
-- input:
-    - item: gregtechmod:gear_iron
-  output:
-    item: minecraft:iron_ingot
     count: 6
   duration: 130
   energyCost: 3
@@ -294,7 +260,7 @@
 - input:
     - item: gregtechmod:gear_steel
   output:
-    item: ic2:ingot#steel
+    item: gregtechmod:ingot_steel
     count: 6
   duration: 130
   energyCost: 3
@@ -330,3 +296,10 @@
   output:
     item: minecraft:bucket
   duration: 100
+- input:
+    - cell: empty
+  output:
+    item: ic2:ingot#tin
+  duration: 130
+  energyCost: 3
+  universal: true

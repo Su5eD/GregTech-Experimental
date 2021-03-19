@@ -6,7 +6,7 @@
   fluid: water
   output:
     - item: minecraft:gold_nugget
-    - item: ic2:dust#netherrack
+    - item: gregtechmod:dust_netherrack
       count: 16
 - input:
     ore: stoneNetherrack
@@ -14,7 +14,7 @@
   fluid: mercury
   output:
     - item: minecraft:gold_nugget
-    - item: ic2:dust#netherrack
+    - item: gregtechmod:dust_netherrack
       count: 8
 - input:
     ore: oreLapis
@@ -23,7 +23,7 @@
     - item: minecraft:dye
       meta: 4
       count: 12
-    - item: ic2:dust#lapis
+    - item: gregtechmod:dust_lazurite
       count: 3
 - input:
     ore: oreSodalite
@@ -51,14 +51,14 @@
       fallback:
         item: minecraft:quartz
         count: 3
-    - item: ic2:dust#netherrack
+    - item: gregtechmod:dust_netherrack
 - input:
     ore: oreIron
   fluid: water
   output:
     - item: ic2:dust#iron
       count: 2
-    - item: ic2:dust#small_tin
+    - item: gregtechmod:smalldust_tin
     - item: gregtechmod:smalldust_nickel
 - input:
     ore: oreGold
@@ -66,7 +66,7 @@
   output:
     - item: ic2:dust#gold
       count: 2
-    - item: ic2:dust#small_copper
+    - item: gregtechmod:smalldust_copper
     - item: gregtechmod:smalldust_nickel
 - input:
     ore: oreGold
@@ -74,7 +74,7 @@
   output:
     - item: ic2:dust#gold
       count: 3
-    - item: ic2:dust#small_copper
+    - item: gregtechmod:smalldust_copper
     - item: gregtechmod:smalldust_nickel
 - input:
     ore: oreGold
@@ -88,32 +88,32 @@
     ore: oreSilver
   fluid: water
   output:
-    - item: ic2:dust#silver
+    - item: gregtechmod:dust_silver
       count: 2
-    - item: ic2:dust#lead
+    - item: gregtechmod:dust_lead
       count: 2
 - input:
     ore: oreSilver
   fluid: mercury
   output:
-    - item: ic2:dust#silver
+    - item: gregtechmod:dust_silver
       count: 3
-    - item: ic2:dust#lead
+    - item: gregtechmod:dust_lead
       count: 2
 - input:
     ore: oreLead
   fluid: water
   output:
-    - item: ic2:dust#lead
+    - item: gregtechmod:dust_lead
       count: 2
-    - item: ic2:dust#small_silver
+    - item: gregtechmod:smalldust_silver
 - input:
     ore: oreLead
   fluid: mercury
   output:
-    - item: ic2:dust#lead
+    - item: gregtechmod:dust_lead
       count: 2
-    - item: ic2:dust#silver
+    - item: gregtechmod:dust_silver
 - input:
     ores:
       - oreSilverLead
@@ -122,7 +122,7 @@
   output:
     - item: gregtechmod:dust_galena
       count: 2
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
 - input:
     ores:
       - oreSilverLead
@@ -131,8 +131,8 @@
   output:
     - item: gregtechmod:dust_galena
       count: 2
-    - item: ic2:dust#sulfur
-    - item: ic2:dust#silver
+    - item: gregtechmod:dust_sulfur
+    - item: gregtechmod:dust_silver
 - input:
     ore: oreDiamond
   fluid: water
@@ -199,7 +199,7 @@
   output:
     - item: ic2:dust#copper
       count: 2
-    - item: ic2:dust#small_gold
+    - item: gregtechmod:smalldust_gold
     - item: gregtechmod:smalldust_nickel
 - input:
     ore: oreCopper
@@ -207,7 +207,7 @@
   output:
     - item: ic2:dust#copper
       count: 3
-    - item: ic2:dust#small_gold
+    - item: gregtechmod:smalldust_gold
     - item: gregtechmod:smalldust_nickel
 - input:
     ore: oreCopper
@@ -222,7 +222,7 @@
   output:
     - item: ic2:dust#tin
       count: 2
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
     - item: gregtechmod:smalldust_zinc
 - input:
     ore: oreTin
@@ -230,7 +230,7 @@
   output:
     - item: ic2:dust#tin
       count: 2
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
     - item: gregtechmod:dust_zinc
 - input:
     ore: oreZinc
@@ -238,7 +238,7 @@
   output:
     - item: gregtechmod:dust_zinc
       count: 2
-    - item: ic2:dust#small_tin
+    - item: gregtechmod:smalldust_tin
       count: 2
 - input:
     ore: oreZinc
@@ -246,7 +246,7 @@
   output:
     - item: gregtechmod:dust_zinc
       count: 3
-    - item: ic2:dust#small_tin
+    - item: gregtechmod:smalldust_tin
       count: 2
 - input:
     ore: oreCassiterite
@@ -286,7 +286,7 @@
       count: 2
     - item: gregtechmod:smalldust_zinc
       count: 2
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
       count: 2
 - input:
     ore: oreIridium
@@ -313,7 +313,7 @@
     - item: gregtechmod:dust_platinum
       count: 2
     - item: gregtechmod:dust_nickel
-    - item: ic2:misc_resource#iridium_shard
+    - item: gregtechmod:nugget_iridium
       count: 2
 - input:
     ores:
@@ -324,7 +324,7 @@
     - item: gregtechmod:dust_platinum
       count: 3
     - item: gregtechmod:dust_nickel
-    - item: ic2:misc_resource#iridium_shard
+    - item: gregtechmod:nugget_iridium
       count: 2
 - input:
     ore: orePlatinum
@@ -332,7 +332,7 @@
   output:
     - item: gregtechmod:dust_platinum
       count: 2
-    - item: ic2:misc_resource#iridium_shard
+    - item: gregtechmod:nugget_iridium
       count: 2
     - item: gregtechmod:smalldust_nickel
 - input:
@@ -341,7 +341,7 @@
   output:
     - item: gregtechmod:dust_platinum
       count: 3
-    - item: ic2:misc_resource#iridium_shard
+    - item: gregtechmod:nugget_iridium
       count: 2
     - item: gregtechmod:smalldust_nickel
 - input:
@@ -351,7 +351,7 @@
     - item: gregtechmod:dust_nickel
       count: 3
     - item: gregtechmod:smalldust_platinum
-    - item: ic2:dust#small_copper
+    - item: gregtechmod:smalldust_copper
 - input:
     ore: oreNickel
   fluid: mercury
@@ -365,7 +365,7 @@
   output:
     - item: gregtechmod:dust_pyrite
       count: 5
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
       count: 2
 - input:
     ore: oreCinnabar
@@ -435,8 +435,8 @@
   output:
     - item: gregtechmod:dust_electrum
       count: 2
-    - item: ic2:dust#small_gold
-    - item: ic2:dust#small_silver
+    - item: gregtechmod:smalldust_gold
+    - item: gregtechmod:smalldust_silver
 - input:
     ores:
       - oreTungsten
@@ -445,7 +445,7 @@
   output:
     - item: gregtechmod:dust_electrum
       count: 2
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
       count: 3
     - item: gregtechmod:smalldust_manganese
       count: 3
@@ -467,7 +467,7 @@
     ore: oreSulfur
   fluid: water
   output:
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
       count: 10
 - input:
     ore: oreSaltpeter
@@ -481,7 +481,7 @@
   output:
     - item: gregtechmod:dust_magnesium
       count: 2
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
       count: 2
     - item: gregtechmod:smalldust_nickel
 - input:
@@ -490,7 +490,7 @@
   output:
     - item: gregtechmod:dust_manganese
       count: 2
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
       count: 2
     - item: gregtechmod:smalldust_nickel
 - input:
@@ -525,15 +525,6 @@
       count: 2
     - ore: dustCertusQuartz
       count: 3
-- input:
-    ore: oreUranium
-  fluid: water
-  output:
-    - item: gregtechmod:dust_uranium
-      count: 2
-    - item: gregtechmod:smalldust_plutonium
-      count: 2
-    - item: gregtechmod:dust_thorium
 - input:
     ore: oreElectrotine
   fluid: water

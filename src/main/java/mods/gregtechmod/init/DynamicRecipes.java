@@ -195,7 +195,7 @@ class DynamicRecipes {
         ItemStack stack;
 
         ItemStack input = IC2Items.getItem("ingot", "bronze");
-        ItemStack plateBronze = IC2Items.getItem("plate", "bronze");
+        ItemStack plateBronze = new ItemStack(BlockItems.Plate.BRONZE.getInstance());
         if (!(stack = ModHandler.getCraftingResult(input, input, input, input, ItemStack.EMPTY, input, input, input, input)).isEmpty() || !(stack = ModHandler.getCraftingResult(plateBronze, plateBronze, plateBronze, plateBronze, ItemStack.EMPTY, plateBronze, plateBronze, plateBronze, plateBronze)).isEmpty()) {
             OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
             addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "bronze"), 8)));
@@ -211,7 +211,7 @@ class DynamicRecipes {
             addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "iron"), 4), dustTin));
         }
 
-        ItemStack ingotSteel = IC2Items.getItem("ingot", "steel");
+        ItemStack ingotSteel = new ItemStack(BlockItems.Ingot.STEEL.getInstance());
         if (!(stack = ModHandler.getCraftingResult(ingotSteel, glass, ingotSteel, glass, gearTin, glass, ingotSteel, glass, ingotSteel)).isEmpty()) {
             OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
             addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "steel"), 4), dustTin));
@@ -239,49 +239,49 @@ class DynamicRecipes {
     }
 
     public static void applyMaterialUsages() {
-        gatherMaterialUsage(BlockItems.Miscellaneous.RUBY.getInstance(), BlockItems.Dust.RUBY.getInstance(), false, true);
-        gatherMaterialUsage(BlockItems.Miscellaneous.SAPPHIRE.getInstance(), BlockItems.Dust.SAPPHIRE.getInstance(), false, true);
-        gatherMaterialUsage(BlockItems.Miscellaneous.GREEN_SAPPHIRE.getInstance(), BlockItems.Dust.GREEN_SAPPHIRE.getInstance(), false, true);
-        gatherMaterialUsage(BlockItems.Ingot.BRASS.getInstance(), BlockItems.Dust.BRASS.getInstance(), true, true);
-        gatherMaterialUsage(IC2Items.getItem("ingot", "silver"), IC2Items.getItem("dust", "silver"), true, true);
-        gatherMaterialUsage(BlockItems.Miscellaneous.OLIVINE.getInstance(), BlockItems.Dust.OLIVINE.getInstance(), false, true);
-        gatherMaterialUsage(BlockItems.Ingot.ALUMINIUM.getInstance(), BlockItems.Dust.ALUMINIUM.getInstance(), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.TITANIUM.getInstance(), BlockItems.Dust.TITANIUM.getInstance(), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.CHROME.getInstance(), BlockItems.Dust.CHROME.getInstance(), true, true);
-        gatherMaterialUsage(IC2Items.getItem("ingot", "steel"), new ItemStack(BlockItems.Dust.STEEL.getInstance()), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.ELECTRUM.getInstance(), BlockItems.Dust.ELECTRUM.getInstance(), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.TUNGSTEN.getInstance(), BlockItems.Dust.TUNGSTEN.getInstance(), true, true);
-        gatherMaterialUsage(IC2Items.getItem("ingot", "lead"), IC2Items.getItem("dust", "lead"), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.ZINC.getInstance(), BlockItems.Dust.ZINC.getInstance(), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.PLATINUM.getInstance(), BlockItems.Dust.PLATINUM.getInstance(), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.NICKEL.getInstance(), BlockItems.Dust.NICKEL.getInstance(), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.INVAR.getInstance(), BlockItems.Dust.INVAR.getInstance(), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.ANTIMONY.getInstance(), BlockItems.Dust.ANTIMONY.getInstance(), true, true);
-        gatherMaterialUsage(BlockItems.Ingot.TUNGSTEN_STEEL.getInstance(), BlockItems.Ingot.TUNGSTEN_STEEL.getInstance(), true, false);
+        applyMaterialUsage(BlockItems.Miscellaneous.RUBY.getInstance(), BlockItems.Dust.RUBY.getInstance(), false, true);
+        applyMaterialUsage(BlockItems.Miscellaneous.SAPPHIRE.getInstance(), BlockItems.Dust.SAPPHIRE.getInstance(), false, true);
+        applyMaterialUsage(BlockItems.Miscellaneous.GREEN_SAPPHIRE.getInstance(), BlockItems.Dust.GREEN_SAPPHIRE.getInstance(), false, true);
+        applyMaterialUsage(BlockItems.Ingot.BRASS.getInstance(), BlockItems.Dust.BRASS.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.SILVER.getInstance(), BlockItems.Dust.SILVER.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Miscellaneous.OLIVINE.getInstance(), BlockItems.Dust.OLIVINE.getInstance(), false, true);
+        applyMaterialUsage(BlockItems.Ingot.ALUMINIUM.getInstance(), BlockItems.Dust.ALUMINIUM.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.TITANIUM.getInstance(), BlockItems.Dust.TITANIUM.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.CHROME.getInstance(), BlockItems.Dust.CHROME.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.STEEL.getInstance(), BlockItems.Dust.STEEL.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.ELECTRUM.getInstance(), BlockItems.Dust.ELECTRUM.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.TUNGSTEN.getInstance(), BlockItems.Dust.TUNGSTEN.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.LEAD.getInstance(), BlockItems.Dust.LEAD.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.ZINC.getInstance(), BlockItems.Dust.ZINC.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.PLATINUM.getInstance(), BlockItems.Dust.PLATINUM.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.NICKEL.getInstance(), BlockItems.Dust.NICKEL.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.INVAR.getInstance(), BlockItems.Dust.INVAR.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.ANTIMONY.getInstance(), BlockItems.Dust.ANTIMONY.getInstance(), true, true);
+        applyMaterialUsage(BlockItems.Ingot.TUNGSTEN_STEEL.getInstance(), BlockItems.Ingot.TUNGSTEN_STEEL.getInstance(), true, false);
         ItemStack iridiumOre = IC2Items.getItem("misc_resource", "iridium_ore");
-        gatherMaterialUsage(new ItemStack(BlockItems.Ingot.IRIDIUM.getInstance()), iridiumOre, true, true);
-        gatherMaterialUsage(iridiumOre, iridiumOre, false, true);
-        gatherMaterialUsage(BlockItems.Ingot.OSMIUM.getInstance(), BlockItems.Dust.OSMIUM.getInstance(), false, true);
+        applyMaterialUsage(new ItemStack(BlockItems.Ingot.IRIDIUM.getInstance()), iridiumOre, true, true);
+        applyMaterialUsage(iridiumOre, iridiumOre, false, true);
+        applyMaterialUsage(BlockItems.Ingot.OSMIUM.getInstance(), BlockItems.Dust.OSMIUM.getInstance(), false, true);
         ItemStack dustIron = IC2Items.getItem("dust", "iron");
-        if (IC2.version.isClassic()) gatherMaterialUsage(IC2Items.getItem("ingot", "refined_iron"), dustIron, true, true);
-        gatherMaterialUsage(IC2Items.getItem("ingot", "bronze"), IC2Items.getItem("dust", "bronze"), true, true);
-        gatherMaterialUsage(IC2Items.getItem("ingot", "copper"), IC2Items.getItem("dust", "copper"), true, true);
-        gatherMaterialUsage(IC2Items.getItem("ingot", "tin"), IC2Items.getItem("dust", "tin"), true, true);
-        gatherMaterialUsage(new ItemStack(Items.IRON_INGOT), dustIron, true, true);
-        gatherMaterialUsage(new ItemStack(Items.GOLD_INGOT), IC2Items.getItem("dust", "gold"), true, true);
-        gatherMaterialUsage(new ItemStack(Items.DIAMOND), IC2Items.getItem("dust", "diamond"), false, true);
-        gatherMaterialUsage(new ItemStack(Blocks.PLANKS), new ItemStack(BlockItems.Smalldust.WOOD.getInstance()), false, true);
+        if (IC2.version.isClassic()) applyMaterialUsage(IC2Items.getItem("ingot", "refined_iron"), dustIron, true, true);
+        applyMaterialUsage(IC2Items.getItem("ingot", "bronze"), IC2Items.getItem("dust", "bronze"), true, true);
+        applyMaterialUsage(IC2Items.getItem("ingot", "copper"), IC2Items.getItem("dust", "copper"), true, true);
+        applyMaterialUsage(IC2Items.getItem("ingot", "tin"), IC2Items.getItem("dust", "tin"), true, true);
+        applyMaterialUsage(new ItemStack(Items.IRON_INGOT), dustIron, true, true);
+        applyMaterialUsage(new ItemStack(Items.GOLD_INGOT), IC2Items.getItem("dust", "gold"), true, true);
+        applyMaterialUsage(Items.DIAMOND, BlockItems.Dust.DIAMOND.getInstance(), false, true);
+        applyMaterialUsage(new ItemStack(Blocks.PLANKS), new ItemStack(BlockItems.Smalldust.WOOD.getInstance()), false, true);
         if (ModHandler.thaumcraft) {
             ItemStack ingotThaumium = ModHandler.getTCItem("ingot", 0);
-            gatherMaterialUsage(ingotThaumium, ingotThaumium, true, false);
+            applyMaterialUsage(ingotThaumium, ingotThaumium, true, false);
         }
     }
 
-    public static void gatherMaterialUsage(Item input, Item output, boolean backSmelting, boolean backMacerating) {
-        gatherMaterialUsage(new ItemStack(input), new ItemStack(output), backSmelting, backMacerating);
+    public static void applyMaterialUsage(Item input, Item output, boolean backSmelting, boolean backMacerating) {
+        applyMaterialUsage(new ItemStack(input), new ItemStack(output), backSmelting, backMacerating);
     }
 
-    private static void gatherMaterialUsage(ItemStack input, ItemStack output, boolean backSmelting, boolean backMacerating) {
+    private static void applyMaterialUsage(ItemStack input, ItemStack output, boolean backSmelting, boolean backMacerating) {
         if (input.isEmpty() || output.isEmpty()) return;
         input = input.copy();
         output = output.copy();

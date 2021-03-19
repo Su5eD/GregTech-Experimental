@@ -1,12 +1,14 @@
 package mods.gregtechmod.cover.type;
 
-import ic2.core.IC2;
 import ic2.core.item.ItemMulti;
+import ic2.core.item.type.CraftingItemType;
 import ic2.core.item.type.PlateResourceType;
+import ic2.core.ref.ItemName;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.items.base.ItemBase;
+import mods.gregtechmod.compat.ModHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -140,48 +142,55 @@ public class CoverGeneric implements ICover {
 
     public static boolean isGenericCover(ItemStack stack) {
         Item item = stack.getItem();
-        String key = item.getTranslationKey();
-        if (item instanceof ItemBase && key.startsWith("item.plate")) return true;
-        else if (item instanceof ItemMulti && key.substring(IC2.MODID.length() + 1).equals("plate")) return true;
-        else return item instanceof ItemMulti && key.substring(IC2.MODID.length() + 1).equals("crafting") && stack.getMetadata() == 4; //iridium plate, rarest cover
+        ResourceLocation name = item.getRegistryName();
+        String namespace = name.getNamespace();
+        String path = name.getPath();
+
+        return namespace.equals(Reference.MODID) && path.startsWith("plate") ||
+               namespace.equals("ic2") && !ModHandler.getVariantSafely(ItemName.plate, stack).isEmpty() ||
+               StackUtil.checkItemEquality(stack, ItemName.crafting.getItemStack(CraftingItemType.iridium));
     }
 
     private String getCoverName(ItemStack stack) {
-        if (stack.getItem() instanceof ItemMulti) {
-            if (stack.getTranslationKey().equals("ic2.crafting.iridium")) return "iridium";
+        if (stack.isEmpty()) return "";
+        Item item = stack.getItem();
+        if (item instanceof ItemMulti) {
+            if (StackUtil.checkItemEquality(stack, ItemName.crafting.getItemStack(CraftingItemType.iridium))) return "iridium_alloy";
             return PlateResourceType.values()[stack.getMetadata()].name();  //ic2 plate
         }
-        else return stack.getTranslationKey().substring(11); //GT plate
+        else return item.getRegistryName().getPath().substring(6); //GT plate
     }
 
     public enum CoverTexture {
         //Generic GregTech
-        ALUMINIUM(Reference.MODID, CoverTexture.BLOCK_PATH +"aluminium"),
-        BRASS(Reference.MODID, CoverTexture.BLOCK_PATH +"brass"),
-        CHROME(Reference.MODID, CoverTexture.BLOCK_PATH +"chrome"),
-        ELECTRUM(Reference.MODID, CoverTexture.BLOCK_PATH +"electrum"),
-        INVAR(Reference.MODID, CoverTexture.BLOCK_PATH +"invar"),
-        IRIDIUM(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH +"block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c"),
-        NICKEL(Reference.MODID, CoverTexture.BLOCK_PATH +"nickel"),
-        OSMIUM(Reference.MODID, CoverTexture.BLOCK_PATH +"osmium"),
-        PLATINUM(Reference.MODID, CoverTexture.BLOCK_PATH +"platinum"),
-        TITANIUM(Reference.MODID, CoverTexture.BLOCK_PATH +"titanium"),
-        TUNGSTEN(Reference.MODID, CoverTexture.BLOCK_PATH +"tungsten"),
-        TUNGSTEN_STEEL(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH +"block_tungsten_steel/block_tungsten_steel0c"),
-        ZINC(Reference.MODID, CoverTexture.BLOCK_PATH +"zinc"),
+        ALUMINIUM(Reference.MODID, CoverTexture.BLOCK_PATH + "aluminium"),
+        BRASS(Reference.MODID, CoverTexture.BLOCK_PATH + "brass"),
+        CHROME(Reference.MODID, CoverTexture.BLOCK_PATH + "chrome"),
+        ELECTRUM(Reference.MODID, CoverTexture.BLOCK_PATH + "electrum"),
+        INVAR(Reference.MODID, CoverTexture.BLOCK_PATH + "invar"),
+        IRIDIUM(Reference.MODID, CoverTexture.BLOCK_PATH + "iridium"),
+        IRIDIUM_ALLOY(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH + "block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c"),
+        LEAD(Reference.MODID, CoverTexture.BLOCK_PATH + "lead"),
+        NICKEL(Reference.MODID, CoverTexture.BLOCK_PATH + "nickel"),
+        OSMIUM(Reference.MODID, CoverTexture.BLOCK_PATH + "osmium"),
+        PLATINUM(Reference.MODID, CoverTexture.BLOCK_PATH + "platinum"),
+        SILVER(Reference.MODID, CoverTexture.BLOCK_PATH + "silver"),
+        STEEL(Reference.MODID, CoverTexture.BLOCK_PATH + "steel"),
+        TITANIUM(Reference.MODID, CoverTexture.BLOCK_PATH + "titanium"),
+        TUNGSTEN(Reference.MODID, CoverTexture.BLOCK_PATH + "tungsten"),
+        TUNGSTEN_STEEL(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH + "block_tungsten_steel/block_tungsten_steel0c"),
+        ZINC(Reference.MODID, CoverTexture.BLOCK_PATH + "zinc"),
+        //Generic IC2
+        COPPER("ic2", CoverTexture.IC2_BLOCK_PATH + "bronze_block"),
+        BRONZE("ic2", CoverTexture.IC2_BLOCK_PATH + "bronze_block"),
+        TIN("ic2", CoverTexture.IC2_BLOCK_PATH + "tin_block"),
+        REFINED_IRON("ic2", CoverTexture.IC2_BLOCK_PATH + "machine"),
         //Generic Minecraft
         IRON("minecraft", "blocks/iron_block"),
         GOLD("minecraft", "blocks/gold_block"),
         LAPIS("minecraft", "blocks/lapis_block"),
         OBSIDIAN("minecraft", "blocks/obsidian"),
-        WOOD("minecraft", "blocks/planks_oak"),
-        //Generic IC2
-        COPPER("ic2", CoverTexture.IC2_BLOCK_PATH +"bronze_block"),
-        SILVER("ic2", CoverTexture.IC2_BLOCK_PATH +"silver_block"),
-        BRONZE("ic2", CoverTexture.IC2_BLOCK_PATH +"bronze_block"),
-        TIN("ic2", CoverTexture.IC2_BLOCK_PATH +"tin_block"),
-        LEAD("ic2", CoverTexture.IC2_BLOCK_PATH +"lead_block"),
-        STEEL("ic2", CoverTexture.IC2_BLOCK_PATH +"steel_block");
+        WOOD("minecraft", "blocks/planks_oak");
         private final String domain;
         private final String path;
         private static final String BLOCK_PATH = "blocks/block_";

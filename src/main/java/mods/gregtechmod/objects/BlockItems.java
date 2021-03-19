@@ -9,7 +9,6 @@ import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.init.FluidLoader;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockOre;
 import mods.gregtechmod.objects.blocks.ConnectedBlock;
@@ -19,6 +18,7 @@ import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IObjectHolder;
+import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -29,22 +29,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fluids.FluidTank;
 
-import java.util.*;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BlockItems {
     public static net.minecraft.block.Block lightSource;
     public static Item sensorKit;
     public static Item sensorCard;
-    public static final Map<String, ItemCellClassic> CLASSIC_CELLS = Stream.<FluidLoader.IFluidProvider>concat(
-            Arrays.stream(FluidLoader.Liquid.values()),
-            Arrays.stream(FluidLoader.Gas.values())
-    ).collect(Collectors.toMap(FluidLoader.IFluidProvider::getName,
-            provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
+    public static Map<String, ItemCellClassic> classicCells;
 
     public enum Block {
         ADVANCED_MACHINE(4, 30),
@@ -60,6 +57,7 @@ public class BlockItems {
         IRIDIUM(3.5F, 600),
         IRIDIUM_REINFORCED_STONE(100, 300),
         IRIDIUM_REINFORCED_TUNGSTEN_STEEL(ConnectedBlock::new, 200, 400),
+        LEAD(3, 60),
         LESUBLOCK(4, 30),
         NICKEL(3, 45),
         OLIVINE(4.5F, 30),
@@ -68,7 +66,9 @@ public class BlockItems {
         REINFORCED_MACHINE_CASING(ConnectedBlock::new, 3, 60),
         RUBY(4.5F, 30),
         SAPPHIRE(4.5F, 30),
+        SILVER(3, 30),
         STANDARD_MACHINE_CASING(ConnectedBlock::new, 3, 30),
+        STEEL(3, 100),
         TITANIUM(10, 200),
         TUNGSTEN(4.5F, 100),
         TUNGSTEN_STEEL(ConnectedBlock::new, 100, 300),
@@ -185,12 +185,15 @@ public class BlockItems {
         INVAR("Fe2Ni"),
         IRIDIUM("Ir"),
         IRIDIUM_ALLOY(null),
+        LEAD("Pb"),
         MAGNALIUM("MgAl2"),
         NICKEL("Ni"),
         OSMIUM("Os"),
         PLATINUM("Pt"),
         PLUTONIUM("Pu", true),
+        SILVER("Ag"),
         SOLDERING_ALLOY("Sn9Sb1"),
+        STEEL("Fe"),
         THORIUM("Th", true),
         TITANIUM("Ti"),
         TUNGSTEN("W"),
@@ -232,6 +235,7 @@ public class BlockItems {
         COPPER("Cu"),
         ELECTRUM(Ingot.ELECTRUM.description),
         INVAR(Ingot.INVAR.description),
+        IRIDIUM(Ingot.IRIDIUM.description),
         LEAD("Pg"),
         NICKEL(Ingot.NICKEL.description),
         OSMIUM(Ingot.OSMIUM.description),
@@ -268,9 +272,15 @@ public class BlockItems {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         BATTERY_ALLOY(Ingot.BATTERY_ALLOY.description),
         BRASS(Ingot.BRASS.description),
+        BRONZE(Rod.BRONZE.description),
         CHROME(Ingot.CHROME.description),
+        COPPER(Rod.COPPER.description),
         ELECTRUM(Ingot.ELECTRUM.description),
+        GOLD(Rod.GOLD.description),
         INVAR(Ingot.INVAR.description),
+        IRIDIUM(Ingot.IRIDIUM.description),
+        IRON("Fe"),
+        LEAD(Ingot.LEAD.description),
         MAGNALIUM(Ingot.MAGNALIUM.description),
         NICKEL(Ingot.NICKEL.description),
         OSMIUM(Ingot.OSMIUM.description),
@@ -279,6 +289,8 @@ public class BlockItems {
         REFINED_IRON("Fe"),
         SILICON("Si2"),
         SILVER("Ag"),
+        STEEL("Fe"),
+        TIN(Rod.TIN.description),
         TITANIUM(Ingot.TITANIUM.description),
         TUNGSTEN(Ingot.TUNGSTEN.description),
         TUNGSTEN_STEEL(Ingot.TUNGSTEN_STEEL.description),
@@ -300,7 +312,7 @@ public class BlockItems {
                         .setFolder("plate")
                         .setRegistryName(name)
                         .setTranslationKey(name);
-                if (GtUtil.shouldEnable(this)) this.instance.setCreativeTab(GregTechMod.GREGTECH_TAB);
+                if (ProfileDelegate.shouldEnable(this)) this.instance.setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 
             return this.instance;
@@ -347,7 +359,7 @@ public class BlockItems {
                         .setFolder("rod")
                         .setRegistryName(name)
                         .setTranslationKey(name);
-                if (GtUtil.shouldEnable(this)) this.instance.setCreativeTab(GregTechMod.GREGTECH_TAB);
+                if (ProfileDelegate.shouldEnable(this)) this.instance.setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 
             return this.instance;
@@ -359,6 +371,7 @@ public class BlockItems {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE("Ca3Fe2Si3O12"),
         ANTIMONY(Ingot.ANTIMONY.description),
+        ASHES("C"),
         BASALT("(Mg2Fe2SiO4)(CaCO3)3(SiO2)8C4"),
         BAUXITE("TiAl16H10O12"),
         BRASS(Ingot.BRASS.description),
@@ -366,7 +379,9 @@ public class BlockItems {
         CHARCOAL("C"),
         CHROME(Ingot.CHROME.description),
         CINNABAR("HgS"),
+        CLAY("Na2LiAl2Si2"),
         DARK_ASHES("C"),
+        DIAMOND("C128"),
         ELECTRUM(Ingot.ELECTRUM.description),
         EMERALD("Be3Al2Si6O18"),
         ENDER_EYE("BeK4N5Cl6C4S2"),
@@ -378,10 +393,13 @@ public class BlockItems {
         GROSSULAR("Ca3Al2Si3O12"),
         INVAR(Ingot.INVAR.description),
         LAZURITE("Al6Si6Ca8Na8"),
+        LEAD(Ingot.LEAD.description),
         MAGNESIUM("Mg"),
         MANGANESE("Mn"),
         MARBLE("Mg(CaCO3)7"),
+        NETHERRACK,
         NICKEL("Ni"),
+        OBSIDIAN("MgFeSiO8"),
         OLIVINE("Mg2Fe2SiO4"),
         OSMIUM("Os"),
         PHOSPHORUS("Ca3(PO4)2"),
@@ -397,7 +415,9 @@ public class BlockItems {
         SODALITE("Al3Si3Na4Cl"),
         SPESSARTINE("Al2Mn3Si3O12"),
         SPHALERITE("ZnS"),
+        SILVER(Ingot.SILVER.description),
         STEEL("Fe"),
+        SULFUR("S"),
         THORIUM(Ingot.THORIUM.description, true),
         TITANIUM(Ingot.TITANIUM.description),
         TUNGSTEN(Ingot.TUNGSTEN.description),
@@ -443,17 +463,20 @@ public class BlockItems {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE(Dust.ANDRADITE.description),
         ANTIMONY(Ingot.ANTIMONY.description),
+        ASHES("C"),
         BASALT(Dust.BASALT.description),
         BAUXITE(Dust.BAUXITE.description),
         BRASS(Ingot.BRASS.description),
+        BRONZE(Rod.BRONZE.description),
         CALCITE(Dust.CALCITE.description),
         CHARCOAL(Dust.CHARCOAL.description),
         CHROME(Ingot.CHROME.description),
         CINNABAR(Dust.CINNABAR.description),
-        CLAY("Na2LiAl2Si2"),
+        CLAY(Dust.CLAY.description),
         COAL("C2"),
+        COPPER(Rod.COPPER.description),
         DARK_ASHES(Dust.DARK_ASHES.description),
-        DIAMOND("C128"),
+        DIAMOND(Dust.DIAMOND.description),
         ELECTRUM(Ingot.ELECTRUM.description),
         EMERALD(Dust.EMERALD.description),
         ENDER_EYE(Dust.ENDER_EYE.description),
@@ -462,16 +485,20 @@ public class BlockItems {
         FLINT(Dust.FLINT.description),
         GALENA(Dust.GALENA.description),
         GLOWSTONE,
+        GOLD(Rod.GOLD.description),
         GREEN_SAPPHIRE(Dust.GREEN_SAPPHIRE.description),
         GROSSULAR(Dust.GROSSULAR.description),
         GUNPOWDER,
         INVAR(Ingot.INVAR.description),
+        IRON("Fe"),
         LAZURITE(Dust.LAZURITE.description),
+        LEAD(Dust.LEAD.description),
         MAGNESIUM(Dust.MAGNESIUM.description),
         MANGANESE(Dust.MANGANESE.description),
         MARBLE(Dust.MARBLE.description),
         NETHERRACK,
         NICKEL(Ingot.NICKEL.description),
+        OBSIDIAN(Dust.OBSIDIAN.description),
         OLIVINE(Dust.OLIVINE.description),
         OSMIUM(Ingot.OSMIUM.description),
         PHOSPHORUS(Dust.PHOSPHORUS.description),
@@ -485,11 +512,14 @@ public class BlockItems {
         RUBY(Dust.RUBY.description),
         SALTPETER(Dust.SALTPETER.description),
         SAPPHIRE(Dust.SAPPHIRE.description),
+        SILVER(Dust.SILVER.description),
         SODALITE(Dust.SODALITE.description),
         SPESSARTINE(Dust.SPESSARTINE.description),
         SPHALERITE(Dust.SPHALERITE.description),
         STEEL(Dust.STEEL.description),
+        SULFUR(Dust.SULFUR.description),
         THORIUM(Ingot.THORIUM.description, true),
+        TIN(Rod.TIN.description),
         TITANIUM(Ingot.TITANIUM.description),
         TUNGSTEN(Ingot.TUNGSTEN.description),
         URANIUM(Dust.URANIUM.description, true),

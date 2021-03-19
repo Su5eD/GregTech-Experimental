@@ -15,11 +15,13 @@ import ic2.api.recipe.MachineRecipe;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
+import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.util.DummyContainer;
 import mods.gregtechmod.util.DummyWorld;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.ProfileDelegate;
 import mods.railcraft.api.crafting.Crafters;
 import mods.railcraft.api.crafting.IRockCrusherCrafter;
 import net.minecraft.inventory.InventoryCrafting;
@@ -37,6 +39,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -88,7 +91,7 @@ public class ModHandler {
     }
 
     public static void gatherModItems() {
-        emptyCell = GtUtil.getCell(null);
+        emptyCell = ProfileDelegate.getCell(null);
 
         Item material = getItem("thermalfoundation", "material");
         if (material != null) {
@@ -396,5 +399,22 @@ public class ModHandler {
         } catch (Throwable ignored) {}
 
         return ItemStack.EMPTY;
+    }
+
+    @Nullable
+    public static <T extends Enum<T>> T getEnumConstantSafely(Class<T> clazz, String name) {
+        try {
+            return Enum.valueOf(clazz, name);
+        } catch (IllegalArgumentException ignored) {
+            return null;
+        }
+    }
+
+    public static String getVariantSafely(ItemName item, ItemStack stack) {
+        try {
+            return item.getVariant(stack);
+        } catch (Throwable t) {
+            return "";
+        }
     }
 }

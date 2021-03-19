@@ -9,8 +9,8 @@ import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IIngredientRegistry;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
-import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IObjectHolder;
+import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class JEIModule implements IModPlugin {
         hideEnum(BlockItems.Rod.values());
 
         if (!Version.shouldEnable(ItemCellClassic.class)) {
-            BlockItems.CLASSIC_CELLS.values()
+            BlockItems.classicCells.values()
                     .stream()
                     .map(ItemStack::new)
                     .forEach(HIDDEN_ITEMS::add);
@@ -46,7 +46,7 @@ public class JEIModule implements IModPlugin {
 
     private void hideEnum(IObjectHolder[] values) {
         Arrays.stream(values)
-                .filter(val -> !GtUtil.shouldEnable(val))
+                .filter(val -> !ProfileDelegate.shouldEnable(val))
                 .map(IObjectHolder::getInstance)
                 .map(ItemStack::new)
                 .forEach(HIDDEN_ITEMS::add);

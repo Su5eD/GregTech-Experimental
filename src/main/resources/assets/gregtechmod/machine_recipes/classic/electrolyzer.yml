@@ -1,0 +1,37 @@
+# Classic Electrolyzer Recipes
+---
+- input:
+    item: ic2:cell#electrolyzed_water
+    count: 6
+  output:
+    - item: gregtechmod:cell_hydrogen
+      count: 4
+    - item: ic2:cell#ic2air
+    - item: ic2:cell
+  cells: 5
+  duration: 100
+  energyCost: 30
+- input:
+    item: ic2:cell#water
+  output:
+    - item: ic2:cell#electrolyzed_water
+  cells: 1
+  duration: 200
+  energyCost: 128
+- input:
+    item: minecraft:water_bucket
+  output:
+    - item: ic2:cell#electrolyzed_water
+  cells: 1
+  duration: 200
+  energyCost: 128
+- input:
+    - ore: ingotIron
+    - ore: dustCoal
+      count: 2
+  output:
+    - item: gregtechmod:ingot_steel
+    - item: gregtechmod:dust_dark_ashes
+      count: 2
+  duration: 500
+  heat: 1000

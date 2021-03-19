@@ -1,0 +1,10 @@
+# Experimental Alloy Smelter Recipes
+---
+- input:
+    - item: gregtechmod:gear_iron
+  output:
+    item: minecraft:iron_ingot
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true

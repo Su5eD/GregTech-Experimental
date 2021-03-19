@@ -14,10 +14,6 @@
   output:
     - item: gregtechmod:ingot_osmium
 - input:
-    ore: dustUranium
-  output:
-    - item: ic2:ingot#uranium
-- input:
     ore: dustPlutonium
   output:
     - item: gregtechmod:ingot_plutonium
@@ -41,12 +37,6 @@
     count: 9
   output:
     - item: gregtechmod:ingot_osmium
-# Classic recipe
-#- input:
-#    ore: nuggetUranium
-#    count: 9
-#  output:
-#    item: ic2:ingot#uranium
 - input:
     ore: nuggetPlutonium
     count: 9
@@ -57,21 +47,6 @@
     count: 9
   output:
     - item: gregtechmod:ingot_thorium
-# Classic recipes
-#- input:
-#    ores:
-#      - treeLeaves
-#      - cropWheat
-#      - sugarcane
-#      - blockCactus
-#    count: 8
-#  output:
-#    item: ic2:crafting#plant_ball
-#- input:
-#    item: gregtechmod:indigo_blossom
-#    count: 8
-#  output:
-#    - item: ic2:crafting#plant_ball
 - input:
     ore: treeSapling
     count: 4

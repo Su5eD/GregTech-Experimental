@@ -132,19 +132,19 @@ public class ClientEventHandler {
         ItemStack stack = event.getItemStack();
         List<String> tooltip = event.getToolTip();
 
-        if (stack.isItemEqual(IC2Items.getItem("dust", "diamond"))) tooltip.add("C128");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "lead"))) tooltip.add("Pb");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "obsidian"))) tooltip.add("MgFeSi2O8");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "coal"))) tooltip.add("C2");
+        //if (stack.isItemEqual(IC2Items.getItem("dust", "diamond"))) tooltip.add("C128");
+        //else if (stack.isItemEqual(IC2Items.getItem("dust", "lead"))) tooltip.add("Pb");
+        //else if (stack.isItemEqual(IC2Items.getItem("dust", "obsidian"))) tooltip.add("MgFeSi2O8");
+        if (stack.isItemEqual(IC2Items.getItem("dust", "coal"))) tooltip.add("C2");
         else if (stack.isItemEqual(IC2Items.getItem("dust", "iron"))) tooltip.add("Fe");
         else if (stack.isItemEqual(IC2Items.getItem("dust", "gold"))) tooltip.add("Au");
         else if (stack.isItemEqual(IC2Items.getItem("dust", "copper"))) tooltip.add("Cu");
         else if (stack.isItemEqual(IC2Items.getItem("dust", "tin"))) tooltip.add("Sn");
         else if (stack.isItemEqual(IC2Items.getItem("dust", "bronze"))) tooltip.add("SnCu3");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "silver"))) tooltip.add("Ag");
-        else if (stack.isItemEqual(IC2Items.getItem("dust", "clay"))) tooltip.add("Na2LiAl2Si2");
-        else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "ashes"))) tooltip.add("C");
-        else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "iridium_shard"))) tooltip.add("Ir");
+        //else if (stack.isItemEqual(IC2Items.getItem("dust", "silver"))) tooltip.add("Ag");
+        //else if (stack.isItemEqual(IC2Items.getItem("dust", "clay"))) tooltip.add("Na2LiAl2Si2");
+        //else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "ashes"))) tooltip.add("C");
+        //else if (stack.isItemEqual(IC2Items.getItem("misc_resource", "iridium_shard"))) tooltip.add("Ir");
 
         FluidStack fluidContained = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();

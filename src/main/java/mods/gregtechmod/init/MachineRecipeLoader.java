@@ -40,6 +40,7 @@ import mods.gregtechmod.recipe.util.RecipeFilter;
 import mods.gregtechmod.recipe.util.deserializer.*;
 import mods.gregtechmod.recipe.util.serializer.*;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -55,16 +56,15 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class MachineRecipeLoader {
     private static Path recipesPath = null;
+    private static Path classicRecipesPath = null;
+    private static Path experimentalRecipesPath = null;
     private static Path fuelsPath = null;
     private static Path dynamicRecipesDir = null;
     private static final ObjectMapper mapper = new ObjectMapper(
@@ -112,24 +112,26 @@ public class MachineRecipeLoader {
             GregTechMod.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
             MachineRecipeLoader.recipesPath = recipesPath;
         } else MachineRecipeLoader.recipesPath = gtConfig;
+        classicRecipesPath = recipesPath.resolve("classic");
+        experimentalRecipesPath = recipesPath.resolve("experimental");
 
         GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
-        MachineRecipeLoader.parseConfig("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
+        parseConfig("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("industrial centrifuge", recipes, GtRecipes.industrialCentrifuge));
         GtRecipes.assembler = new RecipeManagerMultiInput<>();
-        MachineRecipeLoader.parseConfig("assembler", RecipeDualInput.class, null)
+        parseConfig("assembler", RecipeDualInput.class, null)
                 .ifPresent(recipes -> registerRecipes("assembler", recipes, GtRecipes.assembler));
 
         GtRecipes.pulverizer = new RecipeManagerPulverizer();
-        MachineRecipeLoader.parseConfig("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
+        parseConfig("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("pulverizer", recipes, GtRecipes.pulverizer));
 
         GtRecipes.grinder = new RecipeManagerGrinder();
-        MachineRecipeLoader.parseConfig("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
+        parseConfig("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("grinder", recipes, GtRecipes.grinder));
 
         GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
-        MachineRecipeLoader.parseConfig("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
+        parseConfig("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.blastFurnace));
 
         GtRecipes.electrolyzer = new RecipeManagerCellular();
@@ -256,8 +258,8 @@ public class MachineRecipeLoader {
             int count = bronze.getCount();
             GtRecipes.industrialCentrifuge.addRecipe(
                     RecipeCentrifuge.create(RecipeIngredientOre.create("dustBronze", count < 3 ? 1 : count / 2),
-                            Arrays.asList(StackUtil.copyWithSize(IC2Items.getItem("dust", "small_copper"), 6),
-                                    StackUtil.copyWithSize(IC2Items.getItem("dust", "small_tin"), 2)),
+                            Arrays.asList(new ItemStack(BlockItems.Smalldust.COPPER.getInstance(), 6),
+                                    new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 2)),
                             0,
                             1500));
         }
@@ -284,7 +286,7 @@ public class MachineRecipeLoader {
             }
         }
 
-        DynamicRecipes.addPulverizerRecipe(GtUtil.getCell(null), StackUtil.setSize(IC2Items.getItem("dust", "small_tin"), 9), true);
+        DynamicRecipes.addPulverizerRecipe(ProfileDelegate.getCell(null), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 9), true);
         ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
         if (IC2.version.isClassic()) {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));
@@ -316,19 +318,29 @@ public class MachineRecipeLoader {
     }
 
     public static <R> Optional<Collection<R>> parseConfig(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
-        return parseConfig(name, recipeClass, filter, recipesPath);
+        Optional<Collection<R>> normalRecipes = parseConfig(name, recipeClass, filter, recipesPath);
+        Optional<Collection<R>> profileRecipes = IC2.version.isClassic() ? parseConfig(name, recipeClass, filter, classicRecipesPath, true) : parseConfig(name, recipeClass, filter, experimentalRecipesPath, true);
+        return normalRecipes.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, profileRecipes.orElse(Collections.emptyList()))));
     }
 
     public static <R> Optional<Collection<R>> parseConfig(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Path path) {
-        try {
-            ObjectMapper recipeMapper = mapper.copy();
-            if (filter != null) recipeMapper.addMixIn(IMachineRecipe.class, filter);
+        return parseConfig(name, recipeClass, filter, path, false);
+    }
 
-            return Optional.ofNullable(recipeMapper.readValue(Files.newBufferedReader(path.resolve(name + ".yml")), mapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
+    public static <R> Optional<Collection<R>> parseConfig(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Path path, boolean silent) {
+        try {
+            return parseConfig(recipeClass, filter, Files.newBufferedReader(path.resolve(name + ".yml")));
         } catch (IOException e) {
-            GregTechMod.logger.error("Failed to parse " + name + " recipes: " + e.getMessage());
+            if (!silent) GregTechMod.logger.error("Failed to parse " + name + " recipes: " + e.getMessage());
             return Optional.empty();
         }
+    }
+
+    public static <R> Optional<Collection<R>> parseConfig(Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Reader reader) throws IOException {
+        ObjectMapper recipeMapper = mapper.copy();
+        if (filter != null) recipeMapper.addMixIn(IMachineRecipe.class, filter);
+
+        return Optional.ofNullable(recipeMapper.readValue(reader, mapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
     }
 
     private static <T extends IMachineRecipe<?, ?>> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IGtRecipeManager<?, ?, T> manager) {
@@ -413,26 +425,33 @@ public class MachineRecipeLoader {
         return !dest.toFile().exists();
     }
 
-    private static Path relocateConfig(Path source, String target) {
+    private static Path relocateConfig(Path recipesPath, String target) {
+        File configDir = new File(GregTechMod.configDir.toURI().getPath() + "/GregTech/"+target);
+        configDir.mkdirs();
+        return copyDir(recipesPath, configDir);
+    }
+
+    private static Path copyDir(Path source, File target) {
         try {
             DirectoryStream<Path> stream = Files.newDirectoryStream(source);
-            File configDir = new File(GregTechMod.configDir.toURI().getPath() + "/GregTech/"+target);
-            configDir.mkdirs();
             for (Path path : stream) {
-                GregTechMod.logger.debug("Copying config: " + path.getFileName());
-                File dest = new File(Paths.get(configDir.getPath(), path.getFileName().toString()).toUri());
-                if (!dest.exists() && path.toString().endsWith(".yml")) {
-                    BufferedReader in = Files.newBufferedReader(path);
-                    FileOutputStream out = new FileOutputStream(dest);
-                    for (int i; (i = in.read()) != -1; ) {
-                        out.write(i);
+                File dest = new File(Paths.get(target.getPath(), path.getFileName().toString()).toUri());
+                if (!dest.exists()) {
+                    if (path.toString().endsWith("/")) {
+                        dest.mkdirs();
+                        copyDir(path, dest);
+                        continue;
                     }
 
+                    GregTechMod.logger.debug("Copying file " + path.toString() + " to " + dest.toPath());
+                    BufferedReader in = Files.newBufferedReader(path);
+                    FileOutputStream out = new FileOutputStream(dest);
+                    for (int i; (i = in.read()) != -1; ) out.write(i);
                     in.close();
                     out.close();
                 }
             }
-            return configDir.toPath();
+            return target.toPath();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -480,9 +499,9 @@ public class MachineRecipeLoader {
         addScrapboxDrop(Items.BREAD, 0.5F);
         addScrapboxDrop(Items.CAKE, 0.1F);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("filled_tin_can"), 1);
-        Recipes.scrapboxDrops.addDrop(GtUtil.getCell("silicon"), 0.2F);
-        Recipes.scrapboxDrops.addDrop(GtUtil.getCell("water"), 1);
-        Recipes.scrapboxDrops.addDrop(GtUtil.getCell(null), 2);
+        Recipes.scrapboxDrops.addDrop(ProfileDelegate.getCell("silicon"), 0.2F);
+        Recipes.scrapboxDrops.addDrop(ProfileDelegate.getCell("water"), 1);
+        Recipes.scrapboxDrops.addDrop(ProfileDelegate.getCell(null), 2);
         addScrapboxDrop(Items.PAPER, 5);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("crafting", "plant_ball"), 0.7F);
         addScrapboxDrop(BlockItems.Dust.WOOD.getInstance(), 3.8F);
@@ -497,18 +516,18 @@ public class MachineRecipeLoader {
         addScrapboxDrop(BlockItems.Dust.CHARCOAL.getInstance(), 2.5F);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "iron"), 1);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "gold"), 1);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "silver"), 0.5F);
+        addScrapboxDrop(BlockItems.Dust.SILVER.getInstance(), 0.5F);
         addScrapboxDrop(BlockItems.Dust.ELECTRUM.getInstance(), 0.5F);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "tin"), 1.2F);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "copper"), 1.2F);
         addScrapboxDrop(BlockItems.Dust.BAUXITE.getInstance(), 0.5F);
         addScrapboxDrop(BlockItems.Dust.ALUMINIUM.getInstance(), 0.5F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "lead"), 0.5F);
+        addScrapboxDrop(BlockItems.Dust.LEAD.getInstance(), 0.5F);
         addScrapboxDrop(BlockItems.Dust.NICKEL.getInstance(), 0.5F);
         addScrapboxDrop(BlockItems.Dust.ZINC.getInstance(), 0.5F);
         addScrapboxDrop(BlockItems.Dust.BRASS.getInstance(), 0.5F);
         addScrapboxDrop(BlockItems.Dust.STEEL.getInstance(), 0.5F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "obsidian"), 1.5F);
+        addScrapboxDrop(BlockItems.Dust.OBSIDIAN.getInstance(), 1.5F);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "sulfur"), 1.5F);
         addScrapboxDrop(BlockItems.Dust.SALTPETER.getInstance(), 2);
         addScrapboxDrop(BlockItems.Dust.LAZURITE.getInstance(), 2);

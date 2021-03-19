@@ -13,6 +13,7 @@
       count: 16
   cells: 33
   duration: 16000
+# TODO: Conditional recipes
 - input:
     cell: biomass
     count: 16

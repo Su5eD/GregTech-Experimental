@@ -22,7 +22,7 @@ import mods.gregtechmod.inventory.GtFluidTankProcessable;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerIndustrialCentrifuge;
 import mods.gregtechmod.objects.items.ItemCellClassic;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.ProfileDelegate;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -133,7 +133,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
     public void addCellsToOutput(ItemStack input) {
         Item item = input.getItem();
         if (this.pendingRecipe.size() < 4) {
-            if (item instanceof ItemFluidCell) this.pendingRecipe.add(StackUtil.copyWithSize(GtUtil.getCell(null), input.getCount()));
+            if (item instanceof ItemFluidCell) this.pendingRecipe.add(StackUtil.copyWithSize(ProfileDelegate.getCell(null), input.getCount()));
             else this.pendingRecipe.add(StackUtil.copyWithSize(IC2Items.getItem("ingot", "tin"), getTinForCells(input)));
         } else {
             for (ItemStack stack : this.pendingRecipe) {

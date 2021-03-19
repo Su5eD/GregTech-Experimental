@@ -8,7 +8,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientDamagedStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.item.ItemStack;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class RecipeIngredientDeserializer extends JsonDeserializer<IRecipeIngred
             node.get("items").elements().forEachRemaining(item -> stacks.add(ItemStackDeserializer.INSTANCE.deserialize(item, 1)));
             ingredient = RecipeIngredientItemStack.create(stacks, count);
         } else if (node.has("cell")) {
-            ItemStack cell = GtUtil.getCell(node.get("cell").asText());
+            ItemStack cell = ProfileDelegate.getCell(node.get("cell").asText());
             ingredient = RecipeIngredientItemStack.create(cell, count);
         } else if (node.has("ore")) {
             ingredient = RecipeIngredientOre.create(node.get("ore").asText(), count);

@@ -6,6 +6,7 @@ import com.zuxelus.energycontrol.api.IItemKit;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
+import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.ItemSensorCard;
 import mods.gregtechmod.objects.items.ItemSensorKit;
 import net.minecraft.item.Item;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BlockItemLoader {
     static final Set<net.minecraft.block.Block> BLOCKS = new LinkedHashSet<>();
@@ -41,6 +43,11 @@ public class BlockItemLoader {
 
     static void init() {
         BlockItems.lightSource = registerBlock(new BlockLightSource());
+        BlockItems.classicCells = Stream.<FluidLoader.IFluidProvider>concat(
+                Arrays.stream(FluidLoader.Liquid.values()),
+                Arrays.stream(FluidLoader.Gas.values())
+        ).collect(Collectors.toMap(FluidLoader.IFluidProvider::getName,
+                provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
         Arrays.stream(BlockItems.Block.values()).forEach(block -> registerBlockItem(block.getInstance()));
         Arrays.stream(BlockItems.Ore.values()).forEach(block -> registerBlockItem(block.getInstance()));
         Arrays.stream(BlockItems.Miscellaneous.values()).forEach(misc -> registerItem(misc.getInstance()));
@@ -51,7 +58,7 @@ public class BlockItemLoader {
         Arrays.stream(BlockItems.Smalldust.values()).forEach(smallDust -> registerItem(smallDust.getInstance()));
         Arrays.stream(BlockItems.Nugget.values()).forEach(nugget -> registerItem(nugget.getInstance()));
         Arrays.stream(BlockItems.Cell.values()).forEach(cell -> registerItem(cell.getInstance()));
-        BlockItems.CLASSIC_CELLS.values().forEach(BlockItemLoader::registerItem);
+        BlockItems.classicCells.values().forEach(BlockItemLoader::registerItem);
         Arrays.stream(BlockItems.Cover.values()).forEach(coverItem -> registerItem(coverItem.getInstance()));
         Arrays.stream(BlockItems.Component.values()).forEach(component -> registerItem(component.getInstance()));
         Arrays.stream(BlockItems.Upgrade.values()).forEach(upgrade -> registerItem(upgrade.getInstance()));

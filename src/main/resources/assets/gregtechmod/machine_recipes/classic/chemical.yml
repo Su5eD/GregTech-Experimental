@@ -1,0 +1,10 @@
+# Classic Chemical Recipes
+---
+- input:
+    - cell: glyceryl
+    - item: ic2:cell#coalfuel
+      count: 4
+  output:
+    cell: nitro_coalfuel
+    count: 5
+  duration: 250

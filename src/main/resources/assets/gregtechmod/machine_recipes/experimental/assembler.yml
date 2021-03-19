@@ -1,0 +1,186 @@
+# Classic Assembler Recipes
+---
+- input:
+    - ore: plateIron
+      count: 8
+    - item: gregtechmod:machine_parts
+  output:
+    item: ic2:resource#machine
+  duration: 400
+  energyCost: 8
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+      count: 5
+    - ores:
+        - chestWood
+        - chestTrapped
+  output:
+    item: minecraft:hopper
+  duration: 800
+  energyCost: 2
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: ic2:te#pump
+  output:
+    item: gregtechmod:pump_module
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: minecraft:heavy_weighted_pressure_plate
+  output:
+    item: gregtechmod:item_meter
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: minecraft:light_weighted_pressure_plate
+  output:
+    item: gregtechmod:liquid_meter
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: ic2:meter
+  output:
+    item: gregtechmod:eu_meter
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+      count: 2
+    - item: minecraft:iron_bars
+      count: 2
+  output:
+    item: gregtechmod:drain
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: minecraft:redstone_torch
+  output:
+    item: gregtechmod:redstone_signalizer
+  duration: 800
+  energyCost: 16
+- input:
+    - ore: plateIron
+    - item: minecraft:comparator
+  output:
+    item: gregtechmod:active_detector
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: minecraft:lever
+  output:
+    item: gregtechmod:machine_controller
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: minecraft:crafting_table
+  output:
+    item: gregtechmod:crafting
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: ic2:energy_crystal
+  output:
+    item: gregtechmod:energy_crystal
+  duration: 1600
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: ic2:lapotron_crystal
+  output:
+    item: gregtechmod:lapotron_crystal
+  duration: 3200
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - item: gregtechmod:lapotronic_energy_orb
+  output:
+    item: gregtechmod:energy_orb
+  duration: 6400
+  energyCost: 16
+- input:
+    - ore: plateIron
+      count: 2
+    - item: ic2:crafting#circuit
+  output:
+    item: gregtechmod:machine_parts
+    count: 4
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - ore: plateElectrum
+      count: 2
+  output:
+    item: gregtechmod:circuit_board_basic
+    count: 2
+  duration: 800
+  energyCost: 1
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - ore: plateIridium
+  output:
+    item: gregtechmod:machine_lock
+  duration: 1600
+  energyCost: 2
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - ore: dustRedstone
+  output:
+    item: gregtechmod:redstone_conductor
+  duration: 800
+  energyCost: 16
+- input:
+    - ores:
+        - plateIron
+        - plateAluminium
+    - ore: craftingRedstoneTorch
+  output:
+    item: gregtechmod:redstone_signalizer
+  duration: 800
+  energyCost: 16
+- input:
+    - ore: stickIron
+      count: 4
+    - ore: plateIron
+      count: 4
+  output:
+    item: gregtechmod:gear_iron
+  duration: 3200
+  energyCost: 4

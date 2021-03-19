@@ -1,0 +1,28 @@
+# Classic Pulverizer Recipes
+---
+- input:
+    item: ic2:crafting#empty_fuel_can
+  output:
+    - item: ic2:dust#tin
+  overwrite: true
+- input:
+    item: ic2:cell#empty
+  output:
+    - item: ic2:dust#tin
+  overwrite: true
+- input:
+    item: gregtechmod:gear_iron
+  output:
+    - ore: dustRefinedIron
+      count: 6
+      fallback:
+        item: ic2:dust#iron
+        count: 6
+- input:
+    item: ic2:resource#machine
+  output:
+    - ore: dustRefinedIron
+        count: 8
+        fallback:
+          item: ic2:dust#iron
+          count: 8

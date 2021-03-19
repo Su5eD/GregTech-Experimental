@@ -1,4 +1,4 @@
-# IC2 Electrolyzer recipes
+# Electrolyzer recipes
 ---
 - input:
     ore: dustSaltpeter
@@ -19,7 +19,7 @@
   output:
     - item: gregtechmod:smalldust_magnesium
       count: 2
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
       count: 2
     - cell: silicon
     - cell: ic2air
@@ -147,7 +147,7 @@
     count: 2
   output:
     - item: gregtechmod:dust_zinc
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
   duration: 150
   energyCost: 100
 - input:
@@ -155,7 +155,7 @@
     count: 2
   output:
     - cell: mercury
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
   cells: 1
   duration: 100
   energyCost: 128
@@ -165,11 +165,11 @@
       - dustGalena
     count: 2
   output:
-    - item: ic2:dust#small_silver
+    - item: gregtechmod:smalldust_silver
       count: 3
-    - item: ic2:dust#small_lead
+    - item: gregtechmod:smalldust_lead
       count: 3
-    - item: ic2:dust#small_sulfur
+    - item: gregtechmod:smalldust_sulfur
       count: 2
   duration: 1000
   energyCost: 120
@@ -287,7 +287,7 @@
     count: 3
   output:
     - item: ic2:dust#iron
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
       count: 2
   duration: 120
   energyCost: 128
@@ -374,32 +374,6 @@
   cells: 5
   duration: 775
   energyCost: 120
-# Classic recipes
-#- input:
-#    item: ic2:cell#electrolyzed_water
-#    count: 6
-#  output:
-#    - item: gregtechmod:cell_hydrogen
-#      count: 4
-#    - item: ic2:cell#ic2air
-#    - item: ic2:cell
-#  cells: 5
-#  duration: 100
-#  energyCost: 30
-#- input:
-#    item: ic2:cell#water
-#  output:
-#    - item: ic2:cell#electrolyzed_water
-#  cells: 1
-#  duration: 200
-#  energyCost: 128
-#- input:
-#    item: minecraft:water_bucket
-#  output:
-#    - item: ic2:cell#electrolyzed_water
-#  cells: 1
-#  duration: 200
-#  energyCost: 128
 - input:
     item: minecraft:dye
     meta: 15
@@ -414,7 +388,7 @@
     count: 4
   output:
     - item: gregtechmod:dust_dark_ashes
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
   duration: 300
   energyCost: 25
 - input:

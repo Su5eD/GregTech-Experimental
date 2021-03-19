@@ -24,7 +24,7 @@
     - item: gregtechmod:dust_calcite
       count: 2
     - item: gregtechmod:dust_flint
-    - item: ic2:dust#clay
+    - item: gregtechmod:dust_clay
   duration: 100
 - input:
     ore: dustMarble
@@ -51,9 +51,9 @@
       - dustLapis
       - dustLapisLazuli
   output:
-    - item: ic2:dust#lapis
+    - item: gregtechmod:dust_lazurite
       count: 3
-    - item: ic2:dust#small_lapis
+    - item: gregtechmod:smalldust_lazurite
     - item: gregtechmod:smalldust_calcite
     - item: gregtechmod:smalldust_sodalite
       count: 2
@@ -92,7 +92,7 @@
 - input:
     ore: dustBrass
   output:
-    - item: ic2:dust#small_copper
+    - item: gregtechmod:smalldust_copper
       count: 3
     - item: gregtechmod:smalldust_zinc
   duration: 1500
@@ -100,29 +100,29 @@
     ore: dustCopper
     count: 3
   output:
-    - item: ic2:dust#small_gold
+    - item: gregtechmod:smalldust_gold
     - item: gregtechmod:smalldust_nickel
   duration: 2400
 - input:
     ore: dustGold
     count: 3
   output:
-    - item: ic2:dust#small_copper
+    - item: gregtechmod:smalldust_copper
     - item: gregtechmod:smalldust_nickel
   duration: 2400
 - input:
     ore: dustNickel
     count: 3
   output:
-    - item: ic2:dust#small_iron
-    - item: ic2:dust#small_gold
-    - item: ic2:dust#small_copper
+    - item: gregtechmod:smalldust_iron
+    - item: gregtechmod:smalldust_gold
+    - item: gregtechmod:smalldust_copper
   duration: 3450
 - input:
     ore: dustIron
     count: 2
   output:
-    - item: ic2:dust#small_tin
+    - item: gregtechmod:smalldust_tin
     - item: gregtechmod:smalldust_nickel
   duration: 1500
 - input:
@@ -130,7 +130,7 @@
     count:
   output:
     - item: gregtechmod:smalldust_zinc
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
   duration: 2100
 - input:
     ore: dustZinc
@@ -168,7 +168,7 @@
 - input:
     ore: dustPlatinum
   output:
-    - item: ic2:misc_resource#iridium_shard
+    - item: gregtechmod:nugget_iridium
     - item: gregtechmod:smalldust_nickel
   duration: 3000
 - input:
@@ -181,48 +181,37 @@
     ore: dustLead
     count: 2
   output:
-    - item: ic2:dust#small_silver
+    - item: gregtechmod:smalldust_silver
   duration: 2400
 - input:
     ore: dustSilver
     count: 2
   output:
-    - item: ic2:dust#small_lead
+    - item: gregtechmod:smalldust_lead
   duration: 2400
 - input:
     ore: dustEnderEye
     count: 2
   output:
-    - item: ic2:dust#ender_pearl
+    - item: gregtechmod:dust_ender_pearl
     - item: minecraft:blaze_powder
   duration: 1850
 - input:
     ore: dustDarkAsh
     count: 2
   output:
-    - item: ic2:misc_resource#ashes
+    - item: gregtechmod:dust_ashes
     - item: thermalfoundation:material
       meta: 864
       fallback:
-        item: ic2:misc_resource#ashes
+        item: gregtechmod:dust_ashes
   duration: 250
-- input:
-    ore: dustUranium
-    count: 4
-  output:
-    - item: ic2:uranium_fuel_rod
-      count: 4
-    - item: gregtechmod:smalldust_plutonium
-    - item: gregtechmod:dust_thorium
-      count: 2
-    - item: gregtechmod:dust_tungsten
-  duration: 10000
 - input:
     ore: dustNetherrack
     count: 16
   output:
     - item: minecraft:redstone
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
       count: 4
     - item: ic2:dust#coal
     - item: minecraft:gold_nugget
@@ -241,9 +230,9 @@
 - input:
     ore: dustElectrum
   output:
-    - item: ic2:dust#small_gold
+    - item: gregtechmod:smalldust_gold
       count: 2
-    - item: ic2:dust#small_silver
+    - item: gregtechmod:smalldust_silver
       count: 2
   duration: 975
 - input:
@@ -270,7 +259,7 @@
 - input:
     item: gregtechmod:cell_sulfur
   output:
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
     - cell: empty
   duration: 40
 - input:
@@ -303,20 +292,6 @@
     - item: minecraft:sand
   cells: 1
   duration: 1000
-# TODO: Add fuel can support for the centrifuge
-#- input:
-#    ore: sandCracked
-#    count: 16
-#  output:
-#    - item: ic2:filled_fuel_can
-#      nbt:
-#        value: 5000
-#    - item: gregtechmod:dust_saltpeter
-#      count: 8
-#    - item: minecraft:sand
-#      count: 10
-#  cells: -1
-#  duration: 2500
 - input:
     items:
       - twilightforest:cooked_meef
@@ -352,47 +327,6 @@
     - item: minecraft:blaze_powder
     - item: minecraft:slime_ball
   duration: 500
-# Classic recipes
-#- input:
-#    item: ic2:nuclear#near_depleted_uranium
-#  output:
-#    - item: gregtechmod:dust_thorium
-#    - item: ic2:cell#empty
-#  duration: 500
-#- input:
-#    item: ic2:nuclear#re_enriched_uranium
-#    count: 8
-#  output:
-#    - item: ic2:nuclear#near_depleted_uranium
-#      count: 3
-#    - item: gregtechmod:dust_plutonium
-#    - item: gregtechmod:dust_thorium
-#      count: 4
-#    - item: ic2:cell#empty
-#      count: 5
-#  duration: 20000
-#- input:
-#    item: minecraft:dirt
-#    count: 16
-#  output:
-#    - item: ic2:crafting#compressed_plants
-#    - item: ic2:crafting#plantball
-#    - item: minecraft:clay_ball
-#    - item: minecraft:sand
-#      count: 8
-#  duration: 2500
-#- input:
-#    item: minecraft:grass
-#    count: 16
-#  output:
-#    - item: ic2:crafting#compressed_plants
-#      count: 2
-#    - item: ic2:crafting#plantball
-#      count: 2
-#    - item: minecraft:clay_ball
-#    - item: minecraft:sand
-#      count: 8
-#  duration: 2500
 - input:
     item: minecraft:mycelium
     count: 8
@@ -511,16 +445,6 @@
     - cell: methane
   cells: 1
   duration: 5000
-# Classic recipe TODO: Add normal variant
-#- input:
-#    item: ic2:misc_resource#resin
-#    count: 4
-#  output:
-#    - item: ic2:crafting#rubber
-#      count: 14
-#    - item: ic2:crafting#compressed_plants
-#    - item: ic2:crafting#plantball
-#  duration: 1300
 - input:
     item: minecraft:soul_sand
     count: 16

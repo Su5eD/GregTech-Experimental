@@ -133,8 +133,8 @@ public class ItemCellClassic extends ItemBase {
                     this.container = ItemName.cell.getItemStack(CellType.empty);
                     return;
                 }
-            } else if (super.typeGetter.get() == CellType.empty && this.fluidSupplier.get() == null && BlockItems.CLASSIC_CELLS.containsKey(name = stack.getFluid().getName())){
-                this.container = new ItemStack(BlockItems.CLASSIC_CELLS.get(name));
+            } else if (super.typeGetter.get() == CellType.empty && this.fluidSupplier.get() == null && BlockItems.classicCells.containsKey(name = stack.getFluid().getName())){
+                this.container = new ItemStack(BlockItems.classicCells.get(name));
                 return;
             }
 
@@ -144,7 +144,7 @@ public class ItemCellClassic extends ItemBase {
         private static boolean isValidFluid(Fluid fluid) {
             if (fluid == null) return false;
 
-            return BlockItems.CLASSIC_CELLS.containsKey(fluid.getName());
+            return BlockItems.classicCells.containsKey(fluid.getName());
         }
     }
 }

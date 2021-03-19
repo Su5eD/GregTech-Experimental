@@ -1,0 +1,30 @@
+# Experimental Blast Furnace Recipes
+---
+- input:
+    - ore: oreIron
+    - ore: dustCalcite
+  output:
+    - item: minecraft:iron_ingot
+      count: 3
+    - item: gregtechmod:dust_dark_ashes
+  heat: 1500
+  duration: 500
+- input:
+    - ore: orePyrite
+    - ore: dustCalcite
+  output:
+    - item: minecraft:iron_ingot
+      count: 2
+    - item: gregtechmod:dust_dark_ashes
+  heat: 1500
+  duration: 500
+- input:
+    - ore: ingotIron
+    - ore: dustCoal
+      count: 2
+  output:
+    - item: gregtechmod:ingot_steel
+    - item: gregtechmod:dust_dark_ashes
+      count: 2
+  duration: 500
+  heat: 1000

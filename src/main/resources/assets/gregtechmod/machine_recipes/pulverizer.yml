@@ -21,8 +21,8 @@
 - input:
     ore: stoneNetherrack
   output:
-    - item: ic2:dust#netherrack
-    - item: ic2:dust#netherrack
+    - item: gregtechmod:dust_netherrack
+    - item: gregtechmod:dust_netherrack
 - input:
     ore: stoneRedrock
   output:
@@ -55,7 +55,7 @@
     - item: minecraft:dye
       meta: 4
       count: 12
-    - item: ic2:dust#lapis
+    - item: gregtechmod:dust_lazurite
   overwrite: true
 - input:
     ore: oreSodalite
@@ -78,7 +78,7 @@
       fallback:
         item: minecraft:quartz
         count: 3
-    - item: ic2:dust#netherrack
+    - item: gregtechmod:dust_netherrack
 - input:
     ore: oreIron
   output:
@@ -94,15 +94,15 @@
 - input:
     ore: oreSilver
   output:
-    - item: ic2:dust#silver
+    - item: gregtechmod:dust_silver
       count: 2
-    - item: ic2:dust#lead
+    - item: gregtechmod:dust_lead
 - input:
     ore: oreLead
   output:
-    - item: ic2:dust#lead
+    - item: gregtechmod:dust_lead
       count: 2
-    - item: ic2:dust#silver
+    - item: gregtechmod:dust_silver
 - input:
     ores:
       - oreSilverLead
@@ -110,12 +110,12 @@
   output:
     - item: gregtechmod:dust_galena
       count: 2
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
   chance: 50
 - input:
     ore: oreDiamond
   output:
-    - item: ic2:dust#diamond
+    - item: gregtechmod:dust_diamond
       count: 2
     - item: ic2:dust#coal
   overwrite: true
@@ -315,9 +315,9 @@
 - input:
     ore: oreSulfur
   output:
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
       count: 8
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
 - input:
     ore: oreSaltpeter
   output:
@@ -354,7 +354,7 @@
   output:
     - item: gregtechmod:dust_plutonium
       count: 2
-    - item: gregtechmod:dust_uranium
+    - item: ic2:crushed#uranium
   overwrite: true
 - input:
     ore: oreCertusQuartz
@@ -366,9 +366,9 @@
 - input:
     ore: oreUranium
   output:
-    - item: gregtechmod:dust_uranium
+    - item: ic2:crushed#uranium
       count: 2
-    - item: gregtechmod:dust_platinum
+    - item: gregtechmod:dust_plutonium
 - input:
     ore: oreElectrotine
   output:
@@ -397,7 +397,7 @@
 - input:
     ore: ingotSilver
   output:
-    - item: ic2:dust#silver
+    - item: gregtechmod:dust_silver
 - input:
     ore: ingotBronze
   output:
@@ -445,7 +445,7 @@
 - input:
     ore: ingotLead
   output:
-    - item: ic2:dust#lead
+    - item: gregtechmod:dust_lead
 - input:
     ore: ingotZinc
   output:
@@ -477,11 +477,11 @@
 - input:
     ore: gemEnderPearl
   output:
-    - item: ic2:dust#ender_pearl
+    - item: gregtechmod:dust_ender_pearl
 - input:
     ore: gemDiamond
   output:
-    - item: ic2:dust#diamond
+    - item: gregtechmod:dust_diamond
 - input:
     ore: gemEmerald
   output:
@@ -549,7 +549,7 @@
       - itemSulfur
       - sulfur
   output:
-    - item: ic2:dust#sulfur
+    - item: gregtechmod:dust_sulfur
 - input:
     ores:
       - itemAluminum
@@ -580,7 +580,7 @@
 - input:
     item: twilightforest:minotaur_axe
   output:
-    - item: ic2:dust#diamond
+    - item: gregtechmod:dust_diamond
     - item: gregtechmod:dust_wood
   chance: 50
 - input:
@@ -654,27 +654,16 @@
     item: minecraft:iron_bars
     count: 2
   output:
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
       count: 3
   overwrite: true
 - input:
     item: ic2:fence#iron
     count: 2
   output:
-    - item: ic2:dust#small_iron
+    - item: gregtechmod:smalldust_iron
       count: 3
   overwrite: true
-# TODO: Classic recipes
-#- input:
-#    item: ic2:crafting#empty_fuel_can
-#  output:
-#    - item: ic2:dust#tin
-#  overwrite: true
-#- input:
-#    item: ic2:cell#empty
-#  output:
-#    - item: ic2:dust#tin
-#  overwrite: true
 - input:
     cell: empty
   output:
@@ -724,20 +713,6 @@
   output:
     - item: gregtechmod:dust_titanium
       count: 6
-# TODO: Classic recipe
-#- input:
-#    item: gregtechmod:gear_iron
-#  output:
-#    - ore: dustRefinediron
-#      count: 6
-#      fallback:
-#        item: ic2:dust#iron
-#        count: 6
-- input:
-    item: gregtechmod:gear_iron
-  output:
-    - item: ic2:dust#iron
-      count: 6
 - input:
     item: gregtechmod:gear_bronze
   output:
@@ -766,9 +741,9 @@
 - input:
     item: minecraft:enchanting_table
   output:
-    - item: ic2:dust#diamond
+    - item: gregtechmod:dust_diamond
       count: 2
-    - item: ic2:dust#obsidian
+    - item: gregtechmod:dust_obsidian
       count: 4
   chance: 95
 - input:
@@ -859,7 +834,7 @@
     item: railcraft:generic
     meta: 7
   output:
-    - item: ic2:dust#obsidian
+    - item: gregtechmod:dust_obsidian
   overwrite: true
 - input:
     ore: sugarcane
@@ -869,7 +844,7 @@
 - input:
     ore: blockClay
   output:
-    - item: ic2:dust#clay
+    - item: gregtechmod:dust_clay
       count: 2
 - input:
     item: minecraft:snow
@@ -917,7 +892,7 @@
 - input:
     item: minecraft:ender_eye
   output:
-    - item: ic2:dust#ender_eye
+    - item: gregtechmod:dust_ender_eye
       count: 2
   overwrite: true
 - input:
@@ -927,17 +902,6 @@
       count: 2
     - item: gregtechmod:smalldust_flint
   overwrite: true
-# Classic recipe
-#- input:
-#    item: ic2:resource#machine
-#  output:
-#    - item: gregtechmod:dust_refined_iron
-#      count: 8
-- input:
-    item: ic2:resource#machine
-  output:
-    - item: ic2:dust#iron
-      count: 8
 - input:
     item: minecraft:wool
     meta: 32767
