@@ -8,7 +8,11 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.List;
 
 public interface IRecipeFactory {
-    IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration);
+    default IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration) {
+        return makeCentrifugeRecipe(input, outputs, cells, duration, CellType.CELL);
+    }
+
+    IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration, CellType cellType);
 
     default IMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAssemblerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
         return makeAssemblerRecipe(input, null, output, duration, energyCost);

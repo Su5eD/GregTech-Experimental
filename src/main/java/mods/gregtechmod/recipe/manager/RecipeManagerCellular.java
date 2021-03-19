@@ -1,6 +1,7 @@
 package mods.gregtechmod.recipe.manager;
 
 import ic2.core.item.ItemFluidCell;
+import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -17,24 +18,30 @@ import javax.annotation.Nullable;
 public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> implements IGtRecipeManagerCellular {
 
     /**
-     * @param cells The amount of cells required for this recipe. Pass in -1 to ignore
+     * @param cell The cell ItemStack. Pass in <code>null</code> to ignore
      */
     @Override
-    public IRecipeCellular getRecipeFor(ItemStack input, int cells) {
+    public IRecipeCellular getRecipeFor(ItemStack input, @Nullable ItemStack cell) {
         return this.recipes.stream()
                 .filter(recipe -> {
-                    int availableCells = cells;
-                    IRecipeIngredient ingredient = recipe.getInput();
-                    if (ingredient instanceof IRecipeIngredientFluid) {
-                        FluidStack fluid = FluidUtil.getFluidContained(input);
-                        if (fluid != null) {
-                            Item item = input.getItem();
-                            if (fluid.amount == Fluid.BUCKET_VOLUME && item instanceof ItemFluidCell) {
-                                availableCells += Math.min(ingredient.getCount(), input.getCount());
+                    if (recipe.getInput().apply(input)) {
+                        if (cell != null) {
+                            int availableCells = cell.getCount();
+                            IRecipeIngredient ingredient = recipe.getInput();
+                            if (ingredient instanceof IRecipeIngredientFluid) {
+                                FluidStack fluid = FluidUtil.getFluidContained(input);
+                                if (fluid != null) {
+                                    Item item = input.getItem();
+                                    if (fluid.amount == Fluid.BUCKET_VOLUME && item instanceof ItemFluidCell) {
+                                        availableCells += Math.min(ingredient.getCount(), input.getCount());
+                                    }
+                                }
                             }
+                            return recipe.getCellType().apply(cell) && availableCells >= recipe.getCells();
                         }
+                        return true;
                     }
-                    return recipe.getInput().apply(input) && (cells < 0 || availableCells >= recipe.getCells());
+                    return false;
                 })
                 .min(this::compareCount)
                 .orElse(null);
@@ -60,8 +67,9 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
     protected IRecipeCellular getRecipeForExact(IRecipeCellular recipe) {
         IRecipeIngredient input = recipe.getInput();
         int cells = recipe.getCells();
+        CellType cellType = recipe.getCellType();
         return this.recipes.stream()
-                .filter(r -> r.getInput().apply(input) && r.getCells() <= cells && compareCount(r, recipe) == 0)
+                .filter(r -> r.getInput().apply(input) && r.getCells() <= cells && r.getCellType() == cellType && compareCount(r, recipe) == 0)
                 .findFirst()
                 .orElse(null);
     }

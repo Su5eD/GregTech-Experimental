@@ -63,6 +63,7 @@ public class ModHandler {
     public static boolean agricraft;
 
     public static ItemStack emptyCell = ItemStack.EMPTY;
+    public static ItemStack emptyFuelCan = ItemStack.EMPTY;
     public static ItemStack slag = ItemStack.EMPTY;
     public static ItemStack slagRich = ItemStack.EMPTY;
     public static ItemStack hardenedGlass = ItemStack.EMPTY;
@@ -92,6 +93,7 @@ public class ModHandler {
 
     public static void gatherModItems() {
         emptyCell = ProfileDelegate.getCell(null);
+        emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
 
         Item material = getItem("thermalfoundation", "material");
         if (material != null) {

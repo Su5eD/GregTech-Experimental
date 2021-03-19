@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,7 @@ import java.util.List;
 public class RecipeElectrolyzer extends RecipeCellular {
 
     private RecipeElectrolyzer(IRecipeIngredient input, Collection<ItemStack> output, int cells, int duration, double energyCost) {
-        super(input, output, cells, duration, energyCost);
+        super(input, output, cells, duration, energyCost, CellType.CELL);
     }
 
     @JsonCreator

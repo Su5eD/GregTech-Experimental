@@ -7,6 +7,7 @@ import ic2.core.init.OreValues;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.util.OreDictUnificator;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
@@ -378,7 +379,7 @@ public class OreDictHandler {
                 DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), smallDust));
             }
         } else if (name.startsWith("seed")) {
-            DynamicRecipes.addCentrifugeRecipe(RecipeCentrifuge.create(RecipeIngredientOre.create(name, 64), Collections.singletonList(ProfileDelegate.getCell("seed.oil")), 1, 200));
+            DynamicRecipes.addCentrifugeRecipe(RecipeCentrifuge.create(RecipeIngredientOre.create(name, 64), Collections.singletonList(ProfileDelegate.getCell("seed.oil")), 1, 200, CellType.CELL));
         } else if (name.startsWith("plant") || name.startsWith("flower")) {
             if (IC2.version.isClassic()) {
                 DynamicRecipes.COMPRESSOR.addRecipe(Recipes.inputFactory.forOreDict(name, 8), IC2Items.getItem("crafting", "compressed_plants"));

@@ -15,6 +15,7 @@ import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
@@ -261,7 +262,8 @@ public class MachineRecipeLoader {
                             Arrays.asList(new ItemStack(BlockItems.Smalldust.COPPER.getInstance(), 6),
                                     new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 2)),
                             0,
-                            1500));
+                            1500,
+                            CellType.CELL));
         }
 
         ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);

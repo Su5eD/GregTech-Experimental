@@ -11,8 +11,8 @@ import java.util.List;
 public class RecipeFactory implements IRecipeFactory {
 
     @Override
-    public IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration) {
-        return RecipeCentrifuge.create(input, outputs, cells, duration);
+    public IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration, CellType cellType) {
+        return RecipeCentrifuge.create(input, outputs, cells, duration, cellType);
     }
 
     @Override

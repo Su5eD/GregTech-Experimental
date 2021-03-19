@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GregTechAPI {
-
     public static final ArrayList<SonictronSound> SONICTRON_SOUNDS = new ArrayList<>();
     public static final Set<ItemStack> JACK_HAMMER_MINABLE_BLOCKS = new HashSet<>();
     private static final Set<ItemStack> SCREWDRIVERS = new HashSet<>();
@@ -21,6 +20,8 @@ public class GregTechAPI {
     public static Configuration dynamicConfig;
     public static IRecipeFactory recipeFactory;
     public static IRecipeIngredientFactory ingredientFactory;
+
+    public static boolean isClassic;
 
     public static void registerScrewdriver(ItemStack stack) {
         if (!stack.isEmpty()) SCREWDRIVERS.add(stack);

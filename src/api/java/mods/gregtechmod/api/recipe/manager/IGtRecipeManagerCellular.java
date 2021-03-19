@@ -15,5 +15,5 @@ public interface IGtRecipeManagerCellular extends IGtRecipeManagerFluid<IRecipeI
 
     IRecipeCellular getRecipeFor(@Nullable FluidStack input, int cells);
 
-    IRecipeCellular getRecipeFor(ItemStack input, int cells);
+    IRecipeCellular getRecipeFor(ItemStack input, ItemStack cell);
 }

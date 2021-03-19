@@ -7,4 +7,6 @@ import java.util.Collection;
 
 public interface IRecipeCellular extends IMachineRecipe<IRecipeIngredient, Collection<ItemStack>> {
     int getCells();
+
+    CellType getCellType();
 }

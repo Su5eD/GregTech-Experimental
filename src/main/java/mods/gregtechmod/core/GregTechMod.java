@@ -5,6 +5,7 @@ import ic2.core.IC2;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
@@ -71,7 +72,7 @@ public final class GregTechMod {
 
         logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
-        classic = IC2.version.isClassic();
+        GregTechAPI.isClassic = classic = IC2.version.isClassic();
         DynamicConfig.init();
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);

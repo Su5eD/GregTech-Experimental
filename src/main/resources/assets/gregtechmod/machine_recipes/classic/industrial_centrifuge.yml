@@ -1,19 +1,19 @@
 # Classic Industrial Centrifuge Recipes
 ---
-# TODO: Add fuel can support for the centrifuge
-#- input:
-#    ore: sandCracked
-#    count: 16
-#  output:
-#    - item: ic2:filled_fuel_can
-#      nbt:
-#        value: 5000
-#    - item: gregtechmod:dust_saltpeter
-#      count: 8
-#    - item: minecraft:sand
-#      count: 10
-#  cells: -1
-#  duration: 2500
+- input:
+    ore: sandCracked
+    count: 16
+  output:
+    - item: ic2:filled_fuel_can
+      nbt:
+        value: 5000
+    - item: gregtechmod:dust_saltpeter
+      count: 8
+    - item: minecraft:sand
+      count: 10
+  cells: 1
+  cellType: FUEL_CAN
+  duration: 2500
 - input:
     item: ic2:nuclear#near_depleted_uranium
   output:
