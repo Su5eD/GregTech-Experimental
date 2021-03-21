@@ -3,7 +3,7 @@ package mods.gregtechmod.init;
 import ic2.api.item.IC2Items;
 import ic2.api.item.IItemAPI;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.blocks.tileentities.teblocks;
 
 import com.mojang.authlib.GameProfile;
-import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityDigitalChestBase;
 import net.minecraft.client.util.ITooltipFlag;

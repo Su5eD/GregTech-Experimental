@@ -7,12 +7,11 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-import java.util.Collection;
 import java.util.List;
 
 public class RecipeDistillation extends RecipeCellular {
 
-    private RecipeDistillation(IRecipeIngredient input, Collection<ItemStack> output, int cells, int duration) {
+    private RecipeDistillation(IRecipeIngredient input, List<ItemStack> output, int cells, int duration) {
         super(input, output, cells, duration, 16, CellType.CELL);
     }
 

@@ -2,7 +2,7 @@ package mods.gregtechmod.api.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IGtRecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> {
     default boolean addRecipe(R recipe) {
@@ -18,5 +18,5 @@ public interface IGtRecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> {
 
     void removeRecipe(R recipe);
 
-    Set<R> getRecipes();
+    List<R> getRecipes();
 }

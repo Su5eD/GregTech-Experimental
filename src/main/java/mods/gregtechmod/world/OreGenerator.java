@@ -1,7 +1,7 @@
 package mods.gregtechmod.world;
 
 import com.google.common.base.Predicate;
-import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.WorldOre;

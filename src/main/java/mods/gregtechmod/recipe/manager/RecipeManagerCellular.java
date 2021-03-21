@@ -37,7 +37,7 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                                     }
                                 }
                             }
-                            return recipe.getCellType().apply(cell) && availableCells >= recipe.getCells();
+                            return (cell.isEmpty() || recipe.getCellType().apply(cell)) && availableCells >= recipe.getCells();
                         }
                         return true;
                     }

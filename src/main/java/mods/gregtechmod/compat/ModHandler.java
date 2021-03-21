@@ -70,6 +70,9 @@ public class ModHandler {
     public static ItemStack bcStoneGear = ItemStack.EMPTY;
     public static ItemStack woodenTie = ItemStack.EMPTY;
     public static ItemStack essentiaPhial = ItemStack.EMPTY;
+    public static ItemStack waxCapsule = ItemStack.EMPTY;
+    public static ItemStack refractoryCapsule = ItemStack.EMPTY;
+    public static ItemStack can = ItemStack.EMPTY;
 
     public static void checkLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
@@ -110,6 +113,10 @@ public class ModHandler {
         if (tie != null) woodenTie = new ItemStack(tie);
 
         essentiaPhial = getModItem("thaumcraft", "phial");
+
+        waxCapsule = getModItem("forestry", "capsule");
+        refractoryCapsule = getModItem("forestry", "refractory");
+        can = getModItem("forestry", "can");
     }
 
     public static Item getItem(String modid, String itemName) {

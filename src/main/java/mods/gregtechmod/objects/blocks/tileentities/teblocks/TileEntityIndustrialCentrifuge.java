@@ -11,13 +11,13 @@ import ic2.core.block.state.Ic2BlockState;
 import ic2.core.item.ItemClassicCell;
 import ic2.core.item.ItemFluidCell;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTankProcessable;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityGTMachine;
@@ -40,6 +40,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.List;
 import java.util.Set;
 
 public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCellular, IGtRecipeManagerCellular> {
@@ -92,11 +93,11 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
                     if (isFilledBucket(input)) {
                         this.inputSlot.put(new ItemStack(Items.BUCKET));
                     } else if (cells > 0) {
-                        int cellsFromInputSlot = input.getItem() instanceof ItemFluidCell ? Math.min(recipe.getCells(), cells) : 0;
+                        Item item = input.getItem();
+                        int cellsFromInputSlot = item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic ? Math.min(recipe.getCells(), cells) : 0;
                         this.inputSlot.consume(cells, false, true);
                         this.cellSlot.consume(recipe.getCells() - cellsFromInputSlot);
-                        this.maxProgress *= 1.5;
-                        addCellsToOutput(StackUtil.copyWithSize(input, cells - recipe.getCells()));
+                        if (addCellsToOutput(StackUtil.copyWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.MELT) this.maxProgress *= 1.5;
                         return;
                     }
                 } else if (input.getCount() == 1) {
@@ -121,8 +122,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
     }
 
     public static boolean isCell(Item item) {
-        String name = item.getRegistryName().toString();
-        return item instanceof ItemFluidCell || name.equals("forestry:can") || name.equals("forestry:capsule") || name.equals("forestry:refractory");
+        return item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic || StackUtil.checkItemEquality(ModHandler.can, item) || StackUtil.checkItemEquality(ModHandler.waxCapsule, item) || StackUtil.checkItemEquality(ModHandler.refractoryCapsule, item);
     }
 
     public static boolean isFilledBucket(ItemStack stack) {
@@ -130,25 +130,27 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
         return item instanceof UniversalBucket || (item instanceof ItemBucket && FluidUtil.getFluidContained(stack) != null) || item instanceof ItemBucketMilk;
     }
 
-    public void addCellsToOutput(ItemStack input) {
+    public static CellAdditionResult addCellsToOutput(ItemStack input, List<ItemStack> output) {
         Item item = input.getItem();
-        if (this.pendingRecipe.size() < 4) {
-            if (item instanceof ItemFluidCell || item instanceof ItemClassicCell) this.pendingRecipe.add(new ItemStack(item, input.getCount()));
-            else this.pendingRecipe.add(StackUtil.copyWithSize(IC2Items.getItem("ingot", "tin"), getTinForCells(input)));
+        if (output.size() < 4) {
+            output.add(new ItemStack(item, input.getCount()));
+            return CellAdditionResult.ADD;
         } else {
-            for (ItemStack stack : this.pendingRecipe) {
+            for (ItemStack stack : output) {
                 if (stack.isItemEqual(IC2Items.getItem("ingot", "tin"))) {
                     stack.grow(getTinForCells(input));
-                    return;
+                    return CellAdditionResult.MELT;
                 }
             }
         }
+
+        return CellAdditionResult.FAIL;
     }
 
-    private int getTinForCells(ItemStack stack) {
+    private static int getTinForCells(ItemStack stack) {
         Item item = stack.getItem();
         if (item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic) return stack.getCount();
-        else if (item.getRegistryName().toString().equals("forestry:can")) return stack.getCount() / 4;
+        else if (StackUtil.checkItemEquality(ModHandler.can, item)) return stack.getCount() / 4;
         return 0;
     }
 
@@ -169,7 +171,8 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
                     IRecipeCellular availableRecipe = this.recipeManager.getRecipeFor(fluidContained);
                     if (availableRecipe != null) {
                         IRecipeIngredient input = availableRecipe.getInput();
-                        if (stack.getItem() instanceof ItemFluidCell) cells += input.getCount() - this.tank.getFluidAmount() / Fluid.BUCKET_VOLUME;
+                        Item item = stack.getItem();
+                        if (item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic) cells += input.getCount() - this.tank.getFluidAmount() / Fluid.BUCKET_VOLUME;
                     }
                     recipe = this.recipeManager.getRecipeFor(fluidContained, cells);
                 }
@@ -190,4 +193,10 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
 
     @Override
     public void onGuiClosed(EntityPlayer entityPlayer) {}
+
+    public enum CellAdditionResult {
+        ADD,
+        MELT,
+        FAIL
+    }
 }

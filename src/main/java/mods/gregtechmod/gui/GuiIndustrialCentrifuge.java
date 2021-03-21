@@ -17,26 +17,23 @@ public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifug
         super(container, 166);
         addElement(CustomFluidSlot.createFluidSlot(this, 109, 64, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
 
-        addElement(new LinkedGauge(this, 98, 38, container.base, "progress", GregtechGauge.ArrowRight));
-        addElement(new LinkedGauge(this, 83, 23, container.base, "progress", GregtechGauge.ArrowUp));
-        addElement(new LinkedGauge(this, 68, 38, container.base, "progress", GregtechGauge.ArrowLeft));
-        addElement(new LinkedGauge(this, 83, 53, container.base, "progress", GregtechGauge.ArrowDown));
+        addElement(new LinkedGauge(this, 98, 38, container.base, "progress", GregtechGauge.ARROW_RIGHT));
+        addElement(new LinkedGauge(this, 83, 23, container.base, "progress", GregtechGauge.ARROW_UP));
+        addElement(new LinkedGauge(this, 68, 38, container.base, "progress", GregtechGauge.ARROW_LEFT));
+        addElement(new LinkedGauge(this, 83, 53, container.base, "progress", GregtechGauge.ARROW_DOWN));
     }
 
     @Override
     protected void drawForegroundLayer(int mouseX, int mouseY) {
-
         for (GuiElement<?> guiElement : this.elements) {
-            if (guiElement.isEnabled()) {
-                guiElement.drawForeground(mouseX, mouseY);
-            }
+            if (guiElement.isEnabled()) guiElement.drawForeground(mouseX, mouseY);
         }
     }
 
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         mouseX -= this.guiLeft;
         mouseY -= this.guiTop;
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1, 1, 1, 1);
         bindTexture();
         drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         String[] name = Localization.translate((this.container).base.getName()).split(" ");
@@ -44,8 +41,7 @@ public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifug
         drawString(110, 12, name[1], 4210752, false);
 
         for (GuiElement<?> element : this.elements) {
-            if (element.isEnabled())
-                element.drawBackground(mouseX, mouseY);
+            if (element.isEnabled()) element.drawBackground(mouseX, mouseY);
         }
     }
 

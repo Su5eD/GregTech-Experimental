@@ -1,8 +1,8 @@
 package mods.gregtechmod.util;
 
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

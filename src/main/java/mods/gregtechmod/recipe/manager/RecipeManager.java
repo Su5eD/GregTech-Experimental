@@ -3,14 +3,14 @@ package mods.gregtechmod.recipe.manager;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class RecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> implements IGtRecipeManager<RI, I, R> {
-    protected final Set<R> recipes;
+    protected final List<R> recipes;
 
     public RecipeManager() {
-        this.recipes = new HashSet<>();
+        this.recipes = new ArrayList<>();
     }
 
     @Override
@@ -33,7 +33,7 @@ public abstract class RecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> impl
     }
 
     @Override
-    public Set<R> getRecipes() {
+    public List<R> getRecipes() {
         return this.recipes;
     }
 

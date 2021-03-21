@@ -16,8 +16,13 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +33,8 @@ import java.util.stream.Stream;
 
 public class GtUtil {
     public static final Random RANDOM = new Random();
+    private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
 
     public static <T, U> BiPredicate<T, U> alwaysTrue() {
         return (a, b) -> true;
@@ -56,6 +63,12 @@ public class GtUtil {
     public static List<ItemStack> nonEmptyList(ItemStack... elements) {
         return Stream.of(elements)
                 .filter(stack -> !stack.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    public static List<ItemStack> copyList(List<ItemStack> list) {
+        return list.stream()
+                .map(ItemStack::copy)
                 .collect(Collectors.toList());
     }
 
@@ -157,5 +170,25 @@ public class GtUtil {
         return Stream.of(first, second)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
+    }
+
+    public static String formatNumber(int num) {
+        return INT_FORMAT.format(num);
+    }
+
+    public static String formatNumber(double num) {
+        if (num % 1 == 0) return INT_FORMAT.format(num);
+        else return DECIMAL_FORMAT.format(num);
+    }
+
+    public static ItemStack getFluidContainer(ItemStack stack, Fluid fluid) {
+        ItemStack container = stack.copy();
+        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(container);
+        if (fluidHandler != null) {
+            fluidHandler.fill(new FluidStack(fluid, Integer.MAX_VALUE), true);
+            return container;
+        }
+
+        return ItemStack.EMPTY;
     }
 }

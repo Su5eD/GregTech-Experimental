@@ -9,12 +9,12 @@ import ic2.core.block.comp.Energy;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.ref.FluidName;
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngredient, Collection<ItemStack>>, RM extends IGtRecipeManager<IRecipeIngredient, ItemStack, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider, IPanelInfoProvider {
+public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>, RM extends IGtRecipeManager<IRecipeIngredient, ItemStack, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider, IPanelInfoProvider {
     public boolean shouldExplode;
     private boolean explode;
     private int explosionTier;
@@ -39,7 +39,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
     public final GtSlotProcessableItemStack<RM> inputSlot;
     public InvSlotOutput outputSlot;
 
-    protected Collection<ItemStack> pendingRecipe = new ArrayList<>();
+    protected List<ItemStack> pendingRecipe = new ArrayList<>();
     protected double progress;
     public double baseEnergyConsume;
     public double energyConsume;

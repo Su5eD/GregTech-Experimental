@@ -7,12 +7,11 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-import java.util.Collection;
 import java.util.List;
 
 public class RecipeCentrifuge extends RecipeCellular {
 
-    private RecipeCentrifuge(IRecipeIngredient input, Collection<ItemStack> output, int cells, int duration, CellType cellType) {
+    private RecipeCentrifuge(IRecipeIngredient input, List<ItemStack> output, int cells, int duration, CellType cellType) {
         super(input, output, cells, duration, 5, cellType);
     }
 

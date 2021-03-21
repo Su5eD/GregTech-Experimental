@@ -1,4 +1,4 @@
-package mods.gregtechmod.compat;
+package mods.gregtechmod.compat.jei;
 
 import ic2.core.profile.Version;
 import mezz.jei.api.IJeiRuntime;
@@ -7,6 +7,8 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IIngredientRegistry;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.util.IObjectHolder;
@@ -27,6 +29,13 @@ public class JEIModule implements IModPlugin {
     public void register(IModRegistry registry) {
         itemRegistry = registry.getIngredientRegistry();
         ingredientBlacklist = registry.getJeiHelpers().getIngredientBlacklist();
+
+        CategoryCentrifuge.init(registry);
+    }
+
+    @Override
+    public void registerCategories(IRecipeCategoryRegistration registry) {
+        registry.addRecipeCategories(new CategoryCentrifuge(registry.getJeiHelpers().getGuiHelper()));
     }
 
     @Override

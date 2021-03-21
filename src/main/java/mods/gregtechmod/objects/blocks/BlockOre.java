@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.blocks;
 
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IBlockCustomItem;
 import mods.gregtechmod.util.PropertyHelper;

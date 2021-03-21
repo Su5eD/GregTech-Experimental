@@ -47,9 +47,7 @@
       count: 4
   duration: 2040
 - input:
-    ores:
-      - dustLapis
-      - dustLapisLazuli
+    ore: gemLapis
   output:
     - item: gregtechmod:dust_lazurite
       count: 3
@@ -76,7 +74,7 @@
     - item: gregtechmod:dust_ruby
     - cell: mercury
       count: 3
-  cells: 2
+  cells: 4
   duration: 7000
 - input:
     ore: dustGlowstone
@@ -135,7 +133,7 @@
 - input:
     ore: dustZinc
   output:
-    - item: gregtechmod:smalldust_zinc
+    - item: gregtechmod:smalldust_tin
   duration: 1050
 - input:
     ore: dustQuicksilver
@@ -144,7 +142,7 @@
   cells: 1
   duration: 100
 - input:
-    ore: dustGarnetRed
+    ore: dustRedGarnet
     count: 16
   output:
     - item: gregtechmod:dust_pyrope

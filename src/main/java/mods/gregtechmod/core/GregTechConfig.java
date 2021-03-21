@@ -1,4 +1,4 @@
-package mods.gregtechmod.api;
+package mods.gregtechmod.core;
 
 import mods.gregtechmod.api.util.Reference;
 import net.minecraftforge.common.config.Config;

@@ -1,11 +1,11 @@
 package mods.gregtechmod.objects.items;
 
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

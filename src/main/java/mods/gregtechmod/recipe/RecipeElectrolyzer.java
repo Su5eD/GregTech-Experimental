@@ -7,12 +7,11 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-import java.util.Collection;
 import java.util.List;
 
 public class RecipeElectrolyzer extends RecipeCellular {
 
-    private RecipeElectrolyzer(IRecipeIngredient input, Collection<ItemStack> output, int cells, int duration, double energyCost) {
+    private RecipeElectrolyzer(IRecipeIngredient input, List<ItemStack> output, int cells, int duration, double energyCost) {
         super(input, output, cells, duration, energyCost, CellType.CELL);
     }
 
