@@ -3,7 +3,6 @@ package mods.gregtechmod.objects.blocks.tileentities.teblocks;
 import com.google.common.collect.Sets;
 import ic2.api.item.IC2Items;
 import ic2.core.ContainerBase;
-import ic2.core.IC2;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumable;
@@ -18,6 +17,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.inventory.GtFluidTankProcessable;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityGTMachine;
@@ -54,7 +54,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
         this.cellSlot = new InvSlotConsumable(this, "cellSlot", 1) {
             @Override
             public boolean accepts(ItemStack stack) {
-                return IC2.version.isClassic() && stack.isItemEqual(ModHandler.emptyFuelCan) || stack.isItemEqual(ModHandler.emptyCell) && stack.getTagCompound() == null;
+                return GregTechMod.classic && stack.isItemEqual(ModHandler.emptyFuelCan) || stack.isItemEqual(ModHandler.emptyCell) && stack.getTagCompound() == null;
             }
         };
         this.tank = this.fluids.addTank(new GtFluidTankProcessable<>(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), 32000));

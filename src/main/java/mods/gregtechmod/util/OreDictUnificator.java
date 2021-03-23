@@ -1,10 +1,10 @@
 package mods.gregtechmod.util;
 
 import ic2.api.item.IC2Items;
-import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -220,7 +220,7 @@ public class OreDictUnificator {
     }
 
     private static ItemStack emptyCell() {
-        if (emptyCell == null) emptyCell = IC2.version.isClassic() ? IC2Items.getItem("cell", "empty") : IC2Items.getItem("fluid_cell");
+        if (emptyCell == null) emptyCell = GregTechMod.classic ? IC2Items.getItem("cell", "empty") : IC2Items.getItem("fluid_cell");
         return emptyCell;
     }
 }

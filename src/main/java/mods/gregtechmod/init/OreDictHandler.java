@@ -2,7 +2,6 @@ package mods.gregtechmod.init;
 
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.Recipes;
-import ic2.core.IC2;
 import ic2.core.init.OreValues;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
@@ -381,7 +380,7 @@ public class OreDictHandler {
         } else if (name.startsWith("seed")) {
             DynamicRecipes.addCentrifugeRecipe(RecipeCentrifuge.create(RecipeIngredientOre.create(name, 64), Collections.singletonList(ProfileDelegate.getCell("seed.oil")), 1, 200, CellType.CELL));
         } else if (name.startsWith("plant") || name.startsWith("flower")) {
-            if (IC2.version.isClassic()) {
+            if (GregTechMod.classic) {
                 DynamicRecipes.COMPRESSOR.addRecipe(Recipes.inputFactory.forOreDict(name, 8), IC2Items.getItem("crafting", "compressed_plants"));
             } else if (name.startsWith("plant")) {
                 ModHandler.addShapedRecipe(
@@ -658,7 +657,7 @@ public class OreDictHandler {
                 ModHandler.removeSmeltingRecipe(stack);
                 break;
             case "ingotIron":
-                if (IC2.version.isClassic()) DynamicRecipes.addInductionSmelterRecipe("ingotRefinedIron", stack, new ItemStack(Blocks.SAND), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 2), ModHandler.slag, 400, 25);
+                if (GregTechMod.classic) DynamicRecipes.addInductionSmelterRecipe("ingotRefinedIron", stack, new ItemStack(Blocks.SAND), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 2), ModHandler.slag, 400, 25);
                 break;
         }
 

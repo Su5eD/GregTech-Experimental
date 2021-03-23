@@ -2,7 +2,6 @@ package mods.gregtechmod.init;
 
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
-import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.compat.ModHandler;
@@ -107,7 +106,7 @@ public class OreDictRegistrar {
         Arrays.stream(BlockItems.Wrench.values())
                 .forEach(wrench -> registerOreWildcard("craftingToolWrench", wrench.getInstance()));
         registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("wrench")));
-        if (!IC2.version.isClassic()) registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("wrench_new")));
+        if (!GregTechMod.classic) registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("wrench_new")));
         registerOre("craftingToolWrench", StackUtil.copyWithWildCard(IC2Items.getItem("electric_wrench")));
 
         Arrays.stream(BlockItems.Cell.values())

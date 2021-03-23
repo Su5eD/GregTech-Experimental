@@ -1,8 +1,8 @@
 package mods.gregtechmod.util;
 
 import ic2.api.item.IC2Items;
-import ic2.core.IC2;
 import ic2.core.profile.Version;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ public class ProfileDelegate {
     }
 
     public static ItemStack getCell(@Nullable String fluid) {
-        if (IC2.version.isClassic()) {
+        if (GregTechMod.classic) {
             Item cell = BlockItems.classicCells.get(fluid);
             if (cell != null) return new ItemStack(cell);
             else {

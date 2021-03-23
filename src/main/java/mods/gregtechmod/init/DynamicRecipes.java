@@ -3,7 +3,6 @@ package mods.gregtechmod.init;
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.Recipes;
-import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.*;
@@ -217,7 +216,7 @@ class DynamicRecipes {
             addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "steel"), 4), dustTin));
         }
 
-        if (IC2.version.isClassic()) {
+        if (GregTechMod.classic) {
             ItemStack ingotRefinedIron = OreDictUnificator.get("ingotRefinedIron");
             ItemStack plateRefinedIron = OreDictUnificator.get("plateRefinedIron");
             if (!(stack = ModHandler.getCraftingResult(ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ItemStack.EMPTY, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron)).isEmpty() ||
@@ -263,7 +262,7 @@ class DynamicRecipes {
         applyMaterialUsage(iridiumOre, iridiumOre, false, true);
         applyMaterialUsage(BlockItems.Ingot.OSMIUM.getInstance(), BlockItems.Dust.OSMIUM.getInstance(), false, true);
         ItemStack dustIron = IC2Items.getItem("dust", "iron");
-        if (IC2.version.isClassic()) applyMaterialUsage(IC2Items.getItem("ingot", "refined_iron"), dustIron, true, true);
+        if (GregTechMod.classic) applyMaterialUsage(IC2Items.getItem("ingot", "refined_iron"), dustIron, true, true);
         applyMaterialUsage(IC2Items.getItem("ingot", "bronze"), IC2Items.getItem("dust", "bronze"), true, true);
         applyMaterialUsage(IC2Items.getItem("ingot", "copper"), IC2Items.getItem("dust", "copper"), true, true);
         applyMaterialUsage(IC2Items.getItem("ingot", "tin"), IC2Items.getItem("dust", "tin"), true, true);

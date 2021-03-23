@@ -2,7 +2,7 @@ package mods.gregtechmod.recipe.crafting;
 
 import com.google.gson.JsonObject;
 import ic2.api.item.IC2Items;
-import ic2.core.IC2;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
@@ -28,7 +28,7 @@ public class WrenchCraftingRecipeShapedFactory implements IRecipeFactory {
         if (wrenches == null) {
             wrenches = new HashSet<>();
             wrenches.add(IC2Items.getItem("wrench"));
-            if (!IC2.version.isClassic()) wrenches.add(IC2Items.getItem("wrench_new"));
+            if (!GregTechMod.classic) wrenches.add(IC2Items.getItem("wrench_new"));
             wrenches.add(IC2Items.getItem("electric_wrench"));
         }
         return wrenches;

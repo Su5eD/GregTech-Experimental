@@ -1,7 +1,6 @@
 package mods.gregtechmod.init;
 
 import ic2.api.item.IC2Items;
-import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
@@ -24,7 +23,7 @@ public class CraftingRecipeLoader {
     public static void init() {
         GregTechMod.logger.info("Loading static crafting recipes");
 
-        if (IC2.version.isClassic()) {
+        if (GregTechMod.classic) {
             if (GregTechConfig.DISABLED_RECIPES.depletedUranium8) {
                 ModHandler.removeCraftingRecipeFromInputs(ModHandler.emptyCell, ModHandler.emptyCell, ModHandler.emptyCell, ModHandler.emptyCell, IC2Items.getItem("ingot", "uranium"), ModHandler.emptyCell, ModHandler.emptyCell, ModHandler.emptyCell, ModHandler.emptyCell);
             }

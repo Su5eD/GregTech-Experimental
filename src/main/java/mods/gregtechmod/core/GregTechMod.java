@@ -101,7 +101,7 @@ public final class GregTechMod {
         MachineRecipeLoader.loadRecipes();
         CraftingRecipeLoader.init();
         MachineRecipeLoader.loadDynamicRecipes();
-        if (IC2.version.isClassic()) MatterRecipeLoader.init();
+        if (GregTechMod.classic) MatterRecipeLoader.init();
         MachineRecipeLoader.loadFuels();
 
         logger.debug("Registering loot");

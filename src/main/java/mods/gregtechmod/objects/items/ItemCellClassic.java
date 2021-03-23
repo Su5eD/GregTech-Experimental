@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.items;
 
-import ic2.core.IC2;
 import ic2.core.item.ItemClassicCell;
 import ic2.core.item.ItemIC2;
 import ic2.core.item.type.CellType;
@@ -36,7 +35,7 @@ public class ItemCellClassic extends ItemBase {
         setFolder("cell/classic");
         setRegistryName("cell_classic_"+name);
         setTranslationKey("cell_classic_"+name);
-        if (IC2.version.isClassic()) setCreativeTab(GregTechMod.GREGTECH_TAB);
+        if (GregTechMod.classic) setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
     static {

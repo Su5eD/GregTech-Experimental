@@ -12,7 +12,6 @@ import ic2.api.recipe.IBasicMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.api.recipe.Recipes;
-import ic2.core.IC2;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
@@ -300,7 +299,7 @@ public class MachineRecipeLoader {
 
         DynamicRecipes.addPulverizerRecipe(ProfileDelegate.getCell(null), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 9), true);
         ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
-        if (IC2.version.isClassic()) {
+        if (GregTechMod.classic) {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));
         } else {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), new ItemStack(Items.IRON_INGOT, 8));
@@ -335,13 +334,13 @@ public class MachineRecipeLoader {
 
     public static <R> Optional<Collection<R>> parseRecipes(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
         Optional<Collection<R>> normalRecipes = parseConfig(name, recipeClass, filter, recipesPath);
-        Optional<Collection<R>> profileRecipes = IC2.version.isClassic() ? parseConfig(name, recipeClass, filter, classicRecipesPath, true) : parseConfig(name, recipeClass, filter, experimentalRecipesPath, true);
+        Optional<Collection<R>> profileRecipes = GregTechMod.classic ? parseConfig(name, recipeClass, filter, classicRecipesPath, true) : parseConfig(name, recipeClass, filter, experimentalRecipesPath, true);
         return normalRecipes.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, profileRecipes.orElse(Collections.emptyList()))));
     }
 
     public static <R> Optional<Collection<R>> parseFuels(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
         Optional<Collection<R>> normalFuels = parseConfig(name, recipeClass, filter, fuelsPath, false);
-        Optional<Collection<R>> classicFuels = IC2.version.isClassic() ? parseConfig(name, recipeClass, filter, fuelsPath, true) : Optional.empty();
+        Optional<Collection<R>> classicFuels = GregTechMod.classic ? parseConfig(name, recipeClass, filter, fuelsPath, true) : Optional.empty();
         return normalFuels.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, classicFuels.orElse(Collections.emptyList()))));
     }
 
