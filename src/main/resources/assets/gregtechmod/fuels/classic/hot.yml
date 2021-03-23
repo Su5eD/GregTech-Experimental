@@ -1,0 +1,7 @@
+# Classic Hot fuels
+---
+- input:
+    item: ic2:heatpack
+  output:
+    - item: ic2:cell#empty
+  energy: 30

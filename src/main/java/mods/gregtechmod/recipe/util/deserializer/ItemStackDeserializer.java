@@ -66,6 +66,7 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
         } else if (node.has("cell")) {
             String fluid = node.get("cell").asText();
             ret = ProfileDelegate.getCell(fluid);
+            if (ret == null) throw new IllegalArgumentException("Fluid "+fluid+" not found");
         } else {
             ResourceLocation registryName = new ResourceLocation(name);
             Item item = ForgeRegistries.ITEMS.getValue(registryName);

@@ -7,6 +7,9 @@
     item: railcraft:rail
   duration: 150
   energyCost: 10
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     ore: stickIron
     count: 3
@@ -15,6 +18,9 @@
     count: 2
   duration: 150
   energyCost: 10
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     ore: stickBronze
     count: 2
@@ -22,6 +28,9 @@
     item: railcraft:rail
   duration: 50
   energyCost: 20
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     ore: stickSteel
     count: 3
@@ -30,6 +39,9 @@
     count: 4
   duration: 150
   energyCost: 30
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     ores:
       - stickTitanium
@@ -40,6 +52,9 @@
     count: 8
   duration: 150
   energyCost: 30
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     ore: stickTungstenSteel
   output:
@@ -47,6 +62,9 @@
     count: 4
   duration: 100
   energyCost: 30
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     item: ic2:ingot#alloy
   output:

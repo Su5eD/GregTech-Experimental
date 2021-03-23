@@ -6,12 +6,18 @@
 - input:
     item: twilightforest:fiery_blood
   energy: 2048
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
 - input:
     item: twilightforest:liveroot
   output:
     item: minecraft:stick
     count: 2
   energy: 16
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
 - input:
     item: twilightforest:root
     meta: 1
@@ -19,6 +25,9 @@
     item: minecraft:stick
     count: 4
   energy: 32
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
 - input:
     ore: ingotIronwood
   output:
@@ -44,6 +53,9 @@
   output:
     item: thaumcraft:phial
   energy: 80
+  conditions:
+    - type: mod_loaded
+      modid: thaumcraft
 - input:
     item: thaumcraft:phial
     meta: 1
@@ -54,6 +66,9 @@
   output:
     item: thaumcraft:phial
   energy: 160
+  conditions:
+    - type: mod_loaded
+      modid: thaumcraft
 - input:
     item: thaumcraft:phial
     meta: 1
@@ -64,15 +79,27 @@
   output:
     item: thaumcraft:phial
   energy: 120
+  conditions:
+    - type: mod_loaded
+      modid: thaumcraft
 - input:
     item: thaumcraft:quicksilver
   energy: 16
+  conditions:
+    - type: mod_loaded
+      modid: thaumcraft
 - input:
     item: thaumcraft:tallow
   energy: 4
+  conditions:
+    - type: mod_loaded
+      modid: thaumcraft
 - input:
     item: thaumcraft:amber
   energy: 6
+  conditions:
+    - type: mod_loaded
+      modid: thaumcraft
 - input:
     ore: oreCrystalAir
   energy: 160

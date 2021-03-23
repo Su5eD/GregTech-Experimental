@@ -1,7 +1,9 @@
 package mods.gregtechmod.init;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.google.common.base.CaseFormat;
@@ -41,6 +43,7 @@ import mods.gregtechmod.recipe.util.RecipeFilter;
 import mods.gregtechmod.recipe.util.deserializer.*;
 import mods.gregtechmod.recipe.util.serializer.*;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -58,15 +61,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class MachineRecipeLoader {
+    private static final Map<String, Predicate<JsonNode>> CONDITIONS = new HashMap<>();
     private static Path recipesPath = null;
     private static Path classicRecipesPath = null;
     private static Path experimentalRecipesPath = null;
     private static Path fuelsPath = null;
+    private static Path classicFuelsPath = null;
     private static Path dynamicRecipesDir = null;
     private static final ObjectMapper mapper = new ObjectMapper(
             new YAMLFactory()
@@ -113,85 +119,88 @@ public class MachineRecipeLoader {
             GregTechMod.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
             MachineRecipeLoader.recipesPath = recipesPath;
         } else MachineRecipeLoader.recipesPath = gtConfig;
-        classicRecipesPath = recipesPath.resolve("classic");
-        experimentalRecipesPath = recipesPath.resolve("experimental");
+        classicRecipesPath = MachineRecipeLoader.recipesPath.resolve("classic");
+        experimentalRecipesPath = MachineRecipeLoader.recipesPath.resolve("experimental");
+
+        registerCondition("mod_loaded", node -> Loader.isModLoaded(node.get("modid").asText()));
+        registerCondition("ore_exists", node -> !OreDictUnificator.getFirstOre(node.get("ore").asText()).isEmpty());
 
         GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
-        parseConfig("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
+        parseRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("industrial centrifuge", recipes, GtRecipes.industrialCentrifuge));
         GtRecipes.assembler = new RecipeManagerMultiInput<>();
-        parseConfig("assembler", RecipeDualInput.class, null)
+        parseRecipes("assembler", RecipeDualInput.class, null)
                 .ifPresent(recipes -> registerRecipes("assembler", recipes, GtRecipes.assembler));
 
         GtRecipes.pulverizer = new RecipeManagerPulverizer();
-        parseConfig("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
+        parseRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("pulverizer", recipes, GtRecipes.pulverizer));
 
         GtRecipes.grinder = new RecipeManagerGrinder();
-        parseConfig("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
+        parseRecipes("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("grinder", recipes, GtRecipes.grinder));
 
         GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
-        parseConfig("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
+        parseRecipes("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.blastFurnace));
 
         GtRecipes.electrolyzer = new RecipeManagerCellular();
-        parseConfig("electrolyzer", RecipeElectrolyzer.class, null)
+        parseRecipes("electrolyzer", RecipeElectrolyzer.class, null)
                 .ifPresent(recipes -> registerRecipes("electrolyzer", recipes, GtRecipes.electrolyzer));
 
         GtRecipes.canner = new RecipeManagerMultiInput<>();
-        parseConfig("canner", RecipeCanner.class, null)
+        parseRecipes("canner", RecipeCanner.class, null)
                 .ifPresent(recipes -> registerRecipes("canner", recipes, GtRecipes.canner));
 
         GtRecipes.alloySmelter = new RecipeManagerAlloySmelter();
-        parseConfig("alloy_smelter", RecipeAlloySmelter.class, null)
+        parseRecipes("alloy_smelter", RecipeAlloySmelter.class, null)
                 .ifPresent(recipes -> registerRecipes("alloy smelter", recipes, GtRecipes.alloySmelter));
 
         GtRecipes.implosion = new RecipeManagerMultiInput<>();
-        parseConfig("implosion", RecipeImplosion.class, RecipeFilter.Default.class)
+        parseRecipes("implosion", RecipeImplosion.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("implosion", recipes, GtRecipes.implosion));
 
         GtRecipes.wiremill = new RecipeManagerBasic<>();
-        parseConfig("wiremill", RecipeSimple.class, null)
+        parseRecipes("wiremill", RecipeSimple.class, null)
                 .ifPresent(recipes -> registerRecipes("wiremill", recipes, GtRecipes.wiremill));
 
         GtRecipes.bender = new RecipeManagerBasic<>();
-        parseConfig("bender", RecipeSimple.class, null)
+        parseRecipes("bender", RecipeSimple.class, null)
                 .ifPresent(recipes -> registerRecipes("bender", recipes, GtRecipes.bender));
 
         GtRecipes.lathe = new RecipeManagerBasic<>();
-        parseConfig("lathe", RecipeLathe.class, null)
+        parseRecipes("lathe", RecipeLathe.class, null)
                 .ifPresent(recipes -> registerRecipes("lathe", recipes, GtRecipes.lathe));
 
         GtRecipes.vacuumFreezer = new RecipeManagerBasic<>();
-        parseConfig("vacuum_freezer", RecipeVacuumFreezer.class, RecipeFilter.Energy.class)
+        parseRecipes("vacuum_freezer", RecipeVacuumFreezer.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("vacuum freezer", recipes, GtRecipes.vacuumFreezer));
 
         GtRecipes.chemical = new RecipeManagerMultiInput<>();
-        parseConfig("chemical", RecipeChemical.class, RecipeFilter.Energy.class)
+        parseRecipes("chemical", RecipeChemical.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("chemical", recipes, GtRecipes.chemical));
 
         GtRecipes.fusionFluid = new RecipeManagerFusionFluid();
-        parseConfig("fusion_fluid", RecipeFusionFluid.class, null)
+        parseRecipes("fusion_fluid", RecipeFusionFluid.class, null)
                 .ifPresent(recipes -> registerRecipes("fluid fusion", recipes, GtRecipes.fusionFluid));
 
         GtRecipes.fusionSolid = new RecipeManagerMultiInput<>();
-        parseConfig("fusion_solid", RecipeFusionSolid.class, null)
+        parseRecipes("fusion_solid", RecipeFusionSolid.class, null)
                 .ifPresent(recipes -> registerRecipes("solid fusion", recipes, GtRecipes.fusionSolid));
 
         GtRecipes.sawmill = new RecipeManagerSawmill();
-        parseConfig("sawmill", RecipeSawmill.class, RecipeFilter.Default.class)
+        parseRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("sawmill", recipes, GtRecipes.sawmill));
 
         GtRecipes.distillation = new RecipeManagerBasic<>();
-        parseConfig("distillation", RecipeDistillation.class, RecipeFilter.Energy.class)
+        parseRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("distillation", recipes, GtRecipes.distillation));
 
         // IC2 Recipes
-        parseConfig("compressor", BasicMachineRecipe.class, null)
+        parseRecipes("compressor", BasicMachineRecipe.class, null)
                 .ifPresent(recipes -> registerRecipes("compressor", recipes, (BasicMachineRecipeManager) Recipes.compressor));
 
-        parseConfig("extractor", BasicMachineRecipe.class, null)
+        parseRecipes("extractor", BasicMachineRecipe.class, null)
                 .ifPresent(recipes -> registerRecipes("extractor", recipes, (BasicMachineRecipeManager) Recipes.extractor));
 
         registerMatterAmplifiers();
@@ -208,25 +217,26 @@ public class MachineRecipeLoader {
             GregTechMod.logger.error("Couldn't find the fuels config directory. Loading default fuels...");
             MachineRecipeLoader.fuelsPath = recipesPath;
         } else MachineRecipeLoader.fuelsPath = gtConfig;
+        classicFuelsPath = fuelsPath.resolve("classic");
 
         GtFuels.plasma = new FluidFuelManager<>();
-        parseConfig("plasma", FuelSimple.class, null, fuelsPath)
+        parseFuels("plasma", FuelSimple.class, null)
                 .ifPresent(fuels -> registerFuels("plasma", fuels, GtFuels.plasma));
 
         GtFuels.magic = new SolidFuelManager<>();
-        parseConfig("magic", FuelSimple.class, null, fuelsPath)
+        parseFuels("magic", FuelSimple.class, null)
                 .ifPresent(fuels -> registerFuels("magic", fuels, GtFuels.magic));
 
         GtFuels.diesel = new FluidFuelManager<>();
-        parseConfig("diesel", FuelSimple.class, null, fuelsPath)
+        parseFuels("diesel", FuelSimple.class, null)
                 .ifPresent(fuels -> registerFuels("diesel", fuels, GtFuels.diesel));
 
         GtFuels.hot = new FluidFuelManager<>();
-        parseConfig("hot", FuelMulti.class, null, fuelsPath)
+        parseFuels("hot", FuelMulti.class, null)
                 .ifPresent(fuels -> registerFuels("hot", fuels, GtFuels.hot));
 
         GtFuels.denseLiquid = new FluidFuelManager<>();
-        parseConfig("dense_liquid", FuelSimple.class, null, fuelsPath)
+        parseFuels("dense_liquid", FuelSimple.class, null)
                 .ifPresent(fuels -> registerFuels("dense liquid", fuels, GtFuels.denseLiquid));
 
         ModCompat.registerBoilerFuels();
@@ -319,10 +329,20 @@ public class MachineRecipeLoader {
         if (DynamicRecipes.addExtractorRecipes) serializeRecipes("Extractor", extractorRecipes, (BasicMachineRecipeManager) Recipes.extractor);
     }
 
-    public static <R> Optional<Collection<R>> parseConfig(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
+    public static void registerCondition(String name, Predicate<JsonNode> predicate) {
+        CONDITIONS.put(name, predicate);
+    }
+
+    public static <R> Optional<Collection<R>> parseRecipes(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
         Optional<Collection<R>> normalRecipes = parseConfig(name, recipeClass, filter, recipesPath);
         Optional<Collection<R>> profileRecipes = IC2.version.isClassic() ? parseConfig(name, recipeClass, filter, classicRecipesPath, true) : parseConfig(name, recipeClass, filter, experimentalRecipesPath, true);
         return normalRecipes.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, profileRecipes.orElse(Collections.emptyList()))));
+    }
+
+    public static <R> Optional<Collection<R>> parseFuels(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
+        Optional<Collection<R>> normalFuels = parseConfig(name, recipeClass, filter, fuelsPath, false);
+        Optional<Collection<R>> classicFuels = IC2.version.isClassic() ? parseConfig(name, recipeClass, filter, fuelsPath, true) : Optional.empty();
+        return normalFuels.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, classicFuels.orElse(Collections.emptyList()))));
     }
 
     public static <R> Optional<Collection<R>> parseConfig(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Path path) {
@@ -342,7 +362,25 @@ public class MachineRecipeLoader {
         ObjectMapper recipeMapper = mapper.copy();
         if (filter != null) recipeMapper.addMixIn(IMachineRecipe.class, filter);
 
-        return Optional.ofNullable(recipeMapper.readValue(reader, mapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
+        JsonNode node = recipeMapper.readTree(reader);
+        Iterator<JsonNode> recipeIterator = node.elements();
+        while (recipeIterator.hasNext()) {
+            JsonNode recipe = recipeIterator.next();
+            if (recipe.has("conditions")) {
+                JsonNode conditions = recipe.get("conditions");
+                Iterator<JsonNode> conditionIterator = conditions.elements();
+                while (conditionIterator.hasNext()) {
+                    JsonNode condition = conditionIterator.next();
+                    String type = condition.get("type").asText();
+                    if (CONDITIONS.containsKey(type)) {
+                        if (!CONDITIONS.get(type).test(condition))
+                            recipeIterator.remove();
+                    } else throw new IllegalArgumentException("Unknown condition type: "+type);
+                }
+            }
+            ((ObjectNode) recipe).remove("conditions");
+        }
+        return Optional.ofNullable(recipeMapper.convertValue(node, mapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
     }
 
     private static <T extends IMachineRecipe<?, ?>> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IGtRecipeManager<?, ?, T> manager) {

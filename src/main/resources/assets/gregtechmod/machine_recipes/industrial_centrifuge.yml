@@ -293,26 +293,55 @@
 - input:
     items:
       - twilightforest:cooked_meef
+    count: 16
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
+- input:
+    items:
       - harvestcraft:venisoncookeditem
     count: 16
   output:
     - cell: methane
   cells: 1
   duration: 5000
+  conditions:
+    - type: mod_loaded
+      modid: harvestcraft
 - input:
     items:
       - twilightforest:raw_meef
+    count: 12
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
+- input:
+    items:
       - harvestcraft:venisonrawitem
     count: 12
   output:
     - cell: methane
   cells: 1
   duration: 5000
+  conditions:
+    - type: mod_loaded
+      modid: harvestcraft
 - input:
     cell: mercury
   output:
     - item: thaumcraft:quicksilver
   duration: 40
+  conditions:
+    - type: mod_loaded
+      modid: thaumcraft
 - input:
     item: gregtechmod:cell_ice
   output:

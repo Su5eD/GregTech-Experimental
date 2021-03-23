@@ -359,10 +359,14 @@
 - input:
     ore: oreCertusQuartz
   output:
-    - ore: dustCertusQuartz
+    - item: appliedenergistics:material # Certus quartz dust
+      meta: 2
       count: 5
-    - ore: crystalCertusQuartz
+    - item: appliedenergistics:material # Certus quartz crystal
   overwrite: true
+  conditions:
+    - type: mod_loaded
+      modid: appliedenergistics
 - input:
     ore: oreUranium
   output:
@@ -372,8 +376,12 @@
 - input:
     ore: oreElectrotine
   output:
-    - ore: dustElectrotine
+    - item: projectred-core:resource_item # Electrotine dust
+      meta: 105
       count: 2
+  conditions:
+    - type: mod_loaded
+      modid: projectred-core
 - input:
     ore: ingotUranium
   output:
@@ -511,10 +519,16 @@
     ore: gemTopaz
   output:
     - ore: dustTopaz
+  conditions:
+    - type: ore_exists
+      ore: dustTopaz
 - input:
     ore: gemTanzanite
   output:
     - ore: dustTanzanite
+  conditions:
+    - type: ore_exists
+      ore: dustTopaz
 - input:
     ore: gemCoal
   output:
@@ -522,8 +536,12 @@
 - input:
     ore: crystalNetherQuartz
   output:
-    - ore: dustNetherQuartz
+    - item: appliedenergistics:material # Nether Quartz dust
+      meta: 3
   overwrite: true
+  conditions:
+    - type: mod_loaded
+      modid: appliedenergistics
 - input:
     ores:
       - itemManganese
@@ -577,12 +595,18 @@
       count: 2
     - item: minecraft:stick
   chance: 30
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
 - input:
     item: twilightforest:minotaur_axe
   output:
     - item: gregtechmod:dust_diamond
     - item: gregtechmod:dust_wood
   chance: 50
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
 - input:
     item: minecraft:chainmail_helmet
   output:
@@ -733,6 +757,9 @@
   output:
     - ore: dustTungstenSteel
       count: 6
+  conditions:
+    - type: ore_exists
+      ore: dustTungstenSteel
 - input:
     item: gregtechmod:gear_iridium
   output:

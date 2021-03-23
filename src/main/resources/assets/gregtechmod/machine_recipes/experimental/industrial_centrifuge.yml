@@ -6,7 +6,7 @@
   output:
     - item: ic2:crafting#bio_chaff
       count: 2
-    - item: ic2:crafting#plantball
+    - item: ic2:crafting#plant_ball
       count: 2
     - item: minecraft:clay_ball
     - item: minecraft:sand
@@ -19,7 +19,7 @@
     - item: ic2:crafting#rubber
       count: 14
     - item: ic2:crafting#bio_chaff
-    - item: ic2:crafting#plantball
+    - item: ic2:crafting#plant_ball
   duration: 1300
 - input:
     ore: dustUranium

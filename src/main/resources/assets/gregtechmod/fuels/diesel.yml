@@ -1,15 +1,5 @@
 # Diesel fuels
 ---
-# TODO: Classic fuels
-#- input:
-#    item: ic2:cell#biofuel
-#  energy: 6
-#- input:
-#    item: ic2:cell#coalfuel
-#  energy: 16
-#- input:
-#    fluid: nitro_coalfuel
-#  energy: 48
 - input:
     fluid: bio.ethanol
   energy: 128

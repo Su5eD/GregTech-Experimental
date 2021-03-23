@@ -12,6 +12,9 @@
     count: 2
   duration: 400
   energyCost: 16
+  conditions:
+    - type: mod_loaded
+      modid: thermalfoundation
 - input:
     - ore: ingotGold
     - ore: ingotSilver
@@ -48,6 +51,9 @@
     count: 2
   duration: 100
   energyCost: 16
+  conditions:
+    - type: ore_exists
+      ore: ingotCupronickel
 - input:
     - ore: ingotTin
       count: 9
@@ -95,6 +101,9 @@
     count: 5
   duration: 250
   energyCost: 16
+  conditions:
+    - type: ore_exists
+      ore: ingotNichrome
 - input:
     - item: minecraft:clock
   output:

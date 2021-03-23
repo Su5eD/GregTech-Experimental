@@ -37,7 +37,7 @@
     count: 16
   output:
     - item: ic2:crafting#compressed_plants
-    - item: ic2:crafting#plantball
+    - item: ic2:crafting#plant_ball
     - item: minecraft:clay_ball
     - item: minecraft:sand
       count: 8
@@ -48,7 +48,7 @@
   output:
     - item: ic2:crafting#compressed_plants
       count: 2
-    - item: ic2:crafting#plantball
+    - item: ic2:crafting#plant_ball
       count: 2
     - item: minecraft:clay_ball
     - item: minecraft:sand
@@ -61,7 +61,7 @@
     - item: ic2:crafting#rubber
       count: 14
     - item: ic2:crafting#compressed_plants
-    - item: ic2:crafting#plantball
+    - item: ic2:crafting#plant_ball
   duration: 1300
 - input:
     ore: dustUranium

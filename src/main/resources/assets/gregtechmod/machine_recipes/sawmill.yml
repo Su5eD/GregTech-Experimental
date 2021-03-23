@@ -7,6 +7,9 @@
     - item: projectred-core:resource_item
       meta: 301
       count: 8
+  conditions:
+    - type: mod_loaded
+      modid: projectred-core
 - input:
     item: twilightforest:root
   output:
@@ -14,3 +17,6 @@
       count: 4
     - item: minecraft:stick
       count: 2
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest

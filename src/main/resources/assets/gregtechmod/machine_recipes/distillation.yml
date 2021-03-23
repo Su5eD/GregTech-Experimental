@@ -13,13 +13,15 @@
       count: 16
   cells: 33
   duration: 16000
-# TODO: Conditional recipes
 - input:
     cell: biomass
     count: 16
   output:
-    - cell: ethanol
+    - cell: bio.ethanol
       count: 8
     - cell: empty
       count: 8
   duration: 400
+  conditions:
+    - type: mod_loaded
+      modid: forestry

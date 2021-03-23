@@ -503,6 +503,9 @@
       count: 10
     - item: gregtechmod:dust_thorium
       count: 2
+  conditions:
+    - type: mod_loaded
+      modid: mffs
 - input:
     ore: oreThorium
   fluid: water
@@ -521,13 +524,21 @@
     ore: oreCertusQuartz
   fluid: water
   output:
-    - ore: crystalCertusQuartz
+    - item: appliedenergistics:material # Certus quartz crystal
       count: 2
-    - ore: dustCertusQuartz
+    - item: appliedenergistics:material # Certus quartz dust
+      meta: 2
       count: 3
+  conditions:
+    - type: mod_loaded
+      modid: appliedenergistics
 - input:
     ore: oreElectrotine
   fluid: water
   output:
-    - ore: dustElectrotine
+    - item: projectred-core:resource_item # Electrotine dust
+      meta: 105
       count: 3
+  conditions:
+    - type: mod_loaded
+      modid: projectred-core

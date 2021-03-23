@@ -580,6 +580,9 @@
     meta: 800
   duration: 1600
   energyCost: 2
+  conditions:
+    - type: mod_loaded
+      modid: energycontrol
 - input:
     - item: twilightforest:charm_of_life_1
       count: 4
@@ -587,6 +590,9 @@
     item: twilightforest:charm_of_life_2
   duration: 800
   energyCost: 2
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
 - input:
     - item: twilightforest:charm_of_keeping_1
       count: 4
@@ -594,6 +600,9 @@
     item: twilightforest:charm_of_keeping_2
   duration: 800
   energyCost: 2
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
 - input:
     - item: twilightforest:charm_of_keeping_2
       count: 4
@@ -601,6 +610,9 @@
     item: twilightforest:charm_of_keeping_3
   duration: 800
   energyCost: 2
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
 - input:
     - item: ic2:crafting#coal_block
       count: 8
@@ -684,6 +696,9 @@
   output:
     item: railcraft:railbed
   duration: 800
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     - item: railcraft:tie
       meta: 1
@@ -692,6 +707,9 @@
     item: railcraft:railbed
     meta: 1
   duration: 800
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 # TODO: Add when MJ support is implemented
 #- input:
 #    - item: thermalexpansion_cell
@@ -701,6 +719,9 @@
 #      count: 4
 #  duration: 6400
 #  energyCost: 8
+#  conditions:
+#    - type: mod_loaded
+#      modid: thermalexpansion
 - input:
     - items:
         - railcraft:railbed
@@ -711,6 +732,9 @@
     item: minecraft:rail
     count: 32
   duration: 1600
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     - item: railcraft:railbed
       meta: 1
@@ -721,6 +745,9 @@
     item: railcraft:track_flex_strap_iron
     count: 32
   duration: 1600
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     - item: railcraft:railbed
       meta: 1
@@ -731,6 +758,9 @@
     item: railcraft:track_flex_high_speed
     count: 32
   duration: 1600
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     - item: railcraft:railbed
       meta: 1
@@ -741,6 +771,9 @@
     item: railcraft:track_flex_reinforced
     count: 32
   duration: 1600
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     - item: gregtechmod:conveyor
     - item: gregtechmod:pump_module
@@ -748,6 +781,9 @@
     item: gregtechmod:item_valve
   duration: 3200
   energyCost: 4
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     - item: ic2:crafting#carbon_fibre
       count: 2
@@ -770,3 +806,6 @@
     count: 2
   duration: 1600
   energyCost: 2
+  conditions:
+    - type: mod_loaded
+      modid: energycontrol
