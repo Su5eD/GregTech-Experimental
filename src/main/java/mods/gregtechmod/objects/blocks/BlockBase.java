@@ -4,6 +4,7 @@ import mods.gregtechmod.api.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
@@ -27,7 +28,7 @@ public class BlockBase extends Block {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Mobs can't spawn on this block");
+        tooltip.add(I18n.format(Reference.MODID+".tile.disable_creature_spawning"));
     }
 
     @Override

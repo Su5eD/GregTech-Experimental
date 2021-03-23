@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
+import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.api.network.INetworkTileEntityEventListener;
 import ic2.core.ExplosionIC2;
@@ -46,8 +47,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
     public int maxProgress = 0;
     protected float guiProgress;
 
-    public TileEntityGTMachine(int maxEnergy, int outputSlots, int inputSlots, int defaultTier, RM recipeManager) {
-        super(maxEnergy, defaultTier);
+    public TileEntityGTMachine(String descriptionKey, int maxEnergy, int outputSlots, int inputSlots, int defaultTier, RM recipeManager) {
+        super(descriptionKey, maxEnergy, defaultTier);
         this.progress = 0;
         this.recipeManager = recipeManager;
         this.inputSlot = new GtSlotProcessableItemStack<>(this, "input", inputSlots, recipeManager);
@@ -273,7 +274,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
 
     @Override
     public double getInputVoltage() {
-        return 8*Math.pow(4, this.energy.getSinkTier());
+        return EnergyNet.instance.getPowerFromTier(this.energy.getSinkTier());
     }
 
     @Override

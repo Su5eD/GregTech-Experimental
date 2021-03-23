@@ -6,7 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public interface IProxy {
-    void preInit();
+    void init();
 
     void playSound(SoundEvent sound, float pitch);
 

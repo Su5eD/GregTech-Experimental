@@ -4,6 +4,7 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolBase;
+import mods.gregtechmod.util.GtUtil;
 import mods.railcraft.api.items.IToolCrowbar;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityMinecart;
@@ -22,7 +23,7 @@ import java.util.List;
 public class ItemCrowbar extends ItemToolBase implements IToolCrowbar {
 
     public ItemCrowbar() {
-        super("crowbar", "To remove covers from machines", 256, 6);
+        super("crowbar", 256, 6);
         setRegistryName("crowbar");
         setTranslationKey("crowbar");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -31,7 +32,7 @@ public class ItemCrowbar extends ItemToolBase implements IToolCrowbar {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (ModHandler.railcraft) tooltip.add("Works as a Railcraft crowbar, too");
+        if (ModHandler.railcraft) tooltip.add(GtUtil.translateItem("crowbar.description_rc"));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

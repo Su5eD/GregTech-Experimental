@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class ItemSprayHydration extends ItemToolCrafting {
 
     public ItemSprayHydration() {
-        super("spray_hydration", "To hydrate Crops and similar", 2560, 0, 20, 0);
+        super("spray_hydration", 2560, 0, 20, 0);
         setRegistryName("spray_hydration");
         setTranslationKey("spray_hydration");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

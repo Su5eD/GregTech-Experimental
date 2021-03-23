@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.items.tools;
 
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
@@ -25,7 +24,7 @@ public class ItemSprayColor extends ItemToolCrafting {
     public final EnumDyeColor color;
 
     public ItemSprayColor(EnumDyeColor color) {
-        super("spray_color_"+color.getName(), "To give the World more Color", 512, 0, 8, 0);
+        super("spray_color_"+color.getName(), "spray_color", 512, 0, ToolMaterial.WOOD, 8, 0);
         this.color = color;
         setRegistryName("spray_color_"+color.getName());
         setTranslationKey("spray_color_"+color.getName());
@@ -40,8 +39,8 @@ public class ItemSprayColor extends ItemToolCrafting {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add("Enough for dying " + (stack.getMaxDamage() + 1) + " blocks in world " + GtUtil.translate(Reference.MODID+".color."+this.color.getTranslationKey()));
-        tooltip.add("Enough for crafting " + ((stack.getMaxDamage() + 1) / this.craftingDamage) + " times");
+        tooltip.add(GtUtil.translateGeneric("spray_color.description_dying", stack.getMaxDamage() + 1) + " " + GtUtil.translate("color."+this.color.getTranslationKey()));
+        tooltip.add(GtUtil.translateGeneric("spray_color.description_crafting", (stack.getMaxDamage() + 1) / this.craftingDamage));
     }
 
     @Override
@@ -51,7 +50,7 @@ public class ItemSprayColor extends ItemToolCrafting {
         Block block = state.getBlock();
         if (block == Blocks.AIR) return EnumActionResult.PASS;
         ItemStack stack = player.inventory.getCurrentItem();
-        if (block == Blocks.WOOL || (block.getRegistryName().toString().equals("thermalfoundation:rockwool"))) {
+        if (block == Blocks.WOOL || block.getRegistryName().toString().equals("thermalfoundation:rockwool")) {
             int meta = block.getMetaFromState(state);
             int targetMeta = this.color.getMetadata();
             if (block != Blocks.WOOL) targetMeta = 15 - targetMeta;

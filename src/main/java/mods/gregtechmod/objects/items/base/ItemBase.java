@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.base;
 
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -13,32 +14,49 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ItemBase extends Item implements IModelInfoProvider {
     protected String name;
-    protected String toolTip;
+    protected Supplier<String> description;
     protected String folder;
     protected boolean hasEffect;
     protected boolean isEnchantable;
     protected boolean showDurability = true;
 
+    public ItemBase(String name) {
+        this(name, name, 0);
+    }
+
     public ItemBase(String name, @Nullable String description) {
+        this(name, () -> description, false);
+    }
+
+    public ItemBase(String name, Supplier<String> description) {
         this(name, description, false);
     }
 
-    public ItemBase(String name, @Nullable String description, boolean hasEffect) {
+    public ItemBase(String name, Supplier<String> description, boolean hasEffect) {
         this(name, description, 0, hasEffect);
     }
 
-    public ItemBase(String name, @Nullable String description, int durability) {
+    public ItemBase(String name, int durability) {
+        this(name, name, durability);
+    }
+
+    public ItemBase(String name, String description, int durability) {
+        this(name, () -> GtUtil.translateItemDescription(description), durability, false);
+    }
+
+    public ItemBase(String name, Supplier<String> description, int durability) {
         this(name, description, durability, false);
     }
 
-    public ItemBase(String name, @Nullable String description, int durability, boolean hasEffect) {
+    public ItemBase(String name, Supplier<String> description, int durability, boolean hasEffect) {
         this.name = name;
-        this.toolTip = description;
+        this.description = description;
         this.hasEffect = hasEffect;
-        setMaxDamage(durability - 1);
+        if (durability > 0) setMaxDamage(durability - 1);
     }
 
     public ItemBase setFolder(String folder) {
@@ -81,7 +99,9 @@ public class ItemBase extends Item implements IModelInfoProvider {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         String durability = getDurabilityInfo(stack);
         if (this.showDurability && !durability.isEmpty()) tooltip.add(durability);
-        if (this.toolTip != null) tooltip.add(this.toolTip);
+
+        String description = this.description.get();
+        if (description != null) tooltip.add(description);
     }
 
     @Override

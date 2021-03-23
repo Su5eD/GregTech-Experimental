@@ -103,9 +103,9 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (this.showDurability) tooltip.add((stack.getMaxDamage() - stack.getItemDamage() + 1) + " / " + (stack.getMaxDamage() + 1));
-        if (ModHandler.buildcraftCore) tooltip.add("Works as a BuildCraft wrench, too");
-        tooltip.add("To dismantle and rotate blocks of most mods");
-        tooltip.add("Rotation of target depends on where exactly you click");
+        if (ModHandler.buildcraftCore) tooltip.add(GtUtil.translateItem("wrench.description_bc"));
+        tooltip.add(GtUtil.translateItem("wrench.description"));
+        tooltip.add(GtUtil.translateItem("wrench.description_2"));
     }
 
     @Override

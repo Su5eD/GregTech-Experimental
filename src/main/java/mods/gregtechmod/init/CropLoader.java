@@ -95,7 +95,7 @@ public class CropLoader {
         public Item getInstance() {
             if (this.instance == null) {
                 if (this.hasItem) {
-                    this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), null)
+                    this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), (String) null)
                             .setRegistryName(this.name().toLowerCase(Locale.ROOT))
                             .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
                             .setCreativeTab(GregTechMod.GREGTECH_TAB);

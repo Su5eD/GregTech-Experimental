@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.items.tools;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.block.BlockRedstoneRepeater;
@@ -22,7 +23,7 @@ import java.util.List;
 public class ItemScrewdriver extends ItemToolBase {
 
     public ItemScrewdriver() {
-        super("screwdriver", null, 256, 4);
+        super("screwdriver", GtUtil.NULL_SUPPLIER, 256, 4);
         setRegistryName("screwdriver");
         setTranslationKey("screwdriver");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -38,9 +39,9 @@ public class ItemScrewdriver extends ItemToolBase {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add("To screw covers on machines");
-        tooltip.add("Can switch the design of certain blocks");
-        tooltip.add("Can rotate repeaters and comparators");
+        tooltip.add(GtUtil.translateItem("screwdriver.description"));
+        tooltip.add(GtUtil.translateItem("screwdriver.description_2"));
+        tooltip.add(GtUtil.translateItem("screwdriver.description_3"));
     }
 
     @Override

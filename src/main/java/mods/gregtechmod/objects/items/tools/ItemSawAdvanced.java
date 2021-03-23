@@ -22,7 +22,7 @@ import java.util.List;
 public class ItemSawAdvanced extends ItemToolElectricCrafting {
 
     public ItemSawAdvanced() {
-        super("saw_advanced", "For sawing logs into planks", 1000, 12, 128000, 3, 200, false, 4, EnumSet.of(ToolClass.Axe, ToolClass.Sword, ToolClass.Shears));
+        super("saw_advanced", "saw", 1000, 12, 128000, 3, 200, false, 4, EnumSet.of(ToolClass.Axe, ToolClass.Sword, ToolClass.Shears));
         setRegistryName("saw_advanced");
         setTranslationKey("saw_advanced");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

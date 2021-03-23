@@ -6,6 +6,7 @@ import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,7 +16,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -28,11 +28,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.function.BiPredicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GtUtil {
     public static final Random RANDOM = new Random();
+    public static final Supplier<String> NULL_SUPPLIER = () -> null;
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
 
@@ -74,12 +76,12 @@ public class GtUtil {
 
     public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {
         ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-        stack.setTagInfo("title", new NBTTagString(GtUtil.translate(Reference.MODID+".book."+name+".name")));
+        stack.setTagInfo("title", new NBTTagString(GtUtil.translate("book."+name+".name")));
         stack.setTagInfo("author", new NBTTagString(author));
         NBTTagList tagList = new NBTTagList();
         byte i;
         for (i = 0; i < pages; i = (byte)(i + 1)) {
-            String page = '\"'+GtUtil.translate(Reference.MODID+".book." + name + ".page" + ((i < 10) ? ("0" + i) : i))+'\"';
+            String page = '\"'+GtUtil.translate("book." + name + ".page" + ((i < 10) ? ("0" + i) : i))+'\"';
             if (i < 48) {
                 if (page.length() < 256) {
                     tagList.appendTag(new NBTTagString(page));
@@ -121,9 +123,32 @@ public class GtUtil {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
-    public static String translate(String key) {
-        return I18n.translateToLocal(key);
+    public static String translateTeBlockDescription(String key) {
+        return translate("teblock."+key+".description");
+    }
+
+    public static String translateInfo(String key, Object... parameters) {
+        return translate("info."+key, parameters);
+    }
+
+    public static String translateGenericDescription(String key, Object... parameters) {
+        return translateGeneric(key+".description", parameters);
+    }
+
+    public static String translateGeneric(String key, Object... parameters) {
+        return translate("generic."+key, parameters);
+    }
+
+    public static String translateItemDescription(String key, Object... parameters) {
+        return translateItem(key+".description", parameters);
+    }
+
+    public static String translateItem(String key, Object... parameters) {
+        return translate("item."+key, parameters);
+    }
+
+    public static String translate(String key, Object... parameters) {
+        return I18n.format(Reference.MODID+"."+key, parameters);
     }
 
     public static double getTransferLimit(int tier) {

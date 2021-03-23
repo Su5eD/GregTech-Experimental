@@ -30,7 +30,7 @@ import java.util.function.Supplier;
 public class ItemCellClassic extends ItemBase {
     private final Fluid fluid;
 
-    public ItemCellClassic(String name, @Nullable String description, Fluid fluid) {
+    public ItemCellClassic(String name, String description, Fluid fluid) {
         super(name, description);
         this.fluid = fluid;
         setFolder("cell/classic");

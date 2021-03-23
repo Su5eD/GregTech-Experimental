@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.items.tools;
 
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolElectricBase;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.block.Block;
@@ -17,7 +16,7 @@ public class ItemJackHammer extends ItemToolElectricBase {
     protected final boolean canMineObsidian;
 
     public ItemJackHammer(String name, int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency, boolean canMineObsidian) {
-        super(name, null, maxCharge, transferLimit, tier, operationEnergyCost, Collections.emptySet());
+        super(name, maxCharge, transferLimit, tier, operationEnergyCost, Collections.emptySet());
         this.efficiency = efficiency;
         this.canMineObsidian = canMineObsidian;
         setMaxStackSize(1);
@@ -30,7 +29,6 @@ public class ItemJackHammer extends ItemToolElectricBase {
             Item item = stack.getItem();
             int meta = stack.getMetadata();
             if (item instanceof ItemBlock && ((ItemBlock) item).getBlock() == block && (meta == OreDictionary.WILDCARD_VALUE || block.getMetaFromState(state) == meta)) {
-                GregTechMod.logger.info("JackHammer can mine "+state);
                 return this.canMineObsidian || !OreDictUnificator.isItemInstanceOf(block, "stoneObsidian", false);
             }
         }

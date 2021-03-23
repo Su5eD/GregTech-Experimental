@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import com.mojang.authlib.GameProfile;
+import ic2.api.energy.EnergyNet;
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.IC2;
 import ic2.core.block.comp.Energy;
@@ -41,6 +42,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class TileEntityUpgradable extends TileEntityCoverBehavior implements IUpgradableMachine, ICoverable {
+    private final String descriptionKey;
     protected Energy energy;
     protected int[] averageEUInputRaw = new int[] {0,0,0,0,0};
     protected int[] averageEUOutputRaw = new int[] {0,0,0,0,0};
@@ -62,7 +64,8 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public Fluids.InternalFluidTank steamTank;
     int neededSteam;
 
-    protected TileEntityUpgradable(int maxEnergy, int defaultTier) {
+    protected TileEntityUpgradable(String descriptionKey, int maxEnergy, int defaultTier) {
+        this.descriptionKey = descriptionKey;
         this.energy = addComponent(new Energy(this, maxEnergy, Util.allFacings, Collections.emptySet(), defaultTier));
         this.defaultTier = defaultTier;
         this.upgradeSlot = new GtUpgradeSlot(this, "upgrades", InvSlot.Access.NONE, 8);
@@ -230,7 +233,8 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        super.addInformation(stack, tooltip, advanced);
+        if (descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(descriptionKey));
+        tooltip.add(GtUtil.translateInfo("max_energy_in", Math.round(EnergyNet.instance.getPowerFromTier(this.energy.getSinkTier()))));
         Set<String> possibleUpgrades = new LinkedHashSet<>();
         possibleUpgrades.addAll(this.getCompatibleIC2Upgrades()
                 .stream()
@@ -243,7 +247,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 .map(entry -> entry.toString().substring(0, 1))
                 .sorted()
                 .collect(Collectors.toCollection(LinkedHashSet::new)));
-        tooltip.add("Possible Upgrades: " + String.join(" ", possibleUpgrades));
+        tooltip.add(GtUtil.translate("teblock.info.possible_upgrades")+": " + String.join(" ", possibleUpgrades));
     }
 
     private int calculateAverageInput() {

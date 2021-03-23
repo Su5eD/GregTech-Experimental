@@ -3,12 +3,12 @@ package mods.gregtechmod.gui;
 import ic2.core.GuiIC2;
 import ic2.core.gui.GuiElement;
 import ic2.core.gui.LinkedGauge;
-import ic2.core.init.Localization;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.slot.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerIndustrialCentrifuge;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifuge> {
@@ -36,7 +36,7 @@ public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifug
         GlStateManager.color(1, 1, 1, 1);
         bindTexture();
         drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        String[] name = Localization.translate((this.container).base.getName()).split(" ");
+        String[] name = I18n.format(this.container.base.getName()).split(" ");
         drawString(110, 4, name[0], 4210752, false);
         drawString(110, 12, name[1], 4210752, false);
 

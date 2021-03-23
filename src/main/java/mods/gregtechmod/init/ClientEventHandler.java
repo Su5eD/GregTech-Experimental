@@ -3,6 +3,7 @@ package mods.gregtechmod.init;
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
@@ -39,6 +40,8 @@ public class ClientEventHandler {
     private static ItemStack dustCopper = ItemStack.EMPTY;
     private static ItemStack dustTin = ItemStack.EMPTY;
     private static ItemStack dustBronze = ItemStack.EMPTY;
+    public static ItemStack sensorKit = ItemStack.EMPTY;
+    public static ItemStack sensorCard = ItemStack.EMPTY;
 
     public static void gatherModItems() {
         dustCoal = IC2Items.getItem("dust", "coal");
@@ -47,6 +50,8 @@ public class ClientEventHandler {
         dustCopper = IC2Items.getItem("dust", "copper");
         dustTin = IC2Items.getItem("dust", "tin");
         dustBronze = IC2Items.getItem("dust", "bronze");
+        sensorKit = ModHandler.getModItem("energycontrol", "item_kit", 800);
+        sensorCard = ModHandler.getModItem("energycontrol", "item_card", 800);
     }
 
     @SubscribeEvent
@@ -145,12 +150,14 @@ public class ClientEventHandler {
         ItemStack stack = event.getItemStack();
         List<String> tooltip = event.getToolTip();
 
-        if (stack.isItemEqual(dustCoal)) tooltip.add("C2");
-        else if (stack.isItemEqual(dustIron)) tooltip.add("Fe");
-        else if (stack.isItemEqual(dustGold)) tooltip.add("Au");
-        else if (stack.isItemEqual(dustCopper)) tooltip.add("Cu");
-        else if (stack.isItemEqual(dustTin)) tooltip.add("Sn");
-        else if (stack.isItemEqual(dustBronze)) tooltip.add("SnCu3");
+        if (stack.isItemEqual(dustCoal)) tooltip.add(1, "C2");
+        else if (stack.isItemEqual(dustIron)) tooltip.add(1, "Fe");
+        else if (stack.isItemEqual(dustGold)) tooltip.add(1, "Au");
+        else if (stack.isItemEqual(dustCopper)) tooltip.add(1, "Cu");
+        else if (stack.isItemEqual(dustTin)) tooltip.add(1, "Sn");
+        else if (stack.isItemEqual(dustBronze)) tooltip.add(1, "SnCu3");
+        else if (stack.isItemEqual(sensorKit)) tooltip.add(1, GtUtil.translateItemDescription("sensor_kit"));
+        else if (stack.isItemEqual(sensorCard)) tooltip.add(1, GtUtil.translateItemDescription("sensor_card"));
 
         FluidStack fluidContained = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();

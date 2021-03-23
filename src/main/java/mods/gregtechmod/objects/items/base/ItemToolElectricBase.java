@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class ItemToolElectricBase extends ItemToolBase implements IElectricItem, IPseudoDamageItem {
     protected final double maxCharge;
@@ -28,23 +29,19 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
     protected final boolean providesEnergy;
     protected boolean hasEmptyVariant = false;
 
-    public ItemToolElectricBase(String name, @Nullable String description, double maxCharge, double transferLimit, int tier, double operationEnergyCost, Set<ToolClass> toolClasses) {
-        this(name, description, 28, 1, maxCharge, transferLimit, tier, operationEnergyCost, false, 0, toolClasses);
+    public ItemToolElectricBase(String name, double maxCharge, double transferLimit, int tier, double operationEnergyCost, Set<ToolClass> toolClasses) {
+        this(name, GtUtil.NULL_SUPPLIER, 28, 1, maxCharge, transferLimit, tier, operationEnergyCost, false, 0, toolClasses);
     }
 
-    public ItemToolElectricBase(String name, @Nullable String description, double maxCharge, double transferLimit, int tier, double operationEnergyCost, int harvestLevel, Set<ToolClass> toolClasses) {
-        this(name, description, 28, 1, maxCharge, transferLimit, tier, operationEnergyCost, false, harvestLevel, toolClasses);
+    public ItemToolElectricBase(String name, float attackDamage, double maxCharge, int tier, double operationEnergyCost, int harvestLevel, Set<ToolClass> toolClasses) {
+        this(name, () -> GtUtil.translateItemDescription(name), 28, attackDamage, maxCharge, GtUtil.getTransferLimit(tier), tier, operationEnergyCost, false, harvestLevel, toolClasses);
     }
 
-    public ItemToolElectricBase(String name, @Nullable String description, float attackDamage, double maxCharge, int tier, double operationEnergyCost, int harvestLevel, Set<ToolClass> toolClasses) {
-        this(name, description, 28, attackDamage, maxCharge, GtUtil.getTransferLimit(tier), tier, operationEnergyCost, false, harvestLevel, toolClasses);
+    public ItemToolElectricBase(String name, String descriptionKey, int damage, float attackDamage, double maxCharge, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
+        this(name, () -> GtUtil.translateItemDescription(descriptionKey), damage, attackDamage, maxCharge, GtUtil.getTransferLimit(tier), tier, operationEnergyCost, providesEnergy, harvestLevel, toolClasses);
     }
 
-    public ItemToolElectricBase(String name, @Nullable String description, int damage, float attackDamage, double maxCharge, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
-        this(name, description, damage, attackDamage, maxCharge, GtUtil.getTransferLimit(tier), tier, operationEnergyCost, providesEnergy, harvestLevel, toolClasses);
-    }
-
-    public ItemToolElectricBase(String name, @Nullable String description, int damage, float attackDamage, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
+    public ItemToolElectricBase(String name, Supplier<String> description, int damage, float attackDamage, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
         super(name, description, damage, attackDamage, 0, harvestLevel, toolClasses);
         this.maxCharge = maxCharge;
         this.transferLimit = transferLimit;
@@ -55,14 +52,15 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (this.showTier && this.tier > 0) tooltip.add("Tier: "+this.tier);
+        if (this.showTier && this.tier > 0) tooltip.add(GtUtil.translateInfo("tier", this.tier));
         String durability = getDurabilityInfo(stack);
         if (!durability.isEmpty()) tooltip.add(durability);
-        if (this.toolTip != null) {
+        String description = this.description.get();
+        if (description != null) {
             if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-                tooltip.add("Empty. You need to recharge it.");
+                tooltip.add(GtUtil.translateInfo("empty"));
             }
-            else tooltip.add(this.toolTip);
+            else tooltip.add(description);
         }
     }
 
@@ -114,10 +112,10 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
     }
 
     @Override
-    public String getItemStackDisplayName(ItemStack stack) {
+    public String getTranslationKey(ItemStack stack) {
         if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-            return "Empty " + super.getItemStackDisplayName(stack);
+            return super.getTranslationKey(stack)+".empty";
         }
-        return super.getItemStackDisplayName(stack);
+        return super.getTranslationKey(stack);
     }
 }

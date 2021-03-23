@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class ClientProxy implements IProxy {
 
     @Override
-    public void preInit() {
+    public void init() {
         ClientEventHandler.gatherModItems();
     }
 

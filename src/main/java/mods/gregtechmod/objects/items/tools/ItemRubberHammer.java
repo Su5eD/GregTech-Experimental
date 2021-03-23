@@ -4,6 +4,7 @@ import ic2.core.IC2;
 import mods.gregtechmod.api.machine.IGregtechMachine;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,7 @@ import java.util.List;
 public class ItemRubberHammer extends ItemHammer {
 
     public ItemRubberHammer() {
-        super("rubber", "To give a machine a soft whack", 128, 4);
+        super("rubber", 128, 4);
         setRegistryName("hammer_rubber");
         setTranslationKey("hammer_rubber");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -32,8 +33,8 @@ public class ItemRubberHammer extends ItemHammer {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add("Can enable/disable machines");
-        tooltip.add("Can rotate some blocks as well");
+        tooltip.add(GtUtil.translateItem("hammer_rubber.description_2"));
+        tooltip.add(GtUtil.translateItem("hammer_rubber.description_3"));
     }
 
     @Override

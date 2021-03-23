@@ -4,8 +4,8 @@ import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityDigitalChestBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -24,18 +24,13 @@ public class TileEntityQuantumChest extends TileEntityDigitalChestBase {
         if (isPrivate && owner != null) {
             this.isPrivate = true;
             this.owner = owner;
-            this.upgradeSlot.put(new ItemStack((Item) BlockItems.Upgrade.MACHINE_LOCK.getInstance()));
+            this.upgradeSlot.put(new ItemStack(BlockItems.Upgrade.MACHINE_LOCK.getInstance()));
         }
     }
 
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
-        tooltip.add("2 Milliards, uhhm I mean billions, items to store here!");
-    }
-
-    @Override
-    public void onNetworkUpdate(String field) {
-        super.onNetworkUpdate(field);
+        tooltip.add(GtUtil.translateTeBlockDescription("quantum_chest"));
     }
 }

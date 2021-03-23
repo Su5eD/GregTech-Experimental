@@ -19,7 +19,7 @@ public class ItemSensorKit extends ItemBase implements IItemKit {
     public static final int KIT_ID = 800;
 
     public ItemSensorKit() {
-        super("sensor_kit", "Attach to GregTech Machines");
+        super("sensor_kit");
         setMaxStackSize(1);
     }
 

@@ -18,10 +18,10 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
     public static final int DISPLAY_MAIN = 1;
     public static final int DISPLAY_SECOND = 2;
     public static final int DISPLAY_TERTIARY = 4;
-    public static final int CARD_ID = 800; //Because why would Energy Control use ReourceLocations?
+    public static final int CARD_ID = 800; //Because why would Energy Control use ResourceLocations?
 
     public ItemSensorCard() {
-        super("sensor_card", "Insert into a display panel");
+        super("sensor_card");
         setMaxStackSize(1);
     }
 
@@ -42,11 +42,11 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
 
     @Override
     public CardState update(World world, ICardReader card, int i, BlockPos blockPos) {
-        TileEntity tTileEntity = world.getTileEntity(card.getTarget());
-        if (tTileEntity instanceof IPanelInfoProvider && ((IPanelInfoProvider)tTileEntity).isGivingInformation()) {
-            card.setString("mainInfo", ((IPanelInfoProvider)tTileEntity).getMainInfo());
-            card.setString("secondaryInfo", ((IPanelInfoProvider)tTileEntity).getSecondaryInfo());
-            card.setString("tertiaryInfo", ((IPanelInfoProvider)tTileEntity).getTertiaryInfo());
+        TileEntity tileEntity = world.getTileEntity(card.getTarget());
+        if (tileEntity instanceof IPanelInfoProvider && ((IPanelInfoProvider)tileEntity).isGivingInformation()) {
+            card.setString("mainInfo", ((IPanelInfoProvider)tileEntity).getMainInfo());
+            card.setString("secondaryInfo", ((IPanelInfoProvider)tileEntity).getSecondaryInfo());
+            card.setString("tertiaryInfo", ((IPanelInfoProvider)tileEntity).getTertiaryInfo());
             return CardState.OK;
         }
         return CardState.NO_TARGET;

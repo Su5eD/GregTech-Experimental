@@ -45,7 +45,7 @@ public class BlockLightSource extends BlockBase implements ITileEntityProvider {
 
     @Override
     public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
-        return hitIfLiquid && state == Blocks.AIR;
+        return hitIfLiquid && state.getBlock() == Blocks.AIR;
     }
 
     @Override
@@ -85,8 +85,7 @@ public class BlockLightSource extends BlockBase implements ITileEntityProvider {
         return new TileEntityLightSource();
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
-    {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 }

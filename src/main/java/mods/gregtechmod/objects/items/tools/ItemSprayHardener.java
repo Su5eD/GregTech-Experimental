@@ -48,7 +48,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
     }
 
     public ItemSprayHardener() {
-        super("spray_hardener", "Construction Foam Hardener", 256, 0, 16, 0);
+        super("spray_hardener", 256, 0, 16, 0);
         setRegistryName("spray_hardener");
         setTranslationKey("spray_hardener");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

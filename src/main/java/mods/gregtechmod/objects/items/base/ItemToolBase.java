@@ -23,34 +23,39 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class ItemToolBase extends ItemTool implements IModelInfoProvider {
     public final String name;
-    protected String toolTip;
+    protected Supplier<String> description;
     protected final int damageOnHit;
     protected List<String> effectiveAganist = new ArrayList<>();
     protected final Set<ToolClass> toolClasses;
 
-    public ItemToolBase(String name, @Nullable String description, int durability, float attackDamage) {
+    public ItemToolBase(String name, int durability, float attackDamage) {
+        this(name, () -> GtUtil.translateItemDescription(name), durability, attackDamage, ToolMaterial.WOOD, Collections.emptySet(), 3, 0, Collections.emptySet());
+    }
+
+    public ItemToolBase(String name, Supplier<String> description, int durability, float attackDamage) {
         this(name, description, durability, attackDamage, ToolMaterial.WOOD, Collections.emptySet(), 3, 0, Collections.emptySet());
     }
 
-    public ItemToolBase(String name, @Nullable String description, int durability, float attackDamage, ToolMaterial material) {
+    public ItemToolBase(String name, Supplier<String> description, int durability, float attackDamage, ToolMaterial material) {
         this(name, description, durability, attackDamage, material, Collections.emptySet(), 3, 0, Collections.emptySet());
     }
 
-    public ItemToolBase(String name, @Nullable String description, int durability, float attackDamage, int damageOnHit, int harvestLevel, Set<ToolClass> toolClasses) {
+    public ItemToolBase(String name, Supplier<String> description, int durability, float attackDamage, int damageOnHit, int harvestLevel, Set<ToolClass> toolClasses) {
         this(name, description, durability, attackDamage, ToolMaterial.WOOD, Collections.emptySet(), damageOnHit, harvestLevel, toolClasses);
     }
 
-    public ItemToolBase(String name, @Nullable String description, int durability, float attackDamage, ToolMaterial material, int damageOnHit) {
+    public ItemToolBase(String name, Supplier<String> description, int durability, float attackDamage, ToolMaterial material, int damageOnHit) {
         this(name, description, durability, attackDamage, material, Collections.emptySet(), damageOnHit, 0, Collections.emptySet());
     }
 
-    public ItemToolBase(String name, @Nullable String description, int durability, float attackDamage, ToolMaterial material, Set<Block> effectiveBlocks, int damageOnHit, int harvestLevel, Set<ToolClass> toolClasses) {
+    public ItemToolBase(String name, Supplier<String> description, int durability, float attackDamage, ToolMaterial material, Set<Block> effectiveBlocks, int damageOnHit, int harvestLevel, Set<ToolClass> toolClasses) {
         super(attackDamage - 1, 0, material, effectiveBlocks);
         this.name = name;
-        this.toolTip = description;
+        this.description = description;
         this.damageOnHit = damageOnHit;
         this.toolClasses = toolClasses;
         for (ToolClass toolClass : toolClasses) setHarvestLevel(toolClass.name, harvestLevel);
@@ -85,7 +90,10 @@ public class ItemToolBase extends ItemTool implements IModelInfoProvider {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         String durability = getDurabilityInfo(stack);
         if (!durability.isEmpty()) tooltip.add(durability);
-        if (this.toolTip != null) tooltip.add(this.toolTip);
+
+        String description = this.description.get();
+        if (description != null) tooltip.add(description);
+
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

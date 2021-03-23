@@ -10,8 +10,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 public class ItemSprayBug extends ItemToolCrafting {
 
     public ItemSprayBug() {
-        super("spray_bug", "A very 'buggy' Spray", 128, 2, 8, 4);
+        super("spray_bug", 128, 2, 8, 4);
         setRegistryName("spray_bug");
         setTranslationKey("spray_bug");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -44,8 +44,8 @@ public class ItemSprayBug extends ItemToolCrafting {
 
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-        target.addPotionEffect(new PotionEffect(Potion.getPotionById(19), 60, 1));
-        target.addPotionEffect(new PotionEffect(Potion.getPotionById(9), 600, 1));
+        target.addPotionEffect(new PotionEffect(MobEffects.POISON, 60, 1));
+        target.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 600, 1));
         return super.hitEntity(stack, target, attacker);
     }
 

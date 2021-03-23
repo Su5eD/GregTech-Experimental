@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
 
     public ItemDestructorPack() {
-        super("destructorpack", "Mobile Trash Bin");
+        super("destructorpack");
         setFolder("tool");
         setRegistryName("destructorpack");
         setTranslationKey("destructorpack");
@@ -36,8 +36,7 @@ public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
 
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
-        if (IC2.platform.isSimulating())
-            IC2.platform.launchGui(player, getInventory(player, stack));
+        if (!player.world.isRemote) IC2.platform.launchGui(player, getInventory(player, stack));
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 

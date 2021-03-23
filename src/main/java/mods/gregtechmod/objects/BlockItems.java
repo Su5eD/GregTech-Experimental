@@ -6,6 +6,7 @@ import ic2.core.profile.NotExperimental;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.util.ArmorPerk;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.core.GregTechMod;
@@ -26,7 +27,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.FluidTank;
 
 import java.util.EnumSet;
@@ -38,6 +39,8 @@ import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class BlockItems {
+    private static final String DELEGATED_DESCRIPTION = GregTechMod.classic ? "classic_description" : "description";
+
     public static net.minecraft.block.Block lightSource;
     public static Item sensorKit;
     public static Item sensorCard;
@@ -180,10 +183,10 @@ public class BlockItems {
         BRASS("ZnCu3"),
         CHROME("Cr"),
         ELECTRUM("AgAu"),
-        HOT_TUNGSTEN_STEEL(null),
+        HOT_TUNGSTEN_STEEL,
         INVAR("Fe2Ni"),
         IRIDIUM("Ir"),
-        IRIDIUM_ALLOY(null),
+        IRIDIUM_ALLOY,
         LEAD("Pb"),
         MAGNALIUM("MgAl2"),
         NICKEL("Ni"),
@@ -196,29 +199,41 @@ public class BlockItems {
         THORIUM("Th", true),
         TITANIUM("Ti"),
         TUNGSTEN("W"),
-        TUNGSTEN_STEEL("Vacuum Hardened"),
+        TUNGSTEN_STEEL(() -> GtUtil.translateItemDescription("ingot_tungsten_steel")),
         ZINC("Zn");
 
         private Item instance;
-        public final String description;
+        public final Supplier<String> description;
         public final boolean hasEffect;
+
+        Ingot() {
+            this(GtUtil.NULL_SUPPLIER);
+        }
 
         Ingot(String description) {
             this(description, false);
         }
 
         Ingot(String description, boolean hasEffect) {
+            this(() -> description, hasEffect);
+        }
+
+        Ingot(Supplier<String> description) {
+            this(description, false);
+        }
+
+        Ingot(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
         }
 
         public Item getInstance() {
             if (this.instance == null) {
-                String name = "ingot_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
+                String name = this.name().toLowerCase(Locale.ROOT);
+                this.instance = new ItemBase(name, this.description, this.hasEffect)
                         .setFolder("ingot")
-                        .setRegistryName(name)
-                        .setTranslationKey(name)
+                        .setRegistryName("ingot_"+name)
+                        .setTranslationKey("ingot_"+name)
                         .setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 
@@ -247,9 +262,13 @@ public class BlockItems {
         ZINC(Ingot.ZINC.description);
 
         private Item instance;
-        public final String description;
+        public final Supplier<String> description;
 
         Nugget(String description) {
+            this(() -> description);
+        }
+
+        Nugget(Supplier<String> description) {
             this.description = description;
         }
 
@@ -293,13 +312,21 @@ public class BlockItems {
         TITANIUM(Ingot.TITANIUM.description),
         TUNGSTEN(Ingot.TUNGSTEN.description),
         TUNGSTEN_STEEL(Ingot.TUNGSTEN_STEEL.description),
-        WOOD(null),
+        WOOD,
         ZINC(Ingot.ZINC.description);
 
         private Item instance;
-        public final String description;
+        public final Supplier<String> description;
+
+        Plate() {
+            this(GtUtil.NULL_SUPPLIER);
+        }
 
         Plate(String description) {
+            this(() -> description);
+        }
+
+        Plate(Supplier<String> description) {
             this.description = description;
         }
 
@@ -344,9 +371,13 @@ public class BlockItems {
         ZINC(Ingot.ZINC.description);
 
         private Item instance;
-        public final String description;
+        public final Supplier<String> description;
 
         Rod(String description) {
+            this(() -> description);
+        }
+
+        Rod(Supplier<String> description) {
             this.description = description;
         }
 
@@ -427,11 +458,11 @@ public class BlockItems {
         ZINC(Ingot.ZINC.description);
 
         private Item instance;
-        public final String description;
+        public final Supplier<String> description;
         public final boolean hasEffect;
 
         Dust() {
-            this(null);
+            this(GtUtil.NULL_SUPPLIER);
         }
 
         Dust(String description) {
@@ -439,6 +470,14 @@ public class BlockItems {
         }
 
         Dust(String description, boolean hasEffect) {
+            this(() -> description, hasEffect);
+        }
+
+        Dust(Supplier<String> description) {
+            this(description, false);
+        }
+
+        Dust(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
         }
@@ -528,11 +567,11 @@ public class BlockItems {
         ZINC(Ingot.ZINC.description);
 
         private Item instance;
-        public final String description;
+        public final Supplier<String> description;
         public final boolean hasEffect;
 
         Smalldust() {
-            this(null);
+            this(GtUtil.NULL_SUPPLIER);
         }
 
         Smalldust(String description) {
@@ -540,6 +579,14 @@ public class BlockItems {
         }
 
         Smalldust(String description, boolean hasEffect) {
+            this(() -> description, hasEffect);
+        }
+
+        Smalldust(Supplier<String> description) {
+            this(description, false);
+        }
+
+        Smalldust(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
         }
@@ -559,27 +606,27 @@ public class BlockItems {
     }
 
     public enum Upgrade {
-        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "Higher tier of the transformer upgrade", "craftingHVTUpgrade", (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier() + stack.getCount(), 5))),
-        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "Adds 100000 EU to the energy capacity", "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000 * stack.getCount()))),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 2 : 3, String.format("Adds %s EU to the energy capacity", GregTechMod.classic ? "100000" : "1 Million"), GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 100000 : 1000000) * stack.getCount()))),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 3 : 4, String.format("Adds %s Million EU to the energy capacity", GregTechMod.classic ? 1 : 2), GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 1000000 : 10000000) * stack.getCount()))),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 4 : 5, String.format("Adds %s Million EU to the energy capacity", GregTechMod.classic ? 10 : 100), GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 10000000 : 100000000) * stack.getCount()))),
-        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "Upgrades a Digital Chest to a Quantum chest", "craftingQuantumChestUpgrade"),
-        MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "Makes a machine private for the one, who applies this upgrade", "craftingLock", (stack, machine, player) -> {
+        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier() + stack.getCount(), 5))),
+        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000 * stack.getCount()))),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 100000 : 1000000) * stack.getCount()))),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 1000000 : 10000000) * stack.getCount()))),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 10000000 : 100000000) * stack.getCount()))),
+        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade"),
+        MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
             GameProfile owner = machine.getOwner();
             if (owner != null && !player.getGameProfile().equals(owner)) {
-                if (!player.world.isRemote) player.sendMessage(new TextComponentString("You can't lock a machine you don't own!"));
+                if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(Reference.MODID+".item.machine_lock.error"));
                 return true;
             }
             return false;
         }, (stack, machine, player) -> {
             if (player != null && !machine.isPrivate()) machine.setPrivate(true, player.getGameProfile());
         }),
-        STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1,"Lets Machines consume Steam at 2mb per EU (lossless)", "craftingSteamUpgrade", (stack, machine, player) -> {
+        STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (stack, machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
 
-        STEAM_TANK(GtUpgradeType.STEAM, 4, 1, "Increases Steam Capacity by 64 Buckets", "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
+        STEAM_TANK(GtUpgradeType.STEAM, 4, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
             if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + (64000 * stack.getCount()));
         });
@@ -588,33 +635,37 @@ public class BlockItems {
         public final GtUpgradeType type;
         public final int maxCount;
         public final int requiredTier;
-        public final String description;
+        public final String descriptionKey;
         public final String oreDict;
         public BiPredicate<ItemStack, IUpgradableMachine> condition;
         public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert;
         public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict) {
-            this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, (stack, machine, player) -> {});
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict) {
+            this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, (stack, machine, player) -> {});
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, description, oreDict, condition, (stack, machine, player) -> false, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, descriptionKey, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, description, oreDict, GtUtil.alwaysTrue(), beforeInsert, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, condition, (stack, machine, player) -> false, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String description, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), beforeInsert, afterInsert);
+        }
+
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
             this.type = type;
             this.maxCount = maxCount;
             this.requiredTier = requiredTier;
-            this.description = description;
+            this.descriptionKey = descriptionKey;
             this.oreDict = oreDict;
             this.condition = condition;
             this.beforeInsert = beforeInsert;
@@ -623,10 +674,11 @@ public class BlockItems {
 
         public Item getInstance() {
             if (this.instance == null) {
-                this.instance = new ItemUpgrade(this.name().toLowerCase(Locale.ROOT), this.description, this.type, this.maxCount, this.requiredTier, this.condition, this.beforeInsert, this.afterInsert)
+                String name = this.name().toLowerCase(Locale.ROOT);
+                this.instance = new ItemUpgrade(name, name+"."+this.descriptionKey, this.type, this.maxCount, this.requiredTier, this.condition, this.beforeInsert, this.afterInsert)
                         .setFolder("upgrade")
-                        .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                        .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
+                        .setRegistryName(name)
+                        .setTranslationKey(name)
                         .setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 
@@ -635,49 +687,47 @@ public class BlockItems {
     }
 
     public enum Cover {
-        ACTIVE_DETECTOR("Emits redstone if the machine has work", "craftingWorkDetector"),
-        CONVEYOR("Moves items around", "craftingConveyor"),
-        CRAFTING("A workbench on a cover", "craftingWorkBench"),
-        DRAIN("Collects liquids and rain", "craftingDrain"),
-        ENERGY_ONLY("energy_flow_circuit", "Manages large amounts of energy", "craftingCircuitTier07"),
-        EU_METER("Outputs redstone depending on stored energy", "craftingEnergyMeter"),
-        ITEM_METER("Outputs redstone depending on stored items", "craftingItemMeter"),
-        ITEM_VALVE("Moves items and liquids at once!", "craftingItemValve"),
-        LIQUID_METER("Outputs redstone depending on stored liquids", "craftingLiquidMeter"),
-        MACHINE_CONTROLLER("This can control machines with redstone", "craftingWorkController"),
-        PUMP_MODULE("Moves liquids around", "craftingPump"),
-        REDSTONE_CONDUCTOR("Throughputs redstone to the cover facing", "craftingRedstoneConductor"),
-        REDSTONE_ONLY("data_control_circuit", "Basic computer processor", "craftingCircuitTier06"),
-        REDSTONE_SIGNALIZER("Applies a constant redstone signal to a machine", "craftingRedstoneSignalizer"),
-        SCREEN("Displays things", "craftingMonitorTier02"),
-        SOLAR_PANEL("Makes energy from the Sun", "craftingSolarPanel"),
-        SOLAR_PANEL_HV("Makes energy from the Sun at 512EU/t", "craftingSolarPanelHV"),
-        SOLAR_PANEL_LV("Makes energy from the Sun at 8EU/t", "craftingSolarPanelLV"),
-        SOLAR_PANEL_MV("Makes energy from the Sun at 64EU/t", "craftingSolarPanelMV");
+        ACTIVE_DETECTOR("craftingWorkDetector"),
+        CONVEYOR("craftingConveyor"),
+        CRAFTING("craftingWorkBench"),
+        DRAIN("craftingDrain"),
+        ENERGY_ONLY("energy_flow_circuit", "craftingCircuitTier07"),
+        EU_METER("craftingEnergyMeter"),
+        ITEM_METER("craftingItemMeter"),
+        ITEM_VALVE("craftingItemValve"),
+        LIQUID_METER("craftingLiquidMeter"),
+        MACHINE_CONTROLLER("craftingWorkController"),
+        PUMP_MODULE("craftingPump"),
+        REDSTONE_CONDUCTOR("craftingRedstoneConductor"),
+        REDSTONE_ONLY("data_control_circuit", "craftingCircuitTier06"),
+        REDSTONE_SIGNALIZER("craftingRedstoneSignalizer"),
+        SCREEN("craftingMonitorTier02"),
+        SOLAR_PANEL("craftingSolarPanel"),
+        SOLAR_PANEL_HV("craftingSolarPanelHV"),
+        SOLAR_PANEL_LV("craftingSolarPanelLV"),
+        SOLAR_PANEL_MV("craftingSolarPanelMV");
 
         private Item instance;
-        public final String registryName;
-        public final String description;
+        public final String coverName;
         public final String oreDict;
 
-        Cover(String registryName, String description, String oreDict) {
-            this.registryName = registryName;
-            this.description = description;
+        Cover(String coverName, String oreDict) {
+            this.coverName = coverName;
             this.oreDict = oreDict;
         }
 
-        Cover(String description, String oreDict) {
-            this.registryName = name().toLowerCase(Locale.ROOT);
-            this.description = description;
+        Cover(String oreDict) {
+            this.coverName = this.name().toLowerCase(Locale.ROOT);
             this.oreDict = oreDict;
         }
 
         public Item getInstance() {
             if (this.instance == null) {
-                this.instance = new ItemCover(this.name().toLowerCase(Locale.ROOT), this.description)
+                String name = this.name().toLowerCase(Locale.ROOT);
+                this.instance = new ItemCover(name, this.coverName)
                         .setFolder("coveritem")
-                        .setRegistryName(this.registryName)
-                        .setTranslationKey(this.registryName)
+                        .setRegistryName(this.coverName)
+                        .setTranslationKey(this.coverName)
                         .setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 
@@ -686,25 +736,27 @@ public class BlockItems {
     }
 
     public enum TurbineRotor {
-        BRONZE(60, 15000),
-        STEEL(80, 10000),
-        MAGNALIUM(100, 10000),
-        TUNGSTEN_STEEL(90, 30000),
-        CARBON(125, 2500);
+        BRONZE(60, 10, 15000),
+        STEEL(80, 20, 10000),
+        MAGNALIUM(100, 50, 10000),
+        TUNGSTEN_STEEL(90, 15, 30000),
+        CARBON(125, 100, 2500);
 
         private Item instance;
         private final int efficiency;
+        private final int efficiencyMultiplier; // To be used later
         private final int durability;
 
-        TurbineRotor(int efficiency, int durability) {
+        TurbineRotor(int efficiency, int efficiencyMultiplier, int durability) {
             this.efficiency = efficiency;
+            this.efficiencyMultiplier = efficiencyMultiplier;
             this.durability = durability;
         }
 
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "turbine_rotor_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(name, "Turbine Efficiency:  "+this.efficiency+"%", this.durability)
+                this.instance = new ItemBase(name, () -> GtUtil.translateGenericDescription("turbine_rotor", this.efficiency), this.durability)
                         .setFolder("component")
                         .setEnchantable(false)
                         .setRegistryName(name)
@@ -719,56 +771,61 @@ public class BlockItems {
     }
 
     public enum Component {
-        SUPERCONDUCTOR("Conducts Energy losslessly", "craftingSuperconductor"),
-        DATA_STORAGE_CIRCUIT("Stores Data", "craftingCircuitTier05"),
+        SUPERCONDUCTOR("craftingSuperconductor"),
+        DATA_STORAGE_CIRCUIT("craftingCircuitTier05"),
         LITHIUM_BATTERY(ItemLithiumBattery::new, "craftingLiBattery"),
-        COIL_KANTHAL("Standard Heating Coil", "craftingHeatingCoilTier01"),
-        COIL_NICHROME("Advanced Heating Coil", "craftingHeatingCoilTier02"),
-        COIL_CUPRONICKEL("Cheap and simple Heating Coil", "craftingHeatingCoilTier00"),
-        HULL_ALUMINIUM("Machine Block", "craftingRawMachineTier01"),
-        HULL_BRASS("Cheap Machine Block", "craftingRawMachineTier00"),
-        HULL_BRONZE("Cheap Machine Block", "craftingRawMachineTier00"),
-        HULL_IRON("Machine Block", "craftingRawMachineTier01"),
-        HULL_STEEL("Advanced Machine Block", "craftingRawMachineTier02"),
-        HULL_TITANIUM("Very Advanced Machine Block", "craftingRawMachineTier03"),
-        HULL_TUNGSTEN_STEEL("Very Advanced Machine Block", "craftingRawMachineTier03"),
-        CIRCUIT_BOARD_BASIC("Just a simple Circuit Plate", "craftingCircuitBoardTier02"),
-        CIRCUIT_BOARD_ADVANCED("Standard Circuit Plate", "craftingCircuitBoardTier04"),
-        CIRCUIT_BOARD_PROCESSOR("Highly advanced Circuit Plate", "craftingCircuitBoardTier06"),
-        TURBINE_BLADE_BRONZE("Heavy Turbine Blade", "craftingTurbineBladeBronze"),
-        TURBINE_BLADE_CARBON("Ultralight Turbine Blade", "craftingTurbineBladeCarbon"),
-        TURBINE_BLADE_MAGNALIUM("Light Turbine Blade", "craftingTurbineBladeMagnalium"),
-        TURBINE_BLADE_STEEL("Standard Turbine Blade", "craftingTurbineBladeSteel"),
-        TURBINE_BLADE_TUNGSTEN_STEEL("Durable Turbine Blade", "craftingTurbineBladeTungstenSteel"),
-        GEAR_IRON(GregTechMod.classic ? "A Refined Iron Gear" : "An Iron Gear", "gearIron"),
-        GEAR_BRONZE("A Bronze Gear", "gearBronze"),
-        GEAR_STEEL("A Steel Gear", "gearSteel"),
-        GEAR_TITANIUM("A Titanium Gear", "gearTitanium"),
-        GEAR_TUNGSTEN_STEEL("A Tungstensteel Gear", "gearTungstenSteel"),
-        GEAR_IRIDIUM("An Iridium Gear", "gearIridium"),
-        DIAMOND_SAWBLADE("Caution! This is very sharp.", "craftingDiamondBlade"),
-        DIAMOND_GRINDER("Fancy Grinding Head", "craftingGrinder"),
-        WOLFRAMIUM_GRINDER("Regular Grinding Head", "craftingGrinder"),
-        MACHINE_PARTS("Random Machine Parts", "craftingMachineParts"),
-        ADVANCED_CIRCUIT_PARTS("Part of advanced Circuitry", "craftingCircuitPartsTier04"),
-        DUCT_TAPE("If you can't fix it with this, use more of it!", "craftingDuctTape"),
+        COIL_KANTHAL("craftingHeatingCoilTier01"),
+        COIL_NICHROME("craftingHeatingCoilTier02"),
+        COIL_CUPRONICKEL("craftingHeatingCoilTier00"),
+        HULL_ALUMINIUM("craftingRawMachineTier01"),
+        HULL_BRASS("craftingRawMachineTier00"),
+        HULL_BRONZE("craftingRawMachineTier00"),
+        HULL_IRON("craftingRawMachineTier01"),
+        HULL_STEEL("craftingRawMachineTier02"),
+        HULL_TITANIUM("craftingRawMachineTier03"),
+        HULL_TUNGSTEN_STEEL("craftingRawMachineTier03"),
+        CIRCUIT_BOARD_BASIC("craftingCircuitBoardTier02"),
+        CIRCUIT_BOARD_ADVANCED("craftingCircuitBoardTier04"),
+        CIRCUIT_BOARD_PROCESSOR("craftingCircuitBoardTier06"),
+        TURBINE_BLADE_BRONZE("craftingTurbineBladeBronze"),
+        TURBINE_BLADE_CARBON("craftingTurbineBladeCarbon"),
+        TURBINE_BLADE_MAGNALIUM("craftingTurbineBladeMagnalium"),
+        TURBINE_BLADE_STEEL("craftingTurbineBladeSteel"),
+        TURBINE_BLADE_TUNGSTEN_STEEL("craftingTurbineBladeTungstenSteel"),
+        GEAR_IRON(DELEGATED_DESCRIPTION, "gearIron"),
+        GEAR_BRONZE("gearBronze"),
+        GEAR_STEEL("gearSteel"),
+        GEAR_TITANIUM("gearTitanium"),
+        GEAR_TUNGSTEN_STEEL("gearTungstenSteel"),
+        GEAR_IRIDIUM("gearIridium"),
+        DIAMOND_SAWBLADE("craftingDiamondBlade"),
+        DIAMOND_GRINDER("craftingGrinder"),
+        WOLFRAMIUM_GRINDER("craftingGrinder"),
+        MACHINE_PARTS("craftingMachineParts"),
+        ADVANCED_CIRCUIT_PARTS("craftingCircuitPartsTier04"),
+        DUCT_TAPE("craftingDuctTape"),
         DATA_ORB(ItemDataOrb::new, "craftingCircuitTier08");
 
         private Item instance;
         private final Supplier<Item> constructor;
         public final String oreDict;
 
-        Component(Supplier<Item> constructor, String oreDict) {
-            this.constructor = constructor;
+        Component(String oreDict) {
+            this("description", oreDict);
+        }
+
+        Component(String descriptionKey, String oreDict) {
+            String name = this.name().toLowerCase(Locale.ROOT);
+            this.constructor = () -> new ItemBase(name, () -> GtUtil.translateItem(name+"."+descriptionKey))
+                    .setFolder("component")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
             this.oreDict = oreDict;
         }
 
-        Component(String description, String oreDict) {
-            this.constructor = () -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description)
-                                        .setFolder("component")
-                                        .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                                        .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
-                                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
+        Component(Supplier<Item> constructor, String oreDict) {
+            this.constructor = constructor;
             this.oreDict = oreDict;
         }
 
@@ -794,7 +851,7 @@ public class BlockItems {
         TESLA_STAFF(ItemTeslaStaff::new),
         WRENCH_ADVANCED(ItemWrenchAdvanced::new),
         DESTRUCTORPACK(ItemDestructorPack::new),
-        LAPOTRONIC_ENERGY_ORB(() -> new ItemElectricBase("lapotronic_energy_orb", null, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, true)
+        LAPOTRONIC_ENERGY_ORB(() -> new ItemElectricBase("lapotronic_energy_orb", GtUtil.NULL_SUPPLIER, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, true)
                 .setFolder("tool")
                 .setRegistryName("lapotronic_energy_orb")
                 .setTranslationKey("lapotronic_energy_orb")
@@ -935,7 +992,7 @@ public class BlockItems {
 
         public Item getInstance() {
             if (this.instance == null) {
-                this.instance = new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), "To give a machine a hard whack", this.durability, this.entityDamage)
+                this.instance = new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
                                     .setRegistryName("hammer_"+this.name().toLowerCase(Locale.ROOT))
                                     .setTranslationKey("hammer_"+this.name().toLowerCase(Locale.ROOT))
                                     .setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -1169,11 +1226,11 @@ public class BlockItems {
     }
 
     public enum Miscellaneous {
-        GREG_COIN("I put the G in 'Gregoriette'"),
-        CREDIT_COPPER("0.125 Credits"),
-        CREDIT_SILVER("8 Credits"),
-        CREDIT_GOLD("64 Credits"),
-        CREDIT_DIAMOND("512 Credits"),
+        GREG_COIN,
+        CREDIT_COPPER(() -> GtUtil.translateGenericDescription("credit", 0.125), null),
+        CREDIT_SILVER(() -> GtUtil.translateGenericDescription("credit", 8), null),
+        CREDIT_GOLD(() -> GtUtil.translateGenericDescription("credit", 64), null),
+        CREDIT_DIAMOND(() -> GtUtil.translateGenericDescription("credit", 512), null),
         RUBY(Dust.RUBY.description, "gemRuby"),
         SAPPHIRE(Dust.SAPPHIRE.description, "gemSapphire"),
         GREEN_SAPPHIRE(Dust.GREEN_SAPPHIRE.description, "gemGreenSapphire"),
@@ -1182,10 +1239,10 @@ public class BlockItems {
         RED_GARNET(Dust.RED_GARNET.description, "gemGarnetRed"),
         YELLOW_GARNET(Dust.YELLOW_GARNET.description, "gemGarnetYellow"),
         INDIGO_BLOSSOM,
-        INDIGO_DYE(null, "dyeBlue"),
-        FLOUR(null, "dustWheat"),
-        SPRAY_CAN_EMPTY("Used for making Sprays and storing Colors", "craftingSprayCan"),
-        LAVA_FILTER(() -> new ItemBase("lava_filter", "Filters Lava in Thermal Boilers", 100)
+        INDIGO_DYE(GtUtil.NULL_SUPPLIER, "dyeBlue"),
+        FLOUR(GtUtil.NULL_SUPPLIER, "dustWheat"),
+        SPRAY_CAN_EMPTY((Supplier<String>) null, "craftingSprayCan"),
+        LAVA_FILTER(() -> new ItemBase("lava_filter", 100)
                             .setFolder("component")
                             .setEnchantable(false)
                             .setRegistryName("lava_filter")
@@ -1193,7 +1250,7 @@ public class BlockItems {
                             .setCreativeTab(GregTechMod.GREGTECH_TAB)
                             .setMaxStackSize(1)
                             .setNoRepair()),
-        MORTAR_FLINT("Used to turn ingots into dust"),
+        MORTAR_FLINT(() -> GtUtil.translateItemDescription("mortar"), null),
         MORTAR_IRON(() -> new ItemMortar("iron", 63, IC2Items.getItem("dust", "iron"))
                             .setRegistryName("mortar_iron")
                             .setTranslationKey("mortar_iron")
@@ -1204,15 +1261,16 @@ public class BlockItems {
         public final String oreDict;
 
         Miscellaneous() {
-            this((String) null);
-        }
-
-        Miscellaneous(String description) {
-            this(description, null);
+            this((Supplier<String>) null, null);
         }
 
         Miscellaneous(String description, String oreDict) {
-            this.constructor = () -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description)
+            this(() -> description, oreDict);
+        }
+
+        Miscellaneous(Supplier<String> description, String oreDict) {
+            String name = this.name().toLowerCase(Locale.ROOT);
+            this.constructor = () -> new ItemBase(name, description != null ? description : () -> GtUtil.translateItemDescription(name))
                                         .setRegistryName(this.name().toLowerCase(Locale.ROOT))
                                         .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
                                         .setCreativeTab(GregTechMod.GREGTECH_TAB);

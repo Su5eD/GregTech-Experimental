@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.items.base;
 
 import com.google.common.collect.Sets;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -11,14 +12,17 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 
 public class ItemHammer extends ItemToolBase {
     private static final Set<Block> ROTATABLE_BLOCKS = Sets.newHashSet(Blocks.LOG, Blocks.HAY_BLOCK, Blocks.PISTON, Blocks.STICKY_PISTON, Blocks.DROPPER, Blocks.DISPENSER, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.FURNACE, Blocks.LIT_FURNACE, Blocks.CHEST, Blocks.HOPPER);
 
-    public ItemHammer(String material, @Nullable String description, int durability, int entityDamage) {
-        super("hammer_"+material, description, durability, entityDamage, ToolMaterial.WOOD);
+    public ItemHammer(String material, int durability, int entityDamage) {
+        this(material, "hammer_"+material, durability, entityDamage);
+    }
+
+    public ItemHammer(String material, String descriptionKey, int durability, int entityDamage) {
+        super("hammer_"+material, () -> GtUtil.translateItemDescription(descriptionKey), durability, entityDamage, ToolMaterial.WOOD);
     }
 
     @Override

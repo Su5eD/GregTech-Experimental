@@ -20,7 +20,7 @@ import java.util.List;
 public class ItemDebugScanner extends ItemScanner {
 
     public ItemDebugScanner() {
-        super("debug_scanner", null,1000000000, 0, 4);
+        super("debug_scanner",1000000000, 0, 4);
         setRegistryName("debug_scanner");
         setTranslationKey("debug_scanner");
         setFolder("tool");

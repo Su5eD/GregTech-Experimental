@@ -30,7 +30,7 @@ import java.util.List;
 public class ItemSprayFoam extends ItemToolCrafting {
 
     public ItemSprayFoam() {
-        super("spray_foam", "Precision Spray", 400, 0, 25, 0);
+        super("spray_foam", 400, 0, 25, 0);
         setRegistryName("spray_foam");
         setTranslationKey("spray_foam");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

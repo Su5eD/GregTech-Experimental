@@ -5,6 +5,7 @@ import mods.gregtechmod.api.item.ISolderingMetal;
 import mods.gregtechmod.api.item.ISolderingTool;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,7 +17,7 @@ import java.util.List;
 public class ItemSolderingTool extends ItemElectricBase implements ISolderingTool {
 
     public ItemSolderingTool() {
-        super("soldering_tool", "To repair and construct circuitry", 10000, 1000, 1, 1000, false);
+        super("soldering_tool", 10000, 1000, 1, 1000, false);
         setFolder("tool");
         setRegistryName("soldering_tool");
         setTranslationKey("soldering_tool");
@@ -49,10 +50,10 @@ public class ItemSolderingTool extends ItemElectricBase implements ISolderingToo
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (ElectricItem.manager.canUse(stack, 1000)) {
-            tooltip.add("To repair and construct circuitry");
-            tooltip.add("Needs Soldering Metal in inventory!");
+        if (ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
+            tooltip.add(GtUtil.translateItem("soldering_tool.metal_requirement"));
         }
-        else tooltip.add("Empty. You need to recharge it");
+
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }

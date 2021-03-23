@@ -6,6 +6,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerSonictron;
 import mods.gregtechmod.objects.items.base.ItemBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -25,7 +26,7 @@ import java.util.Iterator;
 public class ItemSonictron extends ItemBase {
 
     public ItemSonictron() {
-        super("sonictron_portable", null);
+        super("sonictron_portable", GtUtil.NULL_SUPPLIER);
         setFolder("tool");
         setRegistryName("sonictron_portable");
         setTranslationKey("sonictron_portable");

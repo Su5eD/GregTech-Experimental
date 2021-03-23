@@ -89,6 +89,7 @@ public final class GregTechMod {
     @EventHandler
     public static void init(FMLInitializationEvent event) {
         ModHandler.gatherModItems();
+        proxy.init();
         GregTechTEBlock.buildDummies();
 
         BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
