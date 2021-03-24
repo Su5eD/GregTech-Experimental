@@ -20,4 +20,9 @@ public interface ICoverable {
     boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate);
 
     void markForRenderUpdate();
+
+    /**
+     * Orders a tile entity to update it's cover behavior (such as cable connections)
+     */
+    void markForCoverBehaviorUpdate();
 }

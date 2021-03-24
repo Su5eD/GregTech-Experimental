@@ -10,10 +10,10 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityQuantumChest;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -92,9 +92,9 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
                 return true;
             }
             else if (!world.isRemote && ((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) { //has to be executed server-side only
-                if (((IGtUpgradeItem)currentItem).onInsert(upgradeStack, this, player)) return true;
+                if (((IGtUpgradeItem)currentItem).beforeInsert(upgradeStack, this, player)) return true;
                 this.upgradeSlot.put(!player.capabilities.isCreativeMode ? stack.splitStack(1) : stack.copy().splitStack(1));
-                ((IGtUpgradeItem) currentItem).onUpdate(stack, this, player);
+                ((IGtUpgradeItem) currentItem).afterInsert(stack, this, player);
                 return true;
             }
         }

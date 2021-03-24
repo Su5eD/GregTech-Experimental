@@ -3,12 +3,15 @@ package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState;
+import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.CoverRegistry;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.cover.type.CoverGeneric;
 import mods.gregtechmod.cover.type.CoverVent;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -29,8 +32,8 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     public TileEntityCoverable() {
         this.coverHandler = addComponent(new CoverHandler(this, () -> {
             IC2.network.get(true).updateTileEntityField(TileEntityCoverable.this, "coverHandler");
-            needsCoverBehaviorUpdate = true;
-            rerender();
+            markForCoverBehaviorUpdate();
+            markForRenderUpdate();
         }));
     }
 
@@ -43,20 +46,52 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
         } else if (CoverVent.isVent(stack)) {
             placeCover(player, side, stack, "vent");
             return true;
-        }
+        } else if (attemptUseCrowbar(stack, side, player) || attemptUseScrewdriver(stack, side, player)) return true;
+
         return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
 
+    public boolean attemptUseScrewdriver(ItemStack stack, EnumFacing side, EntityPlayer player) {
+        if (isScrewdriver(stack)) {
+            ICover cover = getCoverAtSide(side);
+            if (cover != null) {
+                if (cover.onScrewdriverClick(player)) {
+                    markForCoverBehaviorUpdate();
+                    stack.damageItem(1, player);
+                }
+            } else placeCoverAtSide(CoverRegistry.constructCover("normal", side, this, null), side, false);
+        }
+        return false;
+    }
+
+    public boolean attemptUseCrowbar(ItemStack stack, EnumFacing side, EntityPlayer player) {
+        if (isCrowbar(stack)) {
+            if (removeCover(side, false)) {
+                stack.damageItem(1, player);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isCrowbar(ItemStack stack) {
+        return GregTechAPI.getCrowbars().stream()
+                .anyMatch(crowbar -> GtUtil.stackEquals(crowbar, stack));
+    }
+
+    private boolean isScrewdriver(ItemStack stack) {
+        return GregTechAPI.getScrewdrivers().stream()
+                .anyMatch(screwdriver -> GtUtil.stackEquals(screwdriver, stack));
+    }
+
     private void placeCover(EntityPlayer player, EnumFacing side, ItemStack stack, String name) { //For generic covers and vents
-        ItemStack tStack = stack.copy();
-        tStack.setCount(1);
-        if (placeCoverAtSide(CoverRegistry.constructCover(name, side, this, tStack), side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
+        ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
+        if (placeCoverAtSide(CoverRegistry.constructCover(name, side, this, coverStack), side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
     }
 
     @Override
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        CoverHandler value = this.coverHandler;
-        if (value != null) state = state.withProperties(CoverHandler.COVER_HANDLER_PROPERTY, value);
+        if (this.coverHandler != null) state = state.withProperties(CoverHandler.COVER_HANDLER_PROPERTY, this.coverHandler);
         return state;
     }
 
@@ -131,5 +166,10 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     @Override
     public void markForRenderUpdate() {
         rerender();
+    }
+
+    @Override
+    public void markForCoverBehaviorUpdate() {
+        this.needsCoverBehaviorUpdate = true;
     }
 }

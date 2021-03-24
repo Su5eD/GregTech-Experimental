@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "#MORTARS"
+    },
+    {
+      "item": "minecraft:clay"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:dust",
+    "data": 1
+  }
+}

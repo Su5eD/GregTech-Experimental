@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x",
+    "x"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:wooden_slab",
+      "data": 0
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:planks",
+    "data": 0
+  }
+}

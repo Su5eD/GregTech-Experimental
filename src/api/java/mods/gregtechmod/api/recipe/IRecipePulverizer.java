@@ -5,10 +5,12 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public interface IRecipePulverizer extends IGtMachineRecipe<IRecipeIngredient, List<ItemStack>> {
+public interface IRecipePulverizer extends IMachineRecipe<IRecipeIngredient, List<ItemStack>> {
     ItemStack getPrimaryOutput();
 
     ItemStack getSecondaryOutput();
 
     int getChance();
+
+    boolean shouldOverwrite();
 }

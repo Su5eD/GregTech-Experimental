@@ -7,6 +7,7 @@ import ic2.core.item.tool.HarvestLevel;
 import ic2.core.item.tool.ToolClass;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolElectricBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -22,7 +23,7 @@ import java.util.EnumSet;
 public class ItemRockCutter extends ItemToolElectricBase {
 
     public ItemRockCutter() {
-        super("rock_cutter", null, 10000D, 100, 1, 500, HarvestLevel.Iron.level, EnumSet.of(ToolClass.Pickaxe));
+        super("rock_cutter", GtUtil.NULL_SUPPLIER, 28, 1, 10000D, 100, 1, 500, false, HarvestLevel.Iron.level, EnumSet.of(ToolClass.Pickaxe));
         setRegistryName("rock_cutter");
         setTranslationKey("rock_cutter");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " H ",
+    "WCW"
+  ],
+  "key":
+  {
+    "H":
+    {
+      "item": "gregtechmod:coolant_nak_60k"
+    },
+    "W":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingWireCopper"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:upgrade",
+    "data": 0,
+    "count": 2
+  }
+}

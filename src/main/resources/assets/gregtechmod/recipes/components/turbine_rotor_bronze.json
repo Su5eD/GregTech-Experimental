@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "TTT",
+    "TBT",
+    "TTT"
+  ],
+  "key":
+  {
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingTurbineBladeBronze"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "blockBronze"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:turbine_rotor_bronze"
+  }
+}

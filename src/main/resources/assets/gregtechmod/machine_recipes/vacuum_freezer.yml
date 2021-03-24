@@ -1,0 +1,62 @@
+# Vacuum Freezer recipes
+---
+- input:
+    cell: helium_plasma
+  output:
+    cell: helium
+  duration: 100
+- input:
+    damaged: ic2:heat_storage
+  output:
+    item: ic2:heat_storage
+  duration: 100
+- input:
+    damaged: ic2:tri_heat_storage
+  output:
+    item: ic2:tri_heat_storage
+  duration: 300
+- input:
+    damaged: ic2:hex_heat_storage
+  output:
+    item: ic2:hex_heat_storage
+  duration: 600
+- input:
+    damaged: gregtechmod:coolant_helium_60k
+  output:
+    item: gregtechmod:coolant_helium_60k
+  duration: 700
+- input:
+    damaged: gregtechmod:coolant_helium_180k
+  output:
+    item: gregtechmod:coolant_helium_180k
+  duration: 2000
+- input:
+    damaged: gregtechmod:coolant_helium_360k
+  output:
+    item: gregtechmod:coolant_helium_360k
+  duration: 3900
+- input:
+    damaged: gregtechmod:coolant_nak_60k
+  output:
+    item: gregtechmod:coolant_nak_60k
+  duration: 500
+- input:
+    damaged: gregtechmod:coolant_nak_180k
+  output:
+    item: gregtechmod:coolant_nak_180k
+  duration: 1500
+- input:
+    damaged: gregtechmod:coolant_nak_360k
+  output:
+    item: gregtechmod:coolant_nak_360k
+  duration: 3000
+- input:
+    ore: ingotHotTungstenSteel
+  output:
+    item: gregtechmod:ingot_tungsten_steel
+  duration: 450
+- input:
+    cell: water
+  output:
+    item: gregtechmod:cell_ice
+  duration: 50

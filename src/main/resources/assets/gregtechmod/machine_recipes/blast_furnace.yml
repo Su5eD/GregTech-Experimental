@@ -1,0 +1,63 @@
+# Blast Furnace recipes
+---
+- input:
+    - ore: dustSteel
+  output:
+    - item: gregtechmod:ingot_steel
+  heat: 1000
+  duration: 100
+  universal: true
+- input:
+    - ore: dustChrome
+  output:
+    - item: gregtechmod:ingot_chrome
+  heat: 1700
+  duration: 800
+- input:
+    - ore: dustTitanium
+  output:
+    - item: gregtechmod:ingot_titanium
+  heat: 1500
+  duration: 1000
+- input:
+    - ores:
+        - dustAluminium
+        - dustAluminum
+  output:
+    - item: gregtechmod:ingot_aluminium
+  heat: 1700
+  duration: 200
+  universal: true
+- input:
+    - ore: dustTungsten
+  output:
+    - item: gregtechmod:ingot_tungsten
+  heat: 2500
+  duration: 2000
+- input:
+    - ores:
+        - dustSilverLead
+        - dustGalena
+      count: 2
+  output:
+    - item: gregtechmod:ingot_silver
+    - item: gregtechmod:ingot_lead
+  duration: 20
+  heat: 1500
+- input:
+    - ore: ingotTungsten
+    - ore: ingotSteel
+  output:
+    - item: gregtechmod:ingot_hot_tungsten_steel
+    - item: gregtechmod:dust_dark_ashes
+      count: 4
+  duration: 2000
+  heat: 3000
+- input:
+    - cell: wolframium
+  output:
+    - item: gregtechmod:plate_silicon
+    - cell: empty
+      count: 2
+  duration: 1000
+  heat: 1500

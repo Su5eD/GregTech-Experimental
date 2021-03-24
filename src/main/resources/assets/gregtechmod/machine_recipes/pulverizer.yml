@@ -1,0 +1,939 @@
+# Pulverizer recipes
+---
+- input:
+    item: minecraft:sandstone
+    meta: 32767
+  output:
+    - item: minecraft:sand
+- input:
+    ore: stoneEnd
+  output:
+    - item: gregtechmod:dust_endstone
+    - item: gregtechmod:dust_endstone
+- input:
+    ore: stoneObsidian
+  output:
+    - item: railcraft:generic
+      meta: 7
+      fallback:
+        ore: dustObsidian
+  overwrite: true
+- input:
+    ore: stoneNetherrack
+  output:
+    - item: gregtechmod:dust_netherrack
+    - item: gregtechmod:dust_netherrack
+- input:
+    ore: stoneRedrock
+  output:
+    - item: gregtechmod:dust_redrock
+    - item: gregtechmod:dust_redrock
+- input:
+    ores:
+      - stoneMarble
+      - stoneQuarried
+  output:
+    - item: gregtechmod:dust_marble
+    - item: gregtechmod:dust_marble
+- input:
+    ores:
+      - stoneBasalt
+      - stoneAbyssal
+  output:
+    - item: gregtechmod:dust_basalt
+    - item: gregtechmod:dust_basalt
+- input:
+    ore: itemFlint
+  output:
+    - item: gregtechmod:dust_basalt
+      count: 2
+    - item: minecraft:flint
+  chance: 50
+- input:
+    ore: oreLapis
+  output:
+    - item: minecraft:dye
+      meta: 4
+      count: 12
+    - item: gregtechmod:dust_lazurite
+  overwrite: true
+- input:
+    ore: oreSodalite
+  output:
+    - item: gregtechmod:dust_sodalite
+      count: 12
+    - item: gregtechmod:dust_aluminium
+- input:
+    ore: oreRedstone
+  output:
+    - item: minecraft:redstone
+      count: 10
+    - item: minecraft:glowstone_dust
+  overwrite: true
+- input:
+    ore: oreQuartz
+  output:
+    - ore: dustNetherQuartz
+      count: 3
+      fallback:
+        item: minecraft:quartz
+        count: 3
+    - item: gregtechmod:dust_netherrack
+- input:
+    ore: oreIron
+  output:
+    - item: ic2:dust#iron
+      count: 2
+    - item: gregtechmod:dust_nickel
+- input:
+    ore: oreGold
+  output:
+    - item: ic2:dust#gold
+      count: 2
+    - item: ic2:dust#copper
+- input:
+    ore: oreSilver
+  output:
+    - item: gregtechmod:dust_silver
+      count: 2
+    - item: gregtechmod:dust_lead
+- input:
+    ore: oreLead
+  output:
+    - item: gregtechmod:dust_lead
+      count: 2
+    - item: gregtechmod:dust_silver
+- input:
+    ores:
+      - oreSilverLead
+      - oreGalena
+  output:
+    - item: gregtechmod:dust_galena
+      count: 2
+    - item: gregtechmod:dust_sulfur
+  chance: 50
+- input:
+    ore: oreDiamond
+  output:
+    - item: gregtechmod:dust_diamond
+      count: 2
+    - item: ic2:dust#coal
+  overwrite: true
+- input:
+    ore: oreEmerald
+  output:
+    - item: gregtechmod:dust_emerald
+      count: 2
+    - item: gregtechmod:dust_olivine
+  overwrite: true
+- input:
+    ore: oreRuby
+  output:
+    - item: gregtechmod:dust_ruby
+      count: 2
+    - item: gregtechmod:dust_red_garnet
+  overwrite: true
+- input:
+    ore: oreSapphire
+  output:
+    - item: gregtechmod:dust_sapphire
+      count: 2
+    - item: gregtechmod:dust_green_sapphire
+  overwrite: true
+- input:
+    ore: oreGreenSapphire
+  output:
+    - item: gregtechmod:dust_green_sapphire
+      count: 2
+    - item: gregtechmod:dust_sapphire
+  overwrite: true
+- input:
+    ore: oreOlivine
+  output:
+    - item: gregtechmod:dust_olivine
+      count: 2
+    - item: gregtechmod:dust_emerald
+  overwrite: true
+- input:
+    ore: oreCoal
+  output:
+    - item: ic2:dust#coal
+      count: 2
+    - item: gregtechmod:dust_thorium
+  overwrite: true
+- input:
+    ore: oreCopper
+  output:
+    - item: ic2:dust#copper
+      count: 2
+    - item: ic2:dust#gold
+- input:
+    ore: oreTin
+  output:
+    - item: ic2:dust#tin
+      count: 2
+    - item: ic2:dust#iron
+- input:
+    ore: oreZinc
+  output:
+    - item: gregtechmod:dust_zinc
+      count: 2
+    - item: ic2:dust#tin
+- input:
+    ore: oreCassiterite
+  output:
+    - item: ic2:dust#tin
+      count: 3
+    - item: ic2:dust#tin
+- input:
+    ore: oreTetrahedrite
+  output:
+    - ore: dustTetrahedrite
+      count: 2
+      fallback:
+        item: ic2:dust#copper
+        count: 2
+    - item: gregtechmod:dust_zinc
+- input:
+    ore: oreAntimony
+  output:
+    - item: gregtechmod:dust_antimony
+      count: 2
+    - item: gregtechmod:dust_zinc
+- input:
+    ore: oreIridium
+  output:
+    - item: ic2:misc_resource#iridium_ore
+      count: 2
+    - item: gregtechmod:dust_platinum
+  overwrite: true
+- input:
+    ores:
+      - oreCooperite
+      - oreSheldonite
+  output:
+    - item: gregtechmod:dust_platinum
+      count: 2
+    - item: ic2:misc_resource#iridium_ore
+  overwrite: true
+- input:
+    ore: orePlatinum
+  output:
+    - item: gregtechmod:dust_platinum
+      count: 2
+    - item: ic2:misc_resource#iridium_ore
+- input:
+    ore: oreNickel
+  output:
+    - item: gregtechmod:dust_nickel
+      count: 2
+    - item: ic2:dust#tin
+- input:
+    ore: orePyrite
+  output:
+    - item: gregtechmod:dust_pyrite
+      count: 3
+    - item: ic2:dust#iron
+  overwrite: true
+- input:
+    ore: oreCinnabar
+  output:
+    - item: gregtechmod:dust_cinnabar
+      count: 3
+    - item: minecraft:redstone
+  overwrite: true
+- input:
+    ore: oreSphalerite
+  output:
+    - item: gregtechmod:dust_sphalerite
+      count: 3
+    - item: gregtechmod:dust_zinc
+  overwrite: true
+- input:
+    ores:
+      - oreAluminium
+      - oreAluminum
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 2
+    - item: gregtechmod:dust_titanium
+  overwrite: true
+- input:
+    ore: oreSteel
+  output:
+    - item: gregtechmod:dust_steel
+      count: 2
+    - item: gregtechmod:dust_nickel
+      count: 2
+  overwrite: true
+- input:
+    ores:
+      - oreTitan
+      - oreTitanium
+  output:
+    - item: gregtechmod:dust_titanium
+      count: 2
+    - item: gregtechmod:dust_titanium
+  overwrite: true
+- input:
+    ores:
+      - oreChrome
+      - oreChromium
+  output:
+    - item: gregtechmod:dust_chrome
+      count: 2
+    - item: gregtechmod:dust_ruby
+  overwrite: true
+- input:
+    ore: oreElectrum
+  output:
+    - item: gregtechmod:dust_electrum
+      count: 2
+    - item: ic2:dust#gold
+- input:
+    ores:
+      - oreTungsten
+      - oreTungstate
+  output:
+    - item: gregtechmod:dust_tungsten
+      count: 2
+    - item: gregtechmod:dust_manganese
+  overwrite: true
+- input:
+    ore: oreBauxite
+  output:
+    - item: gregtechmod:dust_bauxite
+      count: 4
+    - item: gregtechmod:dust_aluminium
+  overwrite: true
+- input:
+    ore: oreApatite
+  output:
+    - ore: gemApatite
+      count: 8
+    - item: gregtechmod:dust_phosphorus
+- input:
+    ore: oreSulfur
+  output:
+    - item: gregtechmod:dust_sulfur
+      count: 8
+    - item: gregtechmod:dust_sulfur
+- input:
+    ore: oreSaltpeter
+  output:
+    - item: gregtechmod:dust_saltpeter
+      count: 5
+    - item: gregtechmod:dust_saltpeter
+- input:
+    ore: orePhosphorite
+  output:
+    - item: gregtechmod:dust_phosphorus
+      count: 3
+    - item: gregtechmod:dust_phosphorus
+- input:
+    ore: oreMagnesium
+  output:
+    - item: gregtechmod:dust_magnesium
+      count: 2
+    - item: ic2:dust#iron
+- input:
+    ore: oreManganese
+  output:
+    - item: gregtechmod:dust_manganese
+      count: 2
+    - item: ic2:dust#iron
+- input:
+    ore: oreThorium
+  output:
+    - item: gregtechmod:dust_thorium
+      count: 2
+    - item: gregtechmod:dust_titanium
+  overwrite: true
+- input:
+    ore: orePlutonium
+  output:
+    - item: gregtechmod:dust_plutonium
+      count: 2
+    - item: ic2:crushed#uranium
+  overwrite: true
+- input:
+    ore: oreCertusQuartz
+  output:
+    - item: appliedenergistics:material # Certus quartz dust
+      meta: 2
+      count: 5
+    - item: appliedenergistics:material # Certus quartz crystal
+  overwrite: true
+  conditions:
+    - type: mod_loaded
+      modid: appliedenergistics
+- input:
+    ore: oreUranium
+  output:
+    - item: ic2:crushed#uranium
+      count: 2
+    - item: gregtechmod:dust_plutonium
+- input:
+    ore: oreElectrotine
+  output:
+    - item: projectred-core:resource_item # Electrotine dust
+      meta: 105
+      count: 2
+  conditions:
+    - type: mod_loaded
+      modid: projectred-core
+- input:
+    ore: ingotUranium
+  output:
+    - item: gregtechmod:dust_uranium
+- input:
+    ore: ingotPlutonium
+  output:
+    - item: gregtechmod:dust_plutonium
+- input:
+    ore: ingotThorium
+  output:
+    - item: gregtechmod:dust_thorium
+- input:
+    ore: ingotManganese
+  output:
+    - item: gregtechmod:dust_manganese
+- input:
+    ore: ingotMagnesium
+  output:
+    - item: gregtechmod:dust_magnesium
+- input:
+    ore: ingotSilver
+  output:
+    - item: gregtechmod:dust_silver
+- input:
+    ore: ingotBronze
+  output:
+    - item: ic2:dust#bronze
+- input:
+    ore: ingotCopper
+  output:
+    - item: ic2:dust#copper
+- input:
+    ore: ingotTin
+  output:
+    - item: ic2:dust#tin
+- input:
+    ore: ingotIron
+  output:
+    - item: ic2:dust#iron
+- input:
+    ore: ingotGold
+  output:
+    - item: ic2:dust#gold
+- input:
+    ore: ingotAluminium
+  output:
+    - item: gregtechmod:dust_aluminium
+- input:
+    ore: ingotTitanium
+  output:
+    - item: gregtechmod:dust_titanium
+- input:
+    ore: ingotChrome
+  output:
+    - item: gregtechmod:dust_chrome
+- input:
+    ore: ingotElectrum
+  output:
+    - item: gregtechmod:dust_electrum
+- input:
+    ore: ingotTungsten
+  output:
+    - item: gregtechmod:dust_tungsten
+- input:
+    ore: ingotSteel
+  output:
+    - item: gregtechmod:dust_steel
+- input:
+    ore: ingotLead
+  output:
+    - item: gregtechmod:dust_lead
+- input:
+    ore: ingotZinc
+  output:
+    - item: gregtechmod:dust_zinc
+- input:
+    ore: ingotBrass
+  output:
+    - item: gregtechmod:dust_brass
+- input:
+    ore: ingotPlatinum
+  output:
+    - item: gregtechmod:dust_platinum
+- input:
+    ore: ingotNickel
+  output:
+    - item: gregtechmod:dust_nickel
+- input:
+    ore: gemRuby
+  output:
+    - item: gregtechmod:dust_ruby
+- input:
+    ore: gemSapphire
+  output:
+    - item: gregtechmod:dust_sapphire
+- input:
+    ore: gemGreenSapphire
+  output:
+    - item: gregtechmod:dust_green_sapphire
+- input:
+    ore: gemEnderPearl
+  output:
+    - item: gregtechmod:dust_ender_pearl
+- input:
+    ore: gemDiamond
+  output:
+    - item: gregtechmod:dust_diamond
+- input:
+    ore: gemEmerald
+  output:
+    - item: gregtechmod:dust_emerald
+- input:
+    ore: gemOlivine
+  output:
+    - item: gregtechmod:dust_olivine
+- input:
+    ores:
+      - gemGarnet
+      - gemGarnetRed
+  output:
+    - item: gregtechmod:dust_red_garnet
+- input:
+    ore: gemGarnetYellow
+  output:
+    - item: gregtechmod:dust_yellow_garnet
+- input:
+    ore: gemApatite
+  output:
+    - item: ic2:crop_res#fertilizer
+      count: 4
+    - item: gregtechmod:dust_phosphorus
+  chance: 50
+- input:
+    ore: gemTopaz
+  output:
+    - ore: dustTopaz
+  conditions:
+    - type: ore_exists
+      ore: dustTopaz
+- input:
+    ore: gemTanzanite
+  output:
+    - ore: dustTanzanite
+  conditions:
+    - type: ore_exists
+      ore: dustTopaz
+- input:
+    ore: gemCoal
+  output:
+    - item: ic2:dust#coal
+- input:
+    ore: crystalNetherQuartz
+  output:
+    - item: appliedenergistics:material # Nether Quartz dust
+      meta: 3
+  overwrite: true
+  conditions:
+    - type: mod_loaded
+      modid: appliedenergistics
+- input:
+    ores:
+      - itemManganese
+      - manganese
+  output:
+    - item: gregtechmod:dust_manganese
+- input:
+    ores:
+      - itemMagnesium
+      - magnesium
+  output:
+    - item: gregtechmod:dust_magnesium
+- input:
+    ores:
+      - itemPhosphorite
+      - phosphorite
+      - itemPhosphorus
+      - phosphorus
+  output:
+    - item: gregtechmod:dust_phosphorus
+- input:
+    ores:
+      - itemSulfur
+      - sulfur
+  output:
+    - item: gregtechmod:dust_sulfur
+- input:
+    ores:
+      - itemAluminum
+      - aluminum
+      - itemAluminium
+      - aluminium
+  output:
+    - item: gregtechmod:dust_aluminium
+- input:
+    ores:
+      - itemSaltpeter
+      - saltpeter
+  output:
+    - item: gregtechmod:dust_saltpeter
+- input:
+    ores:
+      - itemUranium
+      - uranium
+  output:
+    - item: gregtechmod:dust_uranium
+- input:
+    item: twilightforest:root
+  output:
+    - item: minecraft:stick
+      count: 2
+    - item: minecraft:stick
+  chance: 30
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
+- input:
+    item: twilightforest:minotaur_axe
+  output:
+    - item: gregtechmod:dust_diamond
+    - item: gregtechmod:dust_wood
+  chance: 50
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
+- input:
+    item: minecraft:chainmail_helmet
+  output:
+    - item: gregtechmod:smalldust_steel
+      count: 5
+  overwrite: true
+- input:
+    item: minecraft:chainmail_chestplate
+  output:
+    - item: gregtechmod:smalldust_steel
+      count: 8
+  overwrite: true
+- input:
+    item: minecraft:chainmail_leggings
+  output:
+    - item: gregtechmod:smalldust_steel
+      count: 7
+  overwrite: true
+- input:
+    item: minecraft:chainmail_boots
+  output:
+    - item: gregtechmod:smalldust_steel
+      count: 4
+  overwrite: true
+- input:
+    item: minecraft:clock
+  output:
+    - item: ic2:dust#gold
+      count: 4
+    - item: minecraft:redstone
+  chance: 95
+- input:
+    item: minecraft:compass
+  output:
+    - item: ic2:dust#iron
+      count: 4
+    - item: minecraft:redstone
+  chance: 95
+- input:
+    item: minecraft:shears
+  output:
+    - item: ic2:dust#iron
+      count: 2
+- input:
+    item: minecraft:minecart
+  output:
+    - item: ic2:dust#iron
+      count: 5
+  overwrite: true
+- input:
+    item: minecraft:bucket
+  output:
+    - item: ic2:dust#iron
+      count: 3
+  overwrite: true
+- input:
+    item: minecraft:iron_door
+  output:
+    - item: ic2:dust#iron
+      count: 6
+  overwrite: true
+- input:
+    item: minecraft:cauldron
+  output:
+    - item: ic2:dust#iron
+      count: 7
+  overwrite: true
+- input:
+    item: minecraft:iron_bars
+    count: 2
+  output:
+    - item: gregtechmod:smalldust_iron
+      count: 3
+  overwrite: true
+- input:
+    item: ic2:fence#iron
+    count: 2
+  output:
+    - item: gregtechmod:smalldust_iron
+      count: 3
+  overwrite: true
+- input:
+    cell: empty
+  output:
+    - item: ic2:dust#tin
+      count: 2
+  overwrite: true
+- input:
+    item: ic2:te#iron_furnace
+  output:
+    - item: ic2:dust#iron
+      count: 5
+  overwrite: true
+- input:
+    item: minecraft:light_weighted_pressure_plate
+  output:
+    - item: ic2:dust#gold
+      count: 2
+  overwrite: true
+- input:
+    item: minecraft:heavy_weighted_pressure_plate
+  output:
+    - item: ic2:dust#iron
+      count: 2
+  overwrite: true
+- input:
+    item: gregtechmod:hull_aluminium
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 6
+- input:
+    item: gregtechmod:hull_bronze
+  output:
+    - item: ic2:dust#bronze
+      count: 6
+- input:
+    item: gregtechmod:hull_brass
+  output:
+    - item: gregtechmod:dust_brass
+      count: 6
+- input:
+    item: gregtechmod:hull_steel
+  output:
+    - item: gregtechmod:dust_steel
+      count: 6
+- input:
+    item: gregtechmod:hull_titanium
+  output:
+    - item: gregtechmod:dust_titanium
+      count: 6
+- input:
+    item: gregtechmod:gear_bronze
+  output:
+    - item: ic2:dust#bronze
+      count: 6
+- input:
+    item: gregtechmod:gear_steel
+  output:
+    - item: gregtechmod:dust_steel
+      count: 6
+- input:
+    item: gregtechmod:gear_titanium
+  output:
+    - item: gregtechmod:dust_titanium
+      count: 6
+- input:
+    item: gregtechmod:gear_tungsten_steel
+  output:
+    - ore: dustTungstenSteel
+      count: 6
+  conditions:
+    - type: ore_exists
+      ore: dustTungstenSteel
+- input:
+    item: gregtechmod:gear_iridium
+  output:
+    - ore: dustIridium
+      count: 6
+- input:
+    item: minecraft:enchanting_table
+  output:
+    - item: gregtechmod:dust_diamond
+      count: 2
+    - item: gregtechmod:dust_obsidian
+      count: 4
+  chance: 95
+- input:
+    item: minecraft:furnace
+  output:
+    - item: minecraft:sand
+      count: 7
+- input:
+    item: minecraft:stone_button
+  output:
+    - item: minecraft:sand
+- input:
+    item: minecraft:sign
+  output:
+    - item: gregtechmod:dust_wood
+      count: 2
+- input:
+    item: minecraft:wooden_door
+  output:
+    - item: gregtechmod:dust_wood
+      count: 6
+- input:
+    item: minecraft:chest
+  output:
+    - item: gregtechmod:dust_wood
+      count: 8
+- input:
+    item: minecraft:wooden_button
+  output:
+    - item: gregtechmod:dust_wood
+- input:
+    item: minecraft:stone_pressure_plate
+  output:
+    - item: minecraft:sand
+      count: 2
+- input:
+    item: minecraft:wooden_pressure_plate
+  output:
+    - item: gregtechmod:dust_wood
+      count: 2
+- input:
+    item: minecraft:redstone_torch
+  output:
+    - item: gregtechmod:smalldust_wood
+      count: 2
+    - item: minecraft:redstone
+  chance: 95
+- input:
+    item: minecraft:lever
+  output:
+    - item: minecraft:sand
+    - item: gregtechmod:smalldust_wood
+      count: 2
+  chance: 95
+- input:
+    item: minecraft:ladder
+  output:
+    - item: gregtechmod:dust_wood
+- input:
+    item: minecraft:item_frame
+  output:
+    - item: minecraft:leather
+    - item: gregtechmod:dust_wood
+      count: 4
+  chance: 95
+- input:
+    item: minecraft:bow
+  output:
+    - item: minecraft:string
+      count: 3
+    - item: gregtechmod:smalldust_wood
+      count: 3
+  chance: 95
+- input:
+    ore: glowstone
+  output:
+    - item: minecraft:glowstone_dust
+      count: 4
+- input:
+    item: minecraft:redstone_lamp
+  output:
+    - item: minecraft:glowstone_dust
+      count: 4
+    - item: minecraft:redstone
+      count: 4
+  chance: 90
+- input:
+    item: railcraft:generic
+    meta: 7
+  output:
+    - item: gregtechmod:dust_obsidian
+  overwrite: true
+- input:
+    ore: sugarcane
+  output:
+    - item: minecraft:sugar
+      count: 2
+- input:
+    ore: blockClay
+  output:
+    - item: gregtechmod:dust_clay
+      count: 2
+- input:
+    item: minecraft:snow
+  output:
+    - item: minecraft:snowball
+      count: 4
+- input:
+    item: minecraft:stick
+  output:
+    - item: gregtechmod:smalldust_wood
+      count: 2
+- input:
+    ore: charcoal
+  output:
+    - item: gregtechmod:dust_charcoal
+  overwrite: true
+- input:
+    item: minecraft:melon_block
+  output:
+    - item: minecraft:melon
+      count: 8
+    - item: minecraft:melon_seeds
+  chance: 80
+- input:
+    item: minecraft:pumpkin
+  output:
+    - item: minecraft:pumpkin_seeds
+      count: 4
+- input:
+    item: minecraft:melon
+  output:
+    - item: minecraft:melon_seeds
+- input:
+    item: minecraft:wheat
+  output:
+    - item: gregtechmod:flour
+- input:
+    item: ic2:crafting#plant_ball
+  output:
+    - item: minecraft:dirt
+- input:
+    item: ic2:crop_stick
+  output:
+    - item: gregtechmod:dust_wood
+- input:
+    item: minecraft:ender_eye
+  output:
+    - item: gregtechmod:dust_ender_eye
+      count: 2
+  overwrite: true
+- input:
+    item: minecraft:flint
+  output:
+    - item: gregtechmod:dust_flint
+      count: 2
+    - item: gregtechmod:smalldust_flint
+  overwrite: true
+- input:
+    item: minecraft:wool
+    meta: 32767
+  output:
+    - item: minecraft:string
+      count: 2
+    - item: minecraft:string
+  chance: 50

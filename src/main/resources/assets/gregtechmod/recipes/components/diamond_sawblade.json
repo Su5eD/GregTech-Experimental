@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "DSD",
+    "S S",
+    "DSD"
+  ],
+  "key":
+  {
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustDiamond"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:diamond_sawblade",
+    "count": 4
+  }
+}

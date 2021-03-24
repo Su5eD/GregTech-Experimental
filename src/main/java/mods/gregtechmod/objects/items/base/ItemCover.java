@@ -1,8 +1,10 @@
 package mods.gregtechmod.objects.items.base;
 
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.CoverRegistry;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -12,17 +14,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class ItemCover extends ItemBase {
     private final String coverName;
 
-    public ItemCover(String name, @Nullable String description) {
-        this(name, name, description);
-    }
-
-    public ItemCover(String name, String coverName, @Nullable String description) {
-        super(name, description);
+    public ItemCover(String name, String coverName) {
+        super(name, () -> GtUtil.translateItemDescription(coverName));
         this.coverName = coverName;
     }
 
@@ -31,8 +27,7 @@ public class ItemCover extends ItemBase {
         if (player.isSneaking()) return EnumActionResult.PASS;
         TileEntity block = world.getTileEntity(pos);
         ItemStack stack = player.inventory.getCurrentItem();
-        ItemStack coverStack = stack.copy();
-        coverStack.setCount(1);
+        ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
         if (block instanceof ICoverable) {
             ICover cover = CoverRegistry.constructCover(this.coverName, side, (ICoverable) block, coverStack);
             if (((ICoverable)block).placeCoverAtSide(cover, side, false)) {

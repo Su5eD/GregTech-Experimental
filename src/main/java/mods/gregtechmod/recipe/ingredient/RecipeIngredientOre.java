@@ -1,18 +1,15 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.util.OreDictUnificator;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreIngredient;
+import mods.gregtechmod.core.GregTechMod;
 
+import java.util.Collections;
 import java.util.List;
 
-public class RecipeIngredientOre extends RecipeIngredientBase<OreIngredient> {
-    private final String ore;
+public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
+    public static final RecipeIngredientOre EMPTY = new RecipeIngredientOre(Collections.emptyList(), 0);
 
-    private RecipeIngredientOre(String ore, int count) {
-        super(new OreIngredient(ore), count);
-        this.ore = ore;
+    private RecipeIngredientOre(List<String> ores, int count) {
+        super(new GtOreIngredient(ores), count);
     }
 
     public static RecipeIngredientOre create(String ore) {
@@ -20,39 +17,28 @@ public class RecipeIngredientOre extends RecipeIngredientBase<OreIngredient> {
     }
 
     public static RecipeIngredientOre create(String ore, int count) {
-        if (ore.isEmpty()) return null;
-        return new RecipeIngredientOre(ore, count);
+        if (ore.isEmpty()) return EMPTY;
+        return new RecipeIngredientOre(Collections.singletonList(ore), count);
     }
 
-    public String getOre() {
-        return this.ore;
+    public static RecipeIngredientOre create(List<String> ores, int count) {
+        for (String ore : ores) {
+            if (ore.isEmpty()) {
+                GregTechMod.logger.error("Found empty string among ores: "+ores);
+                return EMPTY;
+            }
+        }
+
+        return new RecipeIngredientOre(ores, count);
     }
 
     @Override
-    public int compareTo(IRecipeIngredient other) {
-        int diff = 0;
-        List<ItemStack> matchingStacks = this.getMatchingInputs();
-        List<ItemStack> otherMatchingStacks = other.getMatchingInputs();
-
-        if (other instanceof RecipeIngredientOre) {
-            diff -= this.ore.compareTo(((RecipeIngredientOre) other).getOre());
-
-            if (diff == 0) diff -= this.count - other.getCount();
-        } else if (matchingStacks.isEmpty()) {
-            for (ItemStack stack : otherMatchingStacks) {
-                String association = OreDictUnificator.getAssociation(stack);
-                if (association.isEmpty()) association = stack.getItem().getRegistryName().toString();
-                diff += this.ore.compareTo(association);
-            }
-
-            if (diff == 0) diff += this.count - other.getCount();
-        } else diff -= super.compareTo(other);
-
-        return diff;
+    public boolean isEmpty() {
+        return this.ingredient.getOres().isEmpty();
     }
 
     @Override
     public String toString() {
-        return "RecipeIngredientOre{ore="+this.ore+",count="+this.count+"}";
+        return "RecipeIngredientOre{ores="+this.ingredient.getOres()+",count="+this.count+"}";
     }
 }

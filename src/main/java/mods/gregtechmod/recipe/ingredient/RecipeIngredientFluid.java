@@ -1,8 +1,8 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.fluids.Fluid;
@@ -15,13 +15,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> implements IRecipeIngredientFluid {
-    private final int buckets;
+public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implements IRecipeIngredientFluid {
+    public static final RecipeIngredientFluid EMPTY = new RecipeIngredientFluid(Collections.emptyList(), 0);
     private final List<Fluid> matchingFluids;
 
     private RecipeIngredientFluid(List<Fluid> fluids, int buckets) {
         super(Ingredient.fromStacks(getContainersForFluids(fluids).toArray(new ItemStack[0])), buckets);
-        this.buckets = buckets;
         this.matchingFluids = fluids;
     }
 
@@ -34,12 +33,16 @@ public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> impl
                 .map(FluidRegistry::getFluid)
                 .collect(Collectors.toList());
         if (fluids.isEmpty()) {
-            GregTechAPI.logger.error("Tried to a create an IRecipeIngredientFluid with no matching inputs");
+            GregTechMod.logger.error("Tried to a create an IRecipeIngredientFluid with no matching inputs");
         } else if (fluids.contains(null)) {
-            GregTechAPI.logger.error("Tried to create an IRecipeIngredientfluid with an invalid fluid among its matching fluids: " + String.join(", ", names));
+            GregTechMod.logger.error("Tried to create an IRecipeIngredientfluid with an invalid fluid among its matching fluids: " + String.join(", ", names));
         } else return fromFluids(fluids, buckets);
 
-        return null;
+        return EMPTY;
+    }
+
+    public static RecipeIngredientFluid fromFluid(Fluid fluid) {
+        return new RecipeIngredientFluid(Collections.singletonList(fluid), 1);
     }
 
     public static RecipeIngredientFluid fromFluid(Fluid fluid, int buckets) {
@@ -48,24 +51,6 @@ public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> impl
 
     public static RecipeIngredientFluid fromFluids(List<Fluid> fluids, int buckets) {
         return new RecipeIngredientFluid(fluids, buckets);
-    }
-
-    @Override
-    public int compareTo(IRecipeIngredient other) {
-        if (other instanceof IRecipeIngredientFluid) {
-            int diff = 0;
-            for (Fluid firstFluid : this.matchingFluids) {
-                for (Fluid secondFluid : ((IRecipeIngredientFluid) other).getMatchingFluids()) {
-                    if (firstFluid.getName().equals(secondFluid.getName())) {
-                        diff = 0;
-                        break;
-                    }
-                    else diff += firstFluid.getName().compareTo(secondFluid.getName());
-                }
-            }
-            diff += ((IRecipeIngredientFluid) other).getMilliBuckets() - this.getMilliBuckets();
-            return diff;
-        } else return super.compareTo(other);
     }
 
     @Override
@@ -88,7 +73,7 @@ public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> impl
 
     @Override
     public int getMilliBuckets() {
-        return this.buckets * 1000;
+        return this.count * 1000;
     }
 
     @Override
@@ -107,8 +92,23 @@ public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> impl
     }
 
     @Override
+    public boolean apply(IRecipeIngredient ingredient) {
+        if (ingredient instanceof IRecipeIngredientFluid) {
+            return this.matchingFluids.stream()
+                    .anyMatch(firstFluid -> ((IRecipeIngredientFluid) ingredient).getMatchingFluids().stream()
+                        .anyMatch(secondFluid -> firstFluid.getName().equals(secondFluid.getName()))) && this.count <= ingredient.getCount();
+        }
+        return super.apply(ingredient);
+    }
+
+    @Override
     public List<Fluid> getMatchingFluids() {
         return this.matchingFluids;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.matchingFluids.isEmpty();
     }
 
     @Override
@@ -116,7 +116,7 @@ public class RecipeIngredientFluid extends RecipeIngredientBase<Ingredient> impl
         List<String> fluids = this.matchingFluids.stream()
                 .map(Fluid::getName)
                 .collect(Collectors.toList());
-        return "RecipeIngredientFluid{fluids=["+String.join(",", fluids)+"],buckets="+this.buckets+"}";
+        return "RecipeIngredientFluid{fluids="+fluids+",count="+this.count+"}";
     }
 
     public static List<ItemStack> getContainersForFluids(List<Fluid> fluids) {

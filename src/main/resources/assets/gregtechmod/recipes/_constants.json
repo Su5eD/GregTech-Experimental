@@ -1,0 +1,26 @@
+[
+  {
+    "name": "MORTARS",
+    "ingredient": {
+      "type": "gregtechmod:items",
+      "items":
+      [
+        {
+          "item": "gregtechmod:mortar_flint",
+          "data": 32767
+        },
+        {
+          "item": "gregtechmod:mortar_iron",
+          "data": 32767
+        }
+      ]
+    }
+  },
+  {
+    "name": "COIN",
+    "ingredient": {
+      "type": "gregtechmod:multi",
+      "item": "ic2:crafting#coin"
+    }
+  }
+]

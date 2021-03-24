@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "SGS",
+    "PCP"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "G":
+    {
+      "item": "minecraft:glass_pane"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAlloyCarbon"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateSilicon"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:solar_panel"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "gregtech_recipes",
+        "name": "SolarPanel",
+        "value": true
+      }
+    }
+  ]
+}

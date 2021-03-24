@@ -7,6 +7,7 @@ import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.item.IElectricArmor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -31,11 +32,11 @@ public enum ArmorPerk {
         }
     }),
     MEDICINE_MODULE((stack, player, armor) -> {
-        if (ElectricItem.manager.canUse(stack, 10000) && player.isPotionActive(Potion.getPotionById(19))) {
+        if (ElectricItem.manager.canUse(stack, 10000) && player.isPotionActive(MobEffects.POISON)) {
             player.removeActivePotionEffect(Potion.getPotionById(19));
             ElectricItem.manager.use(stack, 10000, player);
         }
-        if (ElectricItem.manager.canUse(stack, 100000) && player.isPotionActive(Potion.getPotionById(20))) {
+        if (ElectricItem.manager.canUse(stack, 100000) && player.isPotionActive(MobEffects.WITHER)) {
             player.removeActivePotionEffect(Potion.getPotionById(20));
             ElectricItem.manager.use(stack, 100000, player);
         }
@@ -90,7 +91,7 @@ public enum ArmorPerk {
     INVISIBILITY_FIELD((stack, player, armor) -> {
         if (ElectricItem.manager.canUse(stack, 10000)) {
             ElectricItem.manager.use(stack, 10000, player);
-            player.addPotionEffect(new PotionEffect(Potion.getPotionById(14), 25, 1, false, false));
+            player.addPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, 25, 1, false, false));
         }
     }),
     INFINITE_CHARGE((stack, player, armor) -> {});

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "TTT",
+    "TBT",
+    "TTT"
+  ],
+  "key":
+  {
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingTurbineBladeMagnalium"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "blockIron"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:turbine_rotor_magnalium"
+  }
+}

@@ -1,12 +1,13 @@
 package mods.gregtechmod.objects.items;
 
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.items.base.ItemBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -20,8 +21,8 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     private final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert;
     private final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate;
 
-    public ItemUpgrade(String name, String description, GtUpgradeType type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
-        super(name, description);
+    public ItemUpgrade(String name, String descriptionKey, GtUpgradeType type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+        super(name, () -> GtUtil.translateItem(descriptionKey));
         setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
         this.type = type;
         this.requiredTier = requiredTier;
@@ -42,22 +43,17 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     }
 
     @Override
-    public int getRequiredTier() {
-        return this.requiredTier;
-    }
-
-    @Override
     public boolean canBeInserted(ItemStack stack, IUpgradableMachine machine) {
         return this.maxCount > stack.getCount() && requiredTier <= machine.getTier() && this.condition.test(stack, machine);
     }
 
     @Override
-    public boolean onInsert(ItemStack stack, IUpgradableMachine machine, EntityPlayer player) {
+    public boolean beforeInsert(ItemStack stack, IUpgradableMachine machine, EntityPlayer player) {
         return this.onInsert.apply(stack, machine, player);
     }
 
     @Override
-    public void onUpdate(ItemStack stack, IUpgradableMachine machine, EntityPlayer player) {
+    public void afterInsert(ItemStack stack, IUpgradableMachine machine, EntityPlayer player) {
         this.onUpdate.accept(stack, machine, player);
     }
 }

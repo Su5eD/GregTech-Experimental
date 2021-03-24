@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallIron"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallIron"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustSmallNickel"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:dust",
+    "data": 23,
+    "count": 3
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
+}

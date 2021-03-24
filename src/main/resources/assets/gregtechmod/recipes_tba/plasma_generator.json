@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "XXX",
+    "XPX",
+    "CGC"
+  ],
+  "key":
+  {
+    "X":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTungstenSteel"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "G":
+    {
+      "item": "ic2:te",
+      "data": 3
+    },
+    "P":
+    {
+      "item": "ic2:te",
+      "data": 79
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

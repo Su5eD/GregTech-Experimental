@@ -1,0 +1,43 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    " G ",
+    "DMD",
+    "RDR"
+  ],
+  "key":
+  {
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCompressor"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustGlowstone"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateIron"
+    },
+    "D":
+    {
+      "item": "minecraft:dirt",
+      "data": 0
+    }
+  },
+  "result":
+  {
+    "item": "ic2:te",
+    "data": 48
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
+}

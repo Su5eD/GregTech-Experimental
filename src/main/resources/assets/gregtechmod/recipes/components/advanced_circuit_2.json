@@ -1,0 +1,37 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "SLS",
+    "GCG",
+    "SLS"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "gregtechmod:multi",
+      "item": "ic2:crafting#circuit"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustGlowstone"
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "itemLazurite"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:crafting",
+    "data": 2
+  }
+}

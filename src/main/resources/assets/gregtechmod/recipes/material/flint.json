@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:mortar_iron",
+      "data": 32767
+    },
+    {
+      "item": "minecraft:gravel"
+    }
+  ],
+  "result":
+  {
+    "item": "minecraft:flint"
+  }
+}

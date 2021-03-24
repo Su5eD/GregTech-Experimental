@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.items.tools;
 import com.mojang.authlib.GameProfile;
 import ic2.api.crops.CropCard;
 import ic2.api.crops.ICropTile;
+import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
@@ -14,7 +15,6 @@ import ic2.api.tile.IWrenchable;
 import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
 import ic2.core.block.TileEntityInventory;
-import ic2.core.init.Localization;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.event.ScannerEvent;
@@ -22,11 +22,13 @@ import mods.gregtechmod.api.machine.IGregtechMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
-import mods.gregtechmod.api.util.GtUtil;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -45,19 +47,18 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("NullableProblems")
 public class ItemScanner extends ItemElectricBase {
 
     public ItemScanner() {
-        this("scanner", "Tricorder", 100000, 100, 1);
+        super("scanner", 100000, 100, 1);
         setFolder("tool");
         setRegistryName("scanner");
         setTranslationKey("scanner");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
-    public ItemScanner(String name, String description, int maxCharge, double transferLimit, int tier) {
-        super(name, description, maxCharge, transferLimit, tier);
+    public ItemScanner(String name, int maxCharge, double transferLimit, int tier) {
+        super(name, GtUtil.NULL_SUPPLIER, maxCharge, transferLimit, tier, 0, false);
         this.showTier = false;
     }
 
@@ -85,7 +86,7 @@ public class ItemScanner extends ItemElectricBase {
         TileEntity tileEntity = world.getTileEntity(pos);
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
-        String name = tileEntity instanceof TileEntityInventory ? Localization.translate(((TileEntityInventory) tileEntity).getName()) : block.getLocalizedName();
+        String name = tileEntity instanceof TileEntityInventory ? I18n.format(((TileEntityInventory) tileEntity).getName()) : block.getLocalizedName();
         ret.add("-------------------");
         if (tileEntity instanceof IInventory) ret.add("Name: " + name
                 + "\nID: " + block.getTranslationKey()
@@ -126,13 +127,13 @@ public class ItemScanner extends ItemElectricBase {
             if (tileEntity instanceof IEnergySink) {
                 EUCost+=400;
                 ret.add("Demanded energy: "+ ((IEnergySink)tileEntity).getDemandedEnergy());
-                ret.add("Max Safe Input: " + (8 * Math.pow(4, ((IEnergySink)tileEntity).getSinkTier())));
+                ret.add("Max Safe Input: " + EnergyNet.instance.getPowerFromTier(((IEnergySink)tileEntity).getSinkTier()));
             }
 
             if (tileEntity instanceof IEnergySource) {
                 EUCost+=400;
                 ret.add("Offered energy: "+ ((IEnergySource)tileEntity).getOfferedEnergy());
-                ret.add("Max Energy Output: " + (8 * Math.pow(4, ((IEnergySource)tileEntity).getSourceTier())));
+                ret.add("Max Energy Output: " + EnergyNet.instance.getPowerFromTier(((IEnergySource)tileEntity).getSourceTier()));
             }
 
             if (tileEntity instanceof IEnergyConductor) {
@@ -150,7 +151,8 @@ public class ItemScanner extends ItemElectricBase {
                 EUCost+=500;
                 int tValue;
                 if (0 < (tValue = ((IUpgradableMachine)tileEntity).getOverclockersCount())) ret.add(tValue	+ " Overclocker Upgrades");
-                if (0 < (tValue = ((IUpgradableMachine)tileEntity).getUpgradeCount(GtUpgradeType.TRANSFORMER))) ret.add(tValue	+ " Transformer Upgrades");
+                if (0 < (tValue = ((IUpgradableMachine)tileEntity).getUpgradecount(IC2UpgradeType.TRANSFORMER))) ret.add(tValue	+ " Transformer Upgrades");
+                if (0 < (tValue = ((IUpgradableMachine)tileEntity).getUpgradeCount(GtUpgradeType.TRANSFORMER))) ret.add(tValue	+ " HV-Transformer Upgrades");
                 if (0 < (tValue = (int) ((IUpgradableMachine)tileEntity).getExtraEnergyStorage())) ret.add(tValue	+ " Upgraded EU Capacity");
             }
 

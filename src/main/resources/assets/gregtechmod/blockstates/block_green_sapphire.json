@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_green_sapphire"}
+        "textures": {"all": "gregtechmod:blocks/green_sapphire"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_green_sapphire"
+          "all": "gregtechmod:blocks/green_sapphire"
         },
         "transform": "forge:default-block"
       }

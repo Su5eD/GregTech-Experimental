@@ -1,0 +1,31 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "LCL",
+    "LSL",
+    "LCL"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "S":
+    {
+      "item": "ic2:energy_crystal",
+      "data": 32767
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "itemLazurite"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:lapotron_crystal"
+  }
+}

@@ -2,7 +2,7 @@ package mods.gregtechmod.inventory;
 
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlotConsumable;
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import net.minecraft.item.ItemStack;
@@ -26,11 +26,11 @@ public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<IRecipeIngre
         return this.recipeManager.hasRecipeFor(stack);
     }
 
-    public ItemStack consume(@Nonnull IGtMachineRecipe<IRecipeIngredient, ?> recipe) {
+    public ItemStack consume(@Nonnull IMachineRecipe<IRecipeIngredient, ?> recipe) {
         return this.consume(recipe.getInput().getCount());
     }
 
-    public ItemStack consume(@Nonnull IGtMachineRecipe<IRecipeIngredient, ?> recipe, boolean consumeContainers) {
+    public ItemStack consume(@Nonnull IMachineRecipe<IRecipeIngredient, ?> recipe, boolean consumeContainers) {
         return this.consume(recipe.getInput().getCount(), false, true);
     }
 }

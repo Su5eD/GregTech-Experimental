@@ -6,7 +6,7 @@ import net.minecraft.item.crafting.Ingredient;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public interface IRecipeIngredient extends Comparable<IRecipeIngredient> {
+public interface IRecipeIngredient {
     Ingredient asIngredient();
 
     int getCount();
@@ -17,5 +17,9 @@ public interface IRecipeIngredient extends Comparable<IRecipeIngredient> {
 
     boolean apply(@Nullable ItemStack stack, boolean checkCount);
 
+    boolean apply(IRecipeIngredient ingredient);
+
     List<ItemStack> getMatchingInputs();
+
+    boolean isEmpty();
 }

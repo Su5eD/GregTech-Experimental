@@ -1,12 +1,12 @@
 package mods.gregtechmod.objects.items.base;
 
 import ic2.api.item.ElectricItem;
-import ic2.core.init.Localization;
 import ic2.core.item.armor.ItemArmorElectric;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -74,8 +74,8 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Tier: " + this.tier);
-        for (ArmorPerk perk : this.perks) tooltip.add(Localization.translate(Reference.MODID+".item.armor.perk."+perk.name().toLowerCase(Locale.ROOT)+".name"));
+        tooltip.add(GtUtil.translateInfo("tier", this.tier));
+        for (ArmorPerk perk : this.perks) tooltip.add(GtUtil.translateItem("armor.perk."+perk.name().toLowerCase(Locale.ROOT)+".name"));
     }
 
     @Override

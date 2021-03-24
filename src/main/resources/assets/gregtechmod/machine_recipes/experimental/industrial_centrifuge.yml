@@ -1,0 +1,33 @@
+# Experimental Industrial Centrifuge Recipes
+---
+- input:
+    item: minecraft:grass
+    count: 16
+  output:
+    - item: ic2:crafting#bio_chaff
+      count: 2
+    - item: ic2:crafting#plant_ball
+      count: 2
+    - item: minecraft:clay_ball
+    - item: minecraft:sand
+      count: 8
+  duration: 2500
+- input:
+    item: ic2:misc_resource#resin
+    count: 4
+  output:
+    - item: ic2:crafting#rubber
+      count: 14
+    - item: ic2:crafting#bio_chaff
+    - item: ic2:crafting#plant_ball
+  duration: 1300
+- input:
+    ore: dustUranium
+    count: 4
+  output:
+    - item: ic2:nuclear#small_uranium_235
+    - item: gregtechmod:smalldust_plutonium
+    - item: gregtechmod:dust_thorium
+      count: 2
+    - item: gregtechmod:dust_tungsten
+  duration: 10000

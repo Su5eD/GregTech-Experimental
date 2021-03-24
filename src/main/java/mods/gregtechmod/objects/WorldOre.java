@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects;
 
-import mods.gregtechmod.api.GregTechConfig;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;

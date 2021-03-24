@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "P",
+    "P",
+    "S"
+  ],
+  "key":
+  {
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateBronze"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:file_bronze"
+  }
+}

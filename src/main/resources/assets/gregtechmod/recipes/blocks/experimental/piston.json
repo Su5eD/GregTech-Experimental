@@ -1,0 +1,42 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "WWW",
+    "CBC",
+    "CRC"
+  ],
+  "key":
+  {
+    "W":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stoneCobble"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    },
+    "B":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "ingotIron", "ingotBronze", "ingotAluminium", "ingotSteel", "ingotTitanium" ]
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:piston"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
+}

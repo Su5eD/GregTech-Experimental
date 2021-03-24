@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_aluminium"}
+        "textures": {"all": "gregtechmod:blocks/aluminium"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_aluminium"
+          "all": "gregtechmod:blocks/aluminium"
         },
         "transform": "forge:default-block"
       }

@@ -1,0 +1,66 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "RHE",
+    "TTC",
+    " AA"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "H":
+    {
+      "item": "gregtechmod:coolant_helium_360k"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "gemRuby"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTitanium"
+    },
+    "E":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting100kEUStore"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAlloyAdvanced"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:mining_laser"
+  },
+  "conditions":
+  [
+    {
+      "type": "forge:and",
+      "values":
+      [
+        {
+          "type": "gregtechmod:config",
+          "config":
+          {
+            "category": "gregtech_recipes",
+            "name": "mining_laser",
+            "value": true
+          }
+        },
+        {
+          "type": "gregtechmod:classic"
+        }
+      ]
+    }
+  ]
+}

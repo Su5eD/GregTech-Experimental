@@ -1,0 +1,32 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "CCC",
+    "CFC",
+    "CMC"
+  ],
+  "key":
+  {
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "F":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingElectricFurnace"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:te",
+    "data": 54
+  }
+}

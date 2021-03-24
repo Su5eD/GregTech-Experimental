@@ -1,9 +1,9 @@
 package mods.gregtechmod.world;
 
 import com.google.common.base.Predicate;
-import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.GregTechConfig;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.core.GregTechConfig;
+import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.WorldOre;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -30,7 +30,7 @@ import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator {
     public static final String RETRO_NAME = "GregTechOreGen";
-    public static OreGenerator instance = new OreGenerator();
+    public static final OreGenerator INSTANCE = new OreGenerator();
     public static final Predicate<IBlockState> MATCHER = blockstate -> blockstate.getBlock() == Blocks.STONE || blockstate.getBlock() == Blocks.NETHERRACK || blockstate.getBlock() == Blocks.END_STONE;
     public static final Predicate<IBlockState> MATCHER_VOID = blockstate -> blockstate.getBlock() == Blocks.AIR || blockstate.getBlock() == Blocks.STONE || blockstate.getBlock() == Blocks.NETHERRACK || blockstate.getBlock() == Blocks.END_STONE;
 
@@ -175,7 +175,7 @@ public class OreGenerator implements IWorldGenerator {
         if (tag != null) {
             boolean generated = GregTechConfig.WORLDGEN.retrogen && !tag.hasKey("generated");
             if (generated) {
-                GregTechAPI.logger.debug("Queuing Retrogen for chunk: " + coord.toString() + ".");
+                GregTechMod.logger.debug("Queuing Retrogen for chunk: " + coord.toString() + ".");
                 regen = true;
             }
         } else {

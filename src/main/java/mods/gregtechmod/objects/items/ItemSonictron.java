@@ -6,6 +6,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerSonictron;
 import mods.gregtechmod.objects.items.base.ItemBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -25,7 +26,7 @@ import java.util.Iterator;
 public class ItemSonictron extends ItemBase {
 
     public ItemSonictron() {
-        super("sonictron_portable", null);
+        super("sonictron_portable", GtUtil.NULL_SUPPLIER);
         setFolder("tool");
         setRegistryName("sonictron_portable");
         setTranslationKey("sonictron_portable");
@@ -65,11 +66,9 @@ public class ItemSonictron extends ItemBase {
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!worldIn.isRemote) {
             int	currentIndex = getCurrentIndex(stack);
-            System.out.println("index: "+currentIndex);
             if (worldIn.getWorldTime()%2 == 0 && currentIndex > -1) {
                 ArrayList<ItemStack> inventory = getNBTInventory(stack);
                 if (inventory.isEmpty() || currentIndex >= inventory.size()) return;
-                System.out.println(inventory.get(currentIndex));
                 GregTechMod.proxy.doSonictronSound(inventory.get(currentIndex), entityIn.world, entityIn.getPosition());
                 if (++currentIndex>63)
                     if (entityIn instanceof EntityPlayer && ((EntityPlayer)entityIn).openContainer instanceof ContainerSonictron)

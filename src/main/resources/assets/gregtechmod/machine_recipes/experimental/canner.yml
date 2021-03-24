@@ -1,0 +1,15 @@
+# Experimental Canner Recipes
+---
+- input:
+    - item: ic2:crop_res#grin_powder
+    - cell: empty
+  output:
+    - cell: ic2weed_ex
+  duration: 800
+- input:
+    - item: ic2:nuclear#uranium
+    - item: ic2:cell#empty
+  output:
+    - item: ic2:uranium_fuel_rod
+  duration: 100
+  energyCost: 2

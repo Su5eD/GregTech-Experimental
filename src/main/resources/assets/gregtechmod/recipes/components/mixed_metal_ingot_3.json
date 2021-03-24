@@ -1,0 +1,33 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "X",
+    "Y",
+    "Z"
+  ],
+  "key":
+  {
+    "X":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "plateTitanium", "plateTungsten" ]
+    },
+    "Y":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "plateBronze", "plateBrass"]
+    },
+    "Z":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:ingot",
+    "data": 0,
+    "count": 4
+  }
+}

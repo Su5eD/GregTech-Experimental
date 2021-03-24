@@ -1,17 +1,15 @@
 package mods.gregtechmod.api.recipe.manager;
 
-import mods.gregtechmod.api.recipe.IGtMachineRecipe;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public interface IGtRecipeManagerFluid<RI, I, R extends IGtMachineRecipe<RI, ?>> extends IGtRecipeManager<RI, I, R> {
-    default R getRecipeFor(FluidStack input) {
-        return getRecipeFor(input, -1);
-    }
+import javax.annotation.Nullable;
 
-    R getRecipeFor(FluidStack input, int cells);
+public interface IGtRecipeManagerFluid<RI, I, R extends IMachineRecipe<RI, ?>> extends IGtRecipeManager<RI, I, R> {
+    R getRecipeFor(@Nullable FluidStack input);
 
-    boolean hasRecipeFor(FluidStack fluid);
+    boolean hasRecipeFor(FluidStack input);
 
     boolean hasRecipeFor(Fluid input);
 }

@@ -4,9 +4,9 @@ import ic2.api.crops.CropCard;
 import ic2.api.crops.CropProperties;
 import ic2.api.crops.Crops;
 import ic2.core.crop.cropcard.GenericCropCard;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +20,7 @@ public class CropLoader {
 
     @SubscribeEvent
     public static void registerCrops(Crops.CropRegisterEvent event) {
-        GregTechAPI.logger.info("Registering crops");
+        GregTechMod.logger.info("Registering crops");
         for (Crop type : Crop.values()) {
             CropCard crop = GenericCropCard.create(type.name().toLowerCase(Locale.ROOT))
                     .setOwner(Reference.MODID)
@@ -36,11 +36,11 @@ public class CropLoader {
                     .register();
 
             if (type.baseSeed != null) {
-                GregTechAPI.logger.info("Registering base seed for crop "+type.name().toLowerCase(Locale.ROOT));
+                GregTechMod.logger.info("Registering base seed for crop "+type.name().toLowerCase(Locale.ROOT));
                 Crops.instance.registerBaseSeed(type.baseSeed, crop, 1, 1, 1, 1);
             }
         }
-        GregTechAPI.logger.info("Finished registering crops");
+        GregTechMod.logger.info("Finished registering crops");
     }
 
     public enum Crop {
@@ -95,7 +95,7 @@ public class CropLoader {
         public Item getInstance() {
             if (this.instance == null) {
                 if (this.hasItem) {
-                    this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), null)
+                    this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), (String) null)
                             .setRegistryName(this.name().toLowerCase(Locale.ROOT))
                             .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
                             .setCreativeTab(GregTechMod.GREGTECH_TAB);

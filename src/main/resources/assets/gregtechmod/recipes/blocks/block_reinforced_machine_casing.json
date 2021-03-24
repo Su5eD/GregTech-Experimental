@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "SSS",
+    "CMC",
+    "SSS"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:block_reinforced_machine_casing",
+    "count": 4
+  }
+}

@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_invar"}
+        "textures": {"all": "gregtechmod:blocks/invar"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_invar"
+          "all": "gregtechmod:blocks/invar"
         },
         "transform": "forge:default-block"
       }

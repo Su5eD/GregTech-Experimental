@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "potassium"
+    },
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "potassium"
+    },
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "nitrogen"
+    },
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "nitrogen"
+    },
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "ic2air"
+    },
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "ic2air"
+    },
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "ic2air"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:dust_saltpeter",
+    "count": 10
+  }
+}

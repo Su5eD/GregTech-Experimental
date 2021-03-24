@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "DS ",
+    "DP ",
+    "DCB"
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kEUStore"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTungstenSteel"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stickTungstenSteel"
+    },
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustDiamond"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:rock_cutter"
+  }
+}

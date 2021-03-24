@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "SBS",
+    " C ",
+    " I "
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kEUStore"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stickBronze"
+    },
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "ingotBronze"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:jack_hammer_bronze"
+  }
+}

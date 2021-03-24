@@ -1,0 +1,38 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "CCC",
+    "SRS",
+    "CCC"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "gregtechmod:multi",
+      "item": "ic2:cable#type:copper,insulation:1"
+    },
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateRefinedIron"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:crafting",
+    "data": 1
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:classic"
+    }
+  ]
+}

@@ -12,7 +12,7 @@ import net.minecraft.util.DamageSource;
 public class ItemTeslaStaff extends ItemElectricBase {
 
     public ItemTeslaStaff() {
-        super("tesla_staff", "No warranty!", 10000000, 8192, 4);
+        super("tesla_staff", 10000000, 8192, 4);
         setRegistryName("tesla_staff");
         setTranslationKey("tesla_staff");
         setFolder("tool");

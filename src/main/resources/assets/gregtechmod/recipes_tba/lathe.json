@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "PCP",
+    "GQG",
+    "PMP"
+  ],
+  "key":
+  {
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingGearTier02"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "Q":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingConveyor"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

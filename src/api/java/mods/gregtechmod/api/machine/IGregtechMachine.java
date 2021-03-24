@@ -45,11 +45,6 @@ public interface IGregtechMachine {
 
     double getSteamCapacity();
 
-    /**
-     * Orders a machine to update it's cover behavior (such as cable connections)
-     */
-    void markForCoverBehaviorUpdate();
-
     void disableWorking();
 
     void enableWorking();

@@ -1,0 +1,26 @@
+{
+  "type": "gregtechmod:crafting_wrench_shapeless",
+  "ingredients": [
+    {
+      "type": "gregtechmod:damaged",
+      "item": "gregtechmod:turbine_rotor_magnalium"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingToolHardHammer"
+    },
+    {
+      "type": "gregtechmod:tool",
+      "ore": "craftingToolWrench",
+      "damage": 8
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingToolFile"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:turbine_rotor_magnalium"
+  }
+}

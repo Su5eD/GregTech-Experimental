@@ -2,7 +2,6 @@ package mods.gregtechmod.inventory.slot;
 
 import ic2.core.GuiIC2;
 import ic2.core.gui.GuiElement;
-import ic2.core.init.Localization;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
@@ -64,15 +63,14 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
             if (fluid != null) {
                 ret.add(fluid.getLocalizedName(fs));
                 if (fluidNameOnly) return ret;
-                ret.add("Amount: " + fs.amount + " " + Localization.translate("ic2.generic.text.mb"));
+
+                ret.add("Amount: " + fs.amount + " mB");
                 String state = fs.getFluid().isGaseous() ? "Gas" : "Liquid";
                 ret.add("Type: " + state);
-            } else {
-                if (!fluidNameOnly) ret.add("Invalid FluidStack instance.");
-            }
+            } else if (!fluidNameOnly) ret.add("Invalid FluidStack instance.");
         } else if (!fluidNameOnly) {
             ret.add("No Fluid");
-            ret.add("Amount: 0 " + Localization.translate("ic2.generic.text.mb"));
+            ret.add("Amount: 0 mB");
             ret.add("Type: Not Available");
         }
         return ret;

@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "PCP",
+    "GMG",
+    "PPP"
+  ],
+  "key":
+  {
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingGearTier02"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingChest"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

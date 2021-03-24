@@ -1,0 +1,39 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "XX ",
+    "XXT",
+    "XX "
+  ],
+  "key":
+  {
+    "X":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateIron"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingToolHardHammer"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:iron_door",
+    "count": 3
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "plates_needed_for_misc_made_of",
+        "name": "iron",
+        "value": true
+      }
+    }
+  ]
+}

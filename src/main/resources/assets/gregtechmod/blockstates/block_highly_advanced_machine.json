@@ -6,14 +6,14 @@
   "variants": {
     "normal": [
       {
-        "textures": {"all": "gregtechmod:blocks/block_highly_advanced_machine"}
+        "textures": {"all": "gregtechmod:blocks/highly_advanced_machine"}
       }
     ],
     "inventory": [
       {
         "model": "cube_all",
         "textures": {
-          "all": "gregtechmod:blocks/block_highly_advanced_machine"
+          "all": "gregtechmod:blocks/highly_advanced_machine"
         },
         "transform": "forge:default-block"
       }

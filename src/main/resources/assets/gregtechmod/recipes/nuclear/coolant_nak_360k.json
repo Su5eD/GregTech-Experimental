@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "THT",
+    "TCT",
+    "THT"
+  ],
+  "key":
+  {
+    "H":
+    {
+      "item": "gregtechmod:coolant_nak_180k"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTin"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateDenseCopper"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:coolant_nak_360k"
+  }
+}

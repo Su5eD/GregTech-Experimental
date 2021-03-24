@@ -1,0 +1,76 @@
+# Classic Industrial Centrifuge Recipes
+---
+- input:
+    ore: sandCracked
+    count: 16
+  output:
+    - item: ic2:filled_fuel_can
+      nbt:
+        value: 5000
+    - item: gregtechmod:dust_saltpeter
+      count: 8
+    - item: minecraft:sand
+      count: 10
+  cells: 1
+  cellType: FUEL_CAN
+  duration: 2500
+- input:
+    item: ic2:nuclear#near_depleted_uranium
+  output:
+    - item: gregtechmod:dust_thorium
+    - item: ic2:cell#empty
+  duration: 500
+- input:
+    item: ic2:nuclear#re_enriched_uranium
+    count: 8
+  output:
+    - item: ic2:nuclear#near_depleted_uranium
+      count: 3
+    - item: gregtechmod:dust_plutonium
+    - item: gregtechmod:dust_thorium
+      count: 4
+    - item: ic2:cell#empty
+      count: 5
+  duration: 20000
+- input:
+    item: minecraft:dirt
+    count: 16
+  output:
+    - item: ic2:crafting#compressed_plants
+    - item: ic2:crafting#plant_ball
+    - item: minecraft:clay_ball
+    - item: minecraft:sand
+      count: 8
+  duration: 2500
+- input:
+    item: minecraft:grass
+    count: 16
+  output:
+    - item: ic2:crafting#compressed_plants
+      count: 2
+    - item: ic2:crafting#plant_ball
+      count: 2
+    - item: minecraft:clay_ball
+    - item: minecraft:sand
+      count: 8
+  duration: 2500
+- input:
+    item: ic2:misc_resource#resin
+    count: 4
+  output:
+    - item: ic2:crafting#rubber
+      count: 14
+    - item: ic2:crafting#compressed_plants
+    - item: ic2:crafting#plant_ball
+  duration: 1300
+- input:
+    ore: dustUranium
+    count: 4
+  output:
+    - item: ic2:uranium_fuel_rod
+      count: 4
+    - item: gregtechmod:smalldust_plutonium
+    - item: gregtechmod:dust_thorium
+      count: 2
+    - item: gregtechmod:dust_tungsten
+  duration: 10000

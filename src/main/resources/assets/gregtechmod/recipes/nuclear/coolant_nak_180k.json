@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "TTT",
+    "HHH",
+    "TTT"
+  ],
+  "key":
+  {
+    "H":
+    {
+      "item": "gregtechmod:coolant_nak_60k"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTin"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:coolant_nak_180k"
+  }
+}

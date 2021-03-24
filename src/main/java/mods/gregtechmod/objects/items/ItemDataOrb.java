@@ -4,6 +4,7 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.items.base.ItemBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -18,12 +19,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 
 public class ItemDataOrb extends ItemBase {
     
     public ItemDataOrb() {
-        super("data_orb", null);
+        super("data_orb", GtUtil.NULL_SUPPLIER);
         setRegistryName("data_orb");
         setTranslationKey("data_orb");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -44,7 +46,7 @@ public class ItemDataOrb extends ItemBase {
             } else {
                 copyInventory(inventory, sonictron);
                 setDataTitle(stack, "Sonictron-Data");
-                setDataName(stack, "" + inventory.hashCode());
+                setDataName(stack, String.valueOf(Arrays.hashCode(inventory)));
             }
             setNBTInventory(stack, inventory);
             return EnumActionResult.SUCCESS;
@@ -54,7 +56,7 @@ public class ItemDataOrb extends ItemBase {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (!getDataTitle(stack).equals("")) {
+        if (!getDataTitle(stack).isEmpty()) {
             tooltip.add(getDataTitle(stack));
             tooltip.add(getDataName(stack));
         }

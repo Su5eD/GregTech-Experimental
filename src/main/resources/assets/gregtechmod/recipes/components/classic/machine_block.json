@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "RRR",
+    "RWR",
+    "RRR"
+  ],
+  "key":
+  {
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateRefinedIron"
+    },
+    "W":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingToolWrench"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:resource",
+    "data": 15
+  },
+  "conditions":
+  [
+    {
+      "type": "forge:and",
+      "values":
+      [
+        {
+          "type": "gregtechmod:config",
+          "config":
+          {
+            "category": "harder_recipes",
+            "name": "machine_block",
+            "value": true,
+            "comment": "Classic Profile only"
+          }
+        },
+        {
+          "type": "gregtechmod:classic"
+        }
+      ]
+    }
+  ]
+}

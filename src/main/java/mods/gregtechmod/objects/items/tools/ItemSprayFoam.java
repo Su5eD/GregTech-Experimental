@@ -4,10 +4,10 @@ import ic2.api.item.IC2Items;
 import ic2.core.IC2;
 import ic2.core.block.wiring.TileEntityCable;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +30,7 @@ import java.util.List;
 public class ItemSprayFoam extends ItemToolCrafting {
 
     public ItemSprayFoam() {
-        super("spray_foam", "Precision Spray", 400, 0, 25, 0);
+        super("spray_foam", 400, 0, 25, 0);
         setRegistryName("spray_foam");
         setTranslationKey("spray_foam");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "TTT",
+    "CMC",
+    "TTT"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier06"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateChrome"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier04"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:block_advanced_machine_casing",
+    "count": 4
+  }
+}

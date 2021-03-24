@@ -1,0 +1,64 @@
+# IC2 Compressor recipes
+---
+- input:
+    ore: dustWood
+    count: 8
+  output:
+    - item: gregtechmod:plate_wood
+- input:
+    ore: dustIridium
+  output:
+    - item: gregtechmod:ingot_iridium
+- input:
+    ore: dustOsmium
+  output:
+    - item: gregtechmod:ingot_osmium
+- input:
+    ore: dustPlutonium
+  output:
+    - item: gregtechmod:ingot_plutonium
+- input:
+    ore: dustThorium
+  output:
+    - item: gregtechmod:ingot_thorium
+- input:
+    ore: dustLazurite
+    count: 8
+  output:
+    - item: gregtechmod:lazurite_chunk
+- input:
+    ore: nuggetIridium
+    count: 9
+  output:
+    - item: gregtechmod:ingot_iridium
+  overwrite: true
+- input:
+    ore: nuggetOsmium
+    count: 9
+  output:
+    - item: gregtechmod:ingot_osmium
+- input:
+    ore: nuggetPlutonium
+    count: 9
+  output:
+    - item: gregtechmod:ingot_plutonium
+- input:
+    ore: nuggetThorium
+    count: 9
+  output:
+    - item: gregtechmod:ingot_thorium
+- input:
+    ore: treeSapling
+    count: 4
+  output:
+    - item: ic2:crafting#plant_ball
+- input:
+    ore: gemPrismarine
+    count: 9
+  output:
+    - item: minecraft:prismarine
+      meta: 1
+- input:
+    item: ic2:misc_resource#iridium_ore
+  output:
+    - item: gregtechmod:ingot_iridium

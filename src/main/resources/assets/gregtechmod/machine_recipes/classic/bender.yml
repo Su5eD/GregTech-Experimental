@@ -1,0 +1,10 @@
+# Classic Bender Recipes
+---
+- input:
+    ore: stickRefinedIron
+    count: 6
+  output:
+    item: railcraft:rail
+    count: 5
+  duration: 150
+  energyCost: 20

@@ -10,7 +10,7 @@ import java.util.EnumSet;
 public class ItemDrillAdvanced extends ItemToolElectricBase implements IModelInfoProvider {
 
     public ItemDrillAdvanced() {
-        super("drill_advanced", "For quickly making holes", 8, 128000, 3, 250, 5, EnumSet.of(ToolClass.Pickaxe, ToolClass.Shovel));
+        super("drill_advanced", 8, 128000, 3, 250, 5, EnumSet.of(ToolClass.Pickaxe, ToolClass.Shovel));
         setRegistryName("drill_advanced");
         setTranslationKey("drill_advanced");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

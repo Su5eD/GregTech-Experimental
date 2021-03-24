@@ -1,0 +1,32 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "S S",
+    "SMS",
+    "SCS"
+  ],
+  "key":
+  {
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier01"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "stoneSmooth"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:te",
+    "data": 43
+  }
+}

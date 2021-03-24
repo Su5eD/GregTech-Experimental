@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:credit_silver"
+    },
+    {
+      "item": "gregtechmod:credit_silver"
+    },
+    {
+      "item": "gregtechmod:credit_silver"
+    },
+    {
+      "item": "gregtechmod:credit_silver"
+    },
+    {
+      "item": "gregtechmod:credit_silver"
+    },
+    {
+      "item": "gregtechmod:credit_silver"
+    },
+    {
+      "item": "gregtechmod:credit_silver"
+    },
+    {
+      "item": "gregtechmod:credit_silver"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:credit_gold"
+  }
+}

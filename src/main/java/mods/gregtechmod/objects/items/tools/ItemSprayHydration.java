@@ -1,10 +1,10 @@
 package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.crops.ICropTile;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class ItemSprayHydration extends ItemToolCrafting {
 
     public ItemSprayHydration() {
-        super("spray_hydration", "To hydrate Crops and similar", 2560, 0, 20, 0);
+        super("spray_hydration", 2560, 0, 20, 0);
         setRegistryName("spray_hydration");
         setTranslationKey("spray_hydration");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

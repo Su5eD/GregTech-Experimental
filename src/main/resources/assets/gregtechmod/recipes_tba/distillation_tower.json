@@ -1,0 +1,43 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CAC",
+    "PBP",
+    "EAE"
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier04"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCentrifuge"
+    },
+    "E":
+    {
+      "item": "gregtechmod:teblock",
+      "data": "???",
+      "_comment": "industrial electrolyzer"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingPump"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": "???"
+  }
+}

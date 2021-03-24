@@ -4,6 +4,7 @@ import ic2.api.reactor.IReactor;
 import ic2.core.item.reactor.ItemReactorHeatStorage;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -33,7 +34,7 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IM
 
     @Override
     public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
-        tooltip.add("Stored heat: "+this.getCustomDamage(stack));
+        tooltip.add(GtUtil.translateItem("coolant.stored_heat") +": "+this.getCustomDamage(stack));
     }
 
     @Override

@@ -1,0 +1,18 @@
+# Experimental Pulverizer Recipes
+---
+- input:
+    item: gregtechmod:gear_iron
+  output:
+    - item: ic2:dust#iron
+      count: 6
+- input:
+    ore: ingotRefinedIron
+  output:
+    - ore: dustRefinedIron
+      fallback:
+        item: ic2:dust#iron
+- input:
+    item: ic2:resource#machine
+  output:
+    - item: ic2:dust#iron
+      count: 8

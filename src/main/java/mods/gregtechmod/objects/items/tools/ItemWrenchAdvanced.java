@@ -7,6 +7,7 @@ import ic2.api.item.IElectricItem;
 import ic2.core.item.ElectricItemManager;
 import ic2.core.item.IPseudoDamageItem;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.IElectricCraftingTool;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +15,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPseudoDamageItem {
+public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPseudoDamageItem, IElectricCraftingTool {
 
     public ItemWrenchAdvanced() {
         super("wrench_advanced", 0);
@@ -66,5 +67,16 @@ public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPs
     @Override
     public void setStackDamage(ItemStack itemStack, int damage) {
         super.setDamage(itemStack, damage);
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack stack) {
+        ElectricItem.manager.use(stack, 8000, null);
+        return stack.copy();
+    }
+
+    @Override
+    public boolean canUse(ItemStack stack) {
+        return ElectricItem.manager.canUse(stack, 8000);
     }
 }

@@ -1,0 +1,43 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    " C ",
+    "TRT",
+    "TRT"
+  ],
+  "key":
+  {
+    "R":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingWireCopper"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTin"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:re_battery"
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "harder_recipes",
+        "name": "re_battery",
+        "value": true
+      }
+    }
+  ]
+}

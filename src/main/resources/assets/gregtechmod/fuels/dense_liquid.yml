@@ -1,0 +1,23 @@
+# Dense Liquid fuels
+---
+- input:
+    fluid: seed.oil
+  energy: 2
+- input:
+    fluid: creosote
+  energy: 2
+- input:
+    fluid: biomass
+  energy: 8
+- input:
+    fluid: sodium
+  energy: 30
+- input:
+    fluid: lithium
+  energy: 60
+- input:
+    fluid: oil
+  energy: 64
+- input:
+    fluid: mercury
+  energy: 8

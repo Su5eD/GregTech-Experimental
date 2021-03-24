@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "APA",
+    "PQP",
+    "APA"
+  ],
+  "key":
+  {
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "platePlatinum"
+    },
+    "Q":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 3
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 4
+  }
+}

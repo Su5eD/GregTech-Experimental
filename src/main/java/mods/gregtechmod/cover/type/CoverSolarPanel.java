@@ -1,9 +1,9 @@
 package mods.gregtechmod.cover.type;
 
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregtechMachine;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

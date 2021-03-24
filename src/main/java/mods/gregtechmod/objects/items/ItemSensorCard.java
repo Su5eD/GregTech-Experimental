@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-@Optional.Interface(iface = "com.zuxelus.energycontrol.api.IItemCard", modid = "energycontrol")
+@Optional.Interface(modid = "energycontrol", iface = "com.zuxelus.energycontrol.api.IItemCard")
 public class ItemSensorCard extends ItemBase implements IItemCard {
     public static final int DISPLAY_MAIN = 1;
     public static final int DISPLAY_SECOND = 2;
     public static final int DISPLAY_TERTIARY = 4;
-    public static final int CARD_ID = 800; //Because why would Energy Control use ReourceLocations?
+    public static final int CARD_ID = 800; //Because why would Energy Control use ResourceLocations?
 
     public ItemSensorCard() {
-        super("sensor_card", "Insert into a display panel");
+        super("sensor_card");
         setMaxStackSize(1);
     }
 
@@ -42,18 +42,18 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
 
     @Override
     public CardState update(World world, ICardReader card, int i, BlockPos blockPos) {
-        TileEntity tTileEntity = world.getTileEntity(card.getTarget());
-        if (tTileEntity instanceof IPanelInfoProvider && ((IPanelInfoProvider)tTileEntity).isGivingInformation()) {
-            card.setString("mainInfo", ((IPanelInfoProvider)tTileEntity).getMainInfo());
-            card.setString("secondaryInfo", ((IPanelInfoProvider)tTileEntity).getSecondaryInfo());
-            card.setString("tertiaryInfo", ((IPanelInfoProvider)tTileEntity).getTertiaryInfo());
+        TileEntity tileEntity = world.getTileEntity(card.getTarget());
+        if (tileEntity instanceof IPanelInfoProvider && ((IPanelInfoProvider)tileEntity).isGivingInformation()) {
+            card.setString("mainInfo", ((IPanelInfoProvider)tileEntity).getMainInfo());
+            card.setString("secondaryInfo", ((IPanelInfoProvider)tileEntity).getSecondaryInfo());
+            card.setString("tertiaryInfo", ((IPanelInfoProvider)tileEntity).getTertiaryInfo());
             return CardState.OK;
         }
         return CardState.NO_TARGET;
     }
 
     @Override
-    public List<PanelString> getStringData(int displaySettings, ICardReader card, boolean showLabels) {
+    public List<PanelString> getStringData(int displaySettings, ICardReader card, boolean b, boolean b1) {
         List<PanelString> result = new LinkedList<>();
 
         if((displaySettings & DISPLAY_MAIN) != 0)  {
@@ -81,11 +81,6 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
         result.add(new PanelSetting("Secondary", DISPLAY_SECOND, 800));
         result.add(new PanelSetting("Tertiary", DISPLAY_TERTIARY, 800));
         return result;
-    }
-
-    @Override
-    public ICardGui getSettingsScreen(ICardReader iCardReader) {
-        return null;
     }
 
     @Override

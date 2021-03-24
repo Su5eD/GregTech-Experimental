@@ -1,16 +1,16 @@
 package mods.gregtechmod.objects.items.tools;
 
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.init.BlockItems;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 public class ItemSprayIce extends ItemToolCrafting {
 
     public ItemSprayIce() {
-        super("spray_ice", "Very effective against Slimes", 512, 4, 32, 16);
+        super("spray_ice", 512, 4, 32, 16);
         setRegistryName("spray_ice");
         setTranslationKey("spray_ice");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -39,8 +39,8 @@ public class ItemSprayIce extends ItemToolCrafting {
 
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-        target.addPotionEffect(new PotionEffect(Potion.getPotionById(18), 400, 2));
-        target.addPotionEffect(new PotionEffect(Potion.getPotionById(2), 400, 2));
+        target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 400, 2));
+        target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 400, 2));
         return super.hitEntity(stack, target, attacker);
     }
 

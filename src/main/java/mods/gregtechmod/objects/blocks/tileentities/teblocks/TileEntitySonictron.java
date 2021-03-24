@@ -49,12 +49,10 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
         }
 
         if (this.world.getWorldTime()%2 == 0 && this.currentIndex > -1) {
-            if (!this.getActive())
-                this.setActive(true);
+            if (!this.getActive()) this.setActive(true);
             GregTechMod.proxy.doSonictronSound(this.content.get(currentIndex), this.world, this.pos.add(0.5, 0.5, 0.5));
             if (++this.currentIndex > 63) this.currentIndex=-1;
-        } else if (this.getActive())
-            this.setActive(false);
+        } else if (this.getActive()) this.setActive(false);
     }
 
     @Override
@@ -65,54 +63,54 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     }
 
     public static void loadSonictronSounds() {
-        GregTechAPI.logger.info("Loading Sonictron sounds");
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.IRON_BLOCK, "block.note.harp", 25));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GOLD_BLOCK, "block.note.pling", 25));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.STONE, "block.note.basedrum", 25));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.LOG, "block.note.bass", 25));
+        GregTechMod.logger.info("Loading Sonictron sounds");
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.note.harp", Blocks.IRON_BLOCK, 25));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.note.pling", Blocks.GOLD_BLOCK, 25));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.note.basedrum", Blocks.STONE, 25));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.note.bass", Blocks.LOG, 25));
         //GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.PLANKS, "note.bass", 25));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GLASS, "block.note.hat", 25));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.SAND, "block.note.snare", 25));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.RECORD_CAT, "record.", 12));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.TNT, "entity.generic.explode", 3));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.FIRE_CHARGE, "block.fire.ambient", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.FLINT_AND_STEEL, "item.flintandsteel.use", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.LAVA_BUCKET, "block.lava.pop", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.WATER_BUCKET, "block.water.ambient", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.BUCKET, "entity.generic.splash", 1));
-        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.LAVA_BUCKET, "block.fire.extinguish", 1));
-        //GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.PORTAL, "block.portal.ambient", 1));
-        //GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.END_PORTAL, "block.portal.travel", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.END_PORTAL_FRAME, "block.portal.trigger", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GLASS_PANE, "block.glass.break", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.ENDER_PEARL, "entity.experience_orb.pickup", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.ENDER_EYE, "entity.player.levelup", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.STONE_BUTTON, "ui.button.click", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.COBBLESTONE, "entity.player.big_fall", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.DIRT, "entity.player.small_fall", 1));
-        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.IRON_SWORD, "damage.durtflesh", 1));
-        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.DIAMOND_SWORD, "damage.hurt", 1));
-        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.BOW, "random.bow", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.ARROW, "entity.arrow.shoot", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.FISHING_ROD, "entity.arrow.hit", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.IRON_SHOVEL, "entity.item.break", 1));
-        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.BUCKET, "entity.player.breath", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.POTIONITEM, "entity.generic.drink", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.GLASS_BOTTLE, "entity.player.burp", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.ENDER_CHEST, "block.chest.open", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.CHEST, "block.chest.close", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.IRON_DOOR, "block.wooden_door.open", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.OAK_DOOR, "block.wooden_door.close", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Items.PORKCHOP, "entity.generic.eat", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.WOOL, "block.cloth.step", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GRASS, "block.grass.step", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.GRAVEL, "block.gravel.step", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.SNOW, "block.snow.step", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.PISTON, "block.piston.extend", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.STICKY_PISTON, "block.piston.contract", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.MOSSY_COBBLESTONE, "ambient.cave", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.LAPIS_BLOCK, "weather.rain", 1));
-        GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.DIAMOND_BLOCK, "entity.lightning.thunder", 1));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.note.hat", Blocks.GLASS, 25));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.note.snare", Blocks.SAND, 25));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("record.", Items.RECORD_CAT, 12));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.generic.explode", Blocks.TNT, 3));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.fire.ambient", Items.FIRE_CHARGE));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("item.flintandsteel.use", Items.FLINT_AND_STEEL));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.lava.pop", Items.LAVA_BUCKET));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.water.ambient", Items.WATER_BUCKET));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.generic.splash", Items.BUCKET));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.LAVA_BUCKET, "block.fire.extinguish"));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.PORTAL, "block.portal.ambient"));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Blocks.END_PORTAL, "block.portal.travel"));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.portal.trigger", Blocks.END_PORTAL_FRAME));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.glass.break", Blocks.GLASS_PANE));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.experience_orb.pickup", Items.ENDER_PEARL));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.player.levelup", Items.ENDER_EYE));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("ui.button.click", Blocks.STONE_BUTTON));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.player.big_fall", Blocks.COBBLESTONE));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.player.small_fall", Blocks.DIRT));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.IRON_SWORD, "damage.durtflesh"));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.DIAMOND_SWORD, "damage.hurt"));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.BOW, "random.bow"));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.arrow.shoot", Items.ARROW));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.arrow.hit", Items.FISHING_ROD));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.item.break", Items.IRON_SHOVEL));
+        //GregTechAPI.sonictronSounds.add(new SonictronSound(Items.BUCKET, "entity.player.breath"));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.generic.drink", Items.POTIONITEM));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.player.burp", Items.GLASS_BOTTLE));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.chest.open", Blocks.ENDER_CHEST));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.chest.close", Blocks.CHEST));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.wooden_door.open", Items.IRON_DOOR));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.wooden_door.close", Items.OAK_DOOR));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.generic.eat", Items.PORKCHOP));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.cloth.step", Blocks.WOOL));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.grass.step", Blocks.GRASS));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.gravel.step", Blocks.GRAVEL));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.snow.step", Blocks.SNOW));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.piston.extend", Blocks.PISTON));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("block.piston.contract", Blocks.STICKY_PISTON));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("ambient.cave", Blocks.MOSSY_COBBLESTONE));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("weather.rain", Blocks.LAPIS_BLOCK));
+        GregTechAPI.SONICTRON_SOUNDS.add(new SonictronSound("entity.lightning.thunder", Blocks.DIAMOND_BLOCK));
     }
 
     @Override

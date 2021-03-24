@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import com.mojang.authlib.GameProfile;
+import ic2.api.energy.EnergyNet;
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.IC2;
 import ic2.core.block.comp.Energy;
@@ -15,9 +16,9 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,6 +42,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class TileEntityUpgradable extends TileEntityCoverBehavior implements IUpgradableMachine, ICoverable {
+    private final String descriptionKey;
     protected Energy energy;
     protected int[] averageEUInputRaw = new int[] {0,0,0,0,0};
     protected int[] averageEUOutputRaw = new int[] {0,0,0,0,0};
@@ -55,8 +57,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     public final int defaultTier;
     public final int defaultEnergyStorage;
-    public final int defaultEnergyConsume;
-    public int energyConsume;
     public InvSlot upgradeSlot;
     public int overclockersCount;
     protected boolean hasSteamUpgrade = false;
@@ -64,10 +64,10 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public Fluids.InternalFluidTank steamTank;
     int neededSteam;
 
-    protected TileEntityUpgradable(int maxEnergy, int defaultTier, int defaultEnergyConsume) {
+    protected TileEntityUpgradable(String descriptionKey, int maxEnergy, int defaultTier) {
+        this.descriptionKey = descriptionKey;
         this.energy = addComponent(new Energy(this, maxEnergy, Util.allFacings, Collections.emptySet(), defaultTier));
         this.defaultTier = defaultTier;
-        this.defaultEnergyConsume = this.energyConsume =defaultEnergyConsume;
         this.upgradeSlot = new GtUpgradeSlot(this, "upgrades", InvSlot.Access.NONE, 8);
         this.defaultEnergyStorage = maxEnergy;
         this.fluids = addComponent(new Fluids(this));
@@ -75,7 +75,13 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.inventory.getCurrentItem();
+        if (attemptUseCrowbar(stack, side, player) || attemptUseScrewdriver(stack, side, player)) return true;
+
         if (world.isRemote) return true;
+
+        if (this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
+        for (ICover cover : coverHandler.covers.values()) if (!cover.opensGui(side)) return false;
 
         if (isPrivate) {
             if (!checkAccess(owner, player.getGameProfile())) {
@@ -84,11 +90,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
             }
         }
 
-        if (this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
-
-        for (ICover cover : coverHandler.covers.values()) if (!cover.opensGui(side)) return false;
-
-        ItemStack stack = player.inventory.getCurrentItem();
         Item currentItem = stack.getItem();
 
         if(upgradeSlot.accepts(stack)) {
@@ -104,7 +105,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                     }
                 }
                 else if (currentItem instanceof IGtUpgradeItem && ((areItemsEqual || upgradeStack.isEmpty()))) {
-                    if (((IGtUpgradeItem)currentItem).onInsert(upgradeStack, this, player)) return true;
+                    if (((IGtUpgradeItem)currentItem).beforeInsert(upgradeStack, this, player)) return true;
                     else if (!((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
                 }
                 else continue;
@@ -112,15 +113,13 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 if (areItemsEqual) {
                     upgradeStack.grow(1);
                 } else {
-                    ItemStack bStack = stack.copy();
-                    bStack.setCount(upgradeStack.getCount()+1);
-                    this.upgradeSlot.put(i, bStack);
+                    this.upgradeSlot.put(i, StackUtil.copyWithSize(stack, 1));
                 }
 
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
+                updateUpgrade(StackUtil.copyWithSize(stack, 1), player);
                 break;
             }
-            updateUpgrades(player);
             return true;
         }
         else {
@@ -140,10 +139,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         return owner.equals(playerProfile);
     }
 
-    protected void setOverclock() {
-        this.energyConsume = this.defaultEnergyConsume * (int)Math.pow(4, overclockersCount);
-    }
-
     @Override
     public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {
         super.onPlaced(stack, placer, facing);
@@ -151,39 +146,42 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     public void updateUpgrade(ItemStack stack, EntityPlayer player) {
+        if (world.isRemote) return;
+
         Item currentItem = stack.getItem();
         if (currentItem instanceof IGtUpgradeItem) {
-            ((IGtUpgradeItem)currentItem).onUpdate(stack, this, player);
+            ((IGtUpgradeItem)currentItem).afterInsert(stack, this, player);
         } else if (currentItem instanceof IUpgradeItem) {
             IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
             switch (upgradeType) {
                 case OVERCLOCKER:
-                    this.overclockersCount = stack.getCount();
-                    IC2.network.get(true).updateTileEntityField(this, "overclockersCount");
+                    setOverclockerCount(this.overclockersCount + stack.getCount());
                     break;
                 case TRANSFORMER:
-                    this.energy.setSinkTier(Math.min(defaultTier+stack.getCount(), 3));
+                    this.energy.setSinkTier(Math.min(this.energy.getSinkTier() + stack.getCount(), 3));
                     break;
                 case BATTERY:
-                    this.energy.setCapacity(this.defaultEnergyStorage+(10000*stack.getCount()));
+                    this.energy.setCapacity(this.energy.getCapacity()+(10000 * stack.getCount()));
                     break;
             }
         }
     }
 
-    public void updateUpgrades(EntityPlayer player) {
-        if (world.isRemote) return;
+    @Override
+    protected void onLoaded() {
+        super.onLoaded();
+        if (!world.isRemote) {
+            for (int i = 0; i < upgradeSlot.size(); i++) {
+                ItemStack currentStack = upgradeSlot.get(i);
+                if (currentStack.isEmpty()) continue;
 
-        for (int i = 0; i < upgradeSlot.size(); i++) {
-            ItemStack currentStack = upgradeSlot.get(i);
-            if (currentStack.isEmpty()) continue;
-
-            updateUpgrade(currentStack, player);
+                updateUpgrade(currentStack, null);
+            }
         }
     }
 
     public Fluids.InternalFluidTank createSteamTank() {
-        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), Fluids.fluidPredicate(FluidRegistry.getFluid("steam"), FluidName.steam.getInstance(), FluidName.superheated_steam.getInstance()), 2000);
+        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), Fluids.fluidPredicate(FluidRegistry.getFluid("steam"), FluidName.steam.getInstance(), FluidName.superheated_steam.getInstance()), 10000);
     }
 
     @Override
@@ -206,6 +204,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         super.readFromNBT(nbt);
         if (nbt.hasKey("ownerProfile")) owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("ownerProfile"));
         if (nbt.hasKey("steamTank")) {
+            this.hasSteamUpgrade = true;
             this.steamTank = createSteamTank();
             this.fluids.addTank(steamTank);
             steamTank.readFromNBT((NBTTagCompound)nbt.getTag("steamTank"));
@@ -234,7 +233,8 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        super.addInformation(stack, tooltip, advanced);
+        if (descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(descriptionKey));
+        tooltip.add(GtUtil.translateInfo("max_energy_in", Math.round(EnergyNet.instance.getPowerFromTier(this.energy.getSinkTier()))));
         Set<String> possibleUpgrades = new LinkedHashSet<>();
         possibleUpgrades.addAll(this.getCompatibleIC2Upgrades()
                 .stream()
@@ -247,7 +247,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 .map(entry -> entry.toString().substring(0, 1))
                 .sorted()
                 .collect(Collectors.toCollection(LinkedHashSet::new)));
-        tooltip.add("Possible Upgrades: " + String.join(" ", possibleUpgrades));
+        tooltip.add(GtUtil.translate("teblock.info.possible_upgrades")+": " + String.join(" ", possibleUpgrades));
     }
 
     private int calculateAverageInput() {
@@ -420,6 +420,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     @Override
     public void setOverclockerCount(int count) {
         this.overclockersCount = count;
+        IC2.network.get(true).updateTileEntityField(this, "overclockersCount");
     }
 
     @Override
@@ -429,7 +430,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     @Override
     public void setPrivate(boolean value, GameProfile owner) {
-        this.isPrivate = true;
+        this.isPrivate = value;
         this.owner = owner;
     }
 

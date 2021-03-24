@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ic2:plating"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateLead"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:containment_plating"
+  }
+}

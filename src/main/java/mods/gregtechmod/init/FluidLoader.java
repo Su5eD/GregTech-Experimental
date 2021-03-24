@@ -1,11 +1,12 @@
 package mods.gregtechmod.init;
 
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.fluids.FluidGas;
 import mods.gregtechmod.objects.fluids.FluidLiquid;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,12 +17,14 @@ public class FluidLoader {
     public static final List<IFluidProvider> FLUIDS = new ArrayList<>();
 
     public static void init() {
-        GregTechAPI.logger.info("Initializing fluids");
+        GregTechMod.logger.info("Initializing fluids");
         FLUIDS.addAll(Arrays.asList(Liquid.values()));
         FLUIDS.addAll(Arrays.asList(Gas.values()));
     }
 
     public interface IFluidProvider {
+        String getName();
+
         Fluid getFluid();
 
         String getDescription();
@@ -95,9 +98,15 @@ public class FluidLoader {
         }
 
         @Override
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
         public Fluid getFluid() {
             if (this.instance == null) {
-                this.instance = new FluidLiquid(this.name, this.texture, this.texture)
+                if (FluidRegistry.isFluidRegistered(this.name)) this.instance = FluidRegistry.getFluid(this.name);
+                else this.instance = new FluidLiquid(this.name, this.texture, this.texture)
                         .setUnlocalizedName(this.name)
                         .setDensity(this.density);
             }
@@ -142,6 +151,11 @@ public class FluidLoader {
         Gas(String description) {
             this.description = description;
             this.texture = getTextureLocation();
+        }
+
+        @Override
+        public String getName() {
+            return name().toLowerCase(Locale.ROOT);
         }
 
         @Override

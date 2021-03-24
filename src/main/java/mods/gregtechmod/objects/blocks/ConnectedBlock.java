@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.blocks;
 
-import mods.gregtechmod.api.GregTechConfig;
+import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;

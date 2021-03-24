@@ -1,0 +1,314 @@
+# Alloy Smelter recipes
+---
+- input:
+    - ores:
+        - dustLead
+        - ingotLead
+    - ore: dustObsidian
+      count: 2
+  output:
+    item: thermalfoundation:glass
+    meta: 3
+    count: 2
+  duration: 400
+  energyCost: 16
+  conditions:
+    - type: mod_loaded
+      modid: thermalfoundation
+- input:
+    - ore: ingotGold
+    - ore: ingotSilver
+  output:
+    item: gregtechmod:ingot_electrum
+    count: 2
+  duration: 100
+  energyCost: 16
+- input:
+    - ore: ingotCopper
+      count: 3
+    - ore: ingotTin
+  output:
+    item: ic2:ingot#bronze
+    count: 2
+  duration: 100
+  energyCost: 16
+- input:
+    - ore: ingotCopper
+      count: 3
+    - ore: ingotZinc
+  output:
+    item: gregtechmod:ingot_brass
+    count: 4
+  duration: 200
+  energyCost: 16
+- input:
+    - ore: ingotCopper
+    - ores:
+        - ingotCopper
+        - ingotNickel
+  output:
+    ore: ingotCupronickel
+    count: 2
+  duration: 100
+  energyCost: 16
+  conditions:
+    - type: ore_exists
+      ore: ingotCupronickel
+- input:
+    - ore: ingotTin
+      count: 9
+    - ore: ingotAntimony
+  output:
+    item: gregtechmod:ingot_soldering_alloy
+    count: 10
+  duration: 500
+  energyCost: 16
+- input:
+    - ore: ingotLead
+      count: 4
+    - ore: ingotAntimony
+  output:
+    item: gregtechmod:ingot_battery_alloy
+    count: 5
+  duration: 250
+  energyCost: 16
+- input:
+    - ore: ingotIron
+      count: 2
+    - ore: ingotNickel
+  output:
+    item: gregtechmod:ingot_invar
+    count: 3
+  duration: 150
+  energyCost: 16
+- input:
+    - ore: ingotAluminium
+      count: 2
+    - ores:
+        - ingotMagnesium
+        - dustMagnesium
+  output:
+    item: gregtechmod:ingot_magnalium
+    count: 3
+  duration: 150
+  energyCost: 16
+- input:
+    - ore: ingotChrome
+    - ore: ingotNickel
+      count: 4
+  output:
+    ore: ingotNichrome
+    count: 5
+  duration: 250
+  energyCost: 16
+  conditions:
+    - type: ore_exists
+      ore: ingotNichrome
+- input:
+    - item: minecraft:clock
+  output:
+    item: minecraft:gold_ingot
+    count: 4
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:compass
+  output:
+    item: minecraft:iron_ingot
+    count: 4
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:shears
+  output:
+    item: minecraft:iron_ingot
+    count: 2
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:minecart
+  output:
+    item: minecraft:iron_ingot
+    count: 5
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:bucket
+  output:
+    item: minecraft:iron_ingot
+    count: 3
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:iron_door
+  output:
+    item: minecraft:iron_ingot
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:cauldron
+  output:
+    item: minecraft:iron_ingot
+    count: 7
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:anvil
+  output:
+    item: minecraft:iron_ingot
+    count: 31
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:anvil
+      meta: 1
+  output:
+    item: minecraft:iron_ingot
+    count: 20
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:anvil
+      meta: 2
+  output:
+    item: minecraft:iron_ingot
+    count: 10
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: ic2:te#iron_furnace
+  output:
+    item: minecraft:iron_ingot
+    count: 5
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:light_weighted_pressure_plate
+  output:
+    item: minecraft:gold_ingot
+    count: 2
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:heavy_weighted_pressure_plate
+  output:
+    item: minecraft:iron_ingot
+    count: 2
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: minecraft:hopper
+  output:
+    item: minecraft:iron_ingot
+    count: 5
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:hull_aluminium
+  output:
+    item: gregtechmod:ingot_aluminium
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:hull_bronze
+  output:
+    item: ic2:ingot#bronze
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:hull_brass
+  output:
+    item: gregtechmod:ingot_brass
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:hull_steel
+  output:
+    item: gregtechmod:ingot_steel
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:hull_titanium
+  output:
+    item: gregtechmod:ingot_titanium
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:gear_bronze
+  output:
+    item: ic2:ingot#bronze
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:gear_steel
+  output:
+    item: gregtechmod:ingot_steel
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:gear_titanium
+  output:
+    item: gregtechmod:ingot_titanium
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:gear_tungsten_steel
+  output:
+    item: gregtechmod:ingot_tungsten_steel
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - item: gregtechmod:gear_iridium
+  output:
+    item: gregtechmod:ingot_iridium
+    count: 6
+  duration: 130
+  energyCost: 3
+  universal: true
+- input:
+    - items:
+        - minecraft:milk_bucket
+        - minecraft:water_bucket
+  output:
+    item: minecraft:bucket
+  duration: 100
+- input:
+    - cell: empty
+  output:
+    item: ic2:ingot#tin
+  duration: 130
+  energyCost: 3
+  universal: true

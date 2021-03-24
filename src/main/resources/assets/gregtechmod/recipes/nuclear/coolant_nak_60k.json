@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "TNT",
+    "KCK",
+    "TNT"
+  ],
+  "key":
+  {
+    "N":
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "sodium"
+    },
+    "K":
+    {
+      "type": "gregtechmod:fluid_cell",
+      "fluid": "potassium"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateTin"
+    },
+    "C":
+    {
+      "item": "ic2:heat_storage"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:coolant_nak_60k"
+  }
+}

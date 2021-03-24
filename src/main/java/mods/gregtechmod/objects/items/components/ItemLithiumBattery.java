@@ -4,6 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.core.item.ItemBattery;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -25,7 +26,7 @@ public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvide
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Tier: "+this.tier);
+        tooltip.add(GtUtil.translateInfo("tier", this.tier));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

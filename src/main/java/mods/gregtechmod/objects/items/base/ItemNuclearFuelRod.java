@@ -7,6 +7,7 @@ import ic2.core.item.armor.ItemArmorHazmat;
 import ic2.core.item.reactor.ItemReactorUranium;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -51,7 +52,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
-        tooltip.add("Time left: "+(getMaxCustomDamage(stack) - getCustomDamage(stack)) + " secs");
+        tooltip.add(GtUtil.translateItem("nuclear_rod.time_left", getMaxCustomDamage(stack) - getCustomDamage(stack)));
     }
 
     @Override
@@ -62,24 +63,22 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     private void checkHeatAcceptor(IReactor reactor, int x, int y, ArrayList<ItemStackCoord> heatAcceptors) {
         ItemStack thing = reactor.getItemAt(x, y);
-        if ((thing != null) && ((thing.getItem() instanceof IReactorComponent)) &&
-                (((IReactorComponent) thing.getItem()).canStoreHeat(thing, reactor, x, y))) {
+        if ((thing != null) && ((thing.getItem() instanceof IReactorComponent)) && (((IReactorComponent) thing.getItem()).canStoreHeat(thing, reactor, x, y))) {
             heatAcceptors.add(new ItemStackCoord(thing, x, y));
         }
     }
 
     @Override
     public boolean acceptUraniumPulse(ItemStack stack, IReactor reactor, ItemStack pulsingStack, int youX, int youY, int pulseX, int pulseY, boolean heatrun) {
-        if (!heatrun) reactor.addOutput(1.0F * this.energy);
+        if (!heatrun) reactor.addOutput(this.energy);
         return true;
     }
 
     //GT5U Code
     @Override
     public void processChamber(ItemStack stack, IReactor reactor, int x, int y, boolean heatRun) {
-        if (!reactor.produceEnergy()) {
-            return;
-        }
+        if (!reactor.produceEnergy()) return;
+
         for (int iteration = 0; iteration < this.numberOfCells; iteration++) {
             int pulses = 1 + this.numberOfCells / 2;
             if (!heatRun) {
@@ -101,7 +100,6 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
                 checkHeatAcceptor(reactor, x, y + 1, heatAcceptors);
                 heat = Math.round(heat * this.heat);
                 while ((heatAcceptors.size() > 0) && (heat > 0)) {
-
                     int dheat = heat / heatAcceptors.size();
                     heat -= dheat;
                     dheat = ((IReactorComponent) heatAcceptors.get(0).stack.getItem()).alterHeat(heatAcceptors.get(0).stack, reactor, heatAcceptors.get(0).x, heatAcceptors.get(0).y, dheat);
@@ -122,7 +120,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slotIndex, boolean isCurrentItem) {
-        if (this.radioation > 0 && (entity instanceof EntityLivingBase)) {
+        if (this.radioation > 0 && entity instanceof EntityLivingBase) {
             EntityLivingBase entityLiving = (EntityLivingBase) entity;
             if (!ItemArmorHazmat.hasCompleteHazmat(entityLiving)) {
                 IC2Potion.radiation.applyTo(entityLiving, 200, this.radioation * 100);

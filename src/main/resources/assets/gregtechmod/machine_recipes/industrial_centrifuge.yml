@@ -1,6 +1,6 @@
 # Industrial Centrifuge recipes
 #
-# Recipes priority goes from top to bottom.
+# Recipe priority goes from top to bottom.
 # Example recipe with all possible options:
 # input:                                <-- a single ItemStack, required
 #   item: examplemod:simple_item        <-- item registry name, required
@@ -10,14 +10,490 @@
 #   - item: examplemod:fancy_item
 #     count: 2
 #     meta: 4
-#   - item: ic2:fluid_cell#fancy_fluid  <-- IC2 IMultiItem variants can be defined using #<variant name>
+#   - item: ic2:crafting#power_unit     <-- IC2 IMultiItem variants can be defined using #<variant name>
 # duration: 400                         <-- amount of ticks to process the recipe, required
 # cells: 1                              <-- amount of cells required to process the recipe, optional, default: 0
 #
 ---
 - input:
-    item: minecraft:wheat_seeds
+    ores:
+      - dustRedrock
+      - dustRedRock
+    count: 4
   output:
-    - item: ic2:fluid_cell#seed_oil
+    - item: gregtechmod:dust_calcite
+      count: 2
+    - item: gregtechmod:dust_flint
+    - item: gregtechmod:dust_clay
+  duration: 100
+- input:
+    ore: dustMarble
+    count: 8
+  output:
+    - item: gregtechmod:dust_magnesium
+    - item: gregtechmod:dust_calcite
+      count: 7
+  duration: 1055
+- input:
+    ore: dustBasalt
+    count: 16
+  output:
+    - item: gregtechmod:dust_olivine
+    - item: gregtechmod:dust_calcite
+      count: 3
+    - item: gregtechmod:dust_flint
+      count: 8
+    - item: gregtechmod:dust_dark_ashes
+      count: 4
+  duration: 2040
+- input:
+    ore: gemLapis
+  output:
+    - item: gregtechmod:dust_lazurite
+      count: 3
+    - item: gregtechmod:smalldust_lazurite
+    - item: gregtechmod:smalldust_calcite
+    - item: gregtechmod:smalldust_sodalite
+      count: 2
+  duration: 1500
+- input:
+    ore: dustInvar
+    count: 3
+  output:
+    - item: ic2:dust#iron
+      count: 2
+    - item: gregtechmod:dust_nickel
+  duration: 1000
+- input:
+    ore: dustRedstone
+    count: 10
+  output:
+    - cell: silicon
+    - item: gregtechmod:dust_pyrite
+      count: 5
+    - item: gregtechmod:dust_ruby
+    - cell: mercury
+      count: 3
+  cells: 4
+  duration: 7000
+- input:
+    ore: dustGlowstone
+    count: 16
+  output:
+    - item: minecraft:redstone
+      count: 8
+    - item: ic2:dust#gold
+      count: 8
+    - cell: helium
   cells: 1
-  duration: 600
+  duration: 25000
+- input:
+    ore: dustBrass
+  output:
+    - item: gregtechmod:smalldust_copper
+      count: 3
+    - item: gregtechmod:smalldust_zinc
+  duration: 1500
+- input:
+    ore: dustCopper
+    count: 3
+  output:
+    - item: gregtechmod:smalldust_gold
+    - item: gregtechmod:smalldust_nickel
+  duration: 2400
+- input:
+    ore: dustGold
+    count: 3
+  output:
+    - item: gregtechmod:smalldust_copper
+    - item: gregtechmod:smalldust_nickel
+  duration: 2400
+- input:
+    ore: dustNickel
+    count: 3
+  output:
+    - item: gregtechmod:smalldust_iron
+    - item: gregtechmod:smalldust_gold
+    - item: gregtechmod:smalldust_copper
+  duration: 3450
+- input:
+    ore: dustIron
+    count: 2
+  output:
+    - item: gregtechmod:smalldust_tin
+    - item: gregtechmod:smalldust_nickel
+  duration: 1500
+- input:
+    ore: dustTin
+    count:
+  output:
+    - item: gregtechmod:smalldust_zinc
+    - item: gregtechmod:smalldust_iron
+  duration: 2100
+- input:
+    ore: dustZinc
+  output:
+    - item: gregtechmod:smalldust_tin
+  duration: 1050
+- input:
+    ore: dustQuicksilver
+  output:
+    - cell: mercury
+  cells: 1
+  duration: 100
+- input:
+    ore: dustRedGarnet
+    count: 16
+  output:
+    - item: gregtechmod:dust_pyrope
+      count: 3
+    - item: gregtechmod:dust_almandine
+      count: 5
+    - item: gregtechmod:dust_spessartine
+      count: 8
+  duration: 3000
+- input:
+    ore: dustYellowGarnet
+    count: 16
+  output:
+    - item: gregtechmod:dust_andradite
+      count: 5
+    - item: gregtechmod:dust_grossular
+      count: 8
+    - item: gregtechmod:dust_uvarovite
+      count: 3
+  duration: 3500
+- input:
+    ore: dustPlatinum
+  output:
+    - item: gregtechmod:nugget_iridium
+    - item: gregtechmod:smalldust_nickel
+  duration: 3000
+- input:
+    ore: dustIridium
+  output:
+    - item: gregtechmod:nugget_platinum
+    - item: gregtechmod:smalldust_nickel
+  duration: 3000
+- input:
+    ore: dustLead
+    count: 2
+  output:
+    - item: gregtechmod:smalldust_silver
+  duration: 2400
+- input:
+    ore: dustSilver
+    count: 2
+  output:
+    - item: gregtechmod:smalldust_lead
+  duration: 2400
+- input:
+    ore: dustEnderEye
+    count: 2
+  output:
+    - item: gregtechmod:dust_ender_pearl
+    - item: minecraft:blaze_powder
+  duration: 1850
+- input:
+    ore: dustDarkAsh
+    count: 2
+  output:
+    - item: gregtechmod:dust_ashes
+    - item: thermalfoundation:material
+      meta: 864
+      fallback:
+        item: gregtechmod:dust_ashes
+  duration: 250
+- input:
+    ore: dustNetherrack
+    count: 16
+  output:
+    - item: minecraft:redstone
+    - item: gregtechmod:dust_sulfur
+      count: 4
+    - item: ic2:dust#coal
+    - item: minecraft:gold_nugget
+  duration: 2400
+- input:
+    ore: dustEndstone
+    count: 16
+  output:
+    - cell: helium3
+    - cell: wolframium
+    - item: gregtechmod:smalldust_tungsten
+    - item: minecraft:sand
+      count: 16
+  cells: 2
+  duration: 4800
+- input:
+    ore: dustElectrum
+  output:
+    - item: gregtechmod:smalldust_gold
+      count: 2
+    - item: gregtechmod:smalldust_silver
+      count: 2
+  duration: 975
+- input:
+    fluid: hydrogen
+    count: 4
+  output:
+    - cell: deuterium
+  cells: 1
+  duration: 3000
+- input:
+    fluid: helium
+    count: 16
+  output:
+    - cell: helium3
+  cells: 1
+  duration: 10000
+- input:
+    fluid: helium3
+    count: 4
+  output:
+    - cell: deuterium
+  cells: 1
+  duration: 3000
+- input:
+    item: gregtechmod:cell_sulfur
+  output:
+    - item: gregtechmod:dust_sulfur
+    - cell: empty
+  duration: 40
+- input:
+    fluid: calcium_carbonate
+  output:
+    - item: gregtechmod:dust_calcite
+  duration: 40
+- input:
+    ores:
+      - woodRubber
+      - logRubber
+    count: 16
+  output:
+    - item: ic2:misc_resource#resin
+      count: 8
+    - item: ic2:crafting#plant_ball
+      count: 6
+    - cell: methane
+    - item: gregtechmod:cell_carbon
+      count: 4
+  cells: 5
+  duration: 5000
+- input:
+    ores:
+      - sandOil
+      - oilsandsOre
+    count: 2
+  output:
+    - cell: oil
+    - item: minecraft:sand
+  cells: 1
+  duration: 1000
+- input:
+    items:
+      - twilightforest:cooked_meef
+      - twilightforest:cooked_venison
+    count: 16
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
+- input:
+    items:
+      - harvestcraft:venisoncookeditem
+    count: 16
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+  conditions:
+    - type: mod_loaded
+      modid: harvestcraft
+- input:
+    items:
+      - twilightforest:raw_meef
+      - twilightforest:raw_venison
+    count: 12
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+  conditions:
+    - type: mod_loaded
+      modid: twilightforest
+- input:
+    items:
+      - harvestcraft:venisonrawitem
+    count: 12
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+  conditions:
+    - type: mod_loaded
+      modid: harvestcraft
+- input:
+    fluid: mercury
+  output:
+    - item: thaumcraft:quicksilver
+  duration: 40
+  conditions:
+    - type: mod_loaded
+      modid: thaumcraft
+- input:
+    item: gregtechmod:cell_ice
+  output:
+    - item: minecraft:ice
+    - cell: empty
+  duration: 40
+- input:
+    item: minecraft:magma_cream
+  output:
+    - item: minecraft:blaze_powder
+    - item: minecraft:slime_ball
+  duration: 500
+- input:
+    item: minecraft:mycelium
+    count: 8
+  output:
+    - item: minecraft:brown_mushroom
+      count: 2
+    - item: minecraft:red_mushroom
+      count: 2
+    - item: minecraft:clay_ball
+    - item: minecraft:sand
+      count: 4
+  duration: 1650
+- input:
+    item: minecraft:golden_apple
+    meta: 1
+  output:
+    - cell: methane
+      count: 2
+    - item: minecraft:gold_ingot
+      count: 64
+  cells: 2
+  duration: 10000
+- input:
+    items:
+      - minecraft:golden_apple
+      - minecraft:golden_carrot
+  output:
+    - cell: methane
+    - item: minecraft:gold_nugget
+      count: 6
+  cells: 1
+  duration: 10000
+- input:
+    item: minecraft:speckled_melon
+    count: 8
+  output:
+    - cell: methane
+    - item: minecraft:gold_nugget
+      count: 6
+  cells: 1
+  duration: 10000
+- input:
+    item: minecraft:apple
+    count: 32
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    ore: foodRaw
+    count: 12
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    ore: foodCooked
+    count: 16
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - minecraft:melon
+      - minecraft:cookie
+      - minecraft:bread
+    count: 64
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - minecraft:pumpkin
+      - minecraft:rotten_flesh
+      - minecraft:carrot
+      - minecraft:potato
+      - minecraft:mushroom_stew
+      - ic2:terra_wart
+    count: 16
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - minecraft:spider_eye
+      - minecraft:nether_wart
+    count: 32
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    items:
+      - minecraft:poisonous_potato
+      - minecraft:brown_mushroom_block
+      - minecraft:red_mushroom_block
+    count: 12
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    item: minecraft:baked_potato
+    count: 24
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    item: minecraft:cake
+    count: 8
+  output:
+    - cell: methane
+  cells: 1
+  duration: 5000
+- input:
+    item: minecraft:soul_sand
+    count: 16
+  output:
+    - cell: oil
+    - item: gregtechmod:dust_saltpeter
+      count: 4
+    - item: ic2:dust#coal
+    - item: minecraft:sand
+      count: 10
+  cells: 1
+  duration: 2500
+- input:
+    fluid: lava
+    count: 16
+  output:
+    - item: gregtechmod:ingot_electrum
+    - item: ic2:ingot#copper
+      count: 4
+    - item: gregtechmod:smalldust_tungsten
+    - item: ic2:ingot#tin
+      count: 2
+  duration: 10000

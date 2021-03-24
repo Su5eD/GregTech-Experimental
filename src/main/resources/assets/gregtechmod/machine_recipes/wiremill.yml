@@ -1,0 +1,56 @@
+# Wiremill recipes
+---
+- input:
+    ore: dustCoal
+    count: 4
+  output:
+    item: ic2:crafting#carbon_fibre
+  duration: 400
+  energyCost: 2
+- input:
+    ore: ingotCopper
+  output:
+    item: ic2:cable#type:copper,insulation:0
+    count: 3
+  duration: 100
+  energyCost: 2
+- input:
+    ore: ingotSolderingAlloy
+  output:
+    item: gregtechmod:soldering_tin
+  duration: 100
+  energyCost: 4
+- input:
+    ore: ingotGold
+  output:
+    item: ic2:cable#type:gold,insulation:0
+    count: 6
+  duration: 200
+  energyCost: 1
+- input:
+    ore: ingotLead
+  output:
+    item: gregtechmod:soldering_lead
+  duration: 100
+  energyCost: 4
+- input:
+    ore: ingotKanthal
+    count: 4
+  output:
+    item: gregtechmod:coil_kanthal
+  duration: 450
+  energyCost: 12
+- input:
+    ore: ingotNichrome
+    count: 5
+  output:
+    item: gregtechmod:coil_nichrome
+  duration: 600
+  energyCost: 16
+- input:
+    ore: ingotCupronickel
+    count: 3
+  output:
+    item: gregtechmod:coil_cupronickel
+  duration: 300
+  energyCost: 8

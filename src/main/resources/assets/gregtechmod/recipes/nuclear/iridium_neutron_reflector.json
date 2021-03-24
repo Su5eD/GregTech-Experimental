@@ -1,0 +1,25 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "NNN",
+    "NIN",
+    "NNN"
+  ],
+  "key":
+  {
+    "N":
+    {
+      "item": "ic2:thick_neutron_reflector"
+    },
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAlloyIridium"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:iridium_reflector"
+  }
+}

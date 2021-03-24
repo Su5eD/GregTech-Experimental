@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.items.base;
 
-import mods.gregtechmod.api.util.GtUtil;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -11,8 +11,8 @@ import java.util.List;
 public class ItemCrafting extends ItemBase {
     private final int craftingDamage;
 
-    public ItemCrafting(String name, @Nullable String description, int durability, int craftingDamage) {
-        super(name, description, durability);
+    public ItemCrafting(String name, String descriptionKey, int durability, int craftingDamage) {
+        super(name, descriptionKey, durability);
         setMaxStackSize(1);
         setNoRepair();
         this.craftingDamage = craftingDamage;
@@ -23,7 +23,7 @@ public class ItemCrafting extends ItemBase {
     }
 
     @Override
-    public boolean hasContainerItem() {
+    public boolean hasContainerItem(ItemStack stack) {
         return true;
     }
 

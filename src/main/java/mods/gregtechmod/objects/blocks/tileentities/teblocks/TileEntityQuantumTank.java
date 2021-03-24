@@ -8,12 +8,13 @@ import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
 import ic2.core.block.invslot.InvSlotConsumableLiquidByTank;
 import ic2.core.block.invslot.InvSlotOutput;
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.gui.GuiQuantumTank;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerQuantumTank;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -90,7 +91,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
 
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        tooltip.add("With a capacity of 488.28125 chunks!");
+        tooltip.add(GtUtil.translateTeBlockDescription("quantum_tank"));
     }
 
     @Override

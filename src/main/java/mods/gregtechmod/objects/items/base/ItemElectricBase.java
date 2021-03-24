@@ -4,6 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.core.item.ElectricItemManager;
 import ic2.core.item.IPseudoDamageItem;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -12,6 +13,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudoDamageItem {
     protected final double maxCharge;
@@ -19,14 +21,18 @@ public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudo
     protected final int tier;
     protected final double operationEnergyCost;
     protected final boolean providesEnergy;
-    protected boolean hasEmptyVariant = false;
+    protected boolean hasEmptyVariant;
     protected boolean showTier = true;
 
-    public ItemElectricBase(String name, @Nullable String description, double maxCharge, double transferLimit, int tier) {
-        this(name, description, maxCharge, transferLimit, tier, 0, false);
+    public ItemElectricBase(String name, double maxCharge, double transferLimit, int tier) {
+        this(name, maxCharge, transferLimit, tier, 0, false);
     }
 
-    public ItemElectricBase(String name, @Nullable String description, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy) {
+    public ItemElectricBase(String name, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy) {
+        this(name, () -> GtUtil.translateItemDescription(name), maxCharge, transferLimit, tier, operationEnergyCost, providesEnergy);
+    }
+
+    public ItemElectricBase(String name, Supplier<String> description, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy) {
         super(name, description, 28);
         this.maxCharge = maxCharge;
         this.transferLimit = transferLimit;
@@ -38,14 +44,15 @@ public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudo
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (this.showTier && this.tier > 0) tooltip.add("Tier: "+this.tier);
+        if (this.showTier && this.tier > 0) tooltip.add(GtUtil.translateInfo("tier", this.tier));
         String durability = getDurabilityInfo(stack);
         if (this.showDurability && !durability.isEmpty()) tooltip.add(durability);
-        if (this.toolTip != null) {
+        String description = this.description.get();
+        if (description != null) {
             if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-                tooltip.add("Empty. You need to recharge it.");
+                tooltip.add(GtUtil.translateInfo("empty"));
             }
-            else tooltip.add(this.toolTip);
+            else tooltip.add(description);
         }
     }
 
@@ -80,10 +87,10 @@ public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudo
     }
 
     @Override
-    public String getItemStackDisplayName(ItemStack stack) {
+    public String getTranslationKey(ItemStack stack) {
         if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-            return "Empty " + super.getItemStackDisplayName(stack);
+            return super.getTranslationKey(stack)+".empty";
         }
-        return super.getItemStackDisplayName(stack);
+        return super.getTranslationKey(stack);
     }
 }

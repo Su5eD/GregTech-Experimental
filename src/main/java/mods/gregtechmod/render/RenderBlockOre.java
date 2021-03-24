@@ -16,8 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.annotation.Nonnull;
@@ -27,7 +25,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-@SideOnly(Side.CLIENT)
 public class RenderBlockOre extends AbstractModel {
     private final Map<EnumFacing, ResourceLocation> textures;
     private final Map<EnumFacing, ResourceLocation> texturesNether;

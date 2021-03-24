@@ -1,20 +1,16 @@
 package mods.gregtechmod.core;
 
 import ic2.api.event.TeBlockFinalCallEvent;
-import ic2.api.item.IC2Items;
+import ic2.core.IC2;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.GregTechConfig;
 import mods.gregtechmod.api.GregTechObjectAPI;
-import mods.gregtechmod.api.util.GtUtil;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.cover.CoverHandler;
-import mods.gregtechmod.init.CoverLoader;
-import mods.gregtechmod.init.OreDictRegistrar;
-import mods.gregtechmod.init.RecipeLoader;
-import mods.gregtechmod.init.RegistryHandler;
+import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
@@ -38,6 +34,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.Arrays;
@@ -47,17 +44,18 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
-     dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry")
+     dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
-
-    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     @Instance
     public static GregTechMod instance;
     @SidedProxy(clientSide = "mods.gregtechmod.core.ClientProxy", serverSide = "mods.gregtechmod.core.ServerProxy")
     public static IProxy proxy;
 
-    public static final CreativeTabs GREGTECH_TAB = new GregTechTab("gregtechtab");
+    public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
+    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
     public static File configDir;
+    public static boolean classic;
+    public static Logger logger;
 
     static {
         FluidRegistry.enableUniversalBucket();
@@ -70,36 +68,43 @@ public final class GregTechMod {
 
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
-        GregTechAPI.logger = event.getModLog();
+        logger = event.getModLog();
 
-        GregTechAPI.logger.info("Pre-init started");
+        logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
-        MinecraftForge.EVENT_BUS.register(OreGenerator.instance);
-        MinecraftForge.EVENT_BUS.register(RetrogenHandler.instance);
+        GregTechAPI.isClassic = classic = IC2.version.isClassic();
+        DynamicConfig.init();
+        MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(OreDictHandler.INSTANCE);
+        ModHandler.checkLoadedMods();
 
         RegistryHandler.registerFluids();
         Components.register(CoverHandler.class, "gtcover");
         Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
         CoverLoader.registerCovers();
-        GameRegistry.registerWorldGenerator(OreGenerator.instance, 5);
-        //TODO: Move to recipe loader(or modificator) class
-        IC2Items.getItem("upgrade", "overclocker").getItem().setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
+        GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
     }
 
     @EventHandler
     public static void init(FMLInitializationEvent event) {
-        GtUtil.emptyCell = IC2Items.getItem("fluid_cell");
+        ModHandler.gatherModItems();
+        proxy.init();
         GregTechTEBlock.buildDummies();
 
         BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
-        Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES).collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
+        Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
+                .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
         GregTechObjectAPI.setTileEntityMap(teblocks);
 
         OreDictRegistrar.registerItems();
+        MachineRecipeLoader.loadRecipes();
+        CraftingRecipeLoader.init();
+        MachineRecipeLoader.loadDynamicRecipes();
+        if (GregTechMod.classic) MatterRecipeLoader.init();
+        MachineRecipeLoader.loadFuels();
 
-        RecipeLoader.load();
-
-        GregTechAPI.logger.debug("Registering loot");
+        logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/abandoned_mineshaft"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/desert_pyramid"));
@@ -111,8 +116,15 @@ public final class GregTechMod {
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/village_blacksmith"));
     }
     @EventHandler
-    public static void init(FMLPostInitializationEvent event) {
+    public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
+        ItemStackModificator.init();
+
+        logger.info("Activating OreDictionary Handler");
+        OreDictHandler.INSTANCE.activateHandler();
+        OreDictHandler.registerValuableOres();
+
+        MachineRecipeLoader.registerDynamicRecipes();
     }
 
     @SubscribeEvent

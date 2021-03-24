@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:cell_carbon"
+    },
+    {
+      "item": "gregtechmod:cell_carbon"
+    },
+    {
+      "item": "gregtechmod:cell_carbon"
+    },
+    {
+      "item": "gregtechmod:cell_carbon"
+    },
+    {
+      "item": "gregtechmod:cell_carbon"
+    },
+    {
+      "item": "gregtechmod:cell_carbon"
+    },
+    {
+      "item": "gregtechmod:cell_carbon"
+    },
+    {
+      "item": "gregtechmod:cell_carbon"
+    },
+    {
+      "item": "gregtechmod:cell_carbon"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:crafting",
+    "data": 13
+  }
+}

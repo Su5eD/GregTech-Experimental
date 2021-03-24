@@ -2,6 +2,7 @@ package mods.gregtechmod.core;
 
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.init.ClientEventHandler;
 import mods.gregtechmod.util.IProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -15,6 +16,11 @@ import net.minecraft.world.World;
 public class ClientProxy implements IProxy {
 
     @Override
+    public void init() {
+        ClientEventHandler.gatherModItems();
+    }
+
+    @Override
     public void playSound(SoundEvent sound, float pitch) {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(sound, pitch));
     }
@@ -26,14 +32,12 @@ public class ClientProxy implements IProxy {
 
         if (stack.isEmpty()) return;
 
-        for (int i = 0; i < GregTechAPI.sonictronSounds.size(); i++) {
-            if (StackUtil.checkItemEquality(stack, GregTechAPI.sonictronSounds.get(i).item)) {
-                name = GregTechAPI.sonictronSounds.get(i).name;
+        for (int i = 0; i < GregTechAPI.SONICTRON_SOUNDS.size(); i++) {
+            if (StackUtil.checkItemEquality(stack, GregTechAPI.SONICTRON_SOUNDS.get(i).item)) {
+                name = GregTechAPI.SONICTRON_SOUNDS.get(i).name;
                 break;
             }
         }
-
-        System.out.println("name: "+name);
 
         if (name.startsWith("random.explode")) {
             if (stack.getCount()==3) {
