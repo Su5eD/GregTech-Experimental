@@ -1,7 +1,7 @@
 package mods.gregtechmod.cover.type;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -16,10 +16,10 @@ public class CoverValve extends CoverPump {
 
     @Override
     public void doCoverThings() {
-        if (mode % 6 > 1 && te instanceof IGregtechMachine && (((IGregtechMachine)te).isAllowedToWork() != (mode % 6 < 4))) return;
+        if (!canWork()) return;
 
-        if (!(mode%2==1 && side==EnumFacing.UP) && !(mode%2==0 && side==EnumFacing.DOWN) && te instanceof IGregtechMachine && ((IGregtechMachine)te).getUniversalEnergy() >= 128) {
-            ((IGregtechMachine)te).useEnergy(CoverConveyor.moveItemStack((TileEntity)te, side, mode), false);
+        if (te instanceof IGregTechMachine && mode.consumesEnergy(side) && ((IGregTechMachine)te).getUniversalEnergy() >= 128) {
+            if (((IGregTechMachine) te).getUniversalEnergy() >= 128) ((IGregTechMachine)te).useEnergy(CoverConveyor.moveItemStack((TileEntity)te, side, mode), false);
         } else CoverConveyor.moveItemStack((TileEntity)te, side, mode);
 
         super.doCoverThings();
@@ -32,16 +32,16 @@ public class CoverValve extends CoverPump {
 
     @Override
     public boolean letsItemsIn() {
-        return mode>=6||mode%2!=0;
+        return mode.allowsInput();
     }
 
     @Override
     public boolean letsItemsOut() {
-        return mode>=6||mode%2==0;
+        return mode.allowsOutput();
     }
 
     @Override
-    public short getTickRate() {
+    public int getTickRate() {
         return 2;
     }
 }

@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.IC2;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
 import mods.gregtechmod.util.GtUtil;
@@ -62,11 +62,11 @@ public class ItemRubberHammer extends ItemHammer {
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
-        if(tileEntity instanceof IGregtechMachine) {
-            if (((IGregtechMachine) tileEntity).isAllowedToWork()) ((IGregtechMachine) tileEntity).disableWorking();
-            else ((IGregtechMachine) tileEntity).enableWorking();
+        if(tileEntity instanceof IGregTechMachine) {
+            if (((IGregTechMachine) tileEntity).isAllowedToWork()) ((IGregTechMachine) tileEntity).disableWorking();
+            else ((IGregTechMachine) tileEntity).enableWorking();
             if (world.isRemote) {
-                IC2.platform.messagePlayer(player, "Machine processing: "+(((IGregtechMachine) tileEntity).isAllowedToWork() ? "Enabled" : "Disabled"));
+                IC2.platform.messagePlayer(player, "Machine processing: "+(((IGregTechMachine) tileEntity).isAllowedToWork() ? "Enabled" : "Disabled"));
                 IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1.0F, 1.0F);
             }
             return EnumActionResult.SUCCESS;

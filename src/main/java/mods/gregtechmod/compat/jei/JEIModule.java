@@ -8,6 +8,7 @@ import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -48,6 +49,11 @@ public class JEIModule implements IModPlugin {
                     .stream()
                     .map(ItemStack::new)
                     .forEach(HIDDEN_ITEMS::add);
+        }
+
+        if (!ModHandler.buildcraftLib) {
+            HIDDEN_ITEMS.add(new ItemStack(BlockItems.Upgrade.PNEUMATIC_GENERATOR.getInstance()));
+            HIDDEN_ITEMS.add(new ItemStack(BlockItems.Upgrade.RS_ENERGY_CELL.getInstance()));
         }
 
         HIDDEN_ITEMS.forEach(ingredientBlacklist::addIngredientToBlacklist);

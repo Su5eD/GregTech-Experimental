@@ -25,14 +25,6 @@
 #  duration: 1600
 #  energyCost: 2
 #
-# TODO: Add after MJ support is implemented
-#- input:
-#    - ore: craftingGearTier02
-#    - ore: craftingGenerator
-#  output:
-#    item: gregtechmod:pneumatic_generator
-#  duration: 3200
-#  energyCost: 4
 ---
 - input:
     - ore: plateAlloyAdvanced
@@ -710,18 +702,6 @@
   conditions:
     - type: mod_loaded
       modid: railcraft
-# TODO: Add when MJ support is implemented
-#- input:
-#    - item: thermalexpansion_cell
-#    - item: ic2:upgrade#energy_storage
-#  output:
-#    - item: gregtechmod:energy_cell
-#      count: 4
-#  duration: 6400
-#  energyCost: 8
-#  conditions:
-#    - type: mod_loaded
-#      modid: thermalexpansion
 - input:
     - items:
         - railcraft:railbed
@@ -809,3 +789,24 @@
   conditions:
     - type: mod_loaded
       modid: energycontrol
+- input:
+    - ore: craftingGearTier02
+    - ore: craftingGenerator
+  output:
+    item: gregtechmod:pneumatic_generator
+  duration: 3200
+  energyCost: 4
+  conditions:
+    - type: mod_loaded
+      modid: buildcraftlib
+- input:
+    - item: buildcraftsilicon:redstone_chipset
+      count: 4
+    - item: ic2:upgrade#energy_storage
+  output:
+    - item: gregtechmod:energy_cell
+  duration: 3200
+  energyCost: 4
+  conditions:
+    - type: mod_loaded
+      modid: buildcraftsilicon

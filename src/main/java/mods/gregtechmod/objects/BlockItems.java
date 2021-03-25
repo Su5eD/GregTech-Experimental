@@ -2,6 +2,7 @@ package mods.gregtechmod.objects;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.item.IC2Items;
+import ic2.core.IC2;
 import ic2.core.profile.NotExperimental;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -9,6 +10,8 @@ import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
+import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockOre;
@@ -615,7 +618,7 @@ public class BlockItems {
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
             GameProfile owner = machine.getOwner();
             if (owner != null && !player.getGameProfile().equals(owner)) {
-                if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(Reference.MODID+".item.machine_lock.error"));
+                IC2.platform.messagePlayer(player, Reference.MODID+".item.machine_lock.error");
                 return true;
             }
             return false;
@@ -625,10 +628,27 @@ public class BlockItems {
         STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (stack, machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
-
         STEAM_TANK(GtUpgradeType.STEAM, 4, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
             if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + (64000 * stack.getCount()));
+        }),
+        PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (stack, machine, player) -> {
+            if (!ModHandler.buildcraftLib) {
+                player.sendMessage(new TextComponentTranslation(Reference.MODID+".info.buildcraft_absent"));
+                return true;
+            }
+            return false;
+        }, (stack, machine, player) -> {
+            if (!machine.hasMjUpgrade()) machine.addMjUpgrade();
+        }),
+        RS_ENERGY_CELL(GtUpgradeType.MJ, 15, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
+            if (!ModHandler.buildcraftLib) {
+                player.sendMessage(new TextComponentTranslation(Reference.MODID+".info.buildcraft_absent"));
+                return true;
+            }
+            return false;
+        }, (stack, machine, player) -> {
+            machine.setMjCapacity(machine.getMjCapacity() + MjHelper.convert(100000));
         });
 
         private Item instance;
@@ -659,6 +679,10 @@ public class BlockItems {
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
             this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), beforeInsert, afterInsert);
+        }
+
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, condition, beforeInsert, afterInsert);
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
@@ -692,7 +716,7 @@ public class BlockItems {
         CRAFTING("craftingWorkBench"),
         DRAIN("craftingDrain"),
         ENERGY_ONLY("energy_flow_circuit", "craftingCircuitTier07"),
-        EU_METER("craftingEnergyMeter"),
+        ENERGY_METER("craftingEnergyMeter"),
         ITEM_METER("craftingItemMeter"),
         ITEM_VALVE("craftingItemValve"),
         LIQUID_METER("craftingLiquidMeter"),

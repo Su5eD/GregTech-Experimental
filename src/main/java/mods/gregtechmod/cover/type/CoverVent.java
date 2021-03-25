@@ -4,7 +4,7 @@ import ic2.core.item.reactor.ItemReactorVent;
 import ic2.core.item.reactor.ItemReactorVentSpread;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,7 +25,7 @@ public class CoverVent extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregtechMachine) || !((IGregtechMachine)te).isActive()) return;
+        if (!(te instanceof IGregTechMachine) || !((IGregTechMachine)te).isActive()) return;
         World world = ((TileEntity)te).getWorld();
         BlockPos pos = ((TileEntity) te).getPos();
         if (world.getBlockState(pos.offset(side)).getCollisionBoundingBox(world, pos) != null) return;
@@ -38,9 +38,9 @@ public class CoverVent extends CoverGeneric {
         }
         efficiency = calculateEfficiency(efficiency, boost);
         if (efficiency == 0) return;
-        int maxProgress = ((IGregtechMachine)te).getMaxProgress();
+        int maxProgress = ((IGregTechMachine)te).getMaxProgress();
         double amplifier = (double) (maxProgress / 100) * efficiency;
-        ((IGregtechMachine) te).increaseProgress(amplifier / (maxProgress - 1));
+        ((IGregTechMachine) te).increaseProgress(amplifier / (maxProgress - 1));
     }
 
     public float calculateEfficiency(float efficiency, float boost) {
@@ -69,7 +69,7 @@ public class CoverVent extends CoverGeneric {
         return VentType.NORMAL;
     }
 
-    public enum VentType {
+    private enum VentType {
         NORMAL(Reference.MODID, VentType.COVER_PATH + "machine_vent_rotating"),
         SPREAD(Reference.MODID, VentType.COVER_PATH + "adv_machine_vent"),
         ADVANCED(Reference.MODID, VentType.COVER_PATH + "adv_machine_vent_rotating");
@@ -89,7 +89,7 @@ public class CoverVent extends CoverGeneric {
     }
 
     @Override
-    public short getTickRate() {
+    public int getTickRate() {
         return 1;
     }
 }

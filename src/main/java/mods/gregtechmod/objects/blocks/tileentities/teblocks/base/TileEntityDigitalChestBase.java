@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior implements IUpgradableMachine, IPanelInfoProvider {
-
     protected GameProfile owner = null;
     protected boolean isPrivate = false;
     private boolean canDoubleClick;
@@ -54,7 +53,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         this.content = new InvSlot(this, "mainSlot", InvSlot.Access.IO, 1);
         this.content.setStackSizeLimit(stackLimit);
         this.upgradeSlot = new GtUpgradeSlot(this, "lockUpgradeSlot", InvSlot.Access.NONE, 1);
-        this.allowedCovers = Sets.newHashSet("generic", "normal", "item_meter", "crafting", "machine_controller", "item_valve");
+        this.allowedCovers = Sets.newHashSet("generic", "normal", "conveyor", "item_meter", "crafting", "machine_controller", "item_valve");
     }
 
     @Override
@@ -99,9 +98,9 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             }
         }
 
-        if (world.isRemote || super.onActivated(player, hand, side, hitX, hitY, hitZ)) return true;
+        if (super.onActivated(player, hand, side, hitX, hitY, hitZ) || world.isRemote) return true;
 
-        long time = world.getWorldTime();
+        long time = world.getTotalWorldTime();
 
         if (!stack.isEmpty() && availableSpace > 0) {
             int insertCount = Math.min(stack.getCount(), availableSpace);
@@ -159,7 +158,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         ItemStack slot = content.get();
 
         if (!slot.isEmpty() && !world.isRemote && player.getActiveHand() == EnumHand.MAIN_HAND) {
-            long time = world.getWorldTime();
+            long time = world.getTotalWorldTime();
             if (time - clickTime < 3) return;
             clickTime = time;
 
@@ -470,4 +469,25 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public String getTertiaryInfo() {
         return "Max: "+this.maxItemCount;
     }
+
+    @Override
+    public long getStoredMj() {
+        return 0;
+    }
+
+    @Override
+    public long getMjCapacity() {
+        return 0;
+    }
+
+    @Override
+    public boolean hasMjUpgrade() {
+        return false;
+    }
+
+    @Override
+    public void addMjUpgrade() {}
+
+    @Override
+    public void setMjCapacity(long capacity) {}
 }

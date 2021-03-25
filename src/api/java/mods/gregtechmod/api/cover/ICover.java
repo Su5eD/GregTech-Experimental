@@ -72,7 +72,7 @@ public interface ICover {
 
     void readFromNBT(NBTTagCompound nbt);
 
-    short getTickRate();
+    int getTickRate();
 
     void onCoverRemoval();
 }

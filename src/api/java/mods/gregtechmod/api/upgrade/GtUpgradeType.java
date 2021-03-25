@@ -8,7 +8,8 @@ public enum GtUpgradeType {
     BATTERY,
     LOCK(false),
     STEAM,
-    OTHER(false);
+    OTHER(false),
+    MJ;
 
     public final boolean display;
 
@@ -20,5 +21,5 @@ public enum GtUpgradeType {
         this.display = display;
     }
 
-    public static final Set<GtUpgradeType> DEFAULT = EnumSet.of(TRANSFORMER, BATTERY, LOCK, STEAM);
+    public static final Set<GtUpgradeType> DEFAULT = EnumSet.of(TRANSFORMER, BATTERY, LOCK, MJ, STEAM);
 }

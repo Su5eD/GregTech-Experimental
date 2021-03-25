@@ -1,14 +1,14 @@
 package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import mods.gregtechmod.api.cover.ICover;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.util.SidedRedstone;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregtechMachine {
+public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine {
     public final SidedRedstoneEmitter rsEmitter;
     public final SidedRedstone redstone;
     protected boolean enableWorking = true;

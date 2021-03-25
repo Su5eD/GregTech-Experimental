@@ -18,7 +18,7 @@ public class CoverLoader {
         CRAFTING(CoverCrafting::new),
         DRAIN(CoverDrain::new),
         ENERGY_ONLY(CoverEnergyOnly::new),
-        EU_METER(CoverEUMeter::new),
+        ENERGY_METER(CoverEnergyMeter::new),
         GENERIC(CoverGeneric::new),
         ITEM_METER(CoverItemMeter::new),
         ITEM_VALVE(CoverValve::new),
@@ -46,8 +46,9 @@ public class CoverLoader {
     public static void registerCovers() {
         GregTechMod.logger.info("Registering covers");
         for(Covers type : Covers.values()) {
-            GregTechMod.logger.debug("Registering cover "+type.name().toLowerCase(Locale.ROOT));
-            CoverRegistry.registerCover(type.name().toLowerCase(Locale.ROOT), type.constructor);
+            String name = type.name().toLowerCase(Locale.ROOT);
+            GregTechMod.logger.debug("Registering cover "+name);
+            CoverRegistry.registerCover(name, type.constructor);
         }
     }
 }

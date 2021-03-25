@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class CoverNormal extends CoverGeneric {
-    protected byte mode;
+    protected CoverMeter.MeterMode mode = CoverMeter.MeterMode.NORMAL;
 
     public CoverNormal(ICoverable te, EnumFacing side, ItemStack stack) {
         super(te, side, stack);
@@ -17,59 +17,59 @@ public class CoverNormal extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/"+(mode == 0 ? "normal" : "noredstone"));
+        return new ResourceLocation(Reference.MODID, "blocks/covers/"+(mode == CoverMeter.MeterMode.NORMAL ? "normal" : "noredstone"));
     }
 
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
-        mode = (byte) ((mode+1)%2);
+        mode = mode.next();
         te.markForRenderUpdate();
         return true;
     }
 
     @Override
     public boolean letsRedstoneIn() {
-        return mode == 0;
+        return mode == CoverMeter.MeterMode.NORMAL;
     }
 
     @Override
     public boolean letsRedstoneOut() {
-        return mode == 0;
+        return mode == CoverMeter.MeterMode.NORMAL;
     }
 
     @Override
     public boolean allowEnergyTransfer() {
-        return mode == 1;
+        return mode == CoverMeter.MeterMode.INVERTED;
     }
 
     @Override
     public boolean letsLiquidsIn() {
-        return mode == 1;
+        return mode == CoverMeter.MeterMode.INVERTED;
     }
 
     @Override
     public boolean letsLiquidsOut() {
-        return mode == 1;
+        return mode == CoverMeter.MeterMode.INVERTED;
     }
 
     @Override
     public boolean letsItemsIn() {
-        return mode == 1;
+        return mode == CoverMeter.MeterMode.INVERTED;
     }
 
     @Override
     public boolean letsItemsOut() {
-        return mode == 1;
+        return mode == CoverMeter.MeterMode.INVERTED;
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setByte("mode", mode);
+        nbt.setString("mode", mode.name());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = nbt.getByte("mode");
+        this.mode = CoverMeter.MeterMode.valueOf(nbt.getString("mode"));
     }
 }

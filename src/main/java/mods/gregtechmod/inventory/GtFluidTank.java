@@ -26,16 +26,12 @@ public class GtFluidTank extends Fluids.InternalFluidTank {
     @Override
     public boolean canFill(EnumFacing side) {
         ICover cover = parent.getCoverAtSide(side);
-        if (cover != null) {
-            return true;
-        }
-        return super.canFill(side);
+        return super.canFill(side) && (cover == null || cover.letsLiquidsIn());
     }
 
     @Override
     public boolean canDrain(EnumFacing side) {
         ICover cover = parent.getCoverAtSide(side);
-        if (cover != null) return cover.letsLiquidsOut();
-        return super.canDrain(side);
+        return super.canDrain(side) && (cover == null || cover.letsLiquidsOut());
     }
 }
