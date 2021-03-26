@@ -2,7 +2,6 @@ package mods.gregtechmod.util;
 
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.Locale;
 
@@ -65,7 +64,7 @@ public enum InventoryMode {
         return this.allowIO || !this.isImport;
     }
 
-    public TextComponentTranslation getMessage() {
-        return new TextComponentTranslation(Reference.MODID+".cover.inventory_mode."+this.name().toLowerCase(Locale.ROOT));
+    public String getMessageKey() {
+        return Reference.MODID+".cover.inventory_mode."+this.name().toLowerCase(Locale.ROOT);
     }
 }

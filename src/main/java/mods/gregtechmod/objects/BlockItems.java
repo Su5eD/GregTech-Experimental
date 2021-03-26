@@ -2,7 +2,6 @@ package mods.gregtechmod.objects;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.item.IC2Items;
-import ic2.core.IC2;
 import ic2.core.profile.NotExperimental;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -30,7 +29,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.FluidTank;
 
 import java.util.EnumSet;
@@ -618,7 +616,7 @@ public class BlockItems {
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
             GameProfile owner = machine.getOwner();
             if (owner != null && !player.getGameProfile().equals(owner)) {
-                IC2.platform.messagePlayer(player, Reference.MODID+".item.machine_lock.error");
+                GtUtil.sendMessage(player, Reference.MODID+".item.machine_lock.error");
                 return true;
             }
             return false;
@@ -634,7 +632,7 @@ public class BlockItems {
         }),
         PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (stack, machine, player) -> {
             if (!ModHandler.buildcraftLib) {
-                player.sendMessage(new TextComponentTranslation(Reference.MODID+".info.buildcraft_absent"));
+                GtUtil.sendMessage(player, Reference.MODID+".info.buildcraft_absent");
                 return true;
             }
             return false;
@@ -643,7 +641,7 @@ public class BlockItems {
         }),
         RS_ENERGY_CELL(GtUpgradeType.MJ, 15, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
             if (!ModHandler.buildcraftLib) {
-                player.sendMessage(new TextComponentTranslation(Reference.MODID+".info.buildcraft_absent"));
+                GtUtil.sendMessage(player, Reference.MODID+".info.buildcraft_absent");
                 return true;
             }
             return false;

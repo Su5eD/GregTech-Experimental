@@ -1,8 +1,10 @@
 package mods.gregtechmod.util;
 
+import com.mojang.authlib.GameProfile;
 import ic2.api.item.ElectricItem;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.item.IElectricArmor;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
@@ -16,6 +18,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -215,5 +218,14 @@ public class GtUtil {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public static boolean checkAccess(IUpgradableMachine machine, GameProfile owner, GameProfile playerProfile) {
+        if (!machine.isPrivate() || owner == null) return true;
+        return owner.equals(playerProfile);
+    }
+
+    public static void sendMessage(EntityPlayer player, String message, Object... args) {
+        if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(message, args));
     }
 }

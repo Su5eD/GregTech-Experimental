@@ -1,14 +1,15 @@
 package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.item.IC2Items;
-import ic2.core.IC2;
 import ic2.core.block.wiring.TileEntityCable;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -26,6 +27,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemSprayFoam extends ItemToolCrafting {
 
@@ -50,17 +52,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        switch (getMode(stack)) {
-            case 0:
-                tooltip.add("Single Block Mode");
-                break;
-            case 1:
-                tooltip.add("4m Line Mode");
-                break;
-            case 2:
-                tooltip.add("3mx3m Area Mode");
-                break;
-        }
+        tooltip.add(I18n.format(getMode(stack).getTooltipKey()));
     }
 
     @Override
@@ -77,7 +69,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
         }
         pos = pos.offset(side);
         Item itemFoam = IC2Items.getItem("foam", "normal").getItem();
-        boolean temp, factorX, factorY, factorZ;
+        boolean factorX, factorY, factorZ;
         int tRotationPitch = Math.round(player.rotationPitch);
         EnumFacing facing;
         if (tRotationPitch >= 65) {
@@ -104,13 +96,13 @@ public class ItemSprayFoam extends ItemToolCrafting {
             }
         }
         switch (getMode(stack)) {
-            case 0:
+            case SINGLE:
                 if (world.isAirBlock(pos) && GtUtil.damageStack(player, stack, 1)) {
                     world.setBlockState(pos, Block.getBlockFromItem(itemFoam).getDefaultState());
                     return EnumActionResult.SUCCESS;
                 }
                 break;
-            case 1:
+            case LINE:
                 for (byte i = 0; i < 4; i = (byte)(i + 1)) {
                     if (world.isAirBlock(pos)) {
                         world.setBlockState(pos, Block.getBlockFromItem(itemFoam).getDefaultState());
@@ -119,7 +111,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
                     pos = pos.subtract(new Vec3i(facing.getXOffset(), facing.getYOffset(), facing.getZOffset()));
                 }
                 return EnumActionResult.SUCCESS;
-            case 2:
+            case AREA:
                 factorX = facing.getXOffset() == 0;
                 factorY = facing.getYOffset() == 0;
                 factorZ = facing.getZOffset() == 0;
@@ -139,27 +131,34 @@ public class ItemSprayFoam extends ItemToolCrafting {
     }
 
     public void switchMode(ItemStack stack, EntityPlayer player) {
-        setMode(stack, (getMode(stack) + 1) % 3);
-        switch (getMode(stack)) {
-            case 0:
-                IC2.platform.messagePlayer(player, "Single Block Mode");
-                break;
-            case 1:
-                IC2.platform.messagePlayer(player, "4m Line Mode");
-                break;
-            case 2:
-                IC2.platform.messagePlayer(player, "3mx3m Area Mode");
-                break;
+        SprayMode mode = getMode(stack).next();
+        setMode(stack, mode);
+        GtUtil.sendMessage(player, mode.getTooltipKey());
+    }
+
+    public SprayMode getMode(ItemStack stack) {
+        NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
+        return nbt.hasKey("mode") ? SprayMode.valueOf(nbt.getString("mode")) : SprayMode.SINGLE;
+    }
+
+    private void setMode(ItemStack stack, SprayMode mode) {
+        NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
+        nbt.setString("mode", mode.name());
+    }
+
+    private enum SprayMode {
+        SINGLE,
+        LINE,
+        AREA;
+
+        private static final SprayMode[] VALUES = values();
+
+        public SprayMode next() {
+            return VALUES[(this.ordinal() + 1) % VALUES.length];
         }
-    }
 
-    public int getMode(ItemStack stack) {
-        NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
-        return nbt.getInteger("mode");
-    }
-
-    private void setMode(ItemStack stack, int mode) {
-        NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
-        nbt.setInteger("mode", mode);
+        public String getTooltipKey() {
+            return Reference.MODID+".item.spray_foam.mode."+this.name().toLowerCase(Locale.ROOT);
+        }
     }
 }

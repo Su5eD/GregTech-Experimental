@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
-import ic2.core.IC2;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
@@ -10,6 +9,7 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityQuantumChest;
@@ -71,8 +71,8 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         if (stack.getItem().getRegistryName().toString().contains("wrench")) return true;
 
         if (isPrivate && !world.isRemote) { //has to be executed on server side only
-            if (!TileEntityUpgradable.checkAccess(owner, player.getGameProfile())) {
-                IC2.platform.messagePlayer(player, "Only "+this.owner.getName()+" can access this.");
+            if (!GtUtil.checkAccess(this, owner, player.getGameProfile())) {
+                GtUtil.sendMessage(player, Reference.MODID+".info.access_error", owner.getName());
                 return true;
             }
         }
@@ -107,7 +107,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             boolean equal = StackUtil.checkItemEquality(stack, slot);
 
             if (!slot.isEmpty() && !equal) {
-                IC2.platform.messagePlayer(player, slot.getCount()+" "+slot.getDisplayName());
+                GtUtil.sendMessage(player, slot.getCount()+" "+slot.getDisplayName());
                 return true;
             }
             else if (slot.isEmpty()) {
@@ -136,7 +136,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
                 }
             }
             if (totalCount < 1) {
-                IC2.platform.messagePlayer(player, slot.getCount() + " " + slot.getDisplayName());
+                GtUtil.sendMessage(player, slot.getCount() + " " + slot.getDisplayName());
                 return true;
             }
 
@@ -144,7 +144,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             GregTechMod.proxy.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.5F);
         }
         else if (!slot.isEmpty()) {
-            IC2.platform.messagePlayer(player, slot.getCount() + " " + slot.getDisplayName());
+            GtUtil.sendMessage(player, slot.getCount() + " " + slot.getDisplayName());
             canDoubleClick = false;
         }
 
@@ -154,7 +154,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     protected void onClicked(EntityPlayer player) {
-        if(isPrivate && !TileEntityUpgradable.checkAccess(owner, player.getGameProfile())) return;
+        if(isPrivate && !GtUtil.checkAccess(this, owner, player.getGameProfile())) return;
         ItemStack slot = content.get();
 
         if (!slot.isEmpty() && !world.isRemote && player.getActiveHand() == EnumHand.MAIN_HAND) {

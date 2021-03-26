@@ -30,7 +30,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -38,6 +37,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidStack;
@@ -69,10 +69,10 @@ public class ItemScanner extends ItemElectricBase {
             return EnumActionResult.PASS;
         }
         ItemStack stack = player.inventory.getCurrentItem();
-        if (player instanceof EntityPlayerMP && ElectricItem.manager.canUse(stack, 25000)) {
+        if (!player.world.isRemote && ElectricItem.manager.canUse(stack, 25000)) {
             ArrayList<String> list = new ArrayList<>();
             ElectricItem.manager.use(stack, getCoordinateScan(list, player, world, 1, pos, side, hitX, hitY, hitZ), player);
-            for (String s : list) IC2.platform.messagePlayer(player, s);
+            for (String str : list) player.sendMessage(new TextComponentString(str));
             return EnumActionResult.SUCCESS;
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
@@ -212,12 +212,11 @@ public class ItemScanner extends ItemElectricBase {
             ret.addAll(temp);
         }
 
-        ScannerEvent tEvent = new ScannerEvent(world, player, pos, side, scanLevel, block, tileEntity, ret, hitX, hitY, hitZ);
-        tEvent.EUCost = EUCost;
-        MinecraftForge.EVENT_BUS.post(tEvent);
-        if (!tEvent.isCanceled()) {
-            list.addAll(ret);
-        }
-        return tEvent.EUCost;
+        ScannerEvent event = new ScannerEvent(world, player, pos, side, scanLevel, block, tileEntity, ret, hitX, hitY, hitZ);
+        event.EUCost = EUCost;
+        MinecraftForge.EVENT_BUS.post(event);
+        if (!event.isCanceled()) list.addAll(ret);
+
+        return event.EUCost;
     }
 }

@@ -3,6 +3,7 @@ package mods.gregtechmod.cover.type;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import java.util.Locale;
@@ -41,11 +41,11 @@ public class CoverMachineController extends CoverGeneric {
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
         mode = mode.next();
-        if (!player.world.isRemote) player.sendMessage(mode.getMessage());
+        GtUtil.sendMessage(player, mode.getMessageKey());
         return true;
     }
 
-    public enum ControllerMode {
+    private enum ControllerMode {
         NORMAL,
         INVERTED,
         DISABLED;
@@ -56,8 +56,8 @@ public class CoverMachineController extends CoverGeneric {
             return VALUES[(this.ordinal() + 1) % VALUES.length];
         }
 
-        public TextComponentTranslation getMessage() {
-            return new TextComponentTranslation(Reference.MODID+".cover.mode."+this.name().toLowerCase(Locale.ROOT));
+        public String getMessageKey() {
+            return Reference.MODID+".cover.mode."+this.name().toLowerCase(Locale.ROOT);
         }
     }
 

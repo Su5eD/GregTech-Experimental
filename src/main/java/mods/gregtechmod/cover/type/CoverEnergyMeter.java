@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.Locale;
 
@@ -65,7 +64,7 @@ public class CoverEnergyMeter extends CoverGeneric {
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
         mode = mode.next();
-        if (!player.world.isRemote) player.sendMessage(mode.getMessage());
+        GtUtil.sendMessage(player, mode.getMessageKey());
         return true;
     }
 
@@ -161,8 +160,8 @@ public class CoverEnergyMeter extends CoverGeneric {
             return VALUES[(this.ordinal() + 1) % VALUES.length];
         }
 
-        public TextComponentTranslation getMessage() {
-            return new TextComponentTranslation(GtUtil.translateItem("energy_meter.mode."+this.name().toLowerCase(Locale.ROOT)));
+        public String getMessageKey() {
+            return Reference.MODID+".item.energy_meter.mode."+this.name().toLowerCase(Locale.ROOT);
         }
     }
 }

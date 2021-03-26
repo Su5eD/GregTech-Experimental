@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.items.tools;
 
-import ic2.core.IC2;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.base.ItemHammer;
@@ -64,7 +63,9 @@ public class ItemHardHammer extends ItemHammer {
                 if (output) ((IGregTechMachine) tileEntity).enableOutput();
                 else ((IGregTechMachine) tileEntity).disableOutput();
 
-                IC2.platform.messagePlayer(player, Reference.MODID+".generic.hard_hammer.auto_input", input ? "Enabled" : "Disabled", output ? "Enabled" : "Disabled");
+                String enabled = GtUtil.translateGeneric("enabled");
+                String disabled = GtUtil.translateGeneric("disabled");
+                GtUtil.sendMessage(player, Reference.MODID+".generic.hard_hammer.auto_input", input ? enabled : disabled, output ? enabled : disabled);
                 return EnumActionResult.SUCCESS;
             }
         }

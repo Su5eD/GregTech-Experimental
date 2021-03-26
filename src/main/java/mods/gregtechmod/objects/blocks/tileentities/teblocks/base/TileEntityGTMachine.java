@@ -15,6 +15,7 @@ import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
@@ -97,8 +98,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
 
     @Override
     protected boolean wrenchCanRemove(EntityPlayer player) {
-        if (isPrivate && !checkAccess(owner, player.getGameProfile())) {
-            IC2.platform.messagePlayer(player, "This block is owned by "+player.getGameProfile().getName()+", only they can remove it.");
+        if (isPrivate && !GtUtil.checkAccess(this, owner, player.getGameProfile())) {
+            GtUtil.sendMessage(player, Reference.MODID+".info.wrench_error", player.getName());
             return false;
         }
         return true;
@@ -376,7 +377,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         List<String> ret = new ArrayList<>();
         if (scanLevel > 2) ret.add("Meta-ID: " + this.getBlockMetadata());
         if (scanLevel > 1) {
-            ret.add(GtUtil.translateInfo(checkAccess(this.owner, player.getGameProfile()) ? "machine_accessible" : "machine_not_accessible"));
+            ret.add(GtUtil.translateInfo(GtUtil.checkAccess(this, this.owner, player.getGameProfile()) ? "machine_accessible" : "machine_not_accessible"));
         }
         if (scanLevel > 0) {
             if (this.hasSteamUpgrade) {

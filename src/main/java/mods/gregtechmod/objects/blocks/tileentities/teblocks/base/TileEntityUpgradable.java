@@ -92,8 +92,8 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         for (ICover cover : coverHandler.covers.values()) if (!cover.opensGui(side)) return false;
 
         if (isPrivate) {
-            if (!checkAccess(owner, player.getGameProfile())) {
-                IC2.platform.messagePlayer(player, Reference.MODID+".info.access_error", owner.getName());
+            if (!GtUtil.checkAccess(this, owner, player.getGameProfile())) {
+                GtUtil.sendMessage(player, Reference.MODID+".info.access_error", owner.getName());
                 return false;
             }
         }
@@ -140,11 +140,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         List<String> ret = super.getNetworkedFields();
         ret.add("overclockersCount");
         return ret;
-    }
-
-    public static boolean checkAccess(GameProfile owner, GameProfile playerProfile) {
-        if (owner == null) return true;
-        return owner.equals(playerProfile);
     }
 
     @Override

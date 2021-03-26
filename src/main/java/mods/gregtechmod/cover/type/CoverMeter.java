@@ -3,11 +3,11 @@ package mods.gregtechmod.cover.type;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.text.TextComponentTranslation;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Locale;
@@ -39,7 +39,7 @@ public abstract class CoverMeter extends CoverGeneric {
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
         mode = mode.next();
-        if (!player.world.isRemote) player.sendMessage(mode.getMessageKey());
+        GtUtil.sendMessage(player, mode.getMessageKey());
         return true;
     }
 
@@ -66,8 +66,8 @@ public abstract class CoverMeter extends CoverGeneric {
             return VALUES[(this.ordinal() + 1) % VALUES.length];
         }
 
-        public TextComponentTranslation getMessageKey() {
-            return new TextComponentTranslation(Reference.MODID+".cover.mode."+this.name().toLowerCase(Locale.ROOT));
+        public String getMessageKey() {
+            return Reference.MODID+".cover.mode."+this.name().toLowerCase(Locale.ROOT);
         }
     }
 

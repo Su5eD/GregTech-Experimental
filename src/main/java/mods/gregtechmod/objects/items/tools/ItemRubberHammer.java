@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.IC2;
 import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
 import mods.gregtechmod.util.GtUtil;
@@ -48,7 +49,7 @@ public class ItemRubberHammer extends ItemHammer {
     }
 
     @Override
-    public EnumRarity getRarity(ItemStack stack) {
+    public EnumRarity getForgeRarity(ItemStack stack) {
         return EnumRarity.RARE;
     }
 
@@ -65,10 +66,9 @@ public class ItemRubberHammer extends ItemHammer {
         if(tileEntity instanceof IGregTechMachine) {
             if (((IGregTechMachine) tileEntity).isAllowedToWork()) ((IGregTechMachine) tileEntity).disableWorking();
             else ((IGregTechMachine) tileEntity).enableWorking();
-            if (world.isRemote) {
-                IC2.platform.messagePlayer(player, "Machine processing: "+(((IGregTechMachine) tileEntity).isAllowedToWork() ? "Enabled" : "Disabled"));
-                IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1.0F, 1.0F);
-            }
+
+            GtUtil.sendMessage(player, Reference.MODID+".item.hammer_rubber.info.processing_"+(((IGregTechMachine) tileEntity).isAllowedToWork() ? "enabled" : "disabled"));
+            IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1.0F, 1.0F);
             return EnumActionResult.SUCCESS;
         }
 

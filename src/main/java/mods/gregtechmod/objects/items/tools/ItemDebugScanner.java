@@ -5,12 +5,12 @@ import ic2.core.audio.PositionSpec;
 import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -36,10 +36,10 @@ public class ItemDebugScanner extends ItemScanner {
             IC2.audioManager.playOnce(player, PositionSpec.Hand, "Tools/ODScanner.ogg", true, IC2.audioManager.getDefaultVolume());
             return EnumActionResult.PASS;
         }
-        if (player instanceof EntityPlayerMP) {
+        if (!player.world.isRemote) {
             ArrayList<String> aList = new ArrayList<>();
             getCoordinateScan(aList, player, world, 1, pos, side, hitX, hitY, hitZ);
-            for (String s : aList) IC2.platform.messagePlayer(player, s);
+            for (String str : aList) player.sendMessage(new TextComponentString(str));
             return EnumActionResult.SUCCESS;
         }
         return EnumActionResult.PASS;

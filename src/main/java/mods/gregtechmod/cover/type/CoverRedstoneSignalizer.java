@@ -1,8 +1,8 @@
 package mods.gregtechmod.cover.type;
 
-import ic2.core.IC2;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,9 +19,7 @@ public class CoverRedstoneSignalizer extends CoverGeneric {
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
         signal = (byte) ((signal + 1) & 15);
-
-        if (!player.world.isRemote) IC2.platform.messagePlayer(player, Reference.MODID+".cover.signal", signal);
-
+        GtUtil.sendMessage(player, Reference.MODID+".cover.signal", signal);
         return true;
     }
 

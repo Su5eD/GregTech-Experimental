@@ -2,6 +2,7 @@ package mods.gregtechmod.cover.type;
 
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InventoryMode;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,7 +26,7 @@ public abstract class CoverInventory extends CoverGeneric {
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
         mode = mode.next();
-        if (!player.world.isRemote) player.sendMessage(mode.getMessage());
+        GtUtil.sendMessage(player, mode.getMessageKey());
         return true;
     }
 
