@@ -27,6 +27,7 @@ public class TConstructModule {
         event.setCanceled(unifyCastingRecipe("table_casting", event.getRecipe()));
     }
 
+    @Optional.Method(modid = "tconstruct")
     private static boolean unifyCastingRecipe(String type, ICastingRecipe recipe) {
         if (recipe instanceof CastingRecipe) {
             ItemStack output = ((CastingRecipe) recipe).getResult();
