@@ -12,6 +12,7 @@ import mods.gregtechmod.compat.jei.wrapper.WrapperCentrifuge;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -62,7 +63,7 @@ public class CategoryCentrifuge implements IRecipeCategory<WrapperCentrifuge> {
 
     @Override
     public String getTitle() {
-        return "Industrial Centrifuge"; //TODO: Localization
+        return GtUtil.translate("teblock.industrial_centrifuge");
     }
 
     @Override

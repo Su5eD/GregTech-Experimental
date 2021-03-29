@@ -340,7 +340,7 @@ public class MachineRecipeLoader {
 
     public static <R> Optional<Collection<R>> parseFuels(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
         Optional<Collection<R>> normalFuels = parseConfig(name, recipeClass, filter, fuelsPath, false);
-        Optional<Collection<R>> classicFuels = GregTechMod.classic ? parseConfig(name, recipeClass, filter, fuelsPath, true) : Optional.empty();
+        Optional<Collection<R>> classicFuels = GregTechMod.classic ? parseConfig(name, recipeClass, filter, classicFuelsPath, true) : Optional.empty();
         return normalFuels.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, classicFuels.orElse(Collections.emptyList()))));
     }
 

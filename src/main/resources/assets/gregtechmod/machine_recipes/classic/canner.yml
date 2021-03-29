@@ -23,7 +23,7 @@
       count: 6
     - item: ic2:crafting#empty_fuel_can
   output:
-    - item: ic2:crafting#filled_fuel_can
+    - item: ic2:filled_fuel_can
       nbt:
         value: 26040
     - item: ic2:cell#empty
@@ -33,7 +33,7 @@
       count: 6
     - item: ic2:crafting#empty_fuel_can
   output:
-    - item: ic2:crafting#filled_fuel_can
+    - item: ic2:filled_fuel_can
       nbt:
         value: 76440
     - item: ic2:cell#empty

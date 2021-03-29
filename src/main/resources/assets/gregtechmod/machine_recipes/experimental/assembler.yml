@@ -53,7 +53,7 @@
         - plateAluminium
     - item: ic2:meter
   output:
-    item: gregtechmod:eu_meter
+    item: gregtechmod:energy_meter
   duration: 800
   energyCost: 16
 - input:
@@ -65,15 +65,6 @@
       count: 2
   output:
     item: gregtechmod:drain
-  duration: 800
-  energyCost: 16
-- input:
-    - ores:
-        - plateIron
-        - plateAluminium
-    - item: minecraft:redstone_torch
-  output:
-    item: gregtechmod:redstone_signalizer
   duration: 800
   energyCost: 16
 - input:

@@ -160,12 +160,18 @@
     ore: gearGold
   duration: 800
   energyCost: 1
+  conditions:
+    - type: ore_exists
+      ore: gearGold
 - input:
     - ore: gearGold
     - ore: gemDiamond
       count: 4
   output:
     ore: gearDiamond
+  conditions:
+    - type: ore_exists
+      ore: gearDiamond
   duration: 1600
   energyCost: 2
 - input:
@@ -409,13 +415,6 @@
     item: gregtechmod:block_iridium_reinforced_tungsten_steel
   duration: 400
   energyCost: 4
-- input:
-    - ore: plateAluminium
-    - ore: plateIridium
-  output:
-    item: gregtechmod:machine_lock
-  duration: 1600
-  energyCost: 2
 - input:
     - ore: stickIridium
       count: 4
@@ -804,7 +803,7 @@
       count: 4
     - item: ic2:upgrade#energy_storage
   output:
-    - item: gregtechmod:energy_cell
+    item: gregtechmod:rs_energy_cell
   duration: 3200
   energyCost: 4
   conditions:

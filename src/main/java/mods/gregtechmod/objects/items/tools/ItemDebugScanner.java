@@ -36,12 +36,10 @@ public class ItemDebugScanner extends ItemScanner {
             IC2.audioManager.playOnce(player, PositionSpec.Hand, "Tools/ODScanner.ogg", true, IC2.audioManager.getDefaultVolume());
             return EnumActionResult.PASS;
         }
-        if (!player.world.isRemote) {
-            ArrayList<String> aList = new ArrayList<>();
-            getCoordinateScan(aList, player, world, 1, pos, side, hitX, hitY, hitZ);
-            for (String str : aList) player.sendMessage(new TextComponentString(str));
-            return EnumActionResult.SUCCESS;
-        }
-        return EnumActionResult.PASS;
+
+        ArrayList<String> aList = new ArrayList<>();
+        getCoordinateScan(aList, player, world, 1, pos, side, hitX, hitY, hitZ);
+        for (String str : aList) player.sendMessage(new TextComponentString(str));
+        return EnumActionResult.SUCCESS;
     }
 }

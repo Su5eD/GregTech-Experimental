@@ -12,6 +12,7 @@ import mods.gregtechmod.objects.items.ItemSensorKit;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
@@ -42,12 +43,15 @@ public class BlockItemLoader {
     }
 
     static void init() {
-        BlockItems.lightSource = registerBlock(new BlockLightSource());
         BlockItems.classicCells = Stream.<FluidLoader.IFluidProvider>concat(
                 Arrays.stream(FluidLoader.Liquid.values()),
                 Arrays.stream(FluidLoader.Gas.values())
         ).collect(Collectors.toMap(FluidLoader.IFluidProvider::getName,
                 provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
+        if (FluidRegistry.isFluidRegistered("biomass")) BlockItems.classicCells.put("biomass", new ItemCellClassic("biomass", null, FluidRegistry.getFluid("biomass")));
+        if (FluidRegistry.isFluidRegistered("bio.ethanol")) BlockItems.classicCells.put("bio.ethanol", new ItemCellClassic("bio.ethanol", null, FluidRegistry.getFluid("bio.ethanol")));
+
+        BlockItems.lightSource = registerBlock(new BlockLightSource());
         Arrays.stream(BlockItems.Block.values()).forEach(block -> registerBlockItem(block.getInstance()));
         Arrays.stream(BlockItems.Ore.values()).forEach(block -> registerBlockItem(block.getInstance()));
         Arrays.stream(BlockItems.Miscellaneous.values()).forEach(misc -> registerItem(misc.getInstance()));

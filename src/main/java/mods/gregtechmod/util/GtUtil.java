@@ -126,6 +126,10 @@ public class GtUtil {
         return false;
     }
 
+    public static String translateScan(String key, Object... parameters) {
+        return I18n.format(Reference.MODID+".scan."+key, parameters);
+    }
+
     public static String translateTeBlockDescription(String key) {
         return translate("teblock."+key+".description");
     }

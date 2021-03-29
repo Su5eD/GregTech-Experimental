@@ -294,7 +294,7 @@ public class ModHandler {
     private static void registerRollingMachineRecipe(String name, ItemStack output, Object... pattern) {
         Crafters.rollingMachine()
                 .newRecipe(output)
-                .name(name)
+                .name(Reference.MODID, name)
                 .shaped(pattern);
     }
 
