@@ -6,27 +6,28 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      # Credit: gpuweb/gpuweb
+      - name: Find PR Number
+        if: ${{ github.event.workflow_run.event == 'pull_request' }}
+        run: |
+          PR=$(curl https://api.github.com/search/issues?q=${{ github.event.workflow_run.head_sha }} |
+          grep -Po "(?<=${{ github.event.workflow_run.repository.full_name }}\/pulls\/)\d*" | head -1)
+          echo "PR_NUMBER=$PR" >> $GITHUB_ENV
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
       - name: Build jar
         run: ./gradlew build
-
       - name: Build dev jar
         run: ./gradlew devJar
-
       - name: Build api jar
         run: ./gradlew apiJar
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
