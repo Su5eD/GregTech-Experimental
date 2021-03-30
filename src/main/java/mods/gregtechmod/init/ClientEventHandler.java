@@ -1,9 +1,11 @@
 package mods.gregtechmod.init;
 
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
@@ -11,6 +13,8 @@ import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustria
 import mods.gregtechmod.render.RenderBlockOre;
 import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.*;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Items;
@@ -26,14 +30,21 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.List;
-import java.util.Locale;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ClientEventHandler {
+    private static final List<UUID> GT_CAPES;
+    private static final List<UUID> CAPES;
+    private static final ResourceLocation GT_CAPE_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gregorious_cape.png");
+    private static final ResourceLocation CAPE_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gregtech_cape.png");
     private static ItemStack dustCoal = ItemStack.EMPTY;
     private static ItemStack dustIron = ItemStack.EMPTY;
     private static ItemStack dustGold = ItemStack.EMPTY;
@@ -42,6 +53,25 @@ public class ClientEventHandler {
     private static ItemStack dustBronze = ItemStack.EMPTY;
     public static ItemStack sensorKit = ItemStack.EMPTY;
     public static ItemStack sensorCard = ItemStack.EMPTY;
+
+    static {
+        List<UUID> gtCapes = new ArrayList<>();
+        gtCapes.add(UUID.fromString("989e39a1-7d39-4829-87f1-286a06fab3bd")); // Su5eD
+        GT_CAPES = Collections.unmodifiableList(gtCapes);
+
+        List<UUID> capes = new ArrayList<>();
+        try {
+            Path path = GtUtil.getModFile().getPath("assets", Reference.MODID, "GregTechCapes.txt");
+            Files.newBufferedReader(path).lines()
+                    .forEach(line -> {
+                        String id = (line.contains("#") ? line.split("#")[0] : line).trim();
+                        capes.add(UUID.fromString(id));
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        CAPES = Collections.unmodifiableList(capes);
+    }
 
     public static void gatherModItems() {
         dustCoal = IC2Items.getItem("dust", "coal");
@@ -143,6 +173,18 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         if (GtUtil.getFullInvisibility(event.getEntityPlayer())) event.setCanceled(true);
+
+        if (GregTechConfig.GENERAL.showCapes) {
+            AbstractClientPlayer clientPlayer = (AbstractClientPlayer) event.getEntityPlayer();
+            UUID playerId = clientPlayer.getUniqueID();
+            boolean gtCape = GT_CAPES.contains(playerId);
+            boolean cape = CAPES.contains(playerId);
+            if ((gtCape || cape) && clientPlayer.hasPlayerInfo() && clientPlayer.getLocationCape() == null) {
+                NetworkPlayerInfo playerInfo = ObfuscationReflectionHelper.getPrivateValue(AbstractClientPlayer.class, clientPlayer, "field_175157_a");
+                Map<MinecraftProfileTexture.Type, ResourceLocation> playerTextures = ObfuscationReflectionHelper.getPrivateValue(NetworkPlayerInfo.class, playerInfo, "field_187107_a");
+                playerTextures.put(MinecraftProfileTexture.Type.CAPE, gtCape ? GT_CAPE_TEXTURE : CAPE_TEXTURE);
+            }
+        }
     }
 
     @SubscribeEvent

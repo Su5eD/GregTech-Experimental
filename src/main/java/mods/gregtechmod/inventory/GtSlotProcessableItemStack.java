@@ -26,11 +26,7 @@ public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<IRecipeIngre
         return this.recipeManager.hasRecipeFor(stack);
     }
 
-    public ItemStack consume(@Nonnull IMachineRecipe<IRecipeIngredient, ?> recipe) {
-        return this.consume(recipe.getInput().getCount());
-    }
-
     public ItemStack consume(@Nonnull IMachineRecipe<IRecipeIngredient, ?> recipe, boolean consumeContainers) {
-        return this.consume(recipe.getInput().getCount(), false, true);
+        return this.consume(recipe.getInput().getCount(), false, consumeContainers);
     }
 }

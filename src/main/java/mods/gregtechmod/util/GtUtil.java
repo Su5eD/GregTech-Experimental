@@ -23,8 +23,13 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.List;
@@ -40,6 +45,19 @@ public class GtUtil {
     public static final Supplier<String> NULL_SUPPLIER = () -> null;
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
+    private static FileSystem modFile;
+
+    public static FileSystem getModFile() {
+        if (modFile == null) {
+            try {
+                File file = Loader.instance().activeModContainer().getSource();
+                modFile = FileSystems.newFileSystem(file.toPath(), null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return modFile;
+    }
 
     public static <T, U> BiPredicate<T, U> alwaysTrue() {
         return (a, b) -> true;
