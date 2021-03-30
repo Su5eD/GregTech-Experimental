@@ -699,12 +699,12 @@ gregtechmod.item.coolant_helium_60k=60k Helium Coolant cell
 gregtechmod.item.coolant_helium_180k=180k Helium Coolant cell
 gregtechmod.item.coolant_helium_360k=360k Helium Coolant cell
 gregtechmod.item.nuclear_rod.time_left=Time left: %s secs
-gregtechmod.item.cell_thorium=Thorium Cell
-gregtechmod.item.cell_thorium_dual=Double Thorium Cell
-gregtechmod.item.cell_thorium_quad=Quad Thorium Cell
-gregtechmod.item.cell_plutonium=Plutonium Cell
-gregtechmod.item.cell_plutonium_dual=Double Plutonium Cell
-gregtechmod.item.cell_plutonium_quad=Quad Plutonium Cell
+gregtechmod.item.fuel_rod_thorium=Thorium Cell
+gregtechmod.item.fuel_rod_thorium_dual=Double Thorium Cell
+gregtechmod.item.fuel_rod_thorium_quad=Quad Thorium Cell
+gregtechmod.item.fuel_rod_plutonium=Plutonium Cell
+gregtechmod.item.fuel_rod_plutonium_dual=Double Plutonium Cell
+gregtechmod.item.fuel_rod_plutonium_quad=Quad Plutonium Cell
 
 gregtechmod.tile.disable_creature_spawning=Mobs can't spawn on this block
 

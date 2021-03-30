@@ -1209,9 +1209,9 @@ public class BlockItems {
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) { //TODO: Rename prefix to rod (or fuel_rod)
-                this.instance = new ItemNuclearFuelRod("cell_"+this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
-                                    .setRegistryName("cell_"+this.name().toLowerCase(Locale.ROOT))
+            if (this.instance == null) {
+                this.instance = new ItemNuclearFuelRod("fuel_rod_"+this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
+                                    .setRegistryName("fuel_rod_"+this.name().toLowerCase(Locale.ROOT))
                                     .setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 

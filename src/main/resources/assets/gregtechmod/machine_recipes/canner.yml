@@ -22,13 +22,13 @@
     - ore: ingotPlutonium
     - cell: empty
   output:
-    - item: gregtechmod:cell_plutonium
+    - item: gregtechmod:fuel_rod_plutonium
   duration: 100
   energyCost: 2
 - input:
     - ore: ingotThorium
   output:
-    - item: gregtechmod:cell_thorium
+    - item: gregtechmod:fuel_rod_thorium
   duration: 100
   energyCost: 2
 - input:
