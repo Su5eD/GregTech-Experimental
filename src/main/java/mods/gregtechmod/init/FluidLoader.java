@@ -105,7 +105,7 @@ public class FluidLoader {
         @Override
         public Fluid getFluid() {
             if (this.instance == null) {
-                if (FluidRegistry.isFluidRegistered(this.name)) this.instance = FluidRegistry.getFluid(this.name);
+                if (this.fallback && FluidRegistry.isFluidRegistered(this.name)) this.instance = FluidRegistry.getFluid(this.name);
                 else this.instance = new FluidLiquid(this.name, this.texture, this.texture)
                         .setUnlocalizedName(this.name)
                         .setDensity(this.density);
