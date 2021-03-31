@@ -44,6 +44,8 @@ public class GregTechConfig {
         public boolean smallerStoneToolDurability = true;
 
         public String[] specialUnificationTargets = new String[0];
+
+        public boolean showCapes = true;
     }
 
     public static class Features {

@@ -1,8 +1,10 @@
 package mods.gregtechmod.util;
 
+import com.mojang.authlib.GameProfile;
 import ic2.api.item.ElectricItem;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.item.IElectricArmor;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
@@ -16,12 +18,18 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.List;
@@ -37,6 +45,19 @@ public class GtUtil {
     public static final Supplier<String> NULL_SUPPLIER = () -> null;
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
+    private static FileSystem modFile;
+
+    public static FileSystem getModFile() {
+        if (modFile == null) {
+            try {
+                File file = Loader.instance().activeModContainer().getSource();
+                modFile = FileSystems.newFileSystem(file.toPath(), null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return modFile;
+    }
 
     public static <T, U> BiPredicate<T, U> alwaysTrue() {
         return (a, b) -> true;
@@ -121,6 +142,10 @@ public class GtUtil {
             return true;
         }
         return false;
+    }
+
+    public static String translateScan(String key, Object... parameters) {
+        return I18n.format(Reference.MODID+".scan."+key, parameters);
     }
 
     public static String translateTeBlockDescription(String key) {
@@ -215,5 +240,14 @@ public class GtUtil {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public static boolean checkAccess(IUpgradableMachine machine, GameProfile owner, GameProfile playerProfile) {
+        if (!machine.isPrivate() || owner == null) return true;
+        return owner.equals(playerProfile);
+    }
+
+    public static void sendMessage(EntityPlayer player, String message, Object... args) {
+        if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(message, args));
     }
 }

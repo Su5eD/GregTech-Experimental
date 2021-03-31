@@ -9,6 +9,8 @@ import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
+import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockOre;
@@ -27,7 +29,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.FluidTank;
 
 import java.util.EnumSet;
@@ -176,7 +177,7 @@ public class BlockItems {
         }
     }
 
-    public enum Ingot {
+    public enum Ingot implements IObjectHolder {
         ALUMINIUM("Al"),
         ANTIMONY("Sb"),
         BATTERY_ALLOY("Pb4Sb1"),
@@ -227,6 +228,7 @@ public class BlockItems {
             this.hasEffect = hasEffect;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = this.name().toLowerCase(Locale.ROOT);
@@ -241,7 +243,7 @@ public class BlockItems {
         }
     }
 
-    public enum Nugget {
+    public enum Nugget implements IObjectHolder {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANTIMONY(Ingot.ANTIMONY.description),
         BRASS(Ingot.BRASS.description),
@@ -272,6 +274,7 @@ public class BlockItems {
             this.description = description;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "nugget_"+this.name().toLowerCase(Locale.ROOT);
@@ -396,7 +399,7 @@ public class BlockItems {
         }
     }
 
-    public enum Dust {
+    public enum Dust implements IObjectHolder {
         ALMANDINE("Al2Fe3Si3O12"),
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE("Ca3Fe2Si3O12"),
@@ -482,6 +485,7 @@ public class BlockItems {
             this.hasEffect = hasEffect;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "dust_"+this.name().toLowerCase(Locale.ROOT);
@@ -496,7 +500,7 @@ public class BlockItems {
         }
     }
 
-    public enum Smalldust {
+    public enum Smalldust implements IObjectHolder {
         ALMANDINE(Dust.ALMANDINE.description),
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE(Dust.ANDRADITE.description),
@@ -591,6 +595,7 @@ public class BlockItems {
             this.hasEffect = hasEffect;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "smalldust_"+this.name().toLowerCase(Locale.ROOT);
@@ -605,7 +610,7 @@ public class BlockItems {
         }
     }
 
-    public enum Upgrade {
+    public enum Upgrade implements IObjectHolder {
         HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier() + stack.getCount(), 5))),
         LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+(100000 * stack.getCount()))),
         ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+((GregTechMod.classic ? 100000 : 1000000) * stack.getCount()))),
@@ -615,7 +620,7 @@ public class BlockItems {
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
             GameProfile owner = machine.getOwner();
             if (owner != null && !player.getGameProfile().equals(owner)) {
-                if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(Reference.MODID+".item.machine_lock.error"));
+                GtUtil.sendMessage(player, Reference.MODID+".item.machine_lock.error");
                 return true;
             }
             return false;
@@ -625,10 +630,27 @@ public class BlockItems {
         STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (stack, machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
-
         STEAM_TANK(GtUpgradeType.STEAM, 4, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
             if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + (64000 * stack.getCount()));
+        }),
+        PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (stack, machine, player) -> {
+            if (!ModHandler.buildcraftLib) {
+                GtUtil.sendMessage(player, Reference.MODID+".info.buildcraft_absent");
+                return true;
+            }
+            return false;
+        }, (stack, machine, player) -> {
+            if (!machine.hasMjUpgrade()) machine.addMjUpgrade();
+        }),
+        RS_ENERGY_CELL(GtUpgradeType.MJ, 15, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
+            if (!ModHandler.buildcraftLib) {
+                GtUtil.sendMessage(player, Reference.MODID+".info.buildcraft_absent");
+                return true;
+            }
+            return false;
+        }, (stack, machine, player) -> {
+            machine.setMjCapacity(machine.getMjCapacity() + MjHelper.convert(100000));
         });
 
         private Item instance;
@@ -661,6 +683,10 @@ public class BlockItems {
             this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), beforeInsert, afterInsert);
         }
 
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, condition, beforeInsert, afterInsert);
+        }
+
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
             this.type = type;
             this.maxCount = maxCount;
@@ -672,6 +698,7 @@ public class BlockItems {
             this.afterInsert = afterInsert;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = this.name().toLowerCase(Locale.ROOT);
@@ -686,13 +713,13 @@ public class BlockItems {
         }
     }
 
-    public enum Cover {
+    public enum Cover implements IObjectHolder {
         ACTIVE_DETECTOR("craftingWorkDetector"),
         CONVEYOR("craftingConveyor"),
         CRAFTING("craftingWorkBench"),
         DRAIN("craftingDrain"),
         ENERGY_ONLY("energy_flow_circuit", "craftingCircuitTier07"),
-        EU_METER("craftingEnergyMeter"),
+        ENERGY_METER("craftingEnergyMeter"),
         ITEM_METER("craftingItemMeter"),
         ITEM_VALVE("craftingItemValve"),
         LIQUID_METER("craftingLiquidMeter"),
@@ -721,6 +748,7 @@ public class BlockItems {
             this.oreDict = oreDict;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = this.name().toLowerCase(Locale.ROOT);
@@ -735,7 +763,7 @@ public class BlockItems {
         }
     }
 
-    public enum TurbineRotor {
+    public enum TurbineRotor implements IObjectHolder {
         BRONZE(60, 10, 15000),
         STEEL(80, 20, 10000),
         MAGNALIUM(100, 50, 10000),
@@ -753,6 +781,7 @@ public class BlockItems {
             this.durability = durability;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "turbine_rotor_"+this.name().toLowerCase(Locale.ROOT);
@@ -770,7 +799,7 @@ public class BlockItems {
         }
     }
 
-    public enum Component {
+    public enum Component implements IObjectHolder {
         SUPERCONDUCTOR("craftingSuperconductor"),
         DATA_STORAGE_CIRCUIT("craftingCircuitTier05"),
         LITHIUM_BATTERY(ItemLithiumBattery::new, "craftingLiBattery"),
@@ -829,6 +858,7 @@ public class BlockItems {
             this.oreDict = oreDict;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = this.constructor.get();
@@ -838,7 +868,7 @@ public class BlockItems {
         }
     }
 
-    public enum Tool {
+    public enum Tool implements IObjectHolder {
         CROWBAR(ItemCrowbar::new, "craftingToolCrowbar"),
         DEBUG_SCANNER(ItemDebugScanner::new),
         DRILL_ADVANCED(ItemDrillAdvanced::new, "craftingToolLargeDrill"),
@@ -877,6 +907,7 @@ public class BlockItems {
             this.oreDict = oreDict;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = this.constructor.get();
@@ -886,7 +917,7 @@ public class BlockItems {
         }
     }
     
-    public enum ColorSpray {
+    public enum ColorSpray implements IObjectHolder {
         WHITE,
         ORANGE,
         MAGENTA,
@@ -906,6 +937,7 @@ public class BlockItems {
 
         private Item instance;
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemSprayColor(EnumDyeColor.byMetadata(this.ordinal()));
@@ -915,7 +947,7 @@ public class BlockItems {
         }
     }
 
-    public enum Wrench {
+    public enum Wrench implements IObjectHolder {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -930,6 +962,7 @@ public class BlockItems {
             this.entityDamage = entityDamage;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemWrench("wrench_"+this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
@@ -941,7 +974,7 @@ public class BlockItems {
         }
     }
 
-    public enum JackHammer {
+    public enum JackHammer implements IObjectHolder {
         BRONZE(50, 10000, 1, 50, 7.5F, false),
         STEEL(100, 10000, 1, 50, 15F, false),
         DIAMOND(250, 100000, 2, 100, 45F, true);
@@ -963,6 +996,7 @@ public class BlockItems {
             this.canMineObsidian = canMineObsidian;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemJackHammer("jack_hammer_"+this.name().toLowerCase(Locale.ROOT), this.operationEnergyCost, this.maxCharge, this.tier, this.transferLimit, this.efficiency, this.canMineObsidian)
@@ -975,7 +1009,7 @@ public class BlockItems {
         }
     }
 
-    public enum Hammer {
+    public enum Hammer implements IObjectHolder {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -990,6 +1024,7 @@ public class BlockItems {
             this.entityDamage = entityDamage;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
@@ -1002,7 +1037,7 @@ public class BlockItems {
         }
     }
 
-    public enum Saw {
+    public enum Saw implements IObjectHolder {
         IRON(128, 3, 2),
         BRONZE(256, 4, 3),
         STEEL(1280, 6, 4),
@@ -1019,6 +1054,7 @@ public class BlockItems {
             this.entityDamage = entityDamage;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemSaw(this.name().toLowerCase(Locale.ROOT), this.durability, this.efficiency, this.entityDamage)
@@ -1031,7 +1067,7 @@ public class BlockItems {
         }
     }
 
-    public enum SolderingMetal {
+    public enum SolderingMetal implements IObjectHolder {
         LEAD(10),
         TIN(50);
 
@@ -1042,6 +1078,7 @@ public class BlockItems {
             this.durability = durability;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemSolderingMetal(this.name().toLowerCase(Locale.ROOT), this.durability)
@@ -1054,7 +1091,7 @@ public class BlockItems {
         }
     }
 
-    public enum File {
+    public enum File implements IObjectHolder {
         IRON(128, 2),
         BRONZE(256, 3),
         STEEL(1280, 3),
@@ -1069,6 +1106,7 @@ public class BlockItems {
             this.entityDamage = entityDamage;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemFile(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
@@ -1081,7 +1119,7 @@ public class BlockItems {
         }
     }
 
-    public enum Cell {
+    public enum Cell implements IObjectHolder {
         CARBON("C"),
         ICE("H2O"),
         NITROCARBON("NC"),
@@ -1096,6 +1134,7 @@ public class BlockItems {
             this.description = description;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 String name = "cell_"+this.name().toLowerCase(Locale.ROOT);
@@ -1110,7 +1149,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearCoolantPack {
+    public enum NuclearCoolantPack implements IObjectHolder {
         COOLANT_NAK_60K(60000, "crafting60kCoolantStore"),
         COOLANT_NAK_180K(180000, "crafting180kCoolantStore"),
         COOLANT_NAK_360K(360000, "crafting360kCoolantStore"),
@@ -1127,6 +1166,7 @@ public class BlockItems {
             this.oreDict = oreDict;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemNuclearHeatStorage(this.name().toLowerCase(Locale.ROOT), this.heatStorage)
@@ -1138,7 +1178,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearFuelRod {
+    public enum NuclearFuelRod implements IObjectHolder {
         THORIUM(1, 25000, 0.25F, 1, 0.25F),
         THORIUM_DUAL(2, 25000, 0.25F, 1, 0.25F),
         THORIUM_QUAD(4, 25000, 0.25F, 1, 0.25F),
@@ -1167,10 +1207,11 @@ public class BlockItems {
             this.depletedStack = depletedStack;
         }
 
+        @Override
         public Item getInstance() {
-            if (this.instance == null) { //TODO: Rename prefix to rod (or fuel_rod)
-                this.instance = new ItemNuclearFuelRod("cell_"+this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
-                                    .setRegistryName("cell_"+this.name().toLowerCase(Locale.ROOT))
+            if (this.instance == null) {
+                this.instance = new ItemNuclearFuelRod("fuel_rod_"+this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
+                                    .setRegistryName("fuel_rod_"+this.name().toLowerCase(Locale.ROOT))
                                     .setCreativeTab(GregTechMod.GREGTECH_TAB);
             }
 
@@ -1178,7 +1219,7 @@ public class BlockItems {
         }
     }
 
-    public enum Armor {
+    public enum Armor implements IObjectHolder {
         CLOAKING_DEVICE(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, false, ArmorPerk.INVISIBILITY_FIELD),
         LAPOTRONPACK(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, true, GregTechMod.classic ? "crafting10kkEUPack" : "crafting100kkEUPack"),
         LITHIUM_BATPACK(EntityEquipmentSlot.CHEST, 600000, 128, 1, 0, 0, true, "crafting600kEUPack"),
@@ -1212,6 +1253,7 @@ public class BlockItems {
             this.perks = perks;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = new ItemArmorElectricBase(this.name().toLowerCase(Locale.ROOT), this.slot, this.maxCharge, this.transferLimit, this.tier, this.damageEnergyCost, this.absorbtionDamage, this.chargeProvider, this.perks)
@@ -1225,7 +1267,7 @@ public class BlockItems {
         }
     }
 
-    public enum Miscellaneous {
+    public enum Miscellaneous implements IObjectHolder {
         GREG_COIN,
         CREDIT_COPPER(() -> GtUtil.translateGenericDescription("credit", 0.125), null),
         CREDIT_SILVER(() -> GtUtil.translateGenericDescription("credit", 8), null),
@@ -1238,7 +1280,7 @@ public class BlockItems {
         LAZURITE_CHUNK("(Al6Si6Ca8Na8)8", "chunkLazurite"),
         RED_GARNET(Dust.RED_GARNET.description, "gemGarnetRed"),
         YELLOW_GARNET(Dust.YELLOW_GARNET.description, "gemGarnetYellow"),
-        INDIGO_BLOSSOM,
+        INDIGO_BLOSSOM(GtUtil.NULL_SUPPLIER, null),
         INDIGO_DYE(GtUtil.NULL_SUPPLIER, "dyeBlue"),
         FLOUR(GtUtil.NULL_SUPPLIER, "dustWheat"),
         SPRAY_CAN_EMPTY((Supplier<String>) null, "craftingSprayCan"),
@@ -1282,6 +1324,7 @@ public class BlockItems {
             this.oreDict = null;
         }
 
+        @Override
         public Item getInstance() {
             if (this.instance == null) {
                 this.instance = this.constructor.get();

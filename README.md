@@ -43,6 +43,12 @@ materials, and the second one involves adding all the machines. Progress can be 
 ## Documentation
 All documentation is available on the [wiki](https://github.com/Su5eD/GregTech-Experimental/wiki)
 
+## Licensing
+GTE is licensed under the [GNU Lesser General Public License](LICENSE).
+All assets, except for logos, are licensed under the [CC0 1.0 Universal Public Domain Dedication](src/main/resources/LICENSE.assets).
+The [GregTech Experimental logo](src/main/resources/GTE_Logo.png) is a derivate of the GregTech logo, and is licensed under the
+[Creative Commons Attribution-NonCommercial 4.0 International Public License](https://creativecommons.org/licenses/by-nc/4.0).
+
 ## Downloads
 
 ### Users

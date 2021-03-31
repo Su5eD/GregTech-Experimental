@@ -1,10 +1,10 @@
 package mods.gregtechmod.cover.type;
 
-import ic2.core.IC2;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,8 +14,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Locale;
+
 public class CoverRedstoneConductor extends CoverGeneric {
-    protected byte mode;
+    protected ConductorMode mode = ConductorMode.STRONGEST;
 
     public CoverRedstoneConductor(ICoverable te, EnumFacing side, ItemStack stack) {
         super(te, side, stack);
@@ -23,23 +25,36 @@ public class CoverRedstoneConductor extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregtechMachine)) return;
+        if (!(te instanceof IGregTechMachine)) return;
         BlockPos pos = ((TileEntity)te).getPos();
         World world = ((TileEntity)te).getWorld();
 
-        if (mode == 0) {
-            byte strongestRedstone = 0;
+        if (mode == ConductorMode.STRONGEST) {
+            byte strongest = 0;
             for (EnumFacing facing : EnumFacing.values()) {
                 if (facing == this.side) continue;
-                ICover cover = te.getCoverAtSide(facing);
-                if (cover != null) strongestRedstone = (byte) Math.max(world.getRedstonePower(pos.offset(facing), facing), cover.getRedstoneInput());
+
+                strongest = (byte) Math.max(strongest, getPowerFromSide(facing, world, pos));
             }
-            ((IGregtechMachine)te).setRedstoneOutput(this.side, strongestRedstone);
+            ((IGregTechMachine)te).setRedstoneOutput(this.side, strongest);
         }
-        else if (mode < 7) {
-            EnumFacing side = EnumFacing.byIndex(mode - 1);
-            ((IGregtechMachine) te).setRedstoneOutput(this.side, (byte) (world.getRedstonePower(pos.offset(side), side) - 1));
+        else {
+            EnumFacing side = EnumFacing.byIndex(mode.ordinal() - 1);
+            ((IGregTechMachine) te).setRedstoneOutput(this.side, (byte) (getPowerFromSide(side, world, pos) - 1));
         }
+    }
+
+    public int getPowerFromSide(EnumFacing side, World world, BlockPos pos) {
+        int power = world.getRedstonePower(pos.offset(side), side);
+
+        ICover cover = te.getCoverAtSide(side);
+        if (cover != null) {
+            if (cover.letsRedstoneIn()) return Math.max(power, cover.getRedstoneInput());
+        } else {
+            return power;
+        }
+
+        return 0;
     }
 
     @Override
@@ -48,40 +63,35 @@ public class CoverRedstoneConductor extends CoverGeneric {
     }
 
     @Override
-    public short getTickRate() {
+    public int getTickRate() {
         return 1;
     }
 
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
-        mode = (byte) ((mode+1)%7);
-        if (!player.world.isRemote) return true;
+        mode = mode.next();
+        GtUtil.sendMessage(player, mode.getMessageKey());
+        return true;
+    }
 
-        switch (mode) {
-            case 0:
-                IC2.platform.messagePlayer(player, "Conducts strongest Input");
-                break;
-            case 1:
-                IC2.platform.messagePlayer(player, "Conducts from bottom Input");
-                break;
-            case 2:
-                IC2.platform.messagePlayer(player, "Conducts from top Input");
-                break;
-            case 3:
-                IC2.platform.messagePlayer(player, "Conducts from north Input");
-                break;
-            case 4:
-                IC2.platform.messagePlayer(player, "Conducts from south Input");
-                break;
-            case 5:
-                IC2.platform.messagePlayer(player, "Conducts from west Input");
-                break;
-            case 6:
-                IC2.platform.messagePlayer(player, "Conducts from east Input");
-                break;
+    private enum ConductorMode {
+        STRONGEST,
+        DOWN,
+        UP,
+        NORTH,
+        SOUTH,
+        WEST,
+        EAST;
+
+        private static final ConductorMode[] VALUES = values();
+
+        public ConductorMode next() {
+            return VALUES[(this.ordinal() + 1) % VALUES.length];
         }
 
-        return true;
+        public String getMessageKey() {
+            return Reference.MODID+".cover.conductor_mode."+this.name().toLowerCase(Locale.ROOT);
+        }
     }
 
     @Override
@@ -126,12 +136,12 @@ public class CoverRedstoneConductor extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setByte("mode", this.mode);
+        nbt.setString("mode", this.mode.name());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = nbt.getByte("mode");
+        this.mode = ConductorMode.valueOf(nbt.getString("mode"));
     }
 }

@@ -57,8 +57,10 @@ import net.minecraftforge.oredict.OreDictionary;
 import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystem;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -92,19 +94,6 @@ public class MachineRecipeLoader {
                     .addSerializer(RecipeSimple.class, RecipeSimpleSerializer.INSTANCE)
                     .addSerializer(RecipeSawmill.class, RecipeSawmillSerializer.INSTANCE)
                     .addSerializer(MachineRecipe.class, MachineRecipeSerializer.INSTANCE));
-    private static FileSystem modFile;
-
-    private static FileSystem getModFile() {
-        if (modFile == null) {
-            try {
-                File file = Loader.instance().activeModContainer().getSource();
-                modFile = FileSystems.newFileSystem(file.toPath(), null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return modFile;
-    }
 
     public static void loadRecipes() {
         GregTechMod.logger.info("Loading machine recipes");
@@ -112,7 +101,7 @@ public class MachineRecipeLoader {
         GregTechAPI.recipeFactory = new RecipeFactory();
         GregTechAPI.ingredientFactory = new RecipeIngredientFactory();
 
-        Path recipesPath = getModFile().getPath("assets", Reference.MODID, "machine_recipes");
+        Path recipesPath = GtUtil.getModFile().getPath("assets", Reference.MODID, "machine_recipes");
         Path gtConfig = relocateConfig(recipesPath, "machine_recipes");
         if (gtConfig == null) {
             GregTechMod.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
@@ -210,7 +199,7 @@ public class MachineRecipeLoader {
     public static void loadFuels() {
         GregTechMod.logger.info("Loading fuels");
 
-        Path recipesPath = getModFile().getPath("assets", Reference.MODID, "fuels");
+        Path recipesPath = GtUtil.getModFile().getPath("assets", Reference.MODID, "fuels");
         Path gtConfig = relocateConfig(recipesPath, "fuels");
         if (gtConfig == null) {
             GregTechMod.logger.error("Couldn't find the fuels config directory. Loading default fuels...");
@@ -340,7 +329,7 @@ public class MachineRecipeLoader {
 
     public static <R> Optional<Collection<R>> parseFuels(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
         Optional<Collection<R>> normalFuels = parseConfig(name, recipeClass, filter, fuelsPath, false);
-        Optional<Collection<R>> classicFuels = GregTechMod.classic ? parseConfig(name, recipeClass, filter, fuelsPath, true) : Optional.empty();
+        Optional<Collection<R>> classicFuels = GregTechMod.classic ? parseConfig(name, recipeClass, filter, classicFuelsPath, true) : Optional.empty();
         return normalFuels.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, classicFuels.orElse(Collections.emptyList()))));
     }
 

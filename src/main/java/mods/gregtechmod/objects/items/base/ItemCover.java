@@ -17,9 +17,9 @@ import net.minecraft.world.World;
 public class ItemCover extends ItemBase {
     private final String coverName;
 
-    public ItemCover(String name, String coverName) {
-        super(name, () -> GtUtil.translateItemDescription(coverName));
-        this.coverName = coverName;
+    public ItemCover(String name, String descriptionKey) {
+        super(name, () -> GtUtil.translateItemDescription(descriptionKey));
+        this.coverName = name;
     }
 
     @Override

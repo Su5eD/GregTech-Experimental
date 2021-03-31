@@ -1,7 +1,7 @@
 package mods.gregtechmod.util;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class MachineSafety {
 
-    public static <T extends TileEntity & IGregtechMachine> void checkSafety(T machine) {
+    public static <T extends TileEntity & IGregTechMachine> void checkSafety(T machine) {
         if (machine.getUniversalEnergyCapacity() > 0) {
             if (GregTechConfig.MACHINES.machineFireExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && machine.getWorld().getBlockState(machine.getPos().offset(EnumFacing.random(GtUtil.RANDOM))).getBlock() == Blocks.FIRE) {
                 machine.markForExplosion();

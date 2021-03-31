@@ -2,7 +2,7 @@ package mods.gregtechmod.api.machine;
 
 import net.minecraft.util.EnumFacing;
 
-public interface IGregtechMachine {
+public interface IGregTechMachine {
     boolean isActive();
 
     double getProgress();
@@ -18,12 +18,12 @@ public interface IGregtechMachine {
     double useEnergy(double amount, boolean simulate);
 
     /**
-     * @return stored steam or energy
+     * @return stored EU, MJ, or steam
      */
     double getUniversalEnergy();
 
     /**
-     * @return The maximum amount of universal energy this machine can store, either EU or Steam converted to EU
+     * @return The maximum amount of energy this machine can store, either EU, MJ, or Steam converted to EU
      */
     double getUniversalEnergyCapacity();
 
@@ -44,6 +44,12 @@ public interface IGregtechMachine {
     double getStoredSteam();
 
     double getSteamCapacity();
+
+    long getStoredMj();
+
+    long getMjCapacity();
+
+    void setMjCapacity(long capacity);
 
     void disableWorking();
 

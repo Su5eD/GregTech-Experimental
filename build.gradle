@@ -1,4 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import groovyx.net.http.HttpException
+import static groovyx.net.http.HttpBuilder.configure
 
 buildscript {
     repositories {
@@ -8,6 +10,7 @@ buildscript {
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+        classpath "io.github.http-builder-ng:http-builder-ng-core:1.0.4"
     }
 }
 
@@ -15,15 +18,12 @@ apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
 
-version = version_major+'.'+version_minor+'-' + ("$System.env.GITHUB_RUN_NUMBER" != "null" ? "$System.env.GITHUB_RUN_NUMBER" : "0")
+ext.mavenVersion = getVersionFromMaven()
+version = ext.mavenVersion ?: "$VERSION_MAJOR.$VERSION_MINOR" + (VERSION_PATCH != "0" ? VERSION_PATCH : "")
 group = "mods.su5ed"
 archivesBaseName = "gregtechmod"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
 
 minecraft {
     version = "1.12.2-14.23.5.2847"
@@ -52,6 +52,66 @@ reobf {
     shadowJar {}
 }
 
+String getVersionFromMaven() {
+    def ret = null
+    def token = System.env.GITHUB_TOKEN ?: project.findProperty("GITHUB_TOKEN")
+    def http = configure { ->
+        request.uri = 'https://api.github.com'
+        request.headers.put("Accept", "application/vnd.github.v3+json")
+        request.headers.put("Authorization", "token ${token}")
+    }
+
+    try {
+        http.get(String) { ->
+            request.uri.path = '/users/Su5eD/packages/maven/mods.su5ed.gregtechmod/versions'
+            response.success { fromServer, body ->
+                String artifactVersion = (body.name[0] as String).replace('-', '.')
+                String[] parts = artifactVersion.split("\\.")
+                if (parts[0] == VERSION_MAJOR && parts[1] == VERSION_MINOR) ret = artifactVersion
+            }
+        }
+    } catch (HttpException ignore) {
+        getLogger().error("Could not retrieve latest version string from maven")
+    }
+
+    return ret
+}
+
+String bumpVersion() {
+    if (ext.mavenVersion != null) {
+        String[] artifactVersion = ext.mavenVersion.replace('-', '.').split("\\.")
+
+        int versionPatch = VERSION_PATCH as int
+        int versionMinor = VERSION_MINOR as int
+        int artifactVersionMinor = artifactVersion[1] as int
+        int artifactVersionPatch = artifactVersion[2] as int
+
+        if (artifactVersionMinor < versionMinor) versionPatch = 0
+        else if (artifactVersionMinor == versionMinor) versionPatch = artifactVersionPatch + 1
+
+        return "$VERSION_MAJOR.$VERSION_MINOR" + (versionPatch > 0 ? ".$versionPatch" : "")
+    }
+
+    return version
+}
+
+build {
+    if (Boolean.parseBoolean(System.getenv("BUMP_VERSION"))) {
+        def bumped = bumpVersion()
+        logger.info("Bumping version to $bumped")
+        version = bumped
+    }
+    def prNumberRaw = System.getenv("PR_NUMBER")
+    if (prNumberRaw != null) {
+        int prNumber = prNumberRaw as int
+        version += "-PR.$prNumber-SNAPSHOT"
+    }
+
+    dependsOn reobfShadowJar
+    dependsOn "devJar"
+    dependsOn 'apiJar'
+}
+
 shadowJar {
     dependsOn classes
     finalizedBy reobfShadowJar
@@ -61,12 +121,6 @@ shadowJar {
     relocate "com.fasterxml", "mods.gregtechmod.repack.fasterxml"
     relocate "org.yaml", "mods.gregtechmod.repack.yaml"
     classifier ""
-}
-
-build {
-    dependsOn reobfShadowJar
-    dependsOn "devJar"
-    dependsOn 'apiJar'
 }
 
 repositories {
@@ -93,29 +147,29 @@ repositories {
 }
 
 dependencies {
-    deobfCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${version_ic2}-ex112"
-    apiCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${version_ic2}-ex112", classifier: "api" //GTE api depends on the ic2 api
+    deobfCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${VERSION_IC2}-ex112"
+    apiCompile group: "net.industrial-craft", name: "industrialcraft-2", version: "${VERSION_IC2}-ex112", classifier: "api" //GTE api depends on the ic2 api
 
-    deobfCompile group: "cofh", name: "RedstoneFlux", version: "1.12-${version_rf}", classifier: "universal"
-    deobfCompile (group: "cofh", name: "CoFHCore", version: "1.12.2-${version_cofhcore}", classifier: "universal") {
+    deobfCompile group: "cofh", name: "RedstoneFlux", version: "1.12-${VERSION_RF}", classifier: "universal"
+    deobfCompile (group: "cofh", name: "CoFHCore", version: "1.12.2-${VERSION_COFHCORE}", classifier: "universal") {
         exclude group: "mezz.jei"
     }
-    deobfCompile group: "cofh", name: "CoFHWorld", version: "1.12.2-${version_cofhworld}", classifier: "universal"
-    deobfCompile group: "cofh", name: "ThermalFoundation", version: "1.12.2-${version_thermalfoundation}", classifier: "universal"
-    deobfCompile group: "codechicken", name: "CodeChickenLib", version: "1.12.2-${version_codechickenlib}", classifier: "universal"
-    deobfCompile (group: "cofh", name: "ThermalExpansion", version: "1.12.2-${version_thermalexpansion}", classifier: "universal") {
+    deobfCompile group: "cofh", name: "CoFHWorld", version: "1.12.2-${VERSION_COFHWORLD}", classifier: "universal"
+    deobfCompile group: "cofh", name: "ThermalFoundation", version: "1.12.2-${VERSION_THERMALFOUNDATION}", classifier: "universal"
+    deobfCompile group: "codechicken", name: "CodeChickenLib", version: "1.12.2-${VERSION_CODECHICKENLIB}", classifier: "universal"
+    deobfCompile (group: "cofh", name: "ThermalExpansion", version: "1.12.2-${VERSION_THERMALEXPANSION}", classifier: "universal") {
         exclude group: "mezz.jei"
     }
-    deobfCompile group: "mezz.jei", name: "jei_${mcversion}", version: "${version_jei}"
+    deobfCompile group: "mezz.jei", name: "jei_${VERSION_MC}", version: VERSION_JEI
 
-    deobfCompile group: "com.mod-buildcraft", name: "buildcraft-api", version: "${version_buildcraft}"
+    deobfCompile group: "com.mod-buildcraft", name: "buildcraft-api", version: VERSION_BUILDCRAFT
     deobfCompile group: "curse.maven", name: "energy-control-373450", version: "3207144"
     deobfCompile group: "curse.maven", name: "railcraft-51195", version: "2687757"
-    compile (group: "appeng", name: "appliedenergistics2", version: "rv6-stable-7", classifier: "api") {
+    compile (group: "appeng", name: "appliedenergistics2", version: VERSION_AE2, classifier: "api") {
         exclude group: "mezz.jei"
     }
-    deobfCompile group: "slimeknights.mantle", name: "Mantle", version: "${version_mantle}"
-    deobfCompile group: "slimeknights", name: "TConstruct", version: "${version_tconstruct}"
+    deobfCompile group: "slimeknights.mantle", name: "Mantle", version: VERSION_MANTLE
+    deobfCompile group: "slimeknights", name: "TConstruct", version: VERSION_TCONSTRUCT
 
     def databind = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
     implementation databind

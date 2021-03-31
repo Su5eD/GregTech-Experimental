@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.items.tools;
 
-import ic2.core.IC2;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.base.ItemHammer;
 import mods.gregtechmod.util.GtUtil;
@@ -52,19 +51,21 @@ public class ItemHardHammer extends ItemHammer {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
 
-            if (tileEntity instanceof IGregtechMachine) {
-                boolean input = ((IGregtechMachine) tileEntity).isInputEnabled();
-                boolean output = ((IGregtechMachine) tileEntity).isOutputEnabled();
+            if (tileEntity instanceof IGregTechMachine) {
+                boolean input = ((IGregTechMachine) tileEntity).isInputEnabled();
+                boolean output = ((IGregTechMachine) tileEntity).isOutputEnabled();
 
                 if (input = !input) output = !output;
 
-                if (input) ((IGregtechMachine) tileEntity).enableInput();
-                else ((IGregtechMachine) tileEntity).disableInput();
+                if (input) ((IGregTechMachine) tileEntity).enableInput();
+                else ((IGregTechMachine) tileEntity).disableInput();
 
-                if (output) ((IGregtechMachine) tileEntity).enableOutput();
-                else ((IGregtechMachine) tileEntity).disableOutput();
+                if (output) ((IGregTechMachine) tileEntity).enableOutput();
+                else ((IGregTechMachine) tileEntity).disableOutput();
 
-                IC2.platform.messagePlayer(player, Reference.MODID+".generic.hard_hammer.auto_input", input ? "Enabled" : "Disabled", output ? "Enabled" : "Disabled");
+                String enabled = GtUtil.translateGeneric("enabled");
+                String disabled = GtUtil.translateGeneric("disabled");
+                GtUtil.sendMessage(player, Reference.MODID+".generic.hard_hammer.auto_input", input ? enabled : disabled, output ? enabled : disabled);
                 return EnumActionResult.SUCCESS;
             }
         }

@@ -54,7 +54,11 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.inventory.getCurrentItem();
+        if (attemptUseCrowbar(stack, side, player) || attemptUseScrewdriver(stack, side, player)) return true;
+
         if (world.isRemote) return true;
+
         else if (player.isSneaking()) return false;
 
         for (ICover cover : coverHandler.covers.values()) if (!cover.opensGui(side)) return false;
@@ -151,6 +155,19 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     public double getSteamCapacity() {
         return 0;
     }
+
+    @Override
+    public long getStoredMj() {
+        return 0;
+    }
+
+    @Override
+    public long getMjCapacity() {
+        return 0;
+    }
+
+    @Override
+    public void setMjCapacity(long capacity) {}
 
     @Override
     public void markForCoverBehaviorUpdate() {}

@@ -58,6 +58,7 @@ public class ModHandler {
     public static boolean buildcraftCore;
     public static boolean buildcraftFactory;
     public static boolean buildcraftTransport;
+    public static boolean buildcraftLib;
     public static boolean twilightForest;
     public static boolean enderStorage;
     public static boolean agricraft;
@@ -89,6 +90,7 @@ public class ModHandler {
         buildcraftCore = Loader.isModLoaded("buildcraftcore");
         buildcraftFactory = Loader.isModLoaded("buildcraftfactory");
         buildcraftTransport = Loader.isModLoaded("buildcrafttransport");
+        buildcraftLib = Loader.isModLoaded("buildcraftlib");
         twilightForest = Loader.isModLoaded("twilightforest");
         enderStorage = Loader.isModLoaded("enderstorage");
         agricraft = Loader.isModLoaded("agricraft");
@@ -292,7 +294,7 @@ public class ModHandler {
     private static void registerRollingMachineRecipe(String name, ItemStack output, Object... pattern) {
         Crafters.rollingMachine()
                 .newRecipe(output)
-                .name(name)
+                .name(Reference.MODID, name)
                 .shaped(pattern);
     }
 

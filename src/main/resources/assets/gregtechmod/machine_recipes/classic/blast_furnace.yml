@@ -11,7 +11,7 @@
   heat: 1000
 - input:
     - ore: orePyrite
-    - item: gregtechmod:cell_calcium_carbonate
+    - item: gregtechmod:cell_classic_calcium_carbonate
   output:
     - item: ic2:ingot#refined_iron
       count: 2

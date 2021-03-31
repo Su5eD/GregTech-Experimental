@@ -1,9 +1,9 @@
 package mods.gregtechmod.cover.type;
 
-import ic2.core.IC2;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,8 +13,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Locale;
+
 public class CoverMachineController extends CoverGeneric {
-    protected byte mode;
+    protected ControllerMode mode = ControllerMode.NORMAL;
 
     public CoverMachineController(ICoverable te, EnumFacing side, ItemStack stack) {
         super(te, side, stack);
@@ -22,13 +24,13 @@ public class CoverMachineController extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregtechMachine)) return;
+        if (!(te instanceof IGregTechMachine)) return;
 
         World world = ((TileEntity)te).getWorld();
         BlockPos offset = ((TileEntity)te).getPos().offset(side);
         boolean isPowered = world.isBlockPowered(offset) || world.isSidePowered(offset, side);
-        if (isPowered == (mode == 0) && mode != 2) ((IGregtechMachine)te).enableWorking();
-        else ((IGregtechMachine)te).disableWorking();
+        if (isPowered == (mode == ControllerMode.NORMAL) && mode != ControllerMode.DISABLED) ((IGregTechMachine)te).enableWorking();
+        else ((IGregTechMachine)te).disableWorking();
     }
 
     @Override
@@ -38,41 +40,45 @@ public class CoverMachineController extends CoverGeneric {
 
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
-        mode = (byte) ((mode + 1)%3);
-        if (!player.world.isRemote) return true;
-
-        switch (mode) {
-            case 0:
-                IC2.platform.messagePlayer(player, "Normal");
-                break;
-            case 1:
-                IC2.platform.messagePlayer(player, "Inverted");
-                break;
-            case 2:
-                IC2.platform.messagePlayer(player, "No work at all");
-                break;
-        }
+        mode = mode.next();
+        GtUtil.sendMessage(player, mode.getMessageKey());
         return true;
+    }
+
+    private enum ControllerMode {
+        NORMAL,
+        INVERTED,
+        DISABLED;
+
+        private static final ControllerMode[] VALUES = values();
+
+        public ControllerMode next() {
+            return VALUES[(this.ordinal() + 1) % VALUES.length];
+        }
+
+        public String getMessageKey() {
+            return Reference.MODID+".cover.mode."+this.name().toLowerCase(Locale.ROOT);
+        }
     }
 
     @Override
     public void onCoverRemoval() {
-        if (te instanceof IGregtechMachine) ((IGregtechMachine)te).enableWorking();
+        if (te instanceof IGregTechMachine) ((IGregTechMachine)te).enableWorking();
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setByte("mode", this.mode);
+        nbt.setString("mode", this.mode.name());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = nbt.getByte("mode");
+        this.mode = ControllerMode.valueOf(nbt.getString("mode"));
     }
 
     @Override
-    public short getTickRate() {
+    public int getTickRate() {
         return 1;
     }
 

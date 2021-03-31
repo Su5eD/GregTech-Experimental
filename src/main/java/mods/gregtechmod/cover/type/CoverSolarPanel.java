@@ -1,7 +1,7 @@
 package mods.gregtechmod.cover.type;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregtechMachine;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.init.Blocks;
@@ -25,16 +25,16 @@ public class CoverSolarPanel extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(side == EnumFacing.UP) || !(te instanceof IGregtechMachine)) return;
+        if (!(side == EnumFacing.UP) || !(te instanceof IGregTechMachine)) return;
 
-        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && !(((IGregtechMachine)te).getInputVoltage()*32 >= this.voltageDay)) return;
+        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && !(((IGregTechMachine)te).getInputVoltage() * 32 >= this.voltageDay)) return;
 
         World world = ((TileEntity)te).getWorld();
         BlockPos pos = ((TileEntity)te).getPos();
         if (!world.isThundering()) {
             boolean bRain = world.isRaining() && world.getBiome(((TileEntity)te).getPos()).getRainfall() > 0;
             if ((!bRain || world.getSkylightSubtracted() < 4) && getSkyAtSide(world, pos, side)) {
-                ((IGregtechMachine)te).addEnergy(bRain || !world.isDaytime()?voltageNight:voltageDay);
+                ((IGregTechMachine)te).addEnergy(bRain || !world.isDaytime()?voltageNight:voltageDay);
             }
         }
     }
@@ -67,7 +67,7 @@ public class CoverSolarPanel extends CoverGeneric {
     }
 
     @Override
-    public short getTickRate() {
+    public int getTickRate() {
         return 1;
     }
 }

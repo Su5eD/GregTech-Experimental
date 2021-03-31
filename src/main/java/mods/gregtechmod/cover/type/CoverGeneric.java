@@ -133,7 +133,7 @@ public class CoverGeneric implements ICover {
     }
 
     @Override
-    public short getTickRate() {
+    public int getTickRate() {
         return 0;
     }
 
@@ -161,7 +161,7 @@ public class CoverGeneric implements ICover {
         else return item.getRegistryName().getPath().substring(6); //GT plate
     }
 
-    public enum CoverTexture {
+    private enum CoverTexture {
         //Generic GregTech
         ALUMINIUM(Reference.MODID, CoverTexture.BLOCK_PATH + "aluminium"),
         BRASS(Reference.MODID, CoverTexture.BLOCK_PATH + "brass"),

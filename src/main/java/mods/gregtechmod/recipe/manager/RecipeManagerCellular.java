@@ -55,7 +55,7 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                 .filter(recipe -> {
                     IRecipeIngredient ingredient = recipe.getInput();
                     if (ingredient instanceof IRecipeIngredientFluid) {
-                        return ((IRecipeIngredientFluid) input).apply(input) && (cells < 0 || cells >= recipe.getCells());
+                        return ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells());
                     }
                     return false;
                 })

@@ -38,7 +38,7 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
     }
 
     public ItemToolElectricBase(String name, String descriptionKey, int damage, float attackDamage, double maxCharge, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
-        this(name, () -> GtUtil.translateItemDescription(descriptionKey), damage, attackDamage, maxCharge, GtUtil.getTransferLimit(tier), tier, operationEnergyCost, providesEnergy, harvestLevel, toolClasses);
+        this(name, () -> GtUtil.translateGenericDescription(descriptionKey), damage, attackDamage, maxCharge, GtUtil.getTransferLimit(tier), tier, operationEnergyCost, providesEnergy, harvestLevel, toolClasses);
     }
 
     public ItemToolElectricBase(String name, Supplier<String> description, int damage, float attackDamage, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {

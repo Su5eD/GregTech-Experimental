@@ -15,8 +15,11 @@ import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
+import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -95,8 +98,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
 
     @Override
     protected boolean wrenchCanRemove(EntityPlayer player) {
-        if (isPrivate && !checkAccess(owner, player.getGameProfile())) {
-            IC2.platform.messagePlayer(player, "This block is owned by "+player.getGameProfile().getName()+", only they can remove it.");
+        if (isPrivate && !GtUtil.checkAccess(this, owner, player.getGameProfile())) {
+            GtUtil.sendMessage(player, Reference.MODID+".info.wrench_error", player.getName());
             return false;
         }
         return true;
@@ -120,10 +123,9 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         if (canOperate(recipe)) {
             if (recipe != null) updateEnergyConsume(recipe);
 
-            if (this.energy.canUseEnergy(energyConsume)) {
-                this.energy.useEnergy(energyConsume);
+            if (this.energy.useEnergy(energyConsume) || hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(energyConsume))) {
                 needsInvUpdate = operate(recipe);
-            } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getRequiredSteam())) {
+            } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getEnergyForSteam(energyConsume))) {
                 needsInvUpdate = operate(recipe);
                 steamTank.drain(neededSteam, true);
             } else stop();
@@ -154,8 +156,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         return multiplier;
     }
 
-    public int getRequiredSteam() {
-        return (int) Math.round(this.energyConsume / getSteamMultiplier());
+    public int getEnergyForSteam(double amount) {
+        return (int) Math.round(amount / getSteamMultiplier());
     }
 
     protected boolean canOperate(R recipe) {
@@ -202,7 +204,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
     public void onNetworkEvent(int i) {}
 
     protected void stop() {
-        if (this.progress != 0 && getActive()) (IC2.network.get(true)).initiateTileEntityEvent(this, 1, true);
+        if (this.progress != 0 && getActive()) IC2.network.get(true).initiateTileEntityEvent(this, 1, true);
         if (GregTechConfig.MACHINES.constantNeedOfEnergy) this.progress = 0;
         setActive(false);
     }
@@ -323,25 +325,29 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
     @Override
     public double useEnergy(double amount, boolean simulate) {
         if (this.energy.canUseEnergy(amount)) return this.energy.useEnergy(amount, simulate);
-        else if (canDrainSteam(getRequiredSteam())) {
-            return steamTank.drain(getRequiredSteam(), true).amount;
+        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(amount))) return amount;
+        else if (hasSteamUpgrade) {
+            int energy = getEnergyForSteam(amount);
+            if (canDrainSteam(energy)) {
+                steamTank.drain(energy, true);
+                return amount;
+            }
         }
         return 0;
     }
 
     @Override
     public double getUniversalEnergy() {
-        if (this.steamTank != null) {
-            double convertedSteam = steamTank.getFluidAmount() * getSteamMultiplier();
-            if (this.energy.getEnergy() < convertedSteam) return convertedSteam;
-        }
-        return this.energy.getEnergy();
+        double steam = this.hasSteamUpgrade ? steamTank.getFluidAmount() * getSteamMultiplier() : 0;
+        double mj = this.hasMjUpgrade ? this.receiver.getStored() / (double) MjHelper.MJ : 0;
+        return Math.max(this.energy.getEnergy(), Math.max(steam, mj));
     }
 
     @Override
     public double getUniversalEnergyCapacity() {
-        if (steamTank != null) return Math.max(this.energy.getCapacity(), steamTank.getCapacity() * getSteamMultiplier());
-        else return this.energy.getCapacity();
+        double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * getSteamMultiplier() : 0;
+        double mj = this.hasMjUpgrade ? this.receiver.getCapacity() / (double) MjHelper.MJ : 0;
+        return Math.max(this.energy.getCapacity(), Math.max(steam, mj));
     }
 
     @Override
@@ -370,10 +376,17 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
     public List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
         List<String> ret = new ArrayList<>();
         if (scanLevel > 2) ret.add("Meta-ID: " + this.getBlockMetadata());
-        if (scanLevel > 1) ret.add("Is" + (checkAccess(this.owner, player.getGameProfile()) ? " " : " not ") + "accessible for you");
+        if (scanLevel > 1) {
+            ret.add(GtUtil.translateInfo(GtUtil.checkAccess(this, this.owner, player.getGameProfile()) ? "machine_accessible" : "machine_not_accessible"));
+        }
         if (scanLevel > 0) {
-            if (getSteamCapacity() > 0 && this.hasSteamUpgrade) ret.add(this.steamTank.getFluidAmount() + " of " + this.steamTank.getCapacity() + " Steam");
-            ret.add("Machine is " + (this.isActive() ? "active" : "inactive"));
+            if (this.hasSteamUpgrade) {
+                ret.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + GtUtil.translateGeneric("steam"));
+            }
+            if (this.hasMjUpgrade) {
+                ret.add(this.receiver.getStored() / MjHelper.MJ + " / " + this.receiver.getCapacity() / MjHelper.MJ + " MJ");
+            }
+            ret.add(GtUtil.translateInfo("machine_"+(isActive() ? "active" : "inactive")));
         }
         return ret;
     }
@@ -385,16 +398,16 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
 
     @Override
     public String getMainInfo() {
-        return "Progress:";
+        return GtUtil.translateGeneric("progress") + ":";
     }
 
     @Override
     public String getSecondaryInfo() {
-        return Math.round(this.progress / Math.pow(2, this.overclockersCount) / 20) + " secs";
+        return GtUtil.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, this.overclockersCount) / 20));
     }
 
     @Override
     public String getTertiaryInfo() {
-        return  "/" + Math.round(this.maxProgress / Math.pow(2, this.overclockersCount) / 20) + " secs";
+        return  "/" + GtUtil.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, this.overclockersCount) / 20));
     }
 }

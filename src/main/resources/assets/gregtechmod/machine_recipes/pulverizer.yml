@@ -309,9 +309,12 @@
 - input:
     ore: oreApatite
   output:
-    - ore: gemApatite
+    - item: forestry:apatite
       count: 8
     - item: gregtechmod:dust_phosphorus
+  conditions:
+    - type: mod_loaded
+      modid: forestry
 - input:
     ore: oreSulfur
   output:
@@ -765,6 +768,9 @@
   output:
     - ore: dustIridium
       count: 6
+  conditions:
+    - type: ore_exists
+      ore: dustIridium
 - input:
     item: minecraft:enchanting_table
   output:

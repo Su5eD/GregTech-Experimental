@@ -13,7 +13,7 @@ import java.util.Set;
  * Provides upgrade item compatibility
  * @author Su5eD
  */
-public interface IUpgradableMachine extends IGregtechMachine {
+public interface IUpgradableMachine extends IGregTechMachine {
 
     int getTier();
 
@@ -58,4 +58,8 @@ public interface IUpgradableMachine extends IGregtechMachine {
     Set<GtUpgradeType> getCompatibleGtUpgrades();
 
     Set<IC2UpgradeType> getCompatibleIC2Upgrades();
+
+    boolean hasMjUpgrade();
+
+    void addMjUpgrade();
 }

@@ -43,7 +43,7 @@ public class CoverCrafting extends CoverGeneric {
         return new ResourceLocation(Reference.MODID, "blocks/covers/crafting");
     }
 
-    private class CoverContainerWorkbench extends ContainerWorkbench{
+    private class CoverContainerWorkbench extends ContainerWorkbench {
 
         public CoverContainerWorkbench(InventoryPlayer playerInventory, World worldIn, BlockPos posIn) {
             super(playerInventory, worldIn, posIn);

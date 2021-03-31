@@ -183,7 +183,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
                     GregTechMod.logger.info("Building dummy TeBlock for "+block.name().toLowerCase(Locale.ROOT));
  					block.dummyTe = block.teClass.newInstance();
  				} catch (Exception e) {
- 					GregTechMod.logger.error(e.getMessage());
+ 					e.printStackTrace();
  				}
  			}
  		}
