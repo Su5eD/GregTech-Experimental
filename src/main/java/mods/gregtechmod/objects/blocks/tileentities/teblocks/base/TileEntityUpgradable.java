@@ -12,7 +12,6 @@ import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
-import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
@@ -46,7 +45,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class TileEntityUpgradable extends TileEntityCoverBehavior implements IUpgradableMachine, ICoverable {
+public abstract class TileEntityUpgradable extends TileEntityCoverBehavior implements IUpgradableMachine {
     private final String descriptionKey;
     protected Energy energy;
     protected int[] averageEUInputRaw = new int[] { 0,0,0,0,0 };
