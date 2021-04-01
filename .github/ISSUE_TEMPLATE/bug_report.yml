@@ -4,7 +4,8 @@ labels: [bug \U0001F41E]
 issue_body: true
 body:
   - type: markdown
-    value: "## Welcome!"
+    attributes:
+      value: "## Welcome!"
   - type: markdown
     attributes:
       value: |
