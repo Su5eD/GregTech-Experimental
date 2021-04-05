@@ -41,11 +41,11 @@ public interface IUpgradableMachine extends IGregTechMachine {
 
     double getExtraEnergyStorage();
 
-    int getUpgradecount(IGtUpgradeItem upgrade);
+    int getUpgradeCount(IGtUpgradeItem upgrade);
 
     int getUpgradeCount(GtUpgradeType type);
 
-    int getUpgradecount(IC2UpgradeType type);
+    int getUpgradeCount(IC2UpgradeType type);
 
     int getOverclockersCount();
 

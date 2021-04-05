@@ -12,6 +12,7 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
+import mods.gregtechmod.recipe.manager.IC2Recipes;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
@@ -43,8 +44,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
-@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
-     dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
+@Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
     @Instance
     public static GregTechMod instance;
@@ -52,7 +52,7 @@ public final class GregTechMod {
     public static IProxy proxy;
 
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
-    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/gtcommon.png");
+    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
     public static File configDir;
     public static boolean classic;
     public static Logger logger;
@@ -119,6 +119,7 @@ public final class GregTechMod {
     public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
         ItemStackModificator.init();
+        IC2Recipes.init();
 
         logger.info("Activating OreDictionary Handler");
         OreDictHandler.INSTANCE.activateHandler();

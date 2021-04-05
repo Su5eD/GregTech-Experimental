@@ -10,7 +10,7 @@
   {
     "C":
     {
-      "item": "gregtechmod:cell_thorium_dual"
+      "item": "gregtechmod:fuel_rod_thorium_dual"
     },
     "P":
     {
@@ -20,6 +20,6 @@
   },
   "result":
   {
-    "item": "gregtechmod:cell_thorium_quad"
+    "item": "gregtechmod:fuel_rod_thorium_quad"
   }
 }

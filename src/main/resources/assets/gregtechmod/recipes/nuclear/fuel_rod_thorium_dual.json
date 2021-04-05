@@ -2,15 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    " C ",
-    "PPP",
-    " C "
+    "CPC"
   ],
   "key":
   {
     "C":
     {
-      "item": "gregtechmod:cell_plutonium_dual"
+      "item": "gregtechmod:fuel_rod_thorium"
     },
     "P":
     {
@@ -20,6 +18,6 @@
   },
   "result":
   {
-    "item": "gregtechmod:cell_plutonium_quad"
+    "item": "gregtechmod:fuel_rod_thorium_dual"
   }
 }

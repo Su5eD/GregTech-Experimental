@@ -12,15 +12,16 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifuge> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
 
     public GuiIndustrialCentrifuge(ContainerIndustrialCentrifuge container) {
-        super(container, 166);
+        super(container);
         addElement(CustomFluidSlot.createFluidSlot(this, 109, 64, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
 
-        addElement(new LinkedGauge(this, 98, 38, container.base, "progress", GregtechGauge.ARROW_RIGHT));
-        addElement(new LinkedGauge(this, 83, 23, container.base, "progress", GregtechGauge.ARROW_UP));
-        addElement(new LinkedGauge(this, 68, 38, container.base, "progress", GregtechGauge.ARROW_LEFT));
-        addElement(new LinkedGauge(this, 83, 53, container.base, "progress", GregtechGauge.ARROW_DOWN));
+        addElement(new LinkedGauge(this, 98, 38, container.base, "progress", GregtechGauge.SMALL_ARROW_RIGHT));
+        addElement(new LinkedGauge(this, 83, 23, container.base, "progress", GregtechGauge.SMALL_ARROW_UP));
+        addElement(new LinkedGauge(this, 68, 38, container.base, "progress", GregtechGauge.SMALL_ARROW_LEFT));
+        addElement(new LinkedGauge(this, 83, 53, container.base, "progress", GregtechGauge.SMALL_ARROW_DOWN));
     }
 
     @Override
@@ -30,6 +31,7 @@ public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifug
         }
     }
 
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         mouseX -= this.guiLeft;
         mouseY -= this.guiTop;
@@ -46,7 +48,8 @@ public class GuiIndustrialCentrifuge extends GuiIC2<ContainerIndustrialCentrifug
     }
 
 
-    public ResourceLocation getTexture() {
-        return new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

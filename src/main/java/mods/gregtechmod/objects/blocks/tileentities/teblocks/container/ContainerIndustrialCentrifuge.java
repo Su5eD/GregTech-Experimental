@@ -19,7 +19,7 @@ public class ContainerIndustrialCentrifuge extends ContainerFullInv<TileEntityIn
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 3, 50, 35));
     }
 
-
+    @Override
     public List<String> getNetworkedFields() {
         List<String> ret = super.getNetworkedFields();
         ret.add("guiProgress");

@@ -8,7 +8,7 @@
   {
     "C":
     {
-      "item": "gregtechmod:cell_plutonium"
+      "item": "gregtechmod:fuel_rod_plutonium"
     },
     "P":
     {
@@ -18,6 +18,6 @@
   },
   "result":
   {
-    "item": "gregtechmod:cell_plutonium_dual"
+    "item": "gregtechmod:fuel_rod_plutonium_dual"
   }
 }

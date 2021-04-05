@@ -44,7 +44,6 @@ import java.util.List;
 import java.util.Set;
 
 public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCellular, IGtRecipeManagerCellular> {
-
     public InvSlotConsumable cellSlot;
     public Fluids.InternalFluidTank tank;
     private static final Set<EnumFacing> animatedSides = Sets.newHashSet(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP);

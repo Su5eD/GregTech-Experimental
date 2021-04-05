@@ -9,6 +9,7 @@ import ic2.core.model.AbstractModel;
 import ic2.core.model.ModelUtil;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.state.IBlockState;
@@ -134,6 +135,10 @@ public class RenderTeBlock extends AbstractModel {
         }
         else if ((overrides = state.getValue(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY)) != null && overrides.hasOverride(currentFacing)) {
             return map.getAtlasSprite(overrides.getTextureOverride(currentFacing).toString());
+        }
+        else if (state.hasValue(PropertyHelper.OUTPUT_SIDE_PROPERTY) && side == state.getValue(PropertyHelper.OUTPUT_SIDE_PROPERTY)) {
+            String textureName = side == EnumFacing.DOWN ? "bottom" : side == EnumFacing.UP ? "top" : "side";
+            return map.getAtlasSprite(String.format("%s:blocks/machines/machine_%s_pipe", Reference.MODID, textureName));
         }
         else return sprites.get(textures.get(currentFacing));
     }

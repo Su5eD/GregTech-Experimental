@@ -4,6 +4,7 @@ import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.util.StackUtil;
+import ic2.core.util.Util;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.CoverRegistry;
 import mods.gregtechmod.api.cover.ICover;
@@ -18,23 +19,28 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Let's you add/remove covers on a tile entity. <b>Isn't responsible</b>  for cover behavior.
  */
 public abstract class TileEntityCoverable extends TileEntityInventory implements ICoverable {
     protected final CoverHandler coverHandler;
-    public Set<EnumFacing> sinkDirections = new HashSet<>(Arrays.asList(EnumFacing.DOWN, EnumFacing.UP, EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH));
-    public boolean needsCoverBehaviorUpdate;
     protected Set<String> allowedCovers = new HashSet<>();
 
     public TileEntityCoverable() {
         this.coverHandler = addComponent(new CoverHandler(this, () -> {
             IC2.network.get(true).updateTileEntityField(TileEntityCoverable.this, "coverHandler");
-            markForCoverBehaviorUpdate();
-            markForRenderUpdate();
+            updateEnet();
+            rerender();
         }));
+    }
+
+    protected Set<EnumFacing> getSinkDirs() {
+        return Util.allFacings;
     }
 
     @Override
@@ -56,7 +62,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
             ICover cover = getCoverAtSide(side);
             if (cover != null) {
                 if (cover.onScrewdriverClick(player)) {
-                    markForCoverBehaviorUpdate();
+                    updateEnet();
                     stack.damageItem(1, player);
                 }
             } else placeCoverAtSide(CoverRegistry.constructCover("normal", side, this, null), side, false);
@@ -101,12 +107,6 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     }
 
     @Override
-    protected boolean canSetFacingWrench(EnumFacing facing, EntityPlayer player) {
-        if (this.coverHandler.covers.containsKey(facing)) return false;
-        return super.canSetFacingWrench(facing, player);
-    }
-
-    @Override
     public List<String> getNetworkedFields() {
         List<String> ret = super.getNetworkedFields();
         ret.add("coverHandler");
@@ -122,7 +122,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     @Override
     protected void onLoaded() {
         super.onLoaded();
-        needsCoverBehaviorUpdate = true;
+        updateEnet();
     }
 
     @Override
@@ -164,12 +164,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     }
 
     @Override
-    public void markForRenderUpdate() {
+    public void updateRender() {
         rerender();
-    }
-
-    @Override
-    public void markForCoverBehaviorUpdate() {
-        this.needsCoverBehaviorUpdate = true;
     }
 }

@@ -279,7 +279,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public void markForCoverBehaviorUpdate() {}
+    public void updateEnet() {}
 
     @Override
     public double getUniversalEnergyCapacity() {
@@ -354,7 +354,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public int getUpgradecount(IGtUpgradeItem upgrade) {
+    public int getUpgradeCount(IGtUpgradeItem upgrade) {
         return 0;
     }
 
@@ -364,7 +364,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public int getUpgradecount(IC2UpgradeType type) {
+    public int getUpgradeCount(IC2UpgradeType type) {
         return 0;
     }
 

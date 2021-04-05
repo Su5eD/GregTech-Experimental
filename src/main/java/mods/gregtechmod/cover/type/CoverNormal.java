@@ -23,7 +23,7 @@ public class CoverNormal extends CoverGeneric {
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
         mode = mode.next();
-        te.markForRenderUpdate();
+        te.updateRender();
         return true;
     }
 

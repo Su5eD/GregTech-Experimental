@@ -2,14 +2,15 @@
   "forge_marker": 1,
   "variants": {
     "type": {
-
-      "industrial_centrifuge": {"model": "gregtechmod:industrial_centrifuge"},
-      "industrial_centrifuge_active": {"model": "gregtechmod:industrial_centrifuge_active"},
-      "digital_chest": {"model": "gregtechmod:digital_chest"},
-      "quantum_chest": {"model": "gregtechmod:quantum_chest"},
-      "quantum_tank": {"model": "gregtechmod:quantum_tank"},
-      "sonictron": {"model": "gregtechmod:sonictron"},
-      "sonictron_active": {"model": "gregtechmod:sonictron_active"}
+      "industrial_centrifuge": { "model": "gregtechmod:industrial_centrifuge" },
+      "industrial_centrifuge_active": { "model": "gregtechmod:industrial_centrifuge_active" },
+      "digital_chest": { "model": "gregtechmod:digital_chest" },
+      "quantum_chest": { "model": "gregtechmod:quantum_chest" },
+      "quantum_tank": { "model": "gregtechmod:quantum_tank" },
+      "sonictron": { "model": "gregtechmod:sonictron" },
+      "sonictron_active": { "model": "gregtechmod:sonictron_active" },
+      "auto_macerator": { "model": "gregtechmod:auto_macerator" },
+      "auto_macerator_active": { "model": "gregtechmod:auto_macerator_active" }
     },
     "facing": {
       "down": { "x": 90 },

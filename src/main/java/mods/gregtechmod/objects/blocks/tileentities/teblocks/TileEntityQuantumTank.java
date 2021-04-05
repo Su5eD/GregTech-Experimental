@@ -170,7 +170,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     public void setMjCapacity(long capacity) {}
 
     @Override
-    public void markForCoverBehaviorUpdate() {}
+    public void updateEnet() {}
 
     @Override
     public double addEnergy(double amount) {

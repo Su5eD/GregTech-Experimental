@@ -3,11 +3,11 @@
   "modList": [{
     "modid": "gregtechmod",
     "name": "GregTech Experimental",
-    "description": "This addon adds the awesome technology of GregTech-Intergalactical to your world! Fusionreactors, lightningrods and many other technologies and convenient recipes are added by this addon, if you let them enabled in the allmighty config, of course",
+    "description": "This addon adds the awesome technology of GregTech-Intergalactical to your world! Fusion reactors, lightning rods and many other technologies and convenient recipes are added by this addon...",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "authorList": [ "Su5eD" ],
-    "credits": "Alblaka and his Team for Industrialcraft, Mr. Brain, TheSirusKing and matix for Textures",
+    "credits": "Player and his team for IndustrialCraft, Mr. Brain, TheSirusKing and matix for Textures, GregoriousTechnecities for GregTech3",
     "logoFile": "GTE_Logo.png",
     "screenshots": [],
     "parent": "",

@@ -78,7 +78,8 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
             EnumFacing rotated = RotationUtil.rotateByHit(side, hitX, hitY, hitZ);
             if (rotated == face && !canTakeDamage(currentStack, removeDamage)) return EnumActionResult.FAIL;
             ItemToolWrench.wrenchBlock(world, pos, rotated, player, true);
-            this.damage(currentStack, world.getBlockState(pos).getBlock() == Blocks.AIR ? removeDamage : rotateDamage, player);
+            Block newBlock = world.getBlockState(pos).getBlock();
+            this.damage(currentStack, world.getBlockState(pos).getBlock() == Blocks.AIR ? removeDamage : newBlock != block ? rotateDamage : 0, player);
 
             if (world.isRemote) IC2.audioManager.playOnce(player, PositionSpec.Hand, "Tools/wrench.ogg", true, IC2.audioManager.getDefaultVolume());
             return EnumActionResult.SUCCESS;

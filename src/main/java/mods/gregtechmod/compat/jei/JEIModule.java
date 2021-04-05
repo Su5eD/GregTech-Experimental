@@ -8,8 +8,10 @@ import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
+import mods.gregtechmod.gui.GuiAutoMacerator;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.util.IObjectHolder;
@@ -32,6 +34,9 @@ public class JEIModule implements IModPlugin {
         ingredientBlacklist = registry.getJeiHelpers().getIngredientBlacklist();
 
         CategoryCentrifuge.init(registry);
+
+        registry.addRecipeClickArea(GuiAutoMacerator.class, 78, 24, 18, 18, "macerator");
+        registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("auto_macerator"), "macerator");
     }
 
     @Override
