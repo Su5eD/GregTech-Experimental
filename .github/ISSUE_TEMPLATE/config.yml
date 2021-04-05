@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Get help on the Discord Server
+    url: https://discord.gg/JPvmNbe
+    about: If your issue looks like it could be related to configuration, please ask us on Discord.
