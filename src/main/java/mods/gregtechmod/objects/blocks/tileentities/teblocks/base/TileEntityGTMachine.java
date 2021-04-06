@@ -29,6 +29,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -127,7 +128,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         MachineSafety.checkSafety(this);
         R recipe = getRecipe();
         if (canOperate(recipe)) {
-            if (recipe != null) updateEnergyConsume(recipe);
+            updateEnergyConsume(recipe);
 
             if (this.energy.useEnergy(energyConsume) || hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(energyConsume))) {
                 dirty = processRecipe(recipe);
@@ -142,9 +143,11 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         if (dirty) markDirty();
     }
 
-    protected void updateEnergyConsume(R recipe) {
-        this.energyConsume = this.baseEnergyConsume = recipe.getEnergyCost();
-        overclockEnergyConsume();
+    protected void updateEnergyConsume(@Nullable R recipe) {
+        if (recipe != null) {
+            this.energyConsume = this.baseEnergyConsume = recipe.getEnergyCost();
+            overclockEnergyConsume();
+        }
     }
 
     public boolean canDrainSteam(int requiredAmount) {
@@ -176,11 +179,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
     protected boolean processRecipe(R recipe) {
         boolean needsInvUpdate = false;
             if (this.maxProgress <= 0 && pendingRecipe.size() < 1) {
-                recipe.getOutput().stream()
-                        .map(ItemStack::copy)
-                        .forEach(this.pendingRecipe::add);
-                this.maxProgress = recipe.getDuration();
-                consumeInput(recipe);
+                prepareRecipeForProcessing(recipe);
             }
 
             setActive(true);
@@ -194,6 +193,14 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
                 pendingRecipe.clear();
             }
         return needsInvUpdate;
+    }
+
+    protected void prepareRecipeForProcessing(R recipe) {
+        recipe.getOutput().stream()
+                .map(ItemStack::copy)
+                .forEach(this.pendingRecipe::add);
+        this.maxProgress = recipe.getDuration();
+        consumeInput(recipe);
     }
 
     protected void overclockEnergyConsume() {

@@ -56,10 +56,11 @@ public class ClientEventHandler {
 
     static {
         List<UUID> gtCapes = new ArrayList<>();
-        gtCapes.add(UUID.fromString("989e39a1-7d39-4829-87f1-286a06fab3bd")); // Su5eD
+        //gtCapes.add(UUID.fromString("989e39a1-7d39-4829-87f1-286a06fab3bd")); // Su5eD
         GT_CAPES = Collections.unmodifiableList(gtCapes);
 
         List<UUID> capes = new ArrayList<>();
+        capes.add(UUID.fromString("989e39a1-7d39-4829-87f1-286a06fab3bd")); // Su5eD test
         try {
             Path path = GtUtil.getModFile().getPath("assets", Reference.MODID, "GregTechCapes.txt");
             Files.newBufferedReader(path).lines()

@@ -14,7 +14,9 @@
       "auto_extractor": { "model": "gregtechmod:auto_extractor" },
       "auto_extractor_active": { "model": "gregtechmod:auto_extractor_active" },
       "auto_compressor": { "model": "gregtechmod:auto_compressor" },
-      "auto_compressor_active": { "model": "gregtechmod:auto_compressor_active" }
+      "auto_compressor_active": { "model": "gregtechmod:auto_compressor_active" },
+      "auto_recycler": { "model": "gregtechmod:auto_recycler" },
+      "auto_recycler_active": { "model": "gregtechmod:auto_recycler_active" }
     },
     "facing": {
       "down": { "x": 90 },

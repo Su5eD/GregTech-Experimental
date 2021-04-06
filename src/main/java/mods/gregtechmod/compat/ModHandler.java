@@ -74,6 +74,7 @@ public class ModHandler {
     public static ItemStack waxCapsule = ItemStack.EMPTY;
     public static ItemStack refractoryCapsule = ItemStack.EMPTY;
     public static ItemStack can = ItemStack.EMPTY;
+    public static ItemStack scrap = ItemStack.EMPTY;
 
     public static void checkLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
@@ -99,6 +100,7 @@ public class ModHandler {
     public static void gatherModItems() {
         emptyCell = ProfileDelegate.getCell(null);
         emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
+        scrap = IC2Items.getItem("crafting", "scrap");
 
         Item material = getItem("thermalfoundation", "material");
         if (material != null) {

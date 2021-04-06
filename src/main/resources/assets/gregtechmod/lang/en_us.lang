@@ -768,6 +768,8 @@ gregtechmod.teblock.auto_extractor=Automatic Extractor
 gregtechmod.teblock.auto_extractor.description=Dejuicer-Device of Doom - D123
 gregtechmod.teblock.auto_compressor=Automatic Compressor
 gregtechmod.teblock.auto_compressor.description=Compress-O-Matic C77
+gregtechmod.teblock.auto_recycler=Automatic Recycler
+gregtechmod.teblock.auto_recycler.description=Compress, burn, obliterate and filter EVERYTHING
 
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium

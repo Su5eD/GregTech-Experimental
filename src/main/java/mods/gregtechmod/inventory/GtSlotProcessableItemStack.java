@@ -7,8 +7,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nonnull;
-
 public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<IRecipeIngredient, ItemStack, ?>> extends InvSlotConsumable {
     protected final RM recipeManager;
 
@@ -23,10 +21,10 @@ public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<IRecipeIngre
 
     @Override
     public boolean accepts(ItemStack stack) {
-        return this.recipeManager.hasRecipeFor(stack);
+        return this.recipeManager == null || this.recipeManager.hasRecipeFor(stack);
     }
 
-    public ItemStack consume(@Nonnull IMachineRecipe<IRecipeIngredient, ?> recipe, boolean consumeContainers) {
-        return this.consume(recipe.getInput().getCount(), false, consumeContainers);
+    public ItemStack consume(IMachineRecipe<IRecipeIngredient, ?> recipe, boolean consumeContainers) {
+        return this.consume(recipe == null ? 1 : recipe.getInput().getCount(), false, consumeContainers);
     }
 }
