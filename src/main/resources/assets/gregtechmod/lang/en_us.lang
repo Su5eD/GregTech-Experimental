@@ -452,7 +452,7 @@ gregtechmod.item.nugget_zinc.name=Zinc Nugget
 gregtechmod.item.plate_aluminium.name=Aluminium Plate
 gregtechmod.item.plate_battery_alloy.name=Battery Alloy Plate
 gregtechmod.item.plate_brass.name=Brass Plate
-gregtechmod.item.plate_bronze.name=Brass Plate
+gregtechmod.item.plate_bronze.name=Bronze Plate
 gregtechmod.item.plate_chrome.name=Chrome Plate
 gregtechmod.item.plate_copper.name=Copper Plate
 gregtechmod.item.plate_electrum.name=Electrum Plate
@@ -766,6 +766,8 @@ gregtechmod.teblock.auto_macerator=Automatic Macerator
 gregtechmod.teblock.auto_macerator.description=Maceratron-E-901
 gregtechmod.teblock.auto_extractor=Automatic Extractor
 gregtechmod.teblock.auto_extractor.description=Dejuicer-Device of Doom - D123
+gregtechmod.teblock.auto_compressor=Automatic Compressor
+gregtechmod.teblock.auto_compressor.description=Compress-O-Matic C77
 
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium

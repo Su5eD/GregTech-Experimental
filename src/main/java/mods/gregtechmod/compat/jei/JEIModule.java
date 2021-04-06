@@ -11,8 +11,10 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
+import mods.gregtechmod.gui.GuiAutoCompressor;
 import mods.gregtechmod.gui.GuiAutoExtractor;
 import mods.gregtechmod.gui.GuiAutoMacerator;
+import mods.gregtechmod.gui.GuiBasicMachine;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.util.IObjectHolder;
@@ -36,11 +38,14 @@ public class JEIModule implements IModPlugin {
 
         CategoryCentrifuge.init(registry);
 
-        registry.addRecipeClickArea(GuiAutoMacerator.class, 78, 24, 18, 18, "macerator");
-        registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("auto_macerator"), "macerator");
+        initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
+        initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
+        initBasicMachine(registry, GuiAutoCompressor.class, "compressor");
+    }
 
-        registry.addRecipeClickArea(GuiAutoExtractor.class, 78, 24, 18, 18, "extractor");
-        registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("auto_extractor"), "extractor");
+    private void initBasicMachine(IModRegistry registry, Class<? extends GuiBasicMachine<?>> guiClass, String name) {
+        registry.addRecipeClickArea(guiClass, 78, 24, 18, 18, name);
+        registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("auto_"+name), name);
     }
 
     @Override

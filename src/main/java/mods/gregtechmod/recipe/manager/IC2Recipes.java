@@ -19,10 +19,12 @@ import java.util.List;
 public class IC2Recipes {
     public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> MACERATOR = new RecipeManagerBasic<>();
     public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> EXTRACTOR = new RecipeManagerBasic<>();
+    public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> COMPRESSOR = new RecipeManagerBasic<>();
 
     public static void init() {
         convertRecipes(Recipes.macerator.getRecipes(), 300, 2, MACERATOR);
         convertRecipes(Recipes.extractor.getRecipes(), 300, 2, EXTRACTOR);
+        convertRecipes(Recipes.compressor.getRecipes(), 300, 2, COMPRESSOR);
     }
 
     private static void convertRecipes(Iterable<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> recipes, int duration, double energyCost,

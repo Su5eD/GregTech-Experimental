@@ -198,6 +198,18 @@ public class OreDictRegistrar {
         for (int i = 1; i < 16; i++) {
             registerOre("woolColored", new ItemStack(Blocks.WOOL, 1, i));
         }
+        registerOre("itemRecord", Items.RECORD_11);
+        registerOre("itemRecord", Items.RECORD_13);
+        registerOre("itemRecord", Items.RECORD_CAT);
+        registerOre("itemRecord", Items.RECORD_BLOCKS);
+        registerOre("itemRecord", Items.RECORD_FAR);
+        registerOre("itemRecord", Items.RECORD_CHIRP);
+        registerOre("itemRecord", Items.RECORD_MALL);
+        registerOre("itemRecord", Items.RECORD_MELLOHI);
+        registerOre("itemRecord", Items.RECORD_STAL);
+        registerOre("itemRecord", Items.RECORD_STRAD);
+        registerOre("itemRecord", Items.RECORD_WAIT);
+        registerOre("itemRecord", Items.RECORD_WARD);
 
         GregTechMod.logger.debug("Registering unification entries");
 
