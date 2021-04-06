@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
+import mods.gregtechmod.gui.GuiAutoExtractor;
 import mods.gregtechmod.gui.GuiAutoMacerator;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -37,6 +38,9 @@ public class JEIModule implements IModPlugin {
 
         registry.addRecipeClickArea(GuiAutoMacerator.class, 78, 24, 18, 18, "macerator");
         registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("auto_macerator"), "macerator");
+
+        registry.addRecipeClickArea(GuiAutoExtractor.class, 78, 24, 18, 18, "extractor");
+        registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("auto_extractor"), "extractor");
     }
 
     @Override

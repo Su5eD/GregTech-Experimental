@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "ic2:te",
-      "data": 47
+      "type": "gregtechmod:multi",
+      "item": "ic2:te#macerator"
     },
     {
       "type": "forge:ore_dict",

@@ -10,7 +10,9 @@
       "sonictron": { "model": "gregtechmod:sonictron" },
       "sonictron_active": { "model": "gregtechmod:sonictron_active" },
       "auto_macerator": { "model": "gregtechmod:auto_macerator" },
-      "auto_macerator_active": { "model": "gregtechmod:auto_macerator_active" }
+      "auto_macerator_active": { "model": "gregtechmod:auto_macerator_active" },
+      "auto_extractor": { "model": "gregtechmod:auto_extractor" },
+      "auto_extractor_active": { "model": "gregtechmod:auto_extractor_active" }
     },
     "facing": {
       "down": { "x": 90 },

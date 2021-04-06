@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import ic2.api.network.INetworkClientTileEntityEventListener;
+import ic2.core.ContainerBase;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotDischarge;
 import ic2.core.block.invslot.InvSlotOutput;
@@ -15,6 +16,7 @@ import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.inventory.GtInvSide;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -260,6 +262,11 @@ public abstract class TileEntityBasicMachine extends TileEntityGTMachine<IMachin
         this.provideEnergy = nbt.getBoolean("provideEnergy");
         this.autoOutput = nbt.getBoolean("autoOutput");
         this.splitInput = nbt.getBoolean("splitInput");
+    }
+
+    @Override
+    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+        return new ContainerBasicMachine<>(player, this);
     }
 
     @Override

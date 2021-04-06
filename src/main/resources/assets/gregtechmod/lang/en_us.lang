@@ -764,6 +764,8 @@ gregtechmod.teblock.quantum_tank.description=With a capacity of 488.28125 chunks
 gregtechmod.teblock.sonictron=Sonictron
 gregtechmod.teblock.auto_macerator=Automatic Macerator
 gregtechmod.teblock.auto_macerator.description=Maceratron-E-901
+gregtechmod.teblock.auto_extractor=Automatic Extractor
+gregtechmod.teblock.auto_extractor.description=Dejuicer-Device of Doom - D123
 
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium
