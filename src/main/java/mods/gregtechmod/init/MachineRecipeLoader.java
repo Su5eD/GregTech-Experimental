@@ -31,6 +31,7 @@ import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.*;
+import mods.gregtechmod.recipe.compat.BasicMachineRecipe;
 import mods.gregtechmod.recipe.fuel.FluidFuelManager;
 import mods.gregtechmod.recipe.fuel.FuelMulti;
 import mods.gregtechmod.recipe.fuel.FuelSimple;

@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe;
+package mods.gregtechmod.recipe.compat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

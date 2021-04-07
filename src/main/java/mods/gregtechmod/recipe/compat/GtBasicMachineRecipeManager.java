@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.manager;
+package mods.gregtechmod.recipe.compat;
 
 import ic2.api.recipe.IRecipeInput;
 import ic2.core.recipe.BasicMachineRecipeManager;

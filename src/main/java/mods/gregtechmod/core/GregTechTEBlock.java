@@ -37,7 +37,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     AUTO_MACERATOR(TileEntityAutoMacerator.class, 6, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
     AUTO_EXTRACTOR(TileEntityAutoExtractor.class, 7, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
     AUTO_COMPRESSOR(TileEntityAutoCompressor.class, 8, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
-    AUTO_RECYCLER(TileEntityAutoRecycler.class, 9, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true);
+    AUTO_RECYCLER(TileEntityAutoRecycler.class, 9, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    AUTO_ELECTRIC_FURNACE(TileEntityAutoElectricFurnace.class, 10, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;

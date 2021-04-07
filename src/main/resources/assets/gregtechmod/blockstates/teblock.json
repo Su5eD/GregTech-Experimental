@@ -16,7 +16,9 @@
       "auto_compressor": { "model": "gregtechmod:auto_compressor" },
       "auto_compressor_active": { "model": "gregtechmod:auto_compressor_active" },
       "auto_recycler": { "model": "gregtechmod:auto_recycler" },
-      "auto_recycler_active": { "model": "gregtechmod:auto_recycler_active" }
+      "auto_recycler_active": { "model": "gregtechmod:auto_recycler_active" },
+      "auto_electric_furnace": { "model": "gregtechmod:auto_electric_furnace" },
+      "auto_electric_furnace_active": { "model": "gregtechmod:auto_electric_furnace_active" }
     },
     "facing": {
       "down": { "x": 90 },

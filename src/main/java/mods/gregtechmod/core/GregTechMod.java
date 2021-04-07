@@ -12,7 +12,7 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
-import mods.gregtechmod.recipe.manager.IC2Recipes;
+import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
@@ -119,7 +119,7 @@ public final class GregTechMod {
     public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
         ItemStackModificator.init();
-        IC2Recipes.init();
+        ModRecipes.init();
 
         logger.info("Activating OreDictionary Handler");
         OreDictHandler.INSTANCE.activateHandler();

@@ -11,10 +11,7 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
-import mods.gregtechmod.gui.GuiAutoCompressor;
-import mods.gregtechmod.gui.GuiAutoExtractor;
-import mods.gregtechmod.gui.GuiAutoMacerator;
-import mods.gregtechmod.gui.GuiBasicMachine;
+import mods.gregtechmod.gui.*;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.util.IObjectHolder;
@@ -41,11 +38,16 @@ public class JEIModule implements IModPlugin {
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
         initBasicMachine(registry, GuiAutoCompressor.class, "compressor");
+        initBasicMachine(registry, GuiAutoElectricFurnace.class, "auto_electric_furnace", "minecraft.smelting");
     }
 
     private void initBasicMachine(IModRegistry registry, Class<? extends GuiBasicMachine<?>> guiClass, String name) {
-        registry.addRecipeClickArea(guiClass, 78, 24, 18, 18, name);
-        registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("auto_"+name), name);
+        initBasicMachine(registry, guiClass, "auto_"+name, name);
+    }
+
+    private void initBasicMachine(IModRegistry registry, Class<? extends GuiBasicMachine<?>> guiClass, String name, String categoryName) {
+        registry.addRecipeClickArea(guiClass, 78, 24, 18, 18, categoryName);
+        registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity(name), categoryName);
     }
 
     @Override

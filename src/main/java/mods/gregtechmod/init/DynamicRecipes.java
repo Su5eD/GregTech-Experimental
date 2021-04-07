@@ -17,6 +17,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.RecipeAlloySmelter;
 import mods.gregtechmod.recipe.RecipePulverizer;
+import mods.gregtechmod.recipe.compat.GtBasicMachineRecipeManager;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;

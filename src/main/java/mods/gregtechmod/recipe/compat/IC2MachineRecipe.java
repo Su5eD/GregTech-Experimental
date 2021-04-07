@@ -1,6 +1,7 @@
-package mods.gregtechmod.recipe;
+package mods.gregtechmod.recipe.compat;
 
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.recipe.Recipe;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
