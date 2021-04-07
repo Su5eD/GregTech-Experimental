@@ -57,7 +57,7 @@ public class WrapperCentrifuge implements IRecipeWrapper {
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         int duration = recipe.getDuration();
-        minecraft.fontRenderer.drawString("EU: " + GtUtil.formatNumber(duration * recipe.getEnergyCost()), 2, 60, -16777216, false);
-        minecraft.fontRenderer.drawString("Time: " + GtUtil.formatNumber(duration / 20) + " s", 2,70, -16777216, false);
+        minecraft.fontRenderer.drawString(GtUtil.translate("jei.energy", GtUtil.formatNumber(duration * recipe.getEnergyCost())), 2, 60, -16777216, false);
+        minecraft.fontRenderer.drawString(GtUtil.translate("jei.time", GtUtil.formatNumber(duration / 20)), 2,70, -16777216, false);
     }
 }

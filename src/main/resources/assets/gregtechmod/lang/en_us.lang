@@ -775,6 +775,10 @@ gregtechmod.teblock.auto_electric_furnace.description=Not like using a Commodore
 gregtechmod.teblock.wiremill=Automatic Wiremill
 gregtechmod.teblock.wiremill.description=Produces Wires more efficiently
 
+gregtechmod.jei.energy=EU: %s
+gregtechmod.jei.time=Time: %s s
+gregtechmod.jei.max_energy=MaxEnergy: %s EU/t
+
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium
 gregtechmod.fluid.calcium_carbonate=Calcium Carbonate

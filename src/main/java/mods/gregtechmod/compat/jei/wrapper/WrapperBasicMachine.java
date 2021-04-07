@@ -36,8 +36,9 @@ public class WrapperBasicMachine implements IRecipeWrapper {
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         int duration = recipe.getDuration();
         double energyCost = this.recipe.getEnergyCost();
-        minecraft.fontRenderer.drawString("EU: " + GtUtil.formatNumber(duration * energyCost), 1, 55, -16777216, false);
-        minecraft.fontRenderer.drawString("Time: " + GtUtil.formatNumber(duration / 20) + " s", 1,65, -16777216, false);
-        minecraft.fontRenderer.drawString("MaxEnergy: " + GtUtil.formatNumber(energyCost) + " EU/t", 1,75, -16777216, false);
+
+        minecraft.fontRenderer.drawString(GtUtil.translate("jei.energy", GtUtil.formatNumber(duration * energyCost)), 1, 55, -16777216, false);
+        minecraft.fontRenderer.drawString(GtUtil.translate("jei.time", GtUtil.formatNumber(duration / 20)), 1,65, -16777216, false);
+        minecraft.fontRenderer.drawString(GtUtil.translate("jei.max_energy", GtUtil.formatNumber(energyCost)), 1,75, -16777216, false);
     }
 }
