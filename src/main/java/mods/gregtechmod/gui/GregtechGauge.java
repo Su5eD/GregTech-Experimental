@@ -12,7 +12,8 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     EXTRACTING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoExtractor.TEXTURE).withSmooth(false).build()),
     COMPRESSING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoCompressor.TEXTURE).withSmooth(false).build()),
     RECYCLING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoRecycler.TEXTURE).withSmooth(false).build()),
-    SMELTING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoElectricFurnace.TEXTURE).withSmooth(false).build());
+    SMELTING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoElectricFurnace.TEXTURE).withSmooth(false).build()),
+    EXTRUDING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiWiremill.TEXTURE).withSmooth(false).build());
 
     public final Gauge.GaugeProperties properties;
 

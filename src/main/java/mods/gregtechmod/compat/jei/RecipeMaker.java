@@ -3,10 +3,13 @@ package mods.gregtechmod.compat.jei;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.GtRecipes;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachine;
 import mods.gregtechmod.compat.jei.wrapper.WrapperCentrifuge;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifuge;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
@@ -53,6 +56,14 @@ public class RecipeMaker {
                     return Stream.of(recipe);
                 })
                 .map(recipe -> new WrapperCentrifuge((RecipeCentrifuge) recipe))
+                .collect(Collectors.toList());
+    }
+
+    public static List<WrapperBasicMachine> getBasicMachineRecipes(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
+        return manager.getRecipes()
+                .stream()
+                .filter(recipe -> !recipe.getInput().getMatchingInputs().isEmpty())
+                .map(WrapperBasicMachine::new)
                 .collect(Collectors.toList());
     }
 

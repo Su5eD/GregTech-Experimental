@@ -7,8 +7,9 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import java.io.IOException;
+import java.util.List;
 
-public class RecipeSimpleSerializer extends RecipeSerializer<IMachineRecipe<IRecipeIngredient, ItemStack>, IRecipeIngredient, ItemStack> {
+public class RecipeSimpleSerializer extends RecipeSerializer<IMachineRecipe<IRecipeIngredient, List<ItemStack>>, IRecipeIngredient, List<ItemStack>> {
     public static final RecipeSimpleSerializer INSTANCE = new RecipeSimpleSerializer();
 
     @Override
@@ -17,10 +18,10 @@ public class RecipeSimpleSerializer extends RecipeSerializer<IMachineRecipe<IRec
     }
 
     @Override
-    public void serializeOutput(ItemStack output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeObjectField("output", output);
+    public void serializeOutput(List<ItemStack> output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        gen.writeObjectField("output", output.get(0));
     }
 
     @Override
-    public void serializeExtraFields(IMachineRecipe<IRecipeIngredient, ItemStack> recipe, JsonGenerator gen, SerializerProvider serializers) {}
+    public void serializeExtraFields(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, JsonGenerator gen, SerializerProvider serializers) {}
 }

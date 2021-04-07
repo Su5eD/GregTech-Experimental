@@ -17,7 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 public class CategoryCentrifuge implements IRecipeCategory<WrapperCentrifuge> {
-    public static final String UID = Reference.MODID+"_industrial_centrifuge";
+    public static final String UID = Reference.MODID+".industrial_centrifuge";
     private static final ResourceLocation GUI_PATH = new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
     private final IDrawable background;
     private final IDrawable gaugeUp;

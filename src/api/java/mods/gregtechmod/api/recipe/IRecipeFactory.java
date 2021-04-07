@@ -46,13 +46,13 @@ public interface IRecipeFactory {
 
     IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeImplosionRecipe(IRecipeIngredient input, int tnt, List<ItemStack> output);
 
-    IMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
+    IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeWiremillRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
 
-    IMachineRecipe<IRecipeIngredient, ItemStack> makeBenderRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
+    IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeBenderRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
 
     IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeLatheRecipe(IRecipeIngredient input, List<ItemStack> output, int duration, double energyCost);
 
-    IMachineRecipe<IRecipeIngredient, ItemStack> makeVacuumFreezerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
+    IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeVacuumFreezerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
 
     IMachineRecipe<List<IRecipeIngredient>, ItemStack> makeChemicalRecipe(List<IRecipeIngredient> input, ItemStack output, int duration);
 

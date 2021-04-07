@@ -56,12 +56,12 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
+    public IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeWiremillRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
         return RecipeSimple.create(input, output, duration, energyCost);
     }
 
     @Override
-    public IMachineRecipe<IRecipeIngredient, ItemStack> makeBenderRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
+    public IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeBenderRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
         return RecipeSimple.create(input, output, duration, energyCost);
     }
 
@@ -71,7 +71,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IMachineRecipe<IRecipeIngredient, ItemStack> makeVacuumFreezerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
+    public IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeVacuumFreezerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
         return RecipeSimple.create(input, output, duration, energyCost);
     }
 

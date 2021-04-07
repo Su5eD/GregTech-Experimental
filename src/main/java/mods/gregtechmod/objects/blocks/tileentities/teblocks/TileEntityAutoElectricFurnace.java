@@ -72,10 +72,8 @@ public class TileEntityAutoElectricFurnace extends TileEntityBasicMachine {
     @Override
     protected List<ItemStack> getAuxDrops(int fortune) {
         List<ItemStack> ret = super.getAuxDrops(fortune);
-        if (this.heatingCoilTier > 0) {
-            Item item = this.heatingCoilTier == 1 ? BlockItems.Component.COIL_KANTHAL.getInstance() : BlockItems.Component.COIL_NICHROME.getInstance();
-            ret.add(new ItemStack(item));
-        }
+        if (this.heatingCoilTier > 0) ret.add(new ItemStack(BlockItems.Component.COIL_KANTHAL.getInstance()));
+        if (this.heatingCoilTier > 1) ret.add(new ItemStack(BlockItems.Component.COIL_NICHROME.getInstance()));
         return ret;
     }
 

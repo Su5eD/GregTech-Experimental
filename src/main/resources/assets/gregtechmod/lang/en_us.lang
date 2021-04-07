@@ -772,6 +772,8 @@ gregtechmod.teblock.auto_recycler=Automatic Recycler
 gregtechmod.teblock.auto_recycler.description=Compress, burn, obliterate and filter EVERYTHING
 gregtechmod.teblock.auto_electric_furnace=Automatic E-Furnace
 gregtechmod.teblock.auto_electric_furnace.description=Not like using a Commodore 64
+gregtechmod.teblock.wiremill=Automatic Wiremill
+gregtechmod.teblock.wiremill.description=Produces Wires more efficiently
 
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium

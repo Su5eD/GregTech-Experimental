@@ -54,3 +54,36 @@
     item: gregtechmod:coil_cupronickel
   duration: 300
   energyCost: 8
+- input:
+    ore: itemCopperCable
+    count: 3
+  output:
+    item: projectred-core:resource_item
+    meta: 400
+  duration: 400
+  energyCost: 1
+  conditions:
+    - type: mod_loaded
+      modid: projectred-core
+- input:
+    ore: itemIronCable
+    count: 6
+  output:
+    item: projectred-core:resource_item
+    meta: 401
+  duration: 400
+  energyCost: 2
+  conditions:
+    - type: mod_loaded
+      modid: projectred-core
+- input:
+    ore: itemGoldCable
+    count: 6
+  output:
+    item: projectred-core:resource_item
+    meta: 402
+  duration: 400
+  energyCost: 2
+  conditions:
+    - type: mod_loaded
+      modid: projectred-core
