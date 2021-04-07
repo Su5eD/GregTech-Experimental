@@ -121,7 +121,7 @@ public class ItemCellClassic extends ItemBase {
         public boolean canFillFluidType(FluidStack stack) {
             if (stack == null) return false;
             Fluid fluid = stack.getFluid();
-            return super.canFillFluidType(stack) || (this.fluidSupplier.get() == null && super.typeGetter.get() == CellType.empty && isValidFluid(fluid));
+            return super.canFillFluidType(stack) || this.fluidSupplier.get() == null && super.typeGetter.get() == CellType.empty && isValidFluid(fluid);
         }
 
         @Override

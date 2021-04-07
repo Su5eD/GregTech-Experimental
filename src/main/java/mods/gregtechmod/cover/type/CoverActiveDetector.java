@@ -29,7 +29,7 @@ public class CoverActiveDetector extends CoverGeneric {
         if (!(te instanceof IGregTechMachine)) return;
         IGregTechMachine machine = (IGregTechMachine) te;
 
-        byte strength = (byte) (((machine.getProgress() + 4) / machine.getMaxProgress()) * 15);
+        byte strength = (byte) ((machine.getProgress() + 4) / machine.getMaxProgress() * 15);
         if (mode == DetectorMode.NORMAL || mode == DetectorMode.INVERTED) {
             if (strength > 0 && machine.isActive()) {
                 machine.setRedstoneOutput(side, mode.inverted ? (byte) (15 - strength) : strength);

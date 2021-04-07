@@ -112,7 +112,7 @@ public class ItemScanner extends ItemElectricBase {
 
             if (tileEntity instanceof IReactorChamber) {
                 energyCost += 500;
-                tileEntity = (TileEntity) (((IReactorChamber) tileEntity).getReactorInstance());
+                tileEntity = (TileEntity) ((IReactorChamber) tileEntity).getReactorInstance();
             }
 
             if (tileEntity instanceof IReactor) {

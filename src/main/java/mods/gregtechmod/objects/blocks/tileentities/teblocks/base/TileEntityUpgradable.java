@@ -111,10 +111,10 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 if (currentItem instanceof IUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
                     IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
                     if (upgradeType != null) {
-                        if (upgradeCount >= upgradeType.maxCount || (upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultTier + 1)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+                        if (upgradeCount >= upgradeType.maxCount || upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultTier + 1) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
                     }
                 }
-                else if (currentItem instanceof IGtUpgradeItem && ((areItemsEqual || upgradeStack.isEmpty()))) {
+                else if (currentItem instanceof IGtUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
                     if (((IGtUpgradeItem)currentItem).beforeInsert(upgradeStack, this, player)) return true;
                     else if (!((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
                 }
@@ -175,7 +175,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 this.energy.setSinkTier(Math.min(this.energy.getSinkTier() + stack.getCount(), 3));
                 break;
             case BATTERY:
-                this.energy.setCapacity(this.energy.getCapacity()+(10000 * stack.getCount()));
+                this.energy.setCapacity(this.energy.getCapacity()+ 10000 * stack.getCount());
                 break;
         }
     }

@@ -118,7 +118,7 @@ public enum ArmorPerk {
                 if (targetChargeItem.isEmpty() || !(stack.getItem() instanceof IElectricItem)) {
                     targetChargeItem = null;
                 }
-                if (targetDechargeItem.isEmpty() || !(stack.getItem() instanceof IElectricItem) || !(stack == targetDechargeItem || (targetDechargeItem.getItem() instanceof IElectricItem && ((IElectricItem)targetDechargeItem.getItem()).canProvideEnergy(targetDechargeItem)))) {
+                if (targetDechargeItem.isEmpty() || !(stack.getItem() instanceof IElectricItem) || !(stack == targetDechargeItem || targetDechargeItem.getItem() instanceof IElectricItem && ((IElectricItem)targetDechargeItem.getItem()).canProvideEnergy(targetDechargeItem))) {
                     targetDechargeItem = null;
                 }
 

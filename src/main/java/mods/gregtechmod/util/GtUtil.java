@@ -102,7 +102,7 @@ public class GtUtil {
         NBTTagList tagList = new NBTTagList();
         byte i;
         for (i = 0; i < pages; i = (byte)(i + 1)) {
-            String page = '\"'+GtUtil.translate("book." + name + ".page" + ((i < 10) ? ("0" + i) : i))+'\"';
+            String page = '\"'+GtUtil.translate("book." + name + ".page" + (i < 10 ? "0" + i : i))+'\"';
             if (i < 48) {
                 if (page.length() < 256) {
                     tagList.appendTag(new NBTTagString(page));
@@ -193,7 +193,7 @@ public class GtUtil {
             int maxSize = stack.getMaxStackSize();
             if (stack.getCount() > maxSize) {
                 list.remove(i);
-                int cycles = (stack.getCount() / maxSize) + 1;
+                int cycles = stack.getCount() / maxSize + 1;
                 for (int j = 0; j < cycles; j++) {
                     list.add(stack.splitStack(maxSize));
                 }

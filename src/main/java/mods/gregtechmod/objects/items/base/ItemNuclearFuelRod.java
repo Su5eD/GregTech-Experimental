@@ -63,7 +63,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     private void checkHeatAcceptor(IReactor reactor, int x, int y, ArrayList<ItemStackCoord> heatAcceptors) {
         ItemStack thing = reactor.getItemAt(x, y);
-        if ((thing != null) && ((thing.getItem() instanceof IReactorComponent)) && (((IReactorComponent) thing.getItem()).canStoreHeat(thing, reactor, x, y))) {
+        if (thing != null && thing.getItem() instanceof IReactorComponent && ((IReactorComponent) thing.getItem()).canStoreHeat(thing, reactor, x, y)) {
             heatAcceptors.add(new ItemStackCoord(thing, x, y));
         }
     }
@@ -99,7 +99,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
                 checkHeatAcceptor(reactor, x, y - 1, heatAcceptors);
                 checkHeatAcceptor(reactor, x, y + 1, heatAcceptors);
                 heat = Math.round(heat * this.heat);
-                while ((heatAcceptors.size() > 0) && (heat > 0)) {
+                while (heatAcceptors.size() > 0 && heat > 0) {
                     int dheat = heat / heatAcceptors.size();
                     heat -= dheat;
                     dheat = ((IReactorComponent) heatAcceptors.get(0).stack.getItem()).alterHeat(heatAcceptors.get(0).stack, reactor, heatAcceptors.get(0).x, heatAcceptors.get(0).y, dheat);

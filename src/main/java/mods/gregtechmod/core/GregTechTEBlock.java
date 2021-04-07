@@ -88,7 +88,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public boolean hasItem() {
-        return (this.teClass != null && this.itemMeta != -1);
+        return this.teClass != null && this.itemMeta != -1;
     }
 
     @Nullable

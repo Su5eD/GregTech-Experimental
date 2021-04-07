@@ -126,7 +126,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
 
     public static boolean isFilledBucket(ItemStack stack) {
         Item item = stack.getItem();
-        return item instanceof UniversalBucket || (item instanceof ItemBucket && FluidUtil.getFluidContained(stack) != null) || item instanceof ItemBucketMilk;
+        return item instanceof UniversalBucket || item instanceof ItemBucket && FluidUtil.getFluidContained(stack) != null || item instanceof ItemBucketMilk;
     }
 
     public static CellAdditionResult addCellsToOutput(ItemStack input, List<ItemStack> output) {

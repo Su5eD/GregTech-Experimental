@@ -18,7 +18,7 @@ public class CoverRedstoneSignalizer extends CoverGeneric {
 
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
-        signal = (byte) ((signal + 1) & 15);
+        signal = (byte) (signal + 1 & 15);
         GtUtil.sendMessage(player, Reference.MODID+".cover.signal", signal);
         return true;
     }
