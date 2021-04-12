@@ -11,22 +11,10 @@ import net.minecraftforge.fluids.FluidStack;
 import java.io.IOException;
 import java.util.List;
 
-public class RecipeSawmillSerializer extends RecipeSerializer<IRecipeSawmill, IRecipeIngredient, List<ItemStack>> {
-    public static final RecipeSawmillSerializer INSTANCE = new RecipeSawmillSerializer();
+public class RecipeSerializerSawmill extends RecipeSerializer<IRecipeSawmill, IRecipeIngredient, List<ItemStack>> {
 
-    public RecipeSawmillSerializer() {
-        this.writeDuration = false;
-        this.writeEnergyCost = false;
-    }
-
-    @Override
-    public void serializeInput(IRecipeIngredient input, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeObjectField("input", input);
-    }
-
-    @Override
-    public void serializeOutput(List<ItemStack> output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeObjectField("output", output);
+    public RecipeSerializerSawmill() {
+        super(false, false);
     }
 
     @Override

@@ -9,22 +9,10 @@ import net.minecraft.item.ItemStack;
 import java.io.IOException;
 import java.util.List;
 
-public class RecipePulverizerSerializer extends RecipeSerializer<IRecipePulverizer, IRecipeIngredient, List<ItemStack>> {
-    public static final RecipePulverizerSerializer INSTANCE = new RecipePulverizerSerializer();
+public class RecipeSerializerPulverizer extends RecipeSerializer<IRecipePulverizer, IRecipeIngredient, List<ItemStack>> {
 
-    public RecipePulverizerSerializer() {
-        this.writeDuration = false;
-        this.writeEnergyCost = false;
-    }
-
-    @Override
-    public void serializeInput(IRecipeIngredient input, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeObjectField("input", input);
-    }
-
-    @Override
-    public void serializeOutput(List<ItemStack> output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeObjectField("output", output);
+    public RecipeSerializerPulverizer() {
+        super(false, false);
     }
 
     @Override

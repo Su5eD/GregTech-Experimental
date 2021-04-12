@@ -47,7 +47,7 @@ public class RecipeFactory implements IRecipeFactory {
 
     @Override
     public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost) {
-        return RecipeDualInput.create(input, output, duration, energyCost);
+        return RecipeAlloySmelter.create(input, output, duration, energyCost);
     }
 
     @Override

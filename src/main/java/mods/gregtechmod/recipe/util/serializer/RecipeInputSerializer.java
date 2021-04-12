@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class RecipeInputSerializer extends JsonSerializer<IRecipeInput> {
-    public static final RecipeInputSerializer INSTANCE = new RecipeInputSerializer();
 
     @Override
     public void serialize(IRecipeInput value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
@@ -21,17 +20,7 @@ public class RecipeInputSerializer extends JsonSerializer<IRecipeInput> {
             gen.writeStringField("ore", ((RecipeInputOreDict) value).input);
         } else {
             List<ItemStack> stacks = value.getInputs();
-            if (stacks.size() > 1) {
-                gen.writeArrayFieldStart("items");
-                stacks.forEach(stack -> {
-                    try {
-                        gen.writeObject(stack);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                gen.writeEndArray();
-            }
+            if (stacks.size() > 1) gen.writeObjectField("items", stacks);
         }
 
         int count = value.getAmount();

@@ -86,15 +86,16 @@ public class MachineRecipeLoader {
                     .addDeserializer(IRecipeIngredientFluid.class, RecipeIngredientFluidDeserializer.INSTANCE)
                     .addDeserializer(IRecipeInput.class, RecipeInputDeserializer.INSTANCE)
                     .addSerializer(ItemStack.class, ItemStackSerializer.INSTANCE)
-                    .addSerializer(IRecipeIngredient.class, RecipeIngredientSerializer.INSTANCE)
-                    .addSerializer(IRecipeInput.class, RecipeInputSerializer.INSTANCE)
-                    .addSerializer(RecipeCanner.class, RecipeCannerSerializer.INSTANCE)
-                    .addSerializer(RecipeDualInput.class, RecipeDualInputSerializer.INSTANCE)
-                    .addSerializer(RecipeLathe.class, RecipeLatheSerializer.INSTANCE)
-                    .addSerializer(RecipePulverizer.class, RecipePulverizerSerializer.INSTANCE)
-                    .addSerializer(RecipeSimple.class, RecipeSimpleSerializer.INSTANCE)
-                    .addSerializer(RecipeSawmill.class, RecipeSawmillSerializer.INSTANCE)
-                    .addSerializer(MachineRecipe.class, MachineRecipeSerializer.INSTANCE));
+                    .addSerializer(IRecipeIngredient.class, new RecipeIngredientSerializer())
+                    .addSerializer(RecipeDualInput.class, new RecipeSerializerSingleOutput<>())
+                    .addSerializer(RecipeSimple.class,  new RecipeSerializerSingleOutput<>())
+                    .addSerializer(RecipeCanner.class, new RecipeSerializer<>())
+                    .addSerializer(RecipeCentrifuge.class, new RecipeSerializerCentrifuge())
+                    .addSerializer(RecipeLathe.class, new RecipeSerializer<>())
+                    .addSerializer(RecipePulverizer.class, new RecipeSerializerPulverizer())
+                    .addSerializer(RecipeSawmill.class, new RecipeSerializerSawmill())
+                    .addSerializer(IRecipeInput.class, new RecipeInputSerializer())
+                    .addSerializer(MachineRecipe.class, new MachineRecipeSerializer()));
 
     public static void loadRecipes() {
         GregTechMod.logger.info("Loading machine recipes");
