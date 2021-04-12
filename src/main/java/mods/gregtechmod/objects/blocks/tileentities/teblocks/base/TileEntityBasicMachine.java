@@ -29,18 +29,18 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class TileEntityBasicMachine extends TileEntityGTMachine<IMachineRecipe<IRecipeIngredient, List<ItemStack>>, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> implements INetworkClientTileEntityEventListener {
+public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManagerBasic<RI, I, R>> extends TileEntityGTMachine<R, RI, I, RM> implements INetworkClientTileEntityEventListener {
     public EnumFacing outputSide = EnumFacing.SOUTH;
     public final InvSlotOutput queueOutputSlot;
-    public final GtSlotProcessableItemStack<IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> queueInputSlot;
+    public final GtSlotProcessableItemStack<RM, I> queueInputSlot;
     public final InvSlotDischarge dischargeSlot;
-    private boolean outputBlocked;
+    protected boolean outputBlocked;
 
     public boolean provideEnergy = false;
     public boolean autoOutput = true;
     public boolean splitInput = false;
 
-    public TileEntityBasicMachine(String descriptionKey, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager) {
+    public TileEntityBasicMachine(String descriptionKey, RM recipeManager) {
         super(descriptionKey, 2000, 1, 1, 1, recipeManager);
         this.dischargeSlot = new InvSlotDischarge(this, InvSlot.Access.IO, 1, false, InvSlot.InvSide.NOTSIDE);
         this.queueInputSlot = getInputSlot(1, GtInvSide.VERTICAL);
@@ -74,11 +74,11 @@ public abstract class TileEntityBasicMachine extends TileEntityGTMachine<IMachin
     }
 
     @Override
-    public GtSlotProcessableItemStack<IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> getInputSlot(int count) {
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count) {
         return getInputSlot(count, InvSlot.InvSide.SIDE);
     }
 
-    public GtSlotProcessableItemStack<IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> getInputSlot(int count, InvSlot.InvSide side) {
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count, InvSlot.InvSide side) {
         return new GtSlotProcessableItemStack<>(this, "input", InvSlot.Access.I, count, side, recipeManager);
     }
 
@@ -87,6 +87,25 @@ public abstract class TileEntityBasicMachine extends TileEntityGTMachine<IMachin
         Ic2BlockState.Ic2BlockStateInstance ret = super.getExtendedState(state);
         return getFacing() != this.outputSide ? ret.withProperty(PropertyHelper.OUTPUT_SIDE_PROPERTY, this.outputSide) : ret;
     }
+
+    @Override
+    public R getRecipe() {
+        relocateStacks();
+
+        R recipe = this.recipeManager.getRecipeFor(getInput());
+        if (recipe != null) {
+            List<ItemStack> output = recipe.getOutput();
+            if (this.outputSlot.canAdd(output) || this.queueOutputSlot.canAdd(output)) {
+                this.outputBlocked = false;
+                return recipe;
+            } else this.outputBlocked = true;
+        }
+        return null;
+    }
+
+    protected void relocateStacks() {}
+
+    protected abstract I getInput();
 
     @Override
     protected boolean strictInputSides() {
@@ -101,22 +120,6 @@ public abstract class TileEntityBasicMachine extends TileEntityGTMachine<IMachin
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing side) {
         return side != getFacing() && super.canExtractItem(index, stack, side);
-    }
-
-    @Override
-    public IMachineRecipe<IRecipeIngredient, List<ItemStack>> getRecipe() {
-        moveStack(this.queueInputSlot, this.inputSlot);
-        moveStack(this.queueOutputSlot, this.outputSlot);
-
-        IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe = this.recipeManager.getRecipeFor(this.inputSlot.get());
-        if (recipe != null) {
-            List<ItemStack> output = recipe.getOutput();
-            if (this.outputSlot.canAdd(output) || this.queueOutputSlot.canAdd(output)) {
-                this.outputBlocked = false;
-                return recipe;
-            } else this.outputBlocked = true;
-        }
-        return null;
     }
 
     public void moveStack(InvSlot src, InvSlot dest) {

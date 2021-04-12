@@ -2,12 +2,10 @@ package mods.gregtechmod.inventory;
 
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlotConsumable;
-import mods.gregtechmod.api.recipe.IMachineRecipe;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import net.minecraft.item.ItemStack;
 
-public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<IRecipeIngredient, ItemStack, ?>> extends InvSlotConsumable {
+public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<?, I, ?>, I> extends InvSlotConsumable {
     protected final RM recipeManager;
 
     public GtSlotProcessableItemStack(IInventorySlotHolder<?> base, String name, int count, RM recipeManager) {
@@ -19,12 +17,16 @@ public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<IRecipeIngre
         this.recipeManager = recipeManager;
     }
 
+    public boolean accepts(I input) {
+        return this.recipeManager == null || this.recipeManager.hasRecipeFor(input);
+    }
+
     @Override
     public boolean accepts(ItemStack stack) {
         return this.recipeManager == null || this.recipeManager.hasRecipeFor(stack);
     }
 
-    public ItemStack consume(IMachineRecipe<IRecipeIngredient, ?> recipe, boolean consumeContainers) {
-        return this.consume(recipe == null ? 1 : recipe.getInput().getCount(), false, consumeContainers);
+    public ItemStack consume(int count, boolean consumeContainers) {
+        return this.consume(count, false, consumeContainers);
     }
 }

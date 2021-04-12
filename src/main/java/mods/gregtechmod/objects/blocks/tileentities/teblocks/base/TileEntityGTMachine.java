@@ -13,6 +13,7 @@ import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
@@ -34,12 +35,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>, RM extends IGtRecipeManager<IRecipeIngredient, ItemStack, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, IScannerInfoProvider, IPanelInfoProvider {
+public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, IScannerInfoProvider, IPanelInfoProvider {
     public boolean shouldExplode;
     private boolean explode;
     private int explosionTier;
     public final RM recipeManager;
-    public final GtSlotProcessableItemStack<RM> inputSlot;
+    public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
 
     protected List<ItemStack> pendingRecipe = new ArrayList<>();
@@ -57,7 +58,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         this.outputSlot = getOutputSlot(outputSlots);
     }
 
-    public GtSlotProcessableItemStack<RM> getInputSlot(int count) {
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count) {
         return new GtSlotProcessableItemStack<>(this, "input", count, recipeManager);
     }
 
@@ -226,9 +227,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         consumeInput(recipe, false);
     }
 
-    public void consumeInput(R recipe, boolean consumeContainers) {
-        this.inputSlot.consume(recipe, consumeContainers);
-    }
+    public abstract void consumeInput(R recipe, boolean consumeContainers);
 
     public void addOutput(Collection<ItemStack> processResult) {
         this.outputSlot.add(processResult);

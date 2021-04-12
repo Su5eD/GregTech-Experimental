@@ -14,28 +14,12 @@ public class RecipeCannerSerializer extends RecipeSerializer<IMachineRecipe<List
 
     @Override
     public void serializeInput(List<IRecipeIngredient> input, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeArrayFieldStart("input");
-        input.forEach(ingredient -> {
-            try {
-                gen.writeObject(ingredient);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        gen.writeEndArray();
+        gen.writeObjectField("input", input);
     }
 
     @Override
     public void serializeOutput(List<ItemStack> output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeArrayFieldStart("output");
-        output.forEach(stack -> {
-            try {
-                gen.writeObject(stack);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        gen.writeEndArray();
+        gen.writeObjectField("output", output);
     }
 
     @Override

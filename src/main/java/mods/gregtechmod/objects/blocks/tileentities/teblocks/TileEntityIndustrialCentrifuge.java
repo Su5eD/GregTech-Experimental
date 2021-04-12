@@ -43,7 +43,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Set;
 
-public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCellular, IGtRecipeManagerCellular> {
+public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeCellular, IRecipeIngredient, ItemStack, IGtRecipeManagerCellular> {
     public InvSlotConsumable cellSlot;
     public Fluids.InternalFluidTank tank;
     private static final Set<EnumFacing> animatedSides = Sets.newHashSet(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP);
@@ -57,6 +57,11 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
             }
         };
         this.tank = this.fluids.addTank(new GtFluidTankProcessable<>(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), 32000));
+    }
+
+    @Override
+    public void consumeInput(IRecipeCellular recipe, boolean consumeContainers) {
+        this.inputSlot.consume(recipe == null ? 1 : recipe.getInput().getCount(), consumeContainers);
     }
 
     @Override
@@ -115,7 +120,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityGTMachine<IRecipeC
                 }
             } else this.tank.drainInternal(mb, true);
         } else {
-            super.consumeInput(recipe, true);
+            this.consumeInput(recipe, true);
         }
         this.cellSlot.consume(recipe.getCells());
     }

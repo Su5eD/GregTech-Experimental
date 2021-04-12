@@ -51,7 +51,7 @@ class DynamicRecipes {
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeAlloySmelter> ALLOY_SMELTER = new RecipeManagerAlloySmelter();
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> CANNER = new RecipeManagerMultiInput<>();
     static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> LATHE = new RecipeManagerBasic<>();
-    static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, ItemStack>> ASSEMBLER = new RecipeManagerMultiInput<>();
+    static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> ASSEMBLER = new RecipeManagerMultiInput<>();
     static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> BENDER = new RecipeManagerBasic<>();
     static final IGtRecipeManagerSawmill SAWMILL = new RecipeManagerSawmill();
     static final IGtRecipeManagerCellular INDUSTRIAL_CENTRIFUGE = new RecipeManagerCellular();
@@ -92,7 +92,7 @@ class DynamicRecipes {
         if (addLatheRecipes) LATHE.addRecipe(recipe);
     }
 
-    static void addAssemblerRecipe(IMachineRecipe<List<IRecipeIngredient>, ItemStack> recipe) {
+    static void addAssemblerRecipe(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe) {
         if (addAssemblerRecipes) ASSEMBLER.addRecipe(recipe);
     }
 

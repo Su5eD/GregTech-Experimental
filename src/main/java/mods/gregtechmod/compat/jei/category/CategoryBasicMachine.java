@@ -5,12 +5,10 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
+import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.jei.RecipeMaker;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachine;
 import mods.gregtechmod.gui.GuiBasicMachine;
 import mods.gregtechmod.util.GtUtil;
@@ -20,39 +18,38 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
 
-public class CategoryBasicMachine implements IRecipeCategory<WrapperBasicMachine> {
+public abstract class CategoryBasicMachine<W extends WrapperBasicMachine<R>, R extends IMachineRecipe<?, List<ItemStack>>> implements IRecipeCategory<W> {
     private final String name;
-    private final Class<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeClass;
+    private final Class<R> recipeClass;
     private final Class<? extends GuiBasicMachine<?>> guiClass;
-    private final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager;
-    private final String uid;
+    protected final String uid;
     private final IDrawable background;
     private final IDrawable gauge;
 
-    public CategoryBasicMachine(String name, Class<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass,
-                                IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager, IGuiHelper guiHelper) {
+    public CategoryBasicMachine(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGuiHelper guiHelper) {
         this.name = name;
         this.recipeClass = recipeClass;
         this.guiClass = guiClass;
-        this.recipeManager = recipeManager;
         this.uid = Reference.MODID+"."+name;
         ResourceLocation guiTexture = new ResourceLocation(Reference.MODID, "textures/gui/jei/" + name + ".png");
-        this.background = guiHelper.drawableBuilder(guiTexture, 52, 24, 72, 18)
-                .addPadding(24, 44, 52, 52)
+        this.background = guiHelper.drawableBuilder(guiTexture, 34, 24, 90, 18)
+                .addPadding(24, 44, 34, 34)
                 .build();
         IDrawableStatic gaugeStatic = guiHelper.createDrawable(guiTexture, 176, 0, 20, 18);
         this.gauge = guiHelper.createAnimatedDrawable(gaugeStatic, 200, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
-    public void init(IModRegistry registry) {
-        registry.handleRecipes(this.recipeClass, WrapperBasicMachine::new, this.uid);
+    public void init(IModRegistry registry, IRecipeWrapperFactory<R> recipeWrapperFactory) {
+        registry.handleRecipes(this.recipeClass, recipeWrapperFactory, this.uid);
 
-        registry.addRecipes(RecipeMaker.getBasicMachineRecipes(this.recipeManager), this.uid);
+        addRecipes(registry);
 
         registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity(this.name), this.uid);
 
         registry.addRecipeClickArea(this.guiClass, 78, 24, 18, 18, this.uid);
     }
+
+    protected abstract void addRecipes(IModRegistry registry);
 
     @Override
     public String getUid() {
@@ -75,13 +72,17 @@ public class CategoryBasicMachine implements IRecipeCategory<WrapperBasicMachine
     }
 
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, WrapperBasicMachine recipeWrapper, IIngredients ingredients) {
+    public void setRecipe(IRecipeLayout recipeLayout, W recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
-        guiItemStacks.init(0, true, 52, 24);
-        guiItemStacks.init(1, false, 106, 24);
+        initSlots(guiItemStacks);
 
         guiItemStacks.set(ingredients);
+    }
+
+    protected void initSlots(IGuiItemStackGroup guiItemStacks) {
+        guiItemStacks.init(0, true, 52, 24);
+        guiItemStacks.init(1, false, 106, 24);
     }
 
     @Override

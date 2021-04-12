@@ -16,7 +16,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAssemblerRecipe(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost) {
+    public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAssemblerRecipe(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost) {
         return RecipeDualInput.create(primaryInput, secondaryInput, output, duration, energyCost);
     }
 
@@ -46,7 +46,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost) {
+    public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost) {
         return RecipeDualInput.create(input, output, duration, energyCost);
     }
 

@@ -9,27 +9,19 @@ import net.minecraft.item.ItemStack;
 import java.io.IOException;
 import java.util.List;
 
-public class RecipeDualInputSerializer extends RecipeSerializer<IMachineRecipe<List<IRecipeIngredient>, ItemStack>, List<IRecipeIngredient>, ItemStack> {
+public class RecipeDualInputSerializer extends RecipeSerializer<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, List<IRecipeIngredient>, List<ItemStack>> {
     public static final RecipeDualInputSerializer INSTANCE = new RecipeDualInputSerializer();
 
     @Override
     public void serializeInput(List<IRecipeIngredient> input, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeArrayFieldStart("input");
-        input.forEach(ingredient -> {
-            try {
-                gen.writeObject(ingredient);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        gen.writeEndArray();
+        gen.writeObjectField("input", input);
     }
 
     @Override
-    public void serializeOutput(ItemStack output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serializeOutput(List<ItemStack> output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeObjectField("output", output);
     }
 
     @Override
-    public void serializeExtraFields(IMachineRecipe<List<IRecipeIngredient>, ItemStack> recipe, JsonGenerator gen, SerializerProvider serializers) {}
+    public void serializeExtraFields(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, JsonGenerator gen, SerializerProvider serializers) {}
 }

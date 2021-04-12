@@ -26,15 +26,7 @@ public class RecipeSawmillSerializer extends RecipeSerializer<IRecipeSawmill, IR
 
     @Override
     public void serializeOutput(List<ItemStack> output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeArrayFieldStart("output");
-        output.forEach(stack -> {
-            try {
-                gen.writeObject(stack);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        gen.writeEndArray();
+        gen.writeObjectField("output", output);
     }
 
     @Override

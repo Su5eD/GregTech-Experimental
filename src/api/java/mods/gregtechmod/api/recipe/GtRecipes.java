@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GtRecipes {
     public static IGtRecipeManagerCellular industrialCentrifuge;
-    public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, ItemStack>> assembler;
+    public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> assembler;
     public static IGtRecipeManager<IRecipeIngredient, ItemStack, IRecipePulverizer> pulverizer;
     public static IGtRecipeManagerGrinder grinder;
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeBlastFurnace> blastFurnace;

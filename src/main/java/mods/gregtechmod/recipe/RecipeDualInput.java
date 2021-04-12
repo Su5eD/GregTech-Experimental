@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 import java.util.Collections;
 import java.util.List;
 
-public class RecipeDualInput extends Recipe<List<IRecipeIngredient>, ItemStack> {
+public class RecipeDualInput extends Recipe<List<IRecipeIngredient>, List<ItemStack>> {
     protected RecipeDualInput(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost) {
-        super(input, output, duration, energyCost);
+        super(input, Collections.singletonList(output), duration, energyCost);
     }
 
     public static RecipeDualInput create(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost) {

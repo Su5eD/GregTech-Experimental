@@ -20,7 +20,9 @@
       "auto_electric_furnace": { "model": "gregtechmod:auto_electric_furnace" },
       "auto_electric_furnace_active": { "model": "gregtechmod:auto_electric_furnace_active" },
       "wiremill": { "model": "gregtechmod:wiremill" },
-      "wiremill_active": { "model": "gregtechmod:wiremill_active" }
+      "wiremill_active": { "model": "gregtechmod:wiremill_active" },
+      "alloy_smelter": { "model": "gregtechmod:alloy_smelter" },
+      "alloy_smelter_active": { "model": "gregtechmod:alloy_smelter_active" }
     },
     "facing": {
       "down": { "x": 90 },

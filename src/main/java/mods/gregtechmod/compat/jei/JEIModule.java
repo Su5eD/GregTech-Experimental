@@ -7,9 +7,13 @@ import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.compat.jei.category.CategoryBasicMachine;
+import mods.gregtechmod.compat.jei.category.CategoryAlloySmelter;
+import mods.gregtechmod.compat.jei.category.CategoryBasicMachineSingle;
 import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
+import mods.gregtechmod.compat.jei.wrapper.WrapperAlloySmelter;
 import mods.gregtechmod.gui.*;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -28,7 +32,8 @@ public class JEIModule implements IModPlugin {
     public static IIngredientRegistry itemRegistry;
     public static IIngredientBlacklist ingredientBlacklist;
 
-    private CategoryBasicMachine categoryWiremill;
+    private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryWiremill;
+    private CategoryAlloySmelter categoryAlloySmelter;
 
     @Override
     public void register(IModRegistry registry) {
@@ -37,6 +42,7 @@ public class JEIModule implements IModPlugin {
 
         CategoryCentrifuge.init(registry);
         categoryWiremill.init(registry);
+        categoryAlloySmelter.init(registry, WrapperAlloySmelter::new);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -58,7 +64,8 @@ public class JEIModule implements IModPlugin {
         IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
         registry.addRecipeCategories(
                 new CategoryCentrifuge(guiHelper),
-                categoryWiremill = new CategoryBasicMachine("wiremill", RecipeSimple.class, GuiWiremill.class, GtRecipes.wiremill, guiHelper)
+                categoryWiremill = new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, guiHelper, GtRecipes.wiremill),
+                categoryAlloySmelter = new CategoryAlloySmelter(guiHelper)
         );
     }
 

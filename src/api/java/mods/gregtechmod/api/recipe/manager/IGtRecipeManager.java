@@ -1,6 +1,7 @@
 package mods.gregtechmod.api.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IMachineRecipe;
+import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public interface IGtRecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> {
      * Checks if a recipe exists for the target input without checking the stacksize
      */
     boolean hasRecipeFor(I input);
+
+    boolean hasRecipeFor(ItemStack input);
 
     void removeRecipe(R recipe);
 

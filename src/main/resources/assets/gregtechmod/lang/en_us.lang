@@ -774,6 +774,8 @@ gregtechmod.teblock.auto_electric_furnace=Automatic E-Furnace
 gregtechmod.teblock.auto_electric_furnace.description=Not like using a Commodore 64
 gregtechmod.teblock.wiremill=Automatic Wiremill
 gregtechmod.teblock.wiremill.description=Produces Wires more efficiently
+gregtechmod.teblock.alloy_smelter=Alloy Smelter
+gregtechmod.teblock.alloy_smelter.description=HighTech combination Smelter
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

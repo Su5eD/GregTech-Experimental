@@ -1,10 +1,13 @@
-package mods.gregtechmod.objects.blocks.tileentities.teblocks;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiAutoElectricFurnace;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachine;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachineSingleInput;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import net.minecraft.client.gui.GuiScreen;
@@ -19,11 +22,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class TileEntityAutoElectricFurnace extends TileEntityBasicMachine {
+public abstract class TileEntityElectricFurnaceBase<RI, I, R extends IMachineRecipe<RI, List<ItemStack>>> extends TileEntityBasicMachine<R, RI, I, IGtRecipeManagerBasic<RI, I, R>> {
     private int heatingCoilTier;
 
-    public TileEntityAutoElectricFurnace() {
-        super("auto_electric_furnace", ModRecipes.FURNACE);
+    protected TileEntityElectricFurnaceBase(String descriptionKey, IGtRecipeManagerBasic<RI, I, R> recipeManager) {
+        super(descriptionKey, recipeManager);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class TileEntityAutoElectricFurnace extends TileEntityBasicMachine {
     }
 
     @Override
-    protected void prepareRecipeForProcessing(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
+    protected void prepareRecipeForProcessing(R recipe) {
         super.prepareRecipeForProcessing(recipe);
         if (this.heatingCoilTier > 0) this.maxProgress /= this.heatingCoilTier;
     }

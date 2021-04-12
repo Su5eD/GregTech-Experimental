@@ -18,6 +18,13 @@ public class RecipeManagerMultiInput<R extends IMachineRecipe<List<I>, ?>, I ext
     }
 
     @Override
+    public boolean hasRecipeFor(ItemStack input) {
+        return this.recipes.stream()
+                .anyMatch(recipe -> recipe.getInput().stream()
+                        .anyMatch(ingredient -> ingredient.apply(input, false)));
+    }
+
+    @Override
     protected R getRecipeForExact(R recipe) {
         return this.recipes.stream()
                 .filter(r -> r.getInput().stream()
