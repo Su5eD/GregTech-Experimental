@@ -18,13 +18,18 @@ public class CategoryBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredie
 
     public CategoryBasicMachineSingle(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGuiHelper guiHelper,
                                       IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager) {
-        super(name, recipeClass, guiClass, guiHelper);
+        this(name, recipeClass, guiClass, false, guiHelper, recipeManager);
+    }
+
+    public CategoryBasicMachineSingle(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, boolean customTexture, IGuiHelper guiHelper,
+                                      IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager) {
+        super(name, recipeClass, guiClass, customTexture, guiHelper);
         this.recipeManager = recipeManager;
     }
 
     @Override
     protected void addRecipes(IModRegistry registry) {
-        registry.addRecipes(RecipeMaker.getBasicMachineRecipes(this.recipeManager), this.uid);
+        registry.addRecipes(RecipeMaker.getBasicMachineSingleRecipes(this.recipeManager), this.uid);
     }
 
     public void init(IModRegistry registry) {

@@ -3,16 +3,16 @@ package mods.gregtechmod.compat.jei.wrapper;
 import ic2.core.util.StackUtil;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
-import mods.gregtechmod.api.recipe.IRecipeAlloySmelter;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WrapperAlloySmelter extends WrapperBasicMachine<IRecipeAlloySmelter> {
+public class WrapperBasicMachineMulti<R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> extends WrapperBasicMachine<R> {
 
-    public WrapperAlloySmelter(IRecipeAlloySmelter recipe) {
+    public WrapperBasicMachineMulti(R recipe) {
         super(recipe);
     }
 

@@ -8,7 +8,6 @@ import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
@@ -26,7 +25,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManagerBasic<RI, I, R>> extends TileEntityGTMachine<R, RI, I, RM> implements INetworkClientTileEntityEventListener {
@@ -136,7 +138,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public void addOutput(Collection<ItemStack> processResult) {
+    public void addOutput(List<ItemStack> processResult) {
         if (this.outputSlot.add(processResult) > 0)
             this.queueOutputSlot.add(processResult);
 

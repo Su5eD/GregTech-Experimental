@@ -217,6 +217,7 @@
   output:
     - item: ic2:filled_tin_can
       count: 3
+    - item: minecraft:bowl
   duration: 300
 - input:
     - item: minecraft:rabbit_stew
@@ -225,6 +226,7 @@
   output:
     - item: ic2:filled_tin_can
       count: 5
+    - item: minecraft:bowl
   duration: 500
 - input:
     - item: minecraft:apple
@@ -404,10 +406,12 @@
     - cell: empty
   output:
     - cell: water
+    - item: minecraft:bucket
   duration: 100
 - input:
     - item: minecraft:lava_bucket
     - cell: empty
   output:
     - cell: lava
+    - item: minecraft:bucket
   duration: 100

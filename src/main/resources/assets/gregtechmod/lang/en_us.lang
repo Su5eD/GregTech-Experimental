@@ -776,6 +776,8 @@ gregtechmod.teblock.wiremill=Automatic Wiremill
 gregtechmod.teblock.wiremill.description=Produces Wires more efficiently
 gregtechmod.teblock.alloy_smelter=Alloy Smelter
 gregtechmod.teblock.alloy_smelter.description=HighTech combination Smelter
+gregtechmod.teblock.auto_canner=Automatic Canning Machine
+gregtechmod.teblock.auto_canner.description=HighTech combination Smelter
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

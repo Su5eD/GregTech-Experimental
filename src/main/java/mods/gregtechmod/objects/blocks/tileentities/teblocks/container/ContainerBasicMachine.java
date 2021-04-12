@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerBasicMachine<T extends TileEntityBasicMachine> extends ContainerFullInv<T> {
+public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>> extends ContainerFullInv<T> {
 
     public ContainerBasicMachine(EntityPlayer player, T base) {
         super(player, base, 166);

@@ -26,13 +26,13 @@ public abstract class CategoryBasicMachine<W extends WrapperBasicMachine<R>, R e
     private final IDrawable background;
     private final IDrawable gauge;
 
-    public CategoryBasicMachine(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGuiHelper guiHelper) {
+    public CategoryBasicMachine(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, boolean customTexture, IGuiHelper guiHelper) {
         this.name = name;
         this.recipeClass = recipeClass;
         this.guiClass = guiClass;
         this.uid = Reference.MODID+"."+name;
-        ResourceLocation guiTexture = new ResourceLocation(Reference.MODID, "textures/gui/jei/" + name + ".png");
-        this.background = guiHelper.drawableBuilder(guiTexture, 34, 24, 90, 18)
+        ResourceLocation guiTexture = new ResourceLocation(Reference.MODID, String.format("textures/gui%s/%s.png", customTexture ? "/jei" : "", name));
+        this.background = guiHelper.drawableBuilder(guiTexture, 34, 24, 108, 18)
                 .addPadding(24, 44, 34, 34)
                 .build();
         IDrawableStatic gaugeStatic = guiHelper.createDrawable(guiTexture, 176, 0, 20, 18);

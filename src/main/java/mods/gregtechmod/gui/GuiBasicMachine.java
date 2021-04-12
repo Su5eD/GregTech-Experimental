@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.function.Supplier;
 
-public abstract class GuiBasicMachine<T extends ContainerBase<? extends TileEntityBasicMachine>> extends GuiIC2<T> {
+public abstract class GuiBasicMachine<T extends ContainerBase<? extends TileEntityBasicMachine<?, ?, ?, ?>>> extends GuiIC2<T> {
     private final ResourceLocation texture;
 
     public GuiBasicMachine(ResourceLocation texture, T container, Gauge.IGaugeStyle gaugeStyle) {
@@ -41,11 +41,11 @@ public abstract class GuiBasicMachine<T extends ContainerBase<? extends TileEnti
     }
 
     private static class BasicMachineNumericValueHandler implements INumericValueHandler {
-        private final TileEntityBasicMachine base;
+        private final TileEntityBasicMachine<?, ?, ?, ?> base;
         private final int id;
         private final Supplier<Integer> valueGetter;
 
-        private BasicMachineNumericValueHandler(TileEntityBasicMachine base, int id, Supplier<Integer> valueGetter) {
+        private BasicMachineNumericValueHandler(TileEntityBasicMachine<?, ?, ?, ?> base, int id, Supplier<Integer> valueGetter) {
             this.base = base;
             this.id = id;
             this.valueGetter = valueGetter;

@@ -4,6 +4,7 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeAlloySmelter;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.gui.GuiAlloySmelter;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachineMultiInput;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityElectricFurnaceBase;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
 import net.minecraft.client.gui.GuiScreen;
@@ -39,19 +40,6 @@ public class TileEntityAlloySmelter extends TileEntityElectricFurnaceBase<List<I
 
     @Override
     public void consumeInput(IRecipeAlloySmelter recipe, boolean consumeContainers) {
-        List<IRecipeIngredient> ingredients = recipe.getInput();
-        IRecipeIngredient firstIngredient = ingredients.get(0);
-        int firstCount = firstIngredient.getCount();
-        ItemStack firstInput = this.queueInputSlot.get();
-
-        IRecipeIngredient secondIngredient = ingredients.get(1);
-        int secondCount = secondIngredient.getCount();
-        ItemStack secondInput = this.inputSlot.get();
-
-        if (firstIngredient.apply(firstInput)) this.queueInputSlot.consume(firstCount, consumeContainers);
-        else if (secondIngredient.apply(firstInput)) this.queueInputSlot.consume(secondCount, consumeContainers);
-
-        if (firstIngredient.apply(secondInput)) this.inputSlot.consume(firstCount, consumeContainers);
-        else if (secondIngredient.apply(secondIngredient)) this.inputSlot.consume(secondCount, consumeContainers);
+        TileEntityBasicMachineMultiInput.consumeMultiInput(this, recipe, consumeContainers);
     }
 }

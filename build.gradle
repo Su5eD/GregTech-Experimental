@@ -126,7 +126,7 @@ shadowJar {
 repositories {
     maven {
         name = "ic2"
-        url = "http://maven.ic2.player.to/"
+        url = "https://maven.ic2.player.to/"
     }
     maven {
         name "BuildCraft"
@@ -138,7 +138,7 @@ repositories {
     }
     maven {
         name = "Progwml6 maven"
-        url = "http://dvs1.progwml6.com/files/maven/"
+        url = "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
         name = "CoFH Maven"
@@ -245,11 +245,11 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
+
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'

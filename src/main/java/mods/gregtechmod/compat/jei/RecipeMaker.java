@@ -1,13 +1,16 @@
 package mods.gregtechmod.compat.jei;
 
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.recipe.*;
+import mods.gregtechmod.api.recipe.CellType;
+import mods.gregtechmod.api.recipe.GtRecipes;
+import mods.gregtechmod.api.recipe.IMachineRecipe;
+import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.compat.jei.wrapper.WrapperAlloySmelter;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachine;
+import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineMulti;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineSingle;
 import mods.gregtechmod.compat.jei.wrapper.WrapperCentrifuge;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifuge;
@@ -58,7 +61,7 @@ public class RecipeMaker {
                 .collect(Collectors.toList());
     }
 
-    public static List<? extends WrapperBasicMachine<IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> getBasicMachineRecipes(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
+    public static List<? extends WrapperBasicMachine<IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> getBasicMachineSingleRecipes(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
         return manager.getRecipes()
                 .stream()
                 .filter(recipe -> !recipe.getInput().getMatchingInputs().isEmpty())
@@ -66,13 +69,13 @@ public class RecipeMaker {
                 .collect(Collectors.toList());
     }
 
-    public static List<? extends WrapperBasicMachine<IRecipeAlloySmelter>> getAlloySmelterRecipes() {
-        return GtRecipes.alloySmelter.getRecipes()
+    public static List<? extends WrapperBasicMachine<? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> getBasicMachineMultiRecipes(IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, ? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> manager) {
+        return manager.getRecipes()
                 .stream()
                 .filter(recipe -> recipe.getInput()
                         .stream()
                         .noneMatch(IRecipeIngredient::isEmpty))
-                .map(WrapperAlloySmelter::new)
+                .map(WrapperBasicMachineMulti::new)
                 .collect(Collectors.toList());
     }
 
