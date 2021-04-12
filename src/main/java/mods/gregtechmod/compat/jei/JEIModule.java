@@ -36,6 +36,7 @@ public class JEIModule implements IModPlugin {
     private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryWiremill;
     private CategoryBasicMachineMulti<RecipeAlloySmelter> categoryAlloySmelter;
     private CategoryBasicMachineMulti<RecipeCanner> categoryAutoCanner;
+    private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryBender;
 
     @Override
     public void register(IModRegistry registry) {
@@ -46,6 +47,7 @@ public class JEIModule implements IModPlugin {
         categoryWiremill.init(registry);
         categoryAlloySmelter.init(registry);
         categoryAutoCanner.init(registry);
+        categoryBender.init(registry);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -69,7 +71,8 @@ public class JEIModule implements IModPlugin {
                 new CategoryCentrifuge(guiHelper),
                 categoryWiremill = new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, true, guiHelper, GtRecipes.wiremill),
                 categoryAlloySmelter = new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, false, guiHelper),
-                categoryAutoCanner = new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, true, guiHelper)
+                categoryAutoCanner = new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, true, guiHelper),
+                categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender)
         );
     }
 

@@ -300,22 +300,22 @@ public class MachineRecipeLoader {
     public static void registerDynamicRecipes() {
         DynamicRecipes.processMaterialUsages();
 
-        if (DynamicRecipes.addPulverizerRecipes) serializeRecipes("Pulverizer", DynamicRecipes.PULVERIZER.getRecipes(), GtRecipes.pulverizer);
-        if (DynamicRecipes.addAlloySmelterRecipes) serializeRecipes("Alloy Smelter", DynamicRecipes.ALLOY_SMELTER.getRecipes(), GtRecipes.alloySmelter);
-        if (DynamicRecipes.addCannerRecipes) serializeRecipes("Canner", DynamicRecipes.CANNER.getRecipes(), GtRecipes.canner);
-        if (DynamicRecipes.addLatheRecipes) serializeRecipes("Lathe", DynamicRecipes.LATHE.getRecipes(), GtRecipes.lathe);
-        if (DynamicRecipes.addAssemblerRecipes) serializeRecipes("Assembler", DynamicRecipes.ASSEMBLER.getRecipes(), GtRecipes.assembler);
-        if (DynamicRecipes.addBenderRecipes) serializeRecipes("Bender", DynamicRecipes.BENDER.getRecipes(), GtRecipes.bender);
-        if (DynamicRecipes.addSawmillRecipes) serializeRecipes("Sawmill", DynamicRecipes.SAWMILL.getRecipes(), GtRecipes.sawmill);
-        if (DynamicRecipes.addCentrifugeRecipes) serializeRecipes("Industrial Centrifuge", DynamicRecipes.INDUSTRIAL_CENTRIFUGE.getRecipes(), GtRecipes.industrialCentrifuge);
+        serializeRecipes("Pulverizer", DynamicRecipes.PULVERIZER.getRecipes(), GtRecipes.pulverizer, DynamicRecipes.addPulverizerRecipes);
+        serializeRecipes("Alloy Smelter", DynamicRecipes.ALLOY_SMELTER.getRecipes(), GtRecipes.alloySmelter, DynamicRecipes.addAlloySmelterRecipes);
+        serializeRecipes("Canner", DynamicRecipes.CANNER.getRecipes(), GtRecipes.canner, DynamicRecipes.addCannerRecipes);
+        serializeRecipes("Lathe", DynamicRecipes.LATHE.getRecipes(), GtRecipes.lathe, DynamicRecipes.addLatheRecipes);
+        serializeRecipes("Assembler", DynamicRecipes.ASSEMBLER.getRecipes(), GtRecipes.assembler, DynamicRecipes.addAssemblerRecipes);
+        serializeRecipes("Bender", DynamicRecipes.BENDER.getRecipes(), GtRecipes.bender, DynamicRecipes.addBenderRecipes);
+        serializeRecipes("Sawmill", DynamicRecipes.SAWMILL.getRecipes(), GtRecipes.sawmill, DynamicRecipes.addSawmillRecipes);
+        serializeRecipes("Industrial Centrifuge", DynamicRecipes.INDUSTRIAL_CENTRIFUGE.getRecipes(), GtRecipes.industrialCentrifuge, DynamicRecipes.addCentrifugeRecipes);
 
         List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> compressorRecipes = StreamSupport.stream(DynamicRecipes.COMPRESSOR.getRecipes().spliterator(), false)
                 .collect(Collectors.toList());
-        if (DynamicRecipes.addCompressorRecipes) serializeRecipes("Compressor", compressorRecipes, (BasicMachineRecipeManager) Recipes.compressor);
+        serializeRecipes("Compressor", compressorRecipes, (BasicMachineRecipeManager) Recipes.compressor, DynamicRecipes.addCompressorRecipes);
 
         List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> extractorRecipes = StreamSupport.stream(DynamicRecipes.EXTRACTOR.getRecipes().spliterator(), false)
                 .collect(Collectors.toList());
-        if (DynamicRecipes.addExtractorRecipes) serializeRecipes("Extractor", extractorRecipes, (BasicMachineRecipeManager) Recipes.extractor);
+        serializeRecipes("Extractor", extractorRecipes, (BasicMachineRecipeManager) Recipes.extractor, DynamicRecipes.addExtractorRecipes);
     }
 
     public static void registerCondition(String name, Predicate<JsonNode> predicate) {
@@ -421,23 +421,23 @@ public class MachineRecipeLoader {
         GregTechMod.logger.info("Loaded " + successful + " out of " + total + " " + name + " fuels");
     }
 
-    private static <T extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> void serializeRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager) {
+    private static <T extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> void serializeRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager, boolean write) {
         recipes.forEach(recipe -> {
             IRecipeInput input = recipe.getInput();
             input.getInputs().forEach(stack -> ModHandler.removeIC2Recipe(stack, manager));
             manager.addRecipe(input, null, false, recipe.getOutput().toArray(new ItemStack[0]));
         });
-        serializeRecipes(name, recipes);
+        if (write) serializeRecipes(name, recipes);
     }
 
-    public static <R extends IMachineRecipe<?, ?>, M extends IGtRecipeManager<?, ?, R>> void serializeRecipes(String name, Collection<R> recipes, M recipeManager) {
+    public static <R extends IMachineRecipe<?, ?>, M extends IGtRecipeManager<?, ?, R>> void serializeRecipes(String name, Collection<R> recipes, M recipeManager, boolean write) {
         recipes.forEach(recipeManager::addRecipe);
-        serializeRecipes(name, recipes);
+        if (write) serializeRecipes(name, recipes);
     }
 
     public static <R extends IMachineRecipe<?, ?>> void serializeRecipes(String name, Collection<?> recipes) {
         try {
-            File file = dynamicRecipesDir.resolve(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name) +".yml").toFile();
+            File file = dynamicRecipesDir.resolve(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name.replace(" ", "")) +".yml").toFile();
             file.createNewFile();
 
             OutputStream output = Files.newOutputStream(file.toPath());

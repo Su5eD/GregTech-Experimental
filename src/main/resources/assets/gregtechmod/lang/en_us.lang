@@ -778,6 +778,8 @@ gregtechmod.teblock.alloy_smelter=Alloy Smelter
 gregtechmod.teblock.alloy_smelter.description=HighTech combination Smelter
 gregtechmod.teblock.auto_canner=Automatic Canning Machine
 gregtechmod.teblock.auto_canner.description=HighTech combination Smelter
+gregtechmod.teblock.bender=Plate Bending Machine
+gregtechmod.teblock.bender.description=Boo, he's bad! We want BENDER!!!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
