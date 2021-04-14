@@ -12,6 +12,7 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityUniversalMacerator;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
@@ -120,6 +121,7 @@ public final class GregTechMod {
         TileEntitySonictron.loadSonictronSounds();
         ItemStackModificator.init();
         ModRecipes.init();
+        TileEntityUniversalMacerator.initMaceratorRecipes();
 
         logger.info("Activating OreDictionary Handler");
         OreDictHandler.INSTANCE.activateHandler();

@@ -38,13 +38,14 @@ public class ModRecipes {
     private static void convertRecipes(Iterable<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> recipes, int duration, double energyCost,
                                        IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
         recipes.forEach(recipe -> {
-            IRecipeInput input = recipe.getInput();
-            int count = input.getAmount();
-            IRecipeIngredient gtInput;
-            if (input instanceof RecipeInputOreDict) gtInput = RecipeIngredientOre.create(((RecipeInputOreDict) input).input, count);
-            else gtInput = RecipeIngredientItemStack.create(input.getInputs(), count);
+            IRecipeIngredient input = convertInput(recipe.getInput());
 
-            manager.addRecipe(new IC2MachineRecipe(gtInput, new ArrayList<>(recipe.getOutput()), duration, energyCost));
+            manager.addRecipe(new IC2MachineRecipe(input, new ArrayList<>(recipe.getOutput()), duration, energyCost));
         });
+    }
+
+    public static IRecipeIngredient convertInput(IRecipeInput input) {
+        if (input instanceof RecipeInputOreDict) return RecipeIngredientOre.create(((RecipeInputOreDict) input).input, input.getAmount());
+        else return RecipeIngredientItemStack.create(input.getInputs(), input.getAmount());
     }
 }

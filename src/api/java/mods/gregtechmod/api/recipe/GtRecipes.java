@@ -1,7 +1,10 @@
 package mods.gregtechmod.api.recipe;
 
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.recipe.manager.*;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerFusionFluid;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerGrinder;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
@@ -9,7 +12,7 @@ import java.util.List;
 public class GtRecipes {
     public static IGtRecipeManagerCellular industrialCentrifuge;
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> assembler;
-    public static IGtRecipeManager<IRecipeIngredient, ItemStack, IRecipePulverizer> pulverizer;
+    public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IRecipePulverizer> pulverizer;
     public static IGtRecipeManagerGrinder grinder;
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeBlastFurnace> blastFurnace;
     public static IGtRecipeManagerCellular electrolyzer;

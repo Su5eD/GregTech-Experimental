@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_bottom",
+    "down": "gregtechmod:blocks/machines/machine_bottom",
+    "up": "gregtechmod:blocks/machines/machine_top",
+    "north": "gregtechmod:blocks/machines/universal_macerator/universal_macerator_front",
+    "south": "gregtechmod:blocks/machines/machine_side",
+    "east": "gregtechmod:blocks/machines/machine_side",
+    "west": "gregtechmod:blocks/machines/machine_side"
+  }
+}

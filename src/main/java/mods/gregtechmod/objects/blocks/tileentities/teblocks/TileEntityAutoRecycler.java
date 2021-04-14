@@ -5,7 +5,6 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiAutoRecycler;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachine;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachineSingleInput;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.util.GtUtil;
@@ -18,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileEntityAutoRecycler extends TileEntityBasicMachineSingleInput {
+public class TileEntityAutoRecycler extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityAutoRecycler() {
         super("auto_recycler", null);

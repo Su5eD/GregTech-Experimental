@@ -26,7 +26,9 @@
       "auto_canner": { "model": "gregtechmod:auto_canner" },
       "auto_canner_active": { "model": "gregtechmod:auto_canner_active" },
       "bender": { "model": "gregtechmod:bender" },
-      "bender_active": { "model": "gregtechmod:bender_active" }
+      "bender_active": { "model": "gregtechmod:bender_active" },
+      "universal_macerator": { "model": "gregtechmod:universal_macerator" },
+      "universal_macerator_active": { "model": "gregtechmod:universal_macerator_active" }
     },
     "facing": {
       "down": { "x": 90 },

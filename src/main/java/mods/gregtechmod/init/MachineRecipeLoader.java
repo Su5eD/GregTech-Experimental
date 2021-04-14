@@ -18,6 +18,7 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
+import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.fuel.IFuelManager;
@@ -123,8 +124,14 @@ public class MachineRecipeLoader {
                 .ifPresent(recipes -> registerRecipes("assembler", recipes, GtRecipes.assembler));
 
         GtRecipes.pulverizer = new RecipeManagerPulverizer();
+        ItemStack gravel = new ItemStack(Blocks.GRAVEL);
         parseRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
-                .ifPresent(recipes -> registerRecipes("pulverizer", recipes, GtRecipes.pulverizer));
+                .ifPresent(recipes -> {
+                    List<IRecipePulverizer> filtered = recipes.stream()
+                            .filter(recipe -> !recipe.getInput().apply(gravel))
+                            .collect(Collectors.toList());
+                    registerRecipes("pulverizer", filtered, GtRecipes.pulverizer);
+                });
 
         GtRecipes.grinder = new RecipeManagerGrinder();
         parseRecipes("grinder", RecipeGrinder.class, RecipeFilter.Default.class)

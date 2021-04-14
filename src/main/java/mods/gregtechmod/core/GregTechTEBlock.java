@@ -42,7 +42,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     WIREMILL(TileEntityWiremill.class, 11, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
     ALLOY_SMELTER(TileEntityAlloySmelter.class, 12, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
     AUTO_CANNER(TileEntityAutoCanner.class, 13, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
-    BENDER(TileEntityBender.class, 14, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true);
+    BENDER(TileEntityBender.class, 14, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    UNIVERSAL_MACERATOR(TileEntityUniversalMacerator.class, 15, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;

@@ -16,13 +16,17 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
+import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechTEBlock;
+import mods.gregtechmod.recipe.RecipePulverizer;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.util.DummyContainer;
 import mods.gregtechmod.util.DummyWorld;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ProfileDelegate;
 import mods.railcraft.api.crafting.Crafters;
+import mods.railcraft.api.crafting.IOutputEntry;
 import mods.railcraft.api.crafting.IRockCrusherCrafter;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -191,6 +195,10 @@ public class ModHandler {
         if (thermalExpansion) _removeTEPulverizerRecipe(input);
     }
 
+    public static List<IRecipePulverizer> getTEPulverizerRecipes() {
+        return thermalExpansion ? _getTEPulverizerRecipes() : Collections.emptyList();
+    }
+
     @Optional.Method(modid = "thermalexpansion")
     private static void _removeTEPulverizerRecipe(ItemStack input) {
         PulverizerManager.removeRecipe(input);
@@ -200,6 +208,14 @@ public class ModHandler {
     private static void registerPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
         if (overwrite && PulverizerManager.recipeExists(input)) PulverizerManager.removeRecipe(input);
         PulverizerManager.addRecipe(energy, input, primaryOutput, secondaryOutput, chance);
+    }
+
+    @Optional.Method(modid = "thermalexpansion")
+    private static List<IRecipePulverizer> _getTEPulverizerRecipes() {
+        PulverizerManager.PulverizerRecipe[] recipes = PulverizerManager.getRecipeList();
+        return Arrays.stream(recipes)
+                .map(recipe -> RecipePulverizer.create(RecipeIngredientItemStack.create(recipe.getInput()), Arrays.asList(recipe.getPrimaryOutput(), recipe.getSecondaryOutput()), 3, recipe.getSecondaryOutputChance(), false, false))
+                .collect(Collectors.toList());
     }
 
     public static void addInductionSmelterRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
@@ -286,6 +302,34 @@ public class ModHandler {
             builder.addOutput(output.getKey(), output.getValue());
         }
         builder.register();
+    }
+
+    public static List<IRecipePulverizer> getRockCrusherRecipes() {
+        return railcraft ? _getRockCrusherRecipes() : Collections.emptyList();
+    }
+
+    @Optional.Method(modid = "railcraft")
+    private static List<IRecipePulverizer> _getRockCrusherRecipes() {
+        return Crafters.rockCrusher()
+                .getRecipes().stream()
+                .map(recipe -> {
+                    List<IOutputEntry> outputs = recipe.getOutputs();
+                    IOutputEntry primaryOutput = outputs.get(0);
+
+                    List<ItemStack> output = new ArrayList<>();
+                    if (primaryOutput.getGenRule().test(GtUtil.RANDOM)) output.add(primaryOutput.getOutput());
+
+                    IOutputEntry secondaryOutput = outputs.size() > 1 ? outputs.get(1) : null;
+                    int secondaryChance;
+
+                    if (secondaryOutput != null) {
+                        secondaryChance = (int) RailcraftHelper.getRandomChance(secondaryOutput.getGenRule());
+                        output.add(secondaryOutput.getOutput());
+                    } else secondaryChance = 0;
+
+                    return RecipePulverizer.create(RecipeIngredientItemStack.create(Arrays.asList(recipe.getInput().getMatchingStacks()), 1), output, 4, secondaryChance, false, false);
+                })
+                .collect(Collectors.toList());
     }
 
     public static void addRollingMachineRecipe(String name, ItemStack output, Object... pattern) {

@@ -2,36 +2,41 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "SGS",
-    "SPS",
-    "SBS"
+    "BDB",
+    "CMC",
+    "BQB"
   ],
   "key":
   {
-    "S":
+    "M":
     {
       "type": "forge:ore_dict",
-      "ore": "plateSteel"
+      "ore": "craftingRawMachineTier01"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
     },
     "B":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier03"
+      "ore": "plateBrass"
     },
-    "P":
+    "D":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingMacerator"
+      "ore": "gemDiamond"
     },
-    "G":
+    "Q":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingGrinder"
+      "ore": "craftingConveyor"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 11
   }
 }

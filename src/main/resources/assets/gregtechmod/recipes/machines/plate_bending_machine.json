@@ -2,31 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "IHI",
-    "CEC",
-    "IQI"
+    "PCP",
+    "RQR",
+    "PCP"
   ],
   "key":
   {
-    "H":
-    {
-      "type": "forge:ore_dict",
-      "ore": "craftingHeatingCoilTier00"
-    },
     "C":
     {
       "type": "forge:ore_dict",
       "ore": "craftingCircuitTier02"
     },
-    "E":
+    "P":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingElectricFurnace"
+      "ore": "craftingPiston"
     },
-    "I":
+    "R":
     {
       "type": "forge:ore_dict",
-      "ore": "plateInvar"
+      "ore": "craftingCompressor"
     },
     "Q":
     {
@@ -37,6 +32,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 14
   }
 }

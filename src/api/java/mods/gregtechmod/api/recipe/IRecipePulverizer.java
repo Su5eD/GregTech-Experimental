@@ -13,4 +13,6 @@ public interface IRecipePulverizer extends IMachineRecipe<IRecipeIngredient, Lis
     int getChance();
 
     boolean shouldOverwrite();
+
+    boolean isUniversal();
 }

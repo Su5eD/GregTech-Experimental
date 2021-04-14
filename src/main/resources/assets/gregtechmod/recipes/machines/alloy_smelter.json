@@ -2,31 +2,31 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "BDB",
-    "CMC",
-    "BQB"
+    "IHI",
+    "CEC",
+    "IQI"
   ],
   "key":
   {
-    "M":
+    "H":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier01"
+      "ore": "craftingHeatingCoilTier00"
     },
     "C":
     {
       "type": "forge:ore_dict",
       "ore": "craftingCircuitTier02"
     },
-    "B":
+    "E":
     {
       "type": "forge:ore_dict",
-      "ore": "plateBrass"
+      "ore": "craftingElectricFurnace"
     },
-    "D":
+    "I":
     {
       "type": "forge:ore_dict",
-      "ore": "gemDiamond"
+      "ore": "plateInvar"
     },
     "Q":
     {
@@ -37,6 +37,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 12
   }
 }

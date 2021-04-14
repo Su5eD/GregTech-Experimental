@@ -7,14 +7,14 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public abstract class TileEntityBasicMachineSingleInput extends TileEntityBasicMachine<IMachineRecipe<IRecipeIngredient, List<ItemStack>>, IRecipeIngredient, ItemStack, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> {
+public abstract class TileEntityBasicMachineSingleInput<R extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> extends TileEntityBasicMachine<R, IRecipeIngredient, ItemStack, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, R>> {
 
-    public TileEntityBasicMachineSingleInput(String descriptionKey, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager) {
+    public TileEntityBasicMachineSingleInput(String descriptionKey, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, R> recipeManager) {
         super(descriptionKey, recipeManager);
     }
 
     @Override
-    public void consumeInput(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, boolean consumeContainers) {
+    public void consumeInput(R recipe, boolean consumeContainers) {
         this.inputSlot.consume(recipe == null ? 1 : recipe.getInput().getCount(), consumeContainers);
     }
 

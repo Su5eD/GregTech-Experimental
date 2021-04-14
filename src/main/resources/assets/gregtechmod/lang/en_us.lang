@@ -780,6 +780,8 @@ gregtechmod.teblock.auto_canner=Automatic Canning Machine
 gregtechmod.teblock.auto_canner.description=Unmobile Food Canning Machine GTA4
 gregtechmod.teblock.bender=Plate Bending Machine
 gregtechmod.teblock.bender.description=Boo, he's bad! We want BENDER!!!
+gregtechmod.teblock.universal_macerator=Universal Macerator
+gregtechmod.teblock.universal_macerator.description=Macerator + Pulverizer + Rock Crusher in one Machine
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
