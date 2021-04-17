@@ -28,9 +28,9 @@ public abstract class TileEntityBasicMachineMultiInput extends TileEntityBasicMa
     }
 
     @Override
-    public void addOutput(List<ItemStack> processResult) {
-        this.queueOutputSlot.add(processResult.get(0));
-        if (processResult.size() > 1) this.outputSlot.add(processResult);
+    public void addOutput(List<ItemStack> output) {
+        this.queueOutputSlot.add(output.get(0));
+        if (output.size() > 1) this.outputSlot.add(output);
 
         dumpOutput();
     }

@@ -66,9 +66,15 @@ public class TileEntityUniversalMacerator extends TileEntityBasicMachineSingleIn
     }
 
     @Override
-    public void addOutput(List<ItemStack> processResult) {
-        this.queueOutputSlot.add(processResult.get(0));
-        if (processResult.size() > 1 && this.addSecondaryOutput) this.outputSlot.add(processResult.get(1));
+    public void addOutput(List<ItemStack> output) {
+        ItemStack stack = output.get(0);
+
+        if (output.size() > 1 && this.addSecondaryOutput) {
+            this.queueOutputSlot.add(stack);
+            this.outputSlot.add(output.get(1));
+        } else {
+            this.outputSlot.add(stack);
+        }
 
         dumpOutput();
     }

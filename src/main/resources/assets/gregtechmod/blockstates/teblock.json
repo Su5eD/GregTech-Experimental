@@ -28,7 +28,9 @@
       "bender": { "model": "gregtechmod:bender" },
       "bender_active": { "model": "gregtechmod:bender_active" },
       "universal_macerator": { "model": "gregtechmod:universal_macerator" },
-      "universal_macerator_active": { "model": "gregtechmod:universal_macerator_active" }
+      "universal_macerator_active": { "model": "gregtechmod:universal_macerator_active" },
+      "microwave": { "model": "gregtechmod:microwave" },
+      "microwave_active": { "model": "gregtechmod:microwave_active" }
     },
     "facing": {
       "down": { "x": 90 },

@@ -226,8 +226,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     public abstract void consumeInput(R recipe, boolean consumeContainers);
 
-    public void addOutput(List<ItemStack> processResult) {
-        this.outputSlot.add(processResult);
+    public void addOutput(List<ItemStack> output) {
+        this.outputSlot.add(output);
     }
 
     public abstract R getRecipe();

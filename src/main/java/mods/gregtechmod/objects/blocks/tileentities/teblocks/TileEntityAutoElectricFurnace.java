@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public class TileEntityElectricFurnace extends TileEntityElectricFurnaceBase<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
+public class TileEntityAutoElectricFurnace extends TileEntityElectricFurnaceBase<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
-    public TileEntityElectricFurnace() {
+    public TileEntityAutoElectricFurnace() {
         super("auto_electric_furnace", ModRecipes.FURNACE);
     }
 

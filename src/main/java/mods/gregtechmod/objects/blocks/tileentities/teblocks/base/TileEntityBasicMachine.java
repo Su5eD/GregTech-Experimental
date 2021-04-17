@@ -138,9 +138,9 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public void addOutput(List<ItemStack> processResult) {
-        if (this.outputSlot.add(processResult) > 0)
-            this.queueOutputSlot.add(processResult);
+    public void addOutput(List<ItemStack> output) {
+        if (this.outputSlot.add(output) > 0)
+            this.queueOutputSlot.add(output);
 
         dumpOutput();
     }

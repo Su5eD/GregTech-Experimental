@@ -49,6 +49,12 @@ public abstract class TileEntityElectricFurnaceBase<RI, I, R extends IMachineRec
     }
 
     @Override
+    protected void relocateStacks() {
+        moveStack(this.queueInputSlot, this.inputSlot);
+        moveStack(this.queueOutputSlot, this.outputSlot);
+    }
+
+    @Override
     protected void prepareRecipeForProcessing(R recipe) {
         super.prepareRecipeForProcessing(recipe);
         if (this.heatingCoilTier > 0) this.maxProgress /= this.heatingCoilTier;

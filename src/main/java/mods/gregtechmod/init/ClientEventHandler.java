@@ -126,7 +126,7 @@ public class ClientEventHandler {
                     }
                 }
             } catch (Exception e) {
-                GregTechMod.logger.error(e.getMessage());
+                e.printStackTrace();
             }
         }
         for (BlockItems.Ore ore : BlockItems.Ore.values()) {

@@ -17,6 +17,7 @@ import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.recipe.RecipePulverizer;
@@ -214,7 +215,12 @@ public class ModHandler {
     private static List<IRecipePulverizer> _getTEPulverizerRecipes() {
         PulverizerManager.PulverizerRecipe[] recipes = PulverizerManager.getRecipeList();
         return Arrays.stream(recipes)
-                .map(recipe -> RecipePulverizer.create(RecipeIngredientItemStack.create(recipe.getInput()), Arrays.asList(recipe.getPrimaryOutput(), recipe.getSecondaryOutput()), 3, recipe.getSecondaryOutputChance(), false, false))
+                .map(recipe -> {
+                    IRecipeIngredient input = RecipeIngredientItemStack.create(recipe.getInput());
+                    if (!input.isEmpty()) return RecipePulverizer.create(input, GtUtil.nonEmptyList(recipe.getPrimaryOutput(), recipe.getSecondaryOutput()), 3, recipe.getSecondaryOutputChance(), false, false);
+                    return null;
+                })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -327,8 +333,9 @@ public class ModHandler {
                         output.add(secondaryOutput.getOutput());
                     } else secondaryChance = 0;
 
-                    return RecipePulverizer.create(RecipeIngredientItemStack.create(Arrays.asList(recipe.getInput().getMatchingStacks()), 1), output, 4, secondaryChance, false, false);
+                    return !output.isEmpty() ? RecipePulverizer.create(RecipeIngredientItemStack.create(Arrays.asList(recipe.getInput().getMatchingStacks()), 1), output, 4, secondaryChance, false, false) : null;
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 

@@ -77,6 +77,7 @@ public class GtUtil {
         return false;
     }
 
+    @SafeVarargs
     public static <T> List<T> nonNullList(T... elements) {
         return Stream.of(elements)
                 .filter(Objects::nonNull)
