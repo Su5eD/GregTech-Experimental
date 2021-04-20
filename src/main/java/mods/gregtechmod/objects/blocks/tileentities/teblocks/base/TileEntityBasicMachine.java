@@ -35,7 +35,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public EnumFacing outputSide = EnumFacing.SOUTH;
     public final InvSlotOutput queueOutputSlot;
     public final GtSlotProcessableItemStack<RM, I> queueInputSlot;
-    public final InvSlotDischarge dischargeSlot;
+    public final InvSlot extraSlot;
     protected boolean outputBlocked;
 
     public boolean provideEnergy = false;
@@ -43,11 +43,20 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public boolean splitInput = false;
 
     public TileEntityBasicMachine(String descriptionKey, RM recipeManager) {
-        super(descriptionKey, 2000, 1, 1, 1, recipeManager);
-        this.dischargeSlot = new InvSlotDischarge(this, InvSlot.Access.IO, 1, false, InvSlot.InvSide.NOTSIDE);
-        this.queueInputSlot = getInputSlot(1, GtInvSide.VERTICAL);
-        this.queueOutputSlot = getOutputSlot(1);
-        this.energy.addManagedSlot(this.dischargeSlot);
+        this(descriptionKey, recipeManager, false);
+    }
+
+    public TileEntityBasicMachine(String descriptionKey, RM recipeManager, boolean wildcardInput) {
+        super(descriptionKey, 2000, 1, 1, 1, recipeManager, wildcardInput);
+        this.extraSlot = getExtraSlot();
+        this.queueInputSlot = getInputSlot("queueInput", 1, GtInvSide.VERTICAL, wildcardInput);
+        this.queueOutputSlot = getOutputSlot("queueOutput", 1);
+    }
+
+    protected InvSlot getExtraSlot() {
+        InvSlot slot = new InvSlotDischarge(this, InvSlot.Access.IO, 1, false, InvSlot.InvSide.NOTSIDE);
+        this.energy.addManagedSlot(slot);
+        return slot;
     }
 
     @Override
@@ -76,12 +85,12 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count) {
-        return getInputSlot(count, InvSlot.InvSide.SIDE);
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count, boolean acceptAnything) {
+        return getInputSlot("input", count, InvSlot.InvSide.SIDE, acceptAnything);
     }
 
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count, InvSlot.InvSide side) {
-        return new GtSlotProcessableItemStack<>(this, "input", InvSlot.Access.I, count, side, recipeManager);
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, int count, InvSlot.InvSide side, boolean acceptAnything) {
+        return new GtSlotProcessableItemStack<>(this, name, InvSlot.Access.I, count, side, acceptAnything ? null : recipeManager);
     }
 
     @Override

@@ -28,4 +28,5 @@ public class GtRecipes {
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeFusion<IRecipeIngredient, ItemStack>> fusionSolid;
     public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IRecipeSawmill> sawmill;
     public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IRecipeCellular> distillation;
+    public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipePrinter> printer;
 }

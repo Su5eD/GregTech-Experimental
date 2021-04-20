@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class RecipeDualInput extends Recipe<List<IRecipeIngredient>, List<ItemStack>> {
+
     protected RecipeDualInput(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost) {
         super(input, Collections.singletonList(output), duration, energyCost);
     }

@@ -27,7 +27,7 @@ public class RecipeIngredientItemStack extends RecipeIngredient<Ingredient> {
     }
 
     public static RecipeIngredientItemStack create(ItemStack stack) {
-        return create(stack, stack.getCount());
+        return create(stack, 1);
     }
 
     public static RecipeIngredientItemStack create(ItemStack stack, int count) {

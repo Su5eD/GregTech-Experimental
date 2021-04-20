@@ -43,7 +43,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -351,7 +350,7 @@ public class ModHandler {
                 .shaped(pattern);
     }
 
-    public static void addShapedRecipe(String name, ResourceLocation group, @Nonnull ItemStack output, Object... params) {
+    public static void addShapedRecipe(String name, ResourceLocation group, ItemStack output, Object... params) {
         GameRegistry.addShapedRecipe(
                 new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
                 group,

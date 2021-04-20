@@ -21,7 +21,7 @@
     "R":
     {
       "type": "gregtechmod:ore_dict",
-      "ores": [ "plateRefinedIron", "plateAluminium" ]
+      "ores": [ "plateIron", "plateAluminium" ]
     },
     "Q":
     {
@@ -32,12 +32,12 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 17
   },
   "conditions":
   [
     {
-      "type": "gregtechmod:classic"
+      "type": "gregtechmod:experimental"
     }
   ]
 }

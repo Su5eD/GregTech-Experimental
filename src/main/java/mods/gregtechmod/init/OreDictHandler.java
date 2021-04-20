@@ -431,7 +431,7 @@ public class OreDictHandler {
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
 
-                CraftingHelper.ShapedPrimer primer = CraftingHelper.parseShaped("S", "L", 'S', new ToolOreIngredient("craftingToolSaw", 1000), 'L', stack);
+                CraftingHelper.ShapedPrimer primer = CraftingHelper.parseShaped("S", "L", 'S', new ToolOreIngredient("craftingToolSaw", 1), 'L', stack);
                 IRecipe sawingRecipe = new ToolCraftingRecipeShaped(
                         OreDictHandler.RECIPE_GROUP_SHAPED.toString(),
                         primer.width,

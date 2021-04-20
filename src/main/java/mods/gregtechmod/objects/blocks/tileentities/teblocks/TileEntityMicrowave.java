@@ -1,12 +1,9 @@
 package mods.gregtechmod.objects.blocks.tileentities.teblocks;
 
-import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiAutoElectricFurnace;
-import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachineSingleInput;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.compat.ModRecipes;
@@ -18,6 +15,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,12 +25,7 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
     private static final ItemStack NETHERRACK = new ItemStack(Blocks.NETHERRACK);
 
     public TileEntityMicrowave() {
-        super("microwave", ModRecipes.FURNACE);
-    }
-
-    @Override
-    public GtSlotProcessableItemStack<IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>, ItemStack> getInputSlot(int count, InvSlot.InvSide side) {
-        return new GtSlotProcessableItemStack<>(this, "input", InvSlot.Access.I, count, side, null);
+        super("microwave", ModRecipes.FURNACE, true);
     }
 
     @Override
@@ -80,6 +74,7 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiAutoElectricFurnace(new ContainerBasicMachine<>(player, this));
     }

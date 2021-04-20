@@ -13,6 +13,10 @@ public abstract class TileEntityBasicMachineSingleInput<R extends IMachineRecipe
         super(descriptionKey, recipeManager);
     }
 
+    public TileEntityBasicMachineSingleInput(String descriptionKey, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, R> recipeManager, boolean wildcardInput) {
+        super(descriptionKey, recipeManager, wildcardInput);
+    }
+
     @Override
     public void consumeInput(R recipe, boolean consumeContainers) {
         this.inputSlot.consume(recipe == null ? 1 : recipe.getInput().getCount(), consumeContainers);

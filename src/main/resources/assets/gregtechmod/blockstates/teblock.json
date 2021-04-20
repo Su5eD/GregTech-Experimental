@@ -30,7 +30,9 @@
       "universal_macerator": { "model": "gregtechmod:universal_macerator" },
       "universal_macerator_active": { "model": "gregtechmod:universal_macerator_active" },
       "microwave": { "model": "gregtechmod:microwave" },
-      "microwave_active": { "model": "gregtechmod:microwave_active" }
+      "microwave_active": { "model": "gregtechmod:microwave_active" },
+      "printer": { "model": "gregtechmod:printer" },
+      "printer_active": { "model": "gregtechmod:printer_active" }
     },
     "facing": {
       "down": { "x": 90 },

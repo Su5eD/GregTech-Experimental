@@ -193,6 +193,10 @@ public class MachineRecipeLoader {
         parseRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("distillation", recipes, GtRecipes.distillation));
 
+        GtRecipes.printer = new RecipeManagerPrinter();
+        parseRecipes("printer", RecipePrinter.class, null)
+                .ifPresent(recipes -> registerRecipes("printer", recipes, GtRecipes.printer));
+
         // IC2 Recipes
         parseRecipes("compressor", BasicMachineRecipe.class, null)
                 .ifPresent(recipes -> registerRecipes("compressor", recipes, (BasicMachineRecipeManager) Recipes.compressor));

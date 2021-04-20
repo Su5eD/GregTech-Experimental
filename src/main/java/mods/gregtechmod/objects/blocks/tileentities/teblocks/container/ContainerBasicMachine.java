@@ -15,7 +15,7 @@ public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>>
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 53, 25));
         addSlotToContainer(new SlotInvSlot(base.queueOutputSlot, 0, 107, 25));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 125, 25));
-        addSlotToContainer(new SlotInvSlot(base.dischargeSlot, 0, 80, 63));
+        addSlotToContainer(new SlotInvSlot(base.extraSlot, 0, 80, 63));
     }
 
     @Override

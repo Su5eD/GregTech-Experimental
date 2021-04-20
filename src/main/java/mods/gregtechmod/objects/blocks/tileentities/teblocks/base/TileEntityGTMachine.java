@@ -48,19 +48,23 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     protected double guiProgress;
 
     public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int inputSlots, int defaultTier, RM recipeManager) {
+        this(descriptionKey, maxEnergy, outputSlots, inputSlots, defaultTier, recipeManager, false);
+    }
+
+    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int inputSlots, int defaultTier, RM recipeManager, boolean wildcardInput) {
         super(descriptionKey, maxEnergy, defaultTier);
         this.progress = 0;
         this.recipeManager = recipeManager;
-        this.inputSlot = getInputSlot(inputSlots);
-        this.outputSlot = getOutputSlot(outputSlots);
+        this.inputSlot = getInputSlot(inputSlots, wildcardInput);
+        this.outputSlot = getOutputSlot("output", outputSlots);
     }
 
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count) {
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count, boolean acceptAnything) {
         return new GtSlotProcessableItemStack<>(this, "input", count, recipeManager);
     }
 
-    public InvSlotOutput getOutputSlot(int count) {
-        return new InvSlotOutput(this, "output", count);
+    public InvSlotOutput getOutputSlot(String name, int count) {
+        return new InvSlotOutput(this, name, count);
     }
 
     public void readFromNBT(NBTTagCompound nbt) {
