@@ -39,7 +39,7 @@ public class RecipePrinter extends Recipe<List<IRecipeIngredient>, List<ItemStac
 
     @Override
     public String toString() {
-        return "RecipePrinterCopy{input="+this.input+",copy="+this.copy+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+"}";
+        return "RecipePrinter{input="+this.input+",copy="+this.copy+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+"}";
     }
 
     @Override

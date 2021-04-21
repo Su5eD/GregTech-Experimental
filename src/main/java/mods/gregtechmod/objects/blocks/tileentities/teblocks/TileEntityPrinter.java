@@ -54,25 +54,27 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
         if (input.size() > 1) {
             ItemStack oldStack = this.inputSlot.consume(input.get(1).getCount());
             ItemStack newStack = this.inputSlot.get();
-            if (!(oldStack.getItem() == newStack.getItem())) {
+            if (!(oldStack.getItem() == newStack.getItem()) && this.outputSlot.canAdd(recipe.getOutput())) {
                 this.queueOutputSlot.put(this.inputSlot.consume(1));
             }
         }
     }
 
     @Override
+    protected void relocateStacks() {
+        moveStack(this.queueOutputSlot, this.outputSlot);
+    }
+
+    @Override
     public IRecipePrinter getRecipe() {
         IRecipePrinter recipe = super.getRecipe();
         ItemStack primaryInput = this.queueInputSlot.get();
-        if (recipe == null) recipe = this.recipeManager.getRecipeFor(Collections.singletonList(this.queueInputSlot.get()));
         if (recipe == null) {
-            if (!this.queueOutputSlot.isEmpty()) this.outputBlocked = true;
-
             ItemStack secondaryInput = this.inputSlot.get();
             if (OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)) {
                 ItemStack result = ModHandler.getCraftingResult(primaryInput, secondaryInput);
                 if (!result.isEmpty())
-                    return addLazyRecipe(primaryInput, secondaryInput, null, result, 200, 2);
+                    return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, null, result, 200, 2));
             }
 
             ItemStack extra = this.extraSlot.get();
@@ -81,16 +83,16 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
                 Item primaryItem = primaryInput.getItem();
                 if (extraItem == Items.WRITTEN_BOOK && primaryItem == Items.BOOK) {
                     ItemStack copy = extra.copy();
-                    return addLazyRecipe(primaryInput, secondaryInput, copy, copy, 200, 1);
+                    return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, copy, copy, 200, 1));
                 }
                 else if (extraItem == Items.FILLED_MAP && primaryItem == Items.MAP) {
                     ItemStack copy = extra.copy();
-                    return addLazyRecipe(primaryInput, secondaryInput, copy, copy, 100, 1);
+                    return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, copy, copy, 100, 1));
                 }
             }
         }
 
-        return recipe;
+        return fitRecipe(recipe);
     }
 
     private IRecipePrinter addLazyRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack copy, ItemStack output, int duration, double energyCost) {
@@ -101,7 +103,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
 
     @Override
     public void addOutput(List<ItemStack> output) {
-        this.outputSlot.add(output);
+        if (this.outputSlot.add(output) > 0) this.queueOutputSlot.add(output);
 
         dumpOutput();
     }

@@ -397,11 +397,11 @@ public class OreDictRegistrar {
         //registerOre("craftingCircuitTier10", GregTechTEBlock.computer_cube); TODO add computer cube to oredict when added
         //registerOre("craftingWorkBench", GregTechTEBlock.electric_workbench); TODO add electric crafting table to oredict when added
         //registerOre("craftingChest", GregTechTEBlock.advanced_safe); TODO add advanced safe to oredict when added
-        //registerOre("craftingMacerator", GregTechTEBlock.automatic_macerator); TODO add automatic macerator to oredict when added
-        //registerOre("craftingRecycler", GregTechTEBlock.automatic_recycler); TODO add automatic recycler to oredict when added
-        //registerOre("craftingCompressor", GregTechTEBlock.automatic_compressor); TODO add automatic compressor to oredict when added
-        //registerOre("craftingExtractor", GregTechTEBlock.automatic_extractor); TODO add automatic extractor to oredict when added
-        //registerOre("craftingElectricFurnace", GregTechTEBlock.automatic_electric_furnace); TODO add automatic electric furnace to oredict when added
+        registerOre("craftingMacerator", GregTechObjectAPI.getTileEntity("auto_macerator"));
+        registerOre("craftingRecycler", GregTechObjectAPI.getTileEntity("auto_recycler"));
+        registerOre("craftingCompressor", GregTechObjectAPI.getTileEntity("auto_compressor"));
+        registerOre("craftingExtractor", GregTechObjectAPI.getTileEntity("auto_extractor"));
+        registerOre("craftingElectricFurnace", GregTechObjectAPI.getTileEntity("auto_electric_furnace"));
 
         if (ModHandler.thermalfoundation) {
             registerOre("glassReinforced", ModHandler.getTFItem("glass", OreDictionary.WILDCARD_VALUE));

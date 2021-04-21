@@ -104,6 +104,10 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
         relocateStacks();
 
         R recipe = this.recipeManager.getRecipeFor(getInput());
+        return fitRecipe(recipe);
+    }
+
+    protected R fitRecipe(R recipe) {
         if (recipe != null) {
             List<ItemStack> output = recipe.getOutput();
             if (this.outputSlot.canAdd(output) || this.queueOutputSlot.canAdd(output)) {
@@ -148,8 +152,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
 
     @Override
     public void addOutput(List<ItemStack> output) {
-        if (this.outputSlot.add(output) > 0)
-            this.queueOutputSlot.add(output);
+        if (this.outputSlot.add(output) > 0) this.queueOutputSlot.add(output);
 
         dumpOutput();
     }

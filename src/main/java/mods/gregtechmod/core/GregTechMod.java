@@ -14,6 +14,7 @@ import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityUniversalMacerator;
 import mods.gregtechmod.recipe.compat.ModRecipes;
+import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
@@ -128,6 +129,7 @@ public final class GregTechMod {
         OreDictHandler.registerValuableOres();
 
         MachineRecipeLoader.registerDynamicRecipes();
+        DamagedOreIngredientFixer.fixRecipes();
     }
 
     @SubscribeEvent
