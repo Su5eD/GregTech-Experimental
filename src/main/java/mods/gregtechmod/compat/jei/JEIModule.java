@@ -19,6 +19,7 @@ import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.recipe.RecipeAlloySmelter;
 import mods.gregtechmod.recipe.RecipeCanner;
+import mods.gregtechmod.recipe.RecipeDualInput;
 import mods.gregtechmod.recipe.RecipeSimple;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.IObjectHolder;
@@ -40,6 +41,7 @@ public class JEIModule implements IModPlugin {
     private CategoryBasicMachineMulti<RecipeAlloySmelter> categoryAlloySmelter;
     private CategoryBasicMachineMulti<RecipeCanner> categoryAutoCanner;
     private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryBender;
+    private CategoryBasicMachineMulti<? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> categoryAssembler;
 
     @Override
     public void register(IModRegistry registry) {
@@ -51,6 +53,7 @@ public class JEIModule implements IModPlugin {
         categoryAlloySmelter.init(registry);
         categoryAutoCanner.init(registry);
         categoryBender.init(registry);
+        categoryAssembler.init(registry);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -75,7 +78,8 @@ public class JEIModule implements IModPlugin {
                 categoryWiremill = new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, true, guiHelper, GtRecipes.wiremill),
                 categoryAlloySmelter = new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, false, guiHelper),
                 categoryAutoCanner = new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, true, guiHelper),
-                categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender)
+                categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender),
+                categoryAssembler = new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, false, guiHelper)
         );
     }
 

@@ -786,6 +786,8 @@ gregtechmod.teblock.microwave=Microwave Oven
 gregtechmod.teblock.microwave.description=Did you really read the instruction Manual?
 gregtechmod.teblock.printer=Printing Factory
 gregtechmod.teblock.printer.description=It can copy books and paint Stuff
+gregtechmod.teblock.assembler=Assembling Machine
+gregtechmod.teblock.assembler.description=Avengers, Assemble!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

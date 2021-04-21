@@ -32,7 +32,9 @@
       "microwave": { "model": "gregtechmod:microwave" },
       "microwave_active": { "model": "gregtechmod:microwave_active" },
       "printer": { "model": "gregtechmod:printer" },
-      "printer_active": { "model": "gregtechmod:printer_active" }
+      "printer_active": { "model": "gregtechmod:printer_active" },
+      "assembler": { "model": "gregtechmod:assembler" },
+      "assembler_active": { "model": "gregtechmod:assembler_active" }
     },
     "facing": {
       "down": { "x": 90 },
