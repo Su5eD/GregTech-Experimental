@@ -171,9 +171,7 @@ dependencies {
     deobfCompile group: "com.mod-buildcraft", name: "buildcraft-api", version: VERSION_BUILDCRAFT
     deobfCompile group: "curse.maven", name: "energy-control-373450", version: "3207144"
     deobfCompile group: "curse.maven", name: "railcraft-51195", version: "2687757"
-    compile (group: "appeng", name: "appliedenergistics2", version: VERSION_AE2, classifier: "api") {
-        exclude group: "mezz.jei"
-    }
+    deobfCompile (group: "curse.maven", name: "applied-energistics-2-223794", version: "2747063")
     deobfCompile group: "slimeknights.mantle", name: "Mantle", version: VERSION_MANTLE
     deobfCompile group: "slimeknights", name: "TConstruct", version: VERSION_TCONSTRUCT
 
