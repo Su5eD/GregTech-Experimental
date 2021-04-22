@@ -2,31 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "PCP",
-    "GQG",
-    "PMP"
+    "CPC",
+    "RQR",
+    "CRC"
   ],
   "key":
   {
-    "M":
-    {
-      "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier02"
-    },
     "C":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingCircuitTier04"
-    },
-    "G":
-    {
-      "type": "forge:ore_dict",
-      "ore": "craftingGearTier02"
+      "ore": "craftingCircuitTier02"
     },
     "P":
     {
       "type": "forge:ore_dict",
-      "ore": "plateSteel"
+      "ore": "craftingPiston"
+    },
+    "R":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "plateIron", "plateAluminium" ]
     },
     "Q":
     {
@@ -37,6 +32,12 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
-  }
+    "data": 18
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
 }

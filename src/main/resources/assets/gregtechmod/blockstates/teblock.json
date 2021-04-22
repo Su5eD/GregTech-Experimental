@@ -34,7 +34,9 @@
       "printer": { "model": "gregtechmod:printer" },
       "printer_active": { "model": "gregtechmod:printer_active" },
       "assembler": { "model": "gregtechmod:assembler" },
-      "assembler_active": { "model": "gregtechmod:assembler_active" }
+      "assembler_active": { "model": "gregtechmod:assembler_active" },
+      "lathe": { "model": "gregtechmod:lathe" },
+      "lathe_active": { "model": "gregtechmod:lathe_active" }
     },
     "facing": {
       "down": { "x": 90 },

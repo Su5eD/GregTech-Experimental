@@ -16,11 +16,6 @@ import java.util.List;
 public class CategoryBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> extends CategoryBasicMachine<WrapperBasicMachine<R>, R> {
     private final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager;
 
-    public CategoryBasicMachineSingle(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGuiHelper guiHelper,
-                                      IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager) {
-        this(name, recipeClass, guiClass, false, guiHelper, recipeManager);
-    }
-
     public CategoryBasicMachineSingle(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, boolean customTexture, IGuiHelper guiHelper,
                                       IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager) {
         super(name, recipeClass, guiClass, customTexture, guiHelper);

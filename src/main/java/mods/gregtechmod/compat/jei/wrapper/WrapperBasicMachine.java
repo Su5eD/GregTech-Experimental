@@ -8,7 +8,9 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class WrapperBasicMachine<R extends IMachineRecipe<?, List<ItemStack>>> implements IRecipeWrapper {
     protected final R recipe;
@@ -20,7 +22,10 @@ public abstract class WrapperBasicMachine<R extends IMachineRecipe<?, List<ItemS
     @Override
     public void getIngredients(IIngredients ingredients) {
         setInputs(ingredients);
-        ingredients.setOutputs(VanillaTypes.ITEM, recipe.getOutput());
+        List<List<ItemStack>> output = recipe.getOutput().stream()
+                .map(Collections::singletonList)
+                .collect(Collectors.toList());
+        ingredients.setOutputLists(VanillaTypes.ITEM, output);
     }
 
     protected abstract void setInputs(IIngredients ingredients);

@@ -9,6 +9,6 @@ public class GuiAssembler extends GuiBasicMachine<ContainerBasicMachine<TileEnti
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/assembler.png");
 
     public GuiAssembler(ContainerBasicMachine<TileEntityAssembler> container) {
-        super(TEXTURE, container, GregtechGauge.ASSEMBLER);
+        super(TEXTURE, container, GregtechGauge.ASSEMBLING);
     }
 }

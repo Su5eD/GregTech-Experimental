@@ -788,6 +788,8 @@ gregtechmod.teblock.printer=Printing Factory
 gregtechmod.teblock.printer.description=It can copy books and paint Stuff
 gregtechmod.teblock.assembler=Assembling Machine
 gregtechmod.teblock.assembler.description=Avengers, Assemble!
+gregtechmod.teblock.lathe=Lathe
+gregtechmod.teblock.lathe.description=Produces Metal Rods more efficiently
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
