@@ -5,10 +5,16 @@ import static groovyx.net.http.HttpBuilder.configure
 buildscript {
     repositories {
         jcenter()
+        maven {
+            name = "jitpack"
+            url = "https://jitpack.io/"
+        }
         maven { url = "https://maven.minecraftforge.net/" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath("com.github.DStrand1:ForgeGradle:FG_2.3-SNAPSHOT") {
+            changing = true
+        }
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
         classpath "io.github.http-builder-ng:http-builder-ng-core:1.0.4"
     }
