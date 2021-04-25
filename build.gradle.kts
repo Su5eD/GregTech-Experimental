@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 plugins {
     java
     `maven-publish`
-    id("net.minecraftforge.gradle.forge") version "2.3.2"
+    id("net.minecraftforge.gradle.forge") version "FG_2.3-SNAPSHOT"
     id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 

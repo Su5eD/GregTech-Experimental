@@ -1,7 +1,7 @@
 pluginManagement {
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.namespace == 'net.minecraftforge.gradle') {
+            if (requested.id.namespace == "net.minecraftforge.gradle") {
                 useModule("com.github.Su5eD:ForgeGradle:${requested.version}")
             }
         }
@@ -10,10 +10,10 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven {
-            url "https://jitpack.io/"
+            url = uri("https://jitpack.io/")
         }
         maven {
-            url "https://maven.minecraftforge.net/"
+            url = uri("https://maven.minecraftforge.net/")
         }
     }
 }
