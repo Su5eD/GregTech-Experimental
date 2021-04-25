@@ -109,7 +109,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 boolean areItemsEqual = StackUtil.checkItemEquality(stack, upgradeStack);
 
                 if (currentItem instanceof IUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
-                    IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
+                    IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
                     if (upgradeType != null) {
                         if (upgradeCount >= upgradeType.maxCount || upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultTier + 1) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
                     }
@@ -157,7 +157,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         if (currentItem instanceof IGtUpgradeItem) {
             onUpdateUpgrade((IGtUpgradeItem) currentItem, stack, player);
         } else if (currentItem instanceof IUpgradeItem) {
-            IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
+            IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
             onUpdateUpgrade(upgradeType, stack);
         }
     }
@@ -437,7 +437,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public int getUpgradeCount(IC2UpgradeType type) {
         int total = 0;
         for (ItemStack stack : this.upgradeSlot) {
-            IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
+            IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
             if (upgradeType != null && upgradeType == type) total += stack.getCount();
         }
         return total;
@@ -450,7 +450,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
             Item item = stack.getItem();
             if (item instanceof IGtUpgradeItem && ((IGtUpgradeItem) item).getName().equals(upgrade.getName())) total += stack.getCount();
             else if (item instanceof IUpgradeItem) {
-                IC2UpgradeType type = IC2UpgradeType.fromStack(stack);
+                IC2UpgradeType type = GtUtil.getUpgradeType(stack);
                 if (type != null && type.itemType.equals(upgrade.getType().name())) total += stack.getCount();
             }
         }
