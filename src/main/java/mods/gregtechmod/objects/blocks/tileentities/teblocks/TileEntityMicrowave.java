@@ -7,6 +7,8 @@ import mods.gregtechmod.gui.GuiAutoElectricFurnace;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachineSingleInput;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.compat.ModRecipes;
+import mods.gregtechmod.recipe.compat.RecipeFurnace;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.util.MachineSafety;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.client.gui.GuiScreen;
@@ -30,34 +32,19 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
 
     @Override
     public IMachineRecipe<IRecipeIngredient, List<ItemStack>> getRecipe() {
-        IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe = super.getRecipe();
-        if (recipe != null && shouldExplode(recipe.getOutput().get(0))) return null;
-
+        IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe =  super.getRecipe();
+        if (recipe == null) { // workaround for the egg recipe
+            ItemStack input = getInput();
+            if (input.getItem() == Items.EGG) return RecipeFurnace.create(RecipeIngredientItemStack.create(Items.EGG), new ItemStack(Items.EGG)); // We don't care what the output is, the microwave will explode before we get to adding it
+        }
         return recipe;
     }
 
     @Override
-    protected ItemStack getInput() {
-        ItemStack input = super.getInput();
-        if (shouldExplode(input)) return ItemStack.EMPTY;
-        return input;
-    }
-
-    private boolean shouldExplode(ItemStack stack) {
-        if (OreDictUnificator.isItemInstanceOf(stack, "ingot", true) || OreDictUnificator.isItemInstanceOf(stack, "dustGunpowder", false) ||
-                stack.isItemEqual(NETHERRACK) || StackUtil.checkItemEquality(stack, Items.EGG)) {
-            explodeMachine(4);
-            return true;
-        } else if (TileEntityFurnace.getItemBurnTime(stack) > 0) {
-            MachineSafety.setBlockOnFire(this.world, this.pos);
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
     protected void prepareRecipeForProcessing(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
+        recipe.getInput().getMatchingInputs().forEach(this::checkStack);
+        recipe.getOutput().forEach(this::checkStack);
+
         recipe.getOutput().stream()
                 .map(ItemStack::copy)
                 .forEach(this.pendingRecipe::add);
@@ -77,5 +64,18 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiAutoElectricFurnace(new ContainerBasicMachine<>(player, this));
+    }
+
+    private boolean checkStack(ItemStack stack) {
+        if (OreDictUnificator.isItemInstanceOf(stack, "ingot", true) || OreDictUnificator.isItemInstanceOf(stack, "dustGunpowder", false) ||
+                stack.isItemEqual(NETHERRACK) || StackUtil.checkItemEquality(stack, Items.EGG)) {
+            explodeMachine(4);
+            return true;
+        } else if (TileEntityFurnace.getItemBurnTime(stack) > 0) {
+            MachineSafety.setBlockOnFire(this.world, this.pos);
+            return true;
+        }
+
+        return false;
     }
 }
