@@ -36,7 +36,9 @@
       "assembler": { "model": "gregtechmod:assembler" },
       "assembler_active": { "model": "gregtechmod:assembler_active" },
       "lathe": { "model": "gregtechmod:lathe" },
-      "lathe_active": { "model": "gregtechmod:lathe_active" }
+      "lathe_active": { "model": "gregtechmod:lathe_active" },
+      "industrial_electrolyzer": { "model": "gregtechmod:industrial_electrolyzer" },
+      "industrial_electrolyzer_active": { "model": "gregtechmod:industrial_electrolyzer_active" }
     },
     "facing": {
       "down": { "x": 90 },

@@ -11,10 +11,7 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.compat.jei.category.CategoryBasicMachineMulti;
-import mods.gregtechmod.compat.jei.category.CategoryBasicMachineSingle;
-import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
-import mods.gregtechmod.compat.jei.category.CategoryLathe;
+import mods.gregtechmod.compat.jei.category.*;
 import mods.gregtechmod.gui.*;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -57,6 +54,7 @@ public class JEIModule implements IModPlugin {
         categoryBender.init(registry);
         categoryAssembler.init(registry);
         categoryLathe.init(registry);
+        CategoryElectrolyzer.init(registry);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -83,7 +81,8 @@ public class JEIModule implements IModPlugin {
                 categoryAutoCanner = new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, true, guiHelper),
                 categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender),
                 categoryAssembler = new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, false, guiHelper),
-                categoryLathe = new CategoryLathe(guiHelper)
+                categoryLathe = new CategoryLathe(guiHelper),
+                new CategoryElectrolyzer(guiHelper)
         );
     }
 

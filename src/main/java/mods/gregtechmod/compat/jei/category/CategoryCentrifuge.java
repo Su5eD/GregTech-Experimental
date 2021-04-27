@@ -6,9 +6,10 @@ import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mods.gregtechmod.api.GregTechObjectAPI;
+import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.jei.RecipeMaker;
-import mods.gregtechmod.compat.jei.wrapper.WrapperCentrifuge;
+import mods.gregtechmod.compat.jei.factory.CentrifugeRecipeFactory;
+import mods.gregtechmod.compat.jei.wrapper.WrapperCellular;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
@@ -16,7 +17,7 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
-public class CategoryCentrifuge implements IRecipeCategory<WrapperCentrifuge> {
+public class CategoryCentrifuge implements IRecipeCategory<WrapperCellular> {
     public static final String UID = Reference.MODID+".industrial_centrifuge";
     private static final ResourceLocation GUI_PATH = new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
     private final IDrawable background;
@@ -44,9 +45,9 @@ public class CategoryCentrifuge implements IRecipeCategory<WrapperCentrifuge> {
     }
 
     public static void init(IModRegistry registry) {
-        registry.handleRecipes(RecipeCentrifuge.class, WrapperCentrifuge::new, CategoryCentrifuge.UID);
+        registry.handleRecipes(RecipeCentrifuge.class, WrapperCellular::new, CategoryCentrifuge.UID);
 
-        registry.addRecipes(RecipeMaker.getCentrifugeRecipes(), CategoryCentrifuge.UID);
+        registry.addRecipes(CentrifugeRecipeFactory.INSTANCE.getCellularRecipes(GtRecipes.industrialCentrifuge, false), CategoryCentrifuge.UID);
 
         registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("industrial_centrifuge"), CategoryCentrifuge.UID);
 
@@ -77,7 +78,7 @@ public class CategoryCentrifuge implements IRecipeCategory<WrapperCentrifuge> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, WrapperCentrifuge recipeWrapper, IIngredients ingredients) {
+    public void setRecipe(IRecipeLayout recipeLayout, WrapperCellular recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 

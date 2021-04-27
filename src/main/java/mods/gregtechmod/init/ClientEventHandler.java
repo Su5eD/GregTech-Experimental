@@ -9,7 +9,7 @@ import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.render.RenderBlockOre;
 import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.*;
@@ -204,7 +204,7 @@ public class ClientEventHandler {
 
         FluidStack fluidContained = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();
-        if (TileEntityIndustrialCentrifuge.isCell(item) && fluidContained != null) {
+        if (TileEntityIndustrialCentrifugeBase.isCell(item) && fluidContained != null) {
             FluidLoader.FLUIDS.forEach(provider -> {
                 if (provider.getFluid() == fluidContained.getFluid()) {
                     String description = provider.getDescription();

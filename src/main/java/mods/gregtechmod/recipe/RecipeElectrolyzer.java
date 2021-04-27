@@ -21,11 +21,11 @@ public class RecipeElectrolyzer extends RecipeCellular {
                                             @JsonProperty(value = "cells") int cells,
                                             @JsonProperty(value = "duration", required = true) int duration,
                                             @JsonProperty(value = "energyCost") double energyCost) {
-        output = RecipeUtil.adjustOutputCount("electrolyzer", output, 4);
+        output = RecipeUtil.adjustOutputCount("industrial electrolyzer", output, 4);
 
         RecipeElectrolyzer recipe = new RecipeElectrolyzer(input, output, cells, duration, Math.max(energyCost, 1));
 
-        if (!RecipeUtil.validateRecipeIO("electrolyzer", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("industrial electrolyzer", input, output)) recipe.invalid = true;
 
         return recipe;
     }

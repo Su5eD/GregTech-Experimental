@@ -5,7 +5,7 @@ import mezz.jei.api.IModRegistry;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
-import mods.gregtechmod.compat.jei.RecipeMaker;
+import mods.gregtechmod.compat.jei.factory.RecipeFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachine;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineSingle;
 import mods.gregtechmod.gui.GuiBasicMachine;
@@ -24,7 +24,7 @@ public class CategoryBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredie
 
     @Override
     protected void addRecipes(IModRegistry registry) {
-        registry.addRecipes(RecipeMaker.getBasicMachineSingleRecipes(this.recipeManager), this.uid);
+        registry.addRecipes(RecipeFactory.getBasicMachineSingleRecipes(this.recipeManager), this.uid);
     }
 
     public void init(IModRegistry registry) {

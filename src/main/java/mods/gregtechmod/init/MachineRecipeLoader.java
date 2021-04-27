@@ -141,9 +141,9 @@ public class MachineRecipeLoader {
         parseRecipes("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.blastFurnace));
 
-        GtRecipes.electrolyzer = new RecipeManagerCellular();
-        parseRecipes("electrolyzer", RecipeElectrolyzer.class, null)
-                .ifPresent(recipes -> registerRecipes("electrolyzer", recipes, GtRecipes.electrolyzer));
+        GtRecipes.industrialElectrolyzer = new RecipeManagerCellular();
+        parseRecipes("industrial_electrolyzer", RecipeElectrolyzer.class, null)
+                .ifPresent(recipes -> registerRecipes("industrial electrolyzer", recipes, GtRecipes.industrialElectrolyzer));
 
         GtRecipes.canner = new RecipeManagerMultiInput<>();
         parseRecipes("canner", RecipeCanner.class, null)
