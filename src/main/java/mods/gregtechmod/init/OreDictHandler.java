@@ -414,7 +414,7 @@ public class OreDictHandler {
         if (!ModHandler.woodenTie.isEmpty()) {
             Fluid creosote = FluidRegistry.getFluid("creosote");
             if (creosote != null) {
-                DynamicRecipes.addCannerRecipe(RecipeCanner.create(RecipeIngredientOre.create(name, 3), RecipeIngredientFluid.fromFluid(creosote, 1000), Collections.singletonList(ModHandler.woodenTie), 200, 4));
+                DynamicRecipes.addCannerRecipe(RecipeCanner.create(RecipeIngredientOre.create(name, 3), RecipeIngredientFluid.fromFluid(creosote, 1), Collections.singletonList(ModHandler.woodenTie), 200, 4));
             }
         }
     }

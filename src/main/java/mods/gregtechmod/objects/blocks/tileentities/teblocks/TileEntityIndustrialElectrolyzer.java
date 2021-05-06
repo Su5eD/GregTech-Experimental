@@ -6,6 +6,8 @@ import mods.gregtechmod.gui.GuiIndustrialElectrolyzer;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerIndustrialElectrolyzer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityIndustrialElectrolyzer extends TileEntityIndustrialCentrifugeBase {
 
@@ -14,6 +16,7 @@ public class TileEntityIndustrialElectrolyzer extends TileEntityIndustrialCentri
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiIndustrialElectrolyzer(new ContainerIndustrialElectrolyzer(player, this));
     }
