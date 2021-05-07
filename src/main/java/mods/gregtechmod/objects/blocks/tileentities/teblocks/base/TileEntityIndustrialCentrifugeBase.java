@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities.teblocks;
+package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import com.google.common.collect.Sets;
 import ic2.api.item.IC2Items;
@@ -18,7 +18,6 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.GtFluidTankProcessable;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,7 +43,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     private final boolean dynamicAnimationSpeed;
 
     protected TileEntityIndustrialCentrifugeBase(String descriptionKey, int defaultTier, int tankCapacity, IGtRecipeManagerCellular recipeManager, boolean dynamicAnimationSpeed) {
-        super(descriptionKey, 10000, 4, 1, defaultTier, recipeManager);
+        super(descriptionKey, 10000, 4, defaultTier, recipeManager);
         this.dynamicAnimationSpeed = dynamicAnimationSpeed;
         this.cellSlot = new InvSlotConsumable(this, "cellSlot", 1) {
             @Override

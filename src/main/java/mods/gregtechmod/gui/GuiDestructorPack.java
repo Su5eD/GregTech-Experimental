@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 public class GuiDestructorPack extends GuiIC2<ContainerDestructorpack> {
 
     public GuiDestructorPack(ContainerDestructorpack container) {
-        super(container, 166);
+        super(container);
     }
 
     @Override

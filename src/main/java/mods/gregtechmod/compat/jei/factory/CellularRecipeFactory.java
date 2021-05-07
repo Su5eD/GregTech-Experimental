@@ -7,7 +7,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.wrapper.WrapperCellular;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifugeBase;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.recipe.RecipeCellular;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ProfileDelegate;

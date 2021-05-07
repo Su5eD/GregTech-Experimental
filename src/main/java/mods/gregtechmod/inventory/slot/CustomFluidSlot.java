@@ -50,7 +50,7 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
             TextureAtlasSprite sprite = fluid != null ? getBlockTextureMap().getAtlasSprite(fluid.getStill(fs).toString()) : null;
             int color = fluid != null ? fluid.getColor(fs) : -1;
             bindBlockTexture();
-            this.gui.drawSprite(fluidX, fluidY, fluidWidth, fluidHeight, sprite, color, 1.0D, false, false);
+            this.gui.drawSprite(fluidX, fluidY, fluidWidth, fluidHeight, sprite, color, 1D, false, false);
         }
 
     }

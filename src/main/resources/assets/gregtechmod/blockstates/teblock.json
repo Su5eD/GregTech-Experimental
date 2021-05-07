@@ -38,7 +38,9 @@
       "lathe": { "model": "gregtechmod:lathe" },
       "lathe_active": { "model": "gregtechmod:lathe_active" },
       "industrial_electrolyzer": { "model": "gregtechmod:industrial_electrolyzer" },
-      "industrial_electrolyzer_active": { "model": "gregtechmod:industrial_electrolyzer_active" }
+      "industrial_electrolyzer_active": { "model": "gregtechmod:industrial_electrolyzer_active" },
+      "chemical_reactor": { "model": "gregtechmod:chemical_reactor" },
+      "chemical_reactor_active": { "model": "gregtechmod:chemical_reactor_active" }
     },
     "facing": {
       "down": { "x": 90 },

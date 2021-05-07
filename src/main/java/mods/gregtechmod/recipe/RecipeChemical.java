@@ -9,10 +9,10 @@ import net.minecraft.item.ItemStack;
 import java.util.Collections;
 import java.util.List;
 
-public class RecipeChemical extends Recipe<List<IRecipeIngredient>, ItemStack> {
+public class RecipeChemical extends Recipe<List<IRecipeIngredient>, List<ItemStack>> {
 
     public RecipeChemical(List<IRecipeIngredient> input, ItemStack output, int duration) {
-        super(input, output, duration, 32);
+        super(input, Collections.singletonList(output), duration, 32);
     }
 
     @JsonCreator

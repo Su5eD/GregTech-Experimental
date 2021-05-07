@@ -47,20 +47,20 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public int maxProgress;
     protected double guiProgress;
 
-    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int inputSlots, int defaultTier, RM recipeManager) {
-        this(descriptionKey, maxEnergy, outputSlots, inputSlots, defaultTier, recipeManager, false);
+    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int defaultTier, RM recipeManager) {
+        this(descriptionKey, maxEnergy, outputSlots, defaultTier, recipeManager, false);
     }
 
-    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int inputSlots, int defaultTier, RM recipeManager, boolean wildcardInput) {
+    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int defaultTier, RM recipeManager, boolean wildcardInput) {
         super(descriptionKey, maxEnergy, defaultTier);
         this.progress = 0;
         this.recipeManager = recipeManager;
-        this.inputSlot = getInputSlot(inputSlots, wildcardInput);
+        this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);
     }
 
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count, boolean acceptAnything) {
-        return new GtSlotProcessableItemStack<>(this, "input", count, recipeManager);
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
+        return new GtSlotProcessableItemStack<>(this, name, 1, acceptAnything ? null : recipeManager);
     }
 
     public InvSlotOutput getOutputSlot(String name, int count) {

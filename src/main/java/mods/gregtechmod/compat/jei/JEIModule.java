@@ -55,6 +55,7 @@ public class JEIModule implements IModPlugin {
         categoryAssembler.init(registry);
         categoryLathe.init(registry);
         CategoryElectrolyzer.init(registry);
+        CategoryChemicalReactor.init(registry);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -82,7 +83,8 @@ public class JEIModule implements IModPlugin {
                 categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender),
                 categoryAssembler = new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, false, guiHelper),
                 categoryLathe = new CategoryLathe(guiHelper),
-                new CategoryElectrolyzer(guiHelper)
+                new CategoryElectrolyzer(guiHelper),
+                new CategoryChemicalReactor(guiHelper)
         );
     }
 

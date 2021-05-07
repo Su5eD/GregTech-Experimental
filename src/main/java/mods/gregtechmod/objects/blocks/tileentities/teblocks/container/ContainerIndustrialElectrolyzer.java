@@ -2,8 +2,8 @@ package mods.gregtechmod.objects.blocks.tileentities.teblocks.container;
 
 import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialElectrolyzer;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;

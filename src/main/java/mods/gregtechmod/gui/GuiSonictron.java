@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class GuiSonictron extends GuiIC2<ContainerSonictron> {
 
     public GuiSonictron(ContainerSonictron container) {
-        super(container, 166);
+        super(container);
     }
 
     @Override

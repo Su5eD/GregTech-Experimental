@@ -47,9 +47,9 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     public TileEntityBasicMachine(String descriptionKey, RM recipeManager, boolean wildcardInput) {
-        super(descriptionKey, 2000, 1, 1, 1, recipeManager, wildcardInput);
+        super(descriptionKey, 2000, 1, 1, recipeManager, wildcardInput);
         this.extraSlot = getExtraSlot();
-        this.queueInputSlot = getInputSlot("queueInput", 1, GtInvSide.VERTICAL, wildcardInput);
+        this.queueInputSlot = getInputSlot("queueInput", GtInvSide.VERTICAL, wildcardInput);
         this.queueOutputSlot = getOutputSlot("queueOutput", 1);
     }
 
@@ -85,12 +85,12 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(int count, boolean acceptAnything) {
-        return getInputSlot("input", count, InvSlot.InvSide.SIDE, acceptAnything);
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
+        return getInputSlot(name, InvSlot.InvSide.SIDE, acceptAnything);
     }
 
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, int count, InvSlot.InvSide side, boolean acceptAnything) {
-        return new GtSlotProcessableItemStack<>(this, name, InvSlot.Access.I, count, side, acceptAnything ? null : recipeManager);
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, InvSlot.InvSide side, boolean acceptAnything) {
+        return new GtSlotProcessableItemStack<>(this, name, InvSlot.Access.I, 1, side, acceptAnything ? null : recipeManager);
     }
 
     @Override

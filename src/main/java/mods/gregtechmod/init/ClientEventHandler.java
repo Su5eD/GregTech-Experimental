@@ -9,7 +9,7 @@ import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifugeBase;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.render.RenderBlockOre;
 import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.*;

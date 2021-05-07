@@ -792,6 +792,8 @@ gregtechmod.teblock.lathe=Lathe
 gregtechmod.teblock.lathe.description=Produces Metal Rods more efficiently
 gregtechmod.teblock.industrial_electrolyzer=Industrial Electrolyzer
 gregtechmod.teblock.industrial_electrolyzer.description=Give your Water a shocking Experience with this Device
+gregtechmod.teblock.chemical_reactor=Chemical Reactor
+gregtechmod.teblock.chemical_reactor.description=Let 2 chemical Substances react together with this!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

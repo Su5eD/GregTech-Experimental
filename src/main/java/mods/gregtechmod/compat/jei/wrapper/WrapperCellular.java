@@ -7,8 +7,8 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.recipe.RecipeCellular;
-import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -62,10 +62,6 @@ public class WrapperCellular implements IRecipeWrapper {
 
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        int duration = recipe.getDuration();
-        double energyCost = recipe.getEnergyCost();
-        minecraft.fontRenderer.drawString(GtUtil.translate("jei.energy", GtUtil.formatNumber(duration * energyCost)), 2, 60, -16777216, false);
-        minecraft.fontRenderer.drawString(GtUtil.translate("jei.time", GtUtil.formatNumber(duration / 20)), 2,70, -16777216, false);
-        if (showEnergyCost) minecraft.fontRenderer.drawString(GtUtil.translate("jei.max_energy", GtUtil.formatNumber(energyCost)), 2,80, -16777216, false);
+        JEIUtils.drawInfo(minecraft, recipe, showEnergyCost);
     }
 }

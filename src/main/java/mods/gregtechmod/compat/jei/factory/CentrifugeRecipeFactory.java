@@ -4,7 +4,7 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifugeBase;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.util.GtUtil;

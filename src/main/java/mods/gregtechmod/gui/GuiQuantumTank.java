@@ -1,29 +1,20 @@
 package mods.gregtechmod.gui;
 
-import ic2.core.GuiIC2;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.inventory.slot.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerQuantumTank;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiQuantumTank extends GuiIC2<ContainerQuantumTank> {
+public class GuiQuantumTank extends GuiInventory<ContainerQuantumTank> {
 
     public GuiQuantumTank(ContainerQuantumTank container) {
-        super(container, 166);
+        super(container);
         addElement(CustomFluidSlot.createFluidSlot(this, 58, 41, container.base.content, null, 0, 0, true));
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-    }
-
-    @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
-        bindTexture();
-        drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        drawString(8, 6, I18n.format(this.container.base.getName()), 3421236, false);
+        super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         drawString(10, 20, "Liquid Amount", 14211290, false);
         drawString(10, 30, String.valueOf(this.container.base.content.getFluidAmount()), 14211290, false);
     }
