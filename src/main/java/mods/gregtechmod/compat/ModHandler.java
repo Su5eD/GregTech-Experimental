@@ -349,6 +349,10 @@ public class ModHandler {
                 .name(Reference.MODID, name)
                 .shaped(pattern);
     }
+    
+    public static void addShapedRecipe(String name, ItemStack output, Object... params) {
+        addShapedRecipe(name, null, output, params);
+    }
 
     public static void addShapedRecipe(String name, ResourceLocation group, ItemStack output, Object... params) {
         GameRegistry.addShapedRecipe(
@@ -359,6 +363,10 @@ public class ModHandler {
         );
     }
 
+    public static void addShapelessRecipe(String name, ItemStack output, Ingredient... inputs) {
+        addShapelessRecipe(name, null, output, inputs);
+    }
+    
     public static void addShapelessRecipe(String name, ResourceLocation group, ItemStack output, Ingredient... inputs) {
         GameRegistry.addShapelessRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
                 group,

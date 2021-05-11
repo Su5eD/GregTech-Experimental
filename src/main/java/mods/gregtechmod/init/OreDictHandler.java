@@ -53,16 +53,6 @@ public class OreDictHandler {
             "electricFurnace", "ironTube", "netherTube", "obbyTube", "valvePart", "aquaRegia", "leatherSeal", "leatherSlimeSeal", "enrichedUranium", "batteryInfinite", "itemSuperconductor", "camoPaste", "CAMO_PASTE");
     private boolean activated = false;
 
-    private static final ResourceLocation RECIPE_GROUP_SHAPED = new ResourceLocation(Reference.MODID, "shaped");
-    private static final ResourceLocation RECIPE_GROUP_SHAPELESS = new ResourceLocation(Reference.MODID, "shapeless");
-    private static final ResourceLocation RECIPE_GROUP_DUSTS = new ResourceLocation(Reference.MODID, "dusts");
-    private static final ResourceLocation RECIPE_GROUP_ORES = new ResourceLocation(Reference.MODID, "ores");
-    private static final ResourceLocation RECIPE_GROUP_ARMOR = new ResourceLocation(Reference.MODID, "armor");
-    private static final ResourceLocation RECIPE_GROUP_TOOLS = new ResourceLocation(Reference.MODID, "tools");
-    private static final ResourceLocation RECIPE_GROUP_STICKS = new ResourceLocation(Reference.MODID, "sticks");
-    private static final ResourceLocation RECIPE_GROUP_BLOCKS = new ResourceLocation(Reference.MODID, "blocks");
-    private static final ResourceLocation RECIPE_GROUP_PLATES = new ResourceLocation(Reference.MODID, "plates");
-
     static {
         GT_ORE_NAMES.put("battery", "crafting10kEUStore");
         GT_ORE_NAMES.put("basicCircuit", "craftingCircuitTier02");
@@ -293,13 +283,11 @@ public class OreDictHandler {
                 Ingredient input = new OreIngredient(name);
                 ModHandler.addShapelessRecipe(
                         name+"ToIngot",
-                        RECIPE_GROUP_SHAPELESS,
                         OreDictUnificator.getFirstOre(ingotName),
                         input, input, input, input, input, input, input, input, input
                 );
                 ModHandler.addShapelessRecipe(
                         ingotName+"ToNuggets",
-                        RECIPE_GROUP_SHAPELESS,
                         StackUtil.copyWithSize(ore, 9),
                         new OreIngredient(ingotName)
                 );
@@ -333,7 +321,6 @@ public class OreDictHandler {
             if (!OreDictUnificator.getFirstOre(ingotName).isEmpty()) {
                 ModHandler.addShapedRecipe(
                         name+"FromIngots",
-                        RECIPE_GROUP_PLATES,
                         ore,
                         "H", "I", "I", 'H', "craftingToolHardHammer", 'I', ingotName
                 );
@@ -385,7 +372,6 @@ public class OreDictHandler {
             } else if (name.startsWith("plant")) {
                 ModHandler.addShapedRecipe(
                         name+"ToPlantBall",
-                        RECIPE_GROUP_SHAPED,
                         IC2Items.getItem("crafting", "plant_ball"),
                         "XXX", "X X", "XXX", 'X', name
                 );
@@ -433,7 +419,7 @@ public class OreDictHandler {
 
                 CraftingHelper.ShapedPrimer primer = CraftingHelper.parseShaped("S", "L", 'S', new ToolOreIngredient("craftingToolSaw", 1), 'L', stack);
                 IRecipe sawingRecipe = new ToolCraftingRecipeShaped(
-                        OreDictHandler.RECIPE_GROUP_SHAPED.toString(),
+                        "",
                         primer.width,
                         primer.height,
                         primer.input,
@@ -445,7 +431,7 @@ public class OreDictHandler {
 
                 GameRegistry.addShapelessRecipe(
                         new ResourceLocation(Reference.MODID, recipeName),
-                        RECIPE_GROUP_SHAPELESS,
+                        null,
                         StackUtil.copyWithSize(result, result.getCount() / (GregTechConfig.GENERAL.woodNeedsSawForCrafting ? 2 : 1)),
                         Ingredient.fromStacks(stack)
                 );
@@ -484,7 +470,7 @@ public class OreDictHandler {
             }
 
             dust.setCount(9);
-            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name+"ToDust", RECIPE_GROUP_BLOCKS, dust, new OreIngredient(name));
+            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name+"ToDust", dust, new OreIngredient(name));
             DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), dust));
         }
         if (!gem.isEmpty()) {
@@ -494,7 +480,7 @@ public class OreDictHandler {
 
             if (storageBlockCrafting) processBlockRecipe(stack, name+"FromGems");
             if (storageBlockDeCrafting) {
-                ModHandler.addShapelessRecipe(name + "ToGem", RECIPE_GROUP_BLOCKS, StackUtil.setSize(gem, 9), new OreIngredient(name));
+                ModHandler.addShapelessRecipe(name + "ToGem", StackUtil.setSize(gem, 9), new OreIngredient(name));
             }
 
             DynamicRecipes.addIngotToBlockRecipe(gemName, gem, stack, storageBlockCrafting, storageBlockDeCrafting);
@@ -506,7 +492,7 @@ public class OreDictHandler {
 
             ingot.setCount(9);
             DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, stack, ingot);
-            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name+"ToIngot", RECIPE_GROUP_BLOCKS, ingot, new OreIngredient(name));
+            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name+"ToIngot", ingot, new OreIngredient(name));
             DynamicRecipes.addIngotToBlockRecipe(ingotName, ingot, stack, storageBlockCrafting, storageBlockDeCrafting);
         }
     }
@@ -514,7 +500,6 @@ public class OreDictHandler {
     private void processBlockRecipe(ItemStack stack, String name) {
         ModHandler.addShapedRecipe(
                 name,
-                RECIPE_GROUP_BLOCKS,
                 stack,
                 "XXX", "XXX", "XXX", 'X', name
         );
@@ -533,7 +518,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, ItemStack.EMPTY, stack)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_helmet_" + materialName,
-                            RECIPE_GROUP_ARMOR,
                             result,
                             "XXX", "XTX", 'X', plateName, 'T', "craftingToolHardHammer"
                     );
@@ -541,7 +525,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, ItemStack.EMPTY, stack, stack, stack, stack, stack, stack, stack)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_chestplate_" + materialName,
-                            RECIPE_GROUP_ARMOR,
                             result,
                             "XTX", "XXX", "XXX", 'X', plateName, 'T', "craftingToolHardHammer"
                     );
@@ -549,7 +532,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stack)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_leggings_" + materialName,
-                            RECIPE_GROUP_ARMOR,
                             result,
                             "XXX", "XTX", "X X", 'X', plateName, 'T', "craftingToolHardHammer"
                     );
@@ -557,7 +539,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stack)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_boots_" + materialName,
-                            RECIPE_GROUP_ARMOR,
                             result,
                             "XTX", "X X", 'X', plateName, 'T', "craftingToolHardHammer"
                     );
@@ -570,7 +551,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_sword_" + materialName,
-                            RECIPE_GROUP_TOOLS,
                             result,
                             " X ", "FXT", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile"
                     );
@@ -578,7 +558,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_pickaxe_" + materialName,
-                            RECIPE_GROUP_TOOLS,
                             result,
                             "XII", "FST", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
                     );
@@ -586,7 +565,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_shovel_" + materialName,
-                            RECIPE_GROUP_TOOLS,
                             result,
                             "FXT", " S ", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile"
                     );
@@ -594,7 +572,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, ItemStack.EMPTY, stack, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_axe_" + materialName,
-                            RECIPE_GROUP_TOOLS,
                             result,
                             "XIT", "XS ", "FS ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
                     );
@@ -602,7 +579,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stick, stack, ItemStack.EMPTY, stick)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_axe_" + materialName,
-                            RECIPE_GROUP_TOOLS,
                             result,
                             "XIT", "XS ", "FS ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
                     );
@@ -610,7 +586,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_hoe_" + materialName,
-                            RECIPE_GROUP_TOOLS,
                             result,
                             "XIT", "FS ", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
                     );
@@ -618,7 +593,6 @@ public class OreDictHandler {
                 if (!(result = ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
                     ModHandler.addShapedRecipe(
                             result.getItem().getRegistryName().getNamespace()+"_hoe_" + materialName,
-                            RECIPE_GROUP_TOOLS,
                             result,
                             "XIT", "FS ", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
                     );
@@ -665,7 +639,6 @@ public class OreDictHandler {
         if (!stick.isEmpty()) {
             ModHandler.addShapedRecipe(
                     "stick_"+materialName,
-                    RECIPE_GROUP_STICKS,
                     stick,
                     "F", "I", 'F', "craftingToolFile", 'I', name
             );
@@ -689,8 +662,8 @@ public class OreDictHandler {
             Ingredient ingredient = new OreIngredient(name);
             Ingredient[] ingredients = new Ingredient[count];
             Arrays.fill(ingredients, ingredient);
-            ModHandler.addShapelessRecipe(dustName+"FromSmalldusts", RECIPE_GROUP_DUSTS, dust, ingredients);
-            ModHandler.addShapelessRecipe(dustName+"ToSmalldusts", RECIPE_GROUP_DUSTS, StackUtil.copyWithSize(stack, count), new OreIngredient(dustName));
+            ModHandler.addShapelessRecipe(dustName+"FromSmalldusts", dust, ingredients);
+            ModHandler.addShapelessRecipe(dustName+"ToSmalldusts", StackUtil.copyWithSize(stack, count), new OreIngredient(dustName));
         }
     }
 
@@ -778,7 +751,6 @@ public class OreDictHandler {
         if (!dust.isEmpty()) {
             ModHandler.addShapedRecipe(
                     name+"Crushing",
-                    RECIPE_GROUP_ORES,
                     dust,
                     "T", "O", 'T', "craftingToolHardHammer", 'O', name);
         }

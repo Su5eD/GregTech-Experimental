@@ -74,26 +74,22 @@ public class CraftingRecipeLoader {
         ItemStack glass = new ItemStack(Blocks.GLASS);
         ModHandler.addShapedRecipe(
                 "doubleInsulaedGoldCable",
-                null,
                 StackUtil.setSize(IC2Items.getItem("cable", "type:gold,insulation:2"), 4),
                 "RRR", "RGR", "RRR", 'G', "ingotGold", 'R', "itemRubber"
         );
         ItemStack glassFibreCable = IC2Items.getItem("cable", "type:glass,insulation:0");
         ModHandler.addShapedRecipe(
                 "glassFibreCable",
-                null,
                 StackUtil.setSize(glassFibreCable, 4),
                 "GGG", "XDX", "GGG", 'G', glass, 'X', "dustRedstone", 'D', "itemDiamond"
         );
         ModHandler.addShapedRecipe(
                 "glassFibreCable",
-                null,
                 StackUtil.setSize(glassFibreCable, 6),
                 "GGG", "XDX", "GGG", 'G', glass, 'X', "ingotSilver", 'D', "itemDiamond"
         );
         ModHandler.addShapedRecipe(
                 "glassFibreCable",
-                null,
                 StackUtil.setSize(glassFibreCable, 8),
                 "GGG", "XDX", "GGG", 'G', glass, 'X', "ingotElectrum", 'D', "itemDiamond"
         );
@@ -112,13 +108,11 @@ public class CraftingRecipeLoader {
         if (!result.isEmpty()) {
             ModHandler.addShapedRecipe(
                     "planksSawing",
-                    null,
                     StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() : result.getCount() * 5 / 4),
                     "S", "P", "P", 'P', "plankWood", 'S', "craftingToolSaw"
             );
             ModHandler.addShapedRecipe(
                     "sticksFromPlanks",
-                    null,
                     StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() / 2 : result.getCount()),
                     "P", "P", 'P', "plankWood"
             );
