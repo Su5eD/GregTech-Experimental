@@ -54,7 +54,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
         if (input.size() > 1) {
             ItemStack oldStack = this.inputSlot.consume(input.get(1).getCount());
             ItemStack newStack = this.inputSlot.get();
-            if (!(oldStack.getItem() == newStack.getItem()) && this.outputSlot.canAdd(recipe.getOutput())) {
+            if (!(oldStack.getItem() == newStack.getItem()) && canAddOutput(recipe)) {
                 this.queueOutputSlot.put(this.inputSlot.consume(1));
             }
         }

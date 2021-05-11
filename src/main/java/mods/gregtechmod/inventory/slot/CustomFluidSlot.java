@@ -24,11 +24,9 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
 
     protected CustomFluidSlot(GuiIC2<?> gui, int x, int y, int width, int height, IFluidTank tank, @Nullable ResourceLocation backgroundTexture, double textureX, double textureY, boolean displayFluidNameOnly) {
         super(gui, x, y, width, height);
-        if (tank == null) {
-            throw new NullPointerException("Null FluidTank instance.");
-        } else {
-            this.tank = tank;
-        }
+        if (tank == null) throw new NullPointerException("FluidTank is null");
+        else this.tank = tank;
+        
         this.texture = backgroundTexture;
         this.textureX = textureX;
         this.textureY = textureY;
@@ -40,38 +38,30 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
             bindTexture(this.texture);
             this.gui.drawTexturedRect(this.x, this.y, this.width, this.height, this.textureX, this.textureY);
         }
+        
         FluidStack fs = this.tank.getFluid();
         if (fs != null && fs.amount > 0) {
             int fluidX = this.x + 1;
             int fluidY = this.y + 1;
-            int fluidWidth = 16;
-            int fluidHeight = 16;
             Fluid fluid = fs.getFluid();
             TextureAtlasSprite sprite = fluid != null ? getBlockTextureMap().getAtlasSprite(fluid.getStill(fs).toString()) : null;
-            int color = fluid != null ? fluid.getColor(fs) : -1;
             bindBlockTexture();
-            this.gui.drawSprite(fluidX, fluidY, fluidWidth, fluidHeight, sprite, color, 1D, false, false);
+            this.gui.drawSprite(fluidX, fluidY, 16, 16, sprite, fluid != null ? fluid.getColor(fs) : -1, 1, false, false);
         }
-
     }
 
     protected List<String> getToolTip() {
         List<String> ret = super.getToolTip();
-        FluidStack fs = this.tank.getFluid();
-        if (fs != null && fs.amount > 0) {
-            Fluid fluid = fs.getFluid();
+        FluidStack stack = this.tank.getFluid();
+        if (stack != null && stack.amount > 0) {
+            Fluid fluid = stack.getFluid();
             if (fluid != null) {
-                ret.add(fluid.getLocalizedName(fs));
+                ret.add(fluid.getLocalizedName(stack));
                 if (fluidNameOnly) return ret;
 
-                ret.add("Amount: " + fs.amount + " mB");
-                String state = fs.getFluid().isGaseous() ? "Gas" : "Liquid";
-                ret.add("Type: " + state);
-            } else if (!fluidNameOnly) ret.add("Invalid FluidStack instance.");
-        } else if (!fluidNameOnly) {
-            ret.add("No Fluid");
-            ret.add("Amount: 0 mB");
-            ret.add("Type: Not Available");
+                ret.add("Amount: " + stack.amount + " mB");
+                ret.add("Type: " + (stack.getFluid().isGaseous() ? "Gas" : "Liquid"));
+            } else if (!fluidNameOnly) ret.add("<Invalid>");
         }
         return ret;
     }

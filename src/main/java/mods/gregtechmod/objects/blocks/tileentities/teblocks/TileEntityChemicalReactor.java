@@ -37,7 +37,7 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     @Override
     public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> getRecipe() {
         IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe = this.recipeManager.getRecipeFor(Arrays.asList(this.inputSlot.get(), this.secondaryInputSlot.get()));
-        return recipe != null && this.outputSlot.canAdd(recipe.getOutput()) ? recipe : null;
+        return recipe;
     }
 
     @Override

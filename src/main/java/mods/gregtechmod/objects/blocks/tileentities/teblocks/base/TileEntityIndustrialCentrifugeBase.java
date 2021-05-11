@@ -96,7 +96,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
                         int cellsFromInputSlot = item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic ? Math.min(recipe.getCells(), cells) : 0;
                         this.inputSlot.consume(cells, false, true);
                         this.cellSlot.consume(recipe.getCells() - cellsFromInputSlot);
-                        if (addCellsToOutput(StackUtil.copyWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.MELT) this.maxProgress *= 1.5;
+                        if (addCellsToOutput(StackUtil.copyWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.DISSOLVE) this.maxProgress *= 1.5;
                         return;
                     }
                 } else if (input.getCount() == 1) {
@@ -138,7 +138,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
             for (ItemStack stack : output) {
                 if (stack.isItemEqual(IC2Items.getItem("ingot", "tin"))) {
                     stack.grow(getTinForCells(input));
-                    return CellAdditionResult.MELT;
+                    return CellAdditionResult.DISSOLVE;
                 }
             }
         }
@@ -177,7 +177,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
                 }
             }
         }
-        return recipe != null && this.outputSlot.canAdd(recipe.getOutput()) ? recipe : null;
+        return recipe;
     }
 
     @Override
@@ -185,7 +185,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
 
     public enum CellAdditionResult {
         ADD,
-        MELT,
+        DISSOLVE,
         FAIL
     }
 }

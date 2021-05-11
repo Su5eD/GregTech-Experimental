@@ -70,7 +70,7 @@ public abstract class CellularRecipeFactory {
 
     protected int getDuration(int duration, ItemStack input, List<ItemStack> output) {
         TileEntityIndustrialCentrifugeBase.CellAdditionResult result = TileEntityIndustrialCentrifugeBase.addCellsToOutput(input, output);
-        if (result == TileEntityIndustrialCentrifugeBase.CellAdditionResult.MELT) return (int) (duration * 1.5);
+        if (result == TileEntityIndustrialCentrifugeBase.CellAdditionResult.DISSOLVE) return (int) (duration * 1.5);
         else if (result != TileEntityIndustrialCentrifugeBase.CellAdditionResult.FAIL) return duration;
 
         return -1;

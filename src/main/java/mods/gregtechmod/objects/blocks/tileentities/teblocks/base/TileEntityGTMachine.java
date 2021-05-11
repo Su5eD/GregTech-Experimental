@@ -175,7 +175,11 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     protected boolean canOperate(R recipe) {
         boolean canWork = this.maxProgress > 0 || !this.pendingRecipe.isEmpty();
         if (!canWork && !enableWorking) return false;
-        return canWork || recipe != null;
+        return canWork || recipe != null && canAddOutput(recipe);
+    }
+    
+    protected boolean canAddOutput(R recipe) {
+        return this.outputSlot.canAdd(recipe.getOutput());
     }
 
     protected boolean processRecipe(R recipe) {
