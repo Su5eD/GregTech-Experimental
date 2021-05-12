@@ -26,7 +26,7 @@ val versionAE2: String by project
 val versionMantle: String by project
 val versionTConstruct: String by project
 
-version = "$versionMajor.$versionMinor" + if (versionPatch != "0") versionPatch else ""
+version = "$versionMajor.$versionMinor" + if (versionPatch != "0") ".$versionPatch" else ""
 group = "mods.su5ed"
 setProperty("archivesBaseName", "gregtechmod")
 
