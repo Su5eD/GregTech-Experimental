@@ -211,9 +211,9 @@ publishing {
             artifactId = project.findProperty("archivesBaseName") as String
             version = project.version as String
 
-            artifact("shadowJar")
-            artifact("apiJar")
-            artifact("devJar")
+            artifact(tasks.getByName("shadowJar"))
+            artifact(tasks.getByName("apiJar"))
+            artifact(tasks.getByName("devJar"))
         }
     }
     repositories {
