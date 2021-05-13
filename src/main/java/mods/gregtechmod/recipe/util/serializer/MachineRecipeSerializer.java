@@ -8,7 +8,6 @@ import ic2.api.recipe.MachineRecipe;
 import java.io.IOException;
 
 public class MachineRecipeSerializer extends JsonSerializer<MachineRecipe> {
-    public static final MachineRecipeSerializer INSTANCE = new MachineRecipeSerializer();
 
     @Override
     public void serialize(MachineRecipe value, JsonGenerator gen, SerializerProvider serializers) throws IOException {

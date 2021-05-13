@@ -1,0 +1,402 @@
+# Industrial Electrolyzer recipes
+---
+- input:
+    ore: dustSaltpeter
+    count: 10
+  output:
+    - cell: potassium
+      count: 2
+    - cell: nitrogen
+      count: 2
+    - cell: ic2air
+      count: 3
+  cells: 7
+  duration: 50
+  energyCost: 110
+- input:
+    ore: dustObsidian
+    count: 4
+  output:
+    - item: gregtechmod:smalldust_magnesium
+      count: 2
+    - item: gregtechmod:smalldust_iron
+      count: 2
+    - cell: silicon
+    - cell: ic2air
+      count: 2
+  cells: 3
+  duration: 500
+  energyCost: 5
+- input:
+    ore: dustSugar
+    count: 32
+  output:
+    - item: gregtechmod:cell_carbon
+      count: 2
+    - cell: water
+      count: 5
+  cells: 7
+  duration: 210
+  energyCost: 32
+- input:
+    ore: dustClay
+    count: 8
+  output:
+    - cell: lithium
+    - cell: silicon
+      count: 2
+    - item: gregtechmod:dust_aluminium
+      count: 2
+    - cell: sodium
+      count: 2
+  cells: 5
+  duration: 200
+  energyCost: 50
+- input:
+    ore: dustPyrope
+    count: 20
+  output:
+    - item: gregtechmod:dust_magnesium
+      count: 3
+    - item: gregtechmod:dust_aluminium
+      count: 2
+    - cell: silicon
+      count: 3
+    - cell: ic2air
+      count: 6
+  cells: 9
+  duration: 1790
+  energyCost: 50
+- input:
+    ore: dustAlmandine
+    count: 20
+  output:
+    - item: ic2:dust#iron
+      count: 3
+    - item: gregtechmod:dust_aluminium
+      count: 2
+    - cell: silicon
+      count: 3
+    - cell: ic2air
+      count: 6
+  cells: 9
+  duration: 1640
+  energyCost: 50
+- input:
+    ore: dustSpessartine
+    count: 20
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 2
+    - item: gregtechmod:dust_manganese
+      count: 3
+    - cell: silicon
+      count: 3
+    - cell: ic2air
+      count: 6
+  cells: 9
+  duration: 1810
+  energyCost: 50
+- input:
+    ore: dustAndradite
+    count: 20
+  output:
+    - cell: calcium
+      count: 3
+    - item: ic2:dust#iron
+      count: 2
+    - cell: silicon
+      count: 3
+    - cell: ic2air
+      count: 6
+  cells: 12
+  duration: 1280
+  energyCost: 50
+- input:
+    ore: dustGrossular
+    count: 20
+  output:
+    - cell: calcium
+      count: 3
+    - item: ic2:dust#iron
+      count: 2
+    - cell: silicon
+      count: 3
+    - cell: ic2air
+      count: 6
+  cells: 12
+  duration: 2050
+  energyCost: 50
+- input:
+    ore: dustUvarovite
+    count: 20
+  output:
+    - cell: calcium
+      count: 3
+    - item: gregtechmod:dust_chrome
+      count: 2
+    - cell: silicon
+      count: 3
+    - cell: ic2air
+      count: 6
+  cells: 12
+  duration: 2200
+  energyCost: 50
+- input:
+    ore: dustSphalerite
+    count: 2
+  output:
+    - item: gregtechmod:dust_zinc
+    - item: gregtechmod:dust_sulfur
+  duration: 150
+  energyCost: 100
+- input:
+    ore: dustCinnabar
+    count: 2
+  output:
+    - cell: mercury
+    - item: gregtechmod:dust_sulfur
+  cells: 1
+  duration: 100
+  energyCost: 128
+- input:
+    ores:
+      - dustSilverLead
+      - dustGalena
+    count: 2
+  output:
+    - item: gregtechmod:smalldust_silver
+      count: 3
+    - item: gregtechmod:smalldust_lead
+      count: 3
+    - item: gregtechmod:smalldust_sulfur
+      count: 2
+  duration: 1000
+  energyCost: 120
+- input:
+    ore: dustEnderPearl
+    count: 16
+  output:
+    - cell: nitrogen
+      count: 5
+    - cell: berylium
+    - cell: potassium
+      count: 4
+    - cell: chlorite
+      count: 6
+  cells: 16
+  duration: 1300
+  energyCost: 50
+- input:
+    ore: dustOlivine
+    count: 9
+  output:
+    - item: gregtechmod:dust_magnesium
+      count: 2
+    - item: ic2:dust#iron
+      count: 2
+    - cell: silicon
+    - cell: ic2air
+  cells: 3
+  duration: 600
+  energyCost: 60
+- input:
+    ore: dustEmerald
+    count: 29
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 2
+    - cell: berylium
+      count: 3
+    - cell: silicon
+      count: 6
+    - cell: ic2air
+      count: 9
+  cells: 18
+  duration: 600
+  energyCost: 50
+- input:
+    ore: dustRuby
+    count: 9
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 2
+    - item: gregtechmod:dust_chrome
+    - cell: ic2air
+      count: 3
+  cells: 3
+  duration: 500
+  energyCost: 50
+- input:
+    ore: dustSapphire
+    count: 8
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 2
+    - cell: ic2air
+      count: 3
+  cells: 3
+  duration: 400
+  energyCost: 50
+- input:
+    ore: dustGreenSapphire
+  output:
+    - item: gregtechmod:dust_sapphire
+  duration: 100
+  energyCost: 50
+- input:
+    ore: dustAshes
+    count: 2
+  output:
+    - item: gregtechmod:cell_carbon
+  cells: 1
+  duration: 25
+  energyCost: 50
+- input:
+    ore: dustCoal
+  output:
+    - item: gregtechmod:cell_carbon
+      count: 2
+  cells: 2
+  duration: 40
+  energyCost: 50
+- input:
+    ore: dustCharcoal
+  output:
+    - item: gregtechmod:cell_carbon
+  cells: 1
+  duration: 20
+  energyCost: 50
+- input:
+    ore: dustLazurite
+    count: 29
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 3
+    - cell: silicon
+      count: 3
+    - cell: calcium
+      count: 4
+    - cell: sodium
+      count: 4
+  cells: 11
+  duration: 1475
+  energyCost: 100
+- input:
+    ore: dustPyrite
+    count: 3
+  output:
+    - item: ic2:dust#iron
+    - item: gregtechmod:dust_sulfur
+      count: 2
+  duration: 120
+  energyCost: 128
+- input:
+    ore: dustCalcite
+    count: 10
+  output:
+    - cell: calcium
+      count: 2
+    - item: gregtechmod:cell_carbon
+      count: 2
+    - cell: ic2air
+      count: 3
+  cells: 7
+  duration: 700
+  energyCost: 80
+- input:
+    ore: dustSodalite
+    count: 23
+  output:
+    - cell: sodium
+      count: 4
+    - item: gregtechmod:dust_aluminium
+      count: 3
+    - cell: silicon
+      count: 3
+    - cell: chlorite
+  cells: 8
+  duration: 1350
+  energyCost: 90
+- input:
+    ore: dustFlint
+    count: 8
+  output:
+    - cell: silicon
+    - cell: ic2air
+  cells: 2
+  duration: 1000
+  energyCost: 5
+- input:
+    ore: dustBauxite
+    count: 12
+  output:
+    - item: gregtechmod:dust_aluminium
+      count: 8
+    - item: gregtechmod:smalldust_titanium
+      count: 2
+    - cell: hydrogen
+      count: 5
+    - cell: ic2air
+      count: 3
+  cells: 8
+  duration: 2000
+  energyCost: 128
+- input:
+    cell: methane
+    count: 5
+  output:
+    - cell: hydrogen
+      count: 4
+    - item: gregtechmod:cell_carbon
+  duration: 150
+  energyCost: 50
+- input:
+    item: gregtechmod:cell_sulfuric_acid
+    count: 7
+  output:
+    - cell: hydrogen
+      count: 2
+    - item: gregtechmod:cell_sulfur
+    - cell: ic2air
+      count: 2
+    - cell: empty
+      count: 2
+  duration: 40
+  energyCost: 100
+- input:
+    fluid: water
+    count: 6
+  output:
+    - cell: hydrogen
+      count: 4
+    - cell: ic2air
+  cells: 5
+  duration: 775
+  energyCost: 120
+- input:
+    item: minecraft:dye
+    meta: 15
+    count: 3
+  output:
+    - cell: calcium
+  cells: 1
+  duration: 24
+  energyCost: 106
+- input:
+    item: minecraft:blaze_powder
+    count: 4
+  output:
+    - item: gregtechmod:dust_dark_ashes
+    - item: gregtechmod:dust_sulfur
+  duration: 300
+  energyCost: 25
+- input:
+    item: minecraft:sand
+    count: 16
+  output:
+    - cell: silicon
+    - cell: ic2air
+  cells: 2
+  duration: 1000
+  energyCost: 25

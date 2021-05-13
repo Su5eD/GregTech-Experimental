@@ -9,7 +9,7 @@ import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityIndustrialCentrifuge;
+import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.render.RenderBlockOre;
 import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.*;
@@ -126,7 +126,7 @@ public class ClientEventHandler {
                     }
                 }
             } catch (Exception e) {
-                GregTechMod.logger.error(e.getMessage());
+                e.printStackTrace();
             }
         }
         for (BlockItems.Ore ore : BlockItems.Ore.values()) {
@@ -166,6 +166,7 @@ public class ClientEventHandler {
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_only"));
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_conductor"));
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_signalizer"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, "blocks/machines/machine_top_pipe"));
 
         FluidLoader.FLUIDS.forEach(provider -> map.registerSprite(provider.getTexture()));
     }
@@ -203,7 +204,7 @@ public class ClientEventHandler {
 
         FluidStack fluidContained = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();
-        if (TileEntityIndustrialCentrifuge.isCell(item) && fluidContained != null) {
+        if (TileEntityIndustrialCentrifugeBase.isCell(item) && fluidContained != null) {
             FluidLoader.FLUIDS.forEach(provider -> {
                 if (provider.getFluid() == fluidContained.getFluid()) {
                     String description = provider.getDescription();

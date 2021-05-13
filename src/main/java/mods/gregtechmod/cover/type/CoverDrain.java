@@ -43,7 +43,7 @@ public class CoverDrain extends CoverGeneric {
         BlockPos pos = ((TileEntity)te).getPos();
         Block block = world.getBlockState(pos.offset(side)).getBlock();
 
-        if (LiquidUtil.isFluidTile(((TileEntity)te), side) && mode.isImport) {
+        if (LiquidUtil.isFluidTile((TileEntity)te, side) && mode.isImport) {
             IFluidHandler handler = ((TileEntity)te).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);
             if (side == EnumFacing.UP && world.isRaining()) {
                 if (world.getPrecipitationHeight(pos).getY() - 2 < pos.getY()) {
@@ -59,7 +59,7 @@ public class CoverDrain extends CoverGeneric {
             else if (block instanceof IFluidBlock) liquid = ((IFluidBlock)block).drain(world, pos.offset(side), false);
 
             if (liquid != null && liquid.getFluid() != null) {
-                if((side == EnumFacing.DOWN && !(liquid.getFluid().getDensity() <= 0)) || (side == EnumFacing.UP && !(liquid.getFluid().getDensity() >= 0))) return;
+                if(side == EnumFacing.DOWN && !(liquid.getFluid().getDensity() <= 0) || side == EnumFacing.UP && !(liquid.getFluid().getDensity() >= 0)) return;
 
                 if (handler.fill(liquid, false) == liquid.amount) {
                     handler.fill(liquid, true);
@@ -99,7 +99,7 @@ public class CoverDrain extends CoverGeneric {
     }
 
     public boolean canWork() {
-        return !(mode.conditional && te instanceof IGregTechMachine && (((IGregTechMachine)te).isAllowedToWork() == mode.inverted));
+        return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine)te).isAllowedToWork() == mode.inverted);
     }
 
     private enum DrainMode {

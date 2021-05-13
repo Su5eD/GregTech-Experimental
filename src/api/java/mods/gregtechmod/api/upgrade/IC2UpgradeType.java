@@ -1,10 +1,6 @@
 package mods.gregtechmod.api.upgrade;
 
 import com.google.common.base.CaseFormat;
-import ic2.api.upgrade.IUpgradeItem;
-import ic2.core.item.upgrade.ItemUpgradeModule;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -35,17 +31,6 @@ public enum IC2UpgradeType {
         this.property = name;
         this.maxCount = maxCount;
         this.itemType = itemType;
-    }
-
-    public static IC2UpgradeType fromStack(ItemStack stack) {
-        Item item = stack.getItem();
-        if (item instanceof IUpgradeItem) {
-            ItemUpgradeModule.UpgradeType upgradeType = ItemUpgradeModule.UpgradeType.values()[stack.getMetadata()];
-            for (IC2UpgradeType type : values()) {
-                if (type.itemType.equals(upgradeType.name())) return type;
-            }
-        }
-        return null;
     }
 
     public static final Set<IC2UpgradeType> DEFAULT = EnumSet.of(OVERCLOCKER, TRANSFORMER, BATTERY);

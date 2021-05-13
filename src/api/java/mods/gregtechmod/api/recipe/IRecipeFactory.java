@@ -14,11 +14,11 @@ public interface IRecipeFactory {
 
     IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration, CellType cellType);
 
-    default IMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAssemblerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
+    default IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAssemblerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
         return makeAssemblerRecipe(input, null, output, duration, energyCost);
     }
 
-    IMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAssemblerRecipe(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost);
+    IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAssemblerRecipe(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost);
 
     default IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack output) {
         return makePulverizerRecipe(input, output, ItemStack.EMPTY, 0);
@@ -42,19 +42,19 @@ public interface IRecipeFactory {
 
     IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeCannerRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost);
 
-    IMachineRecipe<List<IRecipeIngredient>, ItemStack> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost);
+    IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost);
 
     IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeImplosionRecipe(IRecipeIngredient input, int tnt, List<ItemStack> output);
 
-    IMachineRecipe<IRecipeIngredient, ItemStack> makeWiremillRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
+    IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeWiremillRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
 
-    IMachineRecipe<IRecipeIngredient, ItemStack> makeBenderRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
+    IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeBenderRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
 
     IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeLatheRecipe(IRecipeIngredient input, List<ItemStack> output, int duration, double energyCost);
 
-    IMachineRecipe<IRecipeIngredient, ItemStack> makeVacuumFreezerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
+    IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeVacuumFreezerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost);
 
-    IMachineRecipe<List<IRecipeIngredient>, ItemStack> makeChemicalRecipe(List<IRecipeIngredient> input, ItemStack output, int duration);
+    IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeChemicalRecipe(List<IRecipeIngredient> input, ItemStack output, int duration);
 
     IRecipeFusion<IRecipeIngredientFluid, FluidStack> makeFluidFusionRecipe(List<IRecipeIngredientFluid> input, FluidStack output, int duration, double energyCost, double startEnergy);
 

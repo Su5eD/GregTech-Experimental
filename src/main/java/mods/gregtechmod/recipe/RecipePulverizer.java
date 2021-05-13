@@ -14,11 +14,13 @@ import java.util.List;
 public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>> implements IRecipePulverizer {
     private final int chance;
     private final boolean overwrite;
+    private final boolean universal;
 
-    private RecipePulverizer(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite) {
-        super(input, output, 300 * input.getCount(), 3);
+    private RecipePulverizer(IRecipeIngredient input, List<ItemStack> output, double energyCost, int chance, boolean overwrite, boolean universal) {
+        super(input, output, 300 * input.getCount(), energyCost);
         this.chance = chance;
         this.overwrite = overwrite;
+        this.universal = universal;
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, ItemStack output) {
@@ -38,9 +40,13 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
                                           @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                           @JsonProperty(value = "chance") int chance,
                                           @JsonProperty(value = "overwrite") boolean overwrite) {
+        return create(input, output, 3, chance, overwrite, true);
+    }
+
+    public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, double energyCost, int chance, boolean overwrite, boolean universal) {
         output = RecipeUtil.adjustOutputCount("pulverizer", output, 2);
 
-        RecipePulverizer recipe = new RecipePulverizer(input, output, chance < 1 ? 10 : chance, overwrite);
+        RecipePulverizer recipe = new RecipePulverizer(input, output, energyCost, chance < 1 ? 10 : chance, overwrite, universal);
 
         if (!RecipeUtil.validateRecipeIO("pulverizer", input, output)) recipe.invalid = true;
 
@@ -66,6 +72,11 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     @Override
     public boolean shouldOverwrite() {
         return this.overwrite;
+    }
+
+    @Override
+    public boolean isUniversal() {
+        return this.universal;
     }
 
     @Override

@@ -7,9 +7,18 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 
 import java.io.IOException;
 
-public abstract class RecipeSerializer<R extends IMachineRecipe<I, O>, I, O> extends JsonSerializer<R> {
-    protected boolean writeDuration = true;
-    protected boolean writeEnergyCost = true;
+public class RecipeSerializer<R extends IMachineRecipe<I, O>, I, O> extends JsonSerializer<R> {
+    protected final boolean writeDuration;
+    protected final boolean writeEnergyCost;
+
+    public RecipeSerializer() {
+        this(true, true);
+    }
+
+    public RecipeSerializer(boolean writeDuration, boolean writeEnergyCost) {
+        this.writeDuration = writeDuration;
+        this.writeEnergyCost = writeEnergyCost;
+    }
 
     @Override
     public void serialize(R value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
@@ -24,9 +33,13 @@ public abstract class RecipeSerializer<R extends IMachineRecipe<I, O>, I, O> ext
         gen.writeEndObject();
     }
 
-    public abstract void serializeInput(I input, JsonGenerator gen, SerializerProvider serializers) throws IOException;
+    public void serializeInput(I input, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        gen.writeObjectField("input", input);
+    }
 
-    public abstract void serializeOutput(O output, JsonGenerator gen, SerializerProvider serializers) throws IOException;
+    public void serializeOutput(O output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        gen.writeObjectField("output", output);
+    }
 
-    public abstract void serializeExtraFields(R recipe, JsonGenerator gen, SerializerProvider serializers) throws IOException;
+    public void serializeExtraFields(R recipe, JsonGenerator gen, SerializerProvider serializers) throws IOException {}
 }

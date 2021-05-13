@@ -10,10 +10,10 @@ public class Recipe<I, O> implements IMachineRecipe<I, O> {
     protected final int duration;
     protected boolean invalid;
 
-    public Recipe(@JsonProperty(value = "input", required = true) I input,
-                  @JsonProperty(value = "output", required = true) O output,
-                  @JsonProperty(value = "duration", required = true) int duration,
-                  @JsonProperty(value = "energyCost", required = true) double energyCost) {
+    protected Recipe(@JsonProperty(value = "input", required = true) I input,
+                    @JsonProperty(value = "output", required = true) O output,
+                    @JsonProperty(value = "duration", required = true) int duration,
+                    @JsonProperty(value = "energyCost", required = true) double energyCost) {
         this.input = input;
         this.output = output;
         this.energyCost = energyCost;

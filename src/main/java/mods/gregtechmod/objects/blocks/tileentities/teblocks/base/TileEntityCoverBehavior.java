@@ -1,7 +1,9 @@
 package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
+import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.util.InvUtil;
 import mods.gregtechmod.util.SidedRedstone;
 import mods.gregtechmod.util.SidedRedstoneEmitter;
 import net.minecraft.item.ItemStack;
@@ -28,13 +30,13 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
         for (ICover cover : coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
-            if (tickRate > 0 && tickCounter%tickRate == 0) cover.doCoverThings();
+            if (tickRate > 0 && tickCounter % tickRate == 0) cover.doCoverThings();
         }
 
 
         if (enableWorking != enableWorkingOld) {
             enableWorkingOld = enableWorking;
-            needsCoverBehaviorUpdate = true;
+            updateEnet();
         }
         tickCounter++;
     }
@@ -57,7 +59,27 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public boolean canInsertItem(int index, ItemStack stack, EnumFacing side) {
         if (!enableInput) return false;
         else if (coverHandler.covers.containsKey(side)) return coverHandler.covers.get(side).letsItemsIn() && super.canInsertItem(index, stack, side);
-        return super.canInsertItem(index, stack, side);
+        return tryInsert(index, stack, side);
+    }
+
+    protected boolean tryInsert(int index, ItemStack stack, EnumFacing side) {
+        if (!stack.isEmpty()) {
+            InvSlot targetSlot = InvUtil.getInventorySlot(this, index);
+            if (targetSlot != null && targetSlot.canInput() && targetSlot.accepts(stack)) {
+                if (targetSlot.preferredSide != InvSlot.InvSide.ANY && !strictInputSides() || targetSlot.preferredSide.matches(side)) {
+                    return true;
+                } else {
+                    return InvUtil.getInvSlots(this).stream()
+                            .allMatch(invSlot -> invSlot == targetSlot || invSlot.preferredSide == InvSlot.InvSide.ANY || !invSlot.preferredSide.matches(side) || !invSlot.canInput() || !invSlot.accepts(stack));
+                }
+            }
+        }
+
+        return false;
+    }
+
+    protected boolean strictInputSides() {
+        return true;
     }
 
     @Override
@@ -79,11 +101,12 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     protected boolean canConnectRedstone(EnumFacing side) {
-        if (side == null) return false;
-        EnumFacing aSide = side.getOpposite();
-        if (coverHandler.covers.containsKey(aSide)) {
-            ICover cover = coverHandler.covers.get(aSide);
-            return cover.letsRedstoneIn() || cover.letsRedstoneOut() || cover.acceptsRedstone() || cover.overrideRedstoneOut();
+        if (side != null) {
+            EnumFacing oppositeSide = side.getOpposite();
+            if (coverHandler.covers.containsKey(oppositeSide)) {
+                ICover cover = coverHandler.covers.get(oppositeSide);
+                return cover.letsRedstoneIn() || cover.letsRedstoneOut() || cover.acceptsRedstone() || cover.overrideRedstoneOut();
+            }
         }
         return false;
     }

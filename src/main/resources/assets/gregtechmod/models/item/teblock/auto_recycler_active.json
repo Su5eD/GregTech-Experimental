@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_bottom",
+    "down": "gregtechmod:blocks/machines/machine_bottom",
+    "up": "gregtechmod:blocks/machines/auto_recycler/auto_recycler_top_active",
+    "north": "gregtechmod:blocks/machines/auto_compressor/auto_compressor_front_active",
+    "south": "gregtechmod:blocks/machines/machine_side",
+    "east": "gregtechmod:blocks/machines/machine_side",
+    "west": "gregtechmod:blocks/machines/machine_side"
+  }
+}

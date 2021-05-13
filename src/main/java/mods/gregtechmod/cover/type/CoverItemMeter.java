@@ -33,7 +33,7 @@ public class CoverItemMeter extends CoverMeter {
             for (int i = 0; i < handler.getSlots(); i++) {
                 maxCount += 64;
                 ItemStack stack = handler.getStackInSlot(i);
-                count += (stack.getCount() * 64) / stack.getMaxStackSize();
+                count += stack.getCount() * 64 / stack.getMaxStackSize();
             }
         }
 

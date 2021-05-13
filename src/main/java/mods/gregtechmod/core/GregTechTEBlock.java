@@ -6,6 +6,7 @@ import ic2.core.block.ITeBlock;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.item.block.ItemBlockTileEntity;
 import ic2.core.ref.IC2Material;
+import ic2.core.ref.TeBlock;
 import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
@@ -28,11 +29,27 @@ import java.util.Locale;
 import java.util.Set;
 
 public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegisterer, ITeBlockSpecialItem {
-    INDUSTRIAL_CENTRIFUGE(TileEntityIndustrialCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
-    DIGITAL_CHEST(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, true),
-    QUANTUM_CHEST(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
-    QUANTUM_TANK(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, 5, 10, EnumRarity.UNCOMMON, IC2Material.MACHINE, false, true),
-    SONICTRON(TileEntitySonictron.class, 5, true, Collections.emptySet(), false, HarvestTool.Wrench, DefaultDrop.Self, 5, 10, EnumRarity.COMMON, IC2Material.MACHINE, false, false);
+    INDUSTRIAL_CENTRIFUGE(TileEntityIndustrialCentrifuge.class, 1, true, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.Machine, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    DIGITAL_CHEST(TileEntityDigitalChest.class, 2, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Machine, -1, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    QUANTUM_CHEST(TileEntityQuantumChest.class, 3, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.AdvMachine, -1, 30, EnumRarity.UNCOMMON, IC2Material.MACHINE, true),
+    QUANTUM_TANK(TileEntityQuantumTank.class, 4, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.AdvMachine, -1, 30, EnumRarity.UNCOMMON, IC2Material.MACHINE, true),
+    SONICTRON(TileEntitySonictron.class, 5, true, Collections.emptySet(), false, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, false),
+    AUTO_MACERATOR(TileEntityAutoMacerator.class, 6, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    AUTO_EXTRACTOR(TileEntityAutoExtractor.class, 7, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    AUTO_COMPRESSOR(TileEntityAutoCompressor.class, 8, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    AUTO_RECYCLER(TileEntityAutoRecycler.class, 9, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    AUTO_ELECTRIC_FURNACE(TileEntityAutoElectricFurnace.class, 10, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    WIREMILL(TileEntityWiremill.class, 11, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    ALLOY_SMELTER(TileEntityAlloySmelter.class, 12, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    AUTO_CANNER(TileEntityAutoCanner.class, 13, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    BENDER(TileEntityBender.class, 14, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    UNIVERSAL_MACERATOR(TileEntityUniversalMacerator.class, 15, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    MICROWAVE(TileEntityMicrowave.class, 16, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    PRINTER(TileEntityPrinter.class, 17, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    ASSEMBLER(TileEntityAssembler.class, 18, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    LATHE(TileEntityLathe.class, 19, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    INDUSTRIAL_ELECTROLYZER(TileEntityIndustrialElectrolyzer.class, 20, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    CHEMICAL_REACTOR(TileEntityChemicalReactor.class, 21, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;
@@ -45,15 +62,14 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     private final float explosionResistance;
     private final EnumRarity rarity;
     private final Material material;
-    private final boolean transparent;
-    private Class<? extends TileEntityBlock> teClass;
+    private final Class<? extends TileEntityBlock> teClass;
     public static final GregTechTEBlock[] VALUES = values();
     private TileEntityBlock dummyTe;
     private ITePlaceHandler placeHandler;
     private final boolean hasBakedModel;
 
     @SuppressWarnings("deprecation")
-    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material, boolean transparent, boolean hasBakedModel) {
+    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material, boolean hasBakedModel) {
         this.teClass = teClass;
         this.itemMeta = itemMeta;
         this.hasActive = hasActive;
@@ -65,11 +81,10 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         this.explosionResistance = explosionResistance;
         this.rarity = rarity;
         this.material = material;
-        this.transparent = transparent;
         this.hasBakedModel = hasBakedModel;
 
         if(teClass != null) {
-            GameRegistry.registerTileEntity(teClass, "gregtechmod:" + getName().toLowerCase(Locale.ROOT));
+            GameRegistry.registerTileEntity(teClass, "gregtechmod:" + getName());
         }
  	}
 
@@ -84,7 +99,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public boolean hasItem() {
-        return (this.teClass != null && this.itemMeta != -1);
+        return this.teClass != null && this.itemMeta != -1;
     }
 
     @Nullable
@@ -99,7 +114,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     }
 
     @Override
-    public java.util.Set<EnumFacing> getSupportedFacings() {
+    public Set<EnumFacing> getSupportedFacings() {
         return this.supportedFacings;
     }
 
@@ -114,7 +129,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     }
 
     @Override
-    public ic2.core.ref.TeBlock.HarvestTool getHarvestTool() {
+    public TeBlock.HarvestTool getHarvestTool() {
         return this.harvestTool;
     }
 
@@ -124,7 +139,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     }
 
     @Override
-    public net.minecraft.item.EnumRarity getRarity() {
+    public EnumRarity getRarity() {
         return this.rarity;
     }
 
@@ -196,8 +211,10 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public ModelResourceLocation getModelLocation(ItemStack itemStack) {
-        String location = Reference.MODID+":teblock/"+this.name().toLowerCase(Locale.ROOT);
-        return new ModelResourceLocation(location, this.name().toLowerCase(Locale.ROOT));
+        String name = getName();
+        String location = Reference.MODID+":teblock/"+name;
+        if (this.hasActive) location += "_active";
+        return new ModelResourceLocation(location, name);
     }
 }
 

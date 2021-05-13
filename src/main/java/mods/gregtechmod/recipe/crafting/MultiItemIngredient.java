@@ -20,10 +20,14 @@ public class MultiItemIngredient implements IIngredientFactory {
         String rawName = JsonUtils.getString(json, "item");
         String[] parts = rawName.split("#");
         String[] name = parts[0].split(":");
-        Item item = ModHandler.getItem(name[0], name[1]);
-        if (item instanceof IMultiItem<?>) {
-            ItemStack stack = ((IMultiItem<?>) item).getItemStack(parts[1]);
-            return Ingredient.fromStacks(stack);
+        if (name[0].equals("ic2")) {
+            return Ingredient.fromStacks(ModHandler.getIC2ItemSafely(name[1], parts[1]));
+        } else {
+            Item item = ModHandler.getItem(name[0], name[1]);
+            if (item instanceof IMultiItem<?>) {
+                ItemStack stack = ((IMultiItem<?>) item).getItemStack(parts[1]);
+                return Ingredient.fromStacks(stack);
+            }
         }
         throw new JsonSyntaxException("IMultiItem "+parts[0]+" not found");
     }

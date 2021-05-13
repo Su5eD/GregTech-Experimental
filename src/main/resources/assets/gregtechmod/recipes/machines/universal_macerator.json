@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "SGS",
+    "SPS",
+    "SBS"
+  ],
+  "key":
+  {
+    "S":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier03"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingMacerator"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingGrinder"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 15
+  }
+}

@@ -16,6 +16,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
 
@@ -52,6 +54,7 @@ public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
         }
 
         @Override
+        @SideOnly(Side.CLIENT)
         public GuiScreen getGui(EntityPlayer entityPlayer, boolean b) {
             return new GuiDestructorPack(new ContainerDestructorpack(entityPlayer, this));
         }

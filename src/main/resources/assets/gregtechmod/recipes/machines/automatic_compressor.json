@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "gregtechmod:multi",
+      "item": "ic2:te#compressor"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingConveyor"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 8
+  }
+}

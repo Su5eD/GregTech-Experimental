@@ -17,6 +17,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.recipe.RecipeAlloySmelter;
 import mods.gregtechmod.recipe.RecipePulverizer;
+import mods.gregtechmod.recipe.compat.GtBasicMachineRecipeManager;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;
@@ -27,7 +28,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
@@ -50,8 +50,8 @@ class DynamicRecipes {
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeAlloySmelter> ALLOY_SMELTER = new RecipeManagerAlloySmelter();
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> CANNER = new RecipeManagerMultiInput<>();
     static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> LATHE = new RecipeManagerBasic<>();
-    static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, ItemStack>> ASSEMBLER = new RecipeManagerMultiInput<>();
-    static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, ItemStack>> BENDER = new RecipeManagerBasic<>();
+    static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> ASSEMBLER = new RecipeManagerMultiInput<>();
+    static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> BENDER = new RecipeManagerBasic<>();
     static final IGtRecipeManagerSawmill SAWMILL = new RecipeManagerSawmill();
     static final IGtRecipeManagerCellular INDUSTRIAL_CENTRIFUGE = new RecipeManagerCellular();
     static final GtBasicMachineRecipeManager COMPRESSOR = new GtBasicMachineRecipeManager();
@@ -91,11 +91,11 @@ class DynamicRecipes {
         if (addLatheRecipes) LATHE.addRecipe(recipe);
     }
 
-    static void addAssemblerRecipe(IMachineRecipe<List<IRecipeIngredient>, ItemStack> recipe) {
+    static void addAssemblerRecipe(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe) {
         if (addAssemblerRecipes) ASSEMBLER.addRecipe(recipe);
     }
 
-    static void addBenderRecipe(IMachineRecipe<IRecipeIngredient, ItemStack> recipe) {
+    static void addBenderRecipe(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
         if (addBenderRecipes) BENDER.addRecipe(recipe);
     }
 
@@ -113,6 +113,10 @@ class DynamicRecipes {
 
     static void addExtractorRecipe(IRecipeInput input, ItemStack output) {
         if (addExtractorRecipes) EXTRACTOR.addRecipe(input, output);
+    }
+
+    static void addInductionSmelterRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
+        addInductionSmelterRecipe(primaryInput.getTranslationKey(), primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
     }
 
     static void addInductionSmelterRecipe(String name, ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
@@ -146,11 +150,15 @@ class DynamicRecipes {
     static void addDustToIngotSmeltingRecipe(String name, ItemStack input, ItemStack output) {
         ItemStack dust = StackUtil.copyWithSize(input, 2);
         ItemStack ingots = StackUtil.copyWithSize(output, 2);
-        ModHandler.addInductionSmelterRecipe(dust, new ItemStack(Blocks.SAND), ingots, ModHandler.slag, 800, 25);
+        addInductionSmelterRecipe(name, dust, new ItemStack(Blocks.SAND), ingots, ModHandler.slag, 800, 25);
         addSmeltingRecipe(name, input, output);
     }
 
-    static boolean addSmeltingRecipe(String name, ItemStack input, ItemStack output) {
+    public static boolean addSmeltingRecipe(ItemStack input, ItemStack output) {
+        return addSmeltingRecipe(input.getTranslationKey(), input, output);
+    }
+
+    public static boolean addSmeltingRecipe(String name, ItemStack input, ItemStack output) {
         if (!GregTechAPI.getDynamicConfig("smelting", name, true)) return false;
 
         FurnaceRecipes recipes = FurnaceRecipes.instance();
@@ -173,9 +181,9 @@ class DynamicRecipes {
         ItemStack ingots2 = StackUtil.copyWithSize(output, 2);
         ItemStack ingots3 = StackUtil.copyWithSize(output, 3);
 
-        ModHandler.addInductionSmelterRecipe(ore, new ItemStack(Blocks.SAND), ingots2, ModHandler.slagRich, 3200, 5);
-        ModHandler.addInductionSmelterRecipe(ore, ModHandler.slagRich, ingots3, ModHandler.slag, 4000, 75);
-        GameRegistry.addSmelting(input, output, 0);
+        addInductionSmelterRecipe(ore, new ItemStack(Blocks.SAND), ingots2, ModHandler.slagRich, 3200, 5);
+        addInductionSmelterRecipe(ore, ModHandler.slagRich, ingots3, ModHandler.slag, 4000, 75);
+        addSmeltingRecipe(input, output);
     }
 
     public static void addIngotToBlockRecipe(String material, ItemStack input, ItemStack output, boolean crafting, boolean decrafting) {
@@ -198,7 +206,7 @@ class DynamicRecipes {
         if (!(stack = ModHandler.getCraftingResult(input, input, input, input, ItemStack.EMPTY, input, input, input, input)).isEmpty() || !(stack = ModHandler.getCraftingResult(plateBronze, plateBronze, plateBronze, plateBronze, ItemStack.EMPTY, plateBronze, plateBronze, plateBronze, plateBronze)).isEmpty()) {
             OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
             addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "bronze"), 8)));
-            addSmeltingRecipe(stack.getTranslationKey(), stack, StackUtil.setSize(IC2Items.getItem("ingot", "bronze"), 8));
+            addSmeltingRecipe(stack, StackUtil.setSize(IC2Items.getItem("ingot", "bronze"), 8));
         }
 
         ItemStack glass = new ItemStack(Blocks.GLASS);
@@ -223,7 +231,7 @@ class DynamicRecipes {
                     !(stack = ModHandler.getCraftingResult(plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron, ItemStack.EMPTY, plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron)).isEmpty()) {
                 OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
                 addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), OreDictUnificator.get("dustRefinedIron", StackUtil.setSize(IC2Items.getItem("dust", "iron"), 8), 8)));
-                addSmeltingRecipe(stack.getTranslationKey(), stack, StackUtil.copyWithSize(ingotRefinedIron, 8));
+                addSmeltingRecipe(stack, StackUtil.copyWithSize(ingotRefinedIron, 8));
             }
         }
 

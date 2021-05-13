@@ -164,7 +164,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
                 ItemStack armor = ((EntityPlayer) entity).inventory.armorInventory.get(i);
                 if (!armor.isEmpty() && armor.getItem() == this && this.perks.contains(ArmorPerk.INERTIA_DAMPER)) {
                     int distance = (int) (event.getDistance() - 3);
-                    int cost = (this.damageEnergyCost * distance) / 4;
+                    int cost = this.damageEnergyCost * distance / 4;
                     if (cost <= ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true)) {
                         ElectricItem.manager.discharge(armor, cost, Integer.MAX_VALUE, true, false, true);
                         event.setCanceled(true);
@@ -177,7 +177,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
-        return new ArmorProperties((source == DamageSource.FALL && this.perks.contains(ArmorPerk.INERTIA_DAMPER))?10:0, getBaseAbsorptionRatio() * this.absorbtionPercentage, this.damageEnergyCost > 0 ? (int) (25 * ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true) / this.damageEnergyCost) : 0);
+        return new ArmorProperties(source == DamageSource.FALL && this.perks.contains(ArmorPerk.INERTIA_DAMPER) ?10:0, getBaseAbsorptionRatio() * this.absorbtionPercentage, this.damageEnergyCost > 0 ? (int) (25 * ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true) / this.damageEnergyCost) : 0);
     }
 
     @Override

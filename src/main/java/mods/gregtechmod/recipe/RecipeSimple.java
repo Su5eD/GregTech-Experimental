@@ -6,10 +6,13 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-public class RecipeSimple extends Recipe<IRecipeIngredient, ItemStack> {
+import java.util.Collections;
+import java.util.List;
+
+public class RecipeSimple extends Recipe<IRecipeIngredient, List<ItemStack>> {
 
     private RecipeSimple(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
-        super(input, output, duration, energyCost);
+        super(input, Collections.singletonList(output), duration, energyCost);
     }
 
     @JsonCreator

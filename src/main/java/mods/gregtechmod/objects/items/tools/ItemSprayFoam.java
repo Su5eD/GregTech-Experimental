@@ -77,7 +77,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
         } else if (tRotationPitch <= -65) {
             facing = EnumFacing.DOWN;
         } else {
-            switch (MathHelper.floor((player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 0x3) {
+            switch (MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3) {
                 case 0:
                     facing = EnumFacing.NORTH;
                     break;
@@ -118,7 +118,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
                 pos = pos.subtract(new Vec3i(factorX ? 1 : 0, factorY ? 1 : 0, factorZ ? 1 : 0));
                 for (byte i = 0; i < 3; i = (byte)(i + 1)) {
                     for (byte j = 0; j < 3; j = (byte)(j + 1)) {
-                        BlockPos placePos = new BlockPos(pos.getX() + (factorX ? i : 0), pos.getY() + ((!factorX && factorY) ? i : 0) + ((!factorZ && factorY) ? j : 0), pos.getZ() + (factorZ ? j : 0));
+                        BlockPos placePos = new BlockPos(pos.getX() + (factorX ? i : 0), pos.getY() + (!factorX && factorY ? i : 0) + (!factorZ && factorY ? j : 0), pos.getZ() + (factorZ ? j : 0));
                         if (world.isAirBlock(placePos)) {
                             world.setBlockState(placePos, Block.getBlockFromItem(itemFoam).getDefaultState());
                             if (!GtUtil.damageStack(player, stack, 1)) return EnumActionResult.PASS;

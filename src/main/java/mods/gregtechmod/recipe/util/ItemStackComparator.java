@@ -64,14 +64,14 @@ public class ItemStackComparator implements Comparator<ItemStack> {
                 diff += ((NBTTagString) first).getString().compareTo(((NBTTagString) second).getString());
                 break;
             case 9:
-                for (NBTBase firstTag : ((NBTTagList) first)) {
-                    for (NBTBase secondTag : ((NBTTagList) second)) {
+                for (NBTBase firstTag : (NBTTagList) first) {
+                    for (NBTBase secondTag : (NBTTagList) second) {
                         diff += compareNBTBase(firstTag, secondTag);
                     }
                 }
                 break;
             case 10:
-                diff += compareNBT(((NBTTagCompound) first), ((NBTTagCompound) second));
+                diff += compareNBT((NBTTagCompound) first, (NBTTagCompound) second);
                 break;
             case 11:
                 for (int i : ((NBTTagIntArray) first).getIntArray()) {

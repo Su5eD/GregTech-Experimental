@@ -27,7 +27,7 @@ public class RecipeCanner extends Recipe<List<IRecipeIngredient>, List<ItemStack
         input = RecipeUtil.adjustInputCount("canner", input, output, 2);
         output = RecipeUtil.adjustOutputCount("canner", output, 2);
 
-        RecipeCanner recipe = new RecipeCanner(input, output, duration <= 0 ? 1 : duration, energyCost);
+        RecipeCanner recipe = new RecipeCanner(input, output, duration <= 0 ? 1 : duration, Math.max(energyCost, 1));
 
         if (!RecipeUtil.validateRecipeIO("canner", input, output)) recipe.invalid = true;
 

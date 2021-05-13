@@ -10,7 +10,6 @@ import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
-import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -60,7 +59,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     protected boolean isPrivate;
 
     public final int defaultTier;
-    public final int defaultEnergyStorage;
+    public final double defaultEnergyStorage;
     public InvSlot upgradeSlot;
     public int overclockersCount;
     protected boolean hasSteamUpgrade;
@@ -71,13 +70,17 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     protected MjReceiverWrapper receiver;
     protected boolean hasMjUpgrade;
 
-    protected TileEntityUpgradable(String descriptionKey, int maxEnergy, int defaultTier) {
+    protected TileEntityUpgradable(String descriptionKey, double maxEnergy, int defaultTier) {
         this.descriptionKey = descriptionKey;
-        this.energy = addComponent(new Energy(this, maxEnergy, Util.allFacings, Collections.emptySet(), defaultTier));
+        this.energy = addComponent(new Energy(this, maxEnergy, getSinkDirs(), getSourceDirs(), defaultTier));
         this.defaultTier = defaultTier;
         this.upgradeSlot = new GtUpgradeSlot(this, "upgrades", InvSlot.Access.NONE, 8);
         this.defaultEnergyStorage = maxEnergy;
         this.fluids = addComponent(new Fluids(this));
+    }
+
+    protected Set<EnumFacing> getSourceDirs() {
+        return Collections.emptySet();
     }
 
     @Override
@@ -106,12 +109,12 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 boolean areItemsEqual = StackUtil.checkItemEquality(stack, upgradeStack);
 
                 if (currentItem instanceof IUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
-                    IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
+                    IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
                     if (upgradeType != null) {
-                        if (upgradeCount >= upgradeType.maxCount || (upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultTier + 1)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+                        if (upgradeCount >= upgradeType.maxCount || upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultTier + 1) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
                     }
                 }
-                else if (currentItem instanceof IGtUpgradeItem && ((areItemsEqual || upgradeStack.isEmpty()))) {
+                else if (currentItem instanceof IGtUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
                     if (((IGtUpgradeItem)currentItem).beforeInsert(upgradeStack, this, player)) return true;
                     else if (!((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
                 }
@@ -152,20 +155,28 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
         Item currentItem = stack.getItem();
         if (currentItem instanceof IGtUpgradeItem) {
-            ((IGtUpgradeItem)currentItem).afterInsert(stack, this, player);
+            onUpdateUpgrade((IGtUpgradeItem) currentItem, stack, player);
         } else if (currentItem instanceof IUpgradeItem) {
-            IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
-            switch (upgradeType) {
-                case OVERCLOCKER:
-                    setOverclockerCount(this.overclockersCount + stack.getCount());
-                    break;
-                case TRANSFORMER:
-                    this.energy.setSinkTier(Math.min(this.energy.getSinkTier() + stack.getCount(), 3));
-                    break;
-                case BATTERY:
-                    this.energy.setCapacity(this.energy.getCapacity()+(10000 * stack.getCount()));
-                    break;
-            }
+            IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
+            onUpdateUpgrade(upgradeType, stack);
+        }
+    }
+
+    protected void onUpdateUpgrade(IGtUpgradeItem item, ItemStack stack, EntityPlayer player) {
+        item.afterInsert(stack, this, player);
+    }
+
+    protected void onUpdateUpgrade(IC2UpgradeType type, ItemStack stack) {
+        switch (type) {
+            case OVERCLOCKER:
+                setOverclockerCount(this.overclockersCount + stack.getCount());
+                break;
+            case TRANSFORMER:
+                this.energy.setSinkTier(Math.min(this.energy.getSinkTier() + stack.getCount(), 3));
+                break;
+            case BATTERY:
+                this.energy.setCapacity(this.energy.getCapacity()+ 10000 * stack.getCount());
+                break;
         }
     }
 
@@ -222,17 +233,41 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
 
     @Override
     protected void updateEntityServer() {
-        if (world.isRemote) return;
         super.updateEntityServer();
-        if (needsCoverBehaviorUpdate) {
-            Set<EnumFacing> dirs = new HashSet<>(sinkDirections);
-            for (Map.Entry<EnumFacing, ICover> entry : coverHandler.covers.entrySet()) {
-                if (!entry.getValue().allowEnergyTransfer()) dirs.remove(entry.getKey());
-            }
-            this.energy.setDirections(dirs, Collections.emptySet());
-            needsCoverBehaviorUpdate = false;
-        }
         averageEUIn = calculateAverageInput();
+    }
+
+    @Override
+    public void updateEnet() {
+        Set<EnumFacing> sinkDirs = new HashSet<>(getSinkDirs());
+        this.coverHandler.covers.entrySet().stream()
+                .filter(entry -> !entry.getValue().allowEnergyTransfer())
+                .map(Map.Entry::getKey)
+                .forEach(sinkDirs::remove);
+
+        Set<EnumFacing> oldSourceDirs = this.energy.getSourceDirs();
+        Set<EnumFacing> sourceDirs = new HashSet<>(getSourceDirs());
+        this.energy.setDirections(sinkDirs, sourceDirs);
+
+        updateSourceTier();
+
+        if (oldSourceDirs.size() != sourceDirs.size() || !oldSourceDirs.containsAll(sourceDirs) && !sourceDirs.containsAll(oldSourceDirs)) {
+            this.energy.onUnloaded();
+            this.energy.onLoaded();
+        }
+    }
+
+    protected void updateSourceTier() {
+        int amperage = getOutputAmperage();
+        this.energy.setMultiSource(amperage > 1);
+        this.energy.setPacketOutput(amperage);
+
+        int sourceTier = getSourceTier();
+        this.energy.setSourceTier(sourceTier);
+    }
+
+    protected int getOutputAmperage() {
+        return 1;
     }
 
     @Override
@@ -399,23 +434,23 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     @Override
-    public int getUpgradecount(IC2UpgradeType type) {
+    public int getUpgradeCount(IC2UpgradeType type) {
         int total = 0;
         for (ItemStack stack : this.upgradeSlot) {
-            IC2UpgradeType upgradeType = IC2UpgradeType.fromStack(stack);
+            IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
             if (upgradeType != null && upgradeType == type) total += stack.getCount();
         }
         return total;
     }
 
     @Override
-    public int getUpgradecount(IGtUpgradeItem upgrade) {
+    public int getUpgradeCount(IGtUpgradeItem upgrade) {
         int total = 0;
         for (ItemStack stack : this.upgradeSlot) {
             Item item = stack.getItem();
             if (item instanceof IGtUpgradeItem && ((IGtUpgradeItem) item).getName().equals(upgrade.getName())) total += stack.getCount();
             else if (item instanceof IUpgradeItem) {
-                IC2UpgradeType type = IC2UpgradeType.fromStack(stack);
+                IC2UpgradeType type = GtUtil.getUpgradeType(stack);
                 if (type != null && type.itemType.equals(upgrade.getType().name())) total += stack.getCount();
             }
         }

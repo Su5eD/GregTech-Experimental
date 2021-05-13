@@ -5,12 +5,9 @@ import com.google.gson.internal.LinkedTreeMap;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
 
-import java.io.File;
 import java.io.Reader;
 import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.util.HashMap;
 
@@ -26,8 +23,7 @@ public class JsonHandler {
     public HashMap<String , LinkedTreeMap<String, String>> readFromJSON(String name) {
         try {
             Gson gson = new Gson();
-            File file = Loader.instance().activeModContainer().getSource();
-            FileSystem fs = FileSystems.newFileSystem(file.toPath(), null);
+            FileSystem fs = GtUtil.getModFile();
 
             Reader reader = Files.newBufferedReader(fs.getPath("/assets/"+ Reference.MODID+"/models/item/"+name+".json"));
 

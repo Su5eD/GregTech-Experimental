@@ -64,7 +64,7 @@ public class CoverEnergyOnly extends CoverGeneric {
 
     @Override
     public boolean allowEnergyTransfer() {
-        return !(mode.conditional && te instanceof IGregTechMachine && (((IGregTechMachine)te).isAllowedToWork() == mode.inverted));
+        return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine)te).isAllowedToWork() == mode.inverted);
     }
 
     @Override

@@ -5,6 +5,6 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public interface IRecipeAlloySmelter extends IMachineRecipe<List<IRecipeIngredient>, ItemStack> {
+public interface IRecipeAlloySmelter extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> {
     boolean isUniversal();
 }

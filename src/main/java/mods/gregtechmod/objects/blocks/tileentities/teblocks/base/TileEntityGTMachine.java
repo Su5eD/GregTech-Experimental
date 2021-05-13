@@ -2,9 +2,7 @@ package mods.gregtechmod.objects.blocks.tileentities.teblocks.base;
 
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
-import ic2.api.network.INetworkTileEntityEventListener;
 import ic2.core.ExplosionIC2;
-import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.block.comp.Energy;
 import ic2.core.block.invslot.InvSlotOutput;
@@ -13,7 +11,6 @@ import ic2.core.ref.FluidName;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
@@ -31,31 +28,43 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>, RM extends IGtRecipeManager<IRecipeIngredient, ItemStack, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, INetworkTileEntityEventListener, IScannerInfoProvider, IPanelInfoProvider {
+public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, IScannerInfoProvider, IPanelInfoProvider {
     public boolean shouldExplode;
     private boolean explode;
     private int explosionTier;
     public final RM recipeManager;
-    public final GtSlotProcessableItemStack<RM> inputSlot;
+    public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
 
     protected List<ItemStack> pendingRecipe = new ArrayList<>();
     protected double progress;
     public double baseEnergyConsume;
     public double energyConsume;
-    public int maxProgress = 0;
-    protected float guiProgress;
+    public int maxProgress;
+    protected double guiProgress;
 
-    public TileEntityGTMachine(String descriptionKey, int maxEnergy, int outputSlots, int inputSlots, int defaultTier, RM recipeManager) {
+    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int defaultTier, RM recipeManager) {
+        this(descriptionKey, maxEnergy, outputSlots, defaultTier, recipeManager, false);
+    }
+
+    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int defaultTier, RM recipeManager, boolean wildcardInput) {
         super(descriptionKey, maxEnergy, defaultTier);
         this.progress = 0;
         this.recipeManager = recipeManager;
-        this.inputSlot = new GtSlotProcessableItemStack<>(this, "input", inputSlots, recipeManager);
-        this.outputSlot = new InvSlotOutput(this, "output", outputSlots);
+        this.inputSlot = getInputSlot("input", wildcardInput);
+        this.outputSlot = getOutputSlot("output", outputSlots);
+    }
+
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
+        return new GtSlotProcessableItemStack<>(this, name, 1, acceptAnything ? null : recipeManager);
+    }
+
+    public InvSlotOutput getOutputSlot(String name, int count) {
+        return new InvSlotOutput(this, name, count);
     }
 
     public void readFromNBT(NBTTagCompound nbt) {
@@ -112,7 +121,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
 
     protected void updateEntityServer() {
         super.updateEntityServer();
-        boolean needsInvUpdate = false;
+        boolean dirty = false;
         if(this.explode) {
             this.energy.onUnloaded();
             this.explodeMachine(getExplosionPower(this.explosionTier, 1.5F));
@@ -121,23 +130,26 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         MachineSafety.checkSafety(this);
         R recipe = getRecipe();
         if (canOperate(recipe)) {
-            if (recipe != null) updateEnergyConsume(recipe);
+            updateEnergyConsume(recipe);
 
             if (this.energy.useEnergy(energyConsume) || hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(energyConsume))) {
-                needsInvUpdate = operate(recipe);
+                dirty = processRecipe(recipe);
             } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getEnergyForSteam(energyConsume))) {
-                needsInvUpdate = operate(recipe);
+                dirty = processRecipe(recipe);
                 steamTank.drain(neededSteam, true);
             } else stop();
-        }
+        } else stop();
 
-        this.guiProgress = (float) this.progress / this.maxProgress;
-        if (needsInvUpdate) markDirty();
+
+        this.guiProgress = this.progress / Math.max(this.maxProgress, 1);
+        if (dirty) markDirty();
     }
 
-    protected void updateEnergyConsume(R recipe) {
-        this.energyConsume = this.baseEnergyConsume = recipe.getEnergyCost();
-        overclockEnergyConsume();
+    protected void updateEnergyConsume(@Nullable R recipe) {
+        if (recipe != null) {
+            this.energyConsume = this.baseEnergyConsume = recipe.getEnergyCost();
+            overclockEnergyConsume();
+        }
     }
 
     public boolean canDrainSteam(int requiredAmount) {
@@ -161,18 +173,19 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
     }
 
     protected boolean canOperate(R recipe) {
-        boolean canWork = getActive() || !this.pendingRecipe.isEmpty();
+        boolean canWork = this.maxProgress > 0 || !this.pendingRecipe.isEmpty();
         if (!canWork && !enableWorking) return false;
-        return canWork || recipe != null;
+        return canWork || recipe != null && canAddOutput(recipe);
+    }
+    
+    protected boolean canAddOutput(R recipe) {
+        return this.outputSlot.canAdd(recipe.getOutput());
     }
 
-    protected boolean operate(R recipe) {
+    protected boolean processRecipe(R recipe) {
         boolean needsInvUpdate = false;
-            if (this.progress == 0) (IC2.network.get(true)).initiateTileEntityEvent( this, 0, true);
-            if (!getActive() && pendingRecipe.size() < 1) {
-                recipe.getOutput().stream().map(ItemStack::copy).forEach(this.pendingRecipe::add);
-                this.maxProgress = recipe.getDuration();
-                consumeInput(recipe);
+            if (this.maxProgress <= 0 && pendingRecipe.size() < 1) {
+                prepareRecipeForProcessing(recipe);
             }
 
             setActive(true);
@@ -182,12 +195,18 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
                 needsInvUpdate = true;
                 this.progress = 0;
                 this.energyConsume = 0;
-                (IC2.network.get(true)).initiateTileEntityEvent( this, 2, true);
-                setActive(false);
-                pendingRecipe.clear();
                 this.maxProgress = 0;
+                pendingRecipe.clear();
             }
         return needsInvUpdate;
+    }
+
+    protected void prepareRecipeForProcessing(R recipe) {
+        recipe.getOutput().stream()
+                .map(ItemStack::copy)
+                .forEach(this.pendingRecipe::add);
+        this.maxProgress = recipe.getDuration();
+        consumeInput(recipe);
     }
 
     protected void overclockEnergyConsume() {
@@ -200,33 +219,31 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<IRecipeIngred
         overclockEnergyConsume();
     }
 
-    @Override
-    public void onNetworkEvent(int i) {}
-
     protected void stop() {
-        if (this.progress != 0 && getActive()) IC2.network.get(true).initiateTileEntityEvent(this, 1, true);
-        if (GregTechConfig.MACHINES.constantNeedOfEnergy) this.progress = 0;
+        if (needsConstantEnergy()) this.progress = 0;
         setActive(false);
+    }
+
+    protected boolean needsConstantEnergy() {
+        return GregTechConfig.MACHINES.constantNeedOfEnergy;
     }
 
     public void consumeInput(R recipe) {
         consumeInput(recipe, false);
     }
 
-    public void consumeInput(R recipe, boolean consumeContainers) {
-        this.inputSlot.consume(recipe, consumeContainers);
-    }
+    public abstract void consumeInput(R recipe, boolean consumeContainers);
 
-    public void addOutput(Collection<ItemStack> processResult) {
-        this.outputSlot.add(processResult);
+    public void addOutput(List<ItemStack> output) {
+        this.outputSlot.add(output);
     }
 
     public abstract R getRecipe();
 
     public double getGuiValue(String name) {
-        if (name.equals("progress"))
-            return this.guiProgress;
-        throw new IllegalArgumentException(getClass().getSimpleName() + " Cannot get value for " + name);
+        if (name.equals("progress")) return this.guiProgress;
+
+        throw new IllegalArgumentException("Cannot get value for " + name);
     }
 
     public void explodeMachine(float power) {

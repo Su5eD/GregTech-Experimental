@@ -10,10 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class OreDictUnificator {
     private static final HashMap<String, ItemStack> name2OreMap = new HashMap<>();
@@ -145,12 +143,19 @@ public class OreDictUnificator {
     }
 
     public static String getAssociation(ItemStack stack) {
+        List<String> names = getAssociations(stack);
+
+        return !names.isEmpty() ? names.get(0) : "";
+    }
+
+    public static List<String> getAssociations(ItemStack stack) {
         String name = item2OreMap.get(stack);
         if (name == null) {
             int[] ids = OreDictionary.getOreIDs(stack);
-            if (ids.length > 0) name = OreDictionary.getOreName(ids[0]);
-        }
-        return name != null && !name.equalsIgnoreCase("unknown") ? name : "";
+            return Arrays.stream(ids)
+                    .mapToObj(OreDictionary::getOreName)
+                    .collect(Collectors.toList());
+        } else return Collections.singletonList(name);
     }
 
     public static boolean isItemInstanceOf(Block block, String name, boolean prefix) {
@@ -159,21 +164,10 @@ public class OreDictUnificator {
 
     public static boolean isItemInstanceOf(ItemStack stack, String name, boolean prefix) {
         if (stack.isEmpty() || name == null || name.isEmpty()) return false;
-        String string = item2OreMap.get(stack);
-        if (string == null) {
-            ItemStack ore = StackUtil.copyWithWildCard(stack);
-            string = item2OreMap.get(ore);
-            if (string == null) {
-                if (!prefix) {
-                    for (ItemStack oreStack : OreDictionary.getOres(name)) {
-                        if (!oreStack.isItemEqual(stack)) continue;
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
-        return prefix ? string.startsWith(name) : string.equals(name);
+
+        List<String> names = getAssociations(stack);
+        return names.stream()
+                .anyMatch(str -> prefix ? str.startsWith(name) : str.equals(name));
     }
 
     public static boolean registerOre(String name, ItemStack stack) {

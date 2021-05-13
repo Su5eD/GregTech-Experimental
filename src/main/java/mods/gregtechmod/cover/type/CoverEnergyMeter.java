@@ -51,7 +51,7 @@ public class CoverEnergyMeter extends CoverGeneric {
                     capacity = machine.getSteamCapacity();
                 }
             }
-            strength = (byte) (((stored + 1) / capacity) * 15);
+            strength = (byte) ((stored + 1) / capacity * 15);
         }
 
         if (strength > 0) {

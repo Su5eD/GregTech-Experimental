@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CPC"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "item": "gregtechmod:fuel_rod_thorium"
+    },
+    "P":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "plateCopper", "plateLead" ]
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:fuel_rod_thorium_dual"
+  }
+}

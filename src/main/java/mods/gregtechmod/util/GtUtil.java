@@ -2,9 +2,12 @@ package mods.gregtechmod.util;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.item.ElectricItem;
+import ic2.api.upgrade.IUpgradeItem;
+import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
@@ -13,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -77,6 +81,7 @@ public class GtUtil {
         return false;
     }
 
+    @SafeVarargs
     public static <T> List<T> nonNullList(T... elements) {
         return Stream.of(elements)
                 .filter(Objects::nonNull)
@@ -102,7 +107,7 @@ public class GtUtil {
         NBTTagList tagList = new NBTTagList();
         byte i;
         for (i = 0; i < pages; i = (byte)(i + 1)) {
-            String page = '\"'+GtUtil.translate("book." + name + ".page" + ((i < 10) ? ("0" + i) : i))+'\"';
+            String page = '\"'+GtUtil.translate("book." + name + ".page" + (i < 10 ? "0" + i : i))+'\"';
             if (i < 48) {
                 if (page.length() < 256) {
                     tagList.appendTag(new NBTTagString(page));
@@ -193,7 +198,7 @@ public class GtUtil {
             int maxSize = stack.getMaxStackSize();
             if (stack.getCount() > maxSize) {
                 list.remove(i);
-                int cycles = (stack.getCount() / maxSize) + 1;
+                int cycles = stack.getCount() / maxSize + 1;
                 for (int j = 0; j < cycles; j++) {
                     list.add(stack.splitStack(maxSize));
                 }
@@ -249,5 +254,16 @@ public class GtUtil {
 
     public static void sendMessage(EntityPlayer player, String message, Object... args) {
         if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(message, args));
+    }
+
+    public static IC2UpgradeType getUpgradeType(ItemStack stack) {
+        Item item = stack.getItem();
+        if (item instanceof IUpgradeItem) {
+            ItemUpgradeModule.UpgradeType upgradeType = ItemUpgradeModule.UpgradeType.values()[stack.getMetadata()];
+            for (IC2UpgradeType type : IC2UpgradeType.values()) {
+                if (type.itemType.equals(upgradeType.name())) return type;
+            }
+        }
+        return null;
     }
 }
