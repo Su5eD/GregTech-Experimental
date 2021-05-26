@@ -35,27 +35,32 @@ public class JEIModule implements IModPlugin {
     public static IIngredientRegistry itemRegistry;
     public static IIngredientBlacklist ingredientBlacklist;
 
+    private CategoryCentrifuge categoryCentrifuge;
     private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryWiremill;
     private CategoryBasicMachineMulti<RecipeAlloySmelter> categoryAlloySmelter;
     private CategoryBasicMachineMulti<RecipeCanner> categoryAutoCanner;
     private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryBender;
     private CategoryBasicMachineMulti<? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> categoryAssembler;
     private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryLathe;
+    private CategoryElectrolyzer categoryElectrolyzer;
+    private CategoryChemicalReactor categoryChemicalReactor;
+    private CategoryIndustrialBlastFurnace categoryIndustrialBlastFurnace;
 
     @Override
     public void register(IModRegistry registry) {
         itemRegistry = registry.getIngredientRegistry();
         ingredientBlacklist = registry.getJeiHelpers().getIngredientBlacklist();
 
-        CategoryCentrifuge.init(registry);
+        categoryCentrifuge.init(registry);
         categoryWiremill.init(registry);
         categoryAlloySmelter.init(registry);
         categoryAutoCanner.init(registry);
         categoryBender.init(registry);
         categoryAssembler.init(registry);
         categoryLathe.init(registry);
-        CategoryElectrolyzer.init(registry);
-        CategoryChemicalReactor.init(registry);
+        categoryElectrolyzer.init(registry);
+        categoryChemicalReactor.init(registry);
+        categoryIndustrialBlastFurnace.init(registry);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -76,15 +81,16 @@ public class JEIModule implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registry) {
         IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
         registry.addRecipeCategories(
-                new CategoryCentrifuge(guiHelper),
+                categoryCentrifuge = new CategoryCentrifuge(guiHelper),
                 categoryWiremill = new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, true, guiHelper, GtRecipes.wiremill),
                 categoryAlloySmelter = new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, false, guiHelper),
                 categoryAutoCanner = new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, true, guiHelper),
                 categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender),
                 categoryAssembler = new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, false, guiHelper),
                 categoryLathe = new CategoryLathe(guiHelper),
-                new CategoryElectrolyzer(guiHelper),
-                new CategoryChemicalReactor(guiHelper)
+                categoryElectrolyzer = new CategoryElectrolyzer(guiHelper),
+                categoryChemicalReactor = new CategoryChemicalReactor(guiHelper),
+                categoryIndustrialBlastFurnace = new CategoryIndustrialBlastFurnace(guiHelper)
         );
     }
 

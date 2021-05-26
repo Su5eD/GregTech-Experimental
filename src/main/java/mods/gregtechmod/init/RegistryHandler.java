@@ -1,10 +1,15 @@
 package mods.gregtechmod.init;
 
+import ic2.core.block.BlockTileEntity;
+import ic2.core.block.TeBlockRegistry;
+import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTable;
@@ -16,6 +21,11 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @EventBusSubscriber
 public class RegistryHandler {
     @SubscribeEvent
@@ -23,6 +33,11 @@ public class RegistryHandler {
         BlockItemLoader.init();
         event.getRegistry().registerAll(BlockItemLoader.BLOCKS.toArray(new Block[0]));
         GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(Reference.MODID, "light_source"));
+        
+        BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
+        Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
+                .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
+        GregTechObjectAPI.setTileEntityMap(teblocks);
     }
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {

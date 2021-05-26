@@ -2,26 +2,24 @@ package mods.gregtechmod.core;
 
 import ic2.api.event.TeBlockFinalCallEvent;
 import ic2.core.IC2;
-import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.cover.CoverHandler;
 import mods.gregtechmod.init.*;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntitySonictron;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityUniversalMacerator;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
+import mods.gregtechmod.objects.blocks.teblocks.component.CoilHandler;
+import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
+import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
-import mods.gregtechmod.util.SidedRedstoneEmitter;
 import mods.gregtechmod.world.OreGenerator;
 import mods.gregtechmod.world.RetrogenHandler;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
@@ -40,10 +38,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
@@ -82,8 +76,9 @@ public final class GregTechMod {
         ModHandler.checkLoadedMods();
 
         RegistryHandler.registerFluids();
-        Components.register(CoverHandler.class, "gtcover");
-        Components.register(SidedRedstoneEmitter.class, "gtsidedemitter");
+        Components.register(CoverHandler.class, Reference.MODID + ":cover_handler");
+        Components.register(SidedRedstoneEmitter.class, Reference.MODID + ":sided_emitter");
+        Components.register(CoilHandler.class, Reference.MODID + ":coil_handler");
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
     }
@@ -93,12 +88,7 @@ public final class GregTechMod {
         ModHandler.gatherModItems();
         proxy.init();
         GregTechTEBlock.buildDummies();
-
-        BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
-        Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
-                .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
-        GregTechObjectAPI.setTileEntityMap(teblocks);
-
+        
         OreDictRegistrar.registerItems();
         MachineRecipeLoader.loadRecipes();
         CraftingRecipeLoader.init();

@@ -12,7 +12,8 @@ import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.*;
+import mods.gregtechmod.objects.blocks.teblocks.*;
+import mods.gregtechmod.objects.blocks.teblocks.struct.TileEntityIndustrialBlastFurnace;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -49,7 +50,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     ASSEMBLER(TileEntityAssembler.class, 18, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
     LATHE(TileEntityLathe.class, 19, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
     INDUSTRIAL_ELECTROLYZER(TileEntityIndustrialElectrolyzer.class, 20, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
-    CHEMICAL_REACTOR(TileEntityChemicalReactor.class, 21, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true);
+    CHEMICAL_REACTOR(TileEntityChemicalReactor.class, 21, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    INDUSTRIAL_BLAST_FURNACE(TileEntityIndustrialBlastFurnace.class, 22, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;
@@ -67,9 +69,13 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     private TileEntityBlock dummyTe;
     private ITePlaceHandler placeHandler;
     private final boolean hasBakedModel;
+    private final boolean isStructure;
 
-    @SuppressWarnings("deprecation")
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material, boolean hasBakedModel) {
+        this(teClass, itemMeta, hasActive, supportedFacings, allowWrenchRotating, harvestTool, defaultDrop, hardness, explosionResistance, rarity, material, hasBakedModel, false);
+    }
+    
+    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material, boolean hasBakedModel, boolean isStructure) {
         this.teClass = teClass;
         this.itemMeta = itemMeta;
         this.hasActive = hasActive;
@@ -82,11 +88,16 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         this.rarity = rarity;
         this.material = material;
         this.hasBakedModel = hasBakedModel;
+        this.isStructure = isStructure;
 
         if(teClass != null) {
-            GameRegistry.registerTileEntity(teClass, "gregtechmod:" + getName());
+            GameRegistry.registerTileEntity(teClass, new ResourceLocation(Reference.MODID, getName()));
         }
  	}
+ 	
+ 	public boolean isStructure() {
+        return this.isStructure;
+    }
 
     public boolean hasBakedModel() {
         return this.hasBakedModel;
@@ -213,7 +224,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     public ModelResourceLocation getModelLocation(ItemStack itemStack) {
         String name = getName();
         String location = Reference.MODID+":teblock/"+name;
-        if (this.hasActive) location += "_active";
+        if (isStructure) location += "_valid";
+        else if (this.hasActive) location += "_active";
         return new ModelResourceLocation(location, name);
     }
 }

@@ -2,7 +2,7 @@ package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerSonictron;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerSonictron;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiSonictron extends GuiIC2<ContainerSonictron> {

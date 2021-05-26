@@ -44,7 +44,7 @@ public class CategoryCentrifuge implements IRecipeCategory<WrapperCellular> {
         tank = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 40, 0, 18, 18);
     }
 
-    public static void init(IModRegistry registry) {
+    public void init(IModRegistry registry) {
         registry.handleRecipes(RecipeCentrifuge.class, WrapperCellular::new, CategoryCentrifuge.UID);
 
         registry.addRecipes(CentrifugeRecipeFactory.INSTANCE.getCellularRecipes(GtRecipes.industrialCentrifuge, false), CategoryCentrifuge.UID);

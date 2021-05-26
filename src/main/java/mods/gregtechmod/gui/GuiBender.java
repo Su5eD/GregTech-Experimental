@@ -1,8 +1,8 @@
 package mods.gregtechmod.gui;
 
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityBender;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityBender;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiBender extends GuiBasicMachine<ContainerBasicMachine<TileEntityBender>> {

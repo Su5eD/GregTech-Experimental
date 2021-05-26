@@ -3,14 +3,16 @@ package mods.gregtechmod.init;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
+import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityIndustrialCentrifugeBase;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.render.RenderBlockOre;
+import mods.gregtechmod.render.RenderStructureTeBlock;
 import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.*;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -34,9 +36,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
@@ -60,16 +59,11 @@ public class ClientEventHandler {
         GT_CAPES = Collections.unmodifiableList(gtCapes);
 
         List<UUID> capes = new ArrayList<>();
-        try {
-            Path path = GtUtil.getModFile().getPath("assets", Reference.MODID, "GregTechCapes.txt");
-            Files.newBufferedReader(path).lines()
-                    .forEach(line -> {
-                        String id = (line.contains("#") ? line.split("#")[0] : line).trim();
-                        capes.add(UUID.fromString(id));
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        GtUtil.readAsset("GregTechCapes.txt").lines()
+                .forEach(line -> {
+                    String id = (line.contains("#") ? line.split("#")[0] : line).trim();
+                    capes.add(UUID.fromString(id));
+                });
         CAPES = Collections.unmodifiableList(capes);
     }
 
@@ -90,7 +84,7 @@ public class ClientEventHandler {
                 .forEach(block -> {
                     Item blockItem = Item.getItemFromBlock(block);
                     if (blockItem == Items.AIR) return;
-                    if (block instanceof IBlockCustomItem) registerModel(blockItem, 0, ((IBlockCustomItem)block).getItemModel());
+                    if (block instanceof ICustomItemModel) registerModel(blockItem, 0, ((ICustomItemModel)block).getItemModel());
                     else registerModel(blockItem);
                 });
 
@@ -101,6 +95,15 @@ public class ClientEventHandler {
                     registerModel(item, info.metadata, info.path);
                 });
         registerBakedModels();
+
+        Arrays.stream(GregTechTEBlock.values())
+                .filter(GregTechTEBlock::isStructure)
+                .filter(GregTechTEBlock::hasItem)
+                .forEach(te -> {
+                    String name = te.getName();
+                    ItemStack stack = GregTechObjectAPI.getTileEntity(name);
+                    ModelLoader.setCustomModelResourceLocation(stack.getItem(), stack.getMetadata(), new ModelResourceLocation(new ResourceLocation(Reference.MODID, "teblock/" + name + "_valid"), name));
+                });
     }
 
     private static void registerModel(Item item) {
@@ -119,7 +122,16 @@ public class ClientEventHandler {
                 if (teBlock.hasBakedModel()) {
                     String name = teBlock.getName();
                     JsonHandler json = new JsonHandler(name, "teblock");
-                    loader.register("models/block/"+name, new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle));
+                    
+                    RenderTeBlock renderer;
+                    if (teBlock.isStructure()) {
+                        JsonHandler valid = new JsonHandler(name + "_valid", "teblock");
+                        renderer = new RenderStructureTeBlock(json.generateMapFromJSON("textures"), valid.generateMapFromJSON("textures"), valid.particle);
+                    } else {
+                        renderer = new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle);
+                    }
+                    loader.register("models/block/"+name, renderer);
+                    
                     if (teBlock.hasActive()) {
                         json = new JsonHandler(name+"_active", "teblock");
                         loader.register("models/block/"+name+"_active", new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle));

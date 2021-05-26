@@ -1,8 +1,8 @@
 package mods.gregtechmod.gui;
 
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachine;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiPrinter extends GuiBasicMachine<ContainerBasicMachine<TileEntityBasicMachine<?, ?, ?, ?>>> {

@@ -35,7 +35,7 @@ public class CategoryElectrolyzer implements IRecipeCategory<WrapperCellular> {
         tank = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 40, 0, 18, 18);
     }
 
-    public static void init(IModRegistry registry) {
+    public void init(IModRegistry registry) {
         registry.handleRecipes(RecipeElectrolyzer.class, WrapperCellular::new, CategoryElectrolyzer.UID);
 
         registry.addRecipes(ElectrolyzerRecipeFactory.INSTANCE.getCellularRecipes(GtRecipes.industrialElectrolyzer, true), CategoryElectrolyzer.UID);

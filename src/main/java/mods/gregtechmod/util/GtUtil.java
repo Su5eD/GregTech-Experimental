@@ -7,10 +7,12 @@ import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,15 +32,12 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -49,18 +48,35 @@ public class GtUtil {
     public static final Supplier<String> NULL_SUPPLIER = () -> null;
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
-    private static FileSystem modFile;
+    private static Object modFile;
 
-    public static FileSystem getModFile() {
+    private static Object getModFile() {
         if (modFile == null) {
-            try {
-                File file = Loader.instance().activeModContainer().getSource();
-                modFile = FileSystems.newFileSystem(file.toPath(), null);
-            } catch (IOException e) {
-                e.printStackTrace();
+            File file = Loader.instance().activeModContainer().getSource();
+            if (file.isFile()) {
+                try {
+                    modFile = FileSystems.newFileSystem(file.toPath(), null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            else modFile = file.toPath();
         }
         return modFile;
+    }
+    
+    public static Path getAssetPath(String name) {
+        Object modFile = getModFile();
+        
+        if (modFile instanceof FileSystem) return ((FileSystem) modFile).getPath(name);
+        else return ((Path) modFile).resolve(name);
+    }
+    
+    public static BufferedReader readAsset(String path) {
+        InputStream is = GtUtil.class.getResourceAsStream("/assets/" + Reference.MODID + "/" + path);
+        if (is == null) throw new RuntimeException("Asset " + path + " not found");
+        
+        return new BufferedReader(new InputStreamReader(is));
     }
 
     public static <T, U> BiPredicate<T, U> alwaysTrue() {
@@ -265,5 +281,12 @@ public class GtUtil {
             }
         }
         return null;
+    }
+    
+    public static void consumeMultiInput(List<IRecipeIngredient> input, GtSlotProcessableItemStack<?, ?>... slots) {
+        Arrays.stream(slots)
+                .forEach(slot -> input.forEach(ingredient -> {
+                    if (ingredient.apply(slot.get())) slot.consume(ingredient.getCount(), true);
+                }));
     }
 }
