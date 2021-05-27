@@ -798,6 +798,8 @@ gregtechmod.teblock.chemical_reactor=Chemical Reactor
 gregtechmod.teblock.chemical_reactor.description=Let 2 chemical Substances react together with this!
 gregtechmod.teblock.industrial_blast_furnace=Industrial Blast Furnace
 gregtechmod.teblock.industrial_blast_furnace.description=You'll have a Blast!
+gregtechmod.teblock.industrial_grinder=Industrial Grinder
+gregtechmod.teblock.industrial_grinder.description=Ultimaceratron 42a
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

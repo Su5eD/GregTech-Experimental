@@ -1,6 +1,11 @@
 package mods.gregtechmod.compat.jei;
 
+import ic2.core.gui.Gauge;
 import ic2.core.util.StackUtil;
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IDrawableAnimated;
+import mezz.jei.api.gui.IDrawableStatic;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.util.GtUtil;
@@ -32,5 +37,21 @@ public class JEIUtils {
                             .collect(Collectors.toList());
                 })
                 .collect(Collectors.toList());
+    }
+    
+    public static IDrawable gaugeToDrawable(IGuiHelper guiHelper, Gauge.IGaugeStyle gauge) {
+        Gauge.GaugeProperties props = gauge.getProperties();
+        IDrawableStatic gaugeStatic = guiHelper.createDrawable(props.texture, props.uInner, props.vInner, props.innerWidth, props.innerHeight);
+        IDrawableAnimated.StartDirection direction = getDirection(props.vertical, props.reverse);
+        
+        return guiHelper.createAnimatedDrawable(gaugeStatic, 200, direction, false);
+    }
+    
+    private static IDrawableAnimated.StartDirection getDirection(boolean vertical, boolean reverse) {
+        if (vertical) {
+            return reverse ? IDrawableAnimated.StartDirection.BOTTOM : IDrawableAnimated.StartDirection.TOP;
+        }
+        
+        return reverse ? IDrawableAnimated.StartDirection.RIGHT : IDrawableAnimated.StartDirection.LEFT;
     }
 }

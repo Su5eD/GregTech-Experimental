@@ -35,8 +35,8 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     private final CoilHandler coilHandler;
     
     public TileEntityIndustrialBlastFurnace() {
-        super("industrial_blast_furnace", 10000, 2, 2, GtRecipes.blastFurnace);
-        secondaryInput = getInputSlot("secondary_input", false);
+        super("industrial_blast_furnace", 10000, 2, 2, GtRecipes.industrialBlastFurnace);
+        this.secondaryInput = getInputSlot("secondary_input", false);
         
         this.coilHandler = addComponent(new CoilHandler(this, 4, () -> IC2.network.get(true).updateTileEntityField(this, "coilHandler")));
     }
@@ -92,15 +92,6 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
         return new BlastFurnaceStructure(states);
     }
     
-    @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
-            
-        if (tickCounter % 5 == 0) {
-            this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world);
-        }
-    }
-    
     // ------ Coil Handling ------
     
     @Override
@@ -117,19 +108,16 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     
     // ---------------------------
 
-
     @Override
     protected boolean canOperate(IRecipeBlastFurnace recipe) {
         boolean ret = super.canOperate(recipe);
         if (ret) {
             Structure<BlastFurnaceStructure>.WorldStructure struct = checkWorldStructure();
-            if (struct.valid) {
-                if (recipe != null) {
-                    int heatCapacity = struct.instance.heatCapacity + this.coilHandler.heatingCoilTier * 500;
-                    return heatCapacity >= recipe.getHeat();
-                }
-                return true;
+            if (struct.instance != null) {
+                int heatCapacity = struct.instance.heatCapacity + this.coilHandler.heatingCoilTier * 500;
+                return heatCapacity >= recipe.getHeat();
             }
+            return true;
         }
         
         return false;
@@ -143,11 +131,6 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     @Override
     public IRecipeBlastFurnace getRecipe() {
         return this.recipeManager.getRecipeFor(Arrays.asList(this.inputSlot.get(), this.secondaryInput.get()));
-    }
-
-    @Override
-    protected boolean needsConstantEnergy() {
-        return super.needsConstantEnergy() && checkWorldStructure().valid;
     }
 
     @Override

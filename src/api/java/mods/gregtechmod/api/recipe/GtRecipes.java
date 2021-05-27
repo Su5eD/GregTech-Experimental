@@ -4,7 +4,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerFusionFluid;
-import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerGrinder;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
@@ -13,8 +12,8 @@ public class GtRecipes {
     public static IGtRecipeManagerCellular industrialCentrifuge;
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> assembler;
     public static IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IRecipePulverizer> pulverizer;
-    public static IGtRecipeManagerGrinder grinder;
-    public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeBlastFurnace> blastFurnace;
+    public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> industrialGrinder;
+    public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeBlastFurnace> industrialBlastFurnace;
     public static IGtRecipeManagerCellular industrialElectrolyzer;
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> canner;
     public static IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeAlloySmelter> alloySmelter;

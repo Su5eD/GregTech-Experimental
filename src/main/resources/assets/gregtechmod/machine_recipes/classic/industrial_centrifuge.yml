@@ -18,7 +18,7 @@
     item: ic2:nuclear#near_depleted_uranium
   output:
     - item: gregtechmod:dust_thorium
-    - item: ic2:cell#empty
+    - cell: empty
   duration: 500
 - input:
     item: ic2:nuclear#re_enriched_uranium
@@ -29,7 +29,7 @@
     - item: gregtechmod:dust_plutonium
     - item: gregtechmod:dust_thorium
       count: 4
-    - item: ic2:cell#empty
+    - cell: empty
       count: 5
   duration: 20000
 - input:

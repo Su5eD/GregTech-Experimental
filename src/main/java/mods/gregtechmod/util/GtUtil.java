@@ -29,9 +29,12 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -49,6 +52,7 @@ public class GtUtil {
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
     private static Object modFile;
+    public static final IFluidHandler VOID_TANK = new VoidTank();
 
     private static Object getModFile() {
         if (modFile == null) {
@@ -288,5 +292,30 @@ public class GtUtil {
                 .forEach(slot -> input.forEach(ingredient -> {
                     if (ingredient.apply(slot.get())) slot.consume(ingredient.getCount(), true);
                 }));
+    }
+    
+    private static class VoidTank implements IFluidHandler {
+        
+        @Override
+        public IFluidTankProperties[] getTankProperties() {
+            return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
+        }
+
+        @Override
+        public int fill(FluidStack resource, boolean doFill) {
+            return resource.amount;
+        }
+
+        @Nullable
+        @Override
+        public FluidStack drain(FluidStack resource, boolean doDrain) {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public FluidStack drain(int maxDrain, boolean doDrain) {
+            return null;
+        }
     }
 }

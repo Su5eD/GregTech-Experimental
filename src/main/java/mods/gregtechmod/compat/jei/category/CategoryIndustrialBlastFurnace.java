@@ -17,7 +17,7 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
-public class CategoryIndustrialBlastFurnace implements IRecipeCategory<WrapperMultiInput> {
+public class CategoryIndustrialBlastFurnace implements IRecipeCategory<WrapperMultiInput<?>> {
     public static final String UID = Reference.MODID + ".industrial_blast_furnace";
     private static final ResourceLocation GUI_PATH = new ResourceLocation(Reference.MODID, "textures/gui/industrial_blast_furnace.png");
     
@@ -36,7 +36,7 @@ public class CategoryIndustrialBlastFurnace implements IRecipeCategory<WrapperMu
     public void init(IModRegistry registry) {
         registry.handleRecipes(RecipeBlastFurnace.class, WrapperIndustrialBlastFurnace::new, CategoryIndustrialBlastFurnace.UID);
     
-        registry.addRecipes(RecipeWrapperFactory.getMultiRecipes(GtRecipes.blastFurnace, WrapperIndustrialBlastFurnace::new), CategoryIndustrialBlastFurnace.UID);
+        registry.addRecipes(RecipeWrapperFactory.getMultiRecipes(GtRecipes.industrialBlastFurnace, WrapperIndustrialBlastFurnace::new), CategoryIndustrialBlastFurnace.UID);
     
         registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("industrial_blast_furnace"), CategoryIndustrialBlastFurnace.UID);
     

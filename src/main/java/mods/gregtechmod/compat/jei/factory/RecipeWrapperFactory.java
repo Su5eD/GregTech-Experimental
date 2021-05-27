@@ -32,7 +32,8 @@ public class RecipeWrapperFactory {
                 .stream()
                 .filter(recipe -> recipe.getInput()
                         .stream()
-                        .noneMatch(IRecipeIngredient::isEmpty))
+                        .map(IRecipeIngredient::getMatchingInputs)
+                        .noneMatch(List::isEmpty))
                 .map(wrapperFactory)
                 .collect(Collectors.toList());
     }

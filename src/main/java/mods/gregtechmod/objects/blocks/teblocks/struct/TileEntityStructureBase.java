@@ -47,7 +47,27 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
     }
     
     @Override
+    protected void updateEntityServer() {
+        super.updateEntityServer();
+                
+        if (tickCounter % 5 == 0) {
+            this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world);
+        }
+    }
+
+    @Override
+    protected boolean canOperate(R recipe) {
+        return super.canOperate(recipe) && checkWorldStructure().valid;
+    }
+
+    @Override
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
         return super.getExtendedState(state).withProperty(PROPERTY_VALID, this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world).valid);
+    }
+    
+    
+    @Override
+    protected boolean needsConstantEnergy() {
+        return super.needsConstantEnergy() && checkWorldStructure().valid;
     }
 }

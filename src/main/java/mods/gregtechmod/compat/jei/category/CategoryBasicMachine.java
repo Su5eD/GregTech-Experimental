@@ -1,14 +1,18 @@
 package mods.gregtechmod.compat.jei.category;
 
+import ic2.core.gui.Gauge;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
-import mezz.jei.api.gui.*;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachine;
 import mods.gregtechmod.gui.GuiBasicMachine;
 import mods.gregtechmod.util.GtUtil;
@@ -26,7 +30,7 @@ public abstract class CategoryBasicMachine<W extends WrapperBasicMachine<R>, R e
     private final IDrawable background;
     private final IDrawable gauge;
 
-    public CategoryBasicMachine(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, boolean customTexture, IGuiHelper guiHelper) {
+    public CategoryBasicMachine(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, boolean customTexture, IGuiHelper guiHelper, Gauge.IGaugeStyle gauge) {
         this.name = name;
         this.recipeClass = recipeClass;
         this.guiClass = guiClass;
@@ -35,8 +39,8 @@ public abstract class CategoryBasicMachine<W extends WrapperBasicMachine<R>, R e
         this.background = guiHelper.drawableBuilder(guiTexture, 34, 24, 108, 18)
                 .addPadding(24, 44, 34, 34)
                 .build();
-        IDrawableStatic gaugeStatic = guiHelper.createDrawable(guiTexture, 176, 0, 20, 18);
-        this.gauge = guiHelper.createAnimatedDrawable(gaugeStatic, 200, IDrawableAnimated.StartDirection.LEFT, false);
+        
+        this.gauge = JEIUtils.gaugeToDrawable(guiHelper, gauge);
     }
 
     public void init(IModRegistry registry, IRecipeWrapperFactory<R> recipeWrapperFactory) {

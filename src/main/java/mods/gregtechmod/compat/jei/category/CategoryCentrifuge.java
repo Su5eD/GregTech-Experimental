@@ -2,15 +2,20 @@ package mods.gregtechmod.compat.jei.category;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
-import mezz.jei.api.gui.*;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IGuiFluidStackGroup;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.CentrifugeRecipeFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperCellular;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
 import mods.gregtechmod.util.GtUtil;
@@ -31,15 +36,11 @@ public class CategoryCentrifuge implements IRecipeCategory<WrapperCellular> {
         background = guiHelper.drawableBuilder(GUI_PATH, 48, 4, 79, 79)
                 .addPadding(0, 0, 48, 48)
                 .build();
-
-        IDrawableStatic gaugeUpStatic = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 20, 0, 10, 10);
-        gaugeUp = guiHelper.createAnimatedDrawable(gaugeUpStatic, 200, IDrawableAnimated.StartDirection.BOTTOM, false);
-        IDrawableStatic gaugeDownStatic = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 0, 0, 10, 10);
-        gaugeDown = guiHelper.createAnimatedDrawable(gaugeDownStatic, 200, IDrawableAnimated.StartDirection.TOP, false);
-        IDrawableStatic gaugeRightStatic = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 10, 0, 10, 10);
-        gaugeRight = guiHelper.createAnimatedDrawable(gaugeRightStatic, 200, IDrawableAnimated.StartDirection.LEFT, false);
-        IDrawableStatic gaugeLeftStatic = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 30, 0, 10, 10);
-        gaugeLeft = guiHelper.createAnimatedDrawable(gaugeLeftStatic, 200, IDrawableAnimated.StartDirection.RIGHT, false);
+        
+        gaugeUp = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_UP);
+        gaugeDown = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_DOWN);
+        gaugeRight = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_RIGHT);
+        gaugeLeft = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_LEFT);
 
         tank = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 40, 0, 18, 18);
     }

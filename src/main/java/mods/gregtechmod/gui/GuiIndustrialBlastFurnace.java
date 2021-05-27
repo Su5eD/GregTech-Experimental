@@ -14,11 +14,6 @@ public class GuiIndustrialBlastFurnace extends GuiStructure<ContainerBlastFurnac
         
         addElement(new LinkedGauge(this, 58, 28, container.base, "progress", GregtechGauge.BLASTING));
     }
-
-    @Override
-    protected void drawForegroundLayer(int mouseX, int mouseY) {
-        super.drawForegroundLayer(mouseX, mouseY);
-    }
         
     @Override
     protected void doWhenValid() {

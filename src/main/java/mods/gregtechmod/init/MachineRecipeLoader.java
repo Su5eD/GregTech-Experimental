@@ -133,13 +133,13 @@ public class MachineRecipeLoader {
                     registerRecipes("pulverizer", filtered, GtRecipes.pulverizer);
                 });
 
-        GtRecipes.grinder = new RecipeManagerGrinder();
-        parseRecipes("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
-                .ifPresent(recipes -> registerRecipes("grinder", recipes, GtRecipes.grinder));
+        GtRecipes.industrialGrinder = new RecipeManagerMultiInput<>();
+        parseRecipes("industrial_grinder", RecipeGrinder.class, RecipeFilter.Default.class)
+                .ifPresent(recipes -> registerRecipes("industrial grinder", recipes, GtRecipes.industrialGrinder));
 
-        GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
+        GtRecipes.industrialBlastFurnace = new RecipeManagerBlastFurnace();
         parseRecipes("industrial_blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
-                .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.blastFurnace));
+                .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.industrialBlastFurnace));
 
         GtRecipes.industrialElectrolyzer = new RecipeManagerCellular();
         parseRecipes("industrial_electrolyzer", RecipeElectrolyzer.class, null)

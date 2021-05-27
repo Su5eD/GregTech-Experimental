@@ -45,6 +45,7 @@ public class JEIModule implements IModPlugin {
     private CategoryElectrolyzer categoryElectrolyzer;
     private CategoryChemicalReactor categoryChemicalReactor;
     private CategoryIndustrialBlastFurnace categoryIndustrialBlastFurnace;
+    private CategoryIndustrialGrinder categoryIndustrialGrinder;
 
     @Override
     public void register(IModRegistry registry) {
@@ -61,6 +62,7 @@ public class JEIModule implements IModPlugin {
         categoryElectrolyzer.init(registry);
         categoryChemicalReactor.init(registry);
         categoryIndustrialBlastFurnace.init(registry);
+        categoryIndustrialGrinder.init(registry);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -82,15 +84,16 @@ public class JEIModule implements IModPlugin {
         IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
         registry.addRecipeCategories(
                 categoryCentrifuge = new CategoryCentrifuge(guiHelper),
-                categoryWiremill = new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, true, guiHelper, GtRecipes.wiremill),
-                categoryAlloySmelter = new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, false, guiHelper),
-                categoryAutoCanner = new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, true, guiHelper),
-                categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender),
-                categoryAssembler = new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, false, guiHelper),
+                categoryWiremill = new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, true, guiHelper, GtRecipes.wiremill, GregtechGauge.EXTRUDING),
+                categoryAlloySmelter = new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, false, guiHelper, GregtechGauge.SMELTING),
+                categoryAutoCanner = new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, true, guiHelper, GregtechGauge.CANNING),
+                categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender, GregtechGauge.BENDING),
+                categoryAssembler = new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, false, guiHelper, GregtechGauge.ASSEMBLING),
                 categoryLathe = new CategoryLathe(guiHelper),
                 categoryElectrolyzer = new CategoryElectrolyzer(guiHelper),
                 categoryChemicalReactor = new CategoryChemicalReactor(guiHelper),
-                categoryIndustrialBlastFurnace = new CategoryIndustrialBlastFurnace(guiHelper)
+                categoryIndustrialBlastFurnace = new CategoryIndustrialBlastFurnace(guiHelper),
+                categoryIndustrialGrinder = new CategoryIndustrialGrinder(guiHelper)
         );
     }
 

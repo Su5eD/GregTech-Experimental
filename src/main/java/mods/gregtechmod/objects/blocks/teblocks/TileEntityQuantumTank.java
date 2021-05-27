@@ -19,7 +19,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,16 +39,6 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
         this.inputSlot = new InvSlotConsumableLiquidByTank(this, "inputSlot", InvSlot.Access.I, 1, InvSlot.InvSide.TOP, InvSlotConsumableLiquid.OpType.Both, this.content);
         this.outputSlot = new InvSlotOutput(this, "outputSlot", 1);
         this.allowedCovers = Sets.newHashSet("generic", "normal", "drain", "item_meter", "liquid_meter", "pump_module", "machine_controller", "item_valve");
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbtTagCompound) {
-        super.readFromNBT(nbtTagCompound);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        return super.writeToNBT(nbt);
     }
 
     @Override

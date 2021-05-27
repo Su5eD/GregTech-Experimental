@@ -1,5 +1,6 @@
 package mods.gregtechmod.compat.jei.category;
 
+import ic2.core.gui.Gauge;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
@@ -17,8 +18,8 @@ public class CategoryBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredie
     private final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager;
 
     public CategoryBasicMachineSingle(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, boolean customTexture, IGuiHelper guiHelper,
-                                      IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager) {
-        super(name, recipeClass, guiClass, customTexture, guiHelper);
+                                      IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> recipeManager, Gauge.IGaugeStyle gauge) {
+        super(name, recipeClass, guiClass, customTexture, guiHelper, gauge);
         this.recipeManager = recipeManager;
     }
 

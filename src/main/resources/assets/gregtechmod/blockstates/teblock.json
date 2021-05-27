@@ -41,7 +41,8 @@
       "industrial_electrolyzer_active": { "model": "gregtechmod:industrial_electrolyzer_active" },
       "chemical_reactor": { "model": "gregtechmod:chemical_reactor" },
       "chemical_reactor_active": { "model": "gregtechmod:chemical_reactor_active" },
-      "industrial_blast_furnace": { "model": "gregtechmod:industrial_blast_furnace" }
+      "industrial_blast_furnace": { "model": "gregtechmod:industrial_blast_furnace" },
+      "industrial_grinder": { "model": "gregtechmod:industrial_grinder" }
     },
     "facing": {
       "down": { "x": 90 },
