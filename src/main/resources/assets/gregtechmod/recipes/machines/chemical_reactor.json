@@ -13,6 +13,10 @@
       "type": "forge:ore_dict",
       "ore": "craftingExtractor"
     },
+    "M": {
+      "type": "forge:ore_dict",
+      "ore": "craftingElectromagnet"
+    },
     "E":
     {
       "type": "forge:ore_dict",

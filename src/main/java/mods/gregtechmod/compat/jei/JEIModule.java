@@ -5,11 +5,13 @@ import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.category.*;
 import mods.gregtechmod.gui.*;
@@ -23,6 +25,9 @@ import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.IObjectHolder;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +37,7 @@ import java.util.Objects;
 @JEIPlugin
 public class JEIModule implements IModPlugin {
     public static final List<ItemStack> HIDDEN_ITEMS = new ArrayList<>();
+    public static final List<IRecipeWrapper> HIDDEN_RECIPES = new ArrayList<>();
     public static IIngredientRegistry itemRegistry;
     public static IIngredientBlacklist ingredientBlacklist;
 
@@ -120,6 +126,13 @@ public class JEIModule implements IModPlugin {
         DamagedOreIngredientFixer.FIXED_RECIPES.stream()
                 .map(recipe -> registry.getRecipeWrapper(recipe, VanillaRecipeCategoryUid.CRAFTING))
                 .filter(Objects::nonNull)
+                .forEach(HIDDEN_RECIPES::add);
+
+        // Hide the data orb clean recipe
+        IRecipe dataOrbRepair = ForgeRegistries.RECIPES.getValue(new ResourceLocation(Reference.MODID, "components/data_orb_clean"));
+        if (dataOrbRepair != null) HIDDEN_RECIPES.add(registry.getRecipeWrapper(dataOrbRepair, VanillaRecipeCategoryUid.CRAFTING));
+       
+        HIDDEN_RECIPES
                 .forEach(recipe -> registry.hideRecipe(recipe, VanillaRecipeCategoryUid.CRAFTING));
     }
 
