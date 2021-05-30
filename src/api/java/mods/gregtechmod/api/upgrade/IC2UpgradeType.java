@@ -10,6 +10,8 @@ public enum IC2UpgradeType {
     TRANSFORMER(2),
     BATTERY("EnergyStorage", 16);
 
+    public static final Set<IC2UpgradeType> DEFAULT = EnumSet.of(OVERCLOCKER, TRANSFORMER, BATTERY);
+    
     public final String property;
     public final int maxCount;
     public final String itemType;
@@ -32,6 +34,4 @@ public enum IC2UpgradeType {
         this.maxCount = maxCount;
         this.itemType = itemType;
     }
-
-    public static final Set<IC2UpgradeType> DEFAULT = EnumSet.of(OVERCLOCKER, TRANSFORMER, BATTERY);
 }

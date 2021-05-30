@@ -800,6 +800,8 @@ gregtechmod.teblock.industrial_blast_furnace=Industrial Blast Furnace
 gregtechmod.teblock.industrial_blast_furnace.description=You'll have a Blast!
 gregtechmod.teblock.industrial_grinder=Industrial Grinder
 gregtechmod.teblock.industrial_grinder.description=Ultimaceratron 42a
+gregtechmod.teblock.implosion_compressor=Implosion Compressor
+gregtechmod.teblock.implosion_compressor.description=Over 9000 Gibbl!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

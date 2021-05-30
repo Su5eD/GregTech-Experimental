@@ -52,6 +52,7 @@ public class JEIModule implements IModPlugin {
     private CategoryChemicalReactor categoryChemicalReactor;
     private CategoryIndustrialBlastFurnace categoryIndustrialBlastFurnace;
     private CategoryIndustrialGrinder categoryIndustrialGrinder;
+    private CategoryImplosionCommpressor categoryImplosionCommpressor;
 
     @Override
     public void register(IModRegistry registry) {
@@ -69,6 +70,7 @@ public class JEIModule implements IModPlugin {
         categoryChemicalReactor.init(registry);
         categoryIndustrialBlastFurnace.init(registry);
         categoryIndustrialGrinder.init(registry);
+        categoryImplosionCommpressor.init(registry);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -99,7 +101,8 @@ public class JEIModule implements IModPlugin {
                 categoryElectrolyzer = new CategoryElectrolyzer(guiHelper),
                 categoryChemicalReactor = new CategoryChemicalReactor(guiHelper),
                 categoryIndustrialBlastFurnace = new CategoryIndustrialBlastFurnace(guiHelper),
-                categoryIndustrialGrinder = new CategoryIndustrialGrinder(guiHelper)
+                categoryIndustrialGrinder = new CategoryIndustrialGrinder(guiHelper),
+                categoryImplosionCommpressor = new CategoryImplosionCommpressor(guiHelper)
         );
     }
 
