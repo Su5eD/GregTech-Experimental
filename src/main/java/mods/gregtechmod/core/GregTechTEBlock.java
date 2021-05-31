@@ -16,6 +16,7 @@ import mods.gregtechmod.objects.blocks.teblocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.struct.TileEntityImplosionCompressor;
 import mods.gregtechmod.objects.blocks.teblocks.struct.TileEntityIndustrialBlastFurnace;
 import mods.gregtechmod.objects.blocks.teblocks.struct.TileEntityIndustrialGrinder;
+import mods.gregtechmod.objects.blocks.teblocks.struct.TileEntityVacuumFreezer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -55,7 +56,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     CHEMICAL_REACTOR(TileEntityChemicalReactor.class, 21, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
     INDUSTRIAL_BLAST_FURNACE(TileEntityIndustrialBlastFurnace.class, 22, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true),
     INDUSTRIAL_GRINDER(TileEntityIndustrialGrinder.class, 23, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true),
-    IMPLOSION_COMPRESSOR(TileEntityImplosionCompressor.class, 24, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true);
+    IMPLOSION_COMPRESSOR(TileEntityImplosionCompressor.class, 24, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true),
+    VACUUM_FREEZER(TileEntityVacuumFreezer.class, 25, false, Collections.singleton(EnumFacing.NORTH), false, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;

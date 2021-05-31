@@ -802,6 +802,8 @@ gregtechmod.teblock.industrial_grinder=Industrial Grinder
 gregtechmod.teblock.industrial_grinder.description=Ultimaceratron 42a
 gregtechmod.teblock.implosion_compressor=Implosion Compressor
 gregtechmod.teblock.implosion_compressor.description=Over 9000 Gibbl!
+gregtechmod.teblock.vacuum_freezer=Vacuum Freezer
+gregtechmod.teblock.vacuum_freezer.description=Cools down anything
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

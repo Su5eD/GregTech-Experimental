@@ -2,25 +2,27 @@ package mods.gregtechmod.gui;
 
 import ic2.core.gui.Gauge;
 import mods.gregtechmod.core.GregTechMod;
+import net.minecraft.util.ResourceLocation;
 
 public enum GregtechGauge implements Gauge.IGaugeStyle {
     SMALL_ARROW_RIGHT(new Gauge.GaugePropertyBuilder(10, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GregTechMod.COMMON_TEXTURE).withSmooth(false).build()),
     SMALL_ARROW_UP(new Gauge.GaugePropertyBuilder(20, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Up).withTexture(GregTechMod.COMMON_TEXTURE).withSmooth(false).build()),
     SMALL_ARROW_LEFT(new Gauge.GaugePropertyBuilder(30, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Left).withTexture(GregTechMod.COMMON_TEXTURE).withSmooth(false).build()),
     SMALL_ARROW_DOWN(new Gauge.GaugePropertyBuilder(0, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Down).withTexture(GregTechMod.COMMON_TEXTURE).withSmooth(false).build()),
-    MACERATING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoMacerator.TEXTURE).withSmooth(false).build()),
-    EXTRACTING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoExtractor.TEXTURE).withSmooth(false).build()),
-    COMPRESSING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoCompressor.TEXTURE).withSmooth(false).build()),
-    RECYCLING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoRecycler.TEXTURE).withSmooth(false).build()),
-    SMELTING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoElectricFurnace.TEXTURE).withSmooth(false).build()),
-    EXTRUDING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiWiremill.TEXTURE).withSmooth(false).build()),
-    CANNING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAutoCanner.TEXTURE).withSmooth(false).build()),
-    BENDING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiBender.TEXTURE).withSmooth(false).build()),
-    ASSEMBLING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiAssembler.TEXTURE).withSmooth(false).build()),
-    TURNING(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiLathe.TEXTURE).withSmooth(false).build()),
-    BLASTING(new Gauge.GaugePropertyBuilder(176, 0, 20, 11, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiIndustrialBlastFurnace.TEXTURE).withSmooth(false).build()),
-    GRINDER_WATER_LEVEL(new Gauge.GaugePropertyBuilder(176, 0, 20, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Up).withTexture(GuiIndustrialGrinder.TEXTURE).withSmooth(false).build()),
-    IMPLODING(new Gauge.GaugePropertyBuilder(176, 0, 20, 11, Gauge.GaugePropertyBuilder.GaugeOrientation.Right).withTexture(GuiImplosionCompressor.TEXTURE).withSmooth(false).build());
+    MACERATING(buildGaugeFromGui(GuiAutoMacerator.TEXTURE)),
+    EXTRACTING(buildGaugeFromGui(GuiAutoExtractor.TEXTURE)),
+    COMPRESSING(buildGaugeFromGui(GuiAutoCompressor.TEXTURE)),
+    RECYCLING(buildGaugeFromGui(GuiAutoRecycler.TEXTURE)),
+    SMELTING(buildGaugeFromGui(GuiAutoElectricFurnace.TEXTURE)),
+    EXTRUDING(buildGaugeFromGui(GuiWiremill.TEXTURE)),
+    CANNING(buildGaugeFromGui(GuiAutoCanner.TEXTURE)),
+    BENDING(buildGaugeFromGui(GuiBender.TEXTURE)),
+    ASSEMBLING(buildGaugeFromGui(GuiAssembler.TEXTURE)),
+    TURNING(buildGaugeFromGui(GuiLathe.TEXTURE)),
+    BLASTING(buildGaugeFromGui(GuiIndustrialBlastFurnace.TEXTURE, 11)),
+    GRINDER_WATER_LEVEL(buildGaugeFromGui(GuiIndustrialGrinder.TEXTURE)),
+    IMPLODING(buildGaugeFromGui(GuiImplosionCompressor.TEXTURE, 11)),
+    FREEZING(buildGaugeFromGui(GuiVacuumFreezer.TEXTURE, 11));
 
     public final Gauge.GaugeProperties properties;
 
@@ -31,5 +33,16 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     @Override
     public Gauge.GaugeProperties getProperties() {
         return this.properties;
+    }
+    
+    private static Gauge.GaugeProperties buildGaugeFromGui(ResourceLocation texture) {
+        return buildGaugeFromGui(texture, 18);
+    }
+    
+    private static Gauge.GaugeProperties buildGaugeFromGui(ResourceLocation texture, int height) {
+        return new Gauge.GaugePropertyBuilder(176, 0, 20, height, Gauge.GaugePropertyBuilder.GaugeOrientation.Right)
+                .withTexture(texture)
+                .withSmooth(false)
+                .build();
     }
 }
