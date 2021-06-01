@@ -26,8 +26,7 @@
     "E":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "industrial electrolyzer"
+      "data": 20
     },
     "P":
     {
@@ -38,6 +37,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 26
   }
 }

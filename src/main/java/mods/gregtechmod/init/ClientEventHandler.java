@@ -11,6 +11,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
+import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.render.RenderBlockOre;
 import mods.gregtechmod.render.RenderStructureTeBlock;
 import mods.gregtechmod.render.RenderTeBlock;
@@ -216,7 +217,7 @@ public class ClientEventHandler {
 
         FluidStack fluidContained = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();
-        if (TileEntityIndustrialCentrifugeBase.isCell(item) && fluidContained != null) {
+        if (TileEntityIndustrialCentrifugeBase.isCell(item) && fluidContained != null && !(item instanceof ItemCellClassic)) {
             FluidLoader.FLUIDS.forEach(provider -> {
                 if (provider.getFluid() == fluidContained.getFluid()) {
                     String description = provider.getDescription();

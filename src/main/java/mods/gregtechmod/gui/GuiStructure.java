@@ -17,8 +17,12 @@ public abstract class GuiStructure<T extends ContainerBase<? extends TileEntityS
         
         Structure<?>.WorldStructure struct = container.base.checkWorldStructure();
         if (struct.valid) doWhenValid();
-        else drawString(8, ySize - 103, GtUtil.translateInfo("structure_invalid"), 4210752, false);
+        else doWhenInvalid();
     }
 
     protected void doWhenValid() {}
+    
+    protected void doWhenInvalid() {
+        drawString(8, ySize - 103, GtUtil.translateInfo("structure_invalid"), 4210752, false);
+    }
 }

@@ -189,7 +189,7 @@ public class MachineRecipeLoader {
         parseRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("sawmill", recipes, GtRecipes.sawmill));
 
-        GtRecipes.distillation = new RecipeManagerBasic<>();
+        GtRecipes.distillation = new RecipeManagerCellular();
         parseRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("distillation", recipes, GtRecipes.distillation));
 

@@ -804,6 +804,8 @@ gregtechmod.teblock.implosion_compressor=Implosion Compressor
 gregtechmod.teblock.implosion_compressor.description=Over 9000 Gibbl!
 gregtechmod.teblock.vacuum_freezer=Vacuum Freezer
 gregtechmod.teblock.vacuum_freezer.description=Cools down anything
+gregtechmod.teblock.distillation_tower=Distillation Tower
+gregtechmod.teblock.distillation_tower.description=Like a Refinery, but with byproducts, and more Energy Efficient
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

@@ -22,7 +22,8 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     BLASTING(buildGaugeFromGui(GuiIndustrialBlastFurnace.TEXTURE, 11)),
     GRINDER_WATER_LEVEL(buildGaugeFromGui(GuiIndustrialGrinder.TEXTURE)),
     IMPLODING(buildGaugeFromGui(GuiImplosionCompressor.TEXTURE, 11)),
-    FREEZING(buildGaugeFromGui(GuiVacuumFreezer.TEXTURE, 11));
+    FREEZING(buildGaugeFromGui(GuiVacuumFreezer.TEXTURE, 11)),
+    DISTILLING(new Gauge.GaugePropertyBuilder(176, 0, 16, 72, Gauge.GaugePropertyBuilder.GaugeOrientation.Up).withTexture(GuiDistillationTower.TEXTURE).withSmooth(false).build());
 
     public final Gauge.GaugeProperties properties;
 
