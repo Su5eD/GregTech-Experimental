@@ -52,7 +52,7 @@ public class JEIModule implements IModPlugin {
     private CategoryChemicalReactor categoryChemicalReactor;
     private CategoryIndustrialBlastFurnace categoryIndustrialBlastFurnace;
     private CategoryIndustrialGrinder categoryIndustrialGrinder;
-    private CategoryImplosionCommpressor categoryImplosionCommpressor;
+    private CategoryImplosionCompressor categoryImplosionCompressor;
     private CategoryVacuumFreezer categoryVacuumFreezer;
     private CategoryDistillationTower categoryDistillationTower;
 
@@ -72,7 +72,7 @@ public class JEIModule implements IModPlugin {
         categoryChemicalReactor.init(registry);
         categoryIndustrialBlastFurnace.init(registry);
         categoryIndustrialGrinder.init(registry);
-        categoryImplosionCommpressor.init(registry);
+        categoryImplosionCompressor.init(registry);
         categoryVacuumFreezer.init(registry);
         categoryDistillationTower.init(registry);
 
@@ -106,7 +106,7 @@ public class JEIModule implements IModPlugin {
                 categoryChemicalReactor = new CategoryChemicalReactor(guiHelper),
                 categoryIndustrialBlastFurnace = new CategoryIndustrialBlastFurnace(guiHelper),
                 categoryIndustrialGrinder = new CategoryIndustrialGrinder(guiHelper),
-                categoryImplosionCommpressor = new CategoryImplosionCommpressor(guiHelper),
+                categoryImplosionCompressor = new CategoryImplosionCompressor(guiHelper),
                 categoryVacuumFreezer = new CategoryVacuumFreezer(guiHelper),
                 categoryDistillationTower = new CategoryDistillationTower(guiHelper)
         );

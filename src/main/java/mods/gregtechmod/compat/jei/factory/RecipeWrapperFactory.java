@@ -4,7 +4,6 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
-import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachine;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineMulti;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineSingle;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class RecipeWrapperFactory {
     
-    public static List<? extends WrapperBasicMachine<IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> getBasicMachineSingleRecipes(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
+    public static List<? extends WrapperBasicMachineSingle> getBasicMachineSingleRecipes(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
         return manager.getRecipes()
                 .stream()
                 .filter(recipe -> !recipe.getInput().getMatchingInputs().isEmpty())
@@ -27,7 +26,7 @@ public class RecipeWrapperFactory {
         return getMultiRecipes(manager, WrapperBasicMachineMulti::new);
     }
 
-    public static <R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> List<? extends IRecipeWrapper> getMultiRecipes(IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, R> manager, Function<R, IRecipeWrapper> wrapperFactory) {
+    public static <R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, W extends IRecipeWrapper> List<? extends W> getMultiRecipes(IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, R> manager, Function<R, W> wrapperFactory) {
         return manager.getRecipes()
                 .stream()
                 .filter(recipe -> recipe.getInput()

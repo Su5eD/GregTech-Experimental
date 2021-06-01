@@ -1,13 +1,12 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>> extends ContainerFullInv<T> {
+public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>> extends ContainerMachineBase<T> {
 
     public ContainerBasicMachine(EntityPlayer player, T base) {
         super(player, base, 166);
@@ -19,12 +18,10 @@ public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>>
     }
 
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("guiProgress");
-        ret.add("provideEnergy");
-        ret.add("autoOutput");
-        ret.add("splitInput");
-        return ret;
+    protected void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("provideEnergy");
+        list.add("autoOutput");
+        list.add("splitInput");
     }
 }

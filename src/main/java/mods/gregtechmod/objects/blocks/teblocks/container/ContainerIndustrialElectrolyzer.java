@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityIndustrialElectrolyzer;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
@@ -8,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerIndustrialElectrolyzer extends ContainerFullInv<TileEntityIndustrialCentrifugeBase> {
+public class ContainerIndustrialElectrolyzer extends ContainerMachineBase<TileEntityIndustrialCentrifugeBase> {
 
     public ContainerIndustrialElectrolyzer(EntityPlayer player, TileEntityIndustrialElectrolyzer base) {
         super(player, base, 166);
@@ -22,10 +21,8 @@ public class ContainerIndustrialElectrolyzer extends ContainerFullInv<TileEntity
     }
 
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("guiProgress");
-        ret.add("tank");
-        return ret;
+    protected void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("tank");
     }
 }

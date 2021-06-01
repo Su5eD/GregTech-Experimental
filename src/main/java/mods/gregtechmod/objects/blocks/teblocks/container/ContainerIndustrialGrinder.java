@@ -1,13 +1,12 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.struct.TileEntityIndustrialGrinder;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerIndustrialGrinder extends ContainerFullInv<TileEntityIndustrialGrinder> {
+public class ContainerIndustrialGrinder extends ContainerMachineBase<TileEntityIndustrialGrinder> {
 
     public ContainerIndustrialGrinder(EntityPlayer player, TileEntityIndustrialGrinder base) {
         super(player, base, 166);
@@ -18,12 +17,10 @@ public class ContainerIndustrialGrinder extends ContainerFullInv<TileEntityIndus
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 2, 122, 25));
         addSlotToContainer(new SlotInvSlot(base.fluidContainerOutput, 0, 140, 25));
     }
-    
+
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("guiProgress"); // TODO Common ContainerBase class
-        ret.add("waterTank");
-        return ret;
+    protected void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("waterTank");
     }
 }

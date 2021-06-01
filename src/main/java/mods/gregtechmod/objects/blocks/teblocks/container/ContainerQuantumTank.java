@@ -1,13 +1,12 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityQuantumTank;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerQuantumTank extends ContainerFullInv<TileEntityQuantumTank> {
+public class ContainerQuantumTank extends ContainerMachineBase<TileEntityQuantumTank> {
 
     public ContainerQuantumTank(EntityPlayer player, TileEntityQuantumTank base) {
         super(player, base, 166);
@@ -16,9 +15,8 @@ public class ContainerQuantumTank extends ContainerFullInv<TileEntityQuantumTank
     }
 
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("content");
-        return ret;
+    protected void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("content");
     }
 }
