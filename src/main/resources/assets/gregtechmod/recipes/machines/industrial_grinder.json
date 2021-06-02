@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "EAP",
+    "GGG",
+    "ABA"
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingGrinder"
+    },
+    "E":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 20
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingPump"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 23
+  }
+}

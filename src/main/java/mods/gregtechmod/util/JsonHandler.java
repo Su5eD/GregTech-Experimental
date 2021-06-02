@@ -7,12 +7,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.Reader;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
 import java.util.HashMap;
 
 public class JsonHandler {
-    public final HashMap<String , LinkedTreeMap<String, String>> jsonMap;
+    public final HashMap<String, LinkedTreeMap<String, String>> jsonMap;
     public final ResourceLocation particle;
 
     public JsonHandler(String name, String path) {
@@ -20,14 +18,11 @@ public class JsonHandler {
         this.particle = new ResourceLocation(Reference.MODID, jsonMap.get("textures").get("particle").substring(Reference.MODID.length()+1));
     }
 
-    public HashMap<String , LinkedTreeMap<String, String>> readFromJSON(String name) {
+    public HashMap<String, LinkedTreeMap<String, String>> readFromJSON(String name) {
         try {
             Gson gson = new Gson();
-            FileSystem fs = GtUtil.getModFile();
-
-            Reader reader = Files.newBufferedReader(fs.getPath("/assets/"+ Reference.MODID+"/models/item/"+name+".json"));
-
-            HashMap<String , LinkedTreeMap<String, String>> map = gson.fromJson(reader, HashMap.class);
+            Reader reader = GtUtil.readAsset("models/item/" + name + ".json");
+            HashMap<String, LinkedTreeMap<String, String>> map = gson.<HashMap<String, LinkedTreeMap<String, String>>>fromJson(reader, HashMap.class);
 
             reader.close();
             return map;

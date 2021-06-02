@@ -2,7 +2,7 @@ package mods.gregtechmod.gui;
 
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.inventory.slot.CustomFluidSlot;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerQuantumTank;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerQuantumTank;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiQuantumTank extends GuiInventory<ContainerQuantumTank> {

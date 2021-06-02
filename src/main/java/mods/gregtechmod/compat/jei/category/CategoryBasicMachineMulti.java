@@ -1,5 +1,6 @@
 package mods.gregtechmod.compat.jei.category;
 
+import ic2.core.gui.Gauge;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.gui.IGuiItemStackGroup;
@@ -18,12 +19,12 @@ public class CategoryBasicMachineMulti<R extends IMachineRecipe<List<IRecipeIngr
     private final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, ? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> recipeManager;
     private final boolean secondaryOutput;
 
-    public CategoryBasicMachineMulti(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, ? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> recipeManager, boolean secondaryOutput, IGuiHelper guiHelper) {
-        this(name, recipeClass, guiClass, recipeManager, false, secondaryOutput, guiHelper);
+    public CategoryBasicMachineMulti(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, ? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> recipeManager, boolean secondaryOutput, IGuiHelper guiHelper, Gauge.IGaugeStyle gauge) {
+        this(name, recipeClass, guiClass, recipeManager, false, secondaryOutput, guiHelper, gauge);
     }
 
-    public CategoryBasicMachineMulti(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, ? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> recipeManager, boolean customTexture, boolean secondaryOutput, IGuiHelper guiHelper) {
-        super(name, recipeClass, guiClass, customTexture, guiHelper);
+    public CategoryBasicMachineMulti(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, ? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> recipeManager, boolean customTexture, boolean secondaryOutput, IGuiHelper guiHelper, Gauge.IGaugeStyle gauge) {
+        super(name, recipeClass, guiClass, customTexture, guiHelper, gauge);
         this.recipeManager = recipeManager;
         this.secondaryOutput = secondaryOutput;
     }

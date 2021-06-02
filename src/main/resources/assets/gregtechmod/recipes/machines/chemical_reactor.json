@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "RMR",
+    "CEC",
+    "RDR"
+  ],
+  "key":
+  {
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingExtractor"
+    },
+    "M": {
+      "type": "forge:ore_dict",
+      "ore": "craftingElectromagnet"
+    },
+    "E":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCompressor"
+    },
+    "R":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "plateInvar", "plateAluminium" ]
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 21
+  }
+}

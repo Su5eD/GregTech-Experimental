@@ -6,10 +6,13 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-public class RecipeVacuumFreezer extends Recipe<IRecipeIngredient, ItemStack> {
+import java.util.Collections;
+import java.util.List;
+
+public class RecipeVacuumFreezer extends Recipe<IRecipeIngredient, List<ItemStack>> {
 
     public RecipeVacuumFreezer(IRecipeIngredient input, ItemStack output, int duration) {
-        super(input, output, duration, 128);
+        super(input, Collections.singletonList(output), duration, 128);
     }
 
     @JsonCreator

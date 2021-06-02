@@ -26,7 +26,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IRecipeGrinder makeGrinderRecipe(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output) {
+    public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeGrinderRecipe(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output) {
         return RecipeGrinder.create(input, fluid, output);
     }
 

@@ -4,43 +4,43 @@
     - item: ic2:crop_res#grin_powder
     - ore: craftingSprayCan
   output:
-    - item: ic2:cell#weed_ex
+    - cell: weed_ex
   duration: 800
 - input:
     - item: ic2:crafting#compressed_plants
     - cell: empty
   output:
-    - item: ic2:cell#bio
+    - cell: bio
   duration: 100
 - input:
     - item: ic2:crafting#compressed_hydrated_coal
     - cell: empty
   output:
-    - item: ic2:cell#hydrated_coal
+    - cell: hydrated_coal
   duration: 100
 - input:
-    - item: ic2:cell#biofuel
+    - cell: biofuel
       count: 6
     - item: ic2:crafting#empty_fuel_can
   output:
     - item: ic2:filled_fuel_can
       nbt:
         value: 26040
-    - item: ic2:cell#empty
+    - cell: empty
   duration: 600
 - input:
-    - item: ic2:cell#coalfuel
+    - cell: coalfuel
       count: 6
     - item: ic2:crafting#empty_fuel_can
   output:
     - item: ic2:filled_fuel_can
       nbt:
         value: 76440
-    - item: ic2:cell#empty
+    - cell: empty
   duration: 600
 - input:
     - ore: ingotUranium
-    - item: ic2:cell#empty
+    - cell: empty
   output:
     - item: ic2:uranium_fuel_rod
   duration: 100

@@ -3,6 +3,7 @@ package mods.gregtechmod.recipe.ingredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.fluids.Fluid;
@@ -120,9 +121,16 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
     }
 
     public static List<ItemStack> getContainersForFluids(List<Fluid> fluids) {
-        return fluids.stream()
+        List<ItemStack> list = fluids.stream()
                 .map(fluid -> FluidUtil.getFilledBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME)))
                 .filter(stack -> !stack.isEmpty())
                 .collect(Collectors.toList());
+        
+        fluids.forEach(fluid -> {
+            ItemStack cell = ProfileDelegate.getCell(fluid.getName());
+            if (!cell.isEmpty()) list.add(cell);
+        });
+        
+        return list;
     }
 }

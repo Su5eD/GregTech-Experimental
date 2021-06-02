@@ -1,0 +1,30 @@
+# Classic Blast Furnace Recipes
+---
+- input:
+    - ore: oreIron
+    - cell: calcium_carbonate
+  output:
+    - item: ic2:ingot#refined_iron
+      count: 3
+    - cell: empty
+  duration: 100
+  heat: 1000
+- input:
+    - ore: orePyrite
+    - item: gregtechmod:cell_classic_calcium_carbonate
+  output:
+    - item: ic2:ingot#refined_iron
+      count: 2
+    - cell: empty
+  duration: 100
+  heat: 1500
+- input:
+    - ore: ingotRefinedIron
+    - ore: dustCoal
+      count: 2
+  output:
+    - item: gregtechmod:ingot_steel
+    - item: gregtechmod:dust_dark_ashes
+      count: 2
+  duration: 500
+  heat: 1000

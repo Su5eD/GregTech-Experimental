@@ -2,22 +2,26 @@ package mods.gregtechmod.compat.jei.category;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
-import mezz.jei.api.gui.*;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.RecipeWrapperFactory;
-import mods.gregtechmod.compat.jei.wrapper.WrapperChemicalReactor;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.compat.jei.wrapper.WrapperMultiInput;
+import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiChemicalReactor;
 import mods.gregtechmod.recipe.RecipeChemical;
 import mods.gregtechmod.util.GtUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
-public class CategoryChemicalReactor implements IRecipeCategory<WrapperChemicalReactor> {
-    public static final String UID = Reference.MODID+".chemical_reactor";
+public class CategoryChemicalReactor implements IRecipeCategory<WrapperMultiInput<?>> {
+    public static final String UID = Reference.MODID + ".chemical_reactor";
     private static final ResourceLocation GUI_PATH = new ResourceLocation(Reference.MODID, "textures/gui/chemical_reactor.png");
     
     private final IDrawable background;
@@ -28,14 +32,13 @@ public class CategoryChemicalReactor implements IRecipeCategory<WrapperChemicalR
                         .addPadding(10, 32, 69, 69)
                         .build();
         
-        IDrawableStatic gaugeDownStatic = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 0, 0, 10, 10);
-        gauge = guiHelper.createAnimatedDrawable(gaugeDownStatic, 200, IDrawableAnimated.StartDirection.TOP, false);
+        gauge = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_DOWN);
     }
     
-    public static void init(IModRegistry registry) {
-        registry.handleRecipes(RecipeChemical.class, WrapperChemicalReactor::new, CategoryChemicalReactor.UID);
+    public void init(IModRegistry registry) {
+        registry.handleRecipes(RecipeChemical.class, WrapperMultiInput::new, CategoryChemicalReactor.UID);
     
-        registry.addRecipes(RecipeWrapperFactory.getMultiRecipes(GtRecipes.chemical, WrapperChemicalReactor::new), CategoryChemicalReactor.UID);
+        registry.addRecipes(RecipeWrapperFactory.getMultiRecipes(GtRecipes.chemical, WrapperMultiInput::new), CategoryChemicalReactor.UID);
     
         registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("chemical_reactor"), CategoryChemicalReactor.UID);
     
@@ -63,7 +66,7 @@ public class CategoryChemicalReactor implements IRecipeCategory<WrapperChemicalR
     }
 
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, WrapperChemicalReactor recipeWrapper, IIngredients ingredients) {
+    public void setRecipe(IRecipeLayout recipeLayout, WrapperMultiInput<?> recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         
         guiItemStacks.init(0, true, 69, 10);
@@ -71,5 +74,12 @@ public class CategoryChemicalReactor implements IRecipeCategory<WrapperChemicalR
         guiItemStacks.init(2, false, 79, 40);
         
         guiItemStacks.set(ingredients);
+    }
+
+    @Override
+    public void drawExtras(Minecraft minecraft) {
+        gauge.draw(minecraft, 73, 29);
+        gauge.draw(minecraft, 83, 29);
+        gauge.draw(minecraft, 93, 29);
     }
 }

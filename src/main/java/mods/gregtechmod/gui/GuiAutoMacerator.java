@@ -3,8 +3,8 @@ package mods.gregtechmod.gui;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachineSingleInput;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingleInput;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 

@@ -12,7 +12,7 @@ import java.util.List;
 public class WrapperBasicMachineMulti<R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> extends WrapperBasicMachine<R> {
 
     public WrapperBasicMachineMulti(R recipe) {
-        super(recipe);
+        super(recipe, -5);
     }
 
     @Override

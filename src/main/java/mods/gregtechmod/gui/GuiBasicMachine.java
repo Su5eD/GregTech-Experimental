@@ -5,7 +5,7 @@ import ic2.core.GuiIC2;
 import ic2.core.IC2;
 import ic2.core.gui.*;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.base.TileEntityBasicMachine;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 

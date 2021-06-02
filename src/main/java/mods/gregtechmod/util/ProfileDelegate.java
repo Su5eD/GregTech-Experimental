@@ -1,7 +1,7 @@
 package mods.gregtechmod.util;
 
-import ic2.api.item.IC2Items;
 import ic2.core.profile.Version;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import net.minecraft.item.Item;
@@ -30,8 +30,8 @@ public class ProfileDelegate {
             else {
                 if (fluid == null) fluid = "empty";
                 else if (fluid.startsWith("ic2")) fluid = fluid.substring(3);
-                return IC2Items.getItem("cell", fluid);
+                return ModHandler.getIC2ItemSafely("cell", fluid);
             }
-        } else return IC2Items.getItem("fluid_cell", fluid == null || fluid.equals("empty") ? null : fluid);
+        } else return ModHandler.getIC2ItemSafely("fluid_cell", fluid == null || fluid.equals("empty") ? null : fluid);
     }
 }
