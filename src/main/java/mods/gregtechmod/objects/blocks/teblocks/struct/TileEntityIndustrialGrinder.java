@@ -146,9 +146,6 @@ public class TileEntityIndustrialGrinder extends TileEntityStructureBase<Object,
     }
 
     @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
-
-    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         if (this.pendingFluidContainer != null) {
             NBTTagCompound stack = new NBTTagCompound();

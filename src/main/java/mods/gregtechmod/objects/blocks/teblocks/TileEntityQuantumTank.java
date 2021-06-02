@@ -187,7 +187,5 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public void markForExplosion() {
-
-    }
+    public void markForExplosion() {}
 }

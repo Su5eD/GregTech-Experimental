@@ -47,7 +47,4 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiChemicalReactor(new ContainerChemicalReactor(player, this));
     }
-
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }

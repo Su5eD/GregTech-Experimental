@@ -19,7 +19,6 @@ import mods.gregtechmod.inventory.GtFluidTankProcessable;
 import mods.gregtechmod.inventory.InvSlotConsumableCell;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.util.PropertyHelper;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
@@ -176,9 +175,6 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
         }
         return recipe;
     }
-
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
 
     public enum CellAdditionResult {
         ADD,

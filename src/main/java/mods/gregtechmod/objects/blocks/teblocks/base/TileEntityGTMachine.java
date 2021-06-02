@@ -427,4 +427,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public String getTertiaryInfo() {
         return  "/" + GtUtil.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, this.overclockersCount) / 20));
     }
+    
+    @Override
+    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }

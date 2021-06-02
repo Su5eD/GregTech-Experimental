@@ -143,9 +143,6 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiIndustrialBlastFurnace(new ContainerBlastFurnace(player, this));
     }
-
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
     
     public static class BlastFurnaceStructure {
         private int heatCapacity;

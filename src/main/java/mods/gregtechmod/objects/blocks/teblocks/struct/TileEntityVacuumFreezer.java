@@ -81,7 +81,4 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiVacuumFreezer(new ContainerVacuumFreezer(player, this));
     }
-
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }

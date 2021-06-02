@@ -97,9 +97,6 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
 
     @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
-
-    @Override
     public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return EnumSet.of(IC2UpgradeType.TRANSFORMER, IC2UpgradeType.BATTERY);
     }

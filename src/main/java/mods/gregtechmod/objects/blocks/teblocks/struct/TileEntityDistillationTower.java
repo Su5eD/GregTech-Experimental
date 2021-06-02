@@ -96,7 +96,4 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiDistillationTower(new ContainerDistillationTower(player, this));
     }
-
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }

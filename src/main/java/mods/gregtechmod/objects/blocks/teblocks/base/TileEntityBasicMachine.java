@@ -285,7 +285,4 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public ContainerBase<?> getGuiContainer(EntityPlayer player) {
         return new ContainerBasicMachine<>(player, this);
     }
-
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }
