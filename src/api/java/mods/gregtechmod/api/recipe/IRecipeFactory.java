@@ -26,7 +26,7 @@ public interface IRecipeFactory {
 
     IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance);
 
-    IRecipeGrinder makeGrinderRecipe(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output);
+    IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeGrinderRecipe(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output);
 
     default IRecipeBlastFurnace makeBlastFurnaceRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, int heat) {
         return makeBlastFurnaceRecipe(input, output, duration, 128, heat, false);

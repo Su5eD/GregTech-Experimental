@@ -6,7 +6,7 @@
     - item: ic2:dust#tin
   overwrite: true
 - input:
-    item: ic2:cell#empty
+    cell: empty
   output:
     - item: ic2:dust#tin
   overwrite: true

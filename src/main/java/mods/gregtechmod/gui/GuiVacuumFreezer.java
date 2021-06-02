@@ -1,0 +1,21 @@
+package mods.gregtechmod.gui;
+
+import ic2.core.gui.LinkedGauge;
+import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerVacuumFreezer;
+import net.minecraft.util.ResourceLocation;
+
+public class GuiVacuumFreezer extends GuiStructure<ContainerVacuumFreezer> {
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/vacuum_freezer.png");
+
+    public GuiVacuumFreezer(ContainerVacuumFreezer container) {
+        super(container);
+        
+        addElement(new LinkedGauge(this, 58, 28, container.base, "progress", GregtechGauge.FREEZING));
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
+    }
+}

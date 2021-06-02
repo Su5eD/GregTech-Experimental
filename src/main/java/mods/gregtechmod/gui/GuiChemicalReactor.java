@@ -2,7 +2,7 @@ package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerChemicalReactor;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerChemicalReactor;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiChemicalReactor extends GuiInventory<ContainerChemicalReactor> {

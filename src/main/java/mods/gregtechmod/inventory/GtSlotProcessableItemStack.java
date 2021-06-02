@@ -17,10 +17,6 @@ public class GtSlotProcessableItemStack<RM extends IGtRecipeManager<?, I, ?>, I>
         this.recipeManager = recipeManager;
     }
 
-    public boolean accepts(I input) {
-        return this.recipeManager == null || this.recipeManager.hasRecipeFor(input);
-    }
-
     @Override
     public boolean accepts(ItemStack stack) {
         return this.recipeManager == null || this.recipeManager.hasRecipeFor(stack);

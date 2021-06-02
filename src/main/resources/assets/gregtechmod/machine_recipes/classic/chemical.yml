@@ -2,7 +2,7 @@
 ---
 - input:
     - cell: glyceryl
-    - item: ic2:cell#coalfuel
+    - cell: coalfuel
       count: 4
   output:
     cell: nitro_coalfuel

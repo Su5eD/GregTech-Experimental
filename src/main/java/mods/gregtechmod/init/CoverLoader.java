@@ -5,7 +5,7 @@ import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.cover.type.*;
+import mods.gregtechmod.cover.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 

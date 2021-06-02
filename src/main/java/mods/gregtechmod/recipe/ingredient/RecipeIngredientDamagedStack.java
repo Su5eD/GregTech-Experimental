@@ -10,6 +10,11 @@ public class RecipeIngredientDamagedStack extends RecipeIngredientItemStack {
     private RecipeIngredientDamagedStack(int count, ItemStack... stacks) {
         super(count, stacks);
     }
+    
+    public static RecipeIngredientItemStack create(ItemStack stack, int count) {
+        if (stack.isEmpty()) return EMPTY;
+        return new RecipeIngredientDamagedStack(count, stack);
+    }
 
     @Override
     public boolean apply(@Nullable ItemStack input, boolean checkSize) {

@@ -1,6 +1,14 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import fr.brouillard.oss.jgitver.GitVersionCalculator
+import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.user.UserBaseExtension
 import java.time.LocalDateTime
+
+buildscript {
+    dependencies { 
+        classpath(group = "fr.brouillard.oss", name = "jgitver", version = "0.14.0")
+    }
+}
 
 plugins {
     java
@@ -10,9 +18,6 @@ plugins {
 }
 
 val versionMc: String by project
-val versionMajor: String by project
-val versionMinor: String by project
-val versionPatch: String by project
 val versionIC2: String by project
 val versionBuildCraft: String by project
 val versionJEI: String by project
@@ -26,7 +31,7 @@ val versionAE2: String by project
 val versionMantle: String by project
 val versionTConstruct: String by project
 
-version = "$versionMajor.$versionMinor" + if (versionPatch != "0") ".$versionPatch" else ""
+version = getGitVersion()
 group = "mods.su5ed"
 setProperty("archivesBaseName", "gregtechmod")
 
@@ -226,4 +231,12 @@ publishing {
             url = uri("https://maven.pkg.github.com/Su5eD/GregTech-Experimental")
         }
     }
+}
+
+fun getGitVersion(): String {
+    val jgitver = GitVersionCalculator.location(rootDir)
+            .setNonQualifierBranches("forge-1.12.2")
+            .setVersionPattern("\${M}\${<m}\${<meta.COMMIT_DISTANCE}\${-~meta.QUALIFIED_BRANCH_NAME}")
+            .setStrategy(Strategies.PATTERN)
+    return jgitver.version
 }

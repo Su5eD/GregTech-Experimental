@@ -2,15 +2,20 @@ package mods.gregtechmod.compat.jei.category;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
-import mezz.jei.api.gui.*;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IGuiFluidStackGroup;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.ElectrolyzerRecipeFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperCellular;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiIndustrialElectrolyzer;
 import mods.gregtechmod.recipe.RecipeElectrolyzer;
 import mods.gregtechmod.util.GtUtil;
@@ -28,14 +33,11 @@ public class CategoryElectrolyzer implements IRecipeCategory<WrapperCellular> {
         background = guiHelper.drawableBuilder(GUI_PATH, 48, 9, 79, 74)
                 .addPadding(0, 15, 48, 48)
                 .build();
-
-        IDrawableStatic gaugeUpStatic = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 20, 0, 10, 10);
-        gauge = guiHelper.createAnimatedDrawable(gaugeUpStatic, 200, IDrawableAnimated.StartDirection.BOTTOM, false);
-
+        gauge = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_UP);
         tank = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 40, 0, 18, 18);
     }
 
-    public static void init(IModRegistry registry) {
+    public void init(IModRegistry registry) {
         registry.handleRecipes(RecipeElectrolyzer.class, WrapperCellular::new, CategoryElectrolyzer.UID);
 
         registry.addRecipes(ElectrolyzerRecipeFactory.INSTANCE.getCellularRecipes(GtRecipes.industrialElectrolyzer, true), CategoryElectrolyzer.UID);

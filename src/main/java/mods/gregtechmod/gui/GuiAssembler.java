@@ -1,8 +1,8 @@
 package mods.gregtechmod.gui;
 
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.TileEntityAssembler;
-import mods.gregtechmod.objects.blocks.tileentities.teblocks.container.ContainerBasicMachine;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityAssembler;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiAssembler extends GuiBasicMachine<ContainerBasicMachine<TileEntityAssembler>> {

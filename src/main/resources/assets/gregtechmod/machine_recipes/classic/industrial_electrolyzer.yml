@@ -1,27 +1,27 @@
-# Classic Electrolyzer Recipes
+# Classic Industrial Electrolyzer Recipes
 ---
 - input:
-    item: ic2:cell#electrolyzed_water
+    cell: electrolyzed_water
     count: 6
   output:
     - item: gregtechmod:cell_classic_hydrogen
       count: 4
-    - item: ic2:cell#air
-    - item: ic2:cell
+    - cell: air
+    - cell: empty
   cells: 5
   duration: 100
   energyCost: 30
 - input:
-    item: ic2:cell#water
+    cell: water
   output:
-    - item: ic2:cell#electrolyzed_water
+    - cell: electrolyzed_water
   cells: 1
   duration: 200
   energyCost: 128
 - input:
     item: minecraft:water_bucket
   output:
-    - item: ic2:cell#electrolyzed_water
+    - cell: electrolyzed_water
   cells: 1
   duration: 200
   energyCost: 128

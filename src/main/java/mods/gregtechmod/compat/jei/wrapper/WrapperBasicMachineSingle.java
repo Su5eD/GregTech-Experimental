@@ -14,7 +14,11 @@ import java.util.stream.Collectors;
 public class WrapperBasicMachineSingle extends WrapperBasicMachine<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public WrapperBasicMachineSingle(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
-        super(recipe);
+        super(recipe, -5);
+    }
+
+    public WrapperBasicMachineSingle(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, int yOffset) {
+        super(recipe, yOffset);
     }
 
     @Override

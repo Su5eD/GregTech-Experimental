@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_bottom",
+    "down": "gregtechmod:blocks/machines/struct/grinder",
+    "up": "gregtechmod:blocks/machines/struct/grinder",
+    "north": "gregtechmod:blocks/machines/adv_machine_screen_active",
+    "south": "gregtechmod:blocks/machines/struct/connector",
+    "east": "gregtechmod:blocks/machines/struct/grinder",
+    "west": "gregtechmod:blocks/machines/struct/grinder"
+  }
+}

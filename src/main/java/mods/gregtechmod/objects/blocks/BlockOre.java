@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.blocks;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IBlockCustomItem;
+import mods.gregtechmod.util.ICustomItemModel;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class BlockOre extends Block implements IBlockCustomItem {
+public class BlockOre extends Block implements ICustomItemModel {
     private final String name;
     private final int dropChance;
     private final int dropRandom;

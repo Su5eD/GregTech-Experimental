@@ -104,7 +104,7 @@ public class MachineRecipeLoader {
         GregTechAPI.recipeFactory = new RecipeFactory();
         GregTechAPI.ingredientFactory = new RecipeIngredientFactory();
 
-        Path recipesPath = GtUtil.getModFile().getPath("assets", Reference.MODID, "machine_recipes");
+        Path recipesPath = GtUtil.getAssetPath("assets/" + Reference.MODID + "/machine_recipes");
         Path gtConfig = relocateConfig(recipesPath, "machine_recipes");
         if (gtConfig == null) {
             GregTechMod.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
@@ -133,13 +133,13 @@ public class MachineRecipeLoader {
                     registerRecipes("pulverizer", filtered, GtRecipes.pulverizer);
                 });
 
-        GtRecipes.grinder = new RecipeManagerGrinder();
-        parseRecipes("grinder", RecipeGrinder.class, RecipeFilter.Default.class)
-                .ifPresent(recipes -> registerRecipes("grinder", recipes, GtRecipes.grinder));
+        GtRecipes.industrialGrinder = new RecipeManagerMultiInput<>();
+        parseRecipes("industrial_grinder", RecipeGrinder.class, RecipeFilter.Default.class)
+                .ifPresent(recipes -> registerRecipes("industrial grinder", recipes, GtRecipes.industrialGrinder));
 
-        GtRecipes.blastFurnace = new RecipeManagerBlastFurnace();
-        parseRecipes("blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
-                .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.blastFurnace));
+        GtRecipes.industrialBlastFurnace = new RecipeManagerBlastFurnace();
+        parseRecipes("industrial_blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
+                .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.industrialBlastFurnace));
 
         GtRecipes.industrialElectrolyzer = new RecipeManagerCellular();
         parseRecipes("industrial_electrolyzer", RecipeElectrolyzer.class, null)
@@ -189,7 +189,7 @@ public class MachineRecipeLoader {
         parseRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("sawmill", recipes, GtRecipes.sawmill));
 
-        GtRecipes.distillation = new RecipeManagerBasic<>();
+        GtRecipes.distillation = new RecipeManagerCellular();
         parseRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class)
                 .ifPresent(recipes -> registerRecipes("distillation", recipes, GtRecipes.distillation));
 
@@ -212,7 +212,7 @@ public class MachineRecipeLoader {
     public static void loadFuels() {
         GregTechMod.logger.info("Loading fuels");
 
-        Path recipesPath = GtUtil.getModFile().getPath("assets", Reference.MODID, "fuels");
+        Path recipesPath = GtUtil.getAssetPath("assets/" + Reference.MODID + "/fuels");
         Path gtConfig = relocateConfig(recipesPath, "fuels");
         if (gtConfig == null) {
             GregTechMod.logger.error("Couldn't find the fuels config directory. Loading default fuels...");
@@ -488,7 +488,7 @@ public class MachineRecipeLoader {
                         continue;
                     }
 
-                    GregTechMod.logger.debug("Copying file " + path.toString() + " to " + dest.toPath());
+                    GregTechMod.logger.debug("Copying file " + path + " to " + dest.toPath());
                     BufferedReader in = Files.newBufferedReader(path);
                     FileOutputStream out = new FileOutputStream(dest);
                     for (int i; (i = in.read()) != -1; ) out.write(i);
