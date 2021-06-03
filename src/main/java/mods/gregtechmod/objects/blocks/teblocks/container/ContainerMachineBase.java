@@ -14,7 +14,9 @@ public class ContainerMachineBase<T extends IInventory> extends ContainerFullInv
 
     @Override
     public final List<String> getNetworkedFields() {
-        return super.getNetworkedFields();
+        List<String> ret = super.getNetworkedFields();
+        getNetworkedFields(ret);
+        return ret;
     }
     
     protected void getNetworkedFields(List<? super String> list) {
