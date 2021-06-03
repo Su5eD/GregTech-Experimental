@@ -20,7 +20,7 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     ASSEMBLING(buildGaugeFromGui(GuiAssembler.TEXTURE)),
     TURNING(buildGaugeFromGui(GuiLathe.TEXTURE)),
     BLASTING(buildGaugeFromGui(GuiIndustrialBlastFurnace.TEXTURE, 11)),
-    GRINDER_WATER_LEVEL(buildGaugeFromGui(GuiIndustrialGrinder.TEXTURE)),
+    GRINDER_WATER_LEVEL(buildGaugeFromGui(GuiIndustrialGrinder.TEXTURE, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),
     IMPLODING(buildGaugeFromGui(GuiImplosionCompressor.TEXTURE, 11)),
     FREEZING(buildGaugeFromGui(GuiVacuumFreezer.TEXTURE, 11)),
     DISTILLING(new Gauge.GaugePropertyBuilder(176, 0, 16, 72, Gauge.GaugePropertyBuilder.GaugeOrientation.Up).withTexture(GuiDistillationTower.TEXTURE).withSmooth(false).build());
@@ -41,7 +41,11 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     }
     
     private static Gauge.GaugeProperties buildGaugeFromGui(ResourceLocation texture, int height) {
-        return new Gauge.GaugePropertyBuilder(176, 0, 20, height, Gauge.GaugePropertyBuilder.GaugeOrientation.Right)
+        return buildGaugeFromGui(texture, height, Gauge.GaugePropertyBuilder.GaugeOrientation.Right);
+    }
+    
+    private static Gauge.GaugeProperties buildGaugeFromGui(ResourceLocation texture, int height, Gauge.GaugePropertyBuilder.GaugeOrientation orientation) {
+        return new Gauge.GaugePropertyBuilder(176, 0, 20, height, orientation)
                 .withTexture(texture)
                 .withSmooth(false)
                 .build();
