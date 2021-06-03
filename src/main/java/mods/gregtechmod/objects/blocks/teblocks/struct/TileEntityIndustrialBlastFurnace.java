@@ -111,7 +111,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     @Override
     protected boolean canOperate(IRecipeBlastFurnace recipe) {
         boolean ret = super.canOperate(recipe);
-        if (ret) {
+        if (recipe != null && ret) {
             Structure<BlastFurnaceStructure>.WorldStructure struct = checkWorldStructure();
             if (struct.instance != null) {
                 int heatCapacity = struct.instance.heatCapacity + this.coilHandler.heatingCoilTier * 500;

@@ -31,8 +31,8 @@ public class CategoryImplosionCompressor extends CategoryStruct<RecipeImplosion,
 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
-        return guiHelper.drawableBuilder(new ResourceLocation(Reference.MODID, "textures/gui/implosion_compressor.png"), 33, 15, 123, 46)
-                .addPadding(10, 33, 26, 26)
+        return guiHelper.drawableBuilder(new ResourceLocation(Reference.MODID, "textures/gui/implosion_compressor.png"), 33, 15, 88, 46)
+                .addPadding(10, 33, 43, 43)
                 .build();
     }
 
@@ -49,14 +49,14 @@ public class CategoryImplosionCompressor extends CategoryStruct<RecipeImplosion,
 
     @Override
     protected void initSlots(IGuiItemStackGroup guiItemStacks) {
-        guiItemStacks.init(0, true, 26, 10);
-        guiItemStacks.init(1, true, 26, 28);
-        guiItemStacks.init(2, false, 78, 19);
-        guiItemStacks.init(3, false, 96, 19);
+        guiItemStacks.init(0, true, 43, 10);
+        guiItemStacks.init(1, true, 43, 28);
+        guiItemStacks.init(2, false, 95, 19);
+        guiItemStacks.init(3, false, 113, 19);
     }
 
     @Override
     public void drawExtras(Minecraft minecraft) {
-        gauge.draw(minecraft, 51, 23);
+        gauge.draw(minecraft, 68, 23);
     }
 }
