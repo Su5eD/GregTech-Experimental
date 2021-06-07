@@ -99,14 +99,23 @@ public class RenderTeBlock extends AbstractModel {
 
         for (EnumFacing side : EnumFacing.VALUES) {
             TextureAtlasSprite sprite = getSpriteFromDirection(side, rotateSide(face, side, covers), state, covers);
-            faceQuads.put(side, Collections.singletonList(getQuad(new Vector3f(0,0,0), new Vector3f(16, side == EnumFacing.DOWN ? 0 : 16,16), side, sprite)));
+            faceQuads.put(side, Collections.singletonList(getQuad(new Vector3f(0,0,0), new Vector3f(16, side == EnumFacing.DOWN ? 0 : 16,16), side, face, sprite)));
         }
 
         return new SimpleBakedModel(Collections.emptyList(), faceQuads, true, true, null, ItemCameraTransforms.DEFAULT, ItemOverrideList.NONE);
     }
 
-    private BakedQuad getQuad(Vector3f from, Vector3f to, EnumFacing direction, TextureAtlasSprite sprite) {
-        return bakery.makeBakedQuad(from, to, new BlockPartFace(direction, 0, this.textures.get(direction).toString(), new BlockFaceUV(blockFaceUVs[direction.getIndex()], 0)), sprite, direction, ModelRotation.X0_Y0, null, true, true);
+    private BakedQuad getQuad(Vector3f from, Vector3f to, EnumFacing direction, EnumFacing facing, TextureAtlasSprite sprite) {
+        return bakery.makeBakedQuad(from, to, new BlockPartFace(direction, 0, this.textures.get(direction).toString(), new BlockFaceUV(blockFaceUVs[direction.getIndex()], getRotation(direction, facing))), sprite, direction, ModelRotation.X0_Y0, null, true, true);
+    }
+    
+    private static int getRotation(EnumFacing side, EnumFacing facing) {
+        if (Util.verticalFacings.contains(side)) {
+            if (facing == EnumFacing.NORTH) return 180;
+            else if (facing == EnumFacing.WEST) return side == EnumFacing.UP ? -90 : 90;
+            else if (facing == EnumFacing.EAST) return side == EnumFacing.UP ? 90 : -90;
+        }
+        return 0;
     }
 
     /**

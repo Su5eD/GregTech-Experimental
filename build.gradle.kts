@@ -193,12 +193,12 @@ dependencies {
     }
     deobfCompile(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI)
 
-    deobfCompile(group = "com.mod-buildcraft", name = "buildcraft-api", version = versionBuildCraft)
-    deobfCompile(group = "curse.maven", name = "energy-control-373450", version = "3207144")
-    deobfCompile(group = "curse.maven", name = "railcraft-51195", version = "2687757")
-    deobfCompile(group = "curse.maven", name = "applied-energistics-2-223794", version = "2747063")
-    deobfCompile(group = "slimeknights.mantle", name = "Mantle", version = versionMantle)
-    deobfCompile(group = "slimeknights", name = "TConstruct", version = versionTConstruct)
+    deobfProvided(group = "com.mod-buildcraft", name = "buildcraft-api", version = versionBuildCraft)
+    deobfProvided(group = "curse.maven", name = "energy-control-373450", version = "3207144")
+    deobfProvided(group = "curse.maven", name = "railcraft-51195", version = "2687757")
+    deobfProvided(group = "curse.maven", name = "applied-energistics-2-223794", version = "2747063")
+    deobfProvided(group = "slimeknights.mantle", name = "Mantle", version = versionMantle)
+    deobfProvided(group = "slimeknights", name = "TConstruct", version = versionTConstruct)
 
     val databind = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
     implementation(databind)
