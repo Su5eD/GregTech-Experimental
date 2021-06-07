@@ -2,10 +2,8 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import buildcraft.api.mj.MjAPI;
 import com.mojang.authlib.GameProfile;
-import ic2.api.energy.EnergyNet;
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.IC2;
-import ic2.core.block.comp.Energy;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.ref.FluidName;
@@ -41,25 +39,18 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class TileEntityUpgradable extends TileEntityCoverBehavior implements IUpgradableMachine {
+public abstract class TileEntityUpgradable extends TileEntityEnergy implements IUpgradableMachine {
     private final String descriptionKey;
-    protected Energy energy;
-    protected int[] averageEUInputRaw = new int[] { 0,0,0,0,0 };
-    protected int[] averageEUOutputRaw = new int[] { 0,0,0,0,0 };
-    protected int averageEUInputIndex = 0;
-    protected int averageEUOutputIndex = 0;
-    protected int input;
-    private int previousEU;
-    public int averageEUIn;
 
     protected GameProfile owner = null;
     protected boolean isPrivate;
-
-    public final int defaultTier;
-    public final double defaultEnergyStorage;
+    
     public InvSlot upgradeSlot;
     public int overclockersCount;
     protected boolean hasSteamUpgrade;
@@ -71,16 +62,10 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     protected boolean hasMjUpgrade;
 
     protected TileEntityUpgradable(String descriptionKey, double maxEnergy, int defaultTier) {
+        super(maxEnergy, defaultTier);
         this.descriptionKey = descriptionKey;
-        this.energy = addComponent(new Energy(this, maxEnergy, getSinkDirs(), getSourceDirs(), defaultTier));
-        this.defaultTier = defaultTier;
         this.upgradeSlot = new GtUpgradeSlot(this, "upgrades", InvSlot.Access.NONE, 8);
-        this.defaultEnergyStorage = maxEnergy;
         this.fluids = addComponent(new Fluids(this));
-    }
-
-    protected Set<EnumFacing> getSourceDirs() {
-        return Collections.emptySet();
     }
 
     @Override
@@ -232,45 +217,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
-        averageEUIn = calculateAverageInput();
-    }
-
-    @Override
-    public void updateEnet() {
-        Set<EnumFacing> sinkDirs = new HashSet<>(getSinkDirs());
-        this.coverHandler.covers.entrySet().stream()
-                .filter(entry -> !entry.getValue().allowEnergyTransfer())
-                .map(Map.Entry::getKey)
-                .forEach(sinkDirs::remove);
-
-        Set<EnumFacing> oldSourceDirs = this.energy.getSourceDirs();
-        Set<EnumFacing> sourceDirs = new HashSet<>(getSourceDirs());
-        this.energy.setDirections(sinkDirs, sourceDirs);
-
-        updateSourceTier();
-
-        if (oldSourceDirs.size() != sourceDirs.size() || !oldSourceDirs.containsAll(sourceDirs) && !sourceDirs.containsAll(oldSourceDirs)) {
-            this.energy.onUnloaded();
-            this.energy.onLoaded();
-        }
-    }
-
-    protected void updateSourceTier() {
-        int amperage = getOutputAmperage();
-        this.energy.setMultiSource(amperage > 1);
-        this.energy.setPacketOutput(amperage);
-
-        int sourceTier = getSourceTier();
-        this.energy.setSourceTier(sourceTier);
-    }
-
-    protected int getOutputAmperage() {
-        return 1;
-    }
-
-    @Override
     protected List<ItemStack> getAuxDrops(int fortune) {
         return GtUtil.correctStacksize(super.getAuxDrops(fortune));
     }
@@ -278,7 +224,7 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         if (descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(descriptionKey));
-        tooltip.add(GtUtil.translateInfo("max_energy_in", Math.round(EnergyNet.instance.getPowerFromTier(this.energy.getSinkTier()))));
+        super.addInformation(stack, tooltip, advanced);
         Set<String> possibleUpgrades = new LinkedHashSet<>();
         possibleUpgrades.addAll(this.getCompatibleIC2Upgrades()
                 .stream()
@@ -292,21 +238,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
                 .sorted()
                 .collect(Collectors.toCollection(LinkedHashSet::new)));
         tooltip.add(GtUtil.translate("teblock.info.possible_upgrades")+": " + String.join(" ", possibleUpgrades));
-    }
-
-    private int calculateAverageInput() {
-        if (this.energy.getSinkDirs().isEmpty()) return 0;
-        int currentEU = (int) this.energy.getEnergy();
-        this.input = currentEU - previousEU;
-        this.previousEU = currentEU;
-
-        if (input > 0) averageEUInputRaw[averageEUInputIndex] = input;
-        if (++averageEUInputIndex >= averageEUInputRaw.length) averageEUInputIndex  = 0;
-        if (++averageEUOutputIndex >= averageEUOutputRaw.length) averageEUOutputIndex = 0;
-
-        int rEU = 0;
-        for (int tEU : averageEUInputRaw) rEU += tEU;
-        return rEU / averageEUInputRaw.length;
     }
 
     @Override
@@ -358,11 +289,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     @Override
-    public int getTier() {
-        return this.energy.getSinkTier();
-    }
-
-    @Override
     public boolean hasSteamTank() {
         return this.steamTank != null;
     }
@@ -386,26 +312,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     }
 
     @Override
-    public int getSinkTier() {
-        return this.energy.getSinkTier();
-    }
-
-    @Override
-    public int getDefaultSinkTier() {
-        return this.defaultTier;
-    }
-
-    @Override
-    public int getSourceTier() {
-        return this.energy.getSourceTier();
-    }
-
-    @Override
-    public double getDefaultEUCapacity() {
-        return this.defaultEnergyStorage;
-    }
-
-    @Override
     public void setEUcapacity(double capacity) {
         this.energy.setCapacity(capacity);
     }
@@ -414,9 +320,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
     public void setSinkTier(int tier) {
         this.energy.setSinkTier(tier);
     }
-
-    @Override
-    public void setSourceTier(int tier) {}
 
     @Override
     public double getExtraEnergyStorage() {
@@ -439,20 +342,6 @@ public abstract class TileEntityUpgradable extends TileEntityCoverBehavior imple
         for (ItemStack stack : this.upgradeSlot) {
             IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
             if (upgradeType != null && upgradeType == type) total += stack.getCount();
-        }
-        return total;
-    }
-
-    @Override
-    public int getUpgradeCount(IGtUpgradeItem upgrade) {
-        int total = 0;
-        for (ItemStack stack : this.upgradeSlot) {
-            Item item = stack.getItem();
-            if (item instanceof IGtUpgradeItem && ((IGtUpgradeItem) item).getName().equals(upgrade.getName())) total += stack.getCount();
-            else if (item instanceof IUpgradeItem) {
-                IC2UpgradeType type = GtUtil.getUpgradeType(stack);
-                if (type != null && type.itemType.equals(upgrade.getType().name())) total += stack.getCount();
-            }
         }
         return total;
     }

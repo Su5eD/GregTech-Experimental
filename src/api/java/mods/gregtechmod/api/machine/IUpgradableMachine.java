@@ -3,7 +3,6 @@ package mods.gregtechmod.api.machine;
 import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
-import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import net.minecraftforge.fluids.FluidTank;
 
 import javax.annotation.Nullable;
@@ -14,9 +13,7 @@ import java.util.Set;
  * @author Su5eD
  */
 public interface IUpgradableMachine extends IGregTechMachine {
-
-    int getTier();
-
+    
     boolean hasSteamTank();
 
     @Nullable
@@ -27,21 +24,11 @@ public interface IUpgradableMachine extends IGregTechMachine {
     @Nullable
     GameProfile getOwner();
 
-    int getSinkTier();
-
-    int getDefaultSinkTier();
-
-    int getSourceTier();
-
     void setEUcapacity(double capacity);
 
     void setSinkTier(int tier);
 
-    void setSourceTier(int tier);
-
     double getExtraEnergyStorage();
-
-    int getUpgradeCount(IGtUpgradeItem upgrade);
 
     int getUpgradeCount(GtUpgradeType type);
 

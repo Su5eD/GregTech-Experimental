@@ -13,12 +13,12 @@ public interface IGregTechMachine {
 
     void setRedstoneOutput(EnumFacing side, byte strength);
 
-    double addEnergy(double amount);
+    void addEnergy(double amount);
 
     double useEnergy(double amount, boolean simulate);
 
     /**
-     * @return stored EU, MJ, or steam
+     * @return the most among stored EU, MJ, or steam
      */
     double getUniversalEnergy();
 
@@ -26,20 +26,22 @@ public interface IGregTechMachine {
      * @return The maximum amount of energy this machine can store, either EU, MJ, or Steam converted to EU
      */
     double getUniversalEnergyCapacity();
+    
+    int getSinkTier();
+    
+    int getSourceTier();
 
-    double getInputVoltage();
+    double getMaxInputEUp();
 
-    double getOutputVoltage();
+    double getMaxOutputEUp();
 
     double getStoredEU();
 
-    double getDefaultEUCapacity();
-
     double getEUCapacity();
 
-    int getAverageEUInput();
+    double getAverageEUInput();
 
-    int getAverageEUOutput();
+    double getAverageEUOutput();
 
     double getStoredSteam();
 
@@ -57,20 +59,17 @@ public interface IGregTechMachine {
 
     boolean isAllowedToWork();
 
+    boolean isInputEnabled();
+    
     void disableInput();
 
     void enableInput();
 
-    boolean isInputEnabled();
-
+    boolean isOutputEnabled();
+    
     void disableOutput();
 
     void enableOutput();
-
-    boolean isOutputEnabled();
-
-    /**
-     * Instructs the machine to go <b>KABOOM</b
-     */
+    
     void markForExplosion();
 }

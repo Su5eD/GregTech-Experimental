@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
 import ic2.core.IHasGui;
@@ -287,41 +286,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     @Override
-    public boolean isActive() {
-        return this.getActive();
-    }
-
-    @Override
-    public double getInputVoltage() {
-        return EnergyNet.instance.getPowerFromTier(this.energy.getSinkTier());
-    }
-
-    @Override
-    public double getOutputVoltage() {
-        return 0;
-    }
-
-    @Override
-    public double getStoredEU() {
-        return this.energy.getEnergy();
-    }
-
-    @Override
-    public double getEUCapacity() {
-        return this.energy.getCapacity();
-    }
-
-    @Override
-    public int getAverageEUInput() {
-        return this.averageEUIn;
-    }
-
-    @Override
-    public int getAverageEUOutput() {
-        return 0;
-    }
-
-    @Override
     public double getStoredSteam() {
         if (steamTank != null) return steamTank.getFluidAmount();
         return 0;
@@ -331,12 +295,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public double getSteamCapacity() {
         if (steamTank != null) return steamTank.getCapacity();
         return 0;
-    }
-
-    @Override
-    public double addEnergy(double amount) {
-        if (amount > getInputVoltage()) markForExplosion();
-        return this.energy.addEnergy(amount);
     }
 
     @Override

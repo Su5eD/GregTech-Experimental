@@ -88,11 +88,6 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public boolean isActive() {
-        return false;
-    }
-
-    @Override
     public double getProgress() {
         return 0;
     }
@@ -106,7 +101,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     public void increaseProgress(double amount) {}
 
     @Override
-    public double getInputVoltage() {
+    public double getMaxInputEUp() {
         return 0;
     }
 
@@ -116,22 +111,17 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public double getDefaultEUCapacity() {
-        return 0;
-    }
-
-    @Override
     public double getEUCapacity() {
         return 0;
     }
 
     @Override
-    public int getAverageEUInput() {
+    public double getAverageEUInput() {
         return 0;
     }
 
     @Override
-    public int getAverageEUOutput() {
+    public double getAverageEUOutput() {
         return 0;
     }
 
@@ -162,9 +152,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     public void updateEnet() {}
 
     @Override
-    public double addEnergy(double amount) {
-        return 0;
-    }
+    public void addEnergy(double amount) {}
 
     @Override
     public double useEnergy(double amount, boolean simulate) {
@@ -182,7 +170,17 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public double getOutputVoltage() {
+    public int getSinkTier() {
+        return 0;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return 0;
+    }
+
+    @Override
+    public double getMaxOutputEUp() {
         return 0;
     }
 

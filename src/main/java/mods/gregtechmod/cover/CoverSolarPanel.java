@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import ic2.api.energy.EnergyNet;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -14,27 +15,27 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CoverSolarPanel extends CoverGeneric {
-    private double voltageDay;
-    private double voltageNight;
+    private double daytimeEnergy;
+    private double nighttimeEnergy;
 
-    public CoverSolarPanel(ICoverable te, EnumFacing side, ItemStack stack, double EUtDay, double EUtNight) {
+    public CoverSolarPanel(ICoverable te, EnumFacing side, ItemStack stack, double daytimeEnergy, double nighttimeEnergy) {
         super(te, side, stack);
-        this.voltageDay = EUtDay;
-        this.voltageNight = EUtNight;
+        this.daytimeEnergy = daytimeEnergy;
+        this.nighttimeEnergy = nighttimeEnergy;
     }
 
     @Override
     public void doCoverThings() {
         if (!(side == EnumFacing.UP) || !(te instanceof IGregTechMachine)) return;
 
-        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && !(((IGregTechMachine)te).getInputVoltage() * 32 >= this.voltageDay)) return;
+        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && ((IGregTechMachine)te).getSinkTier() < EnergyNet.instance.getTierFromPower(this.daytimeEnergy)) return;
 
         World world = ((TileEntity)te).getWorld();
         BlockPos pos = ((TileEntity)te).getPos();
         if (!world.isThundering()) {
             boolean bRain = world.isRaining() && world.getBiome(((TileEntity)te).getPos()).getRainfall() > 0;
             if ((!bRain || world.getSkylightSubtracted() < 4) && getSkyAtSide(world, pos, side)) {
-                ((IGregTechMachine)te).addEnergy(bRain || !world.isDaytime()?voltageNight:voltageDay);
+                ((IGregTechMachine)te).addEnergy(bRain || !world.isDaytime() ? nighttimeEnergy : daytimeEnergy);
             }
         }
     }
@@ -55,15 +56,15 @@ public class CoverSolarPanel extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setDouble("voltageDay", this.voltageDay);
-        nbt.setDouble("voltageNight", this.voltageNight);
+        nbt.setDouble("daytimeEnergy", this.daytimeEnergy);
+        nbt.setDouble("nighttimeEnergy", this.nighttimeEnergy);
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.voltageDay = nbt.getDouble("voltageDay");
-        this.voltageNight = nbt.getDouble("voltageNight");
+        this.daytimeEnergy = nbt.getDouble("daytimeEnergy");
+        this.nighttimeEnergy = nbt.getDouble("nighttimeEnergy");
     }
 
     @Override

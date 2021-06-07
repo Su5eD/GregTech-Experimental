@@ -20,9 +20,6 @@ public interface ICoverable {
     boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate);
 
     void updateRender();
-
-    /**
-     * Orders a tile entity to update its energy net
-     */
+    
     void updateEnet();
 }

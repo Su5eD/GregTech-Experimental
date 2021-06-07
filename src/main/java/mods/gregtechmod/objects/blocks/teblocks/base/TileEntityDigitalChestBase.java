@@ -224,8 +224,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public void increaseProgress(double amount) {}
 
     @Override
-    public double addEnergy(double amount) {
-        return 0;
+    public void addEnergy(double amount) {
     }
 
     @Override
@@ -239,7 +238,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getInputVoltage() {
+    public double getMaxInputEUp() {
         return 0;
     }
 
@@ -249,22 +248,17 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getDefaultEUCapacity() {
-        return 0;
-    }
-
-    @Override
     public double getEUCapacity() {
         return 0;
     }
 
     @Override
-    public int getAverageEUInput() {
+    public double getAverageEUInput() {
         return 0;
     }
 
     @Override
-    public int getAverageEUOutput() {
+    public double getAverageEUOutput() {
         return 0;
     }
 
@@ -283,11 +277,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public double getUniversalEnergyCapacity() {
-        return 0;
-    }
-
-    @Override
-    public int getTier() {
         return 0;
     }
 
@@ -314,11 +303,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public int getDefaultSinkTier() {
-        return 0;
-    }
-
-    @Override
     public int getSourceTier() {
         return 0;
     }
@@ -328,9 +312,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public void setSinkTier(int tier) {}
-
-    @Override
-    public void setSourceTier(int tier) {}
 
     @Override
     public void setOverclockerCount(int count) {}
@@ -350,11 +331,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public double getExtraEnergyStorage() {
-        return 0;
-    }
-
-    @Override
-    public int getUpgradeCount(IGtUpgradeItem upgrade) {
         return 0;
     }
 
@@ -384,7 +360,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getOutputVoltage() {
+    public double getMaxOutputEUp() {
         return 0;
     }
 
