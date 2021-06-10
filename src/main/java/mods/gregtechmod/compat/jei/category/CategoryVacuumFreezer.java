@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
-public class CategoryVacuumFreezer extends CategoryStruct<RecipeVacuumFreezer, WrapperBasicMachineSingle> {
+public class CategoryVacuumFreezer extends CategoryBase<RecipeVacuumFreezer, WrapperBasicMachineSingle> {
     private final IDrawable gauge;
 
     public CategoryVacuumFreezer(IGuiHelper guiHelper) {

@@ -9,6 +9,9 @@
 - input:
     fluid: biomass
   energy: 8
+  conditions:
+    - type: mod_loaded
+      modid: forestry
 - input:
     fluid: sodium
   energy: 30

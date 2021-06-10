@@ -50,17 +50,21 @@ public class JEIModule implements IModPlugin {
     private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryLathe;
     private CategoryElectrolyzer categoryElectrolyzer;
     private CategoryChemicalReactor categoryChemicalReactor;
+    
     private CategoryIndustrialBlastFurnace categoryIndustrialBlastFurnace;
     private CategoryIndustrialGrinder categoryIndustrialGrinder;
     private CategoryImplosionCompressor categoryImplosionCompressor;
     private CategoryVacuumFreezer categoryVacuumFreezer;
     private CategoryDistillationTower categoryDistillationTower;
+    
+    private CategoryThermalGenerator categoryThermalGenerator;
 
     @Override
     public void register(IModRegistry registry) {
         itemRegistry = registry.getIngredientRegistry();
         ingredientBlacklist = registry.getJeiHelpers().getIngredientBlacklist();
 
+        // TODO Cleanup
         categoryCentrifuge.init(registry);
         categoryWiremill.init(registry);
         categoryAlloySmelter.init(registry);
@@ -75,6 +79,7 @@ public class JEIModule implements IModPlugin {
         categoryImplosionCompressor.init(registry);
         categoryVacuumFreezer.init(registry);
         categoryDistillationTower.init(registry);
+        categoryThermalGenerator.init(registry);
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -108,7 +113,8 @@ public class JEIModule implements IModPlugin {
                 categoryIndustrialGrinder = new CategoryIndustrialGrinder(guiHelper),
                 categoryImplosionCompressor = new CategoryImplosionCompressor(guiHelper),
                 categoryVacuumFreezer = new CategoryVacuumFreezer(guiHelper),
-                categoryDistillationTower = new CategoryDistillationTower(guiHelper)
+                categoryDistillationTower = new CategoryDistillationTower(guiHelper),
+                categoryThermalGenerator = new CategoryThermalGenerator(guiHelper)
         );
     }
 

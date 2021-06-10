@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
-public class CategoryDistillationTower extends CategoryStruct<RecipeDistillation, WrapperCellular> {
+public class CategoryDistillationTower extends CategoryBase<RecipeDistillation, WrapperCellular> {
     private final IDrawable gauge;
 
     public CategoryDistillationTower(IGuiHelper guiHelper) {

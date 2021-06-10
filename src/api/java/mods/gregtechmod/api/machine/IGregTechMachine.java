@@ -3,14 +3,6 @@ package mods.gregtechmod.api.machine;
 import net.minecraft.util.EnumFacing;
 
 public interface IGregTechMachine {
-    boolean isActive();
-
-    double getProgress();
-
-    int getMaxProgress();
-
-    void increaseProgress(double amount);
-
     void setRedstoneOutput(EnumFacing side, byte strength);
 
     void addEnergy(double amount);

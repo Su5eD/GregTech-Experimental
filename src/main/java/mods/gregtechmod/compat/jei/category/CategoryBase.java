@@ -3,6 +3,7 @@ package mods.gregtechmod.compat.jei.category;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
@@ -15,14 +16,14 @@ import mods.gregtechmod.util.GtUtil;
 
 import java.util.Collection;
 
-public abstract class CategoryStruct<R, T extends IRecipeWrapper> implements IRecipeCategory<T> {
+public abstract class CategoryBase<R, T extends IRecipeWrapper> implements IRecipeCategory<T> {
     protected final String name;
     protected final String uid;
     private final IDrawable background;
     private final Class<R> recipeClass;
     private final IRecipeWrapperFactory<R> recipeWrapperFactory;
     
-    public CategoryStruct(String name, Class<R> recipeClass, IRecipeWrapperFactory<R> recipeWrapperFactory, IGuiHelper guiHelper) {
+    public CategoryBase(String name, Class<R> recipeClass, IRecipeWrapperFactory<R> recipeWrapperFactory, IGuiHelper guiHelper) {
         this.name = name;
         this.uid = Reference.MODID + "." + this.name;
         this.background = drawBackground(guiHelper);
@@ -45,9 +46,15 @@ public abstract class CategoryStruct<R, T extends IRecipeWrapper> implements IRe
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         initSlots(guiItemStacks);
         guiItemStacks.set(ingredients);
+        
+        IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
+        initFluidsSlots(guiFluidStacks);
+        guiFluidStacks.set(ingredients);
     }
     
-    protected abstract void initSlots(IGuiItemStackGroup guiItemStacks);
+    protected void initSlots(IGuiItemStackGroup guiItemStacks) {}
+    
+    protected void initFluidsSlots(IGuiFluidStackGroup guiFluidStacks) {}
 
     @Override
     public String getUid() {

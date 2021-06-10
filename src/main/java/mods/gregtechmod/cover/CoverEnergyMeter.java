@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -129,6 +130,11 @@ public class CoverEnergyMeter extends CoverGeneric {
     @Override
     public int getTickRate() {
         return 5;
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.METER;
     }
 
     private enum Mode {

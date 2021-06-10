@@ -8,7 +8,7 @@ import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
@@ -17,6 +17,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.compat.buildcraft.MjReceiverWrapper;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.GtFluidTank;
 import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
 import mods.gregtechmod.util.GtUtil;
@@ -30,7 +31,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -39,15 +42,10 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class TileEntityUpgradable extends TileEntityEnergy implements IUpgradableMachine {
-    private final String descriptionKey;
-
+public abstract class TileEntityUpgradable extends TileEntityEnergy implements IUpgradableMachine, IScannerInfoProvider {
     protected GameProfile owner = null;
     protected boolean isPrivate;
     
@@ -61,23 +59,14 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     protected MjReceiverWrapper receiver;
     protected boolean hasMjUpgrade;
 
-    protected TileEntityUpgradable(String descriptionKey, double maxEnergy, int defaultTier) {
-        super(maxEnergy, defaultTier);
-        this.descriptionKey = descriptionKey;
+    protected TileEntityUpgradable(String descriptionKey) {
+        super(descriptionKey);
         this.upgradeSlot = new GtUpgradeSlot(this, "upgrades", InvSlot.Access.NONE, 8);
         this.fluids = addComponent(new Fluids(this));
     }
-
+    
     @Override
-    protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        ItemStack stack = player.inventory.getCurrentItem();
-        if (attemptUseCrowbar(stack, side, player) || attemptUseScrewdriver(stack, side, player)) return true;
-
-        if (world.isRemote) return true;
-
-        if (this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
-        for (ICover cover : coverHandler.covers.values()) if (!cover.opensGui(side)) return false;
-
+    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (isPrivate) {
             if (!GtUtil.checkAccess(this, owner, player.getGameProfile())) {
                 GtUtil.sendMessage(player, Reference.MODID+".info.access_error", owner.getName());
@@ -85,6 +74,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
             }
         }
 
+        ItemStack stack = player.inventory.getCurrentItem();
         Item currentItem = stack.getItem();
 
         if(upgradeSlot.accepts(stack)) {
@@ -96,12 +86,12 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
                 if (currentItem instanceof IUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
                     IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
                     if (upgradeType != null) {
-                        if (upgradeCount >= upgradeType.maxCount || upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultTier + 1) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+                        if (upgradeCount >= upgradeType.maxCount || upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultSinkTier + 1) return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
                     }
                 }
                 else if (currentItem instanceof IGtUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
                     if (((IGtUpgradeItem)currentItem).beforeInsert(upgradeStack, this, player)) return true;
-                    else if (!((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+                    else if (!((IGtUpgradeItem)currentItem).canBeInserted(upgradeStack, this)) return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
                 }
                 else continue;
 
@@ -111,22 +101,22 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
                     this.upgradeSlot.put(i, StackUtil.copyWithSize(stack, 1));
                 }
 
+                ItemStack copy = StackUtil.copyWithSize(stack, 1);
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
-                updateUpgrade(StackUtil.copyWithSize(stack, 1), player);
+                updateUpgrade(copy, player);
                 break;
             }
             return true;
         }
         else {
-            return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+            return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
         }
     }
 
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("overclockersCount");
-        return ret;
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("overclockersCount");
     }
 
     @Override
@@ -160,7 +150,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
                 this.energy.setSinkTier(Math.min(this.energy.getSinkTier() + stack.getCount(), 3));
                 break;
             case BATTERY:
-                this.energy.setCapacity(this.energy.getCapacity()+ 10000 * stack.getCount());
+                this.energy.setCapacity(this.energy.getCapacity() + 10000 * stack.getCount());
                 break;
         }
     }
@@ -222,8 +212,24 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     @Override
+    protected boolean canSetFacingWrench(EnumFacing facing, EntityPlayer player) {
+        if (isPrivate && !GtUtil.checkAccess(this, owner, player.getGameProfile())) {
+            return false;
+        }
+        return super.canSetFacingWrench(facing, player);
+    }
+
+    @Override
+    protected boolean wrenchCanRemove(EntityPlayer player) {
+        if (isPrivate && !GtUtil.checkAccess(this, owner, player.getGameProfile())) {
+            GtUtil.sendMessage(player, Reference.MODID+".info.wrench_error", player.getName());
+            return false;
+        }
+        return super.wrenchCanRemove(player);
+    }
+
+    @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        if (descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(descriptionKey));
         super.addInformation(stack, tooltip, advanced);
         Set<String> possibleUpgrades = new LinkedHashSet<>();
         possibleUpgrades.addAll(this.getCompatibleIC2Upgrades()
@@ -237,7 +243,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
                 .map(entry -> entry.toString().substring(0, 1))
                 .sorted()
                 .collect(Collectors.toCollection(LinkedHashSet::new)));
-        tooltip.add(GtUtil.translate("teblock.info.possible_upgrades")+": " + String.join(" ", possibleUpgrades));
+        if (!possibleUpgrades.isEmpty()) tooltip.add(GtUtil.translate("teblock.info.possible_upgrades")+": " + String.join(" ", possibleUpgrades));
     }
 
     @Override
@@ -377,7 +383,68 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return IC2UpgradeType.DEFAULT;
     }
+    
+    protected float getSteamMultiplier() {
+        float multiplier = 0.5F;
+        if (this.steamTank.getFluidAmount() < 1) return multiplier;
+        Fluid fluid = this.steamTank.getFluid().getFluid();
+    
+        if (fluid == FluidName.superheated_steam.getInstance()) multiplier *= GregTechConfig.BALANCE.superHeatedSteamMultiplier;
+        else if (fluid == FluidRegistry.getFluid("steam")) multiplier /= GregTechConfig.BALANCE.steamMultiplier;
+    
+        return multiplier;
+    }
+    
+    protected boolean canDrainSteam(int requiredAmount) {
+        if (requiredAmount < 1 || steamTank == null) return false;
+        return steamTank.getFluidAmount() >= requiredAmount;
+    }
+    
+    protected int getEnergyForSteam(double amount) {
+        return (int) Math.round(amount / getSteamMultiplier());
+    }
+     
+    @Override
+    public double useEnergy(double amount, boolean simulate) {
+        double discharged = this.energy.discharge(amount, simulate);
+        if (discharged > 0) return discharged;
+        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(amount))) return amount;
+        else if (hasSteamUpgrade) {
+            int energy = getEnergyForSteam(amount);
+            if (canDrainSteam(energy)) {
+                steamTank.drain(energy, true);
+                return amount;
+            }
+        }
+        return 0;
+    }
+    
+    @Override
+    public double getUniversalEnergy() {
+        double steam = this.hasSteamUpgrade ? steamTank.getFluidAmount() * getSteamMultiplier() : 0;
+        double mj = this.hasMjUpgrade ? this.receiver.getStored() / (double) MjHelper.MJ : 0;
+        return Math.max(this.energy.getStoredEnergy(), Math.max(steam, mj));
+    }
+    
+    @Override
+    public double getUniversalEnergyCapacity() {
+        double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * getSteamMultiplier() : 0;
+        double mj = this.hasMjUpgrade ? this.receiver.getCapacity() / (double) MjHelper.MJ : 0;
+        return Math.max(this.energy.getCapacity(), Math.max(steam, mj));
+    }
 
+    @Override
+    public double getStoredSteam() {
+        if (steamTank != null) return steamTank.getFluidAmount();
+        return 0;
+    }
+    
+    @Override
+    public double getSteamCapacity() {
+        if (steamTank != null) return steamTank.getCapacity();
+        return 0;
+    }
+    
     @Override
     public long getStoredMj() {
         return this.hasMjUpgrade ? this.receiver.getStored() : 0;
@@ -403,5 +470,24 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         this.hasMjUpgrade = true;
         if (this.receiver == null) this.receiver = new MjReceiverWrapper(10000 * MjHelper.MJ, 100 * MjHelper.MJ, 0);
         if (this.world != null) this.world.notifyNeighborsOfStateChange(this.pos, this.blockType, false);
+    }
+
+    @Nonnull
+    @Override
+    public List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
+        List<String> ret = new ArrayList<>();
+        if (scanLevel > 2) ret.add("Meta-ID: " + this.getBlockMetadata());
+        if (scanLevel > 1) {
+            ret.add(GtUtil.translateInfo(GtUtil.checkAccess(this, this.owner, player.getGameProfile()) ? "machine_accessible" : "machine_not_accessible"));
+        }
+        if (scanLevel > 0) {
+            if (this.hasSteamUpgrade) {
+                ret.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + GtUtil.translateGeneric("steam"));
+            }
+            if (this.hasMjUpgrade) {
+                ret.add(this.receiver.getStored() / MjHelper.MJ + " / " + this.receiver.getCapacity() / MjHelper.MJ + " MJ");
+            }
+        }
+        return ret;
     }
 }

@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
-public class CategoryIndustrialGrinder extends CategoryStruct<RecipeGrinder, WrapperIndustrialGrinder> {
+public class CategoryIndustrialGrinder extends CategoryBase<RecipeGrinder, WrapperIndustrialGrinder> {
     private final IDrawable gauge;
     
     public CategoryIndustrialGrinder(IGuiHelper guiHelper) {

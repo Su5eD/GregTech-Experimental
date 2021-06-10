@@ -2,19 +2,17 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
-import ic2.core.IHasGui;
-import ic2.core.block.comp.Energy;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.gui.dynamic.IGuiValueProvider;
-import ic2.core.ref.FluidName;
+import ic2.core.util.Util;
+import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
-import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
+import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,15 +21,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IGuiValueProvider, IExplosionPowerOverride, IScannerInfoProvider, IPanelInfoProvider {
+public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IMachineProgress, IGuiValueProvider, IExplosionPowerOverride, IPanelInfoProvider {
     public boolean shouldExplode;
     private boolean explode;
     private int explosionTier;
@@ -45,17 +43,36 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public double energyConsume;
     public int maxProgress;
     protected double guiProgress;
+    
+    private final double defaultCapacity;
+    private final int defaultTier;
 
-    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int defaultTier, RM recipeManager) {
-        this(descriptionKey, maxEnergy, outputSlots, defaultTier, recipeManager, false);
+    public TileEntityGTMachine(String descriptionKey, double defaultCapacity, int outputSlots, int defaultTier, RM recipeManager) {
+        this(descriptionKey, defaultCapacity, outputSlots, defaultTier, recipeManager, false);
     }
 
-    public TileEntityGTMachine(String descriptionKey, double maxEnergy, int outputSlots, int defaultTier, RM recipeManager, boolean wildcardInput) {
-        super(descriptionKey, maxEnergy, defaultTier);
-        this.progress = 0;
+    public TileEntityGTMachine(String descriptionKey, double defaultCapacity, int outputSlots, int defaultTier, RM recipeManager, boolean wildcardInput) {
+        super(descriptionKey);
+        this.defaultCapacity = defaultCapacity;
+        this.defaultTier = defaultTier;
         this.recipeManager = recipeManager;
         this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);
+    }
+
+    @Override
+    protected AdjustableEnergy createEnergyComponent() {
+        return AdjustableEnergy.createSink(this, this.defaultCapacity, this.defaultTier, getSinkSides());
+    }
+    
+    @Override
+    protected Collection<EnumFacing> getSinkSides() {
+        return Util.allFacings;
+    }
+       
+    @Override
+    protected Collection<EnumFacing> getSourceSides() {
+        return Collections.emptySet();
     }
 
     public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
@@ -72,9 +89,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.baseEnergyConsume = nbt.getDouble("baseEnergyConsume");
         this.energyConsume = nbt.getDouble("energyConsume");
         this.maxProgress = nbt.getInteger("operationLength");
-        this.enableWorking = nbt.getBoolean("enableWorking");
-        this.enableInput = nbt.getBoolean("enableInput");
-        this.enableOutput = nbt.getBoolean("enableOutput");
         for (int i = 0; i < 4; i++) {
             if(nbt.hasKey("outputStack"+i)) {
                 NBTTagCompound tNBT = (NBTTagCompound) nbt.getTag("outputStack"+i);
@@ -90,9 +104,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         nbt.setDouble("baseEnergyConsume", this.baseEnergyConsume);
         nbt.setDouble("energyConsume", this.energyConsume);
         nbt.setInteger("operationLength", this.maxProgress);
-        nbt.setBoolean("enableWorking", this.enableWorking);
-        nbt.setBoolean("enableInput", this.enableInput);
-        nbt.setBoolean("enableOutput", this.enableOutput);
         if(pendingRecipe.size() > 0) {
             for (int i = 0; i < pendingRecipe.size(); i++) {
                 NBTTagCompound tNBT = new NBTTagCompound();
@@ -102,15 +113,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             }
         }
         return nbt;
-    }
-
-    @Override
-    protected boolean wrenchCanRemove(EntityPlayer player) {
-        if (isPrivate && !GtUtil.checkAccess(this, owner, player.getGameProfile())) {
-            GtUtil.sendMessage(player, Reference.MODID+".info.wrench_error", player.getName());
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -131,7 +133,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         if (canOperate(recipe)) {
             updateEnergyConsume(recipe);
 
-            if (this.energy.useEnergy(energyConsume) || hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(energyConsume))) {
+            if (this.energy.discharge(energyConsume) > 0 || hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(energyConsume))) {
                 dirty = processRecipe(recipe);
             } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getEnergyForSteam(energyConsume))) {
                 dirty = processRecipe(recipe);
@@ -149,26 +151,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             this.energyConsume = this.baseEnergyConsume = recipe.getEnergyCost();
             overclockEnergyConsume();
         }
-    }
-
-    public boolean canDrainSteam(int requiredAmount) {
-        if (requiredAmount < 1 || steamTank == null) return false;
-        return steamTank.getFluidAmount() >= requiredAmount;
-    }
-
-    public float getSteamMultiplier() {
-        float multiplier = 0.5F;
-        if (this.steamTank.getFluidAmount() < 1) return multiplier;
-        Fluid fluid = this.steamTank.getFluid().getFluid();
-
-        if (fluid == FluidName.superheated_steam.getInstance()) multiplier *= GregTechConfig.BALANCE.superHeatedSteamMultiplier;
-        else if (fluid == FluidRegistry.getFluid("steam")) multiplier /= GregTechConfig.BALANCE.steamMultiplier;
-
-        return multiplier;
-    }
-
-    public int getEnergyForSteam(double amount) {
-        return (int) Math.round(amount / getSteamMultiplier());
     }
 
     protected boolean canOperate(R recipe) {
@@ -262,12 +244,17 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.shouldExplode = true;
         this.explosionTier = this.energy.getSinkTier() + 1;
         if (GregTechConfig.MACHINES.machineWireFire) {
-            double energy = this.energy.getEnergy();
+            double energy = getStoredEU();
             this.energy.onUnloaded();
-            this.energy = Energy.asBasicSource(this, this.energy.getCapacity(), 5);
+            this.energy = AdjustableEnergy.createSource(this, getEUCapacity(), 5, Util.allFacings);
             this.energy.onLoaded();
-            this.energy.forceAddEnergy(energy);
+            this.energy.forceCharge(energy);
         }
+    }
+
+    @Override
+    public boolean isActive() {
+        return getActive();
     }
 
     @Override
@@ -283,46 +270,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     public void increaseProgress(double amount) {
         this.progress += amount;
-    }
-
-    @Override
-    public double getStoredSteam() {
-        if (steamTank != null) return steamTank.getFluidAmount();
-        return 0;
-    }
-
-    @Override
-    public double getSteamCapacity() {
-        if (steamTank != null) return steamTank.getCapacity();
-        return 0;
-    }
-
-    @Override
-    public double useEnergy(double amount, boolean simulate) {
-        if (this.energy.canUseEnergy(amount)) return this.energy.useEnergy(amount, simulate);
-        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(amount))) return amount;
-        else if (hasSteamUpgrade) {
-            int energy = getEnergyForSteam(amount);
-            if (canDrainSteam(energy)) {
-                steamTank.drain(energy, true);
-                return amount;
-            }
-        }
-        return 0;
-    }
-
-    @Override
-    public double getUniversalEnergy() {
-        double steam = this.hasSteamUpgrade ? steamTank.getFluidAmount() * getSteamMultiplier() : 0;
-        double mj = this.hasMjUpgrade ? this.receiver.getStored() / (double) MjHelper.MJ : 0;
-        return Math.max(this.energy.getEnergy(), Math.max(steam, mj));
-    }
-
-    @Override
-    public double getUniversalEnergyCapacity() {
-        double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * getSteamMultiplier() : 0;
-        double mj = this.hasMjUpgrade ? this.receiver.getCapacity() / (double) MjHelper.MJ : 0;
-        return Math.max(this.energy.getCapacity(), Math.max(steam, mj));
     }
 
     @Override
@@ -349,20 +296,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Nonnull
     @Override
     public List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
-        List<String> ret = new ArrayList<>();
-        if (scanLevel > 2) ret.add("Meta-ID: " + this.getBlockMetadata());
-        if (scanLevel > 1) {
-            ret.add(GtUtil.translateInfo(GtUtil.checkAccess(this, this.owner, player.getGameProfile()) ? "machine_accessible" : "machine_not_accessible"));
-        }
-        if (scanLevel > 0) {
-            if (this.hasSteamUpgrade) {
-                ret.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + GtUtil.translateGeneric("steam"));
-            }
-            if (this.hasMjUpgrade) {
-                ret.add(this.receiver.getStored() / MjHelper.MJ + " / " + this.receiver.getCapacity() / MjHelper.MJ + " MJ");
-            }
-            ret.add(GtUtil.translateInfo("machine_"+(isActive() ? "active" : "inactive")));
-        }
+        List<String> ret = super.getScanInfo(player, pos, scanLevel);
+        if (scanLevel > 0) ret.add(GtUtil.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
         return ret;
     }
 
@@ -385,7 +320,4 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public String getTertiaryInfo() {
         return  "/" + GtUtil.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, this.overclockersCount) / 20));
     }
-    
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }

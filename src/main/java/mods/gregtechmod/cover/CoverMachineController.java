@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -31,6 +32,11 @@ public class CoverMachineController extends CoverGeneric {
         boolean isPowered = world.isBlockPowered(offset) || world.isSidePowered(offset, side);
         if (isPowered == (mode == ControllerMode.NORMAL) && mode != ControllerMode.DISABLED) ((IGregTechMachine)te).enableWorking();
         else ((IGregTechMachine)te).disableWorking();
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.CONTROLLER;
     }
 
     @Override

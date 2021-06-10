@@ -3,6 +3,9 @@
 - input:
     fluid: bio.ethanol
   energy: 128
+  conditions:
+    - type: mod_loaded
+      modid: forestry
 - input:
     fluid: diesel
   energy: 384

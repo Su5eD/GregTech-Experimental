@@ -5,6 +5,7 @@ import ic2.core.item.type.CraftingItemType;
 import ic2.core.item.type.PlateResourceType;
 import ic2.core.ref.ItemName;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.Reference;
@@ -120,6 +121,11 @@ public class CoverGeneric implements ICover {
     @Override
     public List<String> getDescription() {
         return Collections.emptyList();
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.GENERIC;
     }
 
     @Override

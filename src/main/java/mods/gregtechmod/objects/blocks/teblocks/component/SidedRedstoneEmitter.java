@@ -37,7 +37,6 @@ public class SidedRedstoneEmitter extends TileEntityComponent {
     }
 
     public void onWorldTick() {
-        assert !this.levels.isEmpty() && !this.levels.equals(this.oldLevels);
-        this.oldLevels = levels;
+        if (!this.levels.isEmpty() && !this.levels.equals(this.oldLevels)) this.oldLevels = levels;
     }
 }

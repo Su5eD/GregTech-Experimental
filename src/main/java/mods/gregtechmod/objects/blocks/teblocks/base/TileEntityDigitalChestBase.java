@@ -1,9 +1,9 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -31,10 +31,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior implements IUpgradableMachine, IPanelInfoProvider {
     protected GameProfile owner = null;
@@ -53,7 +50,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         this.content = new InvSlot(this, "mainSlot", InvSlot.Access.IO, 1);
         this.content.setStackSizeLimit(stackLimit);
         this.upgradeSlot = new GtUpgradeSlot(this, "lockUpgradeSlot", InvSlot.Access.NONE, 1);
-        this.allowedCovers = Sets.newHashSet("generic", "normal", "conveyor", "item_meter", "crafting", "machine_controller", "item_valve");
+        this.allowedCovers = EnumSet.of(CoverType.GENERIC, CoverType.IO, CoverType.CONTROLLER, CoverType.METER);
     }
 
     @Override
@@ -63,12 +60,12 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (hand != EnumHand.MAIN_HAND) return true;
         ItemStack stack = player.getHeldItem(hand);
         ItemStack slot = content.get();
         availableSpace = maxItemCount - slot.getCount();
-        if (stack.getItem().getRegistryName().toString().contains("wrench")) return true;
+        if (stack.getItem().getRegistryName().toString().contains("wrench")) return true; // FIXME What was I thinking ???
 
         if (isPrivate && !world.isRemote) { //has to be executed on server side only
             if (!GtUtil.checkAccess(this, owner, player.getGameProfile())) {
@@ -98,7 +95,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             }
         }
 
-        if (super.onActivated(player, hand, side, hitX, hitY, hitZ) || world.isRemote) return true;
+        if (super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ) || world.isRemote) return true;
 
         long time = world.getTotalWorldTime();
 
@@ -149,7 +146,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         }
 
         clickTime = time;
-        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+        return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -209,19 +206,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     protected List<ItemStack> getAuxDrops(int fortune) {
         return GtUtil.correctStacksize(super.getAuxDrops(fortune));
     }
-
-    @Override
-    public double getProgress() {
-        return 0;
-    }
-
-    @Override
-    public int getMaxProgress() {
-        return 0;
-    }
-
-    @Override
-    public void increaseProgress(double amount) {}
 
     @Override
     public void addEnergy(double amount) {
@@ -466,4 +450,9 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public void setMjCapacity(long capacity) {}
+
+    @Override
+    protected Collection<EnumFacing> getSinkSides() {
+        return Collections.emptySet();
+    }
 }

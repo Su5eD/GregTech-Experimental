@@ -13,7 +13,7 @@ public class GuiIndustrialCentrifuge extends GuiInventory<ContainerIndustrialCen
 
     public GuiIndustrialCentrifuge(ContainerIndustrialCentrifuge container) {
         super(container);
-        addElement(CustomFluidSlot.createFluidSlot(this, 109, 64, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
+        addElement(new CustomFluidSlot(this, 109, 64, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
 
         addElement(new LinkedGauge(this, 98, 38, container.base, "progress", GregtechGauge.SMALL_ARROW_RIGHT));
         addElement(new LinkedGauge(this, 83, 23, container.base, "progress", GregtechGauge.SMALL_ARROW_UP));

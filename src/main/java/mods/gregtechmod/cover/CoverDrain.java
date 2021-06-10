@@ -1,6 +1,7 @@
 package mods.gregtechmod.cover;
 
 import ic2.core.util.LiquidUtil;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -100,6 +101,11 @@ public class CoverDrain extends CoverGeneric {
 
     public boolean canWork() {
         return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine)te).isAllowedToWork() == mode.inverted);
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.IO;
     }
 
     private enum DrainMode {

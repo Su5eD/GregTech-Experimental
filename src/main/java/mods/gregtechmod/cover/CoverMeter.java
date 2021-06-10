@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -109,5 +110,10 @@ public abstract class CoverMeter extends CoverGeneric {
     @Override
     public boolean overrideRedstoneOut() {
         return true;
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.METER;
     }
 }

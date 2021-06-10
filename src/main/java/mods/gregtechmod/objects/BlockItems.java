@@ -625,7 +625,7 @@ public class BlockItems {
             }
             return false;
         }, (stack, machine, player) -> {
-            if (player != null && !machine.isPrivate()) machine.setPrivate(true, player.getGameProfile());
+            if (!machine.isPrivate()) machine.setPrivate(true, player != null ? player.getGameProfile() : machine.getOwner());
         }),
         STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (stack, machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();

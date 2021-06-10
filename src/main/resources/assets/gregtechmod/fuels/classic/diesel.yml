@@ -1,10 +1,10 @@
 # Classic Diesel fuels
 ---
 - input:
-    item: ic2:cell#biofuel
+    cell: biofuel
   energy: 6
 - input:
-    item: ic2:cell#coalfuel
+    cell: coalfuel
   energy: 16
 - input:
     fluid: nitro_coalfuel

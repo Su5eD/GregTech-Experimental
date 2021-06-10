@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.util.GtUtil;
@@ -64,5 +65,10 @@ public abstract class CoverInventory extends CoverGeneric {
     @Override
     public boolean letsRedstoneOut() {
         return true;
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.IO;
     }
 }

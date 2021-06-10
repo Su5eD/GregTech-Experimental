@@ -8,22 +8,17 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
-    private final IFluidTank tank;
+    protected final IFluidTank tank;
     private final ResourceLocation texture;
     private final double textureX;
     private final double textureY;
     private final boolean fluidNameOnly;
 
-    public static CustomFluidSlot createFluidSlot(GuiIC2<?> gui, int x, int y, IFluidTank tank, ResourceLocation backgroundTexture, double textureX, double textureY, boolean displayFluidNameOnly) {
-        return new CustomFluidSlot(gui, x, y, 18, 18, tank, backgroundTexture, textureX, textureY, displayFluidNameOnly);
-    }
-
-    protected CustomFluidSlot(GuiIC2<?> gui, int x, int y, int width, int height, IFluidTank tank, @Nullable ResourceLocation backgroundTexture, double textureX, double textureY, boolean displayFluidNameOnly) {
-        super(gui, x, y, width, height);
+    public CustomFluidSlot(GuiIC2<?> gui, int x, int y, IFluidTank tank, ResourceLocation backgroundTexture, double textureX, double textureY, boolean displayFluidNameOnly) {
+        super(gui, x, y, 18, 18);
         if (tank == null) throw new NullPointerException("FluidTank is null");
         else this.tank = tank;
         

@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
-public class CategoryIndustrialBlastFurnace extends CategoryStruct<RecipeBlastFurnace, WrapperMultiInput<?>> {
+public class CategoryIndustrialBlastFurnace extends CategoryBase<RecipeBlastFurnace, WrapperMultiInput<?>> {
     private final IDrawable gauge;
 
     public CategoryIndustrialBlastFurnace(IGuiHelper guiHelper) {

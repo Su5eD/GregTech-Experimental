@@ -1,6 +1,7 @@
 package mods.gregtechmod.cover;
 
 import ic2.api.energy.EnergyNet;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -70,5 +71,10 @@ public class CoverSolarPanel extends CoverGeneric {
     @Override
     public int getTickRate() {
         return 1;
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.ENERGY;
     }
 }

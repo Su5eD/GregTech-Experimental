@@ -45,7 +45,9 @@
       "industrial_grinder": { "model": "gregtechmod:industrial_grinder" },
       "implosion_compressor": { "model": "gregtechmod:implosion_compressor" },
       "vacuum_freezer": { "model": "gregtechmod:vacuum_freezer" },
-      "distillation_tower": { "model": "gregtechmod:distillation_tower" }
+      "distillation_tower": { "model": "gregtechmod:distillation_tower" },
+      "thermal_generator": { "model": "gregtechmod:thermal_generator" },
+      "thermal_generator_active": { "model": "gregtechmod:thermal_generator_active" }
     },
     "facing": {
       "down": { "x": 90 },

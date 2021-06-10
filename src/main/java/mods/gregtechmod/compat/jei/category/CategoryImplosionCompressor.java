@@ -21,7 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Collection;
 import java.util.List;
 
-public class CategoryImplosionCompressor extends CategoryStruct<RecipeImplosion, WrapperMultiInput<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
+public class CategoryImplosionCompressor extends CategoryBase<RecipeImplosion, WrapperMultiInput<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
     private final IDrawable gauge;
 
     public CategoryImplosionCompressor(IGuiHelper guiHelper) {

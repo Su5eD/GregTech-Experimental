@@ -12,7 +12,7 @@ public class GuiIndustrialElectrolyzer extends GuiInventory<ContainerIndustrialE
 
     public GuiIndustrialElectrolyzer(ContainerIndustrialElectrolyzer container) {
         super(container);
-        addElement(CustomFluidSlot.createFluidSlot(this, 109, 45, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
+        addElement(new CustomFluidSlot(this, 109, 45, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
 
         addElement(new LinkedGauge(this, 73, 34, container.base, "progress", GregtechGauge.SMALL_ARROW_UP));
         addElement(new LinkedGauge(this, 83, 34, container.base, "progress", GregtechGauge.SMALL_ARROW_UP));

@@ -18,7 +18,7 @@ import ic2.core.block.TileEntityInventory;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.event.ScannerEvent;
-import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -158,10 +158,10 @@ public class ItemScanner extends ItemElectricBase {
                 if ((value = (int) ((IUpgradableMachine)tileEntity).getExtraEnergyStorage()) > 0) ret.add(GtUtil.translateScan("extra_capacity", value));
             }
 
-            if (tileEntity instanceof IGregTechMachine) {
+            if (tileEntity instanceof IMachineProgress) {
                 energyCost += 400;
-                int maxProgress = ((IGregTechMachine)tileEntity).getMaxProgress();
-                if (maxProgress > 0) ret.add(GtUtil.translateScan("progress", ((IGregTechMachine)tileEntity).getProgress(), maxProgress));
+                int maxProgress = ((IMachineProgress)tileEntity).getMaxProgress();
+                if (maxProgress > 0) ret.add(GtUtil.translateScan("progress", ((IMachineProgress)tileEntity).getProgress(), maxProgress));
             }
 
             if (tileEntity instanceof ICoverable) {

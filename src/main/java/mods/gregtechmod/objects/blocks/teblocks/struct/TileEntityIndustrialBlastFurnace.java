@@ -95,10 +95,10 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     // ------ Coil Handling ------
     
     @Override
-    protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (this.coilHandler.onActivated(player)) return true;
             
-        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+        return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
 
     @Override

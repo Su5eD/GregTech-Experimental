@@ -3,25 +3,43 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstone;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.util.InvUtil;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 
 public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine {
     public final SidedRedstoneEmitter rsEmitter;
-    public final SidedRedstone redstone;
     protected boolean enableWorking = true;
     private boolean enableWorkingOld = true;
-    protected int tickCounter;
     protected boolean enableInput = true;
     protected boolean enableOutput = true;
+    protected int tickCounter;
 
     public TileEntityCoverBehavior() {
         this.rsEmitter = addComponent(new SidedRedstoneEmitter(this));
-        this.redstone = addComponent(new SidedRedstone(this));
+    }
+
+    @Override
+    protected final boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.inventory.getCurrentItem();
+        if (beforeOnActivated(stack, player, side) 
+                || this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ) 
+                || world.isRemote) return true;
+        if (player.isSneaking()) return false;
+        
+        for (ICover cover : coverHandler.covers.values()) {
+            if (!cover.opensGui(side)) return false;
+        }
+        
+        return onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
+    }
+    
+    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -43,12 +61,14 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         super.readFromNBT(nbt);
         this.enableInput = nbt.getBoolean("enableInput");
         this.enableOutput = nbt.getBoolean("enableOutput");
+        this.enableWorking = nbt.getBoolean("enableWorking");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         nbt.setBoolean("enableInput", this.enableInput);
         nbt.setBoolean("enableOutput", this.enableOutput);
+        nbt.setBoolean("enableWorking", this.enableWorking);
         return super.writeToNBT(nbt);
     }
 
@@ -106,11 +126,6 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
             }
         }
         return false;
-    }
-
-    @Override
-    public boolean isActive() {
-        return getActive();
     }
 
     @Override

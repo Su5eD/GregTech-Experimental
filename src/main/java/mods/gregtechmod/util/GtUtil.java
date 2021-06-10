@@ -148,7 +148,7 @@ public class GtUtil {
         if (stack.isItemStackDamageable())
         {
             if (!player.capabilities.isCreativeMode) {
-                if (stack.attemptDamageItem(damage, player.getRNG(), player instanceof EntityPlayerMP ? (EntityPlayerMP)player : null))
+                if (stack.attemptDamageItem(damage, player.getRNG(), player instanceof EntityPlayerMP ? (EntityPlayerMP) player : null))
                 {
                     if (stack.getItem().hasContainerItem(stack)) {
                         ItemStack containerStack = stack.getItem().getContainerItem(stack);
@@ -213,18 +213,18 @@ public class GtUtil {
     }
 
     public static List<ItemStack> correctStacksize(List<ItemStack> list) {
-        for (int i = 0; i < list.size(); i++) {
-            ItemStack stack = list.get(i);
-            int maxSize = stack.getMaxStackSize();
-            if (stack.getCount() > maxSize) {
-                list.remove(i);
-                int cycles = stack.getCount() / maxSize + 1;
-                for (int j = 0; j < cycles; j++) {
-                    list.add(stack.splitStack(maxSize));
-                }
-            }
-        }
-        return list;
+        return list.stream()
+                .flatMap(stack -> {
+                    int maxSize = stack.getMaxStackSize();
+                    if (stack.getCount() > maxSize) {
+                        int cycles = stack.getCount() / maxSize + 1;
+                        ItemStack split = stack.splitStack(maxSize);
+                        return Stream.generate(() -> split)
+                                .limit(cycles - 1);
+                    }
+                    return Stream.of(stack);
+                })
+                .collect(Collectors.toList());
     }
 
     public static boolean stackEquals(ItemStack first, ItemStack second) {
@@ -292,6 +292,10 @@ public class GtUtil {
                 .forEach(slot -> input.forEach(ingredient -> {
                     if (ingredient.apply(slot.get())) slot.consume(ingredient.getCount(), true);
                 }));
+    }
+    
+    public static <T> boolean matchCollections(Collection<T> first, Collection<T> second) {
+        return first.size() != second.size() || !first.containsAll(second) && ! second.containsAll(first);
     }
     
     private static class VoidTank implements IFluidHandler {

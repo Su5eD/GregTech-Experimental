@@ -4,9 +4,9 @@ import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.util.StackUtil;
-import ic2.core.util.Util;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.cover.CoverGeneric;
@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Let's you add/remove covers on a tile entity. <b>Isn't responsible</b>  for cover behavior.
+ * Let's you add/remove covers on a tile entity. <b>Isn't responsible</b> for cover behavior.
  */
 public abstract class TileEntityCoverable extends TileEntityInventory implements ICoverable {
     protected final CoverHandler coverHandler;
-    protected Set<String> allowedCovers = new HashSet<>();
+    protected Set<CoverType> allowedCovers = new HashSet<>();
 
     public TileEntityCoverable() {
         this.coverHandler = addComponent(new CoverHandler(this, () -> {
@@ -39,22 +39,23 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
         }));
     }
 
-    protected Set<EnumFacing> getSinkDirs() {
-        return Util.allFacings;
-    }
+    protected abstract Collection<EnumFacing> getSinkSides();
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        ItemStack stack = player.inventory.getCurrentItem();
+        if (beforeOnActivated(player.inventory.getCurrentItem(), player, side)) return true;
+
+        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+    }
+    
+    protected boolean beforeOnActivated(ItemStack stack, EntityPlayer player, EnumFacing side) {
         if (CoverGeneric.isGenericCover(stack)) {
             placeCover(player, side, stack, "generic");
             return true;
         } else if (CoverVent.isVent(stack)) {
             placeCover(player, side, stack, "vent");
             return true;
-        } else if (attemptUseCrowbar(stack, side, player) || attemptUseScrewdriver(stack, side, player)) return true;
-
-        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+        } else return attemptUseCrowbar(stack, side, player) || attemptUseScrewdriver(stack, side, player);
     }
 
     public boolean attemptUseScrewdriver(ItemStack stack, EnumFacing side, EntityPlayer player) {
@@ -107,10 +108,14 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     }
 
     @Override
-    public List<String> getNetworkedFields() {
+    public final List<String> getNetworkedFields() {
         List<String> ret = super.getNetworkedFields();
-        ret.add("coverHandler");
+        getNetworkedFields(ret);
         return ret;
+    }
+    
+    public void getNetworkedFields(List<? super String> list) {
+        list.add("coverHandler");
     }
 
     @Override
@@ -132,7 +137,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
 
     @Override
     public boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate) {
-        if (!allowedCovers.isEmpty() && !allowedCovers.contains(CoverRegistry.getCoverName(cover))) return false;
+        if (!allowedCovers.isEmpty() && !allowedCovers.contains(cover.getType())) return false;
         return this.coverHandler.placeCoverAtSide(cover, side, simulate);
     }
 
