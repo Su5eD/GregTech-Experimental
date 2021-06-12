@@ -4,9 +4,9 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeAlloySmelter;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.gui.GuiAlloySmelter;
-import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineMultiInput;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityElectricFurnaceBase;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -40,6 +40,6 @@ public class TileEntityAlloySmelter extends TileEntityElectricFurnaceBase<List<I
 
     @Override
     public void consumeInput(IRecipeAlloySmelter recipe, boolean consumeContainers) {
-        TileEntityBasicMachineMultiInput.consumeMultiInput(this, recipe, consumeContainers);
+        GtUtil.consumeMultiInput(recipe.getInput(), this.inputSlot, this.queueInputSlot);
     }
 }

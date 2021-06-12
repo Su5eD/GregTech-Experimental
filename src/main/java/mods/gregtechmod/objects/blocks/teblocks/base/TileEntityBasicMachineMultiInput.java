@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public abstract class TileEntityBasicMachineMultiInput extends TileEntityBasicMa
 
     @Override
     public void consumeInput(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, boolean consumeContainers) {
-        consumeMultiInput(this, recipe, consumeContainers);
+        GtUtil.consumeMultiInput(recipe.getInput(), this.inputSlot, this.queueInputSlot);
     }
 
     @Override
@@ -33,22 +34,5 @@ public abstract class TileEntityBasicMachineMultiInput extends TileEntityBasicMa
         if (output.size() > 1) this.outputSlot.add(output);
 
         dumpOutput();
-    }
-
-    public static void consumeMultiInput(TileEntityBasicMachine<? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, List<IRecipeIngredient>, List<ItemStack>, ? extends IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, ? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> machine, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, boolean consumeContainers) {
-        List<IRecipeIngredient> ingredients = recipe.getInput();
-        IRecipeIngredient firstIngredient = ingredients.get(0);
-        int firstCount = firstIngredient.getCount();
-        ItemStack firstInput = machine.queueInputSlot.get();
-
-        IRecipeIngredient secondIngredient = ingredients.get(1);
-        int secondCount = secondIngredient.getCount();
-        ItemStack secondInput = machine.inputSlot.get();
-
-        if (firstIngredient.apply(firstInput)) machine.queueInputSlot.consume(firstCount, consumeContainers);
-        else if (secondIngredient.apply(firstInput)) machine.queueInputSlot.consume(secondCount, consumeContainers);
-
-        if (firstIngredient.apply(secondInput)) machine.inputSlot.consume(firstCount, consumeContainers);
-        else if (secondIngredient.apply(secondIngredient)) machine.inputSlot.consume(secondCount, consumeContainers);
     }
 }
