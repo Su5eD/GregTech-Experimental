@@ -40,11 +40,16 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     private static final Set<EnumFacing> animatedSides = Sets.newHashSet(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP);
     private final boolean dynamicAnimationSpeed;
 
-    protected TileEntityIndustrialCentrifugeBase(String descriptionKey, int defaultTier, int tankCapacity, IGtRecipeManagerCellular recipeManager, boolean dynamicAnimationSpeed) {
-        super(descriptionKey, 10000, 4, defaultTier, recipeManager);
+    protected TileEntityIndustrialCentrifugeBase(String descriptionKey, int tankCapacity, IGtRecipeManagerCellular recipeManager, boolean dynamicAnimationSpeed) {
+        super(descriptionKey, 4, recipeManager);
         this.dynamicAnimationSpeed = dynamicAnimationSpeed;
         this.cellSlot = new InvSlotConsumableCell(this, "cellSlot", 1);
         this.tank = this.fluids.addTank(new GtFluidTankProcessable<>(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), tankCapacity));
+    }
+
+    @Override
+    protected double getDefaultCapacity() {
+        return 10000;
     }
 
     @Override

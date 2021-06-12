@@ -344,7 +344,7 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public double getOfferedEnergy() {
-            return Math.min(storedEnergy, getMaxOutputEUp());
+            return storedEnergy;
         }
         
         public double getMaxOutputEUp() { // Exposes method to public access

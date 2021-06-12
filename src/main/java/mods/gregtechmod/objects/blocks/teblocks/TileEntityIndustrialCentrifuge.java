@@ -13,7 +13,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityIndustrialCentrifuge extends TileEntityIndustrialCentrifugeBase {
 
     public TileEntityIndustrialCentrifuge() {
-        super("industrial_centrifuge", 1, 32000, GtRecipes.industrialCentrifuge, true);
+        super("industrial_centrifuge", 32000, GtRecipes.industrialCentrifuge, true);
+    }
+
+    @Override
+    protected int getDefaultTier() {
+        return 1;
     }
 
     public ContainerBase<TileEntityIndustrialCentrifugeBase> getGuiContainer(EntityPlayer player) {

@@ -26,10 +26,20 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     public InvSlotConsumableCell cellSlot;
     
     public TileEntityDistillationTower() {
-        super("distillation_tower", 10000, 4, 2, GtRecipes.distillation);
+        super("distillation_tower", 4, GtRecipes.distillation);
         this.cellSlot = new InvSlotConsumableCell(this, "cell_slot", 1);
     }
-    
+
+    @Override
+    protected double getDefaultCapacity() {
+        return 10000;
+    }
+
+    @Override
+    protected int getDefaultTier() {
+        return 2;
+    }
+
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(

@@ -27,10 +27,20 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     public final GtSlotProcessableImplosion secondaryInput;
     
     public TileEntityImplosionCompressor() {
-        super("implosion_compressor", 10000, 2, 1, GtRecipes.implosion);
+        super("implosion_compressor", 2, GtRecipes.implosion);
         this.secondaryInput = new GtSlotProcessableImplosion(this, "itnt_input", 1);
     }
-    
+
+    @Override
+    protected double getDefaultCapacity() {
+        return 10000;
+    }
+
+    @Override
+    protected int getDefaultTier() {
+        return 1;
+    }
+
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(

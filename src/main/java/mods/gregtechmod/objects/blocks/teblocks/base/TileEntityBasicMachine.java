@@ -47,10 +47,20 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     public TileEntityBasicMachine(String descriptionKey, RM recipeManager, boolean wildcardInput) {
-        super(descriptionKey, 2000, 1, 1, recipeManager, wildcardInput);
+        super(descriptionKey, 1, recipeManager, wildcardInput);
         this.extraSlot = getExtraSlot();
         this.queueInputSlot = getInputSlot("queueInput", GtInvSide.VERTICAL, wildcardInput);
         this.queueOutputSlot = getOutputSlot("queueOutput", 1);
+    }
+
+    @Override
+    protected double getDefaultCapacity() {
+        return 2000;
+    }
+
+    @Override
+    protected int getDefaultTier() {
+        return 1;
     }
 
     protected InvSlot getExtraSlot() {

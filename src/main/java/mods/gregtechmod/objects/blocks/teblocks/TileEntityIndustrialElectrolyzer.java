@@ -13,7 +13,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityIndustrialElectrolyzer extends TileEntityIndustrialCentrifugeBase {
 
     public TileEntityIndustrialElectrolyzer() {
-        super("industrial_electrolyzer", 2, 64000, GtRecipes.industrialElectrolyzer, false);
+        super("industrial_electrolyzer", 64000, GtRecipes.industrialElectrolyzer, false);
+    }
+
+    @Override
+    protected int getDefaultTier() {
+        return 2;
     }
 
     @Override

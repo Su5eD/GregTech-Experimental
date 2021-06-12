@@ -43,11 +43,21 @@ public class TileEntityIndustrialGrinder extends TileEntityStructureBase<Object,
     private ItemStack pendingFluidContainer;
     
     public TileEntityIndustrialGrinder() {
-        super("industrial_grinder", 10000, 3, 2, GtRecipes.industrialGrinder);
+        super("industrial_grinder", 3, GtRecipes.industrialGrinder);
         
         this.secondaryInput = new GtSlotProcessableGrinder(this, "secondary_input", 1);
         this.fluidContainerOutput = new InvSlotOutput(this, "fluid_output", 1);
         this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Collections.emptySet(), fluid -> fluid == FluidRegistry.WATER, 10000));
+    }
+
+    @Override
+    protected double getDefaultCapacity() {
+        return 10000;
+    }
+
+    @Override
+    protected int getDefaultTier() {
+        return 2;
     }
 
     @Override

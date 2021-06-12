@@ -43,18 +43,13 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public double energyConsume;
     public int maxProgress;
     protected double guiProgress;
-    
-    private final double defaultCapacity;
-    private final int defaultTier;
 
-    public TileEntityGTMachine(String descriptionKey, double defaultCapacity, int outputSlots, int defaultTier, RM recipeManager) {
-        this(descriptionKey, defaultCapacity, outputSlots, defaultTier, recipeManager, false);
+    public TileEntityGTMachine(String descriptionKey, int outputSlots, RM recipeManager) {
+        this(descriptionKey, outputSlots, recipeManager, false);
     }
 
-    public TileEntityGTMachine(String descriptionKey, double defaultCapacity, int outputSlots, int defaultTier, RM recipeManager, boolean wildcardInput) {
+    public TileEntityGTMachine(String descriptionKey, int outputSlots, RM recipeManager, boolean wildcardInput) {
         super(descriptionKey);
-        this.defaultCapacity = defaultCapacity;
-        this.defaultTier = defaultTier;
         this.recipeManager = recipeManager;
         this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);
@@ -62,8 +57,12 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     @Override
     protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSink(this, this.defaultCapacity, this.defaultTier, getSinkSides());
+        return AdjustableEnergy.createSink(this, getDefaultCapacity(), getDefaultTier(), getSinkSides());
     }
+    
+    protected abstract double getDefaultCapacity();
+    
+    protected abstract int getDefaultTier();
     
     @Override
     protected Collection<EnumFacing> getSinkSides() {

@@ -24,9 +24,19 @@ import java.util.function.Predicate;
 public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMachineRecipe<IRecipeIngredient, List<ItemStack>>, IRecipeIngredient, ItemStack, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> {
     
     public TileEntityVacuumFreezer() {
-        super("vacuum_freezer", 10000, 1, 2, GtRecipes.vacuumFreezer);
+        super("vacuum_freezer", 1, GtRecipes.vacuumFreezer);
     }
-    
+
+    @Override
+    protected double getDefaultCapacity() {
+        return 10000;
+    }
+
+    @Override
+    protected int getDefaultTier() {
+        return 2;
+    }
+
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
