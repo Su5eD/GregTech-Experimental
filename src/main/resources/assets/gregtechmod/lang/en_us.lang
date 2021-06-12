@@ -53,7 +53,6 @@ gregtechmod.scan.wrenchable=You can remove this with a Wrench
 gregtechmod.scan.not_wrenchable=You can NOT remove this with a Wrench
 gregtechmod.scan.demanded_energy=Demanded energy: %s
 gregtechmod.scan.max_safe_input=Max Safe Input: %s
-gregtechmod.scan.offered_energy=Offered Energy: %s
 gregtechmod.scan.max_output=Max Energy Output: %s
 gregtechmod.scan.conduction_loss=Conduction Loss: %s
 gregtechmod.scan.contained_energy=Contained Energy: %s / %s

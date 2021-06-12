@@ -476,7 +476,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
         List<String> ret = new ArrayList<>();
-        if (scanLevel > 2) ret.add("Meta-ID: " + this.getBlockMetadata());
+        if (scanLevel > 2) ret.add("Meta-ID: " + this.getBlockType().getItemStack(this.teBlock).getMetadata());
         if (scanLevel > 1) {
             ret.add(GtUtil.translateInfo(GtUtil.checkAccess(this, this.owner, player.getGameProfile()) ? "machine_accessible" : "machine_not_accessible"));
         }

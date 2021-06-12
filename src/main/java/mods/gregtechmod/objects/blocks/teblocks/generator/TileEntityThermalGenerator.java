@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -51,29 +52,32 @@ public class TileEntityThermalGenerator extends TileEntityUpgradable {
             IFuel<IRecipeIngredient, List<ItemStack>> fuel = getFuel();
             if (canOperate(fuel)) {
                 processInput(fuel);
-                double energy = fuel.getEnergy();
-                double freeCapacity = getEUCapacity() - getStoredEU();
-                if (freeCapacity >= energy) {
-                    setActive(true);
-                    if (this.solidFuelEnergy > 0) {
-                        double amount = energy * 10;
-                        this.solidFuelEnergy -= amount;
-                        addEnergy(amount);
-                    }
-                    else {
-                        this.tank.content.drainInternal(10, true);
-                        addEnergy(energy * 10);
-                    }
-                    return;
+                double energy = getFuelValue(fuel.getEnergy());
+                
+                setActive(true);
+                while(canAddEnergy()) {
+                    if (this.solidFuelEnergy >= energy) {
+                        this.solidFuelEnergy -= energy;
+                    } else if (this.tank.content.getFluidAmount() > 0) {
+                        this.tank.content.drainInternal(1, true);
+                    } else break;
+                    
+                    addEnergy(energy);
                 }
-            }
-            
-            setActive(false);
+            } else setActive(false);
         }
     }
     
+    private double getFuelValue(double energy) {
+        return energy * 4 / 5;
+    }
+    
+    private boolean canAddEnergy() {
+        return getStoredEU() < getMaxOutputEUp() * 10 + 512;
+    }
+    
     protected boolean canOperate(IFuel<IRecipeIngredient, List<ItemStack>> fuel) {
-        return this.enableWorking && fuel != null;
+        return this.isAllowedToWork() && fuel != null;
     }
 
     protected IFuel<IRecipeIngredient, List<ItemStack>> getFuel() {
@@ -88,7 +92,7 @@ public class TileEntityThermalGenerator extends TileEntityUpgradable {
         ItemStack stack = this.tank.inputSlot.get();
         IRecipeIngredient input = fuel.getInput();
         if (!(input instanceof IRecipeIngredientFluid) && input.apply(stack)) {
-            this.solidFuelEnergy = fuel.getEnergy() * 1000;
+            this.solidFuelEnergy = getFuelValue(fuel.getEnergy()) * Fluid.BUCKET_VOLUME;
             this.tank.inputSlot.consume(input.getCount());
             this.tank.outputSlot.add(fuel.getOutput());
         }

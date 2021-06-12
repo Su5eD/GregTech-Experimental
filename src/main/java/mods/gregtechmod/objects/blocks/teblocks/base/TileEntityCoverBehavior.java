@@ -13,10 +13,10 @@ import net.minecraft.util.EnumHand;
 
 public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine {
     public final SidedRedstoneEmitter rsEmitter;
-    protected boolean enableWorking = true;
+    private boolean enableWorking = true;
     private boolean enableWorkingOld = true;
-    protected boolean enableInput = true;
-    protected boolean enableOutput = true;
+    private boolean enableInput = true;
+    private boolean enableOutput = true;
     protected int tickCounter;
 
     public TileEntityCoverBehavior() {
@@ -129,13 +129,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
-    public void disableInput() {
-        this.enableInput = false;
-    }
-
-    @Override
-    public void enableInput() {
-        this.enableInput = true;
+    public void setInputEnabled(boolean value) {
+        this.enableInput = value;
     }
 
     @Override
@@ -144,13 +139,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
-    public void disableOutput() {
-        this.enableOutput = false;
-    }
-
-    @Override
-    public void enableOutput() {
-        this.enableOutput = true;
+    public void setOutputEnabled(boolean value) {
+        this.enableOutput = value;
     }
 
     @Override
@@ -159,13 +149,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
-    public void disableWorking() {
-        this.enableWorking = false;
-    }
-
-    @Override
-    public void enableWorking() {
-        this.enableWorking = true;
+    public void setAllowedToWork(boolean value) {
+        this.enableWorking = value;
     }
 
     @Override

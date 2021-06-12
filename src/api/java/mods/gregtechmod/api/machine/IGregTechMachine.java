@@ -44,24 +44,18 @@ public interface IGregTechMachine {
     long getMjCapacity();
 
     void setMjCapacity(long capacity);
-
-    void disableWorking();
-
-    void enableWorking();
+    
+    void setAllowedToWork(boolean value);
 
     boolean isAllowedToWork();
 
     boolean isInputEnabled();
     
-    void disableInput();
-
-    void enableInput();
+    void setInputEnabled(boolean value);
 
     boolean isOutputEnabled();
     
-    void disableOutput();
-
-    void enableOutput();
+    void setOutputEnabled(boolean value);
     
     void markForExplosion();
 }

@@ -56,16 +56,12 @@ public class ItemHardHammer extends ItemHammer {
                 boolean output = ((IGregTechMachine) tileEntity).isOutputEnabled();
 
                 if (input = !input) output = !output;
-
-                if (input) ((IGregTechMachine) tileEntity).enableInput();
-                else ((IGregTechMachine) tileEntity).disableInput();
-
-                if (output) ((IGregTechMachine) tileEntity).enableOutput();
-                else ((IGregTechMachine) tileEntity).disableOutput();
+                ((IGregTechMachine) tileEntity).setInputEnabled(input);
+                ((IGregTechMachine) tileEntity).setOutputEnabled(output);
 
                 String enabled = GtUtil.translateGeneric("enabled");
                 String disabled = GtUtil.translateGeneric("disabled");
-                GtUtil.sendMessage(player, Reference.MODID+".generic.hard_hammer.auto_input", input ? enabled : disabled, output ? enabled : disabled);
+                GtUtil.sendMessage(player, Reference.MODID + ".generic.hard_hammer.auto_input", input ? enabled : disabled, output ? enabled : disabled);
                 return EnumActionResult.SUCCESS;
             }
         }

@@ -64,8 +64,7 @@ public class ItemRubberHammer extends ItemHammer {
         TileEntity tileEntity = world.getTileEntity(pos);
 
         if(tileEntity instanceof IGregTechMachine) {
-            if (((IGregTechMachine) tileEntity).isAllowedToWork()) ((IGregTechMachine) tileEntity).disableWorking();
-            else ((IGregTechMachine) tileEntity).enableWorking();
+            ((IGregTechMachine) tileEntity).setAllowedToWork(!((IGregTechMachine) tileEntity).isAllowedToWork());
 
             GtUtil.sendMessage(player, Reference.MODID+".item.hammer_rubber.info.processing_"+(((IGregTechMachine) tileEntity).isAllowedToWork() ? "enabled" : "disabled"));
             IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1.0F, 1.0F);

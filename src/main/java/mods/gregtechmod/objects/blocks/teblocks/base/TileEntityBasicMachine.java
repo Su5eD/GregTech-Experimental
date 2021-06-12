@@ -206,8 +206,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public double getMaxOutputEUp() {
-        return this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) > 0 ? 4 : super.getMaxOutputEUp();
+    protected int getOutputPackets() {
+        return this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) > 0 ? 4 : super.getOutputPackets();
     }
 
     @Override

@@ -4,6 +4,7 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.*;
+import ic2.api.tile.IEnergyStorage;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.network.GrowingBuffer;
@@ -22,7 +23,6 @@ import java.util.HashSet;
 
 public class AdjustableEnergy extends TileEntityComponent {
     private DelegateBase delegate;
-    private boolean loaded;
     
     private int sinkTier;
     private int sourceTier;
@@ -48,11 +48,11 @@ public class AdjustableEnergy extends TileEntityComponent {
     }
     
     public static AdjustableEnergy createSink(TileEntityBlock parent, double capacity, int tier, Collection<EnumFacing> sides) {
-        return new AdjustableEnergy(parent, capacity, tier, 0, 0, Collections.unmodifiableCollection(sides), Collections.emptySet());
+        return new AdjustableEnergy(parent, capacity, tier, 0, -1, Collections.unmodifiableCollection(sides), Collections.emptySet());
     }
     
     public static AdjustableEnergy createSource(TileEntityBlock parent, double capacity, int tier, Collection<EnumFacing> sides) {
-        return createSource(parent, capacity, tier, EnergyNet.instance.getPowerFromTier(tier), sides);
+        return createSource(parent, capacity, tier, -1, sides);
     }
     
     public static AdjustableEnergy createSource(TileEntityBlock parent, double capacity, int tier, double maxOutput, Collection<EnumFacing> sides) {
@@ -117,6 +117,10 @@ public class AdjustableEnergy extends TileEntityComponent {
         this.capacity = capacity;
     }
 
+    public double getMaxOutputEUp() {
+        return maxOutput < 0 ? EnergyNet.instance.getPowerFromTier(sourceTier) : maxOutput;
+    }
+
     public void setMaxOutput(double maxOutput) {
         this.maxOutput = maxOutput;
     }
@@ -162,7 +166,6 @@ public class AdjustableEnergy extends TileEntityComponent {
         if (this.delegate == null && !this.parent.getWorld().isRemote) {
             this.delegate = constructDelegate();
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this.delegate));
-            this.loaded = true;
         }
     }
     
@@ -172,15 +175,13 @@ public class AdjustableEnergy extends TileEntityComponent {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this.delegate));
             this.delegate = null;
         }
-    
-        this.loaded = false;
     }
     
     private DelegateBase constructDelegate() {
         DelegateBase delegate;
         
         if (!this.sinkSides.isEmpty() && !this.sourceSides.isEmpty()) {
-            delegate = null; // TODO Dual Delegate
+            delegate = new DualDelegate();
         } else if (!this.sinkSides.isEmpty()) {
             delegate = new SinkDelegate();
         } else if (!this.sourceSides.isEmpty()) {
@@ -243,7 +244,67 @@ public class AdjustableEnergy extends TileEntityComponent {
                 });
     }
 
-    private abstract static class DelegateBase extends TileEntity implements IEnergyTile {}
+    private abstract class DelegateBase extends TileEntity implements IEnergyTile, IEnergyStorage {
+        @Override
+        public int getStored() {
+            return (int) getStoredEnergy();
+        }
+
+        @Override
+        public void setStored(int energy) {
+            storedEnergy = energy;
+        }
+
+        @Override
+        public int addEnergy(int energy) {
+            charge(energy);
+            return getStored();
+        }
+
+        @Override
+        public int getCapacity() {
+            return (int) AdjustableEnergy.this.getCapacity();
+        }
+
+        @Override
+        public int getOutput() {
+            return (int) getOutputEnergyUnitsPerTick();
+        }
+
+        @Override
+        public double getOutputEnergyUnitsPerTick() {
+            return getMaxOutputEUp() * getSourcePackets();
+        }
+
+        @Override
+        public boolean isTeleporterCompatible(EnumFacing side) {
+            return isSource() && getMaxOutputEUp() >= 128 && getCapacity() >= 500000;
+        }
+    }
+    
+    private class DualDelegate extends SourceDelegate implements IEnergySink {
+        @Override
+        public double getDemandedEnergy() {
+            return !sinkSides.isEmpty() && storedEnergy < capacity ? capacity - storedEnergy : 0;
+        }
+
+        @Override
+        public int getSinkTier() {
+            return sinkTier;
+        }
+
+        @Override
+        public double injectEnergy(EnumFacing enumFacing, double amount, double voltage) {
+            double injected = Math.min(capacity - storedEnergy, amount);
+            storedEnergy += injected;
+            return amount - injected;
+        }
+
+        @Override
+        public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
+            return sinkSides.contains(side);
+        }
+    }
     
     private class SinkDelegate extends DelegateBase implements IEnergySink {
     
@@ -270,7 +331,7 @@ public class AdjustableEnergy extends TileEntityComponent {
         }
     }
     
-    private class SourceDelegate extends DelegateBase implements IMultiEnergySource {
+    public class SourceDelegate extends DelegateBase implements IMultiEnergySource {
         @Override
         public boolean sendMultipleEnergyPackets() {
             return sourcePackets > 1;
@@ -283,7 +344,11 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public double getOfferedEnergy() {
-            return Math.min(storedEnergy, maxOutput);
+            return Math.min(storedEnergy, getMaxOutputEUp());
+        }
+        
+        public double getMaxOutputEUp() { // Exposes method to public access
+            return AdjustableEnergy.this.getMaxOutputEUp();
         }
 
         @Override

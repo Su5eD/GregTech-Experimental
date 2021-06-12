@@ -7,6 +7,7 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
+import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.item.ElectricItem;
 import ic2.api.reactor.IReactor;
 import ic2.api.reactor.IReactorChamber;
@@ -24,6 +25,7 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
@@ -126,27 +128,27 @@ public class ItemScanner extends ItemElectricBase {
                 ret.add(GtUtil.translateScan(((IWrenchable)tileEntity).wrenchCanRemove(world, pos, player) ? "wrenchable" : "not_wrenchable"));
             }
 
-            if (tileEntity instanceof IEnergySink) {
+            IEnergyTile energyTile = EnergyNet.instance.getTile(world, pos);
+            if (energyTile instanceof IEnergySink) {
                 energyCost += 400;
-                ret.add(GtUtil.translateScan("demanded_energy", ((IEnergySink)tileEntity).getDemandedEnergy()));
-                ret.add(GtUtil.translateScan("max_safe_input", EnergyNet.instance.getPowerFromTier(((IEnergySink)tileEntity).getSinkTier())));
+                ret.add(GtUtil.translateScan("demanded_energy", ((IEnergySink)energyTile).getDemandedEnergy()));
+                ret.add(GtUtil.translateScan("max_safe_input", EnergyNet.instance.getPowerFromTier(((IEnergySink)energyTile).getSinkTier())));
             }
 
-            if (tileEntity instanceof IEnergySource) {
+            if (energyTile instanceof IEnergySource) {
                 energyCost += 400;
-                ret.add(GtUtil.translateScan("offered_energy", ((IEnergySource)tileEntity).getOfferedEnergy()));
-                ret.add(GtUtil.translateScan("max_output", EnergyNet.instance.getPowerFromTier(((IEnergySource)tileEntity).getSourceTier())));
+                ret.add(GtUtil.translateScan("max_output", energyTile instanceof AdjustableEnergy.SourceDelegate ? ((AdjustableEnergy.SourceDelegate) energyTile).getMaxOutputEUp() : ((IEnergySource) energyTile).getOfferedEnergy()));
             }
 
-            if (tileEntity instanceof IEnergyConductor) {
+            if (energyTile instanceof IEnergyConductor) {
                 energyCost += 200;
-                ret.add(GtUtil.translateScan("conduction_loss", ((IEnergyConductor)tileEntity).getConductionLoss()));
+                ret.add(GtUtil.translateScan("conduction_loss", ((IEnergyConductor)energyTile).getConductionLoss()));
             }
 
-            if (tileEntity instanceof IEnergyStorage) {
+            if (energyTile instanceof IEnergyStorage) {
                 energyCost += 200;
-                ret.add(GtUtil.translateScan("contained_energy", ((IEnergyStorage)tileEntity).getStored(), ((IEnergyStorage)tileEntity).getCapacity()));
-                ret.add(GtUtil.translateScan(((IEnergyStorage)tileEntity).isTeleporterCompatible(EnumFacing.UP) ? "teleported_compatible" : "not_teleported_compatible"));
+                ret.add(GtUtil.translateScan("contained_energy", ((IEnergyStorage)energyTile).getStored(), ((IEnergyStorage)energyTile).getCapacity()));
+                ret.add(GtUtil.translateScan(((IEnergyStorage)energyTile).isTeleporterCompatible(EnumFacing.UP) ? "teleported_compatible" : "not_teleported_compatible"));
             }
 
             if (tileEntity instanceof IUpgradableMachine) {
