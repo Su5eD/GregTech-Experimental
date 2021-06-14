@@ -11,6 +11,13 @@ buildscript {
     dependencies { 
         classpath(group = "fr.brouillard.oss", name = "jgitver", version = "0.14.0")
     }
+    
+    // Because FancyGradle uses FG5. Remove when fixed
+    configurations.all { 
+        resolutionStrategy { 
+            force("net.minecraftforge.gradle:ForgeGradle:4.1.12")
+        }
+    }
 }
 
 plugins {
