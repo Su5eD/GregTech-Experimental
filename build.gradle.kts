@@ -17,7 +17,7 @@ plugins {
     `java-library`
     `maven-publish`
     idea
-    id("net.minecraftforge.gradle") version "5.+"
+    id("net.minecraftforge.gradle") version "4.1.12"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("wtf.gofancy.fancygradle") version "1.0.0"
 }
@@ -109,7 +109,7 @@ tasks {
     }
 
     named<ShadowJar>("shadowJar") {
-        dependsOn("classes", "extractAnnotationsJar")
+        dependsOn("classes")
         finalizedBy("reobfShadowJar")
 
         configurations = listOf(project.configurations["shade"])
