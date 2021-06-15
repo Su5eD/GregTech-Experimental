@@ -37,7 +37,7 @@ public class CategoryImplosionCompressor extends CategoryBase<RecipeImplosion, W
     }
 
     @Override
-    protected Collection<? extends WrapperMultiInput<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> getRecipes() {
+    protected Collection<?> getRecipes() {
         return RecipeWrapperFactory.getMultiRecipes(GtRecipes.implosion, WrapperMultiInput::new);
     }
 

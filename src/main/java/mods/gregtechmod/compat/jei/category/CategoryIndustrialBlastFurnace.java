@@ -35,7 +35,7 @@ public class CategoryIndustrialBlastFurnace extends CategoryBase<RecipeBlastFurn
     }
 
     @Override
-    protected Collection<? extends WrapperMultiInput<?>> getRecipes() {
+    protected Collection<?> getRecipes() {
         return RecipeWrapperFactory.getMultiRecipes(GtRecipes.industrialBlastFurnace, WrapperIndustrialBlastFurnace::new);
     }
 

@@ -17,11 +17,11 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
-public class CategoryVacuumFreezer extends CategoryBase<RecipeVacuumFreezer, WrapperBasicMachineSingle> {
+public class CategoryVacuumFreezer extends CategoryBase<RecipeVacuumFreezer, WrapperBasicMachineSingle<RecipeVacuumFreezer>> {
     private final IDrawable gauge;
 
     public CategoryVacuumFreezer(IGuiHelper guiHelper) {
-        super("vacuum_freezer", RecipeVacuumFreezer.class, recipe -> new WrapperBasicMachineSingle(recipe, -10), guiHelper);
+        super("vacuum_freezer", RecipeVacuumFreezer.class, recipe -> new WrapperBasicMachineSingle<>(recipe, -10), guiHelper);
         gauge = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.FREEZING);
     }
 
@@ -33,7 +33,7 @@ public class CategoryVacuumFreezer extends CategoryBase<RecipeVacuumFreezer, Wra
     }
 
     @Override
-    protected Collection<? extends WrapperBasicMachineSingle> getRecipes() {
+    protected Collection<?> getRecipes() {
         return RecipeWrapperFactory.getBasicMachineSingleRecipes(GtRecipes.vacuumFreezer);
     }
 

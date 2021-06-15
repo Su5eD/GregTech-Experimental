@@ -13,7 +13,7 @@ import java.util.*;
 
 public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IHasGui {
     private final String descriptionKey;
-    protected boolean displayEnergyCapacity;
+    protected boolean energyCapacityTooltip;
     
     protected AdjustableEnergy energy;
     public final int defaultSinkTier;
@@ -59,12 +59,12 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public double getMaxInputEUp() {
         return EnergyNet.instance.getPowerFromTier(getSinkTier());
     }
-    
+
     @Override
-    public double getMaxOutputEUp() {
-        return this.energy.getMaxOutputEUp();
+    public double getMaxOutputEUt() {
+        return this.energy.getMaxOutputEUt();
     }
-    
+
     protected int getOutputPackets() {
         return 1;
     }
@@ -137,8 +137,8 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         if (this.descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(this.descriptionKey));
         if (this.energy.isSink()) tooltip.add(GtUtil.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
-        if (this.energy.isSource()) tooltip.add(GtUtil.translateInfo("max_energy_out", Math.round(getMaxOutputEUp())));
-        if (this.displayEnergyCapacity) tooltip.add(GtUtil.translateInfo("eu_storage", GtUtil.formatNumber(this.energy.getCapacity())));
+        if (this.energy.isSource()) tooltip.add(GtUtil.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
+        if (this.energyCapacityTooltip) tooltip.add(GtUtil.translateInfo("eu_storage", GtUtil.formatNumber(this.energy.getCapacity())));
     }
 
     @Override

@@ -35,6 +35,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
@@ -80,6 +81,7 @@ public class ModHandler {
     public static ItemStack can = ItemStack.EMPTY;
     public static ItemStack scrap = ItemStack.EMPTY;
     public static ItemStack itnt = ItemStack.EMPTY;
+    public static ItemStack filledFuelCan = ItemStack.EMPTY;
 
     public static void checkLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
@@ -107,6 +109,7 @@ public class ModHandler {
         emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
         scrap = IC2Items.getItem("crafting", "scrap");
         itnt = IC2Items.getItem("te", "itnt");
+        filledFuelCan = IC2Items.getItem("filled_fuel_can");
 
         Item material = getItem("thermalfoundation", "material");
         if (material != null) {
@@ -489,5 +492,13 @@ public class ModHandler {
         } catch (Throwable t) {
             return "";
         }
+    }
+    
+    public static int getFuelCanValue(ItemStack fuelCan) { 
+        if (!fuelCan.isEmpty() && fuelCan.isItemEqual(ModHandler.filledFuelCan)) {
+            NBTTagCompound nbt = fuelCan.getTagCompound();
+            if (nbt != null) return nbt.getInteger("value") * 5;
+        }
+        return 0;
     }
 }

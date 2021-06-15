@@ -24,8 +24,8 @@ public interface IGregTechMachine {
     int getSourceTier();
 
     double getMaxInputEUp();
-
-    double getMaxOutputEUp();
+    
+    double getMaxOutputEUt();
 
     double getStoredEU();
 

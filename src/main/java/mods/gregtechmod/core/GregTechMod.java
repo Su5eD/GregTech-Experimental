@@ -95,6 +95,7 @@ public final class GregTechMod {
         MachineRecipeLoader.loadDynamicRecipes();
         if (GregTechMod.classic) MatterRecipeLoader.init();
         MachineRecipeLoader.loadFuels();
+        MachineRecipeLoader.registerProviders();
 
         logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());

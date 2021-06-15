@@ -12,13 +12,3 @@
 - input:
     fluid: nitro_diesel
   energy: 400
-- input:
-    fluid: hydrogen
-  output:
-    item: ic2:fluid_cell#water
-  energy: 15
-- input:
-    fluid: methane
-  output:
-    item: ic2:fluid_cell#water
-  energy: 45

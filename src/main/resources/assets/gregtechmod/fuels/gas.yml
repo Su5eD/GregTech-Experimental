@@ -1,0 +1,12 @@
+# Gas fuels
+---
+- input:
+    fluid: hydrogen
+  output:
+    cell: water
+  energy: 15
+- input:
+    fluid: methane
+  output:
+    cell: water
+  energy: 45

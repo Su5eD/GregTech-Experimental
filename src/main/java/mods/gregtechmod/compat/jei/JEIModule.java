@@ -4,13 +4,13 @@ import ic2.core.profile.Version;
 import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IIngredientRegistry;
+import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.recipe.IMachineRecipe;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.category.*;
@@ -29,57 +29,23 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @JEIPlugin
 public class JEIModule implements IModPlugin {
+    private static final Collection<CategoryBase<?, ?>> CATEGORIES = new HashSet<>();
+    
     public static final List<ItemStack> HIDDEN_ITEMS = new ArrayList<>();
     public static final List<IRecipeWrapper> HIDDEN_RECIPES = new ArrayList<>();
     public static IIngredientRegistry itemRegistry;
     public static IIngredientBlacklist ingredientBlacklist;
-
-    private CategoryCentrifuge categoryCentrifuge;
-    private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryWiremill;
-    private CategoryBasicMachineMulti<RecipeAlloySmelter> categoryAlloySmelter;
-    private CategoryBasicMachineMulti<RecipeCanner> categoryAutoCanner;
-    private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryBender;
-    private CategoryBasicMachineMulti<? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> categoryAssembler;
-    private CategoryBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> categoryLathe;
-    private CategoryElectrolyzer categoryElectrolyzer;
-    private CategoryChemicalReactor categoryChemicalReactor;
-    
-    private CategoryIndustrialBlastFurnace categoryIndustrialBlastFurnace;
-    private CategoryIndustrialGrinder categoryIndustrialGrinder;
-    private CategoryImplosionCompressor categoryImplosionCompressor;
-    private CategoryVacuumFreezer categoryVacuumFreezer;
-    private CategoryDistillationTower categoryDistillationTower;
-    
-    private CategoryThermalGenerator categoryThermalGenerator;
 
     @Override
     public void register(IModRegistry registry) {
         itemRegistry = registry.getIngredientRegistry();
         ingredientBlacklist = registry.getJeiHelpers().getIngredientBlacklist();
 
-        // TODO Cleanup
-        categoryCentrifuge.init(registry);
-        categoryWiremill.init(registry);
-        categoryAlloySmelter.init(registry);
-        categoryAutoCanner.init(registry);
-        categoryBender.init(registry);
-        categoryAssembler.init(registry);
-        categoryLathe.init(registry);
-        categoryElectrolyzer.init(registry);
-        categoryChemicalReactor.init(registry);
-        categoryIndustrialBlastFurnace.init(registry);
-        categoryIndustrialGrinder.init(registry);
-        categoryImplosionCompressor.init(registry);
-        categoryVacuumFreezer.init(registry);
-        categoryDistillationTower.init(registry);
-        categoryThermalGenerator.init(registry);
+        CATEGORIES.forEach(category -> category.init(registry));
 
         initBasicMachine(registry, GuiAutoMacerator.class, "macerator");
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
@@ -99,23 +65,26 @@ public class JEIModule implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
         IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
-        registry.addRecipeCategories(
-                categoryCentrifuge = new CategoryCentrifuge(guiHelper),
-                categoryWiremill = new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, true, guiHelper, GtRecipes.wiremill, GregtechGauge.EXTRUDING),
-                categoryAlloySmelter = new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, false, guiHelper, GregtechGauge.SMELTING),
-                categoryAutoCanner = new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, true, guiHelper, GregtechGauge.CANNING),
-                categoryBender = new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, true, guiHelper, GtRecipes.bender, GregtechGauge.BENDING),
-                categoryAssembler = new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, false, guiHelper, GregtechGauge.ASSEMBLING),
-                categoryLathe = new CategoryLathe(guiHelper),
-                categoryElectrolyzer = new CategoryElectrolyzer(guiHelper),
-                categoryChemicalReactor = new CategoryChemicalReactor(guiHelper),
-                categoryIndustrialBlastFurnace = new CategoryIndustrialBlastFurnace(guiHelper),
-                categoryIndustrialGrinder = new CategoryIndustrialGrinder(guiHelper),
-                categoryImplosionCompressor = new CategoryImplosionCompressor(guiHelper),
-                categoryVacuumFreezer = new CategoryVacuumFreezer(guiHelper),
-                categoryDistillationTower = new CategoryDistillationTower(guiHelper),
-                categoryThermalGenerator = new CategoryThermalGenerator(guiHelper)
+        Collection<CategoryBase<?, ?>> categories = Arrays.asList(
+                new CategoryCentrifuge(guiHelper),
+                new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, GtRecipes.wiremill, true, GregtechGauge.EXTRUDING, guiHelper),
+                new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
+                new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, false, true, GregtechGauge.CANNING, guiHelper),
+                new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, GtRecipes.bender, true, GregtechGauge.BENDING, guiHelper),
+                new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, GregtechGauge.ASSEMBLING, guiHelper),
+                new CategoryLathe(guiHelper),
+                new CategoryElectrolyzer(guiHelper),
+                new CategoryChemicalReactor(guiHelper),
+                new CategoryIndustrialBlastFurnace(guiHelper),
+                new CategoryIndustrialGrinder(guiHelper),
+                new CategoryImplosionCompressor(guiHelper),
+                new CategoryVacuumFreezer(guiHelper),
+                new CategoryDistillationTower(guiHelper),
+                CategoryGenerator.createFluidGeneratorCategory("thermal_generator", GuiThermalGenerator.class, GtFuels.hot, guiHelper),
+                CategoryGenerator.createFluidGeneratorCategory("diesel_generator", GuiDieselGenerator.class, GtFuels.diesel, guiHelper)
         );
+        CATEGORIES.addAll(categories);
+        registry.addRecipeCategories(categories.toArray(new IRecipeCategory[0]));
     }
 
     @Override

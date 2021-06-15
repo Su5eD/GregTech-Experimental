@@ -4,12 +4,12 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 
 import java.util.Collection;
 
-public interface IFuelManager<T extends IFuel<? extends IRecipeIngredient, ?>, I> {
+public interface IFuelManager<T extends IFuel<? extends IRecipeIngredient>, I> extends IFuelProvider<T, I> {
     boolean addFuel(T fuel);
-
-    T getFuel(I target);
-
+    
     boolean removeFuel(I target);
 
     Collection<T> getFuels();
+    
+    void registerProvider(IFuelProvider<T, I> provider);
 }

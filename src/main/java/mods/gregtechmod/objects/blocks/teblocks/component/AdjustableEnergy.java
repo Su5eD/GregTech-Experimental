@@ -118,7 +118,11 @@ public class AdjustableEnergy extends TileEntityComponent {
     }
 
     public double getMaxOutputEUp() {
-        return maxOutput < 0 ? EnergyNet.instance.getPowerFromTier(sourceTier) : maxOutput;
+        return this.maxOutput < 0 ? EnergyNet.instance.getPowerFromTier(this.sourceTier) : this.maxOutput;
+    }
+    
+    public double getMaxOutputEUt() {
+        return getMaxOutputEUp() * this.sourcePackets;
     }
 
     public void setMaxOutput(double maxOutput) {
@@ -126,7 +130,7 @@ public class AdjustableEnergy extends TileEntityComponent {
     }
 
     public int getSourcePackets() {
-        return sourcePackets;
+        return this.sourcePackets;
     }
 
     public void setSourcePackets(int sourcePackets) {
@@ -273,12 +277,12 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public double getOutputEnergyUnitsPerTick() {
-            return getMaxOutputEUp() * getSourcePackets();
+            return getMaxOutputEUt();
         }
 
         @Override
         public boolean isTeleporterCompatible(EnumFacing side) {
-            return isSource() && getMaxOutputEUp() >= 128 && getCapacity() >= 500000;
+            return isSource() && getMaxOutputEUt() >= 128 && getCapacity() >= 500000;
         }
     }
     
@@ -344,7 +348,7 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public double getOfferedEnergy() {
-            return storedEnergy;
+            return getMaxOutputEUt();
         }
         
         public double getMaxOutputEUp() { // Exposes method to public access

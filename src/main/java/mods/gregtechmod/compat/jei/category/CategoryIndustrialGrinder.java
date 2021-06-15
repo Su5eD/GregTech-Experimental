@@ -33,7 +33,7 @@ public class CategoryIndustrialGrinder extends CategoryBase<RecipeGrinder, Wrapp
     }
 
     @Override
-    protected Collection<? extends WrapperIndustrialGrinder> getRecipes() {
+    protected Collection<?> getRecipes() {
         return RecipeWrapperFactory.getMultiRecipes(GtRecipes.industrialGrinder, WrapperIndustrialGrinder::new);
     }
 

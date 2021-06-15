@@ -8,13 +8,14 @@ import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineMulti;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineSingle;
 import net.minecraft.item.ItemStack;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class RecipeWrapperFactory {
     
-    public static List<? extends WrapperBasicMachineSingle> getBasicMachineSingleRecipes(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
+    public static Collection<? extends WrapperBasicMachineSingle<? extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> getBasicMachineSingleRecipes(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
         return manager.getRecipes()
                 .stream()
                 .filter(recipe -> !recipe.getInput().getMatchingInputs().isEmpty())

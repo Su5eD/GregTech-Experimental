@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import java.util.Collections;
 import java.util.List;
 
-public class FuelMulti extends Fuel<List<ItemStack>> {
+public class FuelMulti extends Fuel {
 
     private FuelMulti(IRecipeIngredient input, double energy, List<ItemStack> output) {
         super(input, energy, output);

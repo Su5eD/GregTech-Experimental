@@ -11,13 +11,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WrapperBasicMachineSingle extends WrapperBasicMachine<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
+public class WrapperBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> extends WrapperBasicMachine<R> {
 
-    public WrapperBasicMachineSingle(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
+    public WrapperBasicMachineSingle(R recipe) {
         super(recipe, -5);
     }
 
-    public WrapperBasicMachineSingle(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, int yOffset) {
+    public WrapperBasicMachineSingle(R recipe, int yOffset) {
         super(recipe, yOffset);
     }
 

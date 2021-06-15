@@ -869,6 +869,9 @@
   output:
     - item: gregtechmod:dust_obsidian
   overwrite: true
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     ore: sugarcane
   output:

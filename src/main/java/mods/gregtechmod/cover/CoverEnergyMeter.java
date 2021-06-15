@@ -28,7 +28,7 @@ public class CoverEnergyMeter extends CoverGeneric {
         if (mode == Mode.AVERAGE_EU_IN || mode == Mode.AVERAGE_EU_IN_INVERTED) {
             strength = (byte) (machine.getAverageEUInput() / (machine.getMaxInputEUp() / 15));
         } else if (mode == Mode.AVERAGE_EU_OUT || mode == Mode.AVERAGE_EU_OUT_INVERTED) {
-            strength = (byte) (machine.getAverageEUOutput() / (machine.getMaxOutputEUp() / 15));
+            strength = (byte) (machine.getAverageEUOutput() / (machine.getMaxOutputEUt() / 15));
         } else {
             double stored = -1;
             double capacity = 1;

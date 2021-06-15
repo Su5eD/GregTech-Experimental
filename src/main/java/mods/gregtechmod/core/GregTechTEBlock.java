@@ -13,6 +13,7 @@ import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.*;
+import mods.gregtechmod.objects.blocks.teblocks.generator.TileEntityDieselGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.generator.TileEntityThermalGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.struct.*;
 import net.minecraft.block.material.Material;
@@ -57,7 +58,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     IMPLOSION_COMPRESSOR(TileEntityImplosionCompressor.class, 24, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true),
     VACUUM_FREEZER(TileEntityVacuumFreezer.class, 25, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true),
     DISTILLATION_TOWER(TileEntityDistillationTower.class, 26, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true, true),
-    THERMAL_GENERATOR(TileEntityThermalGenerator.class, 27, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true);
+    THERMAL_GENERATOR(TileEntityThermalGenerator.class, 27, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true),
+    DIESEL_GENERATOR(TileEntityDieselGenerator.class, 28, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.None, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;

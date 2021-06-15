@@ -138,7 +138,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public double getMaxOutputEUp() {
+    public double getMaxOutputEUt() {
         return 0;
     }
 

@@ -13,27 +13,28 @@ import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.LazyValue;
 
 import java.util.Collection;
 
-public abstract class CategoryBase<R, T extends IRecipeWrapper> implements IRecipeCategory<T> {
+public abstract class CategoryBase<R, W extends IRecipeWrapper> implements IRecipeCategory<W> {
     protected final String name;
     protected final String uid;
-    private final IDrawable background;
+    private final LazyValue<IDrawable> background;
     private final Class<R> recipeClass;
     private final IRecipeWrapperFactory<R> recipeWrapperFactory;
     
     public CategoryBase(String name, Class<R> recipeClass, IRecipeWrapperFactory<R> recipeWrapperFactory, IGuiHelper guiHelper) {
         this.name = name;
         this.uid = Reference.MODID + "." + this.name;
-        this.background = drawBackground(guiHelper);
+        this.background = new LazyValue<>(() -> drawBackground(guiHelper));
         this.recipeClass = recipeClass;
         this.recipeWrapperFactory = recipeWrapperFactory;
     }
     
     protected abstract IDrawable drawBackground(IGuiHelper guiHelper);
     
-    protected abstract Collection<? extends T> getRecipes();
+    protected abstract Collection<?> getRecipes();
     
     public void init(IModRegistry registry) {
         registry.handleRecipes(this.recipeClass, this.recipeWrapperFactory, this.uid);
@@ -42,7 +43,7 @@ public abstract class CategoryBase<R, T extends IRecipeWrapper> implements IReci
     }
     
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, T recipeWrapper, IIngredients ingredients) {
+    public final void setRecipe(IRecipeLayout recipeLayout, W recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         initSlots(guiItemStacks);
         guiItemStacks.set(ingredients);
@@ -73,6 +74,6 @@ public abstract class CategoryBase<R, T extends IRecipeWrapper> implements IReci
 
     @Override
     public IDrawable getBackground() {
-        return this.background;
+        return this.background.get();
     }
 }

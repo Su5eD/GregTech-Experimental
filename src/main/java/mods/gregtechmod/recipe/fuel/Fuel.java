@@ -3,14 +3,17 @@ package mods.gregtechmod.recipe.fuel;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.core.GregTechMod;
+import net.minecraft.item.ItemStack;
 
-public abstract class Fuel<O> implements IFuel<IRecipeIngredient, O> {
+import java.util.List;
+
+public abstract class Fuel implements IFuel<IRecipeIngredient> {
     protected final IRecipeIngredient input;
     protected final double energy;
-    protected final O output;
+    protected final List<ItemStack> output;
     protected boolean invalid;
 
-    protected Fuel(IRecipeIngredient input, double energy, O output) {
+    protected Fuel(IRecipeIngredient input, double energy, List<ItemStack> output) {
         this.input = input;
         this.energy = energy;
         this.output = output;
@@ -27,7 +30,7 @@ public abstract class Fuel<O> implements IFuel<IRecipeIngredient, O> {
     }
 
     @Override
-    public O getOutput() {
+    public List<ItemStack> getOutput() {
         return this.output;
     }
 

@@ -2,16 +2,13 @@ package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
+import mods.gregtechmod.api.recipe.manager.IRecipeProvider;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class RecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> implements IGtRecipeManager<RI, I, R> {
-    protected final List<R> recipes;
-
-    public RecipeManager() {
-        this.recipes = new ArrayList<>();
-    }
+    protected final List<R> recipes = new ArrayList<>();
+    private final Collection<IRecipeProvider<RI, I, R>> providers = new HashSet<>();
 
     @Override
     public boolean addRecipe(R recipe, boolean overwrite) {
@@ -38,4 +35,17 @@ public abstract class RecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> impl
     }
 
     protected abstract R getRecipeForExact(R recipe);
+    
+    protected R getProvidedRecipe(I input) {
+        return this.providers.stream()
+                .map(provider -> provider.getRecipeFor(input))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public void registerProvider(IRecipeProvider<RI, I, R> provider) {
+        this.providers.add(provider);
+    }
 }

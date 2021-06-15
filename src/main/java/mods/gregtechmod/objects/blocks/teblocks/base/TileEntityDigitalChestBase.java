@@ -344,7 +344,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getMaxOutputEUp() {
+    public double getMaxOutputEUt() {
         return 0;
     }
 

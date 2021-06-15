@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WrapperFuel<T extends IFuel<IRecipeIngredient, ?>> implements IRecipeWrapper {
+public class WrapperFuel<T extends IFuel<IRecipeIngredient>> implements IRecipeWrapper {
     private final T fuel;
     
     public WrapperFuel(T fuel) {

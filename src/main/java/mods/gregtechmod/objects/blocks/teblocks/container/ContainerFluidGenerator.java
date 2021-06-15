@@ -1,14 +1,14 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
 import ic2.core.block.invslot.InvSlot;
-import mods.gregtechmod.objects.blocks.teblocks.generator.TileEntityThermalGenerator;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerThermalGenerator extends ContainerBasicTank<TileEntityThermalGenerator> {
+public class ContainerFluidGenerator extends ContainerBasicTank<TileEntityFluidGenerator> {
 
-    public ContainerThermalGenerator(EntityPlayer player, TileEntityThermalGenerator base) {
+    public ContainerFluidGenerator(EntityPlayer player, TileEntityFluidGenerator base) {
         super(player, base);
     }
 

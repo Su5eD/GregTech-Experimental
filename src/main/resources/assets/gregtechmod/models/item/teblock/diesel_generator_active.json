@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:item/teblock/diesel_generator",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_side_pipe",
+    "down": "gregtechmod:blocks/machines/machine_bottom_pipe",
+    "up": "gregtechmod:blocks/machines/diesel_generator/diesel_generator_top_active",
+    "north": "gregtechmod:blocks/machines/machine_side_pipe",
+    "south": "gregtechmod:blocks/machines/machine_side_pipe",
+    "east": "gregtechmod:blocks/machines/machine_side_pipe",
+    "west": "gregtechmod:blocks/machines/machine_side_pipe"
+  }
+}

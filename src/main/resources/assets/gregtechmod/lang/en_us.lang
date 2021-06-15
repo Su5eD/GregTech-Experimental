@@ -809,6 +809,8 @@ gregtechmod.teblock.distillation_tower=Distillation Tower
 gregtechmod.teblock.distillation_tower.description=Like a Refinery, but with byproducts, and more Energy Efficient
 gregtechmod.teblock.thermal_generator=Thermal Generator
 gregtechmod.teblock.thermal_generator.description=Generates Energy from hot Stuff like Lava
+gregtechmod.teblock.diesel_generator=Diesel Generator
+gregtechmod.teblock.diesel_generator.description=The second most effective Way of burning Fuel
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

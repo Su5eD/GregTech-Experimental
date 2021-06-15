@@ -31,6 +31,8 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityPrinter;
+import mods.gregtechmod.objects.blocks.teblocks.generator.TileEntityDieselGenerator;
 import mods.gregtechmod.recipe.*;
 import mods.gregtechmod.recipe.compat.BasicMachineRecipe;
 import mods.gregtechmod.recipe.fuel.FluidFuelManager;
@@ -231,6 +233,10 @@ public class MachineRecipeLoader {
         GtFuels.diesel = new FluidFuelManager<>();
         parseFuels("diesel", FuelSimple.class, null)
                 .ifPresent(fuels -> registerFuels("diesel", fuels, GtFuels.diesel));
+        
+        GtFuels.gas = new FluidFuelManager<>();
+        parseFuels("gas", FuelSimple.class, null)
+                .ifPresent(fuels -> registerFuels("gas", fuels, GtFuels.gas));
 
         GtFuels.hot = new FluidFuelManager<>();
         parseFuels("hot", FuelMulti.class, null)
@@ -427,7 +433,7 @@ public class MachineRecipeLoader {
         GregTechMod.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
     }
 
-    private static <T extends IFuel<?, ?>, I> void registerFuels(String name, Collection<? extends T> fuels, IFuelManager<T, I> manager) {
+    private static <T extends IFuel<?>, I> void registerFuels(String name, Collection<? extends T> fuels, IFuelManager<T, I> manager) {
         int total = fuels.size();
         long successful = fuels.stream()
                 .map(manager::addFuel)
@@ -501,6 +507,12 @@ public class MachineRecipeLoader {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    public static void registerProviders() {
+        GtRecipes.printer.registerProvider(new TileEntityPrinter.PrinterRecipeProvider());
+        
+        GtFuels.diesel.registerProvider(new TileEntityDieselGenerator.FuelCanRecipeProvider());
     }
 
     private static void registerMatterAmplifiers() {

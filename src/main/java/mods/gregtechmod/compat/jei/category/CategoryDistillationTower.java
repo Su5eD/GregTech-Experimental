@@ -33,7 +33,7 @@ public class CategoryDistillationTower extends CategoryBase<RecipeDistillation, 
     }
 
     @Override
-    protected Collection<? extends WrapperCellular> getRecipes() {
+    protected Collection<?> getRecipes() {
         return ElectrolyzerRecipeFactory.INSTANCE.getCellularRecipes(GtRecipes.distillation, true);
     }
     

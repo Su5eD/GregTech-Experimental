@@ -26,6 +26,6 @@ public class RecipeManagerPrinter extends RecipeManagerMultiInput<IRecipePrinter
                     return false;
                 })
                 .min(this::compareCount)
-                .orElse(null);
+                .orElse(getProvidedRecipe(input));
     }
 }

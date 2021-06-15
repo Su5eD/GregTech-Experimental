@@ -9,7 +9,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
-public class FluidFuelManager<F extends IFuel<IRecipeIngredient, ?>> extends SolidFuelManager<F> implements IFuelManagerFluid<F> {
+public class FluidFuelManager<F extends IFuel<IRecipeIngredient>> extends SolidFuelManager<F> implements IFuelManagerFluid<F> {
 
     @Override
     public F getFuel(ItemStack target) {
