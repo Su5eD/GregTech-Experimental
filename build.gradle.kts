@@ -11,20 +11,13 @@ buildscript {
     dependencies { 
         classpath(group = "fr.brouillard.oss", name = "jgitver", version = "0.14.0")
     }
-    
-    // Because FancyGradle uses FG5. Remove when fixed
-    configurations.all { 
-        resolutionStrategy { 
-            force("net.minecraftforge.gradle:ForgeGradle:4.1.12")
-        }
-    }
 }
 
 plugins {
     `java-library`
     `maven-publish`
     idea
-    id("net.minecraftforge.gradle") version "4.1.12"
+    id("net.minecraftforge.gradle") version "5.0.11"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("wtf.gofancy.fancygradle") version "1.0.0"
 }
@@ -71,6 +64,10 @@ minecraft {
 
 idea.module.inheritOutputDirs = true
 
+java.toolchain { 
+    languageVersion.set(JavaLanguageVersion.of(8))
+}
+
 fancyGradle {
     patches {
         patch(Patch.RESOURCES, Patch.COREMODS, Patch.CODE_CHICKEN_LIB, Patch.ASM)
@@ -96,7 +93,7 @@ configurations {
 
 tasks {
     named("build") {
-        dependsOn("reobfShadowJar", "devJar", "apiJar")
+        dependsOn("reobfJar", "devJar", "apiJar")
     }
 
     named<Jar>("jar") {
@@ -117,7 +114,6 @@ tasks {
 
     named<ShadowJar>("shadowJar") {
         dependsOn("classes")
-        finalizedBy("reobfShadowJar")
 
         configurations = listOf(project.configurations["shade"])
         from(sourceSets.getByName("api").output)
@@ -184,8 +180,10 @@ tasks {
 }
 
 reobf {
+    create("jar") {
+        dependsOn("shadowJar")
+    }
     create("apiJar")
-    create("shadowJar")
 }
 
 repositories {
