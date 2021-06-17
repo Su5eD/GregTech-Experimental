@@ -137,7 +137,7 @@ public class ItemScanner extends ItemElectricBase {
 
             if (energyTile instanceof IEnergySource) {
                 energyCost += 400;
-                ret.add(GtUtil.translateScan("max_output", energyTile instanceof AdjustableEnergy.SourceDelegate ? ((AdjustableEnergy.SourceDelegate) energyTile).getMaxOutputEUp() : ((IEnergySource) energyTile).getOfferedEnergy()));
+                ret.add(GtUtil.translateScan("max_output", energyTile instanceof AdjustableEnergy.SourceDelegate ? ((AdjustableEnergy.SourceDelegate) energyTile).getMaxOutputEUp() : EnergyNet.instance.getPowerFromTier(((IEnergySource) energyTile).getSourceTier())));
             }
 
             if (energyTile instanceof IEnergyConductor) {

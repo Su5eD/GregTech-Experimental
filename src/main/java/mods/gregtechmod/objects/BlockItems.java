@@ -21,6 +21,7 @@ import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
 import mods.gregtechmod.objects.items.tools.*;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IObjectHolder;
+import mods.gregtechmod.util.LazyValue;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -76,33 +77,24 @@ public class BlockItems {
         TUNGSTEN(4.5F, 100),
         TUNGSTEN_STEEL(ConnectedBlock::new, 100, 300),
         ZINC(3.5F, 30);
-
-        private net.minecraft.block.Block instance;
-        private final Supplier<net.minecraft.block.Block> constructor;
-        private final float hardness;
-        private final float resistance;
+        
+        private final LazyValue<net.minecraft.block.Block> instance;
 
         Block(float hardness, float resistance) {
             this(() -> new BlockBase(Material.IRON), hardness, resistance);
         }
 
         Block(Supplier<net.minecraft.block.Block> constructor, float hardness, float resistance) {
-            this.constructor = constructor;
-            this.hardness = hardness;
-            this.resistance = resistance;
+            this.instance = new LazyValue<>(() -> constructor.get()
+                    .setRegistryName("block_" + this.name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey("block_" + this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB)
+                    .setHardness(hardness)
+                    .setResistance(resistance));
         }
 
         public net.minecraft.block.Block getInstance() {
-            if (this.instance == null) {
-                this.instance = this.constructor.get()
-                        .setRegistryName("block_" + this.name().toLowerCase(Locale.ROOT))
-                        .setTranslationKey("block_" + this.name().toLowerCase(Locale.ROOT))
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                        .setHardness(hardness)
-                        .setResistance(resistance);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -114,43 +106,43 @@ public class BlockItems {
             drops.add(iridium);
         }),
         RUBY(4, 3, 5, (fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.RUBY.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
-            if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(new ItemStack(Miscellaneous.RED_GARNET.instance));
+            drops.add(new ItemStack(Miscellaneous.RUBY.getInstance(), 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(new ItemStack(Miscellaneous.RED_GARNET.getInstance()));
         }),
         SAPPHIRE(4, 3, 5, (fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.SAPPHIRE.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Miscellaneous.SAPPHIRE.getInstance(), 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Miscellaneous.GREEN_SAPPHIRE.instance, 1));
+                drops.add(new ItemStack(Miscellaneous.GREEN_SAPPHIRE.getInstance(), 1));
         }),
         BAUXITE(3, 0, 0, (fortune, drops) -> {}),
         PYRITE(2, 1, 1, (fortune, drops) -> {
-            drops.add(new ItemStack(Dust.PYRITE.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Dust.PYRITE.getInstance(), 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
         }),
         CINNABAR(3, 3, 3, (fortune, drops) -> {
-            drops.add(new ItemStack(Dust.CINNABAR.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Dust.CINNABAR.getInstance(), 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
                 drops.add(new ItemStack(Items.REDSTONE, 1));
         }),
         SPHALERITE(2, 1, 1, (fortune, drops) -> {
-            drops.add(new ItemStack(Dust.SPHALERITE.instance, 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Dust.SPHALERITE.getInstance(), 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dust.ZINC.instance));
+                drops.add(new ItemStack(Dust.ZINC.getInstance()));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dust.YELLOW_GARNET.instance));
+                drops.add(new ItemStack(Dust.YELLOW_GARNET.getInstance()));
         }),
         TUNGSTATE(4, 0, 0, (fortune, drops) -> {}),
         SHELDONITE(3.5F, 0, 0, (fortune, drops) -> {}),
         OLIVINE(3, 0, 0, (fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.OLIVINE.instance, 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Miscellaneous.OLIVINE.getInstance(), 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
         }),
         SODALITE(3, 0, 0, (fortune, drops) -> {
-            drops.add(new ItemStack(Dust.SODALITE.instance, 6 + 3 * GtUtil.RANDOM.nextInt(1 + fortune)));
+            drops.add(new ItemStack(Dust.SODALITE.getInstance(), 6 + 3 * GtUtil.RANDOM.nextInt(1 + fortune)));
             if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dust.ALUMINIUM.instance));
+                drops.add(new ItemStack(Dust.ALUMINIUM.getInstance()));
         }),
         TETRAHEDRITE(3, 0, 0, (fortune, drops) -> {}),
         CASSITERITE(3, 0, 0, (fortune, drops) -> {});
-        private net.minecraft.block.Block instance;
+        private final LazyValue<net.minecraft.block.Block> instance;
         public final float hardness;
         public final int dropChance;
         public final int dropRandom;
@@ -161,19 +153,17 @@ public class BlockItems {
             this.dropChance = dropChance;
             this.dropRandom = dropRandom;
             this.loot = loot;
+            
+            String name = this.name().toLowerCase(Locale.ROOT)+"_ore";
+            this.instance = new LazyValue<>(() -> new BlockOre(this.name().toLowerCase(Locale.ROOT), this.dropChance, this.dropRandom, this.loot)
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB)
+                    .setHardness(this.hardness));
         }
 
         public net.minecraft.block.Block getInstance() {
-            if (this.instance == null) {
-                String name = this.name().toLowerCase(Locale.ROOT)+"_ore";
-                this.instance = new BlockOre(this.name().toLowerCase(Locale.ROOT), this.dropChance, this.dropRandom, this.loot)
-                        .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                        .setHardness(this.hardness);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -203,7 +193,7 @@ public class BlockItems {
         TUNGSTEN_STEEL(() -> GtUtil.translateItemDescription("ingot_tungsten_steel")),
         ZINC("Zn");
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final Supplier<String> description;
         public final boolean hasEffect;
 
@@ -226,20 +216,18 @@ public class BlockItems {
         Ingot(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
+            
+            String name = this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(name, this.description, this.hasEffect)
+                    .setFolder("ingot")
+                    .setRegistryName("ingot_"+name)
+                    .setTranslationKey("ingot_"+name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(name, this.description, this.hasEffect)
-                        .setFolder("ingot")
-                        .setRegistryName("ingot_"+name)
-                        .setTranslationKey("ingot_"+name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -263,7 +251,7 @@ public class BlockItems {
         TUNGSTEN(Ingot.TUNGSTEN.description),
         ZINC(Ingot.ZINC.description);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final Supplier<String> description;
 
         Nugget(String description) {
@@ -272,20 +260,18 @@ public class BlockItems {
 
         Nugget(Supplier<String> description) {
             this.description = description;
+            
+            String name = "nugget_"+this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+                    .setFolder("nugget")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = "nugget_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
-                        .setFolder("nugget")
-                        .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -318,7 +304,7 @@ public class BlockItems {
         WOOD,
         ZINC(Ingot.ZINC.description);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final Supplier<String> description;
 
         Plate() {
@@ -331,20 +317,21 @@ public class BlockItems {
 
         Plate(Supplier<String> description) {
             this.description = description;
+            
+            String name = "plate_" + this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> {
+                Item item = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+                        .setFolder("plate")
+                        .setRegistryName(name)
+                        .setTranslationKey(name);
+                if (ProfileDelegate.shouldEnable(this)) item.setCreativeTab(GregTechMod.GREGTECH_TAB);
+                return item;
+            });
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = "plate_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
-                        .setFolder("plate")
-                        .setRegistryName(name)
-                        .setTranslationKey(name);
-                if (ProfileDelegate.shouldEnable(this)) this.instance.setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -373,7 +360,7 @@ public class BlockItems {
         TUNGSTEN_STEEL(Ingot.TUNGSTEN_STEEL.description),
         ZINC(Ingot.ZINC.description);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final Supplier<String> description;
 
         Rod(String description) {
@@ -382,20 +369,21 @@ public class BlockItems {
 
         Rod(Supplier<String> description) {
             this.description = description;
+            
+            String name = "rod_"+this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> {
+                Item item = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+                        .setFolder("rod")
+                        .setRegistryName(name)
+                        .setTranslationKey(name);
+                if (ProfileDelegate.shouldEnable(this)) item.setCreativeTab(GregTechMod.GREGTECH_TAB);
+                return item;
+            });
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = "rod_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
-                        .setFolder("rod")
-                        .setRegistryName(name)
-                        .setTranslationKey(name);
-                if (ProfileDelegate.shouldEnable(this)) this.instance.setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -460,7 +448,7 @@ public class BlockItems {
         YELLOW_GARNET("(Ca3Fe2Si3O12)5(Ca3Al2Si3O12)8(Ca3Cr2Si3O12)3"),
         ZINC(Ingot.ZINC.description);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final Supplier<String> description;
         public final boolean hasEffect;
 
@@ -483,20 +471,18 @@ public class BlockItems {
         Dust(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
+            
+            String name = "dust_"+this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
+                    .setFolder("dust")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = "dust_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
-                        .setFolder("dust")
-                        .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -570,7 +556,7 @@ public class BlockItems {
         YELLOW_GARNET(Dust.YELLOW_GARNET.description),
         ZINC(Ingot.ZINC.description);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final Supplier<String> description;
         public final boolean hasEffect;
 
@@ -593,20 +579,18 @@ public class BlockItems {
         Smalldust(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
+            
+            String name = "smalldust_"+this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
+                    .setFolder("smalldust")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = "smalldust_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
-                        .setFolder("smalldust")
-                        .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -653,7 +637,7 @@ public class BlockItems {
             machine.setMjCapacity(machine.getMjCapacity() + MjHelper.convert(100000));
         });
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final GtUpgradeType type;
         public final int maxCount;
         public final int requiredTier;
@@ -696,20 +680,18 @@ public class BlockItems {
             this.condition = condition;
             this.beforeInsert = beforeInsert;
             this.afterInsert = afterInsert;
+            
+            String name = this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemUpgrade(name, name + "." + this.descriptionKey, this.type, this.maxCount, this.requiredTier, this.condition, this.beforeInsert, this.afterInsert)
+                    .setFolder("upgrade")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemUpgrade(name, name+"."+this.descriptionKey, this.type, this.maxCount, this.requiredTier, this.condition, this.beforeInsert, this.afterInsert)
-                        .setFolder("upgrade")
-                        .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -734,32 +716,36 @@ public class BlockItems {
         SOLAR_PANEL_LV("craftingSolarPanelLV"),
         SOLAR_PANEL_MV("craftingSolarPanelMV");
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final String coverName;
         public final String oreDict;
 
         Cover(String coverName, String oreDict) {
             this.coverName = coverName;
             this.oreDict = oreDict;
+            
+            this.instance = constructInstance();
         }
 
         Cover(String oreDict) {
             this.coverName = this.name().toLowerCase(Locale.ROOT);
             this.oreDict = oreDict;
+            
+            this.instance = constructInstance();
+        }
+        
+        private LazyValue<Item> constructInstance() {
+            String name = this.name().toLowerCase(Locale.ROOT);
+            return new LazyValue<>(() -> new ItemCover(name, this.coverName)
+                    .setFolder("coveritem")
+                    .setRegistryName(this.coverName)
+                    .setTranslationKey(this.coverName)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemCover(name, this.coverName)
-                        .setFolder("coveritem")
-                        .setRegistryName(this.coverName)
-                        .setTranslationKey(this.coverName)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -770,32 +756,30 @@ public class BlockItems {
         TUNGSTEN_STEEL(90, 15, 30000),
         CARBON(125, 100, 2500);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         private final int efficiency;
-        private final int efficiencyMultiplier; // To be used later
+        private final int efficiencyMultiplier; // TODO To be used later
         private final int durability;
 
         TurbineRotor(int efficiency, int efficiencyMultiplier, int durability) {
             this.efficiency = efficiency;
             this.efficiencyMultiplier = efficiencyMultiplier;
             this.durability = durability;
+            
+            String name = "turbine_rotor_"+this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(name, () -> GtUtil.translateGenericDescription("turbine_rotor", this.efficiency), this.durability)
+                    .setFolder("component")
+                    .setEnchantable(false)
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB)
+                    .setMaxStackSize(1)
+                    .setNoRepair());
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = "turbine_rotor_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(name, () -> GtUtil.translateGenericDescription("turbine_rotor", this.efficiency), this.durability)
-                        .setFolder("component")
-                        .setEnchantable(false)
-                        .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                        .setMaxStackSize(1)
-                        .setNoRepair();
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -835,8 +819,7 @@ public class BlockItems {
         DUCT_TAPE("craftingDuctTape"),
         DATA_ORB(ItemDataOrb::new, "craftingCircuitTier08");
 
-        private Item instance;
-        private final Supplier<Item> constructor;
+        private final LazyValue<Item> instance;
         public final String oreDict;
 
         Component(String oreDict) {
@@ -845,26 +828,24 @@ public class BlockItems {
 
         Component(String descriptionKey, String oreDict) {
             String name = this.name().toLowerCase(Locale.ROOT);
-            this.constructor = () -> new ItemBase(name, () -> GtUtil.translateItem(name+"."+descriptionKey))
+            this.oreDict = oreDict;
+            
+            this.instance = new LazyValue<>(() -> new ItemBase(name, () -> GtUtil.translateItem(name+"."+descriptionKey))
                     .setFolder("component")
                     .setRegistryName(name)
                     .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            this.oreDict = oreDict;
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         Component(Supplier<Item> constructor, String oreDict) {
-            this.constructor = constructor;
             this.oreDict = oreDict;
+            
+            this.instance = new LazyValue<>(constructor);
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = this.constructor.get();
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -894,26 +875,22 @@ public class BlockItems {
         SPRAY_PEPPER(ItemSprayPepper::new),
         SPRAY_HYDRATION(ItemSprayHydration::new);
 
-        public final Supplier<Item> constructor;
         public final String oreDict;
-        private Item instance;
+        private final LazyValue<Item> instance;
 
         Tool(Supplier<Item> constructor) {
             this(constructor, null);
         }
 
         Tool(Supplier<Item> constructor, String oreDict) {
-            this.constructor = constructor;
             this.oreDict = oreDict;
+            
+            this.instance = new LazyValue<>(constructor);
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = this.constructor.get();
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
     
@@ -935,15 +912,15 @@ public class BlockItems {
         RED,
         BLACK;
 
-        private Item instance;
+        private final LazyValue<Item> instance;
+        
+        ColorSpray() {
+            this.instance = new LazyValue<>(() -> new ItemSprayColor(EnumDyeColor.byMetadata(this.ordinal())));
+        }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemSprayColor(EnumDyeColor.byMetadata(this.ordinal()));
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -953,24 +930,22 @@ public class BlockItems {
         STEEL(512, 8),
         TUNGSTEN_STEEL(5120, 10);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final int durability;
         public final int entityDamage;
 
         Wrench(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
+            
+            this.instance = new LazyValue<>(() -> new ItemWrench("wrench_"+this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
+                    .setRegistryName("wrench_"+this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemWrench("wrench_"+this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
-                                    .setRegistryName("wrench_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -979,7 +954,7 @@ public class BlockItems {
         STEEL(100, 10000, 1, 50, 15F, false),
         DIAMOND(250, 100000, 2, 100, 45F, true);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final int operationEnergyCost;
         public final int maxCharge;
         public final int tier;
@@ -994,18 +969,16 @@ public class BlockItems {
             this.transferLimit = transferLimit;
             this.efficiency = efficiency;
             this.canMineObsidian = canMineObsidian;
+            
+            this.instance = new LazyValue<>(() -> new ItemJackHammer("jack_hammer_"+this.name().toLowerCase(Locale.ROOT), this.operationEnergyCost, this.maxCharge, this.tier, this.transferLimit, this.efficiency, this.canMineObsidian)
+                    .setRegistryName("jack_hammer_"+this.name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey("jack_hammer_"+this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemJackHammer("jack_hammer_"+this.name().toLowerCase(Locale.ROOT), this.operationEnergyCost, this.maxCharge, this.tier, this.transferLimit, this.efficiency, this.canMineObsidian)
-                                    .setRegistryName("jack_hammer_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setTranslationKey("jack_hammer_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1015,25 +988,23 @@ public class BlockItems {
         STEEL(512, 8),
         TUNGSTEN_STEEL(5120, 10);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final int durability;
         public final int entityDamage;
 
         Hammer(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
+            
+            this.instance = new LazyValue<>(() -> new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
+                    .setRegistryName("hammer_"+this.name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey("hammer_"+this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
-                                    .setRegistryName("hammer_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setTranslationKey("hammer_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1043,7 +1014,7 @@ public class BlockItems {
         STEEL(1280, 6, 4),
         TUNGSTEN_STEEL(5120, 8, 5);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final int durability;
         public final int efficiency;
         public final int entityDamage;
@@ -1052,18 +1023,16 @@ public class BlockItems {
             this.durability = durability;
             this.efficiency = efficiency;
             this.entityDamage = entityDamage;
+            
+            this.instance = new LazyValue<>(() -> new ItemSaw(this.name().toLowerCase(Locale.ROOT), this.durability, this.efficiency, this.entityDamage)
+                    .setRegistryName("saw_"+this.name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey("saw_"+this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemSaw(this.name().toLowerCase(Locale.ROOT), this.durability, this.efficiency, this.entityDamage)
-                                    .setRegistryName("saw_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setTranslationKey("saw_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1071,23 +1040,21 @@ public class BlockItems {
         LEAD(10),
         TIN(50);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final int durability;
 
         SolderingMetal(int durability) {
             this.durability = durability;
+            
+            this.instance = new LazyValue<>(() -> new ItemSolderingMetal(this.name().toLowerCase(Locale.ROOT), this.durability)
+                    .setRegistryName("soldering_"+this.name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey("soldering_"+this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemSolderingMetal(this.name().toLowerCase(Locale.ROOT), this.durability)
-                                    .setRegistryName("soldering_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setTranslationKey("soldering_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1097,25 +1064,23 @@ public class BlockItems {
         STEEL(1280, 3),
         TUNGSTEN_STEEL(5120, 4);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final int durability;
         public final int entityDamage;
 
         File(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
+            
+            this.instance = new LazyValue<>(() -> new ItemFile(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
+                    .setRegistryName("file_"+this.name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey("file_"+this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemFile(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
-                        .setRegistryName("file_"+this.name().toLowerCase(Locale.ROOT))
-                        .setTranslationKey("file_"+this.name().toLowerCase(Locale.ROOT))
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1127,25 +1092,23 @@ public class BlockItems {
         SULFUR("S"),
         SULFURIC_ACID("H2SO4");
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final String description;
 
         Cell(String description) {
             this.description = description;
+            
+            String name = "cell_"+this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+                    .setFolder("cell")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                String name = "cell_"+this.name().toLowerCase(Locale.ROOT);
-                this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
-                                    .setFolder("cell")
-                                    .setRegistryName(name)
-                                    .setTranslationKey(name)
-                                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1157,24 +1120,22 @@ public class BlockItems {
         COOLANT_HELIUM_180K(180000, "crafting180kCoolantStore"),
         COOLANT_HELIUM_360K(360000, "crafting360kCoolantStore");
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final int heatStorage;
         public final String oreDict;
 
         NuclearCoolantPack(int heatStorage, String oreDict) {
             this.heatStorage = heatStorage;
             this.oreDict = oreDict;
+            
+            this.instance = new LazyValue<>(() -> new ItemNuclearHeatStorage(this.name().toLowerCase(Locale.ROOT), this.heatStorage)
+                    .setRegistryName(this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemNuclearHeatStorage(this.name().toLowerCase(Locale.ROOT), this.heatStorage)
-                                    .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1186,7 +1147,7 @@ public class BlockItems {
         PLUTONIUM_DUAL(2, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_dual_uranium")),
         PLUTONIUM_QUAD(4, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_quad_uranium"));
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final int cells;
         public final int duration;
         public final float energy;
@@ -1205,17 +1166,15 @@ public class BlockItems {
             this.radiation = radiation;
             this.heat = heat;
             this.depletedStack = depletedStack;
+            
+            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_"+this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
+                    .setRegistryName("fuel_rod_"+this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemNuclearFuelRod("fuel_rod_"+this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
-                                    .setRegistryName("fuel_rod_"+this.name().toLowerCase(Locale.ROOT))
-                                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1226,7 +1185,7 @@ public class BlockItems {
         ULTIMATE_CHEAT_ARMOR(EntityEquipmentSlot.CHEST, 1000000000, Integer.MAX_VALUE, 1, 10, 100, true, EnumSet.allOf(ArmorPerk.class).toArray(new ArmorPerk[0])),
         LIGHT_HELMET(EntityEquipmentSlot.HEAD, 10000, 32, 1, 0, 0, false, ArmorPerk.LAMP, ArmorPerk.SOLARPANEL);
 
-        private Item instance;
+        private final LazyValue<Item> instance;
         public final EntityEquipmentSlot slot;
         public final int maxCharge;
         public final int transferLimit;
@@ -1251,19 +1210,17 @@ public class BlockItems {
             this.chargeProvider = chargeProvider;
             this.oreDict = oreDict;
             this.perks = perks;
+            
+            this.instance = new LazyValue<>(() -> new ItemArmorElectricBase(this.name().toLowerCase(Locale.ROOT), this.slot, this.maxCharge, this.transferLimit, this.tier, this.damageEnergyCost, this.absorbtionDamage, this.chargeProvider, this.perks)
+                    .setFolder("armor")
+                    .setRegistryName(this.name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = new ItemArmorElectricBase(this.name().toLowerCase(Locale.ROOT), this.slot, this.maxCharge, this.transferLimit, this.tier, this.damageEnergyCost, this.absorbtionDamage, this.chargeProvider, this.perks)
-                                .setFolder("armor")
-                                .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                                .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
-                                .setCreativeTab(GregTechMod.GREGTECH_TAB);
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1298,8 +1255,7 @@ public class BlockItems {
                             .setTranslationKey("mortar_iron")
                             .setCreativeTab(GregTechMod.GREGTECH_TAB));
 
-        private Item instance;
-        private final Supplier<Item> constructor;
+        private final LazyValue<Item> instance;
         public final String oreDict;
 
         Miscellaneous() {
@@ -1311,26 +1267,26 @@ public class BlockItems {
         }
 
         Miscellaneous(Supplier<String> description, String oreDict) {
-            String name = this.name().toLowerCase(Locale.ROOT);
-            this.constructor = () -> new ItemBase(name, description != null ? description : () -> GtUtil.translateItemDescription(name))
-                                        .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                                        .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
-                                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
             this.oreDict = oreDict;
+            
+            this.instance = new LazyValue<>(() -> {
+                String name = this.name().toLowerCase(Locale.ROOT);
+                return new ItemBase(name, description != null ? description : () -> GtUtil.translateItemDescription(name))
+                        .setRegistryName(this.name().toLowerCase(Locale.ROOT))
+                        .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
+                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
+            });
         }
 
         Miscellaneous(Supplier<Item> constructor) {
-            this.constructor = constructor;
             this.oreDict = null;
+            
+            this.instance = new LazyValue<>(constructor);
         }
 
         @Override
         public Item getInstance() {
-            if (this.instance == null) {
-                this.instance = this.constructor.get();
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 
@@ -1350,19 +1306,17 @@ public class BlockItems {
 
         public final String author;
         public final int pages;
-        private ItemStack instance;
+        private final LazyValue<ItemStack> instance;
 
         Book(String author, int pages) {
             this.author = author;
             this.pages = pages;
+            
+            this.instance = new LazyValue<>(() -> GtUtil.getWrittenBook(this.name().toLowerCase(Locale.ROOT), this.author, this.pages, this.ordinal()));
         }
-
+        
         public ItemStack getInstance() {
-            if (this.instance == null) {
-                this.instance = GtUtil.getWrittenBook(this.name().toLowerCase(Locale.ROOT), this.author, this.pages, this.ordinal());
-            }
-
-            return this.instance;
+            return this.instance.get();
         }
     }
 }
