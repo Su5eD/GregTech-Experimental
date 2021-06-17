@@ -81,7 +81,8 @@ public class JEIModule implements IModPlugin {
                 new CategoryVacuumFreezer(guiHelper),
                 new CategoryDistillationTower(guiHelper),
                 CategoryGenerator.createFluidGeneratorCategory("thermal_generator", GuiThermalGenerator.class, GtFuels.hot, guiHelper),
-                CategoryGenerator.createFluidGeneratorCategory("diesel_generator", GuiDieselGenerator.class, GtFuels.diesel, guiHelper)
+                CategoryGenerator.createFluidGeneratorCategory("diesel_generator", GuiDieselGenerator.class, GtFuels.diesel, guiHelper),
+                CategoryGenerator.createFluidGeneratorCategory("gt_semifluid_generator", GuiSemifluidGenerator.class, GtFuels.denseLiquid, guiHelper)
         );
         CATEGORIES.addAll(categories);
         registry.addRecipeCategories(categories.toArray(new IRecipeCategory[0]));

@@ -811,6 +811,8 @@ gregtechmod.teblock.thermal_generator=Thermal Generator
 gregtechmod.teblock.thermal_generator.description=Generates Energy from hot Stuff like Lava
 gregtechmod.teblock.diesel_generator=Diesel Generator
 gregtechmod.teblock.diesel_generator.description=The second most effective Way of burning Fuel
+gregtechmod.teblock.gt_semifluid_generator=Semifluid Generator
+gregtechmod.teblock.gt_semifluid_generator.description=Makes Energy of more dense Liquids
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

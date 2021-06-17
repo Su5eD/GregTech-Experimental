@@ -130,3 +130,8 @@
 - input:
     item: minecraft:beacon
   energy: 100000
+- input:
+    cell: mercury
+  output:
+    cell: empty
+  energy: 8
