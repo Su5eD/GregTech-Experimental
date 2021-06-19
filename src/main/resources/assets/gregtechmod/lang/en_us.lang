@@ -236,6 +236,8 @@ gregtechmod.info.machine_inactive=Machine is inactive
 gregtechmod.info.wrench_error=This block is owned by %s, only they can wrench it.
 gregtechmod.info.structure_invalid=Incomplete Machine Casing!
 gregtechmod.info.heat_capacity=Heat Capacity: %s K
+gregtechmod.info.liquid_amount=Liquid Amount
+gregtechmod.info.gas_amount=Gas Amount
 gregtechmod.generic.turbine_rotor.description=Turbine Efficiency:  %s%%
 gregtechmod.generic.steam=Steam
 gregtechmod.generic.progress=Progress
@@ -813,6 +815,8 @@ gregtechmod.teblock.diesel_generator=Diesel Generator
 gregtechmod.teblock.diesel_generator.description=The second most effective Way of burning Fuel
 gregtechmod.teblock.gt_semifluid_generator=Semifluid Generator
 gregtechmod.teblock.gt_semifluid_generator.description=Makes Energy of more dense Liquids
+gregtechmod.teblock.gas_turbine=Gas Turbine
+gregtechmod.teblock.gas_turbine.description=Generate Power from Flatulence, uhh I mean Methane
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
