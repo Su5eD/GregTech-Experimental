@@ -84,7 +84,7 @@ public class JEIModule implements IModPlugin {
                 CategoryGenerator.createFluidGeneratorCategory("diesel_generator", GuiDieselGenerator.class, GtFuels.diesel, guiHelper),
                 CategoryGenerator.createFluidGeneratorCategory("gt_semifluid_generator", GuiSemifluidGenerator.class, GtFuels.denseLiquid, guiHelper),
                 CategoryGenerator.createFluidGeneratorCategory("gas_turbine", GuiGasTurbine.class, GtFuels.gas, guiHelper),
-                CategoryGenerator.createFluidGeneratorCategory("plasma_generator", GuiPlasmaGenerator.class, GtFuels.plasma, guiHelper)
+                new CategoryPlasmaGenerator(guiHelper)
         );
         CATEGORIES.addAll(categories);
         registry.addRecipeCategories(categories.toArray(new IRecipeCategory[0]));

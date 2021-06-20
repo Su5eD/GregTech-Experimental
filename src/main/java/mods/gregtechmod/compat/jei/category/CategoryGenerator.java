@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
     private final IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager;
-    private final Class<? extends GuiFluidGenerator> guiClass;
+    protected final Class<? extends GuiFluidGenerator> guiClass;
     
     public CategoryGenerator(String name, Class<R> recipeClass, Class<? extends GuiFluidGenerator> guiClass, IRecipeWrapperFactory<R> recipeWrapperFactory, IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager, IGuiHelper guiHelper) {
         super(name, recipeClass, recipeWrapperFactory, guiHelper);
@@ -34,8 +34,7 @@ public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
     }
     
     @Override
-    public void init(IModRegistry registry) {
-        super.init(registry);
+    protected void addRecipeClickArea(IModRegistry registry) {
         registry.addRecipeClickArea(this.guiClass, 81, 35, 14, 15, this.uid);
     }
 

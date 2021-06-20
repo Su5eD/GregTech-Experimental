@@ -40,7 +40,10 @@ public abstract class CategoryBase<R, W extends IRecipeWrapper> implements IReci
         registry.handleRecipes(this.recipeClass, this.recipeWrapperFactory, this.uid);
         registry.addRecipes(getRecipes(), this.uid);
         registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity(this.name), this.uid);
+        addRecipeClickArea(registry);   
     }
+    
+    protected void addRecipeClickArea(IModRegistry registry) {}
     
     @Override
     public final void setRecipe(IRecipeLayout recipeLayout, W recipeWrapper, IIngredients ingredients) {

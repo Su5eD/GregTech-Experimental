@@ -12,6 +12,10 @@ public abstract class ContainerBasicTank<T extends IInventory> extends Container
 
     public ContainerBasicTank(EntityPlayer player, T base) {
         super(player, base, 166);
+        initSlots();
+    }
+    
+    protected void initSlots() {
         addSlotToContainer(new SlotInvSlot(getInputSlot(), 0, 80, 17));
         addSlotToContainer(new SlotInvSlot(getOutputSlot(), 0, 80, 53));
     }
