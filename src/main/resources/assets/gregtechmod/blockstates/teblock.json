@@ -51,7 +51,9 @@
       "diesel_generator": { "model": "gregtechmod:diesel_generator" },
       "diesel_generator_active": { "model": "gregtechmod:diesel_generator_active" },
       "gt_semifluid_generator": { "model": "gregtechmod:gt_semifluid_generator" },
-      "gas_turbine": { "model": "gregtechmod:gas_turbine" }
+      "gas_turbine": { "model": "gregtechmod:gas_turbine" },
+      "plasma_generator": { "model": "gregtechmod:plasma_generator" },
+      "plasma_generator_active": { "model": "gregtechmod:plasma_generator_active" }
     },
     "facing": {
       "down": { "x": 90 },
