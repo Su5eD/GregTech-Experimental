@@ -820,6 +820,8 @@ gregtechmod.teblock.gas_turbine=Gas Turbine
 gregtechmod.teblock.gas_turbine.description=Generate Power from Flatulence, uhh I mean Methane
 gregtechmod.teblock.plasma_generator=Plasma Generator
 gregtechmod.teblock.plasma_generator.description=Harness the immense Power of Plasma
+gregtechmod.teblock.magic_energy_converter=Magic Energy Converter
+gregtechmod.teblock.magic_energy_converter.description=A Generator running off Magic Fuel
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

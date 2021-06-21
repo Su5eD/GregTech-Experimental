@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.energy.tile.IExplosionPowerOverride;
-import ic2.core.ExplosionIC2;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.util.Util;
@@ -14,7 +13,6 @@ import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,9 +28,6 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IMachineProgress, IGuiValueProvider, IExplosionPowerOverride, IPanelInfoProvider {
-    public boolean shouldExplode;
-    private boolean explode;
-    private int explosionTier;
     public final RM recipeManager;
     public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
@@ -122,12 +117,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     protected void updateEntityServer() {
         super.updateEntityServer();
         boolean dirty = false;
-        if(this.explode) {
-            this.energy.onUnloaded();
-            this.explodeMachine(getExplosionPower(this.explosionTier, 1.5F));
-        }
-        if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
-        MachineSafety.checkSafety(this);
         R recipe = getRecipe();
         if (canOperate(recipe)) {
             updateEnergyConsume(recipe);
@@ -226,31 +215,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         throw new IllegalArgumentException("Cannot get value for " + name);
     }
 
-    public void explodeMachine(float power) {
-        int x = this.pos.getX(), y = this.pos.getY(), z = this.pos.getZ();
-        this.energy.onUnloaded();
-        world.setBlockToAir(this.pos);
-        new ExplosionIC2(world, null, x+0.5, y+0.5, z+0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
-    }
-
-    @Override
-    protected boolean isFlammable(EnumFacing face) {
-        return true;
-    }
-
-    @Override
-    public void markForExplosion() {
-        this.shouldExplode = true;
-        this.explosionTier = this.energy.getSinkTier() + 1;
-        if (GregTechConfig.MACHINES.machineWireFire) {
-            double energy = getStoredEU();
-            this.energy.onUnloaded();
-            this.energy = AdjustableEnergy.createSource(this, getEUCapacity(), 5, Util.allFacings);
-            this.energy.onLoaded();
-            this.energy.forceCharge(energy);
-        }
-    }
-
     @Override
     public boolean isActive() {
         return getActive();
@@ -269,27 +233,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     public void increaseProgress(double amount) {
         this.progress += amount;
-    }
-
-    @Override
-    public boolean shouldExplode() {
-        return true;
-    }
-
-    @Override
-    public float getExplosionPower(int tier, float defaultPower) {
-        switch (tier) {
-            case 2:
-                return GregTechConfig.BALANCE.MVExplosionPower;
-            case 3:
-                return GregTechConfig.BALANCE.HVExplosionPower;
-            case 4:
-                return GregTechConfig.BALANCE.EVExplosionPower;
-            case 5:
-                return GregTechConfig.BALANCE.IVExplosionPower;
-
-            default: return GregTechConfig.BALANCE.LVExplosionPower;
-        }
     }
 
     @Nonnull

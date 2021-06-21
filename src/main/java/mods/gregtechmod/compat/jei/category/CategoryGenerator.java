@@ -10,6 +10,7 @@ import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.fuel.IFuelManager;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.jei.factory.RecipeWrapperFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperFuel;
 import mods.gregtechmod.gui.GuiFluidGenerator;
 import mods.gregtechmod.recipe.fuel.FuelSimple;
@@ -17,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
     private final IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager;
@@ -47,9 +47,7 @@ public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
 
     @Override
     protected Collection<?> getRecipes() {
-        return this.fuelManager.getFuels().stream()
-                .map(WrapperFuel::new)
-                .collect(Collectors.toList());
+        return RecipeWrapperFactory.getFuelWrappers(this.fuelManager, WrapperFuel::new);
     }
 
     @Override

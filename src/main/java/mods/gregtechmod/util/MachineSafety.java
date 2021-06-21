@@ -21,7 +21,7 @@ public class MachineSafety {
                 BlockPos pos = machine.getPos();
                 if (machine.getWorld().getPrecipitationHeight(pos).getY() - 2 < pos.getY()) {
                     if (GregTechConfig.MACHINES.machineRainExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && machine.getWorld().isRaining()) {
-                        if (GtUtil.RANDOM.nextInt(10)==0) {
+                        if (GtUtil.RANDOM.nextInt(10) == 0) {
                             machine.markForExplosion();
                         } else if (GregTechConfig.MACHINES.machineFlammable) {
                             setBlockOnFire(machine.getWorld(), machine.getPos());

@@ -38,7 +38,6 @@ import mods.gregtechmod.recipe.compat.BasicMachineRecipe;
 import mods.gregtechmod.recipe.fuel.FluidFuelManager;
 import mods.gregtechmod.recipe.fuel.FuelMulti;
 import mods.gregtechmod.recipe.fuel.FuelSimple;
-import mods.gregtechmod.recipe.fuel.SolidFuelManager;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;
 import mods.gregtechmod.recipe.util.IBasicMachineRecipe;
@@ -226,7 +225,7 @@ public class MachineRecipeLoader {
         parseFuels("plasma", FuelSimple.class, null)
                 .ifPresent(fuels -> registerFuels("plasma", fuels, GtFuels.plasma));
 
-        GtFuels.magic = new SolidFuelManager<>();
+        GtFuels.magic = new FluidFuelManager<>();
         parseFuels("magic", FuelSimple.class, null)
                 .ifPresent(fuels -> registerFuels("magic", fuels, GtFuels.magic));
 

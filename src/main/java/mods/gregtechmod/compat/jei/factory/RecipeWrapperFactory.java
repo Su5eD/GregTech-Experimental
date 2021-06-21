@@ -2,6 +2,8 @@ package mods.gregtechmod.compat.jei.factory;
 
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
+import mods.gregtechmod.api.recipe.fuel.IFuel;
+import mods.gregtechmod.api.recipe.fuel.IFuelManager;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineMulti;
@@ -37,4 +39,12 @@ public class RecipeWrapperFactory {
                 .map(wrapperFactory)
                 .collect(Collectors.toList());
     }
+    
+    public static <F extends IFuel<IRecipeIngredient>, W extends IRecipeWrapper> List<? extends W> getFuelWrappers(IFuelManager<F, ?> fuelManager, Function<F, W> wrapperFactory) {
+        return fuelManager.getFuels()
+                .stream()
+                .filter(fuel -> !fuel.getInput().getMatchingInputs().isEmpty())
+                .map(wrapperFactory)
+                .collect(Collectors.toList());
+    } 
 }

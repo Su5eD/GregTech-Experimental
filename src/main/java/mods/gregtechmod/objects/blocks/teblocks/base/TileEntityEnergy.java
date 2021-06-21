@@ -1,9 +1,14 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.energy.EnergyNet;
+import ic2.api.energy.tile.IExplosionPowerOverride;
+import ic2.core.ExplosionIC2;
 import ic2.core.IHasGui;
+import ic2.core.util.Util;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,7 +16,7 @@ import net.minecraft.util.EnumFacing;
 
 import java.util.*;
 
-public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IHasGui {
+public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IHasGui, IExplosionPowerOverride {
     private final String descriptionKey;
     protected boolean energyCapacityTooltip;
     
@@ -26,6 +31,10 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     private double previousEU;
     public double averageEUIn;
     public double averageEUOut;
+    
+    public boolean shouldExplode;
+    private boolean explode;
+    private int explosionTier;
 
     public TileEntityEnergy(String descriptionKey) {
         this.descriptionKey = descriptionKey;
@@ -131,6 +140,60 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
             double sum = Arrays.stream(averageEUOutputs).sum();
             averageEUOut = sum / averageEUOutputs.length;
         } else averageEUOut = 0;
+        
+        if(this.explode) {
+            this.energy.onUnloaded();
+            this.explodeMachine(getExplosionPower(this.explosionTier, 1.5F));
+        }
+        if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
+        MachineSafety.checkSafety(this);
+    }
+
+    @Override
+    public void markForExplosion() {
+        this.shouldExplode = true;
+        this.explosionTier = this.energy.getSinkTier() + 1;
+        if (GregTechConfig.MACHINES.machineWireFire) {
+            double energy = getStoredEU();
+            this.energy.onUnloaded();
+            this.energy = AdjustableEnergy.createSource(this, getEUCapacity(), 5, Util.allFacings);
+            this.energy.onLoaded();
+            this.energy.forceCharge(energy);
+        }
+    }
+
+    @Override
+    public boolean shouldExplode() {
+        return true;
+    }
+
+    @Override
+    public float getExplosionPower(int tier, float defaultPower) {
+        switch (tier) {
+            case 2:
+                return GregTechConfig.BALANCE.MVExplosionPower;
+            case 3:
+                return GregTechConfig.BALANCE.HVExplosionPower;
+            case 4:
+                return GregTechConfig.BALANCE.EVExplosionPower;
+            case 5:
+                return GregTechConfig.BALANCE.IVExplosionPower;
+
+            default:
+                return GregTechConfig.BALANCE.LVExplosionPower;
+        }
+    }
+    
+    public void explodeMachine(float power) {
+        int x = this.pos.getX(), y = this.pos.getY(), z = this.pos.getZ();
+        this.energy.onUnloaded();
+        world.setBlockToAir(this.pos);
+        new ExplosionIC2(world, null, x+0.5, y+0.5, z+0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
+    }
+    
+    @Override
+    protected boolean isFlammable(EnumFacing face) {
+        return true;
     }
 
     @Override

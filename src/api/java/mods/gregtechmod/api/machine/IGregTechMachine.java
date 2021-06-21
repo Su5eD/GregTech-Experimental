@@ -56,6 +56,9 @@ public interface IGregTechMachine {
     boolean isOutputEnabled();
     
     void setOutputEnabled(boolean value);
-    
+
+    /**
+     * <img src="https://i.imgur.com/7lZ0uZa.png" alt="Kaboom" width="384" height="382">
+     */
     void markForExplosion();
 }
