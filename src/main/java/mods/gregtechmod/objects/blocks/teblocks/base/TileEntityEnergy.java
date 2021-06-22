@@ -3,20 +3,18 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
-import ic2.core.IHasGui;
 import ic2.core.util.Util;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 import java.util.*;
 
-public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IHasGui, IExplosionPowerOverride {
+public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IExplosionPowerOverride {
     private final String descriptionKey;
     protected boolean energyCapacityTooltip;
     
@@ -60,7 +58,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     
     @Override
     public void addEnergy(double amount) {
-        if (amount > getMaxInputEUp()) markForExplosion();
+        if (this.energy.isSink() && amount > getMaxInputEUp()) markForExplosion();
         this.energy.charge(amount);
     }
     
@@ -146,7 +144,11 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
             this.explodeMachine(getExplosionPower(this.explosionTier, 1.5F));
         }
         if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
-        MachineSafety.checkSafety(this);
+        if (enableMachineSafety()) MachineSafety.checkSafety(this);
+    }
+    
+    protected boolean enableMachineSafety() {
+        return true;
     }
 
     @Override
@@ -203,7 +205,4 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         if (this.energy.isSource()) tooltip.add(GtUtil.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
         if (this.energyCapacityTooltip) tooltip.add(GtUtil.translateInfo("eu_storage", GtUtil.formatNumber(this.energy.getCapacity())));
     }
-
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }

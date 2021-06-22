@@ -12,22 +12,24 @@ import net.minecraft.world.World;
 public class MachineSafety {
 
     public static <T extends TileEntity & IGregTechMachine> void checkSafety(T machine) {
+        World world = machine.getWorld();
+        BlockPos pos = machine.getPos();
+        
         if (machine.getUniversalEnergyCapacity() > 0) {
-            if (GregTechConfig.MACHINES.machineFireExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && machine.getWorld().getBlockState(machine.getPos().offset(EnumFacing.random(GtUtil.RANDOM))).getBlock() == Blocks.FIRE) {
+            if (GregTechConfig.MACHINES.machineFireExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && world.getBlockState(pos.offset(EnumFacing.random(GtUtil.RANDOM))).getBlock() == Blocks.FIRE) {
                 machine.markForExplosion();
             }
 
             if (machine instanceof ICoverable && ((ICoverable)machine).getCoverAtSide(EnumFacing.UP) == null) {
-                BlockPos pos = machine.getPos();
-                if (machine.getWorld().getPrecipitationHeight(pos).getY() - 2 < pos.getY()) {
-                    if (GregTechConfig.MACHINES.machineRainExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && machine.getWorld().isRaining()) {
+                if (world.getPrecipitationHeight(pos).getY() - 2 < pos.getY()) {
+                    if (GregTechConfig.MACHINES.machineRainExplosions && GtUtil.RANDOM.nextInt(1000) == 0 && world.isRaining()) {
                         if (GtUtil.RANDOM.nextInt(10) == 0) {
                             machine.markForExplosion();
                         } else if (GregTechConfig.MACHINES.machineFlammable) {
-                            setBlockOnFire(machine.getWorld(), machine.getPos());
+                            setBlockOnFire(world, pos);
                         }
                     }
-                    if (GregTechConfig.MACHINES.machineThunderExplosions && GtUtil.RANDOM.nextInt(2500) == 0 && machine.getWorld().isThundering()) {
+                    if (GregTechConfig.MACHINES.machineThunderExplosions && GtUtil.RANDOM.nextInt(2500) == 0 && world.isThundering()) {
                         machine.markForExplosion();
                     }
                 }

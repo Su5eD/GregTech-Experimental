@@ -55,7 +55,8 @@
       "plasma_generator": { "model": "gregtechmod:plasma_generator" },
       "plasma_generator_active": { "model": "gregtechmod:plasma_generator_active" },
       "magic_energy_converter": { "model": "gregtechmod:magic_energy_converter" },
-      "magic_energy_converter_active": { "model": "gregtechmod:magic_energy_converter_active" }
+      "magic_energy_converter_active": { "model": "gregtechmod:magic_energy_converter_active" },
+      "lightning_rod": { "model": "gregtechmod:lightning_rod" }
     },
     "facing": {
       "down": { "x": 90 },

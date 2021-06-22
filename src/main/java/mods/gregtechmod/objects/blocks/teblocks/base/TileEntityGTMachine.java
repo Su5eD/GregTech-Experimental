@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.energy.tile.IExplosionPowerOverride;
+import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.util.Util;
@@ -27,7 +28,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IMachineProgress, IGuiValueProvider, IExplosionPowerOverride, IPanelInfoProvider {
+public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IMachineProgress, IGuiValueProvider, IExplosionPowerOverride, IPanelInfoProvider {
     public final RM recipeManager;
     public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
@@ -262,4 +263,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public String getTertiaryInfo() {
         return  "/" + GtUtil.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, this.overclockersCount) / 20));
     }
+
+    @Override
+    public void onGuiClosed(EntityPlayer entityPlayer) {}
 }
