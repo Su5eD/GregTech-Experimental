@@ -29,14 +29,14 @@
     },
     "P":
     {
-      "type": "forge:ore_dict",
-      "ore": "platePlatinum"
+      "item": "thaumcraft:ingot",
+      "data": 0
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 32
   },
   "conditions":
   [
@@ -45,12 +45,8 @@
       "values":
       [
         {
-          "type": "forge:not",
-          "value":
-          {
-            "type": "forge:mod_loaded",
-            "modid": "thaumcraft"
-          }
+          "type": "forge:mod_loaded",
+          "modid": "thaumcraft"
         },
         {
           "type": "gregtechmod:experimental"

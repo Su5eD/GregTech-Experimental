@@ -16,7 +16,7 @@
     "L":
     {
       "type": "forge:ore_dict",
-      "ore": "crafting1kkEUStore"
+      "ore": "crafting10kkEUStore"
     },
     "S":
     {
@@ -36,7 +36,7 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 32
   },
   "conditions":
   [
@@ -53,7 +53,7 @@
           }
         },
         {
-          "type": "gregtechmod:classic"
+          "type": "gregtechmod:experimental"
         }
       ]
     }

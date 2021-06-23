@@ -824,6 +824,8 @@ gregtechmod.teblock.magic_energy_converter=Magic Energy Converter
 gregtechmod.teblock.magic_energy_converter.description=A Generator running off Magic Fuel
 gregtechmod.teblock.lightning_rod=Lightning Rod
 gregtechmod.teblock.lightning_rod.description=Generates Power during Thunderstorms
+gregtechmod.teblock.magic_energy_absorber=Magic Energy Absorber
+gregtechmod.teblock.magic_energy_absorber.description=Absorbs Magic Energy and disenchants Items
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

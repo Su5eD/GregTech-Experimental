@@ -10,7 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 
 public class TileEntityLightningRod extends TileEntityGenerator {
-
+    // TODO add a recipe for this when the supercondensator is added
     public TileEntityLightningRod() {
         super("lightning_rod");
     }

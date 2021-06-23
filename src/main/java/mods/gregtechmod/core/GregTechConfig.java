@@ -54,10 +54,6 @@ public class GregTechConfig {
         public int digitalChestMaxItemCount = 32768;
         @Config.RangeInt(min = 1, max = 64)
         public int upgradeStackSize = 4;
-        @Config.RangeInt(min = 16, max = 64)
-        public int maxLogStackSize = 64;
-        @Config.RangeInt(min = 16, max = 64)
-        public int maxPlankStackSize = 64;
     }
 
     public static class Balance {
@@ -88,6 +84,8 @@ public class GregTechConfig {
         @Config.Comment("Nearby explosions cause machines to explode")
         public boolean machineChainExplosions = true;
         public int matterFabricationRate = 10000000;
+        public double energyPerEnderCrystal = 32;
+        public double energyFromVis = 12800;
     }
 
     public static class Unification {

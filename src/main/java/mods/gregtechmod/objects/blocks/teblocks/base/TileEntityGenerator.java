@@ -13,12 +13,16 @@ import java.util.Set;
 
 public abstract class TileEntityGenerator extends TileEntityUpgradable {
     
-    protected TileEntityGenerator(String descriptionKey) {
+    public TileEntityGenerator(String descriptionKey) {
         super(descriptionKey);
         this.energyCapacityTooltip = true;
         this.allowedCovers = EnumSet.of(CoverType.GENERIC, CoverType.IO, CoverType.CONTROLLER, CoverType.METER);
     }
 
+    protected boolean canAddEnergy() {
+            return getStoredEU() < getMaxOutputEUt() * 10 + 512;
+        }
+    
     @Override
     protected Collection<EnumFacing> getSinkSides() {
         return Collections.emptySet();

@@ -59,10 +59,6 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
         return energy;
     }
 
-    private boolean canAddEnergy() {
-        return getStoredEU() < getMaxOutputEUt() * 10 + 512;
-    }
-
     protected boolean canOperate(IFuel<IRecipeIngredient> fuel) {
         return this.isAllowedToWork() && fuel != null || this.solidFuelEnergy > 0;
     }

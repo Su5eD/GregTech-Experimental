@@ -25,8 +25,7 @@
     "M":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "magic energy converter"
+      "data": 32
     },
     "I":
     {
@@ -37,6 +36,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 34
   }
 }

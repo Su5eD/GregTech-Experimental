@@ -16,7 +16,7 @@
     "L":
     {
       "type": "forge:ore_dict",
-      "ore": "crafting10kkEUStore"
+      "ore": "crafting1kkEUStore"
     },
     "S":
     {
@@ -29,14 +29,14 @@
     },
     "P":
     {
-      "item": "thaumcraft:ingot",
-      "data": 0
+      "type": "forge:ore_dict",
+      "ore": "platePlatinum"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 32
   },
   "conditions":
   [
@@ -45,11 +45,15 @@
       "values":
       [
         {
-          "type": "forge:mod_loaded",
-          "modid": "thaumcraft"
+          "type": "forge:not",
+          "value":
+          {
+            "type": "forge:mod_loaded",
+            "modid": "thaumcraft"
+          }
         },
         {
-          "type": "gregtechmod:experimental"
+          "type": "gregtechmod:classic"
         }
       ]
     }

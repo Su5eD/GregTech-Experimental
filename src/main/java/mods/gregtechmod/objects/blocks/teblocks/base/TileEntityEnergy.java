@@ -154,7 +154,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     @Override
     public void markForExplosion() {
         this.shouldExplode = true;
-        this.explosionTier = this.energy.getSinkTier() + 1;
+        this.explosionTier = Math.max(getSinkTier(), getSourceTier()) + 1;
         if (GregTechConfig.MACHINES.machineWireFire) {
             double energy = getStoredEU();
             this.energy.onUnloaded();

@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/magic_energy_absorber/magic_energy_absorber_side_active",
+    "down": "gregtechmod:blocks/machines/magic_energy_absorber/magic_energy_absorber_side_active",
+    "up": "gregtechmod:blocks/machines/magic_energy_absorber/magic_energy_absorber_side_active",
+    "north": "gregtechmod:blocks/machines/magic_energy_absorber/magic_energy_absorber_side_active",
+    "south": "gregtechmod:blocks/machines/magic_energy_absorber/magic_energy_absorber_side_active",
+    "east": "gregtechmod:blocks/machines/magic_energy_absorber/magic_energy_absorber_side_active",
+    "west": "gregtechmod:blocks/machines/magic_energy_absorber/magic_energy_absorber_side_active"
+  }
+}
