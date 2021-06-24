@@ -1,7 +1,7 @@
 {
   "parent": "gregtechmod:block/block_directional",
   "textures": {
-    "particle": "gregtechmod:blocks/machines/machine_bottom",
+    "particle": "gregtechmod:blocks/machines/machine_side",
     "down": "gregtechmod:blocks/machines/struct/oil",
     "up": "gregtechmod:blocks/machines/struct/oil",
     "north": "gregtechmod:blocks/machines/adv_machine_screen_inactive",
