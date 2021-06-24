@@ -37,12 +37,15 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
+import thaumcraft.api.aura.AuraHelper;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -500,5 +503,14 @@ public class ModHandler {
             if (nbt != null) return nbt.getInteger("value") * 5;
         }
         return 0;
+    }
+    
+    public static void polluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
+        if (thaumcraft) reallyPolluteAura(world, pos, amount, showEffect);
+    }
+    
+    @Optional.Method(modid = "thaumcraft")
+    private static void reallyPolluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
+        AuraHelper.polluteAura(world, pos, amount, showEffect);
     }
 }

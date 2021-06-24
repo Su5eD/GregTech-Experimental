@@ -61,4 +61,6 @@ public interface IGregTechMachine {
      * <img src="https://i.imgur.com/7lZ0uZa.png" alt="Kaboom" width="384" height="382">
      */
     void markForExplosion();
+    
+    void markForExplosion(float power);
 }

@@ -32,7 +32,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     
     public boolean shouldExplode;
     private boolean explode;
-    private int explosionTier;
+    private float explosionPower;
 
     public TileEntityEnergy(String descriptionKey) {
         this.descriptionKey = descriptionKey;
@@ -139,22 +139,24 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
             averageEUOut = sum / averageEUOutputs.length;
         } else averageEUOut = 0;
         
-        if(this.explode) {
-            this.energy.onUnloaded();
-            this.explodeMachine(getExplosionPower(this.explosionTier, 1.5F));
-        }
+        if(this.explode) this.explodeMachine(this.explosionPower);
         if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         if (enableMachineSafety()) MachineSafety.checkSafety(this);
     }
-    
+
     protected boolean enableMachineSafety() {
         return true;
     }
 
     @Override
     public void markForExplosion() {
+        markForExplosion(getExplosionPower(Math.max(getSinkTier(), getSourceTier()) + 1, 1.5F));
+    }
+
+    @Override
+    public void markForExplosion(float power) {
         this.shouldExplode = true;
-        this.explosionTier = Math.max(getSinkTier(), getSourceTier()) + 1;
+        this.explosionPower = power;
         if (GregTechConfig.MACHINES.machineWireFire) {
             double energy = getStoredEU();
             this.energy.onUnloaded();
@@ -180,7 +182,6 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
                 return GregTechConfig.BALANCE.EVExplosionPower;
             case 5:
                 return GregTechConfig.BALANCE.IVExplosionPower;
-
             default:
                 return GregTechConfig.BALANCE.LVExplosionPower;
         }

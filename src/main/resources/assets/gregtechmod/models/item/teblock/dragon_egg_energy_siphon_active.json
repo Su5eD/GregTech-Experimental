@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/dragon_egg_energy_siphon/dragon_egg_energy_siphon_top",
+    "down": "gregtechmod:blocks/machines/dragon_egg_energy_siphon/dragon_egg_energy_siphon_side_active",
+    "up": "gregtechmod:blocks/machines/dragon_egg_energy_siphon/dragon_egg_energy_siphon_top",
+    "north": "gregtechmod:blocks/machines/dragon_egg_energy_siphon/dragon_egg_energy_siphon_side_active",
+    "south": "gregtechmod:blocks/machines/dragon_egg_energy_siphon/dragon_egg_energy_siphon_side_active",
+    "east": "gregtechmod:blocks/machines/dragon_egg_energy_siphon/dragon_egg_energy_siphon_side_active",
+    "west": "gregtechmod:blocks/machines/dragon_egg_energy_siphon/dragon_egg_energy_siphon_side_active"
+  }
+}

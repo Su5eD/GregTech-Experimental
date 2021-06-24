@@ -9,10 +9,8 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerato
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import thaumcraft.api.aura.AuraHelper;
 
 public class TileEntityMagicEnergyConverter extends TileEntityFluidGenerator {
     
@@ -28,14 +26,9 @@ public class TileEntityMagicEnergyConverter extends TileEntityFluidGenerator {
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        if (shouldExplode && ModHandler.thaumcraft) {
-            polluteAura();
+        if (shouldExplode) {
+            ModHandler.polluteAura(this.world, this.pos, 20 * GtUtil.RANDOM.nextInt(20), true);
         }
-    }
-    
-    @Optional.Method(modid = "thaumcraft")
-    private void polluteAura() {
-        AuraHelper.polluteAura(world, pos, 20 * GtUtil.RANDOM.nextInt(20), true);
     }
 
     @Override

@@ -76,7 +76,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                 }
             }
             
-            if (GregTechConfig.MACHINES.energyPerEnderCrystal > 0 && this.drainCrystalEnergy) {
+            if (GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal > 0 && this.drainCrystalEnergy) {
                 if (this.targetedCrystal == null) {
                     int x = this.pos.getX();
                     int y = this.pos.getY();
@@ -88,7 +88,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                         if (this.targetedCrystal != null) usedDragonCrystalList.add(this.targetedCrystal);
                     } 
                 } else if (this.targetedCrystal.isEntityAlive()) {
-                    addEnergy(GregTechConfig.MACHINES.energyPerEnderCrystal * 10);
+                    addEnergy(GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal * 10);
                 } else {
                     usedDragonCrystalList.remove(this.targetedCrystal);
                     this.targetedCrystal = null;
@@ -96,11 +96,16 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
             }
             
             if (ModHandler.thaumcraft) {
-                if (this.drainAura && GregTechConfig.MACHINES.energyFromVis > 0 && getStoredEU() < GregTechConfig.MACHINES.energyFromVis) {
+                if (this.drainAura && GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis > 0 && getStoredEU() < GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis) {
                     drainAura();
                 }
                 
-                if (shouldExplode) polluteAura(50, 50);
+                if (shouldExplode) {
+                    int minFlux = (int) (GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis / 3200D);
+                    int maxFlux = (int) (GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis / 1600D);
+                    ModHandler.polluteAura(this.world, this.pos, minFlux + GtUtil.RANDOM.nextInt(maxFlux), true);
+                    polluteAura(50, 50);
+                }
             }
             
             setActive(getStoredEU() >= getMaxOutputEUt() + 512); // TODO method getMinimumStoredEU()
@@ -110,8 +115,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     @Optional.Method(modid = "thaumcraft")
     private void drainAura() {
         if (AuraHelper.drainVis(this.world, this.pos, 1, false) >= 1) {
-            addEnergy(GregTechConfig.MACHINES.energyFromVis);
-            polluteAura((int) (GregTechConfig.MACHINES.energyFromVis / 3200), (int) (GregTechConfig.MACHINES.energyFromVis / 1600));
+            addEnergy(GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis);
             
             int x = this.pos.getX();
             int y = this.pos.getY();
@@ -131,7 +135,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
 
     @Override
     protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, Math.max(1000000, Math.max(GregTechConfig.MACHINES.energyFromVis, GregTechConfig.MACHINES.energyPerEnderCrystal)), 2, Math.max(128, GregTechConfig.MACHINES.energyPerEnderCrystal), getSourceSides());
+        return AdjustableEnergy.createSource(this, Math.max(1000000, Math.max(GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal)), 2, Math.max(128, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal), getSourceSides());
     }
 
     @Override

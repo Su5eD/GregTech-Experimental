@@ -351,6 +351,9 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     @Override
     public void markForExplosion() {}
 
+    @Override
+    public void markForExplosion(float power) {}
+
     private class BarrelItemStackHandler extends ItemStackHandler {
         private final EnumFacing side;
 

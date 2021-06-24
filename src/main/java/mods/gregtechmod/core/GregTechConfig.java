@@ -71,6 +71,14 @@ public class GregTechConfig {
     }
 
     public static class Machines {
+        @Config.Name("magic_energy_absorber")
+        @Config.LangKey(Reference.MODID+".teblock.magic_energy_absorber")
+        public final MagicEnergyAbsorber magicEnergyAbsorber = new MagicEnergyAbsorber();
+        
+        @Config.Name("dragon_egg_energy_siphon")
+        @Config.LangKey(Reference.MODID+".teblock.dragon_egg_energy_siphon")
+        public final DragonEggEnergySiphon dragonEggEnergySiphon = new DragonEggEnergySiphon();
+        
         public boolean constantNeedOfEnergy = true;
         public boolean machineFlammable = true;
         @Config.Comment("Fire causes explosions")
@@ -84,8 +92,17 @@ public class GregTechConfig {
         @Config.Comment("Nearby explosions cause machines to explode")
         public boolean machineChainExplosions = true;
         public int matterFabricationRate = 10000000;
-        public double energyPerEnderCrystal = 32;
-        public double energyFromVis = 12800;
+        
+        public static class MagicEnergyAbsorber {
+            public double energyPerEnderCrystal = 32;
+            public double energyFromVis = 12800;
+        }
+        
+        public static class DragonEggEnergySiphon {
+            public double dragonEggEnergyPerTick = 1024;
+            public boolean allowMultipleEggs = false;
+            public boolean outputFlux = true;
+        }
     }
 
     public static class Unification {
