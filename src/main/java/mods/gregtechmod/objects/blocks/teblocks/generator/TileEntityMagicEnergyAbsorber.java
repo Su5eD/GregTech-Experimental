@@ -88,7 +88,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                         if (this.targetedCrystal != null) usedDragonCrystalList.add(this.targetedCrystal);
                     } 
                 } else if (this.targetedCrystal.isEntityAlive()) {
-                    addEnergy(GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal * 10);
+                    addEnergy(GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal);
                 } else {
                     usedDragonCrystalList.remove(this.targetedCrystal);
                     this.targetedCrystal = null;
@@ -108,7 +108,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                 }
             }
             
-            setActive(getStoredEU() >= getMaxOutputEUt() + 512); // TODO method getMinimumStoredEU()
+            setActive(getStoredEU() >= getMaxOutputEUt() + getMinimumStoredEnergy());
         }
     }
     
@@ -135,7 +135,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
 
     @Override
     protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, Math.max(1000000, Math.max(GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal)), 2, Math.max(128, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal), getSourceSides());
+        return AdjustableEnergy.createSource(this, Math.max(1000000, Math.max(GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D)), 2, Math.max(128, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D), getSourceSides());
     }
 
     @Override

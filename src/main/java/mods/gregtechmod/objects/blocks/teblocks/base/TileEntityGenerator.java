@@ -20,8 +20,12 @@ public abstract class TileEntityGenerator extends TileEntityUpgradable {
     }
 
     protected boolean canAddEnergy() {
-            return getStoredEU() < getMaxOutputEUt() * 10 + 512;
-        }
+        return getStoredEU() < getMaxOutputEUt() * 10 + getMinimumStoredEnergy();
+    }
+    
+    protected double getMinimumStoredEnergy() {
+        return 512;
+    }
     
     @Override
     protected Collection<EnumFacing> getSinkSides() {

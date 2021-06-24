@@ -46,7 +46,7 @@ public class OreDictUnificator {
         if (!name2OreMap.containsKey(name)) {
             name2OreMap.put(name, stack);
         } else {
-            if (overwrite && Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(getStackConfigName(stack))) {
+            if (overwrite && Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(stack))) {
                 name2OreMap.remove(name);
                 name2OreMap.put(name, stack);
             }
@@ -57,7 +57,7 @@ public class OreDictUnificator {
     public static void override(String name, ItemStack stack) {
         if (name == null || name.isEmpty() || name.startsWith("itemDust") || stack.isEmpty() || stack.getItemDamage() < 0) return;
 
-        if (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.GENERAL.specialUnificationTargets).contains(getStackConfigName(stack))) set(name, stack);
+        if (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(stack))) set(name, stack);
     }
 
     public static ItemStack getUnifiedOre(String name) {

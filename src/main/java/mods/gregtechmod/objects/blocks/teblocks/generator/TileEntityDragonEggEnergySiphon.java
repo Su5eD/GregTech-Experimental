@@ -25,7 +25,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
         if (isAllowedToWork() && hasEgg()) {
             setActive(true);
             
-            if (this.energy.charge(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergyPerTick) 
+            if (this.energy.charge(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy) 
                     && GregTechConfig.MACHINES.dragonEggEnergySiphon.outputFlux 
                     && GtUtil.RANDOM.nextInt(1000) == 5) {
                 ModHandler.polluteAura(this.world, this.pos, 4, true);
@@ -56,7 +56,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
 
     @Override
     protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, 512 + GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergyPerTick * 2, EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergyPerTick), getSourceSides());
+        return AdjustableEnergy.createSource(this, getMinimumStoredEnergy() + GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy * 2, EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy), getSourceSides());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
 
     @Override
     public String getSecondaryInfo() {
-        return GtUtil.translateInfo("output", GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergyPerTick);
+        return GtUtil.translateInfo("output", GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy);
     }
 
     @Override
