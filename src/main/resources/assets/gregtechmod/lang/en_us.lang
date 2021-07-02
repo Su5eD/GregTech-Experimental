@@ -246,6 +246,14 @@ gregtechmod.generic.turbine_rotor.description=Turbine Efficiency:  %s%%
 gregtechmod.generic.steam=Steam
 gregtechmod.generic.progress=Progress
 gregtechmod.generic.time_secs=%s secs
+gregtechmod.teblock.hatch_output.mode.lsi=Outputs Liquids, Steam and Items
+gregtechmod.teblock.hatch_output.mode.si=Outputs Steam and Items
+gregtechmod.teblock.hatch_output.mode.sl=Outputs Steam and Liquids
+gregtechmod.teblock.hatch_output.mode.s=Outputs Steam
+gregtechmod.teblock.hatch_output.mode.li=Outputs Liquids and Items
+gregtechmod.teblock.hatch_output.mode.i_only=Outputs only Items
+gregtechmod.teblock.hatch_output.mode.l_only=Outputs only Liquids
+gregtechmod.teblock.hatch_output.mode.nothing=Outputs nothing
 
 gregtechmod.item.turbine_rotor_bronze.name=Bronze Turbine Rotor
 gregtechmod.item.turbine_rotor_steel.name=Steel Turbine Rotor
@@ -831,6 +839,10 @@ gregtechmod.teblock.magic_energy_absorber=Magic Energy Absorber
 gregtechmod.teblock.magic_energy_absorber.description=Absorbs Magic Energy and disenchants Items
 gregtechmod.teblock.dragon_egg_energy_siphon=Dragon Egg Energy Siphon
 gregtechmod.teblock.dragon_egg_energy_siphon.description=Harness the teleportation Power of the Dragon Egg!
+gregtechmod.teblock.hatch_input=Input Hatch
+gregtechmod.teblock.hatch_input.description=For inputting Materials into Multiblocks
+gregtechmod.teblock.hatch_output=Output Hatch
+gregtechmod.teblock.hatch_output.description=Use Screwdriver to specify Output Type
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

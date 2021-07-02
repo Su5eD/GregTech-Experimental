@@ -1,9 +1,11 @@
 package mods.gregtechmod.util;
 
+import com.google.common.base.Predicate;
 import com.mojang.authlib.GameProfile;
 import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.item.upgrade.ItemUpgradeModule;
+import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
@@ -26,6 +28,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -53,6 +56,7 @@ public class GtUtil {
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
     private static Object modFile;
     public static final IFluidHandler VOID_TANK = new VoidTank();
+    public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
 
     private static Object getModFile() {
         if (modFile == null) {

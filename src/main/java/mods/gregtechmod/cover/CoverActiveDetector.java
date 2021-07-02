@@ -52,13 +52,13 @@ public class CoverActiveDetector extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = DetectorMode.valueOf(nbt.getString("mode"));
+        this.mode = DetectorMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

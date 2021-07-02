@@ -64,12 +64,12 @@ public class CoverNormal extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", mode.name());
+        nbt.setInteger("mode", mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = CoverMeter.MeterMode.valueOf(nbt.getString("mode"));
+        this.mode = CoverMeter.MeterMode.VALUES[nbt.getInteger("mode")];
     }
 }

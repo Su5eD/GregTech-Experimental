@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "PPP",
+    "PCP",
     "GMG",
-    "PCP"
+    "PPP"
   ],
   "key":
   {
@@ -32,6 +32,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 36
   }
 }

@@ -1,5 +1,6 @@
 package mods.gregtechmod.init;
 
+import com.google.gson.JsonObject;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
@@ -118,35 +119,40 @@ public class ClientEventHandler {
     public static void registerBakedModels() {
         GregTechMod.logger.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
-        for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
-            try {
-                if (teBlock.hasBakedModel()) {
-                    String name = teBlock.getName();
-                    JsonHandler json = new JsonHandler(name, "teblock");
+        JsonObject blockstateModels = JsonHandler.readFromJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
+        
+        Arrays.stream(GregTechTEBlock.values())
+                .filter(GregTechTEBlock::hasBakedModel)
+                .forEach(teBlock -> {
+                    String teBlockName = teBlock.getName();
+                    String model = new ResourceLocation(blockstateModels.getAsJsonObject(teBlockName).get("model").getAsString()).getPath();
                     
+                    JsonHandler json = new JsonHandler(getItemModelPath("teblock", model));
                     RenderTeBlock renderer;
                     if (teBlock.isStructure()) {
-                        JsonHandler valid = new JsonHandler(name + "_valid", "teblock");
-                        renderer = new RenderStructureTeBlock(json.generateMapFromJSON("textures"), valid.generateMapFromJSON("textures"), valid.particle);
+                        JsonHandler valid = new JsonHandler(getItemModelPath("teblock", teBlockName + "_valid"));
+                        renderer = new RenderStructureTeBlock(json.generateTextureMap(), valid.generateTextureMap(), valid.particle);
                     } else {
-                        renderer = new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle);
+                        renderer = new RenderTeBlock(json.generateTextureMap(), json.particle);
                     }
-                    loader.register("models/block/"+name, renderer);
+                    loader.register("models/block/" + teBlockName, renderer);
                     
                     if (teBlock.hasActive()) {
-                        json = new JsonHandler(name+"_active", "teblock");
-                        loader.register("models/block/"+name+"_active", new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle));
+                        JsonHandler active = new JsonHandler(getItemModelPath("teblock", teBlockName + "_active"));
+                        loader.register("models/block/" + teBlockName + "_active", new RenderTeBlock(active.generateTextureMap(), json.particle));
                     }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+                });
+        
         for (BlockItems.Ore ore : BlockItems.Ore.values()) {
-            JsonHandler json = new JsonHandler(ore.name().toLowerCase(Locale.ROOT), "ore");
-            loader.register("models/block/ore/"+ore.name().toLowerCase(Locale.ROOT), new RenderBlockOre(json.generateMapFromJSON("textures"), json.generateMapFromJSON("textures_nether"), json.generateMapFromJSON("textures_end"), json.particle));
+            JsonHandler json = new JsonHandler(getItemModelPath("ore", ore.name().toLowerCase(Locale.ROOT)));
+            loader.register("models/block/ore/" + ore.name().toLowerCase(Locale.ROOT), new RenderBlockOre(json.generateTextureMap(), json.generateTextureMap("textures_nether"), json.generateTextureMap("textures_end"), json.particle));
         }
+        
         ModelLoaderRegistry.registerLoader(loader);
+    }
+    
+    private static String getItemModelPath(String... paths) {
+        return "models/item/" + String.join("/", paths) + ".json";
     }
 
     @SubscribeEvent

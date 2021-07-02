@@ -70,13 +70,13 @@ public class CoverEnergyOnly extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = EnergyMode.valueOf(nbt.getString("mode"));
+        this.mode = EnergyMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

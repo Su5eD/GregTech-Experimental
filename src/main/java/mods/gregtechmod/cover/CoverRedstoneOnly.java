@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.item.ItemStack;
@@ -25,5 +26,10 @@ public class CoverRedstoneOnly extends CoverGeneric {
     @Override
     public boolean letsRedstoneOut() {
         return true;
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.OTHER;
     }
 }

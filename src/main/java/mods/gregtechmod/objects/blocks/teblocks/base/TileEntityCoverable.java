@@ -29,7 +29,7 @@ import java.util.Set;
  */
 public abstract class TileEntityCoverable extends TileEntityInventory implements ICoverable {
     protected final CoverHandler coverHandler;
-    protected Set<CoverType> allowedCovers = new HashSet<>();
+    protected Set<CoverType> coverBlacklist = new HashSet<>();
 
     public TileEntityCoverable() {
         this.coverHandler = addComponent(new CoverHandler(this, () -> {
@@ -38,8 +38,6 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
             rerender();
         }));
     }
-
-    protected abstract Collection<EnumFacing> getSinkSides();
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -55,19 +53,21 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
         } else if (CoverVent.isVent(stack)) {
             placeCover(player, side, stack, "vent");
             return true;
-        } else return attemptUseCrowbar(stack, side, player) || attemptUseScrewdriver(stack, side, player);
+        } else if (isScrewdriver(stack)) {
+            return onScrewdriverActivated(stack, side, player);
+        } else return attemptUseCrowbar(stack, side, player);
     }
-
-    public boolean attemptUseScrewdriver(ItemStack stack, EnumFacing side, EntityPlayer player) {
-        if (isScrewdriver(stack)) {
-            ICover cover = getCoverAtSide(side);
-            if (cover != null) {
-                if (cover.onScrewdriverClick(player)) {
-                    updateEnet();
-                    stack.damageItem(1, player);
-                }
-            } else placeCoverAtSide(CoverRegistry.constructCover("normal", side, this, null), side, false);
-        }
+    
+    protected boolean onScrewdriverActivated(ItemStack stack, EnumFacing side, EntityPlayer player) {
+        ICover cover = getCoverAtSide(side);
+        if (cover != null) {
+            if (cover.onScrewdriverClick(player)) {
+                updateEnet();
+                stack.damageItem(1, player);
+                return true;
+            }
+        } else return placeCoverAtSide(CoverRegistry.constructCover("normal", side, this, null), side, false);
+        
         return false;
     }
 
@@ -137,7 +137,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
 
     @Override
     public boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate) {
-        if (!allowedCovers.isEmpty() && !allowedCovers.contains(cover.getType())) return false;
+        if (coverBlacklist.contains(cover.getType())) return false;
         return this.coverHandler.placeCoverAtSide(cover, side, simulate);
     }
 

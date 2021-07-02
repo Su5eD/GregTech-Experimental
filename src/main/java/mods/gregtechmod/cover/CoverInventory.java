@@ -33,13 +33,13 @@ public abstract class CoverInventory extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", mode.name());
+        nbt.setInteger("mode", mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = InventoryMode.valueOf(nbt.getString("mode"));
+        this.mode = InventoryMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

@@ -14,6 +14,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
@@ -31,6 +33,7 @@ public class ItemCrowbar extends ItemToolBase implements IToolCrowbar {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (ModHandler.railcraft) tooltip.add(GtUtil.translateItem("crowbar.description_rc"));
         super.addInformation(stack, worldIn, tooltip, flagIn);

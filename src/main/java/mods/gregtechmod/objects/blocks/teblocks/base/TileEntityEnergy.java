@@ -4,6 +4,7 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
 import ic2.core.util.Util;
+import mods.gregtechmod.api.machine.IElectricalMachine;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
@@ -11,11 +12,12 @@ import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
 
-public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IExplosionPowerOverride {
-    private final String descriptionKey;
+public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IExplosionPowerOverride, IElectricalMachine {
     protected boolean energyCapacityTooltip;
     
     protected AdjustableEnergy energy;
@@ -35,14 +37,15 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     private float explosionPower;
 
     public TileEntityEnergy(String descriptionKey) {
-        this.descriptionKey = descriptionKey;
-        
+        super(descriptionKey);
         this.energy = addComponent(createEnergyComponent());
         this.defaultSinkTier = this.energy.getSinkTier();
         this.defaultEnergyStorage = this.energy.getCapacity();
     }
     
     protected abstract AdjustableEnergy createEnergyComponent();
+    
+    protected abstract Collection<EnumFacing> getSinkSides();
     
     protected abstract Collection<EnumFacing> getSourceSides();
     
@@ -200,8 +203,9 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        if (this.descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(this.descriptionKey));
+        super.addInformation(stack, tooltip, advanced);
         if (this.energy.isSink()) tooltip.add(GtUtil.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
         if (this.energy.isSource()) tooltip.add(GtUtil.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
         if (this.energyCapacityTooltip) tooltip.add(GtUtil.translateInfo("eu_storage", GtUtil.formatNumber(this.energy.getCapacity())));

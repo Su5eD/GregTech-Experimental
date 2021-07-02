@@ -6,6 +6,7 @@ import ic2.core.block.comp.Fluids;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.api.machine.IGregTechMachine;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 
@@ -25,12 +26,16 @@ public class GtFluidTank extends Fluids.InternalFluidTank {
 
     @Override
     public boolean canFill(EnumFacing side) {
+        if (this.parent instanceof IGregTechMachine && !((IGregTechMachine) this.parent).isAllowedToWork()) return false; 
+        
         ICover cover = parent.getCoverAtSide(side);
         return super.canFill(side) && (cover == null || cover.letsLiquidsIn());
     }
 
     @Override
     public boolean canDrain(EnumFacing side) {
+        if (this.parent instanceof IGregTechMachine && !((IGregTechMachine) this.parent).isAllowedToWork()) return false; 
+        
         ICover cover = parent.getCoverAtSide(side);
         return super.canDrain(side) && (cover == null || cover.letsLiquidsOut());
     }

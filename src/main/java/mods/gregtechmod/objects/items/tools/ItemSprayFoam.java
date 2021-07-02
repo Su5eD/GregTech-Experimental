@@ -24,6 +24,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -50,6 +52,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         tooltip.add(I18n.format(getMode(stack).getTooltipKey()));
@@ -138,12 +141,12 @@ public class ItemSprayFoam extends ItemToolCrafting {
 
     public SprayMode getMode(ItemStack stack) {
         NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
-        return nbt.hasKey("mode") ? SprayMode.valueOf(nbt.getString("mode")) : SprayMode.SINGLE;
+        return nbt.hasKey("mode") ? SprayMode.VALUES[nbt.getInteger("mode")] : SprayMode.SINGLE;
     }
 
     private void setMode(ItemStack stack, SprayMode mode) {
         NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
-        nbt.setString("mode", mode.name());
+        nbt.setInteger("mode", mode.ordinal());
     }
 
     private enum SprayMode {

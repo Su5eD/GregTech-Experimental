@@ -85,13 +85,13 @@ public class CoverDrain extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return super.writeToNBT(nbt);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = DrainMode.valueOf(nbt.getString("mode"));
+        this.mode = DrainMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

@@ -4,14 +4,22 @@ import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine {
+    private final String descriptionKey;
+    
     public final SidedRedstoneEmitter rsEmitter;
     private boolean enableWorking = true;
     private boolean enableWorkingOld = true;
@@ -19,7 +27,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     private boolean enableOutput = true;
     protected int tickCounter;
 
-    public TileEntityCoverBehavior() {
+    public TileEntityCoverBehavior(String descriptionKey) {
+        this.descriptionKey = descriptionKey;
         this.rsEmitter = addComponent(new SidedRedstoneEmitter(this));
     }
 
@@ -129,6 +138,12 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
+        if (this.descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(this.descriptionKey));
+    }
+
+    @Override
     public void setInputEnabled(boolean value) {
         this.enableInput = value;
     }
@@ -157,4 +172,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public boolean isAllowedToWork() {
         return this.enableWorking;
     }
+
+    @Override
+    public void updateEnet() {}
 }

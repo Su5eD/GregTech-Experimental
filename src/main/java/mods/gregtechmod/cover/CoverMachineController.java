@@ -73,13 +73,13 @@ public class CoverMachineController extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = ControllerMode.valueOf(nbt.getString("mode"));
+        this.mode = ControllerMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

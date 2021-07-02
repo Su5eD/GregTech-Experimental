@@ -2,6 +2,7 @@ package mods.gregtechmod.cover;
 
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.api.machine.IElectricalMachine;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
@@ -22,8 +23,8 @@ public class CoverEnergyMeter extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregTechMachine)) return;
-        IGregTechMachine machine = (IGregTechMachine) te;
+        if (!(te instanceof IElectricalMachine)) return;
+        IElectricalMachine machine = (IElectricalMachine) te;
         byte strength;
         if (mode == Mode.AVERAGE_EU_IN || mode == Mode.AVERAGE_EU_IN_INVERTED) {
             strength = (byte) (machine.getAverageEUInput() / (machine.getMaxInputEUp() / 15));
@@ -113,13 +114,13 @@ public class CoverEnergyMeter extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = Mode.valueOf(nbt.getString("mode"));
+        this.mode = Mode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

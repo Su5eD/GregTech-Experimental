@@ -6,5 +6,6 @@ public enum CoverType {
     ENERGY,
     METER,
     CONTROLLER,
+    UTIL,
     OTHER
 }

@@ -46,13 +46,13 @@ public abstract class CoverMeter extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = MeterMode.valueOf(nbt.getString("mode"));
+        this.mode = MeterMode.VALUES[nbt.getInteger("mode")];
     }
 
     protected abstract Pair<Integer, Integer> getStorageAndCapacity();
@@ -61,7 +61,7 @@ public abstract class CoverMeter extends CoverGeneric {
         NORMAL,
         INVERTED;
 
-        private static final MeterMode[] VALUES = values();
+        public static final MeterMode[] VALUES = values();
 
         public MeterMode next() {
             return VALUES[(this.ordinal() + 1) % VALUES.length];

@@ -229,11 +229,11 @@ dependencies {
     implementation(fg.deobf(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI))
     compileOnly(fg.deobf(group = "com.mod-buildcraft", name = "buildcraft-api", version = versionBuildCraft))
     compileOnly(fg.deobf(curse(mod = "energy-control", projectId = 51195, fileId = versionEnergyControl.toLong())))
-    implementation(fg.deobf(curse(mod = "railcraft", projectId = 51195, fileId = versionRailcraft.toLong())))
+    compileOnly(fg.deobf(curse(mod = "railcraft", projectId = 51195, fileId = versionRailcraft.toLong())))
     compileOnly(fg.deobf(curse(mod = "applied-energistics-2", projectId = 223794, fileId = versionAE2.toLong())))
     compileOnly(fg.deobf(curse(mod = "thaumcraft", projectId = 223628, fileId = versionThaumcraft.toLong())))
-    implementation(fg.deobf(group = "slimeknights.mantle", name = "Mantle", version = versionMantle))
-    implementation(fg.deobf(group = "slimeknights", name = "TConstruct", version = versionTConstruct))
+    compileOnly(fg.deobf(group = "slimeknights.mantle", name = "Mantle", version = versionMantle))
+    compileOnly(fg.deobf(group = "slimeknights", name = "TConstruct", version = versionTConstruct))
 
     val databind = "com.fasterxml.jackson.core:jackson-databind:2.9.0"
     implementation(databind)

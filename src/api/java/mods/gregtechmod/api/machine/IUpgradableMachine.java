@@ -12,7 +12,7 @@ import java.util.Set;
  * Provides upgrade item compatibility
  * @author Su5eD
  */
-public interface IUpgradableMachine extends IGregTechMachine {
+public interface IUpgradableMachine extends IElectricalMachine {
     
     boolean hasSteamTank();
 

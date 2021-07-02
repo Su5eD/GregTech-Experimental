@@ -31,7 +31,10 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior implements IUpgradableMachine, IPanelInfoProvider {
     protected GameProfile owner = null;
@@ -44,13 +47,15 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public int maxItemCount;
     protected int availableSpace;
 
-    public TileEntityDigitalChestBase(int stackLimit, boolean isQuantumChest) {
+    public TileEntityDigitalChestBase(String descriptionKey, int stackLimit, boolean isQuantumChest) {
+        super(descriptionKey);
         this.maxItemCount = stackLimit;
         this.isQuantumChest = isQuantumChest;
         this.content = new InvSlot(this, "mainSlot", InvSlot.Access.IO, 1);
         this.content.setStackSizeLimit(stackLimit);
         this.upgradeSlot = new GtUpgradeSlot(this, "lockUpgradeSlot", InvSlot.Access.NONE, 1);
-        this.allowedCovers = EnumSet.of(CoverType.GENERIC, CoverType.IO, CoverType.CONTROLLER, CoverType.METER);
+        
+        this.coverBlacklist.add(CoverType.ENERGY);
     }
 
     @Override
@@ -208,63 +213,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public void addEnergy(double amount) {
-    }
-
-    @Override
-    public double useEnergy(double amount, boolean simulate) {
-        return 0;
-    }
-
-    @Override
-    public double getUniversalEnergy() {
-        return 0;
-    }
-
-    @Override
-    public double getMaxInputEUp() {
-        return 0;
-    }
-
-    @Override
-    public double getStoredEU() {
-        return 0;
-    }
-
-    @Override
-    public double getEUCapacity() {
-        return 0;
-    }
-
-    @Override
-    public double getAverageEUInput() {
-        return 0;
-    }
-
-    @Override
-    public double getAverageEUOutput() {
-        return 0;
-    }
-
-    @Override
-    public double getStoredSteam() {
-        return 0;
-    }
-
-    @Override
-    public double getSteamCapacity() {
-        return 0;
-    }
-
-    @Override
-    public void updateEnet() {}
-
-    @Override
-    public double getUniversalEnergyCapacity() {
-        return 0;
-    }
-
-    @Override
     public boolean hasSteamTank() {
         return false;
     }
@@ -279,16 +227,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     @Override
     public GameProfile getOwner() {
         return this.owner;
-    }
-
-    @Override
-    public int getSinkTier() {
-        return 0;
-    }
-
-    @Override
-    public int getSourceTier() {
-        return 0;
     }
 
     @Override
@@ -341,11 +279,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     @Override
     public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return Collections.emptySet();
-    }
-
-    @Override
-    public double getMaxOutputEUt() {
-        return 0;
     }
 
     @Override
@@ -434,6 +367,82 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
+    public boolean hasMjUpgrade() {
+        return false;
+    }
+
+    @Override
+    public void addMjUpgrade() {}
+
+    @Override
+    public void addEnergy(double amount) {}
+
+    @Override
+    public double useEnergy(double amount, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public double getUniversalEnergy() {
+        return 0;
+    }
+
+    @Override
+    public double getUniversalEnergyCapacity() {
+        return 0;
+    }
+
+    @Override
+    public int getSinkTier() {
+        return 0;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return 0;
+    }
+
+    @Override
+    public double getMaxInputEUp() {
+        return 0;
+    }
+
+    @Override
+    public double getMaxOutputEUt() {
+        return 0;
+    }
+
+    @Override
+    public double getStoredEU() {
+        return 0;
+    }
+
+    @Override
+    public double getEUCapacity() {
+        return 0;
+    }
+
+    @Override
+    public double getAverageEUInput() {
+        return 0;
+    }
+
+    @Override
+    public double getAverageEUOutput() {
+        return 0;
+    }
+
+    @Override
+    public double getStoredSteam() {
+        return 0;
+    }
+
+    @Override
+    public double getSteamCapacity() {
+        return 0;
+    }
+
+    @Override
     public long getStoredMj() {
         return 0;
     }
@@ -444,18 +453,5 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public boolean hasMjUpgrade() {
-        return false;
-    }
-
-    @Override
-    public void addMjUpgrade() {}
-
-    @Override
     public void setMjCapacity(long capacity) {}
-
-    @Override
-    protected Collection<EnumFacing> getSinkSides() {
-        return Collections.emptySet();
-    }
 }

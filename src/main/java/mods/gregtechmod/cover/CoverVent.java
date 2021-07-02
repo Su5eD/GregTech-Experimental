@@ -2,6 +2,7 @@ package mods.gregtechmod.cover;
 
 import ic2.core.item.reactor.ItemReactorVent;
 import ic2.core.item.reactor.ItemReactorVentSpread;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IMachineProgress;
@@ -91,5 +92,10 @@ public class CoverVent extends CoverGeneric {
     @Override
     public int getTickRate() {
         return 1;
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.OTHER;
     }
 }

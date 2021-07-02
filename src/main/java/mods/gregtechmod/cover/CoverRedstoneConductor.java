@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
@@ -136,12 +137,17 @@ public class CoverRedstoneConductor extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = ConductorMode.valueOf(nbt.getString("mode"));
+        this.mode = ConductorMode.VALUES[nbt.getInteger("mode")];
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.UTIL;
     }
 }

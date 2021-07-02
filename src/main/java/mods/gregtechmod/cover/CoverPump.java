@@ -2,7 +2,7 @@ package mods.gregtechmod.cover;
 
 import ic2.core.util.LiquidUtil;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IElectricalMachine;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -27,8 +27,8 @@ public class CoverPump extends CoverInventory {
             if (stack == null) return;
 
             double energy = Math.min(1, stack.amount / 100D);
-            if (te instanceof IGregTechMachine && mode.consumesEnergy(side) && ((IGregTechMachine)te).getUniversalEnergyCapacity() >= energy) {
-                if (((IGregTechMachine)te).useEnergy(energy, false) < energy) return;
+            if (te instanceof IElectricalMachine && mode.consumesEnergy(side) && ((IElectricalMachine)te).getUniversalEnergyCapacity() >= energy) {
+                if (((IElectricalMachine)te).useEnergy(energy, false) < energy) return;
             }
 
             LiquidUtil.transfer(mode.isImport ? target.handler : (TileEntity)te, side, mode.isImport ? (TileEntity)te : target.handler, 1000);

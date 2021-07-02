@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
@@ -30,17 +31,22 @@ public class CoverRedstoneSignalizer extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setByte("mode", this.signal);
+        nbt.setByte("signal", this.signal);
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.signal = nbt.getByte("mode");
+        this.signal = nbt.getByte("signal");
     }
 
     @Override
     public ResourceLocation getIcon() {
         return new ResourceLocation(Reference.MODID, "blocks/covers/redstone_signalizer");
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.METER;
     }
 }

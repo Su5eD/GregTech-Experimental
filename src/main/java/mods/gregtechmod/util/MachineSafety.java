@@ -1,7 +1,7 @@
 package mods.gregtechmod.util;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IElectricalMachine;
 import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class MachineSafety {
 
-    public static <T extends TileEntity & IGregTechMachine> void checkSafety(T machine) {
+    public static <T extends TileEntity & IElectricalMachine> void checkSafety(T machine) {
         World world = machine.getWorld();
         BlockPos pos = machine.getPos();
         

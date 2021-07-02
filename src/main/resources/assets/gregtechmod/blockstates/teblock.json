@@ -60,7 +60,9 @@
       "magic_energy_absorber": { "model": "gregtechmod:magic_energy_absorber" },
       "magic_energy_absorber_active": { "model": "gregtechmod:magic_energy_absorber_active" },
       "dragon_egg_energy_siphon": { "model": "gregtechmod:dragon_egg_energy_siphon" },
-      "dragon_egg_energy_siphon_active": { "model": "gregtechmod:dragon_egg_energy_siphon_active" }
+      "dragon_egg_energy_siphon_active": { "model": "gregtechmod:dragon_egg_energy_siphon_active" },
+      "hatch_input": { "model": "gregtechmod:hatch_input" },
+      "hatch_output": { "model": "gregtechmod:hatch_output" }
     },
     "facing": {
       "down": { "x": 90 },

@@ -14,6 +14,8 @@ import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
+import mods.gregtechmod.objects.blocks.teblocks.multiblock.TileEntityHatchInput;
+import mods.gregtechmod.objects.blocks.teblocks.multiblock.TileEntityHatchOutput;
 import mods.gregtechmod.objects.blocks.teblocks.struct.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -65,7 +67,9 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     MAGIC_ENERGY_CONVERTER(TileEntityMagicEnergyConverter.class, 32, true, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
     LIGHTNING_ROD(TileEntityLightningRod.class, 33, false, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
     MAGIC_ENERGY_ABSORBER(TileEntityMagicEnergyAbsorber.class, 34, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
-    DRAGON_EGG_ENERGY_SIPHON(TileEntityDragonEggEnergySiphon.class, 35, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true);
+    DRAGON_EGG_ENERGY_SIPHON(TileEntityDragonEggEnergySiphon.class, 35, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
+    HATCH_INPUT(TileEntityHatchInput.class, 36, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
+    HATCH_OUTPUT(TileEntityHatchOutput.class, 37, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;
