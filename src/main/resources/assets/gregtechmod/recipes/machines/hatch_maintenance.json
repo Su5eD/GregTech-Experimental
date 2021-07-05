@@ -8,11 +8,6 @@
   ],
   "key":
   {
-    "P":
-    {
-      "type": "forge:ore_dict",
-      "ore": "plateSteel"
-    },
     "M":
     {
       "type": "forge:ore_dict",
@@ -32,6 +27,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 38
   }
 }

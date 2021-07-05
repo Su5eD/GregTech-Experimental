@@ -7,6 +7,7 @@ import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -300,6 +301,31 @@ public class GtUtil {
     
     public static <T> boolean matchCollections(Collection<T> first, Collection<T> second) {
         return first.size() != second.size() || !first.containsAll(second) && ! second.containsAll(first);
+    }
+    
+    public static boolean isWrench(ItemStack stack) {
+        return containsStack(stack, GregTechAPI.getWrenches());
+    }
+    
+    public static boolean isScrewdriver(ItemStack stack) {
+        return containsStack(stack, GregTechAPI.getScrewdrivers());
+    }
+    
+    public static boolean isSoftHammer(ItemStack stack) {
+        return containsStack(stack, GregTechAPI.getSoftHammers());
+    }
+    
+    public static boolean isHardHammer(ItemStack stack) {
+        return containsStack(stack, GregTechAPI.getHardHammers());
+    }
+    
+    public static boolean isCrowbar(ItemStack stack) {
+        return containsStack(stack, GregTechAPI.getCrowbars());
+    }
+    
+    public static boolean containsStack(ItemStack stack, Collection<ItemStack> stacks) {
+        return stacks.stream()
+                .anyMatch(s -> stackEquals(s, stack));
     }
     
     private static class VoidTank implements IFluidHandler {

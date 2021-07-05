@@ -4,7 +4,6 @@ import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.CoverRegistry;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
@@ -53,7 +52,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
         } else if (CoverVent.isVent(stack)) {
             placeCover(player, side, stack, "vent");
             return true;
-        } else if (isScrewdriver(stack)) {
+        } else if (GtUtil.isScrewdriver(stack)) {
             return onScrewdriverActivated(stack, side, player);
         } else return attemptUseCrowbar(stack, side, player);
     }
@@ -72,23 +71,13 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     }
 
     public boolean attemptUseCrowbar(ItemStack stack, EnumFacing side, EntityPlayer player) {
-        if (isCrowbar(stack)) {
+        if (GtUtil.isCrowbar(stack)) {
             if (removeCover(side, false)) {
                 stack.damageItem(1, player);
                 return true;
             }
         }
         return false;
-    }
-
-    private boolean isCrowbar(ItemStack stack) {
-        return GregTechAPI.getCrowbars().stream()
-                .anyMatch(crowbar -> GtUtil.stackEquals(crowbar, stack));
-    }
-
-    private boolean isScrewdriver(ItemStack stack) {
-        return GregTechAPI.getScrewdrivers().stream()
-                .anyMatch(screwdriver -> GtUtil.stackEquals(screwdriver, stack));
     }
 
     private void placeCover(EntityPlayer player, EnumFacing side, ItemStack stack, String name) { //For generic covers and vents

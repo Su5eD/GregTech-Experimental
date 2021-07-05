@@ -254,6 +254,7 @@ gregtechmod.teblock.hatch_output.mode.li=Outputs Liquids and Items
 gregtechmod.teblock.hatch_output.mode.i_only=Outputs only Items
 gregtechmod.teblock.hatch_output.mode.l_only=Outputs only Liquids
 gregtechmod.teblock.hatch_output.mode.nothing=Outputs nothing
+gregtechmod.teblock.hatch_maintenance.gui_tooltip=Click with Tool to repair.
 
 gregtechmod.item.turbine_rotor_bronze.name=Bronze Turbine Rotor
 gregtechmod.item.turbine_rotor_steel.name=Steel Turbine Rotor
@@ -843,6 +844,8 @@ gregtechmod.teblock.hatch_input=Input Hatch
 gregtechmod.teblock.hatch_input.description=For inputting Materials into Multiblocks
 gregtechmod.teblock.hatch_output=Output Hatch
 gregtechmod.teblock.hatch_output.description=Use Screwdriver to specify Output Type
+gregtechmod.teblock.hatch_maintenance=Maintenance Hatch
+gregtechmod.teblock.hatch_maintenance.description=For maintaining Multiblocks
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

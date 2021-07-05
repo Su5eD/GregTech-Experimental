@@ -4,6 +4,7 @@ import ic2.api.event.TeBlockFinalCallEvent;
 import ic2.core.IC2;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
+import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
@@ -81,6 +82,9 @@ public final class GregTechMod {
         Components.register(AdjustableEnergy.class, Reference.MODID + ":adjustable_energy");
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
+        
+        GregTechAPI.registerWrench(ItemName.wrench.getInstance());
+        GregTechAPI.registerWrench(ItemName.wrench_new.getInstance());
     }
 
     @EventHandler

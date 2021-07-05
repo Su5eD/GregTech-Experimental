@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.items.tools;
 
 import ic2.core.IC2;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
@@ -31,6 +32,7 @@ public class ItemRubberHammer extends ItemHammer {
         setRegistryName("hammer_rubber");
         setTranslationKey("hammer_rubber");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
+        GregTechAPI.registerSoftHammer(this);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.items.tools;
 
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.base.ItemHammer;
@@ -26,6 +27,7 @@ public class ItemHardHammer extends ItemHammer {
         this.effectiveAganist.add("minecraft:villager_golem");
         this.effectiveAganist.add("twilightforest:tower_golem");
         this.effectiveAganist.add("thaumcraft:golem");
+        GregTechAPI.registerHardHammer(this);
     }
 
     @Override

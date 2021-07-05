@@ -186,6 +186,7 @@ public class ClientEventHandler {
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_conductor"));
         map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_signalizer"));
         map.registerSprite(new ResourceLocation(Reference.MODID, "blocks/machines/machine_top_pipe"));
+        map.registerSprite(new ResourceLocation(Reference.MODID, "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape"));
 
         FluidLoader.FLUIDS.forEach(provider -> map.registerSprite(provider.getTexture()));
     }

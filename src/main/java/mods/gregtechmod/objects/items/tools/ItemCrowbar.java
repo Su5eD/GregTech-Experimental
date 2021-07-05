@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -29,7 +28,7 @@ public class ItemCrowbar extends ItemToolBase implements IToolCrowbar {
         setRegistryName("crowbar");
         setTranslationKey("crowbar");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-        GregTechAPI.registerCrowbar(new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE));
+        GregTechAPI.registerCrowbar(this);
     }
 
     @Override
