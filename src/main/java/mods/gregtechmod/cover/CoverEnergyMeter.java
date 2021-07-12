@@ -2,8 +2,8 @@ package mods.gregtechmod.cover;
 
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IElectricalMachine;
 import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,8 +23,8 @@ public class CoverEnergyMeter extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IElectricalMachine)) return;
-        IElectricalMachine machine = (IElectricalMachine) te;
+        if (!(te instanceof IUpgradableMachine)) return;
+        IUpgradableMachine machine = (IUpgradableMachine) te;
         byte strength;
         if (mode == Mode.AVERAGE_EU_IN || mode == Mode.AVERAGE_EU_IN_INVERTED) {
             strength = (byte) (machine.getAverageEUInput() / (machine.getMaxInputEUp() / 15));

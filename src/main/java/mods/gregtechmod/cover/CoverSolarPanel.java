@@ -3,7 +3,7 @@ package mods.gregtechmod.cover;
 import ic2.api.energy.EnergyNet;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IElectricalMachine;
+import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.init.Blocks;
@@ -27,16 +27,16 @@ public class CoverSolarPanel extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(side == EnumFacing.UP) || !(te instanceof IElectricalMachine)) return;
+        if (!(side == EnumFacing.UP) || !(te instanceof IElectricMachine)) return;
 
-        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && ((IElectricalMachine)te).getSinkTier() < EnergyNet.instance.getTierFromPower(this.daytimeEnergy)) return;
+        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && ((IElectricMachine)te).getSinkTier() < EnergyNet.instance.getTierFromPower(this.daytimeEnergy)) return;
 
         World world = ((TileEntity)te).getWorld();
         BlockPos pos = ((TileEntity)te).getPos();
         if (!world.isThundering()) {
             boolean bRain = world.isRaining() && world.getBiome(((TileEntity)te).getPos()).getRainfall() > 0;
             if ((!bRain || world.getSkylightSubtracted() < 4) && getSkyAtSide(world, pos, side)) {
-                ((IElectricalMachine)te).addEnergy(bRain || !world.isDaytime() ? nighttimeEnergy : daytimeEnergy);
+                ((IElectricMachine)te).addEnergy(bRain || !world.isDaytime() ? nighttimeEnergy : daytimeEnergy);
             }
         }
     }

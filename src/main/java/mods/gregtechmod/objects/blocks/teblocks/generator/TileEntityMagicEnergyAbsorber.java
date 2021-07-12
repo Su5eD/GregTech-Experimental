@@ -13,7 +13,6 @@ import mods.gregtechmod.inventory.GtSlotConsumable;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMagicEnergyAbsorber;
-import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -103,7 +102,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                 if (shouldExplode) {
                     int minFlux = (int) (GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis / 3200D);
                     int maxFlux = (int) (GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis / 1600D);
-                    ModHandler.polluteAura(this.world, this.pos, minFlux + GtUtil.RANDOM.nextInt(maxFlux), true);
+                    ModHandler.polluteAura(this.world, this.pos, minFlux + this.world.rand.nextInt(maxFlux), true);
                     polluteAura(50, 50);
                 }
             }
@@ -130,7 +129,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     
     @Optional.Method(modid = "thaumcraft")
     private void polluteAura(int minFlux, int maxFlux) {
-        AuraHelper.polluteAura(this.world, this.pos, minFlux + GtUtil.RANDOM.nextInt(maxFlux), true);
+        AuraHelper.polluteAura(this.world, this.pos, minFlux + this.world.rand.nextInt(maxFlux), true);
     }
 
     @Override

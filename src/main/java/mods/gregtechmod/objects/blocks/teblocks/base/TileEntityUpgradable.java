@@ -8,6 +8,7 @@ import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -47,7 +48,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class TileEntityUpgradable extends TileEntityEnergy implements IUpgradableMachine, IScannerInfoProvider {
+public abstract class TileEntityUpgradable extends TileEntityEnergy implements IScannerInfoProvider, IUpgradableMachine, IElectricMachine {
     protected GameProfile owner = null;
     protected boolean isPrivate;
     

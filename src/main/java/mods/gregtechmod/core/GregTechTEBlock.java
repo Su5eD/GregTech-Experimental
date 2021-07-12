@@ -14,6 +14,7 @@ import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
+import mods.gregtechmod.objects.blocks.teblocks.multiblock.TileEntityHatchDynamo;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.TileEntityHatchInput;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.TileEntityHatchMaintenance;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.TileEntityHatchOutput;
@@ -71,7 +72,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     DRAGON_EGG_ENERGY_SIPHON(TileEntityDragonEggEnergySiphon.class, 35, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
     HATCH_INPUT(TileEntityHatchInput.class, 36, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
     HATCH_OUTPUT(TileEntityHatchOutput.class, 37, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
-    HATCH_MAINTENANCE(TileEntityHatchMaintenance.class, 38, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true);
+    HATCH_MAINTENANCE(TileEntityHatchMaintenance.class, 38, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
+    HATCH_DYNAMO(TileEntityHatchDynamo.class, 39, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;

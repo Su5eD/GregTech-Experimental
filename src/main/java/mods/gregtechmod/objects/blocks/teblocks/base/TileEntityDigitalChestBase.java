@@ -383,16 +383,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getUniversalEnergy() {
-        return 0;
-    }
-
-    @Override
-    public double getUniversalEnergyCapacity() {
-        return 0;
-    }
-
-    @Override
     public int getSinkTier() {
         return 0;
     }
@@ -454,4 +444,14 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public void setMjCapacity(long capacity) {}
+
+    @Override
+    public double getUniversalEnergy() {
+        return 0;
+    }
+
+    @Override
+    public double getUniversalEnergyCapacity() {
+        return 0;
+    }
 }

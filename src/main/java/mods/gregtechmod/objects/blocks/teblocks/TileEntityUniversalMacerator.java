@@ -9,7 +9,6 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingl
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.compat.ModRecipes;
-import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -58,7 +57,7 @@ public class TileEntityUniversalMacerator extends TileEntityBasicMachineSingleIn
         if (this.queueOutputSlot.isEmpty() && this.outputSlot.isEmpty()) {
             ItemStack input = getInput();
             IRecipePulverizer recipe = this.recipeManager.getRecipeFor(input);
-            if (recipe != null) this.addSecondaryOutput = GtUtil.RANDOM.nextInt(100) < recipe.getChance();
+            if (recipe != null) this.addSecondaryOutput = this.world.rand.nextInt(100) < recipe.getChance();
             return recipe;
         } else this.outputBlocked = true;
 

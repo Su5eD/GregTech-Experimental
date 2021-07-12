@@ -118,11 +118,11 @@ public class AdjustableEnergy extends TileEntityComponent {
     }
 
     public double getMaxOutputEUp() {
-        return this.maxOutput < 0 ? EnergyNet.instance.getPowerFromTier(this.sourceTier) : this.maxOutput;
+        return this.maxOutput < 0 ? EnergyNet.instance.getPowerFromTier(getSourceTier()) : this.maxOutput;
     }
     
     public double getMaxOutputEUt() {
-        return getMaxOutputEUp() * this.sourcePackets;
+        return getMaxOutputEUp() * getSourcePackets();
     }
 
     public void setMaxOutput(double maxOutput) {
@@ -146,7 +146,7 @@ public class AdjustableEnergy extends TileEntityComponent {
     }
     
     public void setSides(Collection<EnumFacing> sinkSides, Collection<EnumFacing> sourceSides) {
-        boolean reload = !(GtUtil.matchCollections(this.sinkSides, sinkSides) && GtUtil.matchCollections(this.sourceSides, sourceSides));
+        boolean reload = !(GtUtil.matchCollections(getSinkSides(), sinkSides) && GtUtil.matchCollections(getSourceSides(), sourceSides));
         
         this.sinkSides = Collections.unmodifiableCollection(sinkSides);
         this.sourceSides = Collections.unmodifiableCollection(sourceSides);
@@ -158,11 +158,11 @@ public class AdjustableEnergy extends TileEntityComponent {
     }
     
     public boolean isSink() {
-        return !this.sinkSides.isEmpty();
+        return !getSinkSides().isEmpty();
     }
     
     public boolean isSource() {
-        return !this.sourceSides.isEmpty();
+        return !getSourceSides().isEmpty();
     }
     
     @Override
@@ -184,11 +184,13 @@ public class AdjustableEnergy extends TileEntityComponent {
     private DelegateBase constructDelegate() {
         DelegateBase delegate;
         
-        if (!this.sinkSides.isEmpty() && !this.sourceSides.isEmpty()) {
+        boolean sink = !getSinkSides().isEmpty();
+        boolean source = !getSourceSides().isEmpty();
+        if (sink && source) {
             delegate = new DualDelegate();
-        } else if (!this.sinkSides.isEmpty()) {
+        } else if (sink) {
             delegate = new SinkDelegate();
-        } else if (!this.sourceSides.isEmpty()) {
+        } else if (source) {
             delegate = new SourceDelegate();
         } else delegate = null;
             
@@ -289,12 +291,12 @@ public class AdjustableEnergy extends TileEntityComponent {
     private class DualDelegate extends SourceDelegate implements IEnergySink {
         @Override
         public double getDemandedEnergy() {
-            return !sinkSides.isEmpty() && storedEnergy < capacity ? capacity - storedEnergy : 0;
+            return !getSinkSides().isEmpty() && storedEnergy < capacity ? capacity - storedEnergy : 0;
         }
 
         @Override
         public int getSinkTier() {
-            return sinkTier;
+            return AdjustableEnergy.this.getSinkTier();
         }
 
         @Override
@@ -306,7 +308,7 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-            return sinkSides.contains(side);
+            return getSinkSides().contains(side);
         }
     }
     
@@ -314,17 +316,17 @@ public class AdjustableEnergy extends TileEntityComponent {
     
         @Override
         public int getSinkTier() {
-            return sinkTier;
+            return AdjustableEnergy.this.getSinkTier();
         }
     
         @Override
         public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-            return sinkSides.contains(side);
+            return getSinkSides().contains(side);
         }
     
         @Override
         public double getDemandedEnergy() {
-            return !sinkSides.isEmpty() && storedEnergy < capacity ? capacity - storedEnergy : 0;
+            return !getSinkSides().isEmpty() && storedEnergy < capacity ? capacity - storedEnergy : 0;
         }
     
         @Override
@@ -338,12 +340,12 @@ public class AdjustableEnergy extends TileEntityComponent {
     public class SourceDelegate extends DelegateBase implements IMultiEnergySource {
         @Override
         public boolean sendMultipleEnergyPackets() {
-            return sourcePackets > 1;
+            return getSourcePackets() > 1;
         }
 
         @Override
         public int getMultipleEnergyPacketAmount() {
-            return sourcePackets;
+            return getSourcePackets();
         }
 
         @Override
@@ -362,12 +364,12 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public int getSourceTier() {
-            return sourceTier;
+            return AdjustableEnergy.this.getSourceTier();
         }
 
         @Override
         public boolean emitsEnergyTo(IEnergyAcceptor acceptor, EnumFacing side) {
-            return sourceSides.contains(side);
+            return getSourceSides().contains(side);
         }
     }
 }

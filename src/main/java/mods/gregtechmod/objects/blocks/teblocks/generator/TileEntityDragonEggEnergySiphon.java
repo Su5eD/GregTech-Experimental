@@ -27,7 +27,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
             
             if (this.energy.charge(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy) 
                     && GregTechConfig.MACHINES.dragonEggEnergySiphon.outputFlux 
-                    && GtUtil.RANDOM.nextInt(1000) == 5) {
+                    && this.world.rand.nextInt(1000) == 5) {
                 ModHandler.polluteAura(this.world, this.pos, 4, true);
             }
             

@@ -4,7 +4,8 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
 import ic2.core.util.Util;
-import mods.gregtechmod.api.machine.IElectricalMachine;
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
@@ -15,9 +16,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IExplosionPowerOverride, IElectricalMachine {
+public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IExplosionPowerOverride, IElectricMachine {
     protected boolean energyCapacityTooltip;
     
     protected AdjustableEnergy energy;
@@ -45,9 +50,13 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     
     protected abstract AdjustableEnergy createEnergyComponent();
     
-    protected abstract Collection<EnumFacing> getSinkSides();
+    protected Collection<EnumFacing> getSinkSides() {
+        return Collections.emptySet();
+    }
     
-    protected abstract Collection<EnumFacing> getSourceSides();
+    protected Collection<EnumFacing> getSourceSides() {
+        return Collections.emptySet();
+    }
     
     @Override
     public int getSinkTier() {
@@ -101,16 +110,22 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
     @Override
     public void updateEnet() {
-        Collection<EnumFacing> sinkDirs = new HashSet<>(getSinkSides());
-        this.coverHandler.covers.entrySet().stream()
-                .filter(entry -> !entry.getValue().allowEnergyTransfer())
-                .map(Map.Entry::getKey)
-                .forEach(sinkDirs::remove);
+        Collection<EnumFacing> sinkDirs = filterEnergySides(this.energy.getSinkSides());
+        Collection<EnumFacing> sourceDirs = filterEnergySides(this.energy.getSourceSides());
     
-        this.energy.setSides(sinkDirs, getSourceSides());
+        this.energy.setSides(sinkDirs, sourceDirs);
     
         updateSourceTier();
     }
+    
+    private Collection<EnumFacing> filterEnergySides(Collection<EnumFacing> sides) {
+        return sides.stream()
+                .filter(side -> {
+                    ICover cover = this.coverHandler.covers.get(side);
+                    return cover != null && cover.allowEnergyTransfer();
+                })
+                .collect(Collectors.toList());
+    } 
     
     protected void updateSourceTier() {
         int packetCount = getOutputPackets();

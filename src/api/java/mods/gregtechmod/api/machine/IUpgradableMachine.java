@@ -12,7 +12,7 @@ import java.util.Set;
  * Provides upgrade item compatibility
  * @author Su5eD
  */
-public interface IUpgradableMachine extends IElectricalMachine {
+public interface IUpgradableMachine extends IElectricMachine {
     
     boolean hasSteamTank();
 
@@ -49,4 +49,24 @@ public interface IUpgradableMachine extends IElectricalMachine {
     boolean hasMjUpgrade();
 
     void addMjUpgrade();
+
+    /**
+     * @return the most among stored EU, MJ, or steam
+     */
+    double getUniversalEnergy();
+
+    /**
+     * @return The maximum amount of energy this machine can store, either EU, MJ, or Steam converted to EU
+     */
+    double getUniversalEnergyCapacity();
+
+    double getStoredSteam();
+
+    double getSteamCapacity();
+
+    long getStoredMj();
+
+    long getMjCapacity();
+
+    void setMjCapacity(long capacity);
 }

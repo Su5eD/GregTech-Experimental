@@ -6,7 +6,6 @@ import mods.gregtechmod.gui.GuiMagicEnergyConverter;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
-import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,7 +26,7 @@ public class TileEntityMagicEnergyConverter extends TileEntityFluidGenerator {
     protected void updateEntityServer() {
         super.updateEntityServer();
         if (shouldExplode) {
-            ModHandler.polluteAura(this.world, this.pos, 20 * GtUtil.RANDOM.nextInt(20), true);
+            ModHandler.polluteAura(this.world, this.pos, 20 * this.world.rand.nextInt(20), true);
         }
     }
 

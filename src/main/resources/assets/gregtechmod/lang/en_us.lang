@@ -846,6 +846,9 @@ gregtechmod.teblock.hatch_output=Output Hatch
 gregtechmod.teblock.hatch_output.description=Use Screwdriver to specify Output Type
 gregtechmod.teblock.hatch_maintenance=Maintenance Hatch
 gregtechmod.teblock.hatch_maintenance.description=For maintaining Multiblocks
+gregtechmod.teblock.hatch_dynamo=Dynamo Hatch
+gregtechmod.teblock.hatch_dynamo.description=Generating electric Energy from Multiblocks
+gregtechmod.teblock.hatch_dynamo.description2=Max EU/p OUT: 0 - 2048 (depends on generated Energy)
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
