@@ -1,4 +1,4 @@
-package mods.gregtechmod.inventory;
+package mods.gregtechmod.inventory.invslot;
 
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlotConsumable;

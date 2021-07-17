@@ -17,7 +17,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityIndustrialCentrifu
     }
 
     @Override
-    protected int getDefaultTier() {
+    protected int getBaseSinkTier() {
         return 1;
     }
 

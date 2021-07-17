@@ -10,8 +10,8 @@ import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.GtUpgradeSlot;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityQuantumChest;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.item.EntityItem;
@@ -70,7 +70,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         ItemStack stack = player.getHeldItem(hand);
         ItemStack slot = content.get();
         availableSpace = maxItemCount - slot.getCount();
-        if (stack.getItem().getRegistryName().toString().contains("wrench")) return true; // FIXME What was I thinking ???
+        if (GtUtil.isWrench(stack)) return true;
 
         if (isPrivate && !world.isRemote) { //has to be executed on server side only
             if (!GtUtil.checkAccess(this, owner, player.getGameProfile())) {
@@ -230,15 +230,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public void setEUcapacity(double capacity) {}
-
-    @Override
-    public void setSinkTier(int tier) {}
-
-    @Override
-    public void setOverclockerCount(int count) {}
-
-    @Override
     public boolean isPrivate() {
         return this.isPrivate;
     }
@@ -252,9 +243,15 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public void addSteamTank() {}
 
     @Override
-    public double getExtraEnergyStorage() {
+    public int getExtraEUCapacity() {
         return 0;
     }
+
+    @Override
+    public void addExtraEUCapacity(int extraCapacity) {}
+
+    @Override
+    public void addExtraSinkTier() {}
 
     @Override
     public int getUpgradeCount(GtUpgradeType type) {
@@ -408,7 +405,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getEUCapacity() {
+    public int getEUCapacity() {
         return 0;
     }
 

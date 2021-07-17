@@ -1,7 +1,6 @@
-package mods.gregtechmod.inventory;
+package mods.gregtechmod.inventory.gui;
 
 import mods.gregtechmod.gui.GuiFluidGenerator;
-import mods.gregtechmod.inventory.slot.CustomFluidSlot;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.IFluidTank;

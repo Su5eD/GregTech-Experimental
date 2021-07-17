@@ -49,6 +49,6 @@ public class RecipeManagerMultiInput<R extends IMachineRecipe<List<I>, ?>, I ext
                         .allMatch(ingredient -> input.stream()
                                 .anyMatch(ingredient::apply)))
                 .min(this::compareCount)
-                .orElse(getProvidedRecipe(input));
+                .orElseGet(() -> getProvidedRecipe(input));
     }
 }

@@ -7,7 +7,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.gui.GuiImplosionCompressor;
-import mods.gregtechmod.inventory.GtSlotProcessableImplosion;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableImplosion;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerImplosionCompressor;
 import net.minecraft.block.state.IBlockState;
@@ -32,13 +32,13 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
 
     @Override
-    protected double getDefaultCapacity() {
-        return 10000;
+    protected int getBaseSinkTier() {
+        return 1;
     }
 
     @Override
-    protected int getDefaultTier() {
-        return 1;
+    protected int getBaseEUCapacity() {
+        return 10000;
     }
 
     @Override

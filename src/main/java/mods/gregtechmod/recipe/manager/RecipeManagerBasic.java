@@ -12,6 +12,6 @@ public class RecipeManagerBasic<R extends IMachineRecipe<IRecipeIngredient, ?>> 
         return this.recipes.stream()
                 .filter(recipe -> recipe.getInput().apply(input))
                 .min(this::compareCount)
-                .orElse(getProvidedRecipe(input));
+                .orElseGet(() -> getProvidedRecipe(input));
     }
 }

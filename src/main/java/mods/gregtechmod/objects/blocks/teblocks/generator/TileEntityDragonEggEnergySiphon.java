@@ -6,7 +6,6 @@ import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -55,8 +54,13 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
     }
 
     @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, getMinimumStoredEnergy() + GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy * 2, EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy), getSourceSides());
+    public int getSourceTier() {
+        return EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy);
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return getMinimumStoredEnergy() + GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy * 2;
     }
 
     @Override

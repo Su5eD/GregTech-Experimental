@@ -60,7 +60,6 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
         if (enableWorking != enableWorkingOld) {
             enableWorkingOld = enableWorking;
-            updateEnet();
         }
         tickCounter++;
     }
@@ -172,7 +171,4 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public boolean isAllowedToWork() {
         return this.enableWorking;
     }
-
-    @Override
-    public void updateEnet() {}
 }

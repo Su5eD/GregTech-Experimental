@@ -20,10 +20,15 @@ public abstract class TileEntityGenerator extends TileEntityUpgradable {
         return getStoredEU() < getMaxOutputEUt() * 10 + getMinimumStoredEnergy();
     }
     
-    protected double getMinimumStoredEnergy() {
+    protected int getMinimumStoredEnergy() {
         return 512;
     }
-    
+
+    @Override
+    protected int getBaseSinkTier() {
+        return 0;
+    }
+
     @Override
     protected Collection<EnumFacing> getSinkSides() {
         return Collections.emptySet();

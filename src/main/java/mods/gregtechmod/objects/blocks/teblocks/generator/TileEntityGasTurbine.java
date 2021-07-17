@@ -3,7 +3,6 @@ package mods.gregtechmod.objects.blocks.teblocks.generator;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.gui.GuiGasTurbine;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,10 +14,20 @@ public class TileEntityGasTurbine extends TileEntityFluidGenerator {
     public TileEntityGasTurbine() {
         super("gas_turbine", GtFuels.gas);
     }
-    
+
     @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, 1000000, 1, 16, getSourceSides());
+    protected double getMaxOutputEUp() {
+        return 16;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return 1;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 1000000;
     }
 
     @Override

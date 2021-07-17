@@ -33,7 +33,6 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     public TileEntityCoverable() {
         this.coverHandler = addComponent(new CoverHandler(this, () -> {
             IC2.network.get(true).updateTileEntityField(TileEntityCoverable.this, "coverHandler");
-            updateEnet();
             rerender();
         }));
     }
@@ -61,7 +60,6 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
         ICover cover = getCoverAtSide(side);
         if (cover != null) {
             if (cover.onScrewdriverClick(player)) {
-                updateEnet();
                 stack.damageItem(1, player);
                 return true;
             }
@@ -111,12 +109,6 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     public void onNetworkUpdate(String field) {
         super.onNetworkUpdate(field);
         if (field.equals("coverHandler")) rerender();
-    }
-
-    @Override
-    protected void onLoaded() {
-        super.onLoaded();
-        updateEnet();
     }
 
     @Override

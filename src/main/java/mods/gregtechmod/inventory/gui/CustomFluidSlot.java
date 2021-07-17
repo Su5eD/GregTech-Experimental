@@ -1,4 +1,4 @@
-package mods.gregtechmod.inventory.slot;
+package mods.gregtechmod.inventory.gui;
 
 import ic2.core.GuiIC2;
 import ic2.core.gui.GuiElement;

@@ -3,7 +3,7 @@ package mods.gregtechmod.gui;
 import ic2.core.gui.LinkedGauge;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.inventory.slot.CustomFluidSlot;
+import mods.gregtechmod.inventory.gui.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialCentrifuge;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;

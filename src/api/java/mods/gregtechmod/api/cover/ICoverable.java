@@ -20,6 +20,4 @@ public interface ICoverable {
     boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate);
 
     void updateRender();
-    
-    void updateEnet();
 }

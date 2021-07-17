@@ -1,4 +1,4 @@
-package mods.gregtechmod.inventory;
+package mods.gregtechmod.inventory.invslot;
 
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlotConsumable;
@@ -6,9 +6,9 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.ItemStack;
 
-public class InvSlotConsumableCell extends InvSlotConsumable {
+public class GtConsumableCell extends InvSlotConsumable {
 
-    public InvSlotConsumableCell(IInventorySlotHolder<?> base, String name, int count) {
+    public GtConsumableCell(IInventorySlotHolder<?> base, String name, int count) {
         super(base, name, count);
     }
 

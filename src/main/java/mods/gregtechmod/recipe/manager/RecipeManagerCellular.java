@@ -42,7 +42,7 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                     return false;
                 })
                 .min(this::compareCount)
-                .orElse(getProvidedRecipe(input));
+                .orElseGet(() -> getProvidedRecipe(input));
     }
 
     @Override

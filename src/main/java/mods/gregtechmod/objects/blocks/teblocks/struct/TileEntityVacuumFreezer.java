@@ -28,13 +28,13 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     }
 
     @Override
-    protected double getDefaultCapacity() {
-        return 10000;
+    protected int getBaseSinkTier() {
+        return 2;
     }
 
     @Override
-    protected int getDefaultTier() {
-        return 2;
+    protected int getBaseEUCapacity() {
+        return 10000;
     }
 
     @Override

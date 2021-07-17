@@ -7,7 +7,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiDieselGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
 import mods.gregtechmod.recipe.fuel.FuelSimple;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
@@ -22,10 +21,20 @@ public class TileEntityDieselGenerator extends TileEntityFluidGenerator {
     public TileEntityDieselGenerator() {
         super("diesel_generator", GtFuels.diesel);
     }
-    
+
     @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, 1000000, 1, 12, getSourceSides());
+    public int getSourceTier() {
+        return 1;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 1000000;
+    }
+
+    @Override
+    protected double getMaxOutputEUp() {
+        return 12;
     }
 
     @Override

@@ -3,9 +3,12 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
+import ic2.core.block.TileEntityBlock;
+import ic2.core.block.comp.Components;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IElectricMachine;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
@@ -16,7 +19,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -26,16 +28,6 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     protected boolean energyCapacityTooltip;
     
     protected AdjustableEnergy energy;
-    public final int defaultSinkTier;
-    public final double defaultEnergyStorage;
-    
-    protected double[] averageEUInputs = new double[] { 0,0,0,0,0 };
-    protected double[] averageEUOutputs = new double[] { 0,0,0,0,0 };
-    protected int averageEUInputIndex = 0;
-    protected int averageEUOutputIndex = 0;
-    private double previousEU;
-    public double averageEUIn;
-    public double averageEUOut;
     
     public boolean shouldExplode;
     private boolean explode;
@@ -43,12 +35,16 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
     public TileEntityEnergy(String descriptionKey) {
         super(descriptionKey);
-        this.energy = addComponent(createEnergyComponent());
-        this.defaultSinkTier = this.energy.getSinkTier();
-        this.defaultEnergyStorage = this.energy.getCapacity();
+        this.energy = addComponent(new DynamicAdjustableEnergy());
     }
     
-    protected abstract AdjustableEnergy createEnergyComponent();
+    @Override
+    public abstract int getEUCapacity();
+    
+    @Override
+    public double getStoredEU() { 
+        return this.energy.getStoredEnergy();
+    }
     
     protected Collection<EnumFacing> getSinkSides() {
         return Collections.emptySet();
@@ -60,12 +56,26 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     
     @Override
     public int getSinkTier() {
-        return this.energy.getSinkTier();
+        return 0;
     }
 
     @Override
     public int getSourceTier() {
-        return this.energy.getSourceTier();
+        return 0;
+    }
+    
+    @Override
+    public double getMaxInputEUp() {
+        return EnergyNet.instance.getPowerFromTier(getSinkTier());
+    }
+    
+    protected double getMaxOutputEUp() {
+        return EnergyNet.instance.getPowerFromTier(getSourceTier());
+    }
+    
+    @Override
+    public double getMaxOutputEUt() {
+        return this.energy.getMaxOutputEUt();
     }
     
     @Override
@@ -73,89 +83,29 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         if (this.energy.isSink() && amount > getMaxInputEUp()) markForExplosion();
         this.energy.charge(amount);
     }
-    
-    @Override
-    public double getMaxInputEUp() {
-        return EnergyNet.instance.getPowerFromTier(getSinkTier());
-    }
 
-    @Override
-    public double getMaxOutputEUt() {
-        return this.energy.getMaxOutputEUt();
-    }
-
-    protected int getOutputPackets() {
+    protected int getSourcePackets() {
         return 1;
     }
     
     @Override
-    public double getStoredEU() {
-        return this.energy.getStoredEnergy();
-    }
-    
-    @Override
-    public double getEUCapacity() {
-        return this.energy.getCapacity();
-    }
-    
-    @Override
     public double getAverageEUInput() {
-        return this.averageEUIn;
+        return this.energy.getAverageEUInput();
     }
     
     @Override
     public double getAverageEUOutput() {
-        return this.averageEUOut;
+        return this.energy.getAverageEUOutput();
     }
-
+    
     @Override
-    public void updateEnet() {
-        Collection<EnumFacing> sinkDirs = filterEnergySides(this.energy.getSinkSides());
-        Collection<EnumFacing> sourceDirs = filterEnergySides(this.energy.getSourceSides());
-    
-        this.energy.setSides(sinkDirs, sourceDirs);
-    
-        updateSourceTier();
-    }
-    
-    private Collection<EnumFacing> filterEnergySides(Collection<EnumFacing> sides) {
-        return sides.stream()
-                .filter(side -> {
-                    ICover cover = this.coverHandler.covers.get(side);
-                    return cover != null && cover.allowEnergyTransfer();
-                })
-                .collect(Collectors.toList());
-    } 
-    
-    protected void updateSourceTier() {
-        int packetCount = getOutputPackets();
-        this.energy.setSourcePackets(packetCount);
-    
-        int sourceTier = getSourceTier();
-        this.energy.setSourceTier(sourceTier);
+    public double useEnergy(double amount, boolean simulate) {
+        return this.energy.discharge(amount, simulate);
     }
     
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
-        double currentEU = this.energy.getStoredEnergy();
-        double input = currentEU - previousEU;
-        this.previousEU = currentEU;
-            
-        if (input > 0) averageEUInputs[averageEUInputIndex] = input;
-        if (++averageEUInputIndex >= averageEUInputs.length) averageEUInputIndex = 0;
-        if (++averageEUOutputIndex >= averageEUOutputs.length) averageEUOutputIndex = 0;
-        
-        if (!this.energy.isSink()) {
-            double sum = Arrays.stream(averageEUInputs).sum();
-            averageEUIn = sum / averageEUInputs.length;
-        } else averageEUIn = 0;
-        
-        if (!this.energy.isSource()) {
-            double sum = Arrays.stream(averageEUOutputs).sum();
-            averageEUOut = sum / averageEUOutputs.length;
-        } else averageEUOut = 0;
         
         if(this.explode) this.explodeMachine(this.explosionPower);
         if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
@@ -178,7 +128,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         if (GregTechConfig.MACHINES.machineWireFire) {
             double energy = getStoredEU();
             this.energy.onUnloaded();
-            this.energy = AdjustableEnergy.createSource(this, getEUCapacity(), 5, Util.allFacings);
+            this.energy = new ExplodingEnergySource(this);
             this.energy.onLoaded();
             this.energy.forceCharge(energy);
         }
@@ -224,5 +174,98 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         if (this.energy.isSink()) tooltip.add(GtUtil.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
         if (this.energy.isSource()) tooltip.add(GtUtil.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
         if (this.energyCapacityTooltip) tooltip.add(GtUtil.translateInfo("eu_storage", GtUtil.formatNumber(this.energy.getCapacity())));
+    }
+    
+    public static void registerEnergyComponents() {
+        Components.register(DynamicAdjustableEnergy.class, Reference.MODID + ":dynamic_adjustable_energy");
+        Components.register(ExplodingEnergySource.class, Reference.MODID + ":exploding_energy_source");
+    }
+    
+    private class DynamicAdjustableEnergy extends AdjustableEnergy {
+        
+        public DynamicAdjustableEnergy() {
+            super(TileEntityEnergy.this);
+        }
+
+        @Override
+        public int getCapacity() {
+            return TileEntityEnergy.this.getEUCapacity();
+        }
+
+        @Override
+        public Collection<EnumFacing> getSinkSides() {
+            return filterEnergySides(TileEntityEnergy.this.getSinkSides());
+        }
+
+        @Override
+        public Collection<EnumFacing> getSourceSides() {
+            return filterEnergySides(TileEntityEnergy.this.getSourceSides());
+        }
+
+        @Override
+        public int getSinkTier() {
+            return TileEntityEnergy.this.getSinkTier();
+        }
+
+        @Override
+        public int getSourceTier() {
+            return TileEntityEnergy.this.getSourceTier();
+        }
+
+        @Override
+        public double getMaxOutputEUp() {
+            return TileEntityEnergy.this.getMaxOutputEUp();
+        }
+
+        @Override
+        public int getSourcePackets() {
+            return TileEntityEnergy.this.getSourcePackets();
+        }
+        
+        private Collection<EnumFacing> filterEnergySides(Collection<EnumFacing> sides) {
+            return sides.stream()
+                    .filter(side -> {
+                        ICover cover = coverHandler.covers.get(side);
+                        return cover == null || cover.allowEnergyTransfer();
+                    })
+                    .collect(Collectors.toList());
+        }
+    }
+    
+    private static class ExplodingEnergySource extends AdjustableEnergy {
+
+        public ExplodingEnergySource(TileEntityBlock parent) {
+            super(parent);
+        }
+
+        @Override
+        public int getCapacity() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Collection<EnumFacing> getSinkSides() {
+            return Collections.emptySet();
+        }
+
+        @Override
+        public Collection<EnumFacing> getSourceSides() {
+            return Util.allFacings;
+        }
+
+        @Override
+        public int getSinkTier() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int getSourceTier() {
+            return 5;
+        }
+
+        @Override
+        public double getMaxOutputEUp() {
+            return 8192;
+        }
     }
 }

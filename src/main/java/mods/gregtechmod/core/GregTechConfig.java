@@ -96,14 +96,14 @@ public class GregTechConfig {
         
         public static class MagicEnergyAbsorber {
             @Comment("EU/t generated from an Ender Crystal")
-            public double energyPerEnderCrystal = 320;
+            public int energyPerEnderCrystal = 320;
             @Comment("EU/t generated from Vis. Requires Thaumcraft to be installed.")
-            public double energyFromVis = 12800;
+            public int energyFromVis = 12800;
         }
         
         public static class DragonEggEnergySiphon {
             @Comment("EU/t generated from a Dragon Egg")
-            public double dragonEggEnergy = 1024;
+            public int dragonEggEnergy = 1024;
             public boolean allowMultipleEggs = false;
             @Comment("If thaumcraft is installed, has a chance of releasing flux into the aura")
             public boolean outputFlux = true;

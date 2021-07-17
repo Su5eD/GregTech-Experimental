@@ -16,7 +16,7 @@ public interface IElectricMachine extends IGregTechMachine {
 
     double getStoredEU();
 
-    double getEUCapacity();
+    int getEUCapacity();
 
     double getAverageEUInput();
 

@@ -3,7 +3,6 @@ package mods.gregtechmod.objects.blocks.teblocks.generator;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.gui.GuiPlasmaGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerPlasmaGenerator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,10 +14,15 @@ public class TileEntityPlasmaGenerator extends TileEntityFluidGenerator {
     public TileEntityPlasmaGenerator() {
         super("plasma_generator", GtFuels.plasma);
     }
-    
+
     @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, 1000000000, 4, getSourceSides());
+    public int getSourceTier() {
+        return 4;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 1000000000;
     }
 
     @Override

@@ -11,9 +11,8 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
-import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.inventory.GtInvSide;
-import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.util.PropertyHelper;
@@ -54,13 +53,13 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    protected double getDefaultCapacity() {
-        return 2000;
+    protected int getBaseSinkTier() {
+        return 1;
     }
 
     @Override
-    protected int getDefaultTier() {
-        return 1;
+    protected int getBaseEUCapacity() {
+        return 2000;
     }
 
     protected InvSlot getExtraSlot() {
@@ -181,7 +180,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
             case 0:
             case 1:
                 this.provideEnergy = value;
-                updateEnet();
                 break;
             case 2:
             case 3:
@@ -195,18 +193,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    protected void onUpdateUpgrade(IGtUpgradeItem item, ItemStack stack, EntityPlayer player) {
-        super.onUpdateUpgrade(item, stack, player);
-        if (this.provideEnergy && item.getType() == GtUpgradeType.TRANSFORMER) updateSourceTier();
-    }
-
-    @Override
-    protected void onUpdateUpgrade(IC2UpgradeType type, ItemStack stack) {
-        super.onUpdateUpgrade(type, stack);
-        if (this.provideEnergy && type == IC2UpgradeType.TRANSFORMER) updateSourceTier();
-    }
-
-    @Override
     public int getSourceTier() {
         if (this.provideEnergy) {
             int transformers = this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) + this.getUpgradeCount(GtUpgradeType.TRANSFORMER);
@@ -216,8 +202,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    protected int getOutputPackets() {
-        return this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) > 0 ? 4 : super.getOutputPackets();
+    protected int getSourcePackets() {
+        return this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) > 0 ? 4 : super.getSourcePackets();
     }
 
     @Override
@@ -247,7 +233,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     protected boolean setFacingWrench(EnumFacing facing, EntityPlayer player) {
         if (this.outputSide != facing) {
             this.outputSide = facing;
-            updateEnet();
             rerender();
             return true;
         }

@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.blocks.teblocks.generator;
 
 import ic2.core.block.BlockIC2Fence;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Blocks;
@@ -48,8 +47,13 @@ public class TileEntityLightningRod extends TileEntityGenerator {
     }
 
     @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, 100000000, 5, 8192, getSourceSides());
+    public int getSourceTier() {
+        return 5;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 100000000;
     }
 
     @Override

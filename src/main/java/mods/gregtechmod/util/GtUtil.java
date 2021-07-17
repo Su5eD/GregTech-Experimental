@@ -15,7 +15,7 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -300,7 +300,7 @@ public class GtUtil {
     }
     
     public static <T> boolean matchCollections(Collection<T> first, Collection<T> second) {
-        return first.size() != second.size() || !first.containsAll(second) && ! second.containsAll(first);
+        return first.size() == second.size() || first.containsAll(second) && second.containsAll(first);
     }
     
     public static boolean isWrench(ItemStack stack) {

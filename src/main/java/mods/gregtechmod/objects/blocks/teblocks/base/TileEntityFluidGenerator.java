@@ -6,8 +6,7 @@ import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.fuel.IFuelManagerFluid;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
-import mods.gregtechmod.inventory.GtSlotProcessableFuel;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableFuel;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -99,11 +98,6 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
         return this.solidFuelEnergy;
     }
 
-    @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, 1000000, 1, 24, getSourceSides());
-    }
-    
     @Override
     public ContainerBase<?> getGuiContainer(EntityPlayer player) {
         return new ContainerFluidGenerator(player, this);

@@ -9,7 +9,7 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.recipe.manager.IRecipeProvider;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiPrinter;
-import mods.gregtechmod.inventory.slot.InvSlotCopy;
+import mods.gregtechmod.inventory.invslot.GtSlotCopy;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.RecipePrinter;
@@ -40,7 +40,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
 
     @Override
     protected InvSlot getExtraSlot() {
-        return new InvSlotCopy(this);
+        return new GtSlotCopy(this);
     }
 
     @Override

@@ -38,7 +38,4 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
 
     @Override
     public void onGuiClosed(EntityPlayer entityPlayer) {}
-
-    @Override
-    public void updateEnet() {}
 }

@@ -10,7 +10,7 @@ import ic2.core.block.state.Ic2BlockState;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.gui.GuiBasicTank;
-import mods.gregtechmod.inventory.DynamicGtFluidTank;
+import mods.gregtechmod.inventory.tank.DynamicGtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerHatchIO;

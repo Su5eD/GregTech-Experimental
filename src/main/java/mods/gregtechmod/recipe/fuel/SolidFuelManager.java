@@ -11,7 +11,7 @@ public class SolidFuelManager<F extends IFuel<IRecipeIngredient>> extends FuelMa
         return this.fuels.stream()
                 .filter(fuel -> fuel.getInput().apply(target))
                 .findFirst()
-                .orElse(getProvidedFuel(target));
+                .orElseGet(() -> getProvidedFuel(target));
     }
 
     @Override

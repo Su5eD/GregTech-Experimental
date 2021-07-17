@@ -11,8 +11,8 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiIndustrialGrinder;
-import mods.gregtechmod.inventory.GtFluidTank;
-import mods.gregtechmod.inventory.GtSlotProcessableGrinder;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableGrinder;
+import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialGrinder;
 import mods.gregtechmod.util.GtUtil;
@@ -51,13 +51,13 @@ public class TileEntityIndustrialGrinder extends TileEntityStructureBase<Object,
     }
 
     @Override
-    protected double getDefaultCapacity() {
-        return 10000;
+    protected int getBaseSinkTier() {
+        return 2;
     }
 
     @Override
-    protected int getDefaultTier() {
-        return 2;
+    protected int getBaseEUCapacity() {
+        return 10000;
     }
 
     @Override

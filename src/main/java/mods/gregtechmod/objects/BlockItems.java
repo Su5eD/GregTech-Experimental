@@ -595,11 +595,11 @@ public class BlockItems {
     }
 
     public enum Upgrade implements IObjectHolder {
-        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.setSinkTier(Math.min(machine.getSinkTier() + stack.getCount(), 5))),
-        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "craftingLiBattery", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity() + 100000 * stack.getCount())),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+ (GregTechMod.classic ? 100000 : 1000000) * stack.getCount())),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+ (GregTechMod.classic ? 1000000 : 10000000) * stack.getCount())),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.setEUcapacity(machine.getEUCapacity()+ (GregTechMod.classic ? 10000000 : 100000000) * stack.getCount())),
+        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraSinkTier()),
+        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
         QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade"),
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
             GameProfile owner = machine.getOwner();

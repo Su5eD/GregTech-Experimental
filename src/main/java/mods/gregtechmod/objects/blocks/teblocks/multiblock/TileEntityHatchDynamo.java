@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 
 import ic2.api.energy.EnergyNet;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -13,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class TileEntityHatchDynamo extends TileEntityEnergy {
+    private static final int MINIMUM_STORED_ENERGY = 512;
 
     public TileEntityHatchDynamo() {
         super("hatch_dynamo");
@@ -25,35 +25,22 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
     }
 
     @Override
-    public double useEnergy(double amount, boolean simulate) {
-        return this.energy.discharge(amount, simulate);
+    public int getEUCapacity() {
+        return 8192 + MINIMUM_STORED_ENERGY;
     }
 
     @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return new DynamoAdjustableEnergy();
+    public int getSourceTier() {
+        return EnergyNet.instance.getTierFromPower(getMaxOutputEUp());
     }
     
-    private class DynamoAdjustableEnergy extends AdjustableEnergy {
-        private static final double MINIMUM_STORED_ENERGY = 512;
-        
-        public DynamoAdjustableEnergy() {
-            super(TileEntityHatchDynamo.this, 8192 + MINIMUM_STORED_ENERGY, 0, 1, -1, Collections.emptySet(), Collections.emptySet());
-        }
-
-        @Override
-        public int getSourceTier() {
-            return EnergyNet.instance.getTierFromPower(getMaxOutputEUp());
-        }
-
-        @Override
-        public double getMaxOutputEUp() {
-            return Math.max(0, Math.min(getStoredEnergy() - MINIMUM_STORED_ENERGY, 2048));
-        }
-
-        @Override
-        public Collection<EnumFacing> getSourceSides() {
-            return Collections.singleton(getFacing());
-        }
+    @Override
+    public double getMaxOutputEUp() {
+        return Math.max(0, Math.min(getStoredEU() - MINIMUM_STORED_ENERGY, 2048));
+    }
+    
+    @Override
+    public Collection<EnumFacing> getSourceSides() {
+        return Collections.singleton(getFacing());
     }
 }

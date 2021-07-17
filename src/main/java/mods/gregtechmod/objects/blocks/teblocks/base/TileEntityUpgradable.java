@@ -3,7 +3,6 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 import buildcraft.api.mj.MjAPI;
 import com.mojang.authlib.GameProfile;
 import ic2.api.upgrade.IUpgradeItem;
-import ic2.core.IC2;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.ref.FluidName;
@@ -15,12 +14,12 @@ import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.GtUpgradeSlot;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.compat.buildcraft.MjReceiverWrapper;
 import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.inventory.GtFluidTank;
-import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
+import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -47,17 +46,19 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public abstract class TileEntityUpgradable extends TileEntityEnergy implements IScannerInfoProvider, IUpgradableMachine, IElectricMachine {
     protected GameProfile owner = null;
     protected boolean isPrivate;
     
     public InvSlot upgradeSlot;
-    public int overclockersCount;
     protected boolean hasSteamUpgrade;
     public Fluids fluids;
     public Fluids.InternalFluidTank steamTank;
     protected int neededSteam;
+    private int extraSinkTier;
+    private int extraEUCapacity;
 
     protected MjReceiverWrapper receiver;
     protected boolean hasMjUpgrade;
@@ -89,7 +90,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
                 if (currentItem instanceof IUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
                     IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
                     if (upgradeType != null) {
-                        if (upgradeCount >= upgradeType.maxCount || upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - this.defaultSinkTier + 1) return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
+                        if (upgradeCount >= upgradeType.maxCount || upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - getBaseSinkTier() + 1) return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
                     }
                 }
                 else if (currentItem instanceof IGtUpgradeItem && (areItemsEqual || upgradeStack.isEmpty())) {
@@ -117,26 +118,23 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     @Override
-    public void getNetworkedFields(List<? super String> list) {
-        super.getNetworkedFields(list);
-        list.add("overclockersCount");
-    }
-
-    @Override
     public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {
         super.onPlaced(stack, placer, facing);
         if (placer instanceof EntityPlayer && !world.isRemote) this.owner = ((EntityPlayer) placer).getGameProfile();
     }
 
     public void updateUpgrade(ItemStack stack, EntityPlayer player) {
-        if (world.isRemote) return;
-
-        Item currentItem = stack.getItem();
-        if (currentItem instanceof IGtUpgradeItem) {
-            onUpdateUpgrade((IGtUpgradeItem) currentItem, stack, player);
-        } else if (currentItem instanceof IUpgradeItem) {
-            IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
-            onUpdateUpgrade(upgradeType, stack);
+        if (!world.isRemote) {
+            Item currentItem = stack.getItem();
+            int count = stack.getCount();
+            if (currentItem instanceof IGtUpgradeItem) {
+                IntStream.range(0, count)
+                        .forEach(i -> onUpdateUpgrade((IGtUpgradeItem) currentItem, stack, player));
+            } else if (currentItem instanceof IUpgradeItem) {
+                IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
+                IntStream.range(0, count)
+                        .forEach(i -> onUpdateUpgrade(upgradeType, stack));
+            }
         }
     }
 
@@ -145,17 +143,36 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     protected void onUpdateUpgrade(IC2UpgradeType type, ItemStack stack) {
-        switch (type) {
-            case OVERCLOCKER:
-                setOverclockerCount(this.overclockersCount + stack.getCount());
-                break;
-            case TRANSFORMER:
-                this.energy.setSinkTier(Math.min(this.energy.getSinkTier() + stack.getCount(), 3));
-                break;
-            case BATTERY:
-                this.energy.setCapacity(this.energy.getCapacity() + 10000 * stack.getCount());
-                break;
-        }
+        
+    }
+    
+    protected abstract int getBaseSinkTier();
+    
+    public void addExtraSinkTier() {
+        this.extraSinkTier++;
+    }
+
+    @Override
+    public final int getSinkTier() {
+        int transformers = getUpgradeCount(IC2UpgradeType.TRANSFORMER);
+        return getBaseSinkTier() + transformers + extraSinkTier;
+    }
+    
+    protected abstract int getBaseEUCapacity();
+    
+    public void addExtraEUCapacity(int extraCapacity) {
+        this.extraEUCapacity += extraCapacity;
+    }
+
+    @Override
+    public final int getEUCapacity() {
+        return getBaseEUCapacity() + getExtraEUCapacity();
+    }
+    
+    @Override
+    public int getExtraEUCapacity() {
+        int batteries = getUpgradeCount(IC2UpgradeType.BATTERY) * 10000;
+        return batteries + this.extraEUCapacity;
     }
 
     @Override
@@ -322,21 +339,6 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     @Override
-    public void setEUcapacity(double capacity) {
-        this.energy.setCapacity(capacity);
-    }
-
-    @Override
-    public void setSinkTier(int tier) {
-        this.energy.setSinkTier(tier);
-    }
-
-    @Override
-    public double getExtraEnergyStorage() {
-        return this.energy.getCapacity() - this.defaultEnergyStorage;
-    }
-
-    @Override
     public int getUpgradeCount(GtUpgradeType type) {
         int total = 0;
         for (ItemStack stack : this.upgradeSlot) {
@@ -358,13 +360,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     @Override
     public int getOverclockersCount() {
-        return this.overclockersCount;
-    }
-
-    @Override
-    public void setOverclockerCount(int count) {
-        this.overclockersCount = count;
-        IC2.network.get(true).updateTileEntityField(this, "overclockersCount");
+        return getUpgradeCount(IC2UpgradeType.OVERCLOCKER);
     }
 
     @Override
@@ -427,14 +423,14 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public double getUniversalEnergy() {
         double steam = this.hasSteamUpgrade ? steamTank.getFluidAmount() * getSteamMultiplier() : 0;
         double mj = this.hasMjUpgrade ? this.receiver.getStored() / (double) MjHelper.MJ : 0;
-        return Math.max(this.energy.getStoredEnergy(), Math.max(steam, mj));
+        return Math.max(getStoredEU(), Math.max(steam, mj));
     }
     
     @Override
     public double getUniversalEnergyCapacity() {
         double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * getSteamMultiplier() : 0;
         double mj = this.hasMjUpgrade ? this.receiver.getCapacity() / (double) MjHelper.MJ : 0;
-        return Math.max(this.energy.getCapacity(), Math.max(steam, mj));
+        return Math.max(getStoredEU(), Math.max(steam, mj));
     }
 
     @Override

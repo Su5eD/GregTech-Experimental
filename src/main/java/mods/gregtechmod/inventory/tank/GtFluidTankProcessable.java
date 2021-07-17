@@ -1,4 +1,4 @@
-package mods.gregtechmod.inventory;
+package mods.gregtechmod.inventory.tank;
 
 import com.google.common.base.Predicates;
 import mods.gregtechmod.api.cover.ICoverable;

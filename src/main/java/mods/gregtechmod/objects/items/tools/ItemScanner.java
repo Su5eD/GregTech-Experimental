@@ -157,7 +157,7 @@ public class ItemScanner extends ItemElectricBase {
                 if ((value = ((IUpgradableMachine)tileEntity).getOverclockersCount()) > 0) ret.add(GtUtil.translateScan("overclockers", value));
                 if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(IC2UpgradeType.TRANSFORMER)) > 0) ret.add(GtUtil.translateScan("transformers", value));
                 if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(GtUpgradeType.TRANSFORMER)) > 0) ret.add(GtUtil.translateScan("hv_transformers", value));
-                if ((value = (int) ((IUpgradableMachine)tileEntity).getExtraEnergyStorage()) > 0) ret.add(GtUtil.translateScan("extra_capacity", value));
+                if ((value = (int) ((IUpgradableMachine)tileEntity).getExtraEUCapacity()) > 0) ret.add(GtUtil.translateScan("extra_capacity", value));
             }
 
             if (tileEntity instanceof IMachineProgress) {

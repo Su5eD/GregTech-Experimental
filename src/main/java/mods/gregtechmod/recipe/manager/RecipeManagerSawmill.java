@@ -26,6 +26,6 @@ public class RecipeManagerSawmill extends RecipeManagerBase<IRecipeSawmill> impl
         return this.recipes.stream()
                 .filter(recipe -> recipe.getInput().apply(input) && (fluid == null || fluid.containsFluid(recipe.getRequiredWater())))
                 .min(this::compareCount)
-                .orElse(getProvidedRecipe(input));
+                .orElseGet(() -> getProvidedRecipe(input));
     }
 }

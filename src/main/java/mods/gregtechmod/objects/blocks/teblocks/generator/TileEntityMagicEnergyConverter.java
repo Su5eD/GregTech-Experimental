@@ -4,7 +4,6 @@ import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiMagicEnergyConverter;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,8 +17,18 @@ public class TileEntityMagicEnergyConverter extends TileEntityFluidGenerator {
     }
 
     @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, 1000000000, 1, 24, getSourceSides());
+    protected double getMaxOutputEUp() {
+        return 24;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return 1;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 1000000000;
     }
 
     @Override

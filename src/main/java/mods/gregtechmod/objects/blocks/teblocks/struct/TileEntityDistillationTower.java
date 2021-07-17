@@ -6,7 +6,7 @@ import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.gui.GuiDistillationTower;
-import mods.gregtechmod.inventory.InvSlotConsumableCell;
+import mods.gregtechmod.inventory.invslot.GtConsumableCell;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerDistillationTower;
 import net.minecraft.block.state.IBlockState;
@@ -23,21 +23,21 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class TileEntityDistillationTower extends TileEntityStructureBase<Object, IRecipeCellular, IRecipeIngredient, ItemStack, IGtRecipeManagerCellular> {
-    public InvSlotConsumableCell cellSlot;
+    public GtConsumableCell cellSlot;
     
     public TileEntityDistillationTower() {
         super("distillation_tower", 4, GtRecipes.distillation);
-        this.cellSlot = new InvSlotConsumableCell(this, "cell_slot", 1);
+        this.cellSlot = new GtConsumableCell(this, "cell_slot", 1);
     }
 
     @Override
-    protected double getDefaultCapacity() {
-        return 10000;
-    }
-
-    @Override
-    protected int getDefaultTier() {
+    protected int getBaseSinkTier() {
         return 2;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 10000;
     }
 
     @Override

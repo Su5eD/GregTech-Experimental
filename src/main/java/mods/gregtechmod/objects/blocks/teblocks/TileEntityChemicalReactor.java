@@ -6,7 +6,7 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiChemicalReactor;
-import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerChemicalReactor;
 import mods.gregtechmod.util.GtUtil;
@@ -28,13 +28,13 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     }
 
     @Override
-    protected double getDefaultCapacity() {
-        return 10000;
+    protected int getBaseSinkTier() {
+        return 1;
     }
 
     @Override
-    protected int getDefaultTier() {
-        return 1;
+    protected int getBaseEUCapacity() {
+        return 10000;
     }
 
     @Override

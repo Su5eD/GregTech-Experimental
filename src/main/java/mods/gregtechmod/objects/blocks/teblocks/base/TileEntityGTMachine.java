@@ -9,10 +9,10 @@ import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -50,15 +50,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);
     }
-
-    @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSink(this, getDefaultCapacity(), getDefaultTier(), getSinkSides());
-    }
-    
-    protected abstract double getDefaultCapacity();
-    
-    protected abstract int getDefaultTier();
     
     @Override
     protected Collection<EnumFacing> getSinkSides() {
@@ -159,7 +150,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             }
 
             setActive(true);
-            this.progress += Math.pow(2, overclockersCount);
+            this.progress += Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER));
             if (this.progress >= this.maxProgress) {
                 addOutput(pendingRecipe);
                 needsInvUpdate = true;
@@ -179,14 +170,15 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         consumeInput(recipe);
     }
 
-    protected void overclockEnergyConsume() {
-        this.energyConsume = this.baseEnergyConsume * (int) Math.pow(4, overclockersCount);
+    @Override
+    protected void onUpdateUpgrade(IC2UpgradeType type, ItemStack stack) {
+        if (type == IC2UpgradeType.OVERCLOCKER) {
+            overclockEnergyConsume();
+        }
     }
 
-    @Override
-    public void setOverclockerCount(int count) {
-        super.setOverclockerCount(count);
-        overclockEnergyConsume();
+    protected void overclockEnergyConsume() {
+        this.energyConsume = this.baseEnergyConsume * (int) Math.pow(4, getUpgradeCount(IC2UpgradeType.OVERCLOCKER));
     }
 
     protected void stop() {
@@ -256,12 +248,12 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     @Override
     public String getSecondaryInfo() {
-        return GtUtil.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, this.overclockersCount) / 20));
+        return GtUtil.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
     }
 
     @Override
     public String getTertiaryInfo() {
-        return  "/" + GtUtil.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, this.overclockersCount) / 20));
+        return  "/" + GtUtil.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
     }
 
     @Override

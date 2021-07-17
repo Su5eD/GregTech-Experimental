@@ -16,6 +16,21 @@ public class TileEntityThermalGenerator extends TileEntityFluidGenerator {
     }
 
     @Override
+    public int getSourceTier() {
+        return 1;
+    }
+
+    @Override
+    protected double getMaxOutputEUp() {
+        return 24;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 1000000;
+    }
+
+    @Override
     protected double getFuelValue(double energy) {
         return energy * 4 / 5;
     }

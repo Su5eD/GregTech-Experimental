@@ -11,7 +11,11 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.*;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
+import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
+import mods.gregtechmod.objects.blocks.teblocks.component.CoilHandler;
+import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
+import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.IProxy;
@@ -79,7 +83,7 @@ public final class GregTechMod {
         Components.register(SidedRedstoneEmitter.class, Reference.MODID + ":sided_emitter");
         Components.register(CoilHandler.class, Reference.MODID + ":coil_handler");
         Components.register(BasicTank.class, Reference.MODID + ":basic_tank");
-        Components.register(AdjustableEnergy.class, Reference.MODID + ":adjustable_energy");
+        TileEntityEnergy.registerEnergyComponents();
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
         

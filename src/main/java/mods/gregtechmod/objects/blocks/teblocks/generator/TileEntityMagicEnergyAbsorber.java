@@ -9,9 +9,8 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.gui.GuiMagicEnergyAbsorber;
-import mods.gregtechmod.inventory.GtSlotConsumable;
+import mods.gregtechmod.inventory.invslot.GtSlotConsumable;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMagicEnergyAbsorber;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.enchantment.Enchantment;
@@ -103,7 +102,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                     int minFlux = (int) (GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis / 3200D);
                     int maxFlux = (int) (GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis / 1600D);
                     ModHandler.polluteAura(this.world, this.pos, minFlux + this.world.rand.nextInt(maxFlux), true);
-                    polluteAura(50, 50);
+                    polluteAura();
                 }
             }
             
@@ -121,20 +120,29 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
             int z = this.pos.getZ();
             List<EntityWisp> wisps = this.world.getEntitiesWithinAABB(EntityWisp.class, new AxisAlignedBB(x - 8, y - 8, z - 8, x + 8, y + 8, z + 8));
             if (!wisps.isEmpty()) {
-                this.energy.setSourceTier(5);
                 markForExplosion();
             }
         }
     }
     
     @Optional.Method(modid = "thaumcraft")
-    private void polluteAura(int minFlux, int maxFlux) {
-        AuraHelper.polluteAura(this.world, this.pos, minFlux + this.world.rand.nextInt(maxFlux), true);
+    private void polluteAura() {
+        AuraHelper.polluteAura(this.world, this.pos, 50 + this.world.rand.nextInt(50), true);
     }
 
     @Override
-    protected AdjustableEnergy createEnergyComponent() {
-        return AdjustableEnergy.createSource(this, Math.max(1000000, Math.max(GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D)), 2, Math.max(128, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D), getSourceSides());
+    public int getSourceTier() {
+        return 2;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return (int) Math.max(1000000, Math.max(GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D));
+    }
+
+    @Override
+    protected double getMaxOutputEUp() {
+        return Math.max(128, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D);
     }
 
     @Override

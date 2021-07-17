@@ -24,19 +24,17 @@ public interface IUpgradableMachine extends IElectricMachine {
     @Nullable
     GameProfile getOwner();
 
-    void setEUcapacity(double capacity);
-
-    void setSinkTier(int tier);
-
-    double getExtraEnergyStorage();
+    int getExtraEUCapacity();
+    
+    void addExtraEUCapacity(int extraCapacity);
+    
+    void addExtraSinkTier();
 
     int getUpgradeCount(GtUpgradeType type);
 
     int getUpgradeCount(IC2UpgradeType type);
 
     int getOverclockersCount();
-
-    void setOverclockerCount(int count);
 
     boolean isPrivate();
 

@@ -11,7 +11,7 @@ import ic2.core.block.invslot.InvSlotConsumableLiquidByTank;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.inventory.GtFluidTank;
+import mods.gregtechmod.inventory.tank.GtFluidTank;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 

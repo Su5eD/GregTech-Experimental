@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.component;
 
-import ic2.api.energy.EnergyNet;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.*;
@@ -17,52 +16,86 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 
-public class AdjustableEnergy extends TileEntityComponent {
+public abstract class AdjustableEnergy extends TileEntityComponent {
     private DelegateBase delegate;
     
-    private int sinkTier;
-    private int sourceTier;
-    private double maxOutput;
-    private int sourcePackets = 1;
-    
-    private double capacity;
     private double storedEnergy;
-    private Collection<EnumFacing> sinkSides;
-    private Collection<EnumFacing> sourceSides;
+    private Collection<EnumFacing> oldSinkSides = getSinkSides();
+    private Collection<EnumFacing> oldSourceSides = getSourceSides();
     
     private final Collection<IChargingSlot> chargingSlots = new HashSet<>();
     private final Collection<IDischargingSlot> dischargingSlots = new HashSet<>();
+    
+    protected double[] averageEUInputs = new double[] { 0,0,0,0,0 };
+    protected double[] averageEUOutputs = new double[] { 0,0,0,0,0 };
+    protected int averageEUInputIndex = 0;
+    protected int averageEUOutputIndex = 0;
+    private double averageEUIn;
+    private double averageEUOut;
+    private boolean injectedEnergy;
+    private boolean drawnEnergy;
 
-    public AdjustableEnergy(TileEntityBlock parent, double capacity, int sinkTier, int sourceTier, double maxOutput, Collection<EnumFacing> sinkSides, Collection<EnumFacing> sourceSides) {
+    public AdjustableEnergy(TileEntityBlock parent) {
         super(parent);
-        this.capacity = capacity;
-        this.sinkTier = sinkTier;
-        this.sourceTier = sourceTier;
-        this.maxOutput = maxOutput;
-        this.sinkSides = sinkSides;
-        this.sourceSides = sourceSides;
     }
     
-    public static AdjustableEnergy createSink(TileEntityBlock parent, double capacity, int tier, Collection<EnumFacing> sides) {
-        return new AdjustableEnergy(parent, capacity, tier, 0, -1, Collections.unmodifiableCollection(sides), Collections.emptySet());
+    public abstract int getCapacity();
+    
+    public double getStoredEnergy() {
+        return this.storedEnergy;
     }
     
-    public static AdjustableEnergy createSource(TileEntityBlock parent, double capacity, int tier, Collection<EnumFacing> sides) {
-        return createSource(parent, capacity, tier, -1, sides);
+    public abstract Collection<EnumFacing> getSinkSides();
+    
+    public abstract Collection<EnumFacing> getSourceSides();
+    
+    public abstract int getSinkTier();
+    
+    public abstract int getSourceTier();
+    
+    public abstract double getMaxOutputEUp();
+    
+    public double getMaxOutputEUt() {
+        return getMaxOutputEUp() * getSourcePackets();
     }
     
-    public static AdjustableEnergy createSource(TileEntityBlock parent, double capacity, int tier, double maxOutput, Collection<EnumFacing> sides) {
-        return new AdjustableEnergy(parent, capacity, 0, tier, maxOutput, Collections.emptySet(), Collections.unmodifiableCollection(sides));
+    public int getSourcePackets() {
+        return 1;
+    }
+    
+    public double getAverageEUInput() {
+        return this.averageEUIn;
+    }
+    
+    private void updateAverageEUInput(double amount) {
+        this.averageEUInputIndex = this.averageEUOutputIndex++ % averageEUInputs.length;
+        this.averageEUInputs[averageEUInputIndex] = amount;
+    }
+    
+    public double getAverageEUOutput() {
+        return this.averageEUOut;
+    }
+    
+    private void updateAverageEUOutput(double amount) {
+        this.averageEUOutputIndex = this.averageEUOutputIndex++ % averageEUOutputs.length;
+        this.averageEUOutputs[averageEUOutputIndex] = amount;
+    }
+    
+    private double injectEnergy(double amount) {
+        double injected = Math.min(getCapacity() - this.storedEnergy, amount);
+        storedEnergy += injected;
+        
+        this.averageEUInputs[this.averageEUInputIndex] += injected;
+        
+        return injected;
     }
     
     public boolean charge(double amount) {
-        double charged = Math.min(this.capacity - this.storedEnergy, amount);
-        this.storedEnergy += charged;
-        return charged >= amount;
+        return injectEnergy(amount) >= amount;
     }
 
     public void forceCharge(double amount) {
@@ -81,6 +114,14 @@ public class AdjustableEnergy extends TileEntityComponent {
         return 0;
     }
     
+    public boolean isSink() {
+        return !getActualSinkSides().isEmpty();
+    }
+        
+    public boolean isSource() {
+        return !getActualSourceSides().isEmpty();
+    }
+    
     public void addChargingSlot(IChargingSlot slot) {
         this.chargingSlots.add(slot);
     }
@@ -88,81 +129,28 @@ public class AdjustableEnergy extends TileEntityComponent {
     public void addDischargingSlot(IDischargingSlot slot) {
         this.dischargingSlots.add(slot);
     }
-
-    public int getSinkTier() {
-        return this.sinkTier;
-    }
-
-    public void setSinkTier(int sinkTier) {
-        this.sinkTier = sinkTier;
-    }
-
-    public int getSourceTier() {
-        return this.sourceTier;
-    }
-
-    public void setSourceTier(int sourceTier) {
-        this.sourceTier = sourceTier;
-    }
-
-    public double getStoredEnergy() {
-        return this.storedEnergy;
-    }
-
-    public double getCapacity() {
-        return this.capacity;
-    }
-
-    public void setCapacity(double capacity) {
-        this.capacity = capacity;
-    }
-
-    public double getMaxOutputEUp() {
-        return this.maxOutput < 0 ? EnergyNet.instance.getPowerFromTier(getSourceTier()) : this.maxOutput;
+    
+    private Collection<EnumFacing> getActualSinkSides() {
+        Collection<EnumFacing> sinkSides = getSinkSides();
+        if (!GtUtil.matchCollections(sinkSides, this.oldSinkSides)) refreshSides(sinkSides, getSourceSides());
+        return sinkSides;
     }
     
-    public double getMaxOutputEUt() {
-        return getMaxOutputEUp() * getSourcePackets();
-    }
-
-    public void setMaxOutput(double maxOutput) {
-        this.maxOutput = maxOutput;
-    }
-
-    public int getSourcePackets() {
-        return this.sourcePackets;
-    }
-
-    public void setSourcePackets(int sourcePackets) {
-        this.sourcePackets = sourcePackets;
-    }
-
-    public Collection<EnumFacing> getSinkSides() {
-        return this.sinkSides;
-    }
-
-    public Collection<EnumFacing> getSourceSides() {
-        return this.sourceSides;
+    private Collection<EnumFacing> getActualSourceSides() {
+        Collection<EnumFacing> sourceSides = getSourceSides();
+        if (!GtUtil.matchCollections(sourceSides, this.oldSourceSides)) refreshSides(getSourceSides(), sourceSides);
+        return sourceSides;
     }
     
-    public void setSides(Collection<EnumFacing> sinkSides, Collection<EnumFacing> sourceSides) {
-        boolean reload = !(GtUtil.matchCollections(getSinkSides(), sinkSides) && GtUtil.matchCollections(getSourceSides(), sourceSides));
-        
-        this.sinkSides = Collections.unmodifiableCollection(sinkSides);
-        this.sourceSides = Collections.unmodifiableCollection(sourceSides);
+    private void refreshSides(Collection<EnumFacing> sinkSides, Collection<EnumFacing> sourceSides) {
+        boolean reload = (this.oldSinkSides.isEmpty() != sinkSides.isEmpty()) || (this.oldSourceSides.isEmpty() != sourceSides.isEmpty());
+        this.oldSinkSides = sinkSides;
+        this.oldSourceSides = sourceSides;
         
         if (reload) {
             this.onUnloaded();
             this.onLoaded();
-        }
-    }
-    
-    public boolean isSink() {
-        return !getSinkSides().isEmpty();
-    }
-    
-    public boolean isSource() {
-        return !getSourceSides().isEmpty();
+        } else parent.getWorld().notifyNeighborsOfStateChange(parent.getPos(), parent.getBlockType(), false);
     }
     
     @Override
@@ -203,34 +191,6 @@ public class AdjustableEnergy extends TileEntityComponent {
         
         return null;
     }
-    
-    @Override
-    public void onContainerUpdate(EntityPlayerMP player) {
-        GrowingBuffer buf = new GrowingBuffer(16);
-        buf.writeDouble(this.capacity);
-        buf.writeDouble(this.storedEnergy);
-        buf.flip();
-                            
-        setNetworkUpdate(player, buf);
-    }
-    
-    @Override
-    public void onNetworkUpdate(DataInput in) throws IOException {
-        this.capacity = in.readDouble();
-        this.storedEnergy = in.readDouble();
-    }
-    
-    @Override
-    public void readFromNbt(NBTTagCompound nbt) {
-        this.storedEnergy = nbt.getDouble("storedEnergy");
-    }
-    
-    @Override
-    public NBTTagCompound writeToNbt() {
-        NBTTagCompound ret = new NBTTagCompound();
-        ret.setDouble("storedEnergy", this.storedEnergy);
-        return ret;
-    }
 
     @Override
     public boolean enableWorldTick() {
@@ -245,9 +205,56 @@ public class AdjustableEnergy extends TileEntityComponent {
                 });
         dischargingSlots
                 .forEach(slot -> {
-                    double space = this.capacity - this.storedEnergy;
-                    if (space > 0) this.charge(slot.discharge(space, false));
+                    double space = getCapacity() - this.storedEnergy;
+                    
+                    if (space > 0) {
+                        double energy = slot.discharge(space, false);
+                        if (energy > 0) this.charge(energy);
+                    }
                 });
+        if (!parent.getWorld().isRemote) {
+            if (!injectedEnergy) updateAverageEUInput(0);
+            if (!drawnEnergy) updateAverageEUOutput(0);
+            
+            if (isSink()) {
+                double sum = Arrays.stream(averageEUInputs).sum();
+                averageEUIn = sum / averageEUInputs.length;
+            } else averageEUIn = 0;
+
+            if (isSource()) {
+                double sum = Arrays.stream(averageEUOutputs).sum();
+                averageEUOut = sum / averageEUOutputs.length;
+            } else averageEUOut = 0;
+            
+            injectedEnergy = false;
+            drawnEnergy = false;
+        }
+    }
+    
+    @Override
+    public void onContainerUpdate(EntityPlayerMP player) {
+        GrowingBuffer buf = new GrowingBuffer(8);
+        buf.writeDouble(this.storedEnergy);
+        buf.flip();
+                                
+        setNetworkUpdate(player, buf);
+    }
+        
+    @Override
+    public void onNetworkUpdate(DataInput in) throws IOException {
+        this.storedEnergy = in.readDouble();
+    }
+        
+    @Override
+    public void readFromNbt(NBTTagCompound nbt) {
+        this.storedEnergy = nbt.getDouble("storedEnergy");
+    }
+        
+    @Override
+    public NBTTagCompound writeToNbt() {
+        NBTTagCompound ret = new NBTTagCompound();
+        ret.setDouble("storedEnergy", this.storedEnergy);
+        return ret;
     }
 
     private abstract class DelegateBase extends TileEntity implements IEnergyTile, IEnergyStorage {
@@ -269,7 +276,7 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public int getCapacity() {
-            return (int) AdjustableEnergy.this.getCapacity();
+            return AdjustableEnergy.this.getCapacity();
         }
 
         @Override
@@ -291,7 +298,8 @@ public class AdjustableEnergy extends TileEntityComponent {
     private class DualDelegate extends SourceDelegate implements IEnergySink {
         @Override
         public double getDemandedEnergy() {
-            return !getSinkSides().isEmpty() && storedEnergy < capacity ? capacity - storedEnergy : 0;
+            int capacity = getCapacity();
+            return isSink() && storedEnergy < capacity ? capacity - storedEnergy : 0;
         }
 
         @Override
@@ -301,14 +309,12 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public double injectEnergy(EnumFacing enumFacing, double amount, double voltage) {
-            double injected = Math.min(capacity - storedEnergy, amount);
-            storedEnergy += injected;
-            return amount - injected;
+            return amount - AdjustableEnergy.this.injectEnergy(amount);
         }
 
         @Override
         public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-            return getSinkSides().contains(side);
+            return getActualSinkSides().contains(side);
         }
     }
     
@@ -321,19 +327,18 @@ public class AdjustableEnergy extends TileEntityComponent {
     
         @Override
         public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-            return getSinkSides().contains(side);
+            return getActualSinkSides().contains(side);
         }
     
         @Override
         public double getDemandedEnergy() {
-            return !getSinkSides().isEmpty() && storedEnergy < capacity ? capacity - storedEnergy : 0;
+            int capacity = getCapacity();
+            return isSink() && storedEnergy < capacity ? capacity - storedEnergy : 0;
         }
     
         @Override
         public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-            double injected = Math.min(capacity - storedEnergy, amount);
-            storedEnergy += injected;
-            return amount - injected;
+            return amount - AdjustableEnergy.this.injectEnergy(amount);
         }
     }
     
@@ -359,7 +364,13 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public void drawEnergy(double amount) {
-            if (amount <= storedEnergy) storedEnergy -= amount;
+            if (amount <= storedEnergy) {
+                storedEnergy -= amount;
+                
+                drawnEnergy = true;
+                averageEUOutputIndex = averageEUOutputIndex++ % averageEUOutputs.length;
+                averageEUOutputs[averageEUOutputIndex] = amount;
+            }
         }
 
         @Override
@@ -369,7 +380,7 @@ public class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public boolean emitsEnergyTo(IEnergyAcceptor acceptor, EnumFacing side) {
-            return getSourceSides().contains(side);
+            return getActualSourceSides().contains(side);
         }
     }
 }

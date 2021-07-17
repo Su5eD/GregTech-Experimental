@@ -7,7 +7,7 @@ import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiIndustrialBlastFurnace;
-import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoilHandler;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBlastFurnace;
@@ -42,15 +42,15 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     }
 
     @Override
-    protected double getDefaultCapacity() {
-        return 10000;
+    protected int getBaseSinkTier() {
+        return 2;
     }
 
     @Override
-    protected int getDefaultTier() {
-        return 2;
+    protected int getBaseEUCapacity() {
+        return 10000;
     }
-    
+
     // ------ Structure definition ------
     @Override
     protected List<List<String>> getStructurePattern() {

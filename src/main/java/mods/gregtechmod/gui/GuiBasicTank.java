@@ -2,8 +2,8 @@ package mods.gregtechmod.gui;
 
 import ic2.core.ContainerBase;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.inventory.GtFluidTank;
-import mods.gregtechmod.inventory.slot.CustomFluidSlot;
+import mods.gregtechmod.inventory.gui.CustomFluidSlot;
+import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
