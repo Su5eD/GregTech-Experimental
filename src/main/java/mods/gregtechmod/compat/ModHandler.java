@@ -21,6 +21,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.recipe.RecipePulverizer;
+import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.util.DummyContainer;
 import mods.gregtechmod.util.DummyWorld;
@@ -411,7 +412,9 @@ public class ModHandler {
     public static ItemStack removeCraftingRecipeFromInputs(ItemStack... stacks) {
         IRecipe recipe = getCraftingRecipe(stacks);
         if (recipe != null) {
-            ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(recipe.getRegistryName());
+            ResourceLocation name = recipe.getRegistryName();
+            AdvancementRecipeFixer.DUMMY_RECIPES.put(name.getPath(), recipe);
+            ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(name);
             return recipe.getRecipeOutput();
         }
 

@@ -32,6 +32,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
@@ -427,7 +428,7 @@ public class OreDictHandler {
                         Collections.singletonList(IC2Items.getItem("chainsaw")),
                         1
                 ).setRegistryName(new ResourceLocation(Reference.MODID, recipeName+"_sawing"));
-                GameData.register_impl(sawingRecipe);
+                ForgeRegistries.RECIPES.register(sawingRecipe);
 
                 GameRegistry.addShapelessRecipe(
                         new ResourceLocation(Reference.MODID, recipeName),

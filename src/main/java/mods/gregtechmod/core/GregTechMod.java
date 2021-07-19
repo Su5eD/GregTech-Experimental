@@ -17,6 +17,7 @@ import mods.gregtechmod.objects.blocks.teblocks.component.CoilHandler;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.recipe.compat.ModRecipes;
+import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
@@ -116,6 +117,7 @@ public final class GregTechMod {
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_library"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/village_blacksmith"));
     }
+    
     @EventHandler
     public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
@@ -129,6 +131,7 @@ public final class GregTechMod {
 
         MachineRecipeLoader.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
+        AdvancementRecipeFixer.fixAdvancementRecipes();
     }
 
     @SubscribeEvent
