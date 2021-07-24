@@ -66,6 +66,11 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
+    public IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeLatheRecipe(IRecipeIngredient input, List<ItemStack> output, int duration) {
+        return RecipeLathe.create(input, output, duration);
+    }
+
+    @Override
     public IMachineRecipe<IRecipeIngredient, List<ItemStack>> makeLatheRecipe(IRecipeIngredient input, List<ItemStack> output, int duration, double energyCost) {
         return RecipeLathe.create(input, output, duration, energyCost);
     }

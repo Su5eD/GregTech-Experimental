@@ -14,7 +14,7 @@ public class RecipeManagerSawmill extends RecipeManagerBase<IRecipeSawmill> impl
     @Override
     public boolean addRecipe(IRecipeSawmill recipe, boolean overwrite) {
         boolean ret = super.addRecipe(recipe, overwrite);
-        if (ret) {
+        if (ret && recipe.isUniversal()) {
             List<ItemStack> outputs = recipe.getOutput();
             ModHandler.addTESawmillRecipe(1600, recipe.getInput().getMatchingInputs().get(0), outputs.get(0), outputs.size() > 1 ? outputs.get(1) : ItemStack.EMPTY, 100, false);
         }

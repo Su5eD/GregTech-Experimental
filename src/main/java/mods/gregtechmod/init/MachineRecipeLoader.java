@@ -65,13 +65,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class MachineRecipeLoader {
-    private static final Map<String, Predicate<JsonNode>> CONDITIONS = new HashMap<>();
     private static Path recipesPath = null;
     private static Path classicRecipesPath = null;
     private static Path experimentalRecipesPath = null;
@@ -113,9 +111,9 @@ public class MachineRecipeLoader {
         } else MachineRecipeLoader.recipesPath = gtConfig;
         classicRecipesPath = MachineRecipeLoader.recipesPath.resolve("classic");
         experimentalRecipesPath = MachineRecipeLoader.recipesPath.resolve("experimental");
-
-        registerCondition("mod_loaded", node -> Loader.isModLoaded(node.get("modid").asText()));
-        registerCondition("ore_exists", node -> !OreDictUnificator.getFirstOre(node.get("ore").asText()).isEmpty());
+        
+        GregTechAPI.registerCondition("mod_loaded", node -> Loader.isModLoaded(node.get("modid").asText()));
+        GregTechAPI.registerCondition("ore_exists", node -> !OreDictUnificator.getFirstOre(node.get("ore").asText()).isEmpty());
 
         GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
         parseRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
@@ -335,10 +333,6 @@ public class MachineRecipeLoader {
         serializeRecipes("Extractor", extractorRecipes, (BasicMachineRecipeManager) Recipes.extractor, DynamicRecipes.addExtractorRecipes);
     }
 
-    public static void registerCondition(String name, Predicate<JsonNode> predicate) {
-        CONDITIONS.put(name, predicate);
-    }
-
     public static <R> Optional<Collection<R>> parseRecipes(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
         Optional<Collection<R>> normalRecipes = parseConfig(name, recipeClass, filter, recipesPath);
         Optional<Collection<R>> profileRecipes = GregTechMod.classic ? parseConfig(name, recipeClass, filter, classicRecipesPath, true) : parseConfig(name, recipeClass, filter, experimentalRecipesPath, true);
@@ -381,10 +375,7 @@ public class MachineRecipeLoader {
                 while (conditionIterator.hasNext()) {
                     JsonNode condition = conditionIterator.next();
                     String type = condition.get("type").asText();
-                    if (CONDITIONS.containsKey(type)) {
-                        if (!CONDITIONS.get(type).test(condition))
-                            recipeIterator.remove();
-                    } else throw new IllegalArgumentException("Unknown condition type: "+type);
+                    if (!GregTechAPI.testCondition(type, condition)) recipeIterator.remove();
                 }
             }
             ((ObjectNode) recipe).remove("conditions");
@@ -425,7 +416,7 @@ public class MachineRecipeLoader {
                 .map(recipe -> {
                     IRecipeInput input = recipe.getInput();
                     if (recipe.shouldOverwrite()) input.getInputs().forEach(stack -> ModHandler.removeIC2Recipe(stack, manager));
-                    return manager.addRecipe(input, null, false, recipe.getOutput().toArray(new ItemStack[0]));
+                    return manager.addRecipe(input, null, false, recipe.getOutput());
                 })
                 .filter(Boolean::booleanValue)
                 .count();

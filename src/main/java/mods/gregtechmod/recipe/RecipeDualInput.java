@@ -25,11 +25,11 @@ public class RecipeDualInput extends Recipe<List<IRecipeIngredient>, List<ItemSt
                                          @JsonProperty(value = "output", required = true) ItemStack output,
                                          @JsonProperty(value = "duration", required = true) int duration,
                                          @JsonProperty(value = "energyCost") double energyCost) {
-        input = RecipeUtil.adjustInputCount("dual input", input, Collections.singletonList(output), 2);
+        input = RecipeUtil.adjustInputCount("dual input", input, output, 2);
 
         RecipeDualInput recipe = new RecipeDualInput(input, output, duration, Math.max(energyCost, 1));
 
-        if (!RecipeUtil.validateRecipeIO("dual input", input, Collections.singletonList(output))) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("dual input", input, output)) recipe.invalid = true;
 
         return recipe;
     }

@@ -1,5 +1,6 @@
 package mods.gregtechmod.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import mods.gregtechmod.api.recipe.IRecipeFactory;
 import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import mods.gregtechmod.api.util.SonictronSound;
@@ -9,6 +10,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class GregTechAPI {
     public static final ArrayList<SonictronSound> SONICTRON_SOUNDS = new ArrayList<>();
@@ -23,6 +25,7 @@ public class GregTechAPI {
     public static Configuration dynamicConfig;
     public static IRecipeFactory recipeFactory;
     public static IRecipeIngredientFactory ingredientFactory;
+    private static final Map<String, Predicate<JsonNode>> CONDITIONS = new HashMap<>();
 
     public static boolean isClassic;
     
@@ -98,5 +101,20 @@ public class GregTechAPI {
         boolean ret = dynamicConfig.get(category, name, value).getBoolean();
         if (dynamicConfig.hasChanged()) dynamicConfig.save();
         return ret;
+    }
+    
+    public static Map<String, Predicate<JsonNode>> getConditions() {
+        return Collections.unmodifiableMap(CONDITIONS);
+    }
+    
+    public static void registerCondition(String type, Predicate<JsonNode> predicate) {
+        CONDITIONS.put(type, predicate);
+    }
+    
+    public static boolean testCondition(String type, JsonNode node) {
+        Predicate<JsonNode> condition = CONDITIONS.get(type);
+        if (condition == null) throw new IllegalArgumentException("Unknown condition type: " + type);
+        
+        return condition.test(node);
     }
 }

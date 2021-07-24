@@ -21,7 +21,7 @@ public class RecipeChemical extends Recipe<List<IRecipeIngredient>, List<ItemSta
                                         @JsonProperty(value = "duration", required = true) int duration) {
         RecipeChemical recipe = new RecipeChemical(input, output, duration);
 
-        if (!RecipeUtil.validateRecipeIO("chemical", input, Collections.singletonList(output))) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("chemical", input, output)) recipe.invalid = true;
 
         return recipe;
     }

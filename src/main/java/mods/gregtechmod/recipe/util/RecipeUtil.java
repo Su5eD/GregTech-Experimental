@@ -8,6 +8,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class RecipeUtil {
+    
+    public static boolean validateRecipeIO(String name, List<? extends IRecipeIngredient> input, ItemStack output) {
+        return validateRecipeIO(name, input, Collections.singletonList(output));
+    }
+    
     public static boolean validateRecipeIO(String name, List<? extends IRecipeIngredient> input, List<ItemStack> output) {
         return validateRecipeInput(name, input) && validateRecipeOutput(name, output);
     }
@@ -42,6 +47,10 @@ public class RecipeUtil {
             }
         }
         return true;
+    }
+    
+    public static <T> List<T> adjustInputCount(String name, List<T> input, Object output, int max) {
+        return adjustInputCount(name, input, Collections.singletonList(output), max);
     }
 
     public static <T> List<T> adjustInputCount(String name, List<T> input, List<?> output, int max) {

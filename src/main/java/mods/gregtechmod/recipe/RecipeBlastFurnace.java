@@ -26,6 +26,7 @@ public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<Ite
                                             @JsonProperty(value = "energyCost") double energyCost,
                                             @JsonProperty(value = "heat", required = true) int heat,
                                             @JsonProperty(value = "universal") boolean universal) {
+        input = RecipeUtil.adjustInputCount("blast furnace", input, output, 2);
         output = RecipeUtil.adjustOutputCount("blast furnace", output, 2);
 
         RecipeBlastFurnace recipe = new RecipeBlastFurnace(input, output, duration, energyCost <= 0 ? 128 : energyCost, heat, universal);

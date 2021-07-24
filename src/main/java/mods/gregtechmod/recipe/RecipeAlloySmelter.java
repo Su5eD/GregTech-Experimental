@@ -7,7 +7,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-import java.util.Collections;
 import java.util.List;
 
 public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeAlloySmelter {
@@ -24,11 +23,11 @@ public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeAlloyS
                                             @JsonProperty(value = "duration", required = true) int duration,
                                             @JsonProperty(value = "energyCost") double energyCost,
                                             @JsonProperty(value = "universal") boolean universal) {
-        input = RecipeUtil.adjustInputCount("alloy smelter", input, Collections.singletonList(output), 2);
+        input = RecipeUtil.adjustInputCount("alloy smelter", input, output, 2);
 
         RecipeAlloySmelter recipe = new RecipeAlloySmelter(input, output, duration, Math.max(energyCost, 1), universal);
 
-        if (!RecipeUtil.validateRecipeIO("alloy smelter", input, Collections.singletonList(output))) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("alloy smelter", input, output)) recipe.invalid = true;
 
         return recipe;
     }

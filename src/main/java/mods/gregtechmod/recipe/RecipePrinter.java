@@ -28,11 +28,11 @@ public class RecipePrinter extends Recipe<List<IRecipeIngredient>, List<ItemStac
     }
 
     public static RecipePrinter create(List<IRecipeIngredient> input, IRecipeIngredient copy, ItemStack output, int duration, double energyCost) {
-        input = RecipeUtil.adjustInputCount("printer", input, Collections.singletonList(output), 3);
+        input = RecipeUtil.adjustInputCount("printer", input, output, 3);
 
         RecipePrinter recipe = new RecipePrinter(input, copy, output, duration, Math.max(energyCost, 1));
 
-        if (!RecipeUtil.validateRecipeIO("printer", input, Collections.singletonList(output))) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("printer", input, output)) recipe.invalid = true;
 
         return recipe;
     }
