@@ -123,7 +123,7 @@ public class RenderTeBlock extends AbstractModel {
      * @param rotatedSide the current side relative to the block's facing
      * @return the side's texture depending on the block's facing
      */
-    protected TextureAtlasSprite getSpriteFromDirection(EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state, Map<EnumFacing, ResourceLocation> covers) {
+    private TextureAtlasSprite getSpriteFromDirection(EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state, Map<EnumFacing, ResourceLocation> covers) {
         TextureMap map = Minecraft.getMinecraft().getTextureMapBlocks();
         PropertyHelper.AnimationSpeed prop;
         PropertyHelper.TextureOverride overrides;
@@ -139,7 +139,11 @@ public class RenderTeBlock extends AbstractModel {
             String textureName = side == EnumFacing.DOWN ? "bottom" : side == EnumFacing.UP ? "top" : "side";
             return map.getAtlasSprite(String.format("%s:blocks/machines/machine_%s_pipe", Reference.MODID, textureName));
         }
-        else return sprites.get(textures.get(rotatedSide));
+        else return getSprite(side, rotatedSide, state);
+    }
+    
+    protected TextureAtlasSprite getSprite(EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state) {
+        return sprites.get(textures.get(rotatedSide));
     }
     
     private static EnumFacing rotateSide(EnumFacing face, EnumFacing side, Map<EnumFacing, ResourceLocation> covers) {

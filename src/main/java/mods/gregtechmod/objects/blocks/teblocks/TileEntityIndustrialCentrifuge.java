@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
@@ -21,13 +20,14 @@ public class TileEntityIndustrialCentrifuge extends TileEntityIndustrialCentrifu
         return 1;
     }
 
-    public ContainerBase<TileEntityIndustrialCentrifugeBase> getGuiContainer(EntityPlayer player) {
+    @Override
+    public ContainerIndustrialCentrifuge getGuiContainer(EntityPlayer player) {
         return new ContainerIndustrialCentrifuge(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiIndustrialCentrifuge(new ContainerIndustrialCentrifuge(player, this));
+        return new GuiIndustrialCentrifuge(getGuiContainer(player));
     }
 }

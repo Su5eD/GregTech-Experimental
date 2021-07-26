@@ -6,6 +6,7 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerChemicalReact
 import net.minecraft.util.ResourceLocation;
 
 public class GuiChemicalReactor extends GuiInventory<ContainerChemicalReactor> {
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/chemical_reactor.png");
 
     public GuiChemicalReactor(ContainerChemicalReactor container) {
         super(container);
@@ -17,6 +18,6 @@ public class GuiChemicalReactor extends GuiInventory<ContainerChemicalReactor> {
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(Reference.MODID, "textures/gui/chemical_reactor.png");
+        return TEXTURE;
     }
 }

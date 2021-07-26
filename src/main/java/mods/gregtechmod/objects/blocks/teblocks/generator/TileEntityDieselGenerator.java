@@ -7,7 +7,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiDieselGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
 import mods.gregtechmod.recipe.fuel.FuelSimple;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import net.minecraft.client.gui.GuiScreen;
@@ -40,7 +39,7 @@ public class TileEntityDieselGenerator extends TileEntityFluidGenerator {
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiDieselGenerator(new ContainerFluidGenerator(player, this), this.tank.content);
+        return new GuiDieselGenerator(getGuiContainer(player), this.tank.content);
     }
     
     public static class FuelCanRecipeProvider implements IFuelProvider<IFuel<IRecipeIngredient>, ItemStack> {

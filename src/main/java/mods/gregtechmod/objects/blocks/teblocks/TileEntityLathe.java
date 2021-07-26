@@ -5,7 +5,6 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.gui.GuiLathe;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingleInput;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,7 +22,7 @@ public class TileEntityLathe extends TileEntityBasicMachineSingleInput<IMachineR
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiLathe(new ContainerBasicMachine<>(player, this));
+        return new GuiLathe(getGuiContainer(player));
     }
 
     @Override

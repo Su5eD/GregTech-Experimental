@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -97,13 +96,13 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerDistillationTower getGuiContainer(EntityPlayer player) {
         return new ContainerDistillationTower(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiDistillationTower(new ContainerDistillationTower(player, this));
+        return new GuiDistillationTower(getGuiContainer(player));
     }
 }

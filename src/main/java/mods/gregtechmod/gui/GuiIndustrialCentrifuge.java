@@ -9,7 +9,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialCentrifuge extends GuiInventory<ContainerIndustrialCentrifuge> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
 
     public GuiIndustrialCentrifuge(ContainerIndustrialCentrifuge container) {
         super(container);

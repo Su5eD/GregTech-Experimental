@@ -5,7 +5,6 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.gui.GuiAutoElectricFurnace;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingleInput;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.compat.RecipeFurnace;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
@@ -64,7 +63,7 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiAutoElectricFurnace(new ContainerBasicMachine<>(player, this));
+        return new GuiAutoElectricFurnace(getGuiContainer(player));
     }
 
     private boolean checkStack(ItemStack stack) {

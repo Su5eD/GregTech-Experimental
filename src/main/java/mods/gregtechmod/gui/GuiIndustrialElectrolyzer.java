@@ -8,7 +8,7 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialEle
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialElectrolyzer extends GuiInventory<ContainerIndustrialElectrolyzer> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_electrolyzer.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_electrolyzer.png");
 
     public GuiIndustrialElectrolyzer(ContainerIndustrialElectrolyzer container) {
         super(container);

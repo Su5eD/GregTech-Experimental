@@ -851,6 +851,8 @@ gregtechmod.teblock.hatch_dynamo.description=Generating electric Energy from Mul
 gregtechmod.teblock.hatch_dynamo.description2=Max EU/p OUT: 0 - 2048 (depends on generated Energy)
 gregtechmod.teblock.hatch_muffler=Muffler Hatch
 gregtechmod.teblock.hatch_muffler.description=Outputs the Pollution (Pollution might come later)
+gregtechmod.teblock.industrial_sawmill=Industrial Sawmill
+gregtechmod.teblock.industrial_sawmill.description=Get mo Planks for ya Logs
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

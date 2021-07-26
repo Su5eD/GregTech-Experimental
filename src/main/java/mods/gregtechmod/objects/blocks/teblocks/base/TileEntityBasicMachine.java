@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.network.INetworkClientTileEntityEventListener;
-import ic2.core.ContainerBase;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotDischarge;
 import ic2.core.block.invslot.InvSlotOutput;
@@ -276,7 +275,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerBasicMachine<?> getGuiContainer(EntityPlayer player) {
         return new ContainerBasicMachine<>(player, this);
     }
 }

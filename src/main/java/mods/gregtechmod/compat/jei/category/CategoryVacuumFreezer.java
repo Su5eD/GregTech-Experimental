@@ -5,7 +5,6 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.RecipeWrapperFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperBasicMachineSingle;
@@ -13,7 +12,6 @@ import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiVacuumFreezer;
 import mods.gregtechmod.recipe.RecipeVacuumFreezer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
@@ -27,7 +25,7 @@ public class CategoryVacuumFreezer extends CategoryBase<RecipeVacuumFreezer, Wra
 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
-        return guiHelper.drawableBuilder(new ResourceLocation(Reference.MODID, "textures/gui/vacuum_freezer.png"), 33, 24, 70, 18)
+        return guiHelper.drawableBuilder(GuiVacuumFreezer.TEXTURE, 33, 24, 70, 18)
                 .addPadding(20, 51, 52, 52)
                 .build();
     }

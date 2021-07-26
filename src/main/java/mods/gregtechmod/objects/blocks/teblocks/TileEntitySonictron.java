@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
-import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlot;
@@ -114,14 +113,14 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer entityPlayer) {
+    public ContainerSonictron getGuiContainer(EntityPlayer entityPlayer) {
         return new ContainerSonictron(this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGui(EntityPlayer entityPlayer, boolean b) {
-        return new GuiSonictron(new ContainerSonictron(this));
+    public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
+        return new GuiSonictron(getGuiContainer(player));
     }
 
     @Override

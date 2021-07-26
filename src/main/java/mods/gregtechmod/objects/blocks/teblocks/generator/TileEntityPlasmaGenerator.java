@@ -26,8 +26,13 @@ public class TileEntityPlasmaGenerator extends TileEntityFluidGenerator {
     }
 
     @Override
+    public ContainerPlasmaGenerator getGuiContainer(EntityPlayer player) {
+        return new ContainerPlasmaGenerator(player, this);
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiPlasmaGenerator(new ContainerPlasmaGenerator(player, this), this.tank.content);
+        return new GuiPlasmaGenerator(getGuiContainer(player), this.tank.content);
     }
 }

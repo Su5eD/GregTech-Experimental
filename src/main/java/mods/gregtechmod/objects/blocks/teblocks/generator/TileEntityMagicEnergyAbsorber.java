@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.generator;
 
 import ic2.api.network.INetworkClientTileEntityEventListener;
-import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlotConsumable;
 import ic2.core.block.invslot.InvSlotOutput;
@@ -175,13 +174,13 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerMagicEnergyAbsorber getGuiContainer(EntityPlayer player) {
         return new ContainerMagicEnergyAbsorber(player, this);
     }
 
     @Override
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiMagicEnergyAbsorber(new ContainerMagicEnergyAbsorber(player, this));
+        return new GuiMagicEnergyAbsorber(getGuiContainer(player));
     }
 
     @Override

@@ -4,7 +4,6 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.gui.GuiAutoExtractor;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingleInput;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +22,6 @@ public class TileEntityAutoExtractor extends TileEntityBasicMachineSingleInput<I
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiAutoExtractor(new ContainerBasicMachine<>(player, this));
+        return new GuiAutoExtractor(getGuiContainer(player));
     }
 }

@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
-import ic2.core.ContainerBase;
 import ic2.core.IC2;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
@@ -143,14 +142,14 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerBlastFurnace getGuiContainer(EntityPlayer player) {
         return new ContainerBlastFurnace(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiIndustrialBlastFurnace(new ContainerBlastFurnace(player, this));
+        return new GuiIndustrialBlastFurnace(getGuiContainer(player));
     }
     
     public static class BlastFurnaceStructure {

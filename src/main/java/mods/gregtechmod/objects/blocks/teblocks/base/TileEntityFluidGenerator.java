@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.fuel.IFuelManagerFluid;
@@ -99,7 +98,7 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerFluidGenerator getGuiContainer(EntityPlayer player) {
         return new ContainerFluidGenerator(player, this);
     }
 

@@ -36,7 +36,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
-import net.minecraftforge.registries.GameData;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -414,7 +413,7 @@ public class OreDictHandler {
             ItemStack result = recipe.getRecipeOutput();
             if (!result.isEmpty()) {
                 ItemStack planks = StackUtil.copyWithSize(result, result.getCount() * 3 / 2);
-                DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1, true));
+                DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientItemStack.create(stack), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1, true));
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
 

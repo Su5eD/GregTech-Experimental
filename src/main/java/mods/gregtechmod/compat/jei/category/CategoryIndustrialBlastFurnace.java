@@ -5,7 +5,6 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.RecipeWrapperFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperIndustrialBlastFurnace;
@@ -14,7 +13,6 @@ import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiIndustrialBlastFurnace;
 import mods.gregtechmod.recipe.RecipeBlastFurnace;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
@@ -29,7 +27,7 @@ public class CategoryIndustrialBlastFurnace extends CategoryBase<RecipeBlastFurn
 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
-        return guiHelper.drawableBuilder(new ResourceLocation(Reference.MODID, "textures/gui/industrial_blast_furnace.png"), 33, 15, 88, 39)
+        return guiHelper.drawableBuilder(GuiIndustrialBlastFurnace.TEXTURE, 33, 15, 88, 39)
                 .addPadding(7, 43, 43, 43)
                 .build();
     }

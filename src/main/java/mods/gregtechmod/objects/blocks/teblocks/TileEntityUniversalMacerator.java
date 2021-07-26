@@ -6,7 +6,6 @@ import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiAutoMacerator;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingleInput;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import net.minecraft.client.gui.GuiScreen;
@@ -47,7 +46,7 @@ public class TileEntityUniversalMacerator extends TileEntityBasicMachineSingleIn
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiAutoMacerator(new ContainerBasicMachine<>(player, this));
+        return new GuiAutoMacerator(getGuiContainer(player));
     }
 
     @Override

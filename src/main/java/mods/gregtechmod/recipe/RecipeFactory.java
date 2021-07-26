@@ -96,7 +96,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IRecipeSawmill makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water, boolean universal) {
+    public IRecipeUniversal<List<IRecipeIngredient>> makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water, boolean universal) {
         return RecipeSawmill.create(input, output, water, universal);
     }
 }

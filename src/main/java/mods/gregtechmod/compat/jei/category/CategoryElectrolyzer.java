@@ -6,7 +6,6 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.ElectrolyzerRecipeFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperCellular;
@@ -15,7 +14,6 @@ import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiIndustrialElectrolyzer;
 import mods.gregtechmod.recipe.RecipeElectrolyzer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
@@ -31,7 +29,7 @@ public class CategoryElectrolyzer extends CategoryBase<RecipeElectrolyzer, Wrapp
 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
-        return guiHelper.drawableBuilder(new ResourceLocation(Reference.MODID, "textures/gui/industrial_electrolyzer.png"), 48, 9, 79, 74)
+        return guiHelper.drawableBuilder(GuiIndustrialElectrolyzer.TEXTURE, 48, 9, 79, 74)
                 .addPadding(0, 15, 48, 48)
                 .build();
     }

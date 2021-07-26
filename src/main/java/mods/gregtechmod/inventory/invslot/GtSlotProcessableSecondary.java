@@ -1,18 +1,17 @@
 package mods.gregtechmod.inventory.invslot;
 
 import ic2.core.block.IInventorySlotHolder;
-import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public class GtSlotProcessableGrinder extends GtSlotProcessableItemStack<IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>, List<ItemStack>> {
+public class GtSlotProcessableSecondary<RM extends IGtRecipeManager<List<IRecipeIngredient>, I, ?>, I> extends GtSlotProcessableItemStack<RM, I> {
     
-    public GtSlotProcessableGrinder(IInventorySlotHolder<?> base, String name, int count) {
-        super(base, name, count, GtRecipes.industrialGrinder);
+    public GtSlotProcessableSecondary(IInventorySlotHolder<?> base, String name, int count, RM recipeManager) {
+        super(base, name, count, recipeManager);
     }
 
     @Override

@@ -65,7 +65,8 @@
       "hatch_output": { "model": "gregtechmod:hatch_output" },
       "hatch_maintenance": { "model": "gregtechmod:hatch_maintenance" },
       "hatch_dynamo": { "model": "gregtechmod:hatch_dynamo" },
-      "hatch_muffler": { "model": "gregtechmod:hatch_muffler" }
+      "hatch_muffler": { "model": "gregtechmod:hatch_muffler" },
+      "industrial_sawmill": { "model": "gregtechmod:industrial_sawmill" }
     },
     "facing": {
       "down": { "x": 90 },

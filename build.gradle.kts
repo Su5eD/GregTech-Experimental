@@ -226,7 +226,8 @@ dependencies {
     compileOnly(fg.deobf(group = "cofh", name = "ThermalExpansion", version = "1.12.2-$versionThermalExpansion", classifier = "universal")) { 
         exclude(group = "mezz.jei")
     }
-    implementation(fg.deobf(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI))
+    runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI))
+    compileOnly(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI, classifier = "api")
     compileOnly(fg.deobf(group = "com.mod-buildcraft", name = "buildcraft-api", version = versionBuildCraft))
     compileOnly(fg.deobf(curse(mod = "energy-control", projectId = 51195, fileId = versionEnergyControl.toLong())))
     compileOnly(fg.deobf(curse(mod = "railcraft", projectId = 51195, fileId = versionRailcraft.toLong())))

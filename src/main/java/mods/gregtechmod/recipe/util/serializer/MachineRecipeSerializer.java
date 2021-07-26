@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import ic2.api.recipe.MachineRecipe;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MachineRecipeSerializer extends JsonSerializer<MachineRecipe> {
 
@@ -14,7 +15,7 @@ public class MachineRecipeSerializer extends JsonSerializer<MachineRecipe> {
         gen.writeStartObject();
 
         gen.writeObjectField("input", value.getInput());
-        gen.writeObjectField("output", value.getOutput());
+        gen.writeObjectField("output", ((List<?>) value.getOutput()).get(0));
 
         gen.writeEndObject();
     }

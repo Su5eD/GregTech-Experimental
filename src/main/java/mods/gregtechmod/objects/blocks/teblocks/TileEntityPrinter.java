@@ -11,7 +11,6 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiPrinter;
 import mods.gregtechmod.inventory.invslot.GtSlotCopy;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.RecipePrinter;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.util.OreDictUnificator;
@@ -46,7 +45,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiPrinter(new ContainerBasicMachine<>(player, this));
+        return new GuiPrinter(getGuiContainer(player));
     }
 
     @Override

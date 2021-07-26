@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -96,14 +95,14 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerImplosionCompressor getGuiContainer(EntityPlayer player) {
         return new ContainerImplosionCompressor(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiImplosionCompressor(new ContainerImplosionCompressor(player, this));
+        return new GuiImplosionCompressor(getGuiContainer(player));
     }
 
     @Override

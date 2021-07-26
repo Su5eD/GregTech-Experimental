@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -48,13 +47,13 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerChemicalReactor getGuiContainer(EntityPlayer player) {
         return new ContainerChemicalReactor(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiChemicalReactor(new ContainerChemicalReactor(player, this));
+        return new GuiChemicalReactor(getGuiContainer(player));
     }
 }

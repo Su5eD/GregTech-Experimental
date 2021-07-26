@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
@@ -55,14 +54,14 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerHatchIO getGuiContainer(EntityPlayer player) {
         return new ContainerHatchIO(player, this);
     }
     
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiBasicTank<>(new ContainerHatchIO(player, this), this.tank.content);
+        return new GuiBasicTank<>(getGuiContainer(player), this.tank.content);
     }
 
     @Override

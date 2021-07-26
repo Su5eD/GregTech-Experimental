@@ -33,11 +33,10 @@ public class RenderStructureTeBlock extends RenderTeBlock {
     }
 
     @Override
-    protected TextureAtlasSprite getSpriteFromDirection(EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state, Map<EnumFacing, ResourceLocation> covers) {
-        TextureAtlasSprite ret = super.getSpriteFromDirection(side, rotatedSide, state, covers);
+    protected TextureAtlasSprite getSprite(EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state) {
         if (state.hasValue(TileEntityStructureBase.PROPERTY_VALID) && state.getValue(TileEntityStructureBase.PROPERTY_VALID) && validTextures.containsKey(side)) {
             return this.validSprites.get(this.validTextures.get(rotatedSide));
         }
-        return ret;
+        return super.getSprite(side, rotatedSide, state);
     }
 }

@@ -77,6 +77,7 @@ public class JEIModule implements IModPlugin {
                 new CategoryChemicalReactor(guiHelper),
                 new CategoryIndustrialBlastFurnace(guiHelper),
                 new CategoryIndustrialGrinder(guiHelper),
+                new CategoryIndustrialSawmill(guiHelper),
                 new CategoryImplosionCompressor(guiHelper),
                 new CategoryVacuumFreezer(guiHelper),
                 new CategoryDistillationTower(guiHelper),

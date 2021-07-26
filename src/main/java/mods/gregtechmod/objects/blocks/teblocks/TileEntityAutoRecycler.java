@@ -6,7 +6,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiAutoRecycler;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingleInput;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,7 +24,7 @@ public class TileEntityAutoRecycler extends TileEntityBasicMachineSingleInput<IM
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiAutoRecycler(new ContainerBasicMachine<>(player, this));
+        return new GuiAutoRecycler(getGuiContainer(player));
     }
 
     @Override

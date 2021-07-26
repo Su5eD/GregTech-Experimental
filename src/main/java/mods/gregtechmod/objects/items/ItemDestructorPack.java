@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.items;
 
-import ic2.core.ContainerBase;
 import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.item.IHandHeldInventory;
@@ -49,14 +48,14 @@ public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
         }
 
         @Override
-        public ContainerBase<HandHeldDestructorPack> getGuiContainer(EntityPlayer entityPlayer) {
+        public ContainerDestructorpack getGuiContainer(EntityPlayer entityPlayer) {
             return new ContainerDestructorpack(entityPlayer, this);
         }
 
         @Override
         @SideOnly(Side.CLIENT)
-        public GuiScreen getGui(EntityPlayer entityPlayer, boolean b) {
-            return new GuiDestructorPack(new ContainerDestructorpack(entityPlayer, this));
+        public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
+            return new GuiDestructorPack(getGuiContainer(player));
         }
 
         @Override

@@ -2,14 +2,14 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.recipe.IRecipeAlloySmelter;
+import mods.gregtechmod.api.recipe.IRecipeUniversal;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeAlloySmelter {
+public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeUniversal<List<IRecipeIngredient>> {
     private final boolean universal;
 
     private RecipeAlloySmelter(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost, boolean smelting) {

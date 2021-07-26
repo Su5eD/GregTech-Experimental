@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -82,13 +81,13 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerVacuumFreezer getGuiContainer(EntityPlayer player) {
         return new ContainerVacuumFreezer(player, this); 
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiVacuumFreezer(new ContainerVacuumFreezer(player, this));
+        return new GuiVacuumFreezer(getGuiContainer(player));
     }
 }

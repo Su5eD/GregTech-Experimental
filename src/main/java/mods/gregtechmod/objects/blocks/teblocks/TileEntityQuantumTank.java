@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
-import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
 import ic2.core.block.comp.Fluids;
 import mods.gregtechmod.api.cover.CoverType;
@@ -26,14 +25,14 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer entityPlayer) {
+    public ContainerQuantumTank getGuiContainer(EntityPlayer entityPlayer) {
         return new ContainerQuantumTank(entityPlayer, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGui(EntityPlayer entityPlayer, boolean isAdmin) {
-        return new GuiBasicTank<>(new ContainerQuantumTank(entityPlayer, this), this.tank.content);
+    public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
+        return new GuiBasicTank<>(getGuiContainer(player), this.tank.content);
     }
 
     @Override

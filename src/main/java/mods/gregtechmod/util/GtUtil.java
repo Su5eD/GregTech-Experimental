@@ -328,6 +328,13 @@ public class GtUtil {
                 .anyMatch(s -> stackEquals(s, stack));
     }
     
+    public static <T> void fillEmptyList(List<T> list, T fill, int maxSize) {
+        int space = maxSize - 1 - list.size();
+        for (int i = 0; i < space; i++) {
+            list.add(fill);
+        }
+    }
+    
     private static class VoidTank implements IFluidHandler {
         
         @Override

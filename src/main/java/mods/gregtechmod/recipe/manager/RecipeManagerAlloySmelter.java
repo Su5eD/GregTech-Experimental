@@ -1,15 +1,17 @@
 package mods.gregtechmod.recipe.manager;
 
-import mods.gregtechmod.api.recipe.IRecipeAlloySmelter;
+import mods.gregtechmod.api.recipe.IRecipeUniversal;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class RecipeManagerAlloySmelter extends RecipeManagerMultiInput<IRecipeAlloySmelter, IRecipeIngredient> {
+import java.util.List;
+
+public class RecipeManagerAlloySmelter extends RecipeManagerMultiInput<IRecipeUniversal<List<IRecipeIngredient>>, IRecipeIngredient> {
     @Override
-    public boolean addRecipe(IRecipeAlloySmelter recipe, boolean overwrite) {
+    public boolean addRecipe(IRecipeUniversal<List<IRecipeIngredient>> recipe, boolean overwrite) {
         boolean ret = super.addRecipe(recipe, overwrite);
         if (ret && recipe.isUniversal()) {
             recipe.getOutput()

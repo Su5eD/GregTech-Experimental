@@ -132,7 +132,7 @@ public class MachineRecipeLoader {
                     registerRecipes("pulverizer", filtered, GtRecipes.pulverizer);
                 });
 
-        GtRecipes.industrialGrinder = new RecipeManagerMultiInput<>();
+        GtRecipes.industrialGrinder = new RecipeManagerSecondaryFluid();
         parseRecipes("industrial_grinder", RecipeGrinder.class, RecipeFilter.Default.class)
                 .ifPresent(recipes -> registerRecipes("industrial grinder", recipes, GtRecipes.industrialGrinder));
 
@@ -184,9 +184,9 @@ public class MachineRecipeLoader {
         parseRecipes("fusion_solid", RecipeFusionSolid.class, null)
                 .ifPresent(recipes -> registerRecipes("solid fusion", recipes, GtRecipes.fusionSolid));
 
-        GtRecipes.sawmill = new RecipeManagerSawmill();
+        GtRecipes.industrialSawmill = new RecipeManagerSawmill();
         parseRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class)
-                .ifPresent(recipes -> registerRecipes("sawmill", recipes, GtRecipes.sawmill));
+                .ifPresent(recipes -> registerRecipes("sawmill", recipes, GtRecipes.industrialSawmill));
 
         GtRecipes.distillation = new RecipeManagerCellular();
         parseRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class)
@@ -321,7 +321,7 @@ public class MachineRecipeLoader {
         serializeRecipes("Lathe", DynamicRecipes.LATHE.getRecipes(), GtRecipes.lathe, DynamicRecipes.addLatheRecipes);
         serializeRecipes("Assembler", DynamicRecipes.ASSEMBLER.getRecipes(), GtRecipes.assembler, DynamicRecipes.addAssemblerRecipes);
         serializeRecipes("Bender", DynamicRecipes.BENDER.getRecipes(), GtRecipes.bender, DynamicRecipes.addBenderRecipes);
-        serializeRecipes("Sawmill", DynamicRecipes.SAWMILL.getRecipes(), GtRecipes.sawmill, DynamicRecipes.addSawmillRecipes);
+        serializeRecipes("Sawmill", DynamicRecipes.SAWMILL.getRecipes(), GtRecipes.industrialSawmill, DynamicRecipes.addSawmillRecipes);
         serializeRecipes("Industrial Centrifuge", DynamicRecipes.INDUSTRIAL_CENTRIFUGE.getRecipes(), GtRecipes.industrialCentrifuge, DynamicRecipes.addCentrifugeRecipes);
 
         List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> compressorRecipes = StreamSupport.stream(DynamicRecipes.COMPRESSOR.getRecipes().spliterator(), false)
