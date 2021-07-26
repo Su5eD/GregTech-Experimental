@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
  * @param <T> Optional generic type of {@link WorldStructure#instance}
  */
 public class Structure<T> {
-    public final Map<Character, Predicate<IBlockState>> elements;
+    public final Map<Character, Predicate<BlockPos>> elements;
     public final List<List<String>> pattern;
-    private final Function<Collection<IBlockState>, T> factory;
+    private final Function<Map<BlockPos, IBlockState>, T> factory;
     
-    public final Map<Vec3iRotatable, Predicate<IBlockState>> applied = new HashMap<>();
+    public final Map<Vec3iRotatable, Predicate<BlockPos>> applied = new HashMap<>();
     
     private WorldStructure worldStructure;
 
@@ -39,7 +39,7 @@ public class Structure<T> {
      *                 The map shouldn't contain it.
      * @param factory used to construct {@link WorldStructure#instance}
      */
-    public Structure(List<List<String>> pattern, Map<? extends Character, Predicate<IBlockState>> elements, Function<Collection<IBlockState>, T> factory) {
+    public Structure(List<List<String>> pattern, Map<? extends Character, Predicate<BlockPos>> elements, Function<Map<BlockPos, IBlockState>, T> factory) {
         this.elements = Collections.unmodifiableMap(elements);
         this.pattern = pattern;
         this.factory = factory;
@@ -58,7 +58,7 @@ public class Structure<T> {
                     char ch = row[x];
                     
                     if (ch != ' ' && ch != 'X') {
-                        Predicate<IBlockState> pred = this.elements.get(ch);
+                        Predicate<BlockPos> pred = this.elements.get(ch);
                         if (pred == null) throw new IllegalArgumentException(String.format("Unknown element '%s' in structure pattern %s. Known elements: %s", ch, this.pattern, this.elements.keySet()));
                         
                         Vec3iRotatable vec = new Vec3iRotatable(x, y, z);
@@ -91,7 +91,7 @@ public class Structure<T> {
     
     public WorldStructure checkWorldStructure(BlockPos root, EnumFacing facing, IBlockAccess world) {
         if (this.worldStructure == null || this.worldStructure.facing != facing) {
-            Map<BlockPos, Predicate<IBlockState>> map = new HashMap<>();
+            Map<BlockPos, Predicate<BlockPos>> map = new HashMap<>();
             this.applied
                     .forEach((key, value) -> { 
                         Vec3i vec = key.rotateHorizontal(facing);
@@ -106,19 +106,16 @@ public class Structure<T> {
         boolean oldValid = this.worldStructure.valid;
         boolean valid = this.worldStructure.positions.entrySet()
                 .stream()
-                .allMatch(entry -> {
-                    IBlockState state = world.getBlockState(entry.getKey());
-                    return entry.getValue().test(state);
-                });
+                .allMatch(entry -> entry.getValue().test(entry.getKey()));
         
         if (valid) {
             if (!oldValid) {
-                Collection<IBlockState> states = this.worldStructure.positions.keySet()
+                // TODO only use positions
+                Map<BlockPos, IBlockState> stateMap = this.worldStructure.positions.keySet()
                         .stream()
-                        .map(world::getBlockState)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toMap(Function.identity(), world::getBlockState));
                 this.worldStructure.valid = true;
-                this.worldStructure.instance = this.factory.apply(states);
+                this.worldStructure.instance = this.factory.apply(stateMap);
             }
         }
         else {
@@ -128,6 +125,16 @@ public class Structure<T> {
         
         return this.worldStructure;
     }
+    
+    public Optional<WorldStructure> getWorldStructure() {
+        return Optional.ofNullable(this.worldStructure);
+    }
+    
+    public boolean isValid() {
+        return getWorldStructure()
+                .map(WorldStructure::isValid)
+                .orElse(false);
+    }
 
     /**
      * An in-world instance of this Structure.
@@ -135,16 +142,24 @@ public class Structure<T> {
      */
     public class WorldStructure {
         public final EnumFacing facing;
-        public final Map<BlockPos, Predicate<IBlockState>> positions;
-        public boolean valid;
+        public final Map<BlockPos, Predicate<BlockPos>> positions;
+        private boolean valid;
         /**
          * Optional generic metadata object, present only when {@link #valid} is true and {@link #factory} returns a non-null value
          */
-        public T instance;
+        private T instance;
         
-        public WorldStructure(EnumFacing facing, Map<BlockPos, Predicate<IBlockState>> positions) {
+        public WorldStructure(EnumFacing facing, Map<BlockPos, Predicate<BlockPos>> positions) {
             this.facing = facing;
             this.positions = positions;
+        }
+        
+        public boolean isValid() {
+            return this.valid;
+        }
+
+        public T getInstance() {
+            return this.instance;
         }
     }
 }

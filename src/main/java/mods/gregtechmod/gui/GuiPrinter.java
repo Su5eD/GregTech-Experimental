@@ -5,8 +5,14 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiPrinter extends GuiBasicMachine<ContainerBasicMachine<?>> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/printer.png");
 
     public GuiPrinter(ContainerBasicMachine<?> container) {
-        super(new ResourceLocation(Reference.MODID, "textures/gui/printer.png"), container, GregtechGauge.SMELTING);
+        super(container, GregtechGauge.SMELTING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

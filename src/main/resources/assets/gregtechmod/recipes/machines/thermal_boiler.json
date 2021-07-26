@@ -16,8 +16,7 @@
     "X":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "thermal generator"
+      "data": 27
     },
     "M":
     {
@@ -33,6 +32,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 42
   }
 }

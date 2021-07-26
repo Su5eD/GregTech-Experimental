@@ -8,6 +8,11 @@ public class GuiAutoCompressor extends GuiBasicMachine<ContainerBasicMachine<?>>
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/auto_compressor.png");
 
     public GuiAutoCompressor(ContainerBasicMachine<?> container) {
-        super(TEXTURE, container, GregtechGauge.COMPRESSING);
+        super(container, GregtechGauge.COMPRESSING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

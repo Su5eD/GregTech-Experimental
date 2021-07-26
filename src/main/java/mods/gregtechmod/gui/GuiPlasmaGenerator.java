@@ -9,6 +9,7 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiPlasmaGenerator extends GuiFluidGenerator {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/plasma_generator.png");
     
     public GuiPlasmaGenerator(ContainerBasicTank<TileEntityFluidGenerator> container, GtFluidTank fluidTank) {
         super(container, fluidTank);
@@ -26,6 +27,6 @@ public class GuiPlasmaGenerator extends GuiFluidGenerator {
     
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(Reference.MODID, "textures/gui/plasma_generator.png");
+        return TEXTURE;
     }
 }

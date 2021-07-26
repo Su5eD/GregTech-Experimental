@@ -246,6 +246,8 @@ gregtechmod.generic.turbine_rotor.description=Turbine Efficiency:  %s%%
 gregtechmod.generic.steam=Steam
 gregtechmod.generic.progress=Progress
 gregtechmod.generic.time_secs=%s secs
+gregtechmod.generic.efficiency=Efficiency: %s%%
+gregtechmod.generic.problems=Problems: %s
 gregtechmod.teblock.hatch_output.mode.lsi=Outputs Liquids, Steam and Items
 gregtechmod.teblock.hatch_output.mode.si=Outputs Steam and Items
 gregtechmod.teblock.hatch_output.mode.sl=Outputs Steam and Liquids
@@ -255,6 +257,18 @@ gregtechmod.teblock.hatch_output.mode.i_only=Outputs only Items
 gregtechmod.teblock.hatch_output.mode.l_only=Outputs only Liquids
 gregtechmod.teblock.hatch_output.mode.nothing=Outputs nothing
 gregtechmod.teblock.hatch_maintenance.gui_tooltip=Click with Tool to repair.
+
+gregtechmod.multiblock.error.wrench=Pipe is loose.
+gregtechmod.multiblock.error.screwdriver=Screws are missing.
+gregtechmod.multiblock.error.soft_hammer=Something is stuck.
+gregtechmod.multiblock.error.hard_hammer=Platings are dented.
+gregtechmod.multiblock.error.soldering_tool=Circuitry burned out.
+gregtechmod.multiblock.error.crowbar=That doesn't belong there.
+gregtechmod.multiblock.error.structure=Incomplete Structure.
+gregtechmod.multiblock.start_1=Hit with Rubber Hammer
+gregtechmod.multiblock.start_2=to (re-)start the Machine
+gregtechmod.multiblock.start_3=if it doesn't start.
+gregtechmod.multiblock.running=Running perfectly.
 
 gregtechmod.item.turbine_rotor_bronze.name=Bronze Turbine Rotor
 gregtechmod.item.turbine_rotor_steel.name=Steel Turbine Rotor
@@ -853,6 +867,8 @@ gregtechmod.teblock.hatch_muffler=Muffler Hatch
 gregtechmod.teblock.hatch_muffler.description=Outputs the Pollution (Pollution might come later)
 gregtechmod.teblock.industrial_sawmill=Industrial Sawmill
 gregtechmod.teblock.industrial_sawmill.description=Get mo Planks for ya Logs
+gregtechmod.teblock.thermal_boiler=Thermal Boiler
+gregtechmod.teblock.thermal_boiler.description=Converts Heat into Steam
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
@@ -885,6 +901,7 @@ gregtechmod.fluid.methane=Methane
 gregtechmod.fluid.nitrogen=Nitrogen
 gregtechmod.fluid.nitrogen_dioxide=Nitrogen Dioxide
 gregtechmod.fluid.tritium=Tritium
+gregtechmod.fluid.steam=Steam
 
 gregtechmod.crop.indigo=Indigo
 gregtechmod.crop.tine=Tine

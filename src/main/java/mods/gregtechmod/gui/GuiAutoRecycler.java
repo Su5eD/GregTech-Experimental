@@ -8,6 +8,11 @@ public class GuiAutoRecycler extends GuiBasicMachine<ContainerBasicMachine<?>> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/auto_recycler.png");
 
     public GuiAutoRecycler(ContainerBasicMachine<?> container) {
-        super(TEXTURE, container, GregtechGauge.RECYCLING);
+        super(container, GregtechGauge.RECYCLING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

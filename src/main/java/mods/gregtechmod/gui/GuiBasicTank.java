@@ -9,6 +9,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends GuiInventory<T> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/basic_tank.png");
     protected final GtFluidTank fluidTank;
 
     public GuiBasicTank(T container, GtFluidTank fluidTank) {
@@ -25,7 +26,7 @@ public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         drawString(10, 20, getDisplayName(), 14211290, false);
-        drawString(10, 30, String.valueOf(this.fluidTank.getFluidAmount()), 14211290, false);
+        drawString(10, 30, GtUtil.formatNumber(this.fluidTank.getFluidAmount()), 14211290, false);
     }
     
     protected String getDisplayName() {
@@ -34,6 +35,6 @@ public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(Reference.MODID, "textures/gui/basic_tank.png");
+        return TEXTURE;
     }
 }

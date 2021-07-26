@@ -3,7 +3,7 @@
   "textures": {
     "particle": "gregtechmod:blocks/machines/machine_side_pipe",
     "down": "gregtechmod:blocks/machines/machine_bottom_pipe",
-    "up": "gregtechmod:blocks/machines/machine_top_glass",
+    "up": "gregtechmod:blocks/machines/machine_glass",
     "north": "gregtechmod:blocks/machines/machine_side_pipe",
     "south": "gregtechmod:blocks/machines/machine_side_pipe",
     "east": "gregtechmod:blocks/machines/machine_side_pipe",

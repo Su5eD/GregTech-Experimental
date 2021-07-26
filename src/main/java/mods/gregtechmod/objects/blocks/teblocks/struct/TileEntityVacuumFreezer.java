@@ -7,11 +7,12 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiVacuumFreezer;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerVacuumFreezer;
-import net.minecraft.block.state.IBlockState;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -63,10 +64,10 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     }
     
     @Override
-    protected void getStructureElements(Map<Character, Predicate<IBlockState>> map) {
-        map.put('R', state -> state.getBlock() == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance());
-        map.put('D', state -> state.getBlock() == BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance());
-        map.put('A', state -> state.getBlock() == Blocks.AIR);
+    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
+        map.put('R', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()));
+        map.put('D', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance()));
+        map.put('A', pos -> GtUtil.findBlocks(world, pos, Blocks.AIR));
     }
 
     @Override

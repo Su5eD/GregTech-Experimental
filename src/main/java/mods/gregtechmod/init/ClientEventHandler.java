@@ -1,13 +1,11 @@
 package mods.gregtechmod.init;
 
 import com.google.gson.JsonObject;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.BlockItems;
@@ -17,8 +15,6 @@ import mods.gregtechmod.render.RenderBlockOre;
 import mods.gregtechmod.render.RenderStructureTeBlock;
 import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.*;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Items;
@@ -34,7 +30,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -195,7 +190,7 @@ public class ClientEventHandler {
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         if (GtUtil.getFullInvisibility(event.getEntityPlayer())) event.setCanceled(true);
 
-        if (GregTechConfig.GENERAL.showCapes) {
+        /*if (GregTechConfig.GENERAL.showCapes) {
             AbstractClientPlayer clientPlayer = (AbstractClientPlayer) event.getEntityPlayer();
             UUID playerId = clientPlayer.getUniqueID();
             boolean gtCape = GT_CAPES.contains(playerId);
@@ -205,7 +200,7 @@ public class ClientEventHandler {
                 Map<MinecraftProfileTexture.Type, ResourceLocation> playerTextures = ObfuscationReflectionHelper.getPrivateValue(NetworkPlayerInfo.class, playerInfo, "field_187107_a");
                 playerTextures.put(MinecraftProfileTexture.Type.CAPE, gtCape ? GT_CAPE_TEXTURE : CAPE_TEXTURE);
             }
-        }
+        }*/
     }
 
     @SubscribeEvent

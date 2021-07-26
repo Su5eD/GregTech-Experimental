@@ -6,6 +6,7 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerSonictron;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiSonictron extends GuiIC2<ContainerSonictron> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/sonictron.png");
 
     public GuiSonictron(ContainerSonictron container) {
         super(container);
@@ -19,6 +20,6 @@ public class GuiSonictron extends GuiIC2<ContainerSonictron> {
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(Reference.MODID, "textures/gui/sonictron.png");
+        return TEXTURE;
     }
 }

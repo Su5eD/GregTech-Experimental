@@ -7,6 +7,7 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiDestructorPack extends GuiIC2<ContainerDestructorpack> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/destructorpack.png");
 
     public GuiDestructorPack(ContainerDestructorpack container) {
         super(container);
@@ -21,6 +22,6 @@ public class GuiDestructorPack extends GuiIC2<ContainerDestructorpack> {
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(Reference.MODID, "textures/gui/destructorpack.png");
+        return TEXTURE;
     }
 }

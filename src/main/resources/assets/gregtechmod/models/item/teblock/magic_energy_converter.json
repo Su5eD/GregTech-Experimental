@@ -4,7 +4,7 @@
     "particle": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
     "down": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
     "up": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
-    "north": "gregtechmod:blocks/machines/machine_top_glass",
+    "north": "gregtechmod:blocks/machines/machine_glass",
     "south": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
     "east": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
     "west": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side"

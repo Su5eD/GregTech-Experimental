@@ -18,7 +18,11 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
     public TileEntityHatchOutput() {
         super("hatch_output", InvSlotConsumableLiquid.OpType.Fill, false, true);
     }
-    
+
+    public Mode getMode() {
+        return this.mode;
+    }
+
     public boolean addOutput(ItemStack stack) {
         if (!stack.isEmpty()) {
             FluidStack fluid = FluidUtil.getFluidContained(stack);
@@ -67,7 +71,7 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
         return super.writeToNBT(nbt);
     }
 
-    private enum Mode {
+    public enum Mode {
         LSI(true, true, true),
         SI(true, false, true),
         SL(true, true, false),

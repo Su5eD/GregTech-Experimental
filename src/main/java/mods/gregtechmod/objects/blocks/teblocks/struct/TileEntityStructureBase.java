@@ -8,9 +8,9 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGTMachine;
 import mods.gregtechmod.util.struct.Structure;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +18,12 @@ import java.util.function.Predicate;
 
 public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityGTMachine<R, RI, I, RM> {
     public static final IUnlistedProperty<Boolean> PROPERTY_VALID = new UnlistedBooleanProperty("valid_structure");
-    protected final Structure<T> structure;
+    public final Structure<T> structure;
 
     public TileEntityStructureBase(String descriptionKey, int outputSlots, RM recipeManager) {
         super(descriptionKey, outputSlots, recipeManager);
         
-        Map<Character, Predicate<IBlockState>> elements = new HashMap<>();
+        Map<Character, Predicate<BlockPos>> elements = new HashMap<>();
         getStructureElements(elements);
         this.structure = new Structure<>(getStructurePattern(), elements, this::createStructureInstance);
     }
@@ -31,19 +31,15 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
     @Override
     protected void onLoaded() {
         super.onLoaded();
-        checkWorldStructure();
+        this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world);
     }
 
     protected abstract List<List<String>> getStructurePattern();
     
-    protected abstract void getStructureElements(Map<Character, Predicate<IBlockState>> map);
+    protected abstract void getStructureElements(Map<Character, Predicate<BlockPos>> map);
     
-    protected T createStructureInstance(Collection<IBlockState> states) {
+    protected T createStructureInstance(Map<BlockPos, IBlockState> states) {
         return null;
-    }
-    
-    public Structure<T>.WorldStructure checkWorldStructure() {
-        return this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world);
     }
     
     @Override
@@ -57,17 +53,18 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
 
     @Override
     protected boolean canOperate(R recipe) {
-        return super.canOperate(recipe) && checkWorldStructure().valid;
+        return super.canOperate(recipe) && this.structure.isValid();
     }
 
     @Override
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        return super.getExtendedState(state).withProperty(PROPERTY_VALID, this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world).valid);
+        this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world);
+        return super.getExtendedState(state).withProperty(PROPERTY_VALID, this.structure.isValid());
     }
     
     
     @Override
     protected boolean needsConstantEnergy() {
-        return super.needsConstantEnergy() && checkWorldStructure().valid;
+        return super.needsConstantEnergy() && this.structure.isValid();
     }
 }

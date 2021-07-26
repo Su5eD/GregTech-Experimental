@@ -35,6 +35,7 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
         this.tank = addComponent(new BasicTank(this, fluids, new DynamicGtFluidTank(this, "content", isInput ? facingPredicate : Predicates.alwaysFalse(), isOutput ? facingPredicate : Predicates.alwaysFalse(), Predicates.alwaysTrue(), 16000), opType, false));
         
         this.coverBlacklist.add(CoverType.GENERIC);
+        this.coverBlacklist.add(CoverType.ENERGY);
     }
 
     @Override
@@ -44,13 +45,14 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
 
     @Override
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
+        Ic2BlockState.Ic2BlockStateInstance ret = super.getExtendedState(state);
         EnumFacing facing = getFacing();
         if (facing.getAxis() == EnumFacing.Axis.Y) {
             Map<EnumFacing, ResourceLocation> overrides = new HashMap<>();
             overrides.put(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/machine_" + (facing == EnumFacing.UP ? "top" : "bottom") + "_pipe"));
-            return state.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new PropertyHelper.TextureOverride(overrides));
+            return ret.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new PropertyHelper.TextureOverride(overrides));
         }
-        return super.getExtendedState(state);
+        return ret;
     }
 
     @Override

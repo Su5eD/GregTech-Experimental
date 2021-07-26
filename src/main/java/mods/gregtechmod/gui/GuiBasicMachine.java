@@ -10,14 +10,11 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
 import mods.gregtechmod.util.NumericValueHandler;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiBasicMachine<T extends ContainerBase<? extends TileEntityBasicMachine<?, ?, ?, ?>>> extends GuiIC2<T> {
-    private final ResourceLocation texture;
-
-    public GuiBasicMachine(ResourceLocation texture, T container, Gauge.IGaugeStyle gaugeStyle) {
+    
+    public GuiBasicMachine(T container, Gauge.IGaugeStyle gaugeStyle) {
         super(container);
-        this.texture = texture;
 
         CycleHandler energyCycleHandler = new CycleHandler(58, 0, 76, 18, 18, true, 2,
                 new NumericValueHandler(container.base, 0, () -> GuiBasicMachine.this.container.base.provideEnergy ? 1 : 0));
@@ -39,10 +36,5 @@ public abstract class GuiBasicMachine<T extends ContainerBase<? extends TileEnti
         bindTexture();
         drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         drawString(8, 4, I18n.format(this.container.base.getName()), 4210752, false);
-    }
-
-    @Override
-    protected ResourceLocation getTexture() {
-        return texture;
     }
 }

@@ -66,7 +66,9 @@
       "hatch_maintenance": { "model": "gregtechmod:hatch_maintenance" },
       "hatch_dynamo": { "model": "gregtechmod:hatch_dynamo" },
       "hatch_muffler": { "model": "gregtechmod:hatch_muffler" },
-      "industrial_sawmill": { "model": "gregtechmod:industrial_sawmill" }
+      "industrial_sawmill": { "model": "gregtechmod:industrial_sawmill" },
+      "thermal_boiler": { "model": "gregtechmod:thermal_boiler" },
+      "thermal_boiler_active": { "model": "gregtechmod:thermal_boiler_active" }
     },
     "facing": {
       "down": { "x": 90 },

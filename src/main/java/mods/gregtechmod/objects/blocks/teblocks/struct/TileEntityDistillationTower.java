@@ -8,11 +8,12 @@ import mods.gregtechmod.gui.GuiDistillationTower;
 import mods.gregtechmod.inventory.invslot.GtConsumableCell;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerDistillationTower;
-import net.minecraft.block.state.IBlockState;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -76,10 +77,10 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     }
     
     @Override
-    protected void getStructureElements(Map<Character, Predicate<IBlockState>> map) {
-        map.put('S', state -> state.getBlock() == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance());
-        map.put('D', state -> state.getBlock() == BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance());
-        map.put('A', state -> state.getBlock() == Blocks.AIR);
+    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
+        map.put('S', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()));
+        map.put('D', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance()));
+        map.put('A', pos -> GtUtil.findBlocks(world, pos, Blocks.AIR));
     }
 
     @Override

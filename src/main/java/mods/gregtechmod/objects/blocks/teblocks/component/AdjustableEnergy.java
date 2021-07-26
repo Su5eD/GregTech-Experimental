@@ -157,7 +157,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     public void onLoaded() {
         if (this.delegate == null && !this.parent.getWorld().isRemote) {
             this.delegate = constructDelegate();
-            MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this.delegate));
+            if (this.delegate != null) MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this.delegate));
         }
     }
     

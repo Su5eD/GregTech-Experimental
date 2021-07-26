@@ -12,4 +12,8 @@ public class TileEntityHatchMuffler extends TileEntityBlock {
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         tooltip.add(GtUtil.translateTeBlockDescription("hatch_muffler"));
     }
+    
+    public boolean polluteEnvironment() {
+        return GtUtil.isAir(world, pos.offset(getFacing()));
+    }
 }

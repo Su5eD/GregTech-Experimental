@@ -79,9 +79,9 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
     
     @Override
-    public void addEnergy(double amount) {
+    public boolean addEnergy(double amount) {
         if (this.energy.isSink() && amount > getMaxInputEUp()) markForExplosion();
-        this.energy.charge(amount);
+        return this.energy.charge(amount);
     }
 
     protected int getSourcePackets() {

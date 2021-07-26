@@ -2,13 +2,13 @@
   <img src="https://raw.githubusercontent.com/Su5eD/GregTech-Experimental/forge-1.12.2/src/main/resources/GTE_Logo_medium.png" align="center"/> 
 </p>
 <p align="center">
-  <a href="https://github.com/Su5eD/GregTech-Experimental/actions">
-      <img src="https://github.com/Su5eD/GregTech-Experimental/workflows/Build Master/badge.svg"  alt="Build status" align="center" />
+  <a href="https://ci.su5ed.dev/buildConfiguration/GregTechExperimental_BuildBranch">
+      <img src="https://ci.su5ed.dev/app/rest/builds/buildType:id:GregTechExperimental_BuildBranch,branch:name:unstable/statusIcon.svg" align="center" alt="TeamCity build status">
   </a>
   <a href="https://discord.gg/JPvmNbe">
     <img src="https://discord.com/api/guilds/728217881514606612/widget.png?style=shield" alt="Discord Server" align="center"/>
   </a>
-  <img src="https://www.gnu.org/graphics/lgplv3-88x31.png" align="center"/>
+  <img src="https://www.gnu.org/graphics/lgplv3-88x31.png" align="center" alt="LGPL logo"/>
 </p>  
 
 # GregTech Experimental

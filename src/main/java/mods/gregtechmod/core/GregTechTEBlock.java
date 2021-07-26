@@ -72,7 +72,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     HATCH_MAINTENANCE(TileEntityHatchMaintenance.class, 38, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
     HATCH_DYNAMO(TileEntityHatchDynamo.class, 39, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
     HATCH_MUFFLER(TileEntityHatchMuffler.class, 40, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
-    INDUSTRIAL_SAWMILL(TileEntityIndustrialSawmill.class, 41, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true, true);
+    INDUSTRIAL_SAWMILL(TileEntityIndustrialSawmill.class, 41, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true, true),
+    THERMAL_BOILER(TileEntityThermalBoiler.class, 42, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;

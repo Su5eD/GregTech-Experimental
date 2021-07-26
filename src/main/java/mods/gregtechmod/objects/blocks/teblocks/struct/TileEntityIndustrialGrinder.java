@@ -7,11 +7,12 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSecondaryFluid;
 import mods.gregtechmod.gui.GuiIndustrialGrinder;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialGrinder;
-import net.minecraft.block.state.IBlockState;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -61,10 +62,10 @@ public class TileEntityIndustrialGrinder extends TileEntityStructureFluid<Object
     }
 
     @Override
-    protected void getStructureElements(Map<Character, Predicate<IBlockState>> map) {
-        map.put('S', state -> state.getBlock() == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance());
-        map.put('R', state -> state.getBlock() == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance());
-        map.put('W', state -> state.getBlock() == Blocks.WATER);
+    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
+        map.put('S', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()));
+        map.put('R', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()));
+        map.put('W', pos -> GtUtil.findBlocks(world, pos, Blocks.WATER));
     }
 
     @Override

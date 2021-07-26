@@ -6,7 +6,7 @@ import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
-import net.minecraft.init.Blocks;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -46,7 +46,7 @@ public class CoverSolarPanel extends CoverGeneric {
     }
 
     private boolean getSky(World world, BlockPos pos) {
-        if (!(world.getBlockState(pos) == Blocks.AIR.getDefaultState())) return false;
+        if (!GtUtil.isAir(world, pos)) return false;
         return world.canBlockSeeSky(pos);
     }
 

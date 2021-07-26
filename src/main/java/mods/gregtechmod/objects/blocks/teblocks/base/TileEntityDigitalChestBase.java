@@ -372,7 +372,9 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public void addMjUpgrade() {}
 
     @Override
-    public void addEnergy(double amount) {}
+    public boolean addEnergy(double amount) {
+        return false;
+    }
 
     @Override
     public double useEnergy(double amount, boolean simulate) {

@@ -8,6 +8,11 @@ public class GuiAutoExtractor extends GuiBasicMachine<ContainerBasicMachine<?>> 
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/auto_extractor.png");
 
     public GuiAutoExtractor(ContainerBasicMachine<?> container) {
-        super(TEXTURE, container, GregtechGauge.EXTRACTING);
+        super(container, GregtechGauge.EXTRACTING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

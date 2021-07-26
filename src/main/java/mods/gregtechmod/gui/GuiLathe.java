@@ -8,6 +8,11 @@ public class GuiLathe extends GuiBasicMachine<ContainerBasicMachine<?>> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/lathe.png");
 
     public GuiLathe(ContainerBasicMachine<?> container) {
-        super(TEXTURE, container, GregtechGauge.TURNING);
+        super(container, GregtechGauge.TURNING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

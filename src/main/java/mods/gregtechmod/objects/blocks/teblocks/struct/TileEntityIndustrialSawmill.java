@@ -7,9 +7,10 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSecondaryFluid;
 import mods.gregtechmod.gui.GuiIndustrialSawmill;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialSawmill;
-import net.minecraft.block.state.IBlockState;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -41,9 +42,9 @@ public class TileEntityIndustrialSawmill extends TileEntityStructureFluid<Object
     }
     
     @Override
-    protected void getStructureElements(Map<Character, Predicate<IBlockState>> map) {
-        map.put('S', state -> state.getBlock() == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance());
-        map.put('D', state -> state.getBlock() == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance());
+    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
+        map.put('S', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()));
+        map.put('D', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()));
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiHatchMaintenance extends GuiIC2<ContainerHatchMaintenance> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/hatch_maintenance.png");
 
     public GuiHatchMaintenance(ContainerHatchMaintenance container) {
         super(container);
@@ -24,6 +25,6 @@ public class GuiHatchMaintenance extends GuiIC2<ContainerHatchMaintenance> {
 
     @Override
     protected ResourceLocation getTexture() {
-        return new ResourceLocation(Reference.MODID, "textures/gui/hatch_maintenance.png");
+        return TEXTURE;
     }
 }

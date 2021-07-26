@@ -75,7 +75,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.baseEnergyConsume = nbt.getDouble("baseEnergyConsume");
         this.energyConsume = nbt.getDouble("energyConsume");
         this.maxProgress = nbt.getInteger("operationLength");
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) { // TODO Use Tag List
             if(nbt.hasKey("outputStack"+i)) {
                 NBTTagCompound tNBT = (NBTTagCompound) nbt.getTag("outputStack"+i);
                 ItemStack stack = new ItemStack(tNBT);
@@ -109,7 +109,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     protected void updateEntityServer() {
         super.updateEntityServer();
         boolean dirty = false;
-        R recipe = getRecipe();
+        R recipe = getRecipe(); // TODO Skip check if machine is active
         if (canOperate(recipe)) {
             updateEnergyConsume(recipe);
 

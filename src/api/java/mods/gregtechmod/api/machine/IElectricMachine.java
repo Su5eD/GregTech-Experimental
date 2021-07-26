@@ -2,7 +2,7 @@ package mods.gregtechmod.api.machine;
 
 public interface IElectricMachine extends IGregTechMachine {
 
-    void addEnergy(double amount);
+    boolean addEnergy(double amount);
 
     double useEnergy(double amount, boolean simulate);
 

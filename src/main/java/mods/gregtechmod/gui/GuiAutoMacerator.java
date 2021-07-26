@@ -8,6 +8,11 @@ public class GuiAutoMacerator extends GuiBasicMachine<ContainerBasicMachine<?>> 
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/auto_macerator.png");
 
     public GuiAutoMacerator(ContainerBasicMachine<?> container) {
-        super(TEXTURE, container, GregtechGauge.MACERATING);
+        super(container, GregtechGauge.MACERATING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

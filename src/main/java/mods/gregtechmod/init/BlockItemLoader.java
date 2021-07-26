@@ -46,8 +46,10 @@ public class BlockItemLoader {
         BlockItems.classicCells = Stream.<FluidLoader.IFluidProvider>concat(
                 Arrays.stream(FluidLoader.Liquid.values()),
                 Arrays.stream(FluidLoader.Gas.values())
-        ).collect(Collectors.toMap(FluidLoader.IFluidProvider::getName,
-                provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
+        )
+                .filter(FluidLoader.IFluidProvider::hasClassicCell)
+                .collect(Collectors.toMap(FluidLoader.IFluidProvider::getName, 
+                        provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
         if (FluidRegistry.isFluidRegistered("biomass")) BlockItems.classicCells.put("biomass", new ItemCellClassic("biomass", null, FluidRegistry.getFluid("biomass")));
         if (FluidRegistry.isFluidRegistered("bio.ethanol")) BlockItems.classicCells.put("bio.ethanol", new ItemCellClassic("bio.ethanol", null, FluidRegistry.getFluid("bio.ethanol")));
 

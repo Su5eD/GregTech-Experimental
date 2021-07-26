@@ -8,6 +8,11 @@ public class GuiWiremill extends GuiBasicMachine<ContainerBasicMachine<?>> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/wiremill.png");
 
     public GuiWiremill(ContainerBasicMachine<?> container) {
-        super(TEXTURE, container, GregtechGauge.EXTRUDING);
+        super(container, GregtechGauge.EXTRUDING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

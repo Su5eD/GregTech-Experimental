@@ -16,6 +16,8 @@ import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,8 +28,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -233,11 +239,15 @@ public class GtUtil {
     }
 
     public static boolean stackEquals(ItemStack first, ItemStack second) {
+        return stackEquals(first, second, true);
+    }
+    
+    public static boolean stackEquals(ItemStack first, ItemStack second, boolean matchNbt) {
         if (first.isEmpty() || second.isEmpty()) return false;
 
         return first.getItem() == second.getItem()
                 && (first.getMetadata() == OreDictionary.WILDCARD_VALUE || first.getMetadata() == second.getMetadata())
-                && StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound());
+                && (!matchNbt || StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound()));
     }
 
     public static ItemStack copyWithMeta(ItemStack stack, int meta) {
@@ -325,7 +335,23 @@ public class GtUtil {
     
     public static boolean containsStack(ItemStack stack, Collection<ItemStack> stacks) {
         return stacks.stream()
-                .anyMatch(s -> stackEquals(s, stack));
+                .anyMatch(s -> stackEquals(s, stack, false));
+    }
+    
+    public static boolean isAir(World world, BlockPos pos) {
+        IBlockState state = world.getBlockState(pos);
+        return state.getBlock().isAir(state, world, pos);
+    }
+    
+    public static boolean findBlocks(IBlockAccess world, BlockPos pos, Block... blocks) {
+        Block block = world.getBlockState(pos).getBlock();
+        return Arrays.asList(blocks).contains(block);
+    }
+    
+    public static boolean findTileEntities(IBlockAccess world, BlockPos pos, Class<?>... classes) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        return tileEntity != null && Arrays.stream(classes)
+                .anyMatch(clazz -> clazz.isInstance(tileEntity));
     }
     
     public static <T> void fillEmptyList(List<T> list, T fill, int maxSize) {

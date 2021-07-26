@@ -8,6 +8,11 @@ public class GuiAutoCanner extends GuiBasicMachine<ContainerBasicMachine<?>> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/auto_canner.png");
 
     public GuiAutoCanner(ContainerBasicMachine<?> container) {
-        super(TEXTURE, container, GregtechGauge.CANNING);
+        super(container, GregtechGauge.CANNING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }

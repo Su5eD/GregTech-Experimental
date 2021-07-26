@@ -20,11 +20,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -82,21 +82,17 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     }
 
     @Override
-    protected void getStructureElements(Map<Character, Predicate<IBlockState>> map) {
-        map.put('C', state -> {
-            Block block = state.getBlock();
-            return block == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance() ||
-                    block == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance() ||
-                    block == BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance();
-        });
-        map.put('L', state -> {
+    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
+        map.put('C', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.STANDARD_MACHINE_CASING.getInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance()));
+        map.put('L', pos -> {
+            IBlockState state = world.getBlockState(pos);
             Block block = state.getBlock();
             return block == Blocks.AIR || state == Blocks.LAVA.getDefaultState();
         });
     }
 
     @Override
-    protected BlastFurnaceStructure createStructureInstance(Collection<IBlockState> states) {
+    protected BlastFurnaceStructure createStructureInstance(Map<BlockPos, IBlockState> states) {
         return new BlastFurnaceStructure(states);
     }
     
@@ -120,14 +116,14 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     protected boolean canOperate(IRecipeBlastFurnace recipe) {
         boolean ret = super.canOperate(recipe);
         if (recipe != null && ret) {
-            Structure<BlastFurnaceStructure>.WorldStructure struct = checkWorldStructure();
-            if (struct.instance != null) {
-                int heatCapacity = struct.instance.heatCapacity + this.coilHandler.heatingCoilTier * 500;
-                return heatCapacity >= recipe.getHeat();
-            }
-            return true;
+            return this.structure.getWorldStructure()
+                    .map(Structure.WorldStructure::getInstance)
+                    .map(instance -> {
+                        int heatCapacity = instance.heatCapacity + this.coilHandler.heatingCoilTier * 500;
+                        return heatCapacity >= recipe.getHeat();
+                    })
+                    .orElse(true);
         }
-        
         return false;
     }
 
@@ -155,14 +151,13 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     public static class BlastFurnaceStructure {
         private int heatCapacity;
         
-        public BlastFurnaceStructure(Collection<IBlockState> states) {
-            states.stream()
+        public BlastFurnaceStructure(Map<BlockPos, IBlockState> states) {
+            states.values().stream()
                     .map(IBlockState::getBlock)
                     .forEach(block -> {
                         if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()) {
                             heatCapacity += 30;
-                        }
-                        else if (block == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()) {
+                        } else if (block == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()) {
                             heatCapacity += 50;
                         } else if (block == BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance()) {
                             heatCapacity += 70;
@@ -174,7 +169,10 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     }
     
     public int getHeatCapacity() {
-        BlastFurnaceStructure struct = checkWorldStructure().instance;
-        return this.coilHandler.heatingCoilTier * 500 + (struct == null ? 0 : struct.heatCapacity);
+        int heatCapacity = this.structure.getWorldStructure()
+                .map(Structure.WorldStructure::getInstance)
+                .map(instance -> instance.heatCapacity)
+                .orElse(0);
+        return this.coilHandler.heatingCoilTier * 500 + heatCapacity;
     }
 }

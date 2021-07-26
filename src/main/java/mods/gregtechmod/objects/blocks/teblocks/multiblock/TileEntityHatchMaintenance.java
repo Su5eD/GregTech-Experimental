@@ -6,6 +6,7 @@ import mods.gregtechmod.api.item.ISolderingTool;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.gui.GuiHatchMaintenance;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
+import mods.gregtechmod.objects.blocks.teblocks.component.Maintenance;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerHatchMaintenance;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.OreDictUnificator;
@@ -24,7 +25,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implements IHasGui {
     private static final PropertyHelper.TextureOverride DUCT_TAPE_TEXTURE_OVERRIDE;
@@ -35,17 +38,11 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
     }
 
     public boolean ductTape;
-    public boolean wrench;
-    public boolean screwdriver;
-    public boolean softHammer;
-    public boolean hardHammer;
-    public boolean solderingTool;
-    public boolean crowbar;
-    
-    private int runtime;
+    private final Maintenance maintenance;
 
     public TileEntityHatchMaintenance() {
         super("hatch_maintenance");
+        this.maintenance = addComponent(new Maintenance(this));
     }
 
     @Override
@@ -55,73 +52,30 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
     }
     
     public void onToolClick(ItemStack stack, EntityPlayer player) {
-        if (checkTool(stack, GtUtil::isWrench, player)) this.wrench = true;
-        else if (checkTool(stack, GtUtil::isScrewdriver, player)) this.screwdriver = true;
-        else if (checkTool(stack, GtUtil::isSoftHammer, player)) this.softHammer = true;
-        else if (checkTool(stack, GtUtil::isHardHammer, player)) this.hardHammer = true;
-        else if (checkTool(stack, GtUtil::isCrowbar, player)) this.crowbar = true;
-        else {
-            Item item = stack.getItem();
-            if (item instanceof ISolderingTool && ((ISolderingTool) item).solder(stack, player, false)) this.solderingTool = true;
-            else if (OreDictUnificator.isItemInstanceOf(stack, "craftingDuctTape", false)) {
-                this.ductTape = this.wrench = this.screwdriver = this.softHammer = this.hardHammer = this.solderingTool = this.crowbar = true;
-                stack.shrink(1);
-                rerender();
-            }
+        checkTool(player, stack, GtUtil::isWrench, this.maintenance::getWrench, this.maintenance::setWrench);
+        checkTool(player, stack, GtUtil::isScrewdriver, this.maintenance::getScrewdriver, this.maintenance::setScrewdriver);
+        checkTool(player, stack, GtUtil::isSoftHammer, this.maintenance::getSoftHammer, this.maintenance::setSoftHammer);
+        checkTool(player, stack, GtUtil::isHardHammer, this.maintenance::getHardHammer, this.maintenance::setHardHammer);
+        checkTool(player, stack, GtUtil::isCrowbar, this.maintenance::getCrowbar, this.maintenance::setCrowbar);
+        checkTool(player, stack, s -> {
+            Item item = s.getItem();
+            return item instanceof ISolderingTool && ((ISolderingTool) item).solder(stack, player, false);
+        }, this.maintenance::getSolderingTool, this.maintenance::setSolderingTool);
+        
+        if (OreDictUnificator.isItemInstanceOf(stack, "craftingDuctTape", false)) {
+            this.ductTape = true;
+            this.maintenance.setAll(true);
+            stack.shrink(1);
+            rerender();
         }
     }
     
-    private boolean checkTool(ItemStack stack, Predicate<ItemStack> predicate, EntityPlayer player) {
-        return predicate.test(stack) && GtUtil.damageStack(player, stack, 1);
+    private void checkTool(EntityPlayer player, ItemStack stack, Predicate<ItemStack> predicate, Supplier<Boolean> getter, Consumer<Boolean> setter) {
+        if (!getter.get() && predicate.test(stack) && GtUtil.damageStack(player, stack, 1)) setter.accept(true);
     }
 
-    public void doRandomMaintenanceDamage() {
-        /* TODO Implement this in the multiblock base class
-        if (!isCorrectMachinePart(this.mInventory[1]) || getRepairStatus() == 0) {
-              stopMachine();
-              return false;
-            } 
-         */
-        
-        if (this.runtime++ > 1000) {
-            this.runtime = 0;
-            if (this.world.rand.nextInt(6000) == 0) {
-                switch (this.world.rand.nextInt(6)) {
-                    case 0:
-                        this.wrench = false;
-                        break;
-                    case 1:
-                        this.screwdriver = false;
-                        break;
-                    case 2:
-                        this.softHammer = false;
-                        break;
-                    case 3:
-                        this.hardHammer = false;
-                        break;
-                    case 4:
-                        this.solderingTool = false;
-                        break;
-                    case 5:
-                        this.crowbar = false;
-                        break;
-                }
-            }
-        }
-        
-        /* TODO: Implement this in the multiblock base class
-        if (this.mInventory[1] != null && getBaseMetaTileEntity().getRandomNumber(2) == 0) {
-                this.mInventory[1].setItemDamage(this.mInventory[1].getItemDamage() + getDamageToComponent(this.mInventory[1]));
-                if (this.mInventory[1].getItemDamage() >= this.mInventory[1].getMaxDamage()) {
-                  if (explodesOnComponentBreak(this.mInventory[1])) {
-                    this.mInventory[1] = null;
-                    getBaseMetaTileEntity().doExplosion(1000000);
-                  } else {
-                    this.mInventory[1] = null;
-                  } 
-                  return false;
-                }
-         */
+    public Maintenance getMaintenance() {
+        return this.maintenance;
     }
 
     @Override
@@ -142,24 +96,11 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         this.ductTape = nbt.getBoolean("ductTape");
-        this.wrench = nbt.getBoolean("wrench");
-        this.screwdriver = nbt.getBoolean("screwdriver");
-        this.softHammer = nbt.getBoolean("softHammer");
-        this.hardHammer = nbt.getBoolean("hardHammer");
-        this.solderingTool = nbt.getBoolean("solderingTool");
-        this.crowbar = nbt.getBoolean("crowbar");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         nbt.setBoolean("ductTape", this.ductTape);
-        nbt.setBoolean("wrench", this.wrench);
-        nbt.setBoolean("screwdriver", this.screwdriver);
-        nbt.setBoolean("softHammer", this.softHammer);
-        nbt.setBoolean("hardHammer", this.hardHammer);
-        nbt.setBoolean("solderingTool", this.solderingTool);
-        nbt.setBoolean("crowbar", this.crowbar);
-        
         return super.writeToNBT(nbt);
     }
 

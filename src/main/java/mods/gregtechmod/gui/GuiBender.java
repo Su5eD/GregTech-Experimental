@@ -8,6 +8,11 @@ public class GuiBender extends GuiBasicMachine<ContainerBasicMachine<?>> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/bender.png");
 
     public GuiBender(ContainerBasicMachine<?> container) {
-        super(TEXTURE, container, GregtechGauge.BENDING);
+        super(container, GregtechGauge.BENDING);
+    }
+
+    @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
     }
 }
