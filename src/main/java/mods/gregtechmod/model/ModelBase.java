@@ -1,10 +1,6 @@
 package mods.gregtechmod.model;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import ic2.core.model.AbstractModel;
-import ic2.core.model.ModelUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.FaceBakery;
@@ -15,12 +11,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.IModelState;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,13 +22,7 @@ public abstract class ModelBase extends AbstractModel {
     protected final Map<ResourceLocation, TextureAtlasSprite> sprites;
     protected final ResourceLocation particle;
     protected final FaceBakery bakery = new FaceBakery();
-    private final LoadingCache<IBlockState, IBakedModel> cache = CacheBuilder.newBuilder()
-            .maximumSize(100)
-            .build(new CacheLoader<IBlockState, IBakedModel>() {
-                public IBakedModel load(@Nonnull IBlockState key) {
-                    return generateModel(key);
-                }
-            });
+    private final Map<IBlockState, IBakedModel> cache = new HashMap<>();
     
     public ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
         this(particle, textures.stream()
@@ -67,12 +55,8 @@ public abstract class ModelBase extends AbstractModel {
     
     @Override
     public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
-        try {
-            return cache.get(state).getQuads(state, side, rand);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return ModelUtil.getMissingModel().getQuads(state, side, rand);
+        IBakedModel model = this.cache.computeIfAbsent(state, this::generateModel);
+        return model.getQuads(state, side, rand);
     }
 
     @Override

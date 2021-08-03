@@ -1,16 +1,14 @@
 package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
-import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.items.components.ItemTurbineRotor;
 import mods.gregtechmod.util.struct.StructureElement;
 import mods.gregtechmod.util.struct.StructureElementGatherer;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -86,15 +84,14 @@ public class TileEntityLargeSteamTurbine extends TileEntityMultiBlockBase<Turbin
 
     @Override
     public boolean acceptsMachinePart(ItemStack stack) {
-        Item item = stack.getItem();
-        return Arrays.stream(BlockItems.TurbineRotor.values())
-                .map(BlockItems.TurbineRotor::getInstance)
-                .anyMatch(item::equals);
+        return GregTechAPI.getTurbineRotor(stack).isPresent();
     }
 
     @Override
     public int getDamageToComponent(ItemStack stack) {
-        return ModHandler.rcTurbineRotor.isItemEqual(stack) ? 2 : 1;
+        return GregTechAPI.getTurbineRotor(stack)
+                .map(rotor -> rotor.damageToComponent)
+                .orElse(0);
     }
 
     @Override
@@ -109,8 +106,12 @@ public class TileEntityLargeSteamTurbine extends TileEntityMultiBlockBase<Turbin
 
     @Override
     public int getMaxEfficiency(ItemStack stack) {
-        float efficiency = ((ItemTurbineRotor) stack.getItem()).efficiency / 100F;
-        return (int) (10000 * efficiency);
+        return GregTechAPI.getTurbineRotor(stack)
+                .map(rotor -> {
+                    float efficiency = rotor.efficiency / 100F;
+                    return (int) (10000 * efficiency);
+                })
+                .orElse(0);
     }
 
     @Override
@@ -126,8 +127,8 @@ public class TileEntityLargeSteamTurbine extends TileEntityMultiBlockBase<Turbin
         if (consume) {
             this.fuelEnergy = fuel.getEnergy();
             this.maxProgress = 1;
-            Item rotor = this.machinePartSlot.get().getItem();
-            if (rotor instanceof ItemTurbineRotor) this.efficiencyIncrease = this.maxProgress * ((ItemTurbineRotor) rotor).efficiencyMultiplier;
+            GregTechAPI.getTurbineRotor(this.machinePartSlot.get())
+                    .ifPresent(rotor -> this.efficiencyIncrease = this.maxProgress * rotor.efficiencyMultiplier);
         }
     }
 

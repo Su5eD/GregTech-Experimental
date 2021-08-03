@@ -1,9 +1,11 @@
 package mods.gregtechmod.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipeFactory;
 import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import mods.gregtechmod.api.util.SonictronSound;
+import mods.gregtechmod.api.util.TurbineRotor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -13,8 +15,10 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public class GregTechAPI {
-    public static final ArrayList<SonictronSound> SONICTRON_SOUNDS = new ArrayList<>();
+    // TODO Rework API to work as an interface
+    public static final List<SonictronSound> SONICTRON_SOUNDS = new ArrayList<>();
     public static final Set<ItemStack> JACK_HAMMER_MINABLE_BLOCKS = new HashSet<>();
+    private static final Set<TurbineRotor> TURBINE_ROTORS = new HashSet<>();
     private static final Map<String, Predicate<JsonNode>> CONDITIONS = new HashMap<>();
     
     private static final Set<ItemStack> WRENCHES = new HashSet<>();
@@ -28,6 +32,17 @@ public class GregTechAPI {
     public static IRecipeIngredientFactory ingredientFactory;
 
     public static boolean isClassic;
+    
+    public static void registerTurbineRotor(ItemStack stack, int efficiency, int efficiencyMultiplier, int damageToComponent) {
+        TurbineRotor rotor = new TurbineRotor(stack, efficiency, efficiencyMultiplier, damageToComponent);
+        TURBINE_ROTORS.add(rotor);
+    }
+    
+    public static Optional<TurbineRotor> getTurbineRotor(ItemStack stack) {
+        return TURBINE_ROTORS.stream()
+                .filter(rotor -> StackUtil.checkItemEquality(stack, rotor.item.getItem()))
+                .findFirst();
+    }
     
     public static void registerWrench(Item item) {
         registerTool(item, WRENCHES);

@@ -28,6 +28,7 @@ public class ModCompat {
             Item steelCrowbar = ModHandler.getItem("railcraft", "tool_crowbar_steel");
             GregTechAPI.registerCrowbar(ironCrowbar);
             GregTechAPI.registerCrowbar(steelCrowbar);
+            GregTechAPI.registerTurbineRotor(ModHandler.rcTurbineRotor, 80, 20, 2);
         }
     }
 
