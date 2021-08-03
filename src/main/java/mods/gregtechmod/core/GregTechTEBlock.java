@@ -74,7 +74,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     HATCH_MUFFLER(TileEntityHatchMuffler.class, 40, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
     INDUSTRIAL_SAWMILL(TileEntityIndustrialSawmill.class, 41, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true, true),
     THERMAL_BOILER(TileEntityThermalBoiler.class, 42, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
-    LARGE_STEAM_TURBINE(TileEntityLargeSteamTurbine.class, 43, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true);
+    LARGE_STEAM_TURBINE(TileEntityLargeSteamTurbine.class, 43, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true),
+    LARGE_GAS_TURBINE(TileEntityLargeGasTurbine.class, 44, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
     private final int itemMeta;

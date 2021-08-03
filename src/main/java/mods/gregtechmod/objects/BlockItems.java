@@ -70,7 +70,7 @@ public class BlockItems {
         OLIVINE(4.5F, 30),
         OSMIUM(4, 900),
         PLATINUM(4, 30),
-        REINFORCED_MACHINE_CASING(BlockConnected::new, 3, 60),
+        REINFORCED_MACHINE_CASING(BlockConnectedTurbine::new, 3, 60),
         RUBY(4.5F, 30),
         SAPPHIRE(4.5F, 30),
         SILVER(3, 30),

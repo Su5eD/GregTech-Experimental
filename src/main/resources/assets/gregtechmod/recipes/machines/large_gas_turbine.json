@@ -11,28 +11,27 @@
     "G":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingGearTier02"
+      "ore": "craftingGearTier03"
     },
     "X":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "gas turbine"
+      "data": 30
     },
     "M":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier02"
+      "ore": "craftingRawMachineTier03"
     },
     "C":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingCircuitTier04"
+      "ore": "craftingCircuitTier07"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 44
   }
 }

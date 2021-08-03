@@ -154,14 +154,19 @@ public class ClientEventHandler {
                 .map(BlockItems.Block::getInstance)
                 .forEach(block -> ModelLoader.setCustomStateMapper(block, mapper));
 
-        Map<String, ResourceLocation> steamTurbineRotor = Rotor.TEXTURE_NAMES.stream()
-                .flatMap(str -> Stream.of(str, str + "_active"))
-                .collect(Collectors.toMap(str -> "rotor_" + str, str -> new ResourceLocation(Reference.MODID, "blocks/machines/large_steam_turbine/" + str)));
+        Map<String, ResourceLocation> steamTurbineRotor = getRotorTextures("large_steam_turbine");
+        Map<String, ResourceLocation> gasTurbineRotor = getRotorTextures("large_gas_turbine");
         registerConnectedBakedModel(loader, "standard_machine_casing", steamTurbineRotor);
-        registerConnectedBakedModel(loader, "reinforced_machine_casing");
+        registerConnectedBakedModel(loader, "reinforced_machine_casing", gasTurbineRotor);
         registerConnectedBakedModel(loader, "advanced_machine_casing");
         registerConnectedBakedModel(loader, "iridium_reinforced_tungsten_steel");
         registerConnectedBakedModel(loader, "tungsten_steel");
+    }
+    
+    private static Map<String, ResourceLocation> getRotorTextures(String name) {
+        return Rotor.TEXTURE_NAMES.stream()
+                .flatMap(str -> Stream.of(str, str + "_active"))
+                .collect(Collectors.toMap(str -> "rotor_" + str, str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name +"/" + str)));
     }
     
     @SafeVarargs

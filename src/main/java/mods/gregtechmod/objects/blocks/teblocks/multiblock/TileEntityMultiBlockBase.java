@@ -111,7 +111,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
                     onRunningTick(instance);
                     
                     if (++this.progress >= this.maxProgress) {
-                        instance.addOutput(this.fuelOutput);
+                        addOutput(instance);
                     
                         this.efficiency = Math.max(0, Math.min(this.efficiency + this.efficiencyIncrease, getMaxEfficiency(machinePart) - (getIdealStatus() - repairStatus) * 1000));
                         this.progress = this.maxProgress = this.efficiencyIncrease = 0;
@@ -139,13 +139,13 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
             IFuel<IRecipeIngredient> fuel = getFuel(instance);
             if (fuel != null) {
                 this.fuelOutput = getFuelOutput(fuel);
-                processFuel(instance, fuel);
+                if (consumeInput(instance, fuel)) processFuel(instance, fuel);
             }
         }
     }
 
     private boolean doRandomMaintenanceDamage(ItemStack machinePart) {
-        if (!isCorrectMachinePart()) {
+        if (!isCorrectMachinePart() || getRepairStatus() == 0) {
             stopMachine();
             return false;
         }

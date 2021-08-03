@@ -70,7 +70,9 @@
       "thermal_boiler": { "model": "gregtechmod:thermal_boiler" },
       "thermal_boiler_active": { "model": "gregtechmod:thermal_boiler_active" },
       "large_steam_turbine": { "model": "gregtechmod:large_steam_turbine" },
-      "large_steam_turbine_active": { "model": "gregtechmod:large_steam_turbine_active" }
+      "large_steam_turbine_active": { "model": "gregtechmod:large_steam_turbine_active" },
+      "large_gas_turbine": { "model": "gregtechmod:large_gas_turbine" },
+      "large_gas_turbine_active": { "model": "gregtechmod:large_gas_turbine_active" }
     },
     "facing": {
       "down": { "x": 90 },
