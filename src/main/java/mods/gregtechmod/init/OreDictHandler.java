@@ -17,6 +17,7 @@ import mods.gregtechmod.recipe.crafting.ToolOreIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.init.Blocks;
@@ -40,7 +41,7 @@ import net.minecraftforge.oredict.OreIngredient;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class OreDictHandler {
+public class OreDictHandler { // TODO Subject to huge cleanup
     public static final OreDictHandler INSTANCE;
     private static final Pattern granitePattern = Pattern.compile("\\bstone.*Granite");
 
@@ -644,7 +645,7 @@ public class OreDictHandler {
             );
 
             ItemStack smallDust;
-            BlockItems.Smalldust gtSmallDust = ModHandler.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
+            BlockItems.Smalldust gtSmallDust = GtUtil.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
             if (gtSmallDust != null) smallDust = new ItemStack(gtSmallDust.getInstance());
             else {
                 smallDust = OreDictUnificator.getFirstOre(name.replaceFirst("ingot", "dustSmall"), 2);

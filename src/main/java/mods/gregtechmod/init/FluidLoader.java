@@ -150,10 +150,11 @@ public class FluidLoader {
         METHANE("CH4"),
         NITROGEN("N"),
         NITROGEN_DIOXIDE("NO2"),
-        STEAM("H2O", false);
+        STEAM("H2O", false, true);
 
         public final String description;
         public final boolean hasClassicCell;
+        public final boolean fallback;
         public final ResourceLocation texture;
         private Fluid instance;
 
@@ -162,8 +163,13 @@ public class FluidLoader {
         }
         
         Gas(String description, boolean hasClassicCell) {
+            this(description, hasClassicCell, false);
+        }
+        
+        Gas(String description, boolean hasClassicCell, boolean fallback) {
             this.description = description;
             this.hasClassicCell = hasClassicCell;
+            this.fallback = fallback;
             this.texture = getTextureLocation();
         }
 
@@ -195,7 +201,7 @@ public class FluidLoader {
 
         @Override
         public boolean isFallbackFluid() {
-            return false;
+            return this.fallback;
         }
 
         @Override

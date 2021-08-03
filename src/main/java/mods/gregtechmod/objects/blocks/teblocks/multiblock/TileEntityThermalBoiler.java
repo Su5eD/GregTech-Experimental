@@ -3,23 +3,20 @@ package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.struct.StructureElement;
+import mods.gregtechmod.util.struct.StructureElementGatherer;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.*;
 
-public class TileEntityThermalBoiler extends TileEntityMultiBlockBase {
+public class TileEntityThermalBoiler extends TileEntityMultiBlockBase<TileEntityMultiBlockBase.MultiBlockInstance> {
 
     public TileEntityThermalBoiler() {
         super("thermal_boiler", GtFuels.hot);
@@ -34,9 +31,9 @@ public class TileEntityThermalBoiler extends TileEntityMultiBlockBase {
                         "CCC"
                 ),
                 Arrays.asList(
-                        "CHC",
+                        "CXC",
                         "HAH",
-                        "CXC"
+                        "CHC"
                 ),
                 Arrays.asList(
                         "CCC",
@@ -47,39 +44,39 @@ public class TileEntityThermalBoiler extends TileEntityMultiBlockBase {
     }
 
     @Override
-    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
-        map.put('C', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()));
-        map.put('H', pos -> GtUtil.findTileEntities(world, pos, TileEntityHatchIO.class, TileEntityHatchDynamo.class, TileEntityHatchMuffler.class, TileEntityHatchMaintenance.class));
-        map.put('A', pos -> GtUtil.findBlocks(world, pos, Blocks.AIR));
+    protected Map<Character, Collection<StructureElement>> getStructureElements() {
+        Block casing = BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance();
+        return new StructureElementGatherer(this::getWorld)
+                .block('C', casing)
+                .id('H', builder -> builder
+                        .block(casing)
+                        .tileEntity(TileEntityHatchInput.class, 1)
+                        .tileEntity(TileEntityHatchOutput.class)
+                        .tileEntity(TileEntityHatchMaintenance.class, 1))
+                .block('A', Blocks.AIR)
+                .gather();
     }
-    
+
+    @Override
+    protected MultiBlockInstance createStructureInstance(EnumFacing facing, Map<Character, Collection<BlockPos>> elements) {
+        return new MultiBlockInstance(this.world, elements);
+    }
+
     @Override
     public IFuel<IRecipeIngredient> getFuel(MultiBlockInstance instance) {
-        return instance.getInputFluids().stream()
-                .filter(Objects::nonNull)
-                .map(FluidStack::getFluid)
-                .map(this.fuelManager::getFuel)
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+        return getFluidFuel(instance)
+                .orElseGet(() -> instance.getInputItems().stream()
+                        .map(this.fuelManager::getFuel)
+                        .filter(Objects::nonNull)
+                        .findFirst()
+                        .orElse(null));
     }
 
     @Override
     public void processFuel(MultiBlockInstance instance, IFuel<IRecipeIngredient> fuel) {
-        IRecipeIngredient input = fuel.getInput();
-        boolean drain;
-        if (input instanceof IRecipeIngredientFluid) {
-            drain = ((IRecipeIngredientFluid) input).getMatchingFluids()
-                    .stream()
-                    .map(fluid -> new FluidStack(fluid, Fluid.BUCKET_VOLUME))
-                    .anyMatch(instance::depleteInput); 
-        } else {
-            drain = input.getMatchingInputs()
-                    .stream()
-                    .anyMatch(instance::depleteInput); 
-        }
+        boolean consume = consumeInput(instance, fuel);
         
-        if (drain) {
+        if (consume) {
             this.fuelEnergy = 400;
             this.maxProgress = (int) (fuel.getEnergy() * 2 / 5);
             this.efficiencyIncrease = this.maxProgress * 30;

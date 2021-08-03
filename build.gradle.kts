@@ -188,6 +188,7 @@ reobf {
 }
 
 repositories {
+    mavenCentral()
     maven {
         name = "IC2"
         url = uri("https://maven.ic2.player.to/")

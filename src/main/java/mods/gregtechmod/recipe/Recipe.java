@@ -6,8 +6,8 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 public class Recipe<I, O> implements IMachineRecipe<I, O> {
     protected final I input;
     protected final O output;
-    protected final double energyCost;
     protected final int duration;
+    protected final double energyCost;
     protected boolean invalid;
 
     protected Recipe(@JsonProperty(value = "input", required = true) I input,
@@ -16,8 +16,8 @@ public class Recipe<I, O> implements IMachineRecipe<I, O> {
                     @JsonProperty(value = "energyCost", required = true) double energyCost) {
         this.input = input;
         this.output = output;
-        this.energyCost = energyCost;
         this.duration = duration;
+        this.energyCost = energyCost;
     }
 
     @Override
@@ -29,15 +29,15 @@ public class Recipe<I, O> implements IMachineRecipe<I, O> {
     public I getInput() {
         return this.input;
     }
-
-    @Override
-    public double getEnergyCost() {
-        return this.energyCost;
-    }
-
+    
     @Override
     public int getDuration() {
         return this.duration;
+    }
+        
+    @Override
+    public double getEnergyCost() {
+        return this.energyCost;
     }
 
     @Override

@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.IRecipeUniversal;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
@@ -43,6 +44,12 @@ public class RecipeSawmill extends Recipe<List<IRecipeIngredient>, List<ItemStac
 
     @Override
     public String toString() {
-        return "RecipeSawmill{input="+this.input+",output="+this.output+",duration="+this.duration+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .add("universal", universal)
+                .toString();
     }
 }

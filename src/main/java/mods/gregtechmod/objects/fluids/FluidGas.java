@@ -13,6 +13,11 @@ public class FluidGas extends Fluid {
 
     @Override
     public String getUnlocalizedName() {
-        return Reference.MODID+"."+super.getUnlocalizedName();
+        return Reference.MODID + "." + super.getUnlocalizedName();
+    }
+
+    @Override
+    public String toString() {
+        return this.fluidName;
     }
 }

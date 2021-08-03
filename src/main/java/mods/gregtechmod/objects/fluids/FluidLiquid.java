@@ -12,6 +12,6 @@ public class FluidLiquid extends Fluid {
 
     @Override
     public String getUnlocalizedName() {
-        return Reference.MODID+"."+super.getUnlocalizedName();
+        return Reference.MODID + "." + super.getUnlocalizedName();
     }
 }

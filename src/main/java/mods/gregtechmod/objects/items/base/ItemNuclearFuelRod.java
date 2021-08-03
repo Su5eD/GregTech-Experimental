@@ -13,6 +13,7 @@ import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,33 +21,30 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfoProvider {
     private final String name;
+    @Nullable
     private final ItemStack depletedStack;
     private final float energy;
-    private final int radioation;
+    private final int radiation;
     private final float heat;
 
     public ItemNuclearFuelRod(String name, int cells, int duration, float energy, int radiation, float heat, @Nullable ItemStack depletedStack) {
         super(null, cells, duration);
-        setMaxStackSize(1);
         this.name = name;
         this.depletedStack = depletedStack;
         this.energy = energy;
-        this.radioation = radiation;
+        this.radiation = radiation;
         this.heat = heat;
+        setMaxStackSize(1);
     }
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+".item."+this.name;
-    }
-
-    @Override
-    public String getTranslationKey(ItemStack stack) {
-        return this.getTranslationKey();
+        return Reference.MODID + ".item." + this.name;
     }
 
     @Override
@@ -57,15 +55,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
 
     @Override
     protected ItemStack getDepletedStack(ItemStack stack, IReactor reactor) {
-        if (this.depletedStack != null) return this.depletedStack;
-        return super.getDepletedStack(stack, reactor);
-    }
-
-    private void checkHeatAcceptor(IReactor reactor, int x, int y, ArrayList<ItemStackCoord> heatAcceptors) {
-        ItemStack thing = reactor.getItemAt(x, y);
-        if (thing != null && thing.getItem() instanceof IReactorComponent && ((IReactorComponent) thing.getItem()).canStoreHeat(thing, reactor, x, y)) {
-            heatAcceptors.add(new ItemStackCoord(thing, x, y));
-        }
+        return this.depletedStack != null ? this.depletedStack : super.getDepletedStack(stack, reactor);
     }
 
     @Override
@@ -83,47 +73,62 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
             int pulses = 1 + this.numberOfCells / 2;
             if (!heatRun) {
                 for (int i = 0; i < pulses; i++) {
-                    acceptUraniumPulse(stack, reactor, stack, x, y, x, y, heatRun);
+                    acceptUraniumPulse(stack, reactor, stack, x, y, x, y, false);
                 }
-                checkPulseable(reactor, x - 1, y, stack, x, y, heatRun);checkPulseable(reactor, x + 1, y, stack, x, y, heatRun);checkPulseable(reactor, x, y - 1, stack, x, y, heatRun);checkPulseable(reactor, x, y + 1, stack, x, y, heatRun);
+                checkPulseables(reactor, x, y, stack, false);
             } else {
-                pulses += checkPulseable(reactor, x - 1, y, stack, x, y, heatRun) + checkPulseable(reactor, x + 1, y, stack, x, y, heatRun) + checkPulseable(reactor, x, y - 1, stack, x, y, heatRun) + checkPulseable(reactor, x, y + 1, stack, x, y, heatRun);
+                pulses += checkPulseables(reactor, x, y, stack, true);
 
-                int heat = triangularNumber(pulses) * 4;
-
-                heat = getFinalHeat(stack, reactor, x, y, heat);
-
-                ArrayList<ItemStackCoord> heatAcceptors = new ArrayList();
-                checkHeatAcceptor(reactor, x - 1, y, heatAcceptors);
-                checkHeatAcceptor(reactor, x + 1, y, heatAcceptors);
-                checkHeatAcceptor(reactor, x, y - 1, heatAcceptors);
-                checkHeatAcceptor(reactor, x, y + 1, heatAcceptors);
+                List<ItemStackPos> heatAcceptors = new ArrayList<>();
+                addHeatAcceptor(reactor, x - 1, y, heatAcceptors);
+                addHeatAcceptor(reactor, x + 1, y, heatAcceptors);
+                addHeatAcceptor(reactor, x, y - 1, heatAcceptors);
+                addHeatAcceptor(reactor, x, y + 1, heatAcceptors);
+                
+                int triangularPulses = triangularNumber(pulses) * 4;
+                int heat = getFinalHeat(stack, reactor, x, y, triangularPulses);
                 heat = Math.round(heat * this.heat);
-                while (heatAcceptors.size() > 0 && heat > 0) {
+                while (!heatAcceptors.isEmpty() && heat > 0) {
                     int dheat = heat / heatAcceptors.size();
                     heat -= dheat;
                     dheat = ((IReactorComponent) heatAcceptors.get(0).stack.getItem()).alterHeat(heatAcceptors.get(0).stack, reactor, heatAcceptors.get(0).x, heatAcceptors.get(0).y, dheat);
                     heat += dheat;
                     heatAcceptors.remove(0);
                 }
-                if (heat > 0) {
-                    reactor.addHeat(heat);
-                }
+                if (heat > 0) reactor.addHeat(heat);
             }
         }
+        
         if (getCustomDamage(stack) >= getMaxCustomDamage(stack) - 1) {
-            reactor.setItemAt(x, y, this.getDepletedStack(stack, reactor));
+            reactor.setItemAt(x, y, getDepletedStack(stack, reactor));
         } else if (heatRun) {
             this.applyCustomDamage(stack, 1, null);
         }
     }
+    
+    private void addHeatAcceptor(IReactor reactor, int x, int y, Collection<ItemStackPos> heatAcceptors) {
+        ItemStack component = reactor.getItemAt(x, y);
+        if (component != null) {
+            Item item = component.getItem();
+            if (item instanceof IReactorComponent && ((IReactorComponent) item).canStoreHeat(component, reactor, x, y)) {
+                heatAcceptors.add(new ItemStackPos(component, x, y));
+            }
+        }
+    }
+    
+    private static int checkPulseables(IReactor reactor, int x, int y, ItemStack stack, boolean heatRun) {
+        return checkPulseable(reactor, x - 1, y, stack, x, y, heatRun)
+                + checkPulseable(reactor, x + 1, y, stack, x, y, heatRun)
+                + checkPulseable(reactor, x, y - 1, stack, x, y, heatRun)
+                + checkPulseable(reactor, x, y + 1, stack, x, y, heatRun);
+    }
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slotIndex, boolean isCurrentItem) {
-        if (this.radioation > 0 && entity instanceof EntityLivingBase) {
+        if (this.radiation > 0 && entity instanceof EntityLivingBase) {
             EntityLivingBase entityLiving = (EntityLivingBase) entity;
             if (!ItemArmorHazmat.hasCompleteHazmat(entityLiving)) {
-                IC2Potion.radiation.applyTo(entityLiving, 200, this.radioation * 100);
+                IC2Potion.radiation.applyTo(entityLiving, 200, this.radiation * 100);
             }
         }
     }
@@ -133,12 +138,12 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
         return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "nuclear"));
     }
 
-    private static class ItemStackCoord {
+    private static class ItemStackPos {
         public final ItemStack stack;
         public final int x;
         public final int y;
 
-        public ItemStackCoord(ItemStack stack, int x, int y) {
+        public ItemStackPos(ItemStack stack, int x, int y) {
             this.stack = stack;
             this.x = x;
             this.y = y;

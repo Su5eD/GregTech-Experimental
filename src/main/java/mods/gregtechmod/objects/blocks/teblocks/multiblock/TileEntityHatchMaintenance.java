@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implements IHasGui {
     private static final PropertyHelper.TextureOverride DUCT_TAPE_TEXTURE_OVERRIDE;
@@ -52,15 +51,15 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
     }
     
     public void onToolClick(ItemStack stack, EntityPlayer player) {
-        checkTool(player, stack, GtUtil::isWrench, this.maintenance::getWrench, this.maintenance::setWrench);
-        checkTool(player, stack, GtUtil::isScrewdriver, this.maintenance::getScrewdriver, this.maintenance::setScrewdriver);
-        checkTool(player, stack, GtUtil::isSoftHammer, this.maintenance::getSoftHammer, this.maintenance::setSoftHammer);
-        checkTool(player, stack, GtUtil::isHardHammer, this.maintenance::getHardHammer, this.maintenance::setHardHammer);
-        checkTool(player, stack, GtUtil::isCrowbar, this.maintenance::getCrowbar, this.maintenance::setCrowbar);
+        checkTool(player, stack, GtUtil::isWrench, this.maintenance::setWrench);
+        checkTool(player, stack, GtUtil::isScrewdriver, this.maintenance::setScrewdriver);
+        checkTool(player, stack, GtUtil::isSoftHammer, this.maintenance::setSoftHammer);
+        checkTool(player, stack, GtUtil::isHardHammer, this.maintenance::setHardHammer);
+        checkTool(player, stack, GtUtil::isCrowbar, this.maintenance::setCrowbar);
         checkTool(player, stack, s -> {
             Item item = s.getItem();
             return item instanceof ISolderingTool && ((ISolderingTool) item).solder(stack, player, false);
-        }, this.maintenance::getSolderingTool, this.maintenance::setSolderingTool);
+        }, this.maintenance::setSolderingTool);
         
         if (OreDictUnificator.isItemInstanceOf(stack, "craftingDuctTape", false)) {
             this.ductTape = true;
@@ -70,8 +69,8 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
         }
     }
     
-    private void checkTool(EntityPlayer player, ItemStack stack, Predicate<ItemStack> predicate, Supplier<Boolean> getter, Consumer<Boolean> setter) {
-        if (!getter.get() && predicate.test(stack) && GtUtil.damageStack(player, stack, 1)) setter.accept(true);
+    private void checkTool(EntityPlayer player, ItemStack stack, Predicate<ItemStack> predicate, Consumer<Boolean> setter) {
+        if (predicate.test(stack) && GtUtil.damageStack(player, stack, 1)) setter.accept(true);
     }
 
     public Maintenance getMaintenance() {

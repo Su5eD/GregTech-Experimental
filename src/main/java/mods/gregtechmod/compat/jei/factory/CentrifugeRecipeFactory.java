@@ -8,11 +8,13 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrif
 import mods.gregtechmod.recipe.RecipeCentrifuge;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CentrifugeRecipeFactory extends CellularRecipeFactory {
     public static final CentrifugeRecipeFactory INSTANCE = new CentrifugeRecipeFactory();
@@ -27,7 +29,7 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
 
         return constructCellRecipe(fluidCells, recipeOutput, count, Math.max(cellCount - count, 0), duration, energyCost);
     }
-
+    
     protected IRecipeCellular constructCellRecipe(List<ItemStack> fluidCells, List<ItemStack> recipeOutput, int count, int cellCount, int duration, double energyCost) {
         return RecipeCentrifuge.create(RecipeIngredientItemStack.create(fluidCells, count), recipeOutput, cellCount, duration, CellType.CELL);
     }
@@ -58,5 +60,25 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
 
     protected IRecipeCellular constructCapsuleRecipe(List<ItemStack> capsules, List<ItemStack> recipeOutput, int count, int cellCount, int duration, double energyCost) {
         return RecipeCentrifuge.create(RecipeIngredientItemStack.create(capsules, count), recipeOutput, cellCount, duration, CellType.CELL);
+    }
+
+    private List<ItemStack> getCells(List<Fluid> input) {
+        return input.stream()
+                .map(fluid -> ProfileDelegate.getCell(fluid.getName()))
+                .collect(Collectors.toList());
+    }
+
+    private int getDuration(int duration, ItemStack input, List<ItemStack> output) {
+        TileEntityIndustrialCentrifugeBase.CellAdditionResult result = TileEntityIndustrialCentrifugeBase.addCellsToOutput(input, output);
+        if (result == TileEntityIndustrialCentrifugeBase.CellAdditionResult.DISSOLVE) return (int) (duration * 1.5);
+        else if (result != TileEntityIndustrialCentrifugeBase.CellAdditionResult.FAIL) return duration;
+
+        return -1;
+    }
+
+    private List<ItemStack> getFluidContainers(List<Fluid> input, ItemStack type) {
+        return input.stream()
+                .map(fluid -> GtUtil.getFluidContainer(type, fluid))
+                .collect(Collectors.toList());
     }
 }

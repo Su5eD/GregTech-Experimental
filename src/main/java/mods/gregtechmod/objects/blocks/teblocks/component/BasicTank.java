@@ -38,8 +38,8 @@ public class BasicTank extends TileEntityComponent {
         this(parent, fluidComponent, getDefaultFluidTank(parent, capacity, inputSides, outputSides), inputSlotFactory, slowProcessing);
     }
     
-    public <T extends TileEntityBlock & IInventorySlotHolder<?> & ICoverable> BasicTank(T parent, Fluids fluidComponent, GtFluidTank fluidTank, InvSlotConsumableLiquid.OpType opType, boolean slowProcessing) {
-        this(parent, fluidComponent, fluidTank, tank -> new InvSlotConsumableLiquidByTank(parent, "tankInputSlot", InvSlot.Access.I, 1, InvSlot.InvSide.NOTSIDE, opType, tank), slowProcessing);
+    public <T extends TileEntityBlock & IInventorySlotHolder<?> & ICoverable> BasicTank(T parent, Fluids fluidComponent, GtFluidTank tank, InvSlotConsumableLiquid.OpType opType, boolean slowProcessing) {
+        this(parent, fluidComponent, tank, fluidTank -> new InvSlotConsumableLiquidByTank(parent, "tankInputSlot", InvSlot.Access.I, 1, InvSlot.InvSide.NOTSIDE, opType, fluidTank), slowProcessing);
     }
     
     public <T extends TileEntityBlock & IInventorySlotHolder<?> & ICoverable> BasicTank(T parent, Fluids fluidComponent, GtFluidTank tank, Function<GtFluidTank, InvSlotConsumableLiquid> inputSlotFactory, boolean slowProcessing) {

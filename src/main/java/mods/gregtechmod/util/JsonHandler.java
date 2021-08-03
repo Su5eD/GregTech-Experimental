@@ -2,6 +2,7 @@ package mods.gregtechmod.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
@@ -31,8 +32,8 @@ public class JsonHandler {
 
             reader.close();
             return map;
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            GregTechMod.logger.error(e);
         }
 
         throw new IllegalArgumentException("Could not find resource " + path);

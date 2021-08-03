@@ -1,10 +1,7 @@
 package mods.gregtechmod.util;
 
-import ic2.api.item.IC2Items;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,7 +14,6 @@ public class OreDictUnificator {
     private static final HashMap<String, ItemStack> name2OreMap = new HashMap<>();
     private static final HashMap<ItemStack, String> item2OreMap = new HashMap<>();
     private static final ArrayList<ItemStack> sBlackList = new ArrayList<>();
-    private static ItemStack emptyCell = null;
 
     public static void addToBlacklist(ItemStack stack) {
         sBlackList.add(stack);
@@ -75,35 +71,9 @@ public class OreDictUnificator {
 
         ItemStack stack = ItemStack.EMPTY;
         List<ItemStack> ores = OreDictionary.getOres(name);
-        if (ores.size() > 0) stack = ores.get(0).copy();
+        if (!ores.isEmpty()) stack = ores.get(0).copy();
         if (!stack.isEmpty()) stack.setCount(amount);
 
-        return stack;
-    }
-
-    public static ItemStack getFirstCapsulatedOre(String name, int amount) {
-        if (name2OreMap.containsKey(name)) return get(name, ItemStack.EMPTY, amount);
-        ItemStack stack = null;
-        List<ItemStack> ores = OreDictionary.getOres(name);
-        for (ItemStack ore : ores) {
-            if (ore != null && getCapsuleCellContainerCount(ore) == 1) {
-                stack = ore.copy().splitStack(amount);
-                break;
-            }
-        }
-        return stack;
-    }
-
-    public static ItemStack getFirstUnCapsulatedOre(String name, int amount) {
-        if (name2OreMap.containsKey(name)) return get(name, ItemStack.EMPTY, amount);
-        ItemStack stack = null;
-        List<ItemStack> ores = OreDictionary.getOres(name);
-        for (ItemStack ore : ores) {
-            if (ore != null && getCapsuleCellContainerCount(ore) <= 0) {
-                stack = ore.copy().splitStack(amount);
-                break;
-            }
-        }
         return stack;
     }
 
@@ -170,17 +140,16 @@ public class OreDictUnificator {
                 .anyMatch(str -> prefix ? str.startsWith(name) : str.equals(name));
     }
 
-    public static boolean registerOre(String name, ItemStack stack) {
-        if (name == null || name.isEmpty() || stack.isEmpty()) return false;
+    public static void registerOre(String name, ItemStack stack) {
+        if (name == null || name.isEmpty() || stack.isEmpty()) return;
         List<ItemStack> ores = OreDictionary.getOres(name);
         for (int i = 0; i < ores.size(); ) {
             if (ores.get(i).isItemEqual(stack))
-                return false;
+                return;
             i++;
         }
         stack = stack.copy().splitStack(1);
         OreDictionary.registerOre(name, stack);
-        return true;
     }
 
     public static String getStackConfigName(ItemStack stack) {
@@ -191,30 +160,5 @@ public class OreDictUnificator {
         else if (!(name = stack.getDisplayName()).isEmpty()) return name;
 
         return stack.getItem().getRegistryName().toString() + ":" + stack.getItemDamage();
-    }
-
-    public static int getCapsuleCellContainerCount(ItemStack stack) {
-        if (stack.isEmpty()) return 0;
-        else if (stack.isItemEqual(emptyCell())) return 1;
-        Item item = stack.getItem();
-        ItemStack containerItem = item.getContainerItem(stack);
-        if (!containerItem.isEmpty() && containerItem.isItemEqual(emptyCell())) return containerItem.getCount();
-        String regName = item.getRegistryName().toString();
-        if (regName.startsWith(Reference.MODID+":cell_") || regName.equals("forestry:can") ||
-                regName.equals("forestry:capsule") || regName.equals("forestry:refractory")) return 1;
-
-        if (stack.isItemEqual(IC2Items.getItem("heat_storage"))) return 1;
-        else if (stack.isItemEqual(IC2Items.getItem("tri_heat_storage"))) return 3;
-        else if (stack.isItemEqual(IC2Items.getItem("hex_heat_storage"))) return 6;
-        else if (stack.isItemEqual(IC2Items.getItem("uranium_fuel_rod"))) return 1;
-        else if (stack.isItemEqual(IC2Items.getItem("dual_uranium_fuel_rod"))) return 2;
-        else if (stack.isItemEqual(IC2Items.getItem("quad_uranium_fuel_rod"))) return 4;
-
-        return 0;
-    }
-
-    private static ItemStack emptyCell() {
-        if (emptyCell == null) emptyCell = GregTechMod.classic ? IC2Items.getItem("cell", "empty") : IC2Items.getItem("fluid_cell");
-        return emptyCell;
     }
 }

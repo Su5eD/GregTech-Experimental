@@ -4,7 +4,7 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.init.OreDictHandler;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -14,7 +14,7 @@ import slimeknights.tconstruct.library.smeltery.ICastingRecipe;
 
 import java.util.Locale;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class TConstructModule {
 
     @SubscribeEvent

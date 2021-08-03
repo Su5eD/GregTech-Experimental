@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
-public enum ArmorPerk {
+public enum ArmorPerk { // TODO Remove from API
     REBREATHER((stack, player, armor) -> {
         if (!player.world.isRemote) {
             int air = player.getAir();
@@ -23,7 +23,7 @@ public enum ArmorPerk {
         }
     }),
     INERTIA_DAMPER((stack, player, armor) -> {}),
-    food_replicator((stack, player, armor) -> {
+    FOOD_REPLICATOR((stack, player, armor) -> {
         if (!player.world.isRemote) {
             if (ElectricItem.manager.canUse(stack, 50000) && player.getFoodStats().needFood()) {
                 player.getFoodStats().addStats(1, 0.0F);
@@ -104,7 +104,7 @@ public enum ArmorPerk {
 
     private static void tickLampOrSolarPanel(ItemStack stack, EntityPlayer player, IElectricArmor armor) {
         if (!player.world.isRemote) {
-            if (player.world.getWorldTime()%20==0) {
+            if (player.world.getWorldTime() % 20 == 0) {
                 ItemStack targetChargeItem = stack;
                 ItemStack targetDechargeItem = stack;
 

@@ -869,6 +869,8 @@ gregtechmod.teblock.industrial_sawmill=Industrial Sawmill
 gregtechmod.teblock.industrial_sawmill.description=Get mo Planks for ya Logs
 gregtechmod.teblock.thermal_boiler=Thermal Boiler
 gregtechmod.teblock.thermal_boiler.description=Converts Heat into Steam
+gregtechmod.teblock.large_steam_turbine=Large Steam Turbine
+gregtechmod.teblock.large_steam_turbine.description=Consumes 1600 Liters of Steam per Tick
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

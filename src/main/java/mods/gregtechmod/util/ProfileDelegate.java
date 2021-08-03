@@ -17,9 +17,8 @@ public class ProfileDelegate {
             Field field = holder.getClass().getField(holder.name());
             return Version.shouldEnable(field);
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            GregTechMod.logger.error(e);
         }
-
         return false;
     }
 

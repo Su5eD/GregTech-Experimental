@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/connected/reinforced_machine_casing/reinforced_machine_casing",
+    "down": "gregtechmod:blocks/connected/reinforced_machine_casing/reinforced_machine_casing",
+    "up": "gregtechmod:blocks/connected/reinforced_machine_casing/reinforced_machine_casing",
+    "north": "gregtechmod:blocks/connected/reinforced_machine_casing/reinforced_machine_casing",
+    "south": "gregtechmod:blocks/connected/reinforced_machine_casing/reinforced_machine_casing",
+    "west": "gregtechmod:blocks/connected/reinforced_machine_casing/reinforced_machine_casing",
+    "east": "gregtechmod:blocks/connected/reinforced_machine_casing/reinforced_machine_casing"
+  }
+}

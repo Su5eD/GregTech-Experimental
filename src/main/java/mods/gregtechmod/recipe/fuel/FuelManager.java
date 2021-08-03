@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class FuelManager<F extends IFuel<FI>, FI extends IRecipeIngredient, I> implements IFuelManager<F, I> {
+public abstract class FuelManager<F extends IFuel<? extends IRecipeIngredient>, I> implements IFuelManager<F, I> {
     protected final Set<F> fuels = new HashSet<>();
     private final Collection<IFuelProvider<F, I>> providers = new HashSet<>();
 

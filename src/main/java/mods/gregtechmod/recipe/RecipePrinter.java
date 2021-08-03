@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.IRecipePrinter;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
@@ -39,7 +40,13 @@ public class RecipePrinter extends Recipe<List<IRecipeIngredient>, List<ItemStac
 
     @Override
     public String toString() {
-        return "RecipePrinter{input="+this.input+",copy="+this.copy+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("copy", copy)
+                .add("output", output)
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .toString();
     }
 
     @Override

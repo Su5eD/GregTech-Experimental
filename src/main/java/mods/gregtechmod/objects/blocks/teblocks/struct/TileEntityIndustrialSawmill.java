@@ -7,17 +7,17 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSecondaryFluid;
 import mods.gregtechmod.gui.GuiIndustrialSawmill;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialSawmill;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.struct.StructureElement;
+import mods.gregtechmod.util.struct.StructureElementGatherer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class TileEntityIndustrialSawmill extends TileEntityStructureFluid<Object, IRecipeUniversal<List<IRecipeIngredient>>, IGtRecipeManagerSecondaryFluid<IRecipeUniversal<List<IRecipeIngredient>>>> {
     
@@ -42,9 +42,11 @@ public class TileEntityIndustrialSawmill extends TileEntityStructureFluid<Object
     }
     
     @Override
-    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
-        map.put('S', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()));
-        map.put('D', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()));
+    protected Map<Character, Collection<StructureElement>> getStructureElements() {
+        return new StructureElementGatherer(this::getWorld)
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
+                .block('D', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
+                .gather();
     }
 
     @Override

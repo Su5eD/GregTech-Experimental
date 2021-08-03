@@ -15,6 +15,7 @@ import java.util.function.Predicate;
 public class GregTechAPI {
     public static final ArrayList<SonictronSound> SONICTRON_SOUNDS = new ArrayList<>();
     public static final Set<ItemStack> JACK_HAMMER_MINABLE_BLOCKS = new HashSet<>();
+    private static final Map<String, Predicate<JsonNode>> CONDITIONS = new HashMap<>();
     
     private static final Set<ItemStack> WRENCHES = new HashSet<>();
     private static final Set<ItemStack> SCREWDRIVERS = new HashSet<>();
@@ -25,7 +26,6 @@ public class GregTechAPI {
     public static Configuration dynamicConfig;
     public static IRecipeFactory recipeFactory;
     public static IRecipeIngredientFactory ingredientFactory;
-    private static final Map<String, Predicate<JsonNode>> CONDITIONS = new HashMap<>();
 
     public static boolean isClassic;
     

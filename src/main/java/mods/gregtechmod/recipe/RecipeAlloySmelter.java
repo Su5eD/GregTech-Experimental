@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.IRecipeUniversal;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
@@ -39,6 +40,12 @@ public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeUniver
 
     @Override
     public String toString() {
-        return "RecipeAlloySmelter{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+",universal="+this.universal+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("energyCost", energyCost)
+                .add("duration", duration)
+                .add("universal", universal)
+                .toString();
     }
 }

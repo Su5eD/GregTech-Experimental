@@ -1,10 +1,8 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import com.google.common.collect.Sets;
 import ic2.api.item.IC2Items;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.block.state.Ic2BlockState;
 import ic2.core.item.ItemClassicCell;
 import ic2.core.item.ItemFluidCell;
 import ic2.core.util.StackUtil;
@@ -15,17 +13,14 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.invslot.GtConsumableCell;
 import mods.gregtechmod.inventory.tank.GtFluidTankProcessable;
 import mods.gregtechmod.objects.items.ItemCellClassic;
-import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -33,17 +28,13 @@ import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import java.util.List;
-import java.util.Set;
 
 public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMachine<IRecipeCellular, IRecipeIngredient, ItemStack, IGtRecipeManagerCellular> {
     public GtConsumableCell cellSlot;
     public Fluids.InternalFluidTank tank;
-    private static final Set<EnumFacing> animatedSides = Sets.newHashSet(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP);
-    private final boolean dynamicAnimationSpeed;
 
-    protected TileEntityIndustrialCentrifugeBase(String descriptionKey, int tankCapacity, IGtRecipeManagerCellular recipeManager, boolean dynamicAnimationSpeed) {
+    protected TileEntityIndustrialCentrifugeBase(String descriptionKey, int tankCapacity, IGtRecipeManagerCellular recipeManager) {
         super(descriptionKey, 4, recipeManager);
-        this.dynamicAnimationSpeed = dynamicAnimationSpeed;
         this.cellSlot = new GtConsumableCell(this, "cellSlot", 1);
         this.tank = this.fluids.addTank(new GtFluidTankProcessable<>(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), tankCapacity));
     }
@@ -63,12 +54,6 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
         if (type == IC2UpgradeType.OVERCLOCKER) {
             rerender();
         }
-    }
-
-    @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        Ic2BlockState.Ic2BlockStateInstance extendedState = super.getExtendedState(state);
-        return this.dynamicAnimationSpeed && getActive() ? extendedState.withProperty(PropertyHelper.ANIMATION_SPEED_PROPERTY, new PropertyHelper.AnimationSpeed(animatedSides, GregTechConfig.GENERAL.dynamicCentrifugeAnimationSpeed ? Math.min(getUpgradeCount(IC2UpgradeType.OVERCLOCKER) + 1, 3) : 3)) : extendedState;
     }
 
     @Override

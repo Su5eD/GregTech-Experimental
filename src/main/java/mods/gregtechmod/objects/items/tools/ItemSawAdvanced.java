@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.IShearable;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -54,7 +55,7 @@ public class ItemSawAdvanced extends ItemToolElectricCrafting {
                 }
 
                 player.addStat(StatList.getBlockStats(block));
-                player.world.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);
+                player.world.setBlockState(pos, Blocks.AIR.getDefaultState(), Constants.BlockFlags.DEFAULT_AND_RERENDER);
                 return true;
             }
         }

@@ -48,7 +48,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import thaumcraft.api.aura.AuraHelper;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -86,6 +85,7 @@ public class ModHandler {
     public static ItemStack scrap = ItemStack.EMPTY;
     public static ItemStack itnt = ItemStack.EMPTY;
     public static ItemStack filledFuelCan = ItemStack.EMPTY;
+    public static ItemStack rcTurbineRotor = ItemStack.EMPTY;
 
     public static void checkLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
@@ -134,6 +134,7 @@ public class ModHandler {
         waxCapsule = getModItem("forestry", "capsule");
         refractoryCapsule = getModItem("forestry", "refractory");
         can = getModItem("forestry", "can");
+        rcTurbineRotor = getRCItem("turbine_rotor");
     }
 
     public static Item getItem(String modid, String itemName) {
@@ -358,6 +359,15 @@ public class ModHandler {
                 .name(Reference.MODID, name)
                 .shaped(pattern);
     }
+
+    public static void polluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
+        if (thaumcraft) reallyPolluteAura(world, pos, amount, showEffect);
+    }
+
+    @Optional.Method(modid = "thaumcraft")
+    private static void reallyPolluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
+        AuraHelper.polluteAura(world, pos, amount, showEffect);
+    }
     
     public static void addShapedRecipe(String name, ItemStack output, Object... params) {
         addShapedRecipe(name, null, output, params);
@@ -392,15 +402,11 @@ public class ModHandler {
         for (int i = 0; i < 9 && i < stacks.length; i++) {
             crafting.setInventorySlotContents(i, stacks[i]);
         }
-        for (IRecipe recipe : recipes) {
-            try {
-                if (recipe.matches(crafting, DummyWorld.INSTANCE)) {
-                    return recipe;
-                }
-            } catch (Throwable ignored) {}
-        }
-
-        return null;
+        
+        return recipes.stream()
+                .filter(recipe -> recipe.matches(crafting, DummyWorld.INSTANCE))
+                .findFirst()
+                .orElse(null);
     }
 
     public static ItemStack getCraftingResult(ItemStack... stacks) {
@@ -483,15 +489,6 @@ public class ModHandler {
         return ItemStack.EMPTY;
     }
 
-    @Nullable
-    public static <T extends Enum<T>> T getEnumConstantSafely(Class<T> clazz, String name) {
-        try {
-            return Enum.valueOf(clazz, name);
-        } catch (IllegalArgumentException ignored) {
-            return null;
-        }
-    }
-
     public static String getVariantSafely(ItemName item, ItemStack stack) {
         try {
             return item.getVariant(stack);
@@ -506,14 +503,5 @@ public class ModHandler {
             if (nbt != null) return nbt.getInteger("value") * 5;
         }
         return 0;
-    }
-    
-    public static void polluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
-        if (thaumcraft) reallyPolluteAura(world, pos, amount, showEffect);
-    }
-    
-    @Optional.Method(modid = "thaumcraft")
-    private static void reallyPolluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
-        AuraHelper.polluteAura(world, pos, amount, showEffect);
     }
 }

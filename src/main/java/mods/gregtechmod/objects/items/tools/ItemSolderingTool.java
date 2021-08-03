@@ -41,7 +41,7 @@ public class ItemSolderingTool extends ItemElectricBase implements ISolderingToo
         ItemStack metalStack = findSolderingMetal(player);
         if (metalStack == null) return false;
         ISolderingMetal metal = (ISolderingMetal) metalStack.getItem();
-        if (!metal.canUse()) return false;
+        if (!metal.canUse(stack)) return false;
 
         if (!simulate) {
             ElectricItem.manager.use(stack, 1000, player);

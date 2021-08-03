@@ -6,9 +6,6 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 
-/**
- * Helper? More like hacker...
- */
 public class RailcraftHelper {
     private static final MethodHandle RANDOM_CHANCE_GETTER;
     private static final Class<?> RANDOM_CHANCE_GEN_RULE_CLASS;

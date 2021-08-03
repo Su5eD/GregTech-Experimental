@@ -15,7 +15,7 @@ public class CoverRegistry {
     private static final Map<Class<? extends ICover>, String> NAME_MAP = new HashMap<>();
 
     /**
-     * Registers a gregtech cover
+     * Registers a GregTech cover
      * @param name The cover's unique registry name
      * @param factory Takes the <code>{@link ICoverable}</code> which is being covered, the <code>{@link EnumFacing}</code> at which it's being covered, an <code>{@link ItemStack}</code> containing the cover item and returns a new instance of the target <code>{@link ICover}</code>
      */

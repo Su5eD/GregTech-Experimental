@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
@@ -48,6 +49,13 @@ public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<Ite
 
     @Override
     public String toString() {
-        return "RecipeBlastFurnace{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+",heat="+this.heat+",universal="+this.universal+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .add("heat", heat)
+                .add("universal", universal)
+                .toString();
     }
 }

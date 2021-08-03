@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/connected/advanced_machine_casing/advanced_machine_casing",
+    "down": "gregtechmod:blocks/connected/advanced_machine_casing/advanced_machine_casing",
+    "up": "gregtechmod:blocks/connected/advanced_machine_casing/advanced_machine_casing",
+    "north": "gregtechmod:blocks/connected/advanced_machine_casing/advanced_machine_casing",
+    "south": "gregtechmod:blocks/connected/advanced_machine_casing/advanced_machine_casing",
+    "west": "gregtechmod:blocks/connected/advanced_machine_casing/advanced_machine_casing",
+    "east": "gregtechmod:blocks/connected/advanced_machine_casing/advanced_machine_casing"
+  }
+}

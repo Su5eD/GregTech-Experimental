@@ -58,24 +58,22 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+".armor."+this.name+".name";
-    }
-
-    @Override
-    public String getTranslationKey(ItemStack stack) {
-        return this.getTranslationKey();
+        return Reference.MODID + ".armor." + this.name + ".name";
     }
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-        return Reference.MODID + ":textures/armor/"+this.name+".png";
+        return Reference.MODID + ":textures/armor/" + this.name + ".png";
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(GtUtil.translateInfo("tier", this.tier));
-        for (ArmorPerk perk : this.perks) tooltip.add(GtUtil.translateItem("armor.perk."+perk.name().toLowerCase(Locale.ROOT)+".name"));
+        this.perks.stream()
+                .map(perk -> "armor.perk." + perk.name().toLowerCase(Locale.ROOT) + ".name")
+                .map(GtUtil::translateItem)
+                .forEach(tooltip::add);
     }
 
     @Override
@@ -177,7 +175,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
-        return new ArmorProperties(source == DamageSource.FALL && this.perks.contains(ArmorPerk.INERTIA_DAMPER) ?10:0, getBaseAbsorptionRatio() * this.absorbtionPercentage, this.damageEnergyCost > 0 ? (int) (25 * ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true) / this.damageEnergyCost) : 0);
+        return new ArmorProperties(source == DamageSource.FALL && this.perks.contains(ArmorPerk.INERTIA_DAMPER) ? 10 : 0, getBaseAbsorptionRatio() * this.absorbtionPercentage, this.damageEnergyCost > 0 ? (int) (25 * ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true) / this.damageEnergyCost) : 0);
     }
 
     @Override
@@ -203,20 +201,5 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     @Override
     public Map<EntityPlayer, Float> getJumpChargeMap() {
         return jumpChargeMap;
-    }
-
-    @Override
-    public boolean canProvideEnergy() {
-        return this.chargeProvider;
-    }
-
-    @Override
-    public double getAbsorbtionPercentage() {
-        return this.absorbtionPercentage;
-    }
-
-    @Override
-    public int getDamageEnergyCost() {
-        return this.damageEnergyCost;
     }
 }

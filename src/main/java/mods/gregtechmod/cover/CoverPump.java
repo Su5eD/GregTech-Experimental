@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 public class CoverPump extends CoverInventory {
@@ -31,7 +32,7 @@ public class CoverPump extends CoverInventory {
                 if (((IUpgradableMachine)te).useEnergy(energy, false) < energy) return;
             }
 
-            LiquidUtil.transfer(mode.isImport ? target.handler : (TileEntity)te, side, mode.isImport ? (TileEntity)te : target.handler, 1000);
+            LiquidUtil.transfer(mode.isImport ? target.handler : (TileEntity)te, mode.isImport ? side.getOpposite() : side, mode.isImport ? (TileEntity)te : target.handler, Fluid.BUCKET_VOLUME);
         }
     }
 

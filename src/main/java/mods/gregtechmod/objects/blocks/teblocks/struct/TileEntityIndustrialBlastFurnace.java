@@ -12,6 +12,8 @@ import mods.gregtechmod.objects.blocks.teblocks.component.CoilHandler;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBlastFurnace;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.struct.Structure;
+import mods.gregtechmod.util.struct.StructureElement;
+import mods.gregtechmod.util.struct.StructureElementGatherer;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
@@ -21,13 +23,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<TileEntityIndustrialBlastFurnace.BlastFurnaceStructure, IRecipeBlastFurnace, List<IRecipeIngredient>, List<ItemStack>, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeBlastFurnace>> {
     public final GtSlotProcessableItemStack<IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeBlastFurnace>, List<ItemStack>> secondaryInput;
@@ -55,45 +58,47 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
                 Arrays.asList(
+                        " X ",
                         "CCC",
                         "CCC",
-                        "CCC",
-                        " X "
+                        "CCC"
                 ),
                 Arrays.asList(
+                        "   ",
                         "CCC",
                         "CLC",
-                        "CCC",
-                        "   "
+                        "CCC"
                 ),
                 Arrays.asList(
+                        "   ",
                         "CCC",
                         "CLC",
-                        "CCC",
-                        "   "
+                        "CCC"
                 ),
                 Arrays.asList(
+                        "   ",
                         "CCC",
                         "CCC",
-                        "CCC",
-                        "   "
+                        "CCC"
                 )
         );
     }
 
     @Override
-    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
-        map.put('C', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.STANDARD_MACHINE_CASING.getInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance()));
-        map.put('L', pos -> {
-            IBlockState state = world.getBlockState(pos);
-            Block block = state.getBlock();
-            return block == Blocks.AIR || state == Blocks.LAVA.getDefaultState();
-        });
+    protected Map<Character, Collection<StructureElement>> getStructureElements() {
+        return new StructureElementGatherer(this::getWorld)
+                .block('C', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance())
+                .predicate('L', pos -> {
+                    IBlockState state = world.getBlockState(pos);
+                    Block block = state.getBlock();
+                    return block == Blocks.AIR || state == Blocks.LAVA.getDefaultState();
+                })
+                .gather();
     }
 
     @Override
-    protected BlastFurnaceStructure createStructureInstance(Map<BlockPos, IBlockState> states) {
-        return new BlastFurnaceStructure(states);
+    protected BlastFurnaceStructure createStructureInstance(EnumFacing facing, Map<Character, Collection<BlockPos>> elements) {
+        return new BlastFurnaceStructure(this.world, elements);
     }
     
     // ------ Coil Handling ------
@@ -101,7 +106,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     @Override
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (this.coilHandler.onActivated(player)) return true;
-            
+        
         return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
 
@@ -151,8 +156,9 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     public static class BlastFurnaceStructure {
         private int heatCapacity;
         
-        public BlastFurnaceStructure(Map<BlockPos, IBlockState> states) {
-            states.values().stream()
+        public BlastFurnaceStructure(World world, Map<Character, Collection<BlockPos>> elements) {
+            elements.get('C').stream()
+                    .map(world::getBlockState)
                     .map(IBlockState::getBlock)
                     .forEach(block -> {
                         if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()) {

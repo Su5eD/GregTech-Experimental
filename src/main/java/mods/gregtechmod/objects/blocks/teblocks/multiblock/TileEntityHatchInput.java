@@ -8,7 +8,11 @@ import net.minecraftforge.fluids.FluidUtil;
 public class TileEntityHatchInput extends TileEntityHatchIO {
 
     public TileEntityHatchInput() {
-        super("hatch_input", InvSlotConsumableLiquid.OpType.Drain, true, false);
+        super("hatch_input", InvSlotConsumableLiquid.OpType.Drain, true, false, true);
+    }
+    
+    public ItemStack getItem() {
+        return this.tank.inputSlot.get();
     }
     
     public FluidStack getFluid() {

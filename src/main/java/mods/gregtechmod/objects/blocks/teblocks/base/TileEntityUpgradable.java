@@ -193,6 +193,12 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     @Override
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("upgradeSlot");
+    }
+
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         if (owner != null) {
             NBTTagCompound ownerCompound = new NBTTagCompound();
@@ -408,7 +414,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public double useEnergy(double amount, boolean simulate) {
         double discharged = this.energy.discharge(amount, simulate);
         if (discharged > 0) return discharged;
-        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(amount))) return amount;
+        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(amount))) return amount;
         else if (hasSteamUpgrade) {
             int energy = getEnergyForSteam(amount);
             if (canDrainSteam(energy)) {
@@ -422,27 +428,25 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public double getUniversalEnergy() {
         double steam = this.hasSteamUpgrade ? steamTank.getFluidAmount() * getSteamMultiplier() : 0;
-        double mj = this.hasMjUpgrade ? this.receiver.getStored() / (double) MjHelper.MJ : 0;
+        double mj = this.hasMjUpgrade ? MjHelper.toEU(this.receiver.getStored()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
     
     @Override
     public double getUniversalEnergyCapacity() {
         double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * getSteamMultiplier() : 0;
-        double mj = this.hasMjUpgrade ? this.receiver.getCapacity() / (double) MjHelper.MJ : 0;
+        double mj = this.hasMjUpgrade ? MjHelper.toEU(this.receiver.getCapacity()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
 
     @Override
     public double getStoredSteam() {
-        if (steamTank != null) return steamTank.getFluidAmount();
-        return 0;
+        return steamTank != null ? steamTank.getFluidAmount() : 0;
     }
     
     @Override
     public double getSteamCapacity() {
-        if (steamTank != null) return steamTank.getCapacity();
-        return 0;
+        return steamTank != null ? steamTank.getCapacity() : 0;
     }
     
     @Override

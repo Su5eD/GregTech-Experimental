@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.core.GregTechMod;
@@ -36,6 +37,11 @@ public class RecipeGrinder extends Recipe<List<IRecipeIngredient>, List<ItemStac
 
     @Override
     public String toString() {
-        return "RecipeGrinder{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .toString();
     }
 }

@@ -9,4 +9,5 @@ public class GtFuels {
     public static IFuelManagerFluid<IFuel<IRecipeIngredient>> gas;
     public static IFuelManagerFluid<IFuel<IRecipeIngredient>> hot;
     public static IFuelManagerFluid<IFuel<IRecipeIngredient>> denseLiquid;
+    public static IFuelManagerFluid<IFuel<IRecipeIngredient>> steam;
 }

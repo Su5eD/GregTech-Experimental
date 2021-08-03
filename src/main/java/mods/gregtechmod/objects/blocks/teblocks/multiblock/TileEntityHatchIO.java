@@ -4,12 +4,15 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import ic2.core.IHasGui;
 import ic2.core.block.comp.Fluids;
+import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
+import ic2.core.block.invslot.InvSlotConsumableLiquidByTank;
 import ic2.core.block.state.Ic2BlockState;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.gui.GuiBasicTank;
 import mods.gregtechmod.inventory.tank.DynamicGtFluidTank;
+import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerHatchIO;
@@ -19,20 +22,25 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("Guava") // Gotta use Guava with IC2
 public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implements IHasGui {
+    private final boolean wildcardInput;
     private final Predicate<EnumFacing> facingPredicate = side -> side == getFacing();
     public final BasicTank tank;
 
-    public TileEntityHatchIO(String descriptionKey, InvSlotConsumableLiquid.OpType opType, boolean isInput, boolean isOutput) {
+    public TileEntityHatchIO(String descriptionKey, InvSlotConsumableLiquid.OpType opType, boolean isInput, boolean isOutput, boolean wildcardInput) {
         super(descriptionKey);
         Fluids fluids = addComponent(new Fluids(this));
-        this.tank = addComponent(new BasicTank(this, fluids, new DynamicGtFluidTank(this, "content", isInput ? facingPredicate : Predicates.alwaysFalse(), isOutput ? facingPredicate : Predicates.alwaysFalse(), Predicates.alwaysTrue(), 16000), opType, false));
+        GtFluidTank fluidTank = new DynamicGtFluidTank(this, "content", isInput ? facingPredicate : Predicates.alwaysFalse(), isOutput ? facingPredicate : Predicates.alwaysFalse(), Predicates.alwaysTrue(), 16000);
+        this.tank = addComponent(new BasicTank(this, fluids, fluidTank, t -> new HatchTankInputSlot(opType, t), false));
+        this.wildcardInput = wildcardInput;
         
         this.coverBlacklist.add(CoverType.GENERIC);
         this.coverBlacklist.add(CoverType.ENERGY);
@@ -68,4 +76,16 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
 
     @Override
     public void onGuiClosed(EntityPlayer entityPlayer) {}
+    
+    private class HatchTankInputSlot extends InvSlotConsumableLiquidByTank {
+
+        public HatchTankInputSlot(OpType opType, IFluidTank tank) {
+            super(TileEntityHatchIO.this, "tankInputSlot", InvSlot.Access.I, 1, InvSlot.InvSide.NOTSIDE, opType, tank);
+        }
+
+        @Override
+        public boolean accepts(ItemStack stack) {
+            return wildcardInput || super.accepts(stack);
+        }
+    }
 }

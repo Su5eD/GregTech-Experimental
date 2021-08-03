@@ -65,6 +65,6 @@ public enum InventoryMode {
     }
 
     public String getMessageKey() {
-        return Reference.MODID+".cover.inventory_mode."+this.name().toLowerCase(Locale.ROOT);
+        return Reference.MODID + ".cover.inventory_mode." + this.name().toLowerCase(Locale.ROOT);
     }
 }

@@ -13,11 +13,13 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.BlockBase;
+import mods.gregtechmod.objects.blocks.BlockConnected;
+import mods.gregtechmod.objects.blocks.BlockConnectedTurbine;
 import mods.gregtechmod.objects.blocks.BlockOre;
-import mods.gregtechmod.objects.blocks.ConnectedBlock;
 import mods.gregtechmod.objects.items.*;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
+import mods.gregtechmod.objects.items.components.ItemTurbineRotor;
 import mods.gregtechmod.objects.items.tools.*;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IObjectHolder;
@@ -38,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class BlockItems {
@@ -49,7 +52,7 @@ public class BlockItems {
     public static Map<String, ItemCellClassic> classicCells;
 
     public enum Block {
-        ADVANCED_MACHINE_CASING(ConnectedBlock::new, 3, 30),
+        ADVANCED_MACHINE_CASING(BlockConnected::new, 3, 30),
         ALUMINIUM(3, 30),
         BRASS(3.5F, 30),
         CHROME(10, 100),
@@ -60,22 +63,22 @@ public class BlockItems {
         INVAR(4.5F, 30),
         IRIDIUM(3.5F, 600),
         IRIDIUM_REINFORCED_STONE(100, 300),
-        IRIDIUM_REINFORCED_TUNGSTEN_STEEL(ConnectedBlock::new, 200, 400),
+        IRIDIUM_REINFORCED_TUNGSTEN_STEEL(BlockConnected::new, 200, 400),
         LEAD(3, 60),
         LESUBLOCK(4, 30),
         NICKEL(3, 45),
         OLIVINE(4.5F, 30),
         OSMIUM(4, 900),
         PLATINUM(4, 30),
-        REINFORCED_MACHINE_CASING(ConnectedBlock::new, 3, 60),
+        REINFORCED_MACHINE_CASING(BlockConnected::new, 3, 60),
         RUBY(4.5F, 30),
         SAPPHIRE(4.5F, 30),
         SILVER(3, 30),
-        STANDARD_MACHINE_CASING(ConnectedBlock::new, 3, 30),
+        STANDARD_MACHINE_CASING(BlockConnectedTurbine::new, 3, 30),
         STEEL(3, 100),
         TITANIUM(10, 200),
         TUNGSTEN(4.5F, 100),
-        TUNGSTEN_STEEL(ConnectedBlock::new, 100, 300),
+        TUNGSTEN_STEEL(BlockConnected::new, 100, 300),
         ZINC(3.5F, 30);
         
         private final LazyValue<net.minecraft.block.Block> instance;
@@ -83,9 +86,13 @@ public class BlockItems {
         Block(float hardness, float resistance) {
             this(() -> new BlockBase(Material.IRON), hardness, resistance);
         }
-
+        
         Block(Supplier<net.minecraft.block.Block> constructor, float hardness, float resistance) {
-            this.instance = new LazyValue<>(() -> constructor.get()
+            this(str -> constructor.get(), hardness, resistance);
+        }
+
+        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance) {
+            this.instance = new LazyValue<>(() -> constructor.apply(this.name())
                     .setRegistryName("block_" + this.name().toLowerCase(Locale.ROOT))
                     .setTranslationKey("block_" + this.name().toLowerCase(Locale.ROOT))
                     .setCreativeTab(GregTechMod.GREGTECH_TAB)
@@ -634,7 +641,7 @@ public class BlockItems {
             }
             return false;
         }, (stack, machine, player) -> {
-             machine.setMjCapacity(machine.getMjCapacity() + MjHelper.convert(100000));
+             machine.setMjCapacity(machine.getMjCapacity() + MjHelper.toMicroJoules(100000));
         });
 
         private final LazyValue<Item> instance;
@@ -758,7 +765,7 @@ public class BlockItems {
 
         private final LazyValue<Item> instance;
         private final int efficiency;
-        private final int efficiencyMultiplier; // TODO To be used later
+        private final int efficiencyMultiplier;
         private final int durability;
 
         TurbineRotor(int efficiency, int efficiencyMultiplier, int durability) {
@@ -766,15 +773,11 @@ public class BlockItems {
             this.efficiencyMultiplier = efficiencyMultiplier;
             this.durability = durability;
             
-            String name = "turbine_rotor_"+this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(name, () -> GtUtil.translateGenericDescription("turbine_rotor", this.efficiency), this.durability)
-                    .setFolder("component")
-                    .setEnchantable(false)
+            String name = "turbine_rotor_" + this.name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemTurbineRotor(name, this.durability, this.efficiency, this.efficiencyMultiplier)
                     .setRegistryName(name)
                     .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                    .setMaxStackSize(1)
-                    .setNoRepair());
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override

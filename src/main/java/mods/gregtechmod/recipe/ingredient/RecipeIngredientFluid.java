@@ -1,5 +1,6 @@
 package mods.gregtechmod.recipe.ingredient;
 
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.core.GregTechMod;
@@ -40,10 +41,6 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
         } else return fromFluids(fluids, buckets);
 
         return EMPTY;
-    }
-
-    public static RecipeIngredientFluid fromFluid(Fluid fluid) {
-        return new RecipeIngredientFluid(Collections.singletonList(fluid), 1);
     }
 
     public static RecipeIngredientFluid fromFluid(Fluid fluid, int buckets) {
@@ -117,7 +114,10 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
         List<String> fluids = this.matchingFluids.stream()
                 .map(Fluid::getName)
                 .collect(Collectors.toList());
-        return "RecipeIngredientFluid{fluids="+fluids+",count="+this.count+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("ingredient", ingredient)
+                .add("matchingFluids", fluids)
+                .toString();
     }
 
     public static List<ItemStack> getContainersForFluids(List<Fluid> fluids) {

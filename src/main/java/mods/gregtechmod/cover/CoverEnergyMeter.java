@@ -168,7 +168,7 @@ public class CoverEnergyMeter extends CoverGeneric {
         }
 
         public String getMessageKey() {
-            return Reference.MODID+".item.energy_meter.mode."+this.name().toLowerCase(Locale.ROOT);
+            return Reference.MODID + ".item.energy_meter.mode." + this.name().toLowerCase(Locale.ROOT);
         }
     }
 }

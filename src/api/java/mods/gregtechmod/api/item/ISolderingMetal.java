@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public interface ISolderingMetal {
-    boolean canUse();
+    boolean canUse(ItemStack stack);
 
     void onUsed(EntityPlayer player, ItemStack stack);
 }

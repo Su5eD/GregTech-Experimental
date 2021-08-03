@@ -17,6 +17,7 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
@@ -75,12 +76,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.baseEnergyConsume = nbt.getDouble("baseEnergyConsume");
         this.energyConsume = nbt.getDouble("energyConsume");
         this.maxProgress = nbt.getInteger("operationLength");
-        for (int i = 0; i < 4; i++) { // TODO Use Tag List
-            if(nbt.hasKey("outputStack"+i)) {
-                NBTTagCompound tNBT = (NBTTagCompound) nbt.getTag("outputStack"+i);
-                ItemStack stack = new ItemStack(tNBT);
-                pendingRecipe.add(stack);
-            }
+        
+        if (nbt.hasKey("pendingRecipe")) {
+            nbt.getTagList("pendingRecipe", 10)
+                    .forEach(tag -> this.pendingRecipe.add(new ItemStack((NBTTagCompound) tag)));
         }
     }
 
@@ -90,13 +89,16 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         nbt.setDouble("baseEnergyConsume", this.baseEnergyConsume);
         nbt.setDouble("energyConsume", this.energyConsume);
         nbt.setInteger("operationLength", this.maxProgress);
-        if(pendingRecipe.size() > 0) {
-            for (int i = 0; i < pendingRecipe.size(); i++) {
-                NBTTagCompound tNBT = new NBTTagCompound();
-                ItemStack stack = (ItemStack) pendingRecipe.toArray()[i];
-                stack.writeToNBT(tNBT);
-                nbt.setTag("outputStack"+i, tNBT);
-            }
+        if(!this.pendingRecipe.isEmpty()) {
+            NBTTagList list = new NBTTagList();
+            this.pendingRecipe.stream()
+                    .map(stack -> {
+                        NBTTagCompound tag = new NBTTagCompound();
+                        stack.writeToNBT(tag);
+                        return tag;
+                    })
+                    .forEach(list::appendTag);
+            nbt.setTag("pendingRecipe", list);
         }
         return nbt;
     }
@@ -113,7 +115,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         if (canOperate(recipe)) {
             updateEnergyConsume(recipe);
 
-            if (this.energy.discharge(energyConsume) > 0 || hasMjUpgrade && this.receiver.extractPower(MjHelper.convert(energyConsume))) {
+            if (this.energy.discharge(energyConsume) > 0 || hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(energyConsume))) {
                 dirty = processRecipe(recipe);
             } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getEnergyForSteam(energyConsume))) {
                 dirty = processRecipe(recipe);

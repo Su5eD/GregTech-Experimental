@@ -8,19 +8,19 @@ import mods.gregtechmod.gui.GuiDistillationTower;
 import mods.gregtechmod.inventory.invslot.GtConsumableCell;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerDistillationTower;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.struct.StructureElement;
+import mods.gregtechmod.util.struct.StructureElementGatherer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class TileEntityDistillationTower extends TileEntityStructureBase<Object, IRecipeCellular, IRecipeIngredient, ItemStack, IGtRecipeManagerCellular> {
     public GtConsumableCell cellSlot;
@@ -44,43 +44,45 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
                 Arrays.asList(
+                        " X ",
                         "SSS",
                         "SSS",
-                        "SSS",
-                        " X "
+                        "SSS"
                 ),
                 Arrays.asList(
+                        "   ",
                         "DDD",
                         "DAD",
-                        "DDD",
-                        "   "
+                        "DDD"
                 ),
                 Arrays.asList(
+                        "   ",
                         "SSS",
                         "SAS",
-                        "SSS",
-                        "   "
+                        "SSS"
                 ),
                 Arrays.asList(
+                        "   ",
                         "DDD",
                         "DAD",
-                        "DDD",
-                        "   "
+                        "DDD"
                 ),
                 Arrays.asList(
+                        "   ",
                         "SSS",
                         "SSS",
-                        "SSS",
-                        "   "
+                        "SSS"
                 )
         );
     }
     
     @Override
-    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
-        map.put('S', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()));
-        map.put('D', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance()));
-        map.put('A', pos -> GtUtil.findBlocks(world, pos, Blocks.AIR));
+    protected Map<Character, Collection<StructureElement>> getStructureElements() {
+        return new StructureElementGatherer(this::getWorld)
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
+                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance())
+                .block('A', Blocks.AIR)
+                .gather();
     }
 
     @Override

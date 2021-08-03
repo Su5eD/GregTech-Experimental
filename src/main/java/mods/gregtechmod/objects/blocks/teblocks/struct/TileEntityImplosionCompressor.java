@@ -9,19 +9,18 @@ import mods.gregtechmod.gui.GuiImplosionCompressor;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableImplosion;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerImplosionCompressor;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.struct.StructureElement;
+import mods.gregtechmod.util.struct.StructureElementGatherer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class TileEntityImplosionCompressor extends TileEntityStructureBase<Object, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, List<IRecipeIngredient>, List<ItemStack>, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
     public final GtSlotProcessableImplosion secondaryInput;
@@ -68,10 +67,12 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
     
     @Override
-    protected void getStructureElements(Map<Character, Predicate<BlockPos>> map) {
-        map.put('S', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()));
-        map.put('R', pos -> GtUtil.findBlocks(world, pos, BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()));
-        map.put('A', pos -> GtUtil.findBlocks(world, pos, Blocks.AIR));
+    protected Map<Character, Collection<StructureElement>> getStructureElements() {
+        return new StructureElementGatherer(this::getWorld)
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
+                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
+                .block('A', Blocks.AIR)
+                .gather();
     }
 
     @Override

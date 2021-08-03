@@ -6,6 +6,7 @@ import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.fuel.IFuelManagerFluid;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.gui.GuiMultiblock;
@@ -15,25 +16,27 @@ import mods.gregtechmod.objects.blocks.teblocks.component.Maintenance;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMultiblock;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.struct.Structure;
-import net.minecraft.block.state.IBlockState;
+import mods.gregtechmod.util.struct.StructureElement;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable implements IPanelInfoProvider, IHasGui {
-    public final Structure<MultiBlockInstance> structure;
+public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBase.MultiBlockInstance> extends TileEntityUpgradable implements IPanelInfoProvider, IHasGui {
+    public final Structure<T> structure;
     protected final IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager;
     public final InvSlot machinePartSlot;
     
@@ -53,32 +56,47 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
         super(descriptionKey);
         this.fuelManager = fuelManager;
         this.maintenance = addComponent(new Maintenance(this));
-        Map<Character, Predicate<BlockPos>> elements = new HashMap<>();
-        getStructureElements(elements);
-        this.structure = new Structure<>(getStructurePattern(), elements, map -> new MultiBlockInstance(this.world, map));
+        this.structure = new Structure<>(getStructurePattern(), getStructureElements(), this::createStructureInstance, this::onInvalidate);
         this.machinePartSlot = new GtSlotFiltered(this, "machine_part", InvSlot.Access.NONE, 1, this::acceptsMachinePart);
     }
     
     protected abstract List<List<String>> getStructurePattern();
         
-    protected abstract void getStructureElements(Map<Character, Predicate<BlockPos>> map);
+    protected abstract Map<Character, Collection<StructureElement>> getStructureElements();
+    
+    protected abstract T createStructureInstance(EnumFacing facing, Map<Character, Collection<BlockPos>> elements);
 
+    @Override
+    public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {
+        super.onPlaced(stack, placer, facing);
+        this.structure.checkWorldStructure(this.pos, this.getFacing());
+    }
+
+    @Override
+    protected void updateEntityClient() {
+        super.updateEntityClient();
+            
+        if (tickCounter++ % 5 == 0) {
+            this.structure.checkWorldStructure(this.pos, this.getFacing());
+        }
+    }
+        
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
         
-        if (tickCounter % 50 == 0) {
-            this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world);
+        if (tickCounter % 5 == 0) {
+            this.structure.checkWorldStructure(this.pos, this.getFacing());
         }
         
         if (--startUpCheck >= 0) return;
-        Optional<Structure<MultiBlockInstance>.WorldStructure> struct = this.structure.getWorldStructure();
+        Optional<Structure<T>.WorldStructure> struct = this.structure.getWorldStructure();
         if (!struct.map(Structure.WorldStructure::isValid).orElse(false)) {
             stopMachine();
             return;
         }
         
-        MultiBlockInstance instance = struct.get().getInstance();
+        T instance = struct.get().getInstance();
         instance.collectMaintenanceStatus(this.maintenance);
         int repairStatus = this.getRepairStatus();
         
@@ -89,6 +107,7 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
                     stopMachine();
                 } else {
                     setActive(true);
+                    onStart(instance);
                     onRunningTick(instance);
                     
                     if (++this.progress >= this.maxProgress) {
@@ -98,7 +117,10 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
                         this.progress = this.maxProgress = this.efficiencyIncrease = 0;
                         this.fuelOutput = null;
                         checkFuel(instance);
-                        if (this.maxProgress <= 0) setActive(false);
+                        if (this.maxProgress <= 0) {
+                            setActive(false);
+                            onStop(instance);
+                        }
                     }
                 }
             } else {
@@ -108,6 +130,10 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
         } else stopMachine();
     }
     
+    protected void onStart(T instance) {}
+    
+    protected void onStop(T instance) {}
+    
     private void checkFuel(MultiBlockInstance instance) {
         if (isAllowedToWork()) {
             IFuel<IRecipeIngredient> fuel = getFuel(instance);
@@ -115,15 +141,6 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
                 this.fuelOutput = getFuelOutput(fuel);
                 processFuel(instance, fuel);
             }
-        }
-    }
-
-    @Override
-    protected void updateEntityClient() {
-        super.updateEntityClient();
-        
-        if (tickCounter % 50 == 0) {
-            this.structure.checkWorldStructure(this.pos, this.getFacing(), this.world);
         }
     }
 
@@ -142,7 +159,10 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
                 machinePart.setItemDamage(machinePart.getItemDamage() + getDamageToComponent(machinePart));
                 if (machinePart.getItemDamage() >= machinePart.getMaxDamage()) {
                     this.machinePartSlot.clear();
-                    if (explodesOnComponentBreak(machinePart)) markForExplosion(10);
+                    if (explodesOnComponentBreak(machinePart)) {
+                        stopMachine();
+                        markForExplosion(7);
+                    }
                     return false;
                 }
             }
@@ -172,6 +192,9 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
         this.fuelOutput = null;
         setAllowedToWork(false);
         setActive(false);
+        this.structure.getWorldStructure()
+                .map(Structure.WorldStructure::getInstance)
+                .ifPresent(this::onStop);
     }
 
     /**
@@ -195,6 +218,37 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
     public abstract IFuel<IRecipeIngredient> getFuel(MultiBlockInstance instance);
     public abstract void processFuel(MultiBlockInstance instance, IFuel<IRecipeIngredient> fuel);
     public abstract ItemStack getFuelOutput(IFuel<IRecipeIngredient> fuel);
+    
+    protected void addOutput(MultiBlockInstance instance) {
+        instance.addOutput(this.fuelOutput);
+    }
+    
+    protected Optional<IFuel<IRecipeIngredient>> getFluidFuel(MultiBlockInstance instance) {
+        return instance.getInputFluids().stream()
+                .map(FluidStack::getFluid)
+                .map(this.fuelManager::getFuel)
+                .filter(Objects::nonNull)
+                .findFirst();
+    }
+
+    protected boolean consumeInput(MultiBlockInstance instance, IFuel<IRecipeIngredient> fuel) {
+        IRecipeIngredient input = fuel.getInput();
+        if (input instanceof IRecipeIngredientFluid) {
+            return consumeFluidInput(instance, (IRecipeIngredientFluid) input);
+        } else {
+            return input.getMatchingInputs()
+                    .stream()
+                    .anyMatch(instance::depleteInput);
+        }
+    }
+
+    protected boolean consumeFluidInput(MultiBlockInstance instance, IRecipeIngredientFluid input) {
+        int buckets = input.getCount() * Fluid.BUCKET_VOLUME;
+        return input.getMatchingFluids()
+                .stream()
+                .map(fluid -> new FluidStack(fluid, buckets))
+                .anyMatch(instance::depleteInput);
+    }
             
     private int getRepairStatus() {
         return (int) Stream.of(
@@ -208,6 +262,16 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
                 .filter(Boolean::booleanValue)
                 .count();
     }
+
+    @Override
+    protected void onBlockBreak() {
+        super.onBlockBreak();
+        this.structure.getWorldStructure()
+                .map(Structure.WorldStructure::getInstance)
+                .ifPresent(this::onInvalidate);
+    }
+
+    protected void onInvalidate(T instance) {}
 
     @Override
     public void getNetworkedFields(List<? super String> list) {
@@ -310,14 +374,19 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
     public void onGuiClosed(EntityPlayer entityPlayer) {}
 
     public static class MultiBlockInstance {
+        protected final Collection<BlockPos> positions;
         protected final List<TileEntityHatchInput> inputHatches = new ArrayList<>();
         protected final List<TileEntityHatchOutput> outputHatches = new ArrayList<>();
         protected final List<TileEntityHatchDynamo> dynamoHatches = new ArrayList<>();
         protected final List<TileEntityHatchMuffler> mufflerHatches = new ArrayList<>();
         protected final List<TileEntityHatchMaintenance> maintenanceHatches = new ArrayList<>();
         
-        protected MultiBlockInstance(IBlockAccess world, Map<BlockPos, IBlockState> states) {
-            states.keySet().stream()
+        protected MultiBlockInstance(IBlockAccess world, Map<Character, Collection<BlockPos>> elements) {
+            this.positions = elements.values().stream()
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList());
+            
+            this.positions.stream()
                     .map(world::getTileEntity)
                     .filter(Objects::nonNull)
                     .forEach(tileEntity -> {
@@ -365,9 +434,17 @@ public abstract class TileEntityMultiBlockBase extends TileEntityUpgradable impl
                     .anyMatch(hatch -> hatch.addOutput(fluid));
         }
         
+        public List<ItemStack> getInputItems() {
+            return inputHatches.stream()
+                    .map(TileEntityHatchInput::getItem)
+                    .filter(stack -> !stack.isEmpty())
+                    .collect(Collectors.toList());
+        }
+        
         public List<FluidStack> getInputFluids() {
             return inputHatches.stream()
                     .map(TileEntityHatchInput::getFluid)
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         }
         

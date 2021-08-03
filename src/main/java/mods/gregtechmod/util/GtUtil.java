@@ -1,6 +1,7 @@
 package mods.gregtechmod.util;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableMap;
 import com.mojang.authlib.GameProfile;
 import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
@@ -17,6 +18,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,37 +56,36 @@ import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class GtUtil {
     public static final Random RANDOM = new Random();
     public static final Supplier<String> NULL_SUPPLIER = () -> null;
+    public static final IFluidHandler VOID_TANK = new VoidTank();
+    @SuppressWarnings("Guava")
+    public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
+    
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
-    private static Object modFile;
-    public static final IFluidHandler VOID_TANK = new VoidTank();
-    public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
-
-    private static Object getModFile() {
-        if (modFile == null) {
-            File file = Loader.instance().activeModContainer().getSource();
-            if (file.isFile()) {
-                try {
-                    modFile = FileSystems.newFileSystem(file.toPath(), null);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private static final LazyValue<Object> MOD_FILE = new LazyValue<>(() -> {
+        File file = Loader.instance().activeModContainer().getSource();
+        if (file.isFile()) {
+            try {
+                return FileSystems.newFileSystem(file.toPath(), null);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not find the mod container source", e);
             }
-            else modFile = file.toPath();
         }
-        return modFile;
-    }
+        else return file.toPath();
+    });
     
     public static Path getAssetPath(String name) {
-        Object modFile = getModFile();
+        String path = "assets/" + Reference.MODID + "/" + name;
+        Object modFile = MOD_FILE.get();
         
-        if (modFile instanceof FileSystem) return ((FileSystem) modFile).getPath(name);
-        else return ((Path) modFile).resolve(name);
+        if (modFile instanceof FileSystem) return ((FileSystem) modFile).getPath(path);
+        else return ((Path) modFile).resolve(path);
     }
     
     public static BufferedReader readAsset(String path) {
@@ -98,8 +99,8 @@ public class GtUtil {
         return (a, b) -> true;
     }
 
-    public static String capitalizeString(String aString) {
-        if (aString != null && aString.length() > 0) return aString.substring(0, 1).toUpperCase() + aString.substring(1);
+    public static String capitalizeString(String str) {
+        if (str != null && str.length() > 0) return str.substring(0, 1).toUpperCase() + str.substring(1);
         return "";
     }
 
@@ -136,17 +137,16 @@ public class GtUtil {
         stack.setTagInfo("title", new NBTTagString(GtUtil.translate("book."+name+".name")));
         stack.setTagInfo("author", new NBTTagString(author));
         NBTTagList tagList = new NBTTagList();
-        byte i;
-        for (i = 0; i < pages; i = (byte)(i + 1)) {
-            String page = '\"'+GtUtil.translate("book." + name + ".page" + (i < 10 ? "0" + i : i))+'\"';
+        for (int i = 0; i < pages; i++) {
+            String page = '\"' + GtUtil.translate("book." + name + ".page" + (i < 10 ? "0" + i : i)) + '\"';
             if (i < 48) {
                 if (page.length() < 256) {
                     tagList.appendTag(new NBTTagString(page));
                 } else {
-                    GregTechMod.logger.warn("WARNING: String for written book too long! -> " + page);
+                    GregTechMod.logger.warn("String for written book too long: " + page);
                 }
             } else {
-                GregTechMod.logger.warn("WARNING: Too many pages for written book! -> " + name);
+                GregTechMod.logger.warn("Too many pages for written book: " + name);
                 break;
             }
         }
@@ -156,23 +156,20 @@ public class GtUtil {
     }
 
     public static boolean damageStack(EntityPlayer player, ItemStack stack, int damage) {
-        if (stack.isItemStackDamageable())
-        {
+        if (stack.isItemStackDamageable()) {
             if (!player.capabilities.isCreativeMode) {
-                if (stack.attemptDamageItem(damage, player.getRNG(), player instanceof EntityPlayerMP ? (EntityPlayerMP) player : null))
-                {
+                if (stack.attemptDamageItem(damage, player.getRNG(), player instanceof EntityPlayerMP ? (EntityPlayerMP) player : null)) {
                     if (stack.getItem().hasContainerItem(stack)) {
                         ItemStack containerStack = stack.getItem().getContainerItem(stack);
                         if (!containerStack.isEmpty()) {
                             player.setHeldItem(player.getActiveHand(), containerStack.copy());
-                        } else {
-                            player.renderBrokenItemStack(stack);
-                            stack.shrink(1);
-                            player.addStat(StatList.getObjectBreakStats(stack.getItem()));
-                            stack.setItemDamage(0);
+                            return true;
                         }
                     }
-                    return false;
+                    player.renderBrokenItemStack(stack);
+                    stack.shrink(1);
+                    player.addStat(StatList.getObjectBreakStats(stack.getItem()));
+                    stack.setItemDamage(0);
                 }
             }
             return true;
@@ -181,35 +178,35 @@ public class GtUtil {
     }
 
     public static String translateScan(String key, Object... parameters) {
-        return I18n.format(Reference.MODID+".scan."+key, parameters);
+        return I18n.format(Reference.MODID + ".scan." + key, parameters);
     }
 
     public static String translateTeBlockDescription(String key) {
-        return translate("teblock."+key+".description");
+        return translate("teblock." + key + ".description");
     }
 
     public static String translateInfo(String key, Object... parameters) {
-        return translate("info."+key, parameters);
+        return translate("info." + key, parameters);
     }
 
     public static String translateGenericDescription(String key, Object... parameters) {
-        return translateGeneric(key+".description", parameters);
+        return translateGeneric(key + ".description", parameters);
     }
 
     public static String translateGeneric(String key, Object... parameters) {
-        return translate("generic."+key, parameters);
+        return translate("generic." + key, parameters);
     }
 
     public static String translateItemDescription(String key, Object... parameters) {
-        return translateItem(key+".description", parameters);
+        return translateItem(key + ".description", parameters);
     }
 
     public static String translateItem(String key, Object... parameters) {
-        return translate("item."+key, parameters);
+        return translate("item." + key, parameters);
     }
 
     public static String translate(String key, Object... parameters) {
-        return I18n.format(Reference.MODID+"."+key, parameters);
+        return I18n.format(Reference.MODID + "." + key, parameters);
     }
 
     public static double getTransferLimit(int tier) {
@@ -295,8 +292,9 @@ public class GtUtil {
         Item item = stack.getItem();
         if (item instanceof IUpgradeItem) {
             ItemUpgradeModule.UpgradeType upgradeType = ItemUpgradeModule.UpgradeType.values()[stack.getMetadata()];
+            String name = upgradeType.name();
             for (IC2UpgradeType type : IC2UpgradeType.values()) {
-                if (type.itemType.equals(upgradeType.name())) return type;
+                if (type.itemType.equals(name)) return type;
             }
         }
         return null;
@@ -343,12 +341,12 @@ public class GtUtil {
         return state.getBlock().isAir(state, world, pos);
     }
     
-    public static boolean findBlocks(IBlockAccess world, BlockPos pos, Block... blocks) {
+    public static boolean findBlock(IBlockAccess world, BlockPos pos, Block... blocks) {
         Block block = world.getBlockState(pos).getBlock();
         return Arrays.asList(blocks).contains(block);
     }
     
-    public static boolean findTileEntities(IBlockAccess world, BlockPos pos, Class<?>... classes) {
+    public static boolean findTileEntity(IBlockAccess world, BlockPos pos, Class<?>... classes) {
         TileEntity tileEntity = world.getTileEntity(pos);
         return tileEntity != null && Arrays.stream(classes)
                 .anyMatch(clazz -> clazz.isInstance(tileEntity));
@@ -359,6 +357,29 @@ public class GtUtil {
         for (int i = 0; i < space; i++) {
             list.add(fill);
         }
+    }
+    
+    public static <K, V> Map<K, V> zipToMap(List<K> keys, List<V> values) {
+        Iterator<K> keyIter = keys.iterator();
+        Iterator<V> valIter = values.iterator();
+        return IntStream.range(0, keys.size()).boxed()
+                .collect(Collectors.toMap(_i -> keyIter.next(), _i -> valIter.next()));
+    }
+    
+    @Nullable
+    public static <T extends Enum<T>> T getEnumConstantSafely(Class<T> clazz, String name) {
+        try {
+            return Enum.valueOf(clazz, name);
+        } catch (IllegalArgumentException ignored) {
+            return null;
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Nullable
+    public static  <T extends Comparable<T>> T getStateProperty(IBlockState state, IProperty<T> property) {
+        ImmutableMap<IProperty<?>, Comparable<?>> properties = state.getProperties();
+        return (T) properties.get(property);
     }
     
     private static class VoidTank implements IFluidHandler {

@@ -9,6 +9,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
+
+import java.util.Arrays;
 
 public class MachineSafety {
 
@@ -40,10 +43,9 @@ public class MachineSafety {
     }
 
     public static void setBlockOnFire(World world, BlockPos pos) {
-        for (EnumFacing facing : EnumFacing.values()) {
-            BlockPos offset = pos.offset(facing);
-            if (world.isAirBlock(offset))
-                world.setBlockState(offset, Blocks.FIRE.getDefaultState(), 11);
-        }
+        Arrays.stream(EnumFacing.VALUES)
+                .map(pos::offset)
+                .filter(world::isAirBlock)
+                .forEach(offset -> world.setBlockState(offset, Blocks.FIRE.getDefaultState(), Constants.BlockFlags.DEFAULT_AND_RERENDER));
     }
 }

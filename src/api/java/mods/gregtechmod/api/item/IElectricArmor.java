@@ -14,10 +14,4 @@ public interface IElectricArmor {
     Collection<ArmorPerk> getPerks();
 
     Map<EntityPlayer, Float> getJumpChargeMap();
-
-    boolean canProvideEnergy();
-
-    double getAbsorbtionPercentage();
-
-    int getDamageEnergyCost();
 }
