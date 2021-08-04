@@ -29,7 +29,7 @@ public class RecipeSawmill extends Recipe<List<IRecipeIngredient>, List<ItemStac
                                        @JsonProperty(value = "universal") boolean universal) {
         output = RecipeUtil.adjustOutputCount("sawmill", output, 2);
 
-        IRecipeIngredientFluid fluid = RecipeIngredientFluid.fromFluid(FluidRegistry.WATER, water);
+        IRecipeIngredientFluid fluid = RecipeIngredientFluid.fromFluid(FluidRegistry.WATER, Math.max(water, 1));
         RecipeSawmill recipe = new RecipeSawmill(input, fluid, output, universal);
 
         if (!RecipeUtil.validateRecipeIO("sawmill", input, output)) recipe.invalid = true;
