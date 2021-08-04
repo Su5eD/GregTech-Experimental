@@ -1,5 +1,7 @@
 package mods.gregtechmod.compat;
 
+import buildcraft.api.facades.FacadeAPI;
+import buildcraft.silicon.plug.FacadeStateManager;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
@@ -11,11 +13,44 @@ import mods.railcraft.api.fuel.FluidFuelManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.stream.Stream;
 
 public class ModCompat {
+    
+    public static void disableCasingFacades() {
+        if (ModHandler.buildcraftSilicon) sendFakeIMC();
+    }
+    
+    @SuppressWarnings("deprecation")
+    @Optional.Method(modid = "buildcraftsilicon")
+    private static void sendFakeIMC() {
+        Constructor<FMLInterModComms.IMCMessage> imcContructor = ObfuscationReflectionHelper.findConstructor(FMLInterModComms.IMCMessage.class, String.class, Object.class);
+        Field senderField = ReflectionHelper.findField(FMLInterModComms.IMCMessage.class, "sender");
+        
+        Stream.of(BlockItems.Block.STANDARD_MACHINE_CASING, BlockItems.Block.REINFORCED_MACHINE_CASING, BlockItems.Block.ADVANCED_MACHINE_CASING, BlockItems.Block.IRIDIUM_REINFORCED_TUNGSTEN_STEEL, BlockItems.Block.TUNGSTEN_STEEL)
+                .map(BlockItems.Block::getInstance)
+                .map(IForgeRegistryEntry.Impl::getRegistryName)
+                .forEach(name -> {
+                    try {
+                        FMLInterModComms.IMCMessage message = imcContructor.newInstance(FacadeAPI.IMC_FACADE_DISABLE, name);
+                        senderField.set(message, Reference.MODID);
+                        FacadeStateManager.receiveInterModComms(message);
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                        GregTechMod.logger.error("Error while trying to disable casing facades", e);
+                    }
+                });
+    }
 
     public static void registerTools() {
         GregTechMod.logger.info("Registering various tools to be usable on GregTech machines");

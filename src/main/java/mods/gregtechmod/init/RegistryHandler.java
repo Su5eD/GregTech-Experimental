@@ -4,6 +4,7 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModCompat;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
@@ -38,6 +39,8 @@ public class RegistryHandler {
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
                 .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
         GregTechObjectAPI.setTileEntityMap(teblocks);
+        
+        ModCompat.disableCasingFacades();
     }
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {

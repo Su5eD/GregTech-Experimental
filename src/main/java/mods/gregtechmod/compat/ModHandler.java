@@ -67,6 +67,7 @@ public class ModHandler {
     public static boolean buildcraftFactory;
     public static boolean buildcraftTransport;
     public static boolean buildcraftLib;
+    public static boolean buildcraftSilicon;
     public static boolean twilightForest;
     public static boolean enderStorage;
     public static boolean agricraft;
@@ -103,6 +104,7 @@ public class ModHandler {
         buildcraftFactory = Loader.isModLoaded("buildcraftfactory");
         buildcraftTransport = Loader.isModLoaded("buildcrafttransport");
         buildcraftLib = Loader.isModLoaded("buildcraftlib");
+        buildcraftSilicon = Loader.isModLoaded("buildcraftsilicon");
         twilightForest = Loader.isModLoaded("twilightforest");
         enderStorage = Loader.isModLoaded("enderstorage");
         agricraft = Loader.isModLoaded("agricraft");
