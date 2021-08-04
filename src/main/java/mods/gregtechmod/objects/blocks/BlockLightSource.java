@@ -35,8 +35,8 @@ public class BlockLightSource extends BlockBase implements ITileEntityProvider {
         setTranslationKey("light_source");
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState state)
-    {
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.INVISIBLE;
     }
 
@@ -88,6 +88,7 @@ public class BlockLightSource extends BlockBase implements ITileEntityProvider {
         return new TileEntityLightSource();
     }
 
+    @Override
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }

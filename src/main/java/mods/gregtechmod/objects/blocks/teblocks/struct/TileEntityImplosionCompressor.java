@@ -88,12 +88,11 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
 
     @Override
-    protected boolean processRecipe(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe) {
-        boolean ret = super.processRecipe(recipe);
+    protected void processRecipe() {
+        super.processRecipe();
         if (getActive() && tickCounter % 20 == 0) {
             this.world.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4, (1 + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
         }
-        return ret;
     }
 
     @Override

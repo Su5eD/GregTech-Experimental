@@ -118,8 +118,8 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     // ---------------------------
 
     @Override
-    protected boolean canOperate(IRecipeBlastFurnace recipe) {
-        boolean ret = super.canOperate(recipe);
+    protected boolean canProcessRecipe(IRecipeBlastFurnace recipe) {
+        boolean ret = super.canProcessRecipe(recipe);
         if (recipe != null && ret) {
             return this.structure.getWorldStructure()
                     .map(Structure.WorldStructure::getInstance)

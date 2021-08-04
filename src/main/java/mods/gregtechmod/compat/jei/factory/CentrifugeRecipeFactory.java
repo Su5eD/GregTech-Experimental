@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class CentrifugeRecipeFactory extends CellularRecipeFactory {
     public static final CentrifugeRecipeFactory INSTANCE = new CentrifugeRecipeFactory();
 
+    @Override
     @Nullable
     protected IRecipeCellular createCellRecipe(List<Fluid> input, List<ItemStack> output, int count, int cellCount, int duration, double energyCost) {
         List<ItemStack> fluidCells = getCells(input);
@@ -34,6 +35,7 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
         return RecipeCentrifuge.create(RecipeIngredientItemStack.create(fluidCells, count), recipeOutput, cellCount, duration, CellType.CELL);
     }
 
+    @Override
     @Nullable
     protected IRecipeCellular createCanRecipe(List<Fluid> input, List<ItemStack> output, int count, int cellCount, int duration, double energyCost) {
         List<ItemStack> fluidCells = getFluidContainers(input, ModHandler.can);
@@ -49,6 +51,7 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
         return RecipeCentrifuge.create(RecipeIngredientItemStack.create(fluidCells, count), recipeOutput, cellCount, duration, CellType.CELL);
     }
 
+    @Override
     @Nullable
     protected IRecipeCellular createCapsuleRecipe(List<Fluid> input, List<ItemStack> output, int count, int cellCount, int duration, double energyCost, ItemStack capsule) {
         List<ItemStack> capsules = getFluidContainers(input, capsule);

@@ -35,6 +35,7 @@ public class ItemDestructorPack extends ItemBase implements IHandHeldInventory {
         return new HandHeldDestructorPack(entityPlayer, itemStack, 1);
     }
 
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (!player.world.isRemote) IC2.platform.launchGui(player, getInventory(player, stack));

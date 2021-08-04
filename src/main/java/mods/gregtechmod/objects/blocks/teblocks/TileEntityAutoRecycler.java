@@ -28,7 +28,7 @@ public class TileEntityAutoRecycler extends TileEntityBasicMachineSingleInput<IM
     }
 
     @Override
-    protected boolean canOperate(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
+    protected boolean canProcessRecipe(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
         boolean canWork = this.maxProgress > 0 || !this.pendingRecipe.isEmpty();
         return canWork || isAllowedToWork() && !this.inputSlot.isEmpty();
     }

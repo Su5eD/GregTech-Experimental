@@ -11,6 +11,7 @@ public abstract class RecipeManagerBase<R extends IMachineRecipe<IRecipeIngredie
                 .anyMatch(recipe -> recipe.getInput().apply(input, false));
     }
 
+    @Override
     protected R getRecipeForExact(R recipe) {
         IRecipeIngredient input = recipe.getInput();
         return this.recipes.stream()

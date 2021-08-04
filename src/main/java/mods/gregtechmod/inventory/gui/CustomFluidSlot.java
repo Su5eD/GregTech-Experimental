@@ -28,6 +28,7 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
         this.fluidNameOnly = displayFluidNameOnly;
     }
 
+    @Override
     public void drawBackground(int mouseX, int mouseY) {
         if (this.texture != null) {
             bindTexture(this.texture);
@@ -45,6 +46,7 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
         }
     }
 
+    @Override
     protected List<String> getToolTip() {
         List<String> ret = super.getToolTip();
         FluidStack stack = this.tank.getFluid();

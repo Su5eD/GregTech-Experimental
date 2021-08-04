@@ -148,6 +148,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     
     protected abstract int getBaseSinkTier();
     
+    @Override
     public void addExtraSinkTier() {
         this.extraSinkTier++;
     }
@@ -160,6 +161,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     
     protected abstract int getBaseEUCapacity();
     
+    @Override
     public void addExtraEUCapacity(int extraCapacity) {
         this.extraEUCapacity += extraCapacity;
     }

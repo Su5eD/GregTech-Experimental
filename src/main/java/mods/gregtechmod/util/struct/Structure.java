@@ -3,7 +3,6 @@ package mods.gregtechmod.util.struct;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.*;
@@ -16,8 +15,8 @@ import java.util.stream.Collectors;
  * Holds the definition of machine structures, including the abstract layout, relative vectors, and in-world metadata.
  * Constructing and matching the structure consists of 3 main phases:
  * <ul>
- *     <li>Initialization</li> The user defines the layout of the structure using a pattern, elements map and an instance factory function (see {@link #Structure(List, Map, BiFunction)})
- *     <li>Construction</li> The elements map's keys are transformed into relative {@link Vec3iRotatable} positions.
+ *     <li>Pre-Initialization</li> The user defines the layout of the structure using a pattern, elements map and an instance factory function (see {@link #Structure(List, Map, BiFunction)})
+ *     <li>Initialization</li></li> The elements map's keys are transformed into relative {@link Vec3iRotatable} positions.
  *     <li>Application</li> Upon request, using the mapped elements map, root {@link BlockPos} and {@link EnumFacing}, creates a new {@link WorldStructure}
  * </ul>
  * @param <T> Generic type of {@link WorldStructure#instance}
@@ -41,8 +40,8 @@ public class Structure<T> {
      *                Each element in the list represents a single layer (<b>bottom to top</b>), and every <code>String</code> inside it defines blocks.
      *                NOTE: max dimensions aren't calculated automatically, and you need to include empty spaces, too.
      * @param elements a map containing blockstate predicates for each block key (<code>char</code>) in the pattern, which are used to match them.
-     *                 Keep in mind 'X' is a <b>mandatory</b>, <b>reserved</b> key which is used for the root block of the structure.
-     *                 The map shouldn't contain it. TODO update javadoc
+     *                 Keep in mind 'X' is a <b>reserved</b> key which is used for the root block of the structure.
+     *                 The map shouldn't contain it.
      * @param factory used to construct {@link WorldStructure#instance}
      * @param onInvalidate Called before {@link #worldStructure} is invalidated if {@link WorldStructure#instance} isn't null
      */
@@ -202,18 +201,6 @@ public class Structure<T> {
 
         public T getInstance() {
             return this.instance;
-        }
-    }
-
-    public static class WorldStructureElement {
-        public final char id;
-        private final Collection<StructureElement> structElements;
-        public final Collection<Pair<Vec3iRotatable, BlockPos>> positions;
-
-        public WorldStructureElement(char id, Collection<StructureElement> structElements, Collection<Pair<Vec3iRotatable, BlockPos>> positions) {
-            this.id = id;
-            this.structElements = structElements;
-            this.positions = positions;
         }
     }
 }

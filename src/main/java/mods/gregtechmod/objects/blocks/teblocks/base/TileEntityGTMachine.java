@@ -70,6 +70,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         return new InvSlotOutput(this, name, count);
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         this.progress = nbt.getDouble("progress");
@@ -83,6 +84,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         }
     }
 
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
         nbt.setDouble("progress", this.progress);
@@ -108,24 +110,44 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         if (GregTechConfig.MACHINES.machineChainExplosions) markForExplosion();
     }
 
+    @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        boolean dirty = false;
-        R recipe = getRecipe(); // TODO Skip check if machine is active
-        if (canOperate(recipe)) {
-            updateEnergyConsume(recipe);
-
-            if (this.energy.discharge(energyConsume) > 0 || hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(energyConsume))) {
-                dirty = processRecipe(recipe);
-            } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getEnergyForSteam(energyConsume))) {
-                dirty = processRecipe(recipe);
-                steamTank.drain(neededSteam, true);
+        
+        if (isProcessing()) {
+            boolean hasEnoughEnergy = checkEnergy();
+            if (hasEnoughEnergy) {
+                processRecipe();
+            }
+            else stop();
+        }
+        else {
+            R recipe = getRecipe();
+            if (canProcessRecipe(recipe)) {
+                updateEnergyConsume(recipe);
+                
+                boolean hasEnoughEnergy = checkEnergy();
+                if (hasEnoughEnergy) {
+                    if (this.maxProgress <= 0 && pendingRecipe.size() < 1) {
+                        prepareRecipeForProcessing(recipe);
+                    }
+                    processRecipe();
+                }
+                else stop();
             } else stop();
-        } else stop();
-
+        }
 
         this.guiProgress = this.progress / Math.max(this.maxProgress, 1);
-        if (dirty) markDirty();
+    }
+    
+    protected boolean checkEnergy() {
+        if (this.energy.discharge(energyConsume) > 0 || hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(energyConsume))) {
+           return true;
+        } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getEnergyForSteam(energyConsume))) {
+            steamTank.drain(neededSteam, true);
+            return true;
+        }
+        return false;
     }
 
     protected void updateEnergyConsume(@Nullable R recipe) {
@@ -134,34 +156,32 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             overclockEnergyConsume();
         }
     }
+    
+    protected boolean isProcessing() {
+        boolean active = this.maxProgress > 0 || !this.pendingRecipe.isEmpty();
+        if (!active && !isAllowedToWork()) return false;
+        return active;
+    }
 
-    protected boolean canOperate(R recipe) {
-        boolean canWork = this.maxProgress > 0 || !this.pendingRecipe.isEmpty();
-        if (!canWork && !isAllowedToWork()) return false;
-        return canWork || recipe != null && canAddOutput(recipe);
+    protected boolean canProcessRecipe(R recipe) {
+        return recipe != null && canAddOutput(recipe);
     }
     
     protected boolean canAddOutput(R recipe) {
         return this.outputSlot.canAdd(recipe.getOutput());
     }
 
-    protected boolean processRecipe(R recipe) {
-        boolean needsInvUpdate = false;
-            if (this.maxProgress <= 0 && pendingRecipe.size() < 1) {
-                prepareRecipeForProcessing(recipe);
-            }
-
-            setActive(true);
-            this.progress += Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER));
-            if (this.progress >= this.maxProgress) {
-                addOutput(pendingRecipe);
-                needsInvUpdate = true;
-                this.progress = 0;
-                this.energyConsume = 0;
-                this.maxProgress = 0;
-                pendingRecipe.clear();
-            }
-        return needsInvUpdate;
+    protected void processRecipe() {
+        setActive(true);
+        this.progress += Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER));
+        if (this.progress >= this.maxProgress) {
+            addOutput(pendingRecipe);
+            this.progress = 0;
+            this.energyConsume = 0;
+            this.maxProgress = 0;
+            pendingRecipe.clear();
+            markDirty();
+        }
     }
 
     protected void prepareRecipeForProcessing(R recipe) {
@@ -204,6 +224,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     public abstract R getRecipe();
 
+    @Override
     public double getGuiValue(String name) {
         if (name.equals("progress")) return this.guiProgress;
 

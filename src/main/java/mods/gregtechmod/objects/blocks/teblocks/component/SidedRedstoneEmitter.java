@@ -32,10 +32,12 @@ public class SidedRedstoneEmitter extends TileEntityComponent {
         this.parent.getWorld().notifyNeighborsOfStateChange(this.parent.getPos(), this.parent.getBlockType(), false);
     }
 
+    @Override
     public boolean enableWorldTick() {
         return !this.levels.isEmpty();
     }
 
+    @Override
     public void onWorldTick() {
         if (!this.levels.isEmpty() && !this.levels.equals(this.oldLevels)) this.oldLevels = levels;
     }

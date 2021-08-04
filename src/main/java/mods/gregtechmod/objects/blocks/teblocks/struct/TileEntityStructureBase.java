@@ -50,8 +50,8 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
     }
 
     @Override
-    protected boolean canOperate(R recipe) {
-        return super.canOperate(recipe) && this.structure.isValid();
+    protected boolean canProcessRecipe(R recipe) {
+        return super.canProcessRecipe(recipe) && this.structure.isValid();
     }
 
     @Override

@@ -35,10 +35,12 @@ public class LootFunctionWriteBook extends LootFunction {
             super(new ResourceLocation(Reference.MODID, "write_book"), LootFunctionWriteBook.class);
         }
 
+        @Override
         public void serialize(JsonObject object, LootFunctionWriteBook function, JsonSerializationContext serializationContext) {
             object.add("name", serializationContext.serialize(function.name));
         }
 
+        @Override
         public LootFunctionWriteBook deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditions) {
             return new LootFunctionWriteBook(conditions, JsonUtils.deserializeClass(object, "name", deserializationContext, String.class));
         }

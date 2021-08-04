@@ -27,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
@@ -217,14 +218,14 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         return this.itemMeta;
     }
 
+    @Override
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
         block.setCreativeTab(GregTechMod.GREGTECH_TAB);
         if (tab == CreativeTabs.SEARCH)
-            for (GregTechTEBlock type : VALUES) {
-                if (type.hasItem()) {
-                    list.add(block.getItemStack(type));
-                }
-            }
+            Arrays.stream(VALUES)
+                    .filter(GregTechTEBlock::hasItem)
+                    .map(block::getItemStack)
+                    .forEach(list::add);
     }
     public static void buildDummies() {
  		for (GregTechTEBlock block : values()) {
