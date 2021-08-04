@@ -1,7 +1,6 @@
 package mods.gregtechmod.core;
 
 import ic2.api.event.TeBlockFinalCallEvent;
-import ic2.core.IC2;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
 import ic2.core.ref.ItemName;
@@ -69,7 +68,7 @@ public final class GregTechMod {
 
         logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
-        GregTechAPI.isClassic = classic = IC2.version.isClassic();
+        GregTechAPIImpl.createAndInject();
         DynamicConfig.init();
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
@@ -86,8 +85,8 @@ public final class GregTechMod {
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
         
-        GregTechAPI.registerWrench(ItemName.wrench.getInstance());
-        GregTechAPI.registerWrench(ItemName.wrench_new.getInstance());
+        GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());
+        GregTechAPI.instance().registerWrench(ItemName.wrench_new.getInstance());
     }
 
     @EventHandler

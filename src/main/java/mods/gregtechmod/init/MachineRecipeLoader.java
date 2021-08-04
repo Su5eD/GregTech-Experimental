@@ -107,8 +107,8 @@ public class MachineRecipeLoader {
     public static void loadRecipes() {
         GregTechMod.logger.info("Loading machine recipes");
 
-        GregTechAPI.recipeFactory = new RecipeFactory();
-        GregTechAPI.ingredientFactory = new RecipeIngredientFactory();
+        GtUtil.setPrivateStaticValue(GregTechAPI.class, "recipeFactory", new RecipeFactory());
+        GtUtil.setPrivateStaticValue(GregTechAPI.class, "ingredientFactory", new RecipeIngredientFactory());
 
         Path recipesPath = GtUtil.getAssetPath("machine_recipes");
         Path gtConfig = relocateConfig(recipesPath, "machine_recipes");
@@ -119,8 +119,8 @@ public class MachineRecipeLoader {
         classicRecipesPath = MachineRecipeLoader.recipesPath.resolve("classic");
         experimentalRecipesPath = MachineRecipeLoader.recipesPath.resolve("experimental");
         
-        GregTechAPI.registerCondition("mod_loaded", node -> Loader.isModLoaded(node.get("modid").asText()));
-        GregTechAPI.registerCondition("ore_exists", node -> !OreDictUnificator.getFirstOre(node.get("ore").asText()).isEmpty());
+        GregTechAPI.instance().registerCondition("mod_loaded", node -> Loader.isModLoaded(node.get("modid").asText()));
+        GregTechAPI.instance().registerCondition("ore_exists", node -> !OreDictUnificator.getFirstOre(node.get("ore").asText()).isEmpty());
 
         GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
         parseRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
@@ -386,7 +386,7 @@ public class MachineRecipeLoader {
                 while (conditionIterator.hasNext()) {
                     JsonNode condition = conditionIterator.next();
                     String type = condition.get("type").asText();
-                    if (!GregTechAPI.testCondition(type, condition)) recipeIterator.remove();
+                    if (!GregTechAPI.instance().testCondition(type, condition)) recipeIterator.remove();
                 }
             }
             ((ObjectNode) recipe).remove("conditions");

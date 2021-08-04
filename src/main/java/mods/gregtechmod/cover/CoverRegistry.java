@@ -1,5 +1,8 @@
-package mods.gregtechmod.api.cover;
+package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverRegistry;
+import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.TriFunction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -10,18 +13,19 @@ import java.util.Map;
 /**
  * The home of all <code>{@link ICover}</code>s
  */
-public class CoverRegistry {
-    private static final Map<String, TriFunction<ICoverable, EnumFacing, ItemStack, ICover>> COVER_MAP = new HashMap<>();
-    private static final Map<Class<? extends ICover>, String> NAME_MAP = new HashMap<>();
+public class CoverRegistry implements ICoverRegistry {
+    private final Map<String, TriFunction<ICoverable, EnumFacing, ItemStack, ICover>> covers = new HashMap<>();
+    private final Map<Class<? extends ICover>, String> names = new HashMap<>();
 
     /**
      * Registers a GregTech cover
      * @param name The cover's unique registry name
      * @param factory Takes the <code>{@link ICoverable}</code> which is being covered, the <code>{@link EnumFacing}</code> at which it's being covered, an <code>{@link ItemStack}</code> containing the cover item and returns a new instance of the target <code>{@link ICover}</code>
      */
-    public static void registerCover(String name, TriFunction<ICoverable, EnumFacing, ItemStack, ICover> factory) {
-        if (COVER_MAP.put(name, factory) != null) throw new IllegalStateException("duplicate name: " + name);
-        NAME_MAP.put(factory.apply(null, null, null).getClass(), name);
+    @Override
+    public void registerCover(String name, TriFunction<ICoverable, EnumFacing, ItemStack, ICover> factory) {
+        if (covers.put(name, factory) != null) throw new IllegalStateException("duplicate name: " + name);
+        names.put(factory.apply(null, null, null).getClass(), name);
     }
 
     /**
@@ -32,8 +36,9 @@ public class CoverRegistry {
      * @param stack <code>{@link ItemStack}</code> containing the cover item
      * @return A new instance of the target cover
      */
-    public static ICover constructCover(String name, EnumFacing side, ICoverable parent, ItemStack stack) {
-        TriFunction<ICoverable, EnumFacing, ItemStack, ICover> constructor = COVER_MAP.get(name);
+    @Override
+    public ICover constructCover(String name, EnumFacing side, ICoverable parent, ItemStack stack) {
+        TriFunction<ICoverable, EnumFacing, ItemStack, ICover> constructor = covers.get(name);
         return constructor.apply(parent, side, stack);
     }
 
@@ -41,7 +46,8 @@ public class CoverRegistry {
      * @param cover The cover to look up
      * @return The name of the cover.
      */
-    public static String getCoverName(ICover cover) {
-        return NAME_MAP.get(cover.getClass());
+    @Override
+    public String getCoverName(ICover cover) {
+        return names.get(cover.getClass());
     }
 }

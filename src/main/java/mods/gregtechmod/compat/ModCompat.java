@@ -56,14 +56,14 @@ public class ModCompat {
         GregTechMod.logger.info("Registering various tools to be usable on GregTech machines");
         if (ModHandler.projectredCore) {
             ItemStack screwdriver = ModHandler.getPRItem("screwdriver", OreDictionary.WILDCARD_VALUE);
-            GregTechAPI.registerScrewdriver(screwdriver);
+            GregTechAPI.instance().registerScrewdriver(screwdriver);
         }
         if (ModHandler.railcraft) {
             Item ironCrowbar = ModHandler.getItem("railcraft", "tool_crowbar_iron");
             Item steelCrowbar = ModHandler.getItem("railcraft", "tool_crowbar_steel");
-            GregTechAPI.registerCrowbar(ironCrowbar);
-            GregTechAPI.registerCrowbar(steelCrowbar);
-            GregTechAPI.registerTurbineRotor(ModHandler.rcTurbineRotor, 80, 20, 2);
+            GregTechAPI.instance().registerCrowbar(ironCrowbar);
+            GregTechAPI.instance().registerCrowbar(steelCrowbar);
+            GregTechAPI.instance().registerTurbineRotor(ModHandler.rcTurbineRotor, 80, 20, 2);
         }
     }
 

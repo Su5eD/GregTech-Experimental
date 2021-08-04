@@ -9,14 +9,13 @@ import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.item.IElectricArmor;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
-import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
+import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -48,6 +47,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -105,12 +105,15 @@ public class GtUtil {
     }
 
     public static boolean getFullInvisibility(EntityPlayer player) {
-        if (player.isInvisible()) {
-            for (ItemStack stack : player.inventory.armorInventory) {
-                if (!stack.isEmpty() && stack.getItem() instanceof IElectricArmor && ((IElectricArmor)stack.getItem()).getPerks().contains(ArmorPerk.INVISIBILITY_FIELD) && ElectricItem.manager.canUse(stack, 10000)) return true;
-            }
-        }
-        return false;
+        return player.isInvisible() && player.inventory.armorInventory.stream()
+                .filter(stack -> !stack.isEmpty())
+                .anyMatch(stack -> {
+                    Item item = stack.getItem();
+                    if (item instanceof ItemArmorElectricBase) {
+                        return ((ItemArmorElectricBase) item).perks.contains(ArmorPerk.INVISIBILITY_FIELD) && ElectricItem.manager.canUse(stack, 10000);
+                    }
+                    return false;
+                });
     }
 
     @SafeVarargs
@@ -312,23 +315,23 @@ public class GtUtil {
     }
     
     public static boolean isWrench(ItemStack stack) {
-        return containsStack(stack, GregTechAPI.getWrenches());
+        return containsStack(stack, GregTechAPI.instance().getWrenches());
     }
     
     public static boolean isScrewdriver(ItemStack stack) {
-        return containsStack(stack, GregTechAPI.getScrewdrivers());
+        return containsStack(stack, GregTechAPI.instance().getScrewdrivers());
     }
     
     public static boolean isSoftHammer(ItemStack stack) {
-        return containsStack(stack, GregTechAPI.getSoftHammers());
+        return containsStack(stack, GregTechAPI.instance().getSoftHammers());
     }
     
     public static boolean isHardHammer(ItemStack stack) {
-        return containsStack(stack, GregTechAPI.getHardHammers());
+        return containsStack(stack, GregTechAPI.instance().getHardHammers());
     }
     
     public static boolean isCrowbar(ItemStack stack) {
-        return containsStack(stack, GregTechAPI.getCrowbars());
+        return containsStack(stack, GregTechAPI.instance().getCrowbars());
     }
     
     public static boolean containsStack(ItemStack stack, Collection<ItemStack> stacks) {
@@ -377,9 +380,19 @@ public class GtUtil {
     
     @SuppressWarnings("unchecked")
     @Nullable
-    public static  <T extends Comparable<T>> T getStateProperty(IBlockState state, IProperty<T> property) {
+    public static <T extends Comparable<T>> T getStateProperty(IBlockState state, IProperty<T> property) {
         ImmutableMap<IProperty<?>, Comparable<?>> properties = state.getProperties();
         return (T) properties.get(property);
+    }
+    
+    public static void setPrivateStaticValue(Class<?> clazz, String fieldName, Object value) {
+        try {
+            Field field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(null, value);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            GregTechMod.logger.error(e);
+        }
     }
     
     private static class VoidTank implements IFluidHandler {

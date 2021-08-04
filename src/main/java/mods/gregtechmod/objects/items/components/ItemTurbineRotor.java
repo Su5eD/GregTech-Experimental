@@ -13,6 +13,6 @@ public class ItemTurbineRotor extends ItemBase {
         setEnchantable(false);
         setMaxStackSize(1);
         setNoRepair();
-        GregTechAPI.registerTurbineRotor(new ItemStack(this), efficiency, efficiencyMultiplier, 1);
+        GregTechAPI.instance().registerTurbineRotor(new ItemStack(this), efficiency, efficiencyMultiplier, 1);
     }
 }

@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.blocks.teblocks.component;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.block.state.UnlistedProperty;
-import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import net.minecraft.item.ItemStack;
@@ -34,7 +34,7 @@ public class CoverHandler extends TileEntityComponent {
             if (nbt.hasKey(facing.getName())) {
                 NBTTagCompound cNbt = nbt.getCompoundTag(facing.getName());
                 ItemStack stack = new ItemStack((NBTTagCompound) cNbt.getTag("item"));
-                ICover cover = CoverRegistry.constructCover(cNbt.getString("name"), facing, te, stack);
+                ICover cover = GregTechAPI.getCoverRegistry().constructCover(cNbt.getString("name"), facing, te, stack);
                 cover.readFromNBT(cNbt);
                 this.covers.put(facing, cover);
             }
@@ -50,7 +50,7 @@ public class CoverHandler extends TileEntityComponent {
             ItemStack stack = cover.getItem();
             NBTTagCompound nbt = new NBTTagCompound();
 
-            nbt.setString("name", CoverRegistry.getCoverName(cover));
+            nbt.setString("name", GregTechAPI.getCoverRegistry().getCoverName(cover));
             NBTTagCompound tNbt = new NBTTagCompound();
             if (stack != null) stack.writeToNBT(tNbt);
             nbt.setTag("item", tNbt);

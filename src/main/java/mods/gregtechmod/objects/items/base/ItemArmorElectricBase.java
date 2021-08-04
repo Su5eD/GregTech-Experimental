@@ -2,10 +2,9 @@ package mods.gregtechmod.objects.items.base;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.item.armor.ItemArmorElectric;
-import mods.gregtechmod.api.item.IElectricArmor;
-import mods.gregtechmod.api.util.ArmorPerk;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.ArmorPerk;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IModelInfoProvider;
 import mods.gregtechmod.util.ModelInformation;
@@ -31,10 +30,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class ItemArmorElectricBase extends ItemArmorElectric implements IModelInfoProvider, IElectricArmor {
+public class ItemArmorElectricBase extends ItemArmorElectric implements IModelInfoProvider {
     private final String name;
     private String folder;
-    private final Set<ArmorPerk> perks;
+    public final Collection<ArmorPerk> perks;
     public static Map<EntityPlayer, Float> jumpChargeMap = new HashMap<>();
     public final boolean chargeProvider;
     public final double absorbtionPercentage;
@@ -43,7 +42,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     public ItemArmorElectricBase(String name, EntityEquipmentSlot slot, int maxCharge, int transferLimit, int tier, int damageEnergyCost, double absorbtionPercentage, boolean chargeProvider, ArmorPerk... perks) {
         super(null, null, slot, maxCharge, transferLimit, tier);
         this.name = name;
-        this.perks = new HashSet<>(Arrays.asList(perks));
+        this.perks = Collections.unmodifiableList(Arrays.asList(perks));
         this.chargeProvider = chargeProvider;
         this.absorbtionPercentage = absorbtionPercentage;
         this.damageEnergyCost = damageEnergyCost;
@@ -156,17 +155,18 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @SubscribeEvent
     public void onEntityLivingFall(LivingFallEvent event) {
-        Entity entity = event.getEntity();
-        if (!entity.world.isRemote && entity instanceof EntityPlayer) {
-            for (int i = 0; i < 4; i++) {
-                ItemStack armor = ((EntityPlayer) entity).inventory.armorInventory.get(i);
-                if (!armor.isEmpty() && armor.getItem() == this && this.perks.contains(ArmorPerk.INERTIA_DAMPER)) {
-                    int distance = (int) (event.getDistance() - 3);
-                    int cost = this.damageEnergyCost * distance / 4;
-                    if (cost <= ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true)) {
-                        ElectricItem.manager.discharge(armor, cost, Integer.MAX_VALUE, true, false, true);
-                        event.setCanceled(true);
-                        break;
+        if (this.perks.contains(ArmorPerk.INERTIA_DAMPER)) {
+            Entity entity = event.getEntity();
+            if (!entity.world.isRemote && entity instanceof EntityPlayer) {
+                for (ItemStack armor : ((EntityPlayer) entity).inventory.armorInventory) {
+                    if (!armor.isEmpty() && armor.getItem() == this && this.perks.contains(ArmorPerk.INERTIA_DAMPER)) {
+                        int distance = (int) (event.getDistance() - 3);
+                        int cost = this.damageEnergyCost * distance / 4;
+                        if (cost <= ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true)) {
+                            ElectricItem.manager.discharge(armor, cost, Integer.MAX_VALUE, true, false, true);
+                            event.setCanceled(true);
+                            break;
+                        }
                     }
                 }
             }
@@ -180,26 +180,11 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
 
     @Override
     public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-        return (int) Math.round(20D * getBaseAbsorptionRatio() * this.absorbtionPercentage);
+        return (int) Math.round(20 * getBaseAbsorptionRatio() * this.absorbtionPercentage);
     }
 
     @Override
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
         ElectricItem.manager.discharge(stack, damage * this.damageEnergyCost, Integer.MAX_VALUE, true, false, true);
-    }
-
-    @Override
-    public EntityEquipmentSlot getSlot() {
-        return this.armorType;
-    }
-
-    @Override
-    public Collection<ArmorPerk> getPerks() {
-        return this.perks;
-    }
-
-    @Override
-    public Map<EntityPlayer, Float> getJumpChargeMap() {
-        return jumpChargeMap;
     }
 }

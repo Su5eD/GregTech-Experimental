@@ -4,7 +4,7 @@ import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
@@ -63,7 +63,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
                 stack.damageItem(1, player);
                 return true;
             }
-        } else return placeCoverAtSide(CoverRegistry.constructCover("normal", side, this, null), side, false);
+        } else return placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover("normal", side, this, null), side, false);
         
         return false;
     }
@@ -80,7 +80,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
 
     private void placeCover(EntityPlayer player, EnumFacing side, ItemStack stack, String name) { //For generic covers and vents
         ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
-        if (placeCoverAtSide(CoverRegistry.constructCover(name, side, this, coverStack), side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
+        if (placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover(name, side, this, coverStack), side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
     }
 
     @Override

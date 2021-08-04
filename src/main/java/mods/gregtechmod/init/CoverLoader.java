@@ -1,11 +1,13 @@
 package mods.gregtechmod.init;
 
-import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverRegistry;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.cover.*;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
@@ -45,10 +47,13 @@ public class CoverLoader {
 
     public static void registerCovers() {
         GregTechMod.logger.info("Registering covers");
+        ICoverRegistry coverRegistry = new CoverRegistry();
+        GtUtil.setPrivateStaticValue(GregTechAPI.class, "coverRegistry", coverRegistry);
+        
         for(Covers type : Covers.values()) {
             String name = type.name().toLowerCase(Locale.ROOT);
-            GregTechMod.logger.debug("Registering cover "+name);
-            CoverRegistry.registerCover(name, type.constructor);
+            GregTechMod.logger.debug("Registering cover " + name);
+            coverRegistry.registerCover(name, type.constructor);
         }
     }
 }

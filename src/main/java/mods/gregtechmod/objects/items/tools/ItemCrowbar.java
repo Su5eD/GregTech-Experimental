@@ -28,7 +28,7 @@ public class ItemCrowbar extends ItemToolBase implements IToolCrowbar {
         setRegistryName("crowbar");
         setTranslationKey("crowbar");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-        GregTechAPI.registerCrowbar(this);
+        GregTechAPI.instance().registerCrowbar(this);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ItemRubberHammer extends ItemHammer {
         setRegistryName("hammer_rubber");
         setTranslationKey("hammer_rubber");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-        GregTechAPI.registerSoftHammer(this);
+        GregTechAPI.instance().registerSoftHammer(this);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class ItemScrewdriver extends ItemToolBase {
         setRegistryName("screwdriver");
         setTranslationKey("screwdriver");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-        GregTechAPI.registerScrewdriver(this);
+        GregTechAPI.instance().registerScrewdriver(this);
         this.effectiveAganist.add("minecraft:spider");
         this.effectiveAganist.add("minecraft:cave_spider");
         this.effectiveAganist.add("twilightforest:hedge_spider");

@@ -59,7 +59,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
         this.durability = durability;
         this.entityDamage = entityDamage;
         setMaxDamage(durability - 1);
-        GregTechAPI.registerWrench(this);
+        GregTechAPI.instance().registerWrench(this);
     }
 
     @Override

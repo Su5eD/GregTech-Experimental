@@ -442,7 +442,7 @@ public class OreDictHandler { // TODO Subject to huge cleanup
 
     private void processStone(ItemStack stack, String name) {
         Item item = stack.getItem();
-        if (item instanceof ItemBlock) GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(stack);
+        if (item instanceof ItemBlock) GregTechAPI.instance().addJackHammerMinableBlock(stack);
 
         if (name.equals("stoneObsidian") && item instanceof ItemBlock) {
             ((ItemBlock) item).getBlock().setResistance(20);
