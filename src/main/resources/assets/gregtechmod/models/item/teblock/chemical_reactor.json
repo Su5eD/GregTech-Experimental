@@ -1,7 +1,7 @@
 {
   "parent": "block/cube",
   "textures": {
-    "particle": "gregtechmod:blocks/machines/machine_bottom",
+    "particle": "gregtechmod:blocks/machines/machine_side",
     "down": "gregtechmod:blocks/machines/machine_bottom",
     "up": "gregtechmod:blocks/machines/machine_top",
     "north": "gregtechmod:blocks/machines/chemical_reactor/chemical_reactor_side",

@@ -49,10 +49,6 @@ public class MjReceiverWrapper implements IMjEnergyStorage, INBTSerializable<NBT
         return true;
     }
 
-    public boolean isFull() {
-        return storedEnergy >= capacity;
-    }
-
     @Override
     public long getStored() {
         return storedEnergy;

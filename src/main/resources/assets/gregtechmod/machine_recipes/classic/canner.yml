@@ -25,7 +25,7 @@
   output:
     - item: ic2:filled_fuel_can
       nbt:
-        value: 26040
+        value: 5208
     - cell: empty
   duration: 600
 - input:
@@ -35,7 +35,7 @@
   output:
     - item: ic2:filled_fuel_can
       nbt:
-        value: 76440
+        value: 15288
     - cell: empty
   duration: 600
 - input:

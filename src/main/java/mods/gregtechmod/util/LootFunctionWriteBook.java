@@ -18,8 +18,8 @@ import java.util.Random;
 public class LootFunctionWriteBook extends LootFunction {
     private final String name;
 
-    protected LootFunctionWriteBook(LootCondition[] conditionsIn, String name) {
-        super(conditionsIn);
+    private LootFunctionWriteBook(LootCondition[] conditions, String name) {
+        super(conditions);
         this.name = name;
     }
 
@@ -31,19 +31,18 @@ public class LootFunctionWriteBook extends LootFunction {
     }
 
     public static class Serializer extends LootFunction.Serializer<LootFunctionWriteBook> {
-        public Serializer()
-        {
+        public Serializer() {
             super(new ResourceLocation(Reference.MODID, "write_book"), LootFunctionWriteBook.class);
         }
 
-        public void serialize(JsonObject object, LootFunctionWriteBook functionClazz, JsonSerializationContext serializationContext)
-        {
-            object.add("name", serializationContext.serialize(functionClazz.name));
+        @Override
+        public void serialize(JsonObject object, LootFunctionWriteBook function, JsonSerializationContext serializationContext) {
+            object.add("name", serializationContext.serialize(function.name));
         }
 
-        public LootFunctionWriteBook deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditionsIn)
-        {
-            return new LootFunctionWriteBook(conditionsIn, JsonUtils.deserializeClass(object, "name", deserializationContext, String.class));
+        @Override
+        public LootFunctionWriteBook deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootCondition[] conditions) {
+            return new LootFunctionWriteBook(conditions, JsonUtils.deserializeClass(object, "name", deserializationContext, String.class));
         }
     }
 }

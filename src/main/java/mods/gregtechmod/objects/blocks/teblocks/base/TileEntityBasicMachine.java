@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.network.INetworkClientTileEntityEventListener;
-import ic2.core.ContainerBase;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotDischarge;
 import ic2.core.block.invslot.InvSlotOutput;
@@ -11,9 +10,8 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
-import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.inventory.GtInvSide;
-import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.util.PropertyHelper;
@@ -26,9 +24,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManagerBasic<RI, I, R>> extends TileEntityGTMachine<R, RI, I, RM> implements INetworkClientTileEntityEventListener {
@@ -47,20 +45,30 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     public TileEntityBasicMachine(String descriptionKey, RM recipeManager, boolean wildcardInput) {
-        super(descriptionKey, 2000, 1, 1, recipeManager, wildcardInput);
+        super(descriptionKey, 1, recipeManager, wildcardInput);
         this.extraSlot = getExtraSlot();
         this.queueInputSlot = getInputSlot("queueInput", GtInvSide.VERTICAL, wildcardInput);
         this.queueOutputSlot = getOutputSlot("queueOutput", 1);
     }
 
+    @Override
+    protected int getBaseSinkTier() {
+        return 1;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 2000;
+    }
+
     protected InvSlot getExtraSlot() {
-        InvSlot slot = new InvSlotDischarge(this, InvSlot.Access.IO, 1, false, InvSlot.InvSide.NOTSIDE);
-        this.energy.addManagedSlot(slot);
+        InvSlotDischarge slot = new InvSlotDischarge(this, InvSlot.Access.IO, 1, false, InvSlot.InvSide.NOTSIDE);
+        this.energy.addDischargingSlot(slot);
         return slot;
     }
 
     @Override
-    protected Set<EnumFacing> getSinkDirs() {
+    protected Collection<EnumFacing> getSinkSides() {
         EnumFacing facing = getFacing();
         return Arrays.stream(EnumFacing.VALUES)
                 .filter(side -> side != facing)
@@ -68,7 +76,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    protected Set<EnumFacing> getSourceDirs() {
+    protected Collection<EnumFacing> getSourceSides() {
         return this.provideEnergy ? Collections.singleton(this.outputSide) : Collections.emptySet();
     }
 
@@ -171,7 +179,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
             case 0:
             case 1:
                 this.provideEnergy = value;
-                updateEnet();
                 break;
             case 2:
             case 3:
@@ -185,18 +192,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    protected void onUpdateUpgrade(IGtUpgradeItem item, ItemStack stack, EntityPlayer player) {
-        super.onUpdateUpgrade(item, stack, player);
-        if (this.provideEnergy && item.getType() == GtUpgradeType.TRANSFORMER) updateSourceTier();
-    }
-
-    @Override
-    protected void onUpdateUpgrade(IC2UpgradeType type, ItemStack stack) {
-        super.onUpdateUpgrade(type, stack);
-        if (this.provideEnergy && type == IC2UpgradeType.TRANSFORMER) updateSourceTier();
-    }
-
-    @Override
     public int getSourceTier() {
         if (this.provideEnergy) {
             int transformers = this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) + this.getUpgradeCount(GtUpgradeType.TRANSFORMER);
@@ -206,8 +201,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    protected int getOutputAmperage() {
-        return this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) > 0 ? 4 : super.getOutputAmperage();
+    protected int getSourcePackets() {
+        return this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) > 0 ? 4 : super.getSourcePackets();
     }
 
     @Override
@@ -219,14 +214,14 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public void dumpOutput() {
         if (this.autoOutput) {
             ItemStack output = this.outputSlot.get();
-            if (!output.isEmpty() && this.energy.getEnergy() >= 500) {
+            if (!output.isEmpty() && this.energy.getStoredEnergy() >= 500) {
                 TileEntity dest = this.world.getTileEntity(this.pos.offset(this.outputSide));
                 if (dest != null) {
                     int cost = StackUtil.transfer(this, dest, this.outputSide, 64);
                     if (cost > 0) {
-                        this.energy.useEnergy(cost);
+                        this.energy.discharge(cost);
                         ItemStack queueOutput = this.queueOutputSlot.get();
-                        if (!queueOutput.isEmpty()) this.energy.useEnergy(StackUtil.transfer(this, dest, this.outputSide, 64));
+                        if (!queueOutput.isEmpty()) this.energy.discharge(StackUtil.transfer(this, dest, this.outputSide, 64));
                     }
                 }
             }
@@ -237,7 +232,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     protected boolean setFacingWrench(EnumFacing facing, EntityPlayer player) {
         if (this.outputSide != facing) {
             this.outputSide = facing;
-            updateEnet();
             rerender();
             return true;
         }
@@ -250,10 +244,9 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("outputSide");
-        return ret;
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("outputSide");
     }
 
     @Override
@@ -282,7 +275,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerBasicMachine<?> getGuiContainer(EntityPlayer player) {
         return new ContainerBasicMachine<>(player, this);
     }
 }

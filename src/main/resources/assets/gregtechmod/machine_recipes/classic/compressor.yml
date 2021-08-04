@@ -4,33 +4,33 @@
     ore: nuggetUranium
     count: 9
   output:
-    - item: ic2:ingot#uranium
+    item: ic2:ingot#uranium
 - input:
     ore: treeLeaves
     count: 8
   output:
-    - item: ic2:crafting#plant_ball
+    item: ic2:crafting#plant_ball
 - input:
     ore: cropWheat
     count: 8
   output:
-    - item: ic2:crafting#plant_ball
+    item: ic2:crafting#plant_ball
 - input:
     ore: sugarcane
     count: 8
   output:
-    - item: ic2:crafting#plant_ball
+    item: ic2:crafting#plant_ball
 - input:
     ore: blockCactus
     count: 8
   output:
-    - item: ic2:crafting#plant_ball
+    item: ic2:crafting#plant_ball
 - input:
     item: gregtechmod:indigo_blossom
     count: 8
   output:
-    - item: ic2:crafting#plant_ball
+    item: ic2:crafting#plant_ball
 - input:
     ore: dustUranium
   output:
-    - item: ic2:ingot#uranium
+    item: ic2:ingot#uranium

@@ -24,6 +24,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -44,12 +46,13 @@ public class ItemSprayFoam extends ItemToolCrafting {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        if (!worldIn.isRemote && playerIn.isSneaking()) switchMode(playerIn.inventory.getCurrentItem(), playerIn);
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        if (!world.isRemote && player.isSneaking()) switchMode(player.inventory.getCurrentItem(), player);
+        return super.onItemRightClick(world, player, hand);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         tooltip.add(I18n.format(getMode(stack).getTooltipKey()));
@@ -58,11 +61,12 @@ public class ItemSprayFoam extends ItemToolCrafting {
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (world.isRemote || player.isSneaking()) return EnumActionResult.PASS;
+        
         ItemStack stack = player.inventory.getCurrentItem();
-        TileEntity aTileEntity = world.getTileEntity(pos);
-        if (aTileEntity instanceof TileEntityCable) {
-            if (!((TileEntityCable)aTileEntity).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
-                ((TileEntityCable)aTileEntity).foam();
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityCable) {
+            if (!((TileEntityCable)tileEntity).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
+                ((TileEntityCable)tileEntity).foam();
                 return EnumActionResult.SUCCESS;
             }
             return EnumActionResult.PASS;
@@ -70,14 +74,14 @@ public class ItemSprayFoam extends ItemToolCrafting {
         pos = pos.offset(side);
         Item itemFoam = IC2Items.getItem("foam", "normal").getItem();
         boolean factorX, factorY, factorZ;
-        int tRotationPitch = Math.round(player.rotationPitch);
+        int rotationpitch = Math.round(player.rotationPitch);
         EnumFacing facing;
-        if (tRotationPitch >= 65) {
+        if (rotationpitch >= 65) {
             facing = EnumFacing.UP;
-        } else if (tRotationPitch <= -65) {
+        } else if (rotationpitch <= -65) {
             facing = EnumFacing.DOWN;
         } else {
-            switch (MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3) {
+            switch (MathHelper.floor(player.rotationYaw * 4F / 360F + 0.5) & 3) {
                 case 0:
                     facing = EnumFacing.NORTH;
                     break;
@@ -103,7 +107,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
                 }
                 break;
             case LINE:
-                for (byte i = 0; i < 4; i = (byte)(i + 1)) {
+                for (int i = 0; i < 4; i++) {
                     if (world.isAirBlock(pos)) {
                         world.setBlockState(pos, Block.getBlockFromItem(itemFoam).getDefaultState());
                         if (!GtUtil.damageStack(player, stack, 1)) return EnumActionResult.PASS;
@@ -116,8 +120,8 @@ public class ItemSprayFoam extends ItemToolCrafting {
                 factorY = facing.getYOffset() == 0;
                 factorZ = facing.getZOffset() == 0;
                 pos = pos.subtract(new Vec3i(factorX ? 1 : 0, factorY ? 1 : 0, factorZ ? 1 : 0));
-                for (byte i = 0; i < 3; i = (byte)(i + 1)) {
-                    for (byte j = 0; j < 3; j = (byte)(j + 1)) {
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
                         BlockPos placePos = new BlockPos(pos.getX() + (factorX ? i : 0), pos.getY() + (!factorX && factorY ? i : 0) + (!factorZ && factorY ? j : 0), pos.getZ() + (factorZ ? j : 0));
                         if (world.isAirBlock(placePos)) {
                             world.setBlockState(placePos, Block.getBlockFromItem(itemFoam).getDefaultState());
@@ -138,12 +142,12 @@ public class ItemSprayFoam extends ItemToolCrafting {
 
     public SprayMode getMode(ItemStack stack) {
         NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
-        return nbt.hasKey("mode") ? SprayMode.valueOf(nbt.getString("mode")) : SprayMode.SINGLE;
+        return nbt.hasKey("mode") ? SprayMode.VALUES[nbt.getInteger("mode")] : SprayMode.SINGLE;
     }
 
     private void setMode(ItemStack stack, SprayMode mode) {
         NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
-        nbt.setString("mode", mode.name());
+        nbt.setInteger("mode", mode.ordinal());
     }
 
     private enum SprayMode {
@@ -158,7 +162,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
         }
 
         public String getTooltipKey() {
-            return Reference.MODID+".item.spray_foam.mode."+this.name().toLowerCase(Locale.ROOT);
+            return Reference.MODID + ".item.spray_foam.mode." + this.name().toLowerCase(Locale.ROOT);
         }
     }
 }

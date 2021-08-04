@@ -5,10 +5,10 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.gui.GuiAutoElectricFurnace;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingleInput;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.compat.RecipeFurnace;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
+import mods.gregtechmod.util.LazyValue;
 import mods.gregtechmod.util.MachineSafety;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.client.gui.GuiScreen;
@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
-    private static final ItemStack NETHERRACK = new ItemStack(Blocks.NETHERRACK);
+    private static final LazyValue<ItemStack> NETHERRACK = new LazyValue<>(() -> new ItemStack(Blocks.NETHERRACK));
 
     public TileEntityMicrowave() {
         super("microwave", ModRecipes.FURNACE, true);
@@ -63,12 +63,12 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiAutoElectricFurnace(new ContainerBasicMachine<>(player, this));
+        return new GuiAutoElectricFurnace(getGuiContainer(player));
     }
 
     private boolean checkStack(ItemStack stack) {
         if (OreDictUnificator.isItemInstanceOf(stack, "ingot", true) || OreDictUnificator.isItemInstanceOf(stack, "dustGunpowder", false) ||
-                stack.isItemEqual(NETHERRACK) || StackUtil.checkItemEquality(stack, Items.EGG)) {
+                stack.isItemEqual(NETHERRACK.get()) || StackUtil.checkItemEquality(stack, Items.EGG)) {
             explodeMachine(4);
             return true;
         } else if (TileEntityFurnace.getItemBurnTime(stack) > 0) {

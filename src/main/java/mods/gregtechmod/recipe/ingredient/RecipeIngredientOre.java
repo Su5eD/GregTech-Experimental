@@ -1,5 +1,6 @@
 package mods.gregtechmod.recipe.ingredient;
 
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.core.GregTechMod;
 
 import java.util.Collections;
@@ -39,6 +40,9 @@ public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
 
     @Override
     public String toString() {
-        return "RecipeIngredientOre{ores="+this.ingredient.getOres()+",count="+this.count+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("ingredient", ingredient)
+                .add("count", count)
+                .toString();
     }
 }

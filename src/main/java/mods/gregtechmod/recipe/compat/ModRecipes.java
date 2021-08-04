@@ -24,9 +24,9 @@ public class ModRecipes {
     public static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> FURNACE = new RecipeManagerBasic<>();
 
     public static void init() {
-        convertRecipes(Recipes.macerator.getRecipes(), 300, 2, MACERATOR);
-        convertRecipes(Recipes.extractor.getRecipes(), 300, 2, EXTRACTOR);
-        convertRecipes(Recipes.compressor.getRecipes(), 300, 2, COMPRESSOR);
+        convertBasicRecipes(Recipes.macerator.getRecipes(), MACERATOR);
+        convertBasicRecipes(Recipes.extractor.getRecipes(), EXTRACTOR);
+        convertBasicRecipes(Recipes.compressor.getRecipes(), COMPRESSOR);
 
         FurnaceRecipes.instance().getSmeltingList()
                 .forEach((key, value) -> {
@@ -35,12 +35,12 @@ public class ModRecipes {
                 });
     }
 
-    private static void convertRecipes(Iterable<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> recipes, int duration, double energyCost,
-                                       IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
+    private static void convertBasicRecipes(Iterable<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> recipes,
+                                            IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
         recipes.forEach(recipe -> {
             IRecipeIngredient input = convertInput(recipe.getInput());
 
-            manager.addRecipe(new IC2MachineRecipe(input, new ArrayList<>(recipe.getOutput()), duration, energyCost));
+            manager.addRecipe(new IC2MachineRecipe(input, new ArrayList<>(recipe.getOutput()), 300, 2));
         });
     }
 

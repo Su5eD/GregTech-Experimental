@@ -1,49 +1,74 @@
 package mods.gregtechmod.util;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-import mods.gregtechmod.api.util.Reference;
+import com.google.gson.JsonObject;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.Map;
 
 public class JsonHandler {
-    public final HashMap<String, LinkedTreeMap<String, String>> jsonMap;
+    public final JsonObject json;
+    private final LazyValue<JsonHandler> parent;
     public final ResourceLocation particle;
 
-    public JsonHandler(String name, String path) {
-        this.jsonMap = readFromJSON(path+"/"+name);
-        this.particle = new ResourceLocation(Reference.MODID, jsonMap.get("textures").get("particle").substring(Reference.MODID.length()+1));
+    public JsonHandler(String path) {
+        this.json = readFromJSON(path);
+        this.parent = new LazyValue<>(() -> {
+            String parentPath = new ResourceLocation(this.json.get("parent").getAsString()).getPath();
+            return new JsonHandler("models/" + parentPath + ".json");
+        });
+        this.particle = getParticleTexture();
     }
 
-    public HashMap<String, LinkedTreeMap<String, String>> readFromJSON(String name) {
+    public static JsonObject readFromJSON(String path) {
         try {
             Gson gson = new Gson();
-            Reader reader = GtUtil.readAsset("models/item/" + name + ".json");
-            HashMap<String, LinkedTreeMap<String, String>> map = gson.<HashMap<String, LinkedTreeMap<String, String>>>fromJson(reader, HashMap.class);
+            Reader reader = GtUtil.readAsset(path);
+            JsonObject map = gson.fromJson(reader, JsonObject.class);
 
             reader.close();
             return map;
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            GregTechMod.logger.error(e);
         }
 
-        return null;
+        throw new IllegalArgumentException("Could not find resource " + path);
     }
-
-    public HashMap<EnumFacing, ResourceLocation> generateMapFromJSON(String elementName) {
-        HashMap<EnumFacing, ResourceLocation> elementMap = new HashMap<>();
-        LinkedTreeMap<String, String> map = this.jsonMap.get(elementName);
-        if (map != null) {
-            for (String entry : map.keySet()) {
-                if (!entry.equals("particle")) {
-                    ResourceLocation location = new ResourceLocation(Reference.MODID, map.get(entry).substring(Reference.MODID.length()+1));
-                    elementMap.put(EnumFacing.byName(entry), location);
-                }
-            }
+    
+    public Map<EnumFacing, ResourceLocation> generateTextureMap() {
+        Map<EnumFacing, ResourceLocation> map = generateTextureMap("textures");
+        if (map.isEmpty()) {
+            String parentPath = new ResourceLocation(this.json.get("parent").getAsString()).getPath();
+            JsonHandler parent = new JsonHandler("models/" + parentPath + ".json");
+            return parent.generateTextureMap("textures");
         }
+        return map;
+    }
+    
+    public Map<EnumFacing, ResourceLocation> generateTextureMap(String elementName) {
+        Map<EnumFacing, ResourceLocation> elementMap = new HashMap<>();
+        JsonObject map = this.json.getAsJsonObject(elementName);
+        
+        if (map != null) {
+            map.entrySet().stream()
+                    .filter(entry -> !entry.getKey().equals("particle"))
+                    .forEach(entry -> {
+                        ResourceLocation location = new ResourceLocation(entry.getValue().getAsString());
+                        elementMap.put(EnumFacing.byName(entry.getKey()), location);
+                    });
+        }
+        
         return elementMap;
+    }
+    
+    private ResourceLocation getParticleTexture() {
+        JsonObject textures = this.json.getAsJsonObject("textures");
+        if (textures == null) textures = this.parent.get().json.getAsJsonObject("textures");
+        
+        return new ResourceLocation(textures.get("particle").getAsString());
     }
 }

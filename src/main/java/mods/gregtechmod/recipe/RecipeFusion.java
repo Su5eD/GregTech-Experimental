@@ -1,5 +1,6 @@
 package mods.gregtechmod.recipe;
 
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.IRecipeFusion;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 
@@ -20,6 +21,12 @@ public abstract class RecipeFusion<I extends IRecipeIngredient, T> extends Recip
 
     @Override
     public String toString() {
-        return "RecipeFusion{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+",startEnergy="+this.startEnergy+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .add("startEnergy", startEnergy)
+                .toString();
     }
 }

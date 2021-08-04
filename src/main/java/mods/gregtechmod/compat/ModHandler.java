@@ -21,6 +21,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.recipe.RecipePulverizer;
+import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.util.DummyContainer;
 import mods.gregtechmod.util.DummyWorld;
@@ -35,15 +36,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
+import thaumcraft.api.aura.AuraHelper;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -63,6 +67,7 @@ public class ModHandler {
     public static boolean buildcraftFactory;
     public static boolean buildcraftTransport;
     public static boolean buildcraftLib;
+    public static boolean buildcraftSilicon;
     public static boolean twilightForest;
     public static boolean enderStorage;
     public static boolean agricraft;
@@ -80,6 +85,8 @@ public class ModHandler {
     public static ItemStack can = ItemStack.EMPTY;
     public static ItemStack scrap = ItemStack.EMPTY;
     public static ItemStack itnt = ItemStack.EMPTY;
+    public static ItemStack filledFuelCan = ItemStack.EMPTY;
+    public static ItemStack rcTurbineRotor = ItemStack.EMPTY;
 
     public static void checkLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
@@ -97,6 +104,7 @@ public class ModHandler {
         buildcraftFactory = Loader.isModLoaded("buildcraftfactory");
         buildcraftTransport = Loader.isModLoaded("buildcrafttransport");
         buildcraftLib = Loader.isModLoaded("buildcraftlib");
+        buildcraftSilicon = Loader.isModLoaded("buildcraftsilicon");
         twilightForest = Loader.isModLoaded("twilightforest");
         enderStorage = Loader.isModLoaded("enderstorage");
         agricraft = Loader.isModLoaded("agricraft");
@@ -107,6 +115,7 @@ public class ModHandler {
         emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
         scrap = IC2Items.getItem("crafting", "scrap");
         itnt = IC2Items.getItem("te", "itnt");
+        filledFuelCan = IC2Items.getItem("filled_fuel_can");
 
         Item material = getItem("thermalfoundation", "material");
         if (material != null) {
@@ -127,6 +136,7 @@ public class ModHandler {
         waxCapsule = getModItem("forestry", "capsule");
         refractoryCapsule = getModItem("forestry", "refractory");
         can = getModItem("forestry", "can");
+        rcTurbineRotor = getRCItem("turbine_rotor");
     }
 
     public static Item getItem(String modid, String itemName) {
@@ -351,6 +361,15 @@ public class ModHandler {
                 .name(Reference.MODID, name)
                 .shaped(pattern);
     }
+
+    public static void polluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
+        if (thaumcraft) reallyPolluteAura(world, pos, amount, showEffect);
+    }
+
+    @Optional.Method(modid = "thaumcraft")
+    private static void reallyPolluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
+        AuraHelper.polluteAura(world, pos, amount, showEffect);
+    }
     
     public static void addShapedRecipe(String name, ItemStack output, Object... params) {
         addShapedRecipe(name, null, output, params);
@@ -385,15 +404,11 @@ public class ModHandler {
         for (int i = 0; i < 9 && i < stacks.length; i++) {
             crafting.setInventorySlotContents(i, stacks[i]);
         }
-        for (IRecipe recipe : recipes) {
-            try {
-                if (recipe.matches(crafting, DummyWorld.INSTANCE)) {
-                    return recipe;
-                }
-            } catch (Throwable ignored) {}
-        }
-
-        return null;
+        
+        return recipes.stream()
+                .filter(recipe -> recipe.matches(crafting, DummyWorld.INSTANCE))
+                .findFirst()
+                .orElse(null);
     }
 
     public static ItemStack getCraftingResult(ItemStack... stacks) {
@@ -405,7 +420,9 @@ public class ModHandler {
     public static ItemStack removeCraftingRecipeFromInputs(ItemStack... stacks) {
         IRecipe recipe = getCraftingRecipe(stacks);
         if (recipe != null) {
-            ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(recipe.getRegistryName());
+            ResourceLocation name = recipe.getRegistryName();
+            AdvancementRecipeFixer.DUMMY_RECIPES.put(name.getPath(), recipe);
+            ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(name);
             return recipe.getRecipeOutput();
         }
 
@@ -474,20 +491,19 @@ public class ModHandler {
         return ItemStack.EMPTY;
     }
 
-    @Nullable
-    public static <T extends Enum<T>> T getEnumConstantSafely(Class<T> clazz, String name) {
-        try {
-            return Enum.valueOf(clazz, name);
-        } catch (IllegalArgumentException ignored) {
-            return null;
-        }
-    }
-
     public static String getVariantSafely(ItemName item, ItemStack stack) {
         try {
             return item.getVariant(stack);
         } catch (Throwable t) {
             return "";
         }
+    }
+    
+    public static int getFuelCanValue(ItemStack fuelCan) { 
+        if (!fuelCan.isEmpty() && fuelCan.isItemEqual(ModHandler.filledFuelCan)) {
+            NBTTagCompound nbt = fuelCan.getTagCompound();
+            if (nbt != null) return nbt.getInteger("value") * 5;
+        }
+        return 0;
     }
 }

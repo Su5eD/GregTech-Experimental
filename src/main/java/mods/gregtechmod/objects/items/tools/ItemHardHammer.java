@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.items.tools;
 
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.base.ItemHammer;
@@ -13,6 +14,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -24,6 +27,7 @@ public class ItemHardHammer extends ItemHammer {
         this.effectiveAganist.add("minecraft:villager_golem");
         this.effectiveAganist.add("twilightforest:tower_golem");
         this.effectiveAganist.add("thaumcraft:golem");
+        GregTechAPI.instance().registerHardHammer(this);
     }
 
     @Override
@@ -39,6 +43,7 @@ public class ItemHardHammer extends ItemHammer {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         tooltip.add(GtUtil.translateItem("hard_hammer.description_2"));
@@ -56,16 +61,12 @@ public class ItemHardHammer extends ItemHammer {
                 boolean output = ((IGregTechMachine) tileEntity).isOutputEnabled();
 
                 if (input = !input) output = !output;
-
-                if (input) ((IGregTechMachine) tileEntity).enableInput();
-                else ((IGregTechMachine) tileEntity).disableInput();
-
-                if (output) ((IGregTechMachine) tileEntity).enableOutput();
-                else ((IGregTechMachine) tileEntity).disableOutput();
+                ((IGregTechMachine) tileEntity).setInputEnabled(input);
+                ((IGregTechMachine) tileEntity).setOutputEnabled(output);
 
                 String enabled = GtUtil.translateGeneric("enabled");
                 String disabled = GtUtil.translateGeneric("disabled");
-                GtUtil.sendMessage(player, Reference.MODID+".generic.hard_hammer.auto_input", input ? enabled : disabled, output ? enabled : disabled);
+                GtUtil.sendMessage(player, Reference.MODID + ".generic.hard_hammer.auto_input", input ? enabled : disabled, output ? enabled : disabled);
                 return EnumActionResult.SUCCESS;
             }
         }

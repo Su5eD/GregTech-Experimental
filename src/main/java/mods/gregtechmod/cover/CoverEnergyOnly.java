@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -69,12 +70,17 @@ public class CoverEnergyOnly extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = EnergyMode.valueOf(nbt.getString("mode"));
+        this.mode = EnergyMode.VALUES[nbt.getInteger("mode")];
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.OTHER;
     }
 }

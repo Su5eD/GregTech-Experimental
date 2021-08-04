@@ -2,6 +2,7 @@ package mods.gregtechmod.util;
 
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlot;
+import mods.gregtechmod.core.GregTechMod;
 
 import javax.annotation.Nullable;
 import java.lang.invoke.MethodHandle;
@@ -29,7 +30,7 @@ public class InvUtil {
             handleGetInventorySlot = lookup.unreflect(methodGetInventorySlot);
             handleInvSlots = lookup.unreflectGetter(fieldInvSlots);
         } catch (NoSuchMethodException | IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
+            GregTechMod.logger.error(e);
             handleGetInventorySlot = handleInvSlots = null;
         }
 
@@ -51,8 +52,8 @@ public class InvUtil {
     public static List<InvSlot> getInvSlots(TileEntityInventory instance) {
         try {
             return (List<InvSlot>) INVENTORY_SLOTS.invokeExact(instance);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        } catch (Throwable t) {
+            GregTechMod.logger.error(t);
             return Collections.emptyList();
         }
     }

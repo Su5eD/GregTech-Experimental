@@ -5,7 +5,6 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,8 +28,8 @@ public abstract class RecipeIngredient<T extends Ingredient> implements IRecipeI
     }
 
     @Override
-    public boolean apply(@Nullable ItemStack input, boolean checkSize) {
-        if (input != null && !this.isEmpty()) {
+    public boolean apply(ItemStack input, boolean checkSize) {
+        if (!input.isEmpty() && !this.isEmpty()) {
             for (ItemStack stack : this.getMatchingInputs()) {
                 if (GtUtil.stackEquals(stack, input)) {
                     if (checkSize) return input.getCount() >= this.count;

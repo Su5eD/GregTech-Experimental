@@ -4,9 +4,11 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModCompat;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,19 +30,26 @@ import java.util.stream.Collectors;
 
 @EventBusSubscriber
 public class RegistryHandler {
+    
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        GregTechMod.logger.info("Registering blocks");
         BlockItemLoader.init();
         event.getRegistry().registerAll(BlockItemLoader.BLOCKS.toArray(new Block[0]));
+        
         GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(Reference.MODID, "light_source"));
         
         BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
                 .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
-        GregTechObjectAPI.setTileEntityMap(teblocks);
+        GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "teBlocks", teblocks);
+        
+        ModCompat.disableCasingFacades();
     }
+    
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
+        GregTechMod.logger.info("Registering items");
         event.getRegistry().registerAll(BlockItemLoader.ITEMS.toArray(new Item[0]));
     }
 
@@ -55,15 +64,20 @@ public class RegistryHandler {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @SubscribeEvent
     public static void onLootTableLoad(LootTableLoadEvent event) {
         String path = event.getName().getPath();
         if (event.getName().getNamespace().equals("minecraft") && path.startsWith("chests")) {
-            if (GregTechMod.class.getResource("/assets/"+Reference.MODID+"/loot_tables/"+path+".json") != null) {
-                LootTable table = event.getLootTableManager().getLootTableFromLocation(new ResourceLocation(Reference.MODID, event.getName().getPath()));
+            if (GregTechMod.class.getResource("/assets/" + Reference.MODID + "/loot_tables/" + path + ".json") != null) {
+                ResourceLocation name = new ResourceLocation(Reference.MODID, event.getName().getPath());
+                GregTechMod.logger.info("Loading Loot Table " + name);
+                
+                LootTable table = event.getLootTableManager().getLootTableFromLocation(name);
                 LootTable vanillaLoot = event.getTable();
                 LootPool materials = table.getPool("gregtechmod_materials");
                 LootPool sprays = table.getPool("gregtechmod_sprays");
+                
                 if (materials != null) vanillaLoot.addPool(materials);
                 if (sprays != null) vanillaLoot.addPool(sprays);
             }

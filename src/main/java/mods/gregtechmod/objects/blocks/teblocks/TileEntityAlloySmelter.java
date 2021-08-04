@@ -1,12 +1,11 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
 import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.recipe.IRecipeAlloySmelter;
+import mods.gregtechmod.api.recipe.IRecipeUniversal;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.gui.GuiAlloySmelter;
-import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineMultiInput;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityElectricFurnaceBase;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Arrays;
 import java.util.List;
 
-public class TileEntityAlloySmelter extends TileEntityElectricFurnaceBase<List<IRecipeIngredient>, List<ItemStack>, IRecipeAlloySmelter> {
+public class TileEntityAlloySmelter extends TileEntityElectricFurnaceBase<List<IRecipeIngredient>, List<ItemStack>, IRecipeUniversal<List<IRecipeIngredient>>> {
 
     public TileEntityAlloySmelter() {
         super("alloy_smelter", GtRecipes.alloySmelter);
@@ -25,7 +24,7 @@ public class TileEntityAlloySmelter extends TileEntityElectricFurnaceBase<List<I
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiAlloySmelter(new ContainerBasicMachine<>(player, this));
+        return new GuiAlloySmelter(getGuiContainer(player));
     }
 
     @Override
@@ -39,7 +38,7 @@ public class TileEntityAlloySmelter extends TileEntityElectricFurnaceBase<List<I
     }
 
     @Override
-    public void consumeInput(IRecipeAlloySmelter recipe, boolean consumeContainers) {
-        TileEntityBasicMachineMultiInput.consumeMultiInput(this, recipe, consumeContainers);
+    public void consumeInput(IRecipeUniversal<List<IRecipeIngredient>> recipe, boolean consumeContainers) {
+        GtUtil.consumeMultiInput(recipe.getInput(), this.inputSlot, this.queueInputSlot);
     }
 }

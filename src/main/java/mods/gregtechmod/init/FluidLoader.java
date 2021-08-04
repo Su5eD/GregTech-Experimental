@@ -32,6 +32,8 @@ public class FluidLoader {
         ResourceLocation getTexture();
 
         boolean isFallbackFluid();
+        
+        boolean hasClassicCell();
     }
 
     public enum Liquid implements IFluidProvider {
@@ -128,9 +130,14 @@ public class FluidLoader {
         public boolean isFallbackFluid() {
             return this.fallback;
         }
+        
+        @Override
+        public boolean hasClassicCell() {
+            return true;
+        }
 
         private ResourceLocation getTexturePath() {
-            return new ResourceLocation(Reference.MODID, "fluids/liquids/"+this.name);
+            return new ResourceLocation(Reference.MODID, "fluids/liquids/" + this.name);
         }
     }
 
@@ -142,14 +149,27 @@ public class FluidLoader {
         HELIUM3("He-3"),
         METHANE("CH4"),
         NITROGEN("N"),
-        NITROGEN_DIOXIDE("NO2");
+        NITROGEN_DIOXIDE("NO2"),
+        STEAM("H2O", false, true);
 
         public final String description;
+        public final boolean hasClassicCell;
+        public final boolean fallback;
         public final ResourceLocation texture;
         private Fluid instance;
 
         Gas(String description) {
+            this(description, true);
+        }
+        
+        Gas(String description, boolean hasClassicCell) {
+            this(description, hasClassicCell, false);
+        }
+        
+        Gas(String description, boolean hasClassicCell, boolean fallback) {
             this.description = description;
+            this.hasClassicCell = hasClassicCell;
+            this.fallback = fallback;
             this.texture = getTextureLocation();
         }
 
@@ -181,11 +201,17 @@ public class FluidLoader {
 
         @Override
         public boolean isFallbackFluid() {
-            return false;
+            return this.fallback;
         }
 
+        @Override
+        public boolean hasClassicCell() {
+            return this.hasClassicCell;
+        }
+
+
         private ResourceLocation getTextureLocation() {
-            return new ResourceLocation(Reference.MODID, "fluids/gases/"+this.name().toLowerCase(Locale.ROOT));
+            return new ResourceLocation(Reference.MODID, "fluids/gases/" + getName());
         }
     }
 }

@@ -6,6 +6,7 @@ import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -35,14 +36,14 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                                     }
                                 }
                             }
-                            return (cell.isEmpty() || recipe.getCellType().apply(cell)) && availableCells >= recipe.getCells();
+                            return (cell.isEmpty() || recipe.getCellType().apply(cell, GregTechMod.classic)) && availableCells >= recipe.getCells();
                         }
                         return true;
                     }
                     return false;
                 })
                 .min(this::compareCount)
-                .orElse(null);
+                .orElseGet(() -> getProvidedRecipe(input));
     }
 
     @Override

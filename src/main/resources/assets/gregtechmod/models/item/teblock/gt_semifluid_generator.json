@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_bottom_pipe",
+    "down": "gregtechmod:blocks/machines/machine_bottom_pipe",
+    "up": "gregtechmod:blocks/machines/machine_top",
+    "north": "gregtechmod:blocks/machines/semifluid_generator/semifluid_generator_side",
+    "south": "gregtechmod:blocks/machines/semifluid_generator/semifluid_generator_side",
+    "east": "gregtechmod:blocks/machines/semifluid_generator/semifluid_generator_side",
+    "west": "gregtechmod:blocks/machines/semifluid_generator/semifluid_generator_side"
+  }
+}

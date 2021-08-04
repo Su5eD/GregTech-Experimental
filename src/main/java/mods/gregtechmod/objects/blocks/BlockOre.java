@@ -8,7 +8,6 @@ import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
@@ -23,9 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,12 +73,14 @@ public class BlockOre extends Block implements ICustomItemModel {
 
     @Override
     public ResourceLocation getItemModel() {
-        return new ResourceLocation(Reference.MODID, "ore/"+this.name);
+        return new ResourceLocation(Reference.MODID, "ore/" + this.name);
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { PropertyHelper.TEXTURE_INDEX_PROPERTY });
+        return new BlockStateContainer.Builder(this)
+                .add(PropertyHelper.TEXTURE_INDEX_PROPERTY)
+                .build();
     }
 
     @Override
@@ -92,7 +91,7 @@ public class BlockOre extends Block implements ICustomItemModel {
             Map<EnumFacing, EnumFacing> overrides = new HashMap<>();
             for (EnumFacing side : EnumFacing.VALUES) {
                 int sideIndex = Math.abs(side.getIndex() ^ pos.getX() ^ pos.getY() ^ pos.getZ());
-                if (!GregTechConfig.GENERAL.hiddenOres || sideIndex%12 > 6) overrides.put(side, EnumFacing.byIndex(sideIndex % 6));
+                if (!GregTechConfig.GENERAL.hiddenOres || sideIndex % 12 > 6) overrides.put(side, EnumFacing.byIndex(sideIndex % 6));
                 else overrides.put(side, null);
             }
             textures = new PropertyHelper.DimensionalTextureInfo(overrides, DimensionType.getById(dimension));

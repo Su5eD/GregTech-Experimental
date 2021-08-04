@@ -26,7 +26,7 @@ public class ScannerEvent extends WorldEvent {
     public final TileEntity tileEntity;
     public final Block block;
 
-    public int EUCost = 0;
+    public int euCost = 0;
 
     public ScannerEvent(World world, EntityPlayer player, BlockPos pos, EnumFacing side, int scanLevel, Block block, TileEntity tileEntity, ArrayList<String> list, float hitX, float hitY, float hitZ) {
         super(world);

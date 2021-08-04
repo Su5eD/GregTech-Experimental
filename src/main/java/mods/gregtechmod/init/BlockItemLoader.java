@@ -9,6 +9,8 @@ import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.ItemSensorCard;
 import mods.gregtechmod.objects.items.ItemSensorKit;
+import mods.gregtechmod.util.GtUtil;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -18,6 +20,7 @@ import net.minecraftforge.fml.common.Optional;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,9 +29,8 @@ public class BlockItemLoader {
     static final Set<net.minecraft.block.Block> BLOCKS = new LinkedHashSet<>();
     static final Set<Item> ITEMS = new LinkedHashSet<>();
 
-    private static Item registerItem(Item item) {
+    private static void registerItem(Item item) {
         if (!ITEMS.add(item)) throw new IllegalStateException("Duplicate registry entry: "+item.getRegistryName());
-        return item;
     }
 
     private static net.minecraft.block.Block registerBlock(net.minecraft.block.Block block) {
@@ -36,18 +38,19 @@ public class BlockItemLoader {
         return block;
     }
 
-    private static net.minecraft.block.Block registerBlockItem(net.minecraft.block.Block block) {
+    private static void registerBlockItem(Block block) {
         registerBlock(block);
         registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-        return block;
     }
 
     static void init() {
         BlockItems.classicCells = Stream.<FluidLoader.IFluidProvider>concat(
                 Arrays.stream(FluidLoader.Liquid.values()),
                 Arrays.stream(FluidLoader.Gas.values())
-        ).collect(Collectors.toMap(FluidLoader.IFluidProvider::getName,
-                provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
+        )
+                .filter(FluidLoader.IFluidProvider::hasClassicCell)
+                .collect(Collectors.toMap(FluidLoader.IFluidProvider::getName, 
+                        provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
         if (FluidRegistry.isFluidRegistered("biomass")) BlockItems.classicCells.put("biomass", new ItemCellClassic("biomass", null, FluidRegistry.getFluid("biomass")));
         if (FluidRegistry.isFluidRegistered("bio.ethanol")) BlockItems.classicCells.put("bio.ethanol", new ItemCellClassic("bio.ethanol", null, FluidRegistry.getFluid("bio.ethanol")));
 
@@ -80,8 +83,13 @@ public class BlockItemLoader {
         Arrays.stream(BlockItems.Saw.values()).forEach(saw -> registerItem(saw.getInstance()));
         Arrays.stream(BlockItems.ColorSpray.values()).forEach(spray -> registerItem(spray.getInstance()));
 
-        GregTechObjectAPI.setItemMap(ITEMS.stream().collect(Collectors.toMap(value -> value.getRegistryName().toString().split(":")[1], ItemStack::new)));
-        GregTechObjectAPI.setBlockMap(BLOCKS.stream().collect(Collectors.toMap(value -> value.getRegistryName().toString().split(":")[1], value -> value)));
+        Map<String, ItemStack> items = ITEMS.stream()
+                .collect(Collectors.toMap(value -> value.getRegistryName().toString().split(":")[1], ItemStack::new));
+        GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "items", items);
+        
+        Map<String, Block> blocks = BLOCKS.stream()
+                .collect(Collectors.toMap(value -> value.getRegistryName().toString().split(":")[1], value -> value));
+        GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "blocks", blocks);
     }
 
     @Optional.Method(modid = "energycontrol")

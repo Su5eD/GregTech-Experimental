@@ -10,6 +10,8 @@ import mods.gregtechmod.util.ModelInformation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IM
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
         tooltip.add(GtUtil.translateItem("coolant.stored_heat") +": "+this.getCustomDamage(stack));
     }

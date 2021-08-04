@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.recipe.fuel.FuelIngredientFluidDeserializer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientDamagedStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
@@ -43,7 +44,9 @@ public class RecipeIngredientDeserializer extends JsonDeserializer<IRecipeIngred
             List<String> ores = new ArrayList<>();
             node.get("ores").elements().forEachRemaining(ore -> ores.add(ore.asText()));
             ingredient = RecipeIngredientOre.create(ores, count);
-        } else if (node.has("fluid") || node.has("fluids")) ingredient = RecipeIngredientFluidDeserializer.INSTANCE.deserialize(node);
+        } else if (node.has("fluid") || node.has("fluids")) {
+            ingredient = node.has("milliBuckets") ? FuelIngredientFluidDeserializer.INSTANCE.deserialize(node) : RecipeIngredientFluidDeserializer.INSTANCE.deserialize(node);
+        }
         else if (node.has("damaged")) {
             ItemStack stack = ItemStackDeserializer.INSTANCE.deserialize(node, 1);
             ingredient = RecipeIngredientDamagedStack.create(stack, count);

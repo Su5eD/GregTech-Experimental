@@ -1,7 +1,7 @@
 {
-  "parent": "block/cube",
+  "parent": "gregtechmod:block/block_vertical",
   "textures": {
-    "particle": "gregtechmod:blocks/machines/machine_bottom",
+    "particle": "gregtechmod:blocks/machines/machine_side",
     "down": "gregtechmod:blocks/machines/struct/connector",
     "up": "gregtechmod:blocks/machines/adv_machine_screen_inactive",
     "north": "gregtechmod:blocks/machines/struct/itnt",

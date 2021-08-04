@@ -2,12 +2,13 @@ package mods.gregtechmod.cover;
 
 import ic2.core.util.LiquidUtil;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 public class CoverPump extends CoverInventory {
@@ -27,11 +28,11 @@ public class CoverPump extends CoverInventory {
             if (stack == null) return;
 
             double energy = Math.min(1, stack.amount / 100D);
-            if (te instanceof IGregTechMachine && mode.consumesEnergy(side) && ((IGregTechMachine)te).getUniversalEnergyCapacity() >= energy) {
-                if (((IGregTechMachine)te).useEnergy(energy, false) < energy) return;
+            if (te instanceof IUpgradableMachine && mode.consumesEnergy(side) && ((IUpgradableMachine)te).getUniversalEnergyCapacity() >= energy) {
+                if (((IUpgradableMachine)te).useEnergy(energy, false) < energy) return;
             }
 
-            LiquidUtil.transfer(mode.isImport ? target.handler : (TileEntity)te, side, mode.isImport ? (TileEntity)te : target.handler, 1000);
+            LiquidUtil.transfer(mode.isImport ? target.handler : (TileEntity)te, mode.isImport ? side.getOpposite() : side, mode.isImport ? (TileEntity)te : target.handler, Fluid.BUCKET_VOLUME);
         }
     }
 

@@ -1,15 +1,15 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.gui.GuiDistillationTower;
-import mods.gregtechmod.inventory.InvSlotConsumableCell;
+import mods.gregtechmod.inventory.invslot.GtConsumableCell;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerDistillationTower;
-import net.minecraft.block.state.IBlockState;
+import mods.gregtechmod.util.struct.StructureElement;
+import mods.gregtechmod.util.struct.StructureElementGatherer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,59 +18,71 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class TileEntityDistillationTower extends TileEntityStructureBase<Object, IRecipeCellular, IRecipeIngredient, ItemStack, IGtRecipeManagerCellular> {
-    public InvSlotConsumableCell cellSlot;
+    public GtConsumableCell cellSlot;
     
     public TileEntityDistillationTower() {
-        super("distillation_tower", 10000, 4, 2, GtRecipes.distillation);
-        this.cellSlot = new InvSlotConsumableCell(this, "cell_slot", 1);
+        super("distillation_tower", 4, GtRecipes.distillation);
+        this.cellSlot = new GtConsumableCell(this, "cell_slot", 1);
     }
-    
+
+    @Override
+    protected int getBaseSinkTier() {
+        return 2;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 10000;
+    }
+
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
                 Arrays.asList(
+                        " X ",
                         "SSS",
                         "SSS",
-                        "SSS",
-                        " X "
+                        "SSS"
                 ),
                 Arrays.asList(
+                        "   ",
                         "DDD",
                         "DAD",
-                        "DDD",
-                        "   "
+                        "DDD"
                 ),
                 Arrays.asList(
+                        "   ",
                         "SSS",
                         "SAS",
-                        "SSS",
-                        "   "
+                        "SSS"
                 ),
                 Arrays.asList(
+                        "   ",
                         "DDD",
                         "DAD",
-                        "DDD",
-                        "   "
+                        "DDD"
                 ),
                 Arrays.asList(
+                        "   ",
                         "SSS",
                         "SSS",
-                        "SSS",
-                        "   "
+                        "SSS"
                 )
         );
     }
     
     @Override
-    protected void getStructureElements(Map<Character, Predicate<IBlockState>> map) {
-        map.put('S', state -> state.getBlock() == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance());
-        map.put('D', state -> state.getBlock() == BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance());
-        map.put('A', state -> state.getBlock() == Blocks.AIR);
+    protected Map<Character, Collection<StructureElement>> getStructureElements() {
+        return new StructureElementGatherer(this::getWorld)
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
+                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance())
+                .block('A', Blocks.AIR)
+                .gather();
     }
 
     @Override
@@ -87,13 +99,13 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerDistillationTower getGuiContainer(EntityPlayer player) {
         return new ContainerDistillationTower(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiDistillationTower(new ContainerDistillationTower(player, this));
+        return new GuiDistillationTower(getGuiContainer(player));
     }
 }

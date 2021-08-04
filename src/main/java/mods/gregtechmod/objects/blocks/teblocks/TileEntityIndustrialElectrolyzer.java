@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.gui.GuiIndustrialElectrolyzer;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
@@ -13,17 +12,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityIndustrialElectrolyzer extends TileEntityIndustrialCentrifugeBase {
 
     public TileEntityIndustrialElectrolyzer() {
-        super("industrial_electrolyzer", 2, 64000, GtRecipes.industrialElectrolyzer, false);
+        super("industrial_electrolyzer", 64000, GtRecipes.industrialElectrolyzer);
     }
 
+    @Override
+    protected int getBaseSinkTier() {
+        return 2;
+    }
+
+    @Override
+    public ContainerIndustrialElectrolyzer getGuiContainer(EntityPlayer player) {
+        return new ContainerIndustrialElectrolyzer(player, this);
+    }
+        
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiIndustrialElectrolyzer(new ContainerIndustrialElectrolyzer(player, this));
-    }
-
-    @Override
-    public ContainerBase<TileEntityIndustrialCentrifugeBase> getGuiContainer(EntityPlayer player) {
-        return new ContainerIndustrialElectrolyzer(player, this);
+        return new GuiIndustrialElectrolyzer(getGuiContainer(player));
     }
 }

@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
@@ -33,6 +34,11 @@ public class RecipeImplosion extends Recipe<List<IRecipeIngredient>, List<ItemSt
 
     @Override
     public String toString() {
-        return "RecipeImplosion{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .toString();
     }
 }

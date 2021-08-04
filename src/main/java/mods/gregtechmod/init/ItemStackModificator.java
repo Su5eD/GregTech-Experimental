@@ -5,11 +5,15 @@ import ic2.api.item.IItemAPI;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.Collection;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ItemStackModificator {
     public static void init() {
@@ -56,31 +60,23 @@ public class ItemStackModificator {
     }
 
     private static void addJackHammerMinableBlocks() {
-        addJackHammerMinableBlock(Blocks.COBBLESTONE);
-        addJackHammerMinableBlock(Blocks.MOSSY_COBBLESTONE);
-        addJackHammerMinableBlock(Blocks.STONE, OreDictionary.WILDCARD_VALUE);
-        addJackHammerMinableBlock(Blocks.SANDSTONE, OreDictionary.WILDCARD_VALUE);
-        addJackHammerMinableBlock(Blocks.NETHERRACK);
-        addJackHammerMinableBlock(Blocks.GLOWSTONE);
-        addJackHammerMinableBlock(Blocks.NETHER_BRICK);
-        addJackHammerMinableBlock(Blocks.RED_NETHER_BRICK);
-        addJackHammerMinableBlock(Blocks.END_STONE);
-        addJackHammerMinableBlock(Blocks.END_BRICKS);
-
         IItemAPI api = IC2Items.getItemAPI();
-        addJackHammerMinableBlock(api.getBlock("foam"), OreDictionary.WILDCARD_VALUE);
-        addJackHammerMinableBlock(api.getBlock("wall"), OreDictionary.WILDCARD_VALUE);
-        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(IC2Items.getItem("resource", "reinforced_stone"));
-        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(IC2Items.getItem("glass", "reinforced"));
-        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(IC2Items.getItem("reinforced_door"));
-        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(IC2Items.getItem("resource", "basalt"));
-    }
-
-    private static void addJackHammerMinableBlock(Block block) {
-        addJackHammerMinableBlock(block, 0);
-    }
-
-    private static void addJackHammerMinableBlock(Block block, int metadata) {
-        GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(new ItemStack(block, 1, metadata));
+        
+        Collection<ItemStack> blocks = Stream.of(
+                Stream.of(
+                        Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.END_STONE,
+                        Blocks.GLOWSTONE, Blocks.NETHER_BRICK,  Blocks.RED_NETHER_BRICK, Blocks.END_BRICKS
+                ).map(ItemStack::new),
+                Stream.of(
+                        Blocks.STONE, Blocks.SANDSTONE, api.getBlock("foam"), api.getBlock("wall")
+                ).map(block -> new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE)),
+                Stream.of(
+                        IC2Items.getItem("resource", "reinforced_stone"), IC2Items.getItem("glass", "reinforced"),
+                        IC2Items.getItem("reinforced_door"), IC2Items.getItem("resource", "basalt")
+                )
+        )
+                .flatMap(Function.identity())
+                .collect(Collectors.toList());
+        GregTechAPI.instance().addJackHammerMinableBlocks(blocks);
     }
 }

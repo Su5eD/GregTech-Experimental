@@ -1,16 +1,16 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.gui.GuiImplosionCompressor;
-import mods.gregtechmod.inventory.GtSlotProcessableImplosion;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableImplosion;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerImplosionCompressor;
-import net.minecraft.block.state.IBlockState;
+import mods.gregtechmod.util.struct.StructureElement;
+import mods.gregtechmod.util.struct.StructureElementGatherer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -21,16 +21,25 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class TileEntityImplosionCompressor extends TileEntityStructureBase<Object, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, List<IRecipeIngredient>, List<ItemStack>, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
     public final GtSlotProcessableImplosion secondaryInput;
     
     public TileEntityImplosionCompressor() {
-        super("implosion_compressor", 10000, 2, 1, GtRecipes.implosion);
+        super("implosion_compressor", 2, GtRecipes.implosion);
         this.secondaryInput = new GtSlotProcessableImplosion(this, "itnt_input", 1);
     }
-    
+
+    @Override
+    protected int getBaseSinkTier() {
+        return 1;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 10000;
+    }
+
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
@@ -58,10 +67,12 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
     
     @Override
-    protected void getStructureElements(Map<Character, Predicate<IBlockState>> map) {
-        map.put('S', state -> state.getBlock() == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance());
-        map.put('R', state -> state.getBlock() == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance());
-        map.put('A', state -> state.getBlock() == Blocks.AIR);
+    protected Map<Character, Collection<StructureElement>> getStructureElements() {
+        return new StructureElementGatherer(this::getWorld)
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
+                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
+                .block('A', Blocks.AIR)
+                .gather();
     }
 
     @Override
@@ -77,23 +88,22 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
 
     @Override
-    protected boolean processRecipe(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe) {
-        boolean ret = super.processRecipe(recipe);
+    protected void processRecipe() {
+        super.processRecipe();
         if (getActive() && tickCounter % 20 == 0) {
             this.world.playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4, (1 + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
         }
-        return ret;
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerImplosionCompressor getGuiContainer(EntityPlayer player) {
         return new ContainerImplosionCompressor(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiImplosionCompressor(new ContainerImplosionCompressor(player, this));
+        return new GuiImplosionCompressor(getGuiContainer(player));
     }
 
     @Override

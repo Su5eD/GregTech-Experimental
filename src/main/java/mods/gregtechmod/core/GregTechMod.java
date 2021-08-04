@@ -1,19 +1,19 @@
 package mods.gregtechmod.core;
 
 import ic2.api.event.TeBlockFinalCallEvent;
-import ic2.core.IC2;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.block.comp.Components;
+import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
-import mods.gregtechmod.objects.blocks.teblocks.component.CoilHandler;
-import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
-import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
+import mods.gregtechmod.objects.blocks.teblocks.component.*;
 import mods.gregtechmod.recipe.compat.ModRecipes;
+import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
@@ -68,7 +68,7 @@ public final class GregTechMod {
 
         logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
-        GregTechAPI.isClassic = classic = IC2.version.isClassic();
+        GregTechAPIImpl.createAndInject();
         DynamicConfig.init();
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
@@ -79,8 +79,14 @@ public final class GregTechMod {
         Components.register(CoverHandler.class, Reference.MODID + ":cover_handler");
         Components.register(SidedRedstoneEmitter.class, Reference.MODID + ":sided_emitter");
         Components.register(CoilHandler.class, Reference.MODID + ":coil_handler");
+        Components.register(BasicTank.class, Reference.MODID + ":basic_tank");
+        Components.register(Maintenance.class, Reference.MODID + ":maintenance");
+        TileEntityEnergy.registerEnergyComponents();
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
+        
+        GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());
+        GregTechAPI.instance().registerWrench(ItemName.wrench_new.getInstance());
     }
 
     @EventHandler
@@ -95,6 +101,7 @@ public final class GregTechMod {
         MachineRecipeLoader.loadDynamicRecipes();
         if (GregTechMod.classic) MatterRecipeLoader.init();
         MachineRecipeLoader.loadFuels();
+        MachineRecipeLoader.registerProviders();
 
         logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
@@ -107,6 +114,7 @@ public final class GregTechMod {
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_library"));
         LootTableList.register(new ResourceLocation(Reference.MODID, "chests/village_blacksmith"));
     }
+    
     @EventHandler
     public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
@@ -120,6 +128,7 @@ public final class GregTechMod {
 
         MachineRecipeLoader.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
+        AdvancementRecipeFixer.fixAdvancementRecipes();
     }
 
     @SubscribeEvent

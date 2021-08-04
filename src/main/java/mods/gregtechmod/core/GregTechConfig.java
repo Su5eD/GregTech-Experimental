@@ -2,48 +2,47 @@ package mods.gregtechmod.core;
 
 import mods.gregtechmod.api.util.Reference;
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.Config.*;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = Reference.MODID, category = "")
-@Config.LangKey(Reference.MODID+".config.title")
+@LangKey(Reference.MODID+".config.title")
 @Mod.EventBusSubscriber(modid = Reference.MODID)
 public class GregTechConfig {
 
-    @Config.LangKey(Reference.MODID+".config.general")
+    @LangKey(Reference.MODID+".config.general")
     public static final General GENERAL = new General();
 
-    @Config.LangKey(Reference.MODID+".config.features")
+    @LangKey(Reference.MODID+".config.features")
     public static final Features FEATURES = new Features();
 
-    @Config.LangKey(Reference.MODID+".config.balance")
+    @LangKey(Reference.MODID+".config.balance")
     public static final Balance BALANCE = new Balance();
 
-    @Config.LangKey(Reference.MODID+".config.machines")
+    @LangKey(Reference.MODID+".config.machines")
     public static final Machines MACHINES = new Machines();
 
-    @Config.LangKey(Reference.MODID+".config.unification")
+    @LangKey(Reference.MODID+".config.unification")
     public static final Unification UNIFICATION = new Unification();
 
-    @Config.LangKey(Reference.MODID+".config.worldgen")
+    @LangKey(Reference.MODID+".config.worldgen")
     public static final WorldGen WORLDGEN = new WorldGen();
 
-    @Config.LangKey(Reference.MODID+".config.disabled_recipes")
+    @LangKey(Reference.MODID+".config.disabled_recipes")
     public static final DisabledRecipes DISABLED_RECIPES = new DisabledRecipes();
 
     public static class General {
         public boolean connectedMachineCasingTextures = true;
-        @Config.Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
+        @Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
         public boolean dynamicCentrifugeAnimationSpeed = true;
         public boolean hiddenOres = true;
         public boolean harderStone = false;
         public boolean woodNeedsSawForCrafting = true;
         public boolean smallerWoodToolDurability = true;
         public boolean smallerStoneToolDurability = true;
-
-        public String[] specialUnificationTargets = new String[0];
 
         public boolean showCapes = true;
     }
@@ -52,20 +51,16 @@ public class GregTechConfig {
         public int quantumChestMaxItemCount = 2000000000;
         public int quantumTankCapacity = 2000000000;
         public int digitalChestMaxItemCount = 32768;
-        @Config.RangeInt(min = 1, max = 64)
+        @RangeInt(min = 1, max = 64)
         public int upgradeStackSize = 4;
-        @Config.RangeInt(min = 16, max = 64)
-        public int maxLogStackSize = 64;
-        @Config.RangeInt(min = 16, max = 64)
-        public int maxPlankStackSize = 64;
     }
 
     public static class Balance {
-        @Config.Comment("Indicates the amount of 1mb universal steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
+        @Comment("Indicates the amount of 1mb universal steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
         public double steamMultiplier = 1.6;
-        @Config.Comment("Indicates the amount of 1mb ic2 steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
+        @Comment("Indicates the amount of 1mb ic2 steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
         public double superHeatedSteamMultiplier = 2;
-        @Config.Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
+        @Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public boolean solarPanelCoverOvervoltageProtection = false;
         public float LVExplosionPower = 2;
         public float MVExplosionPower = 3;
@@ -75,19 +70,44 @@ public class GregTechConfig {
     }
 
     public static class Machines {
+        @Name("magic_energy_absorber")
+        @LangKey(Reference.MODID+".teblock.magic_energy_absorber")
+        public final MagicEnergyAbsorber magicEnergyAbsorber = new MagicEnergyAbsorber();
+        
+        @Name("dragon_egg_energy_siphon")
+        @LangKey(Reference.MODID+".teblock.dragon_egg_energy_siphon")
+        public final DragonEggEnergySiphon dragonEggEnergySiphon = new DragonEggEnergySiphon();
+        
+        @Comment("Makes active machines lose their current progress when they run out of power")
         public boolean constantNeedOfEnergy = true;
+        @Comment("If set tot true, machines will have a chance to catch fire in the rain")
         public boolean machineFlammable = true;
-        @Config.Comment("Fire causes explosions")
+        @Comment("Fire causes explosions")
         public boolean machineFireExplosions = true;
-        @Config.Comment("Wirefire on explosion")
+        @Comment("Wirefire on explosion")
         public boolean machineWireFire = true;
-        @Config.Comment("Rain causes explosions")
+        @Comment("Rain causes explosions")
         public boolean machineRainExplosions = true;
-        @Config.Comment("Lightning causes explosions")
+        @Comment("Lightning causes explosions")
         public boolean machineThunderExplosions = true;
-        @Config.Comment("Nearby explosions cause machines to explode")
+        @Comment("Nearby explosions cause machines to explode")
         public boolean machineChainExplosions = true;
         public int matterFabricationRate = 10000000;
+        
+        public static class MagicEnergyAbsorber {
+            @Comment("EU/t generated from an Ender Crystal")
+            public int energyPerEnderCrystal = 320;
+            @Comment("EU/t generated from Vis. Requires Thaumcraft to be installed.")
+            public int energyFromVis = 12800;
+        }
+        
+        public static class DragonEggEnergySiphon {
+            @Comment("EU/t generated from a Dragon Egg")
+            public int dragonEggEnergy = 1024;
+            public boolean allowMultipleEggs = false;
+            @Comment("If thaumcraft is installed, has a chance of releasing flux into the aura")
+            public boolean outputFlux = true;
+        }
     }
 
     public static class Unification {
@@ -96,72 +116,75 @@ public class GregTechConfig {
         public boolean projectred = true;
         public boolean thaumcraft = true;
         public boolean thermalfoundation = false;
+        
+        @Comment("Defines overrides for oredict unification. Each entry represents an itemstack in the form of <registry name>:<metadata>")
+        public String[] specialUnificationTargets = new String[0];
     }
 
     public static class WorldGen {
         public boolean retrogen = true;
         public boolean generateInVoid = false;
 
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean galena = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean iridium = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean ruby = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sapphire = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean bauxite = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean tetrahedrite = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean cassiterite = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sphalerite_overworld = true;
 
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean tungstate = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sheldonite = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean olivine = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sodalite = true;
 
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean pyrite_tiny = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean pyrite_small = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean pyrite_medium = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean pyrite_large = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean pyrite_huge = true;
 
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean cinnabar_tiny = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean cinnabar_small = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean cinnabar_medium = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean cinnabar_large = false;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean cinnabar_huge = false;
 
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sphalerite_tiny = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sphalerite_small = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sphalerite_medium = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sphalerite_large = true;
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean sphalerite_huge = true;
 
-        @Config.RequiresMcRestart
+        @RequiresMcRestart
         public boolean endAsteroids = true;
     }
 
@@ -170,7 +193,7 @@ public class GregTechConfig {
         public boolean massFabricator = true;
         public boolean enchantingTable = false;
         public boolean enderChest = false;
-        @Config.Comment("Classic profile only")
+        @Comment("Classic profile only")
         public boolean depletedUranium8 = true;
         public boolean easyMobGrinderRecycling = true;
         public boolean easyStoneRecycling = true;

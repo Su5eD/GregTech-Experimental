@@ -3,17 +3,17 @@ package mods.gregtechmod.gui;
 import ic2.core.gui.LinkedGauge;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.inventory.slot.CustomFluidSlot;
+import mods.gregtechmod.inventory.gui.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialCentrifuge;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialCentrifuge extends GuiInventory<ContainerIndustrialCentrifuge> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
 
     public GuiIndustrialCentrifuge(ContainerIndustrialCentrifuge container) {
         super(container);
-        addElement(CustomFluidSlot.createFluidSlot(this, 109, 64, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
+        addElement(new CustomFluidSlot(this, 109, 64, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
 
         addElement(new LinkedGauge(this, 98, 38, container.base, "progress", GregtechGauge.SMALL_ARROW_RIGHT));
         addElement(new LinkedGauge(this, 83, 23, container.base, "progress", GregtechGauge.SMALL_ARROW_UP));

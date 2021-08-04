@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
+    "down": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
+    "up": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
+    "north": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_front_active",
+    "south": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
+    "east": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side",
+    "west": "gregtechmod:blocks/machines/magic_energy_converter/magic_energy_converter_side"
+  }
+}

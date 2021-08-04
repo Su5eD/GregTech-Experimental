@@ -1,0 +1,12 @@
+# Steam fuels
+---
+- input:
+    fluid: steam
+    milliBuckets: 1600
+  energy: 800
+- input:
+    fluid: ic2steam
+  energy: 1280
+- input:
+    fluid: ic2superheated_steam
+  energy: 2560

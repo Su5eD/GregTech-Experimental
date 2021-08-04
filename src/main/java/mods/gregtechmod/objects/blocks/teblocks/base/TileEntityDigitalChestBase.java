@@ -1,17 +1,17 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.GtUpgradeSlot;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.inventory.slot.GtUpgradeSlot;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityQuantumChest;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.item.EntityItem;
@@ -47,13 +47,15 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public int maxItemCount;
     protected int availableSpace;
 
-    public TileEntityDigitalChestBase(int stackLimit, boolean isQuantumChest) {
+    public TileEntityDigitalChestBase(String descriptionKey, int stackLimit, boolean isQuantumChest) {
+        super(descriptionKey);
         this.maxItemCount = stackLimit;
         this.isQuantumChest = isQuantumChest;
         this.content = new InvSlot(this, "mainSlot", InvSlot.Access.IO, 1);
         this.content.setStackSizeLimit(stackLimit);
         this.upgradeSlot = new GtUpgradeSlot(this, "lockUpgradeSlot", InvSlot.Access.NONE, 1);
-        this.allowedCovers = Sets.newHashSet("generic", "normal", "conveyor", "item_meter", "crafting", "machine_controller", "item_valve");
+        
+        this.coverBlacklist.add(CoverType.ENERGY);
     }
 
     @Override
@@ -63,12 +65,12 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (hand != EnumHand.MAIN_HAND) return true;
         ItemStack stack = player.getHeldItem(hand);
         ItemStack slot = content.get();
         availableSpace = maxItemCount - slot.getCount();
-        if (stack.getItem().getRegistryName().toString().contains("wrench")) return true;
+        if (GtUtil.isWrench(stack)) return true;
 
         if (isPrivate && !world.isRemote) { //has to be executed on server side only
             if (!GtUtil.checkAccess(this, owner, player.getGameProfile())) {
@@ -98,7 +100,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             }
         }
 
-        if (super.onActivated(player, hand, side, hitX, hitY, hitZ) || world.isRemote) return true;
+        if (super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ) || world.isRemote) return true;
 
         long time = world.getTotalWorldTime();
 
@@ -149,7 +151,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         }
 
         clickTime = time;
-        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+        return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -211,87 +213,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getProgress() {
-        return 0;
-    }
-
-    @Override
-    public int getMaxProgress() {
-        return 0;
-    }
-
-    @Override
-    public void increaseProgress(double amount) {}
-
-    @Override
-    public double addEnergy(double amount) {
-        return 0;
-    }
-
-    @Override
-    public double useEnergy(double amount, boolean simulate) {
-        return 0;
-    }
-
-    @Override
-    public double getUniversalEnergy() {
-        return 0;
-    }
-
-    @Override
-    public double getInputVoltage() {
-        return 0;
-    }
-
-    @Override
-    public double getStoredEU() {
-        return 0;
-    }
-
-    @Override
-    public double getDefaultEUCapacity() {
-        return 0;
-    }
-
-    @Override
-    public double getEUCapacity() {
-        return 0;
-    }
-
-    @Override
-    public int getAverageEUInput() {
-        return 0;
-    }
-
-    @Override
-    public int getAverageEUOutput() {
-        return 0;
-    }
-
-    @Override
-    public double getStoredSteam() {
-        return 0;
-    }
-
-    @Override
-    public double getSteamCapacity() {
-        return 0;
-    }
-
-    @Override
-    public void updateEnet() {}
-
-    @Override
-    public double getUniversalEnergyCapacity() {
-        return 0;
-    }
-
-    @Override
-    public int getTier() {
-        return 0;
-    }
-
-    @Override
     public boolean hasSteamTank() {
         return false;
     }
@@ -309,33 +230,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public int getSinkTier() {
-        return 0;
-    }
-
-    @Override
-    public int getDefaultSinkTier() {
-        return 0;
-    }
-
-    @Override
-    public int getSourceTier() {
-        return 0;
-    }
-
-    @Override
-    public void setEUcapacity(double capacity) {}
-
-    @Override
-    public void setSinkTier(int tier) {}
-
-    @Override
-    public void setSourceTier(int tier) {}
-
-    @Override
-    public void setOverclockerCount(int count) {}
-
-    @Override
     public boolean isPrivate() {
         return this.isPrivate;
     }
@@ -349,14 +243,15 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public void addSteamTank() {}
 
     @Override
-    public double getExtraEnergyStorage() {
+    public int getExtraEUCapacity() {
         return 0;
     }
 
     @Override
-    public int getUpgradeCount(IGtUpgradeItem upgrade) {
-        return 0;
-    }
+    public void addExtraEUCapacity(int extraCapacity) {}
+
+    @Override
+    public void addExtraSinkTier() {}
 
     @Override
     public int getUpgradeCount(GtUpgradeType type) {
@@ -384,12 +279,10 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getOutputVoltage() {
-        return 0;
-    }
+    public void markForExplosion() {}
 
     @Override
-    public void markForExplosion() {}
+    public void markForExplosion(float power) {}
 
     private class BarrelItemStackHandler extends ItemStackHandler {
         private final EnumFacing side;
@@ -471,6 +364,74 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
+    public boolean hasMjUpgrade() {
+        return false;
+    }
+
+    @Override
+    public void addMjUpgrade() {}
+
+    @Override
+    public boolean addEnergy(double amount) {
+        return false;
+    }
+
+    @Override
+    public double useEnergy(double amount, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int getSinkTier() {
+        return 0;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return 0;
+    }
+
+    @Override
+    public double getMaxInputEUp() {
+        return 0;
+    }
+
+    @Override
+    public double getMaxOutputEUt() {
+        return 0;
+    }
+
+    @Override
+    public double getStoredEU() {
+        return 0;
+    }
+
+    @Override
+    public int getEUCapacity() {
+        return 0;
+    }
+
+    @Override
+    public double getAverageEUInput() {
+        return 0;
+    }
+
+    @Override
+    public double getAverageEUOutput() {
+        return 0;
+    }
+
+    @Override
+    public double getStoredSteam() {
+        return 0;
+    }
+
+    @Override
+    public double getSteamCapacity() {
+        return 0;
+    }
+
+    @Override
     public long getStoredMj() {
         return 0;
     }
@@ -481,13 +442,15 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public boolean hasMjUpgrade() {
-        return false;
+    public void setMjCapacity(long capacity) {}
+
+    @Override
+    public double getUniversalEnergy() {
+        return 0;
     }
 
     @Override
-    public void addMjUpgrade() {}
-
-    @Override
-    public void setMjCapacity(long capacity) {}
+    public double getUniversalEnergyCapacity() {
+        return 0;
+    }
 }

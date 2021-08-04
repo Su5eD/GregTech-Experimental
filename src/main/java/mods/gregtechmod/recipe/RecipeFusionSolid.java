@@ -6,7 +6,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-import java.util.Collections;
 import java.util.List;
 
 public class RecipeFusionSolid extends RecipeFusion<IRecipeIngredient, ItemStack> {
@@ -21,9 +20,10 @@ public class RecipeFusionSolid extends RecipeFusion<IRecipeIngredient, ItemStack
                                            @JsonProperty(value = "duration", required = true) int duration,
                                            @JsonProperty(value = "energyCost", required = true) double energyCost,
                                            @JsonProperty(value = "startEnergy", required = true) double startEnergy) {
+        input = RecipeUtil.adjustInputCount("fusion", input, output, 2);
         RecipeFusionSolid recipe = new RecipeFusionSolid(input, output, duration, energyCost, startEnergy);
 
-        RecipeUtil.validateRecipeIO("fusion", input, Collections.singletonList(output));
+        RecipeUtil.validateRecipeIO("fusion", input, output);
 
         return recipe;
     }

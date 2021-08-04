@@ -1,7 +1,9 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,13 +23,13 @@ public class CoverEnergyMeter extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregTechMachine)) return;
-        IGregTechMachine machine = (IGregTechMachine) te;
+        if (!(te instanceof IUpgradableMachine)) return;
+        IUpgradableMachine machine = (IUpgradableMachine) te;
         byte strength;
         if (mode == Mode.AVERAGE_EU_IN || mode == Mode.AVERAGE_EU_IN_INVERTED) {
-            strength = (byte) (machine.getAverageEUInput() / (machine.getInputVoltage() / 15));
+            strength = (byte) (machine.getAverageEUInput() / (machine.getMaxInputEUp() / 15));
         } else if (mode == Mode.AVERAGE_EU_OUT || mode == Mode.AVERAGE_EU_OUT_INVERTED) {
-            strength = (byte) (machine.getAverageEUOutput() / (machine.getOutputVoltage() / 15));
+            strength = (byte) (machine.getAverageEUOutput() / (machine.getMaxOutputEUt() / 15));
         } else {
             double stored = -1;
             double capacity = 1;
@@ -112,13 +114,13 @@ public class CoverEnergyMeter extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = Mode.valueOf(nbt.getString("mode"));
+        this.mode = Mode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override
@@ -129,6 +131,11 @@ public class CoverEnergyMeter extends CoverGeneric {
     @Override
     public int getTickRate() {
         return 5;
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.METER;
     }
 
     private enum Mode {
@@ -161,7 +168,7 @@ public class CoverEnergyMeter extends CoverGeneric {
         }
 
         public String getMessageKey() {
-            return Reference.MODID+".item.energy_meter.mode."+this.name().toLowerCase(Locale.ROOT);
+            return Reference.MODID + ".item.energy_meter.mode." + this.name().toLowerCase(Locale.ROOT);
         }
     }
 }

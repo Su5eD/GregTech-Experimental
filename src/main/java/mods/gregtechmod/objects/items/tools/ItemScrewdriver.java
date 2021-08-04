@@ -15,7 +15,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ItemScrewdriver extends ItemToolBase {
         setRegistryName("screwdriver");
         setTranslationKey("screwdriver");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-        GregTechAPI.registerScrewdriver(new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE));
+        GregTechAPI.instance().registerScrewdriver(this);
         this.effectiveAganist.add("minecraft:spider");
         this.effectiveAganist.add("minecraft:cave_spider");
         this.effectiveAganist.add("twilightforest:hedge_spider");
@@ -37,6 +38,7 @@ public class ItemScrewdriver extends ItemToolBase {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         tooltip.add(GtUtil.translateItem("screwdriver.description"));

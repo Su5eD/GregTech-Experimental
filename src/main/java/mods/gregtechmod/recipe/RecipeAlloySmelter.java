@@ -2,15 +2,15 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mods.gregtechmod.api.recipe.IRecipeAlloySmelter;
+import com.google.common.base.MoreObjects;
+import mods.gregtechmod.api.recipe.IRecipeUniversal;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 
-import java.util.Collections;
 import java.util.List;
 
-public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeAlloySmelter {
+public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeUniversal<List<IRecipeIngredient>> {
     private final boolean universal;
 
     private RecipeAlloySmelter(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost, boolean smelting) {
@@ -24,11 +24,11 @@ public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeAlloyS
                                             @JsonProperty(value = "duration", required = true) int duration,
                                             @JsonProperty(value = "energyCost") double energyCost,
                                             @JsonProperty(value = "universal") boolean universal) {
-        input = RecipeUtil.adjustInputCount("alloy smelter", input, Collections.singletonList(output), 2);
+        input = RecipeUtil.adjustInputCount("alloy smelter", input, output, 2);
 
         RecipeAlloySmelter recipe = new RecipeAlloySmelter(input, output, duration, Math.max(energyCost, 1), universal);
 
-        if (!RecipeUtil.validateRecipeIO("alloy smelter", input, Collections.singletonList(output))) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("alloy smelter", input, output)) recipe.invalid = true;
 
         return recipe;
     }
@@ -40,6 +40,12 @@ public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeAlloyS
 
     @Override
     public String toString() {
-        return "RecipeAlloySmelter{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+",universal="+this.universal+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("energyCost", energyCost)
+                .add("duration", duration)
+                .add("universal", universal)
+                .toString();
     }
 }

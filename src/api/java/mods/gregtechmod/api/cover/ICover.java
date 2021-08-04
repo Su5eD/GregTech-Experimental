@@ -67,6 +67,8 @@ public interface ICover {
 
     @Nonnull
     List<String> getDescription();
+    
+    CoverType getType();
 
     NBTTagCompound writeToNBT(NBTTagCompound nbt);
 

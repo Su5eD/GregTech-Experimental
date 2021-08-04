@@ -59,6 +59,6 @@ public class RecipeManagerFusionFluid extends RecipeManagerMultiInput<IRecipeFus
                         .allMatch(ingredient -> fluids.stream()
                                 .anyMatch(ingredient::apply)))
                 .min(this::compareCount)
-                .orElse(null);
+                .orElseGet(() -> getProvidedRecipe(input));
     }
 }

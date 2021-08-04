@@ -2,7 +2,7 @@ package mods.gregtechmod.cover;
 
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.InventoryMode;
 import net.minecraft.item.ItemStack;
@@ -20,8 +20,8 @@ public class CoverConveyor extends CoverInventory {
     public void doCoverThings() {
         if (!canWork()) return;
 
-        if (te instanceof IGregTechMachine && mode.consumesEnergy(side) && ((IGregTechMachine)te).getUniversalEnergyCapacity() >= 128) {
-            if (((IGregTechMachine) te).getUniversalEnergy() >= 128) ((IGregTechMachine)te).useEnergy(moveItemStack((TileEntity)te, side, mode), false);
+        if (te instanceof IUpgradableMachine && mode.consumesEnergy(side) && ((IUpgradableMachine)te).getUniversalEnergyCapacity() >= 128) {
+            if (((IUpgradableMachine) te).getUniversalEnergy() >= 128) ((IUpgradableMachine)te).useEnergy(moveItemStack((TileEntity)te, side, mode), false);
         } else moveItemStack((TileEntity)te, side, mode);
     }
 

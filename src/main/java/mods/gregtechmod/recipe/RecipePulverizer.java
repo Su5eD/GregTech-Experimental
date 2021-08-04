@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
@@ -81,7 +82,20 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
 
     @Override
     public String toString() {
-        ItemStack secondaryOutput = this.getSecondaryOutput();
-        return "RecipePulverizer{input="+this.input+",output="+this.getPrimaryOutput().toString()+(!secondaryOutput.isEmpty() ? ",secondaryOutput="+secondaryOutput.toString()+",chance="+this.chance : "")+",duration="+this.duration+",overwrite="+this.overwrite+"}";
+        ItemStack secondaryOutput = getSecondaryOutput();
+        MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", getPrimaryOutput());
+        if (!secondaryOutput.isEmpty()) {
+            helper.add("secondaryOutput", secondaryOutput)
+                    .add("chance", chance);
+        }
+        
+        return helper
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .add("overwrite", overwrite)
+                .add("universal", universal)
+                .toString();
     }
 }

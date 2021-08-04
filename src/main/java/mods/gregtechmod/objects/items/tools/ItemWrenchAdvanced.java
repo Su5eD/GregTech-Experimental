@@ -32,10 +32,12 @@ public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPs
         return HashMultimap.create();
     }
 
+    @Override
     public boolean canTakeDamage(ItemStack stack, int amount) {
         return ElectricItem.manager.getCharge(stack) >= amount;
     }
 
+    @Override
     public void damage(ItemStack stack, int amount, EntityPlayer player) {
         ElectricItem.manager.use(stack, amount, player);
     }
@@ -60,6 +62,7 @@ public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPs
         return 128;
     }
 
+    @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
         if (isInCreativeTab(tab)) ElectricItemManager.addChargeVariants(this, subItems);
     }

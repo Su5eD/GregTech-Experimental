@@ -4,7 +4,6 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiAutoElectricFurnace;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoilHandler;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,10 +24,10 @@ public abstract class TileEntityElectricFurnaceBase<RI, I, R extends IMachineRec
     }
 
     @Override
-    protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (this.coilHandler.onActivated(player)) return true;
         
-        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+        return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -51,6 +50,6 @@ public abstract class TileEntityElectricFurnaceBase<RI, I, R extends IMachineRec
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiAutoElectricFurnace(new ContainerBasicMachine<>(player, this));
+        return new GuiAutoElectricFurnace(getGuiContainer(player));
     }
 }

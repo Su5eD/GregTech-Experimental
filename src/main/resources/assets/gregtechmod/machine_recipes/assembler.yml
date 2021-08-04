@@ -92,14 +92,6 @@
   duration: 400
   energyCost: 4
 - input:
-    - ore: plankWood
-      count: 8
-    - ore: dustRedstone
-  output:
-    item: minecraft:noteblock
-  duration: 800
-  energyCost: 1
-- input:
     - ores:
         - gemLapis
         - itemLazurite
@@ -198,14 +190,6 @@
     count: 6
   duration: 2400
   energyCost: 2
-- input:
-    - ore: plankWood
-      count: 8
-    - ore: gemDiamond
-  output:
-    item: minecraft:jukebox
-  duration: 1600
-  energyCost: 1
 - input:
     - ore: gemEmerald
       count: 8

@@ -17,6 +17,7 @@ import mods.gregtechmod.recipe.crafting.ToolOreIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.init.Blocks;
@@ -32,15 +33,15 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
-import net.minecraftforge.registries.GameData;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class OreDictHandler {
+public class OreDictHandler { // TODO Subject to huge cleanup
     public static final OreDictHandler INSTANCE;
     private static final Pattern granitePattern = Pattern.compile("\\bstone.*Granite");
 
@@ -413,7 +414,7 @@ public class OreDictHandler {
             ItemStack result = recipe.getRecipeOutput();
             if (!result.isEmpty()) {
                 ItemStack planks = StackUtil.copyWithSize(result, result.getCount() * 3 / 2);
-                DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1, true));
+                DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientItemStack.create(stack), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1, true));
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
 
@@ -427,7 +428,7 @@ public class OreDictHandler {
                         Collections.singletonList(IC2Items.getItem("chainsaw")),
                         1
                 ).setRegistryName(new ResourceLocation(Reference.MODID, recipeName+"_sawing"));
-                GameData.register_impl(sawingRecipe);
+                ForgeRegistries.RECIPES.register(sawingRecipe);
 
                 GameRegistry.addShapelessRecipe(
                         new ResourceLocation(Reference.MODID, recipeName),
@@ -441,7 +442,7 @@ public class OreDictHandler {
 
     private void processStone(ItemStack stack, String name) {
         Item item = stack.getItem();
-        if (item instanceof ItemBlock) GregTechAPI.JACK_HAMMER_MINABLE_BLOCKS.add(stack);
+        if (item instanceof ItemBlock) GregTechAPI.instance().addJackHammerMinableBlock(stack);
 
         if (name.equals("stoneObsidian") && item instanceof ItemBlock) {
             ((ItemBlock) item).getBlock().setResistance(20);
@@ -644,7 +645,7 @@ public class OreDictHandler {
             );
 
             ItemStack smallDust;
-            BlockItems.Smalldust gtSmallDust = ModHandler.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
+            BlockItems.Smalldust gtSmallDust = GtUtil.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
             if (gtSmallDust != null) smallDust = new ItemStack(gtSmallDust.getInstance());
             else {
                 smallDust = OreDictUnificator.getFirstOre(name.replaceFirst("ingot", "dustSmall"), 2);

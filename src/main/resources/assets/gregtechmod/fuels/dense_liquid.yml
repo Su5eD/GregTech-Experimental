@@ -5,10 +5,16 @@
   energy: 2
 - input:
     fluid: creosote
-  energy: 2
+  energy: 3
+  conditions:
+    - type: mod_loaded
+      modid: railcraft
 - input:
     fluid: biomass
   energy: 8
+  conditions:
+    - type: mod_loaded
+      modid: forestry
 - input:
     fluid: sodium
   energy: 30
@@ -18,6 +24,3 @@
 - input:
     fluid: oil
   energy: 64
-- input:
-    fluid: mercury
-  energy: 8

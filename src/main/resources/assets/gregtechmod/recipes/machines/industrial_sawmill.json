@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "PAP",
+    "DDD",
+    "ABA"
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingDiamondBlade"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingPump"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 41
+  }
+}

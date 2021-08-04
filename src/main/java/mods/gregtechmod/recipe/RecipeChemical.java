@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
@@ -21,13 +22,18 @@ public class RecipeChemical extends Recipe<List<IRecipeIngredient>, List<ItemSta
                                         @JsonProperty(value = "duration", required = true) int duration) {
         RecipeChemical recipe = new RecipeChemical(input, output, duration);
 
-        if (!RecipeUtil.validateRecipeIO("chemical", input, Collections.singletonList(output))) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("chemical", input, output)) recipe.invalid = true;
 
         return recipe;
     }
 
     @Override
     public String toString() {
-        return "RecipeChemical{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .toString();
     }
 }

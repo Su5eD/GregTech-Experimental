@@ -14,7 +14,7 @@ public class ItemSolderingMetal extends ItemBase implements ISolderingMetal {
     }
 
     @Override
-    public boolean canUse() {
+    public boolean canUse(ItemStack stack) {
         return true;
     }
 

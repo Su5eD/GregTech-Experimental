@@ -2,13 +2,13 @@
   <img src="https://raw.githubusercontent.com/Su5eD/GregTech-Experimental/forge-1.12.2/src/main/resources/GTE_Logo_medium.png" align="center"/> 
 </p>
 <p align="center">
-  <a href="https://github.com/Su5eD/GregTech-Experimental/actions">
-      <img src="https://github.com/Su5eD/GregTech-Experimental/workflows/Build Master/badge.svg"  alt="Build status" align="center" />
+  <a href="https://ci.su5ed.dev/buildConfiguration/GregTechExperimental_BuildBranch">
+      <img src="https://ci.su5ed.dev/app/rest/builds/buildType:id:GregTechExperimental_BuildBranch,branch:name:unstable/statusIcon.svg" align="center" alt="TeamCity build status">
   </a>
   <a href="https://discord.gg/JPvmNbe">
     <img src="https://discord.com/api/guilds/728217881514606612/widget.png?style=shield" alt="Discord Server" align="center"/>
   </a>
-  <img src="https://www.gnu.org/graphics/lgplv3-88x31.png" align="center"/>
+  <img src="https://www.gnu.org/graphics/lgplv3-88x31.png" align="center" alt="LGPL logo"/>
 </p>  
 
 # GregTech Experimental
@@ -130,19 +130,16 @@ Note: Make sure to prepend `./` to every `gradlew` command you execute if you're
 1. Open a Command Prompt (Windows) or Shell (macOS / Linux)
 2. Clone the repository: `git clone https://github.com/Su5eD/GregTech-Experimental.git`
 3. Open the cloned folder: `cd GregTech-Experimental`
-4. You are left with a choice:
-    - Set up a workspace (for developers): `gradlew setupDecompWorkspace`
-    - Just compile the mod (for users): `gradlew build`. The outputted jars will be located in `build/libs`
+4. Compile the mod: `gradlew build`. The resulting jars will be located in `build/libs`
 
 ### Importing into an IDE
-If you're a developer and/or you chose to set up a workspace, it's time to
-import the project into an IDE of your choice.
+If you're a developer and/or you want to set up a dev workspace, import the project into an IDE of your choice:
 
 - IntelliJ IDEA (Recommended)  
-    1. Import the `build.gradle` as a project
+    1. Import the `build.gradle` file as a project
     2. Execute the `genIntellijRuns` gradle task, either using a command prompt, 
        or the Gradle tab on the right.
 - Eclipse
-    1. Run `gradlew runEclipseRuns`
+    1. Run `gradlew genEclipseRuns`
     2. Open Eclipse and go to Import > Gradle > Existing Gradle Project, 
        or run `gradlew eclipse` and then import the project

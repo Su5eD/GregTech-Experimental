@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "XXX",
+    "GMG",
+    "XCX"
+  ],
+  "key":
+  {
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingGearTier03"
+    },
+    "X":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 30
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier03"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 44
+  }
+}

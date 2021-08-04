@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.items.base;
 
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.cover.CoverRegistry;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.util.GtUtil;
@@ -29,7 +29,7 @@ public class ItemCover extends ItemBase {
         ItemStack stack = player.inventory.getCurrentItem();
         ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
         if (block instanceof ICoverable) {
-            ICover cover = CoverRegistry.constructCover(this.coverName, side, (ICoverable) block, coverStack);
+            ICover cover = GregTechAPI.getCoverRegistry().constructCover(this.coverName, side, (ICoverable) block, coverStack);
             if (((ICoverable)block).placeCoverAtSide(cover, side, false)) {
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
                 return EnumActionResult.SUCCESS;

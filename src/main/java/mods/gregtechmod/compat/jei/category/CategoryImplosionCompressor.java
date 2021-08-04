@@ -7,7 +7,6 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.RecipeWrapperFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperMultiInput;
@@ -16,12 +15,11 @@ import mods.gregtechmod.gui.GuiImplosionCompressor;
 import mods.gregtechmod.recipe.RecipeImplosion;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 import java.util.List;
 
-public class CategoryImplosionCompressor extends CategoryStruct<RecipeImplosion, WrapperMultiInput<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
+public class CategoryImplosionCompressor extends CategoryBase<RecipeImplosion, WrapperMultiInput<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
     private final IDrawable gauge;
 
     public CategoryImplosionCompressor(IGuiHelper guiHelper) {
@@ -31,13 +29,13 @@ public class CategoryImplosionCompressor extends CategoryStruct<RecipeImplosion,
 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
-        return guiHelper.drawableBuilder(new ResourceLocation(Reference.MODID, "textures/gui/implosion_compressor.png"), 33, 15, 88, 46)
+        return guiHelper.drawableBuilder(GuiImplosionCompressor.TEXTURE, 33, 15, 88, 46)
                 .addPadding(10, 33, 43, 43)
                 .build();
     }
 
     @Override
-    protected Collection<? extends WrapperMultiInput<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> getRecipes() {
+    protected Collection<?> getRecipes() {
         return RecipeWrapperFactory.getMultiRecipes(GtRecipes.implosion, WrapperMultiInput::new);
     }
 

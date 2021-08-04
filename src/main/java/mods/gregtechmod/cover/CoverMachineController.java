@@ -1,5 +1,6 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -29,8 +30,12 @@ public class CoverMachineController extends CoverGeneric {
         World world = ((TileEntity)te).getWorld();
         BlockPos offset = ((TileEntity)te).getPos().offset(side);
         boolean isPowered = world.isBlockPowered(offset) || world.isSidePowered(offset, side);
-        if (isPowered == (mode == ControllerMode.NORMAL) && mode != ControllerMode.DISABLED) ((IGregTechMachine)te).enableWorking();
-        else ((IGregTechMachine)te).disableWorking();
+        ((IGregTechMachine)te).setAllowedToWork(isPowered == (mode == ControllerMode.NORMAL) && mode != ControllerMode.DISABLED);
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.CONTROLLER;
     }
 
     @Override
@@ -63,18 +68,18 @@ public class CoverMachineController extends CoverGeneric {
 
     @Override
     public void onCoverRemoval() {
-        if (te instanceof IGregTechMachine) ((IGregTechMachine)te).enableWorking();
+        if (te instanceof IGregTechMachine) ((IGregTechMachine)te).setAllowedToWork(true);
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = ControllerMode.valueOf(nbt.getString("mode"));
+        this.mode = ControllerMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

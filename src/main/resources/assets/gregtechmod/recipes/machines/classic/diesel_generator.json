@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "XXX",
+    "X X",
+    "CGC"
+  ],
+  "key":
+  {
+    "X":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "plateRefinedIron", "plateAluminium" ]
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "G":
+    {
+      "item": "ic2:te",
+      "data": 3
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 28
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:classic"
+    }
+  ]
+}

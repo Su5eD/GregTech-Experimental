@@ -1,8 +1,8 @@
 pluginManagement {
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.namespace == "net.minecraftforge.gradle") {
-                useModule("com.github.Su5eD:ForgeGradle:${requested.version}")
+            if (requested.id.id == "net.minecraftforge.gradle") {
+                useModule("${requested.id}:ForgeGradle:${requested.version}")
             }
         }
     }
@@ -10,10 +10,11 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven {
-            url = uri("https://jitpack.io/")
+            url = uri("https://maven.minecraftforge.net/")
         }
         maven {
-            url = uri("https://maven.minecraftforge.net/")
+            name = "FancyGradle"
+            url = uri("https://gitlab.com/api/v4/projects/26758973/packages/maven")
         }
     }
 }

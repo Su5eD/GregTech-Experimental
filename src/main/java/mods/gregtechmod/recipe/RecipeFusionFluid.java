@@ -21,6 +21,7 @@ public class RecipeFusionFluid extends RecipeFusion<IRecipeIngredientFluid, Flui
                                            @JsonProperty(value = "duration", required = true) int duration,
                                            @JsonProperty(value = "energyCost", required = true) double energyCost,
                                            @JsonProperty(value = "startEnergy", required = true) double startEnergy) {
+        input = RecipeUtil.adjustInputCount("fusion", input, output, 2);
         RecipeFusionFluid recipe = new RecipeFusionFluid(input, output, duration, energyCost, startEnergy);
 
         RecipeUtil.validateRecipeInput("fusion", input);

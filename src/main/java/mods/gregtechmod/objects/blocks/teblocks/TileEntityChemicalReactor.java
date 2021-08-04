@@ -1,12 +1,11 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
-import ic2.core.ContainerBase;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiChemicalReactor;
-import mods.gregtechmod.inventory.GtSlotProcessableItemStack;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGTMachine;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerChemicalReactor;
 import mods.gregtechmod.util.GtUtil;
@@ -23,8 +22,18 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     public final GtSlotProcessableItemStack<IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>, List<ItemStack>> secondaryInputSlot;
 
     public TileEntityChemicalReactor() {
-        super("chemical_reactor", 10000, 1, 1, GtRecipes.chemical);
+        super("chemical_reactor", 1, GtRecipes.chemical);
         this.secondaryInputSlot = getInputSlot("secondary_input", false);
+    }
+
+    @Override
+    protected int getBaseSinkTier() {
+        return 1;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 10000;
     }
 
     @Override
@@ -38,13 +47,13 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     }
 
     @Override
-    public ContainerBase<?> getGuiContainer(EntityPlayer player) {
+    public ContainerChemicalReactor getGuiContainer(EntityPlayer player) {
         return new ContainerChemicalReactor(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiChemicalReactor(new ContainerChemicalReactor(player, this));
+        return new GuiChemicalReactor(getGuiContainer(player));
     }
 }

@@ -1,7 +1,7 @@
 package mods.gregtechmod.cover;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,8 +18,8 @@ public class CoverValve extends CoverPump {
     public void doCoverThings() {
         if (!canWork()) return;
 
-        if (te instanceof IGregTechMachine && mode.consumesEnergy(side) && ((IGregTechMachine)te).getUniversalEnergy() >= 128) {
-            if (((IGregTechMachine) te).getUniversalEnergy() >= 128) ((IGregTechMachine)te).useEnergy(CoverConveyor.moveItemStack((TileEntity)te, side, mode), false);
+        if (te instanceof IUpgradableMachine && mode.consumesEnergy(side) && ((IUpgradableMachine)te).getUniversalEnergy() >= 128) {
+            if (((IUpgradableMachine) te).getUniversalEnergy() >= 128) ((IUpgradableMachine)te).useEnergy(CoverConveyor.moveItemStack((TileEntity)te, side, mode), false);
         } else CoverConveyor.moveItemStack((TileEntity)te, side, mode);
 
         super.doCoverThings();

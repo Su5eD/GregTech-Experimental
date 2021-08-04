@@ -7,6 +7,7 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
+import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.item.ElectricItem;
 import ic2.api.reactor.IReactor;
 import ic2.api.reactor.IReactorChamber;
@@ -18,12 +19,13 @@ import ic2.core.block.TileEntityInventory;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.event.ScannerEvent;
-import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
@@ -43,22 +45,28 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class ItemScanner extends ItemElectricBase {
+    private final boolean useEnergy;
 
     public ItemScanner() {
         super("scanner", 100000, 100, 1);
+        this.useEnergy = true;
         setFolder("tool");
         setRegistryName("scanner");
         setTranslationKey("scanner");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
-    public ItemScanner(String name, int maxCharge, double transferLimit, int tier) {
+    public ItemScanner(String name, int maxCharge, double transferLimit, int tier, boolean useEnergy) {
         super(name, GtUtil.NULL_SUPPLIER, maxCharge, transferLimit, tier, 0, false);
+        this.useEnergy = useEnergy;
         this.showTier = false;
     }
 
@@ -69,18 +77,18 @@ public class ItemScanner extends ItemElectricBase {
             return EnumActionResult.PASS;
         }
         ItemStack stack = player.inventory.getCurrentItem();
-        if (ElectricItem.manager.canUse(stack, 25000)) {
-            ArrayList<String> list = new ArrayList<>();
-            ElectricItem.manager.use(stack, getCoordinateScan(list, player, world, 1, pos, side, hitX, hitY, hitZ), player);
-            for (String str : list) player.sendMessage(new TextComponentString(str));
+        if (!useEnergy || ElectricItem.manager.canUse(stack, 25000)) {
+            Pair<Collection<String>, Integer> scan = getCoordinateScan(player, world, 1, pos, side, hitX, hitY, hitZ);
+            if (this.useEnergy) ElectricItem.manager.use(stack, scan.getValue(), player);
+            scan.getKey().stream()
+                    .map(TextComponentString::new)
+                    .forEach(player::sendMessage);
             return EnumActionResult.SUCCESS;
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
     }
 
-    protected static double getCoordinateScan(ArrayList<String> list, EntityPlayer player, World world, int scanLevel, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (list == null) return 0;
-
+    protected static Pair<Collection<String>, Integer> getCoordinateScan(EntityPlayer player, World world, int scanLevel, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
         ArrayList<String> ret = new ArrayList<>();
         int energyCost = 0;
         TileEntity tileEntity = world.getTileEntity(pos);
@@ -93,7 +101,7 @@ public class ItemScanner extends ItemElectricBase {
         ret.add(GtUtil.translateScan("name", name));
         ret.add(GtUtil.translateScan("id", id));
         ret.add(GtUtil.translateScan("metadata", block.getMetaFromState(state)));
-
+        //noinspection deprecation,ConstantConditions
         ret.add(GtUtil.translateScan("hardness_resistance", state.getBlockHardness(world, pos), block.getExplosionResistance(null)));
 
         if (tileEntity != null) {
@@ -126,27 +134,27 @@ public class ItemScanner extends ItemElectricBase {
                 ret.add(GtUtil.translateScan(((IWrenchable)tileEntity).wrenchCanRemove(world, pos, player) ? "wrenchable" : "not_wrenchable"));
             }
 
-            if (tileEntity instanceof IEnergySink) {
+            IEnergyTile energyTile = EnergyNet.instance.getTile(world, pos);
+            if (energyTile instanceof IEnergySink) {
                 energyCost += 400;
-                ret.add(GtUtil.translateScan("demanded_energy", ((IEnergySink)tileEntity).getDemandedEnergy()));
-                ret.add(GtUtil.translateScan("max_safe_input", EnergyNet.instance.getPowerFromTier(((IEnergySink)tileEntity).getSinkTier())));
+                ret.add(GtUtil.translateScan("demanded_energy", ((IEnergySink)energyTile).getDemandedEnergy()));
+                ret.add(GtUtil.translateScan("max_safe_input", EnergyNet.instance.getPowerFromTier(((IEnergySink)energyTile).getSinkTier())));
             }
 
-            if (tileEntity instanceof IEnergySource) {
+            if (energyTile instanceof IEnergySource) {
                 energyCost += 400;
-                ret.add(GtUtil.translateScan("offered_energy", ((IEnergySource)tileEntity).getOfferedEnergy()));
-                ret.add(GtUtil.translateScan("max_output", EnergyNet.instance.getPowerFromTier(((IEnergySource)tileEntity).getSourceTier())));
+                ret.add(GtUtil.translateScan("max_output", energyTile instanceof AdjustableEnergy.SourceDelegate ? ((AdjustableEnergy.SourceDelegate) energyTile).getMaxOutputEUp() : EnergyNet.instance.getPowerFromTier(((IEnergySource) energyTile).getSourceTier())));
             }
 
-            if (tileEntity instanceof IEnergyConductor) {
+            if (energyTile instanceof IEnergyConductor) {
                 energyCost += 200;
-                ret.add(GtUtil.translateScan("conduction_loss", ((IEnergyConductor)tileEntity).getConductionLoss()));
+                ret.add(GtUtil.translateScan("conduction_loss", ((IEnergyConductor)energyTile).getConductionLoss()));
             }
 
-            if (tileEntity instanceof IEnergyStorage) {
+            if (energyTile instanceof IEnergyStorage) {
                 energyCost += 200;
-                ret.add(GtUtil.translateScan("contained_energy", ((IEnergyStorage)tileEntity).getStored(), ((IEnergyStorage)tileEntity).getCapacity()));
-                ret.add(GtUtil.translateScan(((IEnergyStorage)tileEntity).isTeleporterCompatible(EnumFacing.UP) ? "teleported_compatible" : "not_teleported_compatible"));
+                ret.add(GtUtil.translateScan("contained_energy", ((IEnergyStorage)energyTile).getStored(), ((IEnergyStorage)energyTile).getCapacity()));
+                ret.add(GtUtil.translateScan(((IEnergyStorage)energyTile).isTeleporterCompatible(EnumFacing.UP) ? "teleported_compatible" : "not_teleported_compatible"));
             }
 
             if (tileEntity instanceof IUpgradableMachine) {
@@ -155,13 +163,13 @@ public class ItemScanner extends ItemElectricBase {
                 if ((value = ((IUpgradableMachine)tileEntity).getOverclockersCount()) > 0) ret.add(GtUtil.translateScan("overclockers", value));
                 if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(IC2UpgradeType.TRANSFORMER)) > 0) ret.add(GtUtil.translateScan("transformers", value));
                 if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(GtUpgradeType.TRANSFORMER)) > 0) ret.add(GtUtil.translateScan("hv_transformers", value));
-                if ((value = (int) ((IUpgradableMachine)tileEntity).getExtraEnergyStorage()) > 0) ret.add(GtUtil.translateScan("extra_capacity", value));
+                if ((value = ((IUpgradableMachine)tileEntity).getExtraEUCapacity()) > 0) ret.add(GtUtil.translateScan("extra_capacity", value));
             }
 
-            if (tileEntity instanceof IGregTechMachine) {
+            if (tileEntity instanceof IMachineProgress) {
                 energyCost += 400;
-                int maxProgress = ((IGregTechMachine)tileEntity).getMaxProgress();
-                if (maxProgress > 0) ret.add(GtUtil.translateScan("progress", ((IGregTechMachine)tileEntity).getProgress(), maxProgress));
+                int maxProgress = ((IMachineProgress)tileEntity).getMaxProgress();
+                if (maxProgress > 0) ret.add(GtUtil.translateScan("progress", ((IMachineProgress)tileEntity).getProgress(), maxProgress));
             }
 
             if (tileEntity instanceof ICoverable) {
@@ -179,7 +187,7 @@ public class ItemScanner extends ItemElectricBase {
             }
 
             if (tileEntity instanceof IUpgradableMachine) {
-                GameProfile owner  = ((IUpgradableMachine)tileEntity).getOwner();
+                GameProfile owner = ((IUpgradableMachine)tileEntity).getOwner();
                 if (owner != null) ret.add(GtUtil.translateScan("owner", owner.getName()));
             }
 
@@ -187,7 +195,7 @@ public class ItemScanner extends ItemElectricBase {
                 ICropTile tile = (ICropTile) tileEntity;
                 if (tile.getScanLevel() < 4) {
                     energyCost += 10000;
-                    tile.setScanLevel((byte)4);
+                    tile.setScanLevel((byte) 4);
                 }
                 energyCost += 1000;
 
@@ -199,18 +207,19 @@ public class ItemScanner extends ItemElectricBase {
                 ret.add(GtUtil.translateScan("attributes", String.join(", ", crop.getAttributes())));
                 ret.add(GtUtil.translateScan("discoverer", crop.getDiscoveredBy()));
             }
-        }
-        if (tileEntity instanceof IScannerInfoProvider) {
-            energyCost += 500;
-            List<String> temp = ((IScannerInfoProvider)tileEntity).getScanInfo(player, pos, 3);
-            ret.addAll(temp);
+            
+            if (tileEntity instanceof IScannerInfoProvider) {
+                energyCost += 500;
+                List<String> temp = ((IScannerInfoProvider)tileEntity).getScanInfo(player, pos, 3);
+                ret.addAll(temp);
+            }
         }
 
         ScannerEvent event = new ScannerEvent(world, player, pos, side, scanLevel, block, tileEntity, ret, hitX, hitY, hitZ);
-        event.EUCost = energyCost;
+        event.euCost = energyCost;
         MinecraftForge.EVENT_BUS.post(event);
-        if (!event.isCanceled()) list.addAll(ret);
-
-        return event.EUCost;
+        
+        if (event.isCanceled()) return Pair.of(Collections.emptyList(), event.euCost);
+        else return Pair.of(ret, event.euCost);
     }
 }

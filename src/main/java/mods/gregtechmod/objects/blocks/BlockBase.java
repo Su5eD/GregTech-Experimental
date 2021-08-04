@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -27,12 +29,13 @@ public class BlockBase extends Block {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(I18n.format(Reference.MODID+".tile.disable_creature_spawning"));
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
+        tooltip.add(I18n.format(Reference.MODID + ".tile.disable_creature_spawning"));
     }
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+"."+super.getTranslationKey();
+        return Reference.MODID + "." + super.getTranslationKey();
     }
 }

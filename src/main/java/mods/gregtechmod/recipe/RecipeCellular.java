@@ -1,5 +1,6 @@
 package mods.gregtechmod.recipe;
 
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -29,6 +30,13 @@ public abstract class RecipeCellular extends Recipe<IRecipeIngredient, List<Item
 
     @Override
     public String toString() {
-        return getClass().getName()+"{input="+this.input+",output="+this.output+",duration="+this.duration+",energyCost="+this.energyCost+",cells="+this.cells+",cellType="+this.cellType+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("output", output)
+                .add("duration", duration)
+                .add("energyCost", energyCost)
+                .add("cells", cells)
+                .add("cellType", cellType)
+                .toString();
     }
 }

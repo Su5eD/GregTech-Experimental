@@ -1,5 +1,6 @@
 package mods.gregtechmod.recipe.ingredient;
 
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -52,6 +53,9 @@ public class RecipeIngredientItemStack extends RecipeIngredient<Ingredient> {
 
     @Override
     public String toString() {
-        return "RecipeIngredientItemStack{inputs="+this.getMatchingInputs()+",count="+this.count+"}";
+        return MoreObjects.toStringHelper(this)
+                .add("inputs", getMatchingInputs())
+                .add("count", count)
+                .toString();
     }
 }

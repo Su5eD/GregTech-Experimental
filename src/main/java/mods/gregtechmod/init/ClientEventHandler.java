@@ -1,23 +1,22 @@
 package mods.gregtechmod.init;
 
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import com.google.gson.JsonObject;
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
+import mods.gregtechmod.model.ModelBlockConnected;
+import mods.gregtechmod.model.ModelBlockOre;
+import mods.gregtechmod.model.ModelStructureTeBlock;
+import mods.gregtechmod.model.ModelTeBlock;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.items.ItemCellClassic;
-import mods.gregtechmod.render.RenderBlockOre;
-import mods.gregtechmod.render.RenderStructureTeBlock;
-import mods.gregtechmod.render.RenderTeBlock;
 import mods.gregtechmod.util.*;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import mods.gregtechmod.util.struct.Rotor;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Items;
@@ -30,42 +29,44 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@EventBusSubscriber(value = Side.CLIENT)
 public class ClientEventHandler {
-    private static final List<UUID> GT_CAPES;
-    private static final List<UUID> CAPES;
-    private static final ResourceLocation GT_CAPE_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gregorious_cape.png");
-    private static final ResourceLocation CAPE_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gregtech_cape.png");
+    private static final Map<ItemStack, Supplier<String>> EXTRA_TOOLTIPS = new HashMap<>();
+    
     private static ItemStack dustCoal = ItemStack.EMPTY;
     private static ItemStack dustIron = ItemStack.EMPTY;
     private static ItemStack dustGold = ItemStack.EMPTY;
     private static ItemStack dustCopper = ItemStack.EMPTY;
     private static ItemStack dustTin = ItemStack.EMPTY;
     private static ItemStack dustBronze = ItemStack.EMPTY;
-    public static ItemStack sensorKit = ItemStack.EMPTY;
-    public static ItemStack sensorCard = ItemStack.EMPTY;
-
+    private static ItemStack sensorKit = ItemStack.EMPTY;
+    private static ItemStack sensorCard = ItemStack.EMPTY;
+        
     static {
-        List<UUID> gtCapes = new ArrayList<>();
-        gtCapes.add(UUID.fromString("989e39a1-7d39-4829-87f1-286a06fab3bd")); // Su5eD
-        GT_CAPES = Collections.unmodifiableList(gtCapes);
-
-        List<UUID> capes = new ArrayList<>();
-        GtUtil.readAsset("GregTechCapes.txt").lines()
-                .forEach(line -> {
-                    String id = (line.contains("#") ? line.split("#")[0] : line).trim();
-                    capes.add(UUID.fromString(id));
-                });
-        CAPES = Collections.unmodifiableList(capes);
+        EXTRA_TOOLTIPS.put(dustCoal, () -> "C2");
+        EXTRA_TOOLTIPS.put(dustIron, () -> "Fe");
+        EXTRA_TOOLTIPS.put(dustGold, () -> "Au");
+        EXTRA_TOOLTIPS.put(dustCopper, () -> "Cu");
+        EXTRA_TOOLTIPS.put(dustTin, () -> "Sn");
+        EXTRA_TOOLTIPS.put(dustBronze, () -> "SnCu3");
+        EXTRA_TOOLTIPS.put(sensorKit, () -> GtUtil.translateItemDescription("sensor_kit"));
+        EXTRA_TOOLTIPS.put(sensorCard, () -> GtUtil.translateItemDescription("sensor_card"));
     }
 
     public static void gatherModItems() {
@@ -75,6 +76,7 @@ public class ClientEventHandler {
         dustCopper = IC2Items.getItem("dust", "copper");
         dustTin = IC2Items.getItem("dust", "tin");
         dustBronze = IC2Items.getItem("dust", "bronze");
+        // TODO Actually contribute to EnergyControl and remove ugly registration from API (URGENT)
         sensorKit = ModHandler.getModItem("energycontrol", "item_kit", 800);
         sensorCard = ModHandler.getModItem("energycontrol", "item_card", 800);
     }
@@ -90,63 +92,118 @@ public class ClientEventHandler {
                 });
 
         BlockItemLoader.ITEMS.stream()
-                .filter(item -> item instanceof IModelInfoProvider)
+                .filter(IModelInfoProvider.class::isInstance)
                 .forEach(item -> {
                     ModelInformation info = ((IModelInfoProvider) item).getModelInformation();
                     registerModel(item, info.metadata, info.path);
                 });
+        
         registerBakedModels();
 
         Arrays.stream(GregTechTEBlock.values())
                 .filter(GregTechTEBlock::isStructure)
                 .filter(GregTechTEBlock::hasItem)
-                .forEach(te -> {
-                    String name = te.getName();
+                .map(GregTechTEBlock::getName)
+                .forEach(name -> {
                     ItemStack stack = GregTechObjectAPI.getTileEntity(name);
-                    ModelLoader.setCustomModelResourceLocation(stack.getItem(), stack.getMetadata(), new ModelResourceLocation(new ResourceLocation(Reference.MODID, "teblock/" + name + "_valid"), name));
+                    ResourceLocation location = new ResourceLocation(Reference.MODID, "teblock/" + name + "_valid");
+                    ModelLoader.setCustomModelResourceLocation(stack.getItem(), stack.getMetadata(), new ModelResourceLocation(location, name));
                 });
     }
 
+    private static void registerBakedModels() {
+        GregTechMod.logger.info("Registering baked models");
+        BakedModelLoader loader = new BakedModelLoader();
+        JsonObject blockstateModels = JsonHandler.readFromJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
+        
+        Arrays.stream(GregTechTEBlock.values())
+                .filter(GregTechTEBlock::hasBakedModel)
+                .forEach(teBlock -> {
+                    String teBlockName = teBlock.getName();
+                    String model = new ResourceLocation(blockstateModels.getAsJsonObject(teBlockName).get("model").getAsString()).getPath();
+                    
+                    JsonHandler json = new JsonHandler(getItemModelPath("teblock", model));
+                    ModelTeBlock renderer;
+                    if (teBlock.isStructure()) {
+                        JsonHandler valid = new JsonHandler(getItemModelPath("teblock", teBlockName + "_valid"));
+                        renderer = new ModelStructureTeBlock(valid.particle, json.generateTextureMap(), valid.generateTextureMap());
+                    } else {
+                        renderer = new ModelTeBlock(json.particle, json.generateTextureMap());
+                    }
+                    loader.register("models/block/" + teBlockName, renderer);
+                    
+                    if (teBlock.hasActive()) {
+                        JsonHandler active = new JsonHandler(getItemModelPath("teblock", teBlockName + "_active"));
+                        loader.register("models/block/" + teBlockName + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
+                    }
+                });
+        
+        for (BlockItems.Ore ore : BlockItems.Ore.values()) {
+            JsonHandler json = new JsonHandler(getItemModelPath("ore", ore.name().toLowerCase(Locale.ROOT)));
+            loader.register("models/block/ore/" + ore.name().toLowerCase(Locale.ROOT), new ModelBlockOre(json.particle, json.generateTextureMap(), json.generateTextureMap("textures_nether"), json.generateTextureMap("textures_end")));
+        }
+        
+        registerConnectedBakedModels(loader);
+        
+        ModelLoaderRegistry.registerLoader(loader);
+    }
+    
+    private static void registerConnectedBakedModels(BakedModelLoader loader) {
+        NormalStateMapper mapper = new NormalStateMapper();
+        Stream.of(BlockItems.Block.STANDARD_MACHINE_CASING, BlockItems.Block.REINFORCED_MACHINE_CASING, BlockItems.Block.ADVANCED_MACHINE_CASING, BlockItems.Block.IRIDIUM_REINFORCED_TUNGSTEN_STEEL, BlockItems.Block.TUNGSTEN_STEEL)
+                .map(BlockItems.Block::getInstance)
+                .forEach(block -> ModelLoader.setCustomStateMapper(block, mapper));
+
+        Map<String, ResourceLocation> steamTurbineRotor = getRotorTextures("large_steam_turbine");
+        Map<String, ResourceLocation> gasTurbineRotor = getRotorTextures("large_gas_turbine");
+        registerConnectedBakedModel(loader, "standard_machine_casing", steamTurbineRotor);
+        registerConnectedBakedModel(loader, "reinforced_machine_casing", gasTurbineRotor);
+        registerConnectedBakedModel(loader, "advanced_machine_casing");
+        registerConnectedBakedModel(loader, "iridium_reinforced_tungsten_steel");
+        registerConnectedBakedModel(loader, "tungsten_steel");
+    }
+    
+    private static Map<String, ResourceLocation> getRotorTextures(String name) {
+        return Rotor.TEXTURE_NAMES.stream()
+                .flatMap(str -> Stream.of(str, str + "_active"))
+                .collect(Collectors.toMap(str -> "rotor_" + str, str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name +"/" + str)));
+    }
+    
+    @SafeVarargs
+    private static void registerConnectedBakedModel(BakedModelLoader loader, String name, Map<String, ResourceLocation>... extraTextures) {
+        Path texturesPath = GtUtil.getAssetPath("textures");
+        Path path = texturesPath.resolve("blocks/connected/" + name);
+        try {
+            Map<String, ResourceLocation> textures = Files.walk(path)
+                    .filter(p -> !p.equals(path))
+                    .map(p -> {
+                        String str = p.toString().replace(texturesPath.toString(), "");
+                        while (str.startsWith(File.separator) || str.startsWith("/")) str = str.substring(1);
+                        
+                        return str.substring(0, str.lastIndexOf('.')).replace(File.separatorChar, '/');
+                    })
+                    .collect(Collectors.toMap(str -> {
+                        String textureName = str.substring(str.lastIndexOf('/') + 1).replace(name, "");
+                        if (textureName.startsWith("_")) return textureName.substring(1);
+                        else return textureName;
+                    }, str -> new ResourceLocation(Reference.MODID, str)));
+
+            loader.register("models/block/block_" + name, new ModelBlockConnected(textures, extraTextures));
+        } catch (IOException e) {
+            GregTechMod.logger.error("Error registering connected baked model " + name, e);
+        }
+    }
+    
     private static void registerModel(Item item) {
         registerModel(item, 0, item.getRegistryName());
     }
-
+    
     private static void registerModel(Item item, int metadata, ResourceLocation path) {
         ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(path, "inventory"));
     }
-
-    public static void registerBakedModels() {
-        GregTechMod.logger.info("Registering baked models");
-        BakedModelLoader loader = new BakedModelLoader();
-        for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
-            try {
-                if (teBlock.hasBakedModel()) {
-                    String name = teBlock.getName();
-                    JsonHandler json = new JsonHandler(name, "teblock");
-                    
-                    RenderTeBlock renderer;
-                    if (teBlock.isStructure()) {
-                        JsonHandler valid = new JsonHandler(name + "_valid", "teblock");
-                        renderer = new RenderStructureTeBlock(json.generateMapFromJSON("textures"), valid.generateMapFromJSON("textures"), valid.particle);
-                    } else {
-                        renderer = new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle);
-                    }
-                    loader.register("models/block/"+name, renderer);
-                    
-                    if (teBlock.hasActive()) {
-                        json = new JsonHandler(name+"_active", "teblock");
-                        loader.register("models/block/"+name+"_active", new RenderTeBlock(json.generateMapFromJSON("textures"), json.particle));
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        for (BlockItems.Ore ore : BlockItems.Ore.values()) {
-            JsonHandler json = new JsonHandler(ore.name().toLowerCase(Locale.ROOT), "ore");
-            loader.register("models/block/ore/"+ore.name().toLowerCase(Locale.ROOT), new RenderBlockOre(json.generateMapFromJSON("textures"), json.generateMapFromJSON("textures_nether"), json.generateMapFromJSON("textures_end"), json.particle));
-        }
-        ModelLoaderRegistry.registerLoader(loader);
+    
+    private static String getItemModelPath(String... paths) {
+        return "models/item/" + String.join("/", paths) + ".json";
     }
 
     @SubscribeEvent
@@ -154,51 +211,47 @@ public class ClientEventHandler {
         TextureMap map = event.getMap();
         String path = "blocks/covers/";
         String centrifuge = "blocks/machines/centrifuge/";
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"adv_machine_vent"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"adv_machine_vent_rotating"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, centrifuge+"centrifuge_top_active2"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, centrifuge+"centrifuge_top_active3"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, centrifuge+"centrifuge_side_active2"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, centrifuge+"centrifuge_side_active3"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, "blocks/machines/adv_machine_screen_random")); //TODO: Remove when implemented in another machine
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"machine_vent_rotating"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"drain"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"active_detector"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"eu_meter"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"item_meter"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"liquid_meter"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"normal"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"noredstone"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"machine_controller"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"solar_panel"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"crafting"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"conveyor"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"pump"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"valve"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"energy_only"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_only"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_conductor"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, path+"redstone_signalizer"));
-        map.registerSprite(new ResourceLocation(Reference.MODID, "blocks/machines/machine_top_pipe"));
+        
+        Stream.of(
+                path + "adv_machine_vent",
+                path + "adv_machine_vent_rotating",
+                centrifuge + "centrifuge_top_active2",
+                centrifuge + "centrifuge_top_active3",
+                centrifuge + "centrifuge_side_active2",
+                centrifuge + "centrifuge_side_active3",
+                "blocks/machines/adv_machine_screen_random", //TODO: Remove when implemented in another machine
+                path + "machine_vent_rotating",
+                path + "drain",
+                path + "active_detector",
+                path + "eu_meter",
+                path + "item_meter",
+                path + "liquid_meter",
+                path + "normal",
+                path + "noredstone",
+                path + "machine_controller",
+                path + "solar_panel",
+                path + "crafting",
+                path + "conveyor",
+                path + "pump",
+                path + "valve",
+                path + "energy_only",
+                path + "redstone_only",
+                path + "redstone_conductor",
+                path + "redstone_signalizer",
+                "blocks/machines/machine_top_pipe",
+                "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape"
+        )
+                .map(str -> new ResourceLocation(Reference.MODID, str))
+                .forEach(map::registerSprite);
 
-        FluidLoader.FLUIDS.forEach(provider -> map.registerSprite(provider.getTexture()));
+        FluidLoader.FLUIDS.stream()
+                .map(FluidLoader.IFluidProvider::getTexture)
+                .forEach(map::registerSprite);
     }
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         if (GtUtil.getFullInvisibility(event.getEntityPlayer())) event.setCanceled(true);
-
-        if (GregTechConfig.GENERAL.showCapes) {
-            AbstractClientPlayer clientPlayer = (AbstractClientPlayer) event.getEntityPlayer();
-            UUID playerId = clientPlayer.getUniqueID();
-            boolean gtCape = GT_CAPES.contains(playerId);
-            boolean cape = CAPES.contains(playerId);
-            if ((gtCape || cape) && clientPlayer.hasPlayerInfo() && clientPlayer.getLocationCape() == null) {
-                NetworkPlayerInfo playerInfo = ObfuscationReflectionHelper.getPrivateValue(AbstractClientPlayer.class, clientPlayer, "field_175157_a");
-                Map<MinecraftProfileTexture.Type, ResourceLocation> playerTextures = ObfuscationReflectionHelper.getPrivateValue(NetworkPlayerInfo.class, playerInfo, "field_187107_a");
-                playerTextures.put(MinecraftProfileTexture.Type.CAPE, gtCape ? GT_CAPE_TEXTURE : CAPE_TEXTURE);
-            }
-        }
     }
 
     @SubscribeEvent
@@ -206,24 +259,23 @@ public class ClientEventHandler {
         ItemStack stack = event.getItemStack();
         List<String> tooltip = event.getToolTip();
 
-        if (stack.isItemEqual(dustCoal)) tooltip.add(1, "C2");
-        else if (stack.isItemEqual(dustIron)) tooltip.add(1, "Fe");
-        else if (stack.isItemEqual(dustGold)) tooltip.add(1, "Au");
-        else if (stack.isItemEqual(dustCopper)) tooltip.add(1, "Cu");
-        else if (stack.isItemEqual(dustTin)) tooltip.add(1, "Sn");
-        else if (stack.isItemEqual(dustBronze)) tooltip.add(1, "SnCu3");
-        else if (stack.isItemEqual(sensorKit)) tooltip.add(1, GtUtil.translateItemDescription("sensor_kit"));
-        else if (stack.isItemEqual(sensorCard)) tooltip.add(1, GtUtil.translateItemDescription("sensor_card"));
+        EXTRA_TOOLTIPS.entrySet().stream()
+                .filter(entry -> entry.getKey().isItemEqual(stack))
+                .map(Map.Entry::getValue)
+                .map(Supplier::get)
+                .findFirst()
+                .ifPresent(str -> tooltip.add(1, str));
 
-        FluidStack fluidContained = FluidUtil.getFluidContained(stack);
+        FluidStack fluidStack = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();
-        if (TileEntityIndustrialCentrifugeBase.isCell(item) && fluidContained != null && !(item instanceof ItemCellClassic)) {
-            FluidLoader.FLUIDS.forEach(provider -> {
-                if (provider.getFluid() == fluidContained.getFluid()) {
-                    String description = provider.getDescription();
-                    if (description != null) tooltip.add(item instanceof ItemFluidCell ? 2 : 1, description);
-                }
-            });
+        if (fluidStack != null && TileEntityIndustrialCentrifugeBase.isCell(item) && !(item instanceof ItemCellClassic)) {
+            Fluid fluid = fluidStack.getFluid();
+            FluidLoader.FLUIDS.stream()
+                    .filter(provider -> provider.getFluid() == fluid)
+                    .map(FluidLoader.IFluidProvider::getDescription)
+                    .filter(Objects::nonNull)
+                    .findFirst()
+                    .ifPresent(desc -> tooltip.add(item instanceof ItemFluidCell ? 2 : 1, desc));
         }
     }
 }

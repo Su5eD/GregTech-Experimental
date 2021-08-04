@@ -1,7 +1,7 @@
 {
   "parent": "gregtechmod:block/block_directional",
   "textures": {
-    "particle": "gregtechmod:blocks/machines/machine_bottom",
+    "particle": "gregtechmod:blocks/machines/machine_side",
     "down": "gregtechmod:blocks/machines/machine_bottom",
     "up": "gregtechmod:blocks/machines/machine_top",
     "north": "gregtechmod:blocks/machines/universal_macerator/universal_macerator_front_active",

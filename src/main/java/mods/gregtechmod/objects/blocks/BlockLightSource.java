@@ -18,6 +18,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -33,8 +35,8 @@ public class BlockLightSource extends BlockBase implements ITileEntityProvider {
         setTranslationKey("light_source");
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState state)
-    {
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.INVISIBLE;
     }
 
@@ -77,7 +79,8 @@ public class BlockLightSource extends BlockBase implements ITileEntityProvider {
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {}
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {}
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {}
 
     @Nullable
     @Override
@@ -85,6 +88,7 @@ public class BlockLightSource extends BlockBase implements ITileEntityProvider {
         return new TileEntityLightSource();
     }
 
+    @Override
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }

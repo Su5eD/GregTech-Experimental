@@ -5,7 +5,7 @@ package mods.gregtechmod.api.machine;
  */
 public interface IPanelInfoProvider {
     /**
-     * Is the TileEntity providing information at the moment?
+     * Is the {@link net.minecraft.tileentity.TileEntity TileEntity} providing information at the moment?
      */
     boolean isGivingInformation();
 

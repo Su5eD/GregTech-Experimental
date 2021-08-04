@@ -6,8 +6,6 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiAutoRecycler;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachineSingleInput;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
-import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -26,13 +24,13 @@ public class TileEntityAutoRecycler extends TileEntityBasicMachineSingleInput<IM
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiAutoRecycler(new ContainerBasicMachine<>(player, this));
+        return new GuiAutoRecycler(getGuiContainer(player));
     }
 
     @Override
-    protected boolean canOperate(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
+    protected boolean canProcessRecipe(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
         boolean canWork = this.maxProgress > 0 || !this.pendingRecipe.isEmpty();
-        return canWork || enableWorking && !this.inputSlot.isEmpty();
+        return canWork || isAllowedToWork() && !this.inputSlot.isEmpty();
     }
 
     @Override
@@ -51,7 +49,7 @@ public class TileEntityAutoRecycler extends TileEntityBasicMachineSingleInput<IM
     @Override
     protected void prepareRecipeForProcessing(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
         ItemStack stack = this.inputSlot.consume(1, false, true);
-        if (!TileEntityRecycler.getIsItemBlacklisted(stack) && GtUtil.RANDOM.nextInt(8) == 0) this.pendingRecipe.add(ModHandler.scrap.copy());
+        if (!TileEntityRecycler.getIsItemBlacklisted(stack) && this.world.rand.nextInt(8) == 0) this.pendingRecipe.add(ModHandler.scrap.copy());
         this.maxProgress = 45;
     }
 }

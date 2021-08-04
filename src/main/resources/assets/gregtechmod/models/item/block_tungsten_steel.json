@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/connected/tungsten_steel/tungsten_steel",
+    "down": "gregtechmod:blocks/connected/tungsten_steel/tungsten_steel",
+    "up": "gregtechmod:blocks/connected/tungsten_steel/tungsten_steel",
+    "north": "gregtechmod:blocks/connected/tungsten_steel/tungsten_steel",
+    "south": "gregtechmod:blocks/connected/tungsten_steel/tungsten_steel",
+    "west": "gregtechmod:blocks/connected/tungsten_steel/tungsten_steel",
+    "east": "gregtechmod:blocks/connected/tungsten_steel/tungsten_steel"
+  }
+}

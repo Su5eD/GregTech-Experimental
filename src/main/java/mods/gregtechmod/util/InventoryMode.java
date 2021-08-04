@@ -19,7 +19,7 @@ public enum InventoryMode {
     EXPORT_ALLOW_INPUT_CONDITIONAL_INVERTED(false, true, true, true),
     IMPORT_ALLOW_OUTPUT_CONDITIONAL_INVERTED(true, true, true, true);
 
-    private static final InventoryMode[] VALUES = values();
+    public static final InventoryMode[] VALUES = values();
     public final boolean isImport;
     public final boolean allowIO;
     public final boolean inverted;
@@ -65,6 +65,6 @@ public enum InventoryMode {
     }
 
     public String getMessageKey() {
-        return Reference.MODID+".cover.inventory_mode."+this.name().toLowerCase(Locale.ROOT);
+        return Reference.MODID + ".cover.inventory_mode." + this.name().toLowerCase(Locale.ROOT);
     }
 }

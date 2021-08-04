@@ -14,7 +14,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -27,10 +28,11 @@ public class ItemCrowbar extends ItemToolBase implements IToolCrowbar {
         setRegistryName("crowbar");
         setTranslationKey("crowbar");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-        GregTechAPI.registerCrowbar(new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE));
+        GregTechAPI.instance().registerCrowbar(this);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (ModHandler.railcraft) tooltip.add(GtUtil.translateItem("crowbar.description_rc"));
         super.addInformation(stack, worldIn, tooltip, flagIn);

@@ -1,16 +1,20 @@
 package mods.gregtechmod.recipe.fuel;
 
+import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.core.GregTechMod;
+import net.minecraft.item.ItemStack;
 
-public abstract class Fuel<O> implements IFuel<IRecipeIngredient, O> {
+import java.util.List;
+
+public abstract class Fuel implements IFuel<IRecipeIngredient> {
     protected final IRecipeIngredient input;
     protected final double energy;
-    protected final O output;
+    protected final List<ItemStack> output;
     protected boolean invalid;
 
-    protected Fuel(IRecipeIngredient input, double energy, O output) {
+    protected Fuel(IRecipeIngredient input, double energy, List<ItemStack> output) {
         this.input = input;
         this.energy = energy;
         this.output = output;
@@ -27,7 +31,7 @@ public abstract class Fuel<O> implements IFuel<IRecipeIngredient, O> {
     }
 
     @Override
-    public O getOutput() {
+    public List<ItemStack> getOutput() {
         return this.output;
     }
 
@@ -36,9 +40,19 @@ public abstract class Fuel<O> implements IFuel<IRecipeIngredient, O> {
         return this.invalid;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("input", input)
+                .add("energy", energy)
+                .add("output", output)
+                .add("invalid", invalid)
+                .toString();
+    }
+
     protected void validate() {
-        if (input.isEmpty()) {
-            GregTechMod.logger.warn("Tried to add a solid fuel with empty input. Invalidating...");
+        if (this.input.isEmpty()) {
+            GregTechMod.logger.warn("Tried to add a fuel with empty input: " + this);
             this.invalid = true;
         }
     }

@@ -1,7 +1,9 @@
 package mods.gregtechmod.cover;
 
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,8 +28,8 @@ public class CoverActiveDetector extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregTechMachine)) return;
-        IGregTechMachine machine = (IGregTechMachine) te;
+        if (!(te instanceof IMachineProgress)) return;
+        IMachineProgress machine = (IMachineProgress) te;
 
         byte strength = (byte) ((machine.getProgress() + 4) / machine.getMaxProgress() * 15);
         if (mode == DetectorMode.NORMAL || mode == DetectorMode.INVERTED) {
@@ -50,13 +52,13 @@ public class CoverActiveDetector extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return nbt;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = DetectorMode.valueOf(nbt.getString("mode"));
+        this.mode = DetectorMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override
@@ -97,6 +99,11 @@ public class CoverActiveDetector extends CoverGeneric {
     @Override
     public void onCoverRemoval() {
         if (te instanceof IGregTechMachine) ((IGregTechMachine) te).setRedstoneOutput(side, (byte) 0);
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.METER;
     }
 
     private enum DetectorMode {

@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
-public class FuelSimple extends Fuel<ItemStack> {
+import java.util.Collections;
+
+public class FuelSimple extends Fuel {
 
     private FuelSimple(IRecipeIngredient input, double energy, ItemStack output) {
-        super(input, energy, output);
+        super(input, energy, Collections.singletonList(output));
     }
 
     @JsonCreator

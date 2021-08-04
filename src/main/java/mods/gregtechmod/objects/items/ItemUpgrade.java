@@ -18,18 +18,18 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     private final int requiredTier;
     private final int maxCount;
     private final BiPredicate<ItemStack, IUpgradableMachine> condition;
-    private final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert;
-    private final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate;
+    private final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert;
+    private final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
 
-    public ItemUpgrade(String name, String descriptionKey, GtUpgradeType type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> onInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> onUpdate) {
+    public ItemUpgrade(String name, String descriptionKey, GtUpgradeType type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
         super(name, () -> GtUtil.translateItem(descriptionKey));
         setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
         this.type = type;
         this.requiredTier = requiredTier;
         this.maxCount = maxCount;
         this.condition = condition;
-        this.onInsert = onInsert;
-        this.onUpdate = onUpdate;
+        this.beforeInsert = beforeInsert;
+        this.afterInsert = afterInsert;
     }
 
     @Override
@@ -44,16 +44,16 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
 
     @Override
     public boolean canBeInserted(ItemStack stack, IUpgradableMachine machine) {
-        return this.maxCount > stack.getCount() && requiredTier <= machine.getTier() && this.condition.test(stack, machine);
+        return this.maxCount > stack.getCount() && requiredTier <= Math.max(machine.getSinkTier(), machine.getSourceTier()) && this.condition.test(stack, machine);
     }
 
     @Override
     public boolean beforeInsert(ItemStack stack, IUpgradableMachine machine, EntityPlayer player) {
-        return this.onInsert.apply(stack, machine, player);
+        return this.beforeInsert.apply(stack, machine, player);
     }
 
     @Override
     public void afterInsert(ItemStack stack, IUpgradableMachine machine, EntityPlayer player) {
-        this.onUpdate.accept(stack, machine, player);
+        this.afterInsert.accept(stack, machine, player);
     }
 }

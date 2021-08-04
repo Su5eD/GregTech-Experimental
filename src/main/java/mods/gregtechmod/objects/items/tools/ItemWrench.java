@@ -7,6 +7,7 @@ import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
 import ic2.core.item.tool.ItemToolWrench;
 import ic2.core.util.RotationUtil;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
@@ -31,6 +32,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -56,6 +59,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
         this.durability = durability;
         this.entityDamage = entityDamage;
         setMaxDamage(durability - 1);
+        GregTechAPI.instance().registerWrench(this);
     }
 
     @Override
@@ -102,6 +106,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (this.showDurability) tooltip.add((stack.getMaxDamage() - stack.getItemDamage() + 1) + " / " + (stack.getMaxDamage() + 1));
         if (ModHandler.buildcraftCore) tooltip.add(GtUtil.translateItem("wrench.description_bc"));

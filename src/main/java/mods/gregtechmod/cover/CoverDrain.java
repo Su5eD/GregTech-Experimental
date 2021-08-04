@@ -1,11 +1,13 @@
 package mods.gregtechmod.cover;
 
 import ic2.core.util.LiquidUtil;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -15,6 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -39,35 +42,41 @@ public class CoverDrain extends CoverGeneric {
     public void doCoverThings() {
         if (!canWork()) return;
 
-        World world = ((TileEntity)te).getWorld();
-        BlockPos pos = ((TileEntity)te).getPos();
-        Block block = world.getBlockState(pos.offset(side)).getBlock();
+        TileEntity te = (TileEntity) this.te; 
+        World world = te.getWorld();
+        BlockPos pos = te.getPos();
+        BlockPos offset = pos.offset(side);
+        Block block = world.getBlockState(offset).getBlock();
 
-        if (LiquidUtil.isFluidTile((TileEntity)te, side) && mode.isImport) {
-            IFluidHandler handler = ((TileEntity)te).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);
+        if (LiquidUtil.isFluidTile(te, side) && mode.isImport) {
+            IFluidHandler handler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);
             if (side == EnumFacing.UP && world.isRaining()) {
                 if (world.getPrecipitationHeight(pos).getY() - 2 < pos.getY()) {
-                    int amount = (int) (world.getBiome(pos).getRainfall()*10);
+                    int amount = (int) (world.getBiome(pos).getRainfall() * 10);
                     if (amount > 0) {
                         handler.fill(new FluidStack(FluidRegistry.WATER, world.isThundering() ? amount * 2 : amount), true);
                     }
                 }
             }
-            FluidStack liquid = null;
+            FluidStack liquid;
             if (block == Blocks.WATER) liquid = new FluidStack(FluidRegistry.WATER, 1000);
             else if (block == Blocks.LAVA) liquid = new FluidStack(FluidRegistry.LAVA, 1000);
-            else if (block instanceof IFluidBlock) liquid = ((IFluidBlock)block).drain(world, pos.offset(side), false);
+            else if (block instanceof IFluidBlock) liquid = ((IFluidBlock)block).drain(world, offset, false);
+            else liquid = null;
 
-            if (liquid != null && liquid.getFluid() != null) {
-                if(side == EnumFacing.DOWN && !(liquid.getFluid().getDensity() <= 0) || side == EnumFacing.UP && !(liquid.getFluid().getDensity() >= 0)) return;
-
-                if (handler.fill(liquid, false) == liquid.amount) {
-                    handler.fill(liquid, true);
-                    world.setBlockToAir(pos.offset(side));
+            if (liquid != null) {
+                Fluid fluid = liquid.getFluid();
+                if (fluid != null) {
+                    if(side == EnumFacing.DOWN && !(fluid.getDensity() <= 0) || side == EnumFacing.UP && !(fluid.getDensity() >= 0)) return;
+                
+                    if (handler.fill(liquid, false) == liquid.amount) {
+                        handler.fill(liquid, true);
+                        world.setBlockToAir(offset);
+                    }
                 }
             }
         }
-        if (!mode.isImport && block != Blocks.AIR && (block == Blocks.LAVA || block == Blocks.FLOWING_LAVA || block == Blocks.WATER || block == Blocks.FLOWING_WATER || block instanceof IFluidBlock)) world.setBlockState(pos.offset(side), Blocks.AIR.getDefaultState(), 0);
+        if (!mode.isImport && block != Blocks.AIR && (block instanceof BlockLiquid || block instanceof IFluidBlock)) world.setBlockState(offset, Blocks.AIR.getDefaultState(), 0);
     }
 
     @Override
@@ -84,13 +93,13 @@ public class CoverDrain extends CoverGeneric {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setString("mode", this.mode.name());
+        nbt.setInteger("mode", this.mode.ordinal());
         return super.writeToNBT(nbt);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = DrainMode.valueOf(nbt.getString("mode"));
+        this.mode = DrainMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override
@@ -100,6 +109,11 @@ public class CoverDrain extends CoverGeneric {
 
     public boolean canWork() {
         return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine)te).isAllowedToWork() == mode.inverted);
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.IO;
     }
 
     private enum DrainMode {
