@@ -16,7 +16,7 @@ public class AdvancementRecipeFixer {
     
     public static void fixAdvancementRecipes() {
         GregTechMod.logger.info("Fixing Advancements");
-        
+       
         REPLACED_RECIPES
                 .forEach(recipe -> {
                     ResourceLocation output = recipe.getRecipeOutput().getItem().getRegistryName();
