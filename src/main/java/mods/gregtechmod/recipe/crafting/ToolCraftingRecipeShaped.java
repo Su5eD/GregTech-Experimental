@@ -6,10 +6,12 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.crafting.CraftingHelper;
 
 import java.util.Collection;
 
@@ -21,6 +23,11 @@ public class ToolCraftingRecipeShaped extends ShapedRecipes {
         super(group, width, height, ingredients, result);
         this.tools = tools;
         this.craftingDamage = craftingDamage;
+    }
+    
+    public static IRecipe makeRecipe(String group, ItemStack result, Collection<ItemStack> tools, int craftingDamage, Object... params) {
+        CraftingHelper.ShapedPrimer primer = CraftingHelper.parseShaped(params);
+        return new ToolCraftingRecipeShaped(group, primer.width, primer.height, primer.input, result, tools, craftingDamage);
     }
 
     @Override

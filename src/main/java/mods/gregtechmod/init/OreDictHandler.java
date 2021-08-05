@@ -28,7 +28,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -417,17 +416,14 @@ public class OreDictHandler { // TODO Subject to huge cleanup
                 DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientItemStack.create(stack), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1, true));
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
-
-                CraftingHelper.ShapedPrimer primer = CraftingHelper.parseShaped("S", "L", 'S', new ToolOreIngredient("craftingToolSaw", 1), 'L', stack);
-                IRecipe sawingRecipe = new ToolCraftingRecipeShaped(
+                // TODO Common part with CraftingRecipeLoader#115
+                IRecipe sawingRecipe = ToolCraftingRecipeShaped.makeRecipe(
                         "",
-                        primer.width,
-                        primer.height,
-                        primer.input,
                         StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() : result.getCount() * 5 / 4),
                         Collections.singletonList(IC2Items.getItem("chainsaw")),
-                        1
-                ).setRegistryName(new ResourceLocation(Reference.MODID, recipeName+"_sawing"));
+                        1,
+                        "S", "L", 'S', new ToolOreIngredient("craftingToolSaw", 1), 'L', stack
+                ).setRegistryName(new ResourceLocation(Reference.MODID, recipeName + "_sawing"));
                 ForgeRegistries.RECIPES.register(sawingRecipe);
 
                 GameRegistry.addShapelessRecipe(

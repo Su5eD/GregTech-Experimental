@@ -8,15 +8,21 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.recipe.crafting.ToolCraftingRecipeShaped;
+import mods.gregtechmod.recipe.crafting.ToolOreIngredient;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreIngredient;
+
+import java.util.Collections;
 
 public class CraftingRecipeLoader {
 
@@ -106,11 +112,15 @@ public class CraftingRecipeLoader {
         ItemStack planks = new ItemStack(Blocks.PLANKS);
         ItemStack result = ModHandler.removeCraftingRecipeFromInputs(planks, ItemStack.EMPTY, ItemStack.EMPTY, planks);
         if (!result.isEmpty()) {
-            ModHandler.addShapedRecipe(
-                    "planksSawing",
+            IRecipe sawingRecipe = ToolCraftingRecipeShaped.makeRecipe(
+                    "",
                     StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() : result.getCount() * 5 / 4),
-                    "S", "P", "P", 'P', "plankWood", 'S', "craftingToolSaw"
-            );
+                    Collections.singletonList(IC2Items.getItem("chainsaw")),
+                    1,
+                    "S", "P", "P", 'P', "plankWood", 'S', new ToolOreIngredient("craftingToolSaw", 1)
+            ).setRegistryName(new ResourceLocation(Reference.MODID, "planks_sawing"));
+            ForgeRegistries.RECIPES.register(sawingRecipe);
+            
             ModHandler.addShapedRecipe(
                     "sticksFromPlanks",
                     StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() / 2 : result.getCount()),
