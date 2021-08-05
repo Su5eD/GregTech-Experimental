@@ -74,13 +74,9 @@ public class TileEntityThermalBoiler extends TileEntityMultiBlockBase<TileEntity
 
     @Override
     public void processFuel(MultiBlockInstance instance, IFuel<IRecipeIngredient> fuel) {
-        boolean consume = consumeInput(instance, fuel);
-        
-        if (consume) {
-            this.fuelEnergy = 400;
-            this.maxProgress = (int) (fuel.getEnergy() * 2 / 5);
-            this.efficiencyIncrease = this.maxProgress * 30;
-        }
+        this.fuelEnergy = 400;
+        this.maxProgress = (int) (fuel.getEnergy() * 2 / 5);
+        this.efficiencyIncrease = this.maxProgress * 30;
     }
 
     @Override
