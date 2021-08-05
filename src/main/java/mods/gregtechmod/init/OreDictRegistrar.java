@@ -36,7 +36,6 @@ public class OreDictRegistrar {
 
         Arrays.stream(BlockItems.Ingot.values())
                 .forEach(ingot -> registerOre("ingot", ingot.name().toLowerCase(Locale.ROOT), ingot.getInstance()));
-        registerOre("ingotAlloyIridium", BlockItems.Ingot.IRIDIUM_ALLOY.getInstance());
 
         Arrays.stream(BlockItems.Nugget.values())
                 .forEach(nugget -> registerOre("nugget", nugget.name().toLowerCase(Locale.ROOT), nugget.getInstance()));
