@@ -272,8 +272,8 @@ publishing {
 
 fun getGitVersion(): String {
     val jgitver = GitVersionCalculator.location(rootDir)
-            .setNonQualifierBranches("forge-1.12.2")
-            .setVersionPattern("\${M}\${<m}\${<meta.COMMIT_DISTANCE}\${-~meta.QUALIFIED_BRANCH_NAME}")
-            .setStrategy(Strategies.PATTERN)
+        .setNonQualifierBranches("forge-1.12.2")
+        .setStrategy(Strategies.SCRIPT)
+        .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version
 }

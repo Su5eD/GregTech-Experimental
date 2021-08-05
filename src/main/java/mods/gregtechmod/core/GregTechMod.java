@@ -15,6 +15,7 @@ import mods.gregtechmod.objects.blocks.teblocks.component.*;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.world.OreGenerator;
@@ -25,6 +26,8 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -128,12 +131,12 @@ public final class GregTechMod {
 
         MachineRecipeLoader.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
-        AdvancementRecipeFixer.fixAdvancementRecipes();
+        GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
     }
 
     @SubscribeEvent
     public void registerTEBlocks(TeBlockFinalCallEvent event) {
-        TeBlockRegistry.addAll(GregTechTEBlock.class, GregTechTEBlock.LOCATION);
+        GtUtil.withModContainerOverride(FMLCommonHandler.instance().findContainerFor(Reference.MODID), () -> TeBlockRegistry.addAll(GregTechTEBlock.class, GregTechTEBlock.LOCATION));
         TeBlockRegistry.addCreativeRegisterer(GregTechTEBlock.INDUSTRIAL_CENTRIFUGE, GregTechTEBlock.LOCATION);
     }
 

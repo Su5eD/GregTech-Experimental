@@ -43,6 +43,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
@@ -393,6 +394,15 @@ public class GtUtil {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             GregTechMod.logger.error(e);
         }
+    }
+    
+    public static void withModContainerOverride(ModContainer container, Runnable runnable) {
+        ModContainer old = Loader.instance().activeModContainer();
+        Loader.instance().setActiveModContainer(container);
+        
+        runnable.run();
+        
+        Loader.instance().setActiveModContainer(old);
     }
     
     private static class VoidTank implements IFluidHandler {
