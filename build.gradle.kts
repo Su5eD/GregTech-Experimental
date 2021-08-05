@@ -217,20 +217,20 @@ dependencies {
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = "$versionIC2-ex112"))
     api(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = "$versionIC2-ex112", classifier = "api")) //GTE api depends on the ic2 api
     
-    compileOnly(fg.deobf(group = "cofh", name = "RedstoneFlux", version = "1.12-$versionRF", classifier = "universal"))
-    compileOnly(fg.deobf(group = "cofh", name = "CoFHCore", version = "1.12.2-$versionCoFHCore", classifier = "universal")) {
+    implementation(fg.deobf(group = "cofh", name = "RedstoneFlux", version = "1.12-$versionRF", classifier = "universal"))
+    implementation(fg.deobf(group = "cofh", name = "CoFHCore", version = "1.12.2-$versionCoFHCore", classifier = "universal")) {
         exclude(group = "mezz.jei")
     }
-    compileOnly(fg.deobf(group = "cofh", name = "CoFHWorld", version = "1.12.2-$versionCoFHWorld", classifier = "universal"))
-    compileOnly(fg.deobf(group = "cofh", name = "ThermalFoundation", version = "1.12.2-$versionThermalFoundation", classifier = "universal"))
+    implementation(fg.deobf(group = "cofh", name = "CoFHWorld", version = "1.12.2-$versionCoFHWorld", classifier = "universal"))
+    implementation(fg.deobf(group = "cofh", name = "ThermalFoundation", version = "1.12.2-$versionThermalFoundation", classifier = "universal"))
     implementation(fg.deobf(group = "codechicken", name = "CodeChickenLib", version = "1.12.2-$versionCodeChickenLib", classifier = "universal"))
-    compileOnly(fg.deobf(group = "cofh", name = "ThermalExpansion", version = "1.12.2-$versionThermalExpansion", classifier = "universal")) { 
+    implementation(fg.deobf(group = "cofh", name = "ThermalExpansion", version = "1.12.2-$versionThermalExpansion", classifier = "universal")) { 
         exclude(group = "mezz.jei")
     }
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI))
     compileOnly(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI, classifier = "api")
     compileOnly(fg.deobf(group = "com.mod-buildcraft", name = "buildcraft-main", version = versionBuildCraft))
-    compileOnly(fg.deobf(curse(mod = "energy-control", projectId = 51195, fileId = versionEnergyControl.toLong())))
+    implementation(fg.deobf(curse(mod = "energy-control", projectId = 51195, fileId = versionEnergyControl.toLong())))
     compileOnly(fg.deobf(curse(mod = "railcraft", projectId = 51195, fileId = versionRailcraft.toLong())))
     compileOnly(fg.deobf(curse(mod = "applied-energistics-2", projectId = 223794, fileId = versionAE2.toLong())))
     compileOnly(fg.deobf(curse(mod = "thaumcraft", projectId = 223628, fileId = versionThaumcraft.toLong())))
@@ -272,8 +272,8 @@ publishing {
 
 fun getGitVersion(): String {
     val jgitver = GitVersionCalculator.location(rootDir)
-            .setNonQualifierBranches("forge-1.12.2")
-            .setVersionPattern("\${M}\${<m}\${<meta.COMMIT_DISTANCE}\${-~meta.QUALIFIED_BRANCH_NAME}")
-            .setStrategy(Strategies.PATTERN)
+        .setNonQualifierBranches("forge-1.12.2")
+        .setStrategy(Strategies.SCRIPT)
+        .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version
 }
