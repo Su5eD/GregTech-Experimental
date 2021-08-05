@@ -240,7 +240,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
         @Override
         public int getCapacity() {
-            throw new UnsupportedOperationException();
+            return 0;
         }
 
         @Override
@@ -255,7 +255,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
         @Override
         public int getSinkTier() {
-            throw new UnsupportedOperationException();
+            return 0;
         }
 
         @Override

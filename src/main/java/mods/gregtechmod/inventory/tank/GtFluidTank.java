@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.Fluid;
 
 import java.util.Collection;
 
+@SuppressWarnings("Guava")
 public class GtFluidTank extends Fluids.InternalFluidTank {
     private final ICoverable parent;
 

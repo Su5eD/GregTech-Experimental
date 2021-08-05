@@ -6,6 +6,7 @@ import mods.gregtechmod.api.recipe.fuel.IFuelManagerFluid;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableFuel;
+import mods.gregtechmod.inventory.tank.GtFluidTankProcessableFuel;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +25,7 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
     protected TileEntityFluidGenerator(String descriptionKey, IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
         super(descriptionKey);
         this.fuelManager = fuelManager;
-        this.tank = addComponent(new BasicTank(this, 10000, this.fluids, tank -> new GtSlotProcessableFuel(this, "tankInputSlot", this.fuelManager), true));
+        this.tank = addComponent(new BasicTank(this, this.fluids, new GtFluidTankProcessableFuel<>(this, "content", fuelManager, 10000), tank -> new GtSlotProcessableFuel(this, "tankInputSlot", this.fuelManager), true));
     }
 
     @Override

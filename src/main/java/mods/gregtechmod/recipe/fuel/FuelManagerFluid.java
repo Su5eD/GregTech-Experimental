@@ -35,4 +35,13 @@ public class FuelManagerFluid<F extends IFuel<? extends IRecipeIngredient>> exte
         F fuel = getFuel(target);
         return fuel != null && this.fuels.remove(fuel);
     }
+
+    @Override
+    public boolean hasFuel(Fluid target) {
+        return this.fuels.stream()
+                .map(IFuel::getInput)
+                .filter(IRecipeIngredientFluid.class::isInstance)
+                .map(IRecipeIngredientFluid.class::cast)
+                .anyMatch(input -> input.apply(target));
+    }
 }

@@ -8,4 +8,6 @@ public interface IFuelManagerFluid<F extends IFuel<? extends IRecipeIngredient>>
     F getFuel(Fluid target);
 
     boolean removeFuel(Fluid target);
+    
+    boolean hasFuel(Fluid target);
 }

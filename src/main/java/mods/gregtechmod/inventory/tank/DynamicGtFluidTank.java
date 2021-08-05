@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.Fluid;
 
 import java.util.Collections;
 
+@SuppressWarnings("Guava")
 public class DynamicGtFluidTank extends GtFluidTank {
     private final Predicate<EnumFacing> inputPredicate;
     private final Predicate<EnumFacing> outputPredicate;
