@@ -93,11 +93,11 @@ configurations {
 }
 
 tasks {
-    named("build") {
-        dependsOn("reobfJar", "devJar", "apiJar")
+    build {
+        dependsOn("shadowJar", "devJar", "apiJar")
     }
 
-    named<Jar>("jar") {
+    jar {
         from(sourceSets.getByName("api").output)
 
         manifest {
@@ -113,8 +113,9 @@ tasks {
         }
     }
 
-    named<ShadowJar>("shadowJar") {
-        dependsOn("classes")
+    shadowJar {
+        dependsOn("classes", "jar")
+        finalizedBy("reobfJar")
 
         configurations = listOf(project.configurations["shade"])
         from(sourceSets.getByName("api").output)
@@ -155,7 +156,7 @@ tasks {
         finalizedBy("reobfApiJar")
 
         val api = sourceSets.getByName("api")
-        from(api.output.classesDirs)
+        from(api.allSource, api.output.classesDirs)
         exclude("META-INF/**")
         archiveClassifier.set("api")
     }
@@ -164,7 +165,7 @@ tasks {
         from(sourceSets.getByName("api").allSource)
     }
 
-    named<ProcessResources>("processResources") {
+    processResources {
         inputs.properties(
             "version" to project.version,
             "mcversion" to versionMc
