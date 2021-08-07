@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.RayTraceResult;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -81,6 +82,12 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     private void placeCover(EntityPlayer player, EnumFacing side, ItemStack stack, String name) { //For generic covers and vents
         ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
         if (placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover(name, side, this, coverStack), side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
+    }
+
+    @Override
+    protected ItemStack getPickBlock(EntityPlayer player, RayTraceResult target) {
+        ICover cover = getCoverAtSide(target.sideHit);
+        return cover != null ? cover.getItem() : super.getPickBlock(player, target);
     }
 
     @Override

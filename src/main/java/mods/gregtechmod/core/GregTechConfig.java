@@ -9,29 +9,29 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = Reference.MODID, category = "")
-@LangKey(Reference.MODID+".config.title")
+@LangKey(Reference.MODID + ".config.title")
 @Mod.EventBusSubscriber(modid = Reference.MODID)
 public class GregTechConfig {
 
-    @LangKey(Reference.MODID+".config.general")
+    @LangKey(Reference.MODID + ".config.general")
     public static final General GENERAL = new General();
 
-    @LangKey(Reference.MODID+".config.features")
+    @LangKey(Reference.MODID + ".config.features")
     public static final Features FEATURES = new Features();
 
-    @LangKey(Reference.MODID+".config.balance")
+    @LangKey(Reference.MODID + ".config.balance")
     public static final Balance BALANCE = new Balance();
 
-    @LangKey(Reference.MODID+".config.machines")
+    @LangKey(Reference.MODID + ".config.machines")
     public static final Machines MACHINES = new Machines();
 
-    @LangKey(Reference.MODID+".config.unification")
+    @LangKey(Reference.MODID + ".config.unification")
     public static final Unification UNIFICATION = new Unification();
 
-    @LangKey(Reference.MODID+".config.worldgen")
+    @LangKey(Reference.MODID + ".config.worldgen")
     public static final WorldGen WORLDGEN = new WorldGen();
 
-    @LangKey(Reference.MODID+".config.disabled_recipes")
+    @LangKey(Reference.MODID + ".config.disabled_recipes")
     public static final DisabledRecipes DISABLED_RECIPES = new DisabledRecipes();
 
     public static class General {
@@ -71,11 +71,11 @@ public class GregTechConfig {
 
     public static class Machines {
         @Name("magic_energy_absorber")
-        @LangKey(Reference.MODID+".teblock.magic_energy_absorber")
+        @LangKey(Reference.MODID + ".teblock.magic_energy_absorber")
         public final MagicEnergyAbsorber magicEnergyAbsorber = new MagicEnergyAbsorber();
         
         @Name("dragon_egg_energy_siphon")
-        @LangKey(Reference.MODID+".teblock.dragon_egg_energy_siphon")
+        @LangKey(Reference.MODID + ".teblock.dragon_egg_energy_siphon")
         public final DragonEggEnergySiphon dragonEggEnergySiphon = new DragonEggEnergySiphon();
         
         @Comment("Makes active machines lose their current progress when they run out of power")
@@ -152,37 +152,37 @@ public class GregTechConfig {
         public boolean sodalite = true;
 
         @RequiresMcRestart
-        public boolean pyrite_tiny = true;
+        public boolean pyriteTiny = true;
         @RequiresMcRestart
-        public boolean pyrite_small = true;
+        public boolean pyriteSmall = true;
         @RequiresMcRestart
-        public boolean pyrite_medium = true;
+        public boolean pyriteMedium = true;
         @RequiresMcRestart
-        public boolean pyrite_large = true;
+        public boolean pyriteLarge = true;
         @RequiresMcRestart
-        public boolean pyrite_huge = true;
+        public boolean pyriteHuge = true;
 
         @RequiresMcRestart
-        public boolean cinnabar_tiny = true;
+        public boolean cinnabarTiny = true;
         @RequiresMcRestart
-        public boolean cinnabar_small = true;
+        public boolean cinnabarSmall = true;
         @RequiresMcRestart
-        public boolean cinnabar_medium = true;
+        public boolean cinnabarMedium = true;
         @RequiresMcRestart
-        public boolean cinnabar_large = false;
+        public boolean cinnabarLarge = false;
         @RequiresMcRestart
-        public boolean cinnabar_huge = false;
+        public boolean cinnabarHuge = false;
 
         @RequiresMcRestart
-        public boolean sphalerite_tiny = true;
+        public boolean sphaleriteTiny = true;
         @RequiresMcRestart
-        public boolean sphalerite_small = true;
+        public boolean sphaleriteSmall = true;
         @RequiresMcRestart
-        public boolean sphalerite_medium = true;
+        public boolean sphaleriteMedium = true;
         @RequiresMcRestart
-        public boolean sphalerite_large = true;
+        public boolean sphaleriteLarge = true;
         @RequiresMcRestart
-        public boolean sphalerite_huge = true;
+        public boolean sphaleriteHuge = true;
 
         @RequiresMcRestart
         public boolean endAsteroids = true;

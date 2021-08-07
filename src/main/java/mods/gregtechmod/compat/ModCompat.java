@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
@@ -35,15 +35,15 @@ public class ModCompat {
     @SuppressWarnings("deprecation")
     @Optional.Method(modid = "buildcraftsilicon")
     private static void sendFakeIMC() {
-        Constructor<FMLInterModComms.IMCMessage> imcContructor = ObfuscationReflectionHelper.findConstructor(FMLInterModComms.IMCMessage.class, String.class, Object.class);
-        Field senderField = ReflectionHelper.findField(FMLInterModComms.IMCMessage.class, "sender");
+        Constructor<IMCMessage> imcContructor = ObfuscationReflectionHelper.findConstructor(IMCMessage.class, String.class, Object.class);
+        Field senderField = ReflectionHelper.findField(IMCMessage.class, "sender");
         
         Stream.of(BlockItems.Block.STANDARD_MACHINE_CASING, BlockItems.Block.REINFORCED_MACHINE_CASING, BlockItems.Block.ADVANCED_MACHINE_CASING, BlockItems.Block.IRIDIUM_REINFORCED_TUNGSTEN_STEEL, BlockItems.Block.TUNGSTEN_STEEL)
                 .map(BlockItems.Block::getInstance)
                 .map(IForgeRegistryEntry.Impl::getRegistryName)
                 .forEach(name -> {
                     try {
-                        FMLInterModComms.IMCMessage message = imcContructor.newInstance(FacadeAPI.IMC_FACADE_DISABLE, name);
+                        IMCMessage message = imcContructor.newInstance(FacadeAPI.IMC_FACADE_DISABLE, name);
                         senderField.set(message, Reference.MODID);
                         FacadeStateManager.receiveInterModComms(message);
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -90,8 +90,8 @@ public class ModCompat {
         addRollingMachineRecipe("coil_cupronickel", new ItemStack(BlockItems.Component.COIL_CUPRONICKEL.getInstance()), "BAB", "A A", "BAB", 'A', "ingotCopper", 'B', "ingotNickel");
         
         ItemStack railStandard = ModHandler.getRCItem("rail");
-        addRollingMachineRecipe("rail_standard", StackUtil.setSize(railStandard, 4), "X X", "X X", "X X", 'X', "ingotAluminium");
-        addRollingMachineRecipe("rail_standard_2", StackUtil.setSize(railStandard, 32), "X X", "X X", "X X", 'X', "ingotTitanium");
+        addRollingMachineRecipe("rail_standard", StackUtil.copyWithSize(railStandard, 4), "X X", "X X", "X X", 'X', "ingotAluminium");
+        addRollingMachineRecipe("rail_standard_2", StackUtil.copyWithSize(railStandard, 32), "X X", "X X", "X X", 'X', "ingotTitanium");
         addRollingMachineRecipe("rail_standard_3", railStandard, "X X", "X X", "X X", 'X', "ingotTungsten");
         
         ItemStack railReinforced = StackUtil.copyWithSize(railStandard, 32);
@@ -99,10 +99,10 @@ public class ModCompat {
         addRollingMachineRecipe("rail_reinforced", railStandard, "X X", "X X", "X X", 'X', "ingotTungstenSteel");
         
         ItemStack rebar = ModHandler.getRCItem("rebar");
-        addRollingMachineRecipe("rebar", StackUtil.setSize(rebar, 2), "  X", " X ", "X  ", 'X', "ingotAluminium");
-        addRollingMachineRecipe("rebar_2", StackUtil.setSize(rebar, 16), "  X", " X ", "X  ", 'X', "ingotTitanium");
-        addRollingMachineRecipe("rebar_3", StackUtil.setSize(rebar, 16), "  X", " X ", "X  ", 'X', "ingotTungsten");
-        addRollingMachineRecipe("rebar_4", StackUtil.setSize(rebar, 48), "  X", " X ", "X  ", 'X', "ingotTungstenSteel");
+        addRollingMachineRecipe("rebar", StackUtil.copyWithSize(rebar, 2), "  X", " X ", "X  ", 'X', "ingotAluminium");
+        addRollingMachineRecipe("rebar_2", StackUtil.copyWithSize(rebar, 16), "  X", " X ", "X  ", 'X', "ingotTitanium");
+        addRollingMachineRecipe("rebar_3", StackUtil.copyWithSize(rebar, 16), "  X", " X ", "X  ", 'X', "ingotTungsten");
+        addRollingMachineRecipe("rebar_4", StackUtil.copyWithSize(rebar, 48), "  X", " X ", "X  ", 'X', "ingotTungstenSteel");
         
         ItemStack postMetal = ModHandler.getRCItem("post_metal");
         ItemStack postMetalLightBlue = StackUtil.setSize(GtUtil.copyWithMeta(postMetal, 3), 8);

@@ -1,7 +1,5 @@
 package mods.gregtechmod.init;
 
-import ic2.core.model.IReloadableModel;
-import ic2.core.model.ModelComparator;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
@@ -12,15 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BakedModelLoader implements ICustomModelLoader {
+    private static final Map<ResourceLocation, IModel> MODELS = new HashMap<>();
 
-    private static final Map<ResourceLocation, IReloadableModel> MODELS = new HashMap<>();
-
-    public void register(String path, IReloadableModel model) {
-        register(new ResourceLocation(Reference.MODID, path), model);
-    }
-
-    public void register(ResourceLocation location, IReloadableModel model) {
-        MODELS.put(location, model);
+    public void register(String path, IModel model) {
+        MODELS.put(new ResourceLocation(Reference.MODID, path), model);
     }
 
     @Override
@@ -34,10 +27,5 @@ public class BakedModelLoader implements ICustomModelLoader {
     }
 
     @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) {
-        for (IReloadableModel model : MODELS.values()) {
-            model.onReload();
-        }
-        ModelComparator.onReload();
-    }
+    public void onResourceManagerReload(IResourceManager resourceManager) {}
 }

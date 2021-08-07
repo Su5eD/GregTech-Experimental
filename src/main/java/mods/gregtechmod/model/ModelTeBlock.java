@@ -45,10 +45,10 @@ public class ModelTeBlock extends ModelBase {
 
     @Override
     protected IBakedModel generateModel(IBlockState rawState) {
-        HashMap<EnumFacing, ResourceLocation> covers = new HashMap<>();
+        Map<EnumFacing, ResourceLocation> covers = new HashMap<>();
         EnumFacing face = rawState.getValue(BlockTileEntity.facingProperty);
         Ic2BlockState.Ic2BlockStateInstance state = (Ic2BlockState.Ic2BlockStateInstance)rawState;
-        HashMap<EnumFacing, List<BakedQuad>> faceQuads = new HashMap<>();
+        Map<EnumFacing, List<BakedQuad>> faceQuads = new HashMap<>();
 
         if (state.hasValue(CoverHandler.COVER_HANDLER_PROPERTY)) {
             CoverHandler handler = state.getValue(CoverHandler.COVER_HANDLER_PROPERTY);

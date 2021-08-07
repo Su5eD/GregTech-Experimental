@@ -1,13 +1,12 @@
 package mods.gregtechmod.objects.items.base;
 
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
+import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ItemBase extends Item implements IModelInfoProvider {
+public class ItemBase extends Item implements ICustomItemModel {
     protected String name;
     protected Supplier<String> description;
     protected String folder;
@@ -85,8 +84,8 @@ public class ItemBase extends Item implements IModelInfoProvider {
     }
 
     @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, this.folder));
+    public ResourceLocation getItemModel() {
+        return GtUtil.getModelResourceLocation(this.name, this.folder);
     }
 
     protected final String getDurabilityInfo(ItemStack stack) {
@@ -106,7 +105,7 @@ public class ItemBase extends Item implements IModelInfoProvider {
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+"."+super.getTranslationKey();
+        return Reference.MODID + "." + super.getTranslationKey();
     }
 
     @Override

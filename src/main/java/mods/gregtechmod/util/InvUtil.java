@@ -43,7 +43,7 @@ public class InvUtil {
         try {
             return (InvSlot) GET_INVENTORY_SLOT.invokeExact(instance, index);
         } catch (Throwable t) {
-            t.printStackTrace();
+            GregTechMod.logger.error(t);
             return null;
         }
     }

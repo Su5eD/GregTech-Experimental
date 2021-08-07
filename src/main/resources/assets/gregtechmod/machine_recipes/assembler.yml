@@ -500,7 +500,7 @@
   duration: 100
   energyCost: 2
 - input:
-    - item: ic2:cable#type:glass,insulation:0
+    - item: ic2:cable#type:gold,insulation:0
     - ores:
         - itemRubber
         - rubber
@@ -526,7 +526,7 @@
         - rubber
   output:
     item: ic2:cable#type:gold,insulation:2
-  duration: 100
+  duration: 200
   energyCost: 2
 - input:
     - item: ic2:cable#type:iron,insulation:1

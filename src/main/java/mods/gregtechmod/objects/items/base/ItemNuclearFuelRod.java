@@ -6,15 +6,14 @@ import ic2.core.IC2Potion;
 import ic2.core.item.armor.ItemArmorHazmat;
 import ic2.core.item.reactor.ItemReactorUranium;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
+import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfoProvider {
+public class ItemNuclearFuelRod extends ItemReactorUranium implements ICustomItemModel {
     private final String name;
     @Nullable
     private final ItemStack depletedStack;
@@ -134,8 +133,8 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements IModelInfo
     }
 
     @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "nuclear"));
+    public ResourceLocation getItemModel() {
+        return GtUtil.getModelResourceLocation(this.name, "nuclear");
     }
 
     private static class ItemStackPos {

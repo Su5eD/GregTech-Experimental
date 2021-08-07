@@ -37,17 +37,18 @@ public class OreDictUnificator {
 
     public static void set(String name, ItemStack stack, boolean overwrite) {
         if (name == null || name.isEmpty() || stack.isEmpty() || stack.getItemDamage() < 0) return;
-        stack = stack.copy().splitStack(1);
-        addAssociation(name, stack);
+        
+        ItemStack ore = StackUtil.copyWithSize(stack, 1);
+        addAssociation(name, ore);
         if (!name2OreMap.containsKey(name)) {
-            name2OreMap.put(name, stack);
+            name2OreMap.put(name, ore);
         } else {
-            if (overwrite && Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(stack))) {
+            if (overwrite && Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(ore))) {
                 name2OreMap.remove(name);
-                name2OreMap.put(name, stack);
+                name2OreMap.put(name, ore);
             }
         }
-        registerOre(name, stack);
+        registerOre(name, ore);
     }
 
     public static void override(String name, ItemStack stack) {
@@ -57,8 +58,12 @@ public class OreDictUnificator {
     }
 
     public static ItemStack getUnifiedOre(String name) {
+        return getUnifiedOre(name, ItemStack.EMPTY);
+    }
+    
+    public static ItemStack getUnifiedOre(String name, ItemStack defaultValue) {
         ItemStack stack = name2OreMap.get(name);
-        return stack == null ? ItemStack.EMPTY : stack;
+        return stack == null ? defaultValue : stack;
     }
 
     public static ItemStack getFirstOre(String name) {
@@ -142,14 +147,13 @@ public class OreDictUnificator {
 
     public static void registerOre(String name, ItemStack stack) {
         if (name == null || name.isEmpty() || stack.isEmpty()) return;
-        List<ItemStack> ores = OreDictionary.getOres(name);
-        for (int i = 0; i < ores.size(); ) {
-            if (ores.get(i).isItemEqual(stack))
-                return;
-            i++;
+        
+        boolean nonexistent = OreDictionary.getOres(name).stream()
+                .noneMatch(stack::isItemEqual);
+        if (nonexistent) {
+            ItemStack ore = StackUtil.copyWithSize(stack, 1);
+            OreDictionary.registerOre(name, ore);
         }
-        stack = stack.copy().splitStack(1);
-        OreDictionary.registerOre(name, stack);
     }
 
     public static String getStackConfigName(ItemStack stack) {

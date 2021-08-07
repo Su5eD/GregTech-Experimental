@@ -1,8 +1,10 @@
 package mods.gregtechmod.recipe.crafting;
 
 import ic2.api.item.ElectricItem;
+import ic2.api.item.IC2Items;
 import ic2.api.item.IElectricItem;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -14,6 +16,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.crafting.CraftingHelper;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class ToolCraftingRecipeShaped extends ShapedRecipes {
     private final Collection<ItemStack> tools;
@@ -23,6 +26,10 @@ public class ToolCraftingRecipeShaped extends ShapedRecipes {
         super(group, width, height, ingredients, result);
         this.tools = tools;
         this.craftingDamage = craftingDamage;
+    }
+    
+    public static IRecipe makeSawingRecipe(ItemStack result, Object... params) {
+        return makeRecipe("", ModHandler.adjustWoodSize(result), Collections.singletonList(IC2Items.getItem("chainsaw")), 1, params);
     }
     
     public static IRecipe makeRecipe(String group, ItemStack result, Collection<ItemStack> tools, int craftingDamage, Object... params) {

@@ -31,6 +31,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
@@ -404,7 +405,12 @@ public class GtUtil {
         
         Loader.instance().setActiveModContainer(old);
     }
-    
+
+    public static ResourceLocation getModelResourceLocation(String name, String folder) {
+        if (folder == null) return new ResourceLocation(Reference.MODID, name);
+        return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
+    }
+
     private static class VoidTank implements IFluidHandler {
         
         @Override

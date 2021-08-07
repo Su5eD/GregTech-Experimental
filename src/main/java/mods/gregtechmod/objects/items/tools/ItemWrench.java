@@ -10,10 +10,8 @@ import ic2.core.util.RotationUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
+import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityList;
@@ -40,7 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Optional.Interface(modid = "buildcraftlib", iface = "buildcraft.api.tools.IToolWrench")
-public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IToolWrench {
+public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToolWrench {
     public final String name;
     protected final int durability;
     protected final int entityDamage;
@@ -101,8 +99,8 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     }
 
     @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "tool"));
+    public ResourceLocation getItemModel() {
+        return GtUtil.getModelResourceLocation(this.name, "tool");
     }
 
     @Override

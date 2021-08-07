@@ -10,12 +10,12 @@ import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Locale;
 
-@Mod.EventBusSubscriber(modid = Reference.MODID)
+@EventBusSubscriber(modid = Reference.MODID)
 public class CropLoader {
 
     @SubscribeEvent
@@ -36,7 +36,7 @@ public class CropLoader {
                     .register();
 
             if (type.baseSeed != null) {
-                GregTechMod.logger.info("Registering base seed for crop "+type.name().toLowerCase(Locale.ROOT));
+                GregTechMod.logger.info("Registering base seed for crop " + type.name().toLowerCase(Locale.ROOT));
                 Crops.instance.registerBaseSeed(type.baseSeed, crop, 1, 1, 1, 1);
             }
         }
@@ -44,7 +44,7 @@ public class CropLoader {
     }
 
     public enum Crop {
-        //Most crops have been already implemented by ic2, so don't be surprised why many are missing
+        //Most crops have been already implemented by ic2, don't be surprised why many are missing
         INDIGO("Eloraam", new ItemStack(BlockItems.Miscellaneous.INDIGO_BLOSSOM.getInstance()), new ItemStack(BlockItems.Miscellaneous.INDIGO_BLOSSOM.getInstance(), 4), 4, 4, 1, 0, 2, 1, 1, 0, 4, 0, true, "Flower", "Color", "Ingredient"),
         TINE("Gregorius Techneticies", new ItemStack(BlockItems.Nugget.TIN.getInstance()), ItemStack.EMPTY, 3, 3, 2, 0, 5, 2, 0, 3, 0, 0, false, "Shiny", "Metal", "Pine", "Tin", "Bush"),
         COPPON("Mr. Brain", new ItemStack(BlockItems.Nugget.COPPER.getInstance()), ItemStack.EMPTY, 3, 3, 2, 0, 6, 2, 0, 1, 1, 1, false, "Shiny", "Metal", "Cotton", "Copper", "Bush"),

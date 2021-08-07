@@ -307,7 +307,7 @@ public class MachineRecipeLoader {
             if (tinNuggetCount > 0) {
                 tinCan.setCount(1);
                 if (tinNuggetCount % 9 == 0) {
-                    DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, StackUtil.setSize(ingotTin, tinNuggetCount / 9));
+                    DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, StackUtil.copyWithSize(ingotTin, tinNuggetCount / 9));
                 }
                 else DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, new ItemStack(BlockItems.Nugget.TIN.getInstance(), tinNuggetCount));
             }

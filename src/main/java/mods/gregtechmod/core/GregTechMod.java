@@ -1,7 +1,6 @@
 package mods.gregtechmod.core;
 
-import ic2.api.event.TeBlockFinalCallEvent;
-import ic2.core.block.TeBlockRegistry;
+import ic2.core.IC2;
 import ic2.core.block.comp.Components;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
@@ -26,7 +25,6 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -36,7 +34,6 @@ import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
@@ -71,6 +68,7 @@ public final class GregTechMod {
 
         logger.info("Pre-init started");
         configDir = event.getSuggestedConfigurationFile().getParentFile();
+        classic = IC2.version.isClassic();
         GregTechAPIImpl.createAndInject();
         DynamicConfig.init();
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
@@ -132,16 +130,5 @@ public final class GregTechMod {
         MachineRecipeLoader.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
-    }
-
-    @SubscribeEvent
-    public void registerTEBlocks(TeBlockFinalCallEvent event) {
-        GtUtil.withModContainerOverride(FMLCommonHandler.instance().findContainerFor(Reference.MODID), () -> TeBlockRegistry.addAll(GregTechTEBlock.class, GregTechTEBlock.LOCATION));
-        TeBlockRegistry.addCreativeRegisterer(GregTechTEBlock.INDUSTRIAL_CENTRIFUGE, GregTechTEBlock.LOCATION);
-    }
-
-    public static ResourceLocation getModelResourceLocation(String name, String folder) {
-        if (folder == null) return new ResourceLocation(Reference.MODID, name);
-        return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
     }
 }

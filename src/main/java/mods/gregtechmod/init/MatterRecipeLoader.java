@@ -57,9 +57,9 @@ public class MatterRecipeLoader {
 
         ItemStack dustPlutonium = new ItemStack(BlockItems.Dust.PLUTONIUM.getInstance());
         List<Object> pattern;
-        if (GregTechAPI.getDynamicConfig("gregtech_recipes", "matterfabricator", true) &&
-                GregTechConfig.DISABLED_RECIPES.massFabricator &&
-                GregTechConfig.MACHINES.matterFabricationRate >= 10000000) {
+        if (GregTechAPI.getDynamicConfig("gregtech_recipes", "matterfabricator", true)
+                && GregTechConfig.DISABLED_RECIPES.massFabricator
+                && GregTechConfig.MACHINES.matterFabricationRate >= 10000000) {
             pattern = Arrays.asList("U", "R", 'R', "dustUranium");
         } else pattern = Arrays.asList("UUU", "URU", "UUU", 'R', "dustUranium");
 
@@ -77,8 +77,7 @@ public class MatterRecipeLoader {
     }
 
     private static void addMatterRecipe(String name, ItemStack output, Object... pattern) {
-        if (output.isEmpty()) return;
-        if (addMatterRecipe(name, TileEntityAssemblyBench.UuRecipe.create(output, pattern))) addMatterCraftingRecipe(name, output, pattern);
+        if (!output.isEmpty() && addMatterRecipe(name, TileEntityAssemblyBench.UuRecipe.create(output, pattern))) addMatterCraftingRecipe(name, output, pattern);
     }
 
     private static boolean addMatterRecipe(String name, IRecipe recipe) {
@@ -92,7 +91,7 @@ public class MatterRecipeLoader {
         args.add("craftingUUMatter");
         args.add(ATTRIBUTES);
         AdvRecipe recipe = new AdvRecipe(output, args.toArray());
-        recipe.setRegistryName(new ResourceLocation(Reference.MODID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name+"FromMatter")));
+        recipe.setRegistryName(new ResourceLocation(Reference.MODID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name + "FromMatter")));
         if (recipe.masksMirrored != null) Arrays.fill(recipe.masksMirrored, -1);
 
         ForgeRegistries.RECIPES.register(recipe);

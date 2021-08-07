@@ -3,11 +3,9 @@ package mods.gregtechmod.objects.items.base;
 import ic2.api.item.ElectricItem;
 import ic2.core.item.armor.ItemArmorElectric;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.ArmorPerk;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
+import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,10 +14,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -30,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class ItemArmorElectricBase extends ItemArmorElectric implements IModelInfoProvider {
+public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomItemModel {
     private final String name;
     private String folder;
     public final Collection<ArmorPerk> perks;
@@ -149,8 +144,8 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements IModelIn
     }
 
     @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, this.folder));
+    public ResourceLocation getItemModel() {
+        return GtUtil.getModelResourceLocation(this.name, this.folder);
     }
 
     @SubscribeEvent

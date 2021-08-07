@@ -30,11 +30,11 @@ public class BlockItemLoader {
     static final Set<Item> ITEMS = new LinkedHashSet<>();
 
     private static void registerItem(Item item) {
-        if (!ITEMS.add(item)) throw new IllegalStateException("Duplicate registry entry: "+item.getRegistryName());
+        if (!ITEMS.add(item)) throw new IllegalStateException("Duplicate registry entry: " + item.getRegistryName());
     }
 
     private static net.minecraft.block.Block registerBlock(net.minecraft.block.Block block) {
-        if (!BLOCKS.add(block)) throw new IllegalStateException("Duplicate registry entry: "+block.getRegistryName());
+        if (!BLOCKS.add(block)) throw new IllegalStateException("Duplicate registry entry: " + block.getRegistryName());
         return block;
     }
 

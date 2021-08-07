@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ItemStackModificator {
+    
     public static void init() {
         modifyBlockHardnessAndResistance();
         modifyItemMaxStacksize();

@@ -22,37 +22,54 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreIngredient;
 
-import java.util.Collections;
-
 public class CraftingRecipeLoader {
 
     public static void init() {
         GregTechMod.logger.info("Loading static crafting recipes");
-
+        
+        ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.WATER_BUCKET), ModHandler.emptyCell);
+        ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.LAVA_BUCKET), ModHandler.emptyCell);
+                
+        ItemStack glassFibreCable = IC2Items.getItem("cable", "type:glass,insulation:0");
         if (GregTechMod.classic) {
             if (GregTechConfig.DISABLED_RECIPES.depletedUranium8) {
                 ModHandler.removeCraftingRecipeFromInputs(ModHandler.emptyCell, ModHandler.emptyCell, ModHandler.emptyCell, ModHandler.emptyCell, IC2Items.getItem("ingot", "uranium"), ModHandler.emptyCell, ModHandler.emptyCell, ModHandler.emptyCell, ModHandler.emptyCell);
             }
             ModHandler.removeCraftingRecipeFromInputs(IC2Items.getItem("crafting", "compressed_plants"), ModHandler.emptyCell);
             ModHandler.removeCraftingRecipeFromInputs(IC2Items.getItem("crafting", "compressed_hydrated_coal"), ModHandler.emptyCell);
+            
+            ModHandler.removeCraftingRecipe(glassFibreCable);
+            ModHandler.addShapedRecipe(
+                    "glassFibreCable",
+                    StackUtil.copyWithSize(glassFibreCable, 4),
+                    getCableRecipeIngredients("dustRedstone", null)
+            );
+            ModHandler.addShapedRecipe(
+                    "glassFibreCableSilver",
+                    StackUtil.copyWithSize(glassFibreCable, 6),
+                    getCableRecipeIngredients("ingotSilver", "dustSilver")
+            );
         }
-
-        ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.WATER_BUCKET), ModHandler.emptyCell);
-        ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.LAVA_BUCKET), ModHandler.emptyCell);
+        ModHandler.addShapedRecipe(
+                "glassFibreCableElectrum",
+                StackUtil.copyWithSize(glassFibreCable, 8),
+                getCableRecipeIngredients("ingotElectrum", "dustElectrum")
+        );
 
         ItemStack ingotCopper = IC2Items.getItem("ingot", "copper");
         ItemStack ingotTin = IC2Items.getItem("ingot", "tin");
         Ingredient ingotCopperIngredient = new OreIngredient("ingotCopper");
-        if (!ModHandler.removeCraftingRecipeFromInputs(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, ingotTin).isEmpty()) {
-            GregTechMod.logger.info("Changing Forestry's Bronze Recipe");
-            int count = GregTechConfig.DISABLED_RECIPES.bronzeIngotCrafting ? 1 : 2;
-            ModHandler.addShapelessRecipe(
-                    "ingotBronze",
-                    null,
-                    StackUtil.setSize(IC2Items.getItem("ingot", "bronze"), count),
-                    ingotCopperIngredient, ingotCopperIngredient, ingotCopperIngredient, new OreIngredient("ingotTin")
-            );
-        }
+        ModHandler.removeCraftingRecipeFromInputs(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, ingotTin)
+                .ifPresent(output -> {
+                    GregTechMod.logger.info("Changing Forestry's Bronze Recipe");
+                    int count = GregTechConfig.DISABLED_RECIPES.bronzeIngotCrafting ? 1 : 2;
+                    ModHandler.addShapelessRecipe(
+                            "ingotBronze",
+                            null,
+                            StackUtil.setSize(IC2Items.getItem("ingot", "bronze"), count),
+                            ingotCopperIngredient, ingotCopperIngredient, ingotCopperIngredient, new OreIngredient("ingotTin")
+                    );
+                });
 
         if (GregTechConfig.DISABLED_RECIPES.enchantingTable) {
             GregTechMod.logger.info("Removing the recipe of the Enchantment Table, to have more fun at enchanting with the Anvil and Books from Dungeons.");
@@ -76,29 +93,13 @@ public class CraftingRecipeLoader {
                 holyPlanks,
                 "XXX", "XDX", "XXX", 'X', new ItemStack(Items.NETHER_STAR), 'D', new ItemStack(Blocks.DRAGON_EGG)
         );
-
-        ItemStack glass = new ItemStack(Blocks.GLASS);
+        
         ModHandler.addShapedRecipe(
-                "doubleInsulaedGoldCable",
-                StackUtil.setSize(IC2Items.getItem("cable", "type:gold,insulation:2"), 4),
+                "doubleInsulatedGoldCable",
+                StackUtil.copyWithSize(IC2Items.getItem("cable", "type:gold,insulation:2"), 4),
                 "RRR", "RGR", "RRR", 'G', "ingotGold", 'R', "itemRubber"
         );
-        ItemStack glassFibreCable = IC2Items.getItem("cable", "type:glass,insulation:0");
-        ModHandler.addShapedRecipe(
-                "glassFibreCable",
-                StackUtil.setSize(glassFibreCable, 4),
-                "GGG", "XDX", "GGG", 'G', glass, 'X', "dustRedstone", 'D', "itemDiamond"
-        );
-        ModHandler.addShapedRecipe(
-                "glassFibreCable",
-                StackUtil.setSize(glassFibreCable, 6),
-                "GGG", "XDX", "GGG", 'G', glass, 'X', "ingotSilver", 'D', "itemDiamond"
-        );
-        ModHandler.addShapedRecipe(
-                "glassFibreCable",
-                StackUtil.setSize(glassFibreCable, 8),
-                "GGG", "XDX", "GGG", 'G', glass, 'X', "ingotElectrum", 'D', "itemDiamond"
-        );
+        
         ItemStack dustSulfur = OreDictUnificator.get("dustSulfur");
         ModHandler.removeCraftingRecipeFromInputs(dustSulfur, dustSulfur, dustSulfur, dustSulfur, new ItemStack(Items.COAL), dustSulfur, dustSulfur, dustSulfur, dustSulfur);
         ModHandler.removeCraftingRecipeFromInputs(dustSulfur, dustSulfur, dustSulfur, dustSulfur, new ItemStack(Items.COAL, 1, 1), dustSulfur, dustSulfur, dustSulfur, dustSulfur);
@@ -110,22 +111,27 @@ public class CraftingRecipeLoader {
         if (GregTechAPI.getDynamicConfig("harder_recipes", "solar_generator", true)) ModHandler.removeCraftingRecipe(IC2Items.getItem("te", "solar_generator"));
 
         ItemStack planks = new ItemStack(Blocks.PLANKS);
-        ItemStack result = ModHandler.removeCraftingRecipeFromInputs(planks, ItemStack.EMPTY, ItemStack.EMPTY, planks);
-        if (!result.isEmpty()) {
-            IRecipe sawingRecipe = ToolCraftingRecipeShaped.makeRecipe(
-                    "",
-                    StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() : result.getCount() * 5 / 4),
-                    Collections.singletonList(IC2Items.getItem("chainsaw")),
-                    1,
-                    "S", "P", "P", 'P', "plankWood", 'S', new ToolOreIngredient("craftingToolSaw", 1)
-            ).setRegistryName(new ResourceLocation(Reference.MODID, "planks_sawing"));
-            ForgeRegistries.RECIPES.register(sawingRecipe);
-            
-            ModHandler.addShapedRecipe(
-                    "sticksFromPlanks",
-                    StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() / 2 : result.getCount()),
-                    "P", "P", 'P', "plankWood"
-            );
-        }
+        ModHandler.removeCraftingRecipeFromInputs(planks, ItemStack.EMPTY, ItemStack.EMPTY, planks)
+                .ifPresent(output -> {
+                    IRecipe sawingRecipe = ToolCraftingRecipeShaped.makeSawingRecipe(
+                            output,
+                            "S", "P", "P", 'P', "plankWood", 'S', ToolOreIngredient.saw()
+                    ).setRegistryName(new ResourceLocation(Reference.MODID, "planks_sawing"));
+                    ForgeRegistries.RECIPES.register(sawingRecipe);
+                                
+                    ModHandler.addShapedRecipe(
+                            "sticksFromPlanks",
+                            StackUtil.copyWithSize(output, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? output.getCount() / 2 : output.getCount()),
+                            "P", "P", 'P', "plankWood"
+                    );
+                });
+    }
+    
+    private static Object[] getCableRecipeIngredients(String classicMaterial, String expMaterial) {
+        ItemStack glass = new ItemStack(Blocks.GLASS);
+        Object x = GregTechMod.classic ? classicMaterial : IC2Items.getItem("dust", "energium");
+        String d = GregTechMod.classic ? "itemDiamond" : expMaterial;
+        
+        return new Object[] { "GGG", "XDX", "GGG", 'G', glass, 'X', x, 'D', d };
     }
 }

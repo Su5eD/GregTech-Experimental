@@ -157,12 +157,12 @@ class DynamicRecipes {
         addSmeltingRecipe(name, input, output);
     }
 
-    public static boolean addSmeltingRecipe(ItemStack input, ItemStack output) {
-        return addSmeltingRecipe(input.getTranslationKey(), input, output);
+    public static void addSmeltingRecipe(ItemStack input, ItemStack output) {
+        addSmeltingRecipe(input.getTranslationKey(), input, output);
     }
 
-    public static boolean addSmeltingRecipe(String name, ItemStack input, ItemStack output) {
-        if (!GregTechAPI.getDynamicConfig("smelting", name, true)) return false;
+    public static void addSmeltingRecipe(String name, ItemStack input, ItemStack output) {
+        if (!GregTechAPI.getDynamicConfig("smelting", name, true)) return;
 
         FurnaceRecipes recipes = FurnaceRecipes.instance();
         Map<ItemStack, ItemStack> smeltingList = recipes.getSmeltingList();
@@ -172,7 +172,6 @@ class DynamicRecipes {
                 .collect(Collectors.toList())
                 .forEach(smeltingList::remove);
         recipes.addSmeltingRecipe(input, output, 0);
-        return true;
     }
 
     public static void addSmelterOreToIngotsRecipe(ItemStack input, Item output) {
@@ -193,11 +192,11 @@ class DynamicRecipes {
         addCompressorRecipe(Recipes.inputFactory.forOreDict(material, 9), output);
 
         OreDictionary.getOres(material).forEach(stack -> ModHandler.removeFactorizerRecipe(stack, false));
-        input = StackUtil.copyWithSize(input, 9);
-        if (crafting) ModHandler.addFactorizerRecipe(input, output, false);
+        ItemStack inputStack = StackUtil.copyWithSize(input, 9);
+        if (crafting) ModHandler.addFactorizerRecipe(inputStack, output, false);
 
         if (!decrafting) ModHandler.removeFactorizerRecipe(output, true);
-        else ModHandler.addFactorizerRecipe(output, input, true);
+        else ModHandler.addFactorizerRecipe(output, inputStack, true);
     }
 
     public static void processCraftingRecipes() {

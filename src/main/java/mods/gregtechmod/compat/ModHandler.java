@@ -16,9 +16,11 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
@@ -417,16 +419,16 @@ public class ModHandler {
         return recipe != null ? recipe.getRecipeOutput().copy() : ItemStack.EMPTY;
     }
 
-    public static ItemStack removeCraftingRecipeFromInputs(ItemStack... stacks) {
+    public static java.util.Optional<ItemStack> removeCraftingRecipeFromInputs(ItemStack... stacks) {
         IRecipe recipe = getCraftingRecipe(stacks);
         if (recipe != null) {
             ResourceLocation name = recipe.getRegistryName();
             AdvancementRecipeFixer.DUMMY_RECIPES.put(name.getPath(), recipe);
             ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(name);
-            return recipe.getRecipeOutput();
+            return java.util.Optional.of(recipe.getRecipeOutput());
         }
 
-        return ItemStack.EMPTY;
+        return java.util.Optional.empty();
     }
 
     public static void removeCraftingRecipe(IRecipe recipe) {
@@ -505,5 +507,9 @@ public class ModHandler {
             if (nbt != null) return nbt.getInteger("value") * 5;
         }
         return 0;
+    }
+    
+    public static ItemStack adjustWoodSize(ItemStack stack) {
+        return StackUtil.copyWithSize(stack, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? stack.getCount() : stack.getCount() * 5 / 4);
     }
 }
