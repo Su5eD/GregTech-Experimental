@@ -17,6 +17,7 @@
 - [About](#about)
 - [Development Status](#development-status)
 - [Documentation](#documentation)
+- [Licensing](#licensing)
 - [Downloads](#downloads)
     - [Users](#users)
     - [Gradle dependency](#gradle-dependency)
@@ -31,9 +32,8 @@
 adding several new machines, fluids, tools, and adjusting recipes to make them fit with its system, 
 and to make everything work well together.
 
-**GregTech Experimental** is a fully-featured port of GregTech 3 for modern minecraft versions.  
-So far, there have been many attemps to recreate GT3, but none of them had all the features. 
-*GregTech Experimental has them all*, in their original form, unchanged. Covers, upgrades, tools, as you know them.
+**GregTech Experimental** is a fully-featured port of GregTech 3 for modern minecraft versions.
+It offers all features of GT3, in their original form, unchanged. Machines, covers, upgrades, tools, as you know them.
 
 ## Development Status
 GTE is currently in early development, which is split into 2 main phases - the first one consists of adding the base game mechanics and
