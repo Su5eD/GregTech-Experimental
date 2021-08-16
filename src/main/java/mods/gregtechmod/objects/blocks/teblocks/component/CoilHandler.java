@@ -14,10 +14,6 @@ public class CoilHandler extends TileEntityComponent {
     public int heatingCoilTier;
     private final int coilCount;
     private final Runnable onUpdate;
-
-    public CoilHandler(TileEntityBlock parent, int coilCount) {
-        this(parent, coilCount, () -> {});
-    }
     
     public CoilHandler(TileEntityBlock parent, int coilCount, Runnable onUpdate) {
         super(parent);

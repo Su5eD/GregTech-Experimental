@@ -53,7 +53,6 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
         return 10000;
     }
 
-    // ------ Structure definition ------
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
@@ -101,7 +100,6 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
         return new BlastFurnaceStructure(this.world, elements);
     }
     
-    // ------ Coil Handling ------
     
     @Override
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -114,8 +112,6 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     protected List<ItemStack> getAuxDrops(int fortune) {
         return this.coilHandler.addDrops(super.getAuxDrops(fortune));
     }
-    
-    // ---------------------------
 
     @Override
     protected boolean canProcessRecipe(IRecipeBlastFurnace recipe) {

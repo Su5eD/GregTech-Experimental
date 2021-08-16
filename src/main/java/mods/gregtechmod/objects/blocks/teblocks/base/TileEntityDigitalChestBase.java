@@ -143,7 +143,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             }
 
             content.get().grow(totalCount);
-            GregTechMod.runProxy(clientProxy -> clientProxy.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.5F));
+            GregTechMod.runProxy(clientProxy -> clientProxy.playSound(SoundEvents.ENTITY_ITEM_PICKUP, ((this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.7F + 1F) * 2F));
         }
         else if (!slot.isEmpty()) {
             GtUtil.sendMessage(player, slot.getCount() + " " + slot.getDisplayName());
