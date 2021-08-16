@@ -37,7 +37,7 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
             if (content.isEmpty()) slot.putStack(StackUtil.copy(sonictronSounds.get(0).item));
             else {
                 for (int i = 1; i < sonictronSounds.size(); i++) {
-                    if (StackUtil.checkItemEquality(content, sonictronSounds.get(i -1).item)) {
+                    if (StackUtil.checkItemEquality(content, sonictronSounds.get(i - 1).item)) {
                         slot.putStack(StackUtil.copy(sonictronSounds.get(i).item));
                         return ItemStack.EMPTY;
                     }

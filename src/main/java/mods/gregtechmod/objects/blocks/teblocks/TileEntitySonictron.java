@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.blocks.teblocks;
 import ic2.core.IHasGui;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlot;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.SonictronSound;
 import mods.gregtechmod.core.GregTechMod;
@@ -12,17 +13,38 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class TileEntitySonictron extends TileEntityInventory implements IHasGui {
+    private static final Map<Integer, String> RECORD_NAMES = new HashMap<>();
+    
     public int currentIndex = -1;
     public final InvSlot content;
+
+    static {
+        RECORD_NAMES.put(1, "13");
+        RECORD_NAMES.put(2, "cat");
+        RECORD_NAMES.put(3, "blocks");
+        RECORD_NAMES.put(4, "chirp");
+        RECORD_NAMES.put(5, "far");
+        RECORD_NAMES.put(6, "mall");
+        RECORD_NAMES.put(7, "mellohi");
+        RECORD_NAMES.put(8, "stal");
+        RECORD_NAMES.put(9, "strad");
+        RECORD_NAMES.put(10, "ward");
+        RECORD_NAMES.put(11, "11");
+        RECORD_NAMES.put(12, "wait");
+    }
 
     public TileEntitySonictron() {
         this.content = new InvSlot(this, "content", InvSlot.Access.NONE, 64);
@@ -44,16 +66,16 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     @Override
     protected void updateEntityServer() {
         if (this.world.getRedstonePowerFromNeighbors(pos) > 0) {
-            if (this.currentIndex < 0) {
-                this.currentIndex = 0;
-            }
+            if (this.currentIndex < 0) this.currentIndex = 0;
         }
 
-        if (this.world.getWorldTime() % 2 == 0 && this.currentIndex > -1) {
-            if (!this.getActive()) this.setActive(true);
-            GregTechMod.runProxy(clientProxy -> clientProxy.doSonictronSound(this.content.get(currentIndex), this.world, this.pos.add(0.5, 0.5, 0.5)));
+        if (this.world.getTotalWorldTime() % 2 == 0 && this.currentIndex > -1) {
+            this.setActive(true);
+            
+            doSonictronSound(this.content.get(currentIndex), this.world, this.pos);
+            
             if (++this.currentIndex > 63) this.currentIndex = -1;
-        } else if (this.getActive()) this.setActive(false);
+        } else this.setActive(false);
     }
 
     @Override
@@ -62,6 +84,20 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
         ret.add("currentIndex");
         return ret;
     }
+
+    @Override
+    public ContainerSonictron getGuiContainer(EntityPlayer entityPlayer) {
+        return new ContainerSonictron(this);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
+        return new GuiSonictron(getGuiContainer(player));
+    }
+
+    @Override
+    public void onGuiClosed(EntityPlayer entityPlayer) {}
 
     public static void loadSonictronSounds() {
         GregTechMod.logger.info("Loading Sonictron sounds");
@@ -117,17 +153,41 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
         GregTechAPI.instance().registerSonictronSounds(sounds);
     }
 
-    @Override
-    public ContainerSonictron getGuiContainer(EntityPlayer entityPlayer) {
-        return new ContainerSonictron(this);
-    }
+    public static void doSonictronSound(ItemStack stack, World world, BlockPos pos) {
+        if (stack.isEmpty()) return;
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiSonictron(getGuiContainer(player));
-    }
+        float pitch = 1;
+        String name = GregTechAPI.instance().getSonictronSounds().stream()
+                .filter(sound -> StackUtil.checkItemEquality(stack, sound.item))
+                .map(sound -> sound.name)
+                .findFirst()
+                .orElse("block.note.harp");
+        int count = stack.getCount();
 
-    @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
+        if (name.startsWith("random.explode")) {
+            if (count == 3) {
+                name = "entity.tnt.primed";
+            } else if (count == 2) {
+                name = "entity.generic.explode";
+            }
+        }
+
+        if (name.startsWith("record.")) {
+            String suffix = RECORD_NAMES.getOrDefault(count, "wherearewenow");
+            name += suffix;
+        }
+
+        if (name.startsWith("block.note.")) {
+            pitch = (float) Math.pow(2D, (double) (count - 13) / 12D);
+        }
+
+        SoundEvent sound = SoundEvent.REGISTRY.getObject(new ResourceLocation(name));
+        if (sound == null) throw new IllegalArgumentException("Attempted to play invalid sound " + name);
+
+        if (name.startsWith("record.")) {
+            world.playRecord(pos.add(0.5, 0.5, 0.5), sound);
+        } else {
+            world.playSound(null, pos, sound, SoundCategory.NEUTRAL, 0.3F, pitch);
+        }
+    }
 }

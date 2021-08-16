@@ -156,7 +156,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     protected void onClicked(EntityPlayer player) {
-        if(isPrivate && !GtUtil.checkAccess(this, owner, player.getGameProfile())) return;
+        if (isPrivate && !GtUtil.checkAccess(this, owner, player.getGameProfile())) return;
         ItemStack slot = content.get();
 
         if (!slot.isEmpty() && !world.isRemote && player.getActiveHand() == EnumHand.MAIN_HAND) {
