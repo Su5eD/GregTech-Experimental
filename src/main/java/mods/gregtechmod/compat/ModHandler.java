@@ -90,7 +90,7 @@ public class ModHandler {
     public static ItemStack filledFuelCan = ItemStack.EMPTY;
     public static ItemStack rcTurbineRotor = ItemStack.EMPTY;
 
-    public static void checkLoadedMods() {
+    public static void gatherLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
         thermalExpansion = Loader.isModLoaded("thermalexpansion");
         appliedEnergistics = Loader.isModLoaded("appliedenergistics2");

@@ -51,7 +51,7 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
 
         if (this.world.getWorldTime() % 2 == 0 && this.currentIndex > -1) {
             if (!this.getActive()) this.setActive(true);
-            GregTechMod.proxy.doSonictronSound(this.content.get(currentIndex), this.world, this.pos.add(0.5, 0.5, 0.5));
+            GregTechMod.runProxy(clientProxy -> clientProxy.doSonictronSound(this.content.get(currentIndex), this.world, this.pos.add(0.5, 0.5, 0.5)));
             if (++this.currentIndex > 63) this.currentIndex = -1;
         } else if (this.getActive()) this.setActive(false);
     }

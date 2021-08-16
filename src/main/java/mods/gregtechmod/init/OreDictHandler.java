@@ -475,7 +475,7 @@ public class OreDictHandler { // TODO Subject to huge cleanup
             ModHandler.removeCraftingRecipeFromInputs(gem, gem, gem, gem, gem, gem, gem, gem, gem);
 
             if (storageBlockCrafting) processBlockRecipe(stack, name + "FromGems");
-            if (storageBlockDeCrafting) { // TODO Check
+            if (storageBlockDeCrafting) {
                 ModHandler.addShapelessRecipe(name + "ToGem", StackUtil.copyWithSize(gem, 9), new OreIngredient(name));
             }
 

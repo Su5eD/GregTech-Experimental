@@ -2,8 +2,6 @@ package mods.gregtechmod.core;
 
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.init.ClientEventHandler;
-import mods.gregtechmod.util.IProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.item.ItemStack;
@@ -16,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClientProxy implements IProxy {
+public class ClientProxy {
     private static final Map<Integer, String> RECORD_NAMES = new HashMap<>();
     
     static {
@@ -34,21 +32,14 @@ public class ClientProxy implements IProxy {
         RECORD_NAMES.put(12, "wait");
     }
 
-    @Override
-    public void init() {
-        ClientEventHandler.gatherModItems();
-    }
-
-    @Override
     public void playSound(SoundEvent sound, float pitch) {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(sound, pitch));
     }
 
-    @Override
     public void doSonictronSound(ItemStack stack, World world, BlockPos pos) {
         if (stack.isEmpty()) return;
         
-        float pitch = 1F;
+        float pitch = 1;
         String name = GregTechAPI.instance().getSonictronSounds().stream()
                 .filter(sound -> StackUtil.checkItemEquality(stack, sound.item))
                 .map(sound -> sound.name)

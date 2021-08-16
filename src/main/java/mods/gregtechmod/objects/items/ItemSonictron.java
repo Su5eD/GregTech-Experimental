@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ItemSonictron extends ItemBase {
 
@@ -49,7 +50,7 @@ public class ItemSonictron extends ItemBase {
             setCurrentIndex(stack, -1);
             if (world.getTileEntity(pos) instanceof TileEntitySonictron) {
                 TileEntitySonictron sonictron = (TileEntitySonictron) world.getTileEntity(pos);
-                ArrayList<ItemStack> inventory = getNBTInventory(stack);
+                List<ItemStack> inventory = getNBTInventory(stack);
 
                 if (player.isSneaking()) {
                     setNBTInventory(stack, sonictron);
@@ -63,15 +64,16 @@ public class ItemSonictron extends ItemBase {
     }
 
     @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (!worldIn.isRemote) {
+    public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+        if (!world.isRemote) {
             int	currentIndex = getCurrentIndex(stack);
-            if (worldIn.getWorldTime()%2 == 0 && currentIndex > -1) {
-                ArrayList<ItemStack> inventory = getNBTInventory(stack);
+            if (world.getWorldTime()%2 == 0 && currentIndex > -1) {
+                List<ItemStack> inventory = getNBTInventory(stack);
                 if (inventory.isEmpty() || currentIndex >= inventory.size()) return;
-                GregTechMod.proxy.doSonictronSound(inventory.get(currentIndex), entityIn.world, entityIn.getPosition());
+                ItemStack currentStack = inventory.get(currentIndex);
+                GregTechMod.runProxy(clientProxy -> clientProxy.doSonictronSound(currentStack, entity.world, entity.getPosition()));
                 if (++currentIndex>63)
-                    if (entityIn instanceof EntityPlayer && ((EntityPlayer)entityIn).openContainer instanceof ContainerSonictron)
+                    if (entity instanceof EntityPlayer && ((EntityPlayer)entity).openContainer instanceof ContainerSonictron)
                         currentIndex = 0;
                     else
                         currentIndex = -1;
@@ -85,8 +87,8 @@ public class ItemSonictron extends ItemBase {
         return stackNBT.getInteger("currentIndex");
     }
 
-    public static ArrayList<ItemStack> getNBTInventory(ItemStack stack) {
-        ArrayList<ItemStack> inventory = new ArrayList<>();
+    public static List<ItemStack> getNBTInventory(ItemStack stack) {
+        List<ItemStack> inventory = new ArrayList<>();
         NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
         NBTTagList contentList = nbt.getTagList("Items", 10);
 

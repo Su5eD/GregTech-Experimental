@@ -15,7 +15,6 @@ import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IProxy;
 import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.world.OreGenerator;
 import mods.gregtechmod.world.RetrogenHandler;
@@ -29,23 +28,23 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
-@SuppressWarnings("unused")
 @Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
     @Instance
     public static GregTechMod instance;
-    @SidedProxy(clientSide = "mods.gregtechmod.core.ClientProxy", serverSide = "mods.gregtechmod.core.ServerProxy")
-    public static IProxy proxy;
+    private static ClientProxy proxy;
 
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
@@ -59,7 +58,9 @@ public final class GregTechMod {
 
     @EventHandler
     public void start(FMLConstructionEvent event) {
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(OreDictHandler.INSTANCE);
     }
 
     @EventHandler
@@ -67,14 +68,12 @@ public final class GregTechMod {
         logger = event.getModLog();
 
         logger.info("Pre-init started");
+        if (event.getSide() == Side.CLIENT) proxy = new ClientProxy();
         configDir = event.getSuggestedConfigurationFile().getParentFile();
         classic = IC2.version.isClassic();
         GregTechAPIImpl.createAndInject();
         DynamicConfig.init();
-        MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
-        MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
-        MinecraftForge.EVENT_BUS.register(OreDictHandler.INSTANCE);
-        ModHandler.checkLoadedMods();
+        ModHandler.gatherLoadedMods();
 
         RegistryHandler.registerFluids();
         Components.register(CoverHandler.class, Reference.MODID + ":cover_handler");
@@ -93,27 +92,25 @@ public final class GregTechMod {
     @EventHandler
     public static void init(FMLInitializationEvent event) {
         ModHandler.gatherModItems();
-        proxy.init();
+        if (event.getSide() == Side.CLIENT) ClientEventHandler.gatherModItems();
         GregTechTEBlock.buildDummies();
         
         OreDictRegistrar.registerItems();
         MachineRecipeLoader.loadRecipes();
         CraftingRecipeLoader.init();
         MachineRecipeLoader.loadDynamicRecipes();
-        if (GregTechMod.classic) MatterRecipeLoader.init();
+        if (classic) MatterRecipeLoader.init();
         MachineRecipeLoader.loadFuels();
         MachineRecipeLoader.registerProviders();
 
         logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
-        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/abandoned_mineshaft"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/desert_pyramid"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/jungle_temple"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/jungle_temple_dispenser"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/simple_dungeon"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_crossing"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/stronghold_library"));
-        LootTableList.register(new ResourceLocation(Reference.MODID, "chests/village_blacksmith"));
+        Stream.of(
+                "abandoned_mineshaft", "desert_pyramid", "jungle_temple", "jungle_temple_dispenser", 
+                "simple_dungeon", "stronghold_crossing", "stronghold_library", "village_blacksmith"
+        )
+                .map(path -> new ResourceLocation(Reference.MODID, "chests/" + path))
+                .forEach(LootTableList::register);
     }
     
     @EventHandler
@@ -130,5 +127,9 @@ public final class GregTechMod {
         MachineRecipeLoader.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
+    }
+    
+    public static void runProxy(Consumer<ClientProxy> consumer) {
+        if (proxy != null) consumer.accept(proxy);
     }
 }
