@@ -4,6 +4,7 @@ import ic2.api.item.IC2Items;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModCompat;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
@@ -125,6 +126,10 @@ public class CraftingRecipeLoader {
                             "P", "P", 'P', "plankWood"
                     );
                 });
+        
+        ModCompat.addRollingMachineRecipe("coil_kanthal", new ItemStack(BlockItems.Component.COIL_KANTHAL.getInstance(), 3), "AAA", "BCC", "BBC", 'A', GregTechMod.classic ? "ingotRefinedIron" : "ingotIron", 'B', "ingotChrome", 'C', "ingotAluminium");
+        ModCompat.addRollingMachineRecipe("coil_nichrome", new ItemStack(BlockItems.Component.COIL_NICHROME.getInstance()), " B ", "BAB", " B ", 'A', "ingotChrome", 'B', "ingotNickel");
+        ModCompat.addRollingMachineRecipe("coil_cupronickel", new ItemStack(BlockItems.Component.COIL_CUPRONICKEL.getInstance()), "BAB", "A A", "BAB", 'A', "ingotCopper", 'B', "ingotNickel");
     }
     
     private static Object[] getCableRecipeIngredients(String classicMaterial, String expMaterial) {

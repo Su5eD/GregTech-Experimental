@@ -31,8 +31,6 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -411,17 +409,6 @@ public class GtUtil {
     public static ResourceLocation getModelResourceLocation(String name, String folder) {
         if (folder == null) return new ResourceLocation(Reference.MODID, name);
         return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
-    }
-    
-    public static boolean tryRotateBlock(Collection<Block> blocks, World world, BlockPos pos, EnumFacing side, EntityPlayer player, EnumHand hand) {
-        Block block = world.getBlockState(pos).getBlock();
-        ItemStack stack = player.getHeldItem(hand);
-        if (blocks.contains(block)) {
-            stack.damageItem(1, player);
-            block.rotateBlock(world, pos, side);
-            return true;
-        }
-        return false;
     }
 
     private static class VoidTank implements IFluidHandler {

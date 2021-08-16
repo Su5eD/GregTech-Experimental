@@ -5,6 +5,7 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -26,7 +27,13 @@ public class ItemHammer extends ItemToolBase {
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if (GtUtil.tryRotateBlock(ROTATABLE_BLOCKS, world, pos, side, player, hand)) return EnumActionResult.SUCCESS;
+        Block block = world.getBlockState(pos).getBlock();
+        ItemStack stack = player.getHeldItem(hand);
+        if (ROTATABLE_BLOCKS.contains(block)) {
+            block.rotateBlock(world, pos, side);
+            stack.damageItem(1, player);
+            return EnumActionResult.SUCCESS;
+        }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
     }
 }
