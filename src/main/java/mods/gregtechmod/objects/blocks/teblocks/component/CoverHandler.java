@@ -18,12 +18,10 @@ import java.util.Map;
 public class CoverHandler extends TileEntityComponent {
     public static final IUnlistedProperty<CoverHandler> COVER_HANDLER_PROPERTY = new UnlistedProperty<>("coverhandler", CoverHandler.class);
     public final HashMap<EnumFacing, ICover> covers = new HashMap<>();
-    private final ICoverable te;
     protected final Runnable changeHandler;
 
     public <T extends TileEntityBlock & ICoverable> CoverHandler(T te, Runnable changeHandler) {
         super(te);
-        this.te = te;
         this.changeHandler = changeHandler;
     }
 
@@ -32,10 +30,10 @@ public class CoverHandler extends TileEntityComponent {
         if (nbt.isEmpty()) return;
         for (EnumFacing facing : EnumFacing.VALUES) {
             if (nbt.hasKey(facing.getName())) {
-                NBTTagCompound cNbt = nbt.getCompoundTag(facing.getName());
-                ItemStack stack = new ItemStack((NBTTagCompound) cNbt.getTag("item"));
-                ICover cover = GregTechAPI.getCoverRegistry().constructCover(cNbt.getString("name"), facing, te, stack);
-                cover.readFromNBT(cNbt);
+                NBTTagCompound coverNbt = nbt.getCompoundTag(facing.getName());
+                ItemStack stack = new ItemStack((NBTTagCompound) coverNbt.getTag("item"));
+                ICover cover = GregTechAPI.getCoverRegistry().constructCover(coverNbt.getString("name"), facing, (ICoverable) this.parent, stack);
+                cover.readFromNBT(coverNbt);
                 this.covers.put(facing, cover);
             }
         }
@@ -51,9 +49,9 @@ public class CoverHandler extends TileEntityComponent {
             NBTTagCompound nbt = new NBTTagCompound();
 
             nbt.setString("name", GregTechAPI.getCoverRegistry().getCoverName(cover));
-            NBTTagCompound tNbt = new NBTTagCompound();
-            if (stack != null) stack.writeToNBT(tNbt);
-            nbt.setTag("item", tNbt);
+            NBTTagCompound stackNbt = new NBTTagCompound();
+            if (stack != null) stack.writeToNBT(stackNbt);
+            nbt.setTag("item", stackNbt);
             cover.writeToNBT(nbt);
             ret.setTag(entry.getKey().getName(), nbt);
         }
@@ -61,14 +59,15 @@ public class CoverHandler extends TileEntityComponent {
     }
 
     public boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate) {
-        if (covers.containsKey(side)) return false;
-        ResourceLocation icon = cover.getIcon();
-        if (icon != null) {
-            if (!simulate) {
-                covers.put(side, cover);
-                this.changeHandler.run();
+        if (!covers.containsKey(side)) {
+            ResourceLocation icon = cover.getIcon();
+            if (icon != null) {
+                if (!simulate) {
+                    covers.put(side, cover);
+                    this.changeHandler.run();
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }

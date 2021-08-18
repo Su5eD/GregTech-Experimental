@@ -15,6 +15,8 @@ import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockConnected;
 import mods.gregtechmod.objects.blocks.BlockConnectedTurbine;
 import mods.gregtechmod.objects.blocks.BlockOre;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityQuantumChest;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityDigitalChestBase;
 import mods.gregtechmod.objects.items.*;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
@@ -28,6 +30,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidTank;
 
 import java.util.List;
@@ -582,7 +586,7 @@ public class BlockItems {
             this.description = description;
             this.hasEffect = hasEffect;
             
-            String name = "smalldust_"+this.name().toLowerCase(Locale.ROOT);
+            String name = "smalldust_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
                     .setFolder("smalldust")
                     .setRegistryName(name)
@@ -598,40 +602,60 @@ public class BlockItems {
 
     public enum Upgrade implements IObjectHolder {
         HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraSinkTier()),
-        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
-        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade"),
+        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
-            GameProfile owner = machine.getOwner();
-            if (owner != null && !player.getGameProfile().equals(owner)) {
-                GtUtil.sendMessage(player, Reference.MODID+".item.machine_lock.error");
+            if (player != null && !player.getGameProfile().equals(machine.getOwner())) {
+                GtUtil.sendMessage(player, Reference.MODID + ".item.machine_lock.error");
                 return true;
             }
             return false;
         }, (stack, machine, player) -> {
-            if (!machine.isPrivate()) machine.setPrivate(true, player != null ? player.getGameProfile() : machine.getOwner());
+            if (!machine.isPrivate()) machine.setPrivate(true);
+        }),
+        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade", (stack, machine, player) -> {
+            if (machine instanceof TileEntityDigitalChestBase) {
+                BlockPos pos = ((TileEntityDigitalChestBase) machine).getPos();
+                EnumFacing facing = ((TileEntityDigitalChestBase) machine).getFacing();
+                ItemStack content = ((TileEntityDigitalChestBase) machine).content.get();
+                GameProfile owner = machine.getOwner();
+
+                player.world.removeTileEntity(pos);
+
+                TileEntityQuantumChest te = new TileEntityQuantumChest();
+                te.content.put(content);
+                te.setOwner(owner);
+                if (machine.isPrivate()) {
+                    te.setPrivate(true);
+                    te.forceAddUpgrade(new ItemStack(MACHINE_LOCK.getInstance()));
+                }
+
+                player.world.setTileEntity(pos, te);
+                te.setFacing(facing);
+                player.world.setBlockState(pos, te.getBlockState());
+            }
         }),
         STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (stack, machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
-        STEAM_TANK(GtUpgradeType.STEAM, 4, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
+        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
             if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + 64000 * stack.getCount());
         }),
         PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (stack, machine, player) -> {
             if (!ModHandler.buildcraftLib) {
-                GtUtil.sendMessage(player, Reference.MODID+".info.buildcraft_absent");
+                GtUtil.sendMessage(player, Reference.MODID + ".info.buildcraft_absent");
                 return true;
             }
             return false;
         }, (stack, machine, player) -> {
             if (!machine.hasMjUpgrade()) machine.addMjUpgrade();
         }),
-        RS_ENERGY_CELL(GtUpgradeType.MJ, 15, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
+        RS_ENERGY_CELL(GtUpgradeType.MJ, 16, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
             if (!ModHandler.buildcraftLib) {
-                GtUtil.sendMessage(player, Reference.MODID+".info.buildcraft_absent");
+                GtUtil.sendMessage(player, Reference.MODID + ".info.buildcraft_absent");
                 return true;
             }
             return false;
@@ -648,10 +672,6 @@ public class BlockItems {
         public BiPredicate<ItemStack, IUpgradableMachine> condition;
         public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert;
         public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
-
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict) {
-            this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, (stack, machine, player) -> {});
-        }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
             this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);

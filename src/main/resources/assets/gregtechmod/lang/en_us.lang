@@ -233,7 +233,6 @@ gregtechmod.info.machine_accessible=Is accessible to you
 gregtechmod.info.machine_not_accessible=Is not accessible to you
 gregtechmod.info.machine_active=Machine is active
 gregtechmod.info.machine_inactive=Machine is inactive
-gregtechmod.info.wrench_error=This block is owned by %s, only they can wrench it.
 gregtechmod.info.structure_invalid=Incomplete Machine Casing!
 gregtechmod.info.heat_capacity=Heat Capacity: %s K
 gregtechmod.info.liquid_amount=Liquid Amount
@@ -784,7 +783,7 @@ gregtechmod.tile.sodalite_ore.name=Sodalite Ore
 gregtechmod.tile.tetrahedrite_ore.name=Tetrahedrite Ore
 gregtechmod.tile.cassiterite_ore.name=Cassiterite Ore
 
-gregtechmod.teblock.info.possible_upgrades=Possible Upgrades
+gregtechmod.teblock.info.possible_upgrades=Possible Upgrades: %s
 gregtechmod.teblock.industrial_centrifuge=Industrial Centrifuge
 gregtechmod.teblock.industrial_centrifuge.description=And round and round and round it goes
 gregtechmod.teblock.digital_chest=Digital Chest

@@ -30,7 +30,7 @@ public class ItemCover extends ItemBase {
         ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
         if (block instanceof ICoverable) {
             ICover cover = GregTechAPI.getCoverRegistry().constructCover(this.coverName, side, (ICoverable) block, coverStack);
-            if (((ICoverable)block).placeCoverAtSide(cover, side, false)) {
+            if (((ICoverable)block).placeCoverAtSide(cover, player, side, false)) {
                 if (!player.capabilities.isCreativeMode) stack.shrink(1);
                 return EnumActionResult.SUCCESS;
             }

@@ -11,6 +11,7 @@ import net.minecraftforge.common.crafting.JsonContext;
 
 import javax.annotation.Nonnull;
 
+@SuppressWarnings("unused")
 public class MultiIngredientFactory implements IIngredientFactory {
     @Nonnull
     @Override

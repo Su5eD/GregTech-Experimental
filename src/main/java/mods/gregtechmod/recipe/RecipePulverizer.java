@@ -35,13 +35,18 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     public static RecipePulverizer create(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
         return create(input, GtUtil.nonEmptyList(primaryOutput, secondaryOutput), chance, false);
     }
+    
+    public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite) {
+        return create(input, output, chance, overwrite, false);
+    }
 
     @JsonCreator
     public static RecipePulverizer create(@JsonProperty(value = "input", required = true) IRecipeIngredient input,
                                           @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                           @JsonProperty(value = "chance") int chance,
-                                          @JsonProperty(value = "overwrite") boolean overwrite) {
-        return create(input, output, 3, chance, overwrite, true);
+                                          @JsonProperty(value = "overwrite") boolean overwrite,
+                                          @JsonProperty(value = "universal") Boolean universal) {
+        return create(input, output, 3, chance, overwrite, universal == null || universal);
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, double energyCost, int chance, boolean overwrite, boolean universal) {

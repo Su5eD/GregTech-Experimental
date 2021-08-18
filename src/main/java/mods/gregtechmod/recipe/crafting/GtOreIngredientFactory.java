@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class GtOreIngredientFactory implements IIngredientFactory {
     @Nonnull
     @Override

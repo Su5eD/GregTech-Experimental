@@ -455,10 +455,20 @@ public class OreDictHandler { // TODO Subject to huge cleanup
         ModHandler.removeCraftingRecipeFromInputs(stack);
         if (ingot.isEmpty() && gem.isEmpty() && dust.isEmpty()) return;
 
-        boolean storageBlockCrafting = GregTechAPI.getDynamicConfig("storageBlockCrafting", name, false);
-        boolean storageBlockDeCrafting = GregTechAPI.getDynamicConfig("storageBlockDeCrafting", name, !gem.isEmpty());
+        boolean storageBlockCrafting = GregTechAPI.getDynamicConfig("storage_block_crafting", name, false);
+        boolean storageBlockDeCrafting = GregTechAPI.getDynamicConfig("storage_block_decrafting", name, !gem.isEmpty());
 
-        if (!dust.isEmpty()) {
+        if (!gem.isEmpty()) {
+            if (ModHandler.getCraftingResult(gem, gem, ItemStack.EMPTY, gem, gem).isItemEqual(stack)) return;
+        
+            ModHandler.removeCraftingRecipeFromInputs(gem, gem, gem, gem, gem, gem, gem, gem, gem);
+        
+            if (storageBlockCrafting) processBlockRecipe(stack, name + "FromGems");
+            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToGem", StackUtil.copyWithSize(gem, 9), new OreIngredient(name));
+        
+            DynamicRecipes.addIngotToBlockRecipe(gemName, gem, stack, storageBlockCrafting, storageBlockDeCrafting);
+        }
+        else if (!dust.isEmpty()) {
             ModHandler.removeCraftingRecipeFromInputs(dust, dust, dust, dust, dust, dust, dust, dust, dust);
             if (ingot.isEmpty() && gem.isEmpty()) {
                 if (storageBlockCrafting) processBlockRecipe(stack, name + "FromDusts");
@@ -468,18 +478,6 @@ public class OreDictHandler { // TODO Subject to huge cleanup
             dust.setCount(9);
             if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToDust", dust, new OreIngredient(name));
             DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), dust));
-        }
-        if (!gem.isEmpty()) {
-            if (ModHandler.getCraftingResult(gem, gem, ItemStack.EMPTY, gem, gem).isItemEqual(stack)) return;
-
-            ModHandler.removeCraftingRecipeFromInputs(gem, gem, gem, gem, gem, gem, gem, gem, gem);
-
-            if (storageBlockCrafting) processBlockRecipe(stack, name + "FromGems");
-            if (storageBlockDeCrafting) {
-                ModHandler.addShapelessRecipe(name + "ToGem", StackUtil.copyWithSize(gem, 9), new OreIngredient(name));
-            }
-
-            DynamicRecipes.addIngotToBlockRecipe(gemName, gem, stack, storageBlockCrafting, storageBlockDeCrafting);
         }
         if (!ingot.isEmpty()) {
             ModHandler.removeCraftingRecipeFromInputs(ingot, ingot, ingot, ingot, ingot, ingot, ingot, ingot, ingot);
@@ -509,7 +507,7 @@ public class OreDictHandler { // TODO Subject to huge cleanup
         if (!plate.isEmpty()) {
             DynamicRecipes.addBenderRecipe(RecipeSimple.create(RecipeIngredientOre.create(name), plate, 50, 20));
 
-            if (GregTechAPI.getDynamicConfig("recipes", "platesNeededForArmorMadeOf" + material, true)) {
+            if (GregTechAPI.getDynamicConfig("plates_needed_for_armor_made_of", material, true)) {
                 ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, ItemStack.EMPTY, stack)
                         .ifPresent(output -> addShapedMaterialRecipe(materialName, "helmet", output, "XXX", "XTX", 'X', plateName, 'T', "craftingToolHardHammer"));
                 
@@ -523,7 +521,7 @@ public class OreDictHandler { // TODO Subject to huge cleanup
                         .ifPresent(output -> addShapedMaterialRecipe(materialName, "boots", output, "XTX", "X X", 'X', plateName, 'T', "craftingToolHardHammer"));
             }
 
-            if (GregTechAPI.getDynamicConfig("recipes", "platesNeededForToolsMadeOf" + name.replace("ingot", ""), true)) {
+            if (GregTechAPI.getDynamicConfig("plates_needed_for_tools_made_of", name.replace("ingot", ""), true)) {
                 ItemStack stick = new ItemStack(Items.STICK);
                 ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick)
                         .ifPresent(output -> addShapedMaterialRecipe(materialName, "sword", output, " X ", "FXT", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile"));

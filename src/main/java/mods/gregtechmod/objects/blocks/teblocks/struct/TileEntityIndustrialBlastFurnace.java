@@ -21,7 +21,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -44,7 +43,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 2;
     }
 
@@ -98,14 +97,6 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     @Override
     protected BlastFurnaceStructure createStructureInstance(EnumFacing facing, Map<Character, Collection<BlockPos>> elements) {
         return new BlastFurnaceStructure(this.world, elements);
-    }
-    
-    
-    @Override
-    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (this.coilHandler.onActivated(player)) return true;
-        
-        return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
 
     @Override

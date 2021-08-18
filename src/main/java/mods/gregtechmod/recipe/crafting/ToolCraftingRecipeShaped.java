@@ -43,9 +43,9 @@ public class ToolCraftingRecipeShaped extends ShapedRecipes {
     }
 
     public static NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv, Collection<ItemStack> tools, int craftingDamage) {
-        NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        NonNullList<ItemStack> list = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 
-        for (int i = 0; i < nonnulllist.size(); ++i) {
+        for (int i = 0; i < list.size(); ++i) {
             ItemStack itemstack = inv.getStackInSlot(i);
 
             if (tools.stream()
@@ -53,10 +53,10 @@ public class ToolCraftingRecipeShaped extends ShapedRecipes {
                     .anyMatch(item -> StackUtil.checkItemEquality(itemstack, item))) {
                 if (itemstack.getItem() instanceof IElectricItem) ElectricItem.manager.use(itemstack, craftingDamage * 1000, null);
                 else itemstack.attemptDamageItem(craftingDamage, GtUtil.RANDOM, null);
-                nonnulllist.set(i, itemstack.copy());
-            } else nonnulllist.set(i, ForgeHooks.getContainerItem(itemstack));
+                list.set(i, itemstack.copy());
+            } else list.set(i, ForgeHooks.getContainerItem(itemstack));
         }
 
-        return nonnulllist;
+        return list;
     }
 }

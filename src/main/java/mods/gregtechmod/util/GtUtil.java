@@ -2,14 +2,12 @@ package mods.gregtechmod.util;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
-import com.mojang.authlib.GameProfile;
 import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
@@ -26,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
@@ -51,8 +50,7 @@ import javax.annotation.Nullable;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -258,7 +256,7 @@ public class GtUtil {
         return stack;
     }
 
-    public static <T> Collection<T> mergeCollection(Collection<T> first, Collection<T> second) {
+    public static <T> List<T> mergeCollection(Collection<T> first, Collection<T> second) {
         return Stream.of(first, second)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
@@ -282,11 +280,6 @@ public class GtUtil {
         }
 
         return ItemStack.EMPTY;
-    }
-
-    public static boolean checkAccess(IUpgradableMachine machine, GameProfile owner, GameProfile playerProfile) {
-        if (!machine.isPrivate() || owner == null) return true;
-        return owner.equals(playerProfile);
     }
 
     public static void sendMessage(EntityPlayer player, String message, Object... args) {
@@ -393,7 +386,7 @@ public class GtUtil {
             field.setAccessible(true);
             field.set(null, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            GregTechMod.logger.error(e);
+            GregTechMod.logger.catching(e);
         }
     }
     
@@ -409,6 +402,49 @@ public class GtUtil {
     public static ResourceLocation getModelResourceLocation(String name, String folder) {
         if (folder == null) return new ResourceLocation(Reference.MODID, name);
         return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
+    }
+
+    public static Path copyDir(Path source, File target) {
+        try {
+            DirectoryStream<Path> stream = Files.newDirectoryStream(source);
+            for (Path path : stream) {
+                File dest = new File(Paths.get(target.getPath(), path.getFileName().toString()).toUri());
+                if (!dest.exists()) {
+                    if (path.toString().endsWith("/")) {
+                        dest.mkdirs();
+                        copyDir(path, dest);
+                        continue;
+                    }
+
+                    GregTechMod.logger.debug("Copying file " + path + " to " + dest.toPath());
+                    BufferedReader in = Files.newBufferedReader(path);
+                    FileOutputStream out = new FileOutputStream(dest);
+                    for (int i; (i = in.read()) != -1; ) out.write(i);
+                    in.close();
+                    out.close();
+                }
+            }
+            return target.toPath();
+        } catch (IOException e) {
+            GregTechMod.logger.catching(e);
+            return null;
+        }
+    }
+    
+    public static NBTTagList stacksToNBT(Collection<ItemStack> stacks) {
+        NBTTagList list = new NBTTagList();
+        stacks.stream()
+                .map(stack -> {
+                    NBTTagCompound tag = new NBTTagCompound();
+                    stack.writeToNBT(tag);
+                    return tag;
+                })
+                .forEach(list::appendTag);
+        return list;
+    }
+    
+    public static void stacksFromNBT(Collection<ItemStack> stacks, NBTTagList list) {
+        list.forEach(tag -> stacks.add(new ItemStack((NBTTagCompound) tag)));
     }
 
     private static class VoidTank implements IFluidHandler {

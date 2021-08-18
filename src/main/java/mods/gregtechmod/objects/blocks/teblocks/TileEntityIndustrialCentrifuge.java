@@ -31,7 +31,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityIndustrialCentrifu
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 1;
     }
 

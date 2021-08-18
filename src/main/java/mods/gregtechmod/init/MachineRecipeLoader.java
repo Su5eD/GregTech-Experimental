@@ -1,50 +1,17 @@
 package mods.gregtechmod.init;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
-import ic2.api.recipe.IBasicMachineRecipeManager;
-import ic2.api.recipe.IRecipeInput;
-import ic2.api.recipe.MachineRecipe;
+import ic2.api.recipe.ICraftingRecipeManager;
 import ic2.api.recipe.Recipes;
-import ic2.core.recipe.BasicMachineRecipeManager;
-import ic2.core.util.StackUtil;
+import ic2.core.block.machine.tileentity.TileEntityAssemblyBench;
+import ic2.core.recipe.AdvRecipe;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.recipe.CellType;
-import mods.gregtechmod.api.recipe.GtRecipes;
-import mods.gregtechmod.api.recipe.IMachineRecipe;
-import mods.gregtechmod.api.recipe.IRecipePulverizer;
-import mods.gregtechmod.api.recipe.fuel.GtFuels;
-import mods.gregtechmod.api.recipe.fuel.IFuel;
-import mods.gregtechmod.api.recipe.fuel.IFuelManager;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
-import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
-import mods.gregtechmod.compat.ModCompat;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.blocks.teblocks.TileEntityPrinter;
-import mods.gregtechmod.objects.blocks.teblocks.generator.TileEntityDieselGenerator;
-import mods.gregtechmod.recipe.*;
-import mods.gregtechmod.recipe.compat.BasicMachineRecipe;
-import mods.gregtechmod.recipe.fuel.FuelIngredientFluidDeserializer;
-import mods.gregtechmod.recipe.fuel.FuelManagerFluid;
-import mods.gregtechmod.recipe.fuel.FuelMulti;
-import mods.gregtechmod.recipe.fuel.FuelSimple;
-import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
-import mods.gregtechmod.recipe.manager.*;
-import mods.gregtechmod.recipe.util.IBasicMachineRecipe;
-import mods.gregtechmod.recipe.util.RecipeFilter;
-import mods.gregtechmod.recipe.util.deserializer.*;
-import mods.gregtechmod.recipe.util.serializer.*;
-import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.block.Block;
@@ -52,468 +19,70 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 
-import javax.annotation.Nullable;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
 public class MachineRecipeLoader {
-    private static Path recipesPath = null;
-    private static Path classicRecipesPath = null;
-    private static Path experimentalRecipesPath = null;
-    private static Path fuelsPath = null;
-    private static Path classicFuelsPath = null;
-    private static Path dynamicRecipesDir = null;
-    private static final ObjectMapper mapperBase = new ObjectMapper(
-            new YAMLFactory()
-                    .enable(YAMLGenerator.Feature.MINIMIZE_QUOTES))
-            .registerModule(new SimpleModule()
-                    .addDeserializer(ItemStack.class, ItemStackDeserializer.INSTANCE)
-                    .addDeserializer(FluidStack.class, FluidStackDeserializer.INSTANCE)
-                    .addDeserializer(IRecipeIngredient.class, RecipeIngredientDeserializer.INSTANCE)
-                    .addDeserializer(IRecipeInput.class, RecipeInputDeserializer.INSTANCE)
-                    .addSerializer(ItemStack.class, ItemStackSerializer.INSTANCE)
-                    .addSerializer(IRecipeIngredient.class, new RecipeIngredientSerializer())
-                    .addSerializer(RecipeDualInput.class, new RecipeSerializerSingleOutput<>())
-                    .addSerializer(RecipeSimple.class,  new RecipeSerializerSingleOutput<>())
-                    .addSerializer(RecipeCanner.class, new RecipeSerializer<>())
-                    .addSerializer(RecipeCentrifuge.class, new RecipeSerializerCentrifuge())
-                    .addSerializer(RecipeLathe.class, new RecipeSerializer<>())
-                    .addSerializer(RecipePulverizer.class, new RecipeSerializerPulverizer())
-                    .addSerializer(RecipeSawmill.class, new RecipeSerializerSawmill())
-                    .addSerializer(IRecipeInput.class, new RecipeInputSerializer())
-                    .addSerializer(MachineRecipe.class, new MachineRecipeSerializer()));
-    private static final ObjectMapper recipeMapper = mapperBase.copy()
-            .registerModule(new SimpleModule()
-                    .addDeserializer(IRecipeIngredientFluid.class, RecipeIngredientFluidDeserializer.INSTANCE)
-            );
-    private static final ObjectMapper fuelMapper = mapperBase.copy()
-            .registerModule(new SimpleModule()
-                    .addDeserializer(IRecipeIngredientFluid.class, FuelIngredientFluidDeserializer.INSTANCE)
-            );
+    private static final ICraftingRecipeManager.AttributeContainer ATTRIBUTES = new ICraftingRecipeManager.AttributeContainer(true, false, true);
 
-    public static void loadRecipes() {
-        GregTechMod.logger.info("Loading machine recipes");
-
-        GtUtil.setPrivateStaticValue(GregTechAPI.class, "recipeFactory", new RecipeFactory());
-        GtUtil.setPrivateStaticValue(GregTechAPI.class, "ingredientFactory", new RecipeIngredientFactory());
-
-        Path recipesPath = GtUtil.getAssetPath("machine_recipes");
-        Path gtConfig = relocateConfig(recipesPath, "machine_recipes");
-        if (gtConfig == null) {
-            GregTechMod.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
-            MachineRecipeLoader.recipesPath = recipesPath;
-        } else MachineRecipeLoader.recipesPath = gtConfig;
-        classicRecipesPath = MachineRecipeLoader.recipesPath.resolve("classic");
-        experimentalRecipesPath = MachineRecipeLoader.recipesPath.resolve("experimental");
-        
-        GregTechAPI.instance().registerCondition("mod_loaded", node -> Loader.isModLoaded(node.get("modid").asText()));
-        GregTechAPI.instance().registerCondition("ore_exists", node -> !OreDictUnificator.getFirstOre(node.get("ore").asText()).isEmpty());
-
-        GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
-        parseRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
-                .ifPresent(recipes -> registerRecipes("industrial centrifuge", recipes, GtRecipes.industrialCentrifuge));
-        GtRecipes.assembler = new RecipeManagerMultiInput<>();
-        parseRecipes("assembler", RecipeDualInput.class, null)
-                .ifPresent(recipes -> registerRecipes("assembler", recipes, GtRecipes.assembler));
-
-        GtRecipes.pulverizer = new RecipeManagerPulverizer();
-        ItemStack gravel = new ItemStack(Blocks.GRAVEL);
-        parseRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class)
-                .ifPresent(recipes -> {
-                    List<IRecipePulverizer> filtered = recipes.stream()
-                            .filter(recipe -> !recipe.getInput().apply(gravel))
-                            .collect(Collectors.toList());
-                    registerRecipes("pulverizer", filtered, GtRecipes.pulverizer);
-                });
-
-        GtRecipes.industrialGrinder = new RecipeManagerSecondaryFluid<>();
-        parseRecipes("industrial_grinder", RecipeGrinder.class, RecipeFilter.Default.class)
-                .ifPresent(recipes -> registerRecipes("industrial grinder", recipes, GtRecipes.industrialGrinder));
-
-        GtRecipes.industrialBlastFurnace = new RecipeManagerBlastFurnace();
-        parseRecipes("industrial_blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class)
-                .ifPresent(recipes -> registerRecipes("blast furnace", recipes, GtRecipes.industrialBlastFurnace));
-
-        GtRecipes.industrialElectrolyzer = new RecipeManagerCellular();
-        parseRecipes("industrial_electrolyzer", RecipeElectrolyzer.class, null)
-                .ifPresent(recipes -> registerRecipes("industrial electrolyzer", recipes, GtRecipes.industrialElectrolyzer));
-
-        GtRecipes.canner = new RecipeManagerMultiInput<>();
-        parseRecipes("canner", RecipeCanner.class, null)
-                .ifPresent(recipes -> registerRecipes("canner", recipes, GtRecipes.canner));
-
-        GtRecipes.alloySmelter = new RecipeManagerAlloySmelter();
-        parseRecipes("alloy_smelter", RecipeAlloySmelter.class, null)
-                .ifPresent(recipes -> registerRecipes("alloy smelter", recipes, GtRecipes.alloySmelter));
-
-        GtRecipes.implosion = new RecipeManagerMultiInput<>();
-        parseRecipes("implosion", RecipeImplosion.class, RecipeFilter.Default.class)
-                .ifPresent(recipes -> registerRecipes("implosion", recipes, GtRecipes.implosion));
-
-        GtRecipes.wiremill = new RecipeManagerBasic<>();
-        parseRecipes("wiremill", RecipeSimple.class, null)
-                .ifPresent(recipes -> registerRecipes("wiremill", recipes, GtRecipes.wiremill));
-
-        GtRecipes.bender = new RecipeManagerBasic<>();
-        parseRecipes("bender", RecipeSimple.class, null)
-                .ifPresent(recipes -> registerRecipes("bender", recipes, GtRecipes.bender));
-
-        GtRecipes.lathe = new RecipeManagerBasic<>();
-        parseRecipes("lathe", RecipeLathe.class, null)
-                .ifPresent(recipes -> registerRecipes("lathe", recipes, GtRecipes.lathe));
-
-        GtRecipes.vacuumFreezer = new RecipeManagerBasic<>();
-        parseRecipes("vacuum_freezer", RecipeVacuumFreezer.class, RecipeFilter.Energy.class)
-                .ifPresent(recipes -> registerRecipes("vacuum freezer", recipes, GtRecipes.vacuumFreezer));
-
-        GtRecipes.chemical = new RecipeManagerMultiInput<>();
-        parseRecipes("chemical", RecipeChemical.class, RecipeFilter.Energy.class)
-                .ifPresent(recipes -> registerRecipes("chemical", recipes, GtRecipes.chemical));
-
-        GtRecipes.fusionFluid = new RecipeManagerFusionFluid();
-        parseRecipes("fusion_fluid", RecipeFusionFluid.class, null)
-                .ifPresent(recipes -> registerRecipes("fluid fusion", recipes, GtRecipes.fusionFluid));
-
-        GtRecipes.fusionSolid = new RecipeManagerMultiInput<>();
-        parseRecipes("fusion_solid", RecipeFusionSolid.class, null)
-                .ifPresent(recipes -> registerRecipes("solid fusion", recipes, GtRecipes.fusionSolid));
-
-        GtRecipes.industrialSawmill = new RecipeManagerSawmill();
-        parseRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class)
-                .ifPresent(recipes -> registerRecipes("sawmill", recipes, GtRecipes.industrialSawmill));
-
-        GtRecipes.distillation = new RecipeManagerCellular();
-        parseRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class)
-                .ifPresent(recipes -> registerRecipes("distillation", recipes, GtRecipes.distillation));
-
-        GtRecipes.printer = new RecipeManagerPrinter();
-        parseRecipes("printer", RecipePrinter.class, null)
-                .ifPresent(recipes -> registerRecipes("printer", recipes, GtRecipes.printer));
-
-        // IC2 Recipes
-        parseRecipes("compressor", BasicMachineRecipe.class, null)
-                .ifPresent(recipes -> registerRecipes("compressor", recipes, (BasicMachineRecipeManager) Recipes.compressor));
-
-        parseRecipes("extractor", BasicMachineRecipe.class, null)
-                .ifPresent(recipes -> registerRecipes("extractor", recipes, (BasicMachineRecipeManager) Recipes.extractor));
-
+    public static void init() {
         registerMatterAmplifiers();
         addScrapboxDrops();
         loadRecyclerBlackList();
-    }
-
-    public static void loadFuels() {
-        GregTechMod.logger.info("Loading fuels");
-
-        Path recipesPath = GtUtil.getAssetPath("fuels");
-        Path gtConfig = relocateConfig(recipesPath, "fuels");
-        if (gtConfig == null) {
-            GregTechMod.logger.error("Couldn't find the fuels config directory. Loading default fuels...");
-            MachineRecipeLoader.fuelsPath = recipesPath;
-        } else MachineRecipeLoader.fuelsPath = gtConfig;
-        classicFuelsPath = fuelsPath.resolve("classic");
-
-        GtFuels.plasma = new FuelManagerFluid<>();
-        parseFuels("plasma", FuelSimple.class)
-                .ifPresent(fuels -> registerFuels("plasma", fuels, GtFuels.plasma));
-
-        GtFuels.magic = new FuelManagerFluid<>();
-        parseFuels("magic", FuelSimple.class)
-                .ifPresent(fuels -> registerFuels("magic", fuels, GtFuels.magic));
-
-        GtFuels.diesel = new FuelManagerFluid<>();
-        parseFuels("diesel", FuelSimple.class)
-                .ifPresent(fuels -> registerFuels("diesel", fuels, GtFuels.diesel));
         
-        GtFuels.gas = new FuelManagerFluid<>();
-        parseFuels("gas", FuelSimple.class)
-                .ifPresent(fuels -> registerFuels("gas", fuels, GtFuels.gas));
-
-        GtFuels.hot = new FuelManagerFluid<>();
-        parseFuels("hot", FuelMulti.class)
-                .ifPresent(fuels -> registerFuels("hot", fuels, GtFuels.hot));
-
-        GtFuels.denseLiquid = new FuelManagerFluid<>();
-        parseFuels("dense_liquid", FuelSimple.class)
-                .ifPresent(fuels -> registerFuels("dense liquid", fuels, GtFuels.denseLiquid));
-        
-        GtFuels.steam = new FuelManagerFluid<>();
-        parseFuels("steam", FuelSimple.class)
-                .ifPresent(fuels -> registerFuels("steam", fuels, GtFuels.steam));
-
-        ModCompat.registerBoilerFuels();
+        if (GregTechMod.classic) registerMatterCraftingRecipes();
     }
 
-    public static void loadDynamicRecipes() {
-        GregTechMod.logger.info("Loading dynamic recipes");
-        dynamicRecipesDir = GregTechMod.configDir.toPath().resolve("GregTech/machine_recipes/dynamic");
-        dynamicRecipesDir.toFile().mkdirs();
+    private static void registerMatterCraftingRecipes() {
+        addMatterRecipe("gemRuby", 2, " UU", "UUU", "UU ");
+        addMatterRecipe("gemSapphire", 2, "UU ", "UUU", " UU");
+        addMatterRecipe("gemGreenSapphire", 2, " UU", "UUU", " UU");
+        addMatterRecipe("gemOlivine", 2, "UU ", "UUU", "UU ");
+        addMatterRecipe("dustZinc", 10, "   ", "U U", " U ");
+        addMatterRecipe("dustNickel", 10, " U ", "U U", "   ");
+        addMatterRecipe("dustSilver", 14, " U ", "UUU", "UUU");
+        addMatterRecipe("dustPlatinum", 1, "  U", "UUU", "UUU");
+        addMatterRecipe("dustTungsten", 6, "U  ", "UUU", "UUU");
+        addMatterRecipe("dustSmallOsmium", 1, "U U", "UUU", "U U");
+        addMatterRecipe("dustTitanium", 2, "UUU", " U ", " U ");
+        addMatterRecipe("dustAluminium", 16, " U ", " U ", "UUU");
+        addMatterRecipe("dustElectrotine", 12, "UUU", " U ", "   ");
+        addMatterRecipe("blazeRod", new ItemStack(Items.BLAZE_ROD, 4), "U U", "UU ", "U U");
+        addMatterRecipe("leather", new ItemStack(Items.LEATHER, 32), "U U", " U ", "UUU");
+        addMatterRecipe("string", new ItemStack(Items.STRING, 32), "U U", "   ", "U  ");
+        addMatterRecipe("obsidian", new ItemStack(Blocks.OBSIDIAN, 12), "U U", "U U", "   ");
+        addMatterRecipe("woodSpruce", new ItemStack(Blocks.LOG, 8, 1), "U  ", "   ", "   ");
+        addMatterRecipe("woodBirch", new ItemStack(Blocks.LOG, 8, 2), "  U", "   ", "   ");
+        addMatterRecipe("woodJungle", new ItemStack(Blocks.LOG, 8, 3), "   ", "U  ", "   ");
+        addMatterRecipe("woodAcacia", new ItemStack(Blocks.LOG2, 8), "   ", "  U", "   ");
+        addMatterRecipe("woodDarkOak", new ItemStack(Blocks.LOG2, 8, 1), "   ", "   ", "U  ");
 
-        DynamicRecipes.addPulverizerRecipes = parseDynamicRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class, DynamicRecipes.PULVERIZER);
-        DynamicRecipes.addAlloySmelterRecipes = parseDynamicRecipes("alloy_smelter", RecipeAlloySmelter.class, null, DynamicRecipes.ALLOY_SMELTER);
-        DynamicRecipes.addCannerRecipes = parseDynamicRecipes("canner", RecipeCanner.class, null, DynamicRecipes.CANNER);
-        DynamicRecipes.addLatheRecipes = parseDynamicRecipes("lathe", RecipeLathe.class, null, DynamicRecipes.LATHE);
-        DynamicRecipes.addAssemblerRecipes = parseDynamicRecipes("assembler", RecipeDualInput.class, null, DynamicRecipes.ASSEMBLER);
-        DynamicRecipes.addBenderRecipes = parseDynamicRecipes("bender", RecipeSimple.class, null, DynamicRecipes.BENDER);
-        DynamicRecipes.addSawmillRecipes = parseDynamicRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class, DynamicRecipes.SAWMILL);
-        DynamicRecipes.addCentrifugeRecipes = parseDynamicRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class, DynamicRecipes.INDUSTRIAL_CENTRIFUGE);
-        DynamicRecipes.addCompressorRecipes = parseDynamicRecipes("compressor", BasicMachineRecipe.class, null, DynamicRecipes.COMPRESSOR);
-        DynamicRecipes.addExtractorRecipes = parseDynamicRecipes("extractor", BasicMachineRecipe.class, null, DynamicRecipes.EXTRACTOR);
+        ItemStack matter = IC2Items.getItem("misc_resource", "matter");
+        ItemStack[] input = new ItemStack[]{ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, matter, matter, matter};
+        ModHandler.removeCraftingRecipeFromInputs(input);
+        IRecipe recipe = ModHandler.getCraftingRecipe(TileEntityAssemblyBench.RECIPES, input);
+        if (recipe != null) TileEntityAssemblyBench.RECIPES.remove(recipe);
 
-        DynamicRecipes.processCraftingRecipes();
-        DynamicRecipes.applyMaterialUsages();
-        ModCompat.addRollingMachineRecipes();
-        ModCompat.registerTools();
+        ItemStack dustPlutonium = new ItemStack(BlockItems.Dust.PLUTONIUM.getInstance());
+        List<Object> pattern;
+        if (GregTechAPI.getDynamicConfig("gregtech_recipes", "matterfabricator", true)
+                && GregTechConfig.DISABLED_RECIPES.massFabricator
+                && GregTechConfig.MACHINES.matterFabricationRate >= 10000000) {
+            pattern = Arrays.asList("U", "R", 'R', "dustUranium");
+        } else pattern = Arrays.asList("UUU", "URU", "UUU", 'R', "dustUranium");
 
-        ItemStack ingotCopper = IC2Items.getItem("ingot", "copper");
-        ItemStack bronze = ModHandler.getCraftingResult(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, IC2Items.getItem("ingot", "tin"));
-        if (!bronze.isEmpty()) {
-            int count = bronze.getCount();
-            GtRecipes.industrialCentrifuge.addRecipe(
-                    RecipeCentrifuge.create(RecipeIngredientOre.create("dustBronze", count < 3 ? 1 : count / 2),
-                            Arrays.asList(new ItemStack(BlockItems.Smalldust.COPPER.getInstance(), 6),
-                                    new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 2)),
-                            0,
-                            1500,
-                            CellType.CELL));
+        List<Object> patternWithMatter = new ArrayList<>(pattern);
+        patternWithMatter.add('U');
+        patternWithMatter.add("craftingUUMatter");
+        if (addMatterRecipe("dustPlutonium", new AdvRecipe(dustPlutonium, patternWithMatter.toArray()))) {
+            addMatterCraftingRecipe("dustPlutonium", dustPlutonium, pattern.toArray());
         }
-
-        ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
-        ItemStack stick = new ItemStack(Items.STICK);
-        ItemStack rail = ModHandler.getCraftingResult(ingotIron, ItemStack.EMPTY, ingotIron, ingotIron, stick, ingotIron, ingotIron, ItemStack.EMPTY, ingotIron);
-        if (!rail.isEmpty()) DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), new ItemStack(BlockItems.Smalldust.WOOD.getInstance(), 2), 95);
-        ItemStack ingotGold = new ItemStack(Items.GOLD_INGOT);
-        ItemStack redstone = new ItemStack(Items.REDSTONE);
-        ItemStack poweredRail = ModHandler.getCraftingResult(ingotGold, ItemStack.EMPTY, ingotGold, ingotGold, stick, ingotGold, ingotGold, redstone, ingotGold);
-        if (!poweredRail.isEmpty()) DynamicRecipes.addPulverizerRecipe(poweredRail, StackUtil.setSize(IC2Items.getItem("dust", "gold"), 6), redstone, 95);
-
-        ItemStack ingotTin = IC2Items.getItem("ingot", "tin");
-        ItemStack tinCan = ModHandler.getCraftingResult(ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
-        if (!tinCan.isEmpty()) {
-            int tinNuggetCount = 27 / tinCan.getCount();
-            if (tinNuggetCount > 0) {
-                tinCan.setCount(1);
-                if (tinNuggetCount % 9 == 0) {
-                    DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, StackUtil.copyWithSize(ingotTin, tinNuggetCount / 9));
-                }
-                else DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, new ItemStack(BlockItems.Nugget.TIN.getInstance(), tinNuggetCount));
-            }
-        }
-
-        DynamicRecipes.addPulverizerRecipe(ProfileDelegate.getCell(null), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 9), true);
-        ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
-        if (GregTechMod.classic) {
-            DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));
-        } else {
-            DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), new ItemStack(Items.IRON_INGOT, 8));
-        }
-        DynamicRecipes.addSmeltingRecipe("resin", new ItemStack(Items.SLIME_BALL), IC2Items.getItem("misc_resource", "resin"));
-    }
-
-    public static void registerDynamicRecipes() {
-        DynamicRecipes.processMaterialUsages();
-
-        serializeRecipes("Pulverizer", DynamicRecipes.PULVERIZER.getRecipes(), GtRecipes.pulverizer, DynamicRecipes.addPulverizerRecipes);
-        serializeRecipes("Alloy Smelter", DynamicRecipes.ALLOY_SMELTER.getRecipes(), GtRecipes.alloySmelter, DynamicRecipes.addAlloySmelterRecipes);
-        serializeRecipes("Canner", DynamicRecipes.CANNER.getRecipes(), GtRecipes.canner, DynamicRecipes.addCannerRecipes);
-        serializeRecipes("Lathe", DynamicRecipes.LATHE.getRecipes(), GtRecipes.lathe, DynamicRecipes.addLatheRecipes);
-        serializeRecipes("Assembler", DynamicRecipes.ASSEMBLER.getRecipes(), GtRecipes.assembler, DynamicRecipes.addAssemblerRecipes);
-        serializeRecipes("Bender", DynamicRecipes.BENDER.getRecipes(), GtRecipes.bender, DynamicRecipes.addBenderRecipes);
-        serializeRecipes("Sawmill", DynamicRecipes.SAWMILL.getRecipes(), GtRecipes.industrialSawmill, DynamicRecipes.addSawmillRecipes);
-        serializeRecipes("Industrial Centrifuge", DynamicRecipes.INDUSTRIAL_CENTRIFUGE.getRecipes(), GtRecipes.industrialCentrifuge, DynamicRecipes.addCentrifugeRecipes);
-
-        List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> compressorRecipes = StreamSupport.stream(DynamicRecipes.COMPRESSOR.getRecipes().spliterator(), false)
-                .collect(Collectors.toList());
-        serializeRecipes("Compressor", compressorRecipes, (BasicMachineRecipeManager) Recipes.compressor, DynamicRecipes.addCompressorRecipes);
-
-        List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> extractorRecipes = StreamSupport.stream(DynamicRecipes.EXTRACTOR.getRecipes().spliterator(), false)
-                .collect(Collectors.toList());
-        serializeRecipes("Extractor", extractorRecipes, (BasicMachineRecipeManager) Recipes.extractor, DynamicRecipes.addExtractorRecipes);
-    }
-
-    public static <R> Optional<Collection<R>> parseRecipes(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
-        Optional<Collection<R>> normalRecipes = parseConfig(recipeMapper, name, recipeClass, filter, recipesPath);
-        Optional<Collection<R>> profileRecipes = GregTechMod.classic ? parseConfig(recipeMapper, name, recipeClass, filter, classicRecipesPath, true) : parseConfig(recipeMapper, name, recipeClass, filter, experimentalRecipesPath, true);
-        return normalRecipes.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, profileRecipes.orElseGet(Collections::emptyList))));
-    }
-
-    public static <R> Optional<Collection<R>> parseFuels(String name, Class<R> recipeClass) {
-        Optional<Collection<R>> normalFuels = parseConfig(fuelMapper, name, recipeClass, null, fuelsPath, false);
-        Optional<Collection<R>> classicFuels = GregTechMod.classic ? parseConfig(fuelMapper, name, recipeClass, null, classicFuelsPath, true) : Optional.empty();
-        return normalFuels.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, classicFuels.orElseGet(Collections::emptyList))));
-    }
-
-    public static <R> Optional<Collection<R>> parseConfig(ObjectMapper mapper, String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Path path) {
-        return parseConfig(mapper, name, recipeClass, filter, path, false);
-    }
-
-    public static <R> Optional<Collection<R>> parseConfig(ObjectMapper mapper, String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Path path, boolean silent) {
-        try {
-            return parseConfig(mapper, recipeClass, filter, Files.newBufferedReader(path.resolve(name + ".yml")));
-        } catch (IOException e) {
-            if (!silent) {
-                GregTechMod.logger.error("Failed to parse " + name + " recipes");
-                e.printStackTrace();
-            }
-            return Optional.empty();
-        }
-    }
-
-    public static <R> Optional<Collection<R>> parseConfig(ObjectMapper mapper, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Reader reader) throws IOException {
-        ObjectMapper objectMapper = mapper.copy();
-        if (filter != null) objectMapper.addMixIn(IMachineRecipe.class, filter);
-
-        JsonNode node = objectMapper.readTree(reader);
-        Iterator<JsonNode> recipeIterator = node.elements();
-        while (recipeIterator.hasNext()) {
-            JsonNode recipe = recipeIterator.next();
-            if (recipe.has("conditions")) {
-                JsonNode conditions = recipe.get("conditions");
-                Iterator<JsonNode> conditionIterator = conditions.elements();
-                while (conditionIterator.hasNext()) {
-                    JsonNode condition = conditionIterator.next();
-                    String type = condition.get("type").asText();
-                    if (!GregTechAPI.instance().testCondition(type, condition)) recipeIterator.remove();
-                }
-            }
-            ((ObjectNode) recipe).remove("conditions");
-        }
-        return Optional.ofNullable(objectMapper.convertValue(node, objectMapper.getTypeFactory().constructCollectionType(List.class, recipeClass)));
-    }
-
-    private static <T extends IMachineRecipe<?, ?>> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IGtRecipeManager<?, ?, T> manager) {
-        if(!shouldAddNewDynamicRecipes(name)) {
-            parseConfig(recipeMapper, name, recipeClass, filter, dynamicRecipesDir)
-                    .ifPresent(recipes -> registerRecipes("dynamic "+name.replace('_', ' '), recipes, manager));
-            return false;
-        }
-        return true;
-    }
-
-    private static <T extends IBasicMachineRecipe> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IBasicMachineRecipeManager manager) {
-        if (!shouldAddNewDynamicRecipes(name)) {
-            parseConfig(recipeMapper, name, recipeClass, filter, dynamicRecipesDir)
-                    .ifPresent(recipes -> registerRecipes("dynamic "+name.replace('_', ' '), recipes, (BasicMachineRecipeManager) manager));
-            return false;
-        }
-        return true;
-    }
-
-    private static <T extends IMachineRecipe<?, ?>> void registerRecipes(String name, Collection<? extends T> recipes, IGtRecipeManager<?, ?, T> manager) {
-        int total = recipes.size();
-        long successful = recipes.stream()
-                .map(manager::addRecipe)
-                .filter(Boolean::booleanValue)
-                .count();
-        GregTechMod.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
-    }
-
-    private static <T extends IBasicMachineRecipe> void registerRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager) {
-        int total = recipes.size();
-        long successful = recipes.stream()
-                .map(recipe -> {
-                    IRecipeInput input = recipe.getInput();
-                    if (recipe.shouldOverwrite()) input.getInputs().forEach(stack -> ModHandler.removeIC2Recipe(stack, manager));
-                    return manager.addRecipe(input, null, false, recipe.getOutput());
-                })
-                .filter(Boolean::booleanValue)
-                .count();
-        GregTechMod.logger.info("Loaded " + successful + " out of " + total + " " + name + " recipes");
-    }
-
-    private static <T extends IFuel<?>, I> void registerFuels(String name, Collection<? extends T> fuels, IFuelManager<T, I> manager) {
-        int total = fuels.size();
-        long successful = fuels.stream()
-                .map(manager::addFuel)
-                .filter(Boolean::booleanValue)
-                .count();
-        GregTechMod.logger.info("Loaded " + successful + " out of " + total + " " + name + " fuels");
-    }
-
-    private static <T extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> void serializeRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager, boolean write) {
-        recipes.forEach(recipe -> {
-            IRecipeInput input = recipe.getInput();
-            input.getInputs().forEach(stack -> ModHandler.removeIC2Recipe(stack, manager));
-            manager.addRecipe(input, null, false, recipe.getOutput().toArray(new ItemStack[0]));
-        });
-        if (write) serializeRecipes(name, recipes);
-    }
-
-    public static <R extends IMachineRecipe<?, ?>, M extends IGtRecipeManager<?, ?, R>> void serializeRecipes(String name, Collection<R> recipes, M recipeManager, boolean write) {
-        recipes.forEach(recipeManager::addRecipe);
-        if (write) serializeRecipes(name, recipes);
-    }
-
-    public static <R extends IMachineRecipe<?, ?>> void serializeRecipes(String name, Collection<?> recipes) {
-        try {
-            File file = dynamicRecipesDir.resolve(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name.replace(" ", "")) +".yml").toFile();
-            file.createNewFile();
-
-            OutputStream output = Files.newOutputStream(file.toPath());
-            output.write(("# Dynamic " + name + " recipes\n").getBytes(StandardCharsets.UTF_8));
-
-            recipeMapper.writeValue(output, recipes);
-        } catch (IOException e) {
-            GregTechMod.logger.error("Failed to serialize " + name + " recipes");
-            e.printStackTrace();
-        }
-    }
-
-    private static boolean shouldAddNewDynamicRecipes(String name) {
-        Path dest = dynamicRecipesDir.resolve(name+".yml");
-        return !dest.toFile().exists();
-    }
-
-    private static Path relocateConfig(Path recipesPath, String target) {
-        File configDir = new File(GregTechMod.configDir.toURI().getPath() + "/GregTech/"+target);
-        configDir.mkdirs();
-        return copyDir(recipesPath, configDir);
-    }
-
-    private static Path copyDir(Path source, File target) {
-        try {
-            DirectoryStream<Path> stream = Files.newDirectoryStream(source);
-            for (Path path : stream) {
-                File dest = new File(Paths.get(target.getPath(), path.getFileName().toString()).toUri());
-                if (!dest.exists()) {
-                    if (path.toString().endsWith("/")) {
-                        dest.mkdirs();
-                        copyDir(path, dest);
-                        continue;
-                    }
-
-                    GregTechMod.logger.debug("Copying file " + path + " to " + dest.toPath());
-                    BufferedReader in = Files.newBufferedReader(path);
-                    FileOutputStream out = new FileOutputStream(dest);
-                    for (int i; (i = in.read()) != -1; ) out.write(i);
-                    in.close();
-                    out.close();
-                }
-            }
-            return target.toPath();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
-    public static void registerProviders() {
-        GtRecipes.printer.registerProvider(new TileEntityPrinter.PrinterRecipeProvider());
-        
-        GtFuels.diesel.registerProvider(new TileEntityDieselGenerator.FuelCanRecipeProvider());
     }
 
     private static void registerMatterAmplifiers() {
@@ -559,7 +128,7 @@ public class MachineRecipeLoader {
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("filled_tin_can"), 1);
         Recipes.scrapboxDrops.addDrop(ProfileDelegate.getCell("silicon"), 0.2F);
         Recipes.scrapboxDrops.addDrop(ProfileDelegate.getCell("water"), 1);
-        Recipes.scrapboxDrops.addDrop(ProfileDelegate.getCell(null), 2);
+        Recipes.scrapboxDrops.addDrop(ProfileDelegate.getEmptyCell(), 2);
         addScrapboxDrop(Items.PAPER, 5);
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("crafting", "plant_ball"), 0.7F);
         addScrapboxDrop(BlockItems.Dust.WOOD.getInstance(), 3.8F);
@@ -619,7 +188,6 @@ public class MachineRecipeLoader {
             ItemStack stone = new ItemStack(Blocks.STONE);
             addToRecyclerBlacklist(new ItemStack(Blocks.STONE, 1, OreDictionary.WILDCARD_VALUE));
             addToRecyclerBlacklist(ModHandler.getSmeltingOutput(stone));
-            addToRecyclerBlacklistOreDict("rodStone");
             addToRecyclerBlacklist(ModHandler.getCraftingResult(stone, ItemStack.EMPTY, stone, ItemStack.EMPTY, stone));
             if (ModHandler.buildcraftTransport) {
                 addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_stone_item"));
@@ -644,11 +212,39 @@ public class MachineRecipeLoader {
             addToRecyclerBlacklist(new ItemStack(Blocks.STONE_BUTTON));
             addToRecyclerBlacklist(new ItemStack(Blocks.STONEBRICK, 1, OreDictionary.WILDCARD_VALUE));
             addToRecyclerBlacklist(Blocks.LEVER);
+            Recipes.recyclerBlacklist.add(Recipes.inputFactory.forOreDict("rodStone"));
         }
         addToRecyclerBlacklist(Items.SNOWBALL);
         addToRecyclerBlacklist(Blocks.ICE);
         addToRecyclerBlacklist(Blocks.SNOW);
         addToRecyclerBlacklist(Blocks.SNOW_LAYER);
+    }
+
+    private static void addMatterRecipe(String name, int count, Object... pattern) {
+        ItemStack output = OreDictUnificator.getFirstOre(name, count);
+        addMatterRecipe(name, output, pattern);
+    }
+
+    private static void addMatterRecipe(String name, ItemStack output, Object... pattern) {
+        if (!output.isEmpty() && addMatterRecipe(name, TileEntityAssemblyBench.UuRecipe.create(output, pattern)))
+            addMatterCraftingRecipe(name, output, pattern);
+    }
+
+    private static boolean addMatterRecipe(String name, IRecipe recipe) {
+        if (!GregTechAPI.getDynamicConfig("uumrecipe", name, true)) return false;
+        return TileEntityAssemblyBench.RECIPES.add(recipe);
+    }
+
+    private static void addMatterCraftingRecipe(String name, ItemStack output, Object... pattern) {
+        List<Object> args = new ArrayList<>(Arrays.asList(pattern));
+        args.add('U');
+        args.add("craftingUUMatter");
+        args.add(ATTRIBUTES);
+        AdvRecipe recipe = new AdvRecipe(output, args.toArray());
+        recipe.setRegistryName(new ResourceLocation(Reference.MODID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name + "FromMatter")));
+        if (recipe.masksMirrored != null) Arrays.fill(recipe.masksMirrored, -1);
+
+        ForgeRegistries.RECIPES.register(recipe);
     }
 
     private static void addToRecyclerBlacklist(Block block) {
@@ -661,9 +257,5 @@ public class MachineRecipeLoader {
 
     private static void addToRecyclerBlacklist(ItemStack stack) {
         if (!stack.isEmpty()) Recipes.recyclerBlacklist.add(Recipes.inputFactory.forStack(stack));
-    }
-
-    private static void addToRecyclerBlacklistOreDict(String ore) {
-        Recipes.recyclerBlacklist.add(Recipes.inputFactory.forOreDict(ore));
     }
 }

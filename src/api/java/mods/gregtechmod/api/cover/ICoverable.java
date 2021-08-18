@@ -1,5 +1,6 @@
 package mods.gregtechmod.api.cover;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 
 import javax.annotation.Nullable;
@@ -17,7 +18,7 @@ public interface ICoverable {
 
     Collection<? extends ICover> getCovers();
 
-    boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate);
+    boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate);
 
     void updateRender();
 }

@@ -8,6 +8,7 @@ import net.minecraftforge.common.crafting.JsonContext;
 
 import javax.annotation.Nonnull;
 
+@SuppressWarnings("unused")
 public class ToolOreIngredientFactory implements IIngredientFactory {
     @Nonnull
     @Override

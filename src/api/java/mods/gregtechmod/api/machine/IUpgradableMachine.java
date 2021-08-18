@@ -3,6 +3,8 @@ package mods.gregtechmod.api.machine;
 import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidTank;
 
 import javax.annotation.Nullable;
@@ -13,6 +15,13 @@ import java.util.Set;
  * @author Su5eD
  */
 public interface IUpgradableMachine extends IElectricMachine {
+
+    /**
+     * I'm not responsible for any damage caused by calling this method
+     */
+    void forceAddUpgrade(ItemStack stack);
+    
+    boolean addUpgrade(ItemStack stack, EntityPlayer player);
     
     boolean hasSteamTank();
 
@@ -21,8 +30,9 @@ public interface IUpgradableMachine extends IElectricMachine {
 
     void addSteamTank();
 
-    @Nullable
     GameProfile getOwner();
+    
+    void setOwner(GameProfile owner);
 
     int getExtraEUCapacity();
     
@@ -34,11 +44,9 @@ public interface IUpgradableMachine extends IElectricMachine {
 
     int getUpgradeCount(IC2UpgradeType type);
 
-    int getOverclockersCount();
-
     boolean isPrivate();
 
-    void setPrivate(boolean value, GameProfile owner);
+    void setPrivate(boolean value);
 
     Set<GtUpgradeType> getCompatibleGtUpgrades();
 
@@ -67,4 +75,8 @@ public interface IUpgradableMachine extends IElectricMachine {
     long getMjCapacity();
 
     void setMjCapacity(long capacity);
+    
+    int getBaseSinkTier();
+    
+    
 }

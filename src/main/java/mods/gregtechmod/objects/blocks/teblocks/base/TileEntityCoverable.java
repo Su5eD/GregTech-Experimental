@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.util.StackUtil;
@@ -32,20 +31,17 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     protected Set<CoverType> coverBlacklist = new HashSet<>();
 
     public TileEntityCoverable() {
-        this.coverHandler = addComponent(new CoverHandler(this, () -> {
-            IC2.network.get(true).updateTileEntityField(TileEntityCoverable.this, "coverHandler");
-            rerender();
-        }));
+        this.coverHandler = addComponent(new CoverHandler(this, this::rerender));
     }
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (beforeOnActivated(player.inventory.getCurrentItem(), player, side)) return true;
+        if (beforeActivated(player.inventory.getCurrentItem(), player, side)) return true;
 
         return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
     
-    protected boolean beforeOnActivated(ItemStack stack, EntityPlayer player, EnumFacing side) {
+    protected boolean beforeActivated(ItemStack stack, EntityPlayer player, EnumFacing side) {
         if (CoverGeneric.isGenericCover(stack)) {
             placeCover(player, side, stack, "generic");
             return true;
@@ -64,7 +60,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
                 stack.damageItem(1, player);
                 return true;
             }
-        } else return placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover("normal", side, this, null), side, false);
+        } else return placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover("normal", side, this, null), player, side, false);
         
         return false;
     }
@@ -81,13 +77,16 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
 
     private void placeCover(EntityPlayer player, EnumFacing side, ItemStack stack, String name) { //For generic covers and vents
         ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
-        if (placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover(name, side, this, coverStack), side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
+        if (placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover(name, side, this, coverStack), player, side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
     }
 
     @Override
     protected ItemStack getPickBlock(EntityPlayer player, RayTraceResult target) {
-        ICover cover = getCoverAtSide(target.sideHit);
-        return cover != null ? cover.getItem() : super.getPickBlock(player, target);
+        if (target != null) {
+            ICover cover = getCoverAtSide(target.sideHit);
+            if (cover != null) return cover.getItem();
+        }
+        return super.getPickBlock(player, target);
     }
 
     @Override
@@ -113,18 +112,12 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     }
 
     @Override
-    public void onNetworkUpdate(String field) {
-        super.onNetworkUpdate(field);
-        if (field.equals("coverHandler")) rerender();
-    }
-
-    @Override
     public Collection<? extends ICover> getCovers() {
         return coverHandler.covers.values();
     }
 
     @Override
-    public boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate) {
+    public boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate) {
         if (coverBlacklist.contains(cover.getType())) return false;
         return this.coverHandler.placeCoverAtSide(cover, side, simulate);
     }
@@ -138,11 +131,11 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
         cover.onCoverRemoval();
         if (this.coverHandler.removeCover(side, false)) {
             if (coverItem != null) {
-                EntityItem tEntity = new EntityItem(world, pos.getX() + side.getXOffset()+0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ()+side.getZOffset()+0.5, coverItem);
-                tEntity.motionX = 0;
-                tEntity.motionY = 0;
-                tEntity.motionZ = 0;
-                if (!world.isRemote) world.spawnEntity(tEntity);
+                EntityItem entity = new EntityItem(this.world, pos.getX() + side.getXOffset() + 0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ()+side.getZOffset() + 0.5, coverItem);
+                entity.motionX = 0;
+                entity.motionY = 0;
+                entity.motionZ = 0;
+                if (!this.world.isRemote) world.spawnEntity(entity);
             }
             return true;
         }

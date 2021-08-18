@@ -16,7 +16,7 @@ public class TileEntityIndustrialElectrolyzer extends TileEntityIndustrialCentri
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 2;
     }
 

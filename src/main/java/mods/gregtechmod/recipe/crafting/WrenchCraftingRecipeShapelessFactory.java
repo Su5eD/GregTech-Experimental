@@ -7,12 +7,13 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IRecipeFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 
+@SuppressWarnings("unused")
 public class WrenchCraftingRecipeShapelessFactory implements IRecipeFactory {
     @Override
     public IRecipe parse(JsonContext context, JsonObject json) {
         json.addProperty("type", "minecraft:crafting_shapeless");
 
         ShapelessRecipes recipe = (ShapelessRecipes) CraftingHelper.getRecipe(json, context);
-        return new ToolCraftingRecipeShapeless(recipe.getGroup(), recipe.getRecipeOutput(), recipe.getIngredients(), WrenchCraftingRecipeShapedFactory.getWrenches(), 8);
+        return new ToolCraftingRecipeShapeless(recipe.getGroup(), recipe.getRecipeOutput(), recipe.getIngredients(), WrenchCraftingRecipeShapedFactory.WRENCHES.get(), 8);
     }
 }

@@ -72,7 +72,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     }
     
     private void updateAverageEUInput(double amount) {
-        this.averageEUInputIndex = this.averageEUOutputIndex++ % averageEUInputs.length;
+        this.averageEUInputIndex = ++this.averageEUOutputIndex % averageEUInputs.length;
         this.averageEUInputs[averageEUInputIndex] = amount;
     }
     
@@ -81,7 +81,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     }
     
     private void updateAverageEUOutput(double amount) {
-        this.averageEUOutputIndex = this.averageEUOutputIndex++ % averageEUOutputs.length;
+        this.averageEUOutputIndex = ++this.averageEUOutputIndex % averageEUOutputs.length;
         this.averageEUOutputs[averageEUOutputIndex] = amount;
     }
     
@@ -143,7 +143,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     }
     
     private void refreshSides(Collection<EnumFacing> sinkSides, Collection<EnumFacing> sourceSides) {
-        boolean reload = (this.oldSinkSides.isEmpty() != sinkSides.isEmpty()) || (this.oldSourceSides.isEmpty() != sourceSides.isEmpty());
+        boolean reload = this.oldSinkSides.isEmpty() != sinkSides.isEmpty() || this.oldSourceSides.isEmpty() != sourceSides.isEmpty();
         this.oldSinkSides = sinkSides;
         this.oldSourceSides = sourceSides;
         
@@ -368,8 +368,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
                 storedEnergy -= amount;
                 
                 drawnEnergy = true;
-                averageEUOutputIndex = averageEUOutputIndex++ % averageEUOutputs.length;
-                averageEUOutputs[averageEUOutputIndex] = amount;
+                updateAverageEUOutput(amount);
             }
         }
 

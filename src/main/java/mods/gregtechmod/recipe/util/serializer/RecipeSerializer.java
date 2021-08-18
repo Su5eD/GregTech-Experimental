@@ -24,22 +24,22 @@ public class RecipeSerializer<R extends IMachineRecipe<I, O>, I, O> extends Json
     public void serialize(R value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
 
-        serializeInput(value.getInput(), gen, serializers);
-        serializeOutput(value.getOutput(), gen, serializers);
-        serializeExtraFields(value, gen, serializers);
+        serializeInput(value.getInput(), gen);
+        serializeOutput(value.getOutput(), gen);
+        serializeExtraFields(value, gen);
 
         if (writeDuration) gen.writeNumberField("duration", value.getDuration());
         if (writeEnergyCost) gen.writeNumberField("energyCost", value.getEnergyCost());
         gen.writeEndObject();
     }
 
-    public void serializeInput(I input, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serializeInput(I input, JsonGenerator gen) throws IOException {
         gen.writeObjectField("input", input);
     }
 
-    public void serializeOutput(O output, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serializeOutput(O output, JsonGenerator gen) throws IOException {
         gen.writeObjectField("output", output);
     }
 
-    public void serializeExtraFields(R recipe, JsonGenerator gen, SerializerProvider serializers) throws IOException {}
+    public void serializeExtraFields(R recipe, JsonGenerator gen) throws IOException {}
 }

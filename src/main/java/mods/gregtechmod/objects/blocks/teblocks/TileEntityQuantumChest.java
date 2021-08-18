@@ -1,27 +1,20 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
-import com.mojang.authlib.GameProfile;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityDigitalChestBase;
-import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nullable;
+import java.util.EnumSet;
+import java.util.Set;
 
 public class TileEntityQuantumChest extends TileEntityDigitalChestBase {
 
-    @SuppressWarnings("unused")
     public TileEntityQuantumChest() {
-        super("quantum_chest", GregTechConfig.FEATURES.quantumChestMaxItemCount, true);
+        super("quantum_chest", GregTechConfig.FEATURES.quantumChestMaxItemCount);
     }
-
-    public TileEntityQuantumChest(ItemStack storedItems, boolean isPrivate, @Nullable GameProfile owner) {
-        super("quantum_chest", GregTechConfig.FEATURES.quantumChestMaxItemCount, true);
-        this.content.put(storedItems);
-        if (isPrivate && owner != null) {
-            this.isPrivate = true;
-            this.owner = owner;
-            this.upgradeSlot.put(new ItemStack(BlockItems.Upgrade.MACHINE_LOCK.getInstance()));
-        }
+    
+    @Override
+    public Set<GtUpgradeType> getCompatibleGtUpgrades() {
+        return EnumSet.of(GtUpgradeType.LOCK);
     }
 }

@@ -25,7 +25,7 @@ public abstract class TileEntityGenerator extends TileEntityUpgradable {
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 0;
     }
 

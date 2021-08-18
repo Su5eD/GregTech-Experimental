@@ -15,7 +15,6 @@ public class ConfigurableConditionFactory implements IConditionFactory {
         final String category = JsonUtils.getString(config, "category");
         final String name = JsonUtils.getString(config, "name");
         final boolean value = JsonUtils.getBoolean(config, "value");
-        final String comment = json.has("comment") ? json.get("commment").getAsString() : null;
 
         return () -> GregTechAPI.getDynamicConfig(category, name, value);
     }

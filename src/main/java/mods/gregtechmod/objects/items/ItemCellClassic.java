@@ -47,7 +47,7 @@ public class ItemCellClassic extends ItemBase {
             Map<Capability<?>, com.google.common.base.Function<ItemStack, ?>> caps = (Map<Capability<?>, com.google.common.base.Function<ItemStack, ?>>) capsField.get(cell);
             caps.put(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, ItemCellClassic::getHandler);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            GregTechMod.logger.catching(e);
         }
     }
 

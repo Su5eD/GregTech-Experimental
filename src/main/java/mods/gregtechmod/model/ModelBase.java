@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public abstract class ModelBase extends AbstractModel {
     protected final Map<ResourceLocation, TextureAtlasSprite> sprites;
     protected final ResourceLocation particle;
     protected final FaceBakery bakery = new FaceBakery();
-    private final Map<IBlockState, IBakedModel> cache = new HashMap<>();
+    private final Map<IBlockState, IBakedModel> cache = new ConcurrentHashMap<>();
     
     public ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
         this(particle, textures.stream()
@@ -34,8 +35,7 @@ public abstract class ModelBase extends AbstractModel {
     public ModelBase(ResourceLocation particle, Collection<ResourceLocation> textures) {
         this.particle = particle;
         this.sprites = new HashMap<>();
-        textures
-                .forEach(loc -> this.sprites.put(loc, null));
+        textures.forEach(loc -> this.sprites.put(loc, null));
         this.sprites.put(particle, null);
     }
     

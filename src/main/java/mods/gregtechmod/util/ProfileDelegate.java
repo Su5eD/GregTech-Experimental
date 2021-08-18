@@ -7,7 +7,6 @@ import mods.gregtechmod.objects.BlockItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 
 public class ProfileDelegate {
@@ -17,12 +16,16 @@ public class ProfileDelegate {
             Field field = holder.getClass().getField(holder.name());
             return Version.shouldEnable(field);
         } catch (NoSuchFieldException e) {
-            GregTechMod.logger.error(e);
+            GregTechMod.logger.catching(e);
         }
         return false;
     }
 
-    public static ItemStack getCell(@Nullable String fluid) {
+    public static ItemStack getEmptyCell() {
+        return getCell(null);
+    }
+    
+    public static ItemStack getCell(String fluid) {
         if (GregTechMod.classic) {
             Item cell = BlockItems.classicCells.get(fluid);
             if (cell != null) return new ItemStack(cell);

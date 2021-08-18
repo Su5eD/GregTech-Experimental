@@ -40,7 +40,6 @@ import java.util.List;
 @Optional.Interface(modid = "buildcraftlib", iface = "buildcraft.api.tools.IToolWrench")
 public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToolWrench {
     public final String name;
-    protected final int durability;
     protected final int entityDamage;
     protected int rotateDamage = 1;
     protected int removeDamage = 10;
@@ -54,7 +53,6 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
     public ItemWrench(String name, int durability, int entityDamage) {
         super(null);
         this.name = name;
-        this.durability = durability;
         this.entityDamage = entityDamage;
         setMaxDamage(durability - 1);
         GregTechAPI.instance().registerWrench(this);
@@ -62,7 +60,7 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+".item."+name;
+        return Reference.MODID + ".item." + name;
     }
 
     @Override

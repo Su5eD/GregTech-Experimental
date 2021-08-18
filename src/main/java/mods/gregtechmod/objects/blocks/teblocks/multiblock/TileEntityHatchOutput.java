@@ -19,10 +19,6 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
         super("hatch_output", InvSlotConsumableLiquid.OpType.Fill, false, true, false);
     }
 
-    public Mode getMode() {
-        return this.mode;
-    }
-
     public boolean addOutput(ItemStack stack) {
         if (!stack.isEmpty()) {
             FluidStack fluid = FluidUtil.getFluidContained(stack);

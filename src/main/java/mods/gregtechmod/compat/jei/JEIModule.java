@@ -3,7 +3,6 @@ package mods.gregtechmod.compat.jei;
 import ic2.core.profile.Version;
 import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
-import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -37,12 +36,10 @@ public class JEIModule implements IModPlugin {
     
     public static final List<ItemStack> HIDDEN_ITEMS = new ArrayList<>();
     public static final List<IRecipeWrapper> HIDDEN_RECIPES = new ArrayList<>();
-    public static IIngredientRegistry itemRegistry;
     public static IIngredientBlacklist ingredientBlacklist;
 
     @Override
     public void register(IModRegistry registry) {
-        itemRegistry = registry.getIngredientRegistry();
         ingredientBlacklist = registry.getJeiHelpers().getIngredientBlacklist();
 
         CATEGORIES.forEach(category -> category.init(registry));

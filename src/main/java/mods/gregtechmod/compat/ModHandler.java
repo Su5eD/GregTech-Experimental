@@ -78,10 +78,7 @@ public class ModHandler {
     public static ItemStack emptyFuelCan = ItemStack.EMPTY;
     public static ItemStack slag = ItemStack.EMPTY;
     public static ItemStack slagRich = ItemStack.EMPTY;
-    public static ItemStack hardenedGlass = ItemStack.EMPTY;
-    public static ItemStack bcStoneGear = ItemStack.EMPTY;
     public static ItemStack woodenTie = ItemStack.EMPTY;
-    public static ItemStack essentiaPhial = ItemStack.EMPTY;
     public static ItemStack waxCapsule = ItemStack.EMPTY;
     public static ItemStack refractoryCapsule = ItemStack.EMPTY;
     public static ItemStack can = ItemStack.EMPTY;
@@ -113,7 +110,7 @@ public class ModHandler {
     }
 
     public static void gatherModItems() {
-        emptyCell = ProfileDelegate.getCell(null);
+        emptyCell = ProfileDelegate.getEmptyCell();
         emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
         scrap = IC2Items.getItem("crafting", "scrap");
         itnt = IC2Items.getItem("te", "itnt");
@@ -125,15 +122,8 @@ public class ModHandler {
             slagRich = new ItemStack(material, 1, 865);
         }
 
-        Item glass = getItem("thermalfoundation", "glass");
-        if (glass != null) hardenedGlass = new ItemStack(glass, 1, 3);
-
-        bcStoneGear = getModItem("buildcraftcore", "gear_stone");
-
         Item tie = getItem("railcraft", "tie");
         if (tie != null) woodenTie = new ItemStack(tie);
-
-        essentiaPhial = getModItem("thaumcraft", "phial");
 
         waxCapsule = getModItem("forestry", "capsule");
         refractoryCapsule = getModItem("forestry", "refractory");
@@ -452,6 +442,11 @@ public class ModHandler {
                 return;
             }
         }
+    }
+    
+    public static boolean addIC2Recipe(BasicMachineRecipeManager manager, IRecipeInput input, NBTTagCompound metadata, boolean overwrite, ItemStack... outputs) {
+        if (overwrite) input.getInputs().forEach(stack -> removeIC2Recipe(stack, manager));
+        return manager.addRecipe(input, metadata, false, outputs);
     }
 
     public static void removeSmeltingRecipe(ItemStack input) {

@@ -6,5 +6,4 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class GtInvSide {
     public static final InvSlot.InvSide VERTICAL = EnumHelper.addEnum(InvSlot.InvSide.class, "VERTICAL", new Class[] { EnumFacing[].class }, (Object) new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN });
-    public static final InvSlot.InvSide FRONT = EnumHelper.addEnum(InvSlot.InvSide.class, "FRONT", new Class[] { EnumFacing[].class }, (Object) new EnumFacing[] { EnumFacing.NORTH });
 }

@@ -27,7 +27,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -42,12 +41,10 @@ import java.util.stream.Stream;
 
 @Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
-    @Instance
-    public static GregTechMod instance;
-    private static ClientProxy proxy;
-
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
+    
+    private static ClientProxy proxy;
     public static File configDir;
     public static boolean classic;
     public static Logger logger;
@@ -81,6 +78,7 @@ public final class GregTechMod {
         Components.register(CoilHandler.class, Reference.MODID + ":coil_handler");
         Components.register(BasicTank.class, Reference.MODID + ":basic_tank");
         Components.register(Maintenance.class, Reference.MODID + ":maintenance");
+        Components.register(UpgradeManager.class, Reference.MODID + ":upgrade_manager");
         TileEntityEnergy.registerEnergyComponents();
         CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
@@ -96,12 +94,12 @@ public final class GregTechMod {
         GregTechTEBlock.buildDummies();
         
         OreDictRegistrar.registerItems();
-        MachineRecipeLoader.loadRecipes();
+        MachineRecipeParser.loadRecipes();
+        MachineRecipeParser.loadDynamicRecipes();
+        MachineRecipeParser.loadFuels();
+        MachineRecipeParser.registerProviders();
+        MachineRecipeLoader.init();
         CraftingRecipeLoader.init();
-        MachineRecipeLoader.loadDynamicRecipes();
-        if (classic) MatterRecipeLoader.init();
-        MachineRecipeLoader.loadFuels();
-        MachineRecipeLoader.registerProviders();
 
         logger.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
@@ -124,7 +122,7 @@ public final class GregTechMod {
         OreDictHandler.INSTANCE.activateHandler();
         OreDictHandler.registerValuableOres();
 
-        MachineRecipeLoader.registerDynamicRecipes();
+        MachineRecipeParser.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
     }
