@@ -15,6 +15,7 @@
 
 ## Table of Contents
 - [About](#about)
+  - [Gallery](#gallery)
 - [Development Status](#development-status)
 - [Documentation](#documentation)
 - [Licensing](#licensing)
@@ -34,6 +35,10 @@ and to make everything work well together.
 
 **GregTech Experimental** is a fully-featured port of GregTech 3 for modern minecraft versions.
 It offers all features of GT3, in their original form, unchanged. Machines, covers, upgrades, tools, as you know them.
+
+### Gallery
+
+Peek at some in-game images of GTE [here](https://gist.github.com/Su5eD/e1240f16335ec14d69d3eb671f588e2c).
 
 ## Development Status
 GTE is currently in early development, which is split into 2 main phases - the first one consists of adding the base game mechanics and
