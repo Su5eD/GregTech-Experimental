@@ -1,4 +1,4 @@
-package mods.gregtechmod.init;
+package mods.gregtechmod.util;
 
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.client.resources.IResourceManager;

@@ -23,11 +23,13 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,7 +40,11 @@ public class RegistryHandler {
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         GregTechMod.logger.info("Registering blocks");
         BlockItemLoader.init();
-        event.getRegistry().registerAll(BlockItemLoader.BLOCKS.toArray(new Block[0]));
+        IForgeRegistry<Block> registry = event.getRegistry();
+        Map<String, Block> blocks = BlockItemLoader.BLOCKS.stream()
+                .peek(registry::register)
+                .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), Function.identity()));
+        GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "blocks", blocks);
         
         GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(Reference.MODID, "light_source"));
         
@@ -53,13 +59,17 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         GregTechMod.logger.info("Registering items");
-        event.getRegistry().registerAll(BlockItemLoader.ITEMS.toArray(new Item[0]));
+        IForgeRegistry<Item> registry = event.getRegistry();
+        Map<String, ItemStack> items = BlockItemLoader.ITEMS.stream()
+                .peek(registry::register)
+                .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), ItemStack::new));
+        GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "items", items);
     }
     
     @SubscribeEvent
     public static void registerTEBlocks(TeBlockFinalCallEvent event) {
         GtUtil.withModContainerOverride(FMLCommonHandler.instance().findContainerFor(Reference.MODID), () -> TeBlockRegistry.addAll(GregTechTEBlock.class, GregTechTEBlock.LOCATION));
-        TeBlockRegistry.addCreativeRegisterer(GregTechTEBlock.INDUSTRIAL_CENTRIFUGE, GregTechTEBlock.LOCATION); // TODO What?
+        TeBlockRegistry.addCreativeRegisterer(GregTechTEBlock.INDUSTRIAL_CENTRIFUGE, GregTechTEBlock.LOCATION);
     }
 
     public static void registerFluids() {

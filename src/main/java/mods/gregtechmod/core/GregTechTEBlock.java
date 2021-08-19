@@ -79,6 +79,9 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     LARGE_GAS_TURBINE(TileEntityLargeGasTurbine.class, 44, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30,EnumRarity.COMMON, IC2Material.MACHINE, true);
 
     public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
+    public static final GregTechTEBlock[] VALUES = values();
+    
+    private final Class<? extends TileEntityBlock> teClass;
     private final int itemMeta;
     private final boolean hasActive;
     private final Set<EnumFacing> supportedFacings;
@@ -89,12 +92,11 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     private final float explosionResistance;
     private final EnumRarity rarity;
     private final Material material;
-    private final Class<? extends TileEntityBlock> teClass;
-    public static final GregTechTEBlock[] VALUES = values();
-    private TileEntityBlock dummyTe;
-    private ITePlaceHandler placeHandler;
     private final boolean hasBakedModel;
     private final boolean isStructure;
+    
+    private TileEntityBlock dummyTe;
+    private ITePlaceHandler placeHandler;
 
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material, boolean hasBakedModel) {
         this(teClass, itemMeta, hasActive, supportedFacings, allowWrenchRotating, harvestTool, defaultDrop, hardness, explosionResistance, rarity, material, hasBakedModel, false);
@@ -115,9 +117,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         this.hasBakedModel = hasBakedModel;
         this.isStructure = isStructure;
 
-        if(teClass != null) {
-            GameRegistry.registerTileEntity(teClass, new ResourceLocation(Reference.MODID, getName()));
-        }
+        GameRegistry.registerTileEntity(teClass, new ResourceLocation(Reference.MODID, getName()));
  	}
  	
  	public boolean isStructure() {
@@ -135,7 +135,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public boolean hasItem() {
-        return this.teClass != null && this.itemMeta != -1;
+        return true;
     }
 
     @Nullable
@@ -191,8 +191,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public void setPlaceHandler(ITePlaceHandler handler) {
-        if (this.placeHandler != null)
-            throw new RuntimeException("duplicate place handler");
+        if (this.placeHandler != null) throw new RuntimeException("Value already present");
         this.placeHandler = handler;
     }
 
@@ -220,18 +219,18 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     @Override
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
-        block.setCreativeTab(GregTechMod.GREGTECH_TAB);
-        if (tab == CreativeTabs.SEARCH)
+        if (tab == CreativeTabs.SEARCH) {
             Arrays.stream(VALUES)
-                    .filter(GregTechTEBlock::hasItem)
                     .map(block::getItemStack)
                     .forEach(list::add);
+        }
     }
+    
     public static void buildDummies() {
  		for (GregTechTEBlock block : values()) {
  			if (block.teClass != null) {
  				try {
-                    GregTechMod.logger.info("Building dummy TeBlock for "+block.name().toLowerCase(Locale.ROOT));
+                    GregTechMod.logger.info("Building dummy TeBlock for " + block.name().toLowerCase(Locale.ROOT));
  					block.dummyTe = block.teClass.newInstance();
  				} catch (Exception e) {
  					e.printStackTrace();
@@ -246,9 +245,9 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     }
 
     @Override
-    public ModelResourceLocation getModelLocation(ItemStack itemStack) {
+    public ModelResourceLocation getModelLocation(ItemStack stack) {
         String name = getName();
-        String location = Reference.MODID+":teblock/"+name;
+        String location = Reference.MODID + ":teblock/" + name;
         if (isStructure) location += "_valid";
         else if (this.hasActive) location += "_active";
         return new ModelResourceLocation(location, name);
