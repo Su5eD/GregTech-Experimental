@@ -13,11 +13,6 @@ import java.util.stream.Collectors;
 public class OreDictUnificator {
     private static final Map<String, ItemStack> NAME_TO_ITEM = new HashMap<>();
     private static final Map<ItemStack, String> ITEM_TO_ORE = new HashMap<>();
-    private static final List<ItemStack> BLACK_LIST = new ArrayList<>();
-
-    public static void addToBlacklist(ItemStack stack) {
-        BLACK_LIST.add(stack);
-    }
 
     public static void add(String name, Block block) {
         add(name, new ItemStack(block));
@@ -65,21 +60,25 @@ public class OreDictUnificator {
         ItemStack stack = NAME_TO_ITEM.get(name);
         return stack == null ? defaultValue : stack;
     }
+    
+    public static boolean oreExists(String ore) {
+        return !OreDictionary.getOres(ore).isEmpty();
+    }
 
-    public static ItemStack getFirstOre(String name) {
+    public static OptionalItemStack getFirstOre(String name) {
         return getFirstOre(name, 1);
     }
 
-    public static ItemStack getFirstOre(String name, int amount) {
-        if (name == null || name.isEmpty()) return null;
-        if (NAME_TO_ITEM.containsKey(name)) return get(name, ItemStack.EMPTY, amount);
+    public static OptionalItemStack getFirstOre(String name, int amount) {
+        if (name == null || name.isEmpty()) return OptionalItemStack.EMPTY;
+        if (NAME_TO_ITEM.containsKey(name)) return OptionalItemStack.of(get(name, ItemStack.EMPTY, amount));
 
         ItemStack stack = ItemStack.EMPTY;
         List<ItemStack> ores = OreDictionary.getOres(name);
         if (!ores.isEmpty()) stack = ores.get(0).copy();
         if (!stack.isEmpty()) stack.setCount(amount);
 
-        return stack;
+        return OptionalItemStack.of(stack);
     }
 
     public static ItemStack get(String name) {

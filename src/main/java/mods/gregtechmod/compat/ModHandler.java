@@ -25,10 +25,7 @@ import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
-import mods.gregtechmod.util.DummyContainer;
-import mods.gregtechmod.util.DummyWorld;
-import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.ProfileDelegate;
+import mods.gregtechmod.util.*;
 import mods.railcraft.api.crafting.Crafters;
 import mods.railcraft.api.crafting.IOutputEntry;
 import mods.railcraft.api.crafting.IRockCrusherCrafter;
@@ -396,29 +393,28 @@ public class ModHandler {
         for (int i = 0; i < 9 && i < stacks.length; i++) {
             crafting.setInventorySlotContents(i, stacks[i]);
         }
-        
         return recipes.stream()
                 .filter(recipe -> recipe.matches(crafting, DummyWorld.INSTANCE))
                 .findFirst()
                 .orElse(null);
     }
 
-    public static ItemStack getCraftingResult(ItemStack... stacks) {
+    public static OptionalItemStack getCraftingResult(ItemStack... stacks) {
         IRecipe recipe = getCraftingRecipe(stacks);
 
-        return recipe != null ? recipe.getRecipeOutput().copy() : ItemStack.EMPTY;
+        return recipe != null ? OptionalItemStack.of(recipe.getRecipeOutput()) : OptionalItemStack.EMPTY;
     }
 
-    public static java.util.Optional<ItemStack> removeCraftingRecipeFromInputs(ItemStack... stacks) {
+    public static OptionalItemStack removeCraftingRecipeFromInputs(ItemStack... stacks) {
         IRecipe recipe = getCraftingRecipe(stacks);
         if (recipe != null) {
             ResourceLocation name = recipe.getRegistryName();
             AdvancementRecipeFixer.DUMMY_RECIPES.put(name.getPath(), recipe);
             ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(name);
-            return java.util.Optional.of(recipe.getRecipeOutput());
+            return OptionalItemStack.of(recipe.getRecipeOutput());
         }
 
-        return java.util.Optional.empty();
+        return OptionalItemStack.EMPTY;
     }
 
     public static void removeCraftingRecipe(IRecipe recipe) {
@@ -451,31 +447,19 @@ public class ModHandler {
 
     public static void removeSmeltingRecipe(ItemStack input) {
         Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
-        recipes.keySet()
-                .stream()
-                .filter(input::isItemEqual)
+        recipes.keySet().stream()
+                .filter(stack -> GtUtil.stackEquals(stack, input, false))
                 .collect(Collectors.toList())
                 .forEach(recipes::remove);
     }
 
-    public static ItemStack getSmeltingOutput(ItemStack input) {
-        return FurnaceRecipes.instance().getSmeltingList()
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getKey().isItemEqual(input))
-                .map(Map.Entry::getValue)
-                .findFirst()
-                .orElse(ItemStack.EMPTY);
-    }
-
     public static ItemStack getIC2ItemSafely(String name, String variant) {
-        ItemStack stack = ItemStack.EMPTY;
         try {
-            ItemStack item = IC2Items.getItem(name, variant);
-            if (item != null) stack = item;
+            ItemStack stack = IC2Items.getItem(name, variant);
+            if (stack != null) return stack;
         } catch (Throwable ignored) {}
 
-        return stack;
+        return ItemStack.EMPTY;
     }
 
     public static ItemStack getTEBlockSafely(String variant) {

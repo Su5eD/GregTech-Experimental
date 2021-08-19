@@ -21,7 +21,7 @@ import mods.gregtechmod.recipe.RecipeCanner;
 import mods.gregtechmod.recipe.RecipeDualInput;
 import mods.gregtechmod.recipe.RecipeSimple;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
-import mods.gregtechmod.util.IObjectHolder;
+import mods.gregtechmod.util.IItemProvider;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -122,10 +122,10 @@ public class JEIModule implements IModPlugin {
                 .forEach(recipe -> registry.hideRecipe(recipe, VanillaRecipeCategoryUid.CRAFTING));
     }
 
-    private void hideEnum(IObjectHolder[] values) {
+    private void hideEnum(IItemProvider[] values) {
         Arrays.stream(values)
                 .filter(val -> !ProfileDelegate.shouldEnable(val))
-                .map(IObjectHolder::getInstance)
+                .map(IItemProvider::getInstance)
                 .map(ItemStack::new)
                 .forEach(HIDDEN_ITEMS::add);
     }

@@ -19,6 +19,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -87,25 +88,30 @@ public class MachineRecipeLoader {
 
     private static void registerMatterAmplifiers() {
         GregTechMod.logger.info("Adding matter amplifiers");
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustElectrotine"), 5000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustTungsten"), 50000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustManganese"), 5000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustRedstone"), 5000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustGlowstone"), 25000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustPlatinum"), 100000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustIridium"), 100000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEnderPearl"), 50000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEnderEye"), 75000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustOlivine"), 50000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustEmerald"), 50000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustDiamond"), 125000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustRuby"), 50000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustSapphire"), 50000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustGreenSapphire"), 50000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustUranium"), 1000000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustOsmium"), 200000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustPlutonium"), 2000000, null, true);
-        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict("dustThorium"), 500000, null, true);
+        
+        addMatterAmplifier("dustElectrotine", 5000);
+        addMatterAmplifier("dustTungsten", 50000);
+        addMatterAmplifier("dustManganese", 5000);
+        addMatterAmplifier("dustRedstone", 5000);
+        addMatterAmplifier("dustGlowstone", 25000);
+        addMatterAmplifier("dustPlatinum", 100000);
+        addMatterAmplifier("dustIridium", 100000);
+        addMatterAmplifier("dustEnderPearl", 50000);
+        addMatterAmplifier("dustEnderEye", 75000);
+        addMatterAmplifier("dustOlivine", 50000);
+        addMatterAmplifier("dustEmerald", 50000);
+        addMatterAmplifier("dustDiamond", 125000);
+        addMatterAmplifier("dustRuby", 50000);
+        addMatterAmplifier("dustSapphire", 50000);
+        addMatterAmplifier("dustGreenSapphire", 50000);
+        addMatterAmplifier("dustUranium", 1000000);
+        addMatterAmplifier("dustOsmium", 200000);
+        addMatterAmplifier("dustPlutonium", 2000000);
+        addMatterAmplifier("dustThorium", 500000);
+    }
+    
+    private static void addMatterAmplifier(String ore, int amp) {
+        Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict(ore), amp, null, true);
     }
 
     private static void addScrapboxDrops() {
@@ -117,7 +123,7 @@ public class MachineRecipeLoader {
         addScrapboxDrop(Items.WOODEN_PICKAXE, 2);
         addScrapboxDrop(Items.SIGN, 2);
         addScrapboxDrop(Items.STICK, 9.5F);
-        Recipes.scrapboxDrops.addDrop(new ItemStack(Blocks.PUMPKIN), (float) 0.5);
+        Recipes.scrapboxDrops.addDrop(new ItemStack(Blocks.PUMPKIN), 0.5F);
         addScrapboxDrop(Items.ROTTEN_FLESH, 9);
         addScrapboxDrop(Items.COOKED_PORKCHOP, 0.4F);
         addScrapboxDrop(Items.COOKED_BEEF, 0.4F);
@@ -187,8 +193,9 @@ public class MachineRecipeLoader {
             addToRecyclerBlacklist(Items.LINGERING_POTION);
             ItemStack stone = new ItemStack(Blocks.STONE);
             addToRecyclerBlacklist(new ItemStack(Blocks.STONE, 1, OreDictionary.WILDCARD_VALUE));
-            addToRecyclerBlacklist(ModHandler.getSmeltingOutput(stone));
-            addToRecyclerBlacklist(ModHandler.getCraftingResult(stone, ItemStack.EMPTY, stone, ItemStack.EMPTY, stone));
+            addToRecyclerBlacklist(FurnaceRecipes.instance().getSmeltingResult(stone));
+            ModHandler.getCraftingResult(stone, ItemStack.EMPTY, stone, ItemStack.EMPTY, stone)
+                    .ifPresent(MachineRecipeLoader::addToRecyclerBlacklist);
             if (ModHandler.buildcraftTransport) {
                 addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_stone_item"));
                 addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_cobble_item"));
@@ -221,8 +228,8 @@ public class MachineRecipeLoader {
     }
 
     private static void addMatterRecipe(String name, int count, Object... pattern) {
-        ItemStack output = OreDictUnificator.getFirstOre(name, count);
-        addMatterRecipe(name, output, pattern);
+        OreDictUnificator.getFirstOre(name, count)
+                .ifPresent(output -> addMatterRecipe(name, output, pattern));
     }
 
     private static void addMatterRecipe(String name, ItemStack output, Object... pattern) {

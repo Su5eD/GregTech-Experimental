@@ -94,9 +94,11 @@ public final class GregTechMod {
         GregTechTEBlock.buildDummies();
         
         OreDictRegistrar.registerItems();
-        MachineRecipeParser.loadRecipes();
-        MachineRecipeParser.loadDynamicRecipes();
-        MachineRecipeParser.loadFuels();
+        GtUtil.trackTime("Parsing recipes", () -> {
+            MachineRecipeParser.loadRecipes();
+            MachineRecipeParser.loadDynamicRecipes();
+            MachineRecipeParser.loadFuels();
+        });
         MachineRecipeParser.registerProviders();
         MachineRecipeLoader.init();
         CraftingRecipeLoader.init();
@@ -118,8 +120,7 @@ public final class GregTechMod {
         ModRecipes.init();
         TileEntityUniversalMacerator.initMaceratorRecipes();
 
-        logger.info("Activating OreDictionary Handler");
-        OreDictHandler.INSTANCE.activateHandler();
+        GtUtil.trackTime("Activating OreDictionary Handler", OreDictHandler.INSTANCE::activateHandler);
         OreDictHandler.registerValuableOres();
 
         MachineRecipeParser.registerDynamicRecipes();

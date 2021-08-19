@@ -118,7 +118,7 @@ public class MachineRecipeParser {
         experimentalRecipesPath = MachineRecipeParser.recipesPath.resolve("experimental");
         
         GregTechAPI.instance().registerCondition("mod_loaded", node -> Loader.isModLoaded(node.get("modid").asText()));
-        GregTechAPI.instance().registerCondition("ore_exists", node -> !OreDictUnificator.getFirstOre(node.get("ore").asText()).isEmpty());
+        GregTechAPI.instance().registerCondition("ore_exists", node -> OreDictUnificator.oreExists(node.get("ore").asText()));
     }
 
     public static void loadRecipes() {
@@ -279,39 +279,40 @@ public class MachineRecipeParser {
         ModCompat.registerTools();
 
         ItemStack ingotCopper = IC2Items.getItem("ingot", "copper");
-        ItemStack bronze = ModHandler.getCraftingResult(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, IC2Items.getItem("ingot", "tin"));
-        if (!bronze.isEmpty()) {
-            int count = bronze.getCount();
-            GtRecipes.industrialCentrifuge.addRecipe(
-                    RecipeCentrifuge.create(RecipeIngredientOre.create("dustBronze", count < 3 ? 1 : count / 2),
-                            Arrays.asList(new ItemStack(BlockItems.Smalldust.COPPER.getInstance(), 6),
-                                    new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 2)),
-                            0,
-                            1500,
-                            CellType.CELL));
-        }
+        ModHandler.getCraftingResult(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, IC2Items.getItem("ingot", "tin"))
+                .ifPresent(bronze -> {
+                    int count = bronze.getCount();
+                    GtRecipes.industrialCentrifuge.addRecipe(
+                            RecipeCentrifuge.create(RecipeIngredientOre.create("dustBronze", count < 3 ? 1 : count / 2), 
+                                    Arrays.asList(new ItemStack(BlockItems.Smalldust.COPPER.getInstance(), 6), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 2)), 
+                                    0, 
+                                    1500, 
+                                    CellType.CELL
+                            )
+                    );
+                });
 
         ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
         ItemStack stick = new ItemStack(Items.STICK);
-        ItemStack rail = ModHandler.getCraftingResult(ingotIron, ItemStack.EMPTY, ingotIron, ingotIron, stick, ingotIron, ingotIron, ItemStack.EMPTY, ingotIron);
-        if (!rail.isEmpty()) DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), new ItemStack(BlockItems.Smalldust.WOOD.getInstance(), 2), 95);
+        ModHandler.getCraftingResult(ingotIron, ItemStack.EMPTY, ingotIron, ingotIron, stick, ingotIron, ingotIron, ItemStack.EMPTY, ingotIron)
+                .ifPresent(rail -> DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), new ItemStack(BlockItems.Smalldust.WOOD.getInstance(), 2), 95));
         ItemStack ingotGold = new ItemStack(Items.GOLD_INGOT);
         ItemStack redstone = new ItemStack(Items.REDSTONE);
-        ItemStack poweredRail = ModHandler.getCraftingResult(ingotGold, ItemStack.EMPTY, ingotGold, ingotGold, stick, ingotGold, ingotGold, redstone, ingotGold);
-        if (!poweredRail.isEmpty()) DynamicRecipes.addPulverizerRecipe(poweredRail, StackUtil.setSize(IC2Items.getItem("dust", "gold"), 6), redstone, 95);
+        ModHandler.getCraftingResult(ingotGold, ItemStack.EMPTY, ingotGold, ingotGold, stick, ingotGold, ingotGold, redstone, ingotGold)
+                .ifPresent(poweredRail -> DynamicRecipes.addPulverizerRecipe(poweredRail, StackUtil.setSize(IC2Items.getItem("dust", "gold"), 6), redstone, 95));
 
         ItemStack ingotTin = IC2Items.getItem("ingot", "tin");
-        ItemStack tinCan = ModHandler.getCraftingResult(ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
-        if (!tinCan.isEmpty()) {
-            int tinNuggetCount = 27 / tinCan.getCount();
-            if (tinNuggetCount > 0) {
-                tinCan.setCount(1);
-                if (tinNuggetCount % 9 == 0) {
-                    DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, StackUtil.copyWithSize(ingotTin, tinNuggetCount / 9));
-                }
-                else DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, new ItemStack(BlockItems.Nugget.TIN.getInstance(), tinNuggetCount));
-            }
-        }
+        ModHandler.getCraftingResult(ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY)
+                .ifPresent(tinCan -> {
+                    int tinNuggetCount = 27 / tinCan.getCount();
+                    if (tinNuggetCount > 0) {
+                        tinCan.setCount(1);
+                        if (tinNuggetCount % 9 == 0) {
+                            DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, StackUtil.copyWithSize(ingotTin, tinNuggetCount / 9));
+                        }
+                        else DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, new ItemStack(BlockItems.Nugget.TIN.getInstance(), tinNuggetCount));
+                    }
+                });
 
         DynamicRecipes.addPulverizerRecipe(ProfileDelegate.getEmptyCell(), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 9), true);
         ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
@@ -335,11 +336,11 @@ public class MachineRecipeParser {
         registerDynamicRecipes("Sawmill", DynamicRecipes.SAWMILL.getRecipes(), GtRecipes.industrialSawmill, DynamicRecipes.addSawmillRecipes);
         registerDynamicRecipes("Industrial Centrifuge", DynamicRecipes.INDUSTRIAL_CENTRIFUGE.getRecipes(), GtRecipes.industrialCentrifuge, DynamicRecipes.addCentrifugeRecipes);
 
-        List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> compressorRecipes = StreamSupport.stream(DynamicRecipes.COMPRESSOR.getRecipes().spliterator(), false)
+        Collection<MachineRecipe<IRecipeInput, Collection<ItemStack>>> compressorRecipes = StreamSupport.stream(DynamicRecipes.COMPRESSOR.getRecipes().spliterator(), false)
                 .collect(Collectors.toList());
         registerDynamicRecipes("Compressor", compressorRecipes, (BasicMachineRecipeManager) Recipes.compressor, DynamicRecipes.addCompressorRecipes);
 
-        List<MachineRecipe<IRecipeInput, Collection<ItemStack>>> extractorRecipes = StreamSupport.stream(DynamicRecipes.EXTRACTOR.getRecipes().spliterator(), false)
+        Collection<MachineRecipe<IRecipeInput, Collection<ItemStack>>> extractorRecipes = StreamSupport.stream(DynamicRecipes.EXTRACTOR.getRecipes().spliterator(), false)
                 .collect(Collectors.toList());
         registerDynamicRecipes("Extractor", extractorRecipes, (BasicMachineRecipeManager) Recipes.extractor, DynamicRecipes.addExtractorRecipes);
     }

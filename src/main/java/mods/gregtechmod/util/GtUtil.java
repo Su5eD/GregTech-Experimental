@@ -1,6 +1,7 @@
 package mods.gregtechmod.util;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
 import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
@@ -53,6 +54,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -445,6 +447,13 @@ public class GtUtil {
     
     public static void stacksFromNBT(Collection<ItemStack> stacks, NBTTagList list) {
         list.forEach(tag -> stacks.add(new ItemStack((NBTTagCompound) tag)));
+    }
+    
+    public static void trackTime(String name, Runnable runnable) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        runnable.run();
+        stopwatch.stop();
+        GregTechMod.logger.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
     }
 
     private static class VoidTank implements IFluidHandler {

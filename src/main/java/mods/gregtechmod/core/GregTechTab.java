@@ -5,7 +5,7 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import mods.gregtechmod.init.FluidLoader;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.util.IObjectHolder;
+import mods.gregtechmod.util.IItemProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -73,9 +73,9 @@ public class GregTechTab extends CreativeTabs {
                 .forEach(list::add);
     }
 
-    public void addItems(IObjectHolder[] values, NonNullList<ItemStack> list) {
+    public void addItems(IItemProvider[] values, NonNullList<ItemStack> list) {
         Arrays.stream(values)
-                .map(IObjectHolder::getInstance)
+                .map(IItemProvider::getInstance)
                 .forEach(item -> item.getSubItems(this, list));
     }
 }

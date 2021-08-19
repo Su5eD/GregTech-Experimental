@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 
 public class ProfileDelegate {
 
-    public static boolean shouldEnable(IObjectHolder holder) {
+    public static boolean shouldEnable(IItemProvider holder) {
         try {
             Field field = holder.getClass().getField(holder.name());
             return Version.shouldEnable(field);

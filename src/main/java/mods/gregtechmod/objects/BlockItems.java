@@ -173,7 +173,7 @@ public class BlockItems {
         }
     }
 
-    public enum Ingot implements IObjectHolder {
+    public enum Ingot implements IItemProvider {
         ALUMINIUM("Al"),
         ANTIMONY("Sb"),
         BATTERY_ALLOY("Pb4Sb1"),
@@ -237,7 +237,7 @@ public class BlockItems {
         }
     }
 
-    public enum Nugget implements IObjectHolder {
+    public enum Nugget implements IItemProvider {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANTIMONY(Ingot.ANTIMONY.description),
         BRASS(Ingot.BRASS.description),
@@ -281,7 +281,7 @@ public class BlockItems {
         }
     }
 
-    public enum Plate implements IObjectHolder {
+    public enum Plate implements IItemProvider {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         BATTERY_ALLOY(Ingot.BATTERY_ALLOY.description),
         BRASS(Ingot.BRASS.description),
@@ -341,7 +341,7 @@ public class BlockItems {
         }
     }
 
-    public enum Rod implements IObjectHolder {
+    public enum Rod implements IItemProvider {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         BRASS(Ingot.BRASS.description),
         BRONZE("SnCu3"),
@@ -393,7 +393,7 @@ public class BlockItems {
         }
     }
 
-    public enum Dust implements IObjectHolder {
+    public enum Dust implements IItemProvider {
         ALMANDINE("Al2Fe3Si3O12"),
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE("Ca3Fe2Si3O12"),
@@ -492,7 +492,7 @@ public class BlockItems {
         }
     }
 
-    public enum Smalldust implements IObjectHolder {
+    public enum Smalldust implements IItemProvider {
         ALMANDINE(Dust.ALMANDINE.description),
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE(Dust.ANDRADITE.description),
@@ -600,7 +600,7 @@ public class BlockItems {
         }
     }
 
-    public enum Upgrade implements IObjectHolder {
+    public enum Upgrade implements IItemProvider {
         HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraSinkTier()),
         LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
         ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
@@ -717,7 +717,7 @@ public class BlockItems {
         }
     }
 
-    public enum Cover implements IObjectHolder {
+    public enum Cover implements IItemProvider {
         ACTIVE_DETECTOR("craftingWorkDetector"),
         CONVEYOR("craftingConveyor"),
         CRAFTING("craftingWorkBench"),
@@ -771,7 +771,7 @@ public class BlockItems {
         }
     }
 
-    public enum TurbineRotor implements IObjectHolder {
+    public enum TurbineRotor implements IItemProvider {
         BRONZE(60, 10, 15000),
         STEEL(80, 20, 10000),
         MAGNALIUM(100, 50, 10000),
@@ -801,7 +801,7 @@ public class BlockItems {
         }
     }
 
-    public enum Component implements IObjectHolder {
+    public enum Component implements IItemProvider {
         SUPERCONDUCTOR("craftingSuperconductor"),
         DATA_STORAGE_CIRCUIT("craftingCircuitTier05"),
         LITHIUM_BATTERY(ItemLithiumBattery::new, "craftingLiBattery"),
@@ -867,7 +867,7 @@ public class BlockItems {
         }
     }
 
-    public enum Tool implements IObjectHolder {
+    public enum Tool implements IItemProvider {
         CROWBAR(ItemCrowbar::new, "craftingToolCrowbar"),
         DEBUG_SCANNER(ItemDebugScanner::new),
         DRILL_ADVANCED(ItemDrillAdvanced::new, "craftingToolLargeDrill"),
@@ -912,7 +912,7 @@ public class BlockItems {
         }
     }
     
-    public enum ColorSpray implements IObjectHolder {
+    public enum ColorSpray implements IItemProvider {
         WHITE,
         ORANGE,
         MAGENTA,
@@ -942,7 +942,7 @@ public class BlockItems {
         }
     }
 
-    public enum Wrench implements IObjectHolder {
+    public enum Wrench implements IItemProvider {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -967,7 +967,7 @@ public class BlockItems {
         }
     }
 
-    public enum JackHammer implements IObjectHolder {
+    public enum JackHammer implements IItemProvider {
         BRONZE(50, 10000, 1, 50, 7.5F, false),
         STEEL(100, 10000, 1, 50, 15F, false),
         DIAMOND(250, 100000, 2, 100, 45F, true);
@@ -1000,7 +1000,7 @@ public class BlockItems {
         }
     }
 
-    public enum Hammer implements IObjectHolder {
+    public enum Hammer implements IItemProvider {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -1026,7 +1026,7 @@ public class BlockItems {
         }
     }
 
-    public enum Saw implements IObjectHolder {
+    public enum Saw implements IItemProvider {
         IRON(128, 3, 2),
         BRONZE(256, 4, 3),
         STEEL(1280, 6, 4),
@@ -1054,7 +1054,7 @@ public class BlockItems {
         }
     }
 
-    public enum SolderingMetal implements IObjectHolder {
+    public enum SolderingMetal implements IItemProvider {
         LEAD(10),
         TIN(50);
 
@@ -1076,7 +1076,7 @@ public class BlockItems {
         }
     }
 
-    public enum File implements IObjectHolder {
+    public enum File implements IItemProvider {
         IRON(128, 2),
         BRONZE(256, 3),
         STEEL(1280, 3),
@@ -1102,7 +1102,7 @@ public class BlockItems {
         }
     }
 
-    public enum Cell implements IObjectHolder {
+    public enum Cell implements IItemProvider {
         CARBON("C"),
         ICE("H2O"),
         NITROCARBON("NC"),
@@ -1130,7 +1130,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearCoolantPack implements IObjectHolder {
+    public enum NuclearCoolantPack implements IItemProvider {
         COOLANT_NAK_60K(60000, "crafting60kCoolantStore"),
         COOLANT_NAK_180K(180000, "crafting180kCoolantStore"),
         COOLANT_NAK_360K(360000, "crafting360kCoolantStore"),
@@ -1157,7 +1157,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearFuelRod implements IObjectHolder {
+    public enum NuclearFuelRod implements IItemProvider {
         THORIUM(1, 25000, 0.25F, 1, 0.25F),
         THORIUM_DUAL(2, 25000, 0.25F, 1, 0.25F),
         THORIUM_QUAD(4, 25000, 0.25F, 1, 0.25F),
@@ -1196,7 +1196,7 @@ public class BlockItems {
         }
     }
 
-    public enum Armor implements IObjectHolder {
+    public enum Armor implements IItemProvider {
         CLOAKING_DEVICE(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, false, ArmorPerk.INVISIBILITY_FIELD),
         LAPOTRONPACK(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, true, GregTechMod.classic ? "crafting10kkEUPack" : "crafting100kkEUPack"),
         LITHIUM_BATPACK(EntityEquipmentSlot.CHEST, 600000, 128, 1, 0, 0, true, "crafting600kEUPack"),
@@ -1242,7 +1242,7 @@ public class BlockItems {
         }
     }
 
-    public enum Miscellaneous implements IObjectHolder {
+    public enum Miscellaneous implements IItemProvider {
         GREG_COIN,
         CREDIT_COPPER(() -> GtUtil.translateGenericDescription("credit", 0.125), null),
         CREDIT_SILVER(() -> GtUtil.translateGenericDescription("credit", 8), null),
