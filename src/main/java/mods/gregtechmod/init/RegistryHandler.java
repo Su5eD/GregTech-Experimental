@@ -53,7 +53,7 @@ public class RegistryHandler {
         GregTechMod.logger.info("Registering blocks");
         BlockItemLoader.init();
         IForgeRegistry<Block> registry = event.getRegistry();
-        Map<String, Block> blocks = BlockItemLoader.BLOCKS.stream()
+        Map<String, Block> blocks = BlockItemLoader.getBlocks().stream()
                 .peek(registry::register)
                 .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), Function.identity()));
         GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "blocks", blocks);
@@ -72,7 +72,7 @@ public class RegistryHandler {
     public static void registerItems(RegistryEvent.Register<Item> event) {
         GregTechMod.logger.info("Registering items");
         IForgeRegistry<Item> registry = event.getRegistry();
-        Map<String, ItemStack> items = BlockItemLoader.ITEMS.stream()
+        Map<String, ItemStack> items = BlockItemLoader.getAllItems().stream()
                 .peek(registry::register)
                 .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), ItemStack::new));
         GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "items", items);

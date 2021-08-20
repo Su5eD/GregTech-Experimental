@@ -72,7 +72,7 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        BlockItemLoader.BLOCKS
+        BlockItemLoader.getBlocks()
                 .forEach(block -> {
                     Item blockItem = Item.getItemFromBlock(block);
                     if (blockItem != Items.AIR) {
@@ -81,7 +81,7 @@ public class ClientEventHandler {
                     }
                 });
 
-        BlockItemLoader.ITEMS.stream()
+        BlockItemLoader.getAllItems().stream()
                 .filter(ICustomItemModel.class::isInstance)
                 .forEach(item -> {
                     ResourceLocation path = ((ICustomItemModel) item).getItemModel();

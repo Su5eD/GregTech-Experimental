@@ -8,6 +8,7 @@ import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.ItemSensorCard;
 import mods.gregtechmod.objects.items.ItemSensorKit;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IItemProvider;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -16,27 +17,39 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BlockItemLoader {
-    static final Set<net.minecraft.block.Block> BLOCKS = new LinkedHashSet<>();
-    static final Set<Item> ITEMS = new LinkedHashSet<>();
+    private static final Set<net.minecraft.block.Block> BLOCKS = new LinkedHashSet<>();
+    private static final Set<Item> ITEMS = new LinkedHashSet<>();
+    private static final Set<Item> ITEM_BLOCKS = new LinkedHashSet<>();
+    
+    public static Collection<Item> getAllItems() {
+        return GtUtil.mergeCollection(ITEM_BLOCKS, ITEMS);
+    }
+    
+    public static Set<Block> getBlocks() {
+        return Collections.unmodifiableSet(BLOCKS);
+    }
+    
+    public static Set<Item> getItems() {
+        return Collections.unmodifiableSet(ITEMS);
+    }
 
     private static void registerItem(Item item) {
-        if (!ITEMS.add(item)) throw new IllegalStateException("Duplicate registry entry: " + item.getRegistryName());
+        if (!ITEMS.add(item)) throw new IllegalArgumentException("Duplicate registry entry: " + item.getRegistryName());
     }
 
     private static void registerBlock(net.minecraft.block.Block block) {
-        if (!BLOCKS.add(block)) throw new IllegalStateException("Duplicate registry entry: " + block.getRegistryName());
+        if (!BLOCKS.add(block)) throw new IllegalArgumentException("Duplicate registry entry: " + block.getRegistryName());
     }
 
     private static void registerBlockItem(Block block) {
         registerBlock(block);
-        registerItem(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+        Item itemBlock = new ItemBlock(block).setRegistryName(block.getRegistryName());
+        if (!ITEM_BLOCKS.add(itemBlock)) throw new IllegalArgumentException("Duplicate registry entry: " + block.getRegistryName());
     }
 
     static void init() {
