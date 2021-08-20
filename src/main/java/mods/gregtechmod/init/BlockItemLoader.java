@@ -53,7 +53,7 @@ public class BlockItemLoader {
         Arrays.stream(BlockItems.Block.values()).map(BlockItems.Block::getInstance).forEach(BlockItemLoader::registerBlockItem);
         Arrays.stream(BlockItems.Ore.values()).map(BlockItems.Ore::getInstance).forEach(BlockItemLoader::registerBlockItem);
         Stream.<IItemProvider[]>of(BlockItems.Miscellaneous.values(), BlockItems.Ingot.values(), BlockItems.Plate.values(), BlockItems.Rod.values(), BlockItems.Dust.values(),
-                BlockItems.Smalldust.values(), BlockItems.Nugget.values(), BlockItems.Cell.values(), BlockItems.Cover.values(), BlockItems.Component.values(),
+                BlockItems.Smalldust.values(), BlockItems.Nugget.values(), BlockItems.Cell.values(), BlockItems.CoverItem.values(), BlockItems.Component.values(),
                 BlockItems.Upgrade.values(), BlockItems.Armor.values(), BlockItems.NuclearCoolantPack.values(), BlockItems.NuclearFuelRod.values(), BlockItems.JackHammer.values(), 
                 BlockItems.Tool.values(), BlockItems.Wrench.values(), BlockItems.Hammer.values(), BlockItems.SolderingMetal.values(), BlockItems.TurbineRotor.values(),
                 BlockItems.File.values(), BlockItems.Saw.values(), BlockItems.ColorSpray.values()

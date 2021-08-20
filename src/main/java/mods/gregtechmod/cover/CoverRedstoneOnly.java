@@ -9,8 +9,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class CoverRedstoneOnly extends CoverGeneric {
 
-    public CoverRedstoneOnly(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverRedstoneOnly(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override

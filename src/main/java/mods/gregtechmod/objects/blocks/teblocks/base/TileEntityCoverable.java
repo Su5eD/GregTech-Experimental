@@ -3,10 +3,10 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.cover.Cover;
 import mods.gregtechmod.cover.CoverGeneric;
 import mods.gregtechmod.cover.CoverVent;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
@@ -43,10 +43,10 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     
     protected boolean beforeActivated(ItemStack stack, EntityPlayer player, EnumFacing side) {
         if (CoverGeneric.isGenericCover(stack)) {
-            placeCover(player, side, stack, "generic");
+            placeCover(Cover.GENERIC, player, side, stack);
             return true;
         } else if (CoverVent.isVent(stack)) {
-            placeCover(player, side, stack, "vent");
+            placeCover(Cover.VENT, player, side, stack);
             return true;
         } else if (GtUtil.isScrewdriver(stack)) {
             return onScrewdriverActivated(stack, side, player);
@@ -60,7 +60,7 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
                 stack.damageItem(1, player);
                 return true;
             }
-        } else return placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover("normal", side, this, null), player, side, false);
+        } else return placeCoverAtSide(Cover.NORMAL.instance.get().constructCover(side, this, ItemStack.EMPTY), player, side, false);
         
         return false;
     }
@@ -75,9 +75,9 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
         return false;
     }
 
-    private void placeCover(EntityPlayer player, EnumFacing side, ItemStack stack, String name) { //For generic covers and vents
+    private void placeCover(Cover cover, EntityPlayer player, EnumFacing side, ItemStack stack) { //For generic covers and vents
         ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
-        if (placeCoverAtSide(GregTechAPI.getCoverRegistry().constructCover(name, side, this, coverStack), player, side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
+        if (placeCoverAtSide(cover.instance.get().constructCover(side, this, coverStack), player, side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
     }
 
     @Override
@@ -128,7 +128,6 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
 
         ICover cover = this.coverHandler.covers.get(side);
         ItemStack coverItem = cover.getItem();
-        cover.onCoverRemoval();
         if (this.coverHandler.removeCover(side, false)) {
             if (coverItem != null) {
                 EntityItem entity = new EntityItem(this.world, pos.getX() + side.getXOffset() + 0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ()+side.getZOffset() + 0.5, coverItem);

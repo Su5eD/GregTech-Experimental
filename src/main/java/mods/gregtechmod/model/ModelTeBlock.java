@@ -3,7 +3,6 @@ package mods.gregtechmod.model;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
-import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
 import mods.gregtechmod.util.PropertyHelper;
@@ -52,10 +51,7 @@ public class ModelTeBlock extends ModelBase {
 
         if (state.hasValue(CoverHandler.COVER_HANDLER_PROPERTY)) {
             CoverHandler handler = state.getValue(CoverHandler.COVER_HANDLER_PROPERTY);
-            for (Map.Entry<EnumFacing, ICover> entry : handler.covers.entrySet()) {
-                EnumFacing side = entry.getKey();
-                covers.put(side, handler.covers.get(side).getIcon());
-            }
+            handler.covers.forEach((side, cover) -> covers.put(side, cover.getIcon()));
         }
 
         for (EnumFacing side : EnumFacing.VALUES) {

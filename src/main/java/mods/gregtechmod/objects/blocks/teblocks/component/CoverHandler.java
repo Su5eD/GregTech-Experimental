@@ -5,7 +5,9 @@ import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.block.state.UnlistedProperty;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -17,8 +19,8 @@ import java.util.Map;
 
 public class CoverHandler extends TileEntityComponent {
     public static final IUnlistedProperty<CoverHandler> COVER_HANDLER_PROPERTY = new UnlistedProperty<>("coverhandler", CoverHandler.class);
-    public final HashMap<EnumFacing, ICover> covers = new HashMap<>();
-    protected final Runnable changeHandler;
+    public final Map<EnumFacing, ICover> covers = new HashMap<>();
+    private final Runnable changeHandler;
 
     public <T extends TileEntityBlock & ICoverable> CoverHandler(T te, Runnable changeHandler) {
         super(te);
@@ -27,14 +29,21 @@ public class CoverHandler extends TileEntityComponent {
 
     @Override
     public void readFromNbt(NBTTagCompound nbt) {
-        if (nbt.isEmpty()) return;
-        for (EnumFacing facing : EnumFacing.VALUES) {
-            if (nbt.hasKey(facing.getName())) {
-                NBTTagCompound coverNbt = nbt.getCompoundTag(facing.getName());
-                ItemStack stack = new ItemStack((NBTTagCompound) coverNbt.getTag("item"));
-                ICover cover = GregTechAPI.getCoverRegistry().constructCover(coverNbt.getString("name"), facing, (ICoverable) this.parent, stack);
-                cover.readFromNBT(coverNbt);
-                this.covers.put(facing, cover);
+        if (!nbt.isEmpty()) {
+            for (EnumFacing facing : EnumFacing.VALUES) {
+                if (nbt.hasKey(facing.getName())) {
+                    NBTTagCompound coverNbt = nbt.getCompoundTag(facing.getName());
+                    ItemStack stack = new ItemStack((NBTTagCompound) coverNbt.getTag("item"));
+                    ResourceLocation name = new ResourceLocation(coverNbt.getString("name"));
+                    ICoverProvider provider = GregTechAPI.COVERS.getValue(name);
+                    if (provider != null) {
+                        ICover cover = provider.constructCover(facing, (ICoverable) this.parent, stack);
+                        cover.readFromNBT(coverNbt);
+                        this.covers.put(facing, cover);
+                    } else {
+                        GregTechMod.logger.error("CoverProvider for {} not found", name);
+                    }
+                }
             }
         }
     }
@@ -48,9 +57,9 @@ public class CoverHandler extends TileEntityComponent {
             ItemStack stack = cover.getItem();
             NBTTagCompound nbt = new NBTTagCompound();
 
-            nbt.setString("name", GregTechAPI.getCoverRegistry().getCoverName(cover));
+            nbt.setString("name", cover.getName().toString());
             NBTTagCompound stackNbt = new NBTTagCompound();
-            if (stack != null) stack.writeToNBT(stackNbt);
+            stack.writeToNBT(stackNbt);
             nbt.setTag("item", stackNbt);
             cover.writeToNBT(nbt);
             ret.setTag(entry.getKey().getName(), nbt);
@@ -59,11 +68,11 @@ public class CoverHandler extends TileEntityComponent {
     }
 
     public boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate) {
-        if (!covers.containsKey(side)) {
+        if (!this.covers.containsKey(side)) {
             ResourceLocation icon = cover.getIcon();
             if (icon != null) {
                 if (!simulate) {
-                    covers.put(side, cover);
+                    this.covers.put(side, cover);
                     this.changeHandler.run();
                 }
                 return true;
@@ -73,8 +82,10 @@ public class CoverHandler extends TileEntityComponent {
     }
 
     public boolean removeCover(EnumFacing side, boolean simulate) {
-        if (this.covers.containsKey(side)) {
+        ICover cover = this.covers.get(side);
+        if (cover != null) {
             if (!simulate) {
+                cover.onCoverRemove();
                 this.covers.remove(side);
                 this.changeHandler.run();
             }

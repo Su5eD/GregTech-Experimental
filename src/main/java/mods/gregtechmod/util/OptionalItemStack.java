@@ -3,6 +3,7 @@ package mods.gregtechmod.util;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -23,19 +24,19 @@ public class OptionalItemStack {
     }
 
     public static OptionalItemStack when(OptionalItemStack... optionals) {
-        for (OptionalItemStack optional : optionals) {
-            if (optional.isPresent()) return optional;
-        }
-        return EMPTY;
+        return Arrays.stream(optionals)
+                .filter(OptionalItemStack::isPresent)
+                .findFirst()
+                .orElse(EMPTY);
     }
 
     @SafeVarargs
     public static OptionalItemStack either(Supplier<OptionalItemStack>... suppliers) {
-        for (Supplier<OptionalItemStack> supplier : suppliers) {
-            OptionalItemStack optional = supplier.get();
-            if (optional.isPresent()) return optional;
-        }
-        return EMPTY;
+        return Arrays.stream(suppliers)
+                .map(Supplier::get)
+                .filter(OptionalItemStack::isPresent)
+                .findFirst()
+                .orElse(EMPTY);
     }
     
     public ItemStack get() {

@@ -20,7 +20,6 @@ import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -32,11 +31,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
@@ -171,50 +166,10 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing side) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new MachineItemStackHandler(this, side));
-        } else if (ModHandler.buildcraftLib && (capability == MjHelper.RECEIVER_CAPABILITY || capability == MjHelper.CONNECTOR_CAPABILITY)) {
+        if (ModHandler.buildcraftLib && (capability == MjHelper.RECEIVER_CAPABILITY || capability == MjHelper.CONNECTOR_CAPABILITY)) {
             return MjAPI.CAP_RECEIVER.cast(this.receiver);
         }
         return super.getCapability(capability, side);
-    }
-
-    /**
-     * An IItemHandler that hides upgrade slots
-     */
-    public static class MachineItemStackHandler extends SidedInvWrapper implements IItemHandler {
-
-        public MachineItemStackHandler(ISidedInventory inventory, EnumFacing side) {
-            super(inventory, side);
-        }
-
-        @Override
-        public int getSlots() {
-            return super.getSlots() - 8;
-        }
-
-        @Nonnull
-        @Override
-        public ItemStack getStackInSlot(int slot) {
-            return super.getStackInSlot(slot + 8);
-        }
-
-        @Nonnull
-        @Override
-        public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-            return super.insertItem(slot + 8, stack, simulate);
-        }
-
-        @Nonnull
-        @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return super.extractItem(slot + 8, amount, simulate);
-        }
-
-        @Override
-        public int getSlotLimit(int slot) {
-            return super.getSlotLimit(slot + 8);
-        }
     }
 
     @Override

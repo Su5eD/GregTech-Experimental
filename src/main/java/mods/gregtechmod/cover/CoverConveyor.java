@@ -12,8 +12,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class CoverConveyor extends CoverInventory {
 
-    public CoverConveyor(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverConveyor(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override

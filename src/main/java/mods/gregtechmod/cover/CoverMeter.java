@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Locale;
@@ -16,24 +17,24 @@ import java.util.Locale;
 public abstract class CoverMeter extends CoverGeneric {
     protected MeterMode mode = MeterMode.NORMAL;
 
-    public CoverMeter(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregTechMachine)) return;
-
-        Pair<Integer, Integer> info = getStorageAndCapacity();
-        int stored = info.getLeft();
-        int capacity = info.getRight();
-
-        if (capacity > 0) {
-            capacity /= 15;
-            double strength = stored / (double) capacity;
-            ((IGregTechMachine)te).setRedstoneOutput(side, (byte) (mode == MeterMode.NORMAL ? strength : 15 - strength));
-        } else {
-            ((IGregTechMachine)te).setRedstoneOutput(side, (byte) (mode == MeterMode.INVERTED ? 0 : 15));
+        if (te instanceof IGregTechMachine) {
+            Pair<Integer, Integer> info = getItemStorageAndCapacity();
+            int stored = info.getLeft();
+            int capacity = info.getRight();
+            
+            if (capacity > 0) {
+                capacity /= 15;
+                double strength = stored / (double) capacity;
+                ((IGregTechMachine)te).setRedstoneOutput(side, (byte) (mode == MeterMode.NORMAL ? strength : 15 - strength));
+            } else {
+                ((IGregTechMachine)te).setRedstoneOutput(side, (byte) (mode == MeterMode.INVERTED ? 0 : 15));
+            }
         }
     }
 
@@ -55,7 +56,7 @@ public abstract class CoverMeter extends CoverGeneric {
         this.mode = MeterMode.VALUES[nbt.getInteger("mode")];
     }
 
-    protected abstract Pair<Integer, Integer> getStorageAndCapacity();
+    protected abstract Pair<Integer, Integer> getItemStorageAndCapacity();
 
     public enum MeterMode {
         NORMAL,
@@ -73,7 +74,7 @@ public abstract class CoverMeter extends CoverGeneric {
     }
 
     @Override
-    public void onCoverRemoval() {
+    public void onCoverRemove() {
         if (te instanceof IGregTechMachine) ((IGregTechMachine) te).setRedstoneOutput(side, (byte) 0);
     }
 

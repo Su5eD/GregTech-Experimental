@@ -53,7 +53,7 @@ public class GregTechTab extends CreativeTabs {
                 .forEach(list::add);
         addItems(BlockItems.Component.values(), list);
         addItems(BlockItems.Upgrade.values(), list);
-        addItems(BlockItems.Cover.values(), list);
+        addItems(BlockItems.CoverItem.values(), list);
         addItems(BlockItems.Smalldust.values(), list);
         addItems(BlockItems.Nugget.values(), list);
         addItems(BlockItems.Armor.values(), list);

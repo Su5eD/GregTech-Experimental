@@ -293,9 +293,10 @@ public class GtUtil {
         if (item instanceof IUpgradeItem) {
             ItemUpgradeModule.UpgradeType upgradeType = ItemUpgradeModule.UpgradeType.values()[stack.getMetadata()];
             String name = upgradeType.name();
-            for (IC2UpgradeType type : IC2UpgradeType.values()) {
-                if (type.itemType.equals(name)) return type;
-            }
+            return Arrays.stream(IC2UpgradeType.values())
+                    .filter(type -> type.itemType.equals(name))
+                    .findFirst()
+                    .orElse(null);
         }
         return null;
     }

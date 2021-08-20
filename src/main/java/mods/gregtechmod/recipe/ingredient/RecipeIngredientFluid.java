@@ -53,13 +53,9 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
 
     @Override
     public boolean apply(@Nullable FluidStack input) {
-        if (input != null) {
-            for (Fluid fluid : this.matchingFluids) {
-                FluidStack stack = new FluidStack(fluid, this.getMilliBuckets());
-                if (input.containsFluid(stack)) return true;
-            }
-        }
-        return false;
+        return input != null && this.matchingFluids.stream()
+                .map(fluid -> new FluidStack(fluid, this.getMilliBuckets()))
+                .anyMatch(input::containsFluid);
     }
 
     @Override

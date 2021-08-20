@@ -130,10 +130,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
     
     protected boolean checkEnergy() {
-        if (this.energy.discharge(energyConsume) > 0 || hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(energyConsume))) {
+        if (this.energy.discharge(this.energyConsume) > 0 || this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(this.energyConsume))) {
            return true;
-        } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getEnergyForSteam(energyConsume))) {
-            steamTank.drain(neededSteam, true);
+        } else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = getEnergyForSteam(this.energyConsume))) {
+            this.steamTank.drain(this.neededSteam, true);
             return true;
         }
         return false;
@@ -170,6 +170,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             this.maxProgress = 0;
             pendingRecipe.clear();
             markDirty();
+            setActive(false);
         }
     }
 

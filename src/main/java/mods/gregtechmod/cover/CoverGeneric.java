@@ -24,14 +24,21 @@ import java.util.List;
 import java.util.Locale;
 
 public class CoverGeneric implements ICover {
+    private final ResourceLocation name;
     protected final ICoverable te;
     protected final EnumFacing side;
     protected final ItemStack stack;
 
-    public CoverGeneric(ICoverable te, EnumFacing side, ItemStack stack) {
+    public CoverGeneric(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        this.name = name;
         this.te = te;
         this.side = side;
         this.stack = stack;
+    }
+
+    @Override
+    public ResourceLocation getName() {
+        return name;
     }
 
     @Override
@@ -134,9 +141,7 @@ public class CoverGeneric implements ICover {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-
-    }
+    public void readFromNBT(NBTTagCompound nbt) {}
 
     @Override
     public int getTickRate() {
@@ -144,7 +149,7 @@ public class CoverGeneric implements ICover {
     }
 
     @Override
-    public void onCoverRemoval() {}
+    public void onCoverRemove() {}
 
     public static boolean isGenericCover(ItemStack stack) {
         Item item = stack.getItem();

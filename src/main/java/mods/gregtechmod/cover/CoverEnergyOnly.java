@@ -16,8 +16,8 @@ import java.util.Locale;
 public class CoverEnergyOnly extends CoverGeneric {
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public CoverEnergyOnly(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverEnergyOnly(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override

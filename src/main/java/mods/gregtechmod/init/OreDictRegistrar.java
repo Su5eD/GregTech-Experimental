@@ -62,9 +62,9 @@ public class OreDictRegistrar {
                 .filter(upgrade -> upgrade.oreDict != null)
                 .forEach(upgrade -> registerOre(upgrade.oreDict, upgrade.getInstance()));
 
-        Arrays.stream(BlockItems.Cover.values())
-                .filter(cover -> cover.oreDict != null)
-                .forEach(cover -> registerOre(cover.oreDict, cover.getInstance()));
+        Arrays.stream(BlockItems.CoverItem.values())
+                .filter(coverItem -> coverItem.oreDict != null)
+                .forEach(coverItem -> registerOre(coverItem.oreDict, coverItem.getInstance()));
 
         Arrays.stream(BlockItems.Component.values())
                 .filter(component -> component.oreDict != null)

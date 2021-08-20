@@ -366,8 +366,7 @@ public class MachineRecipeParser {
             return parseConfig(mapper, recipeClass, filter, Files.newBufferedReader(path.resolve(name + ".yml")));
         } catch (IOException e) {
             if (!silent) {
-                GregTechMod.logger.error("Failed to parse " + name + " recipes");
-                e.printStackTrace();
+                GregTechMod.logger.error("Failed to parse " + name + " recipes", e);
             }
             return Optional.empty();
         }
@@ -457,8 +456,7 @@ public class MachineRecipeParser {
 
             RECIPE_MAPPER.writeValue(output, recipes);
         } catch (IOException e) {
-            GregTechMod.logger.error("Failed to serialize " + name + " recipes");
-            e.printStackTrace();
+            GregTechMod.logger.error("Failed to serialize " + name + " recipes", e);
         }
     }
 

@@ -80,7 +80,6 @@ public final class GregTechMod {
         Components.register(Maintenance.class, Reference.MODID + ":maintenance");
         Components.register(UpgradeManager.class, Reference.MODID + ":upgrade_manager");
         TileEntityEnergy.registerEnergyComponents();
-        CoverLoader.registerCovers();
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
         
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());

@@ -4,10 +4,12 @@ import ic2.api.event.TeBlockFinalCallEvent;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import mods.gregtechmod.api.GregTechObjectAPI;
+import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModCompat;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
+import mods.gregtechmod.cover.Cover;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
@@ -24,6 +26,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -35,7 +38,16 @@ import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Reference.MODID)
 public class RegistryHandler {
-    
+
+    @SubscribeEvent
+    public static void registerRegistries(RegistryEvent.NewRegistry event) {
+        new RegistryBuilder<ICoverProvider>()
+                .setName(new ResourceLocation(Reference.MODID, "covers"))
+                .setType(ICoverProvider.class)
+                .setMaxID(Integer.MAX_VALUE - 1)
+                .create();
+    }
+
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         GregTechMod.logger.info("Registering blocks");
@@ -70,6 +82,14 @@ public class RegistryHandler {
     public static void registerTEBlocks(TeBlockFinalCallEvent event) {
         GtUtil.withModContainerOverride(FMLCommonHandler.instance().findContainerFor(Reference.MODID), () -> TeBlockRegistry.addAll(GregTechTEBlock.class, GregTechTEBlock.LOCATION));
         TeBlockRegistry.addCreativeRegisterer(GregTechTEBlock.INDUSTRIAL_CENTRIFUGE, GregTechTEBlock.LOCATION);
+    }
+    
+    @SubscribeEvent
+    public static void registerCovers(RegistryEvent.Register<ICoverProvider> event) {
+        IForgeRegistry<ICoverProvider> registry = event.getRegistry();
+        Arrays.stream(Cover.values())
+                .map(cover -> cover.instance.get())
+                .forEach(registry::register);
     }
 
     public static void registerFluids() {

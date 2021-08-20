@@ -11,13 +11,13 @@ import net.minecraft.util.ResourceLocation;
 public class CoverNormal extends CoverGeneric {
     protected CoverMeter.MeterMode mode = CoverMeter.MeterMode.NORMAL;
 
-    public CoverNormal(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverNormal(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/"+(mode == CoverMeter.MeterMode.NORMAL ? "normal" : "noredstone"));
+        return new ResourceLocation(Reference.MODID, "blocks/covers/" + (mode == CoverMeter.MeterMode.NORMAL ? "normal" : "noredstone"));
     }
 
     @Override

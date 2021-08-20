@@ -19,8 +19,8 @@ import java.util.Locale;
 public class CoverMachineController extends CoverGeneric {
     protected ControllerMode mode = ControllerMode.NORMAL;
 
-    public CoverMachineController(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverMachineController(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CoverMachineController extends CoverGeneric {
     }
 
     @Override
-    public void onCoverRemoval() {
+    public void onCoverRemove() {
         if (te instanceof IGregTechMachine) ((IGregTechMachine)te).setAllowedToWork(true);
     }
 

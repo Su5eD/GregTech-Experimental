@@ -56,7 +56,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
                 || this.world.isRemote) return true;
         
         for (ICover cover : coverHandler.covers.values()) {
-            if (!cover.opensGui(side)) return false;
+            if (!cover.opensGui(side)) return true;
         }
         
         for (TileEntityComponent component : this.getComponents()) {
@@ -72,15 +72,16 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     protected void updateEntityServer() {
-        for (ICover cover : coverHandler.covers.values()) {
+        for (ICover cover : this.coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
-            if (tickRate > 0 && tickCounter % tickRate == 0) cover.doCoverThings();
+            if (tickRate > 0 && this.tickCounter % tickRate == 0) cover.doCoverThings();
         }
 
-        if (enableWorking != enableWorkingOld) {
-            enableWorkingOld = enableWorking;
+        if (this.enableWorking != this.enableWorkingOld) {
+            this.enableWorkingOld = this.enableWorking;
         }
-        tickCounter++;
+        
+        ++this.tickCounter;
     }
 
     @Override

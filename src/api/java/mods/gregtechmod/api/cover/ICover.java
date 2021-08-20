@@ -14,6 +14,9 @@ import java.util.List;
  * Used to create covers, providing <code>{@link ICoverable}</code> machines all the information they need
  */
 public interface ICover {
+    
+    ResourceLocation getName();
+    
     /**
      * Ticked every n tick(s), depending on the cover's {@link ICover#getTickRate() tick rate}
      */
@@ -76,5 +79,8 @@ public interface ICover {
 
     int getTickRate();
 
-    void onCoverRemoval();
+    /**
+     * Called just before the cover is removed from a machine
+     */
+    void onCoverRemove();
 }

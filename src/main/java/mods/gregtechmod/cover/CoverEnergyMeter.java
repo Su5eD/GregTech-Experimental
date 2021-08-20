@@ -17,8 +17,8 @@ import java.util.Locale;
 public class CoverEnergyMeter extends CoverGeneric {
     protected Mode mode = Mode.UNIVERSAL;
 
-    public CoverEnergyMeter(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverEnergyMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class CoverEnergyMeter extends CoverGeneric {
     }
 
     @Override
-    public void onCoverRemoval() {
+    public void onCoverRemove() {
         if (te instanceof IGregTechMachine) {
             ((IGregTechMachine) te).setRedstoneOutput(side, (byte) 0);
         }

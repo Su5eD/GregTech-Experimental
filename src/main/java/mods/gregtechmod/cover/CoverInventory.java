@@ -9,12 +9,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 
 public abstract class CoverInventory extends CoverGeneric {
     protected InventoryMode mode = InventoryMode.EXPORT;
 
-    public CoverInventory(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverInventory(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     public boolean canWork() {

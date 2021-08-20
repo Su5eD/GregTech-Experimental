@@ -21,8 +21,8 @@ import net.minecraft.world.World;
 
 public class CoverCrafting extends CoverGeneric {
 
-    public CoverCrafting(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverCrafting(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override

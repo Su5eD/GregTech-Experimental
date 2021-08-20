@@ -9,9 +9,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class CoverScreen extends CoverGeneric {
 
-
-    public CoverScreen(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverScreen(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override

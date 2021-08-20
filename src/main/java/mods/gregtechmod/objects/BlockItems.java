@@ -11,6 +11,7 @@ import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.cover.Cover;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockConnected;
 import mods.gregtechmod.objects.blocks.BlockConnectedTurbine;
@@ -717,7 +718,7 @@ public class BlockItems {
         }
     }
 
-    public enum Cover implements IItemProvider {
+    public enum CoverItem implements IItemProvider {
         ACTIVE_DETECTOR("craftingWorkDetector"),
         CONVEYOR("craftingConveyor"),
         CRAFTING("craftingWorkBench"),
@@ -739,30 +740,24 @@ public class BlockItems {
         SOLAR_PANEL_MV("craftingSolarPanelMV");
 
         private final LazyValue<Item> instance;
-        public final String coverName;
         public final String oreDict;
 
-        Cover(String coverName, String oreDict) {
-            this.coverName = coverName;
-            this.oreDict = oreDict;
-            
-            this.instance = constructInstance();
+        CoverItem(String oreDict) {
+            this(null, oreDict);
         }
-
-        Cover(String oreDict) {
-            this.coverName = this.name().toLowerCase(Locale.ROOT);
+                
+        CoverItem(String itemName, String oreDict) {
             this.oreDict = oreDict;
-            
-            this.instance = constructInstance();
-        }
-        
-        private LazyValue<Item> constructInstance() {
-            String name = this.name().toLowerCase(Locale.ROOT);
-            return new LazyValue<>(() -> new ItemCover(name, this.coverName)
-                    .setFolder("coveritem")
-                    .setRegistryName(this.coverName)
-                    .setTranslationKey(this.coverName)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+            this.instance = new LazyValue<>(() -> {
+                Cover cover = Cover.valueOf(this.name());
+                String name = itemName != null ? itemName : this.name().toLowerCase(Locale.ROOT);
+                
+                return new ItemCover(cover.name().toLowerCase(Locale.ROOT), cover.instance.get(), name)
+                        .setFolder("coveritem")
+                        .setRegistryName(name)
+                        .setTranslationKey(name)
+                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
+            });
         }
 
         @Override
