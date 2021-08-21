@@ -31,8 +31,7 @@ public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverize
 
     private static void addPulverisationRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
         if (!input.getItem().hasContainerItem(input)) {
-            ModHandler.removeIC2Recipe(input, (BasicMachineRecipeManager) Recipes.macerator);
-            Recipes.macerator.addRecipe(Recipes.inputFactory.forStack(input), null, true, primaryOutput);
+            ModHandler.addIC2Recipe((BasicMachineRecipeManager) Recipes.macerator, Recipes.inputFactory.forStack(input), null, overwrite, primaryOutput);
 
             if (!OreDictUnificator.isItemInstanceOf(primaryOutput, "dustWood", false) && !OreDictUnificator.isItemInstanceOf(primaryOutput, "dustSmallWood", false)) {
                 if (OreDictUnificator.isItemInstanceOf(input, "ingot", true)) ModHandler.addAEGrinderRecipe(input, primaryOutput, 5);

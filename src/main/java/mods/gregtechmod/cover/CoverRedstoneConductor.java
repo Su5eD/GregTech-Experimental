@@ -20,8 +20,8 @@ import java.util.Locale;
 public class CoverRedstoneConductor extends CoverGeneric {
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
-    public CoverRedstoneConductor(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverRedstoneConductor(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override

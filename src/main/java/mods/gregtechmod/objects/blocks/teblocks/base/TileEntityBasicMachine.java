@@ -10,10 +10,10 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
-import mods.gregtechmod.inventory.GtInvSide;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,12 +47,12 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public TileEntityBasicMachine(String descriptionKey, RM recipeManager, boolean wildcardInput) {
         super(descriptionKey, 1, recipeManager, wildcardInput);
         this.extraSlot = getExtraSlot();
-        this.queueInputSlot = getInputSlot("queueInput", GtInvSide.VERTICAL, wildcardInput);
+        this.queueInputSlot = getInputSlot("queueInput", GtUtil.INV_SIDE_VERTICAL, wildcardInput);
         this.queueOutputSlot = getOutputSlot("queueOutput", 1);
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 1;
     }
 

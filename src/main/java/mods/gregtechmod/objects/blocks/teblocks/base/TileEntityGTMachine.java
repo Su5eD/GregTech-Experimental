@@ -17,12 +17,10 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -79,8 +77,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.maxProgress = nbt.getInteger("operationLength");
         
         if (nbt.hasKey("pendingRecipe")) {
-            nbt.getTagList("pendingRecipe", 10)
-                    .forEach(tag -> this.pendingRecipe.add(new ItemStack((NBTTagCompound) tag)));
+            GtUtil.stacksFromNBT(this.pendingRecipe, nbt.getTagList("pendingRecipe", 10));
         }
     }
 
@@ -92,15 +89,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         nbt.setDouble("energyConsume", this.energyConsume);
         nbt.setInteger("operationLength", this.maxProgress);
         if(!this.pendingRecipe.isEmpty()) {
-            NBTTagList list = new NBTTagList();
-            this.pendingRecipe.stream()
-                    .map(stack -> {
-                        NBTTagCompound tag = new NBTTagCompound();
-                        stack.writeToNBT(tag);
-                        return tag;
-                    })
-                    .forEach(list::appendTag);
-            nbt.setTag("pendingRecipe", list);
+            nbt.setTag("pendingRecipe", GtUtil.stacksToNBT(this.pendingRecipe));
         }
         return nbt;
     }
@@ -141,10 +130,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
     
     protected boolean checkEnergy() {
-        if (this.energy.discharge(energyConsume) > 0 || hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(energyConsume))) {
+        if (this.energy.discharge(this.energyConsume) > 0 || this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(this.energyConsume))) {
            return true;
-        } else if (hasSteamUpgrade && canDrainSteam(neededSteam = getEnergyForSteam(energyConsume))) {
-            steamTank.drain(neededSteam, true);
+        } else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = GtUtil.getSteamForEU(this.energyConsume, this.steamTank.getFluid()))) {
+            this.steamTank.drain(this.neededSteam, true);
             return true;
         }
         return false;
@@ -181,6 +170,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             this.maxProgress = 0;
             pendingRecipe.clear();
             markDirty();
+            setActive(false);
         }
     }
 
@@ -193,7 +183,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     @Override
-    protected void onUpdateUpgrade(IC2UpgradeType type, ItemStack stack) {
+    protected void onUpdateIC2Upgrade(IC2UpgradeType type, ItemStack stack) {
         if (type == IC2UpgradeType.OVERCLOCKER) {
             overclockEnergyConsume();
         }
@@ -251,12 +241,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.progress += amount;
     }
 
-    @Nonnull
     @Override
-    public List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
-        List<String> ret = super.getScanInfo(player, pos, scanLevel);
-        if (scanLevel > 0) ret.add(GtUtil.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
-        return ret;
+    public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
+        super.getScanInfoPost(scan, player, pos, scanLevel);
+        if (scanLevel > 0) scan.add(GtUtil.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
     }
 
     @Override

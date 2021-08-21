@@ -7,15 +7,13 @@ import ic2.core.crop.cropcard.GenericCropCard;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.items.base.ItemBase;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Locale;
 
-@Mod.EventBusSubscriber(modid = Reference.MODID)
+@EventBusSubscriber(modid = Reference.MODID)
 public class CropLoader {
 
     @SubscribeEvent
@@ -36,7 +34,7 @@ public class CropLoader {
                     .register();
 
             if (type.baseSeed != null) {
-                GregTechMod.logger.info("Registering base seed for crop "+type.name().toLowerCase(Locale.ROOT));
+                GregTechMod.logger.info("Registering base seed for crop " + type.name().toLowerCase(Locale.ROOT));
                 Crops.instance.registerBaseSeed(type.baseSeed, crop, 1, 1, 1, 1);
             }
         }
@@ -44,14 +42,13 @@ public class CropLoader {
     }
 
     public enum Crop {
-        //Most crops have been already implemented by ic2, so don't be surprised why many are missing
-        INDIGO("Eloraam", new ItemStack(BlockItems.Miscellaneous.INDIGO_BLOSSOM.getInstance()), new ItemStack(BlockItems.Miscellaneous.INDIGO_BLOSSOM.getInstance(), 4), 4, 4, 1, 0, 2, 1, 1, 0, 4, 0, true, "Flower", "Color", "Ingredient"),
-        TINE("Gregorius Techneticies", new ItemStack(BlockItems.Nugget.TIN.getInstance()), ItemStack.EMPTY, 3, 3, 2, 0, 5, 2, 0, 3, 0, 0, false, "Shiny", "Metal", "Pine", "Tin", "Bush"),
-        COPPON("Mr. Brain", new ItemStack(BlockItems.Nugget.COPPER.getInstance()), ItemStack.EMPTY, 3, 3, 2, 0, 6, 2, 0, 1, 1, 1, false, "Shiny", "Metal", "Cotton", "Copper", "Bush"),
-        ARGENTIA("Eloraam", new ItemStack(BlockItems.Nugget.SILVER.getInstance()), ItemStack.EMPTY, 4, 4, 3, 0, 7, 2, 0, 1, 0, 0, false, "Shiny", "Metal", "Silver", "Reed"),
-        PLUMBILIA("KingLemming", new ItemStack(BlockItems.Nugget.LEAD.getInstance()), ItemStack.EMPTY, 4, 4, 3, 0, 6, 2, 0, 3, 1, 1, false, "Heavy", "Metal", "Lead", "Reed");
+        //Most crops have been already implemented by ic2, don't be surprised why many are missing
+        INDIGO("Eloraam", new ItemStack(BlockItems.Miscellaneous.INDIGO_BLOSSOM.getInstance()), new ItemStack(BlockItems.Miscellaneous.INDIGO_BLOSSOM.getInstance(), 4), 4, 4, 1, 0, 2, 1, 1, 0, 4, 0, "Flower", "Color", "Ingredient"),
+        TINE("Gregorius Techneticies", new ItemStack(BlockItems.Nugget.TIN.getInstance()), ItemStack.EMPTY, 3, 3, 2, 0, 5, 2, 0, 3, 0, 0, "Shiny", "Metal", "Pine", "Tin", "Bush"),
+        COPPON("Mr. Brain", new ItemStack(BlockItems.Nugget.COPPER.getInstance()), ItemStack.EMPTY, 3, 3, 2, 0, 6, 2, 0, 1, 1, 1, "Shiny", "Metal", "Cotton", "Copper", "Bush"),
+        ARGENTIA("Eloraam", new ItemStack(BlockItems.Nugget.SILVER.getInstance()), ItemStack.EMPTY, 4, 4, 3, 0, 7, 2, 0, 1, 0, 0, "Shiny", "Metal", "Silver", "Reed"),
+        PLUMBILIA("KingLemming", new ItemStack(BlockItems.Nugget.LEAD.getInstance()), ItemStack.EMPTY, 4, 4, 3, 0, 6, 2, 0, 3, 1, 1, "Heavy", "Metal", "Lead", "Reed");
 
-        private Item instance;
         public final String discoverer;
         public final ItemStack drop;
         public final ItemStack[] specialDrops;
@@ -66,14 +63,13 @@ public class CropLoader {
         public final int statDefensive;
         public final int statColorful;
         public final int statWeed;
-        public final boolean hasItem;
         public final String[] attributes;
 
-        Crop(String discoverer, ItemStack drop, ItemStack baseSeed, int maxSize, int harvestSize, int afterHarvestSize, int growthSpeed, int tier, int statChemistry, int statConsumable, int statDefensive, int statColorful, int statWeed, boolean hasItem, String... attributes) {
-            this(discoverer, drop, new ItemStack[0], baseSeed, maxSize, harvestSize, afterHarvestSize, growthSpeed, tier, statChemistry, statConsumable, statDefensive, statColorful, statWeed, hasItem, attributes);
+        Crop(String discoverer, ItemStack drop, ItemStack baseSeed, int maxSize, int harvestSize, int afterHarvestSize, int growthSpeed, int tier, int statChemistry, int statConsumable, int statDefensive, int statColorful, int statWeed, String... attributes) {
+            this(discoverer, drop, new ItemStack[0], baseSeed, maxSize, harvestSize, afterHarvestSize, growthSpeed, tier, statChemistry, statConsumable, statDefensive, statColorful, statWeed, attributes);
         }
 
-        Crop(String discoverer, ItemStack drop, ItemStack[] specialDrops, ItemStack baseSeed, int maxSize, int harvestSize, int afterHarvestSize, int growthSpeed, int tier, int statChemistry, int statConsumable, int statDefensive, int statColorful, int statWeed, boolean hasItem, String... attributes) {
+        Crop(String discoverer, ItemStack drop, ItemStack[] specialDrops, ItemStack baseSeed, int maxSize, int harvestSize, int afterHarvestSize, int growthSpeed, int tier, int statChemistry, int statConsumable, int statDefensive, int statColorful, int statWeed, String... attributes) {
             this.discoverer = discoverer;
             this.drop = drop;
             this.specialDrops = specialDrops;
@@ -88,21 +84,7 @@ public class CropLoader {
             this.statDefensive = statDefensive;
             this.statColorful = statColorful;
             this.statWeed = statWeed;
-            this.hasItem = hasItem;
             this.attributes = attributes;
-        }
-
-        public Item getInstance() {
-            if (this.instance == null) {
-                if (this.hasItem) {
-                    this.instance = new ItemBase(this.name().toLowerCase(Locale.ROOT), (String) null)
-                            .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                            .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
-                            .setCreativeTab(GregTechMod.GREGTECH_TAB);
-                }
-            }
-
-            return this.instance;
         }
     }
 }

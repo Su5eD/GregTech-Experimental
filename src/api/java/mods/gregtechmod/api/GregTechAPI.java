@@ -1,14 +1,16 @@
 package mods.gregtechmod.api;
 
-import mods.gregtechmod.api.cover.ICoverRegistry;
+import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.recipe.IRecipeFactory;
 import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 
 @SuppressWarnings("unused")
 public class GregTechAPI {
+    public static final IForgeRegistry<ICoverProvider> COVERS = GameRegistry.findRegistry(ICoverProvider.class);
     private static IGregTechAPI impl;
-    private static ICoverRegistry coverRegistry;
     private static Configuration dynamicConfig;
     private static IRecipeFactory recipeFactory;
     private static IRecipeIngredientFactory ingredientFactory;
@@ -21,10 +23,6 @@ public class GregTechAPI {
     
     public static IGregTechAPI instance() {
         return impl;
-    }
-
-    public static ICoverRegistry getCoverRegistry() {
-        return coverRegistry;
     }
 
     public static IRecipeFactory getRecipeFactory() {

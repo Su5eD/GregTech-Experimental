@@ -300,18 +300,15 @@
     item: gregtechmod:hull_brass
   duration: 400
   energyCost: 8
-# TODO: Add when Railcraft PR #2000 is merged
-#- input:
-#    - ore: plateSteel
-#      count: 2
-#    - item: railcraft:engine_steam_high
-#      # TODO: Add Gas Turbine as fallback when implemented
-#      #fallback:
-#      #  item: gregtechmod:gas_turbine
-#  output:
-#    item: gregtechmod:steam_upgrade
-#  duration: 1600
-#  energyCost: 32
+# TODO: Make railcraft:engine_steam_high primary input when Railcraft PR #2000 is merged
+- input:
+    - ore: plateSteel
+      count: 2
+    - item: gregtechmod:teblock#gas_turbine
+  output:
+    item: gregtechmod:steam_upgrade
+  duration: 1600
+  energyCost: 32
 - input:
     - ore: plateSteel
       count: 2
@@ -500,7 +497,7 @@
   duration: 100
   energyCost: 2
 - input:
-    - item: ic2:cable#type:glass,insulation:0
+    - item: ic2:cable#type:gold,insulation:0
     - ores:
         - itemRubber
         - rubber
@@ -526,7 +523,7 @@
         - rubber
   output:
     item: ic2:cable#type:gold,insulation:2
-  duration: 100
+  duration: 200
   energyCost: 2
 - input:
     - item: ic2:cable#type:iron,insulation:1

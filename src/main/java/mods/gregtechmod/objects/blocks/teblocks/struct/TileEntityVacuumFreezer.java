@@ -28,7 +28,7 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 2;
     }
 

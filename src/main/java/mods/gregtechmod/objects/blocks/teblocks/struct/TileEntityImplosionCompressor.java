@@ -31,7 +31,7 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 1;
     }
 

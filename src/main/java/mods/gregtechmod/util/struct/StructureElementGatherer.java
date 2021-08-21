@@ -29,7 +29,7 @@ public class StructureElementGatherer {
     }
     
     public StructureElementGatherer tileEntity(char id, Class<? extends TileEntity> tileEntity, int minCount, int maxCount) {
-        return id(id, builder -> builder.tileEntity(tileEntity));
+        return id(id, builder -> builder.tileEntity(tileEntity, minCount, maxCount));
     }
     
     public StructureElementGatherer predicate(char id, Predicate<BlockPos> predicate) {

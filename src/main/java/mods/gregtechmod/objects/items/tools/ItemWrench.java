@@ -10,10 +10,8 @@ import ic2.core.util.RotationUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
+import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityList;
@@ -40,9 +38,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Optional.Interface(modid = "buildcraftlib", iface = "buildcraft.api.tools.IToolWrench")
-public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IToolWrench {
+public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToolWrench {
     public final String name;
-    protected final int durability;
     protected final int entityDamage;
     protected int rotateDamage = 1;
     protected int removeDamage = 10;
@@ -56,7 +53,6 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     public ItemWrench(String name, int durability, int entityDamage) {
         super(null);
         this.name = name;
-        this.durability = durability;
         this.entityDamage = entityDamage;
         setMaxDamage(durability - 1);
         GregTechAPI.instance().registerWrench(this);
@@ -64,7 +60,7 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+".item."+name;
+        return Reference.MODID + ".item." + name;
     }
 
     @Override
@@ -101,8 +97,8 @@ public class ItemWrench extends ItemToolWrench implements IModelInfoProvider, IT
     }
 
     @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "tool"));
+    public ResourceLocation getItemModel() {
+        return GtUtil.getModelResourceLocation(this.name, "tool");
     }
 
     @Override

@@ -17,8 +17,8 @@ import java.util.Locale;
 public class CoverActiveDetector extends CoverGeneric {
     protected DetectorMode mode = DetectorMode.NORMAL;
 
-    public CoverActiveDetector(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverActiveDetector(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class CoverActiveDetector extends CoverGeneric {
     }
 
     @Override
-    public void onCoverRemoval() {
+    public void onCoverRemove() {
         if (te instanceof IGregTechMachine) ((IGregTechMachine) te).setRedstoneOutput(side, (byte) 0);
     }
 

@@ -7,6 +7,7 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IRecipeFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 
+@SuppressWarnings("unused")
 public class ReplaceShapelessRecipeFactory implements IRecipeFactory {
     @Override
     public IRecipe parse(JsonContext context, JsonObject json) {

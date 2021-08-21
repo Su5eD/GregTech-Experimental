@@ -28,7 +28,7 @@ public class TileEntityIndustrialGrinder extends TileEntityStructureFluid<Object
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 2;
     }
 

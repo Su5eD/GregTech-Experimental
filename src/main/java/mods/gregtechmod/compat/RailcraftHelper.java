@@ -1,5 +1,6 @@
 package mods.gregtechmod.compat;
 
+import mods.gregtechmod.core.GregTechMod;
 import mods.railcraft.api.crafting.IGenRule;
 
 import java.lang.invoke.MethodHandle;
@@ -20,7 +21,7 @@ public class RailcraftHelper {
                 fieldRandomChance.setAccessible(true);
                 handleRandomChanceGetter = MethodHandles.lookup().unreflectGetter(fieldRandomChance);
             } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
+                GregTechMod.logger.catching(e);
             }
         }
 
@@ -29,13 +30,11 @@ public class RailcraftHelper {
     }
 
     public static float getRandomChance(IGenRule genRule) {
-        if (ModHandler.railcraft) {
-            if (RANDOM_CHANCE_GEN_RULE_CLASS.isInstance(genRule)) {
-                try {
-                    return (float) RANDOM_CHANCE_GETTER.invoke(genRule);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
+        if (ModHandler.railcraft && RANDOM_CHANCE_GEN_RULE_CLASS.isInstance(genRule)) {
+            try {
+                return (float) RANDOM_CHANCE_GETTER.invoke(genRule);
+            } catch (Throwable t) {
+                GregTechMod.logger.catching(t);
             }
         }
 

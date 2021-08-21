@@ -18,6 +18,7 @@ import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.OptionalItemStack;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.init.Blocks;
@@ -36,21 +37,28 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
-public class OreDictHandler { // TODO Subject to huge cleanup
+public class OreDictHandler {
     public static final OreDictHandler INSTANCE;
-    private static final Pattern granitePattern = Pattern.compile("\\bstone.*Granite");
 
     public static final Map<String, String> GT_ORE_NAMES = new HashMap<>();
+    
+    private static final Pattern GRANITE_PATTERN = Pattern.compile("\\bstone.*Granite");
     private static final Map<String, Integer> VALUABLE_ORES = new HashMap<>();
-
+    private static final Map<String, Pair<Supplier<Item>, Supplier<Item>>> BLAST_FURNACE_DUSTS = new HashMap<>();
+    private static final Map<String, Supplier<ItemStack>> DUST_TO_INGOT = new HashMap<>();
+    private static final Map<String, Supplier<ItemStack>> ORE_TO_INGOT = new HashMap<>();
     private static final List<String> IGNORED_NAMES = Arrays.asList("blockClay", "dustClay", "blockPrismarine", "blockPrismarineBrick", "naquadah", "brickXyEngineering", "breederUranium", "diamondNugget", "infiniteBattery", "superconductor", "itemCharcoalSugar", "aluminumWire", "aluminiumWire", "silverWire",
             "tinWire", "eliteBattery", "advancedBattery", "transformer", "coil", "wireMill", "multimeter", "itemMultimeter", "chunkLazurite", "itemRecord", "aluminumNatural", "aluminiumNatural", "naturalAluminum", "naturalAluminium",
             "antimatterMilligram", "antimatterGram", "strangeMatter", "HSLivingmetalIngot", "oilMoving", "oilStill", "oilBucket", "orePetroleum", "dieselFuel", "lava", "water", "obsidianRod", "motor", "wrench", "coalGenerator",
             "electricFurnace", "ironTube", "netherTube", "obbyTube", "valvePart", "aquaRegia", "leatherSeal", "leatherSlimeSeal", "enrichedUranium", "batteryInfinite", "itemSuperconductor", "camoPaste", "CAMO_PASTE");
+    
     private boolean activated = false;
 
     static {
@@ -190,6 +198,42 @@ public class OreDictHandler { // TODO Subject to huge cleanup
         VALUABLE_ORES.put("oreArdite", 2);
         VALUABLE_ORES.put("oreCobalt", 2);
         VALUABLE_ORES.put("oreUranium", 5);
+        
+        BLAST_FURNACE_DUSTS.put("steel", Pair.of(BlockItems.Ingot.STEEL::getInstance, BlockItems.Dust.STEEL::getInstance));
+        BLAST_FURNACE_DUSTS.put("chrome", Pair.of(BlockItems.Ingot.CHROME::getInstance, BlockItems.Dust.CHROME::getInstance));
+        BLAST_FURNACE_DUSTS.put("titanium", Pair.of(BlockItems.Ingot.TITANIUM::getInstance, BlockItems.Dust.TITANIUM::getInstance));
+        Pair<Supplier<Item>, Supplier<Item>> tungsten = Pair.of(BlockItems.Ingot.TUNGSTEN::getInstance, BlockItems.Dust.TUNGSTEN::getInstance); 
+        BLAST_FURNACE_DUSTS.put("tungsten", tungsten);
+        BLAST_FURNACE_DUSTS.put("tungstate", tungsten);
+        Pair<Supplier<Item>, Supplier<Item>> aluminium = Pair.of(BlockItems.Ingot.ALUMINIUM::getInstance, BlockItems.Dust.ALUMINIUM::getInstance);
+        BLAST_FURNACE_DUSTS.put("aluminium", aluminium);
+        BLAST_FURNACE_DUSTS.put("aluminum", aluminium);
+        
+        DUST_TO_INGOT.put("invar", BlockItems.Ingot.INVAR::getItemStack);
+        DUST_TO_INGOT.put("brass", BlockItems.Ingot.BRASS::getItemStack);
+        DUST_TO_INGOT.put("nickel", BlockItems.Ingot.NICKEL::getItemStack);
+        DUST_TO_INGOT.put("antimony", BlockItems.Ingot.ANTIMONY::getItemStack);
+        DUST_TO_INGOT.put("zinc", BlockItems.Ingot.ZINC::getItemStack);
+        DUST_TO_INGOT.put("platinum", BlockItems.Ingot.PLATINUM::getItemStack);
+        DUST_TO_INGOT.put("lead", BlockItems.Ingot.LEAD::getItemStack);
+        DUST_TO_INGOT.put("silver", BlockItems.Ingot.SILVER::getItemStack);
+        DUST_TO_INGOT.put("electrum", BlockItems.Ingot.ELECTRUM::getItemStack);
+        DUST_TO_INGOT.put("copper", () -> IC2Items.getItem("ingot", "copper"));
+        DUST_TO_INGOT.put("bronze", () -> IC2Items.getItem("ingot", "bronze"));
+        DUST_TO_INGOT.put("tin", () -> IC2Items.getItem("ingot", "tin"));
+        
+        ORE_TO_INGOT.put("silver", BlockItems.Ingot.SILVER::getItemStack);
+        ORE_TO_INGOT.put("lead", BlockItems.Ingot.LEAD::getItemStack);
+        ORE_TO_INGOT.put("copper", () -> IC2Items.getItem("ingot", "copper"));
+        ORE_TO_INGOT.put("tin", () -> IC2Items.getItem("ingot", "tin"));
+        ORE_TO_INGOT.put("zinc", BlockItems.Ingot.ZINC::getItemStack);
+        ORE_TO_INGOT.put("antimony", BlockItems.Ingot.ANTIMONY::getItemStack);
+        ORE_TO_INGOT.put("cassiterite", () -> StackUtil.setSize(IC2Items.getItem("ingot", "tin"), 2));
+        ORE_TO_INGOT.put("cooperite", BlockItems.Ingot.PLATINUM::getItemStack);
+        ORE_TO_INGOT.put("sheldonite", BlockItems.Ingot.PLATINUM::getItemStack);
+        ORE_TO_INGOT.put("platinum", BlockItems.Ingot.PLATINUM::getItemStack);
+        ORE_TO_INGOT.put("nickel", BlockItems.Ingot.NICKEL::getItemStack);
+        ORE_TO_INGOT.put("electrum", BlockItems.Ingot.ELECTRUM::getItemStack);
 
         INSTANCE = new OreDictHandler();
     }
@@ -209,12 +253,10 @@ public class OreDictHandler { // TODO Subject to huge cleanup
     }
 
     public void registerOre(String name, ItemStack ore) {
-        if (ore.isEmpty() || name.isEmpty() || IGNORED_NAMES.contains(name)) return;
+        if (ore.isEmpty() || name.isEmpty() || IGNORED_NAMES.contains(name) || name.toLowerCase(Locale.ROOT).contains("xych") || name.toLowerCase(Locale.ROOT).contains("xyore")) return;
 
         if (ore.getCount() != 1) GregTechMod.logger.error("'" + name + "' is either being misused by another mod or has been wrongly registered, as the stack size of the event stack is not 1");
         ore.setCount(1);
-
-        if (name.toLowerCase(Locale.ROOT).contains("xych") || name.toLowerCase(Locale.ROOT).contains("xyore")) return;
 
         String unifiedName = GT_ORE_NAMES.get(name);
         if (unifiedName != null) OreDictUnificator.registerOre(unifiedName, ore);
@@ -231,7 +273,7 @@ public class OreDictHandler { // TODO Subject to huge cleanup
         } else if (name.startsWith("itemDrop")) {
             OreDictUnificator.registerOre(name.replaceFirst("itemDrop", "item"), ore);
             return;
-        } else if (granitePattern.matcher(name).find()) OreDictUnificator.registerOre("stoneGranite", ore);
+        } else if (GRANITE_PATTERN.matcher(name).find()) OreDictUnificator.registerOre("stoneGranite", ore);
 
         if (name.startsWith("plate") || name.startsWith("ore") || name.startsWith("dust") || name.startsWith("gem")
                 || name.startsWith("ingot") || name.startsWith("nugget") || name.startsWith("block") || name.startsWith("stick")) OreDictUnificator.addAssociation(name, ore.copy());
@@ -246,16 +288,13 @@ public class OreDictHandler { // TODO Subject to huge cleanup
                     .forEach(ore -> registerOre(name, ore)));
     }
 
-    public void registerRecipes(String name, ItemStack ore) {
+    public void registerRecipes(String rawName, ItemStack ore) {
         if (ore.isEmpty()) return;
 
         ore.setCount(1);
-        if (name.startsWith("plate") || name.startsWith("ore") || name.startsWith("dust") || name.startsWith("gem") || name.startsWith("ingot") || name.startsWith("nugget") || name.startsWith("block") || name.startsWith("stick")) OreDictUnificator.add(name, ore.copy());
+        if (rawName.startsWith("plate") || rawName.startsWith("ore") || rawName.startsWith("dust") || rawName.startsWith("gem") || rawName.startsWith("ingot") || rawName.startsWith("nugget") || rawName.startsWith("block") || rawName.startsWith("stick")) OreDictUnificator.add(rawName, ore.copy());
 
-        if (name.startsWith("drop")) name = name.replaceFirst("drop", "item");
-
-        Item item = ore.getItem();
-        int meta = ore.getMetadata();
+        String name = rawName.startsWith("drop") ? rawName.replaceFirst("drop", "item") : rawName;
 
         if (name.startsWith("stone")) {
             processStone(ore, name);
@@ -267,60 +306,57 @@ public class OreDictHandler { // TODO Subject to huge cleanup
             processIngot(ore, name);
         } else if (name.startsWith("block")) {
             ItemStack unified = OreDictUnificator.getUnifiedOre(name);
-            if (!unified.isEmpty()) ore = unified;
-            processBlock(ore, name);
+            processBlock(unified, name);
         } else if (name.startsWith("nugget")) {
-            ItemStack unified = OreDictUnificator.getUnifiedOre(name);
-            if (!unified.isEmpty()) ore = unified;
+            ItemStack unified = OreDictUnificator.getUnifiedOre(name, ore);
             Recipes.recyclerBlacklist.add(Recipes.inputFactory.forOreDict(name));
-
+            
             String ingotName = name.replaceFirst("nugget", "ingot");
-            ItemStack ingot = OreDictUnificator.getFirstOre(ingotName);
-            if (!ingot.isEmpty()) {
-                if (!name.equals("nuggetIridium") && !name.equals("nuggetOsmium") && !name.equals("nuggetUranium") && !name.equals("nuggetPlutonium") && !name.equals("nuggetThorium")) {
-                    DynamicRecipes.addAlloySmelterRecipe(RecipeAlloySmelter.create(Collections.singletonList(RecipeIngredientOre.create(name, 9)), OreDictUnificator.getFirstOre(ingotName), 200, 1, false));
-                }
-                Ingredient input = new OreIngredient(name);
-                ModHandler.addShapelessRecipe(
-                        name+"ToIngot",
-                        OreDictUnificator.getFirstOre(ingotName),
-                        input, input, input, input, input, input, input, input, input
-                );
-                ModHandler.addShapelessRecipe(
-                        ingotName+"ToNuggets",
-                        StackUtil.copyWithSize(ore, 9),
-                        new OreIngredient(ingotName)
-                );
-                ModHandler.removeFactorizerRecipe(ingot, true);
-                ModHandler.removeFactorizerRecipe(ore, false);
-                ModHandler.addFactorizerRecipe(ingot, StackUtil.copyWithSize(ore, 9), true);
-                ModHandler.addFactorizerRecipe(StackUtil.copyWithSize(ore, 9), ingot, false);
-            }
+            OreDictUnificator.getFirstOre(ingotName)
+                    .ifPresent(ingot -> {
+                        if (!name.equals("nuggetIridium") && !name.equals("nuggetOsmium") && !name.equals("nuggetUranium") && !name.equals("nuggetPlutonium") && !name.equals("nuggetThorium")) {
+                            DynamicRecipes.addAlloySmelterRecipe(RecipeAlloySmelter.create(Collections.singletonList(RecipeIngredientOre.create(name, 9)), ingot.copy(), 200, 1, false));
+                        }
+                        Ingredient input = new OreIngredient(name);
+                        ModHandler.addShapelessRecipe(
+                                name + "ToIngot", 
+                                ingot.copy(),
+                                input, input, input, input, input, input, input, input, input
+                        );
+                        ModHandler.addShapelessRecipe(
+                                ingotName + "ToNuggets",
+                                StackUtil.copyWithSize(unified, 9),
+                                new OreIngredient(ingotName)
+                        );
+                        ModHandler.removeFactorizerRecipe(ingot, true);
+                        ModHandler.removeFactorizerRecipe(unified, false);
+                        ModHandler.addFactorizerRecipe(ingot, StackUtil.copyWithSize(unified, 9), true);
+                        ModHandler.addFactorizerRecipe(StackUtil.copyWithSize(unified, 9), ingot, false);
+                    });
         } else if (name.startsWith("plate")) {
             if (!name.startsWith("plateAlloy")) {
                 ModHandler.removeCraftingRecipe(ore);
 
                 if (name.startsWith("plateDense")) {
-                    ItemStack ingot = OreDictUnificator.getFirstOre(name.replaceFirst("plateDense", "ingot"), 8);
-                    if (!ingot.isEmpty()) DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, ore, ingot);
-
-                    ItemStack dust = OreDictUnificator.getFirstOre(name.replaceFirst("plateDense", "dust"), 8);
-                    if (!dust.isEmpty()) DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), dust));
+                    OreDictUnificator.getFirstOre(name.replaceFirst("plateDense", "ingot"), 8)
+                            .ifPresent(ingot -> DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, ore, ingot));
+                    OreDictUnificator.getFirstOre(name.replaceFirst("plateDense", "dust"), 8)
+                            .ifPresent(dust -> DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), dust)));
                 } else {
-                    ItemStack plateDense = OreDictUnificator.getFirstOre(name.replaceFirst("plate", "plateDense"));
-                    if (!plateDense.isEmpty()) DynamicRecipes.addCompressorRecipe(Recipes.inputFactory.forOreDict(name, 8), plateDense);
+                    OreDictUnificator.getFirstOre(name.replaceFirst("plate", "plateDense"))
+                            .ifPresent(plateDense -> DynamicRecipes.addCompressorRecipe(Recipes.inputFactory.forOreDict(name, 8), plateDense));
 
-                    ItemStack ingot = OreDictUnificator.getFirstOre(name.replaceFirst("plate", "ingot"));
-                    if (!ingot.isEmpty()) DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, ore, ingot);
+                    OreDictUnificator.getFirstOre(name.replaceFirst("plate", "ingot"))
+                            .ifPresent(ingot -> DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, ore, ingot));
 
-                    ItemStack dust = OreDictUnificator.getFirstOre(name.replaceFirst("plate", "dust"));
-                    if (!dust.isEmpty()) DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), dust));
+                    OreDictUnificator.getFirstOre(name.replaceFirst("plate", "dust"))
+                            .ifPresent(dust -> DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), dust)));
                 }
             }
             String ingotName = name.replaceFirst("plate", "ingot");
-            if (!OreDictUnificator.getFirstOre(ingotName).isEmpty()) {
+            if (OreDictUnificator.oreExists(ingotName)) {
                 ModHandler.addShapedRecipe(
-                        name+"FromIngots",
+                        name + "FromIngots",
                         ore,
                         "H", "I", "I", 'H', "craftingToolHardHammer", 'I', ingotName
                 );
@@ -330,40 +366,22 @@ public class OreDictHandler { // TODO Subject to huge cleanup
         } else if (name.equals("woodRubber") || name.equals("logRubber")) {
             DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(IC2Items.getItem("misc_resource", "resin"), new ItemStack(BlockItems.Dust.WOOD.getInstance(), 16)), 1, true));
         } else if (name.startsWith("log")) {
-            if (meta == OreDictionary.WILDCARD_VALUE) {
-                for (int i = 0; i < 16; i++) {
-                    processLog(new ItemStack(item, 1, i), name);
-                }
-            } else processLog(ore, name);
+            processWithMeta(ore, name, this::processLog);
         } else if (name.startsWith("slabWood")) {
-            if (meta == OreDictionary.WILDCARD_VALUE) {
-                for (int i = 0; i < 16; i++) {
-                    processSlab(new ItemStack(item, 1, i), name);
-                }
-            } else processSlab(ore, name);
+            processWithMeta(ore, name, this::processSlab);
         } else if (name.startsWith("plankWood")) {
-            if (meta == OreDictionary.WILDCARD_VALUE) {
-                for (int i = 0; i < 16; i++) {
-                    processPlank(new ItemStack(item, 1, i), name);
-                }
-            } else processPlank(ore, name);
+            processWithMeta(ore, name, this::processPlank);
 
             DynamicRecipes.addLatheRecipe(RecipeLathe.create(RecipeIngredientOre.create(name), Collections.singletonList(new ItemStack(Items.STICK, 2)), 25, 8));
             DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(Arrays.asList(RecipeIngredientOre.create(name, 8), RecipeIngredientOre.create("dustRedstone")), new ItemStack(Blocks.NOTEBLOCK), 800, 1));
             DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(Arrays.asList(RecipeIngredientOre.create(name, 8), RecipeIngredientOre.create("gemDiamond")), new ItemStack(Blocks.JUKEBOX), 1600, 1));
         } else if (name.startsWith("treeSapling")) {
-            if (meta == OreDictionary.WILDCARD_VALUE) {
-                for (int i = 0; i < 16; i++) {
-                    processSapling(new ItemStack(item, 1, i), name);
-                }
-            } else processSapling(ore, name);
+            processWithMeta(ore, name, this::processSapling);
         } else if (name.startsWith("stick")) {
             OreDictUnificator.addAssociation(name, ore);
 
-            ItemStack smallDust = OreDictUnificator.getFirstOre(name.replaceFirst("stick", "dustSmall"), 2);
-            if (!smallDust.isEmpty()) {
-                DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), smallDust));
-            }
+            OreDictUnificator.getFirstOre(name.replaceFirst("stick", "dustSmall"), 2)
+                    .ifPresent(smallDust -> DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), smallDust)));
         } else if (name.startsWith("seed")) {
             DynamicRecipes.addCentrifugeRecipe(RecipeCentrifuge.create(RecipeIngredientOre.create(name, 64), Collections.singletonList(ProfileDelegate.getCell("seed.oil")), 1, 200, CellType.CELL));
         } else if (name.startsWith("plant") || name.startsWith("flower")) {
@@ -371,15 +389,22 @@ public class OreDictHandler { // TODO Subject to huge cleanup
                 DynamicRecipes.COMPRESSOR.addRecipe(Recipes.inputFactory.forOreDict(name, 8), IC2Items.getItem("crafting", "compressed_plants"));
             } else if (name.startsWith("plant")) {
                 ModHandler.addShapedRecipe(
-                        name+"ToPlantBall",
+                        name + "ToPlantBall",
                         IC2Items.getItem("crafting", "plant_ball"),
                         "XXX", "X X", "XXX", 'X', name
                 );
             }
 
-            ItemStack dye = ModHandler.getCraftingResult(ore);
-            if (!dye.isEmpty()) DynamicRecipes.addExtractorRecipe(Recipes.inputFactory.forOreDict(name), StackUtil.copyWithSize(dye, dye.getCount() + 1));
+            ModHandler.getCraftingResult(ore)
+                    .ifPresent(dye -> DynamicRecipes.addExtractorRecipe(Recipes.inputFactory.forOreDict(name), StackUtil.copyWithSize(dye, dye.getCount() + 1)));
         }
+    }
+    
+    private void processWithMeta(ItemStack ore, String name, BiConsumer<ItemStack, String> processor) {
+        if (ore.getMetadata() == OreDictionary.WILDCARD_VALUE) {
+            Item item = ore.getItem();
+            for (int i = 0; i < 16; i++) processor.accept(new ItemStack(item, 1, i), name);
+        } else processor.accept(ore, name);
     }
 
     private void processSapling(ItemStack stack, String name) {
@@ -416,13 +441,10 @@ public class OreDictHandler { // TODO Subject to huge cleanup
                 DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientItemStack.create(stack), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1, true));
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
-                // TODO Common part with CraftingRecipeLoader#115
-                IRecipe sawingRecipe = ToolCraftingRecipeShaped.makeRecipe(
-                        "",
-                        StackUtil.copyWithSize(result, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? result.getCount() : result.getCount() * 5 / 4),
-                        Collections.singletonList(IC2Items.getItem("chainsaw")),
-                        1,
-                        "S", "L", 'S', new ToolOreIngredient("craftingToolSaw", 1), 'L', stack
+                
+                IRecipe sawingRecipe = ToolCraftingRecipeShaped.makeSawingRecipe(
+                        result,
+                        "S", "L", 'S', ToolOreIngredient.saw(), 'L', stack
                 ).setRegistryName(new ResourceLocation(Reference.MODID, recipeName + "_sawing"));
                 ForgeRegistries.RECIPES.register(sawingRecipe);
 
@@ -445,52 +467,52 @@ public class OreDictHandler { // TODO Subject to huge cleanup
         }
     }
 
-    private void processBlock(ItemStack stack, String name) {
+    private void processBlock(ItemStack ore, String name) {
         String ingotName = name.replaceFirst("block", "ingot");
-        ItemStack ingot = OreDictUnificator.getFirstOre(ingotName).copy();
+        OptionalItemStack ingot = OreDictUnificator.getFirstOre(ingotName);
         String gemName = name.replaceFirst("block", "gem");
-        ItemStack gem = OreDictUnificator.getFirstOre(gemName).copy();
+        OptionalItemStack gem = OreDictUnificator.getFirstOre(gemName);
         String dustName = name.replaceFirst("block", "dust");
-        ItemStack dust = OreDictUnificator.getFirstOre(dustName).copy();
+        OptionalItemStack dust = OreDictUnificator.getFirstOre(dustName);
 
-        ModHandler.removeCraftingRecipeFromInputs(stack);
-        if (ingot.isEmpty() && gem.isEmpty() && dust.isEmpty()) return;
+        ModHandler.removeCraftingRecipeFromInputs(ore);
+        if (!ingot.isPresent() && !gem.isPresent() && !dust.isPresent()) return;
 
-        boolean storageBlockCrafting = GregTechAPI.getDynamicConfig("storageBlockCrafting", name, false);
-        boolean storageBlockDeCrafting = GregTechAPI.getDynamicConfig("storageBlockDeCrafting", name, !gem.isEmpty());
+        boolean storageBlockCrafting = GregTechAPI.getDynamicConfig("storage_block_crafting", name, false);
+        boolean storageBlockDeCrafting = GregTechAPI.getDynamicConfig("storage_block_decrafting", name, gem.isPresent());
 
-        if (!dust.isEmpty()) {
-            ModHandler.removeCraftingRecipeFromInputs(dust, dust, dust, dust, dust, dust, dust, dust, dust);
-            if (ingot.isEmpty() && gem.isEmpty()) {
-                if (storageBlockCrafting) processBlockRecipe(stack, name+"FromDusts");
-                DynamicRecipes.addIngotToBlockRecipe(dustName, dust, stack, storageBlockCrafting, storageBlockDeCrafting);
-            }
-
-            dust.setCount(9);
-            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name+"ToDust", dust, new OreIngredient(name));
-            DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), dust));
-        }
-        if (!gem.isEmpty()) {
-            if (ModHandler.getCraftingResult(gem, gem, ItemStack.EMPTY, gem, gem).isItemEqual(stack)) return;
-
-            ModHandler.removeCraftingRecipeFromInputs(gem, gem, gem, gem, gem, gem, gem, gem, gem);
-
-            if (storageBlockCrafting) processBlockRecipe(stack, name+"FromGems");
-            if (storageBlockDeCrafting) {
-                ModHandler.addShapelessRecipe(name + "ToGem", StackUtil.setSize(gem, 9), new OreIngredient(name));
-            }
-
-            DynamicRecipes.addIngotToBlockRecipe(gemName, gem, stack, storageBlockCrafting, storageBlockDeCrafting);
-        }
-        if (!ingot.isEmpty()) {
-            ModHandler.removeCraftingRecipeFromInputs(ingot, ingot, ingot, ingot, ingot, ingot, ingot, ingot, ingot);
-
-            if (storageBlockCrafting) processBlockRecipe(stack, name+"FromIngots");
-
-            ingot.setCount(9);
-            DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, stack, ingot);
-            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name+"ToIngot", ingot, new OreIngredient(name));
-            DynamicRecipes.addIngotToBlockRecipe(ingotName, ingot, stack, storageBlockCrafting, storageBlockDeCrafting);
+        boolean ingotPresent = ingot.ifPresent(stack -> {
+            ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
+                    
+            if (storageBlockCrafting) processBlockRecipe(ore, name + "FromIngots");
+                    
+            stack.setCount(9);
+            DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, ore, stack);
+            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToIngot", stack, new OreIngredient(name));
+            DynamicRecipes.addIngotToBlockRecipe(ingotName, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+        });
+        
+        if (!gem.ifPresent(stack -> {
+            if (ModHandler.getCraftingResult(stack, stack, ItemStack.EMPTY, stack, stack).itemEquals(ore)) return;
+                            
+            ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
+            
+            if (storageBlockCrafting) processBlockRecipe(ore, name + "FromGems");
+            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToGem", StackUtil.copyWithSize(stack, 9), new OreIngredient(name));
+                            
+            DynamicRecipes.addIngotToBlockRecipe(gemName, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+        })) {
+            dust.ifPresent(stack -> {
+                ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
+                if (!ingotPresent) {
+                    if (storageBlockCrafting) processBlockRecipe(ore, name + "FromDusts");
+                    DynamicRecipes.addIngotToBlockRecipe(dustName, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+                }
+                                
+                stack.setCount(9);
+                if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToDust", stack, new OreIngredient(name));
+                DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), stack));
+            });
         }
     }
 
@@ -502,238 +524,137 @@ public class OreDictHandler { // TODO Subject to huge cleanup
         );
     }
 
-    private void processIngot(ItemStack stack, String name) {
+    private void processIngot(final ItemStack stack, String name) {
         String material = name.replace("ingot", "");
         String materialName = material.toLowerCase(Locale.ROOT);
         String plateName = name.replaceFirst("ingot", "plate");
         ItemStack plate = OreDictUnificator.get(plateName);
         if (!plate.isEmpty()) {
             DynamicRecipes.addBenderRecipe(RecipeSimple.create(RecipeIngredientOre.create(name), plate, 50, 20));
-            ItemStack result;
 
-            if (GregTechAPI.getDynamicConfig("recipes", "platesNeededForArmorMadeOf"+material, true)) {
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, ItemStack.EMPTY, stack)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_helmet_" + materialName,
-                            result,
-                            "XXX", "XTX", 'X', plateName, 'T', "craftingToolHardHammer"
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, ItemStack.EMPTY, stack, stack, stack, stack, stack, stack, stack)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_chestplate_" + materialName,
-                            result,
-                            "XTX", "XXX", "XXX", 'X', plateName, 'T', "craftingToolHardHammer"
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stack)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_leggings_" + materialName,
-                            result,
-                            "XXX", "XTX", "X X", 'X', plateName, 'T', "craftingToolHardHammer"
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stack)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_boots_" + materialName,
-                            result,
-                            "XTX", "X X", 'X', plateName, 'T', "craftingToolHardHammer"
-                    );
-                }
+            if (GregTechAPI.getDynamicConfig("plates_needed_for_armor_made_of", material, true)) {
+                ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, ItemStack.EMPTY, stack)
+                        .ifPresent(output -> addShapedMaterialRecipe(materialName, "helmet", output, "XXX", "XTX", 'X', plateName, 'T', "craftingToolHardHammer"));
+                
+                ModHandler.removeCraftingRecipeFromInputs(stack, ItemStack.EMPTY, stack, stack, stack, stack, stack, stack, stack)
+                        .ifPresent(output -> addShapedMaterialRecipe(materialName, "chestplate", output, "XTX", "XXX", "XXX", 'X', plateName, 'T', "craftingToolHardHammer"));
+                
+                ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stack)
+                        .ifPresent(output -> addShapedMaterialRecipe(materialName, "leggings", output, "XXX", "XTX", "X X", 'X', plateName, 'T', "craftingToolHardHammer"));
+                
+                ModHandler.removeCraftingRecipeFromInputs(stack, ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stack)
+                        .ifPresent(output -> addShapedMaterialRecipe(materialName, "boots", output, "XTX", "X X", 'X', plateName, 'T', "craftingToolHardHammer"));
             }
 
-
-            if (GregTechAPI.getDynamicConfig("recipes", "platesNeededForToolsMadeOf"+name.replace("ingot", ""), true)) {
+            if (GregTechAPI.getDynamicConfig("plates_needed_for_tools_made_of", name.replace("ingot", ""), true)) {
                 ItemStack stick = new ItemStack(Items.STICK);
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_sword_" + materialName,
-                            result,
-                            " X ", "FXT", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile"
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_pickaxe_" + materialName,
-                            result,
-                            "XII", "FST", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_shovel_" + materialName,
-                            result,
-                            "FXT", " S ", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile"
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, ItemStack.EMPTY, stack, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_axe_" + materialName,
-                            result,
-                            "XIT", "XS ", "FS ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stick, stack, ItemStack.EMPTY, stick)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_axe_" + materialName,
-                            result,
-                            "XIT", "XS ", "FS ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(stack, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_hoe_" + materialName,
-                            result,
-                            "XIT", "FS ", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
-                    );
-                }
-                if (!(result = ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)).isEmpty()) {
-                    ModHandler.addShapedRecipe(
-                            result.getItem().getRegistryName().getNamespace()+"_hoe_" + materialName,
-                            result,
-                            "XIT", "FS ", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack
-                    );
-                }
+                ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick)
+                        .ifPresent(output -> addShapedMaterialRecipe(materialName, "sword", output, " X ", "FXT", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile"));
+                
+                ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)
+                        .ifPresent(output -> addShapedMaterialRecipe(materialName, "pickaxe", output, "XII", "FST", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack));
+                
+                ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)
+                        .ifPresent(output -> addShapedMaterialRecipe(materialName, "shovel", output, "FXT", " S ", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile"));
+
+                OptionalItemStack.when(
+                        ModHandler.removeCraftingRecipeFromInputs(stack, stack, ItemStack.EMPTY, stack, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick), 
+                        ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stick, stack, ItemStack.EMPTY, stick)
+                ).ifPresent(output -> addShapedMaterialRecipe(materialName, "axe", output, "XIT", "XS ", "FS ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack));
+                
+                OptionalItemStack.when(
+                        ModHandler.removeCraftingRecipeFromInputs(stack, stack, ItemStack.EMPTY, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick), 
+                        ModHandler.removeCraftingRecipeFromInputs(ItemStack.EMPTY, stack, stack, ItemStack.EMPTY, stick, ItemStack.EMPTY, ItemStack.EMPTY, stick)
+                ).ifPresent(output -> addShapedMaterialRecipe(materialName, "hoe", output, "XIT", "FS ", " S ", 'X', plateName, 'T', "craftingToolHardHammer", 'S', "stickWood", 'F', "craftingToolFile", 'I', stack));
             }
         }
 
-        ItemStack unified = OreDictUnificator.getUnifiedOre(name);
-        if (!unified.isEmpty()) stack = unified;
+        ItemStack unified = OreDictUnificator.getUnifiedOre(name, stack);
 
-        ItemStack result;
-        if (!OreDictUnificator.getFirstOre("gearStone").isEmpty() && !(result = ModHandler.getCraftingResult(ItemStack.EMPTY, stack, ItemStack.EMPTY, stack, OreDictUnificator.getFirstOre("gearStone"), stack, ItemStack.EMPTY, stack, ItemStack.EMPTY)).isEmpty()) {
-            DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(RecipeIngredientOre.create("gearStone"), RecipeIngredientItemStack.create(stack, 4), result, 1600, 2));
-        } else {
-            if (!(result = ModHandler.getCraftingResult(ItemStack.EMPTY, stack, ItemStack.EMPTY, stack, new ItemStack(Items.IRON_INGOT), stack, ItemStack.EMPTY, stack, ItemStack.EMPTY)).isEmpty() ||
-                    !(result = ModHandler.getCraftingResult(ItemStack.EMPTY, stack, ItemStack.EMPTY, stack, new ItemStack(Blocks.COBBLESTONE), stack, ItemStack.EMPTY, stack, ItemStack.EMPTY)).isEmpty()) {
-                DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(RecipeIngredientOre.create("stoneCobble"), RecipeIngredientItemStack.create(stack, 4), result, 1600, 2));
-            }
+        if (!OreDictUnificator.getFirstOre("gearStone")
+                .flatMap(gearStone -> ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, gearStone, unified, ItemStack.EMPTY, unified, ItemStack.EMPTY))
+                .ifPresent(output -> DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(RecipeIngredientOre.create("gearStone"), RecipeIngredientItemStack.create(unified, 4), output, 1600, 2)))
+        ) {
+            OptionalItemStack.when(
+                    ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Items.IRON_INGOT), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY), 
+                    ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Blocks.COBBLESTONE), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY)
+            ).ifPresent(output -> DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(RecipeIngredientOre.create("stoneCobble"), RecipeIngredientItemStack.create(unified, 4), output, 1600, 2)));
         }
 
         switch (name) {
             case "ingotQuicksilver":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.CINNABAR.getInstance()), stack);
+                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.CINNABAR.getInstance()), unified);
                 break;
             case "ingotManganese":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.MANGANESE.getInstance()), stack);
+                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.MANGANESE.getInstance()), unified);
                 break;
             case "ingotMagnesium":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.MAGNESIUM.getInstance()), stack);
+                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.MAGNESIUM.getInstance()), unified);
                 break;
             case "ingotAluminium":
             case "ingotTitanium":
             case "ingotChrome":
             case "ingotTungsten":
             case "ingotSteel":
-                ModHandler.removeSmeltingRecipe(stack);
+                ModHandler.removeSmeltingRecipe(unified);
                 break;
             case "ingotIron":
-                if (GregTechMod.classic) DynamicRecipes.addInductionSmelterRecipe("ingotRefinedIron", stack, new ItemStack(Blocks.SAND), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 2), ModHandler.slag, 400, 25);
+                if (GregTechMod.classic) DynamicRecipes.addInductionSmelterRecipe("ingotRefinedIron", unified, new ItemStack(Blocks.SAND), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 2), ModHandler.slag, 400, 25);
                 break;
         }
 
-        ItemStack stick = OreDictUnificator.getFirstOre(name.replaceFirst("ingot","stick"));
-        if (!stick.isEmpty()) {
-            ModHandler.addShapedRecipe(
-                    "stick_"+materialName,
-                    stick,
-                    "F", "I", 'F', "craftingToolFile", 'I', name
-            );
-
-            ItemStack smallDust;
-            BlockItems.Smalldust gtSmallDust = GtUtil.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
-            if (gtSmallDust != null) smallDust = new ItemStack(gtSmallDust.getInstance());
-            else {
-                smallDust = OreDictUnificator.getFirstOre(name.replaceFirst("ingot", "dustSmall"), 2);
-            }
-
-            if (!smallDust.isEmpty()) DynamicRecipes.addLatheRecipe(RecipeLathe.create(RecipeIngredientOre.create(name), Arrays.asList(stick, !smallDust.isEmpty() ? smallDust : stick), !smallDust.isEmpty() ? 50 : 150, 16));
-        }
+        OreDictUnificator.getFirstOre(name.replaceFirst("ingot","stick"))
+                .ifPresent(stick -> {
+                    ModHandler.addShapedRecipe(
+                            "stick_" + materialName,
+                            stick,
+                            "F", "I", 'F', "craftingToolFile", 'I', name
+                    );
+                    
+                    BlockItems.Smalldust gtSmallDust = GtUtil.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
+                    OptionalItemStack.when(
+                            OptionalItemStack.of(gtSmallDust != null ? new ItemStack(gtSmallDust.getInstance()) : ItemStack.EMPTY),
+                            OreDictUnificator.getFirstOre(name.replaceFirst("ingot", "dustSmall"), 2)
+                    ).ifPresent(smallDust -> DynamicRecipes.addLatheRecipe(RecipeLathe.create(RecipeIngredientOre.create(name), Arrays.asList(stick, !smallDust.isEmpty() ? smallDust : stick), !smallDust.isEmpty() ? 50 : 150, 16)));
+                });
+    }
+    
+    private void addShapedMaterialRecipe(String material, String name, ItemStack result, Object... params) {
+        ModHandler.addShapedRecipe(
+                result.getItem().getRegistryName().getNamespace() + "_" + name + "_" + material,
+                result,
+                params
+        );
     }
 
     private void processSmalldustRecipe(ItemStack stack, String name, String smalldustName, int count) {
         Recipes.recyclerBlacklist.add(Recipes.inputFactory.forOreDict(name));
         String dustName = name.replaceFirst(smalldustName, "dust");
-        ItemStack dust = OreDictUnificator.getFirstOre(dustName);
-        if (!dust.isEmpty()) {
-            Ingredient ingredient = new OreIngredient(name);
-            Ingredient[] ingredients = new Ingredient[count];
-            Arrays.fill(ingredients, ingredient);
-            ModHandler.addShapelessRecipe(dustName+"FromSmalldusts", dust, ingredients);
-            ModHandler.addShapelessRecipe(dustName+"ToSmalldusts", StackUtil.copyWithSize(stack, count), new OreIngredient(dustName));
-        }
+        OreDictUnificator.getFirstOre(dustName)
+                .ifPresent(dust -> {
+                    Ingredient[] ingredients = new Ingredient[count];
+                    Arrays.fill(ingredients, new OreIngredient(name));
+                    ModHandler.addShapelessRecipe(dustName + "FromSmalldusts", dust, ingredients);
+                    ModHandler.addShapelessRecipe(dustName + "ToSmalldusts", StackUtil.copyWithSize(stack, count), new OreIngredient(dustName));
+                });
     }
 
     private void processDust(ItemStack stack, String name) {
         if (name.startsWith("dustSmall")) processSmalldustRecipe(stack, name, "dustSmall", 4);
         if (name.startsWith("dustTiny")) processSmalldustRecipe(stack, name, "dustTiny", 9);
-
+        
+        String material = name.substring(4).toLowerCase(Locale.ROOT);
+        if (BLAST_FURNACE_DUSTS.containsKey(material)) {
+            if (GregTechAPI.getDynamicConfig("blast_furnace_requirements", material, true)) ModHandler.removeSmeltingRecipe(stack);
+            else DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BLAST_FURNACE_DUSTS.get(material).getKey().get());
+        }
+        else if (DUST_TO_INGOT.containsKey(material)) {
+            DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, DUST_TO_INGOT.get(material).get());
+        }
+        
         switch (name) {
-            case "dustSteel":
-                if (GregTechAPI.getDynamicConfig("blast_furnace_requirements", "steel", true)) ModHandler.removeSmeltingRecipe(stack);
-                else DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, new ItemStack(BlockItems.Ingot.STEEL.getInstance()));
-                break;
-            case "dustChrome":
-                if (GregTechAPI.getDynamicConfig("blast_furnace_requirements", "chrome", true)) ModHandler.removeSmeltingRecipe(stack);
-                else DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.CHROME.getInstance());
-                break;
-            case "dustTitanium":
-                if (GregTechAPI.getDynamicConfig("blast_furnace_requirements", "titanium", true)) ModHandler.removeSmeltingRecipe(stack);
-                else DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.TITANIUM.getInstance());
-                break;
-            case "dustAluminium":
-            case "dustAluminum":
-                if (GregTechAPI.getDynamicConfig("blast_furnace_requirements", "aluminium", true)) ModHandler.removeSmeltingRecipe(stack);
-                else DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.ALUMINIUM.getInstance());
-                break;
-            case "dustTungsten":
-                if (GregTechAPI.getDynamicConfig("blast_furnace_requirements", "tungsten", true)) ModHandler.removeSmeltingRecipe(stack);
-                else DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.TUNGSTEN.getInstance());
-                break;
-            case "dustInvar":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.INVAR.getInstance());
-                break;
-            case "dustBronze":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, IC2Items.getItem("ingot", "bronze"));
-                break;
-            case "dustBrass":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.BRASS.getInstance());
-                break;
-            case "dustCopper":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, IC2Items.getItem("ingot", "copper"));
-                break;
-            case "dustGold":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, Items.GOLD_INGOT);
-                break;
-            case "dustNickel":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.NICKEL.getInstance());
-                break;
-            case "dustIron":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, Items.IRON_INGOT);
-                break;
-            case "dustAntimony":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.ANTIMONY.getInstance());
-                break;
-            case "dustTin":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, IC2Items.getItem("ingot", "tin"));
-                break;
-            case "dustZinc":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.ZINC.getInstance());
-                break;
-            case "dustPlatinum":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.PLATINUM.getInstance());
-                break;
-            case "dustLead":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.LEAD.getInstance());
-                break;
-            case "dustSilver":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.SILVER.getInstance());
-                break;
             case "dustCoal":
                 ModHandler.addLiquidTransposerFillRecipe(stack, new FluidStack(FluidRegistry.WATER, 125), IC2Items.getItem("dust", "coal_fuel"), 1250);
-                break;
-            case "dustElectrum":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, stack, BlockItems.Ingot.ELECTRUM.getInstance());
                 break;
             case "dustWheat":
             case "dustFlour":
@@ -743,13 +664,20 @@ public class OreDictHandler { // TODO Subject to huge cleanup
     }
 
     private void processOre(ItemStack stack, String name) {
-        String dustName = name.replaceFirst("ore", "dust");
-        ItemStack dust = OreDictUnificator.getFirstOre(dustName);
-        if (!dust.isEmpty()) {
-            ModHandler.addShapedRecipe(
-                    name+"Crushing",
-                    dust,
-                    "T", "O", 'T', "craftingToolHardHammer", 'O', name);
+        OreDictUnificator.getFirstOre(name.replaceFirst("ore", "dust"))
+                .ifPresent(dust -> ModHandler.addShapedRecipe(
+                        name + "Crushing",
+                        dust,
+                        "T", "O", 'T', "craftingToolHardHammer", 'O', name));
+        
+        String material = name.substring(3).toLowerCase(Locale.ROOT);
+        if (BLAST_FURNACE_DUSTS.containsKey(material)) {
+            Pair<Supplier<Item>, Supplier<Item>> pair = BLAST_FURNACE_DUSTS.get(material);
+            Item item = GregTechAPI.getDynamicConfig("blast_furnace_requirements", material, true) ? pair.getKey().get() : pair.getValue().get();
+            DynamicRecipes.addSmelterOreToIngotsRecipe(stack, item);
+        }
+        else if (ORE_TO_INGOT.containsKey(material)) {
+            DynamicRecipes.addSmelterOreToIngotsRecipe(stack, ORE_TO_INGOT.get(material).get());
         }
 
         switch (name) {
@@ -757,61 +685,6 @@ public class OreDictHandler { // TODO Subject to huge cleanup
             case "orePyrite":
                 DynamicRecipes.addInductionSmelterRecipe(name, stack, new ItemStack(Blocks.SAND), new ItemStack(Items.IRON_INGOT), ModHandler.slag, 3000, 10);
                 DynamicRecipes.addInductionSmelterRecipe(name, stack, ModHandler.slagRich, new ItemStack(Items.IRON_INGOT, 2), ModHandler.slag, 3000, 95);
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, Items.IRON_INGOT);
-                break;
-            case "oreGold":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, Items.GOLD_INGOT);
-                break;
-            case "oreSilver":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, new ItemStack(BlockItems.Ingot.SILVER.getInstance()));
-                break;
-            case "oreLead":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.LEAD.getInstance());
-                break;
-            case "oreCopper":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, IC2Items.getItem("ingot", "copper"));
-                break;
-            case "oreTin":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, IC2Items.getItem("ingot", "tin"));
-                break;
-            case "oreZinc":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.ZINC.getInstance());
-                break;
-            case "oreCassiterite":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, StackUtil.copyWithSize(IC2Items.getItem("ingot", "tin"), 2));
-                break;
-            case "oreAntimony":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.ANTIMONY.getInstance());
-                break;
-            case "oreCooperite":
-            case "oreSheldonite":
-            case "orePlatinum":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.PLATINUM.getInstance());
-                break;
-            case "oreNickel":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.NICKEL.getInstance());
-                break;
-            case "oreAluminium":
-            case "oreAluminum":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, GregTechAPI.getDynamicConfig("blast_furnace_requirements", "aluminium", true) ? BlockItems.Dust.ALUMINIUM.getInstance() : BlockItems.Ingot.ALUMINIUM.getInstance());
-                break;
-            case "oreSteel":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, GregTechAPI.getDynamicConfig("blast_furnace_requirements", "steel", true) ? BlockItems.Dust.STEEL.getInstance() : BlockItems.Ingot.STEEL.getInstance());
-                break;
-            case "oreTitan":
-            case "oreTitanium":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, GregTechAPI.getDynamicConfig("blast_furnace_requirements", "titanium", true) ? BlockItems.Dust.TITANIUM.getInstance() : BlockItems.Ingot.TITANIUM.getInstance());
-                break;
-            case "oreChrome":
-            case "oreChromium":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, GregTechAPI.getDynamicConfig("blast_furnace_requirements", "chrome", true) ? BlockItems.Dust.CHROME.getInstance() : BlockItems.Ingot.CHROME.getInstance());
-                break;
-            case "oreElectrum":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, BlockItems.Ingot.ELECTRUM.getInstance());
-                break;
-            case "oreTungsten":
-            case "oreTungstate":
-                DynamicRecipes.addSmelterOreToIngotsRecipe(stack, GregTechAPI.getDynamicConfig("blast_furnace_requirements", "tungsten", true) ? BlockItems.Dust.TUNGSTEN.getInstance() : BlockItems.Ingot.TUNGSTEN.getInstance());
                 break;
             case "orePhosphorite":
                 DynamicRecipes.addSmeltingRecipe(name, stack, new ItemStack(BlockItems.Dust.PHOSPHORUS.getInstance(), 2));

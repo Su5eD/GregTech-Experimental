@@ -11,10 +11,13 @@ import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.cover.Cover;
 import mods.gregtechmod.objects.blocks.BlockBase;
 import mods.gregtechmod.objects.blocks.BlockConnected;
 import mods.gregtechmod.objects.blocks.BlockConnectedTurbine;
 import mods.gregtechmod.objects.blocks.BlockOre;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityQuantumChest;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityDigitalChestBase;
 import mods.gregtechmod.objects.items.*;
 import mods.gregtechmod.objects.items.base.*;
 import mods.gregtechmod.objects.items.components.ItemLithiumBattery;
@@ -28,6 +31,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidTank;
 
 import java.util.List;
@@ -169,7 +174,7 @@ public class BlockItems {
         }
     }
 
-    public enum Ingot implements IObjectHolder {
+    public enum Ingot implements IItemProvider {
         ALUMINIUM("Al"),
         ANTIMONY("Sb"),
         BATTERY_ALLOY("Pb4Sb1"),
@@ -233,7 +238,7 @@ public class BlockItems {
         }
     }
 
-    public enum Nugget implements IObjectHolder {
+    public enum Nugget implements IItemProvider {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANTIMONY(Ingot.ANTIMONY.description),
         BRASS(Ingot.BRASS.description),
@@ -277,7 +282,7 @@ public class BlockItems {
         }
     }
 
-    public enum Plate implements IObjectHolder {
+    public enum Plate implements IItemProvider {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         BATTERY_ALLOY(Ingot.BATTERY_ALLOY.description),
         BRASS(Ingot.BRASS.description),
@@ -337,7 +342,7 @@ public class BlockItems {
         }
     }
 
-    public enum Rod implements IObjectHolder {
+    public enum Rod implements IItemProvider {
         ALUMINIUM(Ingot.ALUMINIUM.description),
         BRASS(Ingot.BRASS.description),
         BRONZE("SnCu3"),
@@ -389,7 +394,7 @@ public class BlockItems {
         }
     }
 
-    public enum Dust implements IObjectHolder {
+    public enum Dust implements IItemProvider {
         ALMANDINE("Al2Fe3Si3O12"),
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE("Ca3Fe2Si3O12"),
@@ -488,7 +493,7 @@ public class BlockItems {
         }
     }
 
-    public enum Smalldust implements IObjectHolder {
+    public enum Smalldust implements IItemProvider {
         ALMANDINE(Dust.ALMANDINE.description),
         ALUMINIUM(Ingot.ALUMINIUM.description),
         ANDRADITE(Dust.ANDRADITE.description),
@@ -582,7 +587,7 @@ public class BlockItems {
             this.description = description;
             this.hasEffect = hasEffect;
             
-            String name = "smalldust_"+this.name().toLowerCase(Locale.ROOT);
+            String name = "smalldust_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
                     .setFolder("smalldust")
                     .setRegistryName(name)
@@ -596,42 +601,62 @@ public class BlockItems {
         }
     }
 
-    public enum Upgrade implements IObjectHolder {
+    public enum Upgrade implements IItemProvider {
         HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraSinkTier()),
-        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 4, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 4, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
-        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade"),
+        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
-            GameProfile owner = machine.getOwner();
-            if (owner != null && !player.getGameProfile().equals(owner)) {
-                GtUtil.sendMessage(player, Reference.MODID+".item.machine_lock.error");
+            if (player != null && !player.getGameProfile().equals(machine.getOwner())) {
+                GtUtil.sendMessage(player, Reference.MODID + ".item.machine_lock.error");
                 return true;
             }
             return false;
         }, (stack, machine, player) -> {
-            if (!machine.isPrivate()) machine.setPrivate(true, player != null ? player.getGameProfile() : machine.getOwner());
+            if (!machine.isPrivate()) machine.setPrivate(true);
+        }),
+        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade", (stack, machine, player) -> {
+            if (machine instanceof TileEntityDigitalChestBase) {
+                BlockPos pos = ((TileEntityDigitalChestBase) machine).getPos();
+                EnumFacing facing = ((TileEntityDigitalChestBase) machine).getFacing();
+                ItemStack content = ((TileEntityDigitalChestBase) machine).content.get();
+                GameProfile owner = machine.getOwner();
+
+                player.world.removeTileEntity(pos);
+
+                TileEntityQuantumChest te = new TileEntityQuantumChest();
+                te.content.put(content);
+                te.setOwner(owner);
+                if (machine.isPrivate()) {
+                    te.setPrivate(true);
+                    te.forceAddUpgrade(new ItemStack(MACHINE_LOCK.getInstance()));
+                }
+
+                player.world.setTileEntity(pos, te);
+                te.setFacing(facing);
+                player.world.setBlockState(pos, te.getBlockState());
+            }
         }),
         STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (stack, machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
-        STEAM_TANK(GtUpgradeType.STEAM, 4, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
+        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
             if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + 64000 * stack.getCount());
         }),
         PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (stack, machine, player) -> {
             if (!ModHandler.buildcraftLib) {
-                GtUtil.sendMessage(player, Reference.MODID+".info.buildcraft_absent");
+                GtUtil.sendMessage(player, Reference.MODID + ".info.buildcraft_absent");
                 return true;
             }
             return false;
         }, (stack, machine, player) -> {
             if (!machine.hasMjUpgrade()) machine.addMjUpgrade();
         }),
-        RS_ENERGY_CELL(GtUpgradeType.MJ, 15, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
+        RS_ENERGY_CELL(GtUpgradeType.MJ, 16, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
             if (!ModHandler.buildcraftLib) {
-                GtUtil.sendMessage(player, Reference.MODID+".info.buildcraft_absent");
+                GtUtil.sendMessage(player, Reference.MODID + ".info.buildcraft_absent");
                 return true;
             }
             return false;
@@ -648,10 +673,6 @@ public class BlockItems {
         public BiPredicate<ItemStack, IUpgradableMachine> condition;
         public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert;
         public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
-
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict) {
-            this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, (stack, machine, player) -> {});
-        }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
             this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
@@ -697,7 +718,7 @@ public class BlockItems {
         }
     }
 
-    public enum Cover implements IObjectHolder {
+    public enum CoverItem implements IItemProvider {
         ACTIVE_DETECTOR("craftingWorkDetector"),
         CONVEYOR("craftingConveyor"),
         CRAFTING("craftingWorkBench"),
@@ -719,30 +740,24 @@ public class BlockItems {
         SOLAR_PANEL_MV("craftingSolarPanelMV");
 
         private final LazyValue<Item> instance;
-        public final String coverName;
         public final String oreDict;
 
-        Cover(String coverName, String oreDict) {
-            this.coverName = coverName;
-            this.oreDict = oreDict;
-            
-            this.instance = constructInstance();
+        CoverItem(String oreDict) {
+            this(null, oreDict);
         }
-
-        Cover(String oreDict) {
-            this.coverName = this.name().toLowerCase(Locale.ROOT);
+                
+        CoverItem(String itemName, String oreDict) {
             this.oreDict = oreDict;
-            
-            this.instance = constructInstance();
-        }
-        
-        private LazyValue<Item> constructInstance() {
-            String name = this.name().toLowerCase(Locale.ROOT);
-            return new LazyValue<>(() -> new ItemCover(name, this.coverName)
-                    .setFolder("coveritem")
-                    .setRegistryName(this.coverName)
-                    .setTranslationKey(this.coverName)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+            this.instance = new LazyValue<>(() -> {
+                Cover cover = Cover.valueOf(this.name());
+                String name = itemName != null ? itemName : this.name().toLowerCase(Locale.ROOT);
+                
+                return new ItemCover(cover.name().toLowerCase(Locale.ROOT), cover.instance.get(), name)
+                        .setFolder("coveritem")
+                        .setRegistryName(name)
+                        .setTranslationKey(name)
+                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
+            });
         }
 
         @Override
@@ -751,7 +766,7 @@ public class BlockItems {
         }
     }
 
-    public enum TurbineRotor implements IObjectHolder {
+    public enum TurbineRotor implements IItemProvider {
         BRONZE(60, 10, 15000),
         STEEL(80, 20, 10000),
         MAGNALIUM(100, 50, 10000),
@@ -781,7 +796,7 @@ public class BlockItems {
         }
     }
 
-    public enum Component implements IObjectHolder {
+    public enum Component implements IItemProvider {
         SUPERCONDUCTOR("craftingSuperconductor"),
         DATA_STORAGE_CIRCUIT("craftingCircuitTier05"),
         LITHIUM_BATTERY(ItemLithiumBattery::new, "craftingLiBattery"),
@@ -847,7 +862,7 @@ public class BlockItems {
         }
     }
 
-    public enum Tool implements IObjectHolder {
+    public enum Tool implements IItemProvider {
         CROWBAR(ItemCrowbar::new, "craftingToolCrowbar"),
         DEBUG_SCANNER(ItemDebugScanner::new),
         DRILL_ADVANCED(ItemDrillAdvanced::new, "craftingToolLargeDrill"),
@@ -892,7 +907,7 @@ public class BlockItems {
         }
     }
     
-    public enum ColorSpray implements IObjectHolder {
+    public enum ColorSpray implements IItemProvider {
         WHITE,
         ORANGE,
         MAGENTA,
@@ -922,7 +937,7 @@ public class BlockItems {
         }
     }
 
-    public enum Wrench implements IObjectHolder {
+    public enum Wrench implements IItemProvider {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -947,7 +962,7 @@ public class BlockItems {
         }
     }
 
-    public enum JackHammer implements IObjectHolder {
+    public enum JackHammer implements IItemProvider {
         BRONZE(50, 10000, 1, 50, 7.5F, false),
         STEEL(100, 10000, 1, 50, 15F, false),
         DIAMOND(250, 100000, 2, 100, 45F, true);
@@ -980,7 +995,7 @@ public class BlockItems {
         }
     }
 
-    public enum Hammer implements IObjectHolder {
+    public enum Hammer implements IItemProvider {
         IRON(128, 4),
         BRONZE(256, 6),
         STEEL(512, 8),
@@ -1006,7 +1021,7 @@ public class BlockItems {
         }
     }
 
-    public enum Saw implements IObjectHolder {
+    public enum Saw implements IItemProvider {
         IRON(128, 3, 2),
         BRONZE(256, 4, 3),
         STEEL(1280, 6, 4),
@@ -1034,7 +1049,7 @@ public class BlockItems {
         }
     }
 
-    public enum SolderingMetal implements IObjectHolder {
+    public enum SolderingMetal implements IItemProvider {
         LEAD(10),
         TIN(50);
 
@@ -1056,7 +1071,7 @@ public class BlockItems {
         }
     }
 
-    public enum File implements IObjectHolder {
+    public enum File implements IItemProvider {
         IRON(128, 2),
         BRONZE(256, 3),
         STEEL(1280, 3),
@@ -1082,7 +1097,7 @@ public class BlockItems {
         }
     }
 
-    public enum Cell implements IObjectHolder {
+    public enum Cell implements IItemProvider {
         CARBON("C"),
         ICE("H2O"),
         NITROCARBON("NC"),
@@ -1110,7 +1125,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearCoolantPack implements IObjectHolder {
+    public enum NuclearCoolantPack implements IItemProvider {
         COOLANT_NAK_60K(60000, "crafting60kCoolantStore"),
         COOLANT_NAK_180K(180000, "crafting180kCoolantStore"),
         COOLANT_NAK_360K(360000, "crafting360kCoolantStore"),
@@ -1137,7 +1152,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearFuelRod implements IObjectHolder {
+    public enum NuclearFuelRod implements IItemProvider {
         THORIUM(1, 25000, 0.25F, 1, 0.25F),
         THORIUM_DUAL(2, 25000, 0.25F, 1, 0.25F),
         THORIUM_QUAD(4, 25000, 0.25F, 1, 0.25F),
@@ -1176,7 +1191,7 @@ public class BlockItems {
         }
     }
 
-    public enum Armor implements IObjectHolder {
+    public enum Armor implements IItemProvider {
         CLOAKING_DEVICE(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, false, ArmorPerk.INVISIBILITY_FIELD),
         LAPOTRONPACK(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, true, GregTechMod.classic ? "crafting10kkEUPack" : "crafting100kkEUPack"),
         LITHIUM_BATPACK(EntityEquipmentSlot.CHEST, 600000, 128, 1, 0, 0, true, "crafting600kEUPack"),
@@ -1222,7 +1237,7 @@ public class BlockItems {
         }
     }
 
-    public enum Miscellaneous implements IObjectHolder {
+    public enum Miscellaneous implements IItemProvider {
         GREG_COIN,
         CREDIT_COPPER(() -> GtUtil.translateGenericDescription("credit", 0.125), null),
         CREDIT_SILVER(() -> GtUtil.translateGenericDescription("credit", 8), null),

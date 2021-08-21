@@ -19,8 +19,8 @@ public class CoverSolarPanel extends CoverGeneric {
     private double daytimeEnergy;
     private double nighttimeEnergy;
 
-    public CoverSolarPanel(ICoverable te, EnumFacing side, ItemStack stack, double daytimeEnergy, double nighttimeEnergy) {
-        super(te, side, stack);
+    public CoverSolarPanel(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack, double daytimeEnergy, double nighttimeEnergy) {
+        super(name, te, side, stack);
         this.daytimeEnergy = daytimeEnergy;
         this.nighttimeEnergy = nighttimeEnergy;
     }

@@ -3,7 +3,6 @@ package mods.gregtechmod.compat.jei;
 import ic2.core.profile.Version;
 import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
-import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -22,7 +21,7 @@ import mods.gregtechmod.recipe.RecipeCanner;
 import mods.gregtechmod.recipe.RecipeDualInput;
 import mods.gregtechmod.recipe.RecipeSimple;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
-import mods.gregtechmod.util.IObjectHolder;
+import mods.gregtechmod.util.IItemProvider;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -37,12 +36,10 @@ public class JEIModule implements IModPlugin {
     
     public static final List<ItemStack> HIDDEN_ITEMS = new ArrayList<>();
     public static final List<IRecipeWrapper> HIDDEN_RECIPES = new ArrayList<>();
-    public static IIngredientRegistry itemRegistry;
     public static IIngredientBlacklist ingredientBlacklist;
 
     @Override
     public void register(IModRegistry registry) {
-        itemRegistry = registry.getIngredientRegistry();
         ingredientBlacklist = registry.getJeiHelpers().getIngredientBlacklist();
 
         CATEGORIES.forEach(category -> category.init(registry));
@@ -125,10 +122,10 @@ public class JEIModule implements IModPlugin {
                 .forEach(recipe -> registry.hideRecipe(recipe, VanillaRecipeCategoryUid.CRAFTING));
     }
 
-    private void hideEnum(IObjectHolder[] values) {
+    private void hideEnum(IItemProvider[] values) {
         Arrays.stream(values)
                 .filter(val -> !ProfileDelegate.shouldEnable(val))
-                .map(IObjectHolder::getInstance)
+                .map(IItemProvider::getInstance)
                 .map(ItemStack::new)
                 .forEach(HIDDEN_ITEMS::add);
     }

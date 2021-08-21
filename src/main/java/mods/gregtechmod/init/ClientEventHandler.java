@@ -45,20 +45,21 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@EventBusSubscriber(value = Side.CLIENT)
+@EventBusSubscriber(value = Side.CLIENT, modid = Reference.MODID)
 public class ClientEventHandler {
     private static final Map<ItemStack, Supplier<String>> EXTRA_TOOLTIPS = new HashMap<>();
-    
-    private static ItemStack dustCoal = ItemStack.EMPTY;
-    private static ItemStack dustIron = ItemStack.EMPTY;
-    private static ItemStack dustGold = ItemStack.EMPTY;
-    private static ItemStack dustCopper = ItemStack.EMPTY;
-    private static ItemStack dustTin = ItemStack.EMPTY;
-    private static ItemStack dustBronze = ItemStack.EMPTY;
-    private static ItemStack sensorKit = ItemStack.EMPTY;
-    private static ItemStack sensorCard = ItemStack.EMPTY;
+
+    public static void gatherModItems() {
+        ItemStack dustCoal = IC2Items.getItem("dust", "coal");
+        ItemStack dustIron = IC2Items.getItem("dust", "iron");
+        ItemStack dustGold = IC2Items.getItem("dust", "gold");
+        ItemStack dustCopper = IC2Items.getItem("dust", "copper");
+        ItemStack dustTin = IC2Items.getItem("dust", "tin");
+        ItemStack dustBronze = IC2Items.getItem("dust", "bronze");
+        // TODO Actually contribute to EnergyControl and remove ugly registration from API (URGENT)
+        ItemStack sensorKit = ModHandler.getModItem("energycontrol", "item_kit", 800);
+        ItemStack sensorCard = ModHandler.getModItem("energycontrol", "item_card", 800);
         
-    static {
         EXTRA_TOOLTIPS.put(dustCoal, () -> "C2");
         EXTRA_TOOLTIPS.put(dustIron, () -> "Fe");
         EXTRA_TOOLTIPS.put(dustGold, () -> "Au");
@@ -69,33 +70,22 @@ public class ClientEventHandler {
         EXTRA_TOOLTIPS.put(sensorCard, () -> GtUtil.translateItemDescription("sensor_card"));
     }
 
-    public static void gatherModItems() {
-        dustCoal = IC2Items.getItem("dust", "coal");
-        dustIron = IC2Items.getItem("dust", "iron");
-        dustGold = IC2Items.getItem("dust", "gold");
-        dustCopper = IC2Items.getItem("dust", "copper");
-        dustTin = IC2Items.getItem("dust", "tin");
-        dustBronze = IC2Items.getItem("dust", "bronze");
-        // TODO Actually contribute to EnergyControl and remove ugly registration from API (URGENT)
-        sensorKit = ModHandler.getModItem("energycontrol", "item_kit", 800);
-        sensorCard = ModHandler.getModItem("energycontrol", "item_card", 800);
-    }
-
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        BlockItemLoader.BLOCKS
+        BlockItemLoader.getBlocks()
                 .forEach(block -> {
                     Item blockItem = Item.getItemFromBlock(block);
-                    if (blockItem == Items.AIR) return;
-                    if (block instanceof ICustomItemModel) registerModel(blockItem, 0, ((ICustomItemModel)block).getItemModel());
-                    else registerModel(blockItem);
+                    if (blockItem != Items.AIR) {
+                        if (block instanceof ICustomItemModel) registerModel(blockItem, ((ICustomItemModel)block).getItemModel());
+                        else registerModel(blockItem);
+                    }
                 });
 
-        BlockItemLoader.ITEMS.stream()
-                .filter(IModelInfoProvider.class::isInstance)
+        BlockItemLoader.getAllItems().stream()
+                .filter(ICustomItemModel.class::isInstance)
                 .forEach(item -> {
-                    ModelInformation info = ((IModelInfoProvider) item).getModelInformation();
-                    registerModel(item, info.metadata, info.path);
+                    ResourceLocation path = ((ICustomItemModel) item).getItemModel();
+                    registerModel(item, path);
                 });
         
         registerBakedModels();
@@ -195,11 +185,11 @@ public class ClientEventHandler {
     }
     
     private static void registerModel(Item item) {
-        registerModel(item, 0, item.getRegistryName());
+        registerModel(item, item.getRegistryName());
     }
     
-    private static void registerModel(Item item, int metadata, ResourceLocation path) {
-        ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(path, "inventory"));
+    private static void registerModel(Item item, ResourceLocation path) {
+        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(path, "inventory"));
     }
     
     private static String getItemModelPath(String... paths) {

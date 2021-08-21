@@ -274,12 +274,6 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     protected void onInvalidate(T instance) {}
 
     @Override
-    public void getNetworkedFields(List<? super String> list) {
-        super.getNetworkedFields(list);
-        list.add("maintenance");
-    }
-
-    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         nbt.setInteger("efficiency", this.efficiency);
         nbt.setInteger("efficiencyIncrease", this.efficiencyIncrease);
@@ -350,7 +344,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 0;
     }
 

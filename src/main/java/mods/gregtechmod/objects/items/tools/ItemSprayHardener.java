@@ -9,7 +9,6 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -40,8 +39,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
         } catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException e) {
             handleChangeFoam = null;
             cableFoamHardened = null;
-            GregTechMod.logger.error("Failed to set up foam hardening methods");
-            e.printStackTrace();
+            GregTechMod.logger.error("Failed to reflect foam hardening methods", e);
         }
         CHANGE_FOAM_HANDLE = handleChangeFoam;
         HARDENED_CABLE_FOAM = cableFoamHardened;
@@ -61,25 +59,29 @@ public class ItemSprayHardener extends ItemToolCrafting {
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if (world.isRemote) return EnumActionResult.PASS;
-        IBlockState state = world.getBlockState(pos);
-        Block block = state.getBlock();
-        if (block == Blocks.AIR) return EnumActionResult.PASS;
-        ItemStack stack = player.inventory.getCurrentItem();
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityCable) {
-            if (((TileEntityCable)tileEntity).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
-                hardenCableFoam(tileEntity);
-                return EnumActionResult.SUCCESS;
+        if (!world.isRemote) {
+            IBlockState state = world.getBlockState(pos);
+            Block block = state.getBlock();
+            if (!block.isAir(state, world, pos)) {
+                ItemStack stack = player.inventory.getCurrentItem();
+                TileEntity te = world.getTileEntity(pos);
+                
+                if (te instanceof TileEntityCable) {
+                    if (((TileEntityCable) te).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
+                        hardenCableFoam(te);
+                        return EnumActionResult.SUCCESS;
+                    }
+                } else {
+                    Item itemFoam = IC2Items.getItem("foam", "normal").getItem();
+                    if (block.getRegistryName().equals(itemFoam.getRegistryName())) {
+                        if (GtUtil.damageStack(player, stack, 1)) {
+                            IBlockState wall = IC2Items.getItemAPI().getBlockState("wall", "light_gray");
+                            world.setBlockState(pos, wall);
+                        }
+                        return EnumActionResult.SUCCESS;
+                    }
+                }
             }
-            return EnumActionResult.PASS;
-        }
-        Item itemFoam = IC2Items.getItem("foam", "normal").getItem(),
-             itemWall = IC2Items.getItem("wall", "light_gray").getItem();
-        if (block.getRegistryName().equals(itemFoam.getRegistryName())) {
-            if (GtUtil.damageStack(player, stack, 1))
-                world.setBlockState(pos, Block.getBlockFromItem(itemWall).getStateFromMeta(7));
-            return EnumActionResult.SUCCESS;
         }
         return EnumActionResult.PASS;
     }
@@ -88,9 +90,9 @@ public class ItemSprayHardener extends ItemToolCrafting {
         if (CHANGE_FOAM_HANDLE == null || HARDENED_CABLE_FOAM == null) return;
 
         try {
-            CHANGE_FOAM_HANDLE.invokeExact(tileEntityCable, HARDENED_CABLE_FOAM, false);
-        }  catch (Throwable t) {
-            t.printStackTrace();
+            CHANGE_FOAM_HANDLE.invoke(tileEntityCable, HARDENED_CABLE_FOAM, false);
+        } catch (Throwable t) {
+            GregTechMod.logger.catching(t);
         }
     }
 }

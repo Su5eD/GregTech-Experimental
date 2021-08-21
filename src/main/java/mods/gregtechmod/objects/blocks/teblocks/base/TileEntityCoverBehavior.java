@@ -1,23 +1,30 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
+import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IScannerInfoProvider;
+import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine {
+public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine, IScannerInfoProvider {
     private final String descriptionKey;
     
     public final SidedRedstoneEmitter rsEmitter;
@@ -33,15 +40,27 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
+    public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {
+        super.onPlaced(stack, placer, facing);
+        for (TileEntityComponent component : getComponents()) {
+            if (component instanceof GtComponentBase) ((GtComponentBase) component).onPlaced(stack, placer, facing);
+        }
+    }
+
+    @Override
     protected final boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.inventory.getCurrentItem();
-        if (beforeOnActivated(stack, player, side) 
-                || this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ) 
-                || world.isRemote) return true;
         if (player.isSneaking()) return false;
+        else if (beforeActivated(stack, player, side) 
+                || this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ) 
+                || this.world.isRemote) return true;
         
         for (ICover cover : coverHandler.covers.values()) {
-            if (!cover.opensGui(side)) return false;
+            if (!cover.opensGui(side)) return true;
+        }
+        
+        for (TileEntityComponent component : this.getComponents()) {
+            if (component instanceof GtComponentBase && ((GtComponentBase) component).onActivated(player, hand, side, hitX, hitY, hitZ)) return true;
         }
         
         return onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
@@ -53,15 +72,16 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     protected void updateEntityServer() {
-        for (ICover cover : coverHandler.covers.values()) {
+        for (ICover cover : this.coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
-            if (tickRate > 0 && tickCounter % tickRate == 0) cover.doCoverThings();
+            if (tickRate > 0 && this.tickCounter % tickRate == 0) cover.doCoverThings();
         }
 
-        if (enableWorking != enableWorkingOld) {
-            enableWorkingOld = enableWorking;
+        if (this.enableWorking != this.enableWorkingOld) {
+            this.enableWorkingOld = this.enableWorking;
         }
-        tickCounter++;
+        
+        ++this.tickCounter;
     }
 
     @Override
@@ -141,6 +161,22 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         if (this.descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(this.descriptionKey));
     }
+
+    @Nonnull
+    @Override
+    public final List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
+        List<String> scan = new ArrayList<>();
+        getScanInfoPre(scan, player, pos, scanLevel);
+        for (TileEntityComponent component : getComponents()) {
+            if (component instanceof GtComponentBase) ((GtComponentBase) component).getScanInfo(scan, player, pos, scanLevel);
+        }
+        getScanInfoPost(scan, player, pos, scanLevel);
+        return scan;
+    }
+    
+    public void getScanInfoPre(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
+    
+    public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
 
     @Override
     public void setInputEnabled(boolean value) {

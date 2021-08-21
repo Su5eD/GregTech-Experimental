@@ -1,13 +1,11 @@
 package mods.gregtechmod.cover;
 
-import ic2.core.item.reactor.ItemReactorVent;
-import ic2.core.item.reactor.ItemReactorVentSpread;
+import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.cover.CoverType;
-import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.util.Reference;
-import net.minecraft.item.Item;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -15,77 +13,70 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CoverVent extends CoverGeneric {
-    private float defaultEfficiency;
-    private float efficiency;
+import java.util.Arrays;
+import java.util.Collection;
 
-    public CoverVent(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
-        if (stack != null) this.defaultEfficiency = getVentType(stack).ordinal() <= 1 ? (float) 1.5 : 3;
+public class CoverVent extends CoverGeneric {
+    private final double efficiency;
+
+    public CoverVent(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
+        this.efficiency = getVentType(stack).efficiency;
     }
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IMachineProgress) || !((IMachineProgress)te).isActive()) return;
-        World world = ((TileEntity)te).getWorld();
-        BlockPos pos = ((TileEntity) te).getPos();
-        if (world.getBlockState(pos.offset(side)).getCollisionBoundingBox(world, pos) != null) return;
-
-        efficiency = defaultEfficiency;
-        float boost = 0; //the machine's current vent boost
-        for (ICover cover : te.getCovers()) {
-            if (cover.getSide() == this.side) continue;
-            if (cover instanceof CoverVent) boost += ((CoverVent) cover).getEfficiency();
+        if (this.te instanceof IMachineProgress && ((IMachineProgress) this.te).isActive()) {
+            World world = ((TileEntity) this.te).getWorld();
+            BlockPos pos = ((TileEntity) this.te).getPos();
+            if (world.getBlockState(pos.offset(this.side)).getCollisionBoundingBox(world, pos) == null) {
+                int maxProgress = ((IMachineProgress) this.te).getMaxProgress();
+                double amplifier = maxProgress / 100D * this.efficiency;
+                double increase = amplifier / (maxProgress - 2D);
+                ((IMachineProgress) this.te).increaseProgress(increase);
+            }
         }
-        efficiency = calculateEfficiency(efficiency, boost);
-        if (efficiency == 0) return;
-        int maxProgress = ((IMachineProgress)te).getMaxProgress();
-        double amplifier = (double) (maxProgress / 100) * efficiency;
-        ((IMachineProgress) te).increaseProgress(amplifier / (maxProgress - 1));
-    }
-
-    public float calculateEfficiency(float efficiency, float boost) {
-        return Math.max(0, Math.min(efficiency, 10-boost));
-    }
-
-    public float getEfficiency() {
-        return this.efficiency;
     }
 
     @Override
     public ResourceLocation getIcon() {
-        VentType type = getVentType(stack);
-        return type.getIcon();
+        return getVentType(this.stack).getIcon();
     }
 
     public static boolean isVent(ItemStack stack) {
-        Item item = stack.getItem();
-        return item instanceof ItemReactorVent || item instanceof ItemReactorVentSpread;
+        return Arrays.stream(VentType.values())
+                .anyMatch(vent -> vent.apply(stack));
     }
 
     public static VentType getVentType(ItemStack stack) {
-        if (stack.isEmpty()) return null;
-        if (stack.getItem() instanceof ItemReactorVent && stack.getTranslationKey().substring(4).matches("advanced_heat_vent|overclocked_heat_vent")) return VentType.ADVANCED;
-        else if (stack.getItem() instanceof ItemReactorVentSpread) return VentType.SPREAD;
-        return VentType.NORMAL;
+        return Arrays.stream(VentType.values())
+                .filter(vent -> vent.apply(stack))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid vent ItemStack: " + stack));
     }
 
     private enum VentType {
-        NORMAL(Reference.MODID, VentType.COVER_PATH + "machine_vent_rotating"),
-        SPREAD(Reference.MODID, VentType.COVER_PATH + "adv_machine_vent"),
-        ADVANCED(Reference.MODID, VentType.COVER_PATH + "adv_machine_vent_rotating");
+        NORMAL(1.5, "machine_vent_rotating", IC2Items.getItem("heat_vent")),
+        SPREAD(3, "adv_machine_vent", IC2Items.getItem("component_heat_vent")),
+        ADVANCED(3, "adv_machine_vent_rotating", IC2Items.getItem("advanced_heat_vent"), IC2Items.getItem("overclocked_heat_vent"));
 
-        private final String domain;
-        private final String path;
-        private static final String COVER_PATH = "blocks/covers/";
+        private final double efficiency;
+        private final Collection<ItemStack> stacks;
+        private final ResourceLocation icon;
 
-        VentType(String domain, String path) {
-            this.domain = domain;
-            this.path = path;
+        VentType(double efficiency, String icon, ItemStack... stacks) {
+            this.efficiency = efficiency;
+            this.stacks = Arrays.asList(stacks);
+            this.icon = new ResourceLocation(Reference.MODID, "blocks/covers/" + icon);
+        }
+        
+        public boolean apply(ItemStack stack) {
+            return this.stacks.stream()
+                    .anyMatch(coverItem -> GtUtil.stackEquals(coverItem, stack, false));
         }
 
         public ResourceLocation getIcon() {
-            return new ResourceLocation(this.domain, this.path);
+            return this.icon;
         }
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ic2.api.recipe.IRecipeInput;
 import ic2.core.recipe.BasicMachineRecipeManager;
+import mods.gregtechmod.init.MachineRecipeParser;
 import mods.gregtechmod.recipe.util.IBasicMachineRecipe;
 import net.minecraft.item.ItemStack;
 
@@ -11,7 +12,7 @@ import java.util.Collection;
 
 /**
  * Used as a bridge between the GTE recipe config system and IC2 recipes
- * @see mods.gregtechmod.init.MachineRecipeLoader#registerRecipes(String, Collection, BasicMachineRecipeManager) MachineRecipeLoader#registerRecipes
+ * @see MachineRecipeParser#registerRecipes(String, Collection, BasicMachineRecipeManager) MachineRecipeLoader#registerRecipes
  */
 public class BasicMachineRecipe implements IBasicMachineRecipe {
     private final IRecipeInput input;

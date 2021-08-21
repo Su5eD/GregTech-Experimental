@@ -14,12 +14,12 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class CoverLiquidMeter extends CoverMeter {
 
-    public CoverLiquidMeter(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverLiquidMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
-    protected Pair<Integer, Integer> getStorageAndCapacity() {
+    protected Pair<Integer, Integer> getItemStorageAndCapacity() {
         IFluidHandler handler = ((TileEntity)te).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);
         int amount = 0;
         int capacity = 0;

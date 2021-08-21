@@ -3,10 +3,8 @@ package mods.gregtechmod.objects.items.base;
 import ic2.core.item.IPseudoDamageItem;
 import ic2.core.item.tool.ToolClass;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
+import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -27,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class ItemToolBase extends ItemTool implements IModelInfoProvider {
+public class ItemToolBase extends ItemTool implements ICustomItemModel {
     public final String name;
     protected Supplier<String> description;
     protected final int damageOnHit;
@@ -114,8 +112,8 @@ public class ItemToolBase extends ItemTool implements IModelInfoProvider {
     }
 
     @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation(this.name, "tool"));
+    public ResourceLocation getItemModel() {
+        return GtUtil.getModelResourceLocation(this.name, "tool");
     }
 
     @Override

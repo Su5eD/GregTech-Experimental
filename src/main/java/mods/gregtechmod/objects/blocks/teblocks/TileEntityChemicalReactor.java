@@ -27,7 +27,7 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 1;
     }
 

@@ -1,9 +1,7 @@
 package mods.gregtechmod.inventory.tank;
 
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import ic2.core.block.comp.Fluids;
-import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
@@ -15,10 +13,6 @@ import java.util.Collection;
 @SuppressWarnings("Guava")
 public class GtFluidTank extends Fluids.InternalFluidTank {
     private final ICoverable parent;
-
-    public GtFluidTank(ICoverable parent, String identifier, int capacity) {
-        this(parent, identifier, Util.allFacings, Util.allFacings, Predicates.alwaysTrue(), capacity);
-    }
 
     public GtFluidTank(ICoverable parent, String identifier, Collection<EnumFacing> inputSides, Collection<EnumFacing> outputSides, Predicate<Fluid> acceptedFluids, int capacity) {
         super(identifier, inputSides, outputSides, acceptedFluids, capacity);

@@ -1,6 +1,7 @@
 package mods.gregtechmod.compat;
 
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.init.OreDictHandler;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,7 @@ import slimeknights.tconstruct.library.smeltery.ICastingRecipe;
 
 import java.util.Locale;
 
-@EventBusSubscriber
+@EventBusSubscriber(modid = Reference.MODID)
 public class TConstructModule {
 
     @SubscribeEvent

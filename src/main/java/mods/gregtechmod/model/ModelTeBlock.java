@@ -1,9 +1,8 @@
 package mods.gregtechmod.model;
 
 import ic2.core.block.BlockTileEntity;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
-import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
 import mods.gregtechmod.util.PropertyHelper;
@@ -45,17 +44,14 @@ public class ModelTeBlock extends ModelBase {
 
     @Override
     protected IBakedModel generateModel(IBlockState rawState) {
-        HashMap<EnumFacing, ResourceLocation> covers = new HashMap<>();
+        Map<EnumFacing, ResourceLocation> covers = new HashMap<>();
         EnumFacing face = rawState.getValue(BlockTileEntity.facingProperty);
-        Ic2BlockState.Ic2BlockStateInstance state = (Ic2BlockState.Ic2BlockStateInstance)rawState;
-        HashMap<EnumFacing, List<BakedQuad>> faceQuads = new HashMap<>();
+        Ic2BlockStateInstance state = (Ic2BlockStateInstance)rawState;
+        Map<EnumFacing, List<BakedQuad>> faceQuads = new HashMap<>();
 
         if (state.hasValue(CoverHandler.COVER_HANDLER_PROPERTY)) {
             CoverHandler handler = state.getValue(CoverHandler.COVER_HANDLER_PROPERTY);
-            for (Map.Entry<EnumFacing, ICover> entry : handler.covers.entrySet()) {
-                EnumFacing side = entry.getKey();
-                covers.put(side, handler.covers.get(side).getIcon());
-            }
+            handler.covers.forEach((side, cover) -> covers.put(side, cover.getIcon()));
         }
 
         for (EnumFacing side : EnumFacing.VALUES) {
@@ -84,7 +80,7 @@ public class ModelTeBlock extends ModelBase {
      * @param rotatedSide the current side relative to the block's facing
      * @return the side's texture depending on the block's facing
      */
-    private TextureAtlasSprite getSpriteFromDirection(EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state, Map<EnumFacing, ResourceLocation> covers) {
+    private TextureAtlasSprite getSpriteFromDirection(EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state, Map<EnumFacing, ResourceLocation> covers) {
         TextureMap map = Minecraft.getMinecraft().getTextureMapBlocks();
         PropertyHelper.AnimationSpeed prop;
         PropertyHelper.TextureOverride overrides;
@@ -103,7 +99,7 @@ public class ModelTeBlock extends ModelBase {
         else return getSprite(side, rotatedSide, state);
     }
     
-    protected TextureAtlasSprite getSprite(EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state) {
+    protected TextureAtlasSprite getSprite(EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state) {
         return sprites.get(textures.get(rotatedSide));
     }
     

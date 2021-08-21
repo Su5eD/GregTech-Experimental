@@ -13,6 +13,7 @@ import mods.gregtechmod.inventory.invslot.GtSlotCopy;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
 import mods.gregtechmod.recipe.RecipePrinter;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
+import mods.gregtechmod.util.OptionalItemStack;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -73,9 +74,8 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
         if (recipe == null) {
             ItemStack secondaryInput = this.inputSlot.get();
             if (OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)) {
-                ItemStack result = ModHandler.getCraftingResult(primaryInput, secondaryInput);
-                if (!result.isEmpty())
-                    return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, null, result, 200, 2));
+                OptionalItemStack result = ModHandler.getCraftingResult(primaryInput, secondaryInput);
+                if (result.isPresent()) return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, null, result.get(), 200, 2));
             }
 
             ItemStack extra = this.extraSlot.get();
@@ -118,9 +118,9 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
                 ItemStack secondaryInput = input.get(1);
                 
                 if (OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)) {
-                    ItemStack result = ModHandler.getCraftingResult(primaryInput, secondaryInput);
-                    if (!result.isEmpty()) {
-                        return addLazyRecipe(primaryInput, secondaryInput, null, result, 200, 2);
+                    OptionalItemStack result = ModHandler.getCraftingResult(primaryInput, secondaryInput);
+                    if (result.isPresent()) {
+                        return addLazyRecipe(primaryInput, secondaryInput, null, result.get(), 200, 2);
                     }
                 }
                 

@@ -24,6 +24,7 @@ import mods.gregtechmod.recipe.compat.GtBasicMachineRecipeManager;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;
+import mods.gregtechmod.util.OptionalItemStack;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -35,7 +36,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 class DynamicRecipes {
     static boolean addPulverizerRecipes;
@@ -157,22 +157,15 @@ class DynamicRecipes {
         addSmeltingRecipe(name, input, output);
     }
 
-    public static boolean addSmeltingRecipe(ItemStack input, ItemStack output) {
-        return addSmeltingRecipe(input.getTranslationKey(), input, output);
+    public static void addSmeltingRecipe(ItemStack input, ItemStack output) {
+        addSmeltingRecipe(input.getTranslationKey(), input, output);
     }
 
-    public static boolean addSmeltingRecipe(String name, ItemStack input, ItemStack output) {
-        if (!GregTechAPI.getDynamicConfig("smelting", name, true)) return false;
-
-        FurnaceRecipes recipes = FurnaceRecipes.instance();
-        Map<ItemStack, ItemStack> smeltingList = recipes.getSmeltingList();
-        smeltingList.keySet()
-                .stream()
-                .filter(input::isItemEqual)
-                .collect(Collectors.toList())
-                .forEach(smeltingList::remove);
-        recipes.addSmeltingRecipe(input, output, 0);
-        return true;
+    public static void addSmeltingRecipe(String name, ItemStack input, ItemStack output) {
+        if (!GregTechAPI.getDynamicConfig("smelting", name, true)) return;
+        
+        ModHandler.removeSmeltingRecipe(input);
+        FurnaceRecipes.instance().addSmeltingRecipe(input, output, 0);
     }
 
     public static void addSmelterOreToIngotsRecipe(ItemStack input, Item output) {
@@ -193,49 +186,57 @@ class DynamicRecipes {
         addCompressorRecipe(Recipes.inputFactory.forOreDict(material, 9), output);
 
         OreDictionary.getOres(material).forEach(stack -> ModHandler.removeFactorizerRecipe(stack, false));
-        input = StackUtil.copyWithSize(input, 9);
-        if (crafting) ModHandler.addFactorizerRecipe(input, output, false);
+        ItemStack inputStack = StackUtil.copyWithSize(input, 9);
+        if (crafting) ModHandler.addFactorizerRecipe(inputStack, output, false);
 
         if (!decrafting) ModHandler.removeFactorizerRecipe(output, true);
-        else ModHandler.addFactorizerRecipe(output, input, true);
+        else ModHandler.addFactorizerRecipe(output, inputStack, true);
     }
 
     public static void processCraftingRecipes() {
         GregTechMod.logger.info("Scanning for certain kinds of compatible machine blocks");
-        ItemStack stack;
 
         ItemStack input = IC2Items.getItem("ingot", "bronze");
         ItemStack plateBronze = new ItemStack(BlockItems.Plate.BRONZE.getInstance());
-        if (!(stack = ModHandler.getCraftingResult(input, input, input, input, ItemStack.EMPTY, input, input, input, input)).isEmpty() || !(stack = ModHandler.getCraftingResult(plateBronze, plateBronze, plateBronze, plateBronze, ItemStack.EMPTY, plateBronze, plateBronze, plateBronze, plateBronze)).isEmpty()) {
+
+        OptionalItemStack.either(
+                () -> ModHandler.getCraftingResult(input, input, input, input, ItemStack.EMPTY, input, input, input, input),
+                () -> ModHandler.getCraftingResult(plateBronze, plateBronze, plateBronze, plateBronze, ItemStack.EMPTY, plateBronze, plateBronze, plateBronze, plateBronze)
+        ).ifPresent(stack -> {
             OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
             addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "bronze"), 8)));
             addSmeltingRecipe(stack, StackUtil.setSize(IC2Items.getItem("ingot", "bronze"), 8));
-        }
+        });
 
         ItemStack glass = new ItemStack(Blocks.GLASS);
         ItemStack gearTin = OreDictUnificator.get("gearTin");
         ItemStack dustTin = StackUtil.setSize(IC2Items.getItem("dust", "tin"), 4);
         ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
-        if (!(stack = ModHandler.getCraftingResult(ingotIron, glass, ingotIron, glass, gearTin, glass, ingotIron, glass, ingotIron)).isEmpty()) {
-            OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
-            addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "iron"), 4), dustTin));
-        }
+        
+        ModHandler.getCraftingResult(ingotIron, glass, ingotIron, glass, gearTin, glass, ingotIron, glass, ingotIron)
+                .ifPresent(stack -> {
+                    OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
+                    addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "iron"), 4), dustTin));
+                });
 
         ItemStack ingotSteel = new ItemStack(BlockItems.Ingot.STEEL.getInstance());
-        if (!(stack = ModHandler.getCraftingResult(ingotSteel, glass, ingotSteel, glass, gearTin, glass, ingotSteel, glass, ingotSteel)).isEmpty()) {
-            OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
-            addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "steel"), 4), dustTin));
-        }
+        ModHandler.getCraftingResult(ingotSteel, glass, ingotSteel, glass, gearTin, glass, ingotSteel, glass, ingotSteel)
+                .ifPresent(stack -> {
+                    OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
+                    addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "steel"), 4), dustTin));
+                });
 
         if (GregTechMod.classic) {
             ItemStack ingotRefinedIron = OreDictUnificator.get("ingotRefinedIron");
             ItemStack plateRefinedIron = OreDictUnificator.get("plateRefinedIron");
-            if (!(stack = ModHandler.getCraftingResult(ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ItemStack.EMPTY, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron)).isEmpty() ||
-                    !(stack = ModHandler.getCraftingResult(plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron, ItemStack.EMPTY, plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron)).isEmpty()) {
+            OptionalItemStack.either(
+                    () -> ModHandler.getCraftingResult(ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ItemStack.EMPTY, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron),
+                    () -> ModHandler.getCraftingResult(plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron, ItemStack.EMPTY, plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron)
+            ).ifPresent(stack -> {
                 OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
                 addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), OreDictUnificator.get("dustRefinedIron", StackUtil.setSize(IC2Items.getItem("dust", "iron"), 8), 8)));
                 addSmeltingRecipe(stack, StackUtil.copyWithSize(ingotRefinedIron, 8));
-            }
+            });
         }
 
         ItemStack iridiumAlloy = IC2Items.getItem("crafting", "iridium");

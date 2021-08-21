@@ -31,7 +31,7 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     }
 
     @Override
-    protected int getBaseSinkTier() {
+    public int getBaseSinkTier() {
         return 2;
     }
 

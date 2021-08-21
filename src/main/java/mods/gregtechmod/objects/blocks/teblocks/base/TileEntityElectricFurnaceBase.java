@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
+import ic2.core.IC2;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiAutoElectricFurnace;
@@ -7,8 +8,6 @@ import mods.gregtechmod.objects.blocks.teblocks.component.CoilHandler;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -20,14 +19,7 @@ public abstract class TileEntityElectricFurnaceBase<RI, I, R extends IMachineRec
     protected TileEntityElectricFurnaceBase(String descriptionKey, IGtRecipeManagerBasic<RI, I, R> recipeManager) {
         super(descriptionKey, recipeManager);
         
-        this.coilHandler = addComponent(new CoilHandler(this, 4));
-    }
-
-    @Override
-    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (this.coilHandler.onActivated(player)) return true;
-        
-        return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
+        this.coilHandler = addComponent(new CoilHandler(this, 1, () -> IC2.network.get(true).updateTileEntityField(this, "coilHandler")));
     }
 
     @Override

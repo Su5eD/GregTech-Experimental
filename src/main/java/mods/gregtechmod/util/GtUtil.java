@@ -1,18 +1,19 @@
 package mods.gregtechmod.util;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
-import com.mojang.authlib.GameProfile;
 import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
+import ic2.core.block.invslot.InvSlot;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
@@ -26,15 +27,19 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -50,10 +55,10 @@ import javax.annotation.Nullable;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -66,6 +71,7 @@ public class GtUtil {
     public static final IFluidHandler VOID_TANK = new VoidTank();
     @SuppressWarnings("Guava")
     public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
+    public static final InvSlot.InvSide INV_SIDE_VERTICAL = EnumHelper.addEnum(InvSlot.InvSide.class, "VERTICAL", new Class[] { EnumFacing[].class }, (Object) new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN });
     
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
@@ -257,7 +263,7 @@ public class GtUtil {
         return stack;
     }
 
-    public static <T> Collection<T> mergeCollection(Collection<T> first, Collection<T> second) {
+    public static <T> List<T> mergeCollection(Collection<T> first, Collection<T> second) {
         return Stream.of(first, second)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
@@ -283,11 +289,6 @@ public class GtUtil {
         return ItemStack.EMPTY;
     }
 
-    public static boolean checkAccess(IUpgradableMachine machine, GameProfile owner, GameProfile playerProfile) {
-        if (!machine.isPrivate() || owner == null) return true;
-        return owner.equals(playerProfile);
-    }
-
     public static void sendMessage(EntityPlayer player, String message, Object... args) {
         if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(message, args));
     }
@@ -297,9 +298,10 @@ public class GtUtil {
         if (item instanceof IUpgradeItem) {
             ItemUpgradeModule.UpgradeType upgradeType = ItemUpgradeModule.UpgradeType.values()[stack.getMetadata()];
             String name = upgradeType.name();
-            for (IC2UpgradeType type : IC2UpgradeType.values()) {
-                if (type.itemType.equals(name)) return type;
-            }
+            return Arrays.stream(IC2UpgradeType.values())
+                    .filter(type -> type.itemType.equals(name))
+                    .findFirst()
+                    .orElse(null);
         }
         return null;
     }
@@ -392,7 +394,7 @@ public class GtUtil {
             field.setAccessible(true);
             field.set(null, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            GregTechMod.logger.error(e);
+            GregTechMod.logger.catching(e);
         }
     }
     
@@ -404,7 +406,78 @@ public class GtUtil {
         
         Loader.instance().setActiveModContainer(old);
     }
+
+    public static ResourceLocation getModelResourceLocation(String name, String folder) {
+        if (folder == null) return new ResourceLocation(Reference.MODID, name);
+        return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
+    }
+
+    public static Path copyDir(Path source, File target) {
+        try {
+            DirectoryStream<Path> stream = Files.newDirectoryStream(source);
+            for (Path path : stream) {
+                File dest = new File(Paths.get(target.getPath(), path.getFileName().toString()).toUri());
+                if (!dest.exists()) {
+                    if (path.toString().endsWith("/")) {
+                        dest.mkdirs();
+                        copyDir(path, dest);
+                        continue;
+                    }
+
+                    GregTechMod.logger.debug("Copying file " + path + " to " + dest.toPath());
+                    BufferedReader in = Files.newBufferedReader(path);
+                    FileOutputStream out = new FileOutputStream(dest);
+                    for (int i; (i = in.read()) != -1; ) out.write(i);
+                    in.close();
+                    out.close();
+                }
+            }
+            return target.toPath();
+        } catch (IOException e) {
+            GregTechMod.logger.catching(e);
+            return null;
+        }
+    }
     
+    public static NBTTagList stacksToNBT(Collection<ItemStack> stacks) {
+        NBTTagList list = new NBTTagList();
+        stacks.stream()
+                .map(stack -> {
+                    NBTTagCompound tag = new NBTTagCompound();
+                    stack.writeToNBT(tag);
+                    return tag;
+                })
+                .forEach(list::appendTag);
+        return list;
+    }
+    
+    public static void stacksFromNBT(Collection<ItemStack> stacks, NBTTagList list) {
+        list.forEach(tag -> stacks.add(new ItemStack((NBTTagCompound) tag)));
+    }
+    
+    public static void trackTime(String name, Runnable runnable) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        runnable.run();
+        stopwatch.stop();
+        GregTechMod.logger.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+    }
+    
+    public static double getSteamMultiplier(FluidStack fluidStack) {
+        double baseRatio = 0.5;
+        
+        Fluid fluid = fluidStack == null ? null : fluidStack.getFluid();
+        if (fluid != null) {
+            if (fluid == FluidName.superheated_steam.getInstance()) return baseRatio * GregTechConfig.BALANCE.superHeatedSteamMultiplier;
+            else if (fluid == FluidRegistry.getFluid("steam")) return baseRatio / GregTechConfig.BALANCE.steamMultiplier;
+        }
+        
+        return baseRatio;
+    }
+    
+    public static int getSteamForEU(double amount, FluidStack fluid) {
+        return (int) Math.round(amount / getSteamMultiplier(fluid));
+    }
+
     private static class VoidTank implements IFluidHandler {
         
         @Override

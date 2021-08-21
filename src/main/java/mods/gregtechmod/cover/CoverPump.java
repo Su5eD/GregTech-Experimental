@@ -13,14 +13,13 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class CoverPump extends CoverInventory {
 
-    public CoverPump(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverPump(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
     public void doCoverThings() {
-        if (!canWork()) return;
-        if (LiquidUtil.isFluidTile((TileEntity)te, side)) {
+        if (canWork() && LiquidUtil.isFluidTile((TileEntity)te, side)) {
             LiquidUtil.AdjacentFluidHandler target = LiquidUtil.getAdjacentHandler((TileEntity)te, side);
             if (target == null) return;
 

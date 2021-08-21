@@ -1,23 +1,20 @@
 package mods.gregtechmod.objects.blocks.teblocks.component;
 
 import ic2.core.block.TileEntityBlock;
-import ic2.core.block.comp.TileEntityComponent;
 import mods.gregtechmod.objects.BlockItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 
 import java.util.List;
 
-public class CoilHandler extends TileEntityComponent {
+public class CoilHandler extends GtComponentBase {
     public int heatingCoilTier;
     private final int coilCount;
     private final Runnable onUpdate;
-
-    public CoilHandler(TileEntityBlock parent, int coilCount) {
-        this(parent, coilCount, () -> {});
-    }
     
     public CoilHandler(TileEntityBlock parent, int coilCount, Runnable onUpdate) {
         super(parent);
@@ -30,12 +27,13 @@ public class CoilHandler extends TileEntityComponent {
         this.onUpdate.run();
     }
 
-    public boolean onActivated(EntityPlayer player) {
+    @Override
+    public boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!parent.getWorld().isRemote) {
             ItemStack stack = player.inventory.getCurrentItem();
             Item item = stack.getItem();
             boolean temp = false;
-    
+
             if (player.capabilities.isCreativeMode || stack.getCount() >= this.coilCount) {
                 if (this.heatingCoilTier <= 0 && item == BlockItems.Component.COIL_KANTHAL.getInstance()) {
                     temp = true;
@@ -45,7 +43,7 @@ public class CoilHandler extends TileEntityComponent {
                     temp = true;
                     this.heatingCoilTier = 2;
                 }
-                    
+
                 if (temp) {
                     if (!player.capabilities.isCreativeMode) stack.shrink(this.coilCount);
                     onUpdate.run();
@@ -53,7 +51,7 @@ public class CoilHandler extends TileEntityComponent {
                 }
             }
         }
-        
+
         return false;
     }
     

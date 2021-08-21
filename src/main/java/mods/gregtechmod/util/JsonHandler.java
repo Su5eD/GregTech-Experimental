@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class JsonHandler {
     public final JsonObject json;
-    private final LazyValue<JsonHandler> parent;
     public final ResourceLocation particle;
+    private final LazyValue<JsonHandler> parent;
 
     public JsonHandler(String path) {
         this.json = readFromJSON(path);
@@ -33,7 +33,7 @@ public class JsonHandler {
             reader.close();
             return map;
         } catch (Exception e) {
-            GregTechMod.logger.error(e);
+            GregTechMod.logger.catching(e);
         }
 
         throw new IllegalArgumentException("Could not find resource " + path);

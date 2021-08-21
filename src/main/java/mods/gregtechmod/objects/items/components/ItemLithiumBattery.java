@@ -5,8 +5,7 @@ import ic2.core.item.ItemBattery;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IModelInfoProvider;
-import mods.gregtechmod.util.ModelInformation;
+import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvider {
+public class ItemLithiumBattery extends ItemBattery implements ICustomItemModel {
 
     public ItemLithiumBattery() {
         super(null, 100000, 128, 1);
@@ -39,12 +38,7 @@ public class ItemLithiumBattery extends ItemBattery implements IModelInfoProvide
     }
 
     @Override
-    public String getTranslationKey(ItemStack stack) {
-        return this.getTranslationKey();
-    }
-
-    @Override
-    public ModelInformation getModelInformation() {
-        return new ModelInformation(GregTechMod.getModelResourceLocation("lithium_re_battery", "component"));
+    public ResourceLocation getItemModel() {
+        return GtUtil.getModelResourceLocation("lithium_re_battery", "component");
     }
 }

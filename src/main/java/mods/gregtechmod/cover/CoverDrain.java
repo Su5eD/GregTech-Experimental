@@ -29,8 +29,8 @@ import java.util.Locale;
 public class CoverDrain extends CoverGeneric {
     protected DrainMode mode = DrainMode.IMPORT;
 
-    public CoverDrain(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverDrain(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override

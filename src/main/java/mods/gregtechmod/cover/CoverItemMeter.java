@@ -13,8 +13,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class CoverItemMeter extends CoverMeter {
 
-    public CoverItemMeter(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverItemMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
@@ -25,19 +25,20 @@ public class CoverItemMeter extends CoverMeter {
     }
 
     @Override
-    protected Pair<Integer, Integer> getStorageAndCapacity() {
+    protected Pair<Integer, Integer> getItemStorageAndCapacity() {
         IItemHandler handler = ((TileEntity)te).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
-        int maxCount = 0;
-        int count = 0;
+        int capacity = 0;
+        int storage = 0;
         if (handler != null) {
-            for (int i = 0; i < handler.getSlots(); i++) {
-                maxCount += 64;
+            for (int i = 0; i < handler.getSlots(); i++) {;
                 ItemStack stack = handler.getStackInSlot(i);
-                count += stack.getCount() * 64 / stack.getMaxStackSize();
+                int maxStackSize = stack.getMaxStackSize();
+                capacity += maxStackSize;
+                storage += stack.getCount() * 64 / maxStackSize;
             }
         }
 
-        return Pair.of(count, maxCount);
+        return Pair.of(storage, capacity);
     }
 
     @Override

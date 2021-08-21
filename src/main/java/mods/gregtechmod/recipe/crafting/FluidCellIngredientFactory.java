@@ -10,6 +10,7 @@ import net.minecraftforge.common.crafting.JsonContext;
 
 import javax.annotation.Nonnull;
 
+@SuppressWarnings("unused")
 public class FluidCellIngredientFactory implements IIngredientFactory {
     @Nonnull
     @Override

@@ -15,6 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ItemSolderingTool extends ItemElectricBase implements ISolderingTool {
 
@@ -28,11 +29,11 @@ public class ItemSolderingTool extends ItemElectricBase implements ISolderingToo
     }
 
     public ItemStack findSolderingMetal(EntityPlayer player) {
-        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-            ItemStack stack = player.inventory.getStackInSlot(i);
-            if (stack.getItem() instanceof ISolderingMetal) return stack;
-        }
-        return null;
+        return IntStream.range(0, player.inventory.getSizeInventory())
+                .mapToObj(player.inventory::getStackInSlot)
+                .filter(stack -> stack.getItem() instanceof ISolderingMetal)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

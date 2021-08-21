@@ -2,6 +2,7 @@ package mods.gregtechmod.recipe.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@SuppressWarnings("unused")
 public abstract class RecipeFilter {
 
     public abstract static class Default extends RecipeFilter {

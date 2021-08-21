@@ -13,12 +13,10 @@ public class MjReceiverWrapper implements IMjEnergyStorage, INBTSerializable<NBT
     private long capacity;
     private long storedEnergy;
     protected long maxReceive;
-    protected long maxExtract;
 
-    public MjReceiverWrapper(long capacity, long maxReceive, long maxExtract) {
+    public MjReceiverWrapper(long capacity, long maxReceive) {
         this.capacity = capacity;
         this.maxReceive = maxReceive;
-        this.maxExtract = maxExtract;
     }
 
     @Override

@@ -16,17 +16,16 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
-import mods.gregtechmod.util.DummyContainer;
-import mods.gregtechmod.util.DummyWorld;
-import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.ProfileDelegate;
+import mods.gregtechmod.util.*;
 import mods.railcraft.api.crafting.Crafters;
 import mods.railcraft.api.crafting.IOutputEntry;
 import mods.railcraft.api.crafting.IRockCrusherCrafter;
@@ -76,10 +75,7 @@ public class ModHandler {
     public static ItemStack emptyFuelCan = ItemStack.EMPTY;
     public static ItemStack slag = ItemStack.EMPTY;
     public static ItemStack slagRich = ItemStack.EMPTY;
-    public static ItemStack hardenedGlass = ItemStack.EMPTY;
-    public static ItemStack bcStoneGear = ItemStack.EMPTY;
     public static ItemStack woodenTie = ItemStack.EMPTY;
-    public static ItemStack essentiaPhial = ItemStack.EMPTY;
     public static ItemStack waxCapsule = ItemStack.EMPTY;
     public static ItemStack refractoryCapsule = ItemStack.EMPTY;
     public static ItemStack can = ItemStack.EMPTY;
@@ -88,7 +84,7 @@ public class ModHandler {
     public static ItemStack filledFuelCan = ItemStack.EMPTY;
     public static ItemStack rcTurbineRotor = ItemStack.EMPTY;
 
-    public static void checkLoadedMods() {
+    public static void gatherLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
         thermalExpansion = Loader.isModLoaded("thermalexpansion");
         appliedEnergistics = Loader.isModLoaded("appliedenergistics2");
@@ -111,7 +107,7 @@ public class ModHandler {
     }
 
     public static void gatherModItems() {
-        emptyCell = ProfileDelegate.getCell(null);
+        emptyCell = ProfileDelegate.getEmptyCell();
         emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
         scrap = IC2Items.getItem("crafting", "scrap");
         itnt = IC2Items.getItem("te", "itnt");
@@ -123,15 +119,8 @@ public class ModHandler {
             slagRich = new ItemStack(material, 1, 865);
         }
 
-        Item glass = getItem("thermalfoundation", "glass");
-        if (glass != null) hardenedGlass = new ItemStack(glass, 1, 3);
-
-        bcStoneGear = getModItem("buildcraftcore", "gear_stone");
-
         Item tie = getItem("railcraft", "tie");
         if (tie != null) woodenTie = new ItemStack(tie);
-
-        essentiaPhial = getModItem("thaumcraft", "phial");
 
         waxCapsule = getModItem("forestry", "capsule");
         refractoryCapsule = getModItem("forestry", "refractory");
@@ -404,29 +393,28 @@ public class ModHandler {
         for (int i = 0; i < 9 && i < stacks.length; i++) {
             crafting.setInventorySlotContents(i, stacks[i]);
         }
-        
         return recipes.stream()
                 .filter(recipe -> recipe.matches(crafting, DummyWorld.INSTANCE))
                 .findFirst()
                 .orElse(null);
     }
 
-    public static ItemStack getCraftingResult(ItemStack... stacks) {
+    public static OptionalItemStack getCraftingResult(ItemStack... stacks) {
         IRecipe recipe = getCraftingRecipe(stacks);
 
-        return recipe != null ? recipe.getRecipeOutput().copy() : ItemStack.EMPTY;
+        return recipe != null ? OptionalItemStack.of(recipe.getRecipeOutput()) : OptionalItemStack.EMPTY;
     }
 
-    public static ItemStack removeCraftingRecipeFromInputs(ItemStack... stacks) {
+    public static OptionalItemStack removeCraftingRecipeFromInputs(ItemStack... stacks) {
         IRecipe recipe = getCraftingRecipe(stacks);
         if (recipe != null) {
             ResourceLocation name = recipe.getRegistryName();
             AdvancementRecipeFixer.DUMMY_RECIPES.put(name.getPath(), recipe);
             ((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES).remove(name);
-            return recipe.getRecipeOutput();
+            return OptionalItemStack.of(recipe.getRecipeOutput());
         }
 
-        return ItemStack.EMPTY;
+        return OptionalItemStack.EMPTY;
     }
 
     public static void removeCraftingRecipe(IRecipe recipe) {
@@ -451,34 +439,27 @@ public class ModHandler {
             }
         }
     }
+    
+    public static boolean addIC2Recipe(BasicMachineRecipeManager manager, IRecipeInput input, NBTTagCompound metadata, boolean overwrite, ItemStack... outputs) {
+        if (overwrite) input.getInputs().forEach(stack -> removeIC2Recipe(stack, manager));
+        return manager.addRecipe(input, metadata, false, outputs);
+    }
 
     public static void removeSmeltingRecipe(ItemStack input) {
         Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
-        recipes.keySet()
-                .stream()
-                .filter(input::isItemEqual)
+        recipes.keySet().stream()
+                .filter(stack -> GtUtil.stackEquals(stack, input, false))
                 .collect(Collectors.toList())
                 .forEach(recipes::remove);
     }
 
-    public static ItemStack getSmeltingOutput(ItemStack input) {
-        return FurnaceRecipes.instance().getSmeltingList()
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getKey().isItemEqual(input))
-                .map(Map.Entry::getValue)
-                .findFirst()
-                .orElse(ItemStack.EMPTY);
-    }
-
     public static ItemStack getIC2ItemSafely(String name, String variant) {
-        ItemStack stack = ItemStack.EMPTY;
         try {
-            ItemStack item = IC2Items.getItem(name, variant);
-            if (item != null) stack = item;
+            ItemStack stack = IC2Items.getItem(name, variant);
+            if (stack != null) return stack;
         } catch (Throwable ignored) {}
 
-        return stack;
+        return ItemStack.EMPTY;
     }
 
     public static ItemStack getTEBlockSafely(String variant) {
@@ -505,5 +486,9 @@ public class ModHandler {
             if (nbt != null) return nbt.getInteger("value") * 5;
         }
         return 0;
+    }
+    
+    public static ItemStack adjustWoodSize(ItemStack stack) {
+        return StackUtil.copyWithSize(stack, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? stack.getCount() : stack.getCount() * 5 / 4);
     }
 }

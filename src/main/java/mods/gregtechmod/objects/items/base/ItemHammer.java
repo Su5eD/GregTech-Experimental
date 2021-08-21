@@ -12,17 +12,17 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class ItemHammer extends ItemToolBase {
-    private static final Set<Block> ROTATABLE_BLOCKS = Sets.newHashSet(Blocks.LOG, Blocks.HAY_BLOCK, Blocks.PISTON, Blocks.STICKY_PISTON, Blocks.DROPPER, Blocks.DISPENSER, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.FURNACE, Blocks.LIT_FURNACE, Blocks.CHEST, Blocks.HOPPER);
+    private static final Collection<Block> ROTATABLE_BLOCKS = Sets.newHashSet(Blocks.LOG, Blocks.HAY_BLOCK, Blocks.PISTON, Blocks.STICKY_PISTON, Blocks.DROPPER, Blocks.DISPENSER, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.FURNACE, Blocks.LIT_FURNACE, Blocks.CHEST, Blocks.HOPPER);
 
     public ItemHammer(String material, int durability, int entityDamage) {
-        this(material, "hammer_"+material, durability, entityDamage);
+        this(material, "hammer_" + material, durability, entityDamage);
     }
 
     public ItemHammer(String material, String descriptionKey, int durability, int entityDamage) {
-        super("hammer_"+material, () -> GtUtil.translateItemDescription(descriptionKey), durability, entityDamage, ToolMaterial.WOOD);
+        super("hammer_" + material, () -> GtUtil.translateItemDescription(descriptionKey), durability, entityDamage, ToolMaterial.WOOD);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class ItemHammer extends ItemToolBase {
         Block block = world.getBlockState(pos).getBlock();
         ItemStack stack = player.getHeldItem(hand);
         if (ROTATABLE_BLOCKS.contains(block)) {
-            stack.damageItem(1, player);
             block.rotateBlock(world, pos, side);
+            stack.damageItem(1, player);
             return EnumActionResult.SUCCESS;
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);

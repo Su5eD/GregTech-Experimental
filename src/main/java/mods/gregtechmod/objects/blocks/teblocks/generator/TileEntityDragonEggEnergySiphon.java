@@ -7,6 +7,7 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGenerator;
 import mods.gregtechmod.util.GtUtil;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 
@@ -21,6 +22,8 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
+        if (tickCounter == 1) activeSiphon = null;
+        
         if (isAllowedToWork() && hasEgg()) {
             setActive(true);
             
@@ -48,9 +51,9 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
     }
 
     @Override
-    public boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate) {
+    public boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate) {
         if (side == EnumFacing.UP) return false;
-        return super.placeCoverAtSide(cover, side, simulate);
+        return super.placeCoverAtSide(cover, player, side, simulate);
     }
 
     @Override

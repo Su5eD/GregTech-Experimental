@@ -13,8 +13,8 @@ import net.minecraft.util.ResourceLocation;
 public class CoverRedstoneSignalizer extends CoverGeneric {
     protected byte signal;
 
-    public CoverRedstoneSignalizer(ICoverable te, EnumFacing side, ItemStack stack) {
-        super(te, side, stack);
+    public CoverRedstoneSignalizer(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
+        super(name, te, side, stack);
     }
 
     @Override
