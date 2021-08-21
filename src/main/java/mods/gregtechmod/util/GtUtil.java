@@ -5,6 +5,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
 import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
+import ic2.core.block.invslot.InvSlot;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
@@ -12,6 +13,7 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
@@ -31,11 +33,13 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -67,6 +71,7 @@ public class GtUtil {
     public static final IFluidHandler VOID_TANK = new VoidTank();
     @SuppressWarnings("Guava")
     public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
+    public static final InvSlot.InvSide INV_SIDE_VERTICAL = EnumHelper.addEnum(InvSlot.InvSide.class, "VERTICAL", new Class[] { EnumFacing[].class }, (Object) new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN });
     
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
@@ -455,6 +460,22 @@ public class GtUtil {
         runnable.run();
         stopwatch.stop();
         GregTechMod.logger.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+    }
+    
+    public static double getSteamMultiplier(FluidStack fluidStack) {
+        double baseRatio = 0.5;
+        
+        Fluid fluid = fluidStack == null ? null : fluidStack.getFluid();
+        if (fluid != null) {
+            if (fluid == FluidName.superheated_steam.getInstance()) return baseRatio * GregTechConfig.BALANCE.superHeatedSteamMultiplier;
+            else if (fluid == FluidRegistry.getFluid("steam")) return baseRatio / GregTechConfig.BALANCE.steamMultiplier;
+        }
+        
+        return baseRatio;
+    }
+    
+    public static int getSteamForEU(double amount, FluidStack fluid) {
+        return (int) Math.round(amount / getSteamMultiplier(fluid));
     }
 
     private static class VoidTank implements IFluidHandler {

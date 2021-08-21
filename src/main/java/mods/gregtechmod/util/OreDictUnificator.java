@@ -31,25 +31,21 @@ public class OreDictUnificator {
     }
 
     public static void set(String name, ItemStack stack, boolean overwrite) {
-        if (name == null || name.isEmpty() || stack.isEmpty() || stack.getItemDamage() < 0) return;
-        
         ItemStack ore = StackUtil.copyWithSize(stack, 1);
         addAssociation(name, ore);
-        if (!NAME_TO_ITEM.containsKey(name)) {
+        if (!NAME_TO_ITEM.containsKey(name)) NAME_TO_ITEM.put(name, ore);
+        else if (overwrite && Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(ore))) {
             NAME_TO_ITEM.put(name, ore);
-        } else {
-            if (overwrite && Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(ore))) {
-                NAME_TO_ITEM.remove(name);
-                NAME_TO_ITEM.put(name, ore);
-            }
         }
         registerOre(name, ore);
     }
 
     public static void override(String name, ItemStack stack) {
-        if (name == null || name.isEmpty() || name.startsWith("itemDust") || stack.isEmpty() || stack.getItemDamage() < 0) return;
-
-        if (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(stack))) set(name, stack);
+        if (!name.startsWith("itemDust")
+                && !stack.isEmpty()
+                && (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(stack)))) {
+            set(name, stack);
+        }
     }
 
     public static ItemStack getUnifiedOre(String name) {
@@ -69,16 +65,15 @@ public class OreDictUnificator {
         return getFirstOre(name, 1);
     }
 
-    public static OptionalItemStack getFirstOre(String name, int amount) {
-        if (name == null || name.isEmpty()) return OptionalItemStack.EMPTY;
-        if (NAME_TO_ITEM.containsKey(name)) return OptionalItemStack.of(get(name, ItemStack.EMPTY, amount));
-
-        ItemStack stack = ItemStack.EMPTY;
+    public static OptionalItemStack getFirstOre(String name, int count) {
+        if (NAME_TO_ITEM.containsKey(name)) return OptionalItemStack.of(get(name, ItemStack.EMPTY, count));
+        
         List<ItemStack> ores = OreDictionary.getOres(name);
-        if (!ores.isEmpty()) stack = ores.get(0).copy();
-        if (!stack.isEmpty()) stack.setCount(amount);
-
-        return OptionalItemStack.of(stack);
+        if (!ores.isEmpty()) {
+            ItemStack stack = StackUtil.copyWithSize(ores.get(0), count);
+            return OptionalItemStack.of(stack);
+        }
+        else return OptionalItemStack.EMPTY;
     }
 
     public static ItemStack get(String name) {
@@ -99,21 +94,18 @@ public class OreDictUnificator {
     }
 
     public static void addAssociation(String name, ItemStack stack) {
-        if (name == null || name.isEmpty() || stack.isEmpty()) return;
         ITEM_TO_ORE.put(stack, name);
     }
 
     public static String getAssociation(ItemStack stack) {
         List<String> names = getAssociations(stack);
-
         return !names.isEmpty() ? names.get(0) : "";
     }
 
     public static List<String> getAssociations(ItemStack stack) {
         String name = ITEM_TO_ORE.get(stack);
         if (name == null) {
-            int[] ids = OreDictionary.getOreIDs(stack);
-            return Arrays.stream(ids)
+            return Arrays.stream(OreDictionary.getOreIDs(stack))
                     .mapToObj(OreDictionary::getOreName)
                     .collect(Collectors.toList());
         } else return Collections.singletonList(name);
@@ -124,30 +116,28 @@ public class OreDictUnificator {
     }
 
     public static boolean isItemInstanceOf(ItemStack stack, String name, boolean prefix) {
-        if (stack.isEmpty() || name == null || name.isEmpty()) return false;
-
-        List<String> names = getAssociations(stack);
-        return names.stream()
+        return getAssociations(stack).stream()
                 .anyMatch(str -> prefix ? str.startsWith(name) : str.equals(name));
     }
 
     public static void registerOre(String name, ItemStack stack) {
-        if (name == null || name.isEmpty() || stack.isEmpty()) return;
-        
-        boolean nonexistent = OreDictionary.getOres(name).stream()
-                .noneMatch(stack::isItemEqual);
-        if (nonexistent) {
-            ItemStack ore = StackUtil.copyWithSize(stack, 1);
-            OreDictionary.registerOre(name, ore);
+        if (!stack.isEmpty()) {
+            boolean nonexistent = OreDictionary.getOres(name).stream()
+                    .noneMatch(stack::isItemEqual);
+            if (nonexistent) {
+                ItemStack ore = StackUtil.copyWithSize(stack, 1);
+                OreDictionary.registerOre(name, ore);
+            }
         }
     }
 
     public static String getStackConfigName(ItemStack stack) {
-        if (stack.isEmpty()) return null;
-
         String name = OreDictUnificator.getAssociation(stack);
         if (!name.isEmpty()) return name;
-        else if (!(name = stack.getDisplayName()).isEmpty()) return name;
+        else {
+            String displayName = stack.getDisplayName();
+            if (!displayName.isEmpty()) return displayName;
+        }
 
         return stack.getItem().getRegistryName().toString() + ":" + stack.getItemDamage();
     }

@@ -3,8 +3,8 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 import buildcraft.api.mj.MjAPI;
 import com.mojang.authlib.GameProfile;
 import ic2.core.block.comp.Fluids;
+import ic2.core.block.comp.Fluids.InternalFluidTank;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.ref.FluidName;
 import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
@@ -14,7 +14,6 @@ import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.compat.buildcraft.MjReceiverWrapper;
-import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
 import mods.gregtechmod.util.GtUtil;
@@ -26,8 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -43,7 +41,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public final UpgradeManager upgradeManager;
     protected boolean hasSteamUpgrade;
     public Fluids fluids;
-    public Fluids.InternalFluidTank steamTank;
+    public InternalFluidTank steamTank;
     protected int neededSteam;
     private int extraSinkTier;
     private int extraEUCapacity;
@@ -115,7 +113,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         if (hasSteamUpgrade) {
             NBTTagCompound tNBT = new NBTTagCompound();
-            steamTank.writeToNBT(tNBT);
+            this.steamTank.writeToNBT(tNBT);
             nbt.setTag("steamTank", tNBT);
         }
         if (hasMjUpgrade) {
@@ -130,8 +128,8 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         if (nbt.hasKey("steamTank")) {
             this.hasSteamUpgrade = true;
             this.steamTank = createSteamTank();
-            this.fluids.addTank(steamTank);
-            steamTank.readFromNBT(nbt.getCompoundTag("steamTank"));
+            this.fluids.addTank(this.steamTank);
+            this.steamTank.readFromNBT(nbt.getCompoundTag("steamTank"));
         }
         if (nbt.hasKey("mj")) {
             this.addMjUpgrade();
@@ -229,24 +227,9 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         return IC2UpgradeType.DEFAULT;
     }
     
-    protected float getSteamMultiplier() {
-        float multiplier = 0.5F;
-        if (this.steamTank.getFluidAmount() < 1) return multiplier;
-        Fluid fluid = this.steamTank.getFluid().getFluid();
-    
-        if (fluid == FluidName.superheated_steam.getInstance()) multiplier *= GregTechConfig.BALANCE.superHeatedSteamMultiplier;
-        else if (fluid == FluidRegistry.getFluid("steam")) multiplier /= GregTechConfig.BALANCE.steamMultiplier;
-    
-        return multiplier;
-    }
-    
     protected boolean canDrainSteam(int requiredAmount) {
-        if (requiredAmount < 1 || steamTank == null) return false;
-        return steamTank.getFluidAmount() >= requiredAmount;
-    }
-    
-    protected int getEnergyForSteam(double amount) {
-        return (int) Math.round(amount / getSteamMultiplier());
+        if (requiredAmount < 1 || this.steamTank == null) return false;
+        return this.steamTank.getFluidAmount() >= requiredAmount;
     }
      
     @Override
@@ -255,9 +238,9 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         if (discharged > 0) return discharged;
         else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(amount))) return amount;
         else if (this.hasSteamUpgrade) {
-            int energy = getEnergyForSteam(amount);
+            int energy = GtUtil.getSteamForEU(amount, this.steamTank.getFluid());
             if (canDrainSteam(energy)) {
-                steamTank.drain(energy, true);
+                this.steamTank.drain(energy, true);
                 return amount;
             }
         }
@@ -266,26 +249,26 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     
     @Override
     public double getUniversalEnergy() {
-        double steam = this.hasSteamUpgrade ? steamTank.getFluidAmount() * getSteamMultiplier() : 0;
+        double steam = this.hasSteamUpgrade ? this.steamTank.getFluidAmount() * GtUtil.getSteamMultiplier(this.steamTank.getFluid()) : 0;
         double mj = this.hasMjUpgrade ? MjHelper.toEU(this.receiver.getStored()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
     
     @Override
     public double getUniversalEnergyCapacity() {
-        double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * getSteamMultiplier() : 0;
+        double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * GtUtil.getSteamMultiplier(this.steamTank.getFluid()) : 0;
         double mj = this.hasMjUpgrade ? MjHelper.toEU(this.receiver.getCapacity()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
 
     @Override
     public double getStoredSteam() {
-        return steamTank != null ? steamTank.getFluidAmount() : 0;
+        return this.steamTank != null ? this.steamTank.getFluidAmount() : 0;
     }
     
     @Override
     public double getSteamCapacity() {
-        return steamTank != null ? steamTank.getCapacity() : 0;
+        return this.steamTank != null ? this.steamTank.getCapacity() : 0;
     }
     
     @Override
@@ -324,7 +307,9 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
         if (scanLevel > 0) {
             if (this.hasSteamUpgrade) {
-                scan.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + GtUtil.translateGeneric("steam"));
+                FluidStack fluidStack = this.steamTank.getFluid();
+                String name = fluidStack != null ? fluidStack.getLocalizedName() : GtUtil.translateGeneric("steam");
+                scan.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + name);
             }
             if (this.hasMjUpgrade) {
                 scan.add(this.receiver.getStored() / MjHelper.MJ + " / " + this.receiver.getCapacity() / MjHelper.MJ + " MJ");

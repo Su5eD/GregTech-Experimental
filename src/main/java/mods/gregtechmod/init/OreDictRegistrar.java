@@ -215,7 +215,6 @@ public class OreDictRegistrar {
         OreDictUnificator.add("oreIron", Blocks.IRON_ORE);
         OreDictUnificator.add("oreLapis", Blocks.LAPIS_ORE);
         OreDictUnificator.add("oreRedstone", Blocks.REDSTONE_ORE);
-        OreDictUnificator.add("oreRedstone", Blocks.LIT_REDSTONE_ORE);
         OreDictUnificator.add("oreGold", Blocks.GOLD_ORE);
         OreDictUnificator.add("oreDiamond", Blocks.DIAMOND_ORE);
         OreDictUnificator.add("oreEmerald", Blocks.EMERALD_ORE);
@@ -228,7 +227,7 @@ public class OreDictRegistrar {
         OreDictUnificator.add("ingotTin", IC2Items.getItem("ingot", "tin"));
         OreDictUnificator.add("ingotCopper", IC2Items.getItem("ingot", "copper"));
         OreDictUnificator.add("ingotBronze", IC2Items.getItem("ingot", "bronze"));
-        OreDictUnificator.add("ingotSteel", new ItemStack(BlockItems.Ingot.STEEL.getInstance()));
+        OreDictUnificator.add("ingotSteel", BlockItems.Ingot.STEEL.getInstance());
         OreDictUnificator.add("plateAlloyIridium", IC2Items.getItem("crafting", "iridium"));
         OreDictUnificator.add("plateAlloyAdvanced", IC2Items.getItem("crafting", "alloy"));
         OreDictUnificator.add("plateAlloyCarbon", IC2Items.getItem("crafting", "carbon_plate"));
@@ -454,7 +453,7 @@ public class OreDictRegistrar {
     }
 
     public static void registerOre(String base, String name, ItemStack stack) {
-        registerOre(base+CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), stack);
+        registerOre(base + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), stack);
     }
 
     public static void registerOre(String name, net.minecraft.block.Block block) {

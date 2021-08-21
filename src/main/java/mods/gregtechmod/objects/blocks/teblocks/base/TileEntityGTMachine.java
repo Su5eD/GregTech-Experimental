@@ -132,7 +132,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     protected boolean checkEnergy() {
         if (this.energy.discharge(this.energyConsume) > 0 || this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(this.energyConsume))) {
            return true;
-        } else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = getEnergyForSteam(this.energyConsume))) {
+        } else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = GtUtil.getSteamForEU(this.energyConsume, this.steamTank.getFluid()))) {
             this.steamTank.drain(this.neededSteam, true);
             return true;
         }
