@@ -45,7 +45,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@EventBusSubscriber(value = Side.CLIENT, modid = Reference.MODID)
+@EventBusSubscriber(modid = Reference.MODID, value = Side.CLIENT)
 public class ClientEventHandler {
     private static final Map<ItemStack, Supplier<String>> EXTRA_TOOLTIPS = new HashMap<>();
 

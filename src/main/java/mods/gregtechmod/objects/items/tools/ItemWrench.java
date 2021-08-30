@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import buildcraft.api.tools.IToolWrench;
 import com.google.common.collect.Multimap;
+import ic2.api.item.IEnhancedOverlayProvider;
 import ic2.api.tile.IWrenchable;
 import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
@@ -10,6 +11,7 @@ import ic2.core.util.RotationUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.block.Block;
@@ -38,7 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Optional.Interface(modid = "buildcraftlib", iface = "buildcraft.api.tools.IToolWrench")
-public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToolWrench {
+public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToolWrench, IEnhancedOverlayProvider {
     public final String name;
     protected final int entityDamage;
     protected int rotateDamage = 1;
@@ -56,6 +58,11 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
         this.entityDamage = entityDamage;
         setMaxDamage(durability - 1);
         GregTechAPI.instance().registerWrench(this);
+    }
+
+    @Override
+    public boolean providesEnhancedOverlay(World world, BlockPos blockPos, EnumFacing enumFacing, EntityPlayer entityPlayer, ItemStack itemStack) {
+        return GregTechConfig.GENERAL.enhancedWrenchOverlay;
     }
 
     @Override
