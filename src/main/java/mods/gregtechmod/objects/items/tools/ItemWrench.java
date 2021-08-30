@@ -4,6 +4,7 @@ import buildcraft.api.tools.IToolWrench;
 import com.google.common.collect.Multimap;
 import ic2.api.item.IEnhancedOverlayProvider;
 import ic2.api.tile.IWrenchable;
+import ic2.api.transport.IPipe;
 import ic2.core.IC2;
 import ic2.core.audio.PositionSpec;
 import ic2.core.item.tool.ItemToolWrench;
@@ -61,8 +62,12 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
     }
 
     @Override
-    public boolean providesEnhancedOverlay(World world, BlockPos blockPos, EnumFacing enumFacing, EntityPlayer entityPlayer, ItemStack itemStack) {
-        return GregTechConfig.GENERAL.enhancedWrenchOverlay;
+    public boolean providesEnhancedOverlay(World world, BlockPos pos, EnumFacing facing, EntityPlayer player, ItemStack stack) {
+        if (GregTechConfig.GENERAL.enhancedWrenchOverlay) {
+            Block block = world.getBlockState(pos).getBlock();
+            return block instanceof IWrenchable && (world.getTileEntity(pos) instanceof IPipe || Arrays.stream(EnumFacing.VALUES).anyMatch(side -> ((IWrenchable)block).canSetFacing(world, pos, side, player)));
+        }
+        return false;
     }
 
     @Override

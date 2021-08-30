@@ -1,6 +1,5 @@
 package mods.gregtechmod.cover;
 
-import ic2.api.energy.EnergyNet;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IElectricMachine;
@@ -29,7 +28,7 @@ public class CoverSolarPanel extends CoverGeneric {
     public void doCoverThings() {
         if (!(side == EnumFacing.UP) || !(te instanceof IElectricMachine)) return;
 
-        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && ((IElectricMachine)te).getSinkTier() < EnergyNet.instance.getTierFromPower(this.daytimeEnergy)) return;
+        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && ((IElectricMachine)te).getMaxInputEUp() < this.daytimeEnergy) return;
 
         World world = ((TileEntity)te).getWorld();
         BlockPos pos = ((TileEntity)te).getPos();

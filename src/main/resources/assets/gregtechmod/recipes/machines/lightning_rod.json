@@ -21,13 +21,12 @@
     "M":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "supercondensator"
+      "data": 45
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": 32
+    "data": 33
   }
 }

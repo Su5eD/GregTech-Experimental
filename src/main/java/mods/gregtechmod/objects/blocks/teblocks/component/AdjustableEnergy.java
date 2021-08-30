@@ -293,6 +293,8 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
         public boolean isTeleporterCompatible(EnumFacing side) {
             return isSource() && getMaxOutputEUt() >= 128 && getCapacity() >= 500000;
         }
+        
+        
     }
     
     private class DualDelegate extends SourceDelegate implements IEnergySink {

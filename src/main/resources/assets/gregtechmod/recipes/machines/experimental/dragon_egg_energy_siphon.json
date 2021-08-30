@@ -2,37 +2,42 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "LEL",
-    "CAC",
-    "LEL"
+    "CTC",
+    "ISI",
+    "CLC"
   ],
   "key":
   {
     "C":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingSuperconductor"
-    },
-    "A":
-    {
-      "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier04"
+      "ore": "craftingCircuitTier07"
     },
     "L":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingCircuitTier07"
+      "ore": "crafting100kkEUStore"
     },
-    "E":
+    "S":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 45
+    },
+    "T":
     {
       "type": "forge:ore_dict",
-      "ore": "crafting100kkEUStore"
+      "ore": "craftingTeleporter"
+    },
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAlloyIridium"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 35
   },
   "conditions":
   [

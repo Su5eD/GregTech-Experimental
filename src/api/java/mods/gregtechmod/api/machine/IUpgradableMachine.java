@@ -77,6 +77,4 @@ public interface IUpgradableMachine extends IElectricMachine {
     void setMjCapacity(long capacity);
     
     int getBaseSinkTier();
-    
-    
 }

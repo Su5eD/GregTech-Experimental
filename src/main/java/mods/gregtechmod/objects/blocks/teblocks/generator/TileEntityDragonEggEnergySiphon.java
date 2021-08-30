@@ -14,7 +14,6 @@ import net.minecraft.util.EnumFacing;
 public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator implements IPanelInfoProvider {
     private static TileEntityDragonEggEnergySiphon activeSiphon = null;
 
-    // TODO Add recipe when the supercondensator is added
     public TileEntityDragonEggEnergySiphon() {
         super("dragon_egg_energy_siphon");
     }

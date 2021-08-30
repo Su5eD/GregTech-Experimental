@@ -72,7 +72,8 @@
       "large_steam_turbine": { "model": "gregtechmod:large_steam_turbine" },
       "large_steam_turbine_active": { "model": "gregtechmod:large_steam_turbine_active" },
       "large_gas_turbine": { "model": "gregtechmod:large_gas_turbine" },
-      "large_gas_turbine_active": { "model": "gregtechmod:large_gas_turbine_active" }
+      "large_gas_turbine_active": { "model": "gregtechmod:large_gas_turbine_active" },
+      "supercondensator": { "model": "gregtechmod:supercondensator" }
     },
     "facing": {
       "down": { "x": 90 },

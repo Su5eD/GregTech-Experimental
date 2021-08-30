@@ -16,13 +16,12 @@
     "L":
     {
       "type": "forge:ore_dict",
-      "ore": "crafting100kkEUStore"
+      "ore": "crafting10kkEUStore"
     },
     "S":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "supercondensator"
+      "data": 45
     },
     "T":
     {
@@ -38,12 +37,12 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 35
   },
   "conditions":
   [
     {
-      "type": "gregtechmod:experimental"
+      "type": "gregtechmod:classic"
     }
   ]
 }
