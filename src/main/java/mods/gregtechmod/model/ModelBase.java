@@ -11,10 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.IModelState;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -33,7 +30,7 @@ public abstract class ModelBase extends AbstractModel {
     }
     
     public ModelBase(ResourceLocation particle, Collection<ResourceLocation> textures) {
-        this.particle = particle;
+        this.particle = Objects.requireNonNull(particle);
         this.sprites = new HashMap<>();
         textures.forEach(loc -> this.sprites.put(loc, null));
         this.sprites.put(particle, null);

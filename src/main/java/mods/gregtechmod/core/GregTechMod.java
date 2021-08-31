@@ -8,6 +8,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntitySuperconductorWire;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.component.*;
@@ -79,7 +80,9 @@ public final class GregTechMod {
         Components.register(BasicTank.class, Reference.MODID + ":basic_tank");
         Components.register(Maintenance.class, Reference.MODID + ":maintenance");
         Components.register(UpgradeManager.class, Reference.MODID + ":upgrade_manager");
-        TileEntityEnergy.registerEnergyComponents();
+        Components.register(TileEntityEnergy.DynamicAdjustableEnergy.class, Reference.MODID + ":dynamic_adjustable_energy");
+        Components.register(TileEntityEnergy.ExplodingEnergySource.class, Reference.MODID + ":exploding_energy_source");
+        Components.register(TileEntitySuperconductorWire.ConductorEnergy.class, Reference.MODID + ":conductor_energy");
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
         
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());

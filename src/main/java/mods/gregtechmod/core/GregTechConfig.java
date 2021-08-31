@@ -35,7 +35,7 @@ public class GregTechConfig {
     public static final DisabledRecipes DISABLED_RECIPES = new DisabledRecipes();
 
     public static class General {
-        public boolean connectedMachineCasingTextures = true;
+        public boolean connectedTextures = true;
         @Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
         public boolean dynamicCentrifugeAnimationSpeed = true;
         public boolean hiddenOres = true;

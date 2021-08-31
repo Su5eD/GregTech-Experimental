@@ -874,6 +874,7 @@ gregtechmod.teblock.large_gas_turbine=Large Gas Turbine
 gregtechmod.teblock.large_gas_turbine.description=About 42 small Gas Turbines worth
 gregtechmod.teblock.supercondensator=Supercondensator
 gregtechmod.teblock.supercondensator.description=To output massive amounts of Energy in a short period of time.
+gregtechmod.teblock.superconductor_wire=Superconductor Wire
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

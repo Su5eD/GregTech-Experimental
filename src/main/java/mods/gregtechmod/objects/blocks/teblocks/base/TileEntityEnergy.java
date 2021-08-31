@@ -4,11 +4,9 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
 import ic2.core.block.TileEntityBlock;
-import ic2.core.block.comp.Components;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IElectricMachine;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtUtil;
@@ -35,7 +33,11 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
     public TileEntityEnergy(String descriptionKey) {
         super(descriptionKey);
-        this.energy = addComponent(new DynamicAdjustableEnergy());
+        this.energy = addComponent(createEnergyComponent());
+    }
+    
+    protected AdjustableEnergy createEnergyComponent() {
+        return new DynamicAdjustableEnergy();
     }
     
     @Override
@@ -74,7 +76,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
     
     @Override
-    public double getMaxOutputEUt() {
+    public final double getMaxOutputEUt() {
         return this.energy.getMaxOutputEUt();
     }
     
@@ -159,7 +161,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         int x = this.pos.getX(), y = this.pos.getY(), z = this.pos.getZ();
         this.energy.onUnloaded();
         world.setBlockToAir(this.pos);
-        new ExplosionIC2(world, null, x+0.5, y+0.5, z+0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
+        new ExplosionIC2(world, null, x + 0.5, y + 0.5, z + 0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
     }
     
     @Override
@@ -176,12 +178,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         if (this.energyCapacityTooltip) tooltip.add(GtUtil.translateInfo("eu_storage", GtUtil.formatNumber(this.energy.getCapacity())));
     }
     
-    public static void registerEnergyComponents() {
-        Components.register(DynamicAdjustableEnergy.class, Reference.MODID + ":dynamic_adjustable_energy");
-        Components.register(ExplodingEnergySource.class, Reference.MODID + ":exploding_energy_source");
-    }
-    
-    private class DynamicAdjustableEnergy extends AdjustableEnergy {
+    public class DynamicAdjustableEnergy extends AdjustableEnergy {
         
         public DynamicAdjustableEnergy() {
             super(TileEntityEnergy.this);
@@ -232,7 +229,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         }
     }
     
-    private static class ExplodingEnergySource extends AdjustableEnergy {
+    public static class ExplodingEnergySource extends AdjustableEnergy {
 
         public ExplodingEnergySource(TileEntityBlock parent) {
             super(parent);

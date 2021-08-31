@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public abstract class AdjustableEnergy extends TileEntityComponent {
-    private DelegateBase delegate;
+    protected DelegateBase delegate;
     
     private double storedEnergy;
     private Collection<EnumFacing> oldSinkSides = getSinkSides();
@@ -72,7 +72,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     }
     
     private void updateAverageEUInput(double amount) {
-        this.averageEUInputIndex = ++this.averageEUOutputIndex % averageEUInputs.length;
+        this.averageEUInputIndex = ++this.averageEUInputIndex % averageEUInputs.length;
         this.averageEUInputs[averageEUInputIndex] = amount;
     }
     
@@ -89,7 +89,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
         double injected = Math.min(getCapacity() - this.storedEnergy, amount);
         storedEnergy += injected;
         
-        this.averageEUInputs[this.averageEUInputIndex] += injected;
+        updateAverageEUInput(injected);
         
         return injected;
     }
@@ -156,7 +156,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     @Override
     public void onLoaded() {
         if (this.delegate == null && !this.parent.getWorld().isRemote) {
-            this.delegate = constructDelegate();
+            this.delegate = initDelegate();
             if (this.delegate != null) MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this.delegate));
         }
     }
@@ -169,27 +169,25 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
         }
     }
     
-    private DelegateBase constructDelegate() {
-        DelegateBase delegate;
-        
+    protected DelegateBase createDelegate() {
         boolean sink = !getSinkSides().isEmpty();
         boolean source = !getSourceSides().isEmpty();
         if (sink && source) {
-            delegate = new DualDelegate();
+            return new DualDelegate();
         } else if (sink) {
-            delegate = new SinkDelegate();
+            return new SinkDelegate();
         } else if (source) {
-            delegate = new SourceDelegate();
-        } else delegate = null;
-            
+            return new SourceDelegate();
+        } else return null;
+    }
+    
+    private DelegateBase initDelegate() {
+        DelegateBase delegate = createDelegate();
         if (delegate != null) {
             delegate.setWorld(this.parent.getWorld());
             delegate.setPos(this.parent.getPos());
-            
-            return delegate;
         }
-        
-        return null;
+        return delegate;
     }
 
     @Override
@@ -257,7 +255,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
         return ret;
     }
 
-    private abstract class DelegateBase extends TileEntity implements IEnergyTile, IEnergyStorage {
+    public abstract class DelegateBase extends TileEntity implements IEnergyTile, IEnergyStorage {
         @Override
         public int getStored() {
             return (int) getStoredEnergy();

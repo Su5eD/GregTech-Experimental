@@ -35,7 +35,7 @@ public class BlockConnectedTurbine extends BlockConnected {
     
     @Override
     protected boolean isSideConnectable(IBlockAccess world, BlockPos pos, EnumFacing side) {
-        if (!GregTechConfig.GENERAL.connectedMachineCasingTextures) return false;
+        if (!GregTechConfig.GENERAL.connectedTextures) return false;
         IBlockState state = world.getBlockState(pos.offset(side));
         IBlockState current = world.getBlockState(pos);
         if (isTurbine(current) && !isTurbine(state) || !isTurbine(current) && isTurbine(state)) return false;
