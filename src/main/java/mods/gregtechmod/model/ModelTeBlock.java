@@ -40,6 +40,8 @@ public class ModelTeBlock extends ModelBase {
     public ModelTeBlock(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
         super(particle, textures);
         this.textures = textures.get(0);
+        
+        this.enableCache = false;
     }
 
     @Override

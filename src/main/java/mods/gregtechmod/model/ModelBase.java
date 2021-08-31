@@ -20,7 +20,9 @@ public abstract class ModelBase extends AbstractModel {
     protected final Map<ResourceLocation, TextureAtlasSprite> sprites;
     protected final ResourceLocation particle;
     protected final FaceBakery bakery = new FaceBakery();
-    private final Map<IBlockState, IBakedModel> cache = new ConcurrentHashMap<>();
+    
+    protected boolean enableCache = true;
+    private final Map<String, IBakedModel> cache = new ConcurrentHashMap<>();
     
     public ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
         this(particle, textures.stream()
@@ -52,7 +54,10 @@ public abstract class ModelBase extends AbstractModel {
     
     @Override
     public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
-        IBakedModel model = this.cache.computeIfAbsent(state, this::generateModel);
+        IBakedModel model;
+        if (this.enableCache) model = this.cache.computeIfAbsent(state.toString(), s -> generateModel(state));
+        else model = generateModel(state);
+        
         return model.getQuads(state, side, rand);
     }
 

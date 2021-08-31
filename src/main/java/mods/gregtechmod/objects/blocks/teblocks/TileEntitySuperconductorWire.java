@@ -13,7 +13,6 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
@@ -114,10 +113,7 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     @Override
     public void onNetworkUpdate(String field) {
         super.onNetworkUpdate(field);
-        if (field.equals("connections")) {
-            IBlockState state = this.getBlockState();
-            this.world.notifyBlockUpdate(this.pos, state, state, 0);
-        }
+        if (field.equals("connections")) rerender();
     }
 
     public class ConductorEnergy extends DynamicAdjustableEnergy {
