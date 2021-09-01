@@ -35,7 +35,7 @@ public class TileEntitySupercondensator extends TileEntityUpgradable {
     }
 
     @Override
-    protected double getMaxOutputEUp() {
+    public double getMaxOutputEUp() {
         return isAllowedToWork() ? 1000000 : 0;
     }
 

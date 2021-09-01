@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.core.block.TileEntityInventory;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
@@ -90,8 +90,8 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     }
 
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        if (this.coverHandler != null) state = state.withProperties(CoverHandler.COVER_HANDLER_PROPERTY, this.coverHandler);
+    protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
+        if (this.coverHandler != null) return state.withProperty(CoverHandler.COVER_HANDLER_PROPERTY, this.coverHandler);
         return state;
     }
 

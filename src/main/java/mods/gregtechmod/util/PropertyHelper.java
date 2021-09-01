@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,6 +45,10 @@ public class PropertyHelper {
 
     public static class TextureOverride {
         private final Map<EnumFacing, ResourceLocation> overrides;
+        
+        public TextureOverride(EnumFacing facing, ResourceLocation texture) {
+            this(Collections.singletonMap(facing, texture));
+        }
 
         public TextureOverride(Map<EnumFacing, ResourceLocation> overrides) {
             this.overrides = overrides;

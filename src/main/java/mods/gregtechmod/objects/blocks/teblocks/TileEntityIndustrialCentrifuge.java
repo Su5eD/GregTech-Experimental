@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
 import com.google.common.collect.Sets;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.core.GregTechConfig;
@@ -25,8 +25,8 @@ public class TileEntityIndustrialCentrifuge extends TileEntityIndustrialCentrifu
     }
     
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        Ic2BlockState.Ic2BlockStateInstance extendedState = super.getExtendedState(state);
+    protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
+        Ic2BlockStateInstance extendedState = super.getExtendedState(state);
         return getActive() ? extendedState.withProperty(PropertyHelper.ANIMATION_SPEED_PROPERTY, new PropertyHelper.AnimationSpeed(ANIMATED_SIDES, GregTechConfig.GENERAL.dynamicCentrifugeAnimationSpeed ? Math.min(getUpgradeCount(IC2UpgradeType.OVERCLOCKER) + 1, 3) : 3)) : extendedState;
     }
 

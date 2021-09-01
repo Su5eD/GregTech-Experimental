@@ -4,7 +4,7 @@ import ic2.api.network.INetworkClientTileEntityEventListener;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotDischarge;
 import ic2.core.block.invslot.InvSlotOutput;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
@@ -102,8 +102,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        Ic2BlockState.Ic2BlockStateInstance ret = super.getExtendedState(state);
+    protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
+        Ic2BlockStateInstance ret = super.getExtendedState(state);
         return getFacing() != this.outputSide ? ret.withProperty(PropertyHelper.OUTPUT_SIDE_PROPERTY, this.outputSide) : ret;
     }
 

@@ -237,7 +237,10 @@ public class ClientEventHandler {
                 path + "redstone_conductor",
                 path + "redstone_signalizer",
                 "blocks/machines/machine_top_pipe",
-                "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape"
+                "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape",
+                "blocks/machines/lesu/lesu_lv_out",
+                "blocks/machines/lesu/lesu_mv_out",
+                "blocks/machines/lesu/lesu_hv_out"
         )
                 .map(str -> new ResourceLocation(Reference.MODID, str))
                 .forEach(map::registerSprite);

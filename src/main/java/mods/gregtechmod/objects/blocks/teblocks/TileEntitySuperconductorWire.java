@@ -6,7 +6,7 @@ import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.core.IC2;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
@@ -33,7 +33,7 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     }
 
     @Override
-    protected double getMaxOutputEUp() {
+    public double getMaxOutputEUp() {
         return Integer.MAX_VALUE;
     }
 
@@ -95,7 +95,7 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     }
         
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
+    protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
         return state.withProperty(PropertyHelper.CONNECTED_DOWN, isSideConnected(EnumFacing.DOWN))
                 .withProperty(PropertyHelper.CONNECTED_UP, isSideConnected(EnumFacing.UP))
                 .withProperty(PropertyHelper.CONNECTED_NORTH, isSideConnected(EnumFacing.NORTH))

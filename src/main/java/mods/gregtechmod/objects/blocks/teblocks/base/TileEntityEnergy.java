@@ -71,7 +71,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         return EnergyNet.instance.getPowerFromTier(getSinkTier());
     }
     
-    protected double getMaxOutputEUp() {
+    public double getMaxOutputEUp() {
         return EnergyNet.instance.getPowerFromTier(getSourceTier());
     }
     

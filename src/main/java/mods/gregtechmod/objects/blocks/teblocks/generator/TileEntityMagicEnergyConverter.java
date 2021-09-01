@@ -16,7 +16,7 @@ public class TileEntityMagicEnergyConverter extends TileEntityFluidGenerator {
     }
 
     @Override
-    protected double getMaxOutputEUp() {
+    public double getMaxOutputEUp() {
         return 24;
     }
 

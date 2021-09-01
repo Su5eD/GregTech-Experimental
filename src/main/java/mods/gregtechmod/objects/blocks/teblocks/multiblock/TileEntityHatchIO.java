@@ -7,7 +7,7 @@ import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
 import ic2.core.block.invslot.InvSlotConsumableLiquidByTank;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.gui.GuiBasicTank;
@@ -25,9 +25,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @SuppressWarnings("Guava") // Gotta use Guava with IC2
 public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implements IHasGui {
@@ -52,15 +49,13 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
     }
 
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        Ic2BlockState.Ic2BlockStateInstance ret = super.getExtendedState(state);
+    protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
+        Ic2BlockStateInstance extendedState = super.getExtendedState(state);
         EnumFacing facing = getFacing();
         if (facing.getAxis() == EnumFacing.Axis.Y) {
-            Map<EnumFacing, ResourceLocation> overrides = new HashMap<>();
-            overrides.put(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/machine_" + (facing == EnumFacing.UP ? "top" : "bottom") + "_pipe"));
-            return ret.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new PropertyHelper.TextureOverride(overrides));
+            return extendedState.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new PropertyHelper.TextureOverride(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/machine_" + (facing == EnumFacing.UP ? "top" : "bottom") + "_pipe")));
         }
-        return ret;
+        return extendedState;
     }
 
     @Override

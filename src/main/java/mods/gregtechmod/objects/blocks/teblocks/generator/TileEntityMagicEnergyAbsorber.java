@@ -142,7 +142,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     }
 
     @Override
-    protected double getMaxOutputEUp() {
+    public double getMaxOutputEUp() {
         return Math.max(128, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D);
     }
 

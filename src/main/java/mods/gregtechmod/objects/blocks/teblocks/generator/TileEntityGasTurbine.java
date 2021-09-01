@@ -15,7 +15,7 @@ public class TileEntityGasTurbine extends TileEntityFluidGenerator {
     }
 
     @Override
-    protected double getMaxOutputEUp() {
+    public double getMaxOutputEUp() {
         return 16;
     }
 

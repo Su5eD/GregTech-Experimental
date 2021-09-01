@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/lesu/lesu",
+    "down": "gregtechmod:blocks/machines/lesu/lesu",
+    "up": "gregtechmod:blocks/machines/lesu/lesu",
+    "north": "gregtechmod:blocks/machines/lesu/lesu",
+    "south": "gregtechmod:blocks/machines/lesu/lesu",
+    "east": "gregtechmod:blocks/machines/lesu/lesu",
+    "west": "gregtechmod:blocks/machines/lesu/lesu"
+  }
+}
