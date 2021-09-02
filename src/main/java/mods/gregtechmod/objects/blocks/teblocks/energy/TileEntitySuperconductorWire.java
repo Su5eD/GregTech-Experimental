@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.teblocks;
+package mods.gregtechmod.objects.blocks.teblocks.energy;
 
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyAcceptor;

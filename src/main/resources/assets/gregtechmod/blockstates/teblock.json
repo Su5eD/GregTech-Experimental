@@ -75,7 +75,8 @@
       "large_gas_turbine_active": { "model": "gregtechmod:large_gas_turbine_active" },
       "supercondensator": { "model": "gregtechmod:supercondensator" },
       "superconductor_wire": { "model": "gregtechmod:superconductor_wire" },
-      "lesu": { "model": "gregtechmod:lesu" }
+      "lesu": { "model": "gregtechmod:lesu" },
+      "aesu": { "model": "gregtechmod:aesu" }
     },
     "facing": {
       "down": { "x": 90 },

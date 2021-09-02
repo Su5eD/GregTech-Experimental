@@ -2,14 +2,14 @@ package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerLESU;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiLESU extends GuiIC2<ContainerLESU> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/lesu.png");
+public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage> {
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/energy_storage.png");
 
-    public GuiLESU(ContainerLESU container) {
+    public GuiEnergyStorage(ContainerEnergyStorage container) {
         super(container);
     }
     

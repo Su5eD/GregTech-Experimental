@@ -3,13 +3,13 @@ package mods.gregtechmod.objects.blocks.teblocks.container;
 import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.inventory.SlotArmor;
-import mods.gregtechmod.objects.blocks.teblocks.TileEntityLESU;
+import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntityChargerBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 
-public class ContainerLESU extends ContainerFullInv<TileEntityLESU> {
+public class ContainerEnergyStorage extends ContainerFullInv<TileEntityChargerBase> {
 
-    public ContainerLESU(EntityPlayer player, TileEntityLESU base) {
+    public ContainerEnergyStorage(EntityPlayer player, TileEntityChargerBase base) {
         super(player, base, 166);
         
         addSlotToContainer(new SlotInvSlot(base.chargeSlot, 0, 128, 14));

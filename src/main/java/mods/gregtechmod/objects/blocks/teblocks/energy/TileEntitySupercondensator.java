@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.teblocks;
+package mods.gregtechmod.objects.blocks.teblocks.energy;
 
 import ic2.core.util.Util;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
