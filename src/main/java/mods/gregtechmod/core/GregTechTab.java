@@ -36,8 +36,7 @@ public class GregTechTab extends CreativeTabs {
                 .forEach(teblock -> list.add(block.getItemStack(teblock)));
         BlockItemLoader.getItems().stream()
                 .filter(item -> GregTechMod.classic || !(item instanceof ItemCellClassic))
-                .map(ItemStack::new)
-                .forEach(list::add);
+                .forEach(item -> item.getSubItems(this, list));
         FluidLoader.FLUIDS.stream()
                 .map(FluidLoader.IFluidProvider::getName)
                 .map(ProfileDelegate::getCell)
