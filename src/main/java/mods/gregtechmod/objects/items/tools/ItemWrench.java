@@ -22,9 +22,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -83,21 +83,44 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         Block block = world.getBlockState(pos).getBlock();
-        ItemStack currentStack = player.getHeldItem(hand);
+        ItemStack stack = player.getHeldItem(hand);
 
-        if (block instanceof IWrenchable && this.canTakeDamage(currentStack, rotateDamage)) {
-            EnumFacing face = ((IWrenchable) block).getFacing(world, pos);
-            EnumFacing rotated = RotationUtil.rotateByHit(side, hitX, hitY, hitZ);
-            if (rotated == face && !canTakeDamage(currentStack, removeDamage)) return EnumActionResult.FAIL;
-            ItemToolWrench.wrenchBlock(world, pos, rotated, player, true);
-            Block newBlock = world.getBlockState(pos).getBlock();
-            this.damage(currentStack, world.getBlockState(pos).getBlock() == Blocks.AIR ? removeDamage : newBlock != block ? rotateDamage : 0, player);
-
-            if (world.isRemote) IC2.audioManager.playOnce(player, PositionSpec.Hand, "Tools/wrench.ogg", true, IC2.audioManager.getDefaultVolume());
-            return EnumActionResult.SUCCESS;
+        if (this.canTakeDamage(stack, this.rotateDamage)) {
+            TileEntity te = world.getTileEntity(pos);
+            if (te instanceof IPipe) {
+                EnumFacing rotated = RotationUtil.rotateByHit(side, hitX, hitY, hitZ);
+                ((IPipe) te).flipConnection(rotated);
+                
+                TileEntity neighborPipe = world.getTileEntity(pos.offset(rotated));
+                if (neighborPipe instanceof IPipe) {
+                    EnumFacing rotatedOpposite = rotated.getOpposite();
+                    if (((IPipe) te).isConnected(rotated) != ((IPipe) neighborPipe).isConnected(rotatedOpposite)) {
+                        ((IPipe) neighborPipe).flipConnection(rotatedOpposite);
+                    }
+                }
+                
+                playWrenchSound(world, player);
+                return EnumActionResult.SUCCESS;
+            }
+            else if (block instanceof IWrenchable) {
+                EnumFacing face = ((IWrenchable) block).getFacing(world, pos);
+                EnumFacing rotated = RotationUtil.rotateByHit(side, hitX, hitY, hitZ);
+                if (rotated == face && !canTakeDamage(stack, this.removeDamage)) return EnumActionResult.FAIL;
+                
+                String result = ((Object) ItemToolWrench.wrenchBlock(world, pos, rotated, player, true)).toString();
+                int damage = result.equals("Removed") ? this.removeDamage : result.equals("Rotated") ? this.rotateDamage : 0;
+                GtUtil.damageStack(player, stack, damage);
+            
+                playWrenchSound(world, player);
+                return EnumActionResult.SUCCESS;
+            }
         }
 
         return EnumActionResult.PASS;
+    }
+    
+    private void playWrenchSound(World world, EntityPlayer player) {
+        if (world.isRemote) IC2.audioManager.playOnce(player, PositionSpec.Hand, "Tools/wrench.ogg", true, IC2.audioManager.getDefaultVolume());
     }
 
     @Override
@@ -139,7 +162,7 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
     @Override
     public void wrenchUsed(EntityPlayer player, EnumHand hand, ItemStack wrench, RayTraceResult rayTrace) {
         wrench.damageItem(1, player);
-        IC2.audioManager.playOnce(player, "Tools/wrench.ogg");
+        playWrenchSound(player.world, player);
     }
 
     @Override
