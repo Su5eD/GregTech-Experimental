@@ -52,6 +52,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ProgressManager;
+import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -73,6 +75,7 @@ public class MachineRecipeParser {
     private static Path fuelsPath = null;
     private static Path classicFuelsPath = null;
     private static Path dynamicRecipesDir = null;
+    private static ProgressBar progressBar;
     private static final ObjectMapper MAPPER_BASE = new ObjectMapper(
             new YAMLFactory()
                     .enable(YAMLGenerator.Feature.MINIMIZE_QUOTES))
@@ -123,8 +126,9 @@ public class MachineRecipeParser {
 
     public static void loadRecipes() {
         setup();
+        progressBar = ProgressManager.push("Parsing Recipes", 21);
         
-        GregTechMod.logger.info("Loading machine recipes");
+        GregTechMod.logger.info("Parsing Machine Recipes");
 
         GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
         parseRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
@@ -213,10 +217,13 @@ public class MachineRecipeParser {
 
         parseRecipes("extractor", BasicMachineRecipe.class, null)
                 .ifPresent(recipes -> registerRecipes("extractor", recipes, (BasicMachineRecipeManager) Recipes.extractor));
+        
+        ProgressManager.pop(progressBar);
     }
 
     public static void loadFuels() {
-        GregTechMod.logger.info("Loading fuels");
+        progressBar = ProgressManager.push("Parsing Fuels", 7);
+        GregTechMod.logger.info("Parsing fuels");
 
         Path recipesPath = GtUtil.getAssetPath("fuels");
         Path gtConfig = relocateConfig(recipesPath, "fuels");
@@ -253,12 +260,15 @@ public class MachineRecipeParser {
         GtFuels.steam = new FuelManagerFluid<>();
         parseFuels("steam", FuelSimple.class)
                 .ifPresent(fuels -> registerFuels("steam", fuels, GtFuels.steam));
+        
+        ProgressManager.pop(progressBar);
 
         ModCompat.registerBoilerFuels();
     }
 
     public static void loadDynamicRecipes() {
-        GregTechMod.logger.info("Loading dynamic recipes");
+        progressBar = ProgressManager.push("Loading Dynamic Recipes", 13);
+        GregTechMod.logger.info("Loading Dynamic Recipes");
         dynamicRecipesDir = GregTechMod.configDir.toPath().resolve("GregTech/machine_recipes/dynamic");
         dynamicRecipesDir.toFile().mkdirs();
 
@@ -273,8 +283,11 @@ public class MachineRecipeParser {
         DynamicRecipes.addCompressorRecipes = parseIC2DynamicRecipes("compressor", DynamicRecipes.COMPRESSOR);
         DynamicRecipes.addExtractorRecipes = parseIC2DynamicRecipes("extractor", DynamicRecipes.EXTRACTOR);
 
+        progressBar.step("Dynamic Crafting Recipes");
         DynamicRecipes.processCraftingRecipes();
+        progressBar.step("Applying Material Usages");
         DynamicRecipes.applyMaterialUsages();
+        progressBar.step("");
         ModCompat.addRollingMachineRecipes();
         ModCompat.registerTools();
 
@@ -322,6 +335,8 @@ public class MachineRecipeParser {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), new ItemStack(Items.IRON_INGOT, 8));
         }
         DynamicRecipes.addSmeltingRecipe("resin", new ItemStack(Items.SLIME_BALL), IC2Items.getItem("misc_resource", "resin"));
+        
+        ProgressManager.pop(progressBar);
     }
 
     public static void registerDynamicRecipes() {
@@ -344,14 +359,24 @@ public class MachineRecipeParser {
                 .collect(Collectors.toList());
         registerDynamicRecipes("Extractor", extractorRecipes, (BasicMachineRecipeManager) Recipes.extractor, DynamicRecipes.addExtractorRecipes);
     }
+    
+    private static String formatDisplayName(String str) {
+        return Arrays.stream(str.split("_"))
+                .map(GtUtil::capitalizeString)
+                .collect(Collectors.joining(" "));
+    }
 
     public static <R> Optional<Collection<R>> parseRecipes(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter) {
+        progressBar.step(formatDisplayName(name));
+        
         Optional<Collection<R>> normalRecipes = parseConfig(RECIPE_MAPPER, name, recipeClass, filter, recipesPath);
         Optional<Collection<R>> profileRecipes = GregTechMod.classic ? parseConfig(RECIPE_MAPPER, name, recipeClass, filter, classicRecipesPath, true) : parseConfig(RECIPE_MAPPER, name, recipeClass, filter, experimentalRecipesPath, true);
         return normalRecipes.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, profileRecipes.orElseGet(Collections::emptyList))));
     }
 
     public static <R> Optional<Collection<R>> parseFuels(String name, Class<R> recipeClass) {
+        progressBar.step(formatDisplayName(name));
+        
         Optional<Collection<R>> normalFuels = parseConfig(FUEL_MAPPER, name, recipeClass, null, fuelsPath, false);
         Optional<Collection<R>> classicFuels = GregTechMod.classic ? parseConfig(FUEL_MAPPER, name, recipeClass, null, classicFuelsPath, true) : Optional.empty();
         return normalFuels.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, classicFuels.orElseGet(Collections::emptyList))));
@@ -396,6 +421,8 @@ public class MachineRecipeParser {
 
     private static <T extends IMachineRecipe<?, ?>> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IGtRecipeManager<?, ?, T> manager) {
         if(parseDynamicRecipes(name)) {
+            progressBar.step(formatDisplayName(name));
+            
             parseConfig(RECIPE_MAPPER, name, recipeClass, filter, dynamicRecipesDir)
                     .ifPresent(recipes -> registerRecipes("dynamic " + name.replace('_', ' '), recipes, manager));
             return false;
@@ -405,6 +432,8 @@ public class MachineRecipeParser {
 
     private static boolean parseIC2DynamicRecipes(String name, IBasicMachineRecipeManager manager) {
         if (parseDynamicRecipes(name)) {
+            progressBar.step(formatDisplayName(name));
+            
             parseConfig(RECIPE_MAPPER, name, BasicMachineRecipe.class, null, dynamicRecipesDir)
                     .ifPresent(recipes -> registerRecipes("dynamic " + name.replace('_', ' '), recipes, (BasicMachineRecipeManager) manager));
             return false;
