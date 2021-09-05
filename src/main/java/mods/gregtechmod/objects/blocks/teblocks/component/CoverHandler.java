@@ -82,7 +82,7 @@ public class CoverHandler extends GtComponentBase {
         }
 
         @Override
-        public Map<EnumFacing, ICover> deserialize(NBTTagCompound nbt, Object instance) {
+        public Map<EnumFacing, ICover> deserialize(NBTTagCompound nbt, Object instance, Class<?> cls) {
             Map<EnumFacing, ICover> map = new HashMap<>();
             for (String str : nbt.getKeySet()) {
                 NBTTagCompound tag = nbt.getCompoundTag(str);

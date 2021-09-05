@@ -6,5 +6,5 @@ public interface INBTSerializer<T, U extends NBTBase> {
     
     U serialize(T value);
     
-    T deserialize(U nbt, Object instance);
+    T deserialize(U nbt, Object instance, Class<?> cls);
 }

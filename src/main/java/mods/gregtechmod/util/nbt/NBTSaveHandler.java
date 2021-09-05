@@ -38,9 +38,11 @@ public final class NBTSaveHandler {
         addSimpleSerializer(String.class, NBTTagString::new, NBTTagString::getString);
         
         addSimpleSerializer(ItemStack.class, Serializers::serializeItemStack, ItemStack::new);
-        addSimpleSerializer(Enum.class, Serializers::serializeEnum, Serializers::deserializeEnum);
         addSimpleSerializer(GameProfile.class, Serializers::serializeGameProfile, NBTUtil::readGameProfileFromNBT);
+        addSerializer(Enum.class, Serializers.EnumNBTSerializer::new);
         addSerializer(List.class, Serializers.ListNBTSerializer::new);
+        
+        addSpecialSerializer(List.class, Serializers.ItemStackListNBTSerializer::new);
     }
     
     public static <T, U extends NBTBase> void addSimpleSerializer(Class<T> clazz, Function<T, U> serializer, 
@@ -80,7 +82,7 @@ public final class NBTSaveHandler {
                             String annotatedName = persistent.name();
                             String name = !annotatedName.isEmpty() ? annotatedName : field.getName();
                             checkForDuplicateField(name, clazz);
-                            return new FieldHandle(name, field.getType(), persistent.using(), persistent.include().predicate, lookup.unreflectGetter(field), lookup.unreflectSetter(field));
+                            return new FieldHandle(name, persistent.deserializeAs(), field.getType(), persistent.using(), persistent.include().predicate, lookup.unreflectGetter(field), lookup.unreflectSetter(field));
                         } catch (IllegalAccessException e) {
                             throw new RuntimeException("Unable to unreflect handle for field " + field.getName(), e);
                         }
@@ -112,16 +114,17 @@ public final class NBTSaveHandler {
         withParents(instance.getClass(), HANDLES::containsKey, clazz -> {
             List<FieldHandle> fieldHandles = HANDLES.get(clazz);
             if (fieldHandles != null) {
-                fieldHandles.stream()
-                        .filter(fieldHandle -> nbt.hasKey(fieldHandle.name))
-                        .forEach(fieldHandle -> {
-                            NBTBase nbtValue = nbt.getTag(fieldHandle.name);
-                            Object value;
-                            if (fieldHandle.serializer != Serializers.None.class) value = getSpecialSerializer(fieldHandle.type, fieldHandle.serializer).deserialize(nbtValue, instance);
-                            else value = deserializeField(nbtValue, fieldHandle.name, instance, fieldHandle.type);
-                            
-                            if (value != null) fieldHandle.setFieldValue(instance, value);
-                        });
+                fieldHandles.forEach(fieldHandle -> {
+                    String name = !fieldHandle.deserializeAs.isEmpty() ? fieldHandle.deserializeAs : fieldHandle.name;
+                    if (nbt.hasKey(name)) {
+                        NBTBase nbtValue = nbt.getTag(name);
+                        Object value;
+                        if (fieldHandle.serializer != Serializers.None.class) value = getSpecialSerializer(fieldHandle.type, fieldHandle.serializer).deserialize(nbtValue, instance, fieldHandle.type);
+                        else value = deserializeField(nbtValue, name, instance, fieldHandle.type);
+                        
+                        if (value != null) fieldHandle.setFieldValue(instance, value);
+                    }
+                });
             }
         });
     }
@@ -138,7 +141,7 @@ public final class NBTSaveHandler {
         for (Map.Entry<Class<?>, LazyValue<INBTSerializer<Object, NBTBase>>> entry : SERIALIZERS.entrySet()) {
             Class<?> clazz = entry.getKey();
             if (clazz.isAssignableFrom(type)) {
-                return entry.getValue().get().deserialize(nbt, instance);
+                return entry.getValue().get().deserialize(nbt, instance, type);
             }
         }
         

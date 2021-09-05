@@ -23,30 +23,47 @@ public final class Serializers {
         return stack.writeToNBT(new NBTTagCompound());
     }
     
-    public static NBTBase serializeEnum(Enum<?> value) {
-        NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setString("name", value.name());
-        nbt.setString("type", value.getDeclaringClass().getName());
-        return nbt;
-    }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static Enum<?> deserializeEnum(NBTBase nbt) {
-        if (nbt instanceof NBTTagCompound) { // Backwards error prevention / TODO Remove in next version
-            String enumName = ((NBTTagCompound) nbt).getString("name");
-            String type = ((NBTTagCompound) nbt).getString("type");
-            try {
-                Class enumClazz = Class.forName(type);
-                return Enum.valueOf(enumClazz, enumName);
-            } catch (ClassNotFoundException e) {
-                GregTechMod.LOGGER.catching(e);
-            }
-        }
-        return null;
-    }
-    
     public static NBTTagCompound serializeGameProfile(GameProfile profile) {
         return NBTUtil.writeGameProfile(new NBTTagCompound(), profile);
+    }
+    
+    static class EnumNBTSerializer implements INBTSerializer<Enum<?>, NBTBase> {
+        @Override
+        public NBTBase serialize(Enum<?> value) {
+            return new NBTTagString(value.name());
+        }
+
+        @SuppressWarnings({"rawtypes", "unchecked"})
+        @Override
+        public Enum<?> deserialize(NBTBase nbt, Object instance, Class cls) {
+            if (nbt instanceof NBTTagString) {
+                String name = ((NBTTagString) nbt).getString();
+                return Enum.valueOf(cls, name);
+            }
+            else if (nbt instanceof NBTTagInt) {
+                int index = ((NBTTagInt) nbt).getInt();
+                return (Enum<?>) cls.getEnumConstants()[index];
+            }
+            return null;
+        }
+    }
+    
+    public static class ItemStackListNBTSerializer implements INBTSerializer<List<ItemStack>, NBTTagList> {
+        @Override
+        public NBTTagList serialize(List<ItemStack> value) {
+            NBTTagList list = new NBTTagList();
+            value.stream()
+                    .map(stack -> stack.writeToNBT(new NBTTagCompound()))
+                    .forEach(list::appendTag);
+            return list;
+        }
+
+        @Override
+        public List<ItemStack> deserialize(NBTTagList nbt, Object instance, Class<?> cls) {
+            List<ItemStack> list = new ArrayList<>();
+            nbt.forEach(tag -> list.add(new ItemStack((NBTTagCompound) tag)));
+            return list;
+        }
     }
     
     static class ListNBTSerializer implements INBTSerializer<List<?>, NBTTagList> {
@@ -66,7 +83,7 @@ public final class Serializers {
         }
 
         @Override
-        public List<?> deserialize(NBTTagList nbt, Object instance) {
+        public List<?> deserialize(NBTTagList nbt, Object instance, Class<?> cls) {
             List<Object> list = new ArrayList<>();
             for (NBTBase tag : nbt) {
                 try {
@@ -75,7 +92,7 @@ public final class Serializers {
                     INBTSerializer<?, NBTBase> serializer = NBTSaveHandler.getSerializer(clazz);
                     if (serializer != null) {
                         NBTTagCompound value = ((NBTTagCompound) tag).getCompoundTag("value");
-                        Object deserialized = serializer.deserialize(value, instance); 
+                        Object deserialized = serializer.deserialize(value, instance, clazz); 
                         list.add(deserialized);
                     }
                 } catch (ClassNotFoundException e) {
@@ -83,18 +100,6 @@ public final class Serializers {
                 }
             }
             return list;
-        }
-    }
-    
-    static class None implements INBTSerializer<Object, NBTBase> {
-        @Override
-        public NBTBase serialize(Object value) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Object deserialize(NBTBase nbt, Object instance) {
-            throw new UnsupportedOperationException();
         }
     }
     
@@ -113,8 +118,20 @@ public final class Serializers {
         }
 
         @Override
-        public T deserialize(U nbt, Object instance) {
+        public T deserialize(U nbt, Object instance, Class<?> cls) {
             return this.deserializer.apply(nbt);
+        }
+    }
+    
+    static class None implements INBTSerializer<Object, NBTBase> {
+        @Override
+        public NBTBase serialize(Object value) {
+            throw new UnsupportedOperationException();
+        }
+    
+        @Override
+        public Object deserialize(NBTBase nbt, Object instance, Class<?> cls) {
+            throw new UnsupportedOperationException();
         }
     }
 }

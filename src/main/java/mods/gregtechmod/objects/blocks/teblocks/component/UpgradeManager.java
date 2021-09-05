@@ -14,6 +14,7 @@ import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
+import mods.gregtechmod.util.nbt.Serializers.ItemStackListNBTSerializer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -33,9 +34,9 @@ public class UpgradeManager extends GtComponentBase {
     private final TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade;
     private final BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade;
     
-    @NBTPersistent(include = Include.NOT_EMPTY)
+    @NBTPersistent(include = Include.NOT_EMPTY, using = ItemStackListNBTSerializer.class)
     private final List<ItemStack> upgrades = new ArrayList<>();
-    @NBTPersistent(include = Include.NON_NULL)
+    @NBTPersistent(include = Include.NON_NULL, deserializeAs = "ownerProfile")
     private GameProfile owner;
     @NBTPersistent
     private boolean isPrivate;
