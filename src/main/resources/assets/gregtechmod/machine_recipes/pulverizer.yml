@@ -910,11 +910,6 @@
     - item: minecraft:snowball
       count: 4
 - input:
-    item: minecraft:stick
-  output:
-    - item: gregtechmod:smalldust_wood
-      count: 2
-- input:
     ore: charcoal
   output:
     - item: gregtechmod:dust_charcoal
@@ -941,11 +936,6 @@
     item: minecraft:wheat
   output:
     - item: gregtechmod:flour
-  overwrite: true
-- input:
-    item: ic2:crafting#plant_ball
-  output:
-    - item: minecraft:dirt
   overwrite: true
 - input:
     item: ic2:crop_stick

@@ -4,6 +4,7 @@
     item: ic2:crafting#empty_fuel_can
   output:
     - item: ic2:dust#tin
+      count: 7
   overwrite: true
 - input:
     cell: empty
@@ -22,7 +23,12 @@
     item: ic2:resource#machine
   output:
     - ore: dustRefinedIron
+      count: 8
+      fallback:
+        item: ic2:dust#iron
         count: 8
-        fallback:
-          item: ic2:dust#iron
-          count: 8
+- input:
+    item: ic2:crafting#plant_ball
+  output:
+    - item: minecraft:dirt
+  overwrite: true

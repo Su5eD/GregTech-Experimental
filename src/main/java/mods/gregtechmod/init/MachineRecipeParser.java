@@ -62,6 +62,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -390,7 +391,7 @@ public class MachineRecipeParser {
         try {
             return parseConfig(mapper, recipeClass, filter, Files.newBufferedReader(path.resolve(name + ".yml")));
         } catch (IOException e) {
-            if (!silent) {
+            if (!silent || !(e instanceof NoSuchFileException)) {
                 GregTechMod.LOGGER.error("Failed to parse " + name + " recipes", e);
             }
             return Optional.empty();
