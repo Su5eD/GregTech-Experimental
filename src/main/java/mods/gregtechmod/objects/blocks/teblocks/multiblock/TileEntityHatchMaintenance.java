@@ -11,11 +11,11 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerHatchMaintena
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.PropertyHelper;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -29,6 +29,7 @@ import java.util.function.Predicate;
 public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implements IHasGui {
     private static final PropertyHelper.TextureOverride DUCT_TAPE_TEXTURE_OVERRIDE = new PropertyHelper.TextureOverride(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape"));
 
+    @NBTPersistent
     public boolean ductTape;
     private final Maintenance maintenance;
 
@@ -83,18 +84,6 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("ductTape");
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.ductTape = nbt.getBoolean("ductTape");
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setBoolean("ductTape", this.ductTape);
-        return super.writeToNBT(nbt);
     }
 
     @Override

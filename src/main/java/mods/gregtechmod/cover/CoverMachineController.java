@@ -5,9 +5,9 @@ import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import java.util.Locale;
 
 public class CoverMachineController extends CoverGeneric {
+    @NBTPersistent
     protected ControllerMode mode = ControllerMode.NORMAL;
 
     public CoverMachineController(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
@@ -69,17 +70,6 @@ public class CoverMachineController extends CoverGeneric {
     @Override
     public void onCoverRemove() {
         if (te instanceof IGregTechMachine) ((IGregTechMachine)te).setAllowedToWork(true);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("mode", this.mode.ordinal());
-        return nbt;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = ControllerMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

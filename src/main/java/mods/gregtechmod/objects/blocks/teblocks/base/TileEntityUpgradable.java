@@ -17,6 +17,7 @@ import mods.gregtechmod.compat.buildcraft.MjReceiverWrapper;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -39,8 +40,9 @@ import java.util.stream.Stream;
 
 public abstract class TileEntityUpgradable extends TileEntityEnergy implements IScannerInfoProvider, IUpgradableMachine, IElectricMachine {
     public final UpgradeManager upgradeManager;
-    protected boolean hasSteamUpgrade;
     public Fluids fluids;
+    @NBTPersistent
+    protected boolean hasSteamUpgrade;
     public InternalFluidTank steamTank;
     protected int neededSteam;
     private int extraSinkTier;
@@ -84,7 +86,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public final int getSinkTier() {
         int transformers = getUpgradeCount(IC2UpgradeType.TRANSFORMER);
-        return getBaseSinkTier() + transformers + extraSinkTier;
+        return getBaseSinkTier() + transformers + this.extraSinkTier;
     }
     
     protected abstract int getBaseEUCapacity();
@@ -111,12 +113,12 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        if (hasSteamUpgrade) {
-            NBTTagCompound tNBT = new NBTTagCompound();
-            this.steamTank.writeToNBT(tNBT);
-            nbt.setTag("steamTank", tNBT);
+        if (this.hasSteamUpgrade) {
+            NBTTagCompound tag = new NBTTagCompound();
+            this.steamTank.writeToNBT(tag);
+            nbt.setTag("steamTank", tag);
         }
-        if (hasMjUpgrade) {
+        if (this.hasMjUpgrade) {
             nbt.setTag("mj", this.receiver.serializeNBT());
         }
         return super.writeToNBT(nbt);
@@ -127,8 +129,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         super.readFromNBT(nbt);
         if (nbt.hasKey("steamTank")) {
             this.hasSteamUpgrade = true;
-            this.steamTank = createSteamTank();
-            this.fluids.addTank(this.steamTank);
+            this.steamTank = this.fluids.addTank(createSteamTank());
             this.steamTank.readFromNBT(nbt.getCompoundTag("steamTank"));
         }
         if (nbt.hasKey("mj")) {

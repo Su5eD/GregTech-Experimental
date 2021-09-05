@@ -5,13 +5,14 @@ import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InventoryMode;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class CoverInventory extends CoverGeneric {
+    @NBTPersistent
     protected InventoryMode mode = InventoryMode.EXPORT;
 
     public CoverInventory(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
@@ -30,17 +31,6 @@ public abstract class CoverInventory extends CoverGeneric {
         mode = mode.next();
         GtUtil.sendMessage(player, mode.getMessageKey());
         return true;
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("mode", mode.ordinal());
-        return nbt;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = InventoryMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

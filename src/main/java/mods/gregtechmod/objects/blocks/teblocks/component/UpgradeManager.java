@@ -12,30 +12,32 @@ import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
+import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 public class UpgradeManager extends GtComponentBase {
-    private final Collection<ItemStack> upgrades = new ArrayList<>();
     private final TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade;
     private final BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade;
     
+    @NBTPersistent(include = Include.NOT_EMPTY)
+    private final List<ItemStack> upgrades = new ArrayList<>();
+    @NBTPersistent(include = Include.NON_NULL)
     private GameProfile owner;
+    @NBTPersistent
     private boolean isPrivate;
 
     public <T extends TileEntityBlock & IUpgradableMachine> UpgradeManager(T parent, TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade, BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade) {
@@ -113,7 +115,7 @@ public class UpgradeManager extends GtComponentBase {
         return false;
     }
 
-    public Collection<ItemStack> getUpgrades() {
+    public List<ItemStack> getUpgrades() {
         return this.upgrades;
     }
 
@@ -124,21 +126,20 @@ public class UpgradeManager extends GtComponentBase {
     }
 
     public int getUpgradeCount(GtUpgradeType type) {
-        int total = 0;
-        for (ItemStack stack : this.upgrades) {
-            Item item = stack.getItem();
-            if (item instanceof IGtUpgradeItem && ((IGtUpgradeItem) item).getType() == type) total += stack.getCount();
-        }
-        return total;
+        return this.upgrades.stream()
+                .filter(stack -> {
+                    Item item = stack.getItem();
+                    return item instanceof IGtUpgradeItem && ((IGtUpgradeItem) item).getType() == type;
+                })
+                .mapToInt(ItemStack::getCount)
+                .sum();
     }
 
     public int getUpgradeCount(IC2UpgradeType type) {
-        int total = 0;
-        for (ItemStack stack : this.upgrades) {
-            IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
-            if (upgradeType != null && upgradeType == type) total += stack.getCount();
-        }
-        return total;
+        return this.upgrades.stream()
+                .filter(stack -> GtUtil.getUpgradeType(stack) == type)
+                .mapToInt(ItemStack::getCount)
+                .sum();
     }
 
     private boolean isUpgrade(ItemStack stack) {
@@ -187,26 +188,6 @@ public class UpgradeManager extends GtComponentBase {
 
     public void setPrivate(boolean value) {
         this.isPrivate = value;
-    }
-
-    @Override
-    public void readFromNbt(NBTTagCompound nbt) {
-        GtUtil.stacksFromNBT(this.upgrades, nbt.getTagList("upgrades", 10));
-        this.isPrivate = nbt.getBoolean("isPrivate");
-        if (nbt.hasKey("ownerProfile")) this.owner = NBTUtil.readGameProfileFromNBT(nbt.getCompoundTag("ownerProfile"));
-    }
-
-    @Override
-    public NBTTagCompound writeToNbt() {
-        NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setTag("upgrades", GtUtil.stacksToNBT(this.upgrades));
-        nbt.setBoolean("isPrivate", this.isPrivate);
-        if (this.owner != null) {
-            NBTTagCompound ownerCompound = new NBTTagCompound();
-            NBTUtil.writeGameProfile(ownerCompound, this.owner);
-            nbt.setTag("ownerProfile", ownerCompound);
-        }
-        return nbt;
     }
 
     @Override

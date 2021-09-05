@@ -11,6 +11,7 @@ import mods.gregtechmod.gui.GuiMagicEnergyAbsorber;
 import mods.gregtechmod.inventory.invslot.GtSlotConsumable;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMagicEnergyAbsorber;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -33,7 +34,9 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     private static final List<EntityEnderCrystal> usedDragonCrystalList = new ArrayList<>();
     private EntityEnderCrystal targetedCrystal;
     
+    @NBTPersistent
     public boolean drainCrystalEnergy;
+    @NBTPersistent
     public boolean drainAura;
     
     public final InvSlotConsumable inputSlot;
@@ -144,20 +147,6 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     @Override
     public double getMaxOutputEUp() {
         return Math.max(128, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setBoolean("drainCrystalEnergy", this.drainCrystalEnergy);
-        nbt.setBoolean("drainAura", this.drainAura);
-        return super.writeToNBT(nbt);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.drainCrystalEnergy = nbt.getBoolean("drainCrystalEnergy");
-        this.drainAura = nbt.getBoolean("drainAura");
     }
     
     @Override

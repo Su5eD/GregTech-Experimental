@@ -1,20 +1,20 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
 import ic2.core.IHasGui;
-import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.SonictronSound;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiSonictron;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityAutoNBT;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerSonictron;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -25,9 +25,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
 
-public class TileEntitySonictron extends TileEntityInventory implements IHasGui {
+public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
     private static final Map<Integer, String> RECORD_NAMES = new HashMap<>();
     
+    @NBTPersistent
     public int currentIndex = -1;
     public final InvSlot content;
 
@@ -49,18 +50,6 @@ public class TileEntitySonictron extends TileEntityInventory implements IHasGui 
     public TileEntitySonictron() {
         this.content = new InvSlot(this, "content", InvSlot.Access.NONE, 64);
         this.content.setStackSizeLimit(24);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("currentIndex", this.currentIndex);
-        return super.writeToNBT(nbt);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbtTagCompound) {
-        super.readFromNBT(nbtTagCompound);
-        this.currentIndex = nbtTagCompound.getInteger("currentIndex");
     }
 
     @Override

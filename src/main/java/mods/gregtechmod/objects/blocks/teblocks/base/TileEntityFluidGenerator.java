@@ -9,9 +9,9 @@ import mods.gregtechmod.inventory.invslot.GtSlotProcessableFuel;
 import mods.gregtechmod.inventory.tank.GtFluidTankProcessableFuel;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -19,7 +19,9 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
     protected final IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager;
     
     public BasicTank tank;
+    @NBTPersistent
     private double fuelEnergy;
+    @NBTPersistent
     private double solidFuelEnergy;
 
     protected TileEntityFluidGenerator(String descriptionKey, IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
@@ -78,20 +80,6 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
             this.tank.inputSlot.consume(input.getCount(), false, true);
             this.tank.outputSlot.add(fuel.getOutput());
         }
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setDouble("solidFuelEnergy", this.solidFuelEnergy);
-        nbt.setDouble("fuelEnergy", this.fuelEnergy);
-        return super.writeToNBT(nbt);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.solidFuelEnergy = nbt.getDouble("solidFuelEnergy");
-        this.fuelEnergy = nbt.getDouble("fuelEnergy");
     }
 
     public double getSolidFuelEnergy() {

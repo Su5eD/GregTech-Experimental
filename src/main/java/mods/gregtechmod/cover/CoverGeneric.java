@@ -10,6 +10,7 @@ import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -137,11 +138,14 @@ public class CoverGeneric implements ICover {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+        NBTSaveHandler.writeClassToNBT(this, nbt);
         return nbt;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {}
+    public void readFromNBT(NBTTagCompound nbt) {
+        NBTSaveHandler.readClassFromNBT(this, nbt);
+    }
 
     @Override
     public int getTickRate() {

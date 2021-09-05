@@ -5,9 +5,9 @@ import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,6 +15,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.Locale;
 
 public abstract class CoverMeter extends CoverGeneric {
+    @NBTPersistent
     protected MeterMode mode = MeterMode.NORMAL;
 
     public CoverMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
@@ -45,17 +46,6 @@ public abstract class CoverMeter extends CoverGeneric {
         return true;
     }
 
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("mode", this.mode.ordinal());
-        return nbt;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = MeterMode.VALUES[nbt.getInteger("mode")];
-    }
-
     protected abstract Pair<Integer, Integer> getItemStorageAndCapacity();
 
     public enum MeterMode {
@@ -69,7 +59,7 @@ public abstract class CoverMeter extends CoverGeneric {
         }
 
         public String getMessageKey() {
-            return Reference.MODID+".cover.mode."+this.name().toLowerCase(Locale.ROOT);
+            return Reference.MODID + ".cover.mode." + this.name().toLowerCase(Locale.ROOT);
         }
     }
 

@@ -5,15 +5,16 @@ import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Locale;
 
 public class CoverEnergyOnly extends CoverGeneric {
+    @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;
 
     public CoverEnergyOnly(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
@@ -66,17 +67,6 @@ public class CoverEnergyOnly extends CoverGeneric {
     @Override
     public boolean allowEnergyTransfer() {
         return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine)te).isAllowedToWork() == mode.inverted);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("mode", this.mode.ordinal());
-        return nbt;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = EnergyMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

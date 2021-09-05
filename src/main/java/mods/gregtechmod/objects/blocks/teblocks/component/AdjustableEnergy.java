@@ -5,11 +5,10 @@ import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.*;
 import ic2.api.tile.IEnergyStorage;
 import ic2.core.block.TileEntityBlock;
-import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.network.GrowingBuffer;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,9 +19,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-public abstract class AdjustableEnergy extends TileEntityComponent {
+public abstract class AdjustableEnergy extends GtComponentBase {
     protected DelegateBase delegate;
     
+    @NBTPersistent
     private double storedEnergy;
     private Collection<EnumFacing> oldSinkSides = getSinkSides();
     private Collection<EnumFacing> oldSourceSides = getSourceSides();
@@ -241,18 +241,6 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     @Override
     public void onNetworkUpdate(DataInput in) throws IOException {
         this.storedEnergy = in.readDouble();
-    }
-        
-    @Override
-    public void readFromNbt(NBTTagCompound nbt) {
-        this.storedEnergy = nbt.getDouble("storedEnergy");
-    }
-        
-    @Override
-    public NBTTagCompound writeToNbt() {
-        NBTTagCompound ret = new NBTTagCompound();
-        ret.setDouble("storedEnergy", this.storedEnergy);
-        return ret;
     }
 
     public abstract class DelegateBase extends TileEntity implements IEnergyTile, IEnergyStorage {

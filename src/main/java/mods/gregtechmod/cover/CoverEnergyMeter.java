@@ -6,15 +6,16 @@ import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Locale;
 
 public class CoverEnergyMeter extends CoverGeneric {
+    @NBTPersistent
     protected Mode mode = Mode.UNIVERSAL;
 
     public CoverEnergyMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
@@ -110,17 +111,6 @@ public class CoverEnergyMeter extends CoverGeneric {
         if (te instanceof IGregTechMachine) {
             ((IGregTechMachine) te).setRedstoneOutput(side, (byte) 0);
         }
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("mode", this.mode.ordinal());
-        return nbt;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = Mode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override

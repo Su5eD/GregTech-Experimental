@@ -27,7 +27,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
@@ -437,22 +436,6 @@ public class GtUtil {
             GregTechMod.logger.catching(e);
             return null;
         }
-    }
-    
-    public static NBTTagList stacksToNBT(Collection<ItemStack> stacks) {
-        NBTTagList list = new NBTTagList();
-        stacks.stream()
-                .map(stack -> {
-                    NBTTagCompound tag = new NBTTagCompound();
-                    stack.writeToNBT(tag);
-                    return tag;
-                })
-                .forEach(list::appendTag);
-        return list;
-    }
-    
-    public static void stacksFromNBT(Collection<ItemStack> stacks, NBTTagList list) {
-        list.forEach(tag -> stacks.add(new ItemStack((NBTTagCompound) tag)));
     }
     
     public static void trackTime(String name, Runnable runnable) {

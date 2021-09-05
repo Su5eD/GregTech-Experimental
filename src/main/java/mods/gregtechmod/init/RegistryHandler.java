@@ -10,6 +10,7 @@ import mods.gregtechmod.compat.ModCompat;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.core.GregTechTEBlock;
 import mods.gregtechmod.cover.Cover;
+import mods.gregtechmod.objects.GregTechComponent;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
@@ -90,6 +91,10 @@ public class RegistryHandler {
         Arrays.stream(Cover.values())
                 .map(cover -> cover.instance.get())
                 .forEach(registry::register);
+    }
+    
+    public static void registerComponents() {
+        Arrays.stream(GregTechComponent.values()).forEach(GregTechComponent::register);
     }
 
     public static void registerFluids() {

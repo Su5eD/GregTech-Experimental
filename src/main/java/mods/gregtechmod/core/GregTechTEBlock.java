@@ -19,6 +19,7 @@ import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntitySuperconductorW
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.*;
 import mods.gregtechmod.objects.blocks.teblocks.struct.*;
+import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -128,6 +129,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         this.isStructure = isStructure;
 
         GameRegistry.registerTileEntity(teClass, new ResourceLocation(Reference.MODID, getName()));
+        NBTSaveHandler.initClass(teClass);
  	}
  	
  	public boolean isStructure() {

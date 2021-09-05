@@ -180,11 +180,14 @@ public class ItemScanner extends ItemElectricBase {
                 if (cover != null) {
                     String displayName = cover.getItem().getDisplayName();
                     String description = String.join(", ", cover.getDescription());
+                    String translated;
                     int tickRate = cover.getTickRate();
                     if (tickRate <= 1) {
                         String key = tickRate < 1 ? "cover_ticked_never" : "cover_ticked_1";
-                        ret.add(GtUtil.translateScan(key, displayName, description));
-                    } else ret.add(GtUtil.translateScan("cover_ticked_n", displayName, tickRate, description));
+                        translated = GtUtil.translateScan(key, displayName);
+                    } else translated = GtUtil.translateScan("cover_ticked_n", displayName, tickRate);
+                    
+                    ret.add(!description.isEmpty() ? translated + ", " + description : translated);
                 }
             }
 

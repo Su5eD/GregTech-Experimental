@@ -1,7 +1,6 @@
 package mods.gregtechmod.core;
 
 import ic2.core.IC2;
-import ic2.core.block.comp.Components;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
@@ -9,9 +8,6 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
-import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
-import mods.gregtechmod.objects.blocks.teblocks.component.*;
-import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntitySuperconductorWire;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
@@ -34,6 +30,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
@@ -44,11 +41,11 @@ import java.util.stream.Stream;
 public final class GregTechMod {
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
+    public static final Logger LOGGER = LogManager.getLogger(Reference.MODID);
     
     private static ClientProxy proxy;
     public static File configDir;
     public static boolean classic;
-    public static Logger logger;
 
     static {
         FluidRegistry.enableUniversalBucket();
@@ -63,9 +60,7 @@ public final class GregTechMod {
 
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
-        logger = event.getModLog();
-
-        logger.info("Pre-init started");
+        LOGGER.info("Pre-init started");
         if (event.getSide() == Side.CLIENT) proxy = new ClientProxy();
         configDir = event.getSuggestedConfigurationFile().getParentFile();
         classic = IC2.version.isClassic();
@@ -74,15 +69,7 @@ public final class GregTechMod {
         ModHandler.gatherLoadedMods();
 
         RegistryHandler.registerFluids();
-        Components.register(CoverHandler.class, Reference.MODID + ":cover_handler");
-        Components.register(SidedRedstoneEmitter.class, Reference.MODID + ":sided_emitter");
-        Components.register(CoilHandler.class, Reference.MODID + ":coil_handler");
-        Components.register(BasicTank.class, Reference.MODID + ":basic_tank");
-        Components.register(Maintenance.class, Reference.MODID + ":maintenance");
-        Components.register(UpgradeManager.class, Reference.MODID + ":upgrade_manager");
-        Components.register(TileEntityEnergy.DynamicAdjustableEnergy.class, Reference.MODID + ":dynamic_adjustable_energy");
-        Components.register(TileEntityEnergy.ExplodingEnergySource.class, Reference.MODID + ":exploding_energy_source");
-        Components.register(TileEntitySuperconductorWire.ConductorEnergy.class, Reference.MODID + ":conductor_energy");
+        RegistryHandler.registerComponents();
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
         
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());

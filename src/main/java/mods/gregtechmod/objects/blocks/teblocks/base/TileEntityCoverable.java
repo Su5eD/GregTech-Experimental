@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import ic2.core.block.TileEntityInventory;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.CoverType;
@@ -26,7 +25,7 @@ import java.util.Set;
 /**
  * Let's you add/remove covers on a tile entity. <b>Isn't responsible</b> for cover behavior.
  */
-public abstract class TileEntityCoverable extends TileEntityInventory implements ICoverable {
+public abstract class TileEntityCoverable extends TileEntityAutoNBT implements ICoverable {
     protected final CoverHandler coverHandler;
     protected Set<CoverType> coverBlacklist = new HashSet<>();
 

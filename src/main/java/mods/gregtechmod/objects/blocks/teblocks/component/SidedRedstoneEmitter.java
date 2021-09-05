@@ -1,13 +1,12 @@
 package mods.gregtechmod.objects.blocks.teblocks.component;
 
 import ic2.core.block.TileEntityBlock;
-import ic2.core.block.comp.TileEntityComponent;
 import net.minecraft.util.EnumFacing;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SidedRedstoneEmitter extends TileEntityComponent {
+public class SidedRedstoneEmitter extends GtComponentBase {
     private final Map<EnumFacing, Byte> levels = new HashMap<>();
     private Map<EnumFacing, Byte> oldLevels = new HashMap<>();
 

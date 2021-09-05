@@ -15,10 +15,10 @@ import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.PropertyHelper;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -30,14 +30,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManagerBasic<RI, I, R>> extends TileEntityGTMachine<R, RI, I, RM> implements INetworkClientTileEntityEventListener {
+    @NBTPersistent
     public EnumFacing outputSide = EnumFacing.SOUTH;
     public final InvSlotOutput queueOutputSlot;
     public final GtSlotProcessableItemStack<RM, I> queueInputSlot;
     public final InvSlot extraSlot;
     protected boolean outputBlocked;
 
+    @NBTPersistent
     public boolean provideEnergy = false;
+    @NBTPersistent
     public boolean autoOutput = true;
+    @NBTPersistent
     public boolean splitInput = false;
 
     public TileEntityBasicMachine(String descriptionKey, RM recipeManager) {
@@ -253,25 +257,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public void onNetworkUpdate(String field) {
         super.onNetworkUpdate(field);
         if (field.equals("outputSide")) rerender();
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        NBTTagCompound ret = super.writeToNBT(nbt);
-        ret.setInteger("outputSide", this.outputSide.getIndex());
-        ret.setBoolean("provideEnergy", this.provideEnergy);
-        ret.setBoolean("autoOutput", this.autoOutput);
-        ret.setBoolean("splitInput", this.splitInput);
-        return ret;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.outputSide = EnumFacing.VALUES[nbt.getInteger("outputSide")];
-        this.provideEnergy = nbt.getBoolean("provideEnergy");
-        this.autoOutput = nbt.getBoolean("autoOutput");
-        this.splitInput = nbt.getBoolean("splitInput");
     }
 
     @Override

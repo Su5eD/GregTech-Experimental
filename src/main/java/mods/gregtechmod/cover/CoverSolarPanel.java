@@ -7,7 +7,6 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -15,8 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CoverSolarPanel extends CoverGeneric {
-    private double daytimeEnergy;
-    private double nighttimeEnergy;
+    private final double daytimeEnergy;
+    private final double nighttimeEnergy;
 
     public CoverSolarPanel(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack, double daytimeEnergy, double nighttimeEnergy) {
         super(name, te, side, stack);
@@ -26,7 +25,7 @@ public class CoverSolarPanel extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(side == EnumFacing.UP) || !(te instanceof IElectricMachine)) return;
+        if (side != EnumFacing.UP || !(te instanceof IElectricMachine)) return;
 
         if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && ((IElectricMachine)te).getMaxInputEUp() < this.daytimeEnergy) return;
 
@@ -52,19 +51,6 @@ public class CoverSolarPanel extends CoverGeneric {
     @Override
     public ResourceLocation getIcon() {
         return new ResourceLocation(Reference.MODID, "blocks/covers/solar_panel");
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setDouble("daytimeEnergy", this.daytimeEnergy);
-        nbt.setDouble("nighttimeEnergy", this.nighttimeEnergy);
-        return nbt;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.daytimeEnergy = nbt.getDouble("daytimeEnergy");
-        this.nighttimeEnergy = nbt.getDouble("nighttimeEnergy");
     }
 
     @Override

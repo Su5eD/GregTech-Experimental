@@ -10,13 +10,13 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.inventory.invslot.GtSlotLargeItemStack;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.capabilities.Capability;
@@ -42,7 +42,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public TileEntityDigitalChestBase(String descriptionKey, int capacity) {
         super(descriptionKey);
         this.capacity = capacity;
-        this.content = new InvSlot(this, "mainSlot", InvSlot.Access.IO, 1);
+        this.content = new GtSlotLargeItemStack(this, "mainSlot", InvSlot.Access.IO);
         this.content.setStackSizeLimit(capacity);
         this.upgradeManager = addComponent(new UpgradeManager(this, (item, stack, player) -> item.afterInsert(stack, this, player), (item, stack) -> {}));
         
@@ -149,30 +149,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     @Override
     public void setFacing(EnumFacing facing) {
         super.setFacing(facing);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        if (nbt.hasKey("content")) {
-            int count = nbt.getInteger("contentCount");
-            ItemStack content = new ItemStack((NBTTagCompound) nbt.getTag("content"));
-            content.setCount(count);
-            this.content.put(content);
-        }
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        if (!this.content.isEmpty()) {
-            NBTTagCompound tNBT = new NBTTagCompound();
-            ItemStack content = this.content.get().copy();
-            content.setCount(1);
-            content.writeToNBT(tNBT);
-            nbt.setTag("content", tNBT);
-            nbt.setInteger("contentCount", this.content.get().getCount());
-        }
-        return super.writeToNBT(nbt);
     }
 
     @Override

@@ -3,21 +3,23 @@ package mods.gregtechmod.objects.blocks.teblocks.energy;
 import ic2.api.energy.EnergyNet;
 import ic2.core.IC2;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
-import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.util.PropertyHelper;
-import net.minecraft.nbt.NBTTagCompound;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TileEntityLESU extends TileEntityChargerBase {
     private boolean notify = true;
     private boolean init;
+    @NBTPersistent
     private int storage = 1000000;
 
     public TileEntityLESU() {
@@ -67,19 +69,12 @@ public class TileEntityLESU extends TileEntityChargerBase {
     }
 
     @Override
-    protected Collection<EnumFacing> getSinkSides() {
-        Set<EnumFacing> sides = new HashSet<>(Util.allFacings);
-        sides.remove(getFacing());
-        return sides;
+    public int getBaseSinkTier() {
+        return Math.max(1, EnergyNet.instance.getTierFromPower(getMaxInputEUp()));
     }
 
     @Override
-    protected Collection<EnumFacing> getSourceSides() {
-        return Collections.singleton(getFacing());
-    }
-
-    @Override
-    public int getEUCapacity() {
+    protected int getBaseEUCapacity() {
         return this.storage;
     }
 
@@ -94,11 +89,6 @@ public class TileEntityLESU extends TileEntityChargerBase {
     }
 
     @Override
-    public int getSinkTier() {
-        return Math.max(1, EnergyNet.instance.getTierFromPower(getMaxInputEUp()));
-    }
-
-    @Override
     public int getSourceTier() {
         return Math.max(1, EnergyNet.instance.getTierFromPower(getMaxOutputEUp()));
     }
@@ -109,18 +99,6 @@ public class TileEntityLESU extends TileEntityChargerBase {
         String tierName = tier == 1 ? "lv" : tier == 2 ? "mv" : "hv";
         return super.getExtendedState(state)
                 .withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new PropertyHelper.TextureOverride(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/lesu/lesu_" + tierName + "_out")));
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.storage = nbt.getInteger("storage");
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("storage", this.storage);
-        return super.writeToNBT(nbt);
     }
 
     public static int stepToFindOrCallLESUController(World world, BlockPos pos, List<BlockPos> list) {

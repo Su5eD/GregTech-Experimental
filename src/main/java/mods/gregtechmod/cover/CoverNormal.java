@@ -2,13 +2,14 @@ package mods.gregtechmod.cover;
 
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class CoverNormal extends CoverGeneric {
+    @NBTPersistent
     protected CoverMeter.MeterMode mode = CoverMeter.MeterMode.NORMAL;
 
     public CoverNormal(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
@@ -60,16 +61,5 @@ public class CoverNormal extends CoverGeneric {
     @Override
     public boolean letsItemsOut() {
         return mode == CoverMeter.MeterMode.INVERTED;
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("mode", mode.ordinal());
-        return nbt;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = CoverMeter.MeterMode.VALUES[nbt.getInteger("mode")];
     }
 }

@@ -1,10 +1,9 @@
 package mods.gregtechmod.objects.blocks.teblocks.component;
 
 import ic2.core.block.TileEntityBlock;
-import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.network.GrowingBuffer;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -12,12 +11,18 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class Maintenance extends TileEntityComponent {
+public class Maintenance extends GtComponentBase {
+    @NBTPersistent
     private boolean wrench;
+    @NBTPersistent
     private boolean screwdriver;
+    @NBTPersistent
     private boolean softHammer;
+    @NBTPersistent
     private boolean hardHammer;
+    @NBTPersistent
     private boolean solderingTool;
+    @NBTPersistent
     private boolean crowbar;
 
     public Maintenance(TileEntityBlock parent) {
@@ -71,24 +76,6 @@ public class Maintenance extends TileEntityComponent {
         this.hardHammer = in.readBoolean();
         this.solderingTool = in.readBoolean();
         this.crowbar = in.readBoolean();
-    }
-    
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.wrench = nbt.getBoolean("wrench");
-        this.screwdriver = nbt.getBoolean("screwdriver");
-        this.softHammer = nbt.getBoolean("softHammer");
-        this.hardHammer = nbt.getBoolean("hardHammer");
-        this.solderingTool = nbt.getBoolean("solderingTool");
-        this.crowbar = nbt.getBoolean("crowbar");
-    }
-    
-    public void writeToNBT(NBTTagCompound nbt) {
-        nbt.setBoolean("wrench", this.wrench);
-        nbt.setBoolean("screwdriver", this.screwdriver);
-        nbt.setBoolean("softHammer", this.softHammer);
-        nbt.setBoolean("hardHammer", this.hardHammer);
-        nbt.setBoolean("solderingTool", this.solderingTool);
-        nbt.setBoolean("crowbar", this.crowbar);
     }
     
     public void collectMaintenanceStatus(Maintenance source) {

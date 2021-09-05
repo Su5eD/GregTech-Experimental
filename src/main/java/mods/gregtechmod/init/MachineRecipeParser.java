@@ -420,9 +420,9 @@ public class MachineRecipeParser {
     }
 
     private static <T extends IMachineRecipe<?, ?>> boolean parseDynamicRecipes(String name, Class<? extends T> recipeClass, @Nullable Class<? extends RecipeFilter> filter, IGtRecipeManager<?, ?, T> manager) {
+        progressBar.step(formatDisplayName(name));
+        
         if(parseDynamicRecipes(name)) {
-            progressBar.step(formatDisplayName(name));
-            
             parseConfig(RECIPE_MAPPER, name, recipeClass, filter, dynamicRecipesDir)
                     .ifPresent(recipes -> registerRecipes("dynamic " + name.replace('_', ' '), recipes, manager));
             return false;
@@ -431,9 +431,9 @@ public class MachineRecipeParser {
     }
 
     private static boolean parseIC2DynamicRecipes(String name, IBasicMachineRecipeManager manager) {
+        progressBar.step(formatDisplayName(name));
+        
         if (parseDynamicRecipes(name)) {
-            progressBar.step(formatDisplayName(name));
-            
             parseConfig(RECIPE_MAPPER, name, BasicMachineRecipe.class, null, dynamicRecipesDir)
                     .ifPresent(recipes -> registerRecipes("dynamic " + name.replace('_', ' '), recipes, (BasicMachineRecipeManager) manager));
             return false;

@@ -11,8 +11,9 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSecondaryFluid;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableSecondary;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
+import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidUtil;
@@ -26,6 +27,7 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
     public final InvSlotOutput fluidContainerOutput;
     public final Fluids.InternalFluidTank waterTank;
     
+    @NBTPersistent(include = Include.NON_NULL)
     private ItemStack pendingFluidContainer;
 
     public TileEntityStructureFluid(String descriptionKey, int outputSlots, RM recipeManager) {
@@ -74,22 +76,5 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
         if (name.equals("water_level")) return (double) this.waterTank.getFluidAmount() / this.waterTank.getCapacity();
 
         return super.getGuiValue(name);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        if (this.pendingFluidContainer != null) {
-            NBTTagCompound stack = new NBTTagCompound();
-            this.pendingFluidContainer.writeToNBT(stack);
-            nbt.setTag("pendingFluidContainer", stack);
-        }
-        return super.writeToNBT(nbt);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-
-        if (nbt.hasKey("pendingFluidContainer")) this.pendingFluidContainer = new ItemStack(nbt.getCompoundTag("pendingFluidContainer"));
     }
 }

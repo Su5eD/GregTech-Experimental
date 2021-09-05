@@ -14,9 +14,10 @@ import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
+import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
@@ -32,10 +33,15 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
 
+    @NBTPersistent(include = Include.NOT_EMPTY)
     protected List<ItemStack> pendingRecipe = new ArrayList<>();
+    @NBTPersistent
     protected double progress;
+    @NBTPersistent
     public double baseEnergyConsume;
+    @NBTPersistent
     public double energyConsume;
+    @NBTPersistent
     public int maxProgress;
     protected double guiProgress;
 
@@ -66,32 +72,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     public InvSlotOutput getOutputSlot(String name, int count) {
         return new InvSlotOutput(this, name, count);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.progress = nbt.getDouble("progress");
-        this.baseEnergyConsume = nbt.getDouble("baseEnergyConsume");
-        this.energyConsume = nbt.getDouble("energyConsume");
-        this.maxProgress = nbt.getInteger("operationLength");
-        
-        if (nbt.hasKey("pendingRecipe")) {
-            GtUtil.stacksFromNBT(this.pendingRecipe, nbt.getTagList("pendingRecipe", 10));
-        }
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
-        nbt.setDouble("progress", this.progress);
-        nbt.setDouble("baseEnergyConsume", this.baseEnergyConsume);
-        nbt.setDouble("energyConsume", this.energyConsume);
-        nbt.setInteger("operationLength", this.maxProgress);
-        if(!this.pendingRecipe.isEmpty()) {
-            nbt.setTag("pendingRecipe", GtUtil.stacksToNBT(this.pendingRecipe));
-        }
-        return nbt;
     }
 
     @Override

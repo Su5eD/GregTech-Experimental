@@ -26,7 +26,7 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("Guava") // Gotta use Guava with IC2
+@SuppressWarnings("Guava")
 public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implements IHasGui {
     private final boolean wildcardInput;
     private final Predicate<EnumFacing> facingPredicate = side -> side == getFacing();

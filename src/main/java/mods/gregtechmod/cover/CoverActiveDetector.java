@@ -6,15 +6,16 @@ import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Locale;
 
 public class CoverActiveDetector extends CoverGeneric {
+    @NBTPersistent
     protected DetectorMode mode = DetectorMode.NORMAL;
 
     public CoverActiveDetector(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
@@ -48,17 +49,6 @@ public class CoverActiveDetector extends CoverGeneric {
        mode = mode.next();
        GtUtil.sendMessage(player, mode.getMessageKey());
        return true;
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("mode", this.mode.ordinal());
-        return nbt;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        this.mode = DetectorMode.VALUES[nbt.getInteger("mode")];
     }
 
     @Override
@@ -128,7 +118,7 @@ public class CoverActiveDetector extends CoverGeneric {
         }
 
         public String getMessageKey() {
-            return Reference.MODID+".item.active_detector.mode."+this.name().toLowerCase(Locale.ROOT);
+            return Reference.MODID + ".item.active_detector.mode." + this.name().toLowerCase(Locale.ROOT);
         }
     }
 }
