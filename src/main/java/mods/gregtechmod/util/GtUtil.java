@@ -152,10 +152,10 @@ public class GtUtil {
                 if (page.length() < 256) {
                     tagList.appendTag(new NBTTagString(page));
                 } else {
-                    GregTechMod.logger.warn("String for written book too long: " + page);
+                    GregTechMod.LOGGER.warn("String for written book too long: " + page);
                 }
             } else {
-                GregTechMod.logger.warn("Too many pages for written book: " + name);
+                GregTechMod.LOGGER.warn("Too many pages for written book: " + name);
                 break;
             }
         }
@@ -393,7 +393,7 @@ public class GtUtil {
             field.setAccessible(true);
             field.set(null, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            GregTechMod.logger.catching(e);
+            GregTechMod.LOGGER.catching(e);
         }
     }
     
@@ -423,7 +423,7 @@ public class GtUtil {
                         continue;
                     }
 
-                    GregTechMod.logger.debug("Copying file " + path + " to " + dest.toPath());
+                    GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest.toPath());
                     BufferedReader in = Files.newBufferedReader(path);
                     FileOutputStream out = new FileOutputStream(dest);
                     for (int i; (i = in.read()) != -1; ) out.write(i);
@@ -433,7 +433,7 @@ public class GtUtil {
             }
             return target.toPath();
         } catch (IOException e) {
-            GregTechMod.logger.catching(e);
+            GregTechMod.LOGGER.catching(e);
             return null;
         }
     }
@@ -442,7 +442,7 @@ public class GtUtil {
         Stopwatch stopwatch = Stopwatch.createStarted();
         runnable.run();
         stopwatch.stop();
-        GregTechMod.logger.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+        GregTechMod.LOGGER.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
     }
     
     public static double getSteamMultiplier(FluidStack fluidStack) {

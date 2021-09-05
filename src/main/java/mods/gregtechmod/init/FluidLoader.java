@@ -17,7 +17,7 @@ public class FluidLoader {
     public static final List<IFluidProvider> FLUIDS = new ArrayList<>();
 
     public static void init() {
-        GregTechMod.logger.info("Initializing fluids");
+        GregTechMod.LOGGER.info("Initializing fluids");
         FLUIDS.addAll(Arrays.asList(Liquid.values()));
         FLUIDS.addAll(Arrays.asList(Gas.values()));
     }

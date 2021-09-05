@@ -28,7 +28,7 @@ public class RecipeGrinder extends Recipe<List<IRecipeIngredient>, List<ItemStac
 
         if (!RecipeUtil.validateRecipeIO("industrial grinder", input, output)) recipe.invalid = true;
         if (fluid == null) {
-            GregTechMod.logger.warn("Tried to add an industrial grinder recipe with a null fluid!");
+            GregTechMod.LOGGER.warn("Tried to add an industrial grinder recipe with a null fluid!");
             recipe.invalid = true;
         }
 

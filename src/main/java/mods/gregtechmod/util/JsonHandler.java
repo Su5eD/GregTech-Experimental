@@ -33,7 +33,7 @@ public class JsonHandler {
             reader.close();
             return map;
         } catch (Exception e) {
-            GregTechMod.logger.catching(e);
+            GregTechMod.LOGGER.catching(e);
         }
 
         throw new IllegalArgumentException("Could not find resource " + path);

@@ -105,7 +105,7 @@ public class MachineRecipeParser {
             );
     
     private static void setup() {
-        GregTechMod.logger.info("Setting up machine recipe parser");
+        GregTechMod.LOGGER.info("Setting up machine recipe parser");
         
         GtUtil.setPrivateStaticValue(GregTechAPI.class, "recipeFactory", new RecipeFactory());
         GtUtil.setPrivateStaticValue(GregTechAPI.class, "ingredientFactory", new RecipeIngredientFactory());
@@ -114,7 +114,7 @@ public class MachineRecipeParser {
         Path gtConfig = relocateConfig(recipesPath, "machine_recipes");
         if (gtConfig != null) MachineRecipeParser.recipesPath = gtConfig;
         else  {
-            GregTechMod.logger.error("Couldn't find the recipes config directory. Loading default recipes...");
+            GregTechMod.LOGGER.error("Couldn't find the recipes config directory. Loading default recipes...");
             MachineRecipeParser.recipesPath = recipesPath;
         }
         classicRecipesPath = MachineRecipeParser.recipesPath.resolve("classic");
@@ -128,7 +128,7 @@ public class MachineRecipeParser {
         setup();
         progressBar = ProgressManager.push("Parsing Recipes", 21);
         
-        GregTechMod.logger.info("Parsing Machine Recipes");
+        GregTechMod.LOGGER.info("Parsing Machine Recipes");
 
         GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
         parseRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class)
@@ -223,12 +223,12 @@ public class MachineRecipeParser {
 
     public static void loadFuels() {
         progressBar = ProgressManager.push("Parsing Fuels", 7);
-        GregTechMod.logger.info("Parsing fuels");
+        GregTechMod.LOGGER.info("Parsing fuels");
 
         Path recipesPath = GtUtil.getAssetPath("fuels");
         Path gtConfig = relocateConfig(recipesPath, "fuels");
         if (gtConfig == null) {
-            GregTechMod.logger.error("Couldn't find the fuels config directory. Loading default fuels...");
+            GregTechMod.LOGGER.error("Couldn't find the fuels config directory. Loading default fuels...");
             MachineRecipeParser.fuelsPath = recipesPath;
         } else MachineRecipeParser.fuelsPath = gtConfig;
         classicFuelsPath = fuelsPath.resolve("classic");
@@ -268,7 +268,7 @@ public class MachineRecipeParser {
 
     public static void loadDynamicRecipes() {
         progressBar = ProgressManager.push("Loading Dynamic Recipes", 13);
-        GregTechMod.logger.info("Loading Dynamic Recipes");
+        GregTechMod.LOGGER.info("Loading Dynamic Recipes");
         dynamicRecipesDir = GregTechMod.configDir.toPath().resolve("GregTech/machine_recipes/dynamic");
         dynamicRecipesDir.toFile().mkdirs();
 
@@ -391,7 +391,7 @@ public class MachineRecipeParser {
             return parseConfig(mapper, recipeClass, filter, Files.newBufferedReader(path.resolve(name + ".yml")));
         } catch (IOException e) {
             if (!silent) {
-                GregTechMod.logger.error("Failed to parse " + name + " recipes", e);
+                GregTechMod.LOGGER.error("Failed to parse " + name + " recipes", e);
             }
             return Optional.empty();
         }
@@ -446,7 +446,7 @@ public class MachineRecipeParser {
                 .map(manager::addRecipe)
                 .filter(Boolean::booleanValue)
                 .count();
-        GregTechMod.logger.info("Loaded " + successful + " out of " + recipes.size() + " " + name + " recipes");
+        GregTechMod.LOGGER.info("Loaded " + successful + " out of " + recipes.size() + " " + name + " recipes");
     }
 
     private static <T extends IBasicMachineRecipe> void registerRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager) {
@@ -454,7 +454,7 @@ public class MachineRecipeParser {
                 .map(recipe -> ModHandler.addIC2Recipe(manager, recipe.getInput(), null, recipe.shouldOverwrite(), recipe.getOutput()))
                 .filter(Boolean::booleanValue)
                 .count();
-        GregTechMod.logger.info("Loaded " + successful + " out of " + recipes.size() + " " + name + " recipes");
+        GregTechMod.LOGGER.info("Loaded " + successful + " out of " + recipes.size() + " " + name + " recipes");
     }
 
     private static <T extends IFuel<?>, I> void registerFuels(String name, Collection<? extends T> fuels, IFuelManager<T, I> manager) {
@@ -462,7 +462,7 @@ public class MachineRecipeParser {
                 .map(manager::addFuel)
                 .filter(Boolean::booleanValue)
                 .count();
-        GregTechMod.logger.info("Loaded " + successful + " out of " + fuels.size() + " " + name + " fuels");
+        GregTechMod.LOGGER.info("Loaded " + successful + " out of " + fuels.size() + " " + name + " fuels");
     }
 
     private static <T extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> void registerDynamicRecipes(String name, Collection<? extends T> recipes, BasicMachineRecipeManager manager, boolean serialize) {
@@ -485,7 +485,7 @@ public class MachineRecipeParser {
 
             RECIPE_MAPPER.writeValue(output, recipes);
         } catch (IOException e) {
-            GregTechMod.logger.error("Failed to serialize " + name + " recipes", e);
+            GregTechMod.LOGGER.error("Failed to serialize " + name + " recipes", e);
         }
     }
 

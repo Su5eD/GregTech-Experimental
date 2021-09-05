@@ -242,10 +242,10 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
  		for (GregTechTEBlock block : values()) {
  			if (block.teClass != null) {
  				try {
-                    GregTechMod.logger.info("Building dummy TeBlock for {}", block.name().toLowerCase(Locale.ROOT));
+                    GregTechMod.LOGGER.info("Building dummy TeBlock for {}", block.name().toLowerCase(Locale.ROOT));
  					block.dummyTe = block.teClass.newInstance();
  				} catch (Exception e) {
- 					GregTechMod.logger.catching(e);
+ 					GregTechMod.LOGGER.catching(e);
  				}
  			}
  		}

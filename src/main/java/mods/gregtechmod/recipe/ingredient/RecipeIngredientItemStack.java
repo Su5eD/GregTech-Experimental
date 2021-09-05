@@ -39,7 +39,7 @@ public class RecipeIngredientItemStack extends RecipeIngredient<Ingredient> {
     public static RecipeIngredientItemStack create(List<ItemStack> stacks, int count) {
         for (ItemStack stack : stacks) {
             if (stack.isEmpty()) {
-                GregTechMod.logger.error("Tried to parse a RecipeIngredientItemStack with an empty stack among the matching stacks: "+stacks);
+                GregTechMod.LOGGER.error("Tried to parse a RecipeIngredientItemStack with an empty stack among the matching stacks: "+stacks);
                 return EMPTY;
             }
         }

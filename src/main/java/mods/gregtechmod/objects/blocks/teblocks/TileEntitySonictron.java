@@ -89,7 +89,7 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
     public void onGuiClosed(EntityPlayer entityPlayer) {}
 
     public static void loadSonictronSounds() {
-        GregTechMod.logger.info("Loading Sonictron sounds");
+        GregTechMod.LOGGER.info("Loading Sonictron sounds");
         Collection<SonictronSound> sounds = Arrays.asList(
                 new SonictronSound("block.note.harp", Blocks.IRON_BLOCK, 25),
                 new SonictronSound("block.note.pling", Blocks.GOLD_BLOCK, 25),

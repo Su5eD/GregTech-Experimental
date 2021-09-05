@@ -101,7 +101,7 @@ public class ClientEventHandler {
     }
 
     private static void registerBakedModels() {
-        GregTechMod.logger.info("Registering baked models");
+        GregTechMod.LOGGER.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
         JsonObject blockstateModels = JsonHandler.readFromJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
         
@@ -188,7 +188,7 @@ public class ClientEventHandler {
 
             loader.register("models/block/" + prefix + name, modelFactory.apply(textures, extraTextures));
         } catch (IOException e) {
-            GregTechMod.logger.error("Error registering connected baked model " + name, e);
+            GregTechMod.LOGGER.error("Error registering connected baked model " + name, e);
         }
     }
     

@@ -26,7 +26,7 @@ import net.minecraftforge.oredict.OreIngredient;
 public class CraftingRecipeLoader {
 
     public static void init() {
-        GregTechMod.logger.info("Loading static crafting recipes");
+        GregTechMod.LOGGER.info("Loading static crafting recipes");
         
         ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.WATER_BUCKET), ModHandler.emptyCell);
         ModHandler.removeCraftingRecipeFromInputs(new ItemStack(Items.LAVA_BUCKET), ModHandler.emptyCell);
@@ -62,7 +62,7 @@ public class CraftingRecipeLoader {
         Ingredient ingotCopperIngredient = new OreIngredient("ingotCopper");
         ModHandler.removeCraftingRecipeFromInputs(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, ingotTin)
                 .ifPresent(output -> {
-                    GregTechMod.logger.info("Changing Forestry's Bronze Recipe");
+                    GregTechMod.LOGGER.info("Changing Forestry's Bronze Recipe");
                     int count = GregTechConfig.DISABLED_RECIPES.bronzeIngotCrafting ? 1 : 2;
                     ModHandler.addShapelessRecipe(
                             "ingotBronze",
@@ -73,7 +73,7 @@ public class CraftingRecipeLoader {
                 });
 
         if (GregTechConfig.DISABLED_RECIPES.enchantingTable) {
-            GregTechMod.logger.info("Removing the recipe of the Enchantment Table, to have more fun at enchanting with the Anvil and Books from Dungeons.");
+            GregTechMod.LOGGER.info("Removing the recipe of the Enchantment Table, to have more fun at enchanting with the Anvil and Books from Dungeons.");
             ModHandler.removeCraftingRecipe(new ItemStack(Blocks.ENCHANTING_TABLE));
         }
         if (GregTechConfig.DISABLED_RECIPES.enderChest) ModHandler.removeCraftingRecipe(new ItemStack(Blocks.ENDER_CHEST));
@@ -84,7 +84,7 @@ public class CraftingRecipeLoader {
 
         ModHandler.removeCraftingRecipe(IC2Items.getItem("ingot", "alloy"));
 
-        GregTechMod.logger.info("Adding 'The holy Planks of Sengir'");
+        GregTechMod.LOGGER.info("Adding 'The holy Planks of Sengir'");
         ItemStack holyPlanks = new ItemStack(BlockItems.Plate.WOOD.getInstance());
         holyPlanks.setStackDisplayName("The holy Planks of Sengir");
         holyPlanks.addEnchantment(Enchantments.SMITE, 10);

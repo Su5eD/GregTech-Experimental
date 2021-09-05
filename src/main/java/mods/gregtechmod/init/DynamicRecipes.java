@@ -194,7 +194,7 @@ class DynamicRecipes {
     }
 
     public static void processCraftingRecipes() {
-        GregTechMod.logger.info("Scanning for certain kinds of compatible machine blocks");
+        GregTechMod.LOGGER.info("Scanning for certain kinds of compatible machine blocks");
 
         ItemStack input = IC2Items.getItem("ingot", "bronze");
         ItemStack plateBronze = new ItemStack(BlockItems.Plate.BRONZE.getInstance());

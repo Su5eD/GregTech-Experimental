@@ -25,7 +25,7 @@ public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
     public static RecipeIngredientOre create(List<String> ores, int count) {
         for (String ore : ores) {
             if (ore.isEmpty()) {
-                GregTechMod.logger.error("Found empty string among ores: "+ores);
+                GregTechMod.LOGGER.error("Found empty string among ores: "+ores);
                 return EMPTY;
             }
         }

@@ -39,7 +39,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
         } catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException e) {
             handleChangeFoam = null;
             cableFoamHardened = null;
-            GregTechMod.logger.error("Failed to reflect foam hardening methods", e);
+            GregTechMod.LOGGER.error("Failed to reflect foam hardening methods", e);
         }
         CHANGE_FOAM_HANDLE = handleChangeFoam;
         HARDENED_CABLE_FOAM = cableFoamHardened;
@@ -92,7 +92,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
         try {
             CHANGE_FOAM_HANDLE.invoke(tileEntityCable, HARDENED_CABLE_FOAM, false);
         } catch (Throwable t) {
-            GregTechMod.logger.catching(t);
+            GregTechMod.LOGGER.catching(t);
         }
     }
 }

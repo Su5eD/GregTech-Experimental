@@ -47,13 +47,13 @@ public class ModCompat {
                         senderField.set(message, Reference.MODID);
                         FacadeStateManager.receiveInterModComms(message);
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                        GregTechMod.logger.error("Error while trying to disable casing facades", e);
+                        GregTechMod.LOGGER.error("Error while trying to disable casing facades", e);
                     }
                 });
     }
 
     public static void registerTools() {
-        GregTechMod.logger.info("Registering various tools to be usable on GregTech machines");
+        GregTechMod.LOGGER.info("Registering various tools to be usable on GregTech machines");
         if (ModHandler.projectredCore) {
             ItemStack screwdriver = ModHandler.getPRItem("screwdriver", OreDictionary.WILDCARD_VALUE);
             GregTechAPI.instance().registerScrewdriver(screwdriver);
@@ -73,7 +73,7 @@ public class ModCompat {
 
     @Optional.Method(modid = "railcraft")
     private static void _registerBoilerFuels() {
-        GregTechMod.logger.info("Adding fuels to Railcraft's boiler");
+        GregTechMod.LOGGER.info("Adding fuels to Railcraft's boiler");
         
         FluidFuelManager.addFuel(FluidLoader.Gas.HYDROGEN.getFluid(), 2000);
         FluidFuelManager.addFuel(FluidLoader.Gas.METHANE.getFluid(), 3000);
@@ -83,7 +83,7 @@ public class ModCompat {
 
     public static void addRollingMachineRecipes() {
         if (!ModHandler.railcraft) return;
-        GregTechMod.logger.info("Adding Rolling Machine recipes");
+        GregTechMod.LOGGER.info("Adding Rolling Machine recipes");
         
         ItemStack railStandard = ModHandler.getRCItem("rail");
         addRollingMachineRecipe("rail_standard", StackUtil.copyWithSize(railStandard, 4), "X X", "X X", "X X", 'X', "ingotAluminium");

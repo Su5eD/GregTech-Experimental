@@ -255,7 +255,7 @@ public class OreDictHandler {
     public void registerOre(String name, ItemStack ore) {
         if (ore.isEmpty() || name.isEmpty() || IGNORED_NAMES.contains(name) || name.toLowerCase(Locale.ROOT).contains("xych") || name.toLowerCase(Locale.ROOT).contains("xyore")) return;
 
-        if (ore.getCount() != 1) GregTechMod.logger.error("'" + name + "' is either being misused by another mod or has been wrongly registered, as the stack size of the event stack is not 1");
+        if (ore.getCount() != 1) GregTechMod.LOGGER.error("'" + name + "' is either being misused by another mod or has been wrongly registered, as the stack size of the event stack is not 1");
         ore.setCount(1);
 
         String unifiedName = GT_ORE_NAMES.get(name);

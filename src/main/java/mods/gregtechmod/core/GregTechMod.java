@@ -92,7 +92,7 @@ public final class GregTechMod {
         MachineRecipeLoader.init();
         CraftingRecipeLoader.init();
 
-        logger.debug("Registering loot");
+        LOGGER.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
         Stream.of(
                 "abandoned_mineshaft", "desert_pyramid", "jungle_temple", "jungle_temple_dispenser", 
