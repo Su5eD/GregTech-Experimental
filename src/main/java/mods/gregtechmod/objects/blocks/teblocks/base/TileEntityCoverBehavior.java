@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine, IScannerInfoProvider {
-    private final String descriptionKey;
+    protected final String descriptionKey;
     
     public final SidedRedstoneEmitter rsEmitter;
     @NBTPersistent

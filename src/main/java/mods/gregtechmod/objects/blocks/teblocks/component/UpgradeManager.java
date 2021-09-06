@@ -31,6 +31,7 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 public class UpgradeManager extends GtComponentBase {
+    private final Runnable onUpdate;
     private final TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade;
     private final BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade;
     
@@ -41,8 +42,9 @@ public class UpgradeManager extends GtComponentBase {
     @NBTPersistent
     private boolean isPrivate;
 
-    public <T extends TileEntityBlock & IUpgradableMachine> UpgradeManager(T parent, TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade, BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade) {
+    public <T extends TileEntityBlock & IUpgradableMachine> UpgradeManager(T parent, Runnable onUpdate, TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade, BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade) {
         super(parent);
+        this.onUpdate = onUpdate;
         this.onUpdateGTUpgrade = onUpdateGTUpgrade;
         this.onUpdateIC2Upgrade = onUpdateIC2Upgrade;
     }
@@ -111,6 +113,7 @@ public class UpgradeManager extends GtComponentBase {
 
             if (!player.capabilities.isCreativeMode) stack.shrink(1);
             updateUpgrade(copy, player);
+            this.onUpdate.run();
             return true;
         }
         return false;

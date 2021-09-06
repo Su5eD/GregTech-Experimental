@@ -7,9 +7,9 @@ import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntityChargerBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 
-public class ContainerEnergyStorage extends ContainerFullInv<TileEntityChargerBase> {
+public class ContainerEnergyStorage<T extends TileEntityChargerBase> extends ContainerFullInv<T> {
 
-    public ContainerEnergyStorage(EntityPlayer player, TileEntityChargerBase base) {
+    public ContainerEnergyStorage(EntityPlayer player, T base) {
         super(player, base, 166);
         
         addSlotToContainer(new SlotInvSlot(base.chargeSlot, 0, 128, 14));

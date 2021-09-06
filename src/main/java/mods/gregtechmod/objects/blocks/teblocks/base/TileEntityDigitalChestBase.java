@@ -45,7 +45,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         this.capacity = capacity;
         this.content = new GtSlotLargeItemStack(this, "mainSlot", InvSlot.Access.IO);
         this.content.setStackSizeLimit(capacity);
-        this.upgradeManager = addComponent(new UpgradeManager(this, (item, stack, player) -> item.afterInsert(stack, this, player), (item, stack) -> {}));
+        this.upgradeManager = addComponent(new UpgradeManager(this, () -> {}, (item, stack, player) -> item.afterInsert(stack, this, player), (item, stack) -> {}));
         
         this.coverBlacklist.add(CoverType.ENERGY);
     }

@@ -16,18 +16,18 @@
     "M":
     {
       "type": "forge:ore_dict",
-      "ore": "crafting100kkEUStore"
+      "ore": "crafting10kkEUStore"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 48
   },
   "conditions":
   [
     {
-      "type": "gregtechmod:experimental"
+      "type": "gregtechmod:classic"
     }
   ]
 }

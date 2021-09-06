@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import buildcraft.api.mj.MjAPI;
 import com.mojang.authlib.GameProfile;
+import ic2.core.IC2;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.comp.Fluids.InternalFluidTank;
 import ic2.core.block.invslot.InvSlot;
@@ -53,7 +54,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     protected TileEntityUpgradable(String descriptionKey) {
         super(descriptionKey);
-        this.upgradeManager = addComponent(new UpgradeManager(this, this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
+        this.upgradeManager = addComponent(new UpgradeManager(this, () -> IC2.network.get(true).updateTileEntityField(this, "extraEUCapacity"), this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
         this.fluids = addComponent(new Fluids(this));
     }
     
@@ -103,8 +104,8 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     
     @Override
     public int getExtraEUCapacity() {
-        int batteries = getUpgradeCount(IC2UpgradeType.BATTERY) * 10000;
-        return batteries + this.extraEUCapacity;
+        int ic2Batteries = getUpgradeCount(IC2UpgradeType.BATTERY) * 10000;
+        return ic2Batteries + this.extraEUCapacity;
     }
 
     public Fluids.InternalFluidTank createSteamTank() {
@@ -136,6 +137,12 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
             this.addMjUpgrade();
             this.receiver.deserializeNBT(nbt.getCompoundTag("mj"));
         }
+    }
+
+    @Override
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("extraEUCapacity");
     }
 
     @Override

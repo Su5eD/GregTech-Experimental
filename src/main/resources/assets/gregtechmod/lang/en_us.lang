@@ -261,6 +261,9 @@ gregtechmod.teblock.lesu.max_input=MAX EU/p IN: %s
 gregtechmod.teblock.lesu.output=EU/p OUT: %s
 gregtechmod.teblock.lesu.warning=Warning:
 gregtechmod.teblock.lesu.max_reached=Maximum reached!
+gregtechmod.teblock.lesu.container.name=L.E.S.U.
+gregtechmod.teblock.aesu.max_energy_out=Max EU/p OUT: 0 - %s (Adjustable)
+gregtechmod.teblock.aesu.container.name=A.E.S.U.
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -881,6 +884,8 @@ gregtechmod.teblock.supercondensator=Supercondensator
 gregtechmod.teblock.supercondensator.description=To output massive amounts of Energy in a short period of time.
 gregtechmod.teblock.superconductor_wire=Superconductor Wire
 gregtechmod.teblock.lesu=Lapotronic Energy Storage Unit
+gregtechmod.teblock.aesu=AESU
+gregtechmod.teblock.aesu.description=Adjustable Energy Storage Unit
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

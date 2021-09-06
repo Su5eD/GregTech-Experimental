@@ -27,7 +27,7 @@ public enum GregTechComponent {
     }
 
     public void register() {
-        NBTSaveHandler.initClass(clazz);
-        Components.register(clazz, Reference.MODID + ":" + name().toLowerCase(Locale.ROOT));
+        NBTSaveHandler.initClass(this.clazz);
+        Components.register(this.clazz, Reference.MODID + ":" + name().toLowerCase(Locale.ROOT));
     }
 }
