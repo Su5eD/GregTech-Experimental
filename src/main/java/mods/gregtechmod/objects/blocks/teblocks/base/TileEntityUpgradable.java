@@ -17,6 +17,7 @@ import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.compat.buildcraft.MjReceiverWrapper;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
+import mods.gregtechmod.recipe.util.SteamHelper;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.util.ITooltipFlag;
@@ -234,11 +235,6 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return IC2UpgradeType.DEFAULT;
     }
-    
-    protected boolean canDrainSteam(int requiredAmount) {
-        if (requiredAmount < 1 || this.steamTank == null) return false;
-        return this.steamTank.getFluidAmount() >= requiredAmount;
-    }
      
     @Override
     public double useEnergy(double amount, boolean simulate) {
@@ -246,26 +242,30 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         if (discharged > 0) return discharged;
         else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(amount))) return amount;
         else if (this.hasSteamUpgrade) {
-            int energy = GtUtil.getSteamForEU(amount, this.steamTank.getFluid());
-            if (canDrainSteam(energy)) {
-                this.steamTank.drain(energy, true);
+            int steam = SteamHelper.getSteamForEU(amount, this.steamTank.getFluid());
+            if (steam > 0 && canDrainSteam(steam)) {
+                this.steamTank.drain(steam, true);
                 return amount;
             }
         }
         return 0;
     }
     
+    protected boolean canDrainSteam(int requiredAmount) {
+        return requiredAmount > 0 && this.steamTank != null && this.steamTank.getFluidAmount() >= requiredAmount;
+    }
+    
     @Override
     public double getUniversalEnergy() {
-        double steam = this.hasSteamUpgrade ? this.steamTank.getFluidAmount() * GtUtil.getSteamMultiplier(this.steamTank.getFluid()) : 0;
-        double mj = this.hasMjUpgrade ? MjHelper.toEU(this.receiver.getStored()) : 0;
+        double steam = this.steamTank != null ? SteamHelper.getEUForSteam(this.steamTank.getFluid()) : 0;
+        double mj = this.receiver != null ? MjHelper.toEU(this.receiver.getStored()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
     
     @Override
     public double getUniversalEnergyCapacity() {
-        double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * GtUtil.getSteamMultiplier(this.steamTank.getFluid()) : 0;
-        double mj = this.hasMjUpgrade ? MjHelper.toEU(this.receiver.getCapacity()) : 0;
+        double steam = this.steamTank != null ? SteamHelper.getEUForSteam(this.steamTank.getFluid(), this.steamTank.getCapacity()) : 0;
+        double mj = this.receiver != null ? MjHelper.toEU(this.receiver.getCapacity()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
 

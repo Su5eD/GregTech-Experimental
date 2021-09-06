@@ -13,7 +13,6 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
@@ -443,22 +442,6 @@ public class GtUtil {
         runnable.run();
         stopwatch.stop();
         GregTechMod.LOGGER.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
-    }
-    
-    public static double getSteamMultiplier(FluidStack fluidStack) {
-        double baseRatio = 0.5;
-        
-        Fluid fluid = fluidStack == null ? null : fluidStack.getFluid();
-        if (fluid != null) {
-            if (fluid == FluidName.superheated_steam.getInstance()) return baseRatio * GregTechConfig.BALANCE.superHeatedSteamMultiplier;
-            else if (fluid == FluidRegistry.getFluid("steam")) return baseRatio / GregTechConfig.BALANCE.steamMultiplier;
-        }
-        
-        return baseRatio;
-    }
-    
-    public static int getSteamForEU(double amount, FluidStack fluid) {
-        return (int) Math.round(amount / getSteamMultiplier(fluid));
     }
     
     public static <T> List<T> toList(Iterable<T> iterable) {

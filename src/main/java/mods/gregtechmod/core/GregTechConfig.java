@@ -12,7 +12,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @LangKey(Reference.MODID + ".config.title")
 @EventBusSubscriber(modid = Reference.MODID)
 public class GregTechConfig {
-
     @LangKey(Reference.MODID + ".config.general")
     public static final General GENERAL = new General();
 
@@ -57,10 +56,6 @@ public class GregTechConfig {
     }
 
     public static class Balance {
-        @Comment("Indicates the amount of 1mb universal steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
-        public double steamMultiplier = 1.6;
-        @Comment("Indicates the amount of 1mb ic2 steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
-        public double superHeatedSteamMultiplier = 2;
         @Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public boolean solarPanelCoverOvervoltageProtection = false;
         public float LVExplosionPower = 2;

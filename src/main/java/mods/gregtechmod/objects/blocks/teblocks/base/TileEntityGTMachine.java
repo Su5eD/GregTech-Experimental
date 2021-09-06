@@ -13,6 +13,7 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
+import mods.gregtechmod.recipe.util.SteamHelper;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
@@ -113,7 +114,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     protected boolean checkEnergy() {
         if (this.energy.discharge(this.energyConsume) > 0 || this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(this.energyConsume))) {
            return true;
-        } else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = GtUtil.getSteamForEU(this.energyConsume, this.steamTank.getFluid()))) {
+        } else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = SteamHelper.getSteamForEU(this.energyConsume, this.steamTank.getFluid()))) {
             this.steamTank.drain(this.neededSteam, true);
             return true;
         }
