@@ -460,6 +460,12 @@ public class GtUtil {
     public static int getSteamForEU(double amount, FluidStack fluid) {
         return (int) Math.round(amount / getSteamMultiplier(fluid));
     }
+    
+    public static <T> List<T> toList(Iterable<T> iterable) {
+        List<T> list = new ArrayList<>();
+        iterable.forEach(list::add);
+        return Collections.unmodifiableList(list);
+    }
 
     private static class VoidTank implements IFluidHandler {
         

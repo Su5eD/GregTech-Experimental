@@ -43,10 +43,10 @@ public final class GregTechMod {
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
     public static final Logger LOGGER = LogManager.getLogger(Reference.MODID);
     
-    private static ClientProxy proxy;
     public static File configDir;
     public static boolean classic;
-
+    private static ClientProxy proxy;
+    
     static {
         FluidRegistry.enableUniversalBucket();
     }
@@ -61,9 +61,9 @@ public final class GregTechMod {
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
         LOGGER.info("Pre-init started");
-        if (event.getSide() == Side.CLIENT) proxy = new ClientProxy();
         configDir = event.getSuggestedConfigurationFile().getParentFile();
         classic = IC2.version.isClassic();
+        if (event.getSide() == Side.CLIENT) proxy = new ClientProxy();
         GregTechAPIImpl.createAndInject();
         DynamicConfig.init();
         ModHandler.gatherLoadedMods();
