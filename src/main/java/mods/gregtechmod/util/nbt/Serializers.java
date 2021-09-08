@@ -1,7 +1,6 @@
 package mods.gregtechmod.util.nbt;
 
 import com.mojang.authlib.GameProfile;
-import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 
@@ -26,28 +25,7 @@ public final class Serializers {
     public static NBTTagCompound serializeGameProfile(GameProfile profile) {
         return NBTUtil.writeGameProfile(new NBTTagCompound(), profile);
     }
-    
-    static class EnumNBTSerializer implements INBTSerializer<Enum<?>, NBTBase> {
-        @Override
-        public NBTBase serialize(Enum<?> value) {
-            return new NBTTagString(value.name());
-        }
 
-        @SuppressWarnings({"rawtypes", "unchecked"})
-        @Override
-        public Enum<?> deserialize(NBTBase nbt, Object instance, Class cls) {
-            if (nbt instanceof NBTTagString) {
-                String name = ((NBTTagString) nbt).getString();
-                return Enum.valueOf(cls, name);
-            }
-            else if (nbt instanceof NBTTagInt) {
-                int index = ((NBTTagInt) nbt).getInt();
-                return (Enum<?>) cls.getEnumConstants()[index];
-            }
-            return null;
-        }
-    }
-    
     public static class ItemStackListNBTSerializer implements INBTSerializer<List<ItemStack>, NBTTagList> {
         @Override
         public NBTTagList serialize(List<ItemStack> value) {
@@ -66,40 +44,17 @@ public final class Serializers {
         }
     }
     
-    static class ListNBTSerializer implements INBTSerializer<List<?>, NBTTagList> {
+    static class EnumNBTSerializer implements INBTSerializer<Enum<?>, NBTTagString> {
         @Override
-        public NBTTagList serialize(List<?> list) {
-            NBTTagList tagList = new NBTTagList();
-            for (Object obj : list) {
-                INBTSerializer<Object, ?> serializer = NBTSaveHandler.getSerializer(obj);
-                if (serializer != null) {
-                    NBTTagCompound tag = new NBTTagCompound();
-                    tag.setString("type", obj.getClass().getName());
-                    tag.setTag("value", serializer.serialize(obj));
-                    tagList.appendTag(tag);
-                }
-            }
-            return tagList;
+        public NBTTagString serialize(Enum<?> value) {
+            return new NBTTagString(value.name());
         }
 
+        @SuppressWarnings({"rawtypes", "unchecked"})
         @Override
-        public List<?> deserialize(NBTTagList nbt, Object instance, Class<?> cls) {
-            List<Object> list = new ArrayList<>();
-            for (NBTBase tag : nbt) {
-                try {
-                    String type = ((NBTTagCompound) tag).getString("type");
-                    Class<?> clazz = Class.forName(type);
-                    INBTSerializer<?, NBTBase> serializer = NBTSaveHandler.getSerializer(clazz);
-                    if (serializer != null) {
-                        NBTTagCompound value = ((NBTTagCompound) tag).getCompoundTag("value");
-                        Object deserialized = serializer.deserialize(value, instance, clazz); 
-                        list.add(deserialized);
-                    }
-                } catch (ClassNotFoundException e) {
-                    GregTechMod.LOGGER.catching(e);
-                }
-            }
-            return list;
+        public Enum<?> deserialize(NBTTagString nbt, Object instance, Class cls) {
+            String name = nbt.getString();
+            return Enum.valueOf(cls, name);
         }
     }
     

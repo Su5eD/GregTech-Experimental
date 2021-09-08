@@ -17,7 +17,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.capabilities.Capability;
@@ -290,14 +289,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
                 }
                 return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
             }
-        }
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        if (nbt.hasKey("content")) {
-            this.content.readFromNbt(nbt);
         }
     }
 

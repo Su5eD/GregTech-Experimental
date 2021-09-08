@@ -40,7 +40,6 @@ public final class NBTSaveHandler {
         addSimpleSerializer(ItemStack.class, Serializers::serializeItemStack, ItemStack::new);
         addSimpleSerializer(GameProfile.class, Serializers::serializeGameProfile, NBTUtil::readGameProfileFromNBT);
         addSerializer(Enum.class, Serializers.EnumNBTSerializer::new);
-        addSerializer(List.class, Serializers.ListNBTSerializer::new);
         
         addSpecialSerializer(List.class, Serializers.ItemStackListNBTSerializer::new);
     }

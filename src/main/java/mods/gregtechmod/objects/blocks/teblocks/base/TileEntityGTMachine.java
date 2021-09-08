@@ -17,7 +17,7 @@ import mods.gregtechmod.recipe.util.SteamHelper;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
-import mods.gregtechmod.util.nbt.Serializers;
+import mods.gregtechmod.util.nbt.Serializers.ItemStackListNBTSerializer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -35,7 +35,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
 
-    @NBTPersistent(include = Include.NOT_EMPTY, using = Serializers.ItemStackListNBTSerializer.class)
+    @NBTPersistent(include = Include.NOT_EMPTY, using = ItemStackListNBTSerializer.class)
     protected List<ItemStack> pendingRecipe = new ArrayList<>();
     @NBTPersistent
     protected double progress;
