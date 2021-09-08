@@ -5,16 +5,14 @@ import java.util.function.Predicate;
 
 class FieldHandle {
     final String name;
-    final String deserializeAs;
     final Class<?> type;
     final Class<? extends INBTSerializer<?, ?>> serializer;
     final Predicate<Object> optional;
     final MethodHandle getter;
     final MethodHandle setter;
 
-    public FieldHandle(String name, String deserializeAs, Class<?> type, Class<? extends INBTSerializer<?, ?>> serializer, Predicate<Object> optional, MethodHandle getter, MethodHandle setter) {
+    public FieldHandle(String name, Class<?> type, Class<? extends INBTSerializer<?, ?>> serializer, Predicate<Object> optional, MethodHandle getter, MethodHandle setter) {
         this.name = name;
-        this.deserializeAs = deserializeAs;
         this.type = type;
         this.serializer = serializer;
         this.optional = optional;

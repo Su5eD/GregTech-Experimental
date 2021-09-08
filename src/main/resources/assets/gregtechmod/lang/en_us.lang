@@ -264,6 +264,8 @@ gregtechmod.teblock.lesu.max_reached=Maximum reached!
 gregtechmod.teblock.lesu.container.name=L.E.S.U.
 gregtechmod.teblock.aesu.max_energy_out=Max EU/p OUT: 0 - %s (Adjustable)
 gregtechmod.teblock.aesu.container.name=A.E.S.U.
+gregtechmod.teblock.idsu.container.name=I.D.S.U.
+gregtechmod.teblock.idsu.id=ID: %s
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -886,6 +888,8 @@ gregtechmod.teblock.superconductor_wire=Superconductor Wire
 gregtechmod.teblock.lesu=Lapotronic Energy Storage Unit
 gregtechmod.teblock.aesu=AESU
 gregtechmod.teblock.aesu.description=Adjustable Energy Storage Unit
+gregtechmod.teblock.idsu=IDSU
+gregtechmod.teblock.idsu.description=Interdimensional Storage Unit
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

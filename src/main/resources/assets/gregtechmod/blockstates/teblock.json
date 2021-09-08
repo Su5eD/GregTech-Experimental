@@ -76,7 +76,8 @@
       "supercondensator": { "model": "gregtechmod:supercondensator" },
       "superconductor_wire": { "model": "gregtechmod:superconductor_wire" },
       "lesu": { "model": "gregtechmod:lesu" },
-      "aesu": { "model": "gregtechmod:aesu" }
+      "aesu": { "model": "gregtechmod:aesu" },
+      "idsu": { "model": "gregtechmod:idsu" }
     },
     "facing": {
       "down": { "x": 90 },

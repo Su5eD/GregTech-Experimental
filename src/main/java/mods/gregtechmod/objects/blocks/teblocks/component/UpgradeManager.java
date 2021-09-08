@@ -37,7 +37,7 @@ public class UpgradeManager extends GtComponentBase {
     
     @NBTPersistent(include = Include.NOT_EMPTY, using = ItemStackListNBTSerializer.class)
     private final List<ItemStack> upgrades = new ArrayList<>();
-    @NBTPersistent(include = Include.NON_NULL, deserializeAs = "ownerProfile")
+    @NBTPersistent(name = "ownerProfile", include = Include.NON_NULL)
     private GameProfile owner;
     @NBTPersistent
     private boolean isPrivate;

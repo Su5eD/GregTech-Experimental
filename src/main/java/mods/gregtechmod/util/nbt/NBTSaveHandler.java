@@ -82,7 +82,7 @@ public final class NBTSaveHandler {
                             String annotatedName = persistent.name();
                             String name = !annotatedName.isEmpty() ? annotatedName : field.getName();
                             checkForDuplicateField(name, clazz);
-                            return new FieldHandle(name, persistent.deserializeAs(), field.getType(), persistent.using(), persistent.include().predicate, lookup.unreflectGetter(field), lookup.unreflectSetter(field));
+                            return new FieldHandle(name, field.getType(), persistent.using(), persistent.include().predicate, lookup.unreflectGetter(field), lookup.unreflectSetter(field));
                         } catch (IllegalAccessException e) {
                             throw new RuntimeException("Unable to unreflect handle for field " + field.getName(), e);
                         }
@@ -115,12 +115,11 @@ public final class NBTSaveHandler {
             List<FieldHandle> fieldHandles = HANDLES.get(clazz);
             if (fieldHandles != null) {
                 fieldHandles.forEach(fieldHandle -> {
-                    String name = !fieldHandle.deserializeAs.isEmpty() ? fieldHandle.deserializeAs : fieldHandle.name;
-                    if (nbt.hasKey(name)) {
-                        NBTBase nbtValue = nbt.getTag(name);
+                    if (nbt.hasKey(fieldHandle.name)) {
+                        NBTBase nbtValue = nbt.getTag(fieldHandle.name);
                         Object value;
                         if (fieldHandle.serializer != Serializers.None.class) value = getSpecialSerializer(fieldHandle.type, fieldHandle.serializer).deserialize(nbtValue, instance, fieldHandle.type);
-                        else value = deserializeField(nbtValue, name, instance, fieldHandle.type);
+                        else value = deserializeField(nbtValue, fieldHandle.name, instance, fieldHandle.type);
                         
                         if (value != null) fieldHandle.setFieldValue(instance, value);
                     }

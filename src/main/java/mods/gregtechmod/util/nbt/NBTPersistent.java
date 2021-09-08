@@ -18,8 +18,6 @@ public @interface NBTPersistent {
     
     Include include() default Include.ALWAYS;
     
-    String deserializeAs() default "";
-    
     enum Include {
         ALWAYS(o -> true),
         NON_NULL(Objects::nonNull),

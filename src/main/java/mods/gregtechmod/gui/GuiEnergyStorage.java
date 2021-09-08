@@ -13,7 +13,7 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
     private final int chargeBoltOffset;
 
     public GuiEnergyStorage(ContainerEnergyStorage container) {
-        this(container, 116, 56);
+        this(container, 116, 64);
     }
     
     protected GuiEnergyStorage(ContainerEnergyStorage container, int chargeBarLength, int chargeBoltOffset) {
@@ -28,14 +28,11 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
         drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         drawString(11, 8, this.container.base.getGuiName(), 16448255, false);
         double capacity = this.container.base.getEUCapacity();
-        drawString("jei.energy", 16, GtUtil.formatNumber(this.container.base.getStoredEU()));
-        drawString("teblock.lesu.max_energy", 24, GtUtil.formatNumber(capacity));
-        drawString("teblock.lesu.max_input", 32, GtUtil.formatNumber(this.container.base.getMaxInputEUp()));
-        drawString("teblock.lesu.output", 40, GtUtil.formatNumber(this.container.base.getMaxOutputEUp()));
-        if (capacity >= 1999999999) {
-            drawString("teblock.lesu.warning", 48);
-            drawString("teblock.lesu.max_reached", 56);
-        }
+        int offsetY = getInfoOffsetY();
+        drawString("jei.energy", offsetY, GtUtil.formatNumber(this.container.base.getStoredEU()));
+        drawString("teblock.lesu.max_energy", offsetY + 8, GtUtil.formatNumber(capacity));
+        drawString("teblock.lesu.max_input", offsetY + 16, GtUtil.formatNumber(this.container.base.getMaxInputEUp()));
+        drawString("teblock.lesu.output", offsetY + 24, GtUtil.formatNumber(this.container.base.getMaxOutputEUp()));
         
         double charge = this.container.base.getStoredEU() / (double) this.container.base.getEUCapacity();
         drawColoredRect(8, 73, (int) (charge * this.chargeBarLength), 5, -16711681);
@@ -46,11 +43,15 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
         drawRect(this.chargeBoltOffset + 1, 77, 1);
     }
 
+    protected int getInfoOffsetY() {
+        return 16;
+    }
+    
     private void drawRect(int x, int y, int width) {
         drawColoredRect(x, y, width, 1, -1);
     }
     
-    private void drawString(String translationKey, int y, Object... args) {
+    protected void drawString(String translationKey, int y, Object... args) {
         drawString(11, y, GtUtil.translate(translationKey, args), 16448255, false);
     }
 

@@ -55,7 +55,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     protected TileEntityUpgradable(String descriptionKey) {
         super(descriptionKey);
-        this.upgradeManager = addComponent(new UpgradeManager(this, () -> IC2.network.get(true).updateTileEntityField(this, "extraEUCapacity"), this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
+        this.upgradeManager = addComponent(new UpgradeManager(this, this::onUpdate, this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
         this.fluids = addComponent(new Fluids(this));
     }
     
@@ -143,7 +143,13 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
+        list.add("upgradeManager");
         list.add("extraEUCapacity");
+    }
+    
+    private void onUpdate() {
+        IC2.network.get(true).updateTileEntityField(this, "upgradeManager");
+        IC2.network.get(true).updateTileEntityField(this, "extraEUCapacity");
     }
 
     @Override

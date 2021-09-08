@@ -1,6 +1,7 @@
 package mods.gregtechmod.core;
 
 import ic2.core.IC2;
+import ic2.core.network.DataEncoder;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
@@ -13,6 +14,7 @@ import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.LootFunctionWriteBook;
+import mods.gregtechmod.world.IDSUData;
 import mods.gregtechmod.world.OreGenerator;
 import mods.gregtechmod.world.RetrogenHandler;
 import net.minecraft.creativetab.CreativeTabs;
@@ -70,6 +72,7 @@ public final class GregTechMod {
 
         RegistryHandler.registerFluids();
         RegistryHandler.registerComponents();
+        DataEncoder.addNetworkEncoder(IDSUData.EnergyWrapper.class, new IDSUData.EnergyWrapper.EnergyWrapperEncoder());
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
         
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());

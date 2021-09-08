@@ -4,9 +4,12 @@ import ic2.api.energy.EnergyNet;
 import ic2.core.IC2;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.gui.GuiLESU;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.nbt.NBTPersistent;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -92,7 +95,12 @@ public class TileEntityLESU extends TileEntityChargerBase {
     public int getSourceTier() {
         return Math.max(1, EnergyNet.instance.getTierFromPower(getMaxOutputEUp()));
     }
-    
+
+    @Override
+    public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
+        return new GuiLESU(getGuiContainer(player));
+    }
+
     @Override
     protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
         int tier = getSourceTier();

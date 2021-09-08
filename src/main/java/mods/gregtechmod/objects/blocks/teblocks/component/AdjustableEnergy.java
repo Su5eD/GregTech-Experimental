@@ -85,7 +85,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         this.averageEUOutputs[averageEUOutputIndex] = amount;
     }
     
-    private double injectEnergy(double amount) {
+    protected double injectEnergy(double amount) {
         double injected = Math.min(getCapacity() - this.storedEnergy, amount);
         storedEnergy += injected;
         
@@ -352,9 +352,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
 
         @Override
         public void drawEnergy(double amount) {
-            if (amount <= storedEnergy) {
-                storedEnergy -= amount;
-                
+            if (discharge(amount) >= amount) {
                 drawnEnergy = true;
                 updateAverageEUOutput(amount);
             }
