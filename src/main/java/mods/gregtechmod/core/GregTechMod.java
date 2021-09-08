@@ -7,6 +7,7 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
+import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
 import mods.gregtechmod.recipe.compat.ModRecipes;

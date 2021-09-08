@@ -1,4 +1,4 @@
-package mods.gregtechmod.cover;
+package mods.gregtechmod.objects.covers;
 
 import ic2.core.item.ItemMulti;
 import ic2.core.item.type.CraftingItemType;

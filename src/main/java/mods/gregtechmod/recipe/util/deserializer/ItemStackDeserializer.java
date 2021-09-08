@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.core.GregTechTEBlock;
+import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.init.Items;

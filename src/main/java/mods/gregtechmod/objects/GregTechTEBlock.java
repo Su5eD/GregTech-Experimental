@@ -1,4 +1,4 @@
-package mods.gregtechmod.core;
+package mods.gregtechmod.objects;
 
 import ic2.api.item.ITeBlockSpecialItem;
 import ic2.core.block.BlockTileEntity;
@@ -12,6 +12,7 @@ import ic2.core.ref.TeBlock.HarvestTool;
 import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.energy.*;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
@@ -85,7 +86,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     AESU(TileEntityAESU.class, 48, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     IDSU(TileEntityIDSU.class, 49, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE);
 
-    public static final ResourceLocation LOCATION = new ResourceLocation("gregtechmod", "teblock");
+    public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
     
     private final Class<? extends TileEntityBlock> teClass;

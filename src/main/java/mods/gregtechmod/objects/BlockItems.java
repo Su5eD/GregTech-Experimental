@@ -11,7 +11,6 @@ import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.cover.Cover;
 import mods.gregtechmod.objects.blocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityQuantumChest;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityDigitalChestBase;

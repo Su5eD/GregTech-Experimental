@@ -1,4 +1,4 @@
-package mods.gregtechmod.cover;
+package mods.gregtechmod.objects.covers;
 
 import ic2.api.item.IC2Items;
 import mods.gregtechmod.api.cover.CoverType;

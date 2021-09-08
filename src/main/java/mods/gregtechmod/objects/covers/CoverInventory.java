@@ -1,10 +1,9 @@
-package mods.gregtechmod.cover;
+package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.InventoryMode;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

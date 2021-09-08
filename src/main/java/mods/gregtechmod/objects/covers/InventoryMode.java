@@ -1,4 +1,4 @@
-package mods.gregtechmod.util;
+package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.util.EnumFacing;

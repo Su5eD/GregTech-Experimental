@@ -1,10 +1,9 @@
-package mods.gregtechmod.cover;
+package mods.gregtechmod.objects.covers;
 
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.util.InventoryMode;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

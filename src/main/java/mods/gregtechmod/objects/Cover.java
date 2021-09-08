@@ -1,10 +1,11 @@
-package mods.gregtechmod.cover;
+package mods.gregtechmod.objects;
 
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.util.QuadFunction;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.objects.covers.*;
 import mods.gregtechmod.util.LazyValue;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.item.ItemStack;

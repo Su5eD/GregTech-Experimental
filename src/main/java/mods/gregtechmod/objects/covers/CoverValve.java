@@ -1,4 +1,4 @@
-package mods.gregtechmod.cover;
+package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
