@@ -2,6 +2,7 @@ package mods.gregtechmod.world;
 
 import ic2.api.network.IGrowingBuffer;
 import ic2.api.network.INetworkCustomEncoder;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mods.gregtechmod.api.util.Reference;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -10,12 +11,15 @@ import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 public class IDSUData extends WorldSavedData {
     public static final String DATA_NAME = Reference.MODID + "_idsu_data";
     
-    private final Map<UUID, EnergyWrapper> data = new HashMap<>();
+    private final Map<UUID, EnergyWrapper> data = new Object2ObjectOpenHashMap<>();
 
     public IDSUData() {
         this(DATA_NAME);
