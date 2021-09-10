@@ -5,6 +5,7 @@
     meta: 32767
   output:
     - item: minecraft:sand
+  overwrite: true
 - input:
     ore: stoneEnd
   output:
@@ -23,6 +24,7 @@
   output:
     - item: gregtechmod:dust_netherrack
     - item: gregtechmod:dust_netherrack
+  overwrite: true
 - input:
     ore: stoneRedrock
   output:
@@ -85,24 +87,28 @@
     - item: ic2:dust#iron
       count: 2
     - item: gregtechmod:dust_nickel
+  overwrite: true
 - input:
     ore: oreGold
   output:
     - item: ic2:dust#gold
       count: 2
     - item: ic2:dust#copper
+  overwrite: true
 - input:
     ore: oreSilver
   output:
     - item: gregtechmod:dust_silver
       count: 2
     - item: gregtechmod:dust_lead
+  overwrite: true
 - input:
     ore: oreLead
   output:
     - item: gregtechmod:dust_lead
       count: 2
     - item: gregtechmod:dust_silver
+  overwrite: true
 - input:
     ores:
       - oreSilverLead
@@ -167,12 +173,14 @@
     - item: ic2:dust#copper
       count: 2
     - item: ic2:dust#gold
+  overwrite: true
 - input:
     ore: oreTin
   output:
     - item: ic2:dust#tin
       count: 2
     - item: ic2:dust#iron
+  overwrite: true
 - input:
     ore: oreZinc
   output:
@@ -376,6 +384,7 @@
     - item: ic2:crushed#uranium
       count: 2
     - item: gregtechmod:dust_plutonium
+  overwrite: true
 - input:
     ore: oreElectrotine
   output:
@@ -409,26 +418,32 @@
     ore: ingotSilver
   output:
     - item: gregtechmod:dust_silver
+  overwrite: true
 - input:
     ore: ingotBronze
   output:
     - item: ic2:dust#bronze
+  overwrite: true
 - input:
     ore: ingotCopper
   output:
     - item: ic2:dust#copper
+  overwrite: true
 - input:
     ore: ingotTin
   output:
     - item: ic2:dust#tin
+  overwrite: true
 - input:
     ore: ingotIron
   output:
     - item: ic2:dust#iron
+  overwrite: true
 - input:
     ore: ingotGold
   output:
     - item: ic2:dust#gold
+  overwrite: true
 - input:
     ore: ingotAluminium
   output:
@@ -453,10 +468,12 @@
     ore: ingotSteel
   output:
     - item: gregtechmod:dust_steel
+  overwrite: true
 - input:
     ore: ingotLead
   output:
     - item: gregtechmod:dust_lead
+  overwrite: true
 - input:
     ore: ingotZinc
   output:
@@ -493,10 +510,12 @@
     ore: gemDiamond
   output:
     - item: gregtechmod:dust_diamond
+  overwrite: true
 - input:
     ore: gemEmerald
   output:
     - item: gregtechmod:dust_emerald
+  overwrite: true
 - input:
     ore: gemOlivine
   output:
@@ -536,6 +555,7 @@
     ore: gemCoal
   output:
     - item: ic2:dust#coal
+  overwrite: true
 - input:
     ore: crystalNetherQuartz
   output:
@@ -855,6 +875,7 @@
   output:
     - item: minecraft:glowstone_dust
       count: 4
+  overwrite: true
 - input:
     item: minecraft:redstone_lamp
   output:
@@ -877,6 +898,7 @@
   output:
     - item: minecraft:sugar
       count: 2
+  overwrite: true
 - input:
     ore: blockClay
   output:
@@ -887,11 +909,6 @@
   output:
     - item: minecraft:snowball
       count: 4
-- input:
-    item: minecraft:stick
-  output:
-    - item: gregtechmod:smalldust_wood
-      count: 2
 - input:
     ore: charcoal
   output:
@@ -909,18 +926,17 @@
   output:
     - item: minecraft:pumpkin_seeds
       count: 4
+  overwrite: true
 - input:
     item: minecraft:melon
   output:
     - item: minecraft:melon_seeds
+  overwrite: true
 - input:
     item: minecraft:wheat
   output:
     - item: gregtechmod:flour
-- input:
-    item: ic2:crafting#plant_ball
-  output:
-    - item: minecraft:dirt
+  overwrite: true
 - input:
     item: ic2:crop_stick
   output:
@@ -946,3 +962,4 @@
       count: 2
     - item: minecraft:string
   chance: 50
+  overwrite: true

@@ -13,7 +13,6 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
@@ -27,7 +26,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
@@ -153,10 +151,10 @@ public class GtUtil {
                 if (page.length() < 256) {
                     tagList.appendTag(new NBTTagString(page));
                 } else {
-                    GregTechMod.logger.warn("String for written book too long: " + page);
+                    GregTechMod.LOGGER.warn("String for written book too long: " + page);
                 }
             } else {
-                GregTechMod.logger.warn("Too many pages for written book: " + name);
+                GregTechMod.LOGGER.warn("Too many pages for written book: " + name);
                 break;
             }
         }
@@ -394,7 +392,7 @@ public class GtUtil {
             field.setAccessible(true);
             field.set(null, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            GregTechMod.logger.catching(e);
+            GregTechMod.LOGGER.catching(e);
         }
     }
     
@@ -424,7 +422,7 @@ public class GtUtil {
                         continue;
                     }
 
-                    GregTechMod.logger.debug("Copying file " + path + " to " + dest.toPath());
+                    GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest.toPath());
                     BufferedReader in = Files.newBufferedReader(path);
                     FileOutputStream out = new FileOutputStream(dest);
                     for (int i; (i = in.read()) != -1; ) out.write(i);
@@ -434,48 +432,22 @@ public class GtUtil {
             }
             return target.toPath();
         } catch (IOException e) {
-            GregTechMod.logger.catching(e);
+            GregTechMod.LOGGER.catching(e);
             return null;
         }
-    }
-    
-    public static NBTTagList stacksToNBT(Collection<ItemStack> stacks) {
-        NBTTagList list = new NBTTagList();
-        stacks.stream()
-                .map(stack -> {
-                    NBTTagCompound tag = new NBTTagCompound();
-                    stack.writeToNBT(tag);
-                    return tag;
-                })
-                .forEach(list::appendTag);
-        return list;
-    }
-    
-    public static void stacksFromNBT(Collection<ItemStack> stacks, NBTTagList list) {
-        list.forEach(tag -> stacks.add(new ItemStack((NBTTagCompound) tag)));
     }
     
     public static void trackTime(String name, Runnable runnable) {
         Stopwatch stopwatch = Stopwatch.createStarted();
         runnable.run();
         stopwatch.stop();
-        GregTechMod.logger.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+        GregTechMod.LOGGER.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
     }
     
-    public static double getSteamMultiplier(FluidStack fluidStack) {
-        double baseRatio = 0.5;
-        
-        Fluid fluid = fluidStack == null ? null : fluidStack.getFluid();
-        if (fluid != null) {
-            if (fluid == FluidName.superheated_steam.getInstance()) return baseRatio * GregTechConfig.BALANCE.superHeatedSteamMultiplier;
-            else if (fluid == FluidRegistry.getFluid("steam")) return baseRatio / GregTechConfig.BALANCE.steamMultiplier;
-        }
-        
-        return baseRatio;
-    }
-    
-    public static int getSteamForEU(double amount, FluidStack fluid) {
-        return (int) Math.round(amount / getSteamMultiplier(fluid));
+    public static <T> List<T> toList(Iterable<T> iterable) {
+        List<T> list = new ArrayList<>();
+        iterable.forEach(list::add);
+        return Collections.unmodifiableList(list);
     }
 
     private static class VoidTank implements IFluidHandler {

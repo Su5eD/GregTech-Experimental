@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.block.state.UnlistedBooleanProperty;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
@@ -55,7 +55,7 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
     }
 
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
+    protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
         this.structure.checkWorldStructure(this.pos, this.getFacing());
         return super.getExtendedState(state).withProperty(PROPERTY_VALID, this.structure.isValid());
     }

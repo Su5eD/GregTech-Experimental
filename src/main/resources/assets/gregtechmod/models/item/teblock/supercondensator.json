@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_side",
+    "down": "gregtechmod:blocks/machines/supercondensator/supercondensator_in",
+    "up": "gregtechmod:blocks/machines/supercondensator/supercondensator_in",
+    "north": "gregtechmod:blocks/machines/supercondensator/supercondensator_out",
+    "south": "gregtechmod:blocks/machines/supercondensator/supercondensator_in",
+    "east": "gregtechmod:blocks/machines/supercondensator/supercondensator_in",
+    "west": "gregtechmod:blocks/machines/supercondensator/supercondensator_in"
+  }
+}

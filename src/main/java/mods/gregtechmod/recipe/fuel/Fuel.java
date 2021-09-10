@@ -52,7 +52,7 @@ public abstract class Fuel implements IFuel<IRecipeIngredient> {
 
     protected void validate() {
         if (this.input.isEmpty()) {
-            GregTechMod.logger.warn("Tried to add a fuel with empty input: " + this);
+            GregTechMod.LOGGER.warn("Tried to add a fuel with empty input: " + this);
             this.invalid = true;
         }
     }

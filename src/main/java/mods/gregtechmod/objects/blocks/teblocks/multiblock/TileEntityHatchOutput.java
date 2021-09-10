@@ -3,9 +3,9 @@ package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import java.util.Locale;
 
 public class TileEntityHatchOutput extends TileEntityHatchIO {
+    @NBTPersistent
     private Mode mode = Mode.LSI;
 
     public TileEntityHatchOutput() {
@@ -53,18 +54,6 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
             GtUtil.sendMessage(player, Reference.MODID + ".teblock.hatch_output.mode." + this.mode.name().toLowerCase(Locale.ROOT));
         }
         return true;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.mode = Mode.VALUES[nbt.getInteger("mode")];
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("mode", this.mode.ordinal());
-        return super.writeToNBT(nbt);
     }
 
     public enum Mode {

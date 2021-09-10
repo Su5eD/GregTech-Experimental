@@ -5,11 +5,10 @@ import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.*;
 import ic2.api.tile.IEnergyStorage;
 import ic2.core.block.TileEntityBlock;
-import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.network.GrowingBuffer;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,9 +19,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-public abstract class AdjustableEnergy extends TileEntityComponent {
-    private DelegateBase delegate;
+public abstract class AdjustableEnergy extends GtComponentBase {
+    protected DelegateBase delegate;
     
+    @NBTPersistent
     private double storedEnergy;
     private Collection<EnumFacing> oldSinkSides = getSinkSides();
     private Collection<EnumFacing> oldSourceSides = getSourceSides();
@@ -72,7 +72,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     }
     
     private void updateAverageEUInput(double amount) {
-        this.averageEUInputIndex = ++this.averageEUOutputIndex % averageEUInputs.length;
+        this.averageEUInputIndex = ++this.averageEUInputIndex % averageEUInputs.length;
         this.averageEUInputs[averageEUInputIndex] = amount;
     }
     
@@ -85,11 +85,11 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
         this.averageEUOutputs[averageEUOutputIndex] = amount;
     }
     
-    private double injectEnergy(double amount) {
+    protected double injectEnergy(double amount) {
         double injected = Math.min(getCapacity() - this.storedEnergy, amount);
         storedEnergy += injected;
         
-        this.averageEUInputs[this.averageEUInputIndex] += injected;
+        updateAverageEUInput(injected);
         
         return injected;
     }
@@ -156,7 +156,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     @Override
     public void onLoaded() {
         if (this.delegate == null && !this.parent.getWorld().isRemote) {
-            this.delegate = constructDelegate();
+            this.delegate = initDelegate();
             if (this.delegate != null) MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this.delegate));
         }
     }
@@ -169,27 +169,25 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
         }
     }
     
-    private DelegateBase constructDelegate() {
-        DelegateBase delegate;
-        
+    protected DelegateBase createDelegate() {
         boolean sink = !getSinkSides().isEmpty();
         boolean source = !getSourceSides().isEmpty();
         if (sink && source) {
-            delegate = new DualDelegate();
+            return new DualDelegate();
         } else if (sink) {
-            delegate = new SinkDelegate();
+            return new SinkDelegate();
         } else if (source) {
-            delegate = new SourceDelegate();
-        } else delegate = null;
-            
+            return new SourceDelegate();
+        } else return null;
+    }
+    
+    private DelegateBase initDelegate() {
+        DelegateBase delegate = createDelegate();
         if (delegate != null) {
             delegate.setWorld(this.parent.getWorld());
             delegate.setPos(this.parent.getPos());
-            
-            return delegate;
         }
-        
-        return null;
+        return delegate;
     }
 
     @Override
@@ -244,20 +242,8 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
     public void onNetworkUpdate(DataInput in) throws IOException {
         this.storedEnergy = in.readDouble();
     }
-        
-    @Override
-    public void readFromNbt(NBTTagCompound nbt) {
-        this.storedEnergy = nbt.getDouble("storedEnergy");
-    }
-        
-    @Override
-    public NBTTagCompound writeToNbt() {
-        NBTTagCompound ret = new NBTTagCompound();
-        ret.setDouble("storedEnergy", this.storedEnergy);
-        return ret;
-    }
 
-    private abstract class DelegateBase extends TileEntity implements IEnergyTile, IEnergyStorage {
+    public abstract class DelegateBase extends TileEntity implements IEnergyTile, IEnergyStorage {
         @Override
         public int getStored() {
             return (int) getStoredEnergy();
@@ -293,6 +279,8 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
         public boolean isTeleporterCompatible(EnumFacing side) {
             return isSource() && getMaxOutputEUt() >= 128 && getCapacity() >= 500000;
         }
+        
+        
     }
     
     private class DualDelegate extends SourceDelegate implements IEnergySink {
@@ -364,9 +352,7 @@ public abstract class AdjustableEnergy extends TileEntityComponent {
 
         @Override
         public void drawEnergy(double amount) {
-            if (amount <= storedEnergy) {
-                storedEnergy -= amount;
-                
+            if (discharge(amount) >= amount) {
                 drawnEnergy = true;
                 updateAverageEUOutput(amount);
             }

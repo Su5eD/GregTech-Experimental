@@ -19,6 +19,7 @@ import ic2.core.block.TileEntityInventory;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.event.ScannerEvent;
+import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
@@ -138,7 +139,8 @@ public class ItemScanner extends ItemElectricBase {
             if (energyTile instanceof IEnergySink) {
                 energyCost += 400;
                 ret.add(GtUtil.translateScan("demanded_energy", ((IEnergySink)energyTile).getDemandedEnergy()));
-                ret.add(GtUtil.translateScan("max_safe_input", EnergyNet.instance.getPowerFromTier(((IEnergySink)energyTile).getSinkTier())));
+                double maxInput = tileEntity instanceof IElectricMachine ? ((IElectricMachine) tileEntity).getMaxInputEUp() : EnergyNet.instance.getPowerFromTier(((IEnergySink)energyTile).getSinkTier());
+                ret.add(GtUtil.translateScan("max_safe_input", maxInput));
             }
 
             if (energyTile instanceof IEnergySource) {
@@ -178,11 +180,14 @@ public class ItemScanner extends ItemElectricBase {
                 if (cover != null) {
                     String displayName = cover.getItem().getDisplayName();
                     String description = String.join(", ", cover.getDescription());
+                    String translated;
                     int tickRate = cover.getTickRate();
                     if (tickRate <= 1) {
                         String key = tickRate < 1 ? "cover_ticked_never" : "cover_ticked_1";
-                        ret.add(GtUtil.translateScan(key, displayName, description));
-                    } else ret.add(GtUtil.translateScan("cover_ticked_n", displayName, tickRate, description));
+                        translated = GtUtil.translateScan(key, displayName);
+                    } else translated = GtUtil.translateScan("cover_ticked_n", displayName, tickRate);
+                    
+                    ret.add(!description.isEmpty() ? translated + ", " + description : translated);
                 }
             }
 

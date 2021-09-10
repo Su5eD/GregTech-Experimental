@@ -11,11 +11,7 @@ import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.cover.Cover;
-import mods.gregtechmod.objects.blocks.BlockBase;
-import mods.gregtechmod.objects.blocks.BlockConnected;
-import mods.gregtechmod.objects.blocks.BlockConnectedTurbine;
-import mods.gregtechmod.objects.blocks.BlockOre;
+import mods.gregtechmod.objects.blocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityQuantumChest;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityDigitalChestBase;
 import mods.gregtechmod.objects.items.*;
@@ -65,7 +61,7 @@ public class BlockItems {
         IRIDIUM_REINFORCED_STONE(100, 300),
         IRIDIUM_REINFORCED_TUNGSTEN_STEEL(BlockConnected::new, 200, 400),
         LEAD(3, 60),
-        LESUBLOCK(4, 30),
+        LESUBLOCK(BlockLESU::new, 4, 30),
         NICKEL(3, 45),
         OLIVINE(4.5F, 30),
         OSMIUM(4, 900),

@@ -32,7 +32,7 @@ public class TileEntityDieselGenerator extends TileEntityFluidGenerator {
     }
 
     @Override
-    protected double getMaxOutputEUp() {
+    public double getMaxOutputEUp() {
         return 12;
     }
 

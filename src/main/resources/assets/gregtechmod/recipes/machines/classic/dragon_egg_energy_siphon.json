@@ -1,0 +1,48 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CTC",
+    "ISI",
+    "CLC"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "L":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kkEUStore"
+    },
+    "S":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 45
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingTeleporter"
+    },
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAlloyIridium"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 35
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:classic"
+    }
+  ]
+}

@@ -46,7 +46,11 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     }
     
     private static Gauge.GaugeProperties buildGauge(ResourceLocation texture, int x, int width, int height, Gauge.GaugePropertyBuilder.GaugeOrientation orientation) {
-        return new Gauge.GaugePropertyBuilder(x, 0, width, height, orientation)
+        return buildGauge(texture, x, 0, width, height, orientation);
+    }
+    
+    private static Gauge.GaugeProperties buildGauge(ResourceLocation texture, int x, int y, int width, int height, Gauge.GaugePropertyBuilder.GaugeOrientation orientation) {
+        return new Gauge.GaugePropertyBuilder(x, y, width, height, orientation)
                 .withTexture(texture)
                 .withSmooth(false)
                 .build();

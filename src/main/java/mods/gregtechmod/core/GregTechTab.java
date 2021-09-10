@@ -2,9 +2,11 @@ package mods.gregtechmod.core;
 
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.init.BlockItemLoader;
 import mods.gregtechmod.init.FluidLoader;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,7 +19,7 @@ import java.util.Arrays;
 public class GregTechTab extends CreativeTabs {
 
     public GregTechTab() {
-        super("gregtechmod");
+        super(Reference.MODID);
     }
 
     @Override
@@ -36,8 +38,7 @@ public class GregTechTab extends CreativeTabs {
                 .forEach(teblock -> list.add(block.getItemStack(teblock)));
         BlockItemLoader.getItems().stream()
                 .filter(item -> GregTechMod.classic || !(item instanceof ItemCellClassic))
-                .map(ItemStack::new)
-                .forEach(list::add);
+                .forEach(item -> item.getSubItems(this, list));
         FluidLoader.FLUIDS.stream()
                 .map(FluidLoader.IFluidProvider::getName)
                 .map(ProfileDelegate::getCell)

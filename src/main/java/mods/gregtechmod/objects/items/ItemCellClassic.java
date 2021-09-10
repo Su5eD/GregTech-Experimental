@@ -40,14 +40,14 @@ public class ItemCellClassic extends ItemBase {
 
     static {
         try {
-            GregTechMod.logger.info("Injecting custom CellFluidHandler into ItemClassicCell");
+            GregTechMod.LOGGER.info("Injecting custom CellFluidHandler into ItemClassicCell");
             Field capsField = ItemIC2.class.getDeclaredField("caps");
             capsField.setAccessible(true);
             ItemClassicCell cell = ItemName.cell.getInstance();
             Map<Capability<?>, com.google.common.base.Function<ItemStack, ?>> caps = (Map<Capability<?>, com.google.common.base.Function<ItemStack, ?>>) capsField.get(cell);
             caps.put(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, ItemCellClassic::getHandler);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            GregTechMod.logger.catching(e);
+            GregTechMod.LOGGER.catching(e);
         }
     }
 

@@ -7,12 +7,9 @@ import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.core.GregTechTEBlock;
-import mods.gregtechmod.model.ModelBlockConnected;
-import mods.gregtechmod.model.ModelBlockOre;
-import mods.gregtechmod.model.ModelStructureTeBlock;
-import mods.gregtechmod.model.ModelTeBlock;
+import mods.gregtechmod.model.*;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.util.*;
@@ -26,6 +23,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -41,11 +39,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@EventBusSubscriber(value = Side.CLIENT, modid = Reference.MODID)
+@EventBusSubscriber(modid = Reference.MODID, value = Side.CLIENT)
 public class ClientEventHandler {
     private static final Map<ItemStack, Supplier<String>> EXTRA_TOOLTIPS = new HashMap<>();
 
@@ -102,29 +101,33 @@ public class ClientEventHandler {
     }
 
     private static void registerBakedModels() {
-        GregTechMod.logger.info("Registering baked models");
+        GregTechMod.LOGGER.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
         JsonObject blockstateModels = JsonHandler.readFromJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
         
         Arrays.stream(GregTechTEBlock.values())
-                .filter(GregTechTEBlock::hasBakedModel)
                 .forEach(teBlock -> {
                     String teBlockName = teBlock.getName();
-                    String model = new ResourceLocation(blockstateModels.getAsJsonObject(teBlockName).get("model").getAsString()).getPath();
-                    
-                    JsonHandler json = new JsonHandler(getItemModelPath("teblock", model));
-                    ModelTeBlock renderer;
-                    if (teBlock.isStructure()) {
-                        JsonHandler valid = new JsonHandler(getItemModelPath("teblock", teBlockName + "_valid"));
-                        renderer = new ModelStructureTeBlock(valid.particle, json.generateTextureMap(), valid.generateTextureMap());
-                    } else {
-                        renderer = new ModelTeBlock(json.particle, json.generateTextureMap());
-                    }
-                    loader.register("models/block/" + teBlockName, renderer);
-                    
-                    if (teBlock.hasActive()) {
-                        JsonHandler active = new JsonHandler(getItemModelPath("teblock", teBlockName + "_active"));
-                        loader.register("models/block/" + teBlockName + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
+                    GregTechTEBlock.ModelType modelType = teBlock.getModelType();
+                    if (modelType == GregTechTEBlock.ModelType.BAKED) {
+                        String modelPath = new ResourceLocation(blockstateModels.getAsJsonObject(teBlockName).get("model").getAsString()).getPath();
+                                            
+                        JsonHandler json = new JsonHandler(getItemModelPath("teblock", modelPath));
+                        ModelTeBlock model;
+                        if (teBlock.isStructure()) {
+                            JsonHandler valid = new JsonHandler(getItemModelPath("teblock", teBlockName + "_valid"));
+                            model = new ModelStructureTeBlock(valid.particle, json.generateTextureMap(), valid.generateTextureMap());
+                        } else {
+                            model = new ModelTeBlock(json.particle, json.generateTextureMap());
+                        }
+                        loader.register("models/block/" + teBlockName, model);
+                        
+                        if (teBlock.hasActive()) {
+                            JsonHandler active = new JsonHandler(getItemModelPath("teblock", teBlockName + "_active"));
+                            loader.register("models/block/" + teBlockName + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
+                        } 
+                    } else if (modelType == GregTechTEBlock.ModelType.CONNECTED) {
+                        registerConnectedBakedModel(loader, teBlockName, "machines", "", ModelTEBlockConnected::new);
                     }
                 });
         
@@ -146,23 +149,28 @@ public class ClientEventHandler {
 
         Map<String, ResourceLocation> steamTurbineRotor = getRotorTextures("large_steam_turbine");
         Map<String, ResourceLocation> gasTurbineRotor = getRotorTextures("large_gas_turbine");
-        registerConnectedBakedModel(loader, "standard_machine_casing", steamTurbineRotor);
-        registerConnectedBakedModel(loader, "reinforced_machine_casing", gasTurbineRotor);
-        registerConnectedBakedModel(loader, "advanced_machine_casing");
-        registerConnectedBakedModel(loader, "iridium_reinforced_tungsten_steel");
-        registerConnectedBakedModel(loader, "tungsten_steel");
+        registerBlockConnectedBakedModel(loader, "standard_machine_casing", steamTurbineRotor);
+        registerBlockConnectedBakedModel(loader, "reinforced_machine_casing", gasTurbineRotor);
+        registerBlockConnectedBakedModel(loader, "advanced_machine_casing");
+        registerBlockConnectedBakedModel(loader, "iridium_reinforced_tungsten_steel");
+        registerBlockConnectedBakedModel(loader, "tungsten_steel");
     }
     
     private static Map<String, ResourceLocation> getRotorTextures(String name) {
         return Rotor.TEXTURE_NAMES.stream()
                 .flatMap(str -> Stream.of(str, str + "_active"))
-                .collect(Collectors.toMap(str -> "rotor_" + str, str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name +"/" + str)));
+                .collect(Collectors.toMap(str -> "rotor_" + str, str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str)));
     }
     
     @SafeVarargs
-    private static void registerConnectedBakedModel(BakedModelLoader loader, String name, Map<String, ResourceLocation>... extraTextures) {
+    private static void registerBlockConnectedBakedModel(BakedModelLoader loader, String name, Map<String, ResourceLocation>... extraTextures) {
+        registerConnectedBakedModel(loader, name, "connected", "block_", ModelBlockConnected::new, extraTextures);
+    }
+    
+    @SafeVarargs
+    private static void registerConnectedBakedModel(BakedModelLoader loader, String name, String dir, String prefix, BiFunction<Map<String, ResourceLocation>, Map<String, ResourceLocation>[], IModel> modelFactory, Map<String, ResourceLocation>... extraTextures) {
         Path texturesPath = GtUtil.getAssetPath("textures");
-        Path path = texturesPath.resolve("blocks/connected/" + name);
+        Path path = texturesPath.resolve("blocks/" + dir + "/" + name);
         try {
             Map<String, ResourceLocation> textures = Files.walk(path)
                     .filter(p -> !p.equals(path))
@@ -178,9 +186,9 @@ public class ClientEventHandler {
                         else return textureName;
                     }, str -> new ResourceLocation(Reference.MODID, str)));
 
-            loader.register("models/block/block_" + name, new ModelBlockConnected(textures, extraTextures));
+            loader.register("models/block/" + prefix + name, modelFactory.apply(textures, extraTextures));
         } catch (IOException e) {
-            GregTechMod.logger.error("Error registering connected baked model " + name, e);
+            GregTechMod.LOGGER.error("Error registering connected baked model " + name, e);
         }
     }
     
@@ -229,7 +237,10 @@ public class ClientEventHandler {
                 path + "redstone_conductor",
                 path + "redstone_signalizer",
                 "blocks/machines/machine_top_pipe",
-                "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape"
+                "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape",
+                "blocks/machines/lesu/lesu_lv_out",
+                "blocks/machines/lesu/lesu_mv_out",
+                "blocks/machines/lesu/lesu_hv_out"
         )
                 .map(str -> new ResourceLocation(Reference.MODID, str))
                 .forEach(map::registerSprite);

@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/aesu/aesu_side",
+    "down": "gregtechmod:blocks/machines/aesu/aesu_side",
+    "up": "gregtechmod:blocks/machines/aesu/aesu_side",
+    "north": "gregtechmod:blocks/machines/aesu/aesu_front",
+    "south": "gregtechmod:blocks/machines/aesu/aesu_side",
+    "east": "gregtechmod:blocks/machines/aesu/aesu_side",
+    "west": "gregtechmod:blocks/machines/aesu/aesu_side"
+  }
+}

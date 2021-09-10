@@ -15,13 +15,14 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.component.Maintenance;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMultiblock;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
+import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import mods.gregtechmod.util.struct.Structure;
 import mods.gregtechmod.util.struct.StructureElement;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -40,16 +41,24 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     protected final IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager;
     public final InvSlot machinePartSlot;
     
-    private int pollution;
+    @NBTPersistent
     protected int efficiency;
+    @NBTPersistent
     protected int efficiencyIncrease;
-    private int startUpCheck = 100;
+    @NBTPersistent
+    private int pollution;
+    @NBTPersistent
     private int runtime;
+    private int startUpCheck = 100;
     public final Maintenance maintenance;
     
+    @NBTPersistent
     protected double fuelEnergy;
+    @NBTPersistent
     protected int progress;
+    @NBTPersistent
     protected int maxProgress;
+    @NBTPersistent(include = Include.NON_NULL)
     protected ItemStack fuelOutput;
 
     public TileEntityMultiBlockBase(String descriptionKey, IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
@@ -272,45 +281,6 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     }
 
     protected void onInvalidate(T instance) {}
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setInteger("efficiency", this.efficiency);
-        nbt.setInteger("efficiencyIncrease", this.efficiencyIncrease);
-        nbt.setInteger("pollution", this.pollution);
-        nbt.setInteger("runtime", this.runtime);
-        this.maintenance.writeToNBT(nbt);
-        
-        nbt.setDouble("fuelEnergy", this.fuelEnergy);
-        nbt.setInteger("progress", this.progress);
-        nbt.setInteger("maxProgress", this.maxProgress);
-        
-        if (this.fuelOutput != null) {
-            NBTTagCompound output = new NBTTagCompound();
-            this.fuelOutput.writeToNBT(output);
-            nbt.setTag("fuelOutput", output);
-        }
-        
-        return super.writeToNBT(nbt);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.efficiency = nbt.getInteger("efficiency");
-        this.efficiencyIncrease = nbt.getInteger("efficiencyIncrease");
-        this.pollution = nbt.getInteger("pollution");
-        this.runtime = nbt.getInteger("runtime");
-        this.maintenance.readFromNBT(nbt);
-        
-        this.fuelEnergy = nbt.getDouble("fuelEnergy");
-        this.progress = nbt.getInteger("progress");
-        this.maxProgress = nbt.getInteger("maxProgress");
-        
-        if (nbt.hasKey("fuelOutput")) {
-            this.fuelOutput = new ItemStack(nbt.getCompoundTag("fuelOutput"));
-        }
-    }
 
     @Override
     public Set<GtUpgradeType> getCompatibleGtUpgrades() {

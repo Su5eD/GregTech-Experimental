@@ -1,6 +1,16 @@
 # Experimental Industrial Centrifuge Recipes
 ---
 - input:
+    item: minecraft:dirt
+    count: 16
+  output:
+    - item: ic2:crafting#bio_chaff
+    - item: ic2:crafting#plant_ball
+    - item: minecraft:clay_ball
+    - item: minecraft:sand
+      count: 8
+  duration: 2500
+- input:
     item: minecraft:grass
     count: 16
   output:

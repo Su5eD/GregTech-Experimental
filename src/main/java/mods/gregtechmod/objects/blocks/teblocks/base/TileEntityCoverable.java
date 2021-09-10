@@ -1,15 +1,14 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import ic2.core.block.TileEntityInventory;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.cover.Cover;
-import mods.gregtechmod.cover.CoverGeneric;
-import mods.gregtechmod.cover.CoverVent;
+import mods.gregtechmod.objects.Cover;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
+import mods.gregtechmod.objects.covers.CoverGeneric;
+import mods.gregtechmod.objects.covers.CoverVent;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +25,7 @@ import java.util.Set;
 /**
  * Let's you add/remove covers on a tile entity. <b>Isn't responsible</b> for cover behavior.
  */
-public abstract class TileEntityCoverable extends TileEntityInventory implements ICoverable {
+public abstract class TileEntityCoverable extends TileEntityAutoNBT implements ICoverable {
     protected final CoverHandler coverHandler;
     protected Set<CoverType> coverBlacklist = new HashSet<>();
 
@@ -90,8 +89,8 @@ public abstract class TileEntityCoverable extends TileEntityInventory implements
     }
 
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        if (this.coverHandler != null) state = state.withProperties(CoverHandler.COVER_HANDLER_PROPERTY, this.coverHandler);
+    protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
+        if (this.coverHandler != null) return state.withProperty(CoverHandler.COVER_HANDLER_PROPERTY, this.coverHandler);
         return state;
     }
 

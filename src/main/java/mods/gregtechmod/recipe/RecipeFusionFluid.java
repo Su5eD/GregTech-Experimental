@@ -26,7 +26,7 @@ public class RecipeFusionFluid extends RecipeFusion<IRecipeIngredientFluid, Flui
 
         RecipeUtil.validateRecipeInput("fusion", input);
         if (output == null) {
-            GregTechMod.logger.warn("Tried to add a fusion recipe with null output! Invalidating...");
+            GregTechMod.LOGGER.warn("Tried to add a fusion recipe with null output! Invalidating...");
             recipe.invalid = true;
         }
 

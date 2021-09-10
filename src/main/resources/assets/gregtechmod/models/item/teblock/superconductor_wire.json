@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/superconductor_wire/superconductor_wire",
+    "down": "gregtechmod:blocks/machines/superconductor_wire/superconductor_wire",
+    "up": "gregtechmod:blocks/machines/superconductor_wire/superconductor_wire",
+    "north": "gregtechmod:blocks/machines/superconductor_wire/superconductor_wire",
+    "south": "gregtechmod:blocks/machines/superconductor_wire/superconductor_wire",
+    "west": "gregtechmod:blocks/machines/superconductor_wire/superconductor_wire",
+    "east": "gregtechmod:blocks/machines/superconductor_wire/superconductor_wire"
+  }
+}

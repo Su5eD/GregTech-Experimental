@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 
 import ic2.core.IHasGui;
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import mods.gregtechmod.api.item.ISolderingTool;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.gui.GuiHatchMaintenance;
@@ -11,31 +11,25 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerHatchMaintena
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.PropertyHelper;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implements IHasGui {
-    private static final PropertyHelper.TextureOverride DUCT_TAPE_TEXTURE_OVERRIDE;
-    
-    static {
-        Map<EnumFacing, ResourceLocation> textures = Collections.singletonMap(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape"));
-        DUCT_TAPE_TEXTURE_OVERRIDE = new PropertyHelper.TextureOverride(textures);
-    }
+    private static final PropertyHelper.TextureOverride DUCT_TAPE_TEXTURE_OVERRIDE = new PropertyHelper.TextureOverride(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape"));
 
+    @NBTPersistent
     public boolean ductTape;
     private final Maintenance maintenance;
 
@@ -78,29 +72,18 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
     }
 
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
+    protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
+        Ic2BlockStateInstance extendedState = super.getExtendedState(state);
         if (this.ductTape) {
-            return state.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, DUCT_TAPE_TEXTURE_OVERRIDE);
+            return extendedState.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, DUCT_TAPE_TEXTURE_OVERRIDE);
         }
-        return super.getExtendedState(state);
+        return extendedState;
     }
 
     @Override
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("ductTape");
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.ductTape = nbt.getBoolean("ductTape");
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setBoolean("ductTape", this.ductTape);
-        return super.writeToNBT(nbt);
     }
 
     @Override

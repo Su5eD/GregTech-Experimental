@@ -2,11 +2,10 @@
 ---
 - input:
     fluid: steam
-    milliBuckets: 1600
-  energy: 800
+  energy: 500
 - input:
     fluid: ic2steam
-  energy: 1280
+  energy: 800
 - input:
     fluid: ic2superheated_steam
-  energy: 2560
+  energy: 1000

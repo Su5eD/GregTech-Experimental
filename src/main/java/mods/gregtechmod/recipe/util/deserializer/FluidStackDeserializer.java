@@ -29,7 +29,7 @@ public class FluidStackDeserializer extends JsonDeserializer<FluidStack> {
             fluid = FluidRegistry.getFluid(name);
             if (fluid == null) {
                 if (!hasFallback) {
-                    GregTechMod.logger.warn("Unable to find fluid "+name);
+                    GregTechMod.LOGGER.warn("Unable to find fluid "+name);
                 } else {
                     JsonNode fallback = node.get("fallback");
                     return deserialize(fallback, getAmount(fallback));

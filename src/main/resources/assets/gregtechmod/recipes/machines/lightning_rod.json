@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "IAI",
+    "AMA",
+    "IAI"
+  ],
+  "key":
+  {
+    "I":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier04"
+    },
+    "M":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 45
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 33
+  }
+}

@@ -5,14 +5,13 @@ import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.*;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = Reference.MODID, category = "")
 @LangKey(Reference.MODID + ".config.title")
-@Mod.EventBusSubscriber(modid = Reference.MODID)
+@EventBusSubscriber(modid = Reference.MODID)
 public class GregTechConfig {
-
     @LangKey(Reference.MODID + ".config.general")
     public static final General GENERAL = new General();
 
@@ -35,7 +34,7 @@ public class GregTechConfig {
     public static final DisabledRecipes DISABLED_RECIPES = new DisabledRecipes();
 
     public static class General {
-        public boolean connectedMachineCasingTextures = true;
+        public boolean connectedTextures = true;
         @Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
         public boolean dynamicCentrifugeAnimationSpeed = true;
         public boolean hiddenOres = true;
@@ -43,6 +42,7 @@ public class GregTechConfig {
         public boolean woodNeedsSawForCrafting = true;
         public boolean smallerWoodToolDurability = true;
         public boolean smallerStoneToolDurability = true;
+        public boolean enhancedWrenchOverlay = true;
 
         public boolean showCapes = true;
     }
@@ -56,10 +56,6 @@ public class GregTechConfig {
     }
 
     public static class Balance {
-        @Comment("Indicates the amount of 1mb universal steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
-        public double steamMultiplier = 1.6;
-        @Comment("Indicates the amount of 1mb ic2 steam per 1mb ic2 steam. This is used by the steam upgrade to convert all kinds of steam to the same value.")
-        public double superHeatedSteamMultiplier = 2;
         @Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public boolean solarPanelCoverOvervoltageProtection = false;
         public float LVExplosionPower = 2;

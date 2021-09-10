@@ -2,16 +2,17 @@ package mods.gregtechmod.objects.blocks.teblocks.component;
 
 import ic2.core.block.TileEntityBlock;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 
 import java.util.List;
 
 public class CoilHandler extends GtComponentBase {
+    @NBTPersistent
     public int heatingCoilTier;
     private final int coilCount;
     private final Runnable onUpdate;
@@ -64,17 +65,5 @@ public class CoilHandler extends GtComponentBase {
         if (this.heatingCoilTier > 0) list.add(new ItemStack(BlockItems.Component.COIL_KANTHAL.getInstance(), coilCount));
         if (this.heatingCoilTier > 1) list.add(new ItemStack(BlockItems.Component.COIL_NICHROME.getInstance(), coilCount));
         return list;
-    }
-    
-    @Override
-    public void readFromNbt(NBTTagCompound nbt) {
-        this.heatingCoilTier = nbt.getInteger("heatingCoilTier");
-    }
-
-    @Override
-    public NBTTagCompound writeToNbt() {
-        NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setInteger("heatingCoilTier", this.heatingCoilTier);
-        return nbt;
     }
 }

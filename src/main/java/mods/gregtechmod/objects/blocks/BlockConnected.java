@@ -25,7 +25,6 @@ public class BlockConnected extends BlockBase implements ICustomItemModel {
     
     private final String name;
     
-    
     public BlockConnected(String name) {
         super(Material.IRON);
         this.name = name.toLowerCase(Locale.ROOT);
@@ -67,9 +66,11 @@ public class BlockConnected extends BlockBase implements ICustomItemModel {
     }
 
     protected boolean isSideConnectable(IBlockAccess world, BlockPos pos, EnumFacing side) {
-        if (!GregTechConfig.GENERAL.connectedMachineCasingTextures) return false;
-        IBlockState state = world.getBlockState(pos.offset(side));
-        return state.getBlock() == this;
+        if (GregTechConfig.GENERAL.connectedTextures) {
+            IBlockState state = world.getBlockState(pos.offset(side));
+            return state.getBlock() == this;
+        }
+        return false;
     }
 
     @Override

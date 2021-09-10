@@ -16,6 +16,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ModRecipes {
     public static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> MACERATOR = new RecipeManagerBasic<>();
@@ -38,13 +39,23 @@ public class ModRecipes {
     private static void convertBasicRecipes(Iterable<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> recipes,
                                             IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
         recipes.forEach(recipe -> {
-            IRecipeIngredient input = convertInput(recipe.getInput());
+            IRecipeIngredient input = convertRecipeInput(recipe.getInput());
 
             manager.addRecipe(new IC2MachineRecipe(input, new ArrayList<>(recipe.getOutput()), 300, 2));
         });
     }
+    
+    public static List<IRecipeInput> convertRecipeIngredient(IRecipeIngredient ingredient) {
+        int count = ingredient.getCount();
+        if (ingredient instanceof RecipeIngredientOre) return ((RecipeIngredientOre) ingredient).asIngredient().getOres().stream()
+                .map(ore -> Recipes.inputFactory.forOreDict(ore, count))
+                .collect(Collectors.toList());
+        else return ingredient.getMatchingInputs().stream()
+                .map(Recipes.inputFactory::forStack)
+                .collect(Collectors.toList());
+    }
 
-    public static IRecipeIngredient convertInput(IRecipeInput input) {
+    public static IRecipeIngredient convertRecipeInput(IRecipeInput input) {
         if (input instanceof RecipeInputOreDict) return RecipeIngredientOre.create(((RecipeInputOreDict) input).input, input.getAmount());
         else return RecipeIngredientItemStack.create(input.getInputs(), input.getAmount());
     }

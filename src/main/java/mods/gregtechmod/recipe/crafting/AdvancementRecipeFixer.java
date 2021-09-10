@@ -15,7 +15,7 @@ public class AdvancementRecipeFixer {
     public static final Set<IRecipe> REPLACED_RECIPES = new HashSet<>();
     
     public static void fixAdvancementRecipes() {
-        GregTechMod.logger.info("Fixing Advancements");
+        GregTechMod.LOGGER.info("Fixing Advancements");
        
         REPLACED_RECIPES
                 .forEach(recipe -> {

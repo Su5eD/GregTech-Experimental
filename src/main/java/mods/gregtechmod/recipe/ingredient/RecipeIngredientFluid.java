@@ -35,9 +35,9 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
                 .map(FluidRegistry::getFluid)
                 .collect(Collectors.toList());
         if (fluids.isEmpty()) {
-            GregTechMod.logger.error("Tried to a create an IRecipeIngredientFluid with no matching inputs");
+            GregTechMod.LOGGER.error("Tried to a create an IRecipeIngredientFluid with no matching inputs");
         } else if (fluids.contains(null)) {
-            GregTechMod.logger.error("Tried to create an IRecipeIngredientfluid with an invalid fluid among its matching fluids: " + String.join(", ", names));
+            GregTechMod.LOGGER.error("Tried to create an IRecipeIngredientfluid with an invalid fluid among its matching fluids: " + String.join(", ", names));
         } else return fromFluids(fluids, buckets);
 
         return EMPTY;

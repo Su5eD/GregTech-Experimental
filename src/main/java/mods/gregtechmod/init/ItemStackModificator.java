@@ -26,7 +26,7 @@ public class ItemStackModificator {
 
     private static void modifyToolDurability() {
         if (GregTechConfig.GENERAL.smallerWoodToolDurability) {
-            GregTechMod.logger.info("Nerfing Wood Tool Durability");
+            GregTechMod.LOGGER.info("Nerfing Wood Tool Durability");
             Items.WOODEN_SWORD.setMaxDamage(12);
             Items.WOODEN_PICKAXE.setMaxDamage(12);
             Items.WOODEN_SHOVEL.setMaxDamage(12);
@@ -34,7 +34,7 @@ public class ItemStackModificator {
             Items.WOODEN_HOE.setMaxDamage(12);
         }
         if (GregTechConfig.GENERAL.smallerStoneToolDurability) {
-            GregTechMod.logger.info("Nerfing Stone Tool Durability");
+            GregTechMod.LOGGER.info("Nerfing Stone Tool Durability");
             Items.STONE_SWORD.setMaxDamage(48);
             Items.STONE_PICKAXE.setMaxDamage(48);
             Items.STONE_SHOVEL.setMaxDamage(48);

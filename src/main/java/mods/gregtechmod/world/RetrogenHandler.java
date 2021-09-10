@@ -63,7 +63,7 @@ public class RetrogenHandler {
         if (tag != null) {
             boolean generated = GregTechConfig.WORLDGEN.retrogen && !tag.hasKey("generated");
             if (generated) {
-                GregTechMod.logger.debug("Queuing Retrogen for chunk: " + coord + ".");
+                GregTechMod.LOGGER.debug("Queuing Retrogen for chunk: " + coord + ".");
                 regen = true;
             }
         } else {

@@ -11,10 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.IModelState;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -23,7 +20,9 @@ public abstract class ModelBase extends AbstractModel {
     protected final Map<ResourceLocation, TextureAtlasSprite> sprites;
     protected final ResourceLocation particle;
     protected final FaceBakery bakery = new FaceBakery();
-    private final Map<IBlockState, IBakedModel> cache = new ConcurrentHashMap<>();
+    
+    protected boolean enableCache = true;
+    private final Map<String, IBakedModel> cache = new ConcurrentHashMap<>();
     
     public ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
         this(particle, textures.stream()
@@ -33,7 +32,7 @@ public abstract class ModelBase extends AbstractModel {
     }
     
     public ModelBase(ResourceLocation particle, Collection<ResourceLocation> textures) {
-        this.particle = particle;
+        this.particle = Objects.requireNonNull(particle);
         this.sprites = new HashMap<>();
         textures.forEach(loc -> this.sprites.put(loc, null));
         this.sprites.put(particle, null);
@@ -55,7 +54,10 @@ public abstract class ModelBase extends AbstractModel {
     
     @Override
     public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
-        IBakedModel model = this.cache.computeIfAbsent(state, this::generateModel);
+        IBakedModel model;
+        if (this.enableCache) model = this.cache.computeIfAbsent(state.toString(), s -> generateModel(state));
+        else model = generateModel(state);
+        
         return model.getQuads(state, side, rand);
     }
 

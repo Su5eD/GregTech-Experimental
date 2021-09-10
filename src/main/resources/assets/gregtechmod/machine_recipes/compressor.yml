@@ -48,11 +48,6 @@
   output:
     item: gregtechmod:ingot_thorium
 - input:
-    ore: treeSapling
-    count: 4
-  output:
-    item: ic2:crafting#plant_ball
-- input:
     ore: gemPrismarine
     count: 9
   output:

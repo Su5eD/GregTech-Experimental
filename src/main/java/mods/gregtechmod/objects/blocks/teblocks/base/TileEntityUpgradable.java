@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import buildcraft.api.mj.MjAPI;
 import com.mojang.authlib.GameProfile;
+import ic2.core.IC2;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.comp.Fluids.InternalFluidTank;
 import ic2.core.block.invslot.InvSlot;
@@ -16,7 +17,9 @@ import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.compat.buildcraft.MjReceiverWrapper;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
+import mods.gregtechmod.recipe.util.SteamHelper;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -39,8 +42,9 @@ import java.util.stream.Stream;
 
 public abstract class TileEntityUpgradable extends TileEntityEnergy implements IScannerInfoProvider, IUpgradableMachine, IElectricMachine {
     public final UpgradeManager upgradeManager;
-    protected boolean hasSteamUpgrade;
     public Fluids fluids;
+    @NBTPersistent
+    protected boolean hasSteamUpgrade;
     public InternalFluidTank steamTank;
     protected int neededSteam;
     private int extraSinkTier;
@@ -51,7 +55,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     protected TileEntityUpgradable(String descriptionKey) {
         super(descriptionKey);
-        this.upgradeManager = addComponent(new UpgradeManager(this, this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
+        this.upgradeManager = addComponent(new UpgradeManager(this, this::onUpdate, this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
         this.fluids = addComponent(new Fluids(this));
     }
     
@@ -84,7 +88,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public final int getSinkTier() {
         int transformers = getUpgradeCount(IC2UpgradeType.TRANSFORMER);
-        return getBaseSinkTier() + transformers + extraSinkTier;
+        return getBaseSinkTier() + transformers + this.extraSinkTier;
     }
     
     protected abstract int getBaseEUCapacity();
@@ -101,8 +105,8 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     
     @Override
     public int getExtraEUCapacity() {
-        int batteries = getUpgradeCount(IC2UpgradeType.BATTERY) * 10000;
-        return batteries + this.extraEUCapacity;
+        int ic2Batteries = getUpgradeCount(IC2UpgradeType.BATTERY) * 10000;
+        return ic2Batteries + this.extraEUCapacity;
     }
 
     public Fluids.InternalFluidTank createSteamTank() {
@@ -111,12 +115,12 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        if (hasSteamUpgrade) {
-            NBTTagCompound tNBT = new NBTTagCompound();
-            this.steamTank.writeToNBT(tNBT);
-            nbt.setTag("steamTank", tNBT);
+        if (this.hasSteamUpgrade) {
+            NBTTagCompound tag = new NBTTagCompound();
+            this.steamTank.writeToNBT(tag);
+            nbt.setTag("steamTank", tag);
         }
-        if (hasMjUpgrade) {
+        if (this.hasMjUpgrade) {
             nbt.setTag("mj", this.receiver.serializeNBT());
         }
         return super.writeToNBT(nbt);
@@ -127,14 +131,25 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         super.readFromNBT(nbt);
         if (nbt.hasKey("steamTank")) {
             this.hasSteamUpgrade = true;
-            this.steamTank = createSteamTank();
-            this.fluids.addTank(this.steamTank);
+            this.steamTank = this.fluids.addTank(createSteamTank());
             this.steamTank.readFromNBT(nbt.getCompoundTag("steamTank"));
         }
         if (nbt.hasKey("mj")) {
             this.addMjUpgrade();
             this.receiver.deserializeNBT(nbt.getCompoundTag("mj"));
         }
+    }
+
+    @Override
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("upgradeManager");
+        list.add("extraEUCapacity");
+    }
+    
+    private void onUpdate() {
+        IC2.network.get(true).updateTileEntityField(this, "upgradeManager");
+        IC2.network.get(true).updateTileEntityField(this, "extraEUCapacity");
     }
 
     @Override
@@ -226,11 +241,6 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return IC2UpgradeType.DEFAULT;
     }
-    
-    protected boolean canDrainSteam(int requiredAmount) {
-        if (requiredAmount < 1 || this.steamTank == null) return false;
-        return this.steamTank.getFluidAmount() >= requiredAmount;
-    }
      
     @Override
     public double useEnergy(double amount, boolean simulate) {
@@ -238,26 +248,30 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         if (discharged > 0) return discharged;
         else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(amount))) return amount;
         else if (this.hasSteamUpgrade) {
-            int energy = GtUtil.getSteamForEU(amount, this.steamTank.getFluid());
-            if (canDrainSteam(energy)) {
-                this.steamTank.drain(energy, true);
+            int steam = SteamHelper.getSteamForEU(amount, this.steamTank.getFluid());
+            if (steam > 0 && canDrainSteam(steam)) {
+                this.steamTank.drain(steam, true);
                 return amount;
             }
         }
         return 0;
     }
     
+    protected boolean canDrainSteam(int requiredAmount) {
+        return requiredAmount > 0 && this.steamTank != null && this.steamTank.getFluidAmount() >= requiredAmount;
+    }
+    
     @Override
     public double getUniversalEnergy() {
-        double steam = this.hasSteamUpgrade ? this.steamTank.getFluidAmount() * GtUtil.getSteamMultiplier(this.steamTank.getFluid()) : 0;
-        double mj = this.hasMjUpgrade ? MjHelper.toEU(this.receiver.getStored()) : 0;
+        double steam = this.steamTank != null ? SteamHelper.getEUForSteam(this.steamTank.getFluid()) : 0;
+        double mj = this.receiver != null ? MjHelper.toEU(this.receiver.getStored()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
     
     @Override
     public double getUniversalEnergyCapacity() {
-        double steam = this.hasSteamUpgrade ? this.steamTank.getCapacity() * GtUtil.getSteamMultiplier(this.steamTank.getFluid()) : 0;
-        double mj = this.hasMjUpgrade ? MjHelper.toEU(this.receiver.getCapacity()) : 0;
+        double steam = this.steamTank != null ? SteamHelper.getEUForSteam(this.steamTank.getFluid(), this.steamTank.getCapacity()) : 0;
+        double mj = this.receiver != null ? MjHelper.toEU(this.receiver.getCapacity()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
 

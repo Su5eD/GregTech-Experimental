@@ -9,11 +9,11 @@ import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -25,12 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine, IScannerInfoProvider {
-    private final String descriptionKey;
+    protected final String descriptionKey;
     
     public final SidedRedstoneEmitter rsEmitter;
+    @NBTPersistent
     private boolean enableWorking = true;
     private boolean enableWorkingOld = true;
+    @NBTPersistent
     private boolean enableInput = true;
+    @NBTPersistent
     private boolean enableOutput = true;
     protected int tickCounter;
 
@@ -82,22 +85,6 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         }
         
         ++this.tickCounter;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        this.enableInput = nbt.getBoolean("enableInput");
-        this.enableOutput = nbt.getBoolean("enableOutput");
-        this.enableWorking = nbt.getBoolean("enableWorking");
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setBoolean("enableInput", this.enableInput);
-        nbt.setBoolean("enableOutput", this.enableOutput);
-        nbt.setBoolean("enableWorking", this.enableWorking);
-        return super.writeToNBT(nbt);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class TileEntitySemifluidGenerator extends TileEntityFluidGenerator {
     }
 
     @Override
-    protected double getMaxOutputEUp() {
+    public double getMaxOutputEUp() {
         return 8;
     }
 

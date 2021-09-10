@@ -90,7 +90,7 @@ public class ModelBlockConnected extends ModelBase {
         return facing;
     }
     
-    private Map<EnumFacing, Boolean> getConnections(IBlockState state) {
+    protected Map<EnumFacing, Boolean> getConnections(IBlockState state) {
         Map<EnumFacing, Boolean> connections = new HashMap<>();
         connections.put(EnumFacing.DOWN, state.getValue(BlockConnected.CONNECTED_DOWN));
         connections.put(EnumFacing.UP, state.getValue(BlockConnected.CONNECTED_UP));

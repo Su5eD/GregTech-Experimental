@@ -87,7 +87,7 @@ public class MachineRecipeLoader {
     }
 
     private static void registerMatterAmplifiers() {
-        GregTechMod.logger.info("Adding matter amplifiers");
+        GregTechMod.LOGGER.info("Adding matter amplifiers");
         
         addMatterAmplifier("dustElectrotine", 5000);
         addMatterAmplifier("dustTungsten", 50000);
@@ -115,7 +115,7 @@ public class MachineRecipeLoader {
     }
 
     private static void addScrapboxDrops() {
-        GregTechMod.logger.info("Adding Scrapbox drops");
+        GregTechMod.LOGGER.info("Adding Scrapbox drops");
         Recipes.scrapboxDrops.addDrop(IC2Items.getItem("crafting", "scrap"), 200);
         addScrapboxDrop(Items.WOODEN_AXE, 2);
         addScrapboxDrop(Items.WOODEN_SWORD, 2);
@@ -171,7 +171,7 @@ public class MachineRecipeLoader {
     }
 
     public static void loadRecyclerBlackList() {
-        GregTechMod.logger.info("Adding stuff to the Recycler blacklist");
+        GregTechMod.LOGGER.info("Adding stuff to the Recycler blacklist");
 
         if (GregTechConfig.DISABLED_RECIPES.easyMobGrinderRecycling) {
             addToRecyclerBlacklist(Items.ARROW);

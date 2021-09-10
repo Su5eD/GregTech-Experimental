@@ -4,7 +4,6 @@ import com.google.common.base.Predicates;
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.block.comp.Fluids;
-import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
 import ic2.core.block.invslot.InvSlotConsumableLiquidByTank;
@@ -18,7 +17,7 @@ import net.minecraft.util.EnumFacing;
 import java.util.Collection;
 import java.util.function.Function;
 
-public class BasicTank extends TileEntityComponent {
+public class BasicTank extends GtComponentBase {
     public GtFluidTank content;
     public final InvSlotConsumableLiquid inputSlot;
     public final InvSlotOutput outputSlot;
@@ -43,6 +42,7 @@ public class BasicTank extends TileEntityComponent {
         this.slowProcessing = slowProcessing;
     }
     
+    @SuppressWarnings("Guava")
     private static GtFluidTank getDefaultFluidTank(ICoverable parent, int capacity, Collection<EnumFacing> inputSides, Collection<EnumFacing> outputSides) {
         return new GtFluidTank(parent, "content", inputSides, outputSides, Predicates.alwaysTrue(), capacity);
     }
@@ -67,8 +67,6 @@ public class BasicTank extends TileEntityComponent {
 
     @Override
     public NBTTagCompound writeToNbt() {
-        NBTTagCompound nbt = new NBTTagCompound();
-        this.content.writeToNBT(nbt);
-        return nbt;
+        return this.content.writeToNBT(new NBTTagCompound());
     }
 }

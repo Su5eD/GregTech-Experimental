@@ -21,7 +21,7 @@ public class RailcraftHelper {
                 fieldRandomChance.setAccessible(true);
                 handleRandomChanceGetter = MethodHandles.lookup().unreflectGetter(fieldRandomChance);
             } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-                GregTechMod.logger.catching(e);
+                GregTechMod.LOGGER.catching(e);
             }
         }
 
@@ -34,7 +34,7 @@ public class RailcraftHelper {
             try {
                 return (float) RANDOM_CHANCE_GETTER.invoke(genRule);
             } catch (Throwable t) {
-                GregTechMod.logger.catching(t);
+                GregTechMod.LOGGER.catching(t);
             }
         }
 

@@ -6,6 +6,7 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -20,24 +21,28 @@ public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverize
         overwrite |= recipe.shouldOverwrite();
         boolean ret = super.addRecipe(recipe, overwrite);
         if (ret && recipe.isUniversal()) {
-            IRecipeIngredient input = recipe.getInput();
-            int count = input.getCount();
-            for (ItemStack stack : input.getMatchingInputs()) {
-                addPulverisationRecipe(StackUtil.copyWithSize(stack, count), recipe.getPrimaryOutput(), recipe.getSecondaryOutput(), recipe.getChance(), overwrite);
-            }
+            addPulverisationRecipe(recipe.getInput(), recipe.getPrimaryOutput(), recipe.getSecondaryOutput(), recipe.getChance(), overwrite);
         }
         return ret;
+    }
+    
+    private static void addPulverisationRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
+        ModRecipes.convertRecipeIngredient(input)
+                .forEach(recipeInput -> ModHandler.addIC2Recipe((BasicMachineRecipeManager) Recipes.macerator, recipeInput, null, overwrite, primaryOutput));
+        
+        int count = input.getCount();
+        input.getMatchingInputs().stream()
+                .map(stack -> StackUtil.copyWithSize(stack, count))
+                .forEach(stack -> addPulverisationRecipe(stack, primaryOutput, secondaryOutput, chance, overwrite));
     }
 
     private static void addPulverisationRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
         if (!input.getItem().hasContainerItem(input)) {
-            ModHandler.addIC2Recipe((BasicMachineRecipeManager) Recipes.macerator, Recipes.inputFactory.forStack(input), null, overwrite, primaryOutput);
-
             if (!OreDictUnificator.isItemInstanceOf(primaryOutput, "dustWood", false) && !OreDictUnificator.isItemInstanceOf(primaryOutput, "dustSmallWood", false)) {
                 if (OreDictUnificator.isItemInstanceOf(input, "ingot", true)) ModHandler.addAEGrinderRecipe(input, primaryOutput, 5);
                 if (!input.isItemEqual(new ItemStack(Blocks.OBSIDIAN))) {
                     Map<ItemStack, Float> outputs = new HashMap<>();
-                    outputs.put(primaryOutput.copy(), 1F / input.getCount());
+                    outputs.put(primaryOutput.copy(), 1 / (float) input.getCount());
                     if (!secondaryOutput.isEmpty()) outputs.put(secondaryOutput.copy(), 0.01F * (chance <= 0 ? 10 : chance) / input.getCount());
                     ModHandler.addRockCrusherRecipe(input.copy().splitStack(1), outputs);
                 }

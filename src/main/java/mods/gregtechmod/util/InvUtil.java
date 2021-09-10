@@ -30,7 +30,7 @@ public class InvUtil {
             handleGetInventorySlot = lookup.unreflect(methodGetInventorySlot);
             handleInvSlots = lookup.unreflectGetter(fieldInvSlots);
         } catch (NoSuchMethodException | IllegalAccessException | NoSuchFieldException e) {
-            GregTechMod.logger.catching(e);
+            GregTechMod.LOGGER.catching(e);
             handleGetInventorySlot = handleInvSlots = null;
         }
 
@@ -43,7 +43,7 @@ public class InvUtil {
         try {
             return (InvSlot) GET_INVENTORY_SLOT.invokeExact(instance, index);
         } catch (Throwable t) {
-            GregTechMod.logger.catching(t);
+            GregTechMod.LOGGER.catching(t);
             return null;
         }
     }
@@ -53,7 +53,7 @@ public class InvUtil {
         try {
             return (List<InvSlot>) INVENTORY_SLOTS.invokeExact(instance);
         } catch (Throwable t) {
-            GregTechMod.logger.catching(t);
+            GregTechMod.LOGGER.catching(t);
             return Collections.emptyList();
         }
     }

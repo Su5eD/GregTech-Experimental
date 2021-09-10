@@ -39,7 +39,7 @@ public class TileEntityUniversalMacerator extends TileEntityBasicMachineSingleIn
         StreamSupport.stream(Recipes.macerator.getRecipes().spliterator(), false)
                 .collect(Collectors.toList())
                 .stream()
-                .map(recipe -> RecipePulverizer.create(ModRecipes.convertInput(recipe.getInput()), new ArrayList<>(recipe.getOutput()), 2, 0, false, false))
+                .map(recipe -> RecipePulverizer.create(ModRecipes.convertRecipeInput(recipe.getInput()), new ArrayList<>(recipe.getOutput()), 2, 0, false, false))
                 .forEach(GtRecipes.pulverizer::addRecipe);
     }
 

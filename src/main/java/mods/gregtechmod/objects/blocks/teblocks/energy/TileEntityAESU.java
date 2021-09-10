@@ -1,0 +1,78 @@
+package mods.gregtechmod.objects.blocks.teblocks.energy;
+
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
+import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.gui.GuiAESU;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerAESU;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
+import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.nbt.NBTPersistent;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+public class TileEntityAESU extends TileEntityChargerBase {
+    @NBTPersistent
+    public int outputVoltage;
+    
+    private final int tier;
+    public final int maxOutputVoltage;
+
+    public TileEntityAESU() {
+        super("aesu");
+        this.tier = GregTechMod.classic ? 4 : 5;
+        this.maxOutputVoltage = GregTechMod.classic ? 2048 : 8192;
+    }
+
+    @Override
+    public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
+        return Collections.singleton(IC2UpgradeType.BATTERY);
+    }
+
+    @Override
+    public Set<GtUpgradeType> getCompatibleGtUpgrades() {
+        return Collections.singleton(GtUpgradeType.BATTERY);
+    }
+
+    @Override
+    public int getBaseSinkTier() {
+        return this.tier;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return this.tier;
+    }
+
+    @Override
+    protected int getBaseEUCapacity() {
+        return 100000000;
+    }
+
+    @Override
+    public double getMaxOutputEUp() {
+        return this.outputVoltage;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
+        super.addInformation(stack, tooltip, advanced);
+        tooltip.set(3, GtUtil.translate("teblock.aesu.max_energy_out", this.maxOutputVoltage));
+    }
+
+    @Override
+    public ContainerEnergyStorage<TileEntityAESU> getGuiContainer(EntityPlayer player) {
+        return new ContainerAESU(player, this);
+    }
+
+    @Override
+    public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
+        return new GuiAESU(getGuiContainer(player));
+    }
+}

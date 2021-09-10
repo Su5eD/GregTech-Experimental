@@ -22,9 +22,9 @@ import java.util.Locale;
 public class OreDictRegistrar {
 
     public static void registerItems() {
-        GregTechMod.logger.debug("Adding certain items to the OreDict unification blacklist");
+        GregTechMod.LOGGER.debug("Adding certain items to the OreDict unification blacklist");
 
-        GregTechMod.logger.debug("Registering GregTech items to the Ore Dictionary");
+        GregTechMod.LOGGER.debug("Registering GregTech items to the Ore Dictionary");
 
         Arrays.stream(BlockItems.Block.values())
                 .forEach(block -> registerOre("block", block.name().toLowerCase(Locale.ROOT), block.getInstance()));
@@ -122,7 +122,7 @@ public class OreDictRegistrar {
                 .filter(misc -> misc.oreDict != null)
                 .forEach(misc -> registerOre(misc.oreDict, misc.getInstance()));
 
-        GregTechMod.logger.debug("Adding vanilla items to the Ore Dictionary");
+        GregTechMod.LOGGER.debug("Adding vanilla items to the Ore Dictionary");
 
         registerOre("soulsand", Blocks.SOUL_SAND);
         registerOre("chunkLazurite", Blocks.LAPIS_BLOCK);
@@ -209,7 +209,7 @@ public class OreDictRegistrar {
         registerOre("itemRecord", Items.RECORD_WAIT);
         registerOre("itemRecord", Items.RECORD_WARD);
 
-        GregTechMod.logger.debug("Registering unification entries");
+        GregTechMod.LOGGER.debug("Registering unification entries");
 
         OreDictUnificator.add("oreCoal", Blocks.COAL_ORE);
         OreDictUnificator.add("oreIron", Blocks.IRON_ORE);
@@ -251,7 +251,7 @@ public class OreDictRegistrar {
         OreDictUnificator.add("stickWood", Items.STICK);
         OreDictUnificator.add("crystalNetherQuartz", Items.QUARTZ);
 
-        GregTechMod.logger.debug("Registering other mods' unification targets");
+        GregTechMod.LOGGER.debug("Registering other mods' unification targets");
 
         if (GregTechConfig.UNIFICATION.forestry && ModHandler.forestry) {
             OreDictUnificator.override("ingotCopper", ModHandler.getFRItem("ingot_copper"));
@@ -346,7 +346,7 @@ public class OreDictRegistrar {
             OreDictUnificator.override("nuggetLead", ModHandler.getTCItem("nugget", 4));
         }
 
-        GregTechMod.logger.debug("Registering GT/IC2 circuitry and similar to the Ore Dictionary");
+        GregTechMod.LOGGER.debug("Registering GT/IC2 circuitry and similar to the Ore Dictionary");
 
         registerOre("itemIridium", IC2Items.getItem("misc_resource", "iridium_ore"));
         registerOre("glassReinforced", IC2Items.getItem("glass", "reinforced"));
