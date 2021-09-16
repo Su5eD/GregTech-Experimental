@@ -23,32 +23,49 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @NotExperimental
 public class ItemCellClassic extends ItemBase {
-    private final Fluid fluid;
-
-    public ItemCellClassic(String name, String description, Fluid fluid) {
-        super(name, description);
-        this.fluid = fluid;
-        setFolder("cell/classic");
-        setRegistryName("cell_classic_"+name);
-        setTranslationKey("cell_classic_"+name);
-        if (GregTechMod.classic) setCreativeTab(GregTechMod.GREGTECH_TAB);
-    }
-
+    
     static {
         try {
             GregTechMod.LOGGER.info("Injecting custom CellFluidHandler into ItemClassicCell");
             Field capsField = ItemIC2.class.getDeclaredField("caps");
             capsField.setAccessible(true);
             ItemClassicCell cell = ItemName.cell.getInstance();
+            //noinspection unchecked
             Map<Capability<?>, com.google.common.base.Function<ItemStack, ?>> caps = (Map<Capability<?>, com.google.common.base.Function<ItemStack, ?>>) capsField.get(cell);
             caps.put(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, ItemCellClassic::getHandler);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             GregTechMod.LOGGER.catching(e);
         }
+    }
+
+    private final Fluid fluid;
+
+    public ItemCellClassic(String name, String description, Fluid fluid) {
+        super(name, description);
+        this.fluid = fluid;
+        setFolder("cell/classic");
+        setRegistryName("cell_classic_" + name);
+        setTranslationKey("cell_classic_" + name);
+        if (GregTechMod.classic) setCreativeTab(GregTechMod.GREGTECH_TAB);
+    }
+
+    private static GtCellFluidHandler getHandler(ItemStack stack) {
+        Item item = stack.getItem();
+        if (item instanceof ItemCellClassic) {
+            return new GtCellFluidHandler(stack);
+        } else if (item instanceof ItemClassicCell) {
+            ItemClassicCell cell = ItemName.cell.getInstance();
+            CellType type = cell.getType(stack);
+
+            if (type != null && type.isFluidContainer()) {
+                return new GtCellFluidHandler(stack, cell::getType);
+            }
+        }
+
+        return null;
     }
 
     @Nullable
@@ -69,6 +86,7 @@ public class ItemCellClassic extends ItemBase {
             return capability == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY;
         }
 
+        @SuppressWarnings("unchecked")
         @Nullable
         @Override
         public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
@@ -80,70 +98,53 @@ public class ItemCellClassic extends ItemBase {
         }
     }
 
-    private static GtCellFluidHandler getHandler(ItemStack stack) {
-        Item item = stack.getItem();
-        if (item instanceof ItemClassicCell) {
-            ItemClassicCell cell = ItemName.cell.getInstance();
-            CellType type = cell.getType(stack);
-
-            if (type != null && type.isFluidContainer()) {
-                return new GtCellFluidHandler(stack, cell::getType);
-            }
-        } else if (item instanceof ItemCellClassic) {
-            return new GtCellFluidHandler(() -> ((ItemCellClassic) item).fluid, stack);
-        }
-
-        return null;
-    }
-
     public static class GtCellFluidHandler extends CellType.CellFluidHandler {
-        private final Supplier<Fluid> fluidSupplier;
 
-        public GtCellFluidHandler(Supplier<Fluid> fluidSupplier, ItemStack container) {
-            super(container, stack -> CellType.empty);
-            this.fluidSupplier = fluidSupplier;
+        public GtCellFluidHandler(ItemStack container) {
+            this(container, stack -> CellType.empty);
         }
 
         public GtCellFluidHandler(ItemStack container, Function<ItemStack, CellType> typeGetter) {
             super(container, typeGetter);
-            this.fluidSupplier = () -> null;
+        }
+
+        private static boolean isValidFluid(Fluid fluid) {
+            return fluid != null && BlockItems.classicCells.containsKey(fluid.getName());
+        }
+
+        @Nullable
+        private Fluid getContainedFluid() {
+            Item item = this.container.getItem();
+            return item instanceof ItemCellClassic ? ((ItemCellClassic) item).fluid : null;
         }
 
         @Override
         public FluidStack getFluid() {
-            Fluid fluid = this.fluidSupplier.get();
-            if (fluid != null) return new FluidStack(fluid, Fluid.BUCKET_VOLUME);
-
-            return super.getFluid();
-        }
-
-        @Override
-        public boolean canFillFluidType(FluidStack stack) {
-            if (stack == null) return false;
-            Fluid fluid = stack.getFluid();
-            return super.canFillFluidType(stack) || this.fluidSupplier.get() == null && super.typeGetter.get() == CellType.empty && isValidFluid(fluid);
+            Fluid fluid = getContainedFluid();
+            return fluid != null ? new FluidStack(fluid, Fluid.BUCKET_VOLUME) : super.getFluid();
         }
 
         @Override
         protected void setFluid(FluidStack stack) {
-            String name;
             if (stack == null) {
-                if (this.fluidSupplier.get() != null) {
+                if (getContainedFluid() != null) {
                     this.container = ItemName.cell.getItemStack(CellType.empty);
                     return;
                 }
-            } else if (super.typeGetter.get() == CellType.empty && this.fluidSupplier.get() == null && BlockItems.classicCells.containsKey(name = stack.getFluid().getName())){
-                this.container = new ItemStack(BlockItems.classicCells.get(name));
-                return;
+            } else {
+                String name = stack.getFluid().getName();
+                if (this.typeGetter.get() == CellType.empty && getContainedFluid() == null && BlockItems.classicCells.containsKey(name)) {
+                    this.container = new ItemStack(BlockItems.classicCells.get(name));
+                    return;
+                }
             }
 
             super.setFluid(stack);
         }
 
-        private static boolean isValidFluid(Fluid fluid) {
-            if (fluid == null) return false;
-
-            return BlockItems.classicCells.containsKey(fluid.getName());
+        @Override
+        public boolean canFillFluidType(FluidStack stack) {
+            return super.canFillFluidType(stack) || getContainedFluid() == null && this.typeGetter.get() == CellType.empty && isValidFluid(stack.getFluid());
         }
     }
 }
