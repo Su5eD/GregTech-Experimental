@@ -45,11 +45,6 @@ public class TileEntityIDSU extends TileEntityChargerBase {
     }
 
     @Override
-    public double getStoredEU() {
-        return this.wrapper.getEnergy();
-    }
-
-    @Override
     public ContainerEnergyStorage<?> getGuiContainer(EntityPlayer player) {
         return new ContainerIDSU(player, this);
     }
@@ -60,6 +55,11 @@ public class TileEntityIDSU extends TileEntityChargerBase {
     }
     
     public class IDSUEnergy extends DynamicAdjustableEnergy {
+
+        @Override
+        public double getStoredEnergy() {
+            return TileEntityIDSU.this.wrapper.getEnergy();
+        }
 
         @Override
         protected double injectEnergy(double amount) {
