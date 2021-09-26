@@ -57,7 +57,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (hand != EnumHand.MAIN_HAND) return true;
+        if (this.world.isRemote || hand != EnumHand.MAIN_HAND) return true;
         ItemStack stack = player.getHeldItem(hand);
         if (GtUtil.isWrench(stack) || addUpgrade(stack, player)) return true;
 

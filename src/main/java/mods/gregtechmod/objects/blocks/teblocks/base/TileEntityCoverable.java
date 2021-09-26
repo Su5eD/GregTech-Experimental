@@ -112,7 +112,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
 
     @Override
     public Collection<? extends ICover> getCovers() {
-        return coverHandler.covers.values();
+        return this.coverHandler.covers.values();
     }
 
     @Override

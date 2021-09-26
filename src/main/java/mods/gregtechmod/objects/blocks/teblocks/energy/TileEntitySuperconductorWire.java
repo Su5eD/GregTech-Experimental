@@ -8,6 +8,7 @@ import ic2.api.energy.tile.IEnergyTile;
 import ic2.core.IC2;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
+import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
@@ -25,6 +26,8 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     
     public TileEntitySuperconductorWire() {
         super(null);
+        
+        this.coverBlacklist.addAll(CoverType.VALUES);
     }
 
     @Override

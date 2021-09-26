@@ -52,18 +52,20 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     protected final boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        ItemStack stack = player.inventory.getCurrentItem();
-        if (player.isSneaking()) return false;
-        else if (beforeActivated(stack, player, side) 
-                || this.coverHandler.covers.containsKey(side) && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ) 
-                || this.world.isRemote) return true;
-        
-        for (ICover cover : coverHandler.covers.values()) {
-            if (!cover.opensGui(side)) return true;
-        }
-        
-        for (TileEntityComponent component : this.getComponents()) {
-            if (component instanceof GtComponentBase && ((GtComponentBase) component).onActivated(player, hand, side, hitX, hitY, hitZ)) return true;
+        if (!this.world.isRemote) {
+            ItemStack stack = player.inventory.getCurrentItem();
+            if (player.isSneaking()) return false;
+            else if (beforeActivated(stack, player, side) 
+                    || this.coverHandler.covers.containsKey(side) 
+                    && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
+            
+            for (ICover cover : this.coverHandler.covers.values()) {
+                if (!cover.opensGui(side)) return true;
+            }
+            
+            for (TileEntityComponent component : this.getComponents()) {
+                if (component instanceof GtComponentBase && ((GtComponentBase) component).onActivated(player, hand, side, hitX, hitY, hitZ)) return true;
+            }
         }
         
         return onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
@@ -135,8 +137,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     protected boolean canConnectRedstone(EnumFacing side) {
         if (side != null) {
             EnumFacing oppositeSide = side.getOpposite();
-            if (coverHandler.covers.containsKey(oppositeSide)) {
-                ICover cover = coverHandler.covers.get(oppositeSide);
+            if (this.coverHandler.covers.containsKey(oppositeSide)) {
+                ICover cover = this.coverHandler.covers.get(oppositeSide);
                 return cover.letsRedstoneIn() || cover.letsRedstoneOut() || cover.acceptsRedstone() || cover.overrideRedstoneOut();
             }
         }

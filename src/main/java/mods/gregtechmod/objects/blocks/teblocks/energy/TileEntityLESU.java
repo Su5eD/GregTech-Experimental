@@ -133,7 +133,7 @@ public class TileEntityLESU extends TileEntityChargerBase {
 
         return Arrays.stream(EnumFacing.VALUES)
                 .map(pos::offset)
-                .filter(offset -> isLESUStorage(world, offset) && !list.contains(offset))
+                .filter(offset -> isLESUStorage(this.world, offset) && !list.contains(offset))
                 .mapToInt(offset -> stepToGetLESUAmount(offset, list))
                 .sum() + 1;
     }
