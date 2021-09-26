@@ -80,7 +80,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     THERMAL_BOILER(TileEntityThermalBoiler.class, 42, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     LARGE_STEAM_TURBINE(TileEntityLargeSteamTurbine.class, 43, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     LARGE_GAS_TURBINE(TileEntityLargeGasTurbine.class, 44, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
-    SUPERCONDENSATOR(TileEntitySupercondensator.class, 45, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    SUPERCONDENSATOR(TileEntitySupercondensator.class, 45, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     SUPERCONDUCTOR_WIRE(TileEntitySuperconductorWire.class, 46, false, Util.noFacings, false, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, ModelType.CONNECTED),
     LESU(TileEntityLESU.class, 47, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     AESU(TileEntityAESU.class, 48, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
