@@ -890,6 +890,7 @@ gregtechmod.teblock.aesu=AESU
 gregtechmod.teblock.aesu.description=Adjustable Energy Storage Unit
 gregtechmod.teblock.idsu=IDSU
 gregtechmod.teblock.idsu.description=Interdimensional Storage Unit
+gregtechmod.teblock.computer_cube=GregTech Computer Cube
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

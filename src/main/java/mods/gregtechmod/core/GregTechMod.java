@@ -10,6 +10,7 @@ import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
@@ -73,6 +74,7 @@ public final class GregTechMod {
 
         RegistryHandler.registerFluids();
         RegistryHandler.registerComponents();
+        TileEntityComputerCube.Module.registerModules();
         DataEncoder.addNetworkEncoder(IDSUData.EnergyWrapper.class, new IDSUData.EnergyWrapper.EnergyWrapperEncoder());
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
         

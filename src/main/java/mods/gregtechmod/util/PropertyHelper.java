@@ -3,6 +3,7 @@ package mods.gregtechmod.util;
 import ic2.core.block.state.UnlistedBooleanProperty;
 import ic2.core.block.state.UnlistedEnumProperty;
 import ic2.core.block.state.UnlistedProperty;
+import ic2.core.util.Util;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
@@ -11,6 +12,8 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PropertyHelper {
     public static final IUnlistedProperty<Boolean> CONNECTED_DOWN = new UnlistedBooleanProperty("connected_down");
@@ -45,6 +48,10 @@ public class PropertyHelper {
 
     public static class TextureOverride {
         private final Map<EnumFacing, ResourceLocation> overrides;
+        
+        public TextureOverride(ResourceLocation texture) {
+            this(Util.allFacings.stream().collect(Collectors.toMap(Function.identity(), f -> texture)));
+        }
         
         public TextureOverride(EnumFacing facing, ResourceLocation texture) {
             this(Collections.singletonMap(facing, texture));

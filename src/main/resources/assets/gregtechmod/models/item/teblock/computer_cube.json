@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/computer_cube/computer_cube_logo",
+    "down": "gregtechmod:blocks/machines/computer_cube/computer_cube_logo",
+    "up": "gregtechmod:blocks/machines/computer_cube/computer_cube_logo",
+    "north": "gregtechmod:blocks/machines/computer_cube/computer_cube_logo",
+    "south": "gregtechmod:blocks/machines/computer_cube/computer_cube_logo",
+    "west": "gregtechmod:blocks/machines/computer_cube/computer_cube_logo",
+    "east": "gregtechmod:blocks/machines/computer_cube/computer_cube_logo"
+  }
+}

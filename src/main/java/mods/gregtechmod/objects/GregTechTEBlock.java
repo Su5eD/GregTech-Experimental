@@ -14,6 +14,7 @@ import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.*;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.objects.blocks.teblocks.energy.*;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.*;
@@ -84,7 +85,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     SUPERCONDUCTOR_WIRE(TileEntitySuperconductorWire.class, 46, false, Util.noFacings, false, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, ModelType.CONNECTED),
     LESU(TileEntityLESU.class, 47, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     AESU(TileEntityAESU.class, 48, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
-    IDSU(TileEntityIDSU.class, 49, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE);
+    IDSU(TileEntityIDSU.class, 49, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    COMPUTER_CUBE(TileEntityComputerCube.class, 50, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();

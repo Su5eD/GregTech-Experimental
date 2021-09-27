@@ -1,8 +1,11 @@
 package mods.gregtechmod.util.nbt;
 
 import com.mojang.authlib.GameProfile;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,23 @@ public final class Serializers {
     
     public static NBTTagCompound serializeGameProfile(GameProfile profile) {
         return NBTUtil.writeGameProfile(new NBTTagCompound(), profile);
+    }
+    
+    public static NBTTagCompound serializeComputerCubeModule(IComputerCubeModule module) {
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setString("name", module.getName().toString());
+        NBTTagCompound data = new NBTTagCompound();
+        NBTSaveHandler.writeClassToNBT(module, data);
+        tag.setTag("data", data);
+        return tag;
+    }
+    
+    public static IComputerCubeModule deserializeComputerCubeModule(NBTTagCompound nbt) {
+        ResourceLocation name = new ResourceLocation(nbt.getString("name"));
+        IComputerCubeModule module = ComputerCubeModules.getModule(name);
+        NBTTagCompound data = nbt.getCompoundTag("data");
+        NBTSaveHandler.readClassFromNBT(module, data);
+        return module;
     }
 
     public static class ItemStackListNBTSerializer implements INBTSerializer<List<ItemStack>, NBTTagList> {
