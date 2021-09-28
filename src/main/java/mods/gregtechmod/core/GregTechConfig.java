@@ -53,6 +53,8 @@ public class GregTechConfig {
         public int digitalChestMaxItemCount = 32768;
         @RangeInt(min = 1, max = 64)
         public int upgradeStackSize = 4;
+        @Comment("Enables the Reactor Planner Computer Cube module")
+        public boolean reactorPlanner = true;
     }
 
     public static class Balance {
@@ -121,6 +123,7 @@ public class GregTechConfig {
         public boolean retrogen = true;
         public boolean generateInVoid = false;
 
+        // TODO Use suppliers
         @RequiresMcRestart
         public boolean galena = true;
         @RequiresMcRestart

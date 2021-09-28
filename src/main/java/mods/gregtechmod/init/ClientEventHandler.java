@@ -55,7 +55,6 @@ public class ClientEventHandler {
         ItemStack dustCopper = IC2Items.getItem("dust", "copper");
         ItemStack dustTin = IC2Items.getItem("dust", "tin");
         ItemStack dustBronze = IC2Items.getItem("dust", "bronze");
-        // TODO Actually contribute to EnergyControl and remove ugly registration from API (URGENT)
         ItemStack sensorKit = ModHandler.getModItem("energycontrol", "item_kit", 800);
         ItemStack sensorCard = ModHandler.getModItem("energycontrol", "item_card", 800);
         
@@ -207,40 +206,41 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void registerIcons(TextureStitchEvent.Pre event) {
         TextureMap map = event.getMap();
-        String path = "blocks/covers/";
-        String centrifuge = "blocks/machines/centrifuge/";
+        String covers = "blocks/covers/";
+        String machines = "blocks/machines/";
         
         Stream.of(
-                path + "adv_machine_vent",
-                path + "adv_machine_vent_rotating",
-                centrifuge + "centrifuge_top_active2",
-                centrifuge + "centrifuge_top_active3",
-                centrifuge + "centrifuge_side_active2",
-                centrifuge + "centrifuge_side_active3",
-                "blocks/machines/adv_machine_screen_random", //TODO: Remove when implemented in another machine
-                path + "machine_vent_rotating",
-                path + "drain",
-                path + "active_detector",
-                path + "eu_meter",
-                path + "item_meter",
-                path + "liquid_meter",
-                path + "normal",
-                path + "noredstone",
-                path + "machine_controller",
-                path + "solar_panel",
-                path + "crafting",
-                path + "conveyor",
-                path + "pump",
-                path + "valve",
-                path + "energy_only",
-                path + "redstone_only",
-                path + "redstone_conductor",
-                path + "redstone_signalizer",
-                "blocks/machines/machine_top_pipe",
-                "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape",
-                "blocks/machines/lesu/lesu_lv_out",
-                "blocks/machines/lesu/lesu_mv_out",
-                "blocks/machines/lesu/lesu_hv_out"
+                covers + "adv_machine_vent",
+                covers + "adv_machine_vent_rotating",
+                machines + "centrifuge/centrifuge_top_active2",
+                machines + "centrifuge/centrifuge_top_active3",
+                machines + "centrifuge/centrifuge_side_active2",
+                machines + "centrifuge/centrifuge_side_active3",
+                machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
+                covers + "machine_vent_rotating",
+                covers + "drain",
+                covers + "active_detector",
+                covers + "eu_meter",
+                covers + "item_meter",
+                covers + "liquid_meter",
+                covers + "normal",
+                covers + "noredstone",
+                covers + "machine_controller",
+                covers + "solar_panel",
+                covers + "crafting",
+                covers + "conveyor",
+                covers + "pump",
+                covers + "valve",
+                covers + "energy_only",
+                covers + "redstone_only",
+                covers + "redstone_conductor",
+                covers + "redstone_signalizer",
+                machines + "machine_top_pipe",
+                machines + "hatch_maintenance/hatch_maintenance_front_ducttape", 
+                machines + "lesu/lesu_lv_out",
+                machines + "lesu/lesu_mv_out",
+                machines + "lesu/lesu_hv_out",
+                machines + "computer_cube/computer_cube_reactor"
         )
                 .map(str -> new ResourceLocation(Reference.MODID, str))
                 .forEach(map::registerSprite);

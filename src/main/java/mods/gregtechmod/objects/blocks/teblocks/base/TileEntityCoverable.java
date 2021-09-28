@@ -98,14 +98,8 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
     public ICover getCoverAtSide(EnumFacing side) {
         return this.coverHandler.covers.get(side);
     }
-
-    @Override
-    public final List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        getNetworkedFields(ret);
-        return ret;
-    }
     
+    @Override
     public void getNetworkedFields(List<? super String> list) {
         list.add("coverHandler");
     }

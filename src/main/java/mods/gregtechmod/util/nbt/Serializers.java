@@ -1,8 +1,11 @@
 package mods.gregtechmod.util.nbt;
 
 import com.mojang.authlib.GameProfile;
+import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube.ComputerCubeModuleComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;
@@ -29,21 +32,39 @@ public final class Serializers {
         return NBTUtil.writeGameProfile(new NBTTagCompound(), profile);
     }
     
-    public static NBTTagCompound serializeComputerCubeModule(IComputerCubeModule module) {
-        NBTTagCompound tag = new NBTTagCompound();
-        tag.setString("name", module.getName().toString());
-        NBTTagCompound data = new NBTTagCompound();
-        NBTSaveHandler.writeClassToNBT(module, data);
-        tag.setTag("data", data);
-        return tag;
+    public static NBTTagCompound serializeInvSlot(InvSlot slot) {
+        NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setInteger("size", slot.size());
+        slot.writeToNbt(nbt);
+        return nbt;
     }
     
-    public static IComputerCubeModule deserializeComputerCubeModule(NBTTagCompound nbt) {
-        ResourceLocation name = new ResourceLocation(nbt.getString("name"));
-        IComputerCubeModule module = ComputerCubeModules.getModule(name);
-        NBTTagCompound data = nbt.getCompoundTag("data");
-        NBTSaveHandler.readClassFromNBT(module, data);
-        return module;
+    public static InvSlot deserializeInvSlot(NBTTagCompound nbt) {
+        int size = nbt.getInteger("size");
+        InvSlot slot = new InvSlot(size);
+        slot.readFromNbt(nbt);
+        return slot;
+    }
+    
+    static class ComputerCubeModuleSerializer implements INBTSerializer<IComputerCubeModule, NBTTagCompound> {
+        @Override
+        public NBTTagCompound serialize(IComputerCubeModule value) {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setString("name", value.getName().toString());
+            NBTTagCompound data = new NBTTagCompound();
+            NBTSaveHandler.writeClassToNBT(value, data);
+            tag.setTag("data", data);
+            return tag;
+        }
+
+        @Override
+        public IComputerCubeModule deserialize(NBTTagCompound nbt, Object instance, Class<?> cls) {
+            ResourceLocation name = new ResourceLocation(nbt.getString("name"));
+            IComputerCubeModule module = ComputerCubeModules.getModule(name, (TileEntityComputerCube) ((ComputerCubeModuleComponent) instance).getParent());
+            NBTTagCompound data = nbt.getCompoundTag("data");
+            NBTSaveHandler.readClassFromNBT(module, data);
+            return module;
+        }
     }
 
     public static class ItemStackListNBTSerializer implements INBTSerializer<List<ItemStack>, NBTTagList> {

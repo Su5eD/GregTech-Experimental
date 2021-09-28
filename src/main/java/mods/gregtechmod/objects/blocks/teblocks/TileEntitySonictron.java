@@ -9,12 +9,14 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiSonictron;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityAutoNBT;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerSonictron;
+import mods.gregtechmod.util.IDataOrbSerializable;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -23,9 +25,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
+public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, IDataOrbSerializable {
     private static final Map<Integer, String> RECORD_NAMES = new HashMap<>();
     
     @NBTPersistent
@@ -68,10 +71,27 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
     }
 
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("currentIndex");
-        return ret;
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("currentIndex");
+    }
+
+    @Override
+    public String getDataName() {
+        return "Sonictron-Data";
+    }
+
+    @Nullable
+    @Override
+    public NBTTagCompound saveDataToOrb() {
+        NBTTagCompound nbt = new NBTTagCompound();
+        this.content.writeToNbt(nbt);
+        return nbt;
+    }
+
+    @Override
+    public void loadDataFromOrb(NBTTagCompound nbt) {
+        this.content.readFromNbt(nbt);
     }
 
     @Override
@@ -86,7 +106,7 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
     }
 
     @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
+    public void onGuiClosed(EntityPlayer player) {}
 
     public static void loadSonictronSounds() {
         GregTechMod.LOGGER.info("Loading Sonictron sounds");

@@ -10,7 +10,7 @@ import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
-import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
@@ -28,7 +28,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -54,9 +53,8 @@ public final class GregTechMod {
     static {
         FluidRegistry.enableUniversalBucket();
     }
-
-    @EventHandler
-    public void start(FMLConstructionEvent event) {
+    
+    public GregTechMod() {
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(OreDictHandler.INSTANCE);
@@ -74,7 +72,7 @@ public final class GregTechMod {
 
         RegistryHandler.registerFluids();
         RegistryHandler.registerComponents();
-        TileEntityComputerCube.Module.registerModules();
+        ComputerCubeModules.Module.registerModules();
         DataEncoder.addNetworkEncoder(IDSUData.EnergyWrapper.class, new IDSUData.EnergyWrapper.EnergyWrapperEncoder());
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
         

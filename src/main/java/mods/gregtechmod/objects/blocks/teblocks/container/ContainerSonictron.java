@@ -34,11 +34,11 @@ public class ContainerSonictron extends ContainerBase<IInventory> {
 
         if (clickType == ClickType.QUICK_MOVE) slot.putStack(ItemStack.EMPTY);
         else if (clickType == ClickType.PICKUP && dragType < 1) {
-            if (content.isEmpty()) slot.putStack(StackUtil.copy(sonictronSounds.get(0).item));
+            if (content.isEmpty()) slot.putStack(sonictronSounds.get(0).item.copy());
             else {
                 for (int i = 1; i < sonictronSounds.size(); i++) {
                     if (StackUtil.checkItemEquality(content, sonictronSounds.get(i - 1).item)) {
-                        slot.putStack(StackUtil.copy(sonictronSounds.get(i).item));
+                        slot.putStack(sonictronSounds.get(i).item.copy());
                         return ItemStack.EMPTY;
                     }
                 }

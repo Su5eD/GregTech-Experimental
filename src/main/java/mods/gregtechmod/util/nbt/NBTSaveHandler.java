@@ -3,6 +3,7 @@ package mods.gregtechmod.util.nbt;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.authlib.GameProfile;
+import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
 import mods.gregtechmod.util.LazyValue;
@@ -40,8 +41,9 @@ public final class NBTSaveHandler {
         
         addSimpleSerializer(ItemStack.class, Serializers::serializeItemStack, ItemStack::new);
         addSimpleSerializer(GameProfile.class, Serializers::serializeGameProfile, NBTUtil::readGameProfileFromNBT);
-        addSimpleSerializer(IComputerCubeModule.class, Serializers::serializeComputerCubeModule, Serializers::deserializeComputerCubeModule);
+        addSimpleSerializer(InvSlot.class, Serializers::serializeInvSlot, Serializers::deserializeInvSlot);
         addSerializer(Enum.class, Serializers.EnumNBTSerializer::new);
+        addSerializer(IComputerCubeModule.class, Serializers.ComputerCubeModuleSerializer::new);
         
         addSpecialSerializer(List.class, Serializers.ItemStackListNBTSerializer::new);
     }

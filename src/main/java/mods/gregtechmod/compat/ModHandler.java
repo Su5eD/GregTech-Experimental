@@ -10,6 +10,7 @@ import cofh.thermalexpansion.util.managers.machine.SmelterManager;
 import cofh.thermalexpansion.util.managers.machine.TransposerManager;
 import com.google.common.base.CaseFormat;
 import ic2.api.item.IC2Items;
+import ic2.api.item.IItemAPI;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.core.block.BlockTileEntity;
@@ -70,6 +71,8 @@ public class ModHandler {
     public static boolean twilightForest;
     public static boolean enderStorage;
     public static boolean agricraft;
+    
+    public static IItemAPI ic2ItemApi;
 
     public static ItemStack emptyCell = ItemStack.EMPTY;
     public static ItemStack emptyFuelCan = ItemStack.EMPTY;
@@ -83,6 +86,9 @@ public class ModHandler {
     public static ItemStack itnt = ItemStack.EMPTY;
     public static ItemStack filledFuelCan = ItemStack.EMPTY;
     public static ItemStack rcTurbineRotor = ItemStack.EMPTY;
+    public static Item depletedIsotopeFuelRod = null;
+    public static Item heatpack = null;
+    public static Item lithiumFuelRod = null;
 
     public static void gatherLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
@@ -107,11 +113,16 @@ public class ModHandler {
     }
 
     public static void gatherModItems() {
+        ic2ItemApi = IC2Items.getItemAPI();
+        
         emptyCell = ProfileDelegate.getEmptyCell();
         emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
         scrap = IC2Items.getItem("crafting", "scrap");
         itnt = IC2Items.getItem("te", "itnt");
         filledFuelCan = IC2Items.getItem("filled_fuel_can");
+        depletedIsotopeFuelRod = ic2ItemApi.getItem("depleted_isotope_fuel_rod");
+        heatpack = ic2ItemApi.getItem("heatpack");
+        lithiumFuelRod = ic2ItemApi.getItem("lithium_fuel_rod");
 
         Item material = getItem("thermalfoundation", "material");
         if (material != null) {

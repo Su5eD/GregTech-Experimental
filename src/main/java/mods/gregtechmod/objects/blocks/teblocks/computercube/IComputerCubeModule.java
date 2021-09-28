@@ -9,6 +9,11 @@ import javax.annotation.Nullable;
 
 public interface IComputerCubeModule {
     ResourceLocation getName();
+
+    /**
+     * @return send a network update to the client
+     */
+    boolean updateServer();
     
     ContainerBase<?> getGuiContainer(EntityPlayer player, TileEntityComputerCube base);
 

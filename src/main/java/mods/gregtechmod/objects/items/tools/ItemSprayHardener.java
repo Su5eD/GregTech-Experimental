@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.item.IC2Items;
 import ic2.core.block.wiring.TileEntityCable;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
@@ -75,7 +76,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
                     Item itemFoam = IC2Items.getItem("foam", "normal").getItem();
                     if (block.getRegistryName().equals(itemFoam.getRegistryName())) {
                         if (GtUtil.damageStack(player, stack, 1)) {
-                            IBlockState wall = IC2Items.getItemAPI().getBlockState("wall", "light_gray");
+                            IBlockState wall = ModHandler.ic2ItemApi.getBlockState("wall", "light_gray");
                             world.setBlockState(pos, wall);
                         }
                         return EnumActionResult.SUCCESS;

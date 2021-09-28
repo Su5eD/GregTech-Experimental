@@ -1,63 +1,80 @@
 package mods.gregtechmod.objects.blocks.teblocks.computercube;
 
 import ic2.core.ContainerBase;
+import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.CoverType;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
+import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
+import mods.gregtechmod.util.IDataOrbSerializable;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.TextureOverride;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Collection;
-import java.util.Locale;
-import java.util.function.Supplier;
+import javax.annotation.Nullable;
+import java.util.*;
 
-public class TileEntityComputerCube extends TileEntityEnergy implements IHasGui {
-    @NBTPersistent
-    private IComputerCubeModule activeModule = ComputerCubeMain.INSTANCE;
+public class TileEntityComputerCube extends TileEntityEnergy implements IHasGui, IDataOrbSerializable {
+    private final ComputerCubeModuleComponent module;
+    public final Map<ResourceLocation, IComputerCubeModule> moduleCache = new HashMap<>();
 
     public TileEntityComputerCube() {
         super(null);
         
+        this.module = addComponent(new ComputerCubeModuleComponent(this));
         this.coverBlacklist.addAll(CoverType.VALUES);
     }
     
-    public enum Module {
-        MAIN(ComputerCubeMain::new);
-        
-        public final ResourceLocation name;
-        private final Supplier<IComputerCubeModule> supplier;
-        
-        Module(Supplier<IComputerCubeModule> supplier) {
-            this.name = new ResourceLocation(Reference.MODID, name().toLowerCase(Locale.ROOT));
-            this.supplier = supplier;
-        }
-        
-        public static void registerModules() {
-            for (Module module : values()) {
-                ComputerCubeModules.registerModule(module.name, module.supplier);
-            }
-        }
+    public IComputerCubeModule getActiveModule() {
+        return this.module.activeModule;
     }
     
     public void switchModule() {
-        this.activeModule = ComputerCubeModules.getNextModule(this.activeModule.getName());
+        this.module.activeModule = getNextModule(this.module.activeModule.getName());
+        if (!this.world.isRemote) rerender();
     }
-    
+
+    public IComputerCubeModule getNextModule(ResourceLocation current) {
+        List<ResourceLocation> list = new ArrayList<>(ComputerCubeModules.MODULES.keySet());
+        int size = list.size();
+
+        for (int i = 0; i < size; i++) {
+            ResourceLocation loc = list.get(i);
+            if (ComputerCubeModules.MODULES.get(loc).getLeft().getAsBoolean() && current.equals(loc)) {
+                ResourceLocation next = list.get((i + 1) % size);
+
+                IComputerCubeModule cached = this.moduleCache.get(next);
+                if (cached != null) return cached;
+
+                IComputerCubeModule module = ComputerCubeModules.getModule(next, this);
+                this.moduleCache.put(next, module);
+                return module;
+            }
+        }
+
+        throw new IllegalArgumentException("Module " + current + " not found");
+    }
+
+    @Override
+    protected void updateEntityServer() {
+        super.updateEntityServer();
+        if (getActiveModule().updateServer()) IC2.network.get(true).updateTileEntityField(this, "module");
+    }
+
     @Override
     protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
         Ic2BlockStateInstance ret = super.getExtendedState(state);
-        ResourceLocation texture = this.activeModule.getTexture();
-        return texture != null ? ret.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new TextureOverride(this.activeModule.getTexture())) : ret;
+        ResourceLocation texture = getActiveModule().getTexture();
+        return texture != null ? ret.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new TextureOverride(texture)) : ret;
     }
 
     @Override
@@ -76,16 +93,57 @@ public class TileEntityComputerCube extends TileEntityEnergy implements IHasGui 
     }
 
     @Override
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("module");
+    }
+
+    @Override
+    public String getDataName() {
+        IComputerCubeModule module = getActiveModule();
+        if (module instanceof IDataOrbSerializable) return ((IDataOrbSerializable) module).getDataName();
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public NBTTagCompound saveDataToOrb() {
+        IComputerCubeModule module = getActiveModule();
+        if (module instanceof IDataOrbSerializable) return ((IDataOrbSerializable) module).saveDataToOrb();
+        return null;
+    }
+
+    @Override
+    public void loadDataFromOrb(NBTTagCompound nbt) {
+        IComputerCubeModule module = getActiveModule();
+        if (module instanceof IDataOrbSerializable) ((IDataOrbSerializable) module).loadDataFromOrb(nbt);
+    }
+
+    @Override
     public ContainerBase<?> getGuiContainer(EntityPlayer player) {
-        return this.activeModule.getGuiContainer(player, this);
+        return getActiveModule().getGuiContainer(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return this.activeModule.getGui(player, isAdmin, this);
+        return getActiveModule().getGui(player, isAdmin, this);
     }
 
     @Override
     public void onGuiClosed(EntityPlayer entityPlayer) {}
+    
+    public static class ComputerCubeModuleComponent extends GtComponentBase {
+        @NBTPersistent
+        private IComputerCubeModule activeModule = ComputerCubeMain.INSTANCE;
+        
+        public ComputerCubeModuleComponent(TileEntityComputerCube parent) {
+            super(parent);
+        }
+
+        @Override
+        public void onLoaded() {
+            ((TileEntityComputerCube) this.parent).moduleCache.put(this.activeModule.getName(), this.activeModule);
+        }
+    }
 }

@@ -266,6 +266,12 @@ gregtechmod.teblock.aesu.max_energy_out=Max EU/p OUT: 0 - %s (Adjustable)
 gregtechmod.teblock.aesu.container.name=A.E.S.U.
 gregtechmod.teblock.idsu.container.name=I.D.S.U.
 gregtechmod.teblock.idsu.id=ID: %s
+gregtechmod.computercube.reactor.stats=Reactorstats:
+gregtechmod.computercube.reactor.output=%sEU at %s EU/t
+gregtechmod.computercube.reactor.hem=HEM: %s
+gregtechmod.computercube.reactor.heat=%s/%s Heat
+gregtechmod.computercube.reactor.explosion_power=Explosion Power: %s
+gregtechmod.computercube.reactor.runtime=Runtime: %s secs
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
