@@ -1,4 +1,4 @@
-package mods.gregtechmod.util;
+package mods.gregtechmod.api.util;
 
 import net.minecraft.nbt.NBTTagCompound;
 

@@ -1,10 +1,10 @@
 package mods.gregtechmod.objects.items;
 
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.util.IDataOrbSerializable;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemBase;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.IDataOrbSerializable;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
