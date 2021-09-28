@@ -52,7 +52,7 @@ public class OreGenerator implements IWorldGenerator {
         else dimensionType = DimensionType.OVERWORLD;
 
         Arrays.stream(WorldOre.values())
-                .filter(ore -> ore.enabled && dimensionType == ore.dimension && (ore.biomeList.isEmpty() || ore.biomeList.contains(biome.getRegistryName())) && (ore.probability <= 1 || trueRandom.nextInt(ore.probability) == 0))
+                .filter(ore -> ore.enabled.getAsBoolean() && dimensionType == ore.dimension && (ore.biomeList.isEmpty() || ore.biomeList.contains(biome.getRegistryName())) && (ore.probability <= 1 || trueRandom.nextInt(ore.probability) == 0))
                 .forEach(ore -> {
                     Block block = ore.block.getInstance();
                     if (ore.type == WorldOre.OreType.NORMAL) {

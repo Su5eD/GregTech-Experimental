@@ -2,7 +2,10 @@ package mods.gregtechmod.core;
 
 import mods.gregtechmod.api.util.Reference;
 import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Config.*;
+import net.minecraftforge.common.config.Config.Comment;
+import net.minecraftforge.common.config.Config.LangKey;
+import net.minecraftforge.common.config.Config.Name;
+import net.minecraftforge.common.config.Config.RangeInt;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -123,67 +126,38 @@ public class GregTechConfig {
         public boolean retrogen = true;
         public boolean generateInVoid = false;
 
-        // TODO Use suppliers
-        @RequiresMcRestart
         public boolean galena = true;
-        @RequiresMcRestart
         public boolean iridium = true;
-        @RequiresMcRestart
         public boolean ruby = true;
-        @RequiresMcRestart
         public boolean sapphire = true;
-        @RequiresMcRestart
         public boolean bauxite = true;
-        @RequiresMcRestart
         public boolean tetrahedrite = true;
-        @RequiresMcRestart
         public boolean cassiterite = true;
-        @RequiresMcRestart
         public boolean sphalerite_overworld = true;
 
-        @RequiresMcRestart
         public boolean tungstate = true;
-        @RequiresMcRestart
         public boolean sheldonite = true;
-        @RequiresMcRestart
         public boolean olivine = true;
-        @RequiresMcRestart
         public boolean sodalite = true;
 
-        @RequiresMcRestart
         public boolean pyriteTiny = true;
-        @RequiresMcRestart
         public boolean pyriteSmall = true;
-        @RequiresMcRestart
         public boolean pyriteMedium = true;
-        @RequiresMcRestart
         public boolean pyriteLarge = true;
-        @RequiresMcRestart
         public boolean pyriteHuge = true;
 
-        @RequiresMcRestart
         public boolean cinnabarTiny = true;
-        @RequiresMcRestart
         public boolean cinnabarSmall = true;
-        @RequiresMcRestart
         public boolean cinnabarMedium = true;
-        @RequiresMcRestart
         public boolean cinnabarLarge = false;
-        @RequiresMcRestart
         public boolean cinnabarHuge = false;
 
-        @RequiresMcRestart
         public boolean sphaleriteTiny = true;
-        @RequiresMcRestart
         public boolean sphaleriteSmall = true;
-        @RequiresMcRestart
         public boolean sphaleriteMedium = true;
-        @RequiresMcRestart
         public boolean sphaleriteLarge = true;
-        @RequiresMcRestart
         public boolean sphaleriteHuge = true;
 
-        @RequiresMcRestart
         public boolean endAsteroids = true;
     }
 

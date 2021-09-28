@@ -43,7 +43,7 @@ public class ContainerComputerCubeReactor extends ContainerComputerCube {
 
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickType, EntityPlayer player) {
-        ComputerCubeReactor module = (ComputerCubeReactor) base.getActiveModule();
+        ComputerCubeReactor module = (ComputerCubeReactor) this.base.getActiveModule();
         
         if (slotId == 2) {
             module.saveNuclearReactor();

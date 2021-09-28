@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 
-public class ComputerCubeModules { // TODO API
+public class ComputerCubeModules {
     static final Map<ResourceLocation, Pair<BooleanSupplier, Function<TileEntityComputerCube, IComputerCubeModule>>> MODULES = new LinkedHashMap<>();
 
     public static IComputerCubeModule getModule(ResourceLocation name, TileEntityComputerCube te) {

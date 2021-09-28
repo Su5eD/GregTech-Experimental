@@ -100,11 +100,11 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
     private float hem = 1;
     @NBTPersistent
     private float explosionStrength;
-    private int euTimer = 0;
-    private int euLast1 = 0;
-    private int euLast2 = 0;
-    private int euLast3 = 0;
-    private int euLast4 = 0;
+    private int euTimer;
+    private int euLast1;
+    private int euLast2;
+    private int euLast3;
+    private int euLast4;
 
     public ComputerCubeReactor(TileEntityComputerCube parent) {
         this.parent = parent;
