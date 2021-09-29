@@ -10,6 +10,7 @@ import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeGuide;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
@@ -85,6 +86,7 @@ public final class GregTechMod {
         ModHandler.gatherModItems();
         if (event.getSide() == Side.CLIENT) ClientEventHandler.gatherModItems();
         GregTechTEBlock.buildDummies();
+        ComputerCubeGuide.Page.register();
         
         OreDictRegistrar.registerItems();
         GtUtil.trackTime("Parsing recipes", () -> {

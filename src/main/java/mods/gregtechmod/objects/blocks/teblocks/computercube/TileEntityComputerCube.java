@@ -6,8 +6,10 @@ import ic2.core.IHasGui;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.CoverType;
+import mods.gregtechmod.api.upgrade.GtUpgradeType;
+import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.IDataOrbSerializable;
-import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.TextureOverride;
@@ -23,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileEntityComputerCube extends TileEntityEnergy implements IHasGui, IDataOrbSerializable {
+public class TileEntityComputerCube extends TileEntityUpgradable implements IHasGui, IDataOrbSerializable {
     private final ComputerCubeModuleComponent module;
     public final Map<ResourceLocation, IComputerCubeModule> moduleCache = new HashMap<>();
 
@@ -32,6 +34,8 @@ public class TileEntityComputerCube extends TileEntityEnergy implements IHasGui,
         
         this.module = addComponent(new ComputerCubeModuleComponent(this));
         this.coverBlacklist.addAll(CoverType.VALUES);
+        
+        setPrivate(true);
     }
     
     public IComputerCubeModule getActiveModule() {
@@ -81,15 +85,25 @@ public class TileEntityComputerCube extends TileEntityEnergy implements IHasGui,
     protected Collection<EnumFacing> getSinkSides() {
         return Util.allFacings;
     }
-
+    
     @Override
-    public int getSinkTier() {
+    public int getBaseSinkTier() {
         return 1;
+    }
+    
+    @Override
+    protected int getBaseEUCapacity() {
+        return 10000;
     }
 
     @Override
-    public int getEUCapacity() {
-        return 10000;
+    public Set<GtUpgradeType> getCompatibleGtUpgrades() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
+        return Collections.emptySet();
     }
 
     @Override

@@ -1112,3 +1112,497 @@ gregtechmod.book.thermal_boiler_manual.page12=The Thermal Boiler will produce 80
 gregtechmod.book.thermal_boiler_manual.page13=A Thermal Boiler is worth about 33 small Thermal Generators, and as the Boilers get much less Efficient, when not having enough Fuel, you should consider making a large Nether Pump for Lava, or a good Nuclear Reactor for molten Salt.
 gregtechmod.book.thermal_boiler_manual.page14=Input and Output Slots are fully optional, you can place multiple ones of them or even none on the Machine. A Machine without Input couldn't process any Recipes, while a Machine without Output just voids all outputted Items and Liquids.
 gregtechmod.book.thermal_boiler_manual.page15=It might be useful to use the Screwdriver on the Output Hatches to determine what is outputted where. Another Hint: You need exactly 2 Thermal Boilers to run a Steam Turbine properly.
+
+gregtechmod.computercube.desc.lightning_rod=Lightning Rod
+gregtechmod.computercube.desc.lightning_rod.1=Also known as the Bane of
+gregtechmod.computercube.desc.lightning_rod.2=Alblaka. The Lightning Rod
+gregtechmod.computercube.desc.lightning_rod.3=enables you to gain Energy
+gregtechmod.computercube.desc.lightning_rod.4=from Lightning! To set it up
+gregtechmod.computercube.desc.lightning_rod.5=you just need the Block
+gregtechmod.computercube.desc.lightning_rod.6=itself, 4 HV-Transformers
+gregtechmod.computercube.desc.lightning_rod.7=and a crapton of Iron Fences,
+gregtechmod.computercube.desc.lightning_rod.8=which you then place on top
+gregtechmod.computercube.desc.lightning_rod.9=of it. After that you have to
+gregtechmod.computercube.desc.lightning_rod.10=wait for a Thunderstorm and
+gregtechmod.computercube.desc.lightning_rod.11=when you are lucky you get
+gregtechmod.computercube.desc.lightning_rod.12=2.5 MFSU of Energy out of
+gregtechmod.computercube.desc.lightning_rod.13=it. If a Rod is high enough
+gregtechmod.computercube.desc.lightning_rod.14=then Rain is also enough to
+gregtechmod.computercube.desc.lightning_rod.15=get stroke, but with less
+gregtechmod.computercube.desc.lightning_rod.16=probability of course.
+
+gregtechmod.computercube.desc.quantum_chest=Quantum Chest
+gregtechmod.computercube.desc.quantum_chest.1=You want to store tons of
+gregtechmod.computercube.desc.quantum_chest.2=Materials into your Chests
+gregtechmod.computercube.desc.quantum_chest.3=but you hate the Item limit
+gregtechmod.computercube.desc.quantum_chest.4=of them? Not anymore! The
+gregtechmod.computercube.desc.quantum_chest.5=Quantum Chest is able to
+gregtechmod.computercube.desc.quantum_chest.6=store an INFINITE* amount
+gregtechmod.computercube.desc.quantum_chest.7=of one single Item type per
+gregtechmod.computercube.desc.quantum_chest.8=Chest.
+gregtechmod.computercube.desc.quantum_chest.9=This Chest stores your Items
+gregtechmod.computercube.desc.quantum_chest.10=like Data and always has a
+gregtechmod.computercube.desc.quantum_chest.11=Stack of the Item ready for
+gregtechmod.computercube.desc.quantum_chest.12=extraction. It is compatible
+gregtechmod.computercube.desc.quantum_chest.13=with any Item that doesnt
+gregtechmod.computercube.desc.quantum_chest.14=have a NBT-Tag. You ask what
+gregtechmod.computercube.desc.quantum_chest.15=NBT is? I know it, thats enough.
+gregtechmod.computercube.desc.quantum_chest.16=* = 2147483391
+
+gregtechmod.computercube.desc.computer_cube=Computer Cube
+gregtechmod.computercube.desc.computer_cube.1=The Device you are
+gregtechmod.computercube.desc.computer_cube.2=currently using. This Computer
+gregtechmod.computercube.desc.computer_cube.3=is running the G.L.A.D.-OS,
+gregtechmod.computercube.desc.computer_cube.4=which is containing many
+gregtechmod.computercube.desc.computer_cube.5=usefull Apps:
+gregtechmod.computercube.desc.computer_cube.6=- Reactor Planner
+gregtechmod.computercube.desc.computer_cube.7=- Seedbag Scanner
+gregtechmod.computercube.desc.computer_cube.8=- Recipe lists for GT-Devices
+gregtechmod.computercube.desc.computer_cube.9=- 
+gregtechmod.computercube.desc.computer_cube.10=- 
+gregtechmod.computercube.desc.computer_cube.11=- 
+gregtechmod.computercube.desc.computer_cube.12=- 
+gregtechmod.computercube.desc.computer_cube.13=- 
+gregtechmod.computercube.desc.computer_cube.14=And the Description List you
+gregtechmod.computercube.desc.computer_cube.15=are currently reading.
+gregtechmod.computercube.desc.computer_cube.16=~This Device has private Access~
+
+gregtechmod.computercube.desc.uum_assembler=UUM-Assembler
+gregtechmod.computercube.desc.uum_assembler.1=It's like an automatic
+gregtechmod.computercube.desc.uum_assembler.2=Crafting Table just for UUM
+gregtechmod.computercube.desc.uum_assembler.3=It can store 20 UUM-Recipes
+gregtechmod.computercube.desc.uum_assembler.4=and produces those on demand
+gregtechmod.computercube.desc.uum_assembler.5=It costs 512EU per used piece
+gregtechmod.computercube.desc.uum_assembler.6=of Universal-Usable-Matter(TM).
+gregtechmod.computercube.desc.uum_assembler.7=The integrated Quantum Chest
+gregtechmod.computercube.desc.uum_assembler.8=allows it to store all your
+gregtechmod.computercube.desc.uum_assembler.9=UUM inside it.
+gregtechmod.computercube.desc.uum_assembler.10=Top and Bottom are for Input,
+gregtechmod.computercube.desc.uum_assembler.11=while the Output is on the
+gregtechmod.computercube.desc.uum_assembler.12=Sides. The Output is designed,
+gregtechmod.computercube.desc.uum_assembler.13=to work with RP-Managers, so
+gregtechmod.computercube.desc.uum_assembler.14=build it into your recursive
+gregtechmod.computercube.desc.uum_assembler.15=Autocrafting system.
+
+gregtechmod.computercube.desc.sonictron=Sonictron
+gregtechmod.computercube.desc.sonictron.1=You like Music? Then the
+gregtechmod.computercube.desc.sonictron.2=Sonictron 9001 is your best
+gregtechmod.computercube.desc.sonictron.3=choice! You can compose Alarms,
+gregtechmod.computercube.desc.sonictron.4=Doorbell Sounds or boring
+gregtechmod.computercube.desc.sonictron.5=Elevator Music, with the 64 Slots
+gregtechmod.computercube.desc.sonictron.6=inside it. Just leftclick them
+gregtechmod.computercube.desc.sonictron.7=to switch the Sound, rightclick
+gregtechmod.computercube.desc.sonictron.8=them to switch the modulation
+gregtechmod.computercube.desc.sonictron.9=and shiftclick to remove it.
+gregtechmod.computercube.desc.sonictron.10=Then apply Redstone to play
+gregtechmod.computercube.desc.sonictron.11=With the mobile Version you can
+gregtechmod.computercube.desc.sonictron.12=play sounds everywhere, after
+gregtechmod.computercube.desc.sonictron.13=you copied them from a normal
+gregtechmod.computercube.desc.sonictron.14=Sonictron via rightclicking,
+gregtechmod.computercube.desc.sonictron.15=Sneak-rightclicking pastes.
+gregtechmod.computercube.desc.sonictron.16=Emits Redstone when finished.
+
+gregtechmod.computercube.desc.lesu=L.E.S.U.
+gregtechmod.computercube.desc.lesu.1=The unlaggiest Multiblock ever!
+gregtechmod.computercube.desc.lesu.2=One Controller block, and as many
+gregtechmod.computercube.desc.lesu.3='stupid' Storage blocks as you want.
+gregtechmod.computercube.desc.lesu.4=To use it, place one Controller
+gregtechmod.computercube.desc.lesu.5=and then place the LESU-Storages
+gregtechmod.computercube.desc.lesu.6=adjacent to it or other placed
+gregtechmod.computercube.desc.lesu.7=LESU-Storages. The Tier (max EU/t)
+gregtechmod.computercube.desc.lesu.8=of it depends on the amount of
+gregtechmod.computercube.desc.lesu.9=adjacent Storages. The
+gregtechmod.computercube.desc.lesu.10=Storage blocks are NOT TileEntities,
+gregtechmod.computercube.desc.lesu.11=which means that they cause as much
+gregtechmod.computercube.desc.lesu.12=Lag as a random Dirtblock. And the
+gregtechmod.computercube.desc.lesu.13=Controller Block only checks ONCE
+gregtechmod.computercube.desc.lesu.14=for the Storages, so no
+gregtechmod.computercube.desc.lesu.15=Block iteration lag, AT ALL. Anyone,
+gregtechmod.computercube.desc.lesu.16=who says that they lag gets murdered!
+
+gregtechmod.computercube.desc.idsu=I.D.S.U.
+gregtechmod.computercube.desc.idsu.1=The Interdimensional Storage Unit
+gregtechmod.computercube.desc.idsu.2=is a Device, which is like a
+gregtechmod.computercube.desc.idsu.3=wireless, cross-dimensional and
+gregtechmod.computercube.desc.idsu.4=enderchest-like EU-Storage Block
+gregtechmod.computercube.desc.idsu.5=
+gregtechmod.computercube.desc.idsu.6=Every Player has one Network of
+gregtechmod.computercube.desc.idsu.7=these. The ID is determined by
+gregtechmod.computercube.desc.idsu.8=the Hashcode of the Name of the
+gregtechmod.computercube.desc.idsu.9=first Player, who opens its GUI
+gregtechmod.computercube.desc.idsu.10=
+gregtechmod.computercube.desc.idsu.11=It stores up to 1 Billion EU
+gregtechmod.computercube.desc.idsu.12=and emits EV. You need at
+gregtechmod.computercube.desc.idsu.13=least two of them for Energy
+gregtechmod.computercube.desc.idsu.14=Transfer
+
+gregtechmod.computercube.desc.aesu=A.E.S.U.
+gregtechmod.computercube.desc.aesu.1=The Adjustable Energy Storage Unit
+gregtechmod.computercube.desc.aesu.2=is like 10 MFSU and has an
+gregtechmod.computercube.desc.aesu.3=adjustable Output between 0 and
+gregtechmod.computercube.desc.aesu.4=2048EU/t. You could use it as a
+gregtechmod.computercube.desc.aesu.5=Transformer. It is Tier-IV, so
+gregtechmod.computercube.desc.aesu.6=it's basically needed to charge
+gregtechmod.computercube.desc.aesu.7=Energy Orbs and Lapotron Packs
+gregtechmod.computercube.desc.aesu.8=
+gregtechmod.computercube.desc.aesu.9=Not much else to say about it.
+
+gregtechmod.computercube.desc.charge_o_mat=Charge-O-Mat
+gregtechmod.computercube.desc.charge_o_mat.1=An automatable Charging Bench
+gregtechmod.computercube.desc.charge_o_mat.2=It puts (de-)charged Tools into
+gregtechmod.computercube.desc.charge_o_mat.3=the right Output slots, which are
+gregtechmod.computercube.desc.charge_o_mat.4=accessible on the Sides of it.
+gregtechmod.computercube.desc.charge_o_mat.5=
+gregtechmod.computercube.desc.charge_o_mat.6=The Energy Orb inside stores enough
+gregtechmod.computercube.desc.charge_o_mat.7=to charge your QSuit almost instantly
+gregtechmod.computercube.desc.charge_o_mat.8=
+gregtechmod.computercube.desc.charge_o_mat.9=This is a Tier-V Charging Station
+gregtechmod.computercube.desc.charge_o_mat.10=even when the Max-IN/OUT is only
+gregtechmod.computercube.desc.charge_o_mat.11=2048EU/t. It also charges your Armor
+gregtechmod.computercube.desc.charge_o_mat.12=when you are standing close to it.
+gregtechmod.computercube.desc.charge_o_mat.13=
+gregtechmod.computercube.desc.charge_o_mat.14=If you apply Redstone, then it
+gregtechmod.computercube.desc.charge_o_mat.15=discharges instead.
+
+gregtechmod.computercube.desc.industrial_centrifuge=Centrifuge
+gregtechmod.computercube.desc.industrial_centrifuge.1=This is a Machine to seperate
+gregtechmod.computercube.desc.industrial_centrifuge.2=Isotopes.
+gregtechmod.computercube.desc.industrial_centrifuge.3=
+gregtechmod.computercube.desc.industrial_centrifuge.4=It has a maximum Consumption Rate
+gregtechmod.computercube.desc.industrial_centrifuge.5=of 5EU/t, and its Max input is
+gregtechmod.computercube.desc.industrial_centrifuge.6=32EU/t. The time it needs depends
+gregtechmod.computercube.desc.industrial_centrifuge.7=on the Recipe you use.
+gregtechmod.computercube.desc.industrial_centrifuge.8=
+gregtechmod.computercube.desc.industrial_centrifuge.9=It needs Tin Cells for some Recipes,
+gregtechmod.computercube.desc.industrial_centrifuge.10=which you put in the Top Left Slot
+gregtechmod.computercube.desc.industrial_centrifuge.11=
+gregtechmod.computercube.desc.industrial_centrifuge.12=Top = Input
+gregtechmod.computercube.desc.industrial_centrifuge.13=Bottom = Tin Cells
+gregtechmod.computercube.desc.industrial_centrifuge.14=Side = Output
+gregtechmod.computercube.desc.industrial_centrifuge.15=
+gregtechmod.computercube.desc.industrial_centrifuge.16=You can pipe Lava into this Device
+
+gregtechmod.computercube.desc.industrial_electrolyzer=Electrolyzer
+gregtechmod.computercube.desc.industrial_electrolyzer.1=This is a Machine to seperate
+gregtechmod.computercube.desc.industrial_electrolyzer.2=Molecules and electrolyze
+gregtechmod.computercube.desc.industrial_electrolyzer.3=Watercells.
+gregtechmod.computercube.desc.industrial_electrolyzer.4=
+gregtechmod.computercube.desc.industrial_electrolyzer.5=It has a maximum Consumption Rate
+gregtechmod.computercube.desc.industrial_electrolyzer.6=of 128EU/t, and its Max input is
+gregtechmod.computercube.desc.industrial_electrolyzer.7=128EU/t. The time it needs depends
+gregtechmod.computercube.desc.industrial_electrolyzer.8=on the Recipe you use.
+gregtechmod.computercube.desc.industrial_electrolyzer.9=
+gregtechmod.computercube.desc.industrial_electrolyzer.10=It needs Tin Cells for some Recipes,
+gregtechmod.computercube.desc.industrial_electrolyzer.11=which you put in the Bottom Left Slot
+gregtechmod.computercube.desc.industrial_electrolyzer.12=
+gregtechmod.computercube.desc.industrial_electrolyzer.13=Top = Input
+gregtechmod.computercube.desc.industrial_electrolyzer.14=Bottom = Tin Cells
+gregtechmod.computercube.desc.industrial_electrolyzer.15=Side = Output
+
+gregtechmod.computercube.desc.industrial_grinder=Grinder
+gregtechmod.computercube.desc.industrial_grinder.1=This Machine's purpose is to
+gregtechmod.computercube.desc.industrial_grinder.2=macerate and grind Ores.
+gregtechmod.computercube.desc.industrial_grinder.3=It can ONLY grind Ores, don't
+gregtechmod.computercube.desc.industrial_grinder.4=try regular Macerator Recipes.
+gregtechmod.computercube.desc.industrial_grinder.5=It has a fixed Consumption Rate
+gregtechmod.computercube.desc.industrial_grinder.6=of 128EU/t, and its Max input is
+gregtechmod.computercube.desc.industrial_grinder.7=128EU/t. The time it needs is
+gregtechmod.computercube.desc.industrial_grinder.8=5 seconds per Ore Block
+gregtechmod.computercube.desc.industrial_grinder.9=It needs Water for most Recipes,
+gregtechmod.computercube.desc.industrial_grinder.10=which you put in the Bottom Left Slot
+gregtechmod.computercube.desc.industrial_grinder.11=Top = Input
+gregtechmod.computercube.desc.industrial_grinder.12=Bottom = Water
+gregtechmod.computercube.desc.industrial_grinder.13=Side = Output
+gregtechmod.computercube.desc.industrial_grinder.14=It's a lag-free Multiblock Structure,
+gregtechmod.computercube.desc.industrial_grinder.15=so you need a special Machine Casing
+gregtechmod.computercube.desc.industrial_grinder.16=for this Device. (see GUI)
+
+gregtechmod.computercube.desc.industrial_blast_furnace=Electric Blast Furnace
+gregtechmod.computercube.desc.industrial_blast_furnace.1=You may know the Blast Furnace
+gregtechmod.computercube.desc.industrial_blast_furnace.2=of Railcraft. This one works
+gregtechmod.computercube.desc.industrial_blast_furnace.3=similar, as it can also produce
+gregtechmod.computercube.desc.industrial_blast_furnace.4=Steel out of Iron and Coal.
+gregtechmod.computercube.desc.industrial_blast_furnace.5=
+gregtechmod.computercube.desc.industrial_blast_furnace.6=Its heat Capacity depends on the
+gregtechmod.computercube.desc.industrial_blast_furnace.7=used Machine Casings for building
+gregtechmod.computercube.desc.industrial_blast_furnace.8=it. The better they are, the more
+gregtechmod.computercube.desc.industrial_blast_furnace.9=Heat it can achieve.
+gregtechmod.computercube.desc.industrial_blast_furnace.10=
+gregtechmod.computercube.desc.industrial_blast_furnace.11=Top = Input 1
+gregtechmod.computercube.desc.industrial_blast_furnace.12=Bottom = Input 2
+gregtechmod.computercube.desc.industrial_blast_furnace.13=Side = Output
+gregtechmod.computercube.desc.industrial_blast_furnace.14=Its a lag-free Multiblock Structure,
+gregtechmod.computercube.desc.industrial_blast_furnace.15=so you need a special Machine Casing
+gregtechmod.computercube.desc.industrial_blast_furnace.16=for this Device. (see GUI)
+
+gregtechmod.computercube.desc.industrial_sawmill=Sawmill
+gregtechmod.computercube.desc.industrial_sawmill.1=This Device turns your Logs
+gregtechmod.computercube.desc.industrial_sawmill.2=into more Planks, than a normal
+gregtechmod.computercube.desc.industrial_sawmill.3=Steve can produce with his Hands.
+gregtechmod.computercube.desc.industrial_sawmill.4=
+gregtechmod.computercube.desc.industrial_sawmill.5=Its byproduct, Wood Pulp, can be
+gregtechmod.computercube.desc.industrial_sawmill.6=compressed into special Planks,
+gregtechmod.computercube.desc.industrial_sawmill.7=which burn like Charcoal.
+gregtechmod.computercube.desc.industrial_sawmill.8=
+gregtechmod.computercube.desc.industrial_sawmill.9=It needs Water for most Recipes,
+gregtechmod.computercube.desc.industrial_sawmill.10=which you put in the Bottom Left Slot
+gregtechmod.computercube.desc.industrial_sawmill.11=Top = Input
+gregtechmod.computercube.desc.industrial_sawmill.12=Water Sides = Water
+gregtechmod.computercube.desc.industrial_sawmill.13=Saw Side = Output
+gregtechmod.computercube.desc.industrial_sawmill.14=Its a lag-free Multiblock Structure,
+gregtechmod.computercube.desc.industrial_sawmill.15=so you need a special Machine Casing
+gregtechmod.computercube.desc.industrial_sawmill.16=for this Device. (see GUI)
+
+gregtechmod.computercube.desc.implosion_compressor=Implosion Compressor
+gregtechmod.computercube.desc.implosion_compressor.1=You need to turn Dusts back
+gregtechmod.computercube.desc.implosion_compressor.2=into Gems? Or do you just want
+gregtechmod.computercube.desc.implosion_compressor.3=to make Iridium Plates?
+gregtechmod.computercube.desc.implosion_compressor.4=With a bit ITNT you can achieve
+gregtechmod.computercube.desc.implosion_compressor.5=that in this Device!
+gregtechmod.computercube.desc.implosion_compressor.6=
+gregtechmod.computercube.desc.implosion_compressor.7=We strongly recommend to use
+gregtechmod.computercube.desc.implosion_compressor.8=Flint Dust instead of Flints
+gregtechmod.computercube.desc.implosion_compressor.9=for making the ITNT.
+gregtechmod.computercube.desc.implosion_compressor.10=
+gregtechmod.computercube.desc.implosion_compressor.11=Top = Input
+gregtechmod.computercube.desc.implosion_compressor.12=Explosion Sides = Output
+gregtechmod.computercube.desc.implosion_compressor.13=ITNT Side = ITNT Input
+gregtechmod.computercube.desc.implosion_compressor.14=Its a lag-free Multiblock Structure,
+gregtechmod.computercube.desc.implosion_compressor.15=so you need a special Machine Casing
+gregtechmod.computercube.desc.implosion_compressor.16=for this Device. (see GUI)
+
+gregtechmod.computercube.desc.superconductor=Superconductor
+gregtechmod.computercube.desc.superconductor.1=Expensive, but superconducting
+gregtechmod.computercube.desc.superconductor.2=nearly infinite EU/p and it has
+gregtechmod.computercube.desc.superconductor.3=no Cable loss!
+gregtechmod.computercube.desc.superconductor.4=Do not confuse this with the
+gregtechmod.computercube.desc.superconductor.5=Superconductor Item!
+gregtechmod.computercube.desc.superconductor.6=
+gregtechmod.computercube.desc.superconductor.7=Supercondensator
+gregtechmod.computercube.desc.superconductor.8=A special kind of Transformer that
+gregtechmod.computercube.desc.superconductor.9=allows you to convert anything down
+gregtechmod.computercube.desc.superconductor.10=to 8192 EU/t, what is like a normal HVT.
+gregtechmod.computercube.desc.superconductor.11=But if you apply Redstone to it
+gregtechmod.computercube.desc.superconductor.12=then it outputs friggin 1000000EU/t!!!
+gregtechmod.computercube.desc.superconductor.13=
+gregtechmod.computercube.desc.superconductor.14=Some Machines like the Fusion Reactor 
+gregtechmod.computercube.desc.superconductor.15=will require that high Voltage
+gregtechmod.computercube.desc.superconductor.16=in a short period of time.
+
+gregtechmod.computercube.desc.player_detector=Player Detector
+gregtechmod.computercube.desc.player_detector.1=This nice little Device is able
+gregtechmod.computercube.desc.player_detector.2=to detect Players in a Range of
+gregtechmod.computercube.desc.player_detector.3=16-Spherical Meters and a
+gregtechmod.computercube.desc.player_detector.4=EU-Consumption of 2.5EU/t.
+gregtechmod.computercube.desc.player_detector.5=
+gregtechmod.computercube.desc.player_detector.6=It can be switched to 3 Diffrent
+gregtechmod.computercube.desc.player_detector.7=Modes, to detect YOURSELF, OTHERS
+gregtechmod.computercube.desc.player_detector.8=and ALL Players by Rightclicking it.
+gregtechmod.computercube.desc.player_detector.9=
+gregtechmod.computercube.desc.player_detector.10=It doesnt detect regular Mobs.
+gregtechmod.computercube.desc.player_detector.11=
+gregtechmod.computercube.desc.player_detector.12=
+gregtechmod.computercube.desc.player_detector.13=
+gregtechmod.computercube.desc.player_detector.14=
+gregtechmod.computercube.desc.player_detector.15=
+gregtechmod.computercube.desc.player_detector.16=~This Device has private Access~
+
+gregtechmod.computercube.desc.matter_fabricator=Matter Fabricator
+gregtechmod.computercube.desc.matter_fabricator.1=The Matter Fabricator is nothing
+gregtechmod.computercube.desc.matter_fabricator.2=else than a Mass Fabricator, which
+gregtechmod.computercube.desc.matter_fabricator.3=can ONLY run on Scrap and other
+gregtechmod.computercube.desc.matter_fabricator.4=Amplifiers.
+gregtechmod.computercube.desc.matter_fabricator.5=
+gregtechmod.computercube.desc.matter_fabricator.6=With the Default Config it is 100
+gregtechmod.computercube.desc.matter_fabricator.7=times more expensive than normal.
+gregtechmod.computercube.desc.matter_fabricator.8=Of course you can set the Config
+gregtechmod.computercube.desc.matter_fabricator.9=to 166666, to get your normal
+gregtechmod.computercube.desc.matter_fabricator.10=Massfabricationrate back, or you
+gregtechmod.computercube.desc.matter_fabricator.11=could make Mass Fabrication even
+gregtechmod.computercube.desc.matter_fabricator.12=cheaper, if you really want to
+gregtechmod.computercube.desc.matter_fabricator.13=make Mass Fabrication that easy
+
+gregtechmod.computercube.desc.electric_autocrafting=Electric Autocrafting Tables
+gregtechmod.computercube.desc.electric_autocrafting.1=These are Crafting Tables for the
+gregtechmod.computercube.desc.electric_autocrafting.2=common need of autocrafting in
+gregtechmod.computercube.desc.electric_autocrafting.3=Factories. One Craft needs 5000EU to
+gregtechmod.computercube.desc.electric_autocrafting.4=be performed, so you have actually to
+gregtechmod.computercube.desc.electric_autocrafting.5=lay Wires to it. This Table is
+gregtechmod.computercube.desc.electric_autocrafting.6=unique as its also able, to give you
+gregtechmod.computercube.desc.electric_autocrafting.7=the used Capsulecellcontainers, made
+gregtechmod.computercube.desc.electric_autocrafting.8=by Industrial Corp, back.
+gregtechmod.computercube.desc.electric_autocrafting.9=You may use that behaviour to
+gregtechmod.computercube.desc.electric_autocrafting.10=craft anything releated to chemics,
+gregtechmod.computercube.desc.electric_autocrafting.11=like the 2xKNO3-Recipe for Saltpeter.
+gregtechmod.computercube.desc.electric_autocrafting.12=The 5 Modes are the following:
+gregtechmod.computercube.desc.electric_autocrafting.13=1. Craft Recipe, 2. All 5 Modes
+gregtechmod.computercube.desc.electric_autocrafting.14=3. Craft all as single Items
+gregtechmod.computercube.desc.electric_autocrafting.15=4. 2x2-Grid and 5. a 3x3-Grid.
+gregtechmod.computercube.desc.electric_autocrafting.16=It accepts only 32EU/p as Input.
+
+gregtechmod.computercube.desc.automation=Automation with GregTech
+gregtechmod.computercube.desc.automation.1=Translocators and Buffers are the
+gregtechmod.computercube.desc.automation.2=newest Way to automate your Machines.
+gregtechmod.computercube.desc.automation.3=Screw Buildcraft, these EU-wasting
+gregtechmod.computercube.desc.automation.4=Devices are much more awesome.
+gregtechmod.computercube.desc.automation.5=They output 32EU/t to their directed
+gregtechmod.computercube.desc.automation.6=IN- and OUT-puts, making them usefull
+gregtechmod.computercube.desc.automation.7=for things, like saving wires.
+gregtechmod.computercube.desc.automation.8=Translocators are taking Stuff from
+gregtechmod.computercube.desc.automation.9=the Block at their green Input facing
+gregtechmod.computercube.desc.automation.10=and putting it into the Block at the
+gregtechmod.computercube.desc.automation.11=red Output facing. Buffers do the
+gregtechmod.computercube.desc.automation.12=same, but they grab Items from their
+gregtechmod.computercube.desc.automation.13=own Inventory, what makes them useful
+gregtechmod.computercube.desc.automation.14=as a Pipe replacement.
+gregtechmod.computercube.desc.automation.15=They also have Redstone Intelligence,
+gregtechmod.computercube.desc.automation.16=which you can configure in their GUI.
+
+gregtechmod.computercube.desc.silver_ore=Silver Ore
+gregtechmod.computercube.desc.silver_ore.1=It's rarity is similar to Gold
+gregtechmod.computercube.desc.silver_ore.2=Silver can be used, to make
+gregtechmod.computercube.desc.silver_ore.3=Circuits cheaper, or you can use
+gregtechmod.computercube.desc.silver_ore.4=it for Redpower stuff.
+
+gregtechmod.computercube.desc.sapphires_and_rubies=Sapphires and Rubies
+gregtechmod.computercube.desc.sapphires_and_rubies.1=These spawn exactly like Emeralds.
+gregtechmod.computercube.desc.sapphires_and_rubies.2=But Rubies are found in Deserts,
+gregtechmod.computercube.desc.sapphires_and_rubies.3=while Sapphires can be found in
+gregtechmod.computercube.desc.sapphires_and_rubies.4=Oceans.
+gregtechmod.computercube.desc.sapphires_and_rubies.5=
+gregtechmod.computercube.desc.sapphires_and_rubies.6=They currently make only a cheaper
+gregtechmod.computercube.desc.sapphires_and_rubies.7=Recipe for Energy crystals and
+gregtechmod.computercube.desc.sapphires_and_rubies.8=Lapotron crystals, but they are
+gregtechmod.computercube.desc.sapphires_and_rubies.9=Redpower Compatible.
+gregtechmod.computercube.desc.sapphires_and_rubies.10=
+gregtechmod.computercube.desc.sapphires_and_rubies.11=They also sometimes drop random
+gregtechmod.computercube.desc.sapphires_and_rubies.12=other Gems, like Garnet for Ruby
+gregtechmod.computercube.desc.sapphires_and_rubies.13=or Green Sapphire for Sapphire
+gregtechmod.computercube.desc.sapphires_and_rubies.14=in addition.
+
+gregtechmod.computercube.desc.bauxite_ore=Bauxite Ore
+gregtechmod.computercube.desc.bauxite_ore.1=The Stuff out of which you can
+gregtechmod.computercube.desc.bauxite_ore.2=produce Aluminium and also
+gregtechmod.computercube.desc.bauxite_ore.3=Titanium.
+gregtechmod.computercube.desc.bauxite_ore.4=You find this Ore in Plains and
+gregtechmod.computercube.desc.bauxite_ore.5=Forests.
+gregtechmod.computercube.desc.bauxite_ore.6=
+gregtechmod.computercube.desc.bauxite_ore.7=If you think Aluminium is useless
+gregtechmod.computercube.desc.bauxite_ore.8=then note, that mobs NEVER spawn
+gregtechmod.computercube.desc.bauxite_ore.9=on top of an Aluminium Block
+gregtechmod.computercube.desc.bauxite_ore.10=(Same applies also for Silver-,
+gregtechmod.computercube.desc.bauxite_ore.11=Gem- and Iridium Blocks)
+gregtechmod.computercube.desc.bauxite_ore.12=Production Chain:
+gregtechmod.computercube.desc.bauxite_ore.13=macerating Bauxite Ore
+gregtechmod.computercube.desc.bauxite_ore.14=electrolyzing 24 Bauxite Dust
+gregtechmod.computercube.desc.bauxite_ore.15=smelting Aluminium Dust in a
+gregtechmod.computercube.desc.bauxite_ore.16=Blast Furnace
+
+gregtechmod.computercube.desc.titanium=Titanium
+gregtechmod.computercube.desc.titanium.1=Produced by centrifuging Bauxite dust
+gregtechmod.computercube.desc.titanium.2=as a byproduct, this Material can make
+gregtechmod.computercube.desc.titanium.3=anything much more resistant against
+gregtechmod.computercube.desc.titanium.4=damage, like Explosions.
+gregtechmod.computercube.desc.titanium.5=Blocks made of Titanium ingots have a
+gregtechmod.computercube.desc.titanium.6=large Blast resistance
+gregtechmod.computercube.desc.titanium.7=
+gregtechmod.computercube.desc.titanium.8=It can also be used to craft tons of
+gregtechmod.computercube.desc.titanium.9=mixed Metal Ingots
+
+gregtechmod.computercube.desc.iridium_ore=Iridium Ore
+gregtechmod.computercube.desc.iridium_ore.1=You can find it only when you
+gregtechmod.computercube.desc.iridium_ore.2=stripmine very large Areas with
+gregtechmod.computercube.desc.iridium_ore.3=Quarries and such. There is only
+gregtechmod.computercube.desc.iridium_ore.4=one in every 5th-10th Chunk.
+gregtechmod.computercube.desc.iridium_ore.5=It's even more rare in Oceans!
+gregtechmod.computercube.desc.iridium_ore.6=
+gregtechmod.computercube.desc.iridium_ore.7=Some people disable the UUM-Recipe
+gregtechmod.computercube.desc.iridium_ore.8=for Iridium, to make getting it
+gregtechmod.computercube.desc.iridium_ore.9=an Achievement.
+gregtechmod.computercube.desc.iridium_ore.10=
+gregtechmod.computercube.desc.iridium_ore.11=However Iridium Ore contains traces
+gregtechmod.computercube.desc.iridium_ore.12=of Platinum, so it's best to use the
+gregtechmod.computercube.desc.iridium_ore.13=Industrial Grinder for this Ore.
+
+gregtechmod.computercube.desc.helium_coolant_cell=Helium Coolant Cell
+gregtechmod.computercube.desc.helium_coolant_cell.1=These are just cheaper, than the
+gregtechmod.computercube.desc.helium_coolant_cell.2=Water based Coolant Cells, and can
+gregtechmod.computercube.desc.helium_coolant_cell.3=also hold six times more Heat.
+gregtechmod.computercube.desc.helium_coolant_cell.4=
+gregtechmod.computercube.desc.helium_coolant_cell.5=Helium Cells can also be used for
+gregtechmod.computercube.desc.helium_coolant_cell.6=making Luminators and Mining lasers
+
+gregtechmod.computercube.desc.destructorpack=Destructopack
+gregtechmod.computercube.desc.destructorpack.1=Open its GUI via rightclick and
+gregtechmod.computercube.desc.destructorpack.2=dump all the useless Stuff from
+gregtechmod.computercube.desc.destructorpack.3=your Inventory into it, instead of
+gregtechmod.computercube.desc.destructorpack.4=littering Items into the World.
+
+gregtechmod.computercube.desc.data_orbs=Data Orbs
+gregtechmod.computercube.desc.data_orbs.1=They store Data.
+gregtechmod.computercube.desc.data_orbs.2=
+gregtechmod.computercube.desc.data_orbs.3=Rightclick on a Computer Cube, to
+gregtechmod.computercube.desc.data_orbs.4=extract a Reactorplan
+gregtechmod.computercube.desc.data_orbs.5=
+gregtechmod.computercube.desc.data_orbs.6=Sneak-Rightclick on it, to insert
+gregtechmod.computercube.desc.data_orbs.7=a Reactorplan
+gregtechmod.computercube.desc.data_orbs.8=
+gregtechmod.computercube.desc.data_orbs.9=Works also with Sonictrons
+
+gregtechmod.computercube.desc.energy_orbs=Energy Orbs
+gregtechmod.computercube.desc.energy_orbs.1=10Million EU in one Orb!
+gregtechmod.computercube.desc.energy_orbs.2=
+gregtechmod.computercube.desc.energy_orbs.3=This is a Tier-IV Energy storage
+gregtechmod.computercube.desc.energy_orbs.4=So a MFSU is not enough for it!
+gregtechmod.computercube.desc.energy_orbs.5=
+gregtechmod.computercube.desc.energy_orbs.6=Use it to create a Lapotron Pack,
+gregtechmod.computercube.desc.energy_orbs.7=which is like an ultimate Lap Pack!
+
+gregtechmod.computercube.desc.iridium_neutron_reflector=Iridium Neutron Reflector
+gregtechmod.computercube.desc.iridium_neutron_reflector.1=It's used for Fusion Reactor Coils,
+gregtechmod.computercube.desc.iridium_neutron_reflector.2=and works like a normal one
+gregtechmod.computercube.desc.iridium_neutron_reflector.3=inside a Reactor, but it's also
+gregtechmod.computercube.desc.iridium_neutron_reflector.4=INDESTRUCTIBLE*.
+gregtechmod.computercube.desc.iridium_neutron_reflector.5=
+gregtechmod.computercube.desc.iridium_neutron_reflector.6=
+gregtechmod.computercube.desc.iridium_neutron_reflector.7=
+gregtechmod.computercube.desc.iridium_neutron_reflector.8=
+gregtechmod.computercube.desc.iridium_neutron_reflector.9=
+gregtechmod.computercube.desc.iridium_neutron_reflector.10=
+gregtechmod.computercube.desc.iridium_neutron_reflector.11=
+gregtechmod.computercube.desc.iridium_neutron_reflector.12=
+gregtechmod.computercube.desc.iridium_neutron_reflector.13=
+gregtechmod.computercube.desc.iridium_neutron_reflector.14=
+gregtechmod.computercube.desc.iridium_neutron_reflector.15=
+gregtechmod.computercube.desc.iridium_neutron_reflector.16=* = for weardown
+
+gregtechmod.computercube.desc.rock_cutter=Rock Cutter
+gregtechmod.computercube.desc.rock_cutter.1=You want to get whole Blocks, but
+gregtechmod.computercube.desc.rock_cutter.2=your Drill is not enchantable?
+gregtechmod.computercube.desc.rock_cutter.3=The Rock Cutter has an awesome
+gregtechmod.computercube.desc.rock_cutter.4=SilkTouch-III-Function!
+gregtechmod.computercube.desc.rock_cutter.5=
+gregtechmod.computercube.desc.rock_cutter.6=It works like a Drill, but you
+gregtechmod.computercube.desc.rock_cutter.7=get the whole Block instead of
+gregtechmod.computercube.desc.rock_cutter.8='macerated' Ores!
+gregtechmod.computercube.desc.rock_cutter.9=
+gregtechmod.computercube.desc.rock_cutter.10=Put those Blocks into a Macerator
+gregtechmod.computercube.desc.rock_cutter.11=and double your Diamond Income!
+gregtechmod.computercube.desc.rock_cutter.12=
+gregtechmod.computercube.desc.rock_cutter.13=Or better. Use the Industrial
+gregtechmod.computercube.desc.rock_cutter.14=Grinder to get even more
+gregtechmod.computercube.desc.rock_cutter.15=Resources!
+
+gregtechmod.computercube.desc.tesla_staff=Tesla Staff
+gregtechmod.computercube.desc.tesla_staff.1=This completly untested PvP-Weapon
+gregtechmod.computercube.desc.tesla_staff.2=destroys electric Armor in one hit
+gregtechmod.computercube.desc.tesla_staff.3=
+gregtechmod.computercube.desc.tesla_staff.4=The Energy Orb inside it must be
+gregtechmod.computercube.desc.tesla_staff.5=fully charged to let this work.
+gregtechmod.computercube.desc.tesla_staff.6=
+gregtechmod.computercube.desc.tesla_staff.7=We are not responsible for any
+gregtechmod.computercube.desc.tesla_staff.8=Electrocution Damage to yourself
+gregtechmod.computercube.desc.tesla_staff.9=while using it.
+gregtechmod.computercube.desc.tesla_staff.10=
+gregtechmod.computercube.desc.tesla_staff.11=We also dont even know if this
+gregtechmod.computercube.desc.tesla_staff.12=Weapon has any effect AT ALL.

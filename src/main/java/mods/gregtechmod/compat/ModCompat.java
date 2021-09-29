@@ -39,7 +39,7 @@ public class ModCompat {
         Field senderField = ReflectionHelper.findField(IMCMessage.class, "sender");
         
         Stream.of(BlockItems.Block.STANDARD_MACHINE_CASING, BlockItems.Block.REINFORCED_MACHINE_CASING, BlockItems.Block.ADVANCED_MACHINE_CASING, BlockItems.Block.IRIDIUM_REINFORCED_TUNGSTEN_STEEL, BlockItems.Block.TUNGSTEN_STEEL)
-                .map(BlockItems.Block::getInstance)
+                .map(BlockItems.Block::getBlockInstance)
                 .map(IForgeRegistryEntry.Impl::getRegistryName)
                 .forEach(name -> {
                     try {

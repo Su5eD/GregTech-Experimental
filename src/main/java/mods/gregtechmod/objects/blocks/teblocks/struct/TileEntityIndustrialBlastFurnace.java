@@ -85,7 +85,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('C', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance())
+                .block('C', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
                 .predicate('L', pos -> {
                     IBlockState state = world.getBlockState(pos);
                     Block block = state.getBlock();
@@ -148,11 +148,11 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
                     .map(world::getBlockState)
                     .map(IBlockState::getBlock)
                     .forEach(block -> {
-                        if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()) {
+                        if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance()) {
                             heatCapacity += 30;
-                        } else if (block == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()) {
+                        } else if (block == BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance()) {
                             heatCapacity += 50;
-                        } else if (block == BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance()) {
+                        } else if (block == BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance()) {
                             heatCapacity += 70;
                         } else if (block == Blocks.LAVA) {
                             heatCapacity += 250;

@@ -143,7 +143,7 @@ public class ClientEventHandler {
     private static void registerConnectedBakedModels(BakedModelLoader loader) {
         NormalStateMapper mapper = new NormalStateMapper();
         Stream.of(BlockItems.Block.STANDARD_MACHINE_CASING, BlockItems.Block.REINFORCED_MACHINE_CASING, BlockItems.Block.ADVANCED_MACHINE_CASING, BlockItems.Block.IRIDIUM_REINFORCED_TUNGSTEN_STEEL, BlockItems.Block.TUNGSTEN_STEEL)
-                .map(BlockItems.Block::getInstance)
+                .map(BlockItems.Block::getBlockInstance)
                 .forEach(block -> ModelLoader.setCustomStateMapper(block, mapper));
 
         Map<String, ResourceLocation> steamTurbineRotor = getRotorTextures("large_steam_turbine");

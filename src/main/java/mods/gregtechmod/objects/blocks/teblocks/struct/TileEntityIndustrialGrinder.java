@@ -64,8 +64,8 @@ public class TileEntityIndustrialGrinder extends TileEntityStructureFluid<Object
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
-                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
                 .block('W', Blocks.WATER)
                 .gather();
     }

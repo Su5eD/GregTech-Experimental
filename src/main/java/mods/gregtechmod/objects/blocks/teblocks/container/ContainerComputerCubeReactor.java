@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.blocks.teblocks.container;
 
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.inventory.GtSlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeReactor;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,7 @@ import java.util.function.IntSupplier;
 public class ContainerComputerCubeReactor extends ContainerComputerCube {
 
     public ContainerComputerCubeReactor(TileEntityComputerCube base) {
-        super(base, 0);
+        super(base, 0, 156);
         
         ComputerCubeReactor module = (ComputerCubeReactor) base.getActiveModule();
         
@@ -63,9 +64,7 @@ public class ContainerComputerCubeReactor extends ContainerComputerCube {
         return super.slotClick(slotId, dragType, clickType, player);
     }
     
-    private static class SlotStacksInvSlot extends Slot {
-        private final InvSlot invSlot;
-        private final int index;
+    private static class SlotStacksInvSlot extends GtSlotInvSlot {
         private final List<ItemStack> stacks;
         private final IntSupplier offset;
         
@@ -74,28 +73,10 @@ public class ContainerComputerCubeReactor extends ContainerComputerCube {
         }
         
         public SlotStacksInvSlot(IInventory parent, InvSlot invSlot, int index, int slotIndex, int x, int y, List<ItemStack> stacks, IntSupplier offset) {
-            super(parent, slotIndex, x, y);
+            super(parent, invSlot, index, slotIndex, x, y);
             
-            this.invSlot = invSlot;
-            this.index = index;
             this.stacks = stacks;
             this.offset = offset;
-        }
-
-        @Override
-        public boolean isItemValid(ItemStack stack) {
-            return this.invSlot.accepts(stack);
-        }
-
-        @Override
-        public ItemStack getStack() {
-            return this.invSlot.get(this.index);
-        }
-
-        @Override
-        public void putStack(ItemStack stack) {
-            this.invSlot.put(this.index, stack);
-            onSlotChanged();
         }
         
         public ItemStack slotClick(int dragType, ClickType clickType) {

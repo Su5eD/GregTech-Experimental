@@ -27,11 +27,11 @@ public class OreDictRegistrar {
         GregTechMod.LOGGER.debug("Registering GregTech items to the Ore Dictionary");
 
         Arrays.stream(BlockItems.Block.values())
-                .forEach(block -> registerOre("block", block.name().toLowerCase(Locale.ROOT), block.getInstance()));
-        registerOre("craftingRawMachineTier04", BlockItems.Block.HIGHLY_ADVANCED_MACHINE.getInstance());
+                .forEach(block -> registerOre("block", block.name().toLowerCase(Locale.ROOT), block.getBlockInstance()));
+        registerOre("craftingRawMachineTier04", BlockItems.Block.HIGHLY_ADVANCED_MACHINE.getBlockInstance());
 
         Arrays.stream(BlockItems.Ore.values())
-                .forEach(ore -> registerOre("ore", ore.name().toLowerCase(Locale.ROOT), ore.getInstance()));
+                .forEach(ore -> registerOre("ore", ore.name().toLowerCase(Locale.ROOT), ore.getBlockInstance()));
 
         Arrays.stream(BlockItems.Ingot.values())
                 .forEach(ingot -> registerOre("ingot", ingot.name().toLowerCase(Locale.ROOT), ingot.getInstance()));

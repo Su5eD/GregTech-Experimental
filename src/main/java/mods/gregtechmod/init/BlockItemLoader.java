@@ -63,8 +63,8 @@ public class BlockItemLoader {
         if (FluidRegistry.isFluidRegistered("bio.ethanol")) BlockItems.classicCells.put("bio.ethanol", new ItemCellClassic("bio.ethanol", null, FluidRegistry.getFluid("bio.ethanol")));
 
         registerBlock(BlockItems.lightSource = new BlockLightSource());
-        Arrays.stream(BlockItems.Block.values()).map(BlockItems.Block::getInstance).forEach(BlockItemLoader::registerBlockItem);
-        Arrays.stream(BlockItems.Ore.values()).map(BlockItems.Ore::getInstance).forEach(BlockItemLoader::registerBlockItem);
+        Arrays.stream(BlockItems.Block.values()).map(BlockItems.Block::getBlockInstance).forEach(BlockItemLoader::registerBlockItem);
+        Arrays.stream(BlockItems.Ore.values()).map(BlockItems.Ore::getBlockInstance).forEach(BlockItemLoader::registerBlockItem);
         Stream.<IItemProvider[]>of(BlockItems.Miscellaneous.values(), BlockItems.Ingot.values(), BlockItems.Plate.values(), BlockItems.Rod.values(), BlockItems.Dust.values(),
                 BlockItems.Smalldust.values(), BlockItems.Nugget.values(), BlockItems.Cell.values(), BlockItems.CoverItem.values(), BlockItems.Component.values(),
                 BlockItems.Upgrade.values(), BlockItems.Armor.values(), BlockItems.NuclearCoolantPack.values(), BlockItems.NuclearFuelRod.values(), BlockItems.JackHammer.values(), 

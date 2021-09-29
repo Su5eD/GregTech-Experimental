@@ -69,8 +69,8 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
-                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
                 .block('A', Blocks.AIR)
                 .gather();
     }

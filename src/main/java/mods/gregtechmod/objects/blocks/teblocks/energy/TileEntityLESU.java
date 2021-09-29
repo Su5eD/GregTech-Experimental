@@ -143,7 +143,7 @@ public class TileEntityLESU extends TileEntityChargerBase {
     }
 
     public static boolean isLESUStorage(World world, BlockPos pos) {
-        return world.getBlockState(pos).getBlock() == BlockItems.Block.LESUBLOCK.getInstance();
+        return world.getBlockState(pos).getBlock() == BlockItems.Block.LESUBLOCK.getBlockInstance();
     }
 
     public static boolean isLESUController(World world, BlockPos pos) {

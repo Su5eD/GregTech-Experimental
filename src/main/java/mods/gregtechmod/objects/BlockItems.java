@@ -47,7 +47,7 @@ public class BlockItems {
     public static Item sensorCard;
     public static Map<String, ItemCellClassic> classicCells;
 
-    public enum Block {
+    public enum Block implements IItemProvider {
         ADVANCED_MACHINE_CASING(BlockConnected::new, 3, 30),
         ALUMINIUM(3, 30),
         BRASS(3.5F, 30),
@@ -96,12 +96,18 @@ public class BlockItems {
                     .setResistance(resistance));
         }
 
-        public net.minecraft.block.Block getInstance() {
+        public net.minecraft.block.Block getBlockInstance() {
             return this.instance.get();
+        }
+
+
+        @Override
+        public Item getInstance() {
+            return Item.getItemFromBlock(getBlockInstance());
         }
     }
 
-    public enum Ore {
+    public enum Ore implements IItemProvider {
         GALENA(3, 0, 0, (fortune, drops) -> {}),
         IRIDIUM(20, 30, 21, (fortune, drops) -> {
             ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
@@ -165,8 +171,14 @@ public class BlockItems {
                     .setHardness(this.hardness));
         }
 
-        public net.minecraft.block.Block getInstance() {
+        public net.minecraft.block.Block getBlockInstance() {
             return this.instance.get();
+        }
+
+
+        @Override
+        public Item getInstance() {
+            return Item.getItemFromBlock(getBlockInstance());
         }
     }
 

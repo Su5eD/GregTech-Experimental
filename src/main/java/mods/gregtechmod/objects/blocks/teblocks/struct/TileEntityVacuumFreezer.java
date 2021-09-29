@@ -66,8 +66,8 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
-                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance())
+                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
+                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
                 .block('A', Blocks.AIR)
                 .gather();
     }

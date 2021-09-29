@@ -21,7 +21,7 @@ public class TileEntityLargeGasTurbine extends TileEntityTurbineBase {
 
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
-        Block casing = BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance();
+        Block casing = BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance();
         return new StructureElementGatherer(this::getWorld)
                 .block('C', casing)
                 .block('R', casing)

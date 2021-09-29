@@ -54,7 +54,7 @@ public class OreGenerator implements IWorldGenerator {
         Arrays.stream(WorldOre.values())
                 .filter(ore -> ore.enabled.getAsBoolean() && dimensionType == ore.dimension && (ore.biomeList.isEmpty() || ore.biomeList.contains(biome.getRegistryName())) && (ore.probability <= 1 || trueRandom.nextInt(ore.probability) == 0))
                 .forEach(ore -> {
-                    Block block = ore.block.getInstance();
+                    Block block = ore.block.getBlockInstance();
                     if (ore.type == WorldOre.OreType.NORMAL) {
                         if (ore.dimension == DimensionType.THE_END) genEndOre(block, MATCHER, world, trueRandom, chunkX, chunkZ, ore.size, ore.amount);
                         else genNormalOre(block, GregTechConfig.WORLDGEN.generateInVoid ? MATCHER_VOID : MATCHER, world, trueRandom, chunkX, chunkZ, ore.size, ore.amount, ore.minY, ore.maxY);
@@ -142,14 +142,14 @@ public class OreGenerator implements IWorldGenerator {
     }
     
     private static void genSmallEndAsteroid(World world, Random random, int chunkX, int chunkZ, int posY, WorldOre worldOre, double size, double amount) {
-        WorldGenMinable ore = new WorldGenMinable(worldOre.block.getInstance().getDefaultState(), (int) size, MATCHER_VOID);
+        WorldGenMinable ore = new WorldGenMinable(worldOre.block.getBlockInstance().getDefaultState(), (int) size, MATCHER_VOID);
         for (int i = 0; i < amount; i++) {
             ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
         }
     }
     
     private static void genLargeEndAsteroid(World world, Random random, int chunkX, int chunkZ, int posY, WorldOre worldOre, double amount) {
-        WorldGenMinable ore = new WorldGenMinable(worldOre.block.getInstance().getDefaultState(), worldOre.size, MATCHER_VOID);
+        WorldGenMinable ore = new WorldGenMinable(worldOre.block.getBlockInstance().getDefaultState(), worldOre.size, MATCHER_VOID);
         for (int i = 0; i < amount; i++) {
             ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41), chunkZ - 8 + random.nextInt(24)));
         }
