@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerFullInv;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.slot.SlotInvSlot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,7 +7,7 @@ import net.minecraft.inventory.IInventory;
 
 import java.util.List;
 
-public abstract class ContainerBasicTank<T extends IInventory> extends ContainerFullInv<T> {
+public abstract class ContainerBasicTank<T extends IInventory> extends ContainerGtBase<T> {
 
     public ContainerBasicTank(EntityPlayer player, T base) {
         super(player, base, 166);
@@ -23,11 +22,10 @@ public abstract class ContainerBasicTank<T extends IInventory> extends Container
     protected abstract InvSlot getInputSlot();
     
     protected abstract InvSlot getOutputSlot();
-    
+
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("tank");
-        return ret;
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("tank");
     }
 }

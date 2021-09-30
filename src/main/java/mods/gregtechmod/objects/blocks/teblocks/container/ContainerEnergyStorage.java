@@ -1,13 +1,12 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerFullInv;
 import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.inventory.SlotArmor;
 import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntityChargerBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 
-public class ContainerEnergyStorage<T extends TileEntityChargerBase> extends ContainerFullInv<T> {
+public class ContainerEnergyStorage<T extends TileEntityChargerBase> extends ContainerGtBase<T> {
 
     public ContainerEnergyStorage(EntityPlayer player, T base) {
         super(player, base, 166);

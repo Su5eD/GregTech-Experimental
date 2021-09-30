@@ -2,8 +2,8 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.IHasGui;
+import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotOutput;
-import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
@@ -30,7 +30,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IMachineProgress, IGuiValueProvider, IExplosionPowerOverride, IPanelInfoProvider {
+public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IMachineProgress, IExplosionPowerOverride, IPanelInfoProvider {
     public final RM recipeManager;
     public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
@@ -56,6 +56,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.recipeManager = recipeManager;
         this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);
+        
+        addGuiValue("progress", this::getProgress);
     }
     
     @Override
@@ -70,6 +72,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
         return new GtSlotProcessableItemStack<>(this, name, 1, acceptAnything ? null : recipeManager);
+    }
+    
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, InvSlot.InvSide side, boolean acceptAnything) {
+        return new GtSlotProcessableItemStack<>(this, name, InvSlot.Access.I, 1, side, acceptAnything ? null : recipeManager);
     }
 
     public InvSlotOutput getOutputSlot(String name, int count) {
@@ -195,13 +201,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     public abstract R getRecipe();
-
-    @Override
-    public double getGuiValue(String name) {
-        if (name.equals("progress")) return this.guiProgress;
-
-        throw new IllegalArgumentException("Cannot get value for " + name);
-    }
 
     @Override
     public boolean isActive() {

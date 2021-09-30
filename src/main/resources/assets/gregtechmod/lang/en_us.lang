@@ -1335,7 +1335,7 @@ gregtechmod.computercube.desc.industrial_blast_furnace.10=
 gregtechmod.computercube.desc.industrial_blast_furnace.11=Top = Input 1
 gregtechmod.computercube.desc.industrial_blast_furnace.12=Bottom = Input 2
 gregtechmod.computercube.desc.industrial_blast_furnace.13=Side = Output
-gregtechmod.computercube.desc.industrial_blast_furnace.14=Its a lag-free Multiblock Structure,
+gregtechmod.computercube.desc.industrial_blast_furnace.14=It's a lag-free Multiblock Structure,
 gregtechmod.computercube.desc.industrial_blast_furnace.15=so you need a special Machine Casing
 gregtechmod.computercube.desc.industrial_blast_furnace.16=for this Device. (see GUI)
 
@@ -1353,7 +1353,7 @@ gregtechmod.computercube.desc.industrial_sawmill.10=which you put in the Bottom 
 gregtechmod.computercube.desc.industrial_sawmill.11=Top = Input
 gregtechmod.computercube.desc.industrial_sawmill.12=Water Sides = Water
 gregtechmod.computercube.desc.industrial_sawmill.13=Saw Side = Output
-gregtechmod.computercube.desc.industrial_sawmill.14=Its a lag-free Multiblock Structure,
+gregtechmod.computercube.desc.industrial_sawmill.14=It's a lag-free Multiblock Structure,
 gregtechmod.computercube.desc.industrial_sawmill.15=so you need a special Machine Casing
 gregtechmod.computercube.desc.industrial_sawmill.16=for this Device. (see GUI)
 
@@ -1371,7 +1371,7 @@ gregtechmod.computercube.desc.implosion_compressor.10=
 gregtechmod.computercube.desc.implosion_compressor.11=Top = Input
 gregtechmod.computercube.desc.implosion_compressor.12=Explosion Sides = Output
 gregtechmod.computercube.desc.implosion_compressor.13=ITNT Side = ITNT Input
-gregtechmod.computercube.desc.implosion_compressor.14=Its a lag-free Multiblock Structure,
+gregtechmod.computercube.desc.implosion_compressor.14=It's a lag-free Multiblock Structure,
 gregtechmod.computercube.desc.implosion_compressor.15=so you need a special Machine Casing
 gregtechmod.computercube.desc.implosion_compressor.16=for this Device. (see GUI)
 

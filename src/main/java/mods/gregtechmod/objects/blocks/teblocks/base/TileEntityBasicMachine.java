@@ -101,10 +101,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
         return getInputSlot(name, InvSlot.InvSide.SIDE, acceptAnything);
     }
 
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, InvSlot.InvSide side, boolean acceptAnything) {
-        return new GtSlotProcessableItemStack<>(this, name, InvSlot.Access.I, 1, side, acceptAnything ? null : recipeManager);
-    }
-
     @Override
     protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
         Ic2BlockStateInstance ret = super.getExtendedState(state);

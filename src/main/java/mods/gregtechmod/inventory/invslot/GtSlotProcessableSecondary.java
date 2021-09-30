@@ -9,9 +9,9 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 
 public class GtSlotProcessableSecondary<RM extends IGtRecipeManager<List<IRecipeIngredient>, I, ?>, I> extends GtSlotProcessableItemStack<RM, I> {
-    
-    public GtSlotProcessableSecondary(IInventorySlotHolder<?> base, String name, int count, RM recipeManager) {
-        super(base, name, count, recipeManager);
+
+    public GtSlotProcessableSecondary(IInventorySlotHolder<?> base, String name, int count, InvSide preferredSide, RM recipeManager) {
+        super(base, name, Access.I, count, preferredSide, recipeManager);
     }
 
     @Override

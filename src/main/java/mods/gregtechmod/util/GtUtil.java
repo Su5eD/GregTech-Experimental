@@ -70,6 +70,7 @@ public class GtUtil {
     @SuppressWarnings("Guava")
     public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
     public static final InvSlot.InvSide INV_SIDE_VERTICAL = EnumHelper.addEnum(InvSlot.InvSide.class, "VERTICAL", new Class[] { EnumFacing[].class }, (Object) new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN });
+    public static final InvSlot.InvSide INV_SIDE_NS = EnumHelper.addEnum(InvSlot.InvSide.class, "NS", new Class[] { EnumFacing[].class }, (Object) new EnumFacing[] { EnumFacing.NORTH, EnumFacing.SOUTH });
     
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");

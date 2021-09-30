@@ -104,12 +104,17 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
                     return true;
                 } else {
                     return InvUtil.getInvSlots(this).stream()
-                            .allMatch(invSlot -> invSlot == targetSlot || invSlot.preferredSide == InvSlot.InvSide.ANY || !invSlot.preferredSide.matches(side) || !invSlot.canInput() || !invSlot.accepts(stack));
+                            .allMatch(invSlot -> invSlot == targetSlot || invSlot.preferredSide == InvSlot.InvSide.ANY 
+                                    || !checkDynamicInvSide(invSlot.preferredSide, side) || !invSlot.canInput() || !invSlot.accepts(stack));
                 }
             }
         }
 
         return false;
+    }
+    
+    private boolean checkDynamicInvSide(InvSlot.InvSide invSide, EnumFacing side) {
+        return invSide == GtUtil.INV_SIDE_NS ? getFacing().getAxis() == side.getAxis() : invSide.matches(side);
     }
 
     protected boolean strictInputSides() {
