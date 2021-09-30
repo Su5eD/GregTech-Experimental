@@ -27,6 +27,8 @@ public interface IGregTechAPI {
     
     Optional<TurbineRotor> getTurbineRotor(ItemStack stack);
     
+    void addComputerCubeGuidePage(String translationKey, int length, List<ItemStack> stacks);
+    
     void registerWrench(Item item);
     void registerWrench(ItemStack stack);
     Collection<ItemStack> getWrenches();
