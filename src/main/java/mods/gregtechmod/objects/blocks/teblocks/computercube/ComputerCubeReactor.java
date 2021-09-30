@@ -25,6 +25,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -34,7 +36,7 @@ import java.util.stream.Stream;
 
 public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IDataOrbSerializable {
     private static final ResourceLocation NAME = new ResourceLocation(Reference.MODID, "reactor");
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "blocks/machines/computer_cube/computer_cube_reactor");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "blocks/machines/computer_cube/computer_cube_reactor");
 
     private static final Collection<ItemStack> DEPLETED_ITEMS;
     public static final List<ItemStack> COMPONENTS;
@@ -79,11 +81,8 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
     }
 
     private final TileEntityComputerCube parent;
-    @NBTPersistent
     public final InvSlot selection;
-    @NBTPersistent
     public final InvSlot content;
-    @NBTPersistent
     private final InvSlot contentCopy;
 
     @NBTPersistent
@@ -108,9 +107,9 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
     public ComputerCubeReactor(TileEntityComputerCube parent) {
         this.parent = parent;
-        this.selection = new InvSlot(1);
-        this.content = new InvSlot(54);
-        this.contentCopy = new InvSlot(54);
+        this.selection = new InvSlot(parent, "selection", InvSlot.Access.NONE, 1);
+        this.content = new InvSlot(parent, "content", InvSlot.Access.NONE, 54);
+        this.contentCopy = new InvSlot(parent, "contentCopy", InvSlot.Access.NONE, 54);
     }
 
     @Override
@@ -298,6 +297,7 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin, TileEntityComputerCube base) {
         return new GuiComputerCubeReactor(getGuiContainer(player, base));
     }

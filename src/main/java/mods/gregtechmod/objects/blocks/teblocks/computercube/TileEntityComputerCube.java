@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.blocks.teblocks.computercube;
 import ic2.core.ContainerBase;
 import ic2.core.IC2;
 import ic2.core.IHasGui;
+import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.CoverType;
@@ -34,6 +35,7 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
         
         this.module = addComponent(new ComputerCubeModuleComponent(this));
         this.coverBlacklist.addAll(CoverType.VALUES);
+        new InvSlot(this, "holo", InvSlot.Access.NONE, 1);
         
         setPrivate(true);
     }

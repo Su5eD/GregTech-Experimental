@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 public abstract class ContainerComputerCube extends ContainerBase<TileEntityComputerCube> {
     private final int switchSlotId;
 
-    public ContainerComputerCube(TileEntityComputerCube base, int switchSlotIndex, int switchSlotX) {
+    public ContainerComputerCube(TileEntityComputerCube base, int switchSlotX) {
         super(base);
-        Slot switchSlot = new Slot(base, switchSlotIndex, switchSlotX, 4);
+        Slot switchSlot = new Slot(base, 0, switchSlotX, 4);
         
         addSlotToContainer(switchSlot);
         this.switchSlotId = switchSlot.slotNumber;

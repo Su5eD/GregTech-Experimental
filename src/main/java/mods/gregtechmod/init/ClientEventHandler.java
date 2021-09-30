@@ -240,7 +240,8 @@ public class ClientEventHandler {
                 machines + "lesu/lesu_lv_out",
                 machines + "lesu/lesu_mv_out",
                 machines + "lesu/lesu_hv_out",
-                machines + "computer_cube/computer_cube_reactor"
+                machines + "computer_cube/computer_cube_reactor",
+                machines + "computer_cube/computer_cube_scanner"
         )
                 .map(str -> new ResourceLocation(Reference.MODID, str))
                 .forEach(map::registerSprite);

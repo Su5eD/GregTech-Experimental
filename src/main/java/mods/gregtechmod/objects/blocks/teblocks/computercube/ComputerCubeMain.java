@@ -6,6 +6,8 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCubeM
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
@@ -29,6 +31,7 @@ public class ComputerCubeMain implements IComputerCubeModule {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin, TileEntityComputerCube base) {
         return new GuiComputerCubeMain(getGuiContainer(player, base));
     }

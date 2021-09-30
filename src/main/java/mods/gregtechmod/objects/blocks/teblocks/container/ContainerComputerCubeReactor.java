@@ -1,13 +1,12 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
 import ic2.core.block.invslot.InvSlot;
+import ic2.core.slot.SlotInvSlot;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.inventory.GtSlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeReactor;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -17,11 +16,11 @@ import java.util.function.IntSupplier;
 public class ContainerComputerCubeReactor extends ContainerComputerCube {
 
     public ContainerComputerCubeReactor(TileEntityComputerCube base) {
-        super(base, 0, 156);
+        super(base, 156);
         
         ComputerCubeReactor module = (ComputerCubeReactor) base.getActiveModule();
         
-        Slot slotItemSelection = new SlotStacksInvSlot(base, module.selection, 0, 56, 153, 28, ComputerCubeReactor.COMPONENTS, () -> 0);
+        Slot slotItemSelection = new SlotStacksInvSlot(module.selection, 0, 153, 28, ComputerCubeReactor.COMPONENTS, () -> 0);
         IntSupplier offsetSupplier = () -> {
             ItemStack content = slotItemSelection.getStack();
             for (int i = 0; i < ComputerCubeReactor.COMPONENTS.size(); i++) {
@@ -31,13 +30,13 @@ public class ContainerComputerCubeReactor extends ContainerComputerCube {
             return 0;
         };
         addSlotToContainer(slotItemSelection); // Item Selection
-        addSlotToContainer(new Slot(base, 1, 156, 54)); // Save
-        addSlotToContainer(new Slot(base, 2, 156, 70)); // Load
-        addSlotToContainer(new Slot(base, 3, 156, 86)); // Start/Stop Reactor
+        addSlotToContainer(new Slot(base, 0, 156, 54)); // Save
+        addSlotToContainer(new Slot(base, 0, 156, 70)); // Load
+        addSlotToContainer(new Slot(base, 0, 156, 86)); // Start/Stop Reactor
         
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 9; x++) {
-                addSlotToContainer(new SlotStacksInvSlot(base, module.content, x + y * 9, 5 + x * 16, 5 + y * 16, ComputerCubeReactor.COMPONENTS, offsetSupplier)); 
+                addSlotToContainer(new SlotStacksInvSlot(module.content, x + y * 9, 5 + x * 16, 5 + y * 16, ComputerCubeReactor.COMPONENTS, offsetSupplier)); 
             }
         }
     }
@@ -64,16 +63,12 @@ public class ContainerComputerCubeReactor extends ContainerComputerCube {
         return super.slotClick(slotId, dragType, clickType, player);
     }
     
-    private static class SlotStacksInvSlot extends GtSlotInvSlot {
+    private static class SlotStacksInvSlot extends SlotInvSlot {
         private final List<ItemStack> stacks;
         private final IntSupplier offset;
         
-        public SlotStacksInvSlot(IInventory parent, InvSlot invSlot, int index, int x, int y, List<ItemStack> stacks, IntSupplier offset) {
-            this(parent, invSlot, index, index, x, y, stacks, offset);
-        }
-        
-        public SlotStacksInvSlot(IInventory parent, InvSlot invSlot, int index, int slotIndex, int x, int y, List<ItemStack> stacks, IntSupplier offset) {
-            super(parent, invSlot, index, slotIndex, x, y);
+        public SlotStacksInvSlot(InvSlot invSlot, int index, int x, int y, List<ItemStack> stacks, IntSupplier offset) {
+            super(invSlot, index, x, y);
             
             this.stacks = stacks;
             this.offset = offset;

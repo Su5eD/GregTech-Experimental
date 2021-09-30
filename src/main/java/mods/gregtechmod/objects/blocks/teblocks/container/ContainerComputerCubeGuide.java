@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import mods.gregtechmod.inventory.GtSlotInvSlot;
+import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeGuide;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +16,7 @@ public class ContainerComputerCubeGuide extends ContainerComputerCube {
     public final List<Slot> displaySlots;
 
     public ContainerComputerCubeGuide(TileEntityComputerCube base) {
-        super(base, 0, 206);
+        super(base, 206);
         
         ComputerCubeGuide module = (ComputerCubeGuide) base.getActiveModule();
         
@@ -24,7 +24,7 @@ public class ContainerComputerCubeGuide extends ContainerComputerCube {
         addSlotToContainer(new Slot(base, 0, 206, 146));
 
         this.displaySlots = IntStream.range(0, 5)
-                .mapToObj(i -> new GtSlotInvSlot(base, module.displayStacks, i, 206, 38 + 18 * i))
+                .mapToObj(i -> new SlotInvSlot(module.displayStacks, i, 206, 38 + 18 * i))
                 .peek(this::addSlotToContainer)
                 .collect(Collectors.toList());
         

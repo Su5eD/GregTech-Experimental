@@ -32,6 +32,7 @@ public class ComputerCubeModules {
     public enum Module {
         MAIN(ComputerCubeMain.class, () -> true, te -> ComputerCubeMain.INSTANCE),
         REACTOR(ComputerCubeReactor.class, () -> GregTechConfig.FEATURES.reactorPlanner, ComputerCubeReactor::new),
+        SCANNER(ComputerCubeScanner.class, () -> GregTechConfig.FEATURES.seedScanner, ComputerCubeScanner::new),
         GUIDE(ComputerCubeGuide.class, () -> true, ComputerCubeGuide::new);
 
         public final ResourceLocation name;

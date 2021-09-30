@@ -89,6 +89,7 @@ public class ModHandler {
     public static Item depletedIsotopeFuelRod = null;
     public static Item heatpack = null;
     public static Item lithiumFuelRod = null;
+    public static Item cropSeedBag = null;
 
     public static void gatherLoadedMods() {
         thermalfoundation = Loader.isModLoaded("thermalfoundation");
@@ -123,6 +124,7 @@ public class ModHandler {
         depletedIsotopeFuelRod = ic2ItemApi.getItem("depleted_isotope_fuel_rod");
         heatpack = ic2ItemApi.getItem("heatpack");
         lithiumFuelRod = ic2ItemApi.getItem("lithium_fuel_rod");
+        cropSeedBag = ic2ItemApi.getItem("crop_seed_bag");
 
         Item material = getItem("thermalfoundation", "material");
         if (material != null) {

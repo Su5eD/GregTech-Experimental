@@ -32,15 +32,15 @@ public class ComputerCubeGuide implements IComputerCubeModule {
     
     @NBTPersistent
     private int currentPage;
-    @NBTPersistent
-    public final InvSlot displayStacks = new InvSlot(5);
+    public final InvSlot displayStacks;
     
     public static void addPage(String translationKey, int length, List<ItemStack> stacks) {
         PAGES.add(new GuidePage(translationKey, length, stacks));
     }
     
-    @SuppressWarnings("unused")
-    public ComputerCubeGuide(TileEntityComputerCube base) {}
+    public ComputerCubeGuide(TileEntityComputerCube base) {
+        this.displayStacks = new InvSlot(base, "display", InvSlot.Access.NONE, 5);
+    }
     
     public GuidePage getCurrentPage() {
         return PAGES.get(this.currentPage);

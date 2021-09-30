@@ -272,6 +272,10 @@ gregtechmod.computercube.reactor.hem=HEM: %s
 gregtechmod.computercube.reactor.heat=%s/%s Heat
 gregtechmod.computercube.reactor.explosion_power=Explosion Power: %s
 gregtechmod.computercube.reactor.runtime=Runtime: %s secs
+gregtechmod.computercube.scanner.title=Scanner
+gregtechmod.computercube.scanner.usage=Can be used to
+gregtechmod.computercube.scanner.usage.2=scan Seedbags
+gregtechmod.computercube.scanner.progress=Progress:
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.

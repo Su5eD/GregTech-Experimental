@@ -58,6 +58,8 @@ public class GregTechConfig {
         public int upgradeStackSize = 4;
         @Comment("Enables the Reactor Planner Computer Cube module")
         public boolean reactorPlanner = true;
+        @Comment("Enables the Seed Scanner Computer Cube module")
+        public boolean seedScanner = true;
     }
 
     public static class Balance {
