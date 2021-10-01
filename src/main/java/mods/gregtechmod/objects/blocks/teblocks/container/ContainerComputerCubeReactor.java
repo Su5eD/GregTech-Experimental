@@ -30,9 +30,9 @@ public class ContainerComputerCubeReactor extends ContainerComputerCube {
             return 0;
         };
         addSlotToContainer(slotItemSelection); // Item Selection
-        addSlotToContainer(new Slot(base, 0, 156, 54)); // Save
-        addSlotToContainer(new Slot(base, 0, 156, 70)); // Load
-        addSlotToContainer(new Slot(base, 0, 156, 86)); // Start/Stop Reactor
+        addSlotToContainer(new Slot(base, -1, 156, 54)); // Save
+        addSlotToContainer(new Slot(base, -1, 156, 70)); // Load
+        addSlotToContainer(new Slot(base, -1, 156, 86)); // Start/Stop Reactor
         
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 9; x++) {

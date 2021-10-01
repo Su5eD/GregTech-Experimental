@@ -13,7 +13,7 @@ public abstract class ContainerComputerCube extends ContainerBase<TileEntityComp
 
     public ContainerComputerCube(TileEntityComputerCube base, int switchSlotX) {
         super(base);
-        Slot switchSlot = new Slot(base, 0, switchSlotX, 4);
+        Slot switchSlot = new Slot(base, -1, switchSlotX, 4);
         
         addSlotToContainer(switchSlot);
         this.switchSlotId = switchSlot.slotNumber;

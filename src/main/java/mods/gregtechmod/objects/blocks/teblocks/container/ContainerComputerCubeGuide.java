@@ -20,8 +20,8 @@ public class ContainerComputerCubeGuide extends ContainerComputerCube {
         
         ComputerCubeGuide module = (ComputerCubeGuide) base.getActiveModule();
         
-        addSlotToContainer(new Slot(base, 0, 190, 146));
-        addSlotToContainer(new Slot(base, 0, 206, 146));
+        addSlotToContainer(new Slot(base, -1, 190, 146));
+        addSlotToContainer(new Slot(base, -1, 206, 146));
 
         this.displaySlots = IntStream.range(0, 5)
                 .mapToObj(i -> new SlotInvSlot(module.displayStacks, i, 206, 38 + 18 * i))
