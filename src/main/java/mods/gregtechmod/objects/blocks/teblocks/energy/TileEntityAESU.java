@@ -21,13 +21,10 @@ public class TileEntityAESU extends TileEntityChargerBase {
     @NBTPersistent
     public int outputVoltage;
     
-    private final int tier;
-    public final int maxOutputVoltage;
+    public final int maxOutputVoltage = GregTechMod.classic ? 2048 : 8192;
 
     public TileEntityAESU() {
         super("aesu");
-        this.tier = GregTechMod.classic ? 4 : 5;
-        this.maxOutputVoltage = GregTechMod.classic ? 2048 : 8192;
     }
 
     @Override
@@ -42,12 +39,12 @@ public class TileEntityAESU extends TileEntityChargerBase {
 
     @Override
     public int getBaseSinkTier() {
-        return this.tier;
+        return GregTechMod.classic ? 4 : 5;
     }
 
     @Override
     public int getSourceTier() {
-        return this.tier;
+        return GregTechMod.classic ? 4 : 5;
     }
 
     @Override

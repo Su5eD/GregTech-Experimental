@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "BCB",
+    "TMT",
+    "BAB"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "circuitTier10"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "10kkEUStore"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "rawMachineTier02"
+    },
+    "T":
+    {
+      "type": "forge:ore_dict",
+      "ore": "chestWood"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "circuitTier07"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 51
+  }
+}

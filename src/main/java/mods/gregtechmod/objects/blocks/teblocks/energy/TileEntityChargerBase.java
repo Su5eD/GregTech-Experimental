@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class TileEntityChargerBase extends TileEntityUpgradable implements IHasGui {
-
     public final InvSlotCharge chargeSlot;
     public final InvSlotDischarge dischargeSlot;
         

@@ -35,20 +35,25 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
         drawString("teblock.lesu.output", offsetY + 24, GtUtil.formatNumber(this.container.base.getMaxOutputEUp()));
         
         double charge = this.container.base.getStoredEU() / (double) this.container.base.getEUCapacity();
-        drawColoredRect(8, 73, (int) (charge * this.chargeBarLength), 5, -16711681);
-        drawRect(this.chargeBoltOffset + 2, 73, 1);
-        drawRect(this.chargeBoltOffset + 1, 74, 1);
-        drawRect(this.chargeBoltOffset, 75, 4);
-        drawRect(this.chargeBoltOffset + 2, 76, 1);
-        drawRect(this.chargeBoltOffset + 1, 77, 1);
+        drawChargeBar(this, this.chargeBoltOffset, 73, this.chargeBarLength, charge);
+    }
+    
+    public static void drawChargeBar(GuiIC2<?> gui, int chargeBoltOffsetX, int offsetY, int chargeBarLength, double charge) {
+        gui.drawColoredRect(8, offsetY, (int) (charge * chargeBarLength), 5, -16711681);
+        
+        drawRect(gui, chargeBoltOffsetX + 2, offsetY, 1);
+        drawRect(gui, chargeBoltOffsetX + 1, offsetY + 1, 1);
+        drawRect(gui, chargeBoltOffsetX, offsetY + 2, 4);
+        drawRect(gui, chargeBoltOffsetX + 2, offsetY + 3, 1);
+        drawRect(gui, chargeBoltOffsetX + 1, offsetY + 4, 1);
     }
 
     protected int getInfoOffsetY() {
         return 16;
     }
     
-    private void drawRect(int x, int y, int width) {
-        drawColoredRect(x, y, width, 1, -1);
+    private static void drawRect(GuiIC2<?> gui, int x, int y, int width) {
+        gui.drawColoredRect(x, y, width, 1, -1);
     }
     
     protected void drawString(String translationKey, int y, Object... args) {

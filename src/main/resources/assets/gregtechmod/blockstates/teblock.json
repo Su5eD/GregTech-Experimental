@@ -78,7 +78,8 @@
       "lesu": { "model": "gregtechmod:lesu" },
       "aesu": { "model": "gregtechmod:aesu" },
       "idsu": { "model": "gregtechmod:idsu" },
-      "computer_cube": { "model": "gregtechmod:computer_cube" }
+      "computer_cube": { "model": "gregtechmod:computer_cube" },
+      "charge_o_mat": { "model": "gregtechmod:charge_o_mat" }
     },
     "facing": {
       "down": { "x": 90 },
