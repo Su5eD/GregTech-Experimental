@@ -105,6 +105,10 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         return this.energy.discharge(amount, simulate);
     }
     
+    public boolean canUseEnergy(double amount) {
+        return getStoredEU() >= amount;
+    }
+    
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();

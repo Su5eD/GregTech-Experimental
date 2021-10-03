@@ -2,6 +2,7 @@ package mods.gregtechmod.util.nbt;
 
 import com.mojang.authlib.GameProfile;
 import ic2.core.block.invslot.InvSlot;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
@@ -9,6 +10,9 @@ import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerC
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,28 @@ public final class Serializers {
     
     public static NBTTagCompound serializeGameProfile(GameProfile profile) {
         return NBTUtil.writeGameProfile(new NBTTagCompound(), profile);
+    }
+    
+    @SuppressWarnings("ConstantConditions")
+    public static NBTTagCompound serializeIForgeRegistryEntry(IForgeRegistryEntry<?> entry) {
+        NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setString("name", entry.getRegistryName().toString());
+        nbt.setString("type", entry.getRegistryType().getName());
+        return nbt;
+    }
+    
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static IForgeRegistryEntry<?> deserializeIForgeRegistryEntry(NBTTagCompound nbt) {
+        try {
+            ResourceLocation name = new ResourceLocation(nbt.getString("name"));
+            Class type = Class.forName(nbt.getString("type"));
+
+            IForgeRegistry<?> registry = GameRegistry.findRegistry(type);
+            return registry.getValue(name);
+        } catch (Exception e) {
+            GregTechMod.LOGGER.catching(e);
+            return null;
+        }
     }
     
     public static NBTTagCompound serializeInvSlot(InvSlot slot) {

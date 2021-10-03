@@ -391,7 +391,7 @@ public class OreDictRegistrar {
         registerOre("craftingCentrifuge", GregTechObjectAPI.getTileEntity("industrial_centrifuge"));
         //registerOre("craftingRawMachineTier01", GregTechTEBlock.machine_box); TODO add machine box to oredict when added
         //registerOre("craftingCircuitTier03", GregTechTEBlock.restone_circuit_block); TODO add redstone circuit block to oredict when added
-        //registerOre("craftingCircuitTier10", GregTechTEBlock.computer_cube); TODO add computer cube to oredict when added
+        registerOre("craftingCircuitTier10", GregTechObjectAPI.getTileEntity("computer_cube"));
         //registerOre("craftingWorkBench", GregTechTEBlock.electric_workbench); TODO add electric crafting table to oredict when added
         //registerOre("craftingChest", GregTechTEBlock.advanced_safe); TODO add advanced safe to oredict when added
         registerOre("craftingMacerator", GregTechObjectAPI.getTileEntity("auto_macerator"));

@@ -11,17 +11,17 @@
     "C":
     {
       "type": "forge:ore_dict",
-      "ore": "circuitTier10"
+      "ore": "craftingCircuitTier10"
     },
     "M":
     {
       "type": "forge:ore_dict",
-      "ore": "10kkEUStore"
+      "ore": "crafting10kkEUStore"
     },
     "A":
     {
       "type": "forge:ore_dict",
-      "ore": "rawMachineTier02"
+      "ore": "craftingRawMachineTier02"
     },
     "T":
     {
@@ -31,7 +31,7 @@
     "B":
     {
       "type": "forge:ore_dict",
-      "ore": "circuitTier07"
+      "ore": "craftingCircuitTier07"
     }
   },
   "result":

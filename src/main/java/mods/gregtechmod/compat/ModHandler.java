@@ -86,6 +86,7 @@ public class ModHandler {
     public static ItemStack itnt = ItemStack.EMPTY;
     public static ItemStack filledFuelCan = ItemStack.EMPTY;
     public static ItemStack rcTurbineRotor = ItemStack.EMPTY;
+    public static ItemStack miningPipe = ItemStack.EMPTY;
     public static Item depletedIsotopeFuelRod = null;
     public static Item heatpack = null;
     public static Item lithiumFuelRod = null;
@@ -121,6 +122,7 @@ public class ModHandler {
         scrap = IC2Items.getItem("crafting", "scrap");
         itnt = IC2Items.getItem("te", "itnt");
         filledFuelCan = IC2Items.getItem("filled_fuel_can");
+        miningPipe = IC2Items.getItem("mining_pipe", "pipe");
         depletedIsotopeFuelRod = ic2ItemApi.getItem("depleted_isotope_fuel_rod");
         heatpack = ic2ItemApi.getItem("heatpack");
         lithiumFuelRod = ic2ItemApi.getItem("lithium_fuel_rod");

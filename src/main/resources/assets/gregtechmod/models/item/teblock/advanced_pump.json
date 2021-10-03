@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_vertical",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_side",
+    "down": "gregtechmod:blocks/machines/advanced_pump/advanced_pump_bottom",
+    "up": "gregtechmod:blocks/machines/adv_machine_screen_inactive",
+    "north": "gregtechmod:blocks/machines/advanced_pump/advanced_pump_side",
+    "south": "gregtechmod:blocks/machines/advanced_pump/advanced_pump_side",
+    "east": "gregtechmod:blocks/machines/advanced_pump/advanced_pump_side",
+    "west": "gregtechmod:blocks/machines/advanced_pump/advanced_pump_side"
+  }
+}

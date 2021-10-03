@@ -902,6 +902,8 @@ gregtechmod.teblock.idsu=IDSU
 gregtechmod.teblock.idsu.description=Interdimensional Storage Unit
 gregtechmod.teblock.computer_cube=GregTech Computer Cube
 gregtechmod.teblock.charge_o_mat=Charge-O-Mat
+gregtechmod.teblock.advanced_pump=Advanced Pump
+gregtechmod.teblock.advanced_pump.description=The best way of emptying Oceans!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

@@ -9,6 +9,7 @@ import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule
 import mods.gregtechmod.util.LazyValue;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
@@ -42,6 +43,7 @@ public final class NBTSaveHandler {
         addSimpleSerializer(ItemStack.class, Serializers::serializeItemStack, ItemStack::new);
         addSimpleSerializer(GameProfile.class, Serializers::serializeGameProfile, NBTUtil::readGameProfileFromNBT);
         addSimpleSerializer(InvSlot.class, Serializers::serializeInvSlot, Serializers::deserializeInvSlot);
+        addSimpleSerializer(IForgeRegistryEntry.class, Serializers::serializeIForgeRegistryEntry, Serializers::deserializeIForgeRegistryEntry);
         addSerializer(Enum.class, Serializers.EnumNBTSerializer::new);
         addSerializer(IComputerCubeModule.class, Serializers.ComputerCubeModuleSerializer::new);
         
