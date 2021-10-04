@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import buildcraft.api.mj.MjAPI;
-import com.mojang.authlib.GameProfile;
 import ic2.core.IC2;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.comp.Fluids.InternalFluidTank;
@@ -199,17 +198,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public void addSteamTank() {
         this.hasSteamUpgrade = true;
-        if (steamTank == null) this.steamTank = this.fluids.addTank(createSteamTank());
-    }
-
-    @Override
-    public GameProfile getOwner() {
-        return this.upgradeManager.getOwner();
-    }
-
-    @Override
-    public void setOwner(GameProfile owner) {
-        this.upgradeManager.setOwner(owner);
+        if (this.steamTank == null) this.steamTank = this.fluids.addTank(createSteamTank());
     }
 
     @Override
@@ -220,16 +209,6 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public int getUpgradeCount(IC2UpgradeType type) {
         return this.upgradeManager.getUpgradeCount(type);
-    }
-
-    @Override
-    public boolean isPrivate() {
-        return this.upgradeManager.isPrivate();
-    }
-
-    @Override
-    public void setPrivate(boolean value) {
-        this.upgradeManager.setPrivate(value);
     }
 
     @Override

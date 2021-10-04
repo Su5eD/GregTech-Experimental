@@ -78,7 +78,7 @@ public class ItemScanner extends ItemElectricBase {
             return EnumActionResult.PASS;
         }
         ItemStack stack = player.inventory.getCurrentItem();
-        if (!useEnergy || ElectricItem.manager.canUse(stack, 25000)) {
+        if (!this.useEnergy || ElectricItem.manager.canUse(stack, 25000)) {
             Pair<Collection<String>, Integer> scan = getCoordinateScan(player, world, 1, pos, side, hitX, hitY, hitZ);
             if (this.useEnergy) ElectricItem.manager.use(stack, scan.getValue(), player);
             scan.getKey().stream()
@@ -89,7 +89,8 @@ public class ItemScanner extends ItemElectricBase {
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
     }
 
-    protected static Pair<Collection<String>, Integer> getCoordinateScan(EntityPlayer player, World world, int scanLevel, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    @SuppressWarnings("ConstantConditions")
+    public static Pair<Collection<String>, Integer> getCoordinateScan(EntityPlayer player, World world, int scanLevel, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
         ArrayList<String> ret = new ArrayList<>();
         int energyCost = 0;
         TileEntity tileEntity = world.getTileEntity(pos);
@@ -102,7 +103,7 @@ public class ItemScanner extends ItemElectricBase {
         ret.add(GtUtil.translateScan("name", name));
         ret.add(GtUtil.translateScan("id", id));
         ret.add(GtUtil.translateScan("metadata", block.getMetaFromState(state)));
-        //noinspection deprecation,ConstantConditions
+        //noinspection deprecation
         ret.add(GtUtil.translateScan("hardness_resistance", state.getBlockHardness(world, pos), block.getExplosionResistance(null)));
 
         if (tileEntity != null) {
@@ -129,10 +130,10 @@ public class ItemScanner extends ItemElectricBase {
                 ret.add(GtUtil.translateScan("reactor", ((IReactor)tileEntity).getHeat(), ((IReactor)tileEntity).getMaxHeat(), ((IReactor)tileEntity).getHeatEffectModifier(), ((IReactor)tileEntity).getReactorEUEnergyOutput()));
             }
 
-            if (tileEntity instanceof IWrenchable) {
+            if (block instanceof IWrenchable) {
                 energyCost += 100;
-                ret.add(GtUtil.translateScan("facing_drops", ((IWrenchable)tileEntity).getFacing(world, pos), ((IWrenchable)tileEntity).getWrenchDrops(world, pos, state, tileEntity, player, 0)));
-                ret.add(GtUtil.translateScan(((IWrenchable)tileEntity).wrenchCanRemove(world, pos, player) ? "wrenchable" : "not_wrenchable"));
+                ret.add(GtUtil.translateScan("facing_drops", ((IWrenchable) block).getFacing(world, pos), ((IWrenchable) block).getWrenchDrops(world, pos, state, tileEntity, player, 0)));
+                ret.add(GtUtil.translateScan(((IWrenchable) block).wrenchCanRemove(world, pos, player) ? "wrenchable" : "not_wrenchable"));
             }
 
             IEnergyTile energyTile = EnergyNet.instance.getTile(world, pos);

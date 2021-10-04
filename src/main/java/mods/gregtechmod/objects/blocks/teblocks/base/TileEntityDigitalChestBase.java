@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import com.mojang.authlib.GameProfile;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.CoverType;
@@ -117,7 +116,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     protected void onClicked(EntityPlayer player) {
-        if (!this.upgradeManager.checkAccess(player)) return;
+        if (!checkAccess(player)) return;
         ItemStack slot = content.get();
 
         if (!slot.isEmpty() && !this.world.isRemote && player.getActiveHand() == EnumHand.MAIN_HAND) {
@@ -165,27 +164,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     @Override
     public FluidTank getSteamTank() {
         return null;
-    }
-
-    @Nullable
-    @Override
-    public GameProfile getOwner() {
-        return this.upgradeManager.getOwner();
-    }
-
-    @Override
-    public void setOwner(GameProfile owner) {
-        this.upgradeManager.setOwner(owner);
-    }
-
-    @Override
-    public boolean isPrivate() {
-        return this.upgradeManager.isPrivate();
-    }
-
-    @Override
-    public void setPrivate(boolean value) {
-        this.upgradeManager.setPrivate(value);
     }
 
     @Override

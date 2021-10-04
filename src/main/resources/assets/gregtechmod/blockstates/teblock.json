@@ -81,7 +81,8 @@
       "computer_cube": { "model": "gregtechmod:computer_cube" },
       "charge_o_mat": { "model": "gregtechmod:charge_o_mat" },
       "advanced_pump": { "model": "gregtechmod:advanced_pump" },
-      "advanced_pump_active": { "model": "gregtechmod:advanced_pump_active" }
+      "advanced_pump_active": { "model": "gregtechmod:advanced_pump_active" },
+      "advanced_safe": { "model": "gregtechmod:advanced_safe" }
     },
     "facing": {
       "down": { "x": 90 },

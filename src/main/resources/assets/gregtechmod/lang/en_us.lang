@@ -233,6 +233,7 @@ gregtechmod.info.machine_accessible=Is accessible to you
 gregtechmod.info.machine_not_accessible=Is not accessible to you
 gregtechmod.info.machine_active=Machine is active
 gregtechmod.info.machine_inactive=Machine is inactive
+gregtechmod.info.wrench_error=This block is owned by %s, only they can wrench it.
 gregtechmod.info.structure_invalid=Incomplete Machine Casing!
 gregtechmod.info.heat_capacity=Heat Capacity: %s K
 gregtechmod.info.liquid_amount=Liquid Amount
@@ -904,6 +905,8 @@ gregtechmod.teblock.computer_cube=GregTech Computer Cube
 gregtechmod.teblock.charge_o_mat=Charge-O-Mat
 gregtechmod.teblock.advanced_pump=Advanced Pump
 gregtechmod.teblock.advanced_pump.description=The best way of emptying Oceans!
+gregtechmod.teblock.advanced_safe=Advanced Safe
+gregtechmod.teblock.advanced_safe.description=This is completly 'Safe', except against Explosions
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

@@ -1,15 +1,19 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
+import com.mojang.authlib.GameProfile;
+import ic2.core.IC2;
 import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
+import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
+import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,11 +25,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine, IScannerInfoProvider {
     protected final String descriptionKey;
+    
+    @NBTPersistent(include = Include.NON_NULL)
+    private GameProfile owner;
+    @NBTPersistent
+    private boolean isPrivate;
     
     public final SidedRedstoneEmitter rsEmitter;
     @NBTPersistent
@@ -45,6 +55,9 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {
         super.onPlaced(stack, placer, facing);
+        
+        if (placer instanceof EntityPlayer && !this.world.isRemote) setOwner(((EntityPlayer) placer).getGameProfile());
+        
         for (TileEntityComponent component : getComponents()) {
             if (component instanceof GtComponentBase) ((GtComponentBase) component).onPlaced(stack, placer, facing);
         }
@@ -68,11 +81,20 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
             }
         }
         
+        if (!checkAccess(player)) {
+            GtUtil.sendMessage(player, Reference.MODID + ".info.access_error", owner.getName());
+            return true;
+        }
+        
         return onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
     
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+    }
+    
+    public boolean checkAccess(EntityPlayer player) {
+        return !this.isPrivate || this.owner == null || this.owner.equals(player.getGameProfile());
     }
 
     @Override
@@ -123,8 +145,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing side) {
-        if (!enableOutput) return false;
-        else if (coverHandler.covers.containsKey(side)) return coverHandler.covers.get(side).letsItemsOut() && super.canExtractItem(index, stack, side);
+        if (!this.enableOutput) return false;
+        else if (this.coverHandler.covers.containsKey(side)) return this.coverHandler.covers.get(side).letsItemsOut() && super.canExtractItem(index, stack, side);
         return super.canExtractItem(index, stack, side);
     }
 
@@ -139,7 +161,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
-    protected boolean canConnectRedstone(EnumFacing side) {
+    protected boolean canConnectRedstone(@Nullable EnumFacing side) {
         if (side != null) {
             EnumFacing oppositeSide = side.getOpposite();
             if (this.coverHandler.covers.containsKey(oppositeSide)) {
@@ -148,6 +170,26 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
             }
         }
         return false;
+    }
+
+    @Override
+    protected boolean canSetFacingWrench(EnumFacing facing, EntityPlayer player) {
+        return checkAccess(player) && super.canSetFacingWrench(facing, player);
+    }
+
+    @Override
+    protected boolean wrenchCanRemove(EntityPlayer player) {
+        if (!checkAccess(player)) {
+            GtUtil.sendMessage(player, Reference.MODID + ".info.wrench_error", player.getName());
+            return false;
+        }
+        return super.wrenchCanRemove(player);
+    }
+
+    @Override
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("owner");
     }
 
     @Override
@@ -160,6 +202,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     public final List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
         List<String> scan = new ArrayList<>();
+        if (scanLevel > 1) scan.add(GtUtil.translateInfo(checkAccess(player) ? "machine_accessible" : "machine_not_accessible"));
         getScanInfoPre(scan, player, pos, scanLevel);
         for (TileEntityComponent component : getComponents()) {
             if (component instanceof GtComponentBase) ((GtComponentBase) component).getScanInfo(scan, player, pos, scanLevel);
@@ -200,5 +243,23 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     public boolean isAllowedToWork() {
         return this.enableWorking;
+    }
+    
+    @Nullable
+    public GameProfile getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(GameProfile owner) {
+        this.owner = owner;
+        IC2.network.get(true).updateTileEntityField(this, "owner");
+    }
+
+    public boolean isPrivate() {
+        return this.isPrivate;
+    }
+
+    public void setPrivate(boolean value) {
+        this.isPrivate = value;
     }
 }

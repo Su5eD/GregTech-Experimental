@@ -111,26 +111,27 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
 
     @Override
     public boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate) {
-        if (coverBlacklist.contains(cover.getType())) return false;
+        if (this.coverBlacklist.contains(cover.getType())) return false;
         return this.coverHandler.placeCoverAtSide(cover, side, simulate);
     }
 
     @Override
     public boolean removeCover(EnumFacing side, boolean simulate) {
-        if (!this.coverHandler.covers.containsKey(side)) return false;
-
-        ICover cover = this.coverHandler.covers.get(side);
-        ItemStack coverItem = cover.getItem();
-        if (this.coverHandler.removeCover(side, false)) {
-            if (coverItem != null) {
-                EntityItem entity = new EntityItem(this.world, pos.getX() + side.getXOffset() + 0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ()+side.getZOffset() + 0.5, coverItem);
-                entity.motionX = 0;
-                entity.motionY = 0;
-                entity.motionZ = 0;
-                if (!this.world.isRemote) world.spawnEntity(entity);
+        if (this.coverHandler.covers.containsKey(side)) {
+            ICover cover = this.coverHandler.covers.get(side);
+            ItemStack coverItem = cover.getItem();
+            if (this.coverHandler.removeCover(side, false)) {
+                if (coverItem != null) {
+                    EntityItem entity = new EntityItem(this.world, pos.getX() + side.getXOffset() + 0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ()+side.getZOffset() + 0.5, coverItem);
+                    entity.motionX = 0;
+                    entity.motionY = 0;
+                    entity.motionZ = 0;
+                    if (!this.world.isRemote) this.world.spawnEntity(entity);
+                }
+                return true;
             }
-            return true;
         }
+        
         return false;
     }
 
