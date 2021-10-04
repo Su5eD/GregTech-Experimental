@@ -1,13 +1,12 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBlastFurnace;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialBlastFurnace extends GuiStructure<ContainerBlastFurnace> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_blast_furnace.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("industrial_blast_furnace");
 
     public GuiIndustrialBlastFurnace(ContainerBlastFurnace container) {
         super(container);

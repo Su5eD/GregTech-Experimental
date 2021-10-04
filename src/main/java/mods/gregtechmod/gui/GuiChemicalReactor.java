@@ -1,12 +1,12 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerChemicalReactor;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiChemicalReactor extends GuiInventory<ContainerChemicalReactor> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/chemical_reactor.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("chemical_reactor");
 
     public GuiChemicalReactor(ContainerChemicalReactor container) {
         super(container);

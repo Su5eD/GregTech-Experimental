@@ -1,11 +1,11 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerAdvancedSafe;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiAdvancedSafe extends GuiInventory<ContainerAdvancedSafe> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/advanced_safe.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("advanced_safe");
 
     public GuiAdvancedSafe(ContainerAdvancedSafe container) {
         super(container);

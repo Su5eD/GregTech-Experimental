@@ -1,13 +1,13 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeGuide;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCubeGuide;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiComputerCubeGuide extends GuiComputerCubeModule<ComputerCubeGuide, ContainerComputerCubeGuide> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/computer_cube_guide.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("computer_cube_guide");
 
     public GuiComputerCubeGuide(ContainerComputerCubeGuide container) {
         super(container, 226, ComputerCubeGuide.class);

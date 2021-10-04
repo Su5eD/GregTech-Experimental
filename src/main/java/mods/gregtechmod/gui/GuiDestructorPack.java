@@ -1,13 +1,12 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.containers.ContainerDestructorpack;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiDestructorPack extends GuiIC2<ContainerDestructorpack> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/destructorpack.png");
+    private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("destructorpack");
 
     public GuiDestructorPack(ContainerDestructorpack container) {
         super(container);

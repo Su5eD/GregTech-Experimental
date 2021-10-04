@@ -1,11 +1,11 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerAdvancedPump;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiAdvancedPump extends GuiInventory<ContainerAdvancedPump> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/advanced_pump.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("advanced_pump");
 
     public GuiAdvancedPump(ContainerAdvancedPump container) {
         super(container);

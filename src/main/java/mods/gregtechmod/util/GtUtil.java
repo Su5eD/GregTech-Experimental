@@ -450,6 +450,10 @@ public class GtUtil {
         iterable.forEach(list::add);
         return Collections.unmodifiableList(list);
     }
+    
+    public static ResourceLocation getGuiTexture(String name) {
+        return new ResourceLocation(Reference.MODID, "textures/gui/" + name + ".png");
+    }
 
     private static class VoidTank implements IFluidHandler {
         

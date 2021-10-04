@@ -1,12 +1,12 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialGrinder;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialGrinder extends GuiStructure<ContainerIndustrialGrinder> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_grinder.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("industrial_grinder");
 
     public GuiIndustrialGrinder(ContainerIndustrialGrinder container) {
         super(container);

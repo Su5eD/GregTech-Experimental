@@ -1,6 +1,5 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeScanner;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCubeScanner;
@@ -8,7 +7,7 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiComputerCubeScanner extends GuiInventory<ContainerComputerCubeScanner> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/computer_cube_scanner.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("computer_cube_scanner");
     
     private ComputerCubeScanner module;
     

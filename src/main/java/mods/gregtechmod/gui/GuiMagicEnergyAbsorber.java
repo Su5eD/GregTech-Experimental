@@ -2,13 +2,13 @@ package mods.gregtechmod.gui;
 
 import ic2.core.gui.CustomButton;
 import ic2.core.gui.CycleHandler;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMagicEnergyAbsorber;
 import mods.gregtechmod.util.ButtonStateHandler;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiMagicEnergyAbsorber extends GuiInventory<ContainerMagicEnergyAbsorber> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/magic_energy_absorber.png");
+    private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("magic_energy_absorber");
 
     public GuiMagicEnergyAbsorber(ContainerMagicEnergyAbsorber container) {
         super(container);

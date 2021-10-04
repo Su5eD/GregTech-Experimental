@@ -1,15 +1,15 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.gui.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialCentrifuge;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialCentrifuge extends GuiInventory<ContainerIndustrialCentrifuge> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_centrifuge.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("industrial_centrifuge");
 
     public GuiIndustrialCentrifuge(ContainerIndustrialCentrifuge container) {
         super(container);

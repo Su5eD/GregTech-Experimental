@@ -1,7 +1,6 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.Maintenance;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMultiblock;
 import mods.gregtechmod.util.GtUtil;
@@ -11,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.function.Supplier;
 
 public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/multiblock.png");
+    private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("multiblock");
 
     public GuiMultiblock(ContainerMultiblock container) {
         super(container);

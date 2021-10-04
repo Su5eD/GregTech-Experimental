@@ -1,7 +1,6 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerDistillationTower;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.resources.I18n;
@@ -10,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.List;
 
 public class GuiDistillationTower extends GuiStructure<ContainerDistillationTower> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/distillation_tower.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("distillation_tower");
 
     public GuiDistillationTower(ContainerDistillationTower container) {
         super(container);

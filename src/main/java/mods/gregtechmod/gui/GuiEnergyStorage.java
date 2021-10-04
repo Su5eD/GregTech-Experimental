@@ -1,13 +1,12 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/energy_storage.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("energy_storage");
     
     private final int chargeBarLength;
     private final int chargeBoltOffset;

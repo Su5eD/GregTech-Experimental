@@ -1,6 +1,5 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.inventory.gui.GeneratorFluidSlot;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
@@ -9,7 +8,7 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiPlasmaGenerator extends GuiFluidGenerator {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/plasma_generator.png");
+    private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("plasma_generator");
     
     public GuiPlasmaGenerator(ContainerBasicTank<TileEntityFluidGenerator> container, GtFluidTank fluidTank) {
         super(container, fluidTank);

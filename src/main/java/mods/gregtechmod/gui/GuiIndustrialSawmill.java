@@ -1,12 +1,12 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialSawmill;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiIndustrialSawmill extends GuiStructure<ContainerIndustrialSawmill> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/industrial_sawmill.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("industrial_sawmill");
 
     public GuiIndustrialSawmill(ContainerIndustrialSawmill container) {
         super(container);

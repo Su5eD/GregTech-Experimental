@@ -1,7 +1,6 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.ContainerBase;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.inventory.gui.CustomFluidSlot;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.util.GtUtil;
@@ -9,7 +8,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends GuiInventory<T> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/basic_tank.png");
+    private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("basic_tank");
     protected final GtFluidTank fluidTank;
 
     public GuiBasicTank(T container, GtFluidTank fluidTank) {

@@ -1,11 +1,11 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerChargeOMat;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiChargeOMat extends GuiInventory<ContainerChargeOMat> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/charge_o_mat.png");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("charge_o_mat");
 
     public GuiChargeOMat(ContainerChargeOMat container) {
         super(container);
