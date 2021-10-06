@@ -15,6 +15,7 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.jei.category.*;
 import mods.gregtechmod.gui.*;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.recipe.RecipeAlloySmelter;
 import mods.gregtechmod.recipe.RecipeCanner;
@@ -105,6 +106,12 @@ public class JEIModule implements IModPlugin {
             HIDDEN_ITEMS.add(new ItemStack(BlockItems.Upgrade.PNEUMATIC_GENERATOR.getInstance()));
             HIDDEN_ITEMS.add(new ItemStack(BlockItems.Upgrade.RS_ENERGY_CELL.getInstance()));
         }
+        
+        Arrays.stream(GregTechTEBlock.VALUES)
+                .filter(teBlock -> !Version.shouldEnable(teBlock.getTeClass()))
+                .map(GregTechTEBlock::getName)
+                .map(GregTechObjectAPI::getTileEntity)
+                .forEach(HIDDEN_ITEMS::add);
 
         HIDDEN_ITEMS.forEach(ingredientBlacklist::addIngredientToBlacklist);
 

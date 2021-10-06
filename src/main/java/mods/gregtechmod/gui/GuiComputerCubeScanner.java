@@ -30,7 +30,7 @@ public class GuiComputerCubeScanner extends GuiInventory<ContainerComputerCubeSc
                 drawString(51, 24, GtUtil.translate("computercube.scanner.usage"), 16448255, false);
                 drawString(51, 32, GtUtil.translate("computercube.scanner.usage.2"), 16448255, false);
             } else {
-                drawString(51, 24, GtUtil.translate("computercube.scanner.progress"), 16448255, false);
+                drawString(51, 24, GtUtil.translateInfo("progress"), 16448255, false);
                 drawString(51, 32, progress + "%", 16448255, false);
             }
         }

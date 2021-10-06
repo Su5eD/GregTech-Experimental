@@ -82,7 +82,9 @@
       "charge_o_mat": { "model": "gregtechmod:charge_o_mat" },
       "advanced_pump": { "model": "gregtechmod:advanced_pump" },
       "advanced_pump_active": { "model": "gregtechmod:advanced_pump_active" },
-      "advanced_safe": { "model": "gregtechmod:advanced_safe" }
+      "advanced_safe": { "model": "gregtechmod:advanced_safe" },
+      "matter_fabricator": { "model": "gregtechmod:matter_fabricator" },
+      "matter_fabricator_active": { "model": "gregtechmod:matter_fabricator_active" }
     },
     "facing": {
       "down": { "x": 90 },

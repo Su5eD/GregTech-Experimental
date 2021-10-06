@@ -242,6 +242,8 @@ gregtechmod.info.plasma_amount=Plasma Amount
 gregtechmod.info.active=Active
 gregtechmod.info.inactive=Inctive
 gregtechmod.info.output=Output: %s EU/t
+gregtechmod.info.progress=Progress:
+gregtechmod.info.energy=Energy: %s
 gregtechmod.generic.turbine_rotor.description=Turbine Efficiency:  %s%%
 gregtechmod.generic.steam=Steam
 gregtechmod.generic.progress=Progress
@@ -276,7 +278,6 @@ gregtechmod.computercube.reactor.runtime=Runtime: %s secs
 gregtechmod.computercube.scanner.title=Scanner
 gregtechmod.computercube.scanner.usage=Can be used to
 gregtechmod.computercube.scanner.usage.2=scan Seedbags
-gregtechmod.computercube.scanner.progress=Progress:
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -907,6 +908,7 @@ gregtechmod.teblock.advanced_pump=Advanced Pump
 gregtechmod.teblock.advanced_pump.description=The best way of emptying Oceans!
 gregtechmod.teblock.advanced_safe=Advanced Safe
 gregtechmod.teblock.advanced_safe.description=This is completly 'Safe', except against Explosions
+gregtechmod.teblock.matter_fabricator=Matter Fabricator
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

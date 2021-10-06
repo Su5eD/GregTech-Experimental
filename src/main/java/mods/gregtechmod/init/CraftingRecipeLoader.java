@@ -77,6 +77,7 @@ public class CraftingRecipeLoader {
             ModHandler.removeCraftingRecipe(new ItemStack(Blocks.ENCHANTING_TABLE));
         }
         if (GregTechConfig.DISABLED_RECIPES.enderChest) ModHandler.removeCraftingRecipe(new ItemStack(Blocks.ENDER_CHEST));
+        if (GregTechConfig.DISABLED_RECIPES.massFabricator) ModHandler.removeCraftingRecipe(IC2Items.getItem("te", "mass_fabricator"));
         if (!GregTechAPI.getDynamicConfig("storage_block_crafting", "blockGlowstone", false)) {
             ItemStack dustGlowstone = new ItemStack(Items.GLOWSTONE_DUST);
             ModHandler.removeCraftingRecipeFromInputs(dustGlowstone, dustGlowstone, ItemStack.EMPTY, dustGlowstone, dustGlowstone);

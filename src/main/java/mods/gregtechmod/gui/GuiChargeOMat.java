@@ -15,8 +15,7 @@ public class GuiChargeOMat extends GuiInventory<ContainerChargeOMat> {
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         
-        double charge = this.container.base.getStoredEU() / (double) this.container.base.getEUCapacity();
-        GuiEnergyStorage.drawChargeBar(this, 77, 60, 141, charge);
+        GuiEnergyStorage.drawChargeBar(this, this.container.base, 77, 60, 141);
     }
 
     @Override

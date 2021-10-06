@@ -1,6 +1,7 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
+import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
@@ -33,11 +34,11 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
         drawString("teblock.lesu.max_input", offsetY + 16, GtUtil.formatNumber(this.container.base.getMaxInputEUp()));
         drawString("teblock.lesu.output", offsetY + 24, GtUtil.formatNumber(this.container.base.getMaxOutputEUp()));
         
-        double charge = this.container.base.getStoredEU() / (double) this.container.base.getEUCapacity();
-        drawChargeBar(this, this.chargeBoltOffset, 73, this.chargeBarLength, charge);
+        drawChargeBar(this, this.container.base, this.chargeBoltOffset, 73, this.chargeBarLength);
     }
     
-    public static void drawChargeBar(GuiIC2<?> gui, int chargeBoltOffsetX, int offsetY, int chargeBarLength, double charge) {
+    public static void drawChargeBar(GuiIC2<?> gui, IElectricMachine te, int chargeBoltOffsetX, int offsetY, int chargeBarLength) {
+        double charge = te.getStoredEU() / (double) te.getEUCapacity();
         gui.drawColoredRect(8, offsetY, (int) (charge * chargeBarLength), 5, -16711681);
         
         drawRect(gui, chargeBoltOffsetX + 2, offsetY, 1);

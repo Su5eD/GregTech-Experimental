@@ -5,6 +5,7 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.ITeBlock;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.item.block.ItemBlockTileEntity;
+import ic2.core.profile.Version;
 import ic2.core.ref.IC2Material;
 import ic2.core.ref.TeBlock;
 import ic2.core.ref.TeBlock.DefaultDrop;
@@ -89,7 +90,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     COMPUTER_CUBE(TileEntityComputerCube.class, 50, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     CHARGE_O_MAT(TileEntityChargeOMat.class, 51, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     ADVANCED_PUMP(TileEntityAdvancedPump.class, 52, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
-    ADVANCED_SAFE(TileEntityAdvancedSafe.class, 53, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE);
+    ADVANCED_SAFE(TileEntityAdvancedSafe.class, 53, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    MATTER_FABRICATOR(TileEntityMatterFabricator.class, 54, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
@@ -239,6 +241,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
         if (tab == CreativeTabs.SEARCH) {
             Arrays.stream(VALUES)
+                    .filter(teblock -> Version.shouldEnable(teblock.teClass))
                     .map(block::getItemStack)
                     .forEach(list::add);
         }

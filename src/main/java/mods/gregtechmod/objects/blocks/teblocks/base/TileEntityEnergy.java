@@ -147,18 +147,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
     @Override
     public float getExplosionPower(int tier, float defaultPower) {
-        switch (tier) {
-            case 2:
-                return GregTechConfig.BALANCE.MVExplosionPower;
-            case 3:
-                return GregTechConfig.BALANCE.HVExplosionPower;
-            case 4:
-                return GregTechConfig.BALANCE.EVExplosionPower;
-            case 5:
-                return GregTechConfig.BALANCE.IVExplosionPower;
-            default:
-                return GregTechConfig.BALANCE.LVExplosionPower;
-        }
+        return Math.max(defaultPower, tier * GregTechConfig.BALANCE.explosionPowerMultiplier);
     }
     
     public void explodeMachine(float power) {

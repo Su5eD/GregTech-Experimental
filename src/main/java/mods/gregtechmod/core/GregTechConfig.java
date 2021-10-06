@@ -60,16 +60,14 @@ public class GregTechConfig {
         public boolean reactorPlanner = true;
         @Comment("Enables the Seed Scanner Computer Cube module")
         public boolean seedScanner = true;
+        @RangeInt(min = 1)
+        public int matterFabricationRate = 16666666;
     }
 
     public static class Balance {
         @Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public boolean solarPanelCoverOvervoltageProtection = false;
-        public float LVExplosionPower = 2;
-        public float MVExplosionPower = 3;
-        public float HVExplosionPower = 4;
-        public float EVExplosionPower = 5;
-        public float IVExplosionPower = 6;
+        public float explosionPowerMultiplier = 1;
     }
 
     public static class Machines {
