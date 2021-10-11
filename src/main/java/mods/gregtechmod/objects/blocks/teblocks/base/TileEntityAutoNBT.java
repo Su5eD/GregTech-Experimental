@@ -12,6 +12,15 @@ import java.util.function.DoubleSupplier;
 
 public abstract class TileEntityAutoNBT extends TileEntityInventory implements IGuiValueProvider {
     private final Map<String, DoubleSupplier> guiValues = new HashMap<>();
+    
+    protected int tickCounter;
+
+    @Override
+    protected void updateEntityServer() {
+        super.updateEntityServer();
+        
+        this.tickCounter++;
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
@@ -46,5 +55,9 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
         if (supplier != null) return supplier.getAsDouble();
         
         throw new IllegalArgumentException("Cannot get value for " + name);
+    }
+    
+    protected boolean isRedstonePowered() {
+        return this.world != null && this.world.getRedstonePowerFromNeighbors(this.pos) > 0;
     }
 }

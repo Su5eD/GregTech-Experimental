@@ -278,6 +278,9 @@ gregtechmod.computercube.reactor.runtime=Runtime: %s secs
 gregtechmod.computercube.scanner.title=Scanner
 gregtechmod.computercube.scanner.usage=Can be used to
 gregtechmod.computercube.scanner.usage.2=scan Seedbags
+gregtechmod.teblock.gt_teleporter.dimension_short=Dim: %s
+gregtechmod.teblock.gt_teleporter.dimension=Dimension: %s
+gregtechmod.teblock.gt_teleporter.charge=Charge: %s
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -909,6 +912,8 @@ gregtechmod.teblock.advanced_pump.description=The best way of emptying Oceans!
 gregtechmod.teblock.advanced_safe=Advanced Safe
 gregtechmod.teblock.advanced_safe.description=This is completly 'Safe', except against Explosions
 gregtechmod.teblock.matter_fabricator=Matter Fabricator
+gregtechmod.teblock.gt_teleporter=Teleporter
+gregtechmod.teblock.gt_teleporter.description=Teleport long distances with this little device.
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

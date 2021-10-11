@@ -217,6 +217,8 @@ public class GtUtil {
     public static String translate(String key, Object... parameters) {
         return I18n.format(Reference.MODID + "." + key, parameters);
     }
+    
+    // TODO translateTeBlock
 
     public static double getTransferLimit(int tier) {
         return Math.pow(2, tier) * 128;

@@ -10,6 +10,8 @@ import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerC
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -34,6 +36,21 @@ public final class Serializers {
     
     public static NBTTagCompound serializeGameProfile(GameProfile profile) {
         return NBTUtil.writeGameProfile(new NBTTagCompound(), profile);
+    }
+    
+    public static NBTTagCompound serializeBlockPos(BlockPos vec) {
+        NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setInteger("x", vec.getX());
+        nbt.setInteger("y", vec.getY());
+        nbt.setInteger("z", vec.getZ());
+        return nbt;
+    }
+    
+    public static BlockPos deserializeBlockPos(NBTTagCompound nbt) {
+        int x = nbt.getInteger("x");
+        int y = nbt.getInteger("y");
+        int z = nbt.getInteger("z");
+        return new BlockPos(x, y, z);
     }
     
     @SuppressWarnings("ConstantConditions")

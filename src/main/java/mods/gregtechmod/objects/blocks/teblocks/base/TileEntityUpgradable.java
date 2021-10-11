@@ -220,7 +220,12 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return IC2UpgradeType.DEFAULT;
     }
-     
+
+    @Override
+    public boolean canUseEnergy(double amount) {
+        return getUniversalEnergy() >= amount;
+    }
+
     @Override
     public double useEnergy(double amount, boolean simulate) {
         double discharged = this.energy.discharge(amount, simulate);

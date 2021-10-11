@@ -59,7 +59,7 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
         this.amplifierLast = this.amplifier;
         this.progressLast = this.progress;
         
-        if (this.euLast > 0 && this.world.getRedstonePowerFromNeighbors(this.pos) <= 0) {
+        if (this.euLast > 0 && !isRedstonePowered()) {
             Iterator<? extends MachineRecipe<IRecipeInput, Integer>> it = Recipes.matterAmplifier.getRecipes().iterator();
             
             while (this.amplifier < 100000 && it.hasNext()) {

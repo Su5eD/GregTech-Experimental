@@ -28,7 +28,7 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
     public TileEntityChargeOMat() {
         super(null);
         
-        this.chargeSlots = Stream.generate(() -> new GtSlotChargeHybrid(this, "charge", getSourceTier(), this::isOutput))
+        this.chargeSlots = Stream.generate(() -> new GtSlotChargeHybrid(this, "charge", getSourceTier(), this::isRedstonePowered))
                 .limit(9)
                 .peek(this.energy::addChargingSlot)
                 .peek(this.energy::addDischargingSlot)
@@ -47,7 +47,7 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
                 int sinkTier = getSinkTier();
                 int sourceTier = getSourceTier();
                 int tier = Math.max(sinkTier, sourceTier);
-                boolean discharge = isOutput();
+                boolean discharge = isRedstonePowered();
                 
                 for (int i = 0; i < tier; i++) {
                     player.inventory.armorInventory.stream()
@@ -78,7 +78,7 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
                 if (!stack.isEmpty()) {
                     IElectricItem item = (IElectricItem) stack.getItem();
                     
-                    if (isOutput() && (!item.canProvideEnergy(stack) || ElectricItem.manager.discharge(stack, 1000000, getSinkTier(), true, true, true) <= 0)
+                    if (isRedstonePowered() && (!item.canProvideEnergy(stack) || ElectricItem.manager.discharge(stack, 1000000, getSinkTier(), true, true, true) <= 0)
                             || ElectricItem.manager.charge(stack, 1000000, getSourceTier(), true, true) <= 0) {
                         moveToOutputSlot(slot, stack);
                     }
@@ -104,11 +104,7 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
 
     @Override
     protected Collection<EnumFacing> getSourceSides() {
-        return this.world == null || isOutput() ? Util.allFacings : Util.noFacings;
-    }
-    
-    private boolean isOutput() {
-        return this.world != null && this.world.getRedstonePowerFromNeighbors(this.pos) > 0;
+        return this.world == null || isRedstonePowered() ? Util.allFacings : Util.noFacings;
     }
 
     @Override

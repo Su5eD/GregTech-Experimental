@@ -45,7 +45,6 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     private boolean enableInput = true;
     @NBTPersistent
     private boolean enableOutput = true;
-    protected int tickCounter;
 
     public TileEntityCoverBehavior(String descriptionKey) {
         this.descriptionKey = descriptionKey;
@@ -99,6 +98,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     protected void updateEntityServer() {
+        super.updateEntityServer();
+        
         for (ICover cover : this.coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
             if (tickRate > 0 && this.tickCounter % tickRate == 0) cover.doCoverThings();
@@ -107,8 +108,6 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         if (this.enableWorking != this.enableWorkingOld) {
             this.enableWorkingOld = this.enableWorking;
         }
-        
-        ++this.tickCounter;
     }
 
     @Override

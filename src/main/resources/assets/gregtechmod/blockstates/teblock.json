@@ -84,7 +84,9 @@
       "advanced_pump_active": { "model": "gregtechmod:advanced_pump_active" },
       "advanced_safe": { "model": "gregtechmod:advanced_safe" },
       "matter_fabricator": { "model": "gregtechmod:matter_fabricator" },
-      "matter_fabricator_active": { "model": "gregtechmod:matter_fabricator_active" }
+      "matter_fabricator_active": { "model": "gregtechmod:matter_fabricator_active" },
+      "gt_teleporter": { "model": "gregtechmod:gt_teleporter" },
+      "gt_teleporter_active": { "model": "gregtechmod:gt_teleporter_active" }
     },
     "facing": {
       "down": { "x": 90 },

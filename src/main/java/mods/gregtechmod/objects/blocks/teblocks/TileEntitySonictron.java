@@ -57,11 +57,9 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
 
     @Override
     protected void updateEntityServer() {
-        if (this.world.getRedstonePowerFromNeighbors(pos) > 0) {
-            if (this.currentIndex < 0) this.currentIndex = 0;
-        }
+        if (isRedstonePowered() && this.currentIndex < 0) this.currentIndex = 0;
 
-        if (this.world.getTotalWorldTime() % 2 == 0 && this.currentIndex > -1) {
+        if (this.tickCounter % 2 == 0 && this.currentIndex > -1) {
             this.setActive(true);
             
             doSonictronSound(this.content.get(currentIndex), this.world, this.pos);
