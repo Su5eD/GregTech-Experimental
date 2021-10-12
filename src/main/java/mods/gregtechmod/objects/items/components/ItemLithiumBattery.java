@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.items.components;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.item.ItemBattery;
+import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtUtil;
@@ -22,7 +23,7 @@ public class ItemLithiumBattery extends ItemBattery implements ICustomItemModel 
         super(null, 100000, 128, 1);
         setRegistryName("lithium_re_battery");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-        this.addPropertyOverride(new ResourceLocation(Reference.MODID, "battery_charge"), (stack, worldIn, entityIn) -> ElectricItem.manager.getCharge(stack) > 1 ? 1 : 0);
+        this.addPropertyOverride(new ResourceLocation(Reference.MODID, "battery_charge"), (stack, worldIn, entityIn) -> ElectricItem.manager.getCharge(StackUtil.copyWithSize(stack, 1)) > 0 ? 1 : 0);
     }
 
     @Override
