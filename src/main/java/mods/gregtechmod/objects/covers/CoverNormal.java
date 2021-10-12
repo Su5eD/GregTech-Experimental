@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,6 +9,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class CoverNormal extends CoverGeneric {
+    private static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
+    private static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
+    
     @NBTPersistent
     protected CoverMeter.MeterMode mode = CoverMeter.MeterMode.NORMAL;
 
@@ -18,7 +21,7 @@ public class CoverNormal extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/" + (mode == CoverMeter.MeterMode.NORMAL ? "normal" : "noredstone"));
+        return mode == CoverMeter.MeterMode.NORMAL ? TEXTURE_NORMAL : TEXTURE_NOREDSTONE;
     }
 
     @Override

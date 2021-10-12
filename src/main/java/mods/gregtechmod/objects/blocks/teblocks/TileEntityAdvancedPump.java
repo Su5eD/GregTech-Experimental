@@ -130,9 +130,9 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
             if (isFluidSource(state, this.world, pos)) {
                 FluidStack fluid = LiquidUtil.drainBlock(this.world, pos, false);
                 this.fluidTank.fillInternal(fluid, true);
-                useEnergy(1280, false);
+                useEnergy(1280);
             } else {
-                useEnergy(320, false);
+                useEnergy(320);
             }
 
             this.world.setBlockToAir(pos);

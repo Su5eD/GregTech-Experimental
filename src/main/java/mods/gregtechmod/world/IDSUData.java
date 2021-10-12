@@ -72,7 +72,7 @@ public class IDSUData extends WorldSavedData {
         private final IDSUData parent;
         private double energy;
 
-        public EnergyWrapper(IDSUData parent) {
+        private EnergyWrapper(IDSUData parent) {
             this.parent = parent;
         }
 

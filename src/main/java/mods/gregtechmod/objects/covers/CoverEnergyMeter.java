@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.util.Reference;
@@ -15,6 +16,8 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Locale;
 
 public class CoverEnergyMeter extends CoverGeneric {
+    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
+    
     @NBTPersistent
     protected Mode mode = Mode.UNIVERSAL;
 
@@ -24,50 +27,50 @@ public class CoverEnergyMeter extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IUpgradableMachine)) return;
-        IUpgradableMachine machine = (IUpgradableMachine) te;
-        byte strength;
-        if (mode == Mode.AVERAGE_EU_IN || mode == Mode.AVERAGE_EU_IN_INVERTED) {
-            strength = (byte) (machine.getAverageEUInput() / (machine.getMaxInputEUp() / 15));
-        } else if (mode == Mode.AVERAGE_EU_OUT || mode == Mode.AVERAGE_EU_OUT_INVERTED) {
-            strength = (byte) (machine.getAverageEUOutput() / (machine.getMaxOutputEUt() / 15));
-        } else {
-            double stored = -1;
-            double capacity = 1;
-
-            if (mode == Mode.UNIVERSAL || mode == Mode.UNIVERSAL_INVERTED) {
-                stored = machine.getUniversalEnergy();
-                capacity = machine.getUniversalEnergyCapacity();
-            } else if(mode == Mode.ELECTRICITY || mode == Mode.ELECTRICITY_INVERTED) {
-                stored = machine.getStoredEU();
-                capacity = machine.getEUCapacity();
-            } else if (mode == Mode.MJ || mode == Mode.MJ_INVERTED) {
-                double mjCap = machine.getMjCapacity();
-                if (mjCap > 0) {
-                    stored = machine.getStoredMj();
-                    capacity = machine.getMjCapacity();
+        if (te instanceof IElectricMachine) {
+            IElectricMachine machine = (IElectricMachine) te;
+            byte strength;
+            
+            if (this.mode == Mode.AVERAGE_EU_IN || this.mode == Mode.AVERAGE_EU_IN_INVERTED) {
+                strength = (byte) (machine.getAverageEUInput() / (machine.getMaxInputEUp() / 15));
+            } else if (this.mode == Mode.AVERAGE_EU_OUT || this.mode == Mode.AVERAGE_EU_OUT_INVERTED) {
+                strength = (byte) (machine.getAverageEUOutput() / (machine.getMaxOutputEUt() / 15));
+            } else {
+                boolean upgradable = machine instanceof IUpgradableMachine;
+                double stored = -1;
+                double capacity = 1;
+                
+                if (this.mode == Mode.UNIVERSAL || this.mode == Mode.UNIVERSAL_INVERTED) {
+                    stored = upgradable ? ((IUpgradableMachine) machine).getUniversalEnergy() : machine.getStoredEU();
+                    capacity = upgradable ? ((IUpgradableMachine) machine).getUniversalEnergyCapacity() : machine.getEUCapacity();
+                } else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
+                    stored = machine.getStoredEU();
+                    capacity = machine.getEUCapacity();
+                } else if (upgradable) {
+                    if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && ((IUpgradableMachine) machine).hasMjUpgrade()) {
+                        stored = ((IUpgradableMachine) machine).getStoredMj();
+                        capacity = ((IUpgradableMachine) machine).getMjCapacity();
+                    } else if ((this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) && ((IUpgradableMachine) machine).hasSteamTank()) {
+                        stored = ((IUpgradableMachine) machine).getStoredSteam();
+                        capacity = ((IUpgradableMachine) machine).getSteamCapacity();
+                    }
                 }
-            } else if(mode == Mode.STEAM || mode == Mode.STEAM_INVERTED) {
-                double steamCap = machine.getSteamCapacity();
-                if (steamCap > 0) {
-                    stored = machine.getStoredSteam();
-                    capacity = machine.getSteamCapacity();
-                }
+                
+                strength = (byte) ((stored + 1) / capacity * 15);
             }
-            strength = (byte) ((stored + 1) / capacity * 15);
-        }
-
-        if (strength > 0) {
-            machine.setRedstoneOutput(side, mode.inverted ? (byte) (15 - strength) : strength);
-        } else {
-            machine.setRedstoneOutput(side, (byte) (mode.inverted ? 15 : 0));
+            
+            if (strength > 0) {
+                machine.setRedstoneOutput(side, this.mode.inverted ? (byte) (15 - strength) : strength);
+            } else {
+                machine.setRedstoneOutput(side, (byte) (this.mode.inverted ? 15 : 0));
+            }
         }
     }
 
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
-        mode = mode.next();
-        GtUtil.sendMessage(player, mode.getMessageKey());
+        this.mode = this.mode.next();
+        GtUtil.sendMessage(player, this.mode.getMessageKey());
         return true;
     }
 
@@ -115,7 +118,7 @@ public class CoverEnergyMeter extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/eu_meter");
+        return TEXTURE;
     }
 
     @Override

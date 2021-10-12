@@ -18,6 +18,8 @@ import net.minecraft.world.World;
 import java.util.Locale;
 
 public class CoverRedstoneConductor extends CoverGeneric {
+    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
+    
     @NBTPersistent
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
@@ -61,7 +63,7 @@ public class CoverRedstoneConductor extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/redstone_conductor");
+        return TEXTURE;
     }
 
     @Override

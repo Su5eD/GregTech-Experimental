@@ -167,13 +167,16 @@ public class CoverGeneric implements ICover {
     }
 
     private String getCoverName(ItemStack stack) {
-        if (stack.isEmpty()) return "";
-        Item item = stack.getItem();
-        if (item instanceof ItemMulti) {
-            if (StackUtil.checkItemEquality(stack, ItemName.crafting.getItemStack(CraftingItemType.iridium))) return "iridium_alloy";
-            return PlateResourceType.values()[stack.getMetadata()].name();  //ic2 plate
+        if (!stack.isEmpty()) {
+            Item item = stack.getItem();
+            if (item instanceof ItemMulti) {
+                if (StackUtil.checkItemEquality(stack, ItemName.crafting.getItemStack(CraftingItemType.iridium))) return "iridium_alloy";
+                return PlateResourceType.values()[stack.getMetadata()].name(); //ic2 plate
+            }
+            else return item.getRegistryName().getPath().substring(6); //GT plate
         }
-        else return item.getRegistryName().getPath().substring(6); //GT plate
+        
+        return "";
     }
 
     private enum CoverTexture {

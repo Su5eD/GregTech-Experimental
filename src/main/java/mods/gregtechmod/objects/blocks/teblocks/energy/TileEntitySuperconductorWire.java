@@ -84,7 +84,7 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     
     private boolean isSideConnectable(EnumFacing side) {
         if (GregTechConfig.GENERAL.connectedTextures) {
-            IEnergyTile energyTile = EnergyNet.instance.getTile(world, pos.offset(side));
+            IEnergyTile energyTile = EnergyNet.instance.getTile(this.world, this.pos.offset(side));
             ConductorEnergy.DelegateConductor delegate = ((ConductorEnergy) this.energy).getDelegate();
             
             return energyTile instanceof IEnergyAcceptor && ((IEnergyAcceptor) energyTile).acceptsEnergyFrom(delegate, side.getOpposite())

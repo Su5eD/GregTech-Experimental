@@ -2,7 +2,9 @@ package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
+import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.machine.IGregTechMachine;
+import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +25,14 @@ public abstract class CoverInventory extends CoverGeneric {
             return !(mode.conditional && ((IGregTechMachine) te).isAllowedToWork() == mode.inverted);
         }
         return true;
+    }
+    
+    protected boolean shouldUseEnergy(double minCapacity) {
+        if (this.mode.consumesEnergy(side) && te instanceof IElectricMachine) {
+            double capacity = te instanceof IUpgradableMachine ? ((IUpgradableMachine) te).getUniversalEnergyCapacity() : ((IElectricMachine) te).getEUCapacity();
+            return capacity >= minCapacity;
+        }
+        return false;
     }
 
     @Override

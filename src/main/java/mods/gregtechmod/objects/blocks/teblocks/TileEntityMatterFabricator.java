@@ -82,7 +82,7 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
             if (used > 0) {
                 this.progress += used;
                 this.amplifier -= used;
-                useEnergy(used, false);
+                useEnergy(used);
             }
             
             while (this.progress > maxProgress && this.output.canAdd(ModHandler.uuMatter)) {

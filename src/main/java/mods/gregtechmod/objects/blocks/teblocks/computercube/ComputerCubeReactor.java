@@ -119,13 +119,14 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
     @Override
     public boolean updateServer() {
-        if (this.started && parent.useEnergy(32, false) >= 32) {
+        if (this.started && this.parent.useEnergy(32) >= 32) {
             for (int i = 0; i < 25 && this.started; i++) {
                 this.euOut = 0;
                 this.maxHeat = 10000;
-                this.hem = 1.0F;
+                this.hem = 1;
                 this.explosionStrength = 10;
                 float multiplier = 1;
+                
                 for (int y = 0; y < 6; y++) {
                     for (int x = 0; x < 9; x++) {
                         ItemStack stack = this.content.get(x + y * 9);
@@ -151,12 +152,12 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
                 if (this.euOut != 0) this.euTimer = 0;
                 this.explosionStrength *= this.hem * multiplier;
                 this.eu += this.euOut * 20;
-                int tEU = this.euLast1;
+                int eu = this.euLast1;
                 this.euLast1 = this.euLast2;
                 this.euLast2 = this.euLast3;
                 this.euLast3 = this.euLast4;
                 this.euLast4 = this.euOut;
-                this.euOut = (this.euOut + this.euLast1 + this.euLast2 + this.euLast3 + tEU) / 5;
+                this.euOut = (this.euOut + this.euLast1 + this.euLast2 + this.euLast3 + eu) / 5;
             }
             return true;
         }
@@ -293,7 +294,7 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
     @Override
     public ContainerComputerCubeReactor getGuiContainer(EntityPlayer player, TileEntityComputerCube base) {
-        return new ContainerComputerCubeReactor(parent);
+        return new ContainerComputerCubeReactor(this.parent);
     }
 
     @Override

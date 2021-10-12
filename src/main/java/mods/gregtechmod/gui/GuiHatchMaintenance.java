@@ -19,7 +19,7 @@ public class GuiHatchMaintenance extends GuiIC2<ContainerHatchMaintenance> {
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         
         drawString(8, 4, I18n.format(this.container.base.getName()), GuiColors.DARK_GRAY, false);
-        drawString(8, 12, GtUtil.translate("teblock.hatch_maintenance.gui_tooltip"), GuiColors.DARK_GRAY, false);
+        drawString(8, 12, GtUtil.translateTeBlock("hatch_maintenance", "gui_tooltip"), GuiColors.DARK_GRAY, false);
     }
 
     @Override

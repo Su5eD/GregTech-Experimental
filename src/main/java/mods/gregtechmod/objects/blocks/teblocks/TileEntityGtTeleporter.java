@@ -102,7 +102,7 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
         if (this.tickCounter % 100 == 50) this.hasEgg = checkForEgg();
         
         if (isAllowedToWork() && isRedstonePowered()) {
-            useEnergy(8192, false);
+            useEnergy(8192);
             
             int distance = calculateDistance();
             BlockPos offset = this.pos.offset(getFacing(), 2);
@@ -116,7 +116,7 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
                             if (entity.isRiding()) entity.dismountRidingEntity();
                             if (entity.isBeingRidden()) entity.getPassengers().forEach(Entity::dismountRidingEntity);
                             
-                            if (teleportEntity(entity)) useEnergy(cost, false);
+                            if (teleportEntity(entity)) useEnergy(cost);
                         }
                     });
             setActive(true);
@@ -238,7 +238,7 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
 
     @Override
     public String getMainInfo() {
-        return GtUtil.translate("teblock.gt_teleporter.charge", this.getUniversalEnergy());
+        return GtUtil.translateTeBlock("gt_teleporter", "charge", this.getUniversalEnergy());
     }
 
     @Override
@@ -248,6 +248,6 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
 
     @Override
     public String getTertiaryInfo() {
-        return GtUtil.translate("teblock.gt_teleporter.dimension", this.targetDimension.getName());
+        return GtUtil.translateTeBlock("gt_teleporter", "dimension", this.targetDimension.getName());
     }
 }

@@ -1,6 +1,8 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.energy.EnergyNet;
+import ic2.api.energy.tile.IChargingSlot;
+import ic2.api.energy.tile.IDischargingSlot;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
 import ic2.core.block.TileEntityBlock;
@@ -85,6 +87,10 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         if (this.energy.isSink() && amount > getMaxInputEUp()) markForExplosion();
         return this.energy.charge(amount);
     }
+    
+    protected void forceAddEnergy(double amount) {
+        this.energy.forceCharge(amount);
+    }
 
     protected int getSourcePackets() {
         return 1;
@@ -105,6 +111,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         return this.energy.discharge(amount, simulate);
     }
     
+    @Override
     public boolean canUseEnergy(double amount) {
         return getStoredEU() >= amount;
     }
@@ -116,6 +123,14 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         if(this.explode) this.explodeMachine(this.explosionPower);
         if (this.shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         if (enableMachineSafety()) MachineSafety.checkSafety(this);
+    }
+    
+    protected void addChargingSlot(IChargingSlot slot) {
+        this.energy.addChargingSlot(slot);
+    }
+    
+    protected void addDischargingSlot(IDischargingSlot slot) {
+        this.energy.addDischargingSlot(slot);
     }
 
     protected boolean enableMachineSafety() {

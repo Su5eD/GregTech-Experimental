@@ -173,7 +173,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         )
                 .distinct()
                 .collect(Collectors.joining(" "));
-        if (!possibleUpgrades.isEmpty()) tooltip.add(GtUtil.translate("teblock.info.possible_upgrades", possibleUpgrades));
+        if (!possibleUpgrades.isEmpty()) tooltip.add(GtUtil.translateTeBlock("info", "possible_upgrades", possibleUpgrades));
     }
 
     @Override
@@ -225,10 +225,10 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public boolean canUseEnergy(double amount) {
         return getUniversalEnergy() >= amount;
     }
-
+    
     @Override
     public double useEnergy(double amount, boolean simulate) {
-        double discharged = this.energy.discharge(amount, simulate);
+        double discharged = super.useEnergy(amount, simulate);
         if (discharged > 0) return discharged;
         else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(amount))) return amount;
         else if (this.hasSteamUpgrade) {

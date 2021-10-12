@@ -59,7 +59,7 @@ public class ComputerCubeScanner implements IComputerCubeModule {
                     tag.setByte("scan", (byte) 4);
                     this.progress = 0;
                     return true;
-                } else if (this.parent.useEnergy(100, false) >= 100) {
+                } else if (this.parent.useEnergy(100) >= 100) {
                     ++this.progress;
                     return true;
                 }

@@ -21,7 +21,7 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
-        tooltip.set(2, GtUtil.translate("teblock.hatch_dynamo.description2"));
+        tooltip.set(2, GtUtil.translateTeBlock("hatch_dynamo", "description2"));
     }
 
     @Override

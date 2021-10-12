@@ -15,6 +15,8 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Locale;
 
 public class CoverActiveDetector extends CoverGeneric {
+    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("active_detector");
+    
     @NBTPersistent
     protected DetectorMode mode = DetectorMode.NORMAL;
 
@@ -24,7 +26,7 @@ public class CoverActiveDetector extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/active_detector");
+        return TEXTURE;
     }
 
     @Override

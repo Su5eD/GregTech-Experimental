@@ -24,7 +24,7 @@ public class GuiGtTeleporter extends GuiIC2<ContainerGtTeleporter> {
         drawString(46, 32, "Z: " + this.container.base.targetPos.getZ(), GuiColors.WHITE, false);
         
         if (this.container.base.canTeleportAcrossDimensions()) {
-            drawString(46, 40, GtUtil.translate("teblock.gt_teleporter.dimension_short", this.container.base.targetDimension.getName()), GuiColors.WHITE, false);
+            drawString(46, 40, GtUtil.translateTeBlock("gt_teleporter", "dimension_short", this.container.base.targetDimension.getName()), GuiColors.WHITE, false);
         }
     }
 

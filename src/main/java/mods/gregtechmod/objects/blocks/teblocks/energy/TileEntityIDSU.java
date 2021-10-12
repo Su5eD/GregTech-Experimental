@@ -22,7 +22,7 @@ public class TileEntityIDSU extends TileEntityChargerBase {
         super.onLoaded();
         if (!this.world.isRemote) {
             this.wrapper = IDSUData.get(this.world).getOrCreateWrapper(getOwner().getId());
-            this.energy.forceCharge(getStoredEU());
+            forceAddEnergy(getStoredEU());
         }
     }
 

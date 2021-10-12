@@ -30,10 +30,10 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
         super(descriptionKey);
         
         this.chargeSlot = new InvSlotCharge(this, getSourceTier());
-        this.energy.addChargingSlot(this.chargeSlot);
+        addChargingSlot(this.chargeSlot);
                
         this.dischargeSlot = new InvSlotDischarge(this, InvSlot.Access.IO, getSinkTier(), false, InvSlot.InvSide.NOTSIDE);
-        this.energy.addDischargingSlot(this.dischargeSlot);
+        addDischargingSlot(this.dischargeSlot);
         
         this.energyCapacityTooltip = true;
     }
@@ -61,7 +61,7 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
     }
 
     public String getGuiName() {
-        return GtUtil.translate("teblock." + this.teBlock.getName() + ".container.name");
+        return GtUtil.translateTeBlock(this, "container.name");
     }
     
     @Override

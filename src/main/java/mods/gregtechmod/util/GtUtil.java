@@ -5,6 +5,8 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
 import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
+import ic2.core.block.TeBlockRegistry;
+import ic2.core.block.TileEntityBlock;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
@@ -187,9 +189,18 @@ public class GtUtil {
         }
         return false;
     }
+    
+    public static String translateTeBlock(TileEntityBlock te, String key, Object... parameters) {
+        String name = TeBlockRegistry.get(te.getClass()).getName();
+        return translateTeBlock(name, key, parameters);
+    }
+    
+    public static String translateTeBlock(String teBlockName, String key, Object... parameters) {
+        return GtUtil.translate("teblock." + teBlockName + "." + key, parameters);
+    }
 
     public static String translateScan(String key, Object... parameters) {
-        return I18n.format(Reference.MODID + ".scan." + key, parameters);
+        return translate("scan." + key, parameters);
     }
 
     public static String translateTeBlockDescription(String key) {
@@ -219,8 +230,6 @@ public class GtUtil {
     public static String translate(String key, Object... parameters) {
         return I18n.format(Reference.MODID + "." + key, parameters);
     }
-    
-    // TODO translateTeBlock
 
     public static double getTransferLimit(int tier) {
         return Math.pow(2, tier) * 128;
@@ -457,6 +466,10 @@ public class GtUtil {
     
     public static ResourceLocation getGuiTexture(String name) {
         return new ResourceLocation(Reference.MODID, "textures/gui/" + name + ".png");
+    }
+    
+    public static ResourceLocation getCoverTexture(String name) {
+        return new ResourceLocation(Reference.MODID, "blocks/covers/" + name);
     }
 
     private static class VoidTank implements IFluidHandler {

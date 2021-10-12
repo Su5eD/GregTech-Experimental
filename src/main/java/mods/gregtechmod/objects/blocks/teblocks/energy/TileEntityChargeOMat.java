@@ -30,8 +30,8 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
         
         this.chargeSlots = Stream.generate(() -> new GtSlotChargeHybrid(this, "charge", getSourceTier(), this::isRedstonePowered))
                 .limit(9)
-                .peek(this.energy::addChargingSlot)
-                .peek(this.energy::addDischargingSlot)
+                .peek(this::addChargingSlot)
+                .peek(this::addDischargingSlot)
                 .toArray(GtSlotChargeHybrid[]::new);
         this.outputSlot = new InvSlotOutput(this, "output", 9);
         this.energyCapacityTooltip = true;
@@ -63,7 +63,7 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
                                     double storedEU = getStoredEU();
                                     if (storedEU > 0) {
                                         double charged = ElectricItem.manager.charge(stack, storedEU, sourceTier, false, false);
-                                        useEnergy(charged, false);
+                                        useEnergy(charged);
                                     }
                                 }
                             });

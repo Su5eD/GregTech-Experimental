@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +12,7 @@ import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class CoverItemMeter extends CoverMeter {
+    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
 
     public CoverItemMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);
@@ -43,7 +44,7 @@ public class CoverItemMeter extends CoverMeter {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/item_meter");
+        return TEXTURE;
     }
 
     @Override

@@ -72,8 +72,8 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     }
     
     private void updateAverageEUInput(double amount) {
-        this.averageEUInputIndex = ++this.averageEUInputIndex % averageEUInputs.length;
-        this.averageEUInputs[averageEUInputIndex] = amount;
+        this.averageEUInputIndex = ++this.averageEUInputIndex % this.averageEUInputs.length;
+        this.averageEUInputs[this.averageEUInputIndex] = amount;
     }
     
     public double getAverageEUOutput() {
@@ -81,13 +81,13 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     }
     
     private void updateAverageEUOutput(double amount) {
-        this.averageEUOutputIndex = ++this.averageEUOutputIndex % averageEUOutputs.length;
-        this.averageEUOutputs[averageEUOutputIndex] = amount;
+        this.averageEUOutputIndex = ++this.averageEUOutputIndex % this.averageEUOutputs.length;
+        this.averageEUOutputs[this.averageEUOutputIndex] = amount;
     }
     
     protected double injectEnergy(double amount) {
         double injected = Math.min(getCapacity() - this.storedEnergy, amount);
-        storedEnergy += injected;
+        this.storedEnergy += injected;
         
         updateAverageEUInput(injected);
         
@@ -192,16 +192,16 @@ public abstract class AdjustableEnergy extends GtComponentBase {
 
     @Override
     public boolean enableWorldTick() {
-        return !parent.getWorld().isRemote && !(this.chargingSlots.isEmpty() && this.dischargingSlots.isEmpty());
+        return !this.parent.getWorld().isRemote && !(this.chargingSlots.isEmpty() && this.dischargingSlots.isEmpty());
     }
 
     @Override
     public void onWorldTick() {
-        chargingSlots
+        this.chargingSlots
                 .forEach(slot -> {
                     if (this.storedEnergy > 0) this.discharge(slot.charge(this.storedEnergy));
                 });
-        dischargingSlots
+        this.dischargingSlots
                 .forEach(slot -> {
                     double space = getCapacity() - this.storedEnergy;
                     
@@ -210,22 +210,22 @@ public abstract class AdjustableEnergy extends GtComponentBase {
                         if (energy > 0) this.charge(energy);
                     }
                 });
-        if (!parent.getWorld().isRemote) {
-            if (!injectedEnergy) updateAverageEUInput(0);
-            if (!drawnEnergy) updateAverageEUOutput(0);
+        if (!this.parent.getWorld().isRemote) {
+            if (!this.injectedEnergy) updateAverageEUInput(0);
+            if (!this.drawnEnergy) updateAverageEUOutput(0);
             
             if (isSink()) {
-                double sum = Arrays.stream(averageEUInputs).sum();
-                averageEUIn = sum / averageEUInputs.length;
-            } else averageEUIn = 0;
+                double sum = Arrays.stream(this.averageEUInputs).sum();
+                this.averageEUIn = sum / this.averageEUInputs.length;
+            } else this.averageEUIn = 0;
 
             if (isSource()) {
-                double sum = Arrays.stream(averageEUOutputs).sum();
-                averageEUOut = sum / averageEUOutputs.length;
+                double sum = Arrays.stream(this.averageEUOutputs).sum();
+                this.averageEUOut = sum / this.averageEUOutputs.length;
             } else averageEUOut = 0;
             
-            injectedEnergy = false;
-            drawnEnergy = false;
+            this.injectedEnergy = false;
+            this.drawnEnergy = false;
         }
     }
     
@@ -279,8 +279,6 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         public boolean isTeleporterCompatible(EnumFacing side) {
             return isSource() && getMaxOutputEUt() >= 128 && getCapacity() >= 500000;
         }
-        
-        
     }
     
     private class DualDelegate extends SourceDelegate implements IEnergySink {

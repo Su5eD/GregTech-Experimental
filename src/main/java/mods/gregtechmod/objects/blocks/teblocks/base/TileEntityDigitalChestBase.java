@@ -309,6 +309,11 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
+    public boolean canUseEnergy(double amount) {
+        return false;
+    }
+
+    @Override
     public int getSinkTier() {
         return 0;
     }

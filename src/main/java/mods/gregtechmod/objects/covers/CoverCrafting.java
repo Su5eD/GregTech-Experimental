@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -20,6 +20,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class CoverCrafting extends CoverGeneric {
+    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
 
     public CoverCrafting(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);
@@ -41,7 +42,7 @@ public class CoverCrafting extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/crafting");
+        return TEXTURE;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        if (tickCounter == 1) activeSiphon = null;
+        if (this.tickCounter == 1) activeSiphon = null;
         
         if (isAllowedToWork() && hasEgg()) {
             setActive(true);
@@ -35,7 +35,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
                 }
             }
             
-            if (this.energy.charge(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy) 
+            if (addEnergy(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy) 
                     && GregTechConfig.MACHINES.dragonEggEnergySiphon.outputFlux 
                     && this.world.rand.nextInt(1000) == 5) {
                 ModHandler.polluteAura(this.world, this.pos, 4, true);

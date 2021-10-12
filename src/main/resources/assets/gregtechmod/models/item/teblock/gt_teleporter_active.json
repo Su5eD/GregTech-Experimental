@@ -1,5 +1,5 @@
 {
-  "parent": "gregtechmod:block/block_vertical",
+  "parent": "gregtechmod:block/block_directional",
   "textures": {
     "particle": "gregtechmod:blocks/machines/machine_side",
     "down": "gregtechmod:blocks/machines/gt_teleporter/gt_teleporter_side",

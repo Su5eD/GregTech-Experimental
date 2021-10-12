@@ -53,7 +53,7 @@ public enum InventoryMode {
     }
 
     public boolean consumesEnergy(EnumFacing side) {
-        return !(this.isImport && side == EnumFacing.UP) && !(!this.isImport && side==EnumFacing.DOWN);
+        return !(this.isImport && side == EnumFacing.UP) && !(!this.isImport && side == EnumFacing.DOWN);
     }
 
     public boolean allowsInput() {
