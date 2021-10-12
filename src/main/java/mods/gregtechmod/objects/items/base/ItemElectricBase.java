@@ -42,6 +42,7 @@ public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudo
         this.operationEnergyCost = operationEnergyCost;
         this.providesEnergy = providesEnergy;
         this.showDurability = false;
+        setMaxStackSize(1);
     }
 
     @Override

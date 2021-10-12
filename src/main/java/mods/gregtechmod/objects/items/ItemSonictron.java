@@ -32,6 +32,7 @@ public class ItemSonictron extends ItemBase {
         setRegistryName("sonictron_portable");
         setTranslationKey("sonictron_portable");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
+        setMaxStackSize(1);
     }
 
     @Override
