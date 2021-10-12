@@ -16,11 +16,11 @@ public abstract class GuiInventory<T extends ContainerBase<? extends IInventory>
         this.bindTexture();
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         drawTitle();
-        drawString(8, this.ySize - 96 + 3, I18n.format("container.inventory"), 4210752, false);
+        drawString(8, this.ySize - 96 + 3, I18n.format("container.inventory"), GuiColors.DARK_GRAY, false);
     }
     
     protected void drawTitle() {
         String name = I18n.format(this.container.base.getName());
-        drawString(8, 4, name, 4210752, false);
+        drawString(8, 4, name, GuiColors.DARK_GRAY, false);
     }
 }

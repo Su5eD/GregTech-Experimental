@@ -16,7 +16,7 @@ public class GuiIndustrialBlastFurnace extends GuiStructure<ContainerBlastFurnac
         
     @Override
     protected void doWhenValid() {
-        drawString(8, ySize - 103, GtUtil.translateInfo("heat_capacity", this.container.base.getHeatCapacity()), 4210752, false);
+        drawString(8, ySize - 103, GtUtil.translateInfo("heat_capacity", this.container.base.getHeatCapacity()), GuiColors.DARK_GRAY, false);
     }
 
     @Override

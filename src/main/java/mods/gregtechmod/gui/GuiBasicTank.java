@@ -24,8 +24,8 @@ public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        drawString(10, 20, getDisplayName(), 14211290, false);
-        drawString(10, 30, GtUtil.formatNumber(this.fluidTank.getFluidAmount()), 14211290, false);
+        drawString(10, 20, getDisplayName(), GuiColors.LIGHT_GRAY, false);
+        drawString(10, 30, GtUtil.formatNumber(this.fluidTank.getFluidAmount()), GuiColors.LIGHT_GRAY, false);
     }
     
     protected String getDisplayName() {

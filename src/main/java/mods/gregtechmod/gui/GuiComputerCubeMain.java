@@ -15,7 +15,7 @@ public class GuiComputerCubeMain extends GuiInventory<ContainerComputerCubeMain>
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         
-        drawString(64, 61, "G.L.A.D.-OS", 16448255, false);
+        drawString(64, 61, "G.L.A.D.-OS", GuiColors.WHITE, false);
     }
 
     @Override

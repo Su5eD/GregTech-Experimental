@@ -26,7 +26,7 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         bindTexture();
         drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        drawString(11, 8, this.container.base.getGuiName(), 16448255, false);
+        drawString(11, 8, this.container.base.getGuiName(), GuiColors.WHITE, false);
         double capacity = this.container.base.getEUCapacity();
         int offsetY = getInfoOffsetY();
         drawString("jei.energy", offsetY, GtUtil.formatNumber(this.container.base.getStoredEU()));
@@ -57,7 +57,7 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
     }
     
     protected void drawString(String translationKey, int y, Object... args) {
-        drawString(11, y, GtUtil.translate(translationKey, args), 16448255, false);
+        drawString(11, y, GtUtil.translate(translationKey, args), GuiColors.WHITE, false);
     }
 
     @Override

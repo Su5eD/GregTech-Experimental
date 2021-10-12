@@ -20,15 +20,15 @@ public class GuiDistillationTower extends GuiStructure<ContainerDistillationTowe
     @Override
     protected void drawTitle() {
         String[] name = I18n.format(this.container.base.getName()).split(" ");
-        drawString(116, 4, name[0], 4210752, false);
-        drawString(116, 12, name[1], 4210752, false);
+        drawString(116, 4, name[0], GuiColors.DARK_GRAY, false);
+        drawString(116, 12, name[1], GuiColors.DARK_GRAY, false);
     }
 
     @Override
     protected void doWhenInvalid() {
         List<String> wrap = fontRenderer.listFormattedStringToWidth(GtUtil.translateInfo("structure_invalid"), 55);
         for (int i = 0; i < wrap.size(); i++) {
-            drawString(116, 20 + i * 8, wrap.get(i), 4210752, false);
+            drawString(116, 20 + i * 8, wrap.get(i), GuiColors.DARK_GRAY, false);
         }
     }
 

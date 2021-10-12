@@ -18,13 +18,13 @@ public class GuiGtTeleporter extends GuiIC2<ContainerGtTeleporter> {
         this.bindTexture();
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         
-        drawString(46, 8, I18n.format(this.container.base.getName()), 16448255, false);
-        drawString(46, 16, "X: " + this.container.base.targetPos.getX(), 16448255, false);
-        drawString(46, 24, "Y: " + this.container.base.targetPos.getY(), 16448255, false);
-        drawString(46, 32, "Z: " + this.container.base.targetPos.getZ(), 16448255, false);
+        drawString(46, 8, I18n.format(this.container.base.getName()), GuiColors.WHITE, false);
+        drawString(46, 16, "X: " + this.container.base.targetPos.getX(), GuiColors.WHITE, false);
+        drawString(46, 24, "Y: " + this.container.base.targetPos.getY(), GuiColors.WHITE, false);
+        drawString(46, 32, "Z: " + this.container.base.targetPos.getZ(), GuiColors.WHITE, false);
         
         if (this.container.base.canTeleportAcrossDimensions()) {
-            drawString(46, 40, GtUtil.translate("teblock.gt_teleporter.dimension_short", this.container.base.targetDimension.getName()), 16448255, false);
+            drawString(46, 40, GtUtil.translate("teblock.gt_teleporter.dimension_short", this.container.base.targetDimension.getName()), GuiColors.WHITE, false);
         }
     }
 

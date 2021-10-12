@@ -86,6 +86,8 @@ public class GtUtil {
         else return file.toPath();
     });
     
+    private GtUtil() {}
+    
     public static Path getAssetPath(String name) {
         String path = "assets/" + Reference.MODID + "/" + name;
         Object modFile = MOD_FILE.get();

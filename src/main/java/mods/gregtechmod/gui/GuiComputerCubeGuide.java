@@ -19,9 +19,9 @@ public class GuiComputerCubeGuide extends GuiComputerCubeModule<ComputerCubeGuid
     }
 
     private void readPage(ComputerCubeGuide.GuidePage page) {
-        drawString(7, 7, I18n.format(page.translationKey), 16448255, false);
+        drawString(7, 7, I18n.format(page.translationKey), GuiColors.WHITE, false);
         for (int i = 1; i < page.length; i++) {
-            drawString(7, 7 + 8 * i, I18n.format(page.translationKey + "." + i), 16448255, false);
+            drawString(7, 7 + 8 * i, I18n.format(page.translationKey + "." + i), GuiColors.WHITE, false);
         }
     }
 

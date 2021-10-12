@@ -16,7 +16,7 @@ public class GuiDestructorPack extends GuiIC2<ContainerDestructorpack> {
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         this.bindTexture();
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        this.drawString(8, 6, GtUtil.translateItem("destructorpack.name"), 4210752, false);
+        this.drawString(8, 6, GtUtil.translateItem("destructorpack.name"), GuiColors.DARK_GRAY, false);
     }
 
     @Override

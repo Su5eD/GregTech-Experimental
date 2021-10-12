@@ -22,7 +22,7 @@ public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         
         String name = I18n.format(this.container.base.getName());
-        this.drawString(10, 8, name, 16448255, false);
+        this.drawString(10, 8, name, GuiColors.WHITE, false);
         
         this.container.base.structure.getWorldStructure()
                 .ifPresent(struct -> { 
@@ -61,6 +61,6 @@ public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
     }
     
     private void displayStatus(String name, int y) {
-        drawString(10, y, GtUtil.translate("multiblock." + name), 16448255, false);
+        drawString(10, y, GtUtil.translate("multiblock." + name), GuiColors.WHITE, false);
     }
 }

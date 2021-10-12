@@ -35,6 +35,6 @@ public abstract class GuiBasicMachine<T extends ContainerBase<? extends TileEnti
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         bindTexture();
         drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        drawString(8, 4, I18n.format(this.container.base.getName()), 4210752, false);
+        drawString(8, 4, I18n.format(this.container.base.getName()), GuiColors.DARK_GRAY, false);
     }
 }

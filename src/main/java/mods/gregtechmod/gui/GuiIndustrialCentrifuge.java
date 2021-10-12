@@ -24,8 +24,8 @@ public class GuiIndustrialCentrifuge extends GuiInventory<ContainerIndustrialCen
     @Override
     protected void drawTitle() {
         String[] name = I18n.format(this.container.base.getName()).split(" ");
-        drawString(110, 4, name[0], 4210752, false);
-        drawString(110, 12, name[1], 4210752, false);
+        drawString(110, 4, name[0], GuiColors.DARK_GRAY, false);
+        drawString(110, 12, name[1], GuiColors.DARK_GRAY, false);
     }
 
     @Override
