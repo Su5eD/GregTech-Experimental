@@ -28,6 +28,8 @@ public class ModelBlockOre extends ModelBase {
         this.textures = textures;
         this.texturesNether = texturesNether;
         this.texturesEnd = texturesEnd;
+        
+        this.enableCache = false;
     }
 
     @Override

@@ -21,12 +21,10 @@ public class RetrogenHandler {
     
     @SubscribeEvent
     public void tickEnd(TickEvent.WorldTickEvent event) {
-        if (event.side != Side.SERVER) return;
-
-        if (event.phase == TickEvent.Phase.END) {
+        if (event.side == Side.SERVER && event.phase == TickEvent.Phase.END) {
             World world = event.world;
             int dimension = world.provider.getDimension();
-            ArrayDeque<ChunkPos> chunks = chunksToGen.get(dimension);
+            ArrayDeque<ChunkPos> chunks = this.chunksToGen.get(dimension);
 
             if (chunks != null && !chunks.isEmpty()) {
                 ChunkPos c = chunks.pollFirst();
@@ -35,10 +33,10 @@ public class RetrogenHandler {
                 long xSeed = rand.nextLong() >> 2 + 1L;
                 long zSeed = rand.nextLong() >> 2 + 1L;
                 rand.setSeed(xSeed * c.x + zSeed * c.z ^ worldSeed);
-                OreGenerator.INSTANCE.generateWorld(rand, c.x * 16, c.z * 16, world, false, null);
-                chunksToGen.put(dimension, chunks);
+                OreGenerator.INSTANCE.generateWorld(rand, c.x, c.z, world, false);
+                this.chunksToGen.put(dimension, chunks);
             } else if (chunks != null) {
-                chunksToGen.remove(dimension);
+                this.chunksToGen.remove(dimension);
             }
         }
     }

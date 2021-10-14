@@ -13,8 +13,6 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkGeneratorEnd;
-import net.minecraft.world.gen.ChunkGeneratorHell;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
@@ -32,35 +30,37 @@ public class OreGenerator implements IWorldGenerator {
     
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-        generateWorld(random, chunkX * 16, chunkZ * 16, world, true, chunkGenerator);
+        generateWorld(random, chunkX, chunkZ, world, true);
     }
 
-    public void generateWorld(Random random, int chunkX, int chunkZ, World world, boolean newGen, IChunkGenerator chunkGenerator) {
+    public void generateWorld(Random random, int chunkX, int chunkZ, World world, boolean newGen) {
         if (!newGen && !GregTechConfig.WORLDGEN.retrogen) return;
 
-        Random trueRandom = new Random(random.nextInt());
-        Biome biome = world.getBiomeForCoordsBody(new BlockPos(chunkX + 8, 0, chunkZ + 8));
-        DimensionType dimensionType;
+        int xPos = chunkX * 16;
+        int zPos = chunkZ * 16;
+        Biome biome = world.getBiomeForCoordsBody(new BlockPos(xPos + 8, 0, zPos + 8));
+        DimensionType worldDimension = world.provider.getDimensionType();
+        DimensionType oreDimension;
 
-        if (biome.equals(Biomes.HELL) || world.provider.getDimensionType() == DimensionType.NETHER || chunkGenerator instanceof ChunkGeneratorHell) {
-            dimensionType = DimensionType.NETHER;
+        if (biome.equals(Biomes.HELL) || worldDimension == DimensionType.NETHER) {
+            oreDimension = DimensionType.NETHER;
         }
-        else if (biome.equals(Biomes.SKY) || world.provider.getDimensionType() == DimensionType.THE_END || chunkGenerator instanceof ChunkGeneratorEnd) {
-            if (GregTechConfig.WORLDGEN.endAsteroids) generateEndAsteroids(world, trueRandom, chunkX, chunkZ);
-            dimensionType = DimensionType.THE_END;
+        else if (biome.equals(Biomes.SKY) || worldDimension == DimensionType.THE_END) {
+            if (GregTechConfig.WORLDGEN.endAsteroids) generateEndAsteroids(world, random, xPos, zPos);
+            oreDimension = DimensionType.THE_END;
         }
-        else dimensionType = DimensionType.OVERWORLD;
+        else oreDimension = DimensionType.OVERWORLD;
 
         Arrays.stream(WorldOre.values())
-                .filter(ore -> ore.enabled.getAsBoolean() && dimensionType == ore.dimension && (ore.biomeList.isEmpty() || ore.biomeList.contains(biome.getRegistryName())) && (ore.probability <= 1 || trueRandom.nextInt(ore.probability) == 0))
+                .filter(ore -> ore.enabled.getAsBoolean() && oreDimension == ore.dimension && (ore.biomeList.isEmpty() || ore.biomeList.contains(biome.getRegistryName())) && (ore.probability <= 1 || random.nextInt(ore.probability) == 0))
                 .forEach(ore -> {
                     Block block = ore.block.getBlockInstance();
                     if (ore.type == WorldOre.OreType.NORMAL) {
-                        if (ore.dimension == DimensionType.THE_END) genEndOre(block, MATCHER, world, trueRandom, chunkX, chunkZ, ore.size, ore.amount);
-                        else genNormalOre(block, GregTechConfig.WORLDGEN.generateInVoid ? MATCHER_VOID : MATCHER, world, trueRandom, chunkX, chunkZ, ore.size, ore.amount, ore.minY, ore.maxY);
+                        if (ore.dimension == DimensionType.THE_END) genEndOre(block, MATCHER, world, random, xPos, zPos, ore.size, ore.amount);
+                        else genNormalOre(block, GregTechConfig.WORLDGEN.generateInVoid ? MATCHER_VOID : MATCHER, world, random, xPos, zPos, ore.size, ore.amount, ore.minY, ore.maxY);
                     }
-                    else if (ore.type == WorldOre.OreType.SINGLE) genSingleOre(block, MATCHER, world, trueRandom, chunkX, chunkZ, ore.amount, ore.minY, ore.maxY);
-                    else if (ore.type == WorldOre.OreType.SINGLE_UNDER_LAVA) genSingleBlockUnderLava(block, MATCHER, world, trueRandom, chunkX, chunkZ, ore.amount, ore.minY, ore.maxY);
+                    else if (ore.type == WorldOre.OreType.SINGLE) genSingleOre(block, MATCHER, world, random, xPos, zPos, ore.amount, ore.minY, ore.maxY);
+                    else if (ore.type == WorldOre.OreType.SINGLE_UNDER_LAVA) genSingleBlockUnderLava(block, MATCHER, world, random, xPos, zPos, ore.amount, ore.minY, ore.maxY);
                 });
 
         if (!newGen) {
@@ -68,12 +68,13 @@ public class OreGenerator implements IWorldGenerator {
         }
     }
 
-    public void genNormalOre(Block block, Predicate<IBlockState> matcher, World world, Random random, int chunkX, int chunkZ, int size, int amount, int minY, int maxY) {
+    public void genNormalOre(Block block, Predicate<IBlockState> matcher, World world, Random random, int xPos, int zPos, int size, int amount, int minY, int maxY) {
         WorldGenMinable ore = new WorldGenMinable(block.getDefaultState(), size, matcher);
+        int heightDiff = maxY - minY + 1;
         for (int i = 0; i < amount; i++) {
-            int posX = chunkX + random.nextInt(16);
-            int posY = minY + random.nextInt(maxY - minY);
-            int posZ = chunkZ + random.nextInt(16);
+            int posX = xPos + random.nextInt(16);
+            int posY = minY + random.nextInt(heightDiff);
+            int posZ = zPos + random.nextInt(16);
             ore.generate(world, random, new BlockPos(posX, posY, posZ));
         }
     }
@@ -94,7 +95,8 @@ public class OreGenerator implements IWorldGenerator {
             BlockPos orePos = getOrePos(random, chunkX, chunkZ, minY, maxY).add(8, 0, 8);
             IBlockState state = world.getBlockState(orePos);
             Block block = state.getBlock();
-            if ((GregTechConfig.WORLDGEN.generateInVoid && block.isReplaceableOreGen(state, world, orePos, MATCHER_VOID) || block.isReplaceableOreGen(state, world, orePos, matcher)) && (world.getBlockState(orePos.offset(EnumFacing.UP)).getBlock() == Blocks.LAVA || world.getBlockState(orePos).getBlock() == Blocks.FLOWING_LAVA)) {
+            if ((GregTechConfig.WORLDGEN.generateInVoid && block.isReplaceableOreGen(state, world, orePos, MATCHER_VOID) || block.isReplaceableOreGen(state, world, orePos, matcher)) 
+                    && (world.getBlockState(orePos.offset(EnumFacing.UP)).getBlock() == Blocks.LAVA || world.getBlockState(orePos).getBlock() == Blocks.FLOWING_LAVA)) {
                 world.setBlockState(orePos, oreBlock.getDefaultState());
             }
         }

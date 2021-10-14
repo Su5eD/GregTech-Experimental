@@ -168,8 +168,8 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public void explodeMachine(float power) {
         int x = this.pos.getX(), y = this.pos.getY(), z = this.pos.getZ();
         this.energy.onUnloaded();
-        world.setBlockToAir(this.pos);
-        new ExplosionIC2(world, null, x + 0.5, y + 0.5, z + 0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
+        this.world.setBlockToAir(this.pos);
+        new ExplosionIC2(this.world, null, x + 0.5, y + 0.5, z + 0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
     }
     
     @Override

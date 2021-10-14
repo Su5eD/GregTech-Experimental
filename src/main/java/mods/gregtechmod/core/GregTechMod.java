@@ -75,7 +75,7 @@ public final class GregTechMod {
         RegistryHandler.registerComponents();
         ComputerCubeModules.Module.registerModules();
         DataEncoder.addNetworkEncoder(IDSUData.EnergyWrapper.class, new IDSUData.EnergyWrapper.EnergyWrapperEncoder());
-        GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
+        GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 0);
         
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());
         GregTechAPI.instance().registerWrench(ItemName.wrench_new.getInstance());

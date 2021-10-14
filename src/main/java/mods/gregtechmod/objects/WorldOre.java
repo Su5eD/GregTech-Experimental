@@ -13,7 +13,7 @@ import java.util.function.BooleanSupplier;
 public enum WorldOre {
     GALENA(Ore.GALENA, () -> GregTechConfig.WORLDGEN.galena, DimensionType.OVERWORLD, 1, 16, 3, 0, 32),
     IRIDIUM(Ore.IRIDIUM, () -> GregTechConfig.WORLDGEN.iridium, DimensionType.OVERWORLD, OreType.SINGLE, 1, 0, 5, 0, 100),
-    RUBY(Ore.RUBY, () -> GregTechConfig.WORLDGEN.ruby, DimensionType.OVERWORLD, OreType.SINGLE, 8, 0, 1, 0, 32, "desert", "desert_hills", "mutated_desert", "savanna", "mutated_savanna", "biomesoplenty:shrubland", "biomesoplenty:wasteland", "twilightforest:fire_swamp", "biomesoplenty:volcanic_island", "biomesoplenty:steppe", "biomesoplenty:prairie", "biomesoplenty:lush_desert", "minecraft:mesa", "minecraft:mesa_rock", "biomesoplenty:outback"),
+    RUBY(Ore.RUBY, () -> GregTechConfig.WORLDGEN.ruby, DimensionType.OVERWORLD, OreType.SINGLE, 8, 0, 1, 0, 32, "desert", "desert_hills", "mutated_desert", "savanna", "mutated_savanna", "biomesoplenty:shrubland", "biomesoplenty:wasteland", "twilightforest:fire_swamp", "biomesoplenty:volcanic_island", "biomesoplenty:steppe", "biomesoplenty:prairie", "biomesoplenty:lush_desert", "minecraft:mesa", "minecraft:mesa_rock", "biomesoplenty:outback", "buildcraft:oil_desert"),
     SAPPHIRE(Ore.SAPPHIRE, () -> GregTechConfig.WORLDGEN.sapphire, DimensionType.OVERWORLD, OreType.SINGLE, 8, 0, 1, 0, 32, "ocean", "beaches", "frozen_ocean", "twilightforest:twilight_lake", "twilightforest:twilight_stream", "biomesoplenty:glacier", "biomesoplenty:mangrove", "biomesoplenty:oasis", "biomesoplenty:sacred_springs"),
     SPHALERITE(Ore.SPHALERITE, () -> GregTechConfig.WORLDGEN.sphalerite_overworld, DimensionType.OVERWORLD, OreType.SINGLE_UNDER_LAVA, 8, 0, 1, 2, 10),
     BAUXITE(Ore.BAUXITE, () -> GregTechConfig.WORLDGEN.bauxite, DimensionType.OVERWORLD, 2, 16, 1, 32, 80, "plains", "forest", "forest_hills", "biomesoplenty:rainforest", "biomesoplenty:highland", "biomesoplenty:rainforest", "birch_forest", "birch_forest_hills", "biomesoplenty:meadow", "biomesoplenty:redwood_forest", "biomesoplenty:woodland", "twilightforest:twilight_forest", "twilightforest:dense_twilight_forest", "twilightforest:dark_forest", "twilightforest:enchanted_forest", "biomesoplenty:seasonal_forest", "biomesoplenty:quagmire", "biomesoplenty:orchard", "biomesoplenty:pasture", "biomesoplenty:mystic_grove", "biomesoplenty:marsh", "biomesoplenty:maple_woods", "biomesoplenty:grove", "biomesoplenty:grassland", "biomesoplenty:fungi_forest", "biomesoplenty:coniferous_forest", "biomesoplenty:cherry_blossom_grove"),
@@ -63,7 +63,7 @@ public enum WorldOre {
      * @param dimension The dimension in which the ore will be generated
      * @param type Ore cluster type
      * @param amount Amount of clusters in a chunk
-     * @param size Smount of ores in a cluster
+     * @param size Amount of ores in a cluster
      * @param probability Chance of generating a cluster
      * @param minY Minimum Y to generate
      * @param maxY Maximum Y to generate

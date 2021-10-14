@@ -2,10 +2,7 @@ package mods.gregtechmod.core;
 
 import mods.gregtechmod.api.util.Reference;
 import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Config.Comment;
-import net.minecraftforge.common.config.Config.LangKey;
-import net.minecraftforge.common.config.Config.Name;
-import net.minecraftforge.common.config.Config.RangeInt;
+import net.minecraftforge.common.config.Config.*;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -40,6 +37,7 @@ public class GregTechConfig {
         public boolean connectedTextures = true;
         @Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
         public boolean dynamicCentrifugeAnimationSpeed = true;
+        @RequiresWorldRestart
         public boolean hiddenOres = true;
         public boolean harderStone = false;
         public boolean woodNeedsSawForCrafting = true;
@@ -67,7 +65,7 @@ public class GregTechConfig {
     public static class Balance {
         @Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public boolean solarPanelCoverOvervoltageProtection = false;
-        public float explosionPowerMultiplier = 1;
+        public float explosionPowerMultiplier = 2;
     }
 
     public static class Machines {
