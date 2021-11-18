@@ -11,7 +11,7 @@
     "R":
     {
       "type": "forge:ore_dict",
-      "ore": "plateRefinedIron"
+      "ore": "plateIron"
     },
     "W":
     {
@@ -40,7 +40,7 @@
           }
         },
         {
-          "type": "gregtechmod:classic"
+          "type": "gregtechmod:experimental"
         }
       ]
     }
