@@ -13,7 +13,7 @@ public class ContainerMatterFabricator extends ContainerGtBase<TileEntityMatterF
 
         for (int y = 0; y < 2; y++) {
             for (int x = 0; x < 4; x++) {
-                int index = x + y * 2;
+                int index = x + y * 4;
                 
                 addSlotToContainer(new SlotInvSlot(base.amplifierSlot, index, 8 + x * 18, 14 + y * 18));
             }

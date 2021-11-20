@@ -20,6 +20,7 @@ public class ContainerMachineBase<T extends IInventory> extends ContainerFullInv
     }
     
     protected void getNetworkedFields(List<? super String> list) {
-        list.add("guiProgress");
+        list.add("progress");
+        list.add("maxProgress");
     }
 }

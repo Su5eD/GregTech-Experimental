@@ -45,7 +45,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public double energyConsume;
     @NBTPersistent
     public int maxProgress;
-    protected double guiProgress;
 
     public TileEntityGTMachine(String descriptionKey, int outputSlots, RM recipeManager) {
         this(descriptionKey, outputSlots, recipeManager, false);
@@ -57,7 +56,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);
         
-        addGuiValue("progress", this::getProgress);
+        addGuiValue("progress", this::getGuiProgress);
     }
     
     @Override
@@ -113,8 +112,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
                 else stop();
             } else stop();
         }
-
-        this.guiProgress = this.progress / Math.max(this.maxProgress, 1);
     }
     
     protected boolean checkEnergy() {
@@ -220,6 +217,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     public void increaseProgress(double amount) {
         this.progress += amount;
+    }
+    
+    private double getGuiProgress() {
+        return this.progress / Math.max(this.maxProgress, 1);
     }
 
     @Override
