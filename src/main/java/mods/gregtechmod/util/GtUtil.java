@@ -5,8 +5,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
 import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
-import ic2.core.block.TeBlockRegistry;
-import ic2.core.block.TileEntityBlock;
+import ic2.core.block.ITeBlock;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
@@ -190,13 +189,16 @@ public class GtUtil {
         return false;
     }
     
-    public static String translateTeBlock(TileEntityBlock te, String key, Object... parameters) {
-        String name = TeBlockRegistry.get(te.getClass()).getName();
-        return translateTeBlock(name, key, parameters);
+    public static String translateTeBlock(ITeBlock te, String key, Object... parameters) {
+        return translateTeBlock(te.getName(), key, parameters);
     }
     
     public static String translateTeBlock(String teBlockName, String key, Object... parameters) {
         return GtUtil.translate("teblock." + teBlockName + "." + key, parameters);
+    }
+    
+    public static String translateTeBlockName(ITeBlock te) {
+        return GtUtil.translate("teblock." + te.getName());
     }
 
     public static String translateScan(String key, Object... parameters) {

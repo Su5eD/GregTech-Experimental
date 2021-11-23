@@ -119,7 +119,7 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
     @Override
     public boolean updateServer() {
-        if (this.started && this.parent.useEnergy(32) >= 32) {
+        if (this.started && this.parent.tryUseEnergy(32)) {
             for (int i = 0; i < 25 && this.started; i++) {
                 this.euOut = 0;
                 this.maxHeat = 10000;

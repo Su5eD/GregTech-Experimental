@@ -109,7 +109,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     public Fluids.InternalFluidTank createSteamTank() {
-        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE, 10000);
+        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE, getSteamCapacity());
     }
 
     @Override
@@ -230,7 +230,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public double useEnergy(double amount, boolean simulate) {
         double discharged = super.useEnergy(amount, simulate);
         if (discharged > 0) return discharged;
-        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(amount))) return amount;
+        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.microJoules(amount))) return amount;
         else if (this.hasSteamUpgrade) {
             int steam = SteamHelper.getSteamForEU(amount, this.steamTank.getFluid());
             if (steam > 0 && canDrainSteam(steam)) {
@@ -265,8 +265,8 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
     
     @Override
-    public double getSteamCapacity() {
-        return this.steamTank != null ? this.steamTank.getCapacity() : 0;
+    public int getSteamCapacity() {
+        return 10000;
     }
     
     @Override
@@ -276,7 +276,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     @Override
     public long getMjCapacity() {
-        return this.hasMjUpgrade ? this.receiver.getCapacity() : 0;
+        return 10000;
     }
 
     @Override
@@ -292,7 +292,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public void addMjUpgrade() {
         this.hasMjUpgrade = true;
-        if (this.receiver == null) this.receiver = new MjReceiverWrapper(10000 * MjHelper.MJ, 100 * MjHelper.MJ);
+        if (this.receiver == null) this.receiver = new MjReceiverWrapper(MjHelper.microJoules(getMjCapacity()), MjHelper.microJoules(100));
         if (this.world != null) this.world.notifyNeighborsOfStateChange(this.pos, this.blockType, false);
     }
 
@@ -310,7 +310,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
                 scan.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + name);
             }
             if (this.hasMjUpgrade) {
-                scan.add(this.receiver.getStored() / MjHelper.MJ + " / " + this.receiver.getCapacity() / MjHelper.MJ + " MJ");
+                scan.add(MjHelper.joules(this.receiver.getStored()) + " / " + MjHelper.joules(this.receiver.getCapacity()) + " MJ");
             }
         }
     }

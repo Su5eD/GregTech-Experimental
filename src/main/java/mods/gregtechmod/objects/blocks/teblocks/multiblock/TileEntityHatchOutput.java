@@ -47,8 +47,8 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
     }
 
     @Override
-    protected boolean onScrewdriverActivated(ItemStack stack, EnumFacing side, EntityPlayer player) {
-        boolean ret = super.onScrewdriverActivated(stack, side, player);
+    protected boolean onScrewdriverActivated(ItemStack stack, EnumFacing side, EntityPlayer player, float hitX, float hitY, float hitZ) {
+        boolean ret = super.onScrewdriverActivated(stack, side, player, hitX, hitY, hitZ);
         if (!ret) {
             this.mode = this.mode.next();
             GtUtil.sendMessage(player, Reference.MODID + ".teblock.hatch_output.mode." + this.mode.name().toLowerCase(Locale.ROOT));

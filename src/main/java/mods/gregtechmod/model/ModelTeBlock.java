@@ -6,6 +6,7 @@ import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
 import mods.gregtechmod.util.PropertyHelper;
+import mods.gregtechmod.util.PropertyHelper.VerticalRotation;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.*;
@@ -56,8 +57,10 @@ public class ModelTeBlock extends ModelBase {
             handler.covers.forEach((side, cover) -> covers.put(side, cover.getIcon()));
         }
 
+        VerticalRotation verticalRotation = state.hasValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) ? state.getValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) : VerticalRotation.MIRROR_BACK;
         for (EnumFacing side : EnumFacing.VALUES) {
-            TextureAtlasSprite sprite = getSpriteFromDirection(side, rotateSide(face, side, covers), state, covers);
+            EnumFacing rotatedSide = rotateSide(verticalRotation, face, side, covers);
+            TextureAtlasSprite sprite = getSpriteFromDirection(side, rotatedSide, state, covers);
             faceQuads.put(side, Collections.singletonList(getQuad(new Vector3f(0,0,0), new Vector3f(16, side == EnumFacing.DOWN ? 0 : 16,16), side, face, sprite)));
         }
 
@@ -65,10 +68,10 @@ public class ModelTeBlock extends ModelBase {
     }
 
     private BakedQuad getQuad(Vector3f from, Vector3f to, EnumFacing direction, EnumFacing facing, TextureAtlasSprite sprite) {
-        return bakery.makeBakedQuad(from, to, new BlockPartFace(direction, 0, this.textures.get(direction).toString(), new BlockFaceUV(BLOCK_FACE_UVS[direction.getIndex()], getRotation(direction, facing))), sprite, direction, ModelRotation.X0_Y0, null, true, true);
+        return bakery.makeBakedQuad(from, to, new BlockPartFace(direction, 0, this.textures.get(direction).toString(), new BlockFaceUV(BLOCK_FACE_UVS[direction.getIndex()], getTextureRotation(direction, facing))), sprite, direction, ModelRotation.X0_Y0, null, true, true);
     }
     
-    private static int getRotation(EnumFacing side, EnumFacing facing) {
+    private static int getTextureRotation(EnumFacing side, EnumFacing facing) {
         if (Util.verticalFacings.contains(side)) {
             if (facing == EnumFacing.NORTH) return 180;
             else if (facing == EnumFacing.WEST) return side == EnumFacing.UP ? -90 : 90;
@@ -105,11 +108,11 @@ public class ModelTeBlock extends ModelBase {
         return sprites.get(textures.get(rotatedSide));
     }
     
-    private static EnumFacing rotateSide(EnumFacing face, EnumFacing side, Map<EnumFacing, ResourceLocation> covers) {
+    private static EnumFacing rotateSide(VerticalRotation behavior, EnumFacing face, EnumFacing side, Map<EnumFacing, ResourceLocation> covers) {
         if (!covers.containsKey(side) && face != EnumFacing.NORTH) {
             if (face == side) return EnumFacing.NORTH;
             else if (Util.verticalFacings.contains(face)) {
-                if (side == EnumFacing.NORTH) return EnumFacing.SOUTH;
+                return behavior.rotation.apply(face, side);
             }
             else if (!Util.verticalFacings.contains(side)) {
                 if (face == EnumFacing.SOUTH) return side.getOpposite();

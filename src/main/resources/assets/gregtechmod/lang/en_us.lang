@@ -281,6 +281,9 @@ gregtechmod.computercube.scanner.usage.2=scan Seedbags
 gregtechmod.teblock.gt_teleporter.dimension_short=Dim: %s
 gregtechmod.teblock.gt_teleporter.dimension=Dimension: %s
 gregtechmod.teblock.gt_teleporter.charge=Charge: %s
+gregtechmod.teblock.tesseract.frequency=Frequency: %s 
+gregtechmod.teblock.tesseract.frequency_short=Freq: %s 
+gregtechmod.teblock.tesseract.frequency_occupied= §c(Occupied)
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -914,6 +917,8 @@ gregtechmod.teblock.advanced_safe.description=This is completly 'Safe', except a
 gregtechmod.teblock.matter_fabricator=Matter Fabricator
 gregtechmod.teblock.gt_teleporter=Teleporter
 gregtechmod.teblock.gt_teleporter.description=Teleport long distances with this little device.
+gregtechmod.teblock.tesseract_generator=Tesseract Generator
+gregtechmod.teblock.tesseract_generator.description=Generates a Tesseract for the attached Inventory
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

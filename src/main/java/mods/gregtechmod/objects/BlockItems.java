@@ -669,7 +669,7 @@ public class BlockItems {
             }
             return false;
         }, (stack, machine, player) -> {
-             machine.setMjCapacity(machine.getMjCapacity() + MjHelper.toMicroJoules(100000));
+             machine.setMjCapacity(machine.getMjCapacity() + MjHelper.microJoules(100000));
         });
 
         private final LazyValue<Item> instance;

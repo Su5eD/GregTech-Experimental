@@ -86,7 +86,8 @@
       "matter_fabricator": { "model": "gregtechmod:matter_fabricator" },
       "matter_fabricator_active": { "model": "gregtechmod:matter_fabricator_active" },
       "gt_teleporter": { "model": "gregtechmod:gt_teleporter" },
-      "gt_teleporter_active": { "model": "gregtechmod:gt_teleporter_active" }
+      "gt_teleporter_active": { "model": "gregtechmod:gt_teleporter_active" },
+      "tesseract_generator": { "model": "gregtechmod:tesseract_generator" }
     },
     "facing": {
       "down": { "x": 90 },

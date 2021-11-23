@@ -61,7 +61,7 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
     }
 
     public String getGuiName() {
-        return GtUtil.translateTeBlock(this, "container.name");
+        return GtUtil.translateTeBlock(this.teBlock, "container.name");
     }
     
     @Override

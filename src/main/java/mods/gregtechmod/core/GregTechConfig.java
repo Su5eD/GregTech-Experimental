@@ -107,6 +107,12 @@ public class GregTechConfig {
             @Comment("If thaumcraft is installed, has a chance of releasing flux into the aura")
             public boolean outputFlux = true;
         }
+        
+        public static class Tesseract {
+            public int energyPerTick = 8;
+            
+            public int interDimensionalEnergyPerTick = 32;
+        }
     }
 
     public static class Unification {

@@ -49,23 +49,14 @@ public class ClientEventHandler {
     private static final Map<ItemStack, Supplier<String>> EXTRA_TOOLTIPS = new HashMap<>();
 
     public static void gatherModItems() {
-        ItemStack dustCoal = IC2Items.getItem("dust", "coal");
-        ItemStack dustIron = IC2Items.getItem("dust", "iron");
-        ItemStack dustGold = IC2Items.getItem("dust", "gold");
-        ItemStack dustCopper = IC2Items.getItem("dust", "copper");
-        ItemStack dustTin = IC2Items.getItem("dust", "tin");
-        ItemStack dustBronze = IC2Items.getItem("dust", "bronze");
-        ItemStack sensorKit = ModHandler.getModItem("energycontrol", "item_kit", 800);
-        ItemStack sensorCard = ModHandler.getModItem("energycontrol", "item_card", 800);
-        
-        EXTRA_TOOLTIPS.put(dustCoal, () -> "C2");
-        EXTRA_TOOLTIPS.put(dustIron, () -> "Fe");
-        EXTRA_TOOLTIPS.put(dustGold, () -> "Au");
-        EXTRA_TOOLTIPS.put(dustCopper, () -> "Cu");
-        EXTRA_TOOLTIPS.put(dustTin, () -> "Sn");
-        EXTRA_TOOLTIPS.put(dustBronze, () -> "SnCu3");
-        EXTRA_TOOLTIPS.put(sensorKit, () -> GtUtil.translateItemDescription("sensor_kit"));
-        EXTRA_TOOLTIPS.put(sensorCard, () -> GtUtil.translateItemDescription("sensor_card"));
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "coal"), () -> "C2");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "iron"), () -> "Fe");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "gold"), () -> "Au");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "copper"), () -> "Cu");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "tin"), () -> "Sn");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "bronze"), () -> "SnCu3");
+        EXTRA_TOOLTIPS.put(ModHandler.getModItem("energycontrol", "item_kit", 800), () -> GtUtil.translateItemDescription("sensor_kit"));
+        EXTRA_TOOLTIPS.put(ModHandler.getModItem("energycontrol", "item_card", 800), () -> GtUtil.translateItemDescription("sensor_card"));
     }
 
     @SubscribeEvent
@@ -109,7 +100,9 @@ public class ClientEventHandler {
                     String teBlockName = teBlock.getName();
                     GregTechTEBlock.ModelType modelType = teBlock.getModelType();
                     if (modelType == GregTechTEBlock.ModelType.BAKED) {
-                        String modelPath = new ResourceLocation(blockstateModels.getAsJsonObject(teBlockName).get("model").getAsString()).getPath();
+                        JsonObject obj = blockstateModels.getAsJsonObject(teBlockName);
+                        if (obj == null) throw new RuntimeException("Missing blockstate model definition for TEBlock " + teBlockName);
+                        String modelPath = new ResourceLocation(obj.get("model").getAsString()).getPath();
                                             
                         JsonHandler json = new JsonHandler(getItemModelPath("teblock", modelPath));
                         ModelTeBlock model;

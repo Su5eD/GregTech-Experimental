@@ -67,7 +67,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         if (!this.world.isRemote) {
             ItemStack stack = player.inventory.getCurrentItem();
             if (player.isSneaking()) return false;
-            else if (beforeActivated(stack, player, side) 
+            else if (beforeActivated(stack, player, side, hitX, hitY, hitZ) 
                     || this.coverHandler.covers.containsKey(side) 
                     && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
             

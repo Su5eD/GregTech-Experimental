@@ -287,7 +287,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public String getTertiaryInfo() {
-        return "Max: "+this.capacity;
+        return "Max: " + this.capacity;
     }
 
     @Override
@@ -306,6 +306,11 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     @Override
     public double useEnergy(double amount, boolean simulate) {
         return 0;
+    }
+
+    @Override
+    public boolean tryUseEnergy(double amount, boolean simulate) {
+        return false;
     }
 
     @Override
@@ -359,7 +364,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getSteamCapacity() {
+    public int getSteamCapacity() {
         return 0;
     }
 
