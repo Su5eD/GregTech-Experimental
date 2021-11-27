@@ -225,7 +225,6 @@ dependencies {
     compileOnly(fg.deobf(curse(mod = "thaumcraft", projectId = 223628, fileId = versionThaumcraft.toLong())))
     compileOnly(fg.deobf(group = "slimeknights.mantle", name = "Mantle", version = versionMantle))
     compileOnly(fg.deobf(group = "slimeknights", name = "TConstruct", version = versionTConstruct))
-    compileOnly(fg.deobf(curse(mod = "spark", projectId = 361579, fileId = 3245793)))
 
     shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0")
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.9.0")
