@@ -30,7 +30,7 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
         VALUES = Collections.unmodifiableCollection(baseValues);
     }
 
-    private final EnumFacing side;
+    public final EnumFacing side;
     private final String texture;
     private final boolean active;
 
@@ -45,10 +45,6 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
                 .filter(rotor -> rotor.side == facing && rotor.texture.equals(texture) && rotor.active == active)
                 .findFirst()
                 .orElse(Rotor.DISABLED);
-    }
-
-    public EnumFacing getSide() {
-        return side;
     }
 
     public String getTexture() {

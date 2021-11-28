@@ -7,21 +7,29 @@ import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.core.IC2;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
+import ic2.core.block.state.UnlistedBooleanProperty;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
-import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.Block;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.property.IUnlistedProperty;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 public class TileEntitySuperconductorWire extends TileEntityEnergy {
+    public static final IUnlistedProperty<Boolean> CONNECTED_DOWN = new UnlistedBooleanProperty("connected_down");
+    public static final IUnlistedProperty<Boolean> CONNECTED_UP = new UnlistedBooleanProperty("connected_up");
+    public static final IUnlistedProperty<Boolean> CONNECTED_NORTH = new UnlistedBooleanProperty("connected_north");
+    public static final IUnlistedProperty<Boolean> CONNECTED_SOUTH = new UnlistedBooleanProperty("connected_south");
+    public static final IUnlistedProperty<Boolean> CONNECTED_WEST = new UnlistedBooleanProperty("connected_west");
+    public static final IUnlistedProperty<Boolean> CONNECTED_EAST = new UnlistedBooleanProperty("connected_east");
+    
     private int connections;
     
     public TileEntitySuperconductorWire() {
@@ -99,12 +107,12 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
         
     @Override
     protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
-        return state.withProperty(PropertyHelper.CONNECTED_DOWN, isSideConnected(EnumFacing.DOWN))
-                .withProperty(PropertyHelper.CONNECTED_UP, isSideConnected(EnumFacing.UP))
-                .withProperty(PropertyHelper.CONNECTED_NORTH, isSideConnected(EnumFacing.NORTH))
-                .withProperty(PropertyHelper.CONNECTED_SOUTH, isSideConnected(EnumFacing.SOUTH))
-                .withProperty(PropertyHelper.CONNECTED_WEST, isSideConnected(EnumFacing.WEST))
-                .withProperty(PropertyHelper.CONNECTED_EAST, isSideConnected(EnumFacing.EAST));
+        return state.withProperty(CONNECTED_DOWN, isSideConnected(EnumFacing.DOWN))
+                .withProperty(CONNECTED_UP, isSideConnected(EnumFacing.UP))
+                .withProperty(CONNECTED_NORTH, isSideConnected(EnumFacing.NORTH))
+                .withProperty(CONNECTED_SOUTH, isSideConnected(EnumFacing.SOUTH))
+                .withProperty(CONNECTED_WEST, isSideConnected(EnumFacing.WEST))
+                .withProperty(CONNECTED_EAST, isSideConnected(EnumFacing.EAST));
     }
 
     @Override

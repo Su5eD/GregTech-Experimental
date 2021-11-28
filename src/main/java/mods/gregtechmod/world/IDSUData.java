@@ -25,6 +25,7 @@ public class IDSUData extends WorldSavedData {
         this(DATA_NAME);
     }
     
+    // Required
     public IDSUData(String name) {
         super(name);
     }

@@ -8,6 +8,7 @@ gregtechmod.config.machines=Machines
 gregtechmod.config.unification=Unification Targets
 gregtechmod.config.worldgen=World Generation
 gregtechmod.config.disabled_recipes=Disabled Recipes
+gregtechmod.config.tesseract=Tesseract
 
 gregtechmod.item.armor.perk.rebreather.name=Rebreather
 gregtechmod.item.armor.perk.inertia_damper.name=Inertia Damper
@@ -240,7 +241,7 @@ gregtechmod.info.liquid_amount=Liquid Amount
 gregtechmod.info.gas_amount=Gas Amount
 gregtechmod.info.plasma_amount=Plasma Amount
 gregtechmod.info.active=Active
-gregtechmod.info.inactive=Inctive
+gregtechmod.info.inactive=Inactive
 gregtechmod.info.output=Output: %s EU/t
 gregtechmod.info.progress=Progress:
 gregtechmod.info.energy=Energy: %s
@@ -284,6 +285,8 @@ gregtechmod.teblock.gt_teleporter.charge=Charge: %s
 gregtechmod.teblock.tesseract.frequency=Frequency: %s 
 gregtechmod.teblock.tesseract.frequency_short=Freq: %s 
 gregtechmod.teblock.tesseract.frequency_occupied= §c(Occupied)
+gregtechmod.teblock.tesseract.frequency_connected= §a(Connected)
+gregtechmod.teblock.tesseract.frequency_underpowered= §6(Insufficient Energy)
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -919,6 +922,8 @@ gregtechmod.teblock.gt_teleporter=Teleporter
 gregtechmod.teblock.gt_teleporter.description=Teleport long distances with this little device.
 gregtechmod.teblock.tesseract_generator=Tesseract Generator
 gregtechmod.teblock.tesseract_generator.description=Generates a Tesseract for the attached Inventory
+gregtechmod.teblock.tesseract_terminal=Tesseract Terminal
+gregtechmod.teblock.tesseract_terminal.description=Accesses Tesseracts remotely
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

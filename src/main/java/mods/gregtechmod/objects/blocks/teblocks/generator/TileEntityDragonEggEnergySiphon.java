@@ -26,7 +26,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
         if (isAllowedToWork() && hasEgg()) {
             setActive(true);
             
-            if (activeSiphon != this && !GregTechConfig.MACHINES.dragonEggEnergySiphon.allowMultipleEggs) {
+            if (activeSiphon != this && !GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.allowMultipleEggs) {
                 if (activeSiphon == null || activeSiphon.isInvalid() || !activeSiphon.hasEgg()) {
                     activeSiphon = this;
                 }
@@ -35,8 +35,8 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
                 }
             }
             
-            if (addEnergy(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy) 
-                    && GregTechConfig.MACHINES.dragonEggEnergySiphon.outputFlux 
+            if (addEnergy(GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy) 
+                    && GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.outputFlux 
                     && this.world.rand.nextInt(1000) == 5) {
                 ModHandler.polluteAura(this.world, this.pos, 4, true);
             }
@@ -57,12 +57,12 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
 
     @Override
     public int getSourceTier() {
-        return EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy);
+        return EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy);
     }
 
     @Override
     protected int getBaseEUCapacity() {
-        return getMinimumStoredEnergy() + GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy * 2;
+        return getMinimumStoredEnergy() + GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy * 2;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
 
     @Override
     public String getSecondaryInfo() {
-        return GtUtil.translateInfo("output", GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy);
+        return GtUtil.translateInfo("output", GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy);
     }
 
     @Override

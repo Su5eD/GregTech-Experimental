@@ -9,6 +9,7 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityTesseractGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeGuide;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules;
@@ -32,6 +33,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
@@ -121,6 +123,11 @@ public final class GregTechMod {
         MachineRecipeParser.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
+    }
+    
+    @EventHandler
+    public static void onServerStopping(FMLServerStoppingEvent event) {
+        TileEntityTesseractGenerator.onServerStopping();
     }
     
     public static void runProxy(Consumer<ClientProxy> consumer) {

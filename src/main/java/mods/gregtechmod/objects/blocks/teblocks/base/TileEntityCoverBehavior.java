@@ -93,7 +93,11 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
     
     public boolean checkAccess(EntityPlayer player) {
-        return !this.isPrivate || this.owner == null || this.owner.equals(player.getGameProfile());
+        return checkAccess(player.getGameProfile());
+    }
+    
+    public boolean checkAccess(GameProfile profile) {
+        return !this.isPrivate || this.owner == null || this.owner.equals(profile);
     }
 
     @Override

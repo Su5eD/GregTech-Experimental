@@ -71,11 +71,15 @@ public class GregTechConfig {
     public static class Machines {
         @Name("magic_energy_absorber")
         @LangKey(Reference.MODID + ".teblock.magic_energy_absorber")
-        public final MagicEnergyAbsorber magicEnergyAbsorber = new MagicEnergyAbsorber();
+        public final MagicEnergyAbsorber MAGIC_ENERGY_ABSORBER = new MagicEnergyAbsorber();
         
         @Name("dragon_egg_energy_siphon")
         @LangKey(Reference.MODID + ".teblock.dragon_egg_energy_siphon")
-        public final DragonEggEnergySiphon dragonEggEnergySiphon = new DragonEggEnergySiphon();
+        public final DragonEggEnergySiphon DRAGON_EGG_ENERGY_SIPHON = new DragonEggEnergySiphon();
+        
+        @Name("tesseract")
+        @LangKey(Reference.MODID + ".config.tesseract")
+        public final Tesseract TESSERACT = new Tesseract();
         
         @Comment("Makes active machines lose their current progress when they run out of power")
         public boolean constantNeedOfEnergy = true;
@@ -112,6 +116,8 @@ public class GregTechConfig {
             public int energyPerTick = 8;
             
             public int interDimensionalEnergyPerTick = 32;
+            
+            public boolean interdimensional = true;
         }
     }
 
