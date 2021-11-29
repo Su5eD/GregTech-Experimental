@@ -31,10 +31,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidTank;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.BiConsumer;
+import java.util.Random;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -108,62 +109,57 @@ public class BlockItems {
     }
 
     public enum Ore implements IItemProvider {
-        GALENA(3, 0, 0, (fortune, drops) -> {}),
-        IRIDIUM(20, 30, 21, (fortune, drops) -> {
+        GALENA(3, 0, 0, (fortune, drops, rand) -> {}),
+        IRIDIUM(20, 30, 21, (fortune, drops, rand) -> {
             ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
-            iridium.setCount(1 + GtUtil.RANDOM.nextInt(1 + fortune / 2));
+            iridium.setCount(1 + rand.nextInt(1 + fortune / 2));
             drops.add(iridium);
         }),
-        RUBY(4, 3, 5, (fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.RUBY.getInstance(), 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
-            if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(new ItemStack(Miscellaneous.RED_GARNET.getInstance()));
+        RUBY(4, 3, 5, (fortune, drops, rand) -> {
+            drops.add(Miscellaneous.RUBY.getItemStack(1 + rand.nextInt(1 + fortune)));
+            if (rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(Miscellaneous.RED_GARNET.getItemStack());
         }),
-        SAPPHIRE(4, 3, 5, (fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.SAPPHIRE.getInstance(), 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
-            if (GtUtil.RANDOM.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Miscellaneous.GREEN_SAPPHIRE.getInstance(), 1));
+        SAPPHIRE(4, 3, 5, (fortune, drops, rand) -> {
+            drops.add(Miscellaneous.SAPPHIRE.getItemStack(1 + rand.nextInt(1 + fortune)));
+            if (rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0) drops.add(Miscellaneous.GREEN_SAPPHIRE.getItemStack());
         }),
-        BAUXITE(3, 0, 0, (fortune, drops) -> {}),
-        PYRITE(2, 1, 1, (fortune, drops) -> {
-            drops.add(new ItemStack(Dust.PYRITE.getInstance(), 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
+        BAUXITE(3, 0, 0, (fortune, drops, rand) -> {}),
+        PYRITE(2, 1, 1, (fortune, drops, rand) -> {
+            drops.add(Dust.PYRITE.getItemStack(2 + rand.nextInt(1 + fortune)));
         }),
-        CINNABAR(3, 3, 3, (fortune, drops) -> {
-            drops.add(new ItemStack(Dust.CINNABAR.getInstance(), 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
-            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Items.REDSTONE, 1));
+        CINNABAR(3, 3, 3, (fortune, drops, rand) -> {
+            drops.add(Dust.CINNABAR.getItemStack(2 + rand.nextInt(1 + fortune)));
+            if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(new ItemStack(Items.REDSTONE));
         }),
-        SPHALERITE(2, 1, 1, (fortune, drops) -> {
-            drops.add(new ItemStack(Dust.SPHALERITE.getInstance(), 2 + GtUtil.RANDOM.nextInt(1 + fortune)));
-            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dust.ZINC.getInstance()));
-            if (GtUtil.RANDOM.nextInt(Math.max(1, 32 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dust.YELLOW_GARNET.getInstance()));
+        SPHALERITE(2, 1, 1, (fortune, drops, rand) -> {
+            drops.add(Dust.SPHALERITE.getItemStack(2 + rand.nextInt(1 + fortune)));
+            if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(Dust.ZINC.getItemStack());
+            if (rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(Dust.YELLOW_GARNET.getItemStack());
         }),
-        TUNGSTATE(4, 0, 0, (fortune, drops) -> {}),
-        SHELDONITE(3.5F, 0, 0, (fortune, drops) -> {}),
-        OLIVINE(3, 0, 0, (fortune, drops) -> {
-            drops.add(new ItemStack(Miscellaneous.OLIVINE.getInstance(), 1 + GtUtil.RANDOM.nextInt(1 + fortune)));
+        TUNGSTATE(4, 0, 0, (fortune, drops, rand) -> {}),
+        SHELDONITE(3.5F, 0, 0, (fortune, drops, rand) -> {}),
+        OLIVINE(3, 0, 0, (fortune, drops, rand) -> {
+            drops.add(Miscellaneous.OLIVINE.getItemStack(1 + rand.nextInt(1 + fortune)));
         }),
-        SODALITE(3, 0, 0, (fortune, drops) -> {
-            drops.add(new ItemStack(Dust.SODALITE.getInstance(), 6 + 3 * GtUtil.RANDOM.nextInt(1 + fortune)));
-            if (GtUtil.RANDOM.nextInt(Math.max(1, 4 / (fortune + 1))) == 0)
-                drops.add(new ItemStack(Dust.ALUMINIUM.getInstance()));
+        SODALITE(3, 0, 0, (fortune, drops, rand) -> {
+            drops.add(Dust.SODALITE.getItemStack(6 + 3 * rand.nextInt(1 + fortune)));
+            if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(Dust.ALUMINIUM.getItemStack());
         }),
-        TETRAHEDRITE(3, 0, 0, (fortune, drops) -> {}),
-        CASSITERITE(3, 0, 0, (fortune, drops) -> {});
+        TETRAHEDRITE(3, 0, 0, (fortune, drops, rand) -> {}),
+        CASSITERITE(3, 0, 0, (fortune, drops, rand) -> {});
         private final LazyValue<net.minecraft.block.Block> instance;
         public final float hardness;
         public final int dropChance;
         public final int dropRandom;
-        public final BiConsumer<Integer, List<ItemStack>> loot;
+        public final TriConsumer<Integer, List<ItemStack>, Random> loot;
 
-        Ore(float hardness, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
+        Ore(float hardness, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
             this.hardness = hardness;
             this.dropChance = dropChance;
             this.dropRandom = dropRandom;
             this.loot = loot;
             
-            String name = this.name().toLowerCase(Locale.ROOT)+"_ore";
+            String name = this.name().toLowerCase(Locale.ROOT) + "_ore";
             this.instance = new LazyValue<>(() -> new BlockOre(this.name().toLowerCase(Locale.ROOT), this.dropChance, this.dropRandom, this.loot)
                     .setRegistryName(name)
                     .setTranslationKey(name)
@@ -609,7 +605,7 @@ public class BlockItems {
         }
     }
 
-    public enum Upgrade implements IItemProvider {
+    public enum Upgrade implements IOreDictItemProvider {
         HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraSinkTier()),
         LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
         ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
@@ -638,7 +634,7 @@ public class BlockItems {
                 te.setOwner(owner);
                 if (machine.isPrivate()) {
                     te.setPrivate(true);
-                    te.forceAddUpgrade(new ItemStack(MACHINE_LOCK.getInstance()));
+                    te.forceAddUpgrade(MACHINE_LOCK.getItemStack());
                 }
 
                 player.world.setTileEntity(pos, te);
@@ -724,9 +720,15 @@ public class BlockItems {
         public Item getInstance() {
             return this.instance.get();
         }
+
+        @Nullable
+        @Override
+        public String getOreDictName() {
+            return this.oreDict;
+        }
     }
 
-    public enum CoverItem implements IItemProvider {
+    public enum CoverItem implements IOreDictItemProvider {
         ACTIVE_DETECTOR("craftingWorkDetector"),
         CONVEYOR("craftingConveyor"),
         CRAFTING("craftingWorkBench"),
@@ -772,6 +774,12 @@ public class BlockItems {
         public Item getInstance() {
             return this.instance.get();
         }
+
+        @Nullable
+        @Override
+        public String getOreDictName() {
+            return this.oreDict;
+        }
     }
 
     public enum TurbineRotor implements IItemProvider {
@@ -804,7 +812,7 @@ public class BlockItems {
         }
     }
 
-    public enum Component implements IItemProvider {
+    public enum Component implements IOreDictItemProvider {
         SUPERCONDUCTOR("craftingSuperconductor"),
         DATA_STORAGE_CIRCUIT("craftingCircuitTier05"),
         LITHIUM_BATTERY(ItemLithiumBattery::new, "craftingLiBattery"),
@@ -868,9 +876,20 @@ public class BlockItems {
         public Item getInstance() {
             return this.instance.get();
         }
+
+        @Nullable
+        @Override
+        public String getOreDictName() {
+            return this.oreDict;
+        }
+
+        @Override
+        public boolean isWildcard() {
+            return true;
+        }
     }
 
-    public enum Tool implements IItemProvider {
+    public enum Tool implements IOreDictItemProvider {
         CROWBAR(ItemCrowbar::new, "craftingToolCrowbar"),
         DEBUG_SCANNER(ItemDebugScanner::new),
         DRILL_ADVANCED(ItemDrillAdvanced::new, "craftingToolLargeDrill"),
@@ -912,6 +931,17 @@ public class BlockItems {
         @Override
         public Item getInstance() {
             return this.instance.get();
+        }
+
+        @Nullable
+        @Override
+        public String getOreDictName() {
+            return this.oreDict;
+        }
+
+        @Override
+        public boolean isWildcard() {
+            return true;
         }
     }
     
@@ -1133,7 +1163,7 @@ public class BlockItems {
         }
     }
 
-    public enum NuclearCoolantPack implements IItemProvider {
+    public enum NuclearCoolantPack implements IOreDictItemProvider {
         COOLANT_NAK_60K(60000, "crafting60kCoolantStore"),
         COOLANT_NAK_180K(180000, "crafting180kCoolantStore"),
         COOLANT_NAK_360K(360000, "crafting360kCoolantStore"),
@@ -1157,6 +1187,17 @@ public class BlockItems {
         @Override
         public Item getInstance() {
             return this.instance.get();
+        }
+
+        @Nullable
+        @Override
+        public String getOreDictName() {
+            return this.oreDict;
+        }
+
+        @Override
+        public boolean isWildcard() {
+            return true;
         }
     }
 
@@ -1199,7 +1240,7 @@ public class BlockItems {
         }
     }
 
-    public enum Armor implements IItemProvider {
+    public enum Armor implements IOreDictItemProvider {
         CLOAKING_DEVICE(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, false, ArmorPerk.INVISIBILITY_FIELD),
         LAPOTRONPACK(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, true, GregTechMod.classic ? "crafting10kkEUPack" : "crafting100kkEUPack"),
         LITHIUM_BATPACK(EntityEquipmentSlot.CHEST, 600000, 128, 1, 0, 0, true, "crafting600kEUPack"),
@@ -1243,9 +1284,20 @@ public class BlockItems {
         public Item getInstance() {
             return this.instance.get();
         }
+
+        @Nullable
+        @Override
+        public String getOreDictName() {
+            return this.oreDict;
+        }
+
+        @Override
+        public boolean isWildcard() {
+            return true;
+        }
     }
 
-    public enum Miscellaneous implements IItemProvider {
+    public enum Miscellaneous implements IOreDictItemProvider {
         GREG_COIN,
         CREDIT_COPPER(() -> GtUtil.translateGenericDescription("credit", 0.125), null),
         CREDIT_SILVER(() -> GtUtil.translateGenericDescription("credit", 8), null),
@@ -1308,6 +1360,12 @@ public class BlockItems {
         @Override
         public Item getInstance() {
             return this.instance.get();
+        }
+
+        @Nullable
+        @Override
+        public String getOreDictName() {
+            return this.oreDict;
         }
     }
 

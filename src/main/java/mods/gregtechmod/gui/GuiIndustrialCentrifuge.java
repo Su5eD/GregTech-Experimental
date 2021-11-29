@@ -1,7 +1,6 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.gui.CustomFluidSlot;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialCentrifuge;
 import mods.gregtechmod.util.GtUtil;
@@ -13,7 +12,7 @@ public class GuiIndustrialCentrifuge extends GuiInventory<ContainerIndustrialCen
 
     public GuiIndustrialCentrifuge(ContainerIndustrialCentrifuge container) {
         super(container);
-        addElement(new CustomFluidSlot(this, 109, 64, container.base.tank, GregTechMod.COMMON_TEXTURE, 40, 0, false));
+        addElement(new CustomFluidSlot(this, 109, 64, container.base.tank, GtUtil.COMMON_TEXTURE, 40, 0, false));
 
         addElement(new LinkedGauge(this, 98, 38, container.base, "progress", GregtechGauge.SMALL_ARROW_RIGHT));
         addElement(new LinkedGauge(this, 83, 23, container.base, "progress", GregtechGauge.SMALL_ARROW_UP));

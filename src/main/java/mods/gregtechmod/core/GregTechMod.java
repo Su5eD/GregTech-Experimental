@@ -7,7 +7,6 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
-import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityTesseractGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
@@ -46,7 +45,6 @@ import java.util.stream.Stream;
 @Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
-    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
     public static final Logger LOGGER = LogManager.getLogger(Reference.MODID);
     
     public static File configDir;
@@ -87,11 +85,10 @@ public final class GregTechMod {
     public static void init(FMLInitializationEvent event) {
         ModHandler.gatherModItems();
         if (event.getSide() == Side.CLIENT) ClientEventHandler.gatherModItems();
-        GregTechTEBlock.buildDummies();
         ComputerCubeGuide.Page.register();
         
         OreDictRegistrar.registerItems();
-        GtUtil.trackTime("Parsing recipes", () -> {
+        GtUtil.measureTime("Parsing recipes", () -> {
             MachineRecipeParser.loadRecipes();
             MachineRecipeParser.loadDynamicRecipes();
             MachineRecipeParser.loadFuels();
@@ -117,7 +114,7 @@ public final class GregTechMod {
         ModRecipes.init();
         TileEntityUniversalMacerator.initMaceratorRecipes();
 
-        GtUtil.trackTime("Activating OreDictionary Handler", OreDictHandler.INSTANCE::activateHandler);
+        GtUtil.measureTime("Activating OreDictionary Handler", OreDictHandler.INSTANCE::activateHandler);
         OreDictHandler.registerValuableOres();
 
         MachineRecipeParser.registerDynamicRecipes();

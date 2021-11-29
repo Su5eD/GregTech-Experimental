@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import java.util.ArrayDeque;
 import java.util.Random;
 
-public class RetrogenHandler {
+public final class RetrogenHandler {
     public static final String RETRO_NAME = "GregTechOreGen";
     public static final RetrogenHandler INSTANCE = new RetrogenHandler();
     public TIntObjectHashMap<ArrayDeque<ChunkPos>> chunksToGen = new TIntObjectHashMap<>();

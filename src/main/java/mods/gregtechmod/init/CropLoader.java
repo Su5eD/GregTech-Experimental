@@ -43,11 +43,11 @@ public class CropLoader {
 
     public enum Crop {
         //Most crops have been already implemented by ic2, don't be surprised why many are missing
-        INDIGO("Eloraam", new ItemStack(BlockItems.Miscellaneous.INDIGO_BLOSSOM.getInstance()), new ItemStack(BlockItems.Miscellaneous.INDIGO_BLOSSOM.getInstance(), 4), 4, 4, 1, 0, 2, 1, 1, 0, 4, 0, "Flower", "Color", "Ingredient"),
-        TINE("Gregorius Techneticies", new ItemStack(BlockItems.Nugget.TIN.getInstance()), ItemStack.EMPTY, 3, 3, 2, 0, 5, 2, 0, 3, 0, 0, "Shiny", "Metal", "Pine", "Tin", "Bush"),
-        COPPON("Mr. Brain", new ItemStack(BlockItems.Nugget.COPPER.getInstance()), ItemStack.EMPTY, 3, 3, 2, 0, 6, 2, 0, 1, 1, 1, "Shiny", "Metal", "Cotton", "Copper", "Bush"),
-        ARGENTIA("Eloraam", new ItemStack(BlockItems.Nugget.SILVER.getInstance()), ItemStack.EMPTY, 4, 4, 3, 0, 7, 2, 0, 1, 0, 0, "Shiny", "Metal", "Silver", "Reed"),
-        PLUMBILIA("KingLemming", new ItemStack(BlockItems.Nugget.LEAD.getInstance()), ItemStack.EMPTY, 4, 4, 3, 0, 6, 2, 0, 3, 1, 1, "Heavy", "Metal", "Lead", "Reed");
+        INDIGO("Eloraam", BlockItems.Miscellaneous.INDIGO_BLOSSOM.getItemStack(), BlockItems.Miscellaneous.INDIGO_BLOSSOM.getItemStack(4), 4, 4, 1, 0, 2, 1, 1, 0, 4, 0, "Flower", "Color", "Ingredient"),
+        TINE("Gregorius Techneticies", BlockItems.Nugget.TIN.getItemStack(), ItemStack.EMPTY, 3, 3, 2, 0, 5, 2, 0, 3, 0, 0, "Shiny", "Metal", "Pine", "Tin", "Bush"),
+        COPPON("Mr. Brain", BlockItems.Nugget.COPPER.getItemStack(), ItemStack.EMPTY, 3, 3, 2, 0, 6, 2, 0, 1, 1, 1, "Shiny", "Metal", "Cotton", "Copper", "Bush"),
+        ARGENTIA("Eloraam", BlockItems.Nugget.SILVER.getItemStack(), ItemStack.EMPTY, 4, 4, 3, 0, 7, 2, 0, 1, 0, 0, "Shiny", "Metal", "Silver", "Reed"),
+        PLUMBILIA("KingLemming", BlockItems.Nugget.LEAD.getItemStack(), ItemStack.EMPTY, 4, 4, 3, 0, 6, 2, 0, 3, 1, 1, "Heavy", "Metal", "Lead", "Reed");
 
         public final String discoverer;
         public final ItemStack drop;

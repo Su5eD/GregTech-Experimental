@@ -103,8 +103,8 @@ public class JEIModule implements IModPlugin {
         }
 
         if (!ModHandler.buildcraftLib) {
-            HIDDEN_ITEMS.add(new ItemStack(BlockItems.Upgrade.PNEUMATIC_GENERATOR.getInstance()));
-            HIDDEN_ITEMS.add(new ItemStack(BlockItems.Upgrade.RS_ENERGY_CELL.getInstance()));
+            HIDDEN_ITEMS.add(BlockItems.Upgrade.PNEUMATIC_GENERATOR.getItemStack());
+            HIDDEN_ITEMS.add(BlockItems.Upgrade.RS_ENERGY_CELL.getItemStack());
         }
         
         Arrays.stream(GregTechTEBlock.VALUES)
@@ -132,8 +132,7 @@ public class JEIModule implements IModPlugin {
     private void hideEnum(IItemProvider[] values) {
         Arrays.stream(values)
                 .filter(val -> !ProfileDelegate.shouldEnable(val))
-                .map(IItemProvider::getInstance)
-                .map(ItemStack::new)
+                .map(IItemProvider::getItemStack)
                 .forEach(HIDDEN_ITEMS::add);
     }
 }

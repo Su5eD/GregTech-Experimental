@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks;
 
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
@@ -27,15 +28,15 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
+import java.util.Random;
 
 public class BlockOre extends Block implements ICustomItemModel {
     private final String name;
     private final int dropChance;
     private final int dropRandom;
-    private final BiConsumer<Integer, List<ItemStack>> loot;
+    private final TriConsumer<Integer, List<ItemStack>, Random> loot;
 
-    public BlockOre(String name, int dropChance, int dropRandom, BiConsumer<Integer, List<ItemStack>> loot) {
+    public BlockOre(String name, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
         super(Material.ROCK);
         this.name = name;
         this.dropChance = dropChance;
@@ -61,8 +62,9 @@ public class BlockOre extends Block implements ICustomItemModel {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        this.loot.accept(fortune, drops);
-        if (drops.isEmpty()) drops.add(new ItemStack(this.getItemDropped(state, world instanceof World ? ((World)world).rand : GtUtil.RANDOM, fortune)));
+        Random rand = world instanceof World ? ((World)world).rand : GtUtil.RANDOM;
+        this.loot.accept(fortune, drops, rand);
+        if (drops.isEmpty()) drops.add(new ItemStack(this.getItemDropped(state, rand, fortune)));
     }
 
     @Override

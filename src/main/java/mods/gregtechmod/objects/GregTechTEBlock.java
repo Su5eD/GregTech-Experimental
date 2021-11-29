@@ -20,6 +20,7 @@ import mods.gregtechmod.objects.blocks.teblocks.energy.*;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.*;
 import mods.gregtechmod.objects.blocks.teblocks.struct.*;
+import mods.gregtechmod.util.LazyValue;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -31,6 +32,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -113,7 +115,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     private final ModelType modelType;
     private final boolean isStructure;
     
-    private TileEntityBlock dummyTe;
+    private final LazyValue<TileEntityBlock> dummyTe = new LazyValue<>(this::buildDummyTeBlock);
     private ITePlaceHandler placeHandler;
 
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material) {
@@ -161,7 +163,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         return true;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public Class<? extends TileEntityBlock> getTeClass() {
         return this.teClass;
@@ -227,7 +229,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     @Nullable
     @Override
     public TileEntityBlock getDummyTe() {
-        return this.dummyTe;
+        return this.dummyTe.get();
     }
 
     @Override
@@ -250,17 +252,16 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         }
     }
     
-    public static void buildDummies() {
- 		for (GregTechTEBlock block : values()) {
- 			if (block.teClass != null) {
- 				try {
-                    GregTechMod.LOGGER.info("Building dummy TeBlock for {}", block.name().toLowerCase(Locale.ROOT));
- 					block.dummyTe = block.teClass.newInstance();
- 				} catch (Exception e) {
- 					GregTechMod.LOGGER.catching(e);
- 				}
- 			}
- 		}
+    public TileEntityBlock buildDummyTeBlock() {
+        if (this.teClass != null) {
+            try {
+                GregTechMod.LOGGER.info("Building dummy TeBlock for {}", this.name().toLowerCase(Locale.ROOT));
+                return this.teClass.newInstance();
+            } catch (Exception e) {
+                GregTechMod.LOGGER.catching(e);
+            }
+        }
+        return null;
  	}
 
     @Override

@@ -9,6 +9,10 @@ public interface IItemProvider {
     Item getInstance();
     
     default ItemStack getItemStack() {
-        return new ItemStack(getInstance());
+        return getItemStack(1);
+    }
+    
+    default ItemStack getItemStack(int count) {
+        return new ItemStack(getInstance(), count);
     }
 }

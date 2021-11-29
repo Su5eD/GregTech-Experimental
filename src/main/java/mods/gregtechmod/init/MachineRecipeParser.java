@@ -224,7 +224,7 @@ public final class MachineRecipeParser {
                     int count = bronze.getCount();
                     GtRecipes.industrialCentrifuge.addRecipe(
                             RecipeCentrifuge.create(RecipeIngredientOre.create("dustBronze", count < 3 ? 1 : count / 2), 
-                                    Arrays.asList(new ItemStack(BlockItems.Smalldust.COPPER.getInstance(), 6), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 2)), 
+                                    Arrays.asList(BlockItems.Smalldust.COPPER.getItemStack(6), BlockItems.Smalldust.TIN.getItemStack(2)), 
                                     0, 
                                     1500, 
                                     CellType.CELL
@@ -235,7 +235,7 @@ public final class MachineRecipeParser {
         ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
         ItemStack stick = new ItemStack(Items.STICK);
         ModHandler.getCraftingResult(ingotIron, ItemStack.EMPTY, ingotIron, ingotIron, stick, ingotIron, ingotIron, ItemStack.EMPTY, ingotIron)
-                .ifPresent(rail -> DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), new ItemStack(BlockItems.Smalldust.WOOD.getInstance(), 2), 95));
+                .ifPresent(rail -> DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), BlockItems.Smalldust.WOOD.getItemStack(2), 95));
         ItemStack ingotGold = new ItemStack(Items.GOLD_INGOT);
         ItemStack redstone = new ItemStack(Items.REDSTONE);
         ModHandler.getCraftingResult(ingotGold, ItemStack.EMPTY, ingotGold, ingotGold, stick, ingotGold, ingotGold, redstone, ingotGold)
@@ -254,7 +254,7 @@ public final class MachineRecipeParser {
                     }
                 });
 
-        DynamicRecipes.addPulverizerRecipe(ProfileDelegate.getEmptyCell(), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 9), true);
+        DynamicRecipes.addPulverizerRecipe(ProfileDelegate.getEmptyCell(), BlockItems.Smalldust.TIN.getItemStack(9), true);
         ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
         if (GregTechMod.classic) {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));

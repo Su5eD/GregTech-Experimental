@@ -4,6 +4,7 @@ import ic2.api.item.IC2Items;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiComputerCubeGuide;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCubeGuide;
@@ -83,16 +84,16 @@ public class ComputerCubeGuide implements IComputerCubeModule {
         return TEXTURE;
     }
     
-    public enum Page {
+    public enum Page { // TODO
         LIGHTNING_ROD(17, () -> {
             ItemStack ironFence = IC2Items.getItem("fence", "iron");
             return Stream.of(GregTechObjectAPI.getTileEntity("lightning_rod"), ironFence, ironFence, ironFence, ironFence);
         }),
         QUANTUM_CHEST(17, () -> Stream.of(GregTechObjectAPI.getTileEntity("quantum_chest"))),
         COMPUTER_CUBE(17, () -> Stream.of(GregTechObjectAPI.getTileEntity("computer_cube"))),
-        UUM_ASSEMBLER(16, () -> Stream.of(/*GregTechObjectAPI.getTileEntity("uum_assembler"),*/ IC2Items.getItem("misc_resource", "matter"))),
-        SONICTRON(17, () -> Stream.of(GregTechObjectAPI.getTileEntity("sonictron"), new ItemStack(BlockItems.Tool.SONICTRON_PORTABLE.getInstance()))),
-        LESU(17, () -> Stream.of(GregTechObjectAPI.getTileEntity("lesu"), new ItemStack(BlockItems.Block.LESUBLOCK.getBlockInstance()))),
+        UUM_ASSEMBLER(16, () -> Stream.of(/*GregTechObjectAPI.getTileEntity("uum_assembler"),*/ ModHandler.uuMatter)),
+        SONICTRON(17, () -> Stream.of(GregTechObjectAPI.getTileEntity("sonictron"), BlockItems.Tool.SONICTRON_PORTABLE.getItemStack())),
+        LESU(17, () -> Stream.of(GregTechObjectAPI.getTileEntity("lesu"), BlockItems.Block.LESUBLOCK.getItemStack())),
         IDSU(15, () -> Stream.of(GregTechObjectAPI.getTileEntity("idsu"))),
         AESU(10, () -> Stream.of(GregTechObjectAPI.getTileEntity("aesu"))),
         CHARGE_O_MAT(16, Stream::empty /*() -> Stream.of(GregTechObjectAPI.getTileEntity("charge_o_mat"))*/),
@@ -100,23 +101,24 @@ public class ComputerCubeGuide implements IComputerCubeModule {
         INDUSTRIAL_ELECTROLYZER(16, () -> Stream.of(GregTechObjectAPI.getTileEntity("industrial_electrolyzer"))),
         INDUSTRIAL_GRINDER(17, () -> Stream.of(
                 GregTechObjectAPI.getTileEntity("industrial_grinder"), 
-                new ItemStack(BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance()), 
-                new ItemStack(BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance()), new ItemStack(Blocks.WATER))
-        ),
+                BlockItems.Block.STANDARD_MACHINE_CASING.getItemStack(), 
+                BlockItems.Block.REINFORCED_MACHINE_CASING.getItemStack(),
+                new ItemStack(Blocks.WATER)
+        )),
         INDUSTRIAL_BLAST_FURNACE(17, () -> Stream.of(GregTechObjectAPI.getTileEntity("industrial_blast_furnace"))),
         INDUSTRIAL_SAWMILL(17, () -> Stream.of(
                 GregTechObjectAPI.getTileEntity("industrial_sawmill"), 
-                new ItemStack(BlockItems.Dust.WOOD.getInstance()), 
-                new ItemStack(BlockItems.Plate.WOOD.getInstance()))
-        ),
+                BlockItems.Dust.WOOD.getItemStack(), 
+                BlockItems.Plate.WOOD.getItemStack()
+        )),
         IMPLOSION_COMPRESSOR(17, () -> Stream.of(GregTechObjectAPI.getTileEntity("implosion_compressor"), IC2Items.getItem("te", "itnt"))),
         SUPERCONDUCTOR(17, () -> Stream.of(
                 GregTechObjectAPI.getTileEntity("supercondensator"), 
                 GregTechObjectAPI.getTileEntity("superconductor_wire"),
-                new ItemStack(BlockItems.Component.SUPERCONDUCTOR.getInstance())
+                BlockItems.Component.SUPERCONDUCTOR.getItemStack()
         )),
         PLAYER_DETECTOR(17, Stream::empty /*() -> Stream.of(GregTechObjectAPI.getTileEntity("player_detector")*/),
-        MATTER_FABRICATOR(14, () -> Stream.of(/*GregTechObjectAPI.getTileEntity("gt_matter_fabricator"),*/ IC2Items.getItem("misc_resource", "matter"))),
+        MATTER_FABRICATOR(14, () -> Stream.of(GregTechObjectAPI.getTileEntity("matter_fabricator"), ModHandler.uuMatter)),
         ELECTRIC_AUTOCRAFTING(17, Stream::empty /*() -> Stream.of(GregTechObjectAPI.getTileEntity("electric_autocrafting"))*/),
         AUTOMATION(17, Stream::empty /*() -> Stream.of(GregTechObjectAPI.getTileEntity("electric_translocator"), GregTechObjectAPI.getTileEntity("electric_small_buffer"), GregTechObjectAPI.getTileEntity("electric_large_buffer"))*/),
         SILVER_ORE(5, () -> itemStackStream(BlockItems.Ore.GALENA, BlockItems.Ingot.SILVER, BlockItems.Dust.SILVER)),
@@ -147,7 +149,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
         private final Supplier<Stream<ItemStack>> stacks;
 
         Page(int length, Supplier<Stream<ItemStack>> stacks) {
-            this.translationKey = Reference.MODID + "." + "computercube.desc." + name().toLowerCase(Locale.ROOT);
+            this.translationKey = Reference.MODID + ".computercube.desc." + name().toLowerCase(Locale.ROOT);
             this.length = length;
             this.stacks = stacks;
         }
@@ -160,7 +162,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
         public static void register() {
             for (Page page : values()) {
                 List<ItemStack> stacks = page.stacks.get()
-                                .limit(5)
+                        .limit(5)
                         .collect(Collectors.toList());
                 addPage(page.translationKey, page.length, stacks);
             }

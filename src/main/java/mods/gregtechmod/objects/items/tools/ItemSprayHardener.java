@@ -55,7 +55,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
+        return BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getItemStack();
     }
 
     @Override
@@ -88,12 +88,12 @@ public class ItemSprayHardener extends ItemToolCrafting {
     }
 
     public static void hardenCableFoam(Object tileEntityCable) {
-        if (CHANGE_FOAM_HANDLE == null || HARDENED_CABLE_FOAM == null) return;
-
-        try {
-            CHANGE_FOAM_HANDLE.invoke(tileEntityCable, HARDENED_CABLE_FOAM, false);
-        } catch (Throwable t) {
-            GregTechMod.LOGGER.catching(t);
+        if (CHANGE_FOAM_HANDLE != null && HARDENED_CABLE_FOAM != null) {
+            try {
+                CHANGE_FOAM_HANDLE.invoke(tileEntityCable, HARDENED_CABLE_FOAM, false);
+            } catch (Throwable t) {
+                GregTechMod.LOGGER.catching(t);
+            }
         }
     }
 }

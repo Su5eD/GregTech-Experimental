@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 @SuppressWarnings("Guava")
-public class OreGenerator implements IWorldGenerator {
+public final class OreGenerator implements IWorldGenerator {
     public static final OreGenerator INSTANCE = new OreGenerator();
     public static final Predicate<IBlockState> MATCHER = blockstate -> blockstate.getBlock() == Blocks.STONE || blockstate.getBlock() == Blocks.NETHERRACK || blockstate.getBlock() == Blocks.END_STONE;
     public static final Predicate<IBlockState> MATCHER_VOID = blockstate -> blockstate.getBlock() == Blocks.AIR || blockstate.getBlock() == Blocks.STONE || blockstate.getBlock() == Blocks.NETHERRACK || blockstate.getBlock() == Blocks.END_STONE;

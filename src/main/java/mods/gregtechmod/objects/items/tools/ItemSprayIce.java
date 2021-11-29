@@ -34,7 +34,7 @@ public class ItemSprayIce extends ItemToolCrafting {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
+        return BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getItemStack();
     }
 
     @Override
@@ -46,19 +46,21 @@ public class ItemSprayIce extends ItemToolCrafting {
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if (world.isRemote) return EnumActionResult.PASS;
-        pos.offset(side);
-        IBlockState state = world.getBlockState(pos);
-        Block block = state.getBlock();
-        if (block == Blocks.AIR) return EnumActionResult.PASS;
-        ItemStack stack = player.inventory.getCurrentItem();
-        if (block == Blocks.WATER && GtUtil.damageStack(player, stack, 1)) {
-            world.setBlockState(pos, Blocks.ICE.getDefaultState());
-            return EnumActionResult.SUCCESS;
-        }
-        if (block == Blocks.LAVA && GtUtil.damageStack(player, stack, 1)) {
-            world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
-            return EnumActionResult.SUCCESS;
+        if (!world.isRemote) {
+            pos.offset(side);
+            IBlockState state = world.getBlockState(pos);
+            Block block = state.getBlock();
+            if (block != Blocks.AIR) {
+                ItemStack stack = player.inventory.getCurrentItem();
+                if (block == Blocks.WATER && GtUtil.damageStack(player, stack, 1)) {
+                    world.setBlockState(pos, Blocks.ICE.getDefaultState());
+                    return EnumActionResult.SUCCESS;
+                }
+                if (block == Blocks.LAVA && GtUtil.damageStack(player, stack, 1)) {
+                    world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
+                    return EnumActionResult.SUCCESS;
+                }
+            }
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
     }

@@ -42,7 +42,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
+        return BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getItemStack();
     }
 
     @Override

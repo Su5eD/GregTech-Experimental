@@ -174,8 +174,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     @Override
     protected ItemStack adjustDrop(ItemStack drop, boolean wrench) {
         ItemStack ret = super.adjustDrop(drop, wrench);
-        if (ret == null) ret = new ItemStack(BlockItems.Component.MACHINE_PARTS.getInstance());
-        return ret;
+        
+        return ret == null ? BlockItems.Component.MACHINE_PARTS.getItemStack() : ret;
     }
 
     @Override

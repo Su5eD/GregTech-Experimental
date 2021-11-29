@@ -16,7 +16,7 @@ import net.minecraft.world.WorldServer;
  */
 public class TeleportUtil {
     
-    public static void performTeleport(Entity entity, DimensionType dimension, double x, double y, double z) { // TODO Rotation Yaw
+    public static void performTeleport(Entity entity, DimensionType dimension, double x, double y, double z) {
         DimensionType oldDim = entity.getEntityWorld().provider.getDimensionType();
         
         if (oldDim != dimension) teleportToDimension(entity, dimension, x, y, z);

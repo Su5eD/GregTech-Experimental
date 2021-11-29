@@ -64,37 +64,29 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class GtUtil {
+public final class GtUtil {
     public static final Random RANDOM = new Random();
+    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
     public static final Supplier<String> NULL_SUPPLIER = () -> null;
     public static final IFluidHandler VOID_TANK = new VoidTank();
     @SuppressWarnings("Guava")
     public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
-    public static final InvSlot.InvSide INV_SIDE_VERTICAL = EnumHelper.addEnum(InvSlot.InvSide.class, "VERTICAL", new Class[] { EnumFacing[].class }, (Object) new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN });
-    public static final InvSlot.InvSide INV_SIDE_NS = EnumHelper.addEnum(InvSlot.InvSide.class, "NS", new Class[] { EnumFacing[].class }, (Object) new EnumFacing[] { EnumFacing.NORTH, EnumFacing.SOUTH });
+    public static final InvSlot.InvSide INV_SIDE_VERTICAL = addInvside("VERTICAL", EnumFacing.UP, EnumFacing.DOWN);
+    public static final InvSlot.InvSide INV_SIDE_NS = addInvside("NS", EnumFacing.NORTH, EnumFacing.SOUTH);
     
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
-    private static final LazyValue<Object> MOD_FILE = new LazyValue<>(() -> {
-        File file = Loader.instance().activeModContainer().getSource();
-        if (file.isFile()) {
-            try {
-                return FileSystems.newFileSystem(file.toPath(), null);
-            } catch (IOException e) {
-                throw new RuntimeException("Could not find the mod container source", e);
-            }
-        }
-        else return file.toPath();
+    private static final LazyValue<IModFile> MOD_FILE = new LazyValue<>(() -> {
+        Path path = Loader.instance().activeModContainer().getSource().toPath();
+        return Files.isRegularFile(path) ? new FSModFile(path) : new PathModFile(path);
     });
     
     private GtUtil() {}
     
     public static Path getAssetPath(String name) {
         String path = "assets/" + Reference.MODID + "/" + name;
-        Object modFile = MOD_FILE.get();
         
-        if (modFile instanceof FileSystem) return ((FileSystem) modFile).getPath(path);
-        else return ((Path) modFile).resolve(path);
+        return MOD_FILE.get().getPath(path);
     }
     
     public static BufferedReader readAsset(String path) {
@@ -102,6 +94,10 @@ public class GtUtil {
         if (is == null) throw new RuntimeException("Asset " + path + " not found");
         
         return new BufferedReader(new InputStreamReader(is));
+    }
+    
+    public static InvSlot.InvSide addInvside(String name, EnumFacing... sides) {
+        return EnumHelper.addEnum(InvSlot.InvSide.class, name, new Class[] { EnumFacing[].class }, (Object) sides);
     }
 
     public static <T, U> BiPredicate<T, U> alwaysTrue() {
@@ -453,7 +449,7 @@ public class GtUtil {
         }
     }
     
-    public static void trackTime(String name, Runnable runnable) {
+    public static void measureTime(String name, Runnable runnable) {
         Stopwatch stopwatch = Stopwatch.createStarted();
         runnable.run();
         stopwatch.stop();
@@ -496,6 +492,40 @@ public class GtUtil {
         @Override
         public FluidStack drain(int maxDrain, boolean doDrain) {
             return null;
+        }
+    }
+
+    private interface IModFile {
+        Path getPath(String path);
+    }
+
+    private static class FSModFile implements IModFile {
+        private final FileSystem fs;
+
+        private FSModFile(Path path) {
+            try {
+                this.fs = FileSystems.newFileSystem(path, null);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not create ModFile instance", e);
+            }
+        }
+
+        @Override
+        public Path getPath(String path) {
+            return this.fs.getPath(path);
+        }
+    }
+
+    private static class PathModFile implements IModFile {
+        private final Path path;
+
+        private PathModFile(Path path) {
+            this.path = path;
+        }
+
+        @Override
+        public Path getPath(String path) {
+            return this.path.resolve(path);
         }
     }
 }

@@ -9,10 +9,10 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.CentrifugeRecipeFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperCellular;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiIndustrialCentrifuge;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.Minecraft;
 
 import java.util.Collection;
@@ -32,7 +32,7 @@ public class CategoryCentrifuge extends CategoryBase<RecipeCentrifuge, WrapperCe
         gaugeRight = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_RIGHT);
         gaugeLeft = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_LEFT);
         
-        tank = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 40, 0, 18, 18);
+        tank = guiHelper.createDrawable(GtUtil.COMMON_TEXTURE, 40, 0, 18, 18);
     }
 
     @Override

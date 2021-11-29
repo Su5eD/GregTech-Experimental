@@ -27,6 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
 
 public class ModCompat {
+    public static final ResourceLocation TF_ROCK_WOOL = new ResourceLocation("thermalfoundation", "rockwool");
     
     public static void disableCasingFacades() {
         if (ModHandler.buildcraftSilicon) sendFakeIMC();
