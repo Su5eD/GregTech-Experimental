@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JsonHandler {
+    private static final Gson GSON = new Gson();
+    
     public final JsonObject json;
     public final ResourceLocation particle;
     private final LazyValue<JsonHandler> parent;
@@ -25,7 +27,7 @@ public class JsonHandler {
 
     public static JsonObject readJSON(String path) {
         try(Reader reader = GtUtil.readAsset(path)) {
-            return new Gson().fromJson(reader, JsonObject.class);
+            return GSON.fromJson(reader, JsonObject.class);
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not find resource " + path, e);
         }
@@ -42,19 +44,19 @@ public class JsonHandler {
     }
     
     public Map<EnumFacing, ResourceLocation> generateTextureMap(String elementName) {
-        Map<EnumFacing, ResourceLocation> elementMap = new HashMap<>();
         JsonObject map = this.json.getAsJsonObject(elementName);
+        Map<EnumFacing, ResourceLocation> textures = new HashMap<>();
         
         if (map != null) {
             map.entrySet().stream()
                     .filter(entry -> !entry.getKey().equals("particle"))
                     .forEach(entry -> {
                         ResourceLocation location = new ResourceLocation(entry.getValue().getAsString());
-                        elementMap.put(EnumFacing.byName(entry.getKey()), location);
+                        textures.put(EnumFacing.byName(entry.getKey()), location);
                     });
         }
         
-        return elementMap;
+        return textures;
     }
     
     private ResourceLocation getParticleTexture() {

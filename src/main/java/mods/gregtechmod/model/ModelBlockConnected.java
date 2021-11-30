@@ -18,6 +18,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ModelBlockConnected extends ModelBase {
+    public static final List<String> TEXTURE_PARTS = Arrays.asList(
+            "", "en", "ens", "ensw", "enw", "es",
+            "esw", "ew", "ns", "nsw", "nw", "sw"
+    );
     private static final Map<String, String> TEXTURE_ALIASES = new HashMap<>();
     private final Map<String, ResourceLocation> textures;
     

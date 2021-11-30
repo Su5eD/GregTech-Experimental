@@ -29,7 +29,7 @@ public class TurbineInstance extends TileEntityMultiBlockBase.MultiBlockInstance
         List<BlockPos> sorted = rotorCasings.stream()
                 .sorted(Comparator.comparing(Function.identity(), (one, two) -> compareBlockPos(facing, one, two)))
                 .collect(Collectors.toList());
-        this.rotorTextures = JavaUtil.zipToMap(sorted, Rotor.TEXTURE_NAMES);
+        this.rotorTextures = JavaUtil.zipToMap(sorted, Rotor.TEXTURE_PARTS);
         
         setTurbineProperty(true);
         setRotorProperty(facing, active);

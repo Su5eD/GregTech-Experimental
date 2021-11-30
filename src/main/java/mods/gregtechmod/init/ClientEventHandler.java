@@ -37,12 +37,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -142,49 +138,45 @@ public class ClientEventHandler {
                 .map(BlockItems.Block::getBlockInstance)
                 .forEach(block -> ModelLoader.setCustomStateMapper(block, mapper));
 
-        Map<String, ResourceLocation> steamTurbineRotor = getRotorTextures("large_steam_turbine");
-        Map<String, ResourceLocation> gasTurbineRotor = getRotorTextures("large_gas_turbine");
-        registerBlockConnectedBakedModel(loader, "standard_machine_casing", steamTurbineRotor);
-        registerBlockConnectedBakedModel(loader, "reinforced_machine_casing", gasTurbineRotor);
+        registerBlockConnectedBakedModel(loader, "standard_machine_casing", getRotorTextures("large_steam_turbine"));
+        registerBlockConnectedBakedModel(loader, "reinforced_machine_casing", getRotorTextures("large_gas_turbine"));
         registerBlockConnectedBakedModel(loader, "advanced_machine_casing");
         registerBlockConnectedBakedModel(loader, "iridium_reinforced_tungsten_steel");
         registerBlockConnectedBakedModel(loader, "tungsten_steel");
     }
     
+    /**
+     * Get all rotor textures from specific texture paths,
+     * which follow the format <code>blocks/machines/{@literal <name>}/rotor_{@literal <texture part>}</code>
+     * 
+     * @see Rotor#TEXTURE_PARTS
+     */
     private static Map<String, ResourceLocation> getRotorTextures(String name) {
-        return Rotor.TEXTURE_NAMES.stream()
-                .flatMap(str -> Stream.of(str, str + "_active"))
-                .collect(Collectors.toMap(str -> "rotor_" + str, str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str)));
+        return Rotor.TEXTURE_PARTS.stream()
+                .flatMap(str -> Stream.of("rotor_" + str, "rotor_" + str + "_active"))
+                .collect(Collectors.toMap(Function.identity(), str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str)));
     }
     
     @SafeVarargs
     private static void registerBlockConnectedBakedModel(BakedModelLoader loader, String name, Map<String, ResourceLocation>... extraTextures) {
-        registerConnectedBakedModel(loader, name, "connected", "block_", ModelBlockConnected::new, extraTextures);
+        registerConnectedBakedModel(loader, name, "connected", "block_", textures -> new ModelBlockConnected(textures, extraTextures));
     }
-    
-    @SafeVarargs
-    private static void registerConnectedBakedModel(BakedModelLoader loader, String name, String dir, String prefix, BiFunction<Map<String, ResourceLocation>, Map<String, ResourceLocation>[], IModel> modelFactory, Map<String, ResourceLocation>... extraTextures) {
-        Path texturesPath = GtUtil.getAssetPath("textures");
-        Path path = texturesPath.resolve("blocks/" + dir + "/" + name);
-        try {
-            Map<String, ResourceLocation> textures = Files.walk(path)
-                    .filter(p -> !p.equals(path))
-                    .map(p -> {
-                        String str = p.toString().replace(texturesPath.toString(), "");
-                        while (str.startsWith(File.separator) || str.startsWith("/")) str = str.substring(1);
-                        
-                        return str.substring(0, str.lastIndexOf('.')).replace(File.separatorChar, '/');
-                    })
-                    .collect(Collectors.toMap(str -> {
-                        String textureName = str.substring(str.lastIndexOf('/') + 1).replace(name, "");
-                        if (textureName.startsWith("_")) return textureName.substring(1);
-                        else return textureName;
-                    }, str -> new ResourceLocation(Reference.MODID, str)));
 
-            loader.register("models/block/" + prefix + name, modelFactory.apply(textures, extraTextures));
-        } catch (IOException e) {
-            GregTechMod.LOGGER.error("Error registering connected baked model " + name, e);
-        }
+    /**
+     * Register a connected baked model using specific texture paths,
+     * which follow the format <code>blocks/{@literal <dir>}/{@literal <name>}/{@literal <name>}{@literal <texture part>}</code>
+     * 
+     * @see ModelBlockConnected#TEXTURE_PARTS
+     */
+    private static void registerConnectedBakedModel(BakedModelLoader loader, String name, String dir, String prefix, Function<Map<String, ResourceLocation>, IModel> modelFactory) {
+        String basePath = "blocks/" + dir + "/" + name + "/" + name;
+        Map<String, ResourceLocation> textures = ModelBlockConnected.TEXTURE_PARTS.stream()
+                .collect(Collectors.toMap(Function.identity(), str -> {
+                    String resPath = str.isEmpty() ? basePath : basePath + "_" + str;
+                    return new ResourceLocation(Reference.MODID, resPath);
+                }));
+        
+        loader.register("models/block/" + prefix + name, modelFactory.apply(textures));
     }
     
     private static void registerModel(Item item) {
@@ -206,38 +198,38 @@ public class ClientEventHandler {
         String machines = "blocks/machines/";
         
         Stream.of(
-                covers + "adv_machine_vent",
-                covers + "adv_machine_vent_rotating",
+                machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
                 machines + "centrifuge/centrifuge_top_active2",
                 machines + "centrifuge/centrifuge_top_active3",
                 machines + "centrifuge/centrifuge_side_active2",
                 machines + "centrifuge/centrifuge_side_active3",
-                machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
-                covers + "machine_vent_rotating",
-                covers + "drain",
-                covers + "active_detector",
-                covers + "eu_meter",
-                covers + "item_meter",
-                covers + "liquid_meter",
-                covers + "normal",
-                covers + "noredstone",
-                covers + "machine_controller",
-                covers + "solar_panel",
-                covers + "crafting",
-                covers + "conveyor",
-                covers + "pump",
-                covers + "valve",
-                covers + "energy_only",
-                covers + "redstone_only",
-                covers + "redstone_conductor",
-                covers + "redstone_signalizer",
-                machines + "machine_top_pipe",
-                machines + "hatch_maintenance/hatch_maintenance_front_ducttape", 
+                machines + "computer_cube/computer_cube_reactor",
+                machines + "computer_cube/computer_cube_scanner",
+                machines + "hatch_maintenance/hatch_maintenance_front_ducttape",
                 machines + "lesu/lesu_lv_out",
                 machines + "lesu/lesu_mv_out",
                 machines + "lesu/lesu_hv_out",
-                machines + "computer_cube/computer_cube_reactor",
-                machines + "computer_cube/computer_cube_scanner"
+                machines + "machine_top_pipe",
+                covers + "active_detector",
+                covers + "adv_machine_vent",
+                covers + "adv_machine_vent_rotating",
+                covers + "conveyor",
+                covers + "crafting",
+                covers + "drain",
+                covers + "energy_only",
+                covers + "eu_meter",
+                covers + "item_meter",
+                covers + "liquid_meter",
+                covers + "machine_controller",
+                covers + "machine_vent_rotating",
+                covers + "noredstone",
+                covers + "normal",
+                covers + "pump",
+                covers + "redstone_conductor",
+                covers + "redstone_only",
+                covers + "redstone_signalizer",
+                covers + "solar_panel",
+                covers + "valve"
         )
                 .map(str -> new ResourceLocation(Reference.MODID, str))
                 .forEach(map::registerSprite);
