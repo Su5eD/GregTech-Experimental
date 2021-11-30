@@ -3,7 +3,9 @@ package mods.gregtechmod.gui;
 import ic2.core.GuiIC2;
 import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
@@ -29,10 +31,10 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
         drawString(11, 8, this.container.base.getGuiName(), GuiColors.WHITE, false);
         double capacity = this.container.base.getEUCapacity();
         int offsetY = getInfoOffsetY();
-        drawString("jei.energy", offsetY, GtUtil.formatNumber(this.container.base.getStoredEU()));
-        drawString("teblock.lesu.max_energy", offsetY + 8, GtUtil.formatNumber(capacity));
-        drawString("teblock.lesu.max_input", offsetY + 16, GtUtil.formatNumber(this.container.base.getMaxInputEUp()));
-        drawString("teblock.lesu.output", offsetY + 24, GtUtil.formatNumber(this.container.base.getMaxOutputEUp()));
+        drawString("jei.energy", offsetY, JavaUtil.formatNumber(this.container.base.getStoredEU()));
+        drawString("teblock.lesu.max_energy", offsetY + 8, JavaUtil.formatNumber(capacity));
+        drawString("teblock.lesu.max_input", offsetY + 16, JavaUtil.formatNumber(this.container.base.getMaxInputEUp()));
+        drawString("teblock.lesu.output", offsetY + 24, JavaUtil.formatNumber(this.container.base.getMaxOutputEUp()));
         
         drawChargeBar(this, this.container.base, this.chargeBoltOffset, 73, this.chargeBarLength);
     }
@@ -57,7 +59,7 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
     }
     
     protected void drawString(String translationKey, int y, Object... args) {
-        drawString(11, y, GtUtil.translate(translationKey, args), GuiColors.WHITE, false);
+        drawString(11, y, GtLocale.translate(translationKey, args), GuiColors.WHITE, false);
     }
 
     @Override

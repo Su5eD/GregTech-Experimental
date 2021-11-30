@@ -3,8 +3,8 @@ package mods.gregtechmod.objects.blocks;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -62,7 +62,7 @@ public class BlockOre extends Block implements ICustomItemModel {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        Random rand = world instanceof World ? ((World)world).rand : GtUtil.RANDOM;
+        Random rand = world instanceof World ? ((World)world).rand : JavaUtil.RANDOM;
         this.loot.accept(fortune, drops, rand);
         if (drops.isEmpty()) drops.add(new ItemStack(this.getItemDropped(state, rand, fortune)));
     }

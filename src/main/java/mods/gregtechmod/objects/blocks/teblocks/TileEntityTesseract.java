@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.blocks.teblocks;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -102,8 +103,8 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
 
     private void sendFrequencyMessage(EntityPlayer player) {
         TileEntityTesseractGenerator gen = TileEntityTesseractGenerator.getTesseract(this.frequency, this.world, this.frequencyMessageTesseractGlobal ? null : getOwner());
-        String msg = GtUtil.translateTeBlock("tesseract", "frequency", this.frequency);
-        if (gen != null && gen != this) msg += GtUtil.translateTeBlock("tesseract", getExistingTesseractMessage());
+        String msg = GtLocale.translateTeBlock("tesseract", "frequency", this.frequency);
+        if (gen != null && gen != this) msg += GtLocale.translateTeBlock("tesseract", getExistingTesseractMessage());
         
         GtUtil.sendMessage(player, msg);
     }
@@ -120,17 +121,17 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
 
     @Override
     public String getMainInfo() {
-        return delegatePanelInfo(GtUtil.translateTeBlockName(this.teBlock), IPanelInfoProvider::getMainInfo);
+        return delegatePanelInfo(GtLocale.translateTeBlockName(this.teBlock), IPanelInfoProvider::getMainInfo);
     }
 
     @Override
     public String getSecondaryInfo() {
-        return delegatePanelInfo(GtUtil.translateTeBlock("tesseract", "frequency_short", this.frequency), IPanelInfoProvider::getSecondaryInfo);
+        return delegatePanelInfo(GtLocale.translateTeBlock("tesseract", "frequency_short", this.frequency), IPanelInfoProvider::getSecondaryInfo);
     }
 
     @Override
     public String getTertiaryInfo() {
-        String msg = GtUtil.translateInfo(TileEntityTesseractGenerator.getTesseract(this.frequency, this.world, getOwner()) == this ? "active" : "inactive");
+        String msg = GtLocale.translateInfo(TileEntityTesseractGenerator.getTesseract(this.frequency, this.world, getOwner()) == this ? "active" : "inactive");
         return delegatePanelInfo(msg, IPanelInfoProvider::getTertiaryInfo);
     }
     

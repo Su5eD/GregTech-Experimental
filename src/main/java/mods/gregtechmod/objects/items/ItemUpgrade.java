@@ -7,7 +7,7 @@ import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.items.base.ItemBase;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -22,7 +22,7 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     private final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
 
     public ItemUpgrade(String name, String descriptionKey, GtUpgradeType type, int maxCount, int requiredTier, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-        super(name, () -> GtUtil.translateItem(descriptionKey));
+        super(name, () -> GtLocale.translateItem(descriptionKey));
         setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
         this.type = type;
         this.requiredTier = requiredTier;

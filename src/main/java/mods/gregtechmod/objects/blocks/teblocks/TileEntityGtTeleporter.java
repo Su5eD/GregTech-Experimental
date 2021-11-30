@@ -9,7 +9,7 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.gui.GuiGtTeleporter;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerGtTeleporter;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.TeleportUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
@@ -238,7 +238,7 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
 
     @Override
     public String getMainInfo() {
-        return GtUtil.translateTeBlock("gt_teleporter", "charge", this.getUniversalEnergy());
+        return GtLocale.translateTeBlock("gt_teleporter", "charge", this.getUniversalEnergy());
     }
 
     @Override
@@ -248,6 +248,6 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
 
     @Override
     public String getTertiaryInfo() {
-        return GtUtil.translateTeBlock("gt_teleporter", "dimension", this.targetDimension.getName());
+        return GtLocale.translateTeBlock("gt_teleporter", "dimension", this.targetDimension.getName());
     }
 }

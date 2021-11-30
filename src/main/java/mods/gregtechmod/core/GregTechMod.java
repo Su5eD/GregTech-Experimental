@@ -16,6 +16,7 @@ import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.world.IDSUData;
 import mods.gregtechmod.world.OreGenerator;
@@ -88,7 +89,7 @@ public final class GregTechMod {
         ComputerCubeGuide.Page.register();
         
         OreDictRegistrar.registerItems();
-        GtUtil.measureTime("Parsing recipes", () -> {
+        JavaUtil.measureTime("Parsing recipes", () -> {
             MachineRecipeParser.loadRecipes();
             MachineRecipeParser.loadDynamicRecipes();
             MachineRecipeParser.loadFuels();
@@ -114,7 +115,7 @@ public final class GregTechMod {
         ModRecipes.init();
         TileEntityUniversalMacerator.initMaceratorRecipes();
 
-        GtUtil.measureTime("Activating OreDictionary Handler", OreDictHandler.INSTANCE::activateHandler);
+        JavaUtil.measureTime("Activating OreDictionary Handler", OreDictHandler.INSTANCE::activateHandler);
         OreDictHandler.registerValuableOres();
 
         MachineRecipeParser.registerDynamicRecipes();

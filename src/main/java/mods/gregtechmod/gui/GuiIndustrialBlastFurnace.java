@@ -2,6 +2,7 @@ package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBlastFurnace;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
@@ -16,7 +17,7 @@ public class GuiIndustrialBlastFurnace extends GuiStructure<ContainerBlastFurnac
         
     @Override
     protected void doWhenValid() {
-        drawString(8, ySize - 103, GtUtil.translateInfo("heat_capacity", this.container.base.getHeatCapacity()), GuiColors.DARK_GRAY, false);
+        drawString(8, ySize - 103, GtLocale.translateInfo("heat_capacity", this.container.base.getHeatCapacity()), GuiColors.DARK_GRAY, false);
     }
 
     @Override

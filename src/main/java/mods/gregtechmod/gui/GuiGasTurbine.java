@@ -3,7 +3,7 @@ package mods.gregtechmod.gui;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicTank;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 
 public class GuiGasTurbine extends GuiFluidGenerator {
     
@@ -13,6 +13,6 @@ public class GuiGasTurbine extends GuiFluidGenerator {
 
     @Override
     protected String getDisplayName() {
-        return GtUtil.translateInfo("gas_amount");
+        return GtLocale.translateInfo("gas_amount");
     }
 }

@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.items.base;
 import ic2.core.item.IPseudoDamageItem;
 import ic2.core.item.tool.ToolClass;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.block.Block;
@@ -33,7 +34,7 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel {
     protected final Set<ToolClass> toolClasses;
 
     public ItemToolBase(String name, int durability, float attackDamage) {
-        this(name, () -> GtUtil.translateItemDescription(name), durability, attackDamage, ToolMaterial.WOOD, Collections.emptySet(), 3, 0, Collections.emptySet());
+        this(name, () -> GtLocale.translateItemDescription(name), durability, attackDamage, ToolMaterial.WOOD, Collections.emptySet(), 3, 0, Collections.emptySet());
     }
 
     public ItemToolBase(String name, Supplier<String> description, int durability, float attackDamage) {

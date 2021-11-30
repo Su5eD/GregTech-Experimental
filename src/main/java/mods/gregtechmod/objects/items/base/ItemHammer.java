@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.items.base;
 
 import com.google.common.collect.Sets;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -22,7 +22,7 @@ public class ItemHammer extends ItemToolBase {
     }
 
     public ItemHammer(String material, String descriptionKey, int durability, int entityDamage) {
-        super("hammer_" + material, () -> GtUtil.translateItemDescription(descriptionKey), durability, entityDamage, ToolMaterial.WOOD);
+        super("hammer_" + material, () -> GtLocale.translateItemDescription(descriptionKey), durability, entityDamage, ToolMaterial.WOOD);
     }
 
     @Override

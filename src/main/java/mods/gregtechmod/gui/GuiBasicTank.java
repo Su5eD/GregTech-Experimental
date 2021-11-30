@@ -3,7 +3,9 @@ package mods.gregtechmod.gui;
 import ic2.core.ContainerBase;
 import mods.gregtechmod.inventory.gui.CustomFluidSlot;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
@@ -25,11 +27,11 @@ public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         drawString(10, 20, getDisplayName(), GuiColors.LIGHT_GRAY, false);
-        drawString(10, 30, GtUtil.formatNumber(this.fluidTank.getFluidAmount()), GuiColors.LIGHT_GRAY, false);
+        drawString(10, 30, JavaUtil.formatNumber(this.fluidTank.getFluidAmount()), GuiColors.LIGHT_GRAY, false);
     }
     
     protected String getDisplayName() {
-        return GtUtil.translateInfo("liquid_amount");
+        return GtLocale.translateInfo("liquid_amount");
     }
 
     @Override

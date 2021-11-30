@@ -10,6 +10,7 @@ import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
@@ -198,14 +199,14 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        if (this.descriptionKey != null) tooltip.add(GtUtil.translateTeBlockDescription(this.descriptionKey));
+        if (this.descriptionKey != null) tooltip.add(GtLocale.translateTeBlockDescription(this.descriptionKey));
     }
 
     @Nonnull
     @Override
     public final List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
         List<String> scan = new ArrayList<>();
-        if (scanLevel > 1) scan.add(GtUtil.translateInfo(checkAccess(player) ? "machine_accessible" : "machine_not_accessible"));
+        if (scanLevel > 1) scan.add(GtLocale.translateInfo(checkAccess(player) ? "machine_accessible" : "machine_not_accessible"));
         getScanInfoPre(scan, player, pos, scanLevel);
         for (TileEntityComponent component : getComponents()) {
             if (component instanceof GtComponentBase) ((GtComponentBase) component).getScanInfo(scan, player, pos, scanLevel);

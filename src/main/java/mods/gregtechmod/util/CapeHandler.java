@@ -10,7 +10,11 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CapeHandler {
     private final List<UUID> gtCapes;
@@ -20,17 +24,16 @@ public class CapeHandler {
     
     // Currently disabled
     private CapeHandler() {
-        List<UUID> gtCapes = new ArrayList<>();
-        gtCapes.add(UUID.fromString("989e39a1-7d39-4829-87f1-286a06fab3bd")); // Su5eD
-        this.gtCapes = Collections.unmodifiableList(gtCapes);
-                    
-        List<UUID> capes = new ArrayList<>();
-        GtUtil.readAsset("GregTechCapes.txt").lines()
-                .forEach(line -> {
-                    String id = (line.contains("#") ? line.split("#")[0] : line).trim();
-                    capes.add(UUID.fromString(id));
-                });
-        this.capes = Collections.unmodifiableList(capes);
+        this.gtCapes = Stream.of(
+                "989e39a1-7d39-4829-87f1-286a06fab3bd" // Su5eD
+        )
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+        
+        this.capes = GtUtil.readAsset("GregTechCapes.txt").lines()
+                .map(line -> (line.contains("#") ? line.split("#")[0] : line).trim())
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
     }
     
     @SubscribeEvent

@@ -4,7 +4,7 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +18,7 @@ public class ItemCover extends ItemBase {
     private final ICoverProvider coverProvider;
     
     public ItemCover(String name, ICoverProvider coverProvider, String descriptionKey) {
-        super(name, () -> GtUtil.translateItemDescription(descriptionKey));
+        super(name, () -> GtLocale.translateItemDescription(descriptionKey));
         this.coverProvider = coverProvider;
     }
 

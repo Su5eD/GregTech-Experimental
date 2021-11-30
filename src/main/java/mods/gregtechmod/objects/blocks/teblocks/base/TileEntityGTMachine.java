@@ -14,7 +14,7 @@ import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.recipe.util.SteamHelper;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import mods.gregtechmod.util.nbt.Serializers.ItemStackListNBTSerializer;
@@ -226,7 +226,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
         super.getScanInfoPost(scan, player, pos, scanLevel);
-        if (scanLevel > 0) scan.add(GtUtil.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
+        if (scanLevel > 0) scan.add(GtLocale.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
     }
 
     @Override
@@ -236,17 +236,17 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     @Override
     public String getMainInfo() {
-        return GtUtil.translateGeneric("progress") + ":";
+        return GtLocale.translateGeneric("progress") + ":";
     }
 
     @Override
     public String getSecondaryInfo() {
-        return GtUtil.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
+        return GtLocale.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
     }
 
     @Override
     public String getTertiaryInfo() {
-        return  "/" + GtUtil.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
+        return  "/" + GtLocale.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
     }
 
     @Override

@@ -28,7 +28,8 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -66,7 +67,7 @@ public class ItemScanner extends ItemElectricBase {
     }
 
     public ItemScanner(String name, int maxCharge, double transferLimit, int tier, boolean useEnergy) {
-        super(name, GtUtil.NULL_SUPPLIER, maxCharge, transferLimit, tier, 0, false);
+        super(name, JavaUtil.NULL_SUPPLIER, maxCharge, transferLimit, tier, 0, false);
         this.useEnergy = useEnergy;
         this.showTier = false;
     }
@@ -100,11 +101,11 @@ public class ItemScanner extends ItemElectricBase {
 
         ret.add("-------------------");
         String id = tileEntity instanceof IInventory ? block.getTranslationKey() : block.getRegistryName().toString();
-        ret.add(GtUtil.translateScan("name", name));
-        ret.add(GtUtil.translateScan("id", id));
-        ret.add(GtUtil.translateScan("metadata", block.getMetaFromState(state)));
+        ret.add(GtLocale.translateScan("name", name));
+        ret.add(GtLocale.translateScan("id", id));
+        ret.add(GtLocale.translateScan("metadata", block.getMetaFromState(state)));
         //noinspection deprecation
-        ret.add(GtUtil.translateScan("hardness_resistance", state.getBlockHardness(world, pos), block.getExplosionResistance(null)));
+        ret.add(GtLocale.translateScan("hardness_resistance", state.getBlockHardness(world, pos), block.getExplosionResistance(null)));
 
         if (tileEntity != null) {
             if (tileEntity instanceof IFluidHandler) {
@@ -114,8 +115,8 @@ public class ItemScanner extends ItemElectricBase {
                     for (int i = 0; i < properties.length; i++) {
                         FluidStack fluid = properties[i].getContents();
                         int amount = fluid == null ? 0 : fluid.amount;
-                        String fluidName = fluid == null ? "" : GtUtil.capitalizeString(fluid.getFluid().getUnlocalizedName().replaceFirst("fluid.", ""));
-                        ret.add(GtUtil.translateScan("tank", i, amount, properties[i].getCapacity(), fluidName));
+                        String fluidName = fluid == null ? "" : JavaUtil.capitalizeString(fluid.getFluid().getUnlocalizedName().replaceFirst("fluid.", ""));
+                        ret.add(GtLocale.translateScan("tank", i, amount, properties[i].getCapacity(), fluidName));
                     }
                 }
             }
@@ -127,52 +128,52 @@ public class ItemScanner extends ItemElectricBase {
 
             if (tileEntity instanceof IReactor) {
                 energyCost += 500;
-                ret.add(GtUtil.translateScan("reactor", ((IReactor)tileEntity).getHeat(), ((IReactor)tileEntity).getMaxHeat(), ((IReactor)tileEntity).getHeatEffectModifier(), ((IReactor)tileEntity).getReactorEUEnergyOutput()));
+                ret.add(GtLocale.translateScan("reactor", ((IReactor)tileEntity).getHeat(), ((IReactor)tileEntity).getMaxHeat(), ((IReactor)tileEntity).getHeatEffectModifier(), ((IReactor)tileEntity).getReactorEUEnergyOutput()));
             }
 
             if (block instanceof IWrenchable) {
                 energyCost += 100;
-                ret.add(GtUtil.translateScan("facing_drops", ((IWrenchable) block).getFacing(world, pos), ((IWrenchable) block).getWrenchDrops(world, pos, state, tileEntity, player, 0)));
-                ret.add(GtUtil.translateScan(((IWrenchable) block).wrenchCanRemove(world, pos, player) ? "wrenchable" : "not_wrenchable"));
+                ret.add(GtLocale.translateScan("facing_drops", ((IWrenchable) block).getFacing(world, pos), ((IWrenchable) block).getWrenchDrops(world, pos, state, tileEntity, player, 0)));
+                ret.add(GtLocale.translateScan(((IWrenchable) block).wrenchCanRemove(world, pos, player) ? "wrenchable" : "not_wrenchable"));
             }
 
             IEnergyTile energyTile = EnergyNet.instance.getTile(world, pos);
             if (energyTile instanceof IEnergySink) {
                 energyCost += 400;
-                ret.add(GtUtil.translateScan("demanded_energy", ((IEnergySink)energyTile).getDemandedEnergy()));
+                ret.add(GtLocale.translateScan("demanded_energy", ((IEnergySink)energyTile).getDemandedEnergy()));
                 double maxInput = tileEntity instanceof IElectricMachine ? ((IElectricMachine) tileEntity).getMaxInputEUp() : EnergyNet.instance.getPowerFromTier(((IEnergySink)energyTile).getSinkTier());
-                ret.add(GtUtil.translateScan("max_safe_input", maxInput));
+                ret.add(GtLocale.translateScan("max_safe_input", maxInput));
             }
 
             if (energyTile instanceof IEnergySource) {
                 energyCost += 400;
-                ret.add(GtUtil.translateScan("max_output", energyTile instanceof AdjustableEnergy.SourceDelegate ? ((AdjustableEnergy.SourceDelegate) energyTile).getMaxOutputEUp() : EnergyNet.instance.getPowerFromTier(((IEnergySource) energyTile).getSourceTier())));
+                ret.add(GtLocale.translateScan("max_output", energyTile instanceof AdjustableEnergy.SourceDelegate ? ((AdjustableEnergy.SourceDelegate) energyTile).getMaxOutputEUp() : EnergyNet.instance.getPowerFromTier(((IEnergySource) energyTile).getSourceTier())));
             }
 
             if (energyTile instanceof IEnergyConductor) {
                 energyCost += 200;
-                ret.add(GtUtil.translateScan("conduction_loss", ((IEnergyConductor)energyTile).getConductionLoss()));
+                ret.add(GtLocale.translateScan("conduction_loss", ((IEnergyConductor)energyTile).getConductionLoss()));
             }
 
             if (energyTile instanceof IEnergyStorage) {
                 energyCost += 200;
-                ret.add(GtUtil.translateScan("contained_energy", ((IEnergyStorage)energyTile).getStored(), ((IEnergyStorage)energyTile).getCapacity()));
-                ret.add(GtUtil.translateScan(((IEnergyStorage)energyTile).isTeleporterCompatible(EnumFacing.UP) ? "teleported_compatible" : "not_teleported_compatible"));
+                ret.add(GtLocale.translateScan("contained_energy", ((IEnergyStorage)energyTile).getStored(), ((IEnergyStorage)energyTile).getCapacity()));
+                ret.add(GtLocale.translateScan(((IEnergyStorage)energyTile).isTeleporterCompatible(EnumFacing.UP) ? "teleported_compatible" : "not_teleported_compatible"));
             }
 
             if (tileEntity instanceof IUpgradableMachine) {
                 energyCost += 500;
                 int value;
-                if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) > 0) ret.add(GtUtil.translateScan("overclockers", value));
-                if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(IC2UpgradeType.TRANSFORMER)) > 0) ret.add(GtUtil.translateScan("transformers", value));
-                if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(GtUpgradeType.TRANSFORMER)) > 0) ret.add(GtUtil.translateScan("hv_transformers", value));
-                if ((value = ((IUpgradableMachine)tileEntity).getExtraEUCapacity()) > 0) ret.add(GtUtil.translateScan("extra_capacity", value));
+                if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) > 0) ret.add(GtLocale.translateScan("overclockers", value));
+                if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(IC2UpgradeType.TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("transformers", value));
+                if ((value = ((IUpgradableMachine)tileEntity).getUpgradeCount(GtUpgradeType.TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("hv_transformers", value));
+                if ((value = ((IUpgradableMachine)tileEntity).getExtraEUCapacity()) > 0) ret.add(GtLocale.translateScan("extra_capacity", value));
             }
 
             if (tileEntity instanceof IMachineProgress) {
                 energyCost += 400;
                 int maxProgress = ((IMachineProgress)tileEntity).getMaxProgress();
-                if (maxProgress > 0) ret.add(GtUtil.translateScan("progress", ((IMachineProgress)tileEntity).getProgress(), maxProgress));
+                if (maxProgress > 0) ret.add(GtLocale.translateScan("progress", ((IMachineProgress)tileEntity).getProgress(), maxProgress));
             }
 
             if (tileEntity instanceof ICoverable) {
@@ -185,8 +186,8 @@ public class ItemScanner extends ItemElectricBase {
                     int tickRate = cover.getTickRate();
                     if (tickRate <= 1) {
                         String key = tickRate < 1 ? "cover_ticked_never" : "cover_ticked_1";
-                        translated = GtUtil.translateScan(key, displayName);
-                    } else translated = GtUtil.translateScan("cover_ticked_n", displayName, tickRate);
+                        translated = GtLocale.translateScan(key, displayName);
+                    } else translated = GtLocale.translateScan("cover_ticked_n", displayName, tickRate);
                     
                     ret.add(!description.isEmpty() ? translated + ", " + description : translated);
                 }
@@ -194,7 +195,7 @@ public class ItemScanner extends ItemElectricBase {
 
             if (tileEntity instanceof IUpgradableMachine) {
                 GameProfile owner = ((IUpgradableMachine)tileEntity).getOwner();
-                if (owner != null) ret.add(GtUtil.translateScan("owner", owner.getName()));
+                if (owner != null) ret.add(GtLocale.translateScan("owner", owner.getName()));
             }
 
             if (tileEntity instanceof ICropTile) {
@@ -205,13 +206,13 @@ public class ItemScanner extends ItemElectricBase {
                 }
                 energyCost += 1000;
 
-                ret.add(GtUtil.translateScan("crop_type", tile.getStatGrowth(), tile.getStatGain(), tile.getStatResistance()));
-                ret.add(GtUtil.translateScan("crop_fertilizer", tile.getStorageNutrients(), tile.getStorageWater(), tile.getStorageWeedEX(), tile.getScanLevel()));
-                ret.add(GtUtil.translateScan("crop_environment", tile.getTerrainNutrients(), tile.getTerrainHumidity(), tile.getTerrainAirQuality()));
+                ret.add(GtLocale.translateScan("crop_type", tile.getStatGrowth(), tile.getStatGain(), tile.getStatResistance()));
+                ret.add(GtLocale.translateScan("crop_fertilizer", tile.getStorageNutrients(), tile.getStorageWater(), tile.getStorageWeedEX(), tile.getScanLevel()));
+                ret.add(GtLocale.translateScan("crop_environment", tile.getTerrainNutrients(), tile.getTerrainHumidity(), tile.getTerrainAirQuality()));
 
                 CropCard crop = tile.getCrop();
-                ret.add(GtUtil.translateScan("attributes", String.join(", ", crop.getAttributes())));
-                ret.add(GtUtil.translateScan("discoverer", crop.getDiscoveredBy()));
+                ret.add(GtLocale.translateScan("attributes", String.join(", ", crop.getAttributes())));
+                ret.add(GtLocale.translateScan("discoverer", crop.getDiscoveredBy()));
             }
             
             if (tileEntity instanceof IScannerInfoProvider) {

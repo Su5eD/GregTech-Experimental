@@ -43,6 +43,6 @@ public class BlockConnectedTurbine extends BlockConnected {
     }
 
     private boolean isTurbine(IBlockState state) {
-        return Boolean.TRUE.equals(GtUtil.getStateProperty(state, BlockConnectedTurbine.TURBINE));
+        return Boolean.TRUE.equals(GtUtil.getStateValueSafely(state, BlockConnectedTurbine.TURBINE));
     }
 }

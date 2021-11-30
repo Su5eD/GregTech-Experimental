@@ -6,7 +6,7 @@ import ic2.api.energy.tile.*;
 import ic2.api.tile.IEnergyStorage;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.network.GrowingBuffer;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
@@ -132,13 +132,13 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     
     private Collection<EnumFacing> getActualSinkSides() {
         Collection<EnumFacing> sinkSides = getSinkSides();
-        if (!GtUtil.matchCollections(sinkSides, this.oldSinkSides)) refreshSides(sinkSides, getSourceSides());
+        if (!JavaUtil.matchCollections(sinkSides, this.oldSinkSides)) refreshSides(sinkSides, getSourceSides());
         return sinkSides;
     }
     
     private Collection<EnumFacing> getActualSourceSides() {
         Collection<EnumFacing> sourceSides = getSourceSides();
-        if (!GtUtil.matchCollections(sourceSides, this.oldSourceSides)) refreshSides(getSourceSides(), sourceSides);
+        if (!JavaUtil.matchCollections(sourceSides, this.oldSourceSides)) refreshSides(getSourceSides(), sourceSides);
         return sourceSides;
     }
     

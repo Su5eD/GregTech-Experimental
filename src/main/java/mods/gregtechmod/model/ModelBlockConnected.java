@@ -52,7 +52,7 @@ public class ModelBlockConnected extends ModelBase {
     }
     
     private String getTexture(IBlockState state, EnumFacing side) {
-        Rotor rotor = GtUtil.getStateProperty(state, BlockConnectedTurbine.TURBINE_ROTOR);
+        Rotor rotor = GtUtil.getStateValueSafely(state, BlockConnectedTurbine.TURBINE_ROTOR);
         if (rotor != null && rotor != Rotor.DISABLED && rotor.side == side) {
             return rotor.getTexture();
         }

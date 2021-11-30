@@ -27,6 +27,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidTank;
@@ -201,7 +203,7 @@ public class BlockItems {
         THORIUM("Th", true),
         TITANIUM("Ti"),
         TUNGSTEN("W"),
-        TUNGSTEN_STEEL(() -> GtUtil.translateItemDescription("ingot_tungsten_steel")),
+        TUNGSTEN_STEEL(() -> GtLocale.translateItemDescription("ingot_tungsten_steel")),
         ZINC("Zn");
 
         private final LazyValue<Item> instance;
@@ -209,7 +211,7 @@ public class BlockItems {
         public final boolean hasEffect;
 
         Ingot() {
-            this(GtUtil.NULL_SUPPLIER);
+            this(JavaUtil.NULL_SUPPLIER);
         }
 
         Ingot(String description) {
@@ -319,7 +321,7 @@ public class BlockItems {
         public final Supplier<String> description;
 
         Plate() {
-            this(GtUtil.NULL_SUPPLIER);
+            this(JavaUtil.NULL_SUPPLIER);
         }
 
         Plate(String description) {
@@ -464,7 +466,7 @@ public class BlockItems {
         public final boolean hasEffect;
 
         Dust() {
-            this(GtUtil.NULL_SUPPLIER);
+            this(JavaUtil.NULL_SUPPLIER);
         }
 
         Dust(String description) {
@@ -572,7 +574,7 @@ public class BlockItems {
         public final boolean hasEffect;
 
         Smalldust() {
-            this(GtUtil.NULL_SUPPLIER);
+            this(JavaUtil.NULL_SUPPLIER);
         }
 
         Smalldust(String description) {
@@ -679,11 +681,11 @@ public class BlockItems {
         public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
+            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, descriptionKey, oreDict, GtUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
+            this(type, maxCount, requiredTier, descriptionKey, oreDict, JavaUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
@@ -691,7 +693,7 @@ public class BlockItems {
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, GtUtil.alwaysTrue(), beforeInsert, afterInsert);
+            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), beforeInsert, afterInsert);
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
@@ -859,7 +861,7 @@ public class BlockItems {
             String name = this.name().toLowerCase(Locale.ROOT);
             this.oreDict = oreDict;
             
-            this.instance = new LazyValue<>(() -> new ItemBase(name, () -> GtUtil.translateItem(name+"."+descriptionKey))
+            this.instance = new LazyValue<>(() -> new ItemBase(name, () -> GtLocale.translateItem(name+"."+descriptionKey))
                     .setFolder("component")
                     .setRegistryName(name)
                     .setTranslationKey(name)
@@ -902,7 +904,7 @@ public class BlockItems {
         TESLA_STAFF(ItemTeslaStaff::new),
         WRENCH_ADVANCED(ItemWrenchAdvanced::new),
         DESTRUCTORPACK(ItemDestructorPack::new),
-        LAPOTRONIC_ENERGY_ORB(() -> new ItemElectricBase("lapotronic_energy_orb", GtUtil.NULL_SUPPLIER, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, true)
+        LAPOTRONIC_ENERGY_ORB(() -> new ItemElectricBase("lapotronic_energy_orb", JavaUtil.NULL_SUPPLIER, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, true)
                 .setFolder("tool")
                 .setRegistryName("lapotronic_energy_orb")
                 .setTranslationKey("lapotronic_energy_orb")
@@ -1299,10 +1301,10 @@ public class BlockItems {
 
     public enum Miscellaneous implements IOreDictItemProvider {
         GREG_COIN,
-        CREDIT_COPPER(() -> GtUtil.translateGenericDescription("credit", 0.125), null),
-        CREDIT_SILVER(() -> GtUtil.translateGenericDescription("credit", 8), null),
-        CREDIT_GOLD(() -> GtUtil.translateGenericDescription("credit", 64), null),
-        CREDIT_DIAMOND(() -> GtUtil.translateGenericDescription("credit", 512), null),
+        CREDIT_COPPER(() -> GtLocale.translateGenericDescription("credit", 0.125), null),
+        CREDIT_SILVER(() -> GtLocale.translateGenericDescription("credit", 8), null),
+        CREDIT_GOLD(() -> GtLocale.translateGenericDescription("credit", 64), null),
+        CREDIT_DIAMOND(() -> GtLocale.translateGenericDescription("credit", 512), null),
         RUBY(Dust.RUBY.description, "gemRuby"),
         SAPPHIRE(Dust.SAPPHIRE.description, "gemSapphire"),
         GREEN_SAPPHIRE(Dust.GREEN_SAPPHIRE.description, "gemGreenSapphire"),
@@ -1310,9 +1312,9 @@ public class BlockItems {
         LAZURITE_CHUNK("(Al6Si6Ca8Na8)8", "chunkLazurite"),
         RED_GARNET(Dust.RED_GARNET.description, "gemGarnetRed"),
         YELLOW_GARNET(Dust.YELLOW_GARNET.description, "gemGarnetYellow"),
-        INDIGO_BLOSSOM(GtUtil.NULL_SUPPLIER, null),
-        INDIGO_DYE(GtUtil.NULL_SUPPLIER, "dyeBlue"),
-        FLOUR(GtUtil.NULL_SUPPLIER, "dustWheat"),
+        INDIGO_BLOSSOM(JavaUtil.NULL_SUPPLIER, null),
+        INDIGO_DYE(JavaUtil.NULL_SUPPLIER, "dyeBlue"),
+        FLOUR(JavaUtil.NULL_SUPPLIER, "dustWheat"),
         SPRAY_CAN_EMPTY((Supplier<String>) null, "craftingSprayCan"),
         LAVA_FILTER(() -> new ItemBase("lava_filter", 100)
                             .setFolder("component")
@@ -1322,7 +1324,7 @@ public class BlockItems {
                             .setCreativeTab(GregTechMod.GREGTECH_TAB)
                             .setMaxStackSize(1)
                             .setNoRepair()),
-        MORTAR_FLINT(() -> GtUtil.translateItemDescription("mortar"), null),
+        MORTAR_FLINT(() -> GtLocale.translateItemDescription("mortar"), null),
         MORTAR_IRON(() -> new ItemMortar("iron", 63, IC2Items.getItem("dust", "iron"))
                             .setRegistryName("mortar_iron")
                             .setTranslationKey("mortar_iron")
@@ -1344,7 +1346,7 @@ public class BlockItems {
             
             this.instance = new LazyValue<>(() -> {
                 String name = this.name().toLowerCase(Locale.ROOT);
-                return new ItemBase(name, description != null ? description : () -> GtUtil.translateItemDescription(name))
+                return new ItemBase(name, description != null ? description : () -> GtLocale.translateItemDescription(name))
                         .setRegistryName(this.name().toLowerCase(Locale.ROOT))
                         .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
                         .setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -1391,11 +1393,34 @@ public class BlockItems {
             this.author = author;
             this.pages = pages;
             
-            this.instance = new LazyValue<>(() -> GtUtil.getWrittenBook(this.name().toLowerCase(Locale.ROOT), this.author, this.pages, this.ordinal()));
+            this.instance = new LazyValue<>(() -> getWrittenBook(this.name().toLowerCase(Locale.ROOT), this.author, this.pages, this.ordinal()));
         }
         
         public ItemStack getInstance() {
             return this.instance.get();
+        }
+
+        public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {
+            ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
+            stack.setTagInfo("title", new NBTTagString(GtLocale.translate("book." + name + ".name")));
+            stack.setTagInfo("author", new NBTTagString(author));
+            NBTTagList tagList = new NBTTagList();
+            for (int i = 0; i < pages; i++) {
+                String page = '\"' + GtLocale.translate("book." + name + ".page" + (i < 10 ? "0" + i : i)) + '\"';
+                if (i < 48) {
+                    if (page.length() < 256) {
+                        tagList.appendTag(new NBTTagString(page));
+                    } else {
+                        GregTechMod.LOGGER.warn("String for written book too long: " + page);
+                    }
+                } else {
+                    GregTechMod.LOGGER.warn("Too many pages for written book: " + name);
+                    break;
+                }
+            }
+            tagList.appendTag(new NBTTagString("\"Credits to " + author + " for writing this Book. This was Book Nr. " + (ordinal + 1) + " at its creation. Gotta get 'em all!\""));
+            stack.setTagInfo("pages", tagList);
+            return stack;
         }
     }
 }

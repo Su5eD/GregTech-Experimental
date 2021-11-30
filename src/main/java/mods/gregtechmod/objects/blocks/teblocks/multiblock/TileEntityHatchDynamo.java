@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 
 import ic2.api.energy.EnergyNet;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -21,7 +21,7 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
-        tooltip.set(2, GtUtil.translateTeBlock("hatch_dynamo", "description2"));
+        tooltip.set(2, GtLocale.translateTeBlock("hatch_dynamo", "description2"));
     }
 
     @Override

@@ -11,7 +11,8 @@ import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -186,9 +187,9 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
-        if (this.energy.isSink()) tooltip.add(GtUtil.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
-        if (this.energy.isSource()) tooltip.add(GtUtil.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
-        if (this.energyCapacityTooltip) tooltip.add(GtUtil.translateInfo("eu_storage", GtUtil.formatNumber(this.energy.getCapacity())));
+        if (this.energy.isSink()) tooltip.add(GtLocale.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
+        if (this.energy.isSource()) tooltip.add(GtLocale.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
+        if (this.energyCapacityTooltip) tooltip.add(GtLocale.translateInfo("eu_storage", JavaUtil.formatNumber(this.energy.getCapacity())));
     }
     
     public class DynamicAdjustableEnergy extends AdjustableEnergy {

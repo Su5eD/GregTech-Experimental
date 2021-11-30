@@ -23,7 +23,7 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
     @Nullable
     protected IRecipeCellular createCellRecipe(List<Fluid> input, List<ItemStack> output, int count, int cellCount, int duration, double energyCost) {
         List<ItemStack> fluidCells = getCells(input);
-        List<ItemStack> recipeOutput = GtUtil.copyList(output);
+        List<ItemStack> recipeOutput = GtUtil.copyStackList(output);
 
         duration = getDuration(duration, StackUtil.copyWithSize(fluidCells.get(0), count - cellCount), recipeOutput);
         if (duration < 0) return null;
@@ -39,7 +39,7 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
     @Nullable
     protected IRecipeCellular createCanRecipe(List<Fluid> input, List<ItemStack> output, int count, int cellCount, int duration, double energyCost) {
         List<ItemStack> fluidCells = getFluidContainers(input, ModHandler.can);
-        List<ItemStack> recipeOutput = GtUtil.copyList(output);
+        List<ItemStack> recipeOutput = GtUtil.copyStackList(output);
 
         duration = getDuration(duration, StackUtil.copyWithSize(fluidCells.get(0), count), recipeOutput);
         if (duration < 0) return null;
@@ -55,7 +55,7 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
     @Nullable
     protected IRecipeCellular createCapsuleRecipe(List<Fluid> input, List<ItemStack> output, int count, int cellCount, int duration, double energyCost, ItemStack capsule) {
         List<ItemStack> capsules = getFluidContainers(input, capsule);
-        List<ItemStack> recipeOutput = GtUtil.copyList(output);
+        List<ItemStack> recipeOutput = GtUtil.copyStackList(output);
 
         TileEntityIndustrialCentrifugeBase.addCellsToOutput(StackUtil.copyWithSize(capsules.get(0), count), recipeOutput);
         return constructCapsuleRecipe(capsules, recipeOutput, count, cellCount, duration, energyCost);

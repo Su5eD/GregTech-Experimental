@@ -1,6 +1,7 @@
 package mods.gregtechmod.init;
 
 import com.google.gson.JsonObject;
+import ic2.api.item.ElectricItem;
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.GregTechObjectAPI;
@@ -12,10 +13,12 @@ import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.items.ItemCellClassic;
+import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
 import mods.gregtechmod.util.*;
 import mods.gregtechmod.util.struct.Rotor;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -55,8 +58,8 @@ public class ClientEventHandler {
         EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "copper"), () -> "Cu");
         EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "tin"), () -> "Sn");
         EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "bronze"), () -> "SnCu3");
-        EXTRA_TOOLTIPS.put(ModHandler.getModItem("energycontrol", "item_kit", 800), () -> GtUtil.translateItemDescription("sensor_kit"));
-        EXTRA_TOOLTIPS.put(ModHandler.getModItem("energycontrol", "item_card", 800), () -> GtUtil.translateItemDescription("sensor_card"));
+        EXTRA_TOOLTIPS.put(ModHandler.getModItem("energycontrol", "item_kit", 800), () -> GtLocale.translateItemDescription("sensor_kit"));
+        EXTRA_TOOLTIPS.put(ModHandler.getModItem("energycontrol", "item_card", 800), () -> GtLocale.translateItemDescription("sensor_card"));
     }
 
     @SubscribeEvent
@@ -93,35 +96,35 @@ public class ClientEventHandler {
     private static void registerBakedModels() {
         GregTechMod.LOGGER.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
-        JsonObject blockstateModels = JsonHandler.readFromJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
-        
-        Arrays.stream(GregTechTEBlock.values())
-                .forEach(teBlock -> {
-                    String teBlockName = teBlock.getName();
-                    GregTechTEBlock.ModelType modelType = teBlock.getModelType();
-                    if (modelType == GregTechTEBlock.ModelType.BAKED) {
-                        JsonObject obj = blockstateModels.getAsJsonObject(teBlockName);
-                        if (obj == null) throw new RuntimeException("Missing blockstate model definition for TEBlock " + teBlockName);
-                        String modelPath = new ResourceLocation(obj.get("model").getAsString()).getPath();
-                                            
-                        JsonHandler json = new JsonHandler(getItemModelPath("teblock", modelPath));
-                        ModelTeBlock model;
-                        if (teBlock.isStructure()) {
-                            JsonHandler valid = new JsonHandler(getItemModelPath("teblock", teBlockName + "_valid"));
-                            model = new ModelStructureTeBlock(valid.particle, json.generateTextureMap(), valid.generateTextureMap());
-                        } else {
-                            model = new ModelTeBlock(json.particle, json.generateTextureMap());
-                        }
-                        loader.register("models/block/" + teBlockName, model);
-                        
-                        if (teBlock.hasActive()) {
-                            JsonHandler active = new JsonHandler(getItemModelPath("teblock", teBlockName + "_active"));
-                            loader.register("models/block/" + teBlockName + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
-                        } 
-                    } else if (modelType == GregTechTEBlock.ModelType.CONNECTED) {
-                        registerConnectedBakedModel(loader, teBlockName, "machines", "", ModelTEBlockConnected::new);
-                    }
-                });
+        JsonObject models = JsonHandler.readJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
+
+        for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
+            String name = teBlock.getName();
+            GregTechTEBlock.ModelType modelType = teBlock.getModelType();
+            if (modelType == GregTechTEBlock.ModelType.BAKED) {
+                JsonObject obj = models.getAsJsonObject(name);
+                if (obj == null) throw new RuntimeException("Missing blockstate model definition for TEBlock " + name);
+                
+                String modelPath = new ResourceLocation(obj.get("model").getAsString()).getPath();
+                JsonHandler json = new JsonHandler(getItemModelPath("teblock", modelPath));
+                ModelTeBlock model;
+                if (teBlock.isStructure()) {
+                    JsonHandler valid = new JsonHandler(getItemModelPath("teblock", name + "_valid"));
+                    model = new ModelStructureTeBlock(valid.particle, json.generateTextureMap(), valid.generateTextureMap());
+                } else {
+                    model = new ModelTeBlock(json.particle, json.generateTextureMap());
+                }
+                loader.register("models/block/" + name, model);
+
+                if (teBlock.hasActive()) {
+                    JsonHandler active = new JsonHandler(getItemModelPath("teblock", name + "_active"));
+                    loader.register("models/block/" + name + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
+                }
+            }
+            else if (modelType == GregTechTEBlock.ModelType.CONNECTED) {
+                registerConnectedBakedModel(loader, name, "machines", "", ModelTEBlockConnected::new);
+            }
+        }
         
         for (BlockItems.Ore ore : BlockItems.Ore.values()) {
             JsonHandler json = new JsonHandler(getItemModelPath("ore", ore.name().toLowerCase(Locale.ROOT)));
@@ -246,7 +249,17 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        if (GtUtil.getFullInvisibility(event.getEntityPlayer())) event.setCanceled(true);
+        EntityPlayer player = event.getEntityPlayer();
+        boolean fullInvisibility = player.isInvisible() && player.inventory.armorInventory.stream()
+                .filter(stack -> !stack.isEmpty())
+                .anyMatch(stack -> {
+                    Item item = stack.getItem();
+                    return item instanceof ItemArmorElectricBase 
+                            && ((ItemArmorElectricBase) item).perks.contains(ArmorPerk.INVISIBILITY_FIELD)
+                            && ElectricItem.manager.canUse(stack, 10000);
+                });
+        
+        if (fullInvisibility) event.setCanceled(true);
     }
 
     @SubscribeEvent

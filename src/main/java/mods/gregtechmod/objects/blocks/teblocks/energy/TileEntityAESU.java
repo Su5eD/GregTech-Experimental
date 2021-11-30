@@ -6,7 +6,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiAESU;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerAESU;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.util.ITooltipFlag;
@@ -62,7 +62,7 @@ public class TileEntityAESU extends TileEntityChargerBase {
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
-        tooltip.set(3, GtUtil.translateTeBlock("aesu", "max_energy_out", this.maxOutputVoltage));
+        tooltip.set(3, GtLocale.translateTeBlock("aesu", "max_energy_out", this.maxOutputVoltage));
     }
 
     @Override

@@ -4,6 +4,7 @@ import mods.gregtechmod.inventory.gui.GeneratorFluidSlot;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicTank;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,7 +22,7 @@ public class GuiPlasmaGenerator extends GuiFluidGenerator {
 
     @Override
     protected String getDisplayName() {
-        return GtUtil.translateInfo("plasma_amount");
+        return GtLocale.translateInfo("plasma_amount");
     }
     
     @Override

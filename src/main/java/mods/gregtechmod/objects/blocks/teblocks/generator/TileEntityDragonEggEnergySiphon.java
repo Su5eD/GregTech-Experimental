@@ -6,7 +6,7 @@ import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGenerator;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -72,12 +72,12 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
 
     @Override
     public String getMainInfo() {
-        return GtUtil.translateInfo(getActive() ? "active" : "inactive");
+        return GtLocale.translateInfo(getActive() ? "active" : "inactive");
     }
 
     @Override
     public String getSecondaryInfo() {
-        return GtUtil.translateInfo("output", GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy);
+        return GtLocale.translateInfo("output", GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy);
     }
 
     @Override

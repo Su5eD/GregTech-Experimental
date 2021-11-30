@@ -12,6 +12,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotLargeItemStack;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -152,7 +153,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     protected List<ItemStack> getAuxDrops(int fortune) {
-        return GtUtil.mergeCollection(GtUtil.correctStacksize(super.getAuxDrops(fortune)), this.upgradeManager.getUpgrades());
+        return JavaUtil.mergeCollection(GtUtil.correctStacksize(super.getAuxDrops(fortune)), this.upgradeManager.getUpgrades());
     }
 
     @Override

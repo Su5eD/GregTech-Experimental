@@ -7,6 +7,7 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -35,7 +36,7 @@ public class WrapperSecondaryFluid<R extends IMachineRecipe<List<IRecipeIngredie
         List<List<ItemStack>> output = recipe.getOutput().stream()
                 .map(Collections::singletonList)
                 .collect(Collectors.toList());
-        GtUtil.fillEmptyList(output, FILLER, this.outputCount);
+        JavaUtil.fillEmptyList(output, FILLER, this.outputCount);
         
         IRecipeIngredient fluid = recipe.getInput().get(1);
         int count = fluid.getCount();

@@ -4,7 +4,7 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.util.IDataOrbSerializable;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemBase;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ import java.util.List;
 public class ItemDataOrb extends ItemBase {
     
     public ItemDataOrb() {
-        super("data_orb", GtUtil.NULL_SUPPLIER);
+        super("data_orb", JavaUtil.NULL_SUPPLIER);
         setRegistryName("data_orb");
         setTranslationKey("data_orb");
         setCreativeTab(GregTechMod.GREGTECH_TAB);

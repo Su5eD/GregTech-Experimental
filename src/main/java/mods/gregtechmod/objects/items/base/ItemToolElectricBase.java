@@ -5,7 +5,8 @@ import ic2.api.item.IElectricItem;
 import ic2.core.item.ElectricItemManager;
 import ic2.core.item.IPseudoDamageItem;
 import ic2.core.item.tool.ToolClass;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,15 +33,15 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
     protected boolean hasEmptyVariant = false;
 
     public ItemToolElectricBase(String name, double maxCharge, double transferLimit, int tier, double operationEnergyCost, Set<ToolClass> toolClasses) {
-        this(name, GtUtil.NULL_SUPPLIER, 28, 1, maxCharge, transferLimit, tier, operationEnergyCost, false, 0, toolClasses);
+        this(name, JavaUtil.NULL_SUPPLIER, 28, 1, maxCharge, transferLimit, tier, operationEnergyCost, false, 0, toolClasses);
     }
 
     public ItemToolElectricBase(String name, float attackDamage, double maxCharge, int tier, double operationEnergyCost, int harvestLevel, Set<ToolClass> toolClasses) {
-        this(name, () -> GtUtil.translateItemDescription(name), 28, attackDamage, maxCharge, GtUtil.getTransferLimit(tier), tier, operationEnergyCost, false, harvestLevel, toolClasses);
+        this(name, () -> GtLocale.translateItemDescription(name), 28, attackDamage, maxCharge, getTransferLimit(tier), tier, operationEnergyCost, false, harvestLevel, toolClasses);
     }
 
     public ItemToolElectricBase(String name, String descriptionKey, int damage, float attackDamage, double maxCharge, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
-        this(name, () -> GtUtil.translateGenericDescription(descriptionKey), damage, attackDamage, maxCharge, GtUtil.getTransferLimit(tier), tier, operationEnergyCost, providesEnergy, harvestLevel, toolClasses);
+        this(name, () -> GtLocale.translateGenericDescription(descriptionKey), damage, attackDamage, maxCharge, getTransferLimit(tier), tier, operationEnergyCost, providesEnergy, harvestLevel, toolClasses);
     }
 
     public ItemToolElectricBase(String name, Supplier<String> description, int damage, float attackDamage, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
@@ -51,17 +52,21 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
         this.operationEnergyCost = operationEnergyCost;
         this.providesEnergy = providesEnergy;
     }
+    
+    public static double getTransferLimit(int tier) {
+        return Math.pow(2, tier) * 128;
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (this.showTier && this.tier > 0) tooltip.add(GtUtil.translateInfo("tier", this.tier));
+        if (this.showTier && this.tier > 0) tooltip.add(GtLocale.translateInfo("tier", this.tier));
         String durability = getDurabilityInfo(stack);
         if (!durability.isEmpty()) tooltip.add(durability);
         String description = this.description.get();
         if (description != null) {
             if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-                tooltip.add(GtUtil.translateInfo("empty"));
+                tooltip.add(GtLocale.translateInfo("empty"));
             }
             else tooltip.add(description);
         }
@@ -117,7 +122,7 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
     @Override
     public String getTranslationKey(ItemStack stack) {
         if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-            return super.getTranslationKey(stack)+".empty";
+            return super.getTranslationKey(stack) + ".empty";
         }
         return super.getTranslationKey(stack);
     }

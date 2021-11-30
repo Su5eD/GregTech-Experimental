@@ -340,7 +340,7 @@ public class ModHandler {
                     IOutputEntry primaryOutput = outputs.get(0);
 
                     List<ItemStack> output = new ArrayList<>();
-                    if (primaryOutput.getGenRule().test(GtUtil.RANDOM)) output.add(primaryOutput.getOutput());
+                    if (primaryOutput.getGenRule().test(JavaUtil.RANDOM)) output.add(primaryOutput.getOutput());
 
                     IOutputEntry secondaryOutput = outputs.size() > 1 ? outputs.get(1) : null;
                     int secondaryChance;

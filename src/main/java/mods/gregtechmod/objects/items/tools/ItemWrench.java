@@ -13,8 +13,10 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityList;
@@ -140,17 +142,15 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (this.showDurability) tooltip.add((stack.getMaxDamage() - stack.getItemDamage() + 1) + " / " + (stack.getMaxDamage() + 1));
-        if (ModHandler.buildcraftCore) tooltip.add(GtUtil.translateItem("wrench.description_bc"));
-        tooltip.add(GtUtil.translateItem("wrench.description"));
-        tooltip.add(GtUtil.translateItem("wrench.description_2"));
+        if (ModHandler.buildcraftCore) tooltip.add(GtLocale.translateItem("wrench.description_bc"));
+        tooltip.add(GtLocale.translateItem("wrench.description"));
+        tooltip.add(GtLocale.translateItem("wrench.description_2"));
     }
 
     @Override
     public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
         Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
-
         if (slot == EntityEquipmentSlot.MAINHAND) multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", this.entityDamage - 1, 0));
-
         return multimap;
     }
 
@@ -172,8 +172,7 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
 
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
-        stack = stack.copy();
-        if (stack.attemptDamageItem(8, GtUtil.RANDOM, null)) return ItemStack.EMPTY;
-        return stack;
+        ItemStack copy = stack.copy();
+        return copy.attemptDamageItem(8, JavaUtil.RANDOM, null) ? ItemStack.EMPTY : copy;
     }
 }

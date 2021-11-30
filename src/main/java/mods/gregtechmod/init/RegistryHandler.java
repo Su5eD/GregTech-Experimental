@@ -13,6 +13,7 @@ import mods.gregtechmod.objects.GregTechComponent;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -57,14 +58,14 @@ public class RegistryHandler {
         Map<String, Block> blocks = BlockItemLoader.getBlocks().stream()
                 .peek(registry::register)
                 .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), Function.identity()));
-        GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "blocks", blocks);
+        JavaUtil.setStaticValue(GregTechObjectAPI.class, "blocks", blocks);
         
         GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(Reference.MODID, "light_source"));
         
         BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
                 .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
-        GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "teBlocks", teblocks);
+        JavaUtil.setStaticValue(GregTechObjectAPI.class, "teBlocks", teblocks);
         
         ModCompat.disableCasingFacades();
     }
@@ -76,7 +77,7 @@ public class RegistryHandler {
         Map<String, ItemStack> items = BlockItemLoader.getAllItems().stream()
                 .peek(registry::register)
                 .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), ItemStack::new));
-        GtUtil.setPrivateStaticValue(GregTechObjectAPI.class, "items", items);
+        JavaUtil.setStaticValue(GregTechObjectAPI.class, "items", items);
     }
     
     @SubscribeEvent

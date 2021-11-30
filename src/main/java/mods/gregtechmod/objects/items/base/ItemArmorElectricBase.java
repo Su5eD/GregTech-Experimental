@@ -4,6 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.core.item.armor.ItemArmorElectric;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.ArmorPerk;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
@@ -63,10 +64,10 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(GtUtil.translateInfo("tier", this.tier));
+        tooltip.add(GtLocale.translateInfo("tier", this.tier));
         this.perks.stream()
                 .map(perk -> "armor.perk." + perk.name().toLowerCase(Locale.ROOT) + ".name")
-                .map(GtUtil::translateItem)
+                .map(GtLocale::translateItem)
                 .forEach(tooltip::add);
     }
 

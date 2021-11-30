@@ -7,7 +7,7 @@ import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.gui.GuiColors;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -37,6 +37,6 @@ public class WrapperFuel<T extends IFuel<IRecipeIngredient>> implements IRecipeW
 
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        minecraft.fontRenderer.drawString("EU: " + GtUtil.formatNumber(this.fuel.getEnergy() * 1000) + "EU", 2, 50, GuiColors.BLACK);
+        minecraft.fontRenderer.drawString("EU: " + JavaUtil.formatNumber(this.fuel.getEnergy() * 1000) + "EU", 2, 50, GuiColors.BLACK);
     }
 }

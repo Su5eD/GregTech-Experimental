@@ -2,6 +2,7 @@ package mods.gregtechmod.gui;
 
 import ic2.core.gui.LinkedGauge;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerDistillationTower;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
@@ -26,7 +27,7 @@ public class GuiDistillationTower extends GuiStructure<ContainerDistillationTowe
 
     @Override
     protected void doWhenInvalid() {
-        List<String> wrap = fontRenderer.listFormattedStringToWidth(GtUtil.translateInfo("structure_invalid"), 55);
+        List<String> wrap = fontRenderer.listFormattedStringToWidth(GtLocale.translateInfo("structure_invalid"), 55);
         for (int i = 0; i < wrap.size(); i++) {
             drawString(116, 20 + i * 8, wrap.get(i), GuiColors.DARK_GRAY, false);
         }

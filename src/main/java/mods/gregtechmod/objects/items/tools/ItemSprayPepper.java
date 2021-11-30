@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.items.tools;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
@@ -34,8 +34,8 @@ public class ItemSprayPepper extends ItemToolCrafting {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(GtUtil.translateItem("spray_pepper.description_2"));
-        tooltip.add(GtUtil.translateItem("spray_pepper.description_3"));
+        tooltip.add(GtLocale.translateItem("spray_pepper.description_2"));
+        tooltip.add(GtLocale.translateItem("spray_pepper.description_3"));
     }
 
     @Override

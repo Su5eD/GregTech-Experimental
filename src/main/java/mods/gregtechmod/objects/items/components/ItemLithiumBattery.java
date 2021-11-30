@@ -5,6 +5,7 @@ import ic2.core.item.ItemBattery;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
@@ -29,7 +30,7 @@ public class ItemLithiumBattery extends ItemBattery implements ICustomItemModel 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(GtUtil.translateInfo("tier", this.tier));
+        tooltip.add(GtLocale.translateInfo("tier", this.tier));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

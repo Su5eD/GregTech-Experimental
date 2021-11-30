@@ -8,8 +8,8 @@ import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.ItemSensorCard;
 import mods.gregtechmod.objects.items.ItemSensorKit;
-import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.IItemProvider;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -27,7 +27,7 @@ public class BlockItemLoader {
     private static final Set<Item> ITEM_BLOCKS = new LinkedHashSet<>();
     
     public static Collection<Item> getAllItems() {
-        return GtUtil.mergeCollection(ITEM_BLOCKS, ITEMS);
+        return JavaUtil.mergeCollection(ITEM_BLOCKS, ITEMS);
     }
     
     public static Set<Block> getBlocks() {

@@ -17,6 +17,7 @@ import mods.gregtechmod.compat.buildcraft.MjReceiverWrapper;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
 import mods.gregtechmod.recipe.util.SteamHelper;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.util.ITooltipFlag;
@@ -173,7 +174,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         )
                 .distinct()
                 .collect(Collectors.joining(" "));
-        if (!possibleUpgrades.isEmpty()) tooltip.add(GtUtil.translateTeBlock("info", "possible_upgrades", possibleUpgrades));
+        if (!possibleUpgrades.isEmpty()) tooltip.add(GtLocale.translateTeBlock("info", "possible_upgrades", possibleUpgrades));
     }
 
     @Override
@@ -306,7 +307,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         if (scanLevel > 0) {
             if (this.hasSteamUpgrade) {
                 FluidStack fluidStack = this.steamTank.getFluid();
-                String name = fluidStack != null ? fluidStack.getLocalizedName() : GtUtil.translateGeneric("steam");
+                String name = fluidStack != null ? fluidStack.getLocalizedName() : GtLocale.translateGeneric("steam");
                 scan.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + name);
             }
             if (this.hasMjUpgrade) {

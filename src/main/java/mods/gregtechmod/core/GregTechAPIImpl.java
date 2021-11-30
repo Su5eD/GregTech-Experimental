@@ -7,7 +7,7 @@ import mods.gregtechmod.api.IGregTechAPI;
 import mods.gregtechmod.api.util.SonictronSound;
 import mods.gregtechmod.api.util.TurbineRotor;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeGuide;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -174,6 +174,6 @@ final class GregTechAPIImpl implements IGregTechAPI {
     
     static void createAndInject() {
         IGregTechAPI api = new GregTechAPIImpl();
-        GtUtil.setPrivateStaticValue(GregTechAPI.class, "impl", api);
+        JavaUtil.setStaticValue(GregTechAPI.class, "impl", api);
     }
 }

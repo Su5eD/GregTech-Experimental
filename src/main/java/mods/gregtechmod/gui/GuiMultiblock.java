@@ -3,6 +3,7 @@ package mods.gregtechmod.gui;
 import ic2.core.GuiIC2;
 import mods.gregtechmod.objects.blocks.teblocks.component.Maintenance;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMultiblock;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
@@ -61,6 +62,6 @@ public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
     }
     
     private void displayStatus(String name, int y) {
-        drawString(10, y, GtUtil.translate("multiblock." + name), GuiColors.WHITE, false);
+        drawString(10, y, GtLocale.translate("multiblock." + name), GuiColors.WHITE, false);
     }
 }

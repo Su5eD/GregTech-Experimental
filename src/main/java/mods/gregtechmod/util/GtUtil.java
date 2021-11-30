@@ -1,11 +1,7 @@
 package mods.gregtechmod.util;
 
 import com.google.common.base.Predicate;
-import com.google.common.base.Stopwatch;
-import com.google.common.collect.ImmutableMap;
-import ic2.api.item.ElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
-import ic2.core.block.ITeBlock;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
@@ -14,21 +10,15 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
-import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
@@ -51,31 +41,26 @@ import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
-import java.io.*;
-import java.lang.reflect.Field;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.nio.file.FileSystem;
-import java.nio.file.*;
-import java.text.DecimalFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.function.BiPredicate;
-import java.util.function.Supplier;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public final class GtUtil {
-    public static final Random RANDOM = new Random();
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
-    public static final Supplier<String> NULL_SUPPLIER = () -> null;
     public static final IFluidHandler VOID_TANK = new VoidTank();
     @SuppressWarnings("Guava")
     public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
     public static final InvSlot.InvSide INV_SIDE_VERTICAL = addInvside("VERTICAL", EnumFacing.UP, EnumFacing.DOWN);
     public static final InvSlot.InvSide INV_SIDE_NS = addInvside("NS", EnumFacing.NORTH, EnumFacing.SOUTH);
     
-    private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
     private static final LazyValue<IModFile> MOD_FILE = new LazyValue<>(() -> {
         Path path = Loader.instance().activeModContainer().getSource().toPath();
         return Files.isRegularFile(path) ? new FSModFile(path) : new PathModFile(path);
@@ -90,77 +75,27 @@ public final class GtUtil {
     }
     
     public static BufferedReader readAsset(String path) {
-        InputStream is = GtUtil.class.getResourceAsStream("/assets/" + Reference.MODID + "/" + path);
-        if (is == null) throw new RuntimeException("Asset " + path + " not found");
-        
-        return new BufferedReader(new InputStreamReader(is));
+        try {
+            return Files.newBufferedReader(getAssetPath(path));
+        } catch (IOException e) {
+            throw new RuntimeException("Asset " + path + " not found", e);
+        }
     }
     
     public static InvSlot.InvSide addInvside(String name, EnumFacing... sides) {
         return EnumHelper.addEnum(InvSlot.InvSide.class, name, new Class[] { EnumFacing[].class }, (Object) sides);
     }
-
-    public static <T, U> BiPredicate<T, U> alwaysTrue() {
-        return (a, b) -> true;
-    }
-
-    public static String capitalizeString(String str) {
-        if (str != null && str.length() > 0) return str.substring(0, 1).toUpperCase() + str.substring(1);
-        return "";
-    }
-
-    public static boolean getFullInvisibility(EntityPlayer player) {
-        return player.isInvisible() && player.inventory.armorInventory.stream()
-                .filter(stack -> !stack.isEmpty())
-                .anyMatch(stack -> {
-                    Item item = stack.getItem();
-                    if (item instanceof ItemArmorElectricBase) {
-                        return ((ItemArmorElectricBase) item).perks.contains(ArmorPerk.INVISIBILITY_FIELD) && ElectricItem.manager.canUse(stack, 10000);
-                    }
-                    return false;
-                });
-    }
-
-    @SafeVarargs
-    public static <T> List<T> nonNullList(T... elements) {
-        return Stream.of(elements)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
-
-    public static List<ItemStack> nonEmptyList(ItemStack... elements) {
-        return Stream.of(elements)
-                .filter(stack -> !stack.isEmpty())
-                .collect(Collectors.toList());
-    }
-
-    public static List<ItemStack> copyList(List<ItemStack> list) {
+    
+    public static List<ItemStack> copyStackList(List<ItemStack> list) {
         return list.stream()
                 .map(ItemStack::copy)
                 .collect(Collectors.toList());
     }
-
-    public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {
-        ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-        stack.setTagInfo("title", new NBTTagString(GtUtil.translate("book."+name+".name")));
-        stack.setTagInfo("author", new NBTTagString(author));
-        NBTTagList tagList = new NBTTagList();
-        for (int i = 0; i < pages; i++) {
-            String page = '\"' + GtUtil.translate("book." + name + ".page" + (i < 10 ? "0" + i : i)) + '\"';
-            if (i < 48) {
-                if (page.length() < 256) {
-                    tagList.appendTag(new NBTTagString(page));
-                } else {
-                    GregTechMod.LOGGER.warn("String for written book too long: " + page);
-                }
-            } else {
-                GregTechMod.LOGGER.warn("Too many pages for written book: " + name);
-                break;
-            }
-        }
-        tagList.appendTag(new NBTTagString("\"Credits to " + author + " for writing this Book. This was Book Nr. " + (ordinal+1) + " at its creation. Gotta get 'em all!\""));
-        stack.setTagInfo("pages", tagList);
-        return stack;
+    
+    public static List<ItemStack> nonEmptyList(ItemStack... elements) {
+        return Stream.of(elements)
+                .filter(stack -> !stack.isEmpty())
+                .collect(Collectors.toList());
     }
 
     public static boolean damageStack(EntityPlayer player, ItemStack stack, int damage) {
@@ -183,54 +118,6 @@ public final class GtUtil {
             return true;
         }
         return false;
-    }
-    
-    public static String translateTeBlock(ITeBlock te, String key, Object... parameters) {
-        return translateTeBlock(te.getName(), key, parameters);
-    }
-    
-    public static String translateTeBlock(String teBlockName, String key, Object... parameters) {
-        return GtUtil.translate("teblock." + teBlockName + "." + key, parameters);
-    }
-    
-    public static String translateTeBlockName(ITeBlock te) {
-        return GtUtil.translate("teblock." + te.getName());
-    }
-
-    public static String translateScan(String key, Object... parameters) {
-        return translate("scan." + key, parameters);
-    }
-
-    public static String translateTeBlockDescription(String key) {
-        return translate("teblock." + key + ".description");
-    }
-
-    public static String translateInfo(String key, Object... parameters) {
-        return translate("info." + key, parameters);
-    }
-
-    public static String translateGenericDescription(String key, Object... parameters) {
-        return translateGeneric(key + ".description", parameters);
-    }
-
-    public static String translateGeneric(String key, Object... parameters) {
-        return translate("generic." + key, parameters);
-    }
-
-    public static String translateItemDescription(String key, Object... parameters) {
-        return translateItem(key + ".description", parameters);
-    }
-
-    public static String translateItem(String key, Object... parameters) {
-        return translate("item." + key, parameters);
-    }
-
-    public static String translate(String key, Object... parameters) {
-        return I18n.format(Reference.MODID + "." + key, parameters);
-    }
-
-    public static double getTransferLimit(int tier) {
-        return Math.pow(2, tier) * 128;
     }
 
     public static void damageEntity(EntityLivingBase entity, EntityLivingBase attacker, float damage) {
@@ -273,21 +160,6 @@ public final class GtUtil {
         return stack;
     }
 
-    public static <T> List<T> mergeCollection(Collection<T> first, Collection<T> second) {
-        return Stream.of(first, second)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-    }
-
-    public static String formatNumber(int num) {
-        return INT_FORMAT.format(num);
-    }
-
-    public static String formatNumber(double num) {
-        if (num % 1 == 0) return INT_FORMAT.format(num);
-        else return DECIMAL_FORMAT.format(num);
-    }
-
     public static ItemStack getFluidContainer(ItemStack stack, Fluid fluid) {
         ItemStack container = stack.copy();
         IFluidHandler fluidHandler = FluidUtil.getFluidHandler(container);
@@ -322,11 +194,7 @@ public final class GtUtil {
                     if (ingredient.apply(slot.get())) slot.consume(ingredient.getCount(), true);
                 }));
     }
-    
-    public static <T> boolean matchCollections(Collection<T> first, Collection<T> second) {
-        return first.size() == second.size() || first.containsAll(second) && second.containsAll(first);
-    }
-    
+
     public static boolean isWrench(ItemStack stack) {
         return containsStack(stack, GregTechAPI.instance().getWrenches());
     }
@@ -367,47 +235,13 @@ public final class GtUtil {
         return tileEntity != null && Arrays.stream(classes)
                 .anyMatch(clazz -> clazz.isInstance(tileEntity));
     }
-    
-    public static <T> void fillEmptyList(List<T> list, T fill, int maxSize) {
-        int space = maxSize - 1 - list.size();
-        for (int i = 0; i < space; i++) {
-            list.add(fill);
-        }
-    }
-    
-    public static <K, V> Map<K, V> zipToMap(List<K> keys, List<V> values) {
-        Iterator<K> keyIter = keys.iterator();
-        Iterator<V> valIter = values.iterator();
-        return IntStream.range(0, keys.size()).boxed()
-                .collect(Collectors.toMap(_i -> keyIter.next(), _i -> valIter.next()));
-    }
-    
-    @Nullable
-    public static <T extends Enum<T>> T getEnumConstantSafely(Class<T> clazz, String name) {
-        try {
-            return Enum.valueOf(clazz, name);
-        } catch (IllegalArgumentException ignored) {
-            return null;
-        }
-    }
-    
+
     @SuppressWarnings("unchecked")
     @Nullable
-    public static <T extends Comparable<T>> T getStateProperty(IBlockState state, IProperty<T> property) {
-        ImmutableMap<IProperty<?>, Comparable<?>> properties = state.getProperties();
-        return (T) properties.get(property);
+    public static <T extends Comparable<T>> T getStateValueSafely(IBlockState state, IProperty<T> property) {
+        return (T) state.getProperties().get(property);
     }
-    
-    public static void setPrivateStaticValue(Class<?> clazz, String fieldName, Object value) {
-        try {
-            Field field = clazz.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(null, value);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            GregTechMod.LOGGER.catching(e);
-        }
-    }
-    
+
     public static void withModContainerOverride(ModContainer container, Runnable runnable) {
         ModContainer old = Loader.instance().activeModContainer();
         Loader.instance().setActiveModContainer(container);
@@ -422,46 +256,6 @@ public final class GtUtil {
         return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
     }
 
-    public static Path copyDir(Path source, File target) {
-        try {
-            DirectoryStream<Path> stream = Files.newDirectoryStream(source);
-            for (Path path : stream) {
-                File dest = new File(Paths.get(target.getPath(), path.getFileName().toString()).toUri());
-                if (!dest.exists()) {
-                    if (path.toString().endsWith("/")) {
-                        dest.mkdirs();
-                        copyDir(path, dest);
-                        continue;
-                    }
-
-                    GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest.toPath());
-                    BufferedReader in = Files.newBufferedReader(path);
-                    FileOutputStream out = new FileOutputStream(dest);
-                    for (int i; (i = in.read()) != -1; ) out.write(i);
-                    in.close();
-                    out.close();
-                }
-            }
-            return target.toPath();
-        } catch (IOException e) {
-            GregTechMod.LOGGER.catching(e);
-            return null;
-        }
-    }
-    
-    public static void measureTime(String name, Runnable runnable) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        runnable.run();
-        stopwatch.stop();
-        GregTechMod.LOGGER.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
-    }
-    
-    public static <T> List<T> toList(Iterable<T> iterable) {
-        List<T> list = new ArrayList<>();
-        iterable.forEach(list::add);
-        return Collections.unmodifiableList(list);
-    }
-    
     public static ResourceLocation getGuiTexture(String name) {
         return new ResourceLocation(Reference.MODID, "textures/gui/" + name + ".png");
     }

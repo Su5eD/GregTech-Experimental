@@ -17,7 +17,7 @@ import mods.gregtechmod.recipe.crafting.ToolOreIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.OptionalItemStack;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
@@ -611,7 +611,7 @@ public class OreDictHandler {
                             "F", "I", 'F', "craftingToolFile", 'I', name
                     );
                     
-                    BlockItems.Smalldust gtSmallDust = GtUtil.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
+                    BlockItems.Smalldust gtSmallDust = JavaUtil.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
                     OptionalItemStack.when(
                             OptionalItemStack.of(gtSmallDust != null ? gtSmallDust.getItemStack() : ItemStack.EMPTY),
                             OreDictUnificator.getFirstOre(name.replaceFirst("ingot", "dustSmall"), 2)

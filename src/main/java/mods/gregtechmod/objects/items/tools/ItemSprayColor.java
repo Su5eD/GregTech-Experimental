@@ -4,6 +4,7 @@ import mods.gregtechmod.compat.ModCompat;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -43,8 +44,8 @@ public class ItemSprayColor extends ItemToolCrafting {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(GtUtil.translateGeneric("spray_color.description_dying", stack.getMaxDamage() + 1) + " " + GtUtil.translate("color."+this.color.getTranslationKey()));
-        tooltip.add(GtUtil.translateGeneric("spray_color.description_crafting", (stack.getMaxDamage() + 1) / this.craftingDamage));
+        tooltip.add(GtLocale.translateGeneric("spray_color.description_dying", stack.getMaxDamage() + 1) + " " + GtLocale.translate("color."+this.color.getTranslationKey()));
+        tooltip.add(GtLocale.translateGeneric("spray_color.description_crafting", (stack.getMaxDamage() + 1) / this.craftingDamage));
     }
 
     @Override

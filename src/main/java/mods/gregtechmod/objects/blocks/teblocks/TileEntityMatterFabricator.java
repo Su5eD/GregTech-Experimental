@@ -15,7 +15,7 @@ import mods.gregtechmod.gui.GuiMatterFabricator;
 import mods.gregtechmod.inventory.invslot.GtSlotFiltered;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMatterFabricator;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -132,7 +132,7 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
 
     @Override
     public String getMainInfo() {
-        return GtUtil.translateInfo("progress");
+        return GtLocale.translateInfo("progress");
     }
 
     @Override
@@ -142,6 +142,6 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
 
     @Override
     public String getTertiaryInfo() {
-        return GtUtil.translateInfo("energy", getStoredEU());
+        return GtLocale.translateInfo("energy", getStoredEU());
     }
 }

@@ -2,6 +2,7 @@ package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerGtTeleporter;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
@@ -24,7 +25,7 @@ public class GuiGtTeleporter extends GuiIC2<ContainerGtTeleporter> {
         drawString(46, 32, "Z: " + this.container.base.targetPos.getZ(), GuiColors.WHITE, false);
         
         if (this.container.base.canTeleportAcrossDimensions()) {
-            drawString(46, 40, GtUtil.translateTeBlock("gt_teleporter", "dimension_short", this.container.base.targetDimension.getName()), GuiColors.WHITE, false);
+            drawString(46, 40, GtLocale.translateTeBlock("gt_teleporter", "dimension_short", this.container.base.targetDimension.getName()), GuiColors.WHITE, false);
         }
     }
 

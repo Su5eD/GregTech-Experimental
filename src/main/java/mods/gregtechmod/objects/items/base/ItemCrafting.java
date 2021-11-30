@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.items.base;
 
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -32,7 +32,7 @@ public class ItemCrafting extends ItemBase {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         stack = stack.copy();
-        if (stack.attemptDamageItem(this.craftingDamage, GtUtil.RANDOM, null)) return this.getEmptyItem();
+        if (stack.attemptDamageItem(this.craftingDamage, JavaUtil.RANDOM, null)) return this.getEmptyItem();
         return stack;
     }
 
