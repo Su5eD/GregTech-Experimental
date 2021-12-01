@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityPlasmaGenerator extends TileEntityFluidGenerator {
 
     public TileEntityPlasmaGenerator() {
-        super("plasma_generator", GtFuels.plasma);
+        super(GtFuels.plasma);
     }
 
     @Override

@@ -51,4 +51,8 @@ public final class GtLocale {
     public static String translate(String key, Object... parameters) {
         return I18n.format(Reference.MODID + "." + key, parameters);
     }
+    
+    public static boolean hasKey(String key) {
+        return I18n.hasKey(Reference.MODID + "." + key);
+    }
 }

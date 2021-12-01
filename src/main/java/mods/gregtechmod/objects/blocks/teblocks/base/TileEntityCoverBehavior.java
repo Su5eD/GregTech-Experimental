@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -47,9 +48,14 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @NBTPersistent
     private boolean enableOutput = true;
 
-    public TileEntityCoverBehavior(String descriptionKey) {
-        this.descriptionKey = descriptionKey;
+    public TileEntityCoverBehavior() {
+        String key = getDescriptionKey();
+        this.descriptionKey = FMLCommonHandler.instance().getSide() == Side.CLIENT && GtLocale.hasKey(key) ? key : null;
         this.rsEmitter = addComponent(new SidedRedstoneEmitter(this));
+    }
+    
+    protected String getDescriptionKey() {
+        return "teblock." + this.teBlock.getName() + ".description";
     }
 
     @Override
@@ -199,7 +205,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        if (this.descriptionKey != null) tooltip.add(GtLocale.translateTeBlockDescription(this.descriptionKey));
+        if (this.descriptionKey != null) tooltip.add(GtLocale.translate(this.descriptionKey));
     }
 
     @Nonnull

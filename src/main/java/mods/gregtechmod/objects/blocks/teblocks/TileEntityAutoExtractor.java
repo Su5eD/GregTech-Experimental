@@ -16,7 +16,7 @@ import java.util.List;
 public class TileEntityAutoExtractor extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityAutoExtractor() {
-        super("auto_extractor", ModRecipes.EXTRACTOR);
+        super(ModRecipes.EXTRACTOR);
     }
 
     @Override

@@ -26,8 +26,6 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
     public final InvSlotOutput outputSlot;
 
     public TileEntityChargeOMat() {
-        super(null);
-        
         this.chargeSlots = Stream.generate(() -> new GtSlotChargeHybrid(this, "charge", getSourceTier(), this::isRedstonePowered))
                 .limit(9)
                 .peek(this::addChargingSlot)

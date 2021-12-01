@@ -21,7 +21,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityIndustrialCentrifu
     private static final Set<EnumFacing> ANIMATED_SIDES = Sets.newHashSet(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.UP);
 
     public TileEntityIndustrialCentrifuge() {
-        super("industrial_centrifuge", 32000, GtRecipes.industrialCentrifuge);
+        super(32000, GtRecipes.industrialCentrifuge);
     }
     
     @Override

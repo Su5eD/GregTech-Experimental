@@ -18,8 +18,6 @@ public class TileEntityAdvancedSafe extends TileEntityCoverBehavior implements I
     public final InvSlot content;
 
     public TileEntityAdvancedSafe() {
-        super("advanced_safe");
-        
         this.content = new InvSlot(this, "content", InvSlot.Access.IO, 27);
         this.filter = new InvSlot(this, "filter", InvSlot.Access.NONE, 1);
         

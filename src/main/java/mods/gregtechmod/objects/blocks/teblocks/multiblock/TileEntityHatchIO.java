@@ -32,8 +32,7 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
     private final Predicate<EnumFacing> facingPredicate = side -> side == getFacing();
     public final BasicTank tank;
 
-    public TileEntityHatchIO(String descriptionKey, InvSlotConsumableLiquid.OpType opType, boolean isInput, boolean isOutput, boolean wildcardInput) {
-        super(descriptionKey);
+    public TileEntityHatchIO(InvSlotConsumableLiquid.OpType opType, boolean isInput, boolean isOutput, boolean wildcardInput) {
         Fluids fluids = addComponent(new Fluids(this));
         GtFluidTank fluidTank = new DynamicGtFluidTank(this, "content", isInput ? facingPredicate : Predicates.alwaysFalse(), isOutput ? facingPredicate : Predicates.alwaysFalse(), Predicates.alwaysTrue(), 16000);
         this.tank = addComponent(new BasicTank(this, fluids, fluidTank, t -> new HatchTankInputSlot(opType, t), false));

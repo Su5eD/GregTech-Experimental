@@ -11,8 +11,8 @@ import java.util.List;
 
 public abstract class TileEntityBasicMachineMultiInput extends TileEntityBasicMachine<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, List<IRecipeIngredient>, List<ItemStack>, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
 
-    public TileEntityBasicMachineMultiInput(String descriptionKey, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> recipeManager) {
-        super(descriptionKey, recipeManager);
+    public TileEntityBasicMachineMultiInput(IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> recipeManager) {
+        super(recipeManager);
     }
 
     @Override

@@ -43,8 +43,6 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     public final InvSlotOutput outputSlot;
 
     public TileEntityMagicEnergyAbsorber() {
-        super("magic_energy_absorber");
-        
         this.inputSlot = new GtSlotConsumable(this, "input", 1);
         this.outputSlot = new InvSlotOutput(this, "output", 1);
     }

@@ -34,7 +34,6 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
     private final Maintenance maintenance;
 
     public TileEntityHatchMaintenance() {
-        super("hatch_maintenance");
         this.maintenance = addComponent(new Maintenance(this));
     }
 

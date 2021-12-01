@@ -14,10 +14,6 @@ import net.minecraft.util.EnumFacing;
 public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator implements IPanelInfoProvider {
     private static TileEntityDragonEggEnergySiphon activeSiphon = null;
 
-    public TileEntityDragonEggEnergySiphon() {
-        super("dragon_egg_energy_siphon");
-    }
-
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();

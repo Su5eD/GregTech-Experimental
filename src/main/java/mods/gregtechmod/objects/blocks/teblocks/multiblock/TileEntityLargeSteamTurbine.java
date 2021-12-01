@@ -19,7 +19,7 @@ import java.util.Map;
 public class TileEntityLargeSteamTurbine extends TileEntityTurbineBase {
 
     public TileEntityLargeSteamTurbine() {
-        super("large_steam_turbine", GtFuels.steam);
+        super(GtFuels.steam);
     }
     
     @Override

@@ -19,10 +19,6 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
     protected int frequency = 0;
     protected boolean frequencyMessageTesseractGlobal;
 
-    protected TileEntityTesseract(String descriptionKey) {
-        super(descriptionKey);
-    }
-
     @Override
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (side == getFacing()) {

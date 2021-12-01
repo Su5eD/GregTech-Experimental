@@ -26,9 +26,7 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
     public final InvSlotCharge chargeSlot;
     public final InvSlotDischarge dischargeSlot;
         
-    public TileEntityChargerBase(String descriptionKey) {
-        super(descriptionKey);
-        
+    public TileEntityChargerBase() {
         this.chargeSlot = new InvSlotCharge(this, getSourceTier());
         addChargingSlot(this.chargeSlot);
                

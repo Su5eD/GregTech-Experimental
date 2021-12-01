@@ -13,10 +13,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityIDSU extends TileEntityChargerBase {
     private IDSUData.EnergyWrapper wrapper = IDSUData.EnergyWrapper.EMPTY;
 
-    public TileEntityIDSU() {
-        super("idsu");
-    }
-
     @Override
     protected void onLoaded() {
         super.onLoaded();

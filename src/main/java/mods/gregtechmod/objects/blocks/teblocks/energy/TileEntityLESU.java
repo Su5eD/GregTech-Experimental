@@ -27,10 +27,6 @@ public class TileEntityLESU extends TileEntityChargerBase {
     @NBTPersistent
     private int storage = 1000000;
 
-    public TileEntityLESU() {
-        super(null);
-    }
-
     @Override
     protected void onLoaded() {
         super.onLoaded();

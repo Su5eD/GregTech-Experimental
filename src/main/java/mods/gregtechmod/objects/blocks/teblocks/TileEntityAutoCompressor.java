@@ -16,7 +16,7 @@ import java.util.List;
 public class TileEntityAutoCompressor extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityAutoCompressor() {
-        super("auto_compressor", ModRecipes.COMPRESSOR);
+        super(ModRecipes.COMPRESSOR);
     }
 
     @Override

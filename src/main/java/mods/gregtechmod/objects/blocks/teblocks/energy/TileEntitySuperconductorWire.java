@@ -33,8 +33,6 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     private int connections;
     
     public TileEntitySuperconductorWire() {
-        super(null);
-        
         this.coverBlacklist.addAll(CoverType.VALUES);
     }
 

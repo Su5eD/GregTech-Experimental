@@ -24,7 +24,7 @@ import java.util.Map;
 public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMachineRecipe<IRecipeIngredient, List<ItemStack>>, IRecipeIngredient, ItemStack, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> {
     
     public TileEntityVacuumFreezer() {
-        super("vacuum_freezer", 1, GtRecipes.vacuumFreezer);
+        super(1, GtRecipes.vacuumFreezer);
     }
 
     @Override

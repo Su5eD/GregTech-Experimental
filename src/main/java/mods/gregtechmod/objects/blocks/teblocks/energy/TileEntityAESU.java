@@ -25,10 +25,6 @@ public class TileEntityAESU extends TileEntityChargerBase {
     
     public final int maxOutputVoltage = GregTechMod.classic ? 2048 : 8192;
 
-    public TileEntityAESU() {
-        super("aesu");
-    }
-
     @Override
     public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return Collections.singleton(IC2UpgradeType.BATTERY);

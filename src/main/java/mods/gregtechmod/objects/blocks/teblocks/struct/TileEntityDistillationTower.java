@@ -26,7 +26,7 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     public GtConsumableCell cellSlot;
     
     public TileEntityDistillationTower() {
-        super("distillation_tower", 4, GtRecipes.distillation);
+        super(4, GtRecipes.distillation);
         this.cellSlot = new GtConsumableCell(this, "cell_slot", 1);
     }
 

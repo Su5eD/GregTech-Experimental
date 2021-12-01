@@ -46,12 +46,11 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @NBTPersistent
     public int maxProgress;
 
-    public TileEntityGTMachine(String descriptionKey, int outputSlots, RM recipeManager) {
-        this(descriptionKey, outputSlots, recipeManager, false);
+    public TileEntityGTMachine(int outputSlots, RM recipeManager) {
+        this(outputSlots, recipeManager, false);
     }
 
-    public TileEntityGTMachine(String descriptionKey, int outputSlots, RM recipeManager, boolean wildcardInput) {
-        super(descriptionKey);
+    public TileEntityGTMachine(int outputSlots, RM recipeManager, boolean wildcardInput) {
         this.recipeManager = recipeManager;
         this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);

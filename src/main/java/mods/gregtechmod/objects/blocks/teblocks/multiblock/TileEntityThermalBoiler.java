@@ -19,7 +19,7 @@ import java.util.*;
 public class TileEntityThermalBoiler extends TileEntityMultiBlockBase<TileEntityMultiBlockBase.MultiBlockInstance> {
 
     public TileEntityThermalBoiler() {
-        super("thermal_boiler", GtFuels.hot);
+        super(GtFuels.hot);
     }
 
     @Override

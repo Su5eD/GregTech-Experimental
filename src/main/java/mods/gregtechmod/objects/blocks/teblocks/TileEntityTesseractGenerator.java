@@ -21,9 +21,8 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
     private int energyConsumption;
 
     public TileEntityTesseractGenerator() {
-        super("tesseract_generator");
-        
         this.frequencyMessageTesseractGlobal = true;
+        
         setPrivate(true);
     }
     

@@ -53,8 +53,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     protected MjReceiverWrapper receiver;
     protected boolean hasMjUpgrade;
 
-    protected TileEntityUpgradable(String descriptionKey) {
-        super(descriptionKey);
+    protected TileEntityUpgradable() {
         this.upgradeManager = addComponent(new UpgradeManager(this, this::onUpdate, this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
         this.fluids = addComponent(new Fluids(this));
     }

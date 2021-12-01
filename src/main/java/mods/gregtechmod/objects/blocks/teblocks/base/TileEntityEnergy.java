@@ -34,8 +34,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     private boolean explode;
     private float explosionPower;
 
-    public TileEntityEnergy(String descriptionKey) {
-        super(descriptionKey);
+    public TileEntityEnergy() {
         this.energy = addComponent(createEnergyComponent());
     }
     

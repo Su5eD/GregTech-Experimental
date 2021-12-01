@@ -8,10 +8,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 
 public class TileEntityLightningRod extends TileEntityGenerator {
-    
-    public TileEntityLightningRod() {
-        super("lightning_rod");
-    }
 
     @Override
     protected void updateEntityServer() {

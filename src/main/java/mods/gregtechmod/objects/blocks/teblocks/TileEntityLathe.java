@@ -16,7 +16,7 @@ import java.util.List;
 public class TileEntityLathe extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityLathe() {
-        super("lathe", GtRecipes.lathe);
+        super(GtRecipes.lathe);
     }
 
     @Override

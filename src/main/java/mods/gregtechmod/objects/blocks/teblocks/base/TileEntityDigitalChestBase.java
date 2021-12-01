@@ -39,8 +39,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     private boolean canDoubleClick;
     private long clickTime;
 
-    public TileEntityDigitalChestBase(String descriptionKey, int capacity) {
-        super(descriptionKey);
+    public TileEntityDigitalChestBase(int capacity) {
         this.capacity = capacity;
         this.content = new GtSlotLargeItemStack(this, "mainSlot", InvSlot.Access.IO);
         this.content.setStackSizeLimit(capacity);

@@ -45,12 +45,12 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     @NBTPersistent
     public boolean splitInput = false;
 
-    public TileEntityBasicMachine(String descriptionKey, RM recipeManager) {
-        this(descriptionKey, recipeManager, false);
+    public TileEntityBasicMachine(RM recipeManager) {
+        this(recipeManager, false);
     }
 
-    public TileEntityBasicMachine(String descriptionKey, RM recipeManager, boolean wildcardInput) {
-        super(descriptionKey, 1, recipeManager, wildcardInput);
+    public TileEntityBasicMachine(RM recipeManager, boolean wildcardInput) {
+        super(1, recipeManager, wildcardInput);
         this.extraSlot = getExtraSlot();
         this.queueInputSlot = getInputSlot("queueInput", GtUtil.INV_SIDE_VERTICAL, wildcardInput);
         this.queueOutputSlot = getOutputSlot("queueOutput", 1);

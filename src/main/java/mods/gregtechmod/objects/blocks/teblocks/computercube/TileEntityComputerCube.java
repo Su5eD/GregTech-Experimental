@@ -30,8 +30,6 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     public final Map<ResourceLocation, IComputerCubeModule> moduleCache = new HashMap<>();
 
     public TileEntityComputerCube() {
-        super(null);
-        
         this.module = addComponent(new ComputerCubeModuleComponent(this));
         this.coverBlacklist.addAll(CoverType.VALUES);
         

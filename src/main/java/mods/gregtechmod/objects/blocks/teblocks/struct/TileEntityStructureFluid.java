@@ -31,8 +31,8 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
     @NBTPersistent(include = Include.NON_NULL)
     private ItemStack pendingFluidContainer;
 
-    public TileEntityStructureFluid(String descriptionKey, int outputSlots, RM recipeManager) {
-        super(descriptionKey, outputSlots, recipeManager);
+    public TileEntityStructureFluid(int outputSlots, RM recipeManager) {
+        super(outputSlots, recipeManager);
         
         this.secondaryInput = getSecondaryInputSlot("secondary_input");
         this.fluidContainerOutput = new InvSlotOutput(this, "fluid_output", 1);

@@ -6,6 +6,6 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityDigitalChestBase;
 public class TileEntityDigitalChest extends TileEntityDigitalChestBase {
 
     public TileEntityDigitalChest() {
-        super("digital_chest", GregTechConfig.FEATURES.digitalChestMaxItemCount);
+        super(GregTechConfig.FEATURES.digitalChestMaxItemCount);
     }
 }

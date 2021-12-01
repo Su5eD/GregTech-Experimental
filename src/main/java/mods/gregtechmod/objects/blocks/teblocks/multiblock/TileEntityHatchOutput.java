@@ -17,7 +17,7 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
     private Mode mode = Mode.LSI;
 
     public TileEntityHatchOutput() {
-        super("hatch_output", InvSlotConsumableLiquid.OpType.Fill, false, true, false);
+        super(InvSlotConsumableLiquid.OpType.Fill, false, true, false);
     }
 
     public boolean addOutput(ItemStack stack) {

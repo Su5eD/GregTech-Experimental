@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityMagicEnergyConverter extends TileEntityFluidGenerator {
     
     public TileEntityMagicEnergyConverter() {
-        super("magic_energy_converter", GtFuels.magic);
+        super(GtFuels.magic);
     }
 
     @Override

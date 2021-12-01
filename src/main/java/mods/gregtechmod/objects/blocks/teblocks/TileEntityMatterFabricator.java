@@ -41,8 +41,6 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
     public final InvSlotOutput output;
     
     public TileEntityMatterFabricator() {
-        super(null);
-        
         this.amplifierSlot = new GtSlotFiltered(this, "amplifiers", InvSlot.Access.I, 8, stack -> Recipes.matterAmplifier.apply(stack, true) != null);
         this.output = new InvSlotOutput(this, "output", 1);
         

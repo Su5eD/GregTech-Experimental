@@ -10,7 +10,7 @@ import java.util.Set;
 public class TileEntityQuantumChest extends TileEntityDigitalChestBase {
 
     public TileEntityQuantumChest() {
-        super("quantum_chest", GregTechConfig.FEATURES.quantumChestMaxItemCount);
+        super(GregTechConfig.FEATURES.quantumChestMaxItemCount);
     }
     
     @Override

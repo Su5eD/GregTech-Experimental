@@ -22,7 +22,7 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     public final GtSlotProcessableItemStack<IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>, List<ItemStack>> secondaryInputSlot;
 
     public TileEntityChemicalReactor() {
-        super("chemical_reactor", 1, GtRecipes.chemical);
+        super(1, GtRecipes.chemical);
         this.secondaryInputSlot = getInputSlot("secondary_input", false);
     }
 

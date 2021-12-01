@@ -24,7 +24,7 @@ public class TileEntityUniversalMacerator extends TileEntityBasicMachineSingleIn
     private boolean addSecondaryOutput;
 
     public TileEntityUniversalMacerator() {
-        super("universal_macerator", GtRecipes.pulverizer);
+        super(GtRecipes.pulverizer);
     }
 
     public static void initMaceratorRecipes() {

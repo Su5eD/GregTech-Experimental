@@ -16,7 +16,7 @@ import java.util.Map;
 public class TileEntityLargeGasTurbine extends TileEntityTurbineBase {
 
     public TileEntityLargeGasTurbine() {
-        super("large_gas_turbine", GtFuels.gas);
+        super(GtFuels.gas);
     }
 
     @Override

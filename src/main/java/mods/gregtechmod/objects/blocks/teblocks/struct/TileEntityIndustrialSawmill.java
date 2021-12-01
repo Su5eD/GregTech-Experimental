@@ -25,7 +25,7 @@ import java.util.Map;
 public class TileEntityIndustrialSawmill extends TileEntityStructureFluid<Object, IRecipeUniversal<List<IRecipeIngredient>>, IGtRecipeManagerSecondaryFluid<IRecipeUniversal<List<IRecipeIngredient>>>> {
     
     public TileEntityIndustrialSawmill() {
-        super("industrial_sawmill", 2, GtRecipes.industrialSawmill);
+        super(2, GtRecipes.industrialSawmill);
     }
 
     @Override

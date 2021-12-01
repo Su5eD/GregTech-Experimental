@@ -11,8 +11,7 @@ import java.util.Set;
 
 public abstract class TileEntityGenerator extends TileEntityUpgradable {
     
-    public TileEntityGenerator(String descriptionKey) {
-        super(descriptionKey);
+    public TileEntityGenerator() {
         this.energyCapacityTooltip = true;
     }
 

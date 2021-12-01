@@ -61,8 +61,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     @NBTPersistent(include = Include.NON_NULL)
     protected ItemStack fuelOutput;
 
-    public TileEntityMultiBlockBase(String descriptionKey, IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
-        super(descriptionKey);
+    public TileEntityMultiBlockBase(IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
         this.fuelManager = fuelManager;
         this.maintenance = addComponent(new Maintenance(this));
         this.structure = new Structure<>(getStructurePattern(), getStructureElements(), this::createStructureInstance, this::onInvalidate);

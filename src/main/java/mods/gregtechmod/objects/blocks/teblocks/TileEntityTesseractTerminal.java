@@ -21,8 +21,6 @@ public class TileEntityTesseractTerminal extends TileEntityTesseract {
     public boolean isConnected;
 
     public TileEntityTesseractTerminal() {
-        super("tesseract_terminal");
-        
         setPrivate(true);
     }
 

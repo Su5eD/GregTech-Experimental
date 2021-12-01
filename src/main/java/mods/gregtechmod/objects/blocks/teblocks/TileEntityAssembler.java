@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityAssembler extends TileEntityBasicMachineMultiInput {
 
     public TileEntityAssembler() {
-        super("assembler", GtRecipes.assembler);
+        super(GtRecipes.assembler);
     }
 
     @Override

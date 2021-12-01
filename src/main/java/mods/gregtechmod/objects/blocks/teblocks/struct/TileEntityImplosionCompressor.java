@@ -26,7 +26,7 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     public final GtSlotProcessableImplosion secondaryInput;
     
     public TileEntityImplosionCompressor() {
-        super("implosion_compressor", 2, GtRecipes.implosion);
+        super(2, GtRecipes.implosion);
         this.secondaryInput = new GtSlotProcessableImplosion(this, "itnt_input", 1);
     }
 

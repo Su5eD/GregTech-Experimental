@@ -28,6 +28,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
 import java.util.function.Function;
@@ -75,10 +77,6 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static <T extends Entity> void addEntityWeight(Class<T> clazz, Function<T, Float> weight) {
         WEIGHTS.put(clazz, (Function) weight);
-    }
-
-    public TileEntityGtTeleporter() {
-        super("gt_teleporter");
     }
 
     @Override
@@ -224,6 +222,7 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiGtTeleporter(getGuiContainer(player));
     }

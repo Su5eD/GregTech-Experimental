@@ -14,10 +14,6 @@ import java.util.List;
 public class TileEntityHatchDynamo extends TileEntityEnergy {
     private static final int MINIMUM_STORED_ENERGY = 512;
 
-    public TileEntityHatchDynamo() {
-        super("hatch_dynamo");
-    }
-
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);

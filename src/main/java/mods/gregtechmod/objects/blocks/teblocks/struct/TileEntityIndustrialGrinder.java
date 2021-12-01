@@ -24,7 +24,7 @@ import java.util.Map;
 public class TileEntityIndustrialGrinder extends TileEntityStructureFluid<Object, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, IGtRecipeManagerSecondaryFluid<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
     
     public TileEntityIndustrialGrinder() {
-        super("industrial_grinder", 3, GtRecipes.industrialGrinder);
+        super(3, GtRecipes.industrialGrinder);
     }
 
     @Override

@@ -49,8 +49,6 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
     private Block pumpedBlock;
 
     public TileEntityAdvancedPump() {
-        super("advanced_pump");
-
         this.inputSlot = new InvSlotConsumableLiquid(this, "input", InvSlot.Access.I, 1, InvSlot.InvSide.TOP, InvSlotConsumableLiquid.OpType.Fill);
         this.outputSlot = new InvSlotOutput(this, "output", 1);
         this.pipeSlot = new GtSlotFiltered(this, "pipe", InvSlot.Access.I, 1, stack -> stack.isItemEqual(ModHandler.miningPipe));

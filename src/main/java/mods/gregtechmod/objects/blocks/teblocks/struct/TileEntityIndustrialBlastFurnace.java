@@ -37,7 +37,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     private final CoilHandler coilHandler;
     
     public TileEntityIndustrialBlastFurnace() {
-        super("industrial_blast_furnace", 2, GtRecipes.industrialBlastFurnace);
+        super(2, GtRecipes.industrialBlastFurnace);
         this.secondaryInput = getInputSlot("secondary_input", InvSlot.InvSide.BOTTOM, false);
         
         this.coilHandler = addComponent(new CoilHandler(this, 4, () -> IC2.network.get(true).updateTileEntityField(this, "coilHandler")));
