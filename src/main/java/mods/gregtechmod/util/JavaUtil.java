@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -105,7 +106,7 @@ public final class JavaUtil {
     public static Path copyDir(Path source, Path target) {
         try(DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
             for (Path path : stream) {
-                Path dest = target.resolve(source.relativize(path));
+                Path dest = Paths.get(target.toString(), path.getFileName().toString());
                 GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest);
                 Files.copy(path, dest);
                 if (Files.isDirectory(path)) copyDir(path, dest);
