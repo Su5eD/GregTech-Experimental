@@ -1,9 +1,9 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.GuiIC2;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.Maintenance;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMultiblock;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.function.Supplier;
 
 public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/multiblock.png");
+    private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("multiblock");
 
     public GuiMultiblock(ContainerMultiblock container) {
         super(container);
@@ -23,7 +23,7 @@ public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         
         String name = I18n.format(this.container.base.getName());
-        this.drawString(10, 8, name, 16448255, false);
+        this.drawString(10, 8, name, GuiColors.WHITE, false);
         
         this.container.base.structure.getWorldStructure()
                 .ifPresent(struct -> { 
@@ -62,6 +62,6 @@ public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
     }
     
     private void displayStatus(String name, int y) {
-        drawString(10, y, GtUtil.translate("multiblock." + name), 16448255, false);
+        drawString(10, y, GtLocale.translate("multiblock." + name), GuiColors.WHITE, false);
     }
 }

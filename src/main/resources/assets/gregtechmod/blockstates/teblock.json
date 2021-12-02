@@ -77,7 +77,18 @@
       "superconductor_wire": { "model": "gregtechmod:superconductor_wire" },
       "lesu": { "model": "gregtechmod:lesu" },
       "aesu": { "model": "gregtechmod:aesu" },
-      "idsu": { "model": "gregtechmod:idsu" }
+      "idsu": { "model": "gregtechmod:idsu" },
+      "computer_cube": { "model": "gregtechmod:computer_cube" },
+      "charge_o_mat": { "model": "gregtechmod:charge_o_mat" },
+      "advanced_pump": { "model": "gregtechmod:advanced_pump" },
+      "advanced_pump_active": { "model": "gregtechmod:advanced_pump_active" },
+      "advanced_safe": { "model": "gregtechmod:advanced_safe" },
+      "matter_fabricator": { "model": "gregtechmod:matter_fabricator" },
+      "matter_fabricator_active": { "model": "gregtechmod:matter_fabricator_active" },
+      "gt_teleporter": { "model": "gregtechmod:gt_teleporter" },
+      "gt_teleporter_active": { "model": "gregtechmod:gt_teleporter_active" },
+      "tesseract_generator": { "model": "gregtechmod:tesseract_generator" },
+      "tesseract_terminal": { "model": "gregtechmod:tesseract_terminal" }
     },
     "facing": {
       "down": { "x": 90 },

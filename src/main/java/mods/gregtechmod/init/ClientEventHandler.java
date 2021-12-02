@@ -1,6 +1,7 @@
 package mods.gregtechmod.init;
 
 import com.google.gson.JsonObject;
+import ic2.api.item.ElectricItem;
 import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.GregTechObjectAPI;
@@ -12,10 +13,12 @@ import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.items.ItemCellClassic;
+import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
 import mods.gregtechmod.util.*;
 import mods.gregtechmod.util.struct.Rotor;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,12 +37,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,24 +48,14 @@ public class ClientEventHandler {
     private static final Map<ItemStack, Supplier<String>> EXTRA_TOOLTIPS = new HashMap<>();
 
     public static void gatherModItems() {
-        ItemStack dustCoal = IC2Items.getItem("dust", "coal");
-        ItemStack dustIron = IC2Items.getItem("dust", "iron");
-        ItemStack dustGold = IC2Items.getItem("dust", "gold");
-        ItemStack dustCopper = IC2Items.getItem("dust", "copper");
-        ItemStack dustTin = IC2Items.getItem("dust", "tin");
-        ItemStack dustBronze = IC2Items.getItem("dust", "bronze");
-        // TODO Actually contribute to EnergyControl and remove ugly registration from API (URGENT)
-        ItemStack sensorKit = ModHandler.getModItem("energycontrol", "item_kit", 800);
-        ItemStack sensorCard = ModHandler.getModItem("energycontrol", "item_card", 800);
-        
-        EXTRA_TOOLTIPS.put(dustCoal, () -> "C2");
-        EXTRA_TOOLTIPS.put(dustIron, () -> "Fe");
-        EXTRA_TOOLTIPS.put(dustGold, () -> "Au");
-        EXTRA_TOOLTIPS.put(dustCopper, () -> "Cu");
-        EXTRA_TOOLTIPS.put(dustTin, () -> "Sn");
-        EXTRA_TOOLTIPS.put(dustBronze, () -> "SnCu3");
-        EXTRA_TOOLTIPS.put(sensorKit, () -> GtUtil.translateItemDescription("sensor_kit"));
-        EXTRA_TOOLTIPS.put(sensorCard, () -> GtUtil.translateItemDescription("sensor_card"));
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "coal"), () -> "C2");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "iron"), () -> "Fe");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "gold"), () -> "Au");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "copper"), () -> "Cu");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "tin"), () -> "Sn");
+        EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "bronze"), () -> "SnCu3");
+        EXTRA_TOOLTIPS.put(ModHandler.getModItem("energycontrol", "item_kit", 800), () -> GtLocale.translateItemDescription("sensor_kit"));
+        EXTRA_TOOLTIPS.put(ModHandler.getModItem("energycontrol", "item_card", 800), () -> GtLocale.translateItemDescription("sensor_card"));
     }
 
     @SubscribeEvent
@@ -103,33 +92,35 @@ public class ClientEventHandler {
     private static void registerBakedModels() {
         GregTechMod.LOGGER.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
-        JsonObject blockstateModels = JsonHandler.readFromJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
-        
-        Arrays.stream(GregTechTEBlock.values())
-                .forEach(teBlock -> {
-                    String teBlockName = teBlock.getName();
-                    GregTechTEBlock.ModelType modelType = teBlock.getModelType();
-                    if (modelType == GregTechTEBlock.ModelType.BAKED) {
-                        String modelPath = new ResourceLocation(blockstateModels.getAsJsonObject(teBlockName).get("model").getAsString()).getPath();
-                                            
-                        JsonHandler json = new JsonHandler(getItemModelPath("teblock", modelPath));
-                        ModelTeBlock model;
-                        if (teBlock.isStructure()) {
-                            JsonHandler valid = new JsonHandler(getItemModelPath("teblock", teBlockName + "_valid"));
-                            model = new ModelStructureTeBlock(valid.particle, json.generateTextureMap(), valid.generateTextureMap());
-                        } else {
-                            model = new ModelTeBlock(json.particle, json.generateTextureMap());
-                        }
-                        loader.register("models/block/" + teBlockName, model);
-                        
-                        if (teBlock.hasActive()) {
-                            JsonHandler active = new JsonHandler(getItemModelPath("teblock", teBlockName + "_active"));
-                            loader.register("models/block/" + teBlockName + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
-                        } 
-                    } else if (modelType == GregTechTEBlock.ModelType.CONNECTED) {
-                        registerConnectedBakedModel(loader, teBlockName, "machines", "", ModelTEBlockConnected::new);
-                    }
-                });
+        JsonObject models = JsonHandler.readJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
+
+        for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
+            String name = teBlock.getName();
+            GregTechTEBlock.ModelType modelType = teBlock.getModelType();
+            if (modelType == GregTechTEBlock.ModelType.BAKED) {
+                JsonObject obj = models.getAsJsonObject(name);
+                if (obj == null) throw new RuntimeException("Missing blockstate model definition for TEBlock " + name);
+                
+                String modelPath = new ResourceLocation(obj.get("model").getAsString()).getPath();
+                JsonHandler json = new JsonHandler(getItemModelPath("teblock", modelPath));
+                ModelTeBlock model;
+                if (teBlock.isStructure()) {
+                    JsonHandler valid = new JsonHandler(getItemModelPath("teblock", name + "_valid"));
+                    model = new ModelStructureTeBlock(valid.particle, json.generateTextureMap(), valid.generateTextureMap());
+                } else {
+                    model = new ModelTeBlock(json.particle, json.generateTextureMap());
+                }
+                loader.register("models/block/" + name, model);
+
+                if (teBlock.hasActive()) {
+                    JsonHandler active = new JsonHandler(getItemModelPath("teblock", name + "_active"));
+                    loader.register("models/block/" + name + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
+                }
+            }
+            else if (modelType == GregTechTEBlock.ModelType.CONNECTED) {
+                registerConnectedBakedModel(loader, name, "machines", "", ModelTEBlockConnected::new);
+            }
+        }
         
         for (BlockItems.Ore ore : BlockItems.Ore.values()) {
             JsonHandler json = new JsonHandler(getItemModelPath("ore", ore.name().toLowerCase(Locale.ROOT)));
@@ -144,52 +135,48 @@ public class ClientEventHandler {
     private static void registerConnectedBakedModels(BakedModelLoader loader) {
         NormalStateMapper mapper = new NormalStateMapper();
         Stream.of(BlockItems.Block.STANDARD_MACHINE_CASING, BlockItems.Block.REINFORCED_MACHINE_CASING, BlockItems.Block.ADVANCED_MACHINE_CASING, BlockItems.Block.IRIDIUM_REINFORCED_TUNGSTEN_STEEL, BlockItems.Block.TUNGSTEN_STEEL)
-                .map(BlockItems.Block::getInstance)
+                .map(BlockItems.Block::getBlockInstance)
                 .forEach(block -> ModelLoader.setCustomStateMapper(block, mapper));
 
-        Map<String, ResourceLocation> steamTurbineRotor = getRotorTextures("large_steam_turbine");
-        Map<String, ResourceLocation> gasTurbineRotor = getRotorTextures("large_gas_turbine");
-        registerBlockConnectedBakedModel(loader, "standard_machine_casing", steamTurbineRotor);
-        registerBlockConnectedBakedModel(loader, "reinforced_machine_casing", gasTurbineRotor);
+        registerBlockConnectedBakedModel(loader, "standard_machine_casing", getRotorTextures("large_steam_turbine"));
+        registerBlockConnectedBakedModel(loader, "reinforced_machine_casing", getRotorTextures("large_gas_turbine"));
         registerBlockConnectedBakedModel(loader, "advanced_machine_casing");
         registerBlockConnectedBakedModel(loader, "iridium_reinforced_tungsten_steel");
         registerBlockConnectedBakedModel(loader, "tungsten_steel");
     }
     
+    /**
+     * Get all rotor textures from specific texture paths,
+     * which follow the format <code>blocks/machines/{@literal <name>}/rotor_{@literal <texture part>}</code>
+     * 
+     * @see Rotor#TEXTURE_PARTS
+     */
     private static Map<String, ResourceLocation> getRotorTextures(String name) {
-        return Rotor.TEXTURE_NAMES.stream()
-                .flatMap(str -> Stream.of(str, str + "_active"))
-                .collect(Collectors.toMap(str -> "rotor_" + str, str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str)));
+        return Rotor.TEXTURE_PARTS.stream()
+                .flatMap(str -> Stream.of("rotor_" + str, "rotor_" + str + "_active"))
+                .collect(Collectors.toMap(Function.identity(), str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str)));
     }
     
     @SafeVarargs
     private static void registerBlockConnectedBakedModel(BakedModelLoader loader, String name, Map<String, ResourceLocation>... extraTextures) {
-        registerConnectedBakedModel(loader, name, "connected", "block_", ModelBlockConnected::new, extraTextures);
+        registerConnectedBakedModel(loader, name, "connected", "block_", textures -> new ModelBlockConnected(textures, extraTextures));
     }
-    
-    @SafeVarargs
-    private static void registerConnectedBakedModel(BakedModelLoader loader, String name, String dir, String prefix, BiFunction<Map<String, ResourceLocation>, Map<String, ResourceLocation>[], IModel> modelFactory, Map<String, ResourceLocation>... extraTextures) {
-        Path texturesPath = GtUtil.getAssetPath("textures");
-        Path path = texturesPath.resolve("blocks/" + dir + "/" + name);
-        try {
-            Map<String, ResourceLocation> textures = Files.walk(path)
-                    .filter(p -> !p.equals(path))
-                    .map(p -> {
-                        String str = p.toString().replace(texturesPath.toString(), "");
-                        while (str.startsWith(File.separator) || str.startsWith("/")) str = str.substring(1);
-                        
-                        return str.substring(0, str.lastIndexOf('.')).replace(File.separatorChar, '/');
-                    })
-                    .collect(Collectors.toMap(str -> {
-                        String textureName = str.substring(str.lastIndexOf('/') + 1).replace(name, "");
-                        if (textureName.startsWith("_")) return textureName.substring(1);
-                        else return textureName;
-                    }, str -> new ResourceLocation(Reference.MODID, str)));
 
-            loader.register("models/block/" + prefix + name, modelFactory.apply(textures, extraTextures));
-        } catch (IOException e) {
-            GregTechMod.LOGGER.error("Error registering connected baked model " + name, e);
-        }
+    /**
+     * Register a connected baked model using specific texture paths,
+     * which follow the format <code>blocks/{@literal <dir>}/{@literal <name>}/{@literal <name>}{@literal <texture part>}</code>
+     * 
+     * @see ModelBlockConnected#TEXTURE_PARTS
+     */
+    private static void registerConnectedBakedModel(BakedModelLoader loader, String name, String dir, String prefix, Function<Map<String, ResourceLocation>, IModel> modelFactory) {
+        String basePath = "blocks/" + dir + "/" + name + "/" + name;
+        Map<String, ResourceLocation> textures = ModelBlockConnected.TEXTURE_PARTS.stream()
+                .collect(Collectors.toMap(Function.identity(), str -> {
+                    String resPath = str.isEmpty() ? basePath : basePath + "_" + str;
+                    return new ResourceLocation(Reference.MODID, resPath);
+                }));
+        
+        loader.register("models/block/" + prefix + name, modelFactory.apply(textures));
     }
     
     private static void registerModel(Item item) {
@@ -207,40 +194,42 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void registerIcons(TextureStitchEvent.Pre event) {
         TextureMap map = event.getMap();
-        String path = "blocks/covers/";
-        String centrifuge = "blocks/machines/centrifuge/";
+        String covers = "blocks/covers/";
+        String machines = "blocks/machines/";
         
         Stream.of(
-                path + "adv_machine_vent",
-                path + "adv_machine_vent_rotating",
-                centrifuge + "centrifuge_top_active2",
-                centrifuge + "centrifuge_top_active3",
-                centrifuge + "centrifuge_side_active2",
-                centrifuge + "centrifuge_side_active3",
-                "blocks/machines/adv_machine_screen_random", //TODO: Remove when implemented in another machine
-                path + "machine_vent_rotating",
-                path + "drain",
-                path + "active_detector",
-                path + "eu_meter",
-                path + "item_meter",
-                path + "liquid_meter",
-                path + "normal",
-                path + "noredstone",
-                path + "machine_controller",
-                path + "solar_panel",
-                path + "crafting",
-                path + "conveyor",
-                path + "pump",
-                path + "valve",
-                path + "energy_only",
-                path + "redstone_only",
-                path + "redstone_conductor",
-                path + "redstone_signalizer",
-                "blocks/machines/machine_top_pipe",
-                "blocks/machines/hatch_maintenance/hatch_maintenance_front_ducttape",
-                "blocks/machines/lesu/lesu_lv_out",
-                "blocks/machines/lesu/lesu_mv_out",
-                "blocks/machines/lesu/lesu_hv_out"
+                machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
+                machines + "centrifuge/centrifuge_top_active2",
+                machines + "centrifuge/centrifuge_top_active3",
+                machines + "centrifuge/centrifuge_side_active2",
+                machines + "centrifuge/centrifuge_side_active3",
+                machines + "computer_cube/computer_cube_reactor",
+                machines + "computer_cube/computer_cube_scanner",
+                machines + "hatch_maintenance/hatch_maintenance_front_ducttape",
+                machines + "lesu/lesu_lv_out",
+                machines + "lesu/lesu_mv_out",
+                machines + "lesu/lesu_hv_out",
+                machines + "machine_top_pipe",
+                covers + "active_detector",
+                covers + "adv_machine_vent",
+                covers + "adv_machine_vent_rotating",
+                covers + "conveyor",
+                covers + "crafting",
+                covers + "drain",
+                covers + "energy_only",
+                covers + "eu_meter",
+                covers + "item_meter",
+                covers + "liquid_meter",
+                covers + "machine_controller",
+                covers + "machine_vent_rotating",
+                covers + "noredstone",
+                covers + "normal",
+                covers + "pump",
+                covers + "redstone_conductor",
+                covers + "redstone_only",
+                covers + "redstone_signalizer",
+                covers + "solar_panel",
+                covers + "valve"
         )
                 .map(str -> new ResourceLocation(Reference.MODID, str))
                 .forEach(map::registerSprite);
@@ -252,7 +241,17 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        if (GtUtil.getFullInvisibility(event.getEntityPlayer())) event.setCanceled(true);
+        EntityPlayer player = event.getEntityPlayer();
+        boolean fullInvisibility = player.isInvisible() && player.inventory.armorInventory.stream()
+                .filter(stack -> !stack.isEmpty())
+                .anyMatch(stack -> {
+                    Item item = stack.getItem();
+                    return item instanceof ItemArmorElectricBase 
+                            && ((ItemArmorElectricBase) item).perks.contains(ArmorPerk.INVISIBILITY_FIELD)
+                            && ElectricItem.manager.canUse(stack, 10000);
+                });
+        
+        if (fullInvisibility) event.setCanceled(true);
     }
 
     @SubscribeEvent

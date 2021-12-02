@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.items.base;
 
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
@@ -44,7 +45,7 @@ public class ItemBase extends Item implements ICustomItemModel {
     }
 
     public ItemBase(String name, String description, int durability) {
-        this(name, () -> GtUtil.translateItemDescription(description), durability, false);
+        this(name, () -> GtLocale.translateItemDescription(description), durability, false);
     }
 
     public ItemBase(String name, Supplier<String> description, int durability) {

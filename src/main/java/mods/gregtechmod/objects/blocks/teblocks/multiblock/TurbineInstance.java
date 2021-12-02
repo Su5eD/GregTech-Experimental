@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 
 import mods.gregtechmod.objects.blocks.BlockConnectedTurbine;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.struct.Rotor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
@@ -29,7 +29,7 @@ public class TurbineInstance extends TileEntityMultiBlockBase.MultiBlockInstance
         List<BlockPos> sorted = rotorCasings.stream()
                 .sorted(Comparator.comparing(Function.identity(), (one, two) -> compareBlockPos(facing, one, two)))
                 .collect(Collectors.toList());
-        this.rotorTextures = GtUtil.zipToMap(sorted, Rotor.TEXTURE_NAMES);
+        this.rotorTextures = JavaUtil.zipToMap(sorted, Rotor.TEXTURE_PARTS);
         
         setTurbineProperty(true);
         setRotorProperty(facing, active);

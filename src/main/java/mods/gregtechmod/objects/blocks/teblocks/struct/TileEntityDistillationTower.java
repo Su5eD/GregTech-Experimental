@@ -26,7 +26,7 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     public GtConsumableCell cellSlot;
     
     public TileEntityDistillationTower() {
-        super("distillation_tower", 4, GtRecipes.distillation);
+        super(4, GtRecipes.distillation);
         this.cellSlot = new GtConsumableCell(this, "cell_slot", 1);
     }
 
@@ -79,8 +79,8 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
-                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance())
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
                 .block('A', Blocks.AIR)
                 .gather();
     }

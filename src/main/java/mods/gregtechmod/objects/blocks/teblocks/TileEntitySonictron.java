@@ -4,6 +4,7 @@ import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.util.IDataOrbSerializable;
 import mods.gregtechmod.api.util.SonictronSound;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiSonictron;
@@ -15,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -23,9 +25,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
+public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, IDataOrbSerializable {
     private static final Map<Integer, String> RECORD_NAMES = new HashMap<>();
     
     @NBTPersistent
@@ -54,11 +57,9 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
 
     @Override
     protected void updateEntityServer() {
-        if (this.world.getRedstonePowerFromNeighbors(pos) > 0) {
-            if (this.currentIndex < 0) this.currentIndex = 0;
-        }
+        if (isRedstonePowered() && this.currentIndex < 0) this.currentIndex = 0;
 
-        if (this.world.getTotalWorldTime() % 2 == 0 && this.currentIndex > -1) {
+        if (this.tickCounter % 2 == 0 && this.currentIndex > -1) {
             this.setActive(true);
             
             doSonictronSound(this.content.get(currentIndex), this.world, this.pos);
@@ -68,10 +69,27 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
     }
 
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("currentIndex");
-        return ret;
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("currentIndex");
+    }
+
+    @Override
+    public String getDataName() {
+        return "Sonictron-Data";
+    }
+
+    @Nullable
+    @Override
+    public NBTTagCompound saveDataToOrb() {
+        NBTTagCompound nbt = new NBTTagCompound();
+        this.content.writeToNbt(nbt);
+        return nbt;
+    }
+
+    @Override
+    public void loadDataFromOrb(NBTTagCompound nbt) {
+        this.content.readFromNbt(nbt);
     }
 
     @Override
@@ -86,7 +104,7 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui {
     }
 
     @Override
-    public void onGuiClosed(EntityPlayer entityPlayer) {}
+    public void onGuiClosed(EntityPlayer player) {}
 
     public static void loadSonictronSounds() {
         GregTechMod.LOGGER.info("Loading Sonictron sounds");

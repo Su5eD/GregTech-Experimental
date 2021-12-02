@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityDieselGenerator extends TileEntityFluidGenerator {
 
     public TileEntityDieselGenerator() {
-        super("diesel_generator", GtFuels.diesel);
+        super(GtFuels.diesel);
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
 public class TileEntityBender extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityBender() {
-        super("bender", GtRecipes.bender);
+        super(GtRecipes.bender);
     }
 
     @Override

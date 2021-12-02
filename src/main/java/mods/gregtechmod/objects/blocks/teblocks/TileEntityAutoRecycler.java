@@ -18,7 +18,7 @@ import java.util.List;
 public class TileEntityAutoRecycler extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityAutoRecycler() {
-        super("auto_recycler", null);
+        super(null);
     }
 
     @Override

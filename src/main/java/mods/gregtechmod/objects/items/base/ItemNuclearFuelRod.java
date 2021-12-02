@@ -6,6 +6,7 @@ import ic2.core.IC2Potion;
 import ic2.core.item.armor.ItemArmorHazmat;
 import ic2.core.item.reactor.ItemReactorUranium;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
@@ -49,7 +50,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements ICustomIte
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
-        tooltip.add(GtUtil.translateItem("nuclear_rod.time_left", getMaxCustomDamage(stack) - getCustomDamage(stack)));
+        tooltip.add(GtLocale.translateItem("nuclear_rod.time_left", getMaxCustomDamage(stack) - getCustomDamage(stack)));
     }
 
     @Override

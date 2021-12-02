@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import com.mojang.authlib.GameProfile;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.CoverType;
@@ -13,6 +12,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotLargeItemStack;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -39,8 +39,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     private boolean canDoubleClick;
     private long clickTime;
 
-    public TileEntityDigitalChestBase(String descriptionKey, int capacity) {
-        super(descriptionKey);
+    public TileEntityDigitalChestBase(int capacity) {
         this.capacity = capacity;
         this.content = new GtSlotLargeItemStack(this, "mainSlot", InvSlot.Access.IO);
         this.content.setStackSizeLimit(capacity);
@@ -57,7 +56,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (hand != EnumHand.MAIN_HAND) return true;
+        if (this.world.isRemote || hand != EnumHand.MAIN_HAND) return true;
         ItemStack stack = player.getHeldItem(hand);
         if (GtUtil.isWrench(stack) || addUpgrade(stack, player)) return true;
 
@@ -117,7 +116,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     protected void onClicked(EntityPlayer player) {
-        if (!this.upgradeManager.checkAccess(player)) return;
+        if (!checkAccess(player)) return;
         ItemStack slot = content.get();
 
         if (!slot.isEmpty() && !this.world.isRemote && player.getActiveHand() == EnumHand.MAIN_HAND) {
@@ -153,7 +152,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     protected List<ItemStack> getAuxDrops(int fortune) {
-        return GtUtil.mergeCollection(GtUtil.correctStacksize(super.getAuxDrops(fortune)), this.upgradeManager.getUpgrades());
+        return JavaUtil.mergeCollection(GtUtil.correctStacksize(super.getAuxDrops(fortune)), this.upgradeManager.getUpgrades());
     }
 
     @Override
@@ -165,27 +164,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     @Override
     public FluidTank getSteamTank() {
         return null;
-    }
-
-    @Nullable
-    @Override
-    public GameProfile getOwner() {
-        return this.upgradeManager.getOwner();
-    }
-
-    @Override
-    public void setOwner(GameProfile owner) {
-        this.upgradeManager.setOwner(owner);
-    }
-
-    @Override
-    public boolean isPrivate() {
-        return this.upgradeManager.isPrivate();
-    }
-
-    @Override
-    public void setPrivate(boolean value) {
-        this.upgradeManager.setPrivate(value);
     }
 
     @Override
@@ -309,7 +287,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public String getTertiaryInfo() {
-        return "Max: "+this.capacity;
+        return "Max: " + this.capacity;
     }
 
     @Override
@@ -328,6 +306,16 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     @Override
     public double useEnergy(double amount, boolean simulate) {
         return 0;
+    }
+
+    @Override
+    public boolean tryUseEnergy(double amount, boolean simulate) {
+        return false;
+    }
+
+    @Override
+    public boolean canUseEnergy(double amount) {
+        return false;
     }
 
     @Override
@@ -376,7 +364,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     }
 
     @Override
-    public double getSteamCapacity() {
+    public int getSteamCapacity() {
         return 0;
     }
 

@@ -9,12 +9,12 @@ import java.util.List;
 
 public abstract class TileEntityBasicMachineSingleInput<R extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> extends TileEntityBasicMachine<R, IRecipeIngredient, ItemStack, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, R>> {
 
-    public TileEntityBasicMachineSingleInput(String descriptionKey, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, R> recipeManager) {
-        super(descriptionKey, recipeManager);
+    public TileEntityBasicMachineSingleInput(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, R> recipeManager) {
+        super(recipeManager);
     }
 
-    public TileEntityBasicMachineSingleInput(String descriptionKey, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, R> recipeManager, boolean wildcardInput) {
-        super(descriptionKey, recipeManager, wildcardInput);
+    public TileEntityBasicMachineSingleInput(IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, R> recipeManager, boolean wildcardInput) {
+        super(recipeManager, wildcardInput);
     }
 
     @Override

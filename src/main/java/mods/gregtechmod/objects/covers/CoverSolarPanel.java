@@ -3,7 +3,6 @@ package mods.gregtechmod.objects.covers;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IElectricMachine;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
@@ -14,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CoverSolarPanel extends CoverGeneric {
+    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("solar_panel");
+    
     private final double daytimeEnergy;
     private final double nighttimeEnergy;
 
@@ -50,7 +51,7 @@ public class CoverSolarPanel extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/solar_panel");
+        return TEXTURE;
     }
 
     @Override

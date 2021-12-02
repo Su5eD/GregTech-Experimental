@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "gregtechmod:replace_shaped",
   "pattern":
   [
     "RRR",
@@ -22,7 +22,7 @@
   "result":
   {
     "item": "ic2:resource",
-    "data": 15
+    "data": 12
   },
   "conditions":
   [
@@ -36,8 +36,7 @@
           {
             "category": "harder_recipes",
             "name": "machine_block",
-            "value": true,
-            "comment": "Classic Profile only"
+            "value": true
           }
         },
         {

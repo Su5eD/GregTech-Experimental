@@ -18,7 +18,7 @@ import java.util.List;
 public class TileEntityAlloySmelter extends TileEntityElectricFurnaceBase<List<IRecipeIngredient>, List<ItemStack>, IRecipeUniversal<List<IRecipeIngredient>>> {
 
     public TileEntityAlloySmelter() {
-        super("alloy_smelter", GtRecipes.alloySmelter);
+        super(GtRecipes.alloySmelter);
     }
 
     @Override

@@ -25,18 +25,19 @@ public class ItemSprayHydration extends ItemToolCrafting {
 
     @Override
     public ItemStack getEmptyItem() {
-        return new ItemStack(BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getInstance());
+        return BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getItemStack();
     }
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if (world.isRemote) return EnumActionResult.PASS;
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof ICropTile) {
-            int crop = ((ICropTile)tileEntity).getStorageWater();
-            if (crop <= 100 && GtUtil.damageStack(player, player.inventory.getCurrentItem(), 1)) {
-                ((ICropTile)tileEntity).setStorageWater(crop + 100);
-                return EnumActionResult.SUCCESS;
+        if (!world.isRemote) {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof ICropTile) {
+                int crop = ((ICropTile) tileEntity).getStorageWater();
+                if (crop <= 100 && GtUtil.damageStack(player, player.inventory.getCurrentItem(), 1)) {
+                    ((ICropTile) tileEntity).setStorageWater(crop + 100);
+                    return EnumActionResult.SUCCESS;
+                }
             }
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);

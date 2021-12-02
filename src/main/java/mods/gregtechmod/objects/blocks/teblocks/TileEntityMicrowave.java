@@ -27,7 +27,7 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
     private static final LazyValue<ItemStack> NETHERRACK = new LazyValue<>(() -> new ItemStack(Blocks.NETHERRACK));
 
     public TileEntityMicrowave() {
-        super("microwave", ModRecipes.FURNACE, true);
+        super(ModRecipes.FURNACE, true);
     }
 
     @Override

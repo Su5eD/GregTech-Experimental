@@ -1,8 +1,8 @@
 package mods.gregtechmod.init;
 
 import ic2.api.item.IC2Items;
-import ic2.api.item.IItemAPI;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.init.Blocks;
@@ -56,20 +56,18 @@ public class ItemStackModificator {
     }
 
     private static void modifyItemMaxStacksize() {
-        IC2Items.getItemAPI().getItem("upgrade").setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
+        ModHandler.ic2ItemApi.getItem("upgrade").setMaxStackSize(GregTechConfig.FEATURES.upgradeStackSize);
         Items.CAKE.setMaxStackSize(64);
     }
 
     private static void addJackHammerMinableBlocks() {
-        IItemAPI api = IC2Items.getItemAPI();
-        
         Collection<ItemStack> blocks = Stream.of(
                 Stream.of(
                         Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.END_STONE,
                         Blocks.GLOWSTONE, Blocks.NETHER_BRICK,  Blocks.RED_NETHER_BRICK, Blocks.END_BRICKS
                 ).map(ItemStack::new),
                 Stream.of(
-                        Blocks.STONE, Blocks.SANDSTONE, api.getBlock("foam"), api.getBlock("wall")
+                        Blocks.STONE, Blocks.SANDSTONE, ModHandler.ic2ItemApi.getBlock("foam"), ModHandler.ic2ItemApi.getBlock("wall")
                 ).map(block -> new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE)),
                 Stream.of(
                         IC2Items.getItem("resource", "reinforced_stone"), IC2Items.getItem("glass", "reinforced"),

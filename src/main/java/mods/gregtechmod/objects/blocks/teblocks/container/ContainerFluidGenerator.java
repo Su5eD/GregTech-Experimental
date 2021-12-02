@@ -23,9 +23,8 @@ public class ContainerFluidGenerator extends ContainerBasicTank<TileEntityFluidG
     }
 
     @Override
-    public List<String> getNetworkedFields() {
-        List<String> ret = super.getNetworkedFields();
-        ret.add("solidFuelEnergy");
-        return ret;
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("solidFuelEnergy");
     }
 }

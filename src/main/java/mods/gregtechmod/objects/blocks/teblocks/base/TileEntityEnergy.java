@@ -1,6 +1,8 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.energy.EnergyNet;
+import ic2.api.energy.tile.IChargingSlot;
+import ic2.api.energy.tile.IDischargingSlot;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
 import ic2.core.block.TileEntityBlock;
@@ -9,7 +11,8 @@ import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -31,8 +34,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     private boolean explode;
     private float explosionPower;
 
-    public TileEntityEnergy(String descriptionKey) {
-        super(descriptionKey);
+    public TileEntityEnergy() {
         this.energy = addComponent(createEnergyComponent());
     }
     
@@ -85,6 +87,10 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         if (this.energy.isSink() && amount > getMaxInputEUp()) markForExplosion();
         return this.energy.charge(amount);
     }
+    
+    protected void forceAddEnergy(double amount) {
+        this.energy.forceCharge(amount);
+    }
 
     protected int getSourcePackets() {
         return 1;
@@ -104,14 +110,32 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public double useEnergy(double amount, boolean simulate) {
         return this.energy.discharge(amount, simulate);
     }
+
+    @Override
+    public boolean tryUseEnergy(double amount, boolean simulate) {
+        return useEnergy(amount, simulate) >= amount;
+    }
+
+    @Override
+    public boolean canUseEnergy(double amount) {
+        return getStoredEU() >= amount;
+    }
     
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
         
         if(this.explode) this.explodeMachine(this.explosionPower);
-        if (shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
+        if (this.shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         if (enableMachineSafety()) MachineSafety.checkSafety(this);
+    }
+    
+    protected void addChargingSlot(IChargingSlot slot) {
+        this.energy.addChargingSlot(slot);
+    }
+    
+    protected void addDischargingSlot(IDischargingSlot slot) {
+        this.energy.addDischargingSlot(slot);
     }
 
     protected boolean enableMachineSafety() {
@@ -143,25 +167,14 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
     @Override
     public float getExplosionPower(int tier, float defaultPower) {
-        switch (tier) {
-            case 2:
-                return GregTechConfig.BALANCE.MVExplosionPower;
-            case 3:
-                return GregTechConfig.BALANCE.HVExplosionPower;
-            case 4:
-                return GregTechConfig.BALANCE.EVExplosionPower;
-            case 5:
-                return GregTechConfig.BALANCE.IVExplosionPower;
-            default:
-                return GregTechConfig.BALANCE.LVExplosionPower;
-        }
+        return Math.max(defaultPower, tier * GregTechConfig.BALANCE.explosionPowerMultiplier);
     }
     
     public void explodeMachine(float power) {
         int x = this.pos.getX(), y = this.pos.getY(), z = this.pos.getZ();
         this.energy.onUnloaded();
-        world.setBlockToAir(this.pos);
-        new ExplosionIC2(world, null, x + 0.5, y + 0.5, z + 0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
+        this.world.setBlockToAir(this.pos);
+        new ExplosionIC2(this.world, null, x + 0.5, y + 0.5, z + 0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
     }
     
     @Override
@@ -173,9 +186,9 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
-        if (this.energy.isSink()) tooltip.add(GtUtil.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
-        if (this.energy.isSource()) tooltip.add(GtUtil.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
-        if (this.energyCapacityTooltip) tooltip.add(GtUtil.translateInfo("eu_storage", GtUtil.formatNumber(this.energy.getCapacity())));
+        if (this.energy.isSink()) tooltip.add(GtLocale.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
+        if (this.energy.isSource()) tooltip.add(GtLocale.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
+        if (this.energyCapacityTooltip) tooltip.add(GtLocale.translateInfo("eu_storage", JavaUtil.formatNumber(this.energy.getCapacity())));
     }
     
     public class DynamicAdjustableEnergy extends AdjustableEnergy {

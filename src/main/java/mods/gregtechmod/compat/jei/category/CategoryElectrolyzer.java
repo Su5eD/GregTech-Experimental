@@ -9,10 +9,10 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.factory.ElectrolyzerRecipeFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperCellular;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiIndustrialElectrolyzer;
 import mods.gregtechmod.recipe.RecipeElectrolyzer;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.Minecraft;
 
 import java.util.Collection;
@@ -24,7 +24,7 @@ public class CategoryElectrolyzer extends CategoryBase<RecipeElectrolyzer, Wrapp
     public CategoryElectrolyzer(IGuiHelper guiHelper) {
         super("industrial_electrolyzer", RecipeElectrolyzer.class, WrapperCellular::new, guiHelper);
         gauge = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_UP);
-        tank = guiHelper.createDrawable(GregTechMod.COMMON_TEXTURE, 40, 0, 18, 18);
+        tank = guiHelper.createDrawable(GtUtil.COMMON_TEXTURE, 40, 0, 18, 18);
     }
 
     @Override

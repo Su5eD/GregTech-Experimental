@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
 import ic2.core.IC2;
+import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -36,8 +37,8 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     private final CoilHandler coilHandler;
     
     public TileEntityIndustrialBlastFurnace() {
-        super("industrial_blast_furnace", 2, GtRecipes.industrialBlastFurnace);
-        this.secondaryInput = getInputSlot("secondary_input", false);
+        super(2, GtRecipes.industrialBlastFurnace);
+        this.secondaryInput = getInputSlot("secondary_input", InvSlot.InvSide.BOTTOM, false);
         
         this.coilHandler = addComponent(new CoilHandler(this, 4, () -> IC2.network.get(true).updateTileEntityField(this, "coilHandler")));
     }
@@ -85,7 +86,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('C', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance())
+                .block('C', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
                 .predicate('L', pos -> {
                     IBlockState state = world.getBlockState(pos);
                     Block block = state.getBlock();
@@ -148,11 +149,11 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
                     .map(world::getBlockState)
                     .map(IBlockState::getBlock)
                     .forEach(block -> {
-                        if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getInstance()) {
+                        if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance()) {
                             heatCapacity += 30;
-                        } else if (block == BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance()) {
+                        } else if (block == BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance()) {
                             heatCapacity += 50;
-                        } else if (block == BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance()) {
+                        } else if (block == BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance()) {
                             heatCapacity += 70;
                         } else if (block == Blocks.LAVA) {
                             heatCapacity += 250;

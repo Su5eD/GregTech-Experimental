@@ -16,8 +16,8 @@ import java.util.List;
 public abstract class TileEntityElectricFurnaceBase<RI, I, R extends IMachineRecipe<RI, List<ItemStack>>> extends TileEntityBasicMachine<R, RI, I, IGtRecipeManagerBasic<RI, I, R>> {
     private final CoilHandler coilHandler;
 
-    protected TileEntityElectricFurnaceBase(String descriptionKey, IGtRecipeManagerBasic<RI, I, R> recipeManager) {
-        super(descriptionKey, recipeManager);
+    protected TileEntityElectricFurnaceBase(IGtRecipeManagerBasic<RI, I, R> recipeManager) {
+        super(recipeManager);
         
         this.coilHandler = addComponent(new CoilHandler(this, 1, () -> IC2.network.get(true).updateTileEntityField(this, "coilHandler")));
     }

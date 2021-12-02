@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityThermalGenerator extends TileEntityFluidGenerator {
     
     public TileEntityThermalGenerator() {
-        super("thermal_generator", GtFuels.hot);
+        super(GtFuels.hot);
     }
 
     @Override

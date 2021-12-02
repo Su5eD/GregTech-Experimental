@@ -2,8 +2,8 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.IHasGui;
+import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotOutput;
-import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.machine.IMachineProgress;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
@@ -14,7 +14,7 @@ import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.recipe.util.SteamHelper;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import mods.gregtechmod.util.nbt.Serializers.ItemStackListNBTSerializer;
@@ -30,7 +30,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IMachineProgress, IGuiValueProvider, IExplosionPowerOverride, IPanelInfoProvider {
+public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IMachineProgress, IExplosionPowerOverride, IPanelInfoProvider {
     public final RM recipeManager;
     public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
@@ -45,17 +45,17 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public double energyConsume;
     @NBTPersistent
     public int maxProgress;
-    protected double guiProgress;
 
-    public TileEntityGTMachine(String descriptionKey, int outputSlots, RM recipeManager) {
-        this(descriptionKey, outputSlots, recipeManager, false);
+    public TileEntityGTMachine(int outputSlots, RM recipeManager) {
+        this(outputSlots, recipeManager, false);
     }
 
-    public TileEntityGTMachine(String descriptionKey, int outputSlots, RM recipeManager, boolean wildcardInput) {
-        super(descriptionKey);
+    public TileEntityGTMachine(int outputSlots, RM recipeManager, boolean wildcardInput) {
         this.recipeManager = recipeManager;
         this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);
+        
+        addGuiValue("progress", this::getGuiProgress);
     }
     
     @Override
@@ -70,6 +70,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
         return new GtSlotProcessableItemStack<>(this, name, 1, acceptAnything ? null : recipeManager);
+    }
+    
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, InvSlot.InvSide side, boolean acceptAnything) {
+        return new GtSlotProcessableItemStack<>(this, name, InvSlot.Access.I, 1, side, acceptAnything ? null : recipeManager);
     }
 
     public InvSlotOutput getOutputSlot(String name, int count) {
@@ -107,12 +111,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
                 else stop();
             } else stop();
         }
-
-        this.guiProgress = this.progress / Math.max(this.maxProgress, 1);
     }
     
     protected boolean checkEnergy() {
-        if (this.energy.discharge(this.energyConsume) > 0 || this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(this.energyConsume))) {
+        if (useEnergy(this.energyConsume) > 0 || this.hasMjUpgrade && this.receiver.extractPower(MjHelper.microJoules(this.energyConsume))) {
            return true;
         } else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = SteamHelper.getSteamForEU(this.energyConsume, this.steamTank.getFluid()))) {
             this.steamTank.drain(this.neededSteam, true);
@@ -197,13 +199,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public abstract R getRecipe();
 
     @Override
-    public double getGuiValue(String name) {
-        if (name.equals("progress")) return this.guiProgress;
-
-        throw new IllegalArgumentException("Cannot get value for " + name);
-    }
-
-    @Override
     public boolean isActive() {
         return getActive();
     }
@@ -222,11 +217,15 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public void increaseProgress(double amount) {
         this.progress += amount;
     }
+    
+    private double getGuiProgress() {
+        return this.progress / Math.max(this.maxProgress, 1);
+    }
 
     @Override
     public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
         super.getScanInfoPost(scan, player, pos, scanLevel);
-        if (scanLevel > 0) scan.add(GtUtil.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
+        if (scanLevel > 0) scan.add(GtLocale.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
     }
 
     @Override
@@ -236,17 +235,17 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     @Override
     public String getMainInfo() {
-        return GtUtil.translateGeneric("progress") + ":";
+        return GtLocale.translateGeneric("progress") + ":";
     }
 
     @Override
     public String getSecondaryInfo() {
-        return GtUtil.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
+        return GtLocale.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
     }
 
     @Override
     public String getTertiaryInfo() {
-        return  "/" + GtUtil.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
+        return  "/" + GtLocale.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
     }
 
     @Override

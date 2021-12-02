@@ -14,6 +14,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,10 +26,6 @@ public class TileEntityLESU extends TileEntityChargerBase {
     private boolean init;
     @NBTPersistent
     private int storage = 1000000;
-
-    public TileEntityLESU() {
-        super(null);
-    }
 
     @Override
     protected void onLoaded() {
@@ -97,6 +95,7 @@ public class TileEntityLESU extends TileEntityChargerBase {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiLESU(getGuiContainer(player));
     }
@@ -133,7 +132,7 @@ public class TileEntityLESU extends TileEntityChargerBase {
 
         return Arrays.stream(EnumFacing.VALUES)
                 .map(pos::offset)
-                .filter(offset -> isLESUStorage(world, offset) && !list.contains(offset))
+                .filter(offset -> isLESUStorage(this.world, offset) && !list.contains(offset))
                 .mapToInt(offset -> stepToGetLESUAmount(offset, list))
                 .sum() + 1;
     }
@@ -143,7 +142,7 @@ public class TileEntityLESU extends TileEntityChargerBase {
     }
 
     public static boolean isLESUStorage(World world, BlockPos pos) {
-        return world.getBlockState(pos).getBlock() == BlockItems.Block.LESUBLOCK.getInstance();
+        return world.getBlockState(pos).getBlock() == BlockItems.Block.LESUBLOCK.getBlockInstance();
     }
 
     public static boolean isLESUController(World world, BlockPos pos) {

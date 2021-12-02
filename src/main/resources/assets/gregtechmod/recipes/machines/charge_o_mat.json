@@ -2,42 +2,41 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "ETE",
-    "ALA",
-    "ETE"
+    "BCB",
+    "TMT",
+    "BAB"
   ],
   "key":
   {
-    "L":
+    "C":
     {
       "type": "forge:ore_dict",
-      "ore": "crafting100kkEUStore"
+      "ore": "craftingCircuitTier10"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kkEUStore"
     },
     "A":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier04"
-    },
-    "E":
-    {
-      "type": "forge:ore_dict",
-      "ore": "craftingCircuitTier07"
+      "ore": "craftingRawMachineTier02"
     },
     "T":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingTeleporter"
+      "ore": "chestWood"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
-  },
-  "conditions":
-  [
-    {
-      "type": "gregtechmod:experimental"
-    }
-  ]
+    "data": 51
+  }
 }

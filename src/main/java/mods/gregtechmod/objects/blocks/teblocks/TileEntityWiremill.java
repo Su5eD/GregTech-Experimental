@@ -16,7 +16,7 @@ import java.util.List;
 public class TileEntityWiremill extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityWiremill() {
-        super("wiremill", GtRecipes.wiremill);
+        super(GtRecipes.wiremill);
     }
 
     @Override

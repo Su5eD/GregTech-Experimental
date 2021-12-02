@@ -68,7 +68,7 @@ public interface IUpgradableMachine extends IElectricMachine {
 
     double getStoredSteam();
 
-    double getSteamCapacity();
+    int getSteamCapacity();
 
     long getStoredMj();
 

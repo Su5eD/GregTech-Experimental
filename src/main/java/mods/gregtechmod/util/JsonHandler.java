@@ -2,7 +2,6 @@ package mods.gregtechmod.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
@@ -11,12 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JsonHandler {
+    private static final Gson GSON = new Gson();
+    
     public final JsonObject json;
     public final ResourceLocation particle;
     private final LazyValue<JsonHandler> parent;
 
     public JsonHandler(String path) {
-        this.json = readFromJSON(path);
+        this.json = readJSON(path);
         this.parent = new LazyValue<>(() -> {
             String parentPath = new ResourceLocation(this.json.get("parent").getAsString()).getPath();
             return new JsonHandler("models/" + parentPath + ".json");
@@ -24,19 +25,12 @@ public class JsonHandler {
         this.particle = getParticleTexture();
     }
 
-    public static JsonObject readFromJSON(String path) {
-        try {
-            Gson gson = new Gson();
-            Reader reader = GtUtil.readAsset(path);
-            JsonObject map = gson.fromJson(reader, JsonObject.class);
-
-            reader.close();
-            return map;
+    public static JsonObject readJSON(String path) {
+        try(Reader reader = GtUtil.readAsset(path)) {
+            return GSON.fromJson(reader, JsonObject.class);
         } catch (Exception e) {
-            GregTechMod.LOGGER.catching(e);
+            throw new IllegalArgumentException("Could not find resource " + path, e);
         }
-
-        throw new IllegalArgumentException("Could not find resource " + path);
     }
     
     public Map<EnumFacing, ResourceLocation> generateTextureMap() {
@@ -50,19 +44,19 @@ public class JsonHandler {
     }
     
     public Map<EnumFacing, ResourceLocation> generateTextureMap(String elementName) {
-        Map<EnumFacing, ResourceLocation> elementMap = new HashMap<>();
         JsonObject map = this.json.getAsJsonObject(elementName);
+        Map<EnumFacing, ResourceLocation> textures = new HashMap<>();
         
         if (map != null) {
             map.entrySet().stream()
                     .filter(entry -> !entry.getKey().equals("particle"))
                     .forEach(entry -> {
                         ResourceLocation location = new ResourceLocation(entry.getValue().getAsString());
-                        elementMap.put(EnumFacing.byName(entry.getKey()), location);
+                        textures.put(EnumFacing.byName(entry.getKey()), location);
                     });
         }
         
-        return elementMap;
+        return textures;
     }
     
     private ResourceLocation getParticleTexture() {

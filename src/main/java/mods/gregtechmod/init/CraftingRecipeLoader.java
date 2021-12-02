@@ -77,6 +77,7 @@ public class CraftingRecipeLoader {
             ModHandler.removeCraftingRecipe(new ItemStack(Blocks.ENCHANTING_TABLE));
         }
         if (GregTechConfig.DISABLED_RECIPES.enderChest) ModHandler.removeCraftingRecipe(new ItemStack(Blocks.ENDER_CHEST));
+        if (GregTechConfig.DISABLED_RECIPES.massFabricator) ModHandler.removeCraftingRecipe(IC2Items.getItem("te", "mass_fabricator"));
         if (!GregTechAPI.getDynamicConfig("storage_block_crafting", "blockGlowstone", false)) {
             ItemStack dustGlowstone = new ItemStack(Items.GLOWSTONE_DUST);
             ModHandler.removeCraftingRecipeFromInputs(dustGlowstone, dustGlowstone, ItemStack.EMPTY, dustGlowstone, dustGlowstone);
@@ -85,7 +86,7 @@ public class CraftingRecipeLoader {
         ModHandler.removeCraftingRecipe(IC2Items.getItem("ingot", "alloy"));
 
         GregTechMod.LOGGER.info("Adding 'The holy Planks of Sengir'");
-        ItemStack holyPlanks = new ItemStack(BlockItems.Plate.WOOD.getInstance());
+        ItemStack holyPlanks = BlockItems.Plate.WOOD.getItemStack();
         holyPlanks.setStackDisplayName("The holy Planks of Sengir");
         holyPlanks.addEnchantment(Enchantments.SMITE, 10);
         GameRegistry.addShapedRecipe(
@@ -127,9 +128,9 @@ public class CraftingRecipeLoader {
                     );
                 });
         
-        ModCompat.addRollingMachineRecipe("coil_kanthal", new ItemStack(BlockItems.Component.COIL_KANTHAL.getInstance(), 3), "AAA", "BCC", "BBC", 'A', GregTechMod.classic ? "ingotRefinedIron" : "ingotIron", 'B', "ingotChrome", 'C', "ingotAluminium");
-        ModCompat.addRollingMachineRecipe("coil_nichrome", new ItemStack(BlockItems.Component.COIL_NICHROME.getInstance()), " B ", "BAB", " B ", 'A', "ingotChrome", 'B', "ingotNickel");
-        ModCompat.addRollingMachineRecipe("coil_cupronickel", new ItemStack(BlockItems.Component.COIL_CUPRONICKEL.getInstance()), "BAB", "A A", "BAB", 'A', "ingotCopper", 'B', "ingotNickel");
+        ModCompat.addRollingMachineRecipe("coil_kanthal", BlockItems.Component.COIL_KANTHAL.getItemStack(3), "AAA", "BCC", "BBC", 'A', GregTechMod.classic ? "ingotRefinedIron" : "ingotIron", 'B', "ingotChrome", 'C', "ingotAluminium");
+        ModCompat.addRollingMachineRecipe("coil_nichrome", BlockItems.Component.COIL_NICHROME.getItemStack(), " B ", "BAB", " B ", 'A', "ingotChrome", 'B', "ingotNickel");
+        ModCompat.addRollingMachineRecipe("coil_cupronickel", BlockItems.Component.COIL_CUPRONICKEL.getItemStack(), "BAB", "A A", "BAB", 'A', "ingotCopper", 'B', "ingotNickel");
     }
     
     private static Object[] getCableRecipeIngredients(String classicMaterial, String expMaterial) {

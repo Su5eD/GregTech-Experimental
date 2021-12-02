@@ -16,7 +16,7 @@ import java.util.List;
 public class TileEntityAutoMacerator extends TileEntityBasicMachineSingleInput<IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityAutoMacerator() {
-        super("auto_macerator", ModRecipes.MACERATOR);
+        super(ModRecipes.MACERATOR);
     }
 
     @Override

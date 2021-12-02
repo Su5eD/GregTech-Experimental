@@ -26,7 +26,7 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     public final GtSlotProcessableImplosion secondaryInput;
     
     public TileEntityImplosionCompressor() {
-        super("implosion_compressor", 2, GtRecipes.implosion);
+        super(2, GtRecipes.implosion);
         this.secondaryInput = new GtSlotProcessableImplosion(this, "itnt_input", 1);
     }
 
@@ -69,8 +69,8 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
-                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
                 .block('A', Blocks.AIR)
                 .gather();
     }

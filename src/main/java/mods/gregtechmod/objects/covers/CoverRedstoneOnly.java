@@ -2,12 +2,13 @@ package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class CoverRedstoneOnly extends CoverGeneric {
+    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_only");
 
     public CoverRedstoneOnly(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);
@@ -15,7 +16,7 @@ public class CoverRedstoneOnly extends CoverGeneric {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/redstone_only");
+        return TEXTURE;
     }
 
     @Override

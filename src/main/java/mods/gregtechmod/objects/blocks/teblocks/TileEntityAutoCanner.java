@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityAutoCanner extends TileEntityBasicMachineMultiInput {
 
     public TileEntityAutoCanner() {
-        super("auto_canner", GtRecipes.canner);
+        super(GtRecipes.canner);
     }
 
     @Override

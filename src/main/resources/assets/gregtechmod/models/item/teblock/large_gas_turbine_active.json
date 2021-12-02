@@ -4,7 +4,7 @@
     "particle": "gregtechmod:blocks/machines/machine_side",
     "down": "gregtechmod:blocks/machines/machine_bottom",
     "up": "gregtechmod:blocks/machines/machine_top",
-    "north": "gregtechmod:blocks/machines/large_gas_turbine/center_active",
+    "north": "gregtechmod:blocks/machines/large_gas_turbine/rotor_center_active",
     "south": "gregtechmod:blocks/machines/machine_side",
     "east": "gregtechmod:blocks/machines/machine_side",
     "west": "gregtechmod:blocks/machines/machine_side"

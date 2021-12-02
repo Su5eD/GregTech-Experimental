@@ -37,6 +37,7 @@ public class GregTechConfig {
         public boolean connectedTextures = true;
         @Comment("The centrifuge's animation speed depends on the amount of overclocker upgrades. The more you give, the faster it goes!")
         public boolean dynamicCentrifugeAnimationSpeed = true;
+        @RequiresWorldRestart
         public boolean hiddenOres = true;
         public boolean harderStone = false;
         public boolean woodNeedsSawForCrafting = true;
@@ -53,26 +54,32 @@ public class GregTechConfig {
         public int digitalChestMaxItemCount = 32768;
         @RangeInt(min = 1, max = 64)
         public int upgradeStackSize = 4;
+        @Comment("Enables the Reactor Planner Computer Cube module")
+        public boolean reactorPlanner = true;
+        @Comment("Enables the Seed Scanner Computer Cube module")
+        public boolean seedScanner = true;
+        @RangeInt(min = 1)
+        public int matterFabricationRate = 16666666;
     }
 
     public static class Balance {
         @Comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
         public boolean solarPanelCoverOvervoltageProtection = false;
-        public float LVExplosionPower = 2;
-        public float MVExplosionPower = 3;
-        public float HVExplosionPower = 4;
-        public float EVExplosionPower = 5;
-        public float IVExplosionPower = 6;
+        public float explosionPowerMultiplier = 2;
     }
 
     public static class Machines {
         @Name("magic_energy_absorber")
         @LangKey(Reference.MODID + ".teblock.magic_energy_absorber")
-        public final MagicEnergyAbsorber magicEnergyAbsorber = new MagicEnergyAbsorber();
+        public final MagicEnergyAbsorber MAGIC_ENERGY_ABSORBER = new MagicEnergyAbsorber();
         
         @Name("dragon_egg_energy_siphon")
         @LangKey(Reference.MODID + ".teblock.dragon_egg_energy_siphon")
-        public final DragonEggEnergySiphon dragonEggEnergySiphon = new DragonEggEnergySiphon();
+        public final DragonEggEnergySiphon DRAGON_EGG_ENERGY_SIPHON = new DragonEggEnergySiphon();
+        
+        @Name("tesseract")
+        @LangKey(Reference.MODID + ".config.tesseract")
+        public final Tesseract TESSERACT = new Tesseract();
         
         @Comment("Makes active machines lose their current progress when they run out of power")
         public boolean constantNeedOfEnergy = true;
@@ -104,6 +111,14 @@ public class GregTechConfig {
             @Comment("If thaumcraft is installed, has a chance of releasing flux into the aura")
             public boolean outputFlux = true;
         }
+        
+        public static class Tesseract {
+            public int energyPerTick = 8;
+            
+            public int interDimensionalEnergyPerTick = 32;
+            
+            public boolean interdimensional = true;
+        }
     }
 
     public static class Unification {
@@ -121,66 +136,38 @@ public class GregTechConfig {
         public boolean retrogen = true;
         public boolean generateInVoid = false;
 
-        @RequiresMcRestart
         public boolean galena = true;
-        @RequiresMcRestart
         public boolean iridium = true;
-        @RequiresMcRestart
         public boolean ruby = true;
-        @RequiresMcRestart
         public boolean sapphire = true;
-        @RequiresMcRestart
         public boolean bauxite = true;
-        @RequiresMcRestart
         public boolean tetrahedrite = true;
-        @RequiresMcRestart
         public boolean cassiterite = true;
-        @RequiresMcRestart
         public boolean sphalerite_overworld = true;
 
-        @RequiresMcRestart
         public boolean tungstate = true;
-        @RequiresMcRestart
         public boolean sheldonite = true;
-        @RequiresMcRestart
         public boolean olivine = true;
-        @RequiresMcRestart
         public boolean sodalite = true;
 
-        @RequiresMcRestart
         public boolean pyriteTiny = true;
-        @RequiresMcRestart
         public boolean pyriteSmall = true;
-        @RequiresMcRestart
         public boolean pyriteMedium = true;
-        @RequiresMcRestart
         public boolean pyriteLarge = true;
-        @RequiresMcRestart
         public boolean pyriteHuge = true;
 
-        @RequiresMcRestart
         public boolean cinnabarTiny = true;
-        @RequiresMcRestart
         public boolean cinnabarSmall = true;
-        @RequiresMcRestart
         public boolean cinnabarMedium = true;
-        @RequiresMcRestart
         public boolean cinnabarLarge = false;
-        @RequiresMcRestart
         public boolean cinnabarHuge = false;
 
-        @RequiresMcRestart
         public boolean sphaleriteTiny = true;
-        @RequiresMcRestart
         public boolean sphaleriteSmall = true;
-        @RequiresMcRestart
         public boolean sphaleriteMedium = true;
-        @RequiresMcRestart
         public boolean sphaleriteLarge = true;
-        @RequiresMcRestart
         public boolean sphaleriteHuge = true;
 
-        @RequiresMcRestart
         public boolean endAsteroids = true;
     }
 

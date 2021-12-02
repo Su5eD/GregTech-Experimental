@@ -4,7 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.core.item.ElectricItemManager;
 import ic2.core.item.IPseudoDamageItem;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -31,7 +31,7 @@ public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudo
     }
 
     public ItemElectricBase(String name, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy) {
-        this(name, () -> GtUtil.translateItemDescription(name), maxCharge, transferLimit, tier, operationEnergyCost, providesEnergy);
+        this(name, () -> GtLocale.translateItemDescription(name), maxCharge, transferLimit, tier, operationEnergyCost, providesEnergy);
     }
 
     public ItemElectricBase(String name, Supplier<String> description, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy) {
@@ -42,18 +42,19 @@ public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudo
         this.operationEnergyCost = operationEnergyCost;
         this.providesEnergy = providesEnergy;
         this.showDurability = false;
+        setMaxStackSize(1);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (this.showTier && this.tier > 0) tooltip.add(GtUtil.translateInfo("tier", this.tier));
+        if (this.showTier && this.tier > 0) tooltip.add(GtLocale.translateInfo("tier", this.tier));
         String durability = getDurabilityInfo(stack);
         if (this.showDurability && !durability.isEmpty()) tooltip.add(durability);
         String description = this.description.get();
         if (description != null) {
             if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-                tooltip.add(GtUtil.translateInfo("empty"));
+                tooltip.add(GtLocale.translateInfo("empty"));
             }
             else tooltip.add(description);
         }

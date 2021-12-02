@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
 import ic2.core.block.comp.Fluids;
+import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
@@ -30,12 +31,18 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
     @NBTPersistent(include = Include.NON_NULL)
     private ItemStack pendingFluidContainer;
 
-    public TileEntityStructureFluid(String descriptionKey, int outputSlots, RM recipeManager) {
-        super(descriptionKey, outputSlots, recipeManager);
+    public TileEntityStructureFluid(int outputSlots, RM recipeManager) {
+        super(outputSlots, recipeManager);
         
-        this.secondaryInput = new GtSlotProcessableSecondary<>(this, "secondary_input", 1, recipeManager);
+        this.secondaryInput = getSecondaryInputSlot("secondary_input");
         this.fluidContainerOutput = new InvSlotOutput(this, "fluid_output", 1);
-        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Collections.emptySet(), fluid -> fluid == FluidRegistry.WATER, 10000));
+        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Collections.emptySet(), Fluids.fluidPredicate(FluidRegistry.WATER), 10000));
+        
+        addGuiValue("water_level", this::getWaterLevel);
+    }
+    
+    protected GtSlotProcessableSecondary<RM, List<ItemStack>> getSecondaryInputSlot(String name) {
+        return new GtSlotProcessableSecondary<>(this, name, 1, InvSlot.InvSide.BOTTOM, this.recipeManager);
     }
 
     @Override
@@ -70,11 +77,8 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
             this.pendingFluidContainer = null;
         }
     }
-
-    @Override
-    public double getGuiValue(String name) {
-        if (name.equals("water_level")) return (double) this.waterTank.getFluidAmount() / this.waterTank.getCapacity();
-
-        return super.getGuiValue(name);
+    
+    public double getWaterLevel() {
+        return (double) this.waterTank.getFluidAmount() / this.waterTank.getCapacity();
     }
 }

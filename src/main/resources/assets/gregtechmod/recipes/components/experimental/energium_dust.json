@@ -1,0 +1,32 @@
+{
+  "type": "gregtechmod:replace_shaped",
+  "pattern":
+  [
+    "RDR",
+    "DRD",
+    "RDR"
+  ],
+  "key":
+  {
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "dustRuby"
+    },
+    "R":
+    {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result":
+  {
+    "item": "ic2:dust",
+    "data": 6
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
+}

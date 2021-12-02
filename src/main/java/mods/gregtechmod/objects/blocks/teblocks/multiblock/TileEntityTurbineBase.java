@@ -17,8 +17,8 @@ import java.util.Map;
 
 public abstract class TileEntityTurbineBase extends TileEntityMultiBlockBase<TurbineInstance> {
 
-    public TileEntityTurbineBase(String descriptionKey, IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
-        super(descriptionKey, fuelManager);
+    public TileEntityTurbineBase(IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
+        super(fuelManager);
     }
 
     @Override

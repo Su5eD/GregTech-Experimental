@@ -7,13 +7,16 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
-import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityTesseractGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeGuide;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules;
 import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.util.DamagedOreIngredientFixer;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.LootFunctionWriteBook;
 import mods.gregtechmod.world.IDSUData;
 import mods.gregtechmod.world.OreGenerator;
@@ -27,10 +30,10 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
@@ -43,7 +46,6 @@ import java.util.stream.Stream;
 @Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
-    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
     public static final Logger LOGGER = LogManager.getLogger(Reference.MODID);
     
     public static File configDir;
@@ -53,9 +55,8 @@ public final class GregTechMod {
     static {
         FluidRegistry.enableUniversalBucket();
     }
-
-    @EventHandler
-    public void start(FMLConstructionEvent event) {
+    
+    public GregTechMod() {
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(OreDictHandler.INSTANCE);
@@ -73,8 +74,9 @@ public final class GregTechMod {
 
         RegistryHandler.registerFluids();
         RegistryHandler.registerComponents();
+        ComputerCubeModules.Module.registerModules();
         DataEncoder.addNetworkEncoder(IDSUData.EnergyWrapper.class, new IDSUData.EnergyWrapper.EnergyWrapperEncoder());
-        GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 5);
+        GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 0);
         
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());
         GregTechAPI.instance().registerWrench(ItemName.wrench_new.getInstance());
@@ -84,10 +86,10 @@ public final class GregTechMod {
     public static void init(FMLInitializationEvent event) {
         ModHandler.gatherModItems();
         if (event.getSide() == Side.CLIENT) ClientEventHandler.gatherModItems();
-        GregTechTEBlock.buildDummies();
+        ComputerCubeGuide.Page.register();
         
         OreDictRegistrar.registerItems();
-        GtUtil.trackTime("Parsing recipes", () -> {
+        JavaUtil.measureTime("Parsing recipes", () -> {
             MachineRecipeParser.loadRecipes();
             MachineRecipeParser.loadDynamicRecipes();
             MachineRecipeParser.loadFuels();
@@ -113,12 +115,17 @@ public final class GregTechMod {
         ModRecipes.init();
         TileEntityUniversalMacerator.initMaceratorRecipes();
 
-        GtUtil.trackTime("Activating OreDictionary Handler", OreDictHandler.INSTANCE::activateHandler);
+        JavaUtil.measureTime("Activating OreDictionary Handler", OreDictHandler.INSTANCE::activateHandler);
         OreDictHandler.registerValuableOres();
 
         MachineRecipeParser.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
+    }
+    
+    @EventHandler
+    public static void onServerStopping(FMLServerStoppingEvent event) {
+        TileEntityTesseractGenerator.onServerStopping();
     }
     
     public static void runProxy(Consumer<ClientProxy> consumer) {

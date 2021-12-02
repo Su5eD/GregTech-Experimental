@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.Collections;
@@ -18,7 +18,7 @@ public class RecipeDualInput extends Recipe<List<IRecipeIngredient>, List<ItemSt
     }
 
     public static RecipeDualInput create(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost) {
-        return create(GtUtil.nonNullList(primaryInput, secondaryInput), output, duration, energyCost);
+        return create(JavaUtil.nonNullList(primaryInput, secondaryInput), output, duration, energyCost);
     }
 
     @JsonCreator

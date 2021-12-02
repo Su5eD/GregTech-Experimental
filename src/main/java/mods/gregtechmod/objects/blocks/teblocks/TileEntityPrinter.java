@@ -30,7 +30,7 @@ import java.util.List;
 public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, List<IRecipeIngredient>, List<ItemStack>, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipePrinter>> {
 
     public TileEntityPrinter() {
-        super("printer", GtRecipes.printer, true);
+        super(GtRecipes.printer, true);
     }
 
     @Override

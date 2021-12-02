@@ -11,10 +11,10 @@ public class ContainerAESU extends ContainerEnergyStorage<TileEntityAESU> {
     public ContainerAESU(EntityPlayer player, TileEntityAESU base) {
         super(player, base);
         
-        addSlotToContainer(new Slot(base, 0, 107, 5));
-        addSlotToContainer(new Slot(base, 1, 107, 23));
-        addSlotToContainer(new Slot(base, 2, 107, 41));
-        addSlotToContainer(new Slot(base, 3, 107, 59));
+        addSlotToContainer(new Slot(base, -1, 107, 5));
+        addSlotToContainer(new Slot(base, -1, 107, 23));
+        addSlotToContainer(new Slot(base, -1, 107, 41));
+        addSlotToContainer(new Slot(base, -1, 107, 59));
     }
 
     @Override

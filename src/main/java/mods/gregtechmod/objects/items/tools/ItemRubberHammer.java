@@ -6,6 +6,7 @@ import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -39,8 +40,8 @@ public class ItemRubberHammer extends ItemHammer {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(GtUtil.translateItem("hammer_rubber.description_2"));
-        tooltip.add(GtUtil.translateItem("hammer_rubber.description_3"));
+        tooltip.add(GtLocale.translateItem("hammer_rubber.description_2"));
+        tooltip.add(GtLocale.translateItem("hammer_rubber.description_3"));
     }
 
     @Override

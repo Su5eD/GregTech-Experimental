@@ -2,42 +2,36 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "ETE",
-    "ALA",
-    "ETE"
+    "TCT",
+    "CEC",
+    "TMT"
   ],
   "key":
   {
-    "L":
-    {
-      "type": "forge:ore_dict",
-      "ore": "crafting10kkEUStore"
-    },
-    "A":
-    {
-      "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier04"
-    },
-    "E":
+    "C":
     {
       "type": "forge:ore_dict",
       "ore": "craftingCircuitTier07"
     },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier10"
+    },
+    "E":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingEnderChest"
+    },
     "T":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingTeleporter"
+      "ore": "plateTitanium"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
-  },
-  "conditions":
-  [
-    {
-      "type": "gregtechmod:classic"
-    }
-  ]
+    "data": 56
+  }
 }

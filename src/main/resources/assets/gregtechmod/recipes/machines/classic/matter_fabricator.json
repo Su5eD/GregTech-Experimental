@@ -3,15 +3,15 @@
   "pattern":
   [
     "ETE",
-    "TAT",
-    "ELE"
+    "ALA",
+    "ETE"
   ],
   "key":
   {
     "L":
     {
       "type": "forge:ore_dict",
-      "ore": "crafting100kkEUStore"
+      "ore": "crafting10kkEUStore"
     },
     "A":
     {
@@ -32,12 +32,12 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 54
   },
   "conditions":
   [
     {
-      "type": "gregtechmod:experimental"
+      "type": "gregtechmod:classic"
     }
   ]
 }

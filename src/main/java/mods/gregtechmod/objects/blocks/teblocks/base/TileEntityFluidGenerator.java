@@ -24,8 +24,7 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
     @NBTPersistent
     private double solidFuelEnergy;
 
-    protected TileEntityFluidGenerator(String descriptionKey, IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
-        super(descriptionKey);
+    protected TileEntityFluidGenerator(IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
         this.fuelManager = fuelManager;
         this.tank = addComponent(new BasicTank(this, this.fluids, new GtFluidTankProcessableFuel<>(this, "content", fuelManager, 10000), tank -> new GtSlotProcessableFuel(this, "tankInputSlot", this.fuelManager), true));
     }

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class Rotor implements Comparable<Rotor>, IStringSerializable {
     public static final Rotor DISABLED = new Rotor(null, null, false);
-    public static final List<String> TEXTURE_NAMES = Arrays.asList(
+    public static final List<String> TEXTURE_PARTS = Arrays.asList(
             "top_left", "top_mid", "top_right",
             "mid_left", "mid_right",
             "bot_left", "bot_mid", "bot_right"
@@ -22,7 +22,7 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
 
     static {
         Collection<Rotor> baseValues = Arrays.stream(EnumFacing.HORIZONTALS)
-                .flatMap(facing -> TEXTURE_NAMES.stream()
+                .flatMap(facing -> TEXTURE_PARTS.stream()
                         .flatMap(str -> Stream.of(new Rotor(facing, str, false), new Rotor(facing, str, true)))
                 )
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -30,7 +30,7 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
         VALUES = Collections.unmodifiableCollection(baseValues);
     }
 
-    private final EnumFacing side;
+    public final EnumFacing side;
     private final String texture;
     private final boolean active;
 
@@ -45,10 +45,6 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
                 .filter(rotor -> rotor.side == facing && rotor.texture.equals(texture) && rotor.active == active)
                 .findFirst()
                 .orElse(Rotor.DISABLED);
-    }
-
-    public EnumFacing getSide() {
-        return side;
     }
 
     public String getTexture() {

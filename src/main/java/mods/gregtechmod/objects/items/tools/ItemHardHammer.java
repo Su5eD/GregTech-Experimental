@@ -5,7 +5,9 @@ import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -42,9 +44,9 @@ public class ItemHardHammer extends ItemHammer {
     public ItemStack getContainerItem(ItemStack stack) {
         ItemStack copy = stack.copy();
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-            GregTechMod.runProxy(clientProxy -> clientProxy.playSound(SoundEvents.BLOCK_ANVIL_USE, GtUtil.RANDOM.nextFloat() * 0.1F + 0.9F));
+            GregTechMod.runProxy(clientProxy -> clientProxy.playSound(SoundEvents.BLOCK_ANVIL_USE, JavaUtil.RANDOM.nextFloat() * 0.1F + 0.9F));
         }
-        if (copy.attemptDamageItem(4, GtUtil.RANDOM, null)) return ItemStack.EMPTY;
+        if (copy.attemptDamageItem(4, JavaUtil.RANDOM, null)) return ItemStack.EMPTY;
         return copy;
     }
 
@@ -52,9 +54,9 @@ public class ItemHardHammer extends ItemHammer {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(GtUtil.translateItem("hard_hammer.description_2"));
-        tooltip.add(GtUtil.translateItem("hard_hammer.description_3"));
-        tooltip.add(GtUtil.translateItem("hard_hammer.description_4"));
+        tooltip.add(GtLocale.translateItem("hard_hammer.description_2"));
+        tooltip.add(GtLocale.translateItem("hard_hammer.description_3"));
+        tooltip.add(GtLocale.translateItem("hard_hammer.description_4"));
     }
 
     @Override
@@ -70,8 +72,8 @@ public class ItemHardHammer extends ItemHammer {
                 ((IGregTechMachine) tileEntity).setInputEnabled(input);
                 ((IGregTechMachine) tileEntity).setOutputEnabled(output);
 
-                String enabled = GtUtil.translateGeneric("enabled");
-                String disabled = GtUtil.translateGeneric("disabled");
+                String enabled = GtLocale.translateGeneric("enabled");
+                String disabled = GtLocale.translateGeneric("disabled");
                 GtUtil.sendMessage(player, Reference.MODID + ".generic.hard_hammer.auto_input", input ? enabled : disabled, output ? enabled : disabled);
                 return EnumActionResult.SUCCESS;
             }

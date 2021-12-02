@@ -3,10 +3,14 @@ package mods.gregtechmod.util.nbt;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.authlib.GameProfile;
+import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
 import mods.gregtechmod.util.LazyValue;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
@@ -39,19 +43,21 @@ public final class NBTSaveHandler {
         
         addSimpleSerializer(ItemStack.class, Serializers::serializeItemStack, ItemStack::new);
         addSimpleSerializer(GameProfile.class, Serializers::serializeGameProfile, NBTUtil::readGameProfileFromNBT);
+        addSimpleSerializer(InvSlot.class, Serializers::serializeInvSlot, Serializers::deserializeInvSlot);
+        addSimpleSerializer(IForgeRegistryEntry.class, Serializers::serializeIForgeRegistryEntry, Serializers::deserializeIForgeRegistryEntry);
+        addSimpleSerializer(BlockPos.class, Serializers::serializeBlockPos, Serializers::deserializeBlockPos);
         addSerializer(Enum.class, Serializers.EnumNBTSerializer::new);
+        addSerializer(IComputerCubeModule.class, Serializers.ComputerCubeModuleSerializer::new);
         
         addSpecialSerializer(List.class, Serializers.ItemStackListNBTSerializer::new);
     }
     
-    public static <T, U extends NBTBase> void addSimpleSerializer(Class<T> clazz, Function<T, U> serializer, 
-                                               Function<U, T> deserializer) {
+    public static <T, U extends NBTBase> void addSimpleSerializer(Class<T> clazz, Function<T, U> serializer, Function<U, T> deserializer) {
         Supplier<INBTSerializer<T, U>> supplier = () -> new Serializers.SimpleNBTSerializer<>(serializer, deserializer);
         addSerializer(clazz, supplier);
     }
     
-    public static <T, U extends NBTBase> void addSimpleSerializer(Class<T> serializeClass, Function<T, U> serializer,
-                                               Class<T> deserializeClass, Function<U, T> deserializer) {
+    public static <T, U extends NBTBase> void addSimpleSerializer(Class<T> serializeClass, Function<T, U> serializer, Class<T> deserializeClass, Function<U, T> deserializer) {
         Supplier<INBTSerializer<T, U>> supplier = () -> new Serializers.SimpleNBTSerializer<>(serializer, deserializer);
         addSerializer(serializeClass, supplier);
         addSerializer(deserializeClass, supplier);

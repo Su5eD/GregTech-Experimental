@@ -6,6 +6,7 @@ import ic2.core.block.invslot.InvSlotDischarge;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -44,12 +45,12 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     @NBTPersistent
     public boolean splitInput = false;
 
-    public TileEntityBasicMachine(String descriptionKey, RM recipeManager) {
-        this(descriptionKey, recipeManager, false);
+    public TileEntityBasicMachine(RM recipeManager) {
+        this(recipeManager, false);
     }
 
-    public TileEntityBasicMachine(String descriptionKey, RM recipeManager, boolean wildcardInput) {
-        super(descriptionKey, 1, recipeManager, wildcardInput);
+    public TileEntityBasicMachine(RM recipeManager, boolean wildcardInput) {
+        super(1, recipeManager, wildcardInput);
         this.extraSlot = getExtraSlot();
         this.queueInputSlot = getInputSlot("queueInput", GtUtil.INV_SIDE_VERTICAL, wildcardInput);
         this.queueOutputSlot = getOutputSlot("queueOutput", 1);
@@ -67,7 +68,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
 
     protected InvSlot getExtraSlot() {
         InvSlotDischarge slot = new InvSlotDischarge(this, InvSlot.Access.IO, 1, false, InvSlot.InvSide.NOTSIDE);
-        this.energy.addDischargingSlot(slot);
+        addDischargingSlot(slot);
         return slot;
     }
 
@@ -97,12 +98,13 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
-        return getInputSlot(name, InvSlot.InvSide.SIDE, acceptAnything);
+    public boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate) {
+        return side != getFacing() && super.placeCoverAtSide(cover, player, side, simulate);
     }
 
-    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, InvSlot.InvSide side, boolean acceptAnything) {
-        return new GtSlotProcessableItemStack<>(this, name, InvSlot.Access.I, 1, side, acceptAnything ? null : recipeManager);
+    @Override
+    public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
+        return getInputSlot(name, InvSlot.InvSide.SIDE, acceptAnything);
     }
 
     @Override
@@ -172,8 +174,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     @Override
     protected ItemStack adjustDrop(ItemStack drop, boolean wrench) {
         ItemStack ret = super.adjustDrop(drop, wrench);
-        if (ret == null) ret = new ItemStack(BlockItems.Component.MACHINE_PARTS.getInstance());
-        return ret;
+        
+        return ret == null ? BlockItems.Component.MACHINE_PARTS.getItemStack() : ret;
     }
 
     @Override
@@ -218,14 +220,14 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public void dumpOutput() {
         if (this.autoOutput) {
             ItemStack output = this.outputSlot.get();
-            if (!output.isEmpty() && this.energy.getStoredEnergy() >= 500) {
+            if (!output.isEmpty() && canUseEnergy(500)) {
                 TileEntity dest = this.world.getTileEntity(this.pos.offset(this.outputSide));
                 if (dest != null) {
                     int cost = StackUtil.transfer(this, dest, this.outputSide, 64);
                     if (cost > 0) {
-                        this.energy.discharge(cost);
+                        useEnergy(cost);
                         ItemStack queueOutput = this.queueOutputSlot.get();
-                        if (!queueOutput.isEmpty()) this.energy.discharge(StackUtil.transfer(this, dest, this.outputSide, 64));
+                        if (!queueOutput.isEmpty()) useEnergy(StackUtil.transfer(this, dest, this.outputSide, 64));
                     }
                 }
             }

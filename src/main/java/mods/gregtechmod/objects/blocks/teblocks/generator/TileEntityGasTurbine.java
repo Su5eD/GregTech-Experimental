@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityGasTurbine extends TileEntityFluidGenerator {
 
     public TileEntityGasTurbine() {
-        super("gas_turbine", GtFuels.gas);
+        super(GtFuels.gas);
     }
 
     @Override

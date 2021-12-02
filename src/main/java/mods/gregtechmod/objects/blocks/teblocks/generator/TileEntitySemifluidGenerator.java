@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntitySemifluidGenerator extends TileEntityFluidGenerator {
 
     public TileEntitySemifluidGenerator() {
-        super("gt_semifluid_generator", GtFuels.denseLiquid);
+        super(GtFuels.denseLiquid);
     }
 
     @Override

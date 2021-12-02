@@ -14,7 +14,7 @@ import mods.gregtechmod.inventory.invslot.GtSlotFiltered;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.component.Maintenance;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMultiblock;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import mods.gregtechmod.util.struct.Structure;
@@ -61,8 +61,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     @NBTPersistent(include = Include.NON_NULL)
     protected ItemStack fuelOutput;
 
-    public TileEntityMultiBlockBase(String descriptionKey, IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
-        super(descriptionKey);
+    public TileEntityMultiBlockBase(IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager) {
         this.fuelManager = fuelManager;
         this.maintenance = addComponent(new Maintenance(this));
         this.structure = new Structure<>(getStructurePattern(), getStructureElements(), this::createStructureInstance, this::onInvalidate);
@@ -299,18 +298,18 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
 
     @Override
     public String getMainInfo() {
-        return GtUtil.translateGeneric("progress") + ": " + GtUtil.translateGeneric("time_secs", this.progress / 20 + "/" + this.maxProgress / 20);
+        return GtLocale.translateGeneric("progress") + ": " + GtLocale.translateGeneric("time_secs", this.progress / 20 + "/" + this.maxProgress / 20);
     }
 
     @Override
     public String getSecondaryInfo() {
-        return GtUtil.translateGeneric("efficiency", this.efficiency / 100F);
+        return GtLocale.translateGeneric("efficiency", this.efficiency / 100F);
     }
 
     @Override
     public String getTertiaryInfo() {
         int problems = this.getRepairStatus();
-        return GtUtil.translateGeneric("problems", getIdealStatus() - problems);
+        return GtLocale.translateGeneric("problems", getIdealStatus() - problems);
     }
 
     @Override

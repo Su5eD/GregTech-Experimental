@@ -64,7 +64,7 @@ public class MjReceiverWrapper implements IMjEnergyStorage, INBTSerializable<NBT
 
     @Override
     public long getPowerRequested() {
-        return Math.min(100 * MjHelper.MJ, getCapacity() - getStored());
+        return Math.min(MjHelper.microJoules(100), getCapacity() - getStored());
     }
 
     @Override

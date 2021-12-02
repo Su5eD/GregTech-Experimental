@@ -6,7 +6,7 @@ import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityGenerator;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -14,19 +14,15 @@ import net.minecraft.util.EnumFacing;
 public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator implements IPanelInfoProvider {
     private static TileEntityDragonEggEnergySiphon activeSiphon = null;
 
-    public TileEntityDragonEggEnergySiphon() {
-        super("dragon_egg_energy_siphon");
-    }
-
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        if (tickCounter == 1) activeSiphon = null;
+        if (this.tickCounter == 1) activeSiphon = null;
         
         if (isAllowedToWork() && hasEgg()) {
             setActive(true);
             
-            if (activeSiphon != this && !GregTechConfig.MACHINES.dragonEggEnergySiphon.allowMultipleEggs) {
+            if (activeSiphon != this && !GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.allowMultipleEggs) {
                 if (activeSiphon == null || activeSiphon.isInvalid() || !activeSiphon.hasEgg()) {
                     activeSiphon = this;
                 }
@@ -35,8 +31,8 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
                 }
             }
             
-            if (this.energy.charge(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy) 
-                    && GregTechConfig.MACHINES.dragonEggEnergySiphon.outputFlux 
+            if (addEnergy(GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy) 
+                    && GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.outputFlux 
                     && this.world.rand.nextInt(1000) == 5) {
                 ModHandler.polluteAura(this.world, this.pos, 4, true);
             }
@@ -57,12 +53,12 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
 
     @Override
     public int getSourceTier() {
-        return EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy);
+        return EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy);
     }
 
     @Override
     protected int getBaseEUCapacity() {
-        return getMinimumStoredEnergy() + GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy * 2;
+        return getMinimumStoredEnergy() + GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy * 2;
     }
 
     @Override
@@ -72,12 +68,12 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
 
     @Override
     public String getMainInfo() {
-        return GtUtil.translateInfo(getActive() ? "active" : "inactive");
+        return GtLocale.translateInfo(getActive() ? "active" : "inactive");
     }
 
     @Override
     public String getSecondaryInfo() {
-        return GtUtil.translateInfo("output", GregTechConfig.MACHINES.dragonEggEnergySiphon.dragonEggEnergy);
+        return GtLocale.translateInfo("output", GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy);
     }
 
     @Override

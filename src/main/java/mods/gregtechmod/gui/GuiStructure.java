@@ -2,7 +2,7 @@ package mods.gregtechmod.gui;
 
 import ic2.core.ContainerBase;
 import mods.gregtechmod.objects.blocks.teblocks.struct.TileEntityStructureBase;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 
 public abstract class GuiStructure<T extends ContainerBase<? extends TileEntityStructureBase<?, ?, ?, ?, ?>>> extends GuiInventory<T> {
 
@@ -21,6 +21,6 @@ public abstract class GuiStructure<T extends ContainerBase<? extends TileEntityS
     protected void doWhenValid() {}
     
     protected void doWhenInvalid() {
-        drawString(8, ySize - 103, GtUtil.translateInfo("structure_invalid"), 4210752, false);
+        drawString(8, ySize - 103, GtLocale.translateInfo("structure_invalid"), GuiColors.DARK_GRAY, false);
     }
 }

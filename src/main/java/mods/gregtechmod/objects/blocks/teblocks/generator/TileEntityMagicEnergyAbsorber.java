@@ -43,8 +43,6 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     public final InvSlotOutput outputSlot;
 
     public TileEntityMagicEnergyAbsorber() {
-        super("magic_energy_absorber");
-        
         this.inputSlot = new GtSlotConsumable(this, "input", 1);
         this.outputSlot = new InvSlotOutput(this, "output", 1);
     }
@@ -78,7 +76,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                 }
             }
             
-            if (GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal > 0 && this.drainCrystalEnergy) {
+            if (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal > 0 && this.drainCrystalEnergy) {
                 if (this.targetedCrystal == null) {
                     int x = this.pos.getX();
                     int y = this.pos.getY();
@@ -90,7 +88,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                         if (this.targetedCrystal != null) usedDragonCrystalList.add(this.targetedCrystal);
                     } 
                 } else if (this.targetedCrystal.isEntityAlive()) {
-                    addEnergy(GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal);
+                    addEnergy(GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal);
                 } else {
                     usedDragonCrystalList.remove(this.targetedCrystal);
                     this.targetedCrystal = null;
@@ -98,13 +96,13 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
             }
             
             if (ModHandler.thaumcraft) {
-                if (this.drainAura && GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis > 0 && getStoredEU() < GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis) {
+                if (this.drainAura && GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis > 0 && getStoredEU() < GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis) {
                     drainAura();
                 }
                 
                 if (shouldExplode) {
-                    int minFlux = (int) (GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis / 3200D);
-                    int maxFlux = (int) (GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis / 1600D);
+                    int minFlux = (int) (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis / 3200D);
+                    int maxFlux = (int) (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis / 1600D);
                     ModHandler.polluteAura(this.world, this.pos, minFlux + this.world.rand.nextInt(maxFlux), true);
                     polluteAura();
                 }
@@ -117,7 +115,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     @Optional.Method(modid = "thaumcraft")
     private void drainAura() {
         if (AuraHelper.drainVis(this.world, this.pos, 1, false) >= 1) {
-            addEnergy(GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis);
+            addEnergy(GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis);
             
             int x = this.pos.getX();
             int y = this.pos.getY();
@@ -141,12 +139,12 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
 
     @Override
     protected int getBaseEUCapacity() {
-        return (int) Math.max(1000000, Math.max(GregTechConfig.MACHINES.magicEnergyAbsorber.energyFromVis, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D));
+        return (int) Math.max(1000000, Math.max(GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis, GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal / 10D));
     }
 
     @Override
     public double getMaxOutputEUp() {
-        return Math.max(128, GregTechConfig.MACHINES.magicEnergyAbsorber.energyPerEnderCrystal / 10D);
+        return Math.max(128, GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal / 10D);
     }
     
     @Override

@@ -24,7 +24,7 @@ import java.util.Map;
 public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMachineRecipe<IRecipeIngredient, List<ItemStack>>, IRecipeIngredient, ItemStack, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> {
     
     public TileEntityVacuumFreezer() {
-        super("vacuum_freezer", 1, GtRecipes.vacuumFreezer);
+        super(1, GtRecipes.vacuumFreezer);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
-                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getInstance())
+                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
+                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
                 .block('A', Blocks.AIR)
                 .gather();
     }

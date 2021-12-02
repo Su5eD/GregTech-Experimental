@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.ICoverable;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class CoverLiquidMeter extends CoverMeter {
+    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("liquid_meter");
 
     public CoverLiquidMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);
@@ -36,6 +37,6 @@ public class CoverLiquidMeter extends CoverMeter {
 
     @Override
     public ResourceLocation getIcon() {
-        return new ResourceLocation(Reference.MODID, "blocks/covers/liquid_meter");
+        return TEXTURE;
     }
 }

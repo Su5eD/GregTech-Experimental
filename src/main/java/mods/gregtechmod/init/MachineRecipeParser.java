@@ -43,6 +43,7 @@ import mods.gregtechmod.recipe.util.RecipeFilter;
 import mods.gregtechmod.recipe.util.deserializer.*;
 import mods.gregtechmod.recipe.util.serializer.*;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.init.Blocks;
@@ -114,8 +115,8 @@ public final class MachineRecipeParser {
     private static void setupRecipes() {
         GregTechMod.LOGGER.info("Setting up machine recipe parser");
         
-        GtUtil.setPrivateStaticValue(GregTechAPI.class, "recipeFactory", new RecipeFactory());
-        GtUtil.setPrivateStaticValue(GregTechAPI.class, "ingredientFactory", new RecipeIngredientFactory());
+        JavaUtil.setStaticValue(GregTechAPI.class, "recipeFactory", new RecipeFactory());
+        JavaUtil.setStaticValue(GregTechAPI.class, "ingredientFactory", new RecipeIngredientFactory());
         
         Path recipesPath = GtUtil.getAssetPath("machine_recipes");
         Path gtConfig = relocateConfig(recipesPath, "machine_recipes");
@@ -224,7 +225,7 @@ public final class MachineRecipeParser {
                     int count = bronze.getCount();
                     GtRecipes.industrialCentrifuge.addRecipe(
                             RecipeCentrifuge.create(RecipeIngredientOre.create("dustBronze", count < 3 ? 1 : count / 2), 
-                                    Arrays.asList(new ItemStack(BlockItems.Smalldust.COPPER.getInstance(), 6), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 2)), 
+                                    Arrays.asList(BlockItems.Smalldust.COPPER.getItemStack(6), BlockItems.Smalldust.TIN.getItemStack(2)), 
                                     0, 
                                     1500, 
                                     CellType.CELL
@@ -235,7 +236,7 @@ public final class MachineRecipeParser {
         ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
         ItemStack stick = new ItemStack(Items.STICK);
         ModHandler.getCraftingResult(ingotIron, ItemStack.EMPTY, ingotIron, ingotIron, stick, ingotIron, ingotIron, ItemStack.EMPTY, ingotIron)
-                .ifPresent(rail -> DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), new ItemStack(BlockItems.Smalldust.WOOD.getInstance(), 2), 95));
+                .ifPresent(rail -> DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), BlockItems.Smalldust.WOOD.getItemStack(2), 95));
         ItemStack ingotGold = new ItemStack(Items.GOLD_INGOT);
         ItemStack redstone = new ItemStack(Items.REDSTONE);
         ModHandler.getCraftingResult(ingotGold, ItemStack.EMPTY, ingotGold, ingotGold, stick, ingotGold, ingotGold, redstone, ingotGold)
@@ -254,7 +255,7 @@ public final class MachineRecipeParser {
                     }
                 });
 
-        DynamicRecipes.addPulverizerRecipe(ProfileDelegate.getEmptyCell(), new ItemStack(BlockItems.Smalldust.TIN.getInstance(), 9), true);
+        DynamicRecipes.addPulverizerRecipe(ProfileDelegate.getEmptyCell(), BlockItems.Smalldust.TIN.getItemStack(9), true);
         ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
         if (GregTechMod.classic) {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));
@@ -278,8 +279,8 @@ public final class MachineRecipeParser {
         registerDynamicRecipes("Sawmill", DynamicRecipes.SAWMILL.getRecipes(), GtRecipes.industrialSawmill, DynamicRecipes.addSawmillRecipes);
         registerDynamicRecipes("Industrial Centrifuge", DynamicRecipes.INDUSTRIAL_CENTRIFUGE.getRecipes(), GtRecipes.industrialCentrifuge, DynamicRecipes.addCentrifugeRecipes);
         
-        registerDynamicRecipes("Compressor", GtUtil.toList(DynamicRecipes.COMPRESSOR.getRecipes()), (BasicMachineRecipeManager) Recipes.compressor, DynamicRecipes.addCompressorRecipes);
-        registerDynamicRecipes("Extractor", GtUtil.toList(DynamicRecipes.EXTRACTOR.getRecipes()), (BasicMachineRecipeManager) Recipes.extractor, DynamicRecipes.addExtractorRecipes);
+        registerDynamicRecipes("Compressor", JavaUtil.toList(DynamicRecipes.COMPRESSOR.getRecipes()), (BasicMachineRecipeManager) Recipes.compressor, DynamicRecipes.addCompressorRecipes);
+        registerDynamicRecipes("Extractor", JavaUtil.toList(DynamicRecipes.EXTRACTOR.getRecipes()), (BasicMachineRecipeManager) Recipes.extractor, DynamicRecipes.addExtractorRecipes);
     }
     
     public static void registerProviders() {
@@ -289,7 +290,7 @@ public final class MachineRecipeParser {
 
     private static String formatDisplayName(String str) {
         return Arrays.stream(str.split("_"))
-                .map(GtUtil::capitalizeString)
+                .map(JavaUtil::capitalizeString)
                 .collect(Collectors.joining(" "));
     }
 
@@ -328,7 +329,7 @@ public final class MachineRecipeParser {
         
         Optional<Collection<R>> normalRecipes = parseRecipes(name, recipeClass, filter, recipesPath);
         Optional<Collection<R>> profileRecipes = GregTechMod.classic ? parseConfig(RECIPE_MAPPER, name, recipeClass, filter, classicRecipesPath, true) : parseConfig(RECIPE_MAPPER, name, recipeClass, filter, experimentalRecipesPath, true);
-        return normalRecipes.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, profileRecipes.orElseGet(Collections::emptyList))));
+        return normalRecipes.flatMap(recipes -> Optional.of(JavaUtil.mergeCollection(recipes, profileRecipes.orElseGet(Collections::emptyList))));
     }
     
     private static <R> Optional<Collection<R>> parseRecipes(String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Path path) {
@@ -340,7 +341,7 @@ public final class MachineRecipeParser {
         
         Optional<Collection<R>> normalFuels = parseConfig(FUEL_MAPPER, name, fuelClass, null, fuelsPath, false);
         Optional<Collection<R>> classicFuels = GregTechMod.classic ? parseConfig(FUEL_MAPPER, name, fuelClass, null, classicFuelsPath, true) : Optional.empty();
-        return normalFuels.flatMap(recipes -> Optional.of(GtUtil.mergeCollection(recipes, classicFuels.orElseGet(Collections::emptyList))));
+        return normalFuels.flatMap(recipes -> Optional.of(JavaUtil.mergeCollection(recipes, classicFuels.orElseGet(Collections::emptyList))));
     }
 
     private static <R> Optional<Collection<R>> parseConfig(ObjectMapper mapper, String name, Class<R> recipeClass, @Nullable Class<? extends RecipeFilter> filter, Path path, boolean silent) {
@@ -452,8 +453,13 @@ public final class MachineRecipeParser {
     }
 
     private static Path relocateConfig(Path recipesPath, String target) {
-        File configDir = new File(GregTechMod.configDir.toPath().resolve("GregTech").resolve(target).toString());
-        configDir.mkdirs();
-        return GtUtil.copyDir(recipesPath, configDir);
+        try {
+            Path configDir = GregTechMod.configDir.toPath().resolve("GregTech").resolve(target);
+            Files.createDirectories(configDir);
+            return JavaUtil.copyDir(recipesPath, configDir);
+        } catch (IOException e) {
+            GregTechMod.LOGGER.error("Couldn't create config directory", e);
+            return null;
+        }
     }
 }

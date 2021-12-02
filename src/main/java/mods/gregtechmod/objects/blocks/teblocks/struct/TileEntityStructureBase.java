@@ -20,8 +20,8 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
     public static final IUnlistedProperty<Boolean> PROPERTY_VALID = new UnlistedBooleanProperty("valid_structure");
     public final Structure<T> structure;
 
-    public TileEntityStructureBase(String descriptionKey, int outputSlots, RM recipeManager) {
-        super(descriptionKey, outputSlots, recipeManager);
+    public TileEntityStructureBase(int outputSlots, RM recipeManager) {
+        super(outputSlots, recipeManager);
         
         this.structure = new Structure<>(getStructurePattern(), getStructureElements(), this::createStructureInstance);
     }

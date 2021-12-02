@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.items.base;
 
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.item.ItemStack;
 
 import java.util.function.Supplier;
@@ -9,15 +10,15 @@ public class ItemToolCrafting extends ItemToolBase {
     protected final int craftingDamage;
 
     public ItemToolCrafting(String name, int durability, float attackDamage, int craftingDamage, int damageOnHit) {
-        this(name, () -> GtUtil.translateItemDescription(name), durability, attackDamage, ToolMaterial.WOOD, craftingDamage, damageOnHit);
+        this(name, () -> GtLocale.translateItemDescription(name), durability, attackDamage, ToolMaterial.WOOD, craftingDamage, damageOnHit);
     }
 
     public ItemToolCrafting(String name, String genericDescriptionKey, int durability, float attackDamage, int craftingDamage) {
-        this(name, () -> GtUtil.translateGenericDescription(genericDescriptionKey), durability, attackDamage, ToolMaterial.WOOD, craftingDamage, 3);
+        this(name, () -> GtLocale.translateGenericDescription(genericDescriptionKey), durability, attackDamage, ToolMaterial.WOOD, craftingDamage, 3);
     }
 
     public ItemToolCrafting(String name, String genericDescriptionKey, int durability, float attackDamage, ToolMaterial material, int craftingDamage, int damageOnHit) {
-        this(name, () -> GtUtil.translateGenericDescription(genericDescriptionKey), durability, attackDamage, material, craftingDamage, damageOnHit);
+        this(name, () -> GtLocale.translateGenericDescription(genericDescriptionKey), durability, attackDamage, material, craftingDamage, damageOnHit);
     }
 
     public ItemToolCrafting(String name, Supplier<String> description, int durability, float attackDamage, ToolMaterial material, int craftingDamage, int damageOnHit) {
@@ -37,7 +38,7 @@ public class ItemToolCrafting extends ItemToolBase {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         stack = stack.copy();
-        if (stack.attemptDamageItem(this.craftingDamage, GtUtil.RANDOM, null)) return getEmptyItem();
+        if (stack.attemptDamageItem(this.craftingDamage, JavaUtil.RANDOM, null)) return getEmptyItem();
         return stack;
     }
 }

@@ -10,10 +10,12 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.gui.GuiEnergyStorage;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,18 +23,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class TileEntityChargerBase extends TileEntityUpgradable implements IHasGui {
-
     public final InvSlotCharge chargeSlot;
     public final InvSlotDischarge dischargeSlot;
         
-    public TileEntityChargerBase(String descriptionKey) {
-        super(descriptionKey);
-        
+    public TileEntityChargerBase() {
         this.chargeSlot = new InvSlotCharge(this, getSourceTier());
-        this.energy.addChargingSlot(this.chargeSlot);
+        addChargingSlot(this.chargeSlot);
                
         this.dischargeSlot = new InvSlotDischarge(this, InvSlot.Access.IO, getSinkTier(), false, InvSlot.InvSide.NOTSIDE);
-        this.energy.addDischargingSlot(this.dischargeSlot);
+        addDischargingSlot(this.dischargeSlot);
         
         this.energyCapacityTooltip = true;
     }
@@ -60,7 +59,7 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
     }
 
     public String getGuiName() {
-        return GtUtil.translate("teblock." + this.teBlock.getName() + ".container.name");
+        return GtLocale.translateTeBlock(this.teBlock, "container.name");
     }
     
     @Override
@@ -69,6 +68,7 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiEnergyStorage(getGuiContainer(player));
     }

@@ -5,7 +5,7 @@ import mods.gregtechmod.api.item.ISolderingMetal;
 import mods.gregtechmod.api.item.ISolderingTool;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -55,7 +55,7 @@ public class ItemSolderingTool extends ItemElectricBase implements ISolderingToo
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-            tooltip.add(GtUtil.translateItem("soldering_tool.metal_requirement"));
+            tooltip.add(GtLocale.translateItem("soldering_tool.metal_requirement"));
         }
 
         super.addInformation(stack, worldIn, tooltip, flagIn);

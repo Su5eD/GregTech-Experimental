@@ -6,7 +6,8 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.IGregTechAPI;
 import mods.gregtechmod.api.util.SonictronSound;
 import mods.gregtechmod.api.util.TurbineRotor;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeGuide;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -81,6 +82,11 @@ final class GregTechAPIImpl implements IGregTechAPI {
         return turbineRotors.stream()
                 .filter(rotor -> StackUtil.checkItemEquality(stack, rotor.item.getItem()))
                 .findFirst();
+    }
+
+    @Override
+    public void addComputerCubeGuidePage(String translationKey, int length, List<ItemStack> stacks) {
+        ComputerCubeGuide.addPage(translationKey, length, stacks);
     }
 
     @Override
@@ -168,6 +174,6 @@ final class GregTechAPIImpl implements IGregTechAPI {
     
     static void createAndInject() {
         IGregTechAPI api = new GregTechAPIImpl();
-        GtUtil.setPrivateStaticValue(GregTechAPI.class, "impl", api);
+        JavaUtil.setStaticValue(GregTechAPI.class, "impl", api);
     }
 }

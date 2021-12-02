@@ -5,7 +5,7 @@ import ic2.api.item.IC2Items;
 import ic2.api.item.IElectricItem;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -52,7 +52,7 @@ public class ToolCraftingRecipeShaped extends ShapedRecipes {
                     .map(ItemStack::getItem)
                     .anyMatch(item -> StackUtil.checkItemEquality(itemstack, item))) {
                 if (itemstack.getItem() instanceof IElectricItem) ElectricItem.manager.use(itemstack, craftingDamage * 1000, null);
-                else itemstack.attemptDamageItem(craftingDamage, GtUtil.RANDOM, null);
+                else itemstack.attemptDamageItem(craftingDamage, JavaUtil.RANDOM, null);
                 list.set(i, itemstack.copy());
             } else list.set(i, ForgeHooks.getContainerItem(itemstack));
         }

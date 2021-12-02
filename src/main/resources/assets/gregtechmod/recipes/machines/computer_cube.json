@@ -2,36 +2,36 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "TCT",
-    "CEC",
-    "TMT"
+    "CGD",
+    "GAG",
+    "DGC"
   ],
   "key":
   {
-    "C":
+    "D":
     {
       "type": "forge:ore_dict",
       "ore": "craftingCircuitTier07"
     },
-    "M":
+    "G":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingCircuitTier10"
+      "ore": "craftingMonitorTier02"
     },
-    "E":
+    "C":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingEnderChest"
+      "ore": "craftingCircuitTier08"
     },
-    "T":
+    "A":
     {
       "type": "forge:ore_dict",
-      "ore": "plateTitanium"
+      "ore": "craftingRawMachineTier02"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 50
   }
 }

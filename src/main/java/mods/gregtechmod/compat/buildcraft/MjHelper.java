@@ -18,8 +18,12 @@ public class MjHelper {
     @CapabilityInject(IMjConnector.class)
     public static Capability<IMjReceiver> CONNECTOR_CAPABILITY;
 
-    public static long toMicroJoules(double amount) {
-        return (long) (amount * MJ);
+    public static long microJoules(double joules) {
+        return (long) (joules * MJ);
+    }
+    
+    public static double joules(long microJoules) {
+        return microJoules / (double) MJ;
     }
     
     public static double toEU(long microJoules) {

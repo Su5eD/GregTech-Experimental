@@ -5,6 +5,18 @@ public interface IElectricMachine extends IGregTechMachine {
     boolean addEnergy(double amount);
 
     double useEnergy(double amount, boolean simulate);
+    
+    default double useEnergy(double amount) {
+        return useEnergy(amount, false);
+    }
+    
+    boolean tryUseEnergy(double amount, boolean simulate);
+    
+    default boolean tryUseEnergy(double amount) {
+        return tryUseEnergy(amount, false);
+    }
+    
+    boolean canUseEnergy(double amount);
 
     int getSinkTier();
 

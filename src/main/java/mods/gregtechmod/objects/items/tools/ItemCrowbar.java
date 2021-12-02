@@ -4,7 +4,7 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemToolBase;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import mods.railcraft.api.items.IToolCrowbar;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityMinecart;
@@ -34,7 +34,7 @@ public class ItemCrowbar extends ItemToolBase implements IToolCrowbar {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (ModHandler.railcraft) tooltip.add(GtUtil.translateItem("crowbar.description_rc"));
+        if (ModHandler.railcraft) tooltip.add(GtLocale.translateItem("crowbar.description_rc"));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

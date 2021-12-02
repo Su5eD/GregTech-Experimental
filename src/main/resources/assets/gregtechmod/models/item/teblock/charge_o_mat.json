@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_vertical",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/adv_machine",
+    "down": "gregtechmod:blocks/machines/adv_machine_logo",
+    "up": "gregtechmod:blocks/machines/charge_o_mat/charge_o_mat_top",
+    "north": "gregtechmod:blocks/machines/adv_machine",
+    "south": "gregtechmod:blocks/machines/adv_machine",
+    "east": "gregtechmod:blocks/machines/adv_machine",
+    "west": "gregtechmod:blocks/machines/adv_machine"
+  }
+}

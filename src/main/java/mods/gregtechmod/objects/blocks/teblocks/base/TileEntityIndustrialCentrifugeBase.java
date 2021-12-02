@@ -33,8 +33,8 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     public GtConsumableCell cellSlot;
     public Fluids.InternalFluidTank tank;
 
-    protected TileEntityIndustrialCentrifugeBase(String descriptionKey, int tankCapacity, IGtRecipeManagerCellular recipeManager) {
-        super(descriptionKey, 4, recipeManager);
+    protected TileEntityIndustrialCentrifugeBase(int tankCapacity, IGtRecipeManagerCellular recipeManager) {
+        super(4, recipeManager);
         this.cellSlot = new GtConsumableCell(this, "cellSlot", 1);
         this.tank = this.fluids.addTank(new GtFluidTankProcessable<>(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), tankCapacity));
     }

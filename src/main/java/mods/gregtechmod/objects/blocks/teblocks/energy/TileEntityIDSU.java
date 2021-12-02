@@ -7,20 +7,18 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIDSU;
 import mods.gregtechmod.world.IDSUData;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityIDSU extends TileEntityChargerBase {
     private IDSUData.EnergyWrapper wrapper = IDSUData.EnergyWrapper.EMPTY;
-
-    public TileEntityIDSU() {
-        super("idsu");
-    }
 
     @Override
     protected void onLoaded() {
         super.onLoaded();
         if (!this.world.isRemote) {
             this.wrapper = IDSUData.get(this.world).getOrCreateWrapper(getOwner().getId());
-            this.energy.forceCharge(getStoredEU());
+            forceAddEnergy(getStoredEU());
         }
     }
 
@@ -45,21 +43,22 @@ public class TileEntityIDSU extends TileEntityChargerBase {
     }
 
     @Override
-    public double getStoredEU() {
-        return this.wrapper.getEnergy();
-    }
-
-    @Override
     public ContainerEnergyStorage<?> getGuiContainer(EntityPlayer player) {
         return new ContainerIDSU(player, this);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiIDSU(getGuiContainer(player));
     }
     
     public class IDSUEnergy extends DynamicAdjustableEnergy {
+
+        @Override
+        public double getStoredEnergy() {
+            return TileEntityIDSU.this.wrapper.getEnergy();
+        }
 
         @Override
         protected double injectEnergy(double amount) {

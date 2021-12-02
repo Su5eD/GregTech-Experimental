@@ -13,10 +13,6 @@ import java.util.Set;
 
 public class TileEntitySupercondensator extends TileEntityUpgradable {
 
-    public TileEntitySupercondensator() {
-        super("supercondensator");
-    }
-
     @Override
     protected Collection<EnumFacing> getSinkSides() {
         Set<EnumFacing> sides = new HashSet<>(Util.allFacings);

@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import buildcraft.api.mj.MjAPI;
-import com.mojang.authlib.GameProfile;
 import ic2.core.IC2;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.comp.Fluids.InternalFluidTank;
@@ -18,6 +17,7 @@ import mods.gregtechmod.compat.buildcraft.MjReceiverWrapper;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
 import mods.gregtechmod.recipe.util.SteamHelper;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.util.ITooltipFlag;
@@ -53,8 +53,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     protected MjReceiverWrapper receiver;
     protected boolean hasMjUpgrade;
 
-    protected TileEntityUpgradable(String descriptionKey) {
-        super(descriptionKey);
+    protected TileEntityUpgradable() {
         this.upgradeManager = addComponent(new UpgradeManager(this, this::onUpdate, this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
         this.fluids = addComponent(new Fluids(this));
     }
@@ -110,7 +109,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     public Fluids.InternalFluidTank createSteamTank() {
-        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE, 10000);
+        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE, getSteamCapacity());
     }
 
     @Override
@@ -174,7 +173,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         )
                 .distinct()
                 .collect(Collectors.joining(" "));
-        if (!possibleUpgrades.isEmpty()) tooltip.add(GtUtil.translate("teblock.info.possible_upgrades", possibleUpgrades));
+        if (!possibleUpgrades.isEmpty()) tooltip.add(GtLocale.translateTeBlock("info", "possible_upgrades", possibleUpgrades));
     }
 
     @Override
@@ -199,17 +198,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public void addSteamTank() {
         this.hasSteamUpgrade = true;
-        if (steamTank == null) this.steamTank = this.fluids.addTank(createSteamTank());
-    }
-
-    @Override
-    public GameProfile getOwner() {
-        return this.upgradeManager.getOwner();
-    }
-
-    @Override
-    public void setOwner(GameProfile owner) {
-        this.upgradeManager.setOwner(owner);
+        if (this.steamTank == null) this.steamTank = this.fluids.addTank(createSteamTank());
     }
 
     @Override
@@ -223,16 +212,6 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     @Override
-    public boolean isPrivate() {
-        return this.upgradeManager.isPrivate();
-    }
-
-    @Override
-    public void setPrivate(boolean value) {
-        this.upgradeManager.setPrivate(value);
-    }
-
-    @Override
     public Set<GtUpgradeType> getCompatibleGtUpgrades() {
         return GtUpgradeType.DEFAULT;
     }
@@ -241,12 +220,17 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public Set<IC2UpgradeType> getCompatibleIC2Upgrades() {
         return IC2UpgradeType.DEFAULT;
     }
-     
+
+    @Override
+    public boolean canUseEnergy(double amount) {
+        return getUniversalEnergy() >= amount;
+    }
+    
     @Override
     public double useEnergy(double amount, boolean simulate) {
-        double discharged = this.energy.discharge(amount, simulate);
+        double discharged = super.useEnergy(amount, simulate);
         if (discharged > 0) return discharged;
-        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.toMicroJoules(amount))) return amount;
+        else if (this.hasMjUpgrade && this.receiver.extractPower(MjHelper.microJoules(amount))) return amount;
         else if (this.hasSteamUpgrade) {
             int steam = SteamHelper.getSteamForEU(amount, this.steamTank.getFluid());
             if (steam > 0 && canDrainSteam(steam)) {
@@ -281,8 +265,8 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
     
     @Override
-    public double getSteamCapacity() {
-        return this.steamTank != null ? this.steamTank.getCapacity() : 0;
+    public int getSteamCapacity() {
+        return 10000;
     }
     
     @Override
@@ -292,7 +276,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
 
     @Override
     public long getMjCapacity() {
-        return this.hasMjUpgrade ? this.receiver.getCapacity() : 0;
+        return 10000;
     }
 
     @Override
@@ -308,7 +292,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     @Override
     public void addMjUpgrade() {
         this.hasMjUpgrade = true;
-        if (this.receiver == null) this.receiver = new MjReceiverWrapper(10000 * MjHelper.MJ, 100 * MjHelper.MJ);
+        if (this.receiver == null) this.receiver = new MjReceiverWrapper(MjHelper.microJoules(getMjCapacity()), MjHelper.microJoules(100));
         if (this.world != null) this.world.notifyNeighborsOfStateChange(this.pos, this.blockType, false);
     }
 
@@ -322,11 +306,11 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         if (scanLevel > 0) {
             if (this.hasSteamUpgrade) {
                 FluidStack fluidStack = this.steamTank.getFluid();
-                String name = fluidStack != null ? fluidStack.getLocalizedName() : GtUtil.translateGeneric("steam");
+                String name = fluidStack != null ? fluidStack.getLocalizedName() : GtLocale.translateGeneric("steam");
                 scan.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + name);
             }
             if (this.hasMjUpgrade) {
-                scan.add(this.receiver.getStored() / MjHelper.MJ + " / " + this.receiver.getCapacity() / MjHelper.MJ + " MJ");
+                scan.add(MjHelper.joules(this.receiver.getStored()) + " / " + MjHelper.joules(this.receiver.getCapacity()) + " MJ");
             }
         }
     }

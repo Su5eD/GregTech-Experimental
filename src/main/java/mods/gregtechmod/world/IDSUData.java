@@ -25,6 +25,7 @@ public class IDSUData extends WorldSavedData {
         this(DATA_NAME);
     }
     
+    // Required
     public IDSUData(String name) {
         super(name);
     }
@@ -72,7 +73,7 @@ public class IDSUData extends WorldSavedData {
         private final IDSUData parent;
         private double energy;
 
-        public EnergyWrapper(IDSUData parent) {
+        private EnergyWrapper(IDSUData parent) {
             this.parent = parent;
         }
 

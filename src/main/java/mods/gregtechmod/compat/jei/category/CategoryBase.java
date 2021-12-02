@@ -12,7 +12,7 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.LazyValue;
 
 import java.util.Collection;
@@ -67,7 +67,7 @@ public abstract class CategoryBase<R, W extends IRecipeWrapper> implements IReci
 
     @Override
     public String getTitle() {
-        return GtUtil.translate("teblock." + this.name);
+        return GtLocale.translate("teblock." + this.name);
     }
 
     @Override

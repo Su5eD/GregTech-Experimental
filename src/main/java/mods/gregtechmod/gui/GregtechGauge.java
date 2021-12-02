@@ -1,14 +1,14 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.gui.Gauge;
-import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
 public enum GregtechGauge implements Gauge.IGaugeStyle {
-    SMALL_ARROW_RIGHT(buildGauge(GregTechMod.COMMON_TEXTURE, 10, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Right)),
-    SMALL_ARROW_UP(buildGauge(GregTechMod.COMMON_TEXTURE, 20, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),
-    SMALL_ARROW_LEFT(buildGauge(GregTechMod.COMMON_TEXTURE, 30, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Left)),
-    SMALL_ARROW_DOWN(buildGauge(GregTechMod.COMMON_TEXTURE, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Down)),
+    SMALL_ARROW_RIGHT(buildGauge(GtUtil.COMMON_TEXTURE, 10, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Right)),
+    SMALL_ARROW_UP(buildGauge(GtUtil.COMMON_TEXTURE, 20, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),
+    SMALL_ARROW_LEFT(buildGauge(GtUtil.COMMON_TEXTURE, 30, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Left)),
+    SMALL_ARROW_DOWN(buildGauge(GtUtil.COMMON_TEXTURE, 0, 10, 10, Gauge.GaugePropertyBuilder.GaugeOrientation.Down)),
     MACERATING(buildGauge(GuiAutoMacerator.TEXTURE)),
     EXTRACTING(buildGauge(GuiAutoExtractor.TEXTURE)),
     COMPRESSING(buildGauge(GuiAutoCompressor.TEXTURE)),
@@ -20,7 +20,7 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     ASSEMBLING(buildGauge(GuiAssembler.TEXTURE)),
     TURNING(buildGauge(GuiLathe.TEXTURE)),
     BLASTING(buildGauge(GuiIndustrialBlastFurnace.TEXTURE, 11)),
-    WATER_LEVEL(buildGauge(GregTechMod.COMMON_TEXTURE, 112, 18, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),
+    WATER_LEVEL(buildGauge(GtUtil.COMMON_TEXTURE, 112, 18, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),
     IMPLODING(buildGauge(GuiImplosionCompressor.TEXTURE, 11)),
     FREEZING(buildGauge(GuiVacuumFreezer.TEXTURE, 11)),
     DISTILLING(buildGauge(GuiDistillationTower.TEXTURE, 176, 16, 72, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),

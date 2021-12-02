@@ -12,6 +12,7 @@ import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.util.IItemProvider;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.block.Block;
@@ -64,13 +65,12 @@ public class MachineRecipeLoader {
         addMatterRecipe("woodAcacia", new ItemStack(Blocks.LOG2, 8), "   ", "  U", "   ");
         addMatterRecipe("woodDarkOak", new ItemStack(Blocks.LOG2, 8, 1), "   ", "   ", "U  ");
 
-        ItemStack matter = IC2Items.getItem("misc_resource", "matter");
-        ItemStack[] input = new ItemStack[]{ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, matter, matter, matter};
+        ItemStack[] input = new ItemStack[]{ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ModHandler.uuMatter, ModHandler.uuMatter, ModHandler.uuMatter};
         ModHandler.removeCraftingRecipeFromInputs(input);
         IRecipe recipe = ModHandler.getCraftingRecipe(TileEntityAssemblyBench.RECIPES, input);
         if (recipe != null) TileEntityAssemblyBench.RECIPES.remove(recipe);
 
-        ItemStack dustPlutonium = new ItemStack(BlockItems.Dust.PLUTONIUM.getInstance());
+        ItemStack dustPlutonium = BlockItems.Dust.PLUTONIUM.getItemStack();
         List<Object> pattern;
         if (GregTechAPI.getDynamicConfig("gregtech_recipes", "matterfabricator", true)
                 && GregTechConfig.DISABLED_RECIPES.massFabricator
@@ -116,14 +116,15 @@ public class MachineRecipeLoader {
 
     private static void addScrapboxDrops() {
         GregTechMod.LOGGER.info("Adding Scrapbox drops");
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("crafting", "scrap"), 200);
+        
+        addScrapboxDrop(IC2Items.getItem("crafting", "scrap"), 200);
         addScrapboxDrop(Items.WOODEN_AXE, 2);
         addScrapboxDrop(Items.WOODEN_SWORD, 2);
         addScrapboxDrop(Items.WOODEN_SHOVEL, 2);
         addScrapboxDrop(Items.WOODEN_PICKAXE, 2);
         addScrapboxDrop(Items.SIGN, 2);
         addScrapboxDrop(Items.STICK, 9.5F);
-        Recipes.scrapboxDrops.addDrop(new ItemStack(Blocks.PUMPKIN), 0.5F);
+        addScrapboxDrop(new ItemStack(Blocks.PUMPKIN), 0.5F);
         addScrapboxDrop(Items.ROTTEN_FLESH, 9);
         addScrapboxDrop(Items.COOKED_PORKCHOP, 0.4F);
         addScrapboxDrop(Items.COOKED_BEEF, 0.4F);
@@ -131,43 +132,50 @@ public class MachineRecipeLoader {
         addScrapboxDrop(Items.APPLE, 0.5F);
         addScrapboxDrop(Items.BREAD, 0.5F);
         addScrapboxDrop(Items.CAKE, 0.1F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("filled_tin_can"), 1);
-        Recipes.scrapboxDrops.addDrop(ProfileDelegate.getCell("silicon"), 0.2F);
-        Recipes.scrapboxDrops.addDrop(ProfileDelegate.getCell("water"), 1);
-        Recipes.scrapboxDrops.addDrop(ProfileDelegate.getEmptyCell(), 2);
+        addScrapboxDrop(IC2Items.getItem("filled_tin_can"), 1);
+        addScrapboxDrop(ProfileDelegate.getCell("silicon"), 0.2F);
+        addScrapboxDrop(ProfileDelegate.getCell("water"), 1);
+        addScrapboxDrop(ProfileDelegate.getEmptyCell(), 2);
         addScrapboxDrop(Items.PAPER, 5);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("crafting", "plant_ball"), 0.7F);
-        addScrapboxDrop(BlockItems.Dust.WOOD.getInstance(), 3.8F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("single_use_battery"), 2.7F);
-        addScrapboxDrop(BlockItems.Component.MACHINE_PARTS.getInstance(), 0.8F);
-        addScrapboxDrop(BlockItems.Component.ADVANCED_CIRCUIT_PARTS.getInstance(), 1.2F);
-        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_BASIC.getInstance(), 1.8F);
-        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_ADVANCED.getInstance(), 0.4F);
-        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_PROCESSOR.getInstance(), 0.2F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("cable", "type:copper,insulation:1"), 2);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("cable", "type:gold,insulation:2"), 0.4F);
-        addScrapboxDrop(BlockItems.Dust.CHARCOAL.getInstance(), 2.5F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "iron"), 1);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "gold"), 1);
-        addScrapboxDrop(BlockItems.Dust.SILVER.getInstance(), 0.5F);
-        addScrapboxDrop(BlockItems.Dust.ELECTRUM.getInstance(), 0.5F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "tin"), 1.2F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "copper"), 1.2F);
-        addScrapboxDrop(BlockItems.Dust.BAUXITE.getInstance(), 0.5F);
-        addScrapboxDrop(BlockItems.Dust.ALUMINIUM.getInstance(), 0.5F);
-        addScrapboxDrop(BlockItems.Dust.LEAD.getInstance(), 0.5F);
-        addScrapboxDrop(BlockItems.Dust.NICKEL.getInstance(), 0.5F);
-        addScrapboxDrop(BlockItems.Dust.ZINC.getInstance(), 0.5F);
-        addScrapboxDrop(BlockItems.Dust.BRASS.getInstance(), 0.5F);
-        addScrapboxDrop(BlockItems.Dust.STEEL.getInstance(), 0.5F);
-        addScrapboxDrop(BlockItems.Dust.OBSIDIAN.getInstance(), 1.5F);
-        Recipes.scrapboxDrops.addDrop(IC2Items.getItem("dust", "sulfur"), 1.5F);
-        addScrapboxDrop(BlockItems.Dust.SALTPETER.getInstance(), 2);
-        addScrapboxDrop(BlockItems.Dust.LAZURITE.getInstance(), 2);
+        addScrapboxDrop(IC2Items.getItem("crafting", "plant_ball"), 0.7F);
+        addScrapboxDrop(BlockItems.Dust.WOOD, 3.8F);
+        addScrapboxDrop(IC2Items.getItem("single_use_battery"), 2.7F);
+        addScrapboxDrop(BlockItems.Component.MACHINE_PARTS, 0.8F);
+        addScrapboxDrop(BlockItems.Component.ADVANCED_CIRCUIT_PARTS, 1.2F);
+        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_BASIC, 1.8F);
+        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_ADVANCED, 0.4F);
+        addScrapboxDrop(BlockItems.Component.CIRCUIT_BOARD_PROCESSOR, 0.2F);
+        addScrapboxDrop(IC2Items.getItem("cable", "type:copper,insulation:1"), 2);
+        addScrapboxDrop(IC2Items.getItem("cable", "type:gold,insulation:2"), 0.4F);
+        addScrapboxDrop(BlockItems.Dust.CHARCOAL, 2.5F);
+        addScrapboxDrop(IC2Items.getItem("dust", "iron"), 1);
+        addScrapboxDrop(IC2Items.getItem("dust", "gold"), 1);
+        addScrapboxDrop(BlockItems.Dust.SILVER, 0.5F);
+        addScrapboxDrop(BlockItems.Dust.ELECTRUM, 0.5F);
+        addScrapboxDrop(IC2Items.getItem("dust", "tin"), 1.2F);
+        addScrapboxDrop(IC2Items.getItem("dust", "copper"), 1.2F);
+        addScrapboxDrop(BlockItems.Dust.BAUXITE, 0.5F);
+        addScrapboxDrop(BlockItems.Dust.ALUMINIUM, 0.5F);
+        addScrapboxDrop(BlockItems.Dust.LEAD, 0.5F);
+        addScrapboxDrop(BlockItems.Dust.NICKEL, 0.5F);
+        addScrapboxDrop(BlockItems.Dust.ZINC, 0.5F);
+        addScrapboxDrop(BlockItems.Dust.BRASS, 0.5F);
+        addScrapboxDrop(BlockItems.Dust.STEEL, 0.5F);
+        addScrapboxDrop(BlockItems.Dust.OBSIDIAN, 1.5F);
+        addScrapboxDrop(IC2Items.getItem("dust", "sulfur"), 1.5F);
+        addScrapboxDrop(BlockItems.Dust.SALTPETER, 2);
+        addScrapboxDrop(BlockItems.Dust.LAZURITE, 2);
     }
-
+    private static void addScrapboxDrop(IItemProvider item, float value) {
+        addScrapboxDrop(item.getItemStack(), value);
+    }
+    
     private static void addScrapboxDrop(Item item, float value) {
-        Recipes.scrapboxDrops.addDrop(new ItemStack(item), value);
+        addScrapboxDrop(new ItemStack(item), value);
+    }
+    
+    private static void addScrapboxDrop(ItemStack stack, float value) {
+        Recipes.scrapboxDrops.addDrop(stack, value);
     }
 
     public static void loadRecyclerBlackList() {

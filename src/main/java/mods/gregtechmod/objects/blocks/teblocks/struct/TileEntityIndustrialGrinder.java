@@ -24,7 +24,7 @@ import java.util.Map;
 public class TileEntityIndustrialGrinder extends TileEntityStructureFluid<Object, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, IGtRecipeManagerSecondaryFluid<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
     
     public TileEntityIndustrialGrinder() {
-        super("industrial_grinder", 3, GtRecipes.industrialGrinder);
+        super(3, GtRecipes.industrialGrinder);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class TileEntityIndustrialGrinder extends TileEntityStructureFluid<Object
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
-                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
                 .block('W', Blocks.WATER)
                 .gather();
     }

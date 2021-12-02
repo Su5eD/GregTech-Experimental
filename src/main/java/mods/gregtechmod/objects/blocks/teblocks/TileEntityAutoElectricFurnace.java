@@ -11,7 +11,7 @@ import java.util.List;
 public class TileEntityAutoElectricFurnace extends TileEntityElectricFurnaceBase<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> {
 
     public TileEntityAutoElectricFurnace() {
-        super("auto_electric_furnace", ModRecipes.FURNACE);
+        super(ModRecipes.FURNACE);
     }
 
     @Override

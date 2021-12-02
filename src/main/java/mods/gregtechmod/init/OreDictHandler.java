@@ -17,7 +17,7 @@ import mods.gregtechmod.recipe.crafting.ToolOreIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
-import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.OptionalItemStack;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
@@ -364,7 +364,7 @@ public class OreDictHandler {
         } else if (name.startsWith("paper") || name.startsWith("book") || name.equals("treeLeaves")) {
             OreDictUnificator.addAssociation(name, ore);
         } else if (name.equals("woodRubber") || name.equals("logRubber")) {
-            DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(IC2Items.getItem("misc_resource", "resin"), new ItemStack(BlockItems.Dust.WOOD.getInstance(), 16)), 1, true));
+            DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientOre.create(name), Arrays.asList(IC2Items.getItem("misc_resource", "resin"), BlockItems.Dust.WOOD.getItemStack(16)), 1, true));
         } else if (name.startsWith("log")) {
             processWithMeta(ore, name, this::processLog);
         } else if (name.startsWith("slabWood")) {
@@ -409,19 +409,19 @@ public class OreDictHandler {
 
     private void processSapling(ItemStack stack, String name) {
         OreDictUnificator.addAssociation(name, stack);
-        DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), new ItemStack(BlockItems.Dust.WOOD.getInstance(), 2)));
+        DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), BlockItems.Dust.WOOD.getItemStack(2)));
     }
 
     private void processPlank(ItemStack stack, String name) {
         OreDictUnificator.addAssociation(name, stack);
         ModHandler.removeTEPulverizerRecipe(stack);
-        DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), new ItemStack(BlockItems.Dust.WOOD.getInstance())));
+        DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), BlockItems.Dust.WOOD.getItemStack()));
     }
 
     private void processSlab(ItemStack stack, String name) {
         OreDictUnificator.addAssociation(name, stack);
 
-        DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), new ItemStack(BlockItems.Smalldust.WOOD.getInstance(), 2)));
+        DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), BlockItems.Smalldust.WOOD.getItemStack(2)));
         if (!ModHandler.woodenTie.isEmpty()) {
             Fluid creosote = FluidRegistry.getFluid("creosote");
             if (creosote != null) {
@@ -438,7 +438,7 @@ public class OreDictHandler {
             ItemStack result = recipe.getRecipeOutput();
             if (!result.isEmpty()) {
                 ItemStack planks = StackUtil.copyWithSize(result, result.getCount() * 3 / 2);
-                DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientItemStack.create(stack), Arrays.asList(planks, new ItemStack(BlockItems.Dust.WOOD.getInstance())), 1, true));
+                DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientItemStack.create(stack), Arrays.asList(planks, BlockItems.Dust.WOOD.getItemStack()), 1, true));
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
                 
@@ -583,13 +583,13 @@ public class OreDictHandler {
 
         switch (name) {
             case "ingotQuicksilver":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.CINNABAR.getInstance()), unified);
+                DynamicRecipes.addDustToIngotSmeltingRecipe(name, BlockItems.Dust.CINNABAR.getItemStack(), unified);
                 break;
             case "ingotManganese":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.MANGANESE.getInstance()), unified);
+                DynamicRecipes.addDustToIngotSmeltingRecipe(name, BlockItems.Dust.MANGANESE.getItemStack(), unified);
                 break;
             case "ingotMagnesium":
-                DynamicRecipes.addDustToIngotSmeltingRecipe(name, new ItemStack(BlockItems.Dust.MAGNESIUM.getInstance()), unified);
+                DynamicRecipes.addDustToIngotSmeltingRecipe(name, BlockItems.Dust.MAGNESIUM.getItemStack(), unified);
                 break;
             case "ingotAluminium":
             case "ingotTitanium":
@@ -611,9 +611,9 @@ public class OreDictHandler {
                             "F", "I", 'F', "craftingToolFile", 'I', name
                     );
                     
-                    BlockItems.Smalldust gtSmallDust = GtUtil.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
+                    BlockItems.Smalldust gtSmallDust = JavaUtil.getEnumConstantSafely(BlockItems.Smalldust.class, materialName.toUpperCase(Locale.ROOT));
                     OptionalItemStack.when(
-                            OptionalItemStack.of(gtSmallDust != null ? new ItemStack(gtSmallDust.getInstance()) : ItemStack.EMPTY),
+                            OptionalItemStack.of(gtSmallDust != null ? gtSmallDust.getItemStack() : ItemStack.EMPTY),
                             OreDictUnificator.getFirstOre(name.replaceFirst("ingot", "dustSmall"), 2)
                     ).ifPresent(smallDust -> DynamicRecipes.addLatheRecipe(RecipeLathe.create(RecipeIngredientOre.create(name), Arrays.asList(stick, !smallDust.isEmpty() ? smallDust : stick), !smallDust.isEmpty() ? 50 : 150, 16)));
                 });
@@ -687,10 +687,10 @@ public class OreDictHandler {
                 DynamicRecipes.addInductionSmelterRecipe(name, stack, ModHandler.slagRich, new ItemStack(Items.IRON_INGOT, 2), ModHandler.slag, 3000, 95);
                 break;
             case "orePhosphorite":
-                DynamicRecipes.addSmeltingRecipe(name, stack, new ItemStack(BlockItems.Dust.PHOSPHORUS.getInstance(), 2));
+                DynamicRecipes.addSmeltingRecipe(name, stack, BlockItems.Dust.PHOSPHORUS.getItemStack(2));
                 break;
             case "oreSaltpeter":
-                DynamicRecipes.addSmeltingRecipe(name, stack, new ItemStack(BlockItems.Dust.SALTPETER.getInstance(), 3));
+                DynamicRecipes.addSmeltingRecipe(name, stack, BlockItems.Dust.SALTPETER.getItemStack(3));
                 break;
             case "oreSulfur":
                 DynamicRecipes.addSmeltingRecipe(name, stack, StackUtil.copyWithSize(IC2Items.getItem("dust", "sulfur"), 3));

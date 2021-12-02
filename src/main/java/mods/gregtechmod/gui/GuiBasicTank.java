@@ -1,15 +1,16 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.ContainerBase;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.inventory.gui.CustomFluidSlot;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends GuiInventory<T> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/basic_tank.png");
+    private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("basic_tank");
     protected final GtFluidTank fluidTank;
 
     public GuiBasicTank(T container, GtFluidTank fluidTank) {
@@ -25,12 +26,12 @@ public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        drawString(10, 20, getDisplayName(), 14211290, false);
-        drawString(10, 30, GtUtil.formatNumber(this.fluidTank.getFluidAmount()), 14211290, false);
+        drawString(10, 20, getDisplayName(), GuiColors.LIGHT_GRAY, false);
+        drawString(10, 30, JavaUtil.formatNumber(this.fluidTank.getFluidAmount()), GuiColors.LIGHT_GRAY, false);
     }
     
     protected String getDisplayName() {
-        return GtUtil.translateInfo("liquid_amount");
+        return GtLocale.translateInfo("liquid_amount");
     }
 
     @Override

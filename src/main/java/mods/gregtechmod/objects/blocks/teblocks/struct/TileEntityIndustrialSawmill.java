@@ -5,12 +5,15 @@ import mods.gregtechmod.api.recipe.IRecipeUniversal;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSecondaryFluid;
 import mods.gregtechmod.gui.GuiIndustrialSawmill;
+import mods.gregtechmod.inventory.invslot.GtSlotProcessableSecondary;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIndustrialSawmill;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.struct.StructureElement;
 import mods.gregtechmod.util.struct.StructureElementGatherer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -22,7 +25,12 @@ import java.util.Map;
 public class TileEntityIndustrialSawmill extends TileEntityStructureFluid<Object, IRecipeUniversal<List<IRecipeIngredient>>, IGtRecipeManagerSecondaryFluid<IRecipeUniversal<List<IRecipeIngredient>>>> {
     
     public TileEntityIndustrialSawmill() {
-        super("industrial_sawmill", 2, GtRecipes.industrialSawmill);
+        super(2, GtRecipes.industrialSawmill);
+    }
+
+    @Override
+    protected GtSlotProcessableSecondary<IGtRecipeManagerSecondaryFluid<IRecipeUniversal<List<IRecipeIngredient>>>, List<ItemStack>> getSecondaryInputSlot(String name) {
+        return new GtSlotProcessableSecondary<>(this, name, 1, GtUtil.INV_SIDE_NS, this.recipeManager);
     }
 
     @Override
@@ -44,8 +52,8 @@ public class TileEntityIndustrialSawmill extends TileEntityStructureFluid<Object
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getInstance())
-                .block('D', BlockItems.Block.REINFORCED_MACHINE_CASING.getInstance())
+                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+                .block('D', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
                 .gather();
     }
 

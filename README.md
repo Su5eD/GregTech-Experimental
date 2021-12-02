@@ -104,22 +104,22 @@ repositories {
 
 #### 5. Declaring the dependency
 GregTech Experimental offers 3 artifacts:  
-- The complete, obfuscated jar. Use `deobfCompile` for this one
-- The API jar. Just the API and nothing else
-- A deobfuscated jar. You can `compile` it **if you're using the same mappings as GTE** (currently `stable_39`). 
+- The complete, obfuscated jar
+- The API jar. Contains API classes and source code
+- A deobfuscated jar. It's only recommended to use it **if you're using the same mappings as GTE** (currently `stable_39`). 
   Otherwise use the full jar.
 
 Example dependency declarations:
 ```groovy
 dependencies {
     // The default jar
-    deobfCompile "mods.su5ed:gregtechmod:1.0-26"
+    implementation fg.deobf("mods.su5ed:gregtechmod:<version>")
     
     // The API
-    deobfCompile "mods.su5ed:gregtechmod:1.0-26:api"
+    implementation fg.deobf("mods.su5ed:gregtechmod:<version>:api")
     
     // The deobfuscated jar
-    compile "mods.su5ed:gregtechmod:1.0-26:dev"
+    implementation "mods.su5ed:gregtechmod:<version>:dev"
 }
 ```
 

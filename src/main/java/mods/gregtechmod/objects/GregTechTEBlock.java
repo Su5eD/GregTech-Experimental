@@ -5,6 +5,7 @@ import ic2.core.block.BlockTileEntity;
 import ic2.core.block.ITeBlock;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.item.block.ItemBlockTileEntity;
+import ic2.core.profile.Version;
 import ic2.core.ref.IC2Material;
 import ic2.core.ref.TeBlock;
 import ic2.core.ref.TeBlock.DefaultDrop;
@@ -14,10 +15,12 @@ import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.*;
+import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.objects.blocks.teblocks.energy.*;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.*;
 import mods.gregtechmod.objects.blocks.teblocks.struct.*;
+import mods.gregtechmod.util.LazyValue;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -29,6 +32,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -80,11 +84,19 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     THERMAL_BOILER(TileEntityThermalBoiler.class, 42, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     LARGE_STEAM_TURBINE(TileEntityLargeSteamTurbine.class, 43, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     LARGE_GAS_TURBINE(TileEntityLargeGasTurbine.class, 44, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
-    SUPERCONDENSATOR(TileEntitySupercondensator.class, 45, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    SUPERCONDENSATOR(TileEntitySupercondensator.class, 45, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     SUPERCONDUCTOR_WIRE(TileEntitySuperconductorWire.class, 46, false, Util.noFacings, false, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE, ModelType.CONNECTED),
     LESU(TileEntityLESU.class, 47, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
     AESU(TileEntityAESU.class, 48, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
-    IDSU(TileEntityIDSU.class, 49, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE);
+    IDSU(TileEntityIDSU.class, 49, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    COMPUTER_CUBE(TileEntityComputerCube.class, 50, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    CHARGE_O_MAT(TileEntityChargeOMat.class, 51, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    ADVANCED_PUMP(TileEntityAdvancedPump.class, 52, true, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    ADVANCED_SAFE(TileEntityAdvancedSafe.class, 53, false, Util.horizontalFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    MATTER_FABRICATOR(TileEntityMatterFabricator.class, 54, true, Collections.singleton(EnumFacing.NORTH), true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    GT_TELEPORTER(TileEntityGtTeleporter.class, 55, true, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    TESSERACT_GENERATOR(TileEntityTesseractGenerator.class, 56, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE),
+    TESSERACT_TERMINAL(TileEntityTesseractTerminal.class, 57, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, IC2Material.MACHINE);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
@@ -103,7 +115,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     private final ModelType modelType;
     private final boolean isStructure;
     
-    private TileEntityBlock dummyTe;
+    private final LazyValue<TileEntityBlock> dummyTe = new LazyValue<>(this::buildDummyTeBlock);
     private ITePlaceHandler placeHandler;
 
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean allowWrenchRotating, HarvestTool harvestTool, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, Material material) {
@@ -151,7 +163,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
         return true;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public Class<? extends TileEntityBlock> getTeClass() {
         return this.teClass;
@@ -217,7 +229,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     @Nullable
     @Override
     public TileEntityBlock getDummyTe() {
-        return this.dummyTe;
+        return this.dummyTe.get();
     }
 
     @Override
@@ -234,22 +246,22 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
         if (tab == CreativeTabs.SEARCH) {
             Arrays.stream(VALUES)
+                    .filter(teblock -> Version.shouldEnable(teblock.teClass))
                     .map(block::getItemStack)
                     .forEach(list::add);
         }
     }
     
-    public static void buildDummies() {
- 		for (GregTechTEBlock block : values()) {
- 			if (block.teClass != null) {
- 				try {
-                    GregTechMod.LOGGER.info("Building dummy TeBlock for {}", block.name().toLowerCase(Locale.ROOT));
- 					block.dummyTe = block.teClass.newInstance();
- 				} catch (Exception e) {
- 					GregTechMod.LOGGER.catching(e);
- 				}
- 			}
- 		}
+    public TileEntityBlock buildDummyTeBlock() {
+        if (this.teClass != null) {
+            try {
+                GregTechMod.LOGGER.info("Building dummy TeBlock for {}", this.name().toLowerCase(Locale.ROOT));
+                return this.teClass.newInstance();
+            } catch (Exception e) {
+                GregTechMod.LOGGER.catching(e);
+            }
+        }
+        return null;
  	}
 
     @Override

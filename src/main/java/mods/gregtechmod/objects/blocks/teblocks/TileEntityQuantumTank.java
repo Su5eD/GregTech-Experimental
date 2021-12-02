@@ -17,7 +17,6 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     public BasicTank tank;
 
     public TileEntityQuantumTank() {
-        super("quantum_tank");
         Fluids fluids = addComponent(new Fluids(this));
         this.tank = addComponent(new BasicTank(this, GregTechConfig.FEATURES.quantumTankCapacity, fluids));
         
