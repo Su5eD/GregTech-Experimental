@@ -24,10 +24,10 @@ public class ContainerAdvancedSafe extends ContainerGtBase<TileEntityAdvancedSaf
 
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickType, EntityPlayer player) {
-        if (slotId == 63 && dragType == 1 && clickType == ClickType.PICKUP) {
+        if (slotId == 63 && clickType == ClickType.PICKUP) {
             ItemStack stack = player.inventory.getItemStack();
             this.base.filter.put(!stack.isEmpty() ? StackUtil.copyWithSize(stack, 1) : ItemStack.EMPTY);
-            return ItemStack.EMPTY;
+            return stack;
         }
         
         return super.slotClick(slotId, dragType, clickType, player);
