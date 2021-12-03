@@ -23,6 +23,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -168,8 +169,7 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
             consumeFluid(yHead.getX(), yHead.getY() - 1, yHead.getZ());
             BlockPos newHeadPos = yHead.add(0, -1, 0);
             if (this.world.isAirBlock(newHeadPos) && this.world.setBlockState(newHeadPos, MINING_PIPE_TIP_STATE.get())) {
-                if (!yHead.equals(this.pos)) this.world.setBlockState(yHead, MINING_PIPE_STATE.get());
-                this.pipeSlot.get().shrink(1);
+                if (this.world.getBlockState(yHead) == MINING_PIPE_TIP_STATE.get()) setMiningPipe(yHead);
                 return true;
             }
         }
@@ -182,13 +182,26 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
 
         while (this.world.getBlockState(yPos) == MINING_PIPE_STATE.get()) yPos = yPos.add(0, -1, 0);
 
-        if (yPos.equals(yPosRoot)) {
-            if (this.world.getBlockState(yPos) != MINING_PIPE_TIP_STATE.get()) return this.pos;
-        } else if (this.world.getBlockState(yPos) != MINING_PIPE_TIP_STATE.get()) {
-            this.world.setBlockState(yPos, MINING_PIPE_STATE.get());
+        if (findExistingHead(yPos)) setMiningPipe(yPos);
+        else if (this.world.getBlockState(yPos) != MINING_PIPE_TIP_STATE.get()) {
+            return yPos.equals(yPosRoot) ? this.pos : yPos.add(0, 1, 0);
         }
 
         return yPos;
+    }
+    
+    private boolean findExistingHead(BlockPos origPos) {
+        BlockPos pos = origPos.add(0, -1, 0);
+        IBlockState state = this.world.getBlockState(pos);
+        return state == MINING_PIPE_STATE.get() ? findExistingHead(pos) : state == MINING_PIPE_TIP_STATE.get();
+    }
+    
+    private void setMiningPipe(BlockPos pos) {
+        ItemStack stack = this.pipeSlot.get();
+        if (!stack.isEmpty()) {
+            stack.shrink(1);
+            this.world.setBlockState(pos, MINING_PIPE_STATE.get());
+        }
     }
 
     @Override
