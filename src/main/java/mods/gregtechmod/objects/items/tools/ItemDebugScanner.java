@@ -1,8 +1,11 @@
 package mods.gregtechmod.objects.items.tools;
 
+import ic2.core.item.ElectricItemManager;
 import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -20,4 +23,9 @@ public class ItemDebugScanner extends ItemScanner {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {}
+
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+        if (isInCreativeTab(tab)) items.add(ElectricItemManager.getCharged(this, Double.POSITIVE_INFINITY));
+    }
 }
