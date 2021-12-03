@@ -108,8 +108,10 @@ public final class JavaUtil {
             for (Path path : stream) {
                 Path dest = Paths.get(target.toString(), path.getFileName().toString());
                 GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest);
-                Files.copy(path, dest);
-                if (Files.isDirectory(path)) copyDir(path, dest);
+                if (!Files.exists(dest)) {
+                    Files.copy(path, dest);
+                    if (Files.isDirectory(path)) copyDir(path, dest);
+                }
             }
             return target;
         } catch (IOException e) {

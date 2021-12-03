@@ -4,12 +4,11 @@ import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.recipe.IRecipeFactory;
 import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @SuppressWarnings("unused")
 public class GregTechAPI {
-    public static final IForgeRegistry<ICoverProvider> COVERS = GameRegistry.findRegistry(ICoverProvider.class);
+    public static IForgeRegistry<ICoverProvider> coverRegistry;
     private static IGregTechAPI impl;
     private static Configuration dynamicConfig;
     private static IRecipeFactory recipeFactory;

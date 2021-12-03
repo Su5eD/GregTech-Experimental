@@ -75,7 +75,6 @@ public final class NBTSaveHandler {
     
     public static void initClass(Class<?> cls) {
         withParents(cls, clazz -> !HANDLES.containsKey(clazz), clazz -> {
-            GregTechMod.LOGGER.debug("Gathering handles for class " + clazz.getName());
             MethodHandles.Lookup lookup = MethodHandles.lookup();
                         
             List<FieldHandle> fieldHandles = Arrays.stream(clazz.getDeclaredFields())

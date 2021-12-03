@@ -1,12 +1,14 @@
 package mods.gregtechmod.core;
 
 import ic2.core.IC2;
+import ic2.core.block.TeBlockRegistry;
 import ic2.core.network.DataEncoder;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.init.*;
+import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityTesseractGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityUniversalMacerator;
@@ -68,6 +70,9 @@ public final class GregTechMod {
         configDir = event.getSuggestedConfigurationFile().getParentFile();
         classic = IC2.version.isClassic();
         if (event.getSide() == Side.CLIENT) proxy = new ClientProxy();
+        
+        GregTechTEBlock.blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
+        GregTechTEBlock.blockTE.setCreativeTab(GregTechMod.GREGTECH_TAB);
         GregTechAPIImpl.createAndInject();
         DynamicConfig.init();
         ModHandler.gatherLoadedMods();

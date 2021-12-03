@@ -43,7 +43,7 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
         if (node.has("ore")) {
             name = node.get("ore").asText();
             ret = OreDictUnificator.get(name);
-            if (ret.isEmpty() && logErrors) GregTechMod.LOGGER.warn("Could not find an OreDict entry for "+name);
+            if (ret.isEmpty() && logErrors) GregTechMod.LOGGER.warn("Could not find an OreDict entry for " + name);
         } else if (name.contains("#")) {
             String[] parts = name.split("#");
             String[] nameParts = parts[0].split(":");

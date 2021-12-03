@@ -1,7 +1,5 @@
 package mods.gregtechmod.core;
 
-import ic2.core.block.BlockTileEntity;
-import ic2.core.block.TeBlockRegistry;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.init.BlockItemLoader;
 import mods.gregtechmod.init.FluidLoader;
@@ -33,9 +31,8 @@ public class GregTechTab extends CreativeTabs {
                 .map(ItemStack::new)
                 .filter(stack -> !stack.isEmpty())
                 .forEach(list::add);
-        BlockTileEntity block = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
         Arrays.stream(GregTechTEBlock.VALUES)
-                .forEach(teblock -> list.add(block.getItemStack(teblock)));
+                .forEach(teblock -> list.add(GregTechTEBlock.blockTE.getItemStack(teblock)));
         BlockItemLoader.getItems().stream()
                 .filter(item -> GregTechMod.classic || !(item instanceof ItemCellClassic))
                 .forEach(item -> item.getSubItems(this, list));

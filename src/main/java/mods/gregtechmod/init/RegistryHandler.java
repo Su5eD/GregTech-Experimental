@@ -1,8 +1,8 @@
 package mods.gregtechmod.init;
 
 import ic2.api.event.TeBlockFinalCallEvent;
-import ic2.core.block.BlockTileEntity;
 import ic2.core.block.TeBlockRegistry;
+import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.util.Reference;
@@ -43,11 +43,12 @@ public class RegistryHandler {
 
     @SubscribeEvent
     public static void registerRegistries(RegistryEvent.NewRegistry event) {
-        new RegistryBuilder<ICoverProvider>()
+        IForgeRegistry<ICoverProvider> registry = new RegistryBuilder<ICoverProvider>()
                 .setName(new ResourceLocation(Reference.MODID, "covers"))
                 .setType(ICoverProvider.class)
                 .setMaxID(Integer.MAX_VALUE - 1)
                 .create();
+        JavaUtil.setStaticValue(GregTechAPI.class, "coverRegistry", registry);
     }
 
     @SubscribeEvent
@@ -62,9 +63,8 @@ public class RegistryHandler {
         
         GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(Reference.MODID, "light_source"));
         
-        BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
-                .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(blockTE, 1, teblock.getId())));
+                .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(GregTechTEBlock.blockTE, 1, teblock.getId())));
         JavaUtil.setStaticValue(GregTechObjectAPI.class, "teBlocks", teblocks);
         
         ModCompat.disableCasingFacades();

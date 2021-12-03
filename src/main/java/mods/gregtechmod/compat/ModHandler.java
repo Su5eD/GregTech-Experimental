@@ -13,8 +13,6 @@ import ic2.api.item.IC2Items;
 import ic2.api.item.IItemAPI;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
-import ic2.core.block.BlockTileEntity;
-import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
 import ic2.core.util.StackUtil;
@@ -481,8 +479,7 @@ public class ModHandler {
 
     public static ItemStack getTEBlockSafely(String variant) {
         try {
-            BlockTileEntity blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
-            ItemStack stack = blockTE.getItemStack(variant);
+            ItemStack stack = GregTechTEBlock.blockTE.getItemStack(variant);
             if (stack != null) return stack;
         } catch (Throwable ignored) {}
 

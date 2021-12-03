@@ -90,7 +90,7 @@ public class CoverHandler extends GtComponentBase {
 
                 ResourceLocation name = new ResourceLocation(tag.getString("name"));
                 ItemStack stack = new ItemStack(tag.getCompoundTag("item"));
-                ICoverProvider provider = GregTechAPI.COVERS.getValue(name);
+                ICoverProvider provider = GregTechAPI.coverRegistry.getValue(name);
                 if (provider != null) {
                     ICover cover = provider.constructCover(facing, (ICoverable) ((CoverHandler) instance).parent, stack);
                     cover.readFromNBT(tag.getCompoundTag("cover"));

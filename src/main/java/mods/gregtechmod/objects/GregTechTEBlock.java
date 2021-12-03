@@ -100,6 +100,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlock.ITeBlockCreativeRegist
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
+    public static BlockTileEntity blockTE;
     
     private final Class<? extends TileEntityBlock> teClass;
     private final int itemMeta;
