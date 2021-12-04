@@ -52,7 +52,7 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
                             .filter(stack -> stack.getItem() instanceof IElectricItem)
                             .forEach(stack -> {
                                 if (discharge) {
-                                    double demandedEnergy = getEUCapacity() - getStoredEU();
+                                    double demandedEnergy = Math.min(getEUCapacity() - getStoredEU(), getMaxInputEUp());
                                     if (demandedEnergy > 0) {
                                         double decharged = ElectricItem.manager.discharge(stack, demandedEnergy, sinkTier, false, false, false);
                                         addEnergy(decharged);
