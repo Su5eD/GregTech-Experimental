@@ -51,14 +51,14 @@ public class TileEntityTesseractTerminal extends TileEntityTesseract {
     }
 
     @Override
-    protected String getExistingTesseractMessage() {
-        if (getTesseractGen(false) == null) return "frequency_underpowered";
-        return "frequency_connected";
+    protected boolean isTesseractActive() {
+        return getTesseractGen(false) != null;
     }
 
     @Override
-    protected TileEntity getPanelInfoTE() {
-        return getTesseractGen(false);
+    protected String getExistingTesseractMessage() {
+        if (getTesseractGen(false) == null) return "frequency_underpowered";
+        return "frequency_connected";
     }
 
     @Override

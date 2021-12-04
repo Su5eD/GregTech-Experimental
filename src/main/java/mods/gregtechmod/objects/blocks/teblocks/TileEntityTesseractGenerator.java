@@ -55,7 +55,12 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
     protected void onFrequencyChanged() {
         disconnect();
     }
-    
+
+    @Override
+    protected boolean isTesseractActive() {
+        return TESSERACTS.get(this.frequency) == this;
+    }
+
     private boolean isInvalid(GameProfile owner, boolean workIrrelevant) {
         return isInvalid() || !isAllowedToWork() || owner != null && !checkAccess(owner) || !workIrrelevant && this.isWorking < 20;
     }
@@ -122,11 +127,6 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
         } else {
             this.isWorking = 0;
         }
-    }
-
-    @Override
-    protected TileEntity getPanelInfoTE() {
-        return getTargetTileEntity();
     }
 
     @Override

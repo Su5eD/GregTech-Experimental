@@ -124,19 +124,22 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
     public String getSecondaryInfo() {
         return delegatePanelInfo(GtLocale.translateTeBlock("tesseract", "frequency_short", this.frequency), IPanelInfoProvider::getSecondaryInfo);
     }
+    
+    protected abstract boolean isTesseractActive();
 
     @Override
     public String getTertiaryInfo() {
-        String msg = GtLocale.translateInfo(TileEntityTesseractGenerator.getTesseract(this.frequency, this.world, getOwner()) == this ? "active" : "inactive");
+        String msg = GtLocale.translateInfo(isTesseractActive() ? "active" : "inactive");
         return delegatePanelInfo(msg, IPanelInfoProvider::getTertiaryInfo);
     }
-    
-    protected abstract TileEntity getPanelInfoTE();
 
     private String delegatePanelInfo(String def, Function<IPanelInfoProvider, String> func) {
-        TileEntity te = getPanelInfoTE();
-        if (te instanceof IPanelInfoProvider && ((IPanelInfoProvider) te).isGivingInformation() && isAllowedToWork()) {
-            return func.apply((IPanelInfoProvider) te);
+        TileEntityTesseractGenerator gen = TileEntityTesseractGenerator.getTesseract(this.frequency, this.world, getOwner());
+        if (gen != null) {
+            TileEntity te = gen.getTargetTileEntity();
+            if (te instanceof IPanelInfoProvider && ((IPanelInfoProvider) te).isGivingInformation() && isAllowedToWork()) {
+                return func.apply((IPanelInfoProvider) te);
+            }
         }
         return def;
     }
