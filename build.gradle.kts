@@ -13,7 +13,7 @@ buildscript {
 }
 
 plugins {
-    `java-library`
+    java
     `maven-publish`
     idea
     id("net.minecraftforge.gradle") version "5.1.+"
@@ -42,17 +42,31 @@ group = "mods.su5ed"
 version = getGitVersion()
 setProperty("archivesBaseName", "gregtechmod")
 
+val api: SourceSet by sourceSets.creating
+val apiImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations.minecraft.get())
+}
+
+val shade: Configuration by configurations.creating {
+    configurations.implementation.get().extendsFrom(this)
+}
+
+val manifestAttributes = mapOf(
+    "Specification-Title" to project.name,
+    "Specification-Vendor" to "Su5eD",
+    "Specification-Version" to "1",
+    "Implementation-Title" to project.name,
+    "Implementation-Version" to project.version,
+    "Implementation-Vendor" to "Su5eD",
+    "Implementation-Timestamp" to LocalDateTime.now()
+)
+
 minecraft {
     mappings("stable", "39-1.12")
 
     runs {
         val config = Action<RunConfig> {
-            properties(
-                mapOf(
-                    "forge.logging.markers" to "SCAN,REGISTRIES",
-                    "forge.logging.console.level" to "debug"
-                )
-            )
+            property("forge.logging.console.level", "debug")
             workingDirectory = project.file("run").canonicalPath
             source(sourceSets.main.get())
             forceExit = false
@@ -63,10 +77,6 @@ minecraft {
     }
 }
 
-idea.module.inheritOutputDirs = true
-
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(8))
-
 fancyGradle {
     patches {
         resources
@@ -76,81 +86,58 @@ fancyGradle {
     }
 }
 
-val api: SourceSet by sourceSets.creating
-
-sourceSets {
-    main {
-        compileClasspath += api.output
-        runtimeClasspath += api.output
-    }
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    
+    withSourcesJar()
 }
 
-val shade: Configuration by configurations.creating
-
-configurations {
-    implementation {
-        extendsFrom(shade)
-        
-        getByName("apiImplementation").extendsFrom(this)
-    }
+val devJar by tasks.registering(ShadowJar::class) {
+    dependsOn("classes", "apiClasses")
+            
+    configurations = listOf(shade)
+    manifest.attributes(manifestAttributes)
+    
+    relocate("com.fasterxml", "mods.gregtechmod.repack.fasterxml")
+    relocate("org.yaml", "mods.gregtechmod.repack.yaml")
+    
+    from(sourceSets.main.get().output)
+    from(api.output)
+    
+    archiveClassifier.set("dev")
 }
 
-val manifestAttributes = mapOf(
-    "Specification-Title" to "gregtechmod",
-    "Specification-Vendor" to "Su5eD",
-    "Specification-Version" to "1",
-    "Implementation-Title" to project.name,
-    "Implementation-Version" to project.version,
-    "Implementation-Vendor" to "Su5eD",
-    "Implementation-Timestamp" to LocalDateTime.now()
-)
+val apiJar by tasks.registering(Jar::class) {
+    finalizedBy("reobfApiJar")
+    
+    from(api.allSource, api.output)
+    exclude("META-INF/**")
+    archiveClassifier.set("api")
+}
 
 tasks {
     jar {
         from(api.output)
 
         manifest.attributes(manifestAttributes)
+        
+        archiveClassifier.set("slim")
     }
 
     shadowJar {
-        dependsOn("jar")
-        finalizedBy("reobfJar")
-        
+        finalizedBy("reobfShadowJar")
+
         configurations = listOf(shade)
         manifest.attributes(manifestAttributes)
-        
+
         from(api.output)
         relocate("com.fasterxml", "mods.gregtechmod.repack.fasterxml")
         relocate("org.yaml", "mods.gregtechmod.repack.yaml")
 
         archiveClassifier.set("")
     }
-
-    register<ShadowJar>("devJar") {
-        dependsOn("classes")
-        
-        configurations = listOf(shade)
-        manifest.attributes(manifestAttributes)
-
-        relocate("com.fasterxml", "mods.gregtechmod.repack.fasterxml")
-        relocate("org.yaml", "mods.gregtechmod.repack.yaml")
-
-        from(sourceSets.main.get().output)
-        from(api.output.classesDirs)
-        from(api.output.resourcesDir)
-
-        archiveClassifier.set("dev")
-    }
-
-    register<Jar>("apiJar") {
-        finalizedBy("reobfApiJar")
-
-        from(api.allSource, api.output.classesDirs)
-        exclude("META-INF/**")
-        archiveClassifier.set("api")
-    }
-
-    register<Jar>("sourceJar") {
+    
+    named<Jar>("sourcesJar") {
         from(api.allSource)
     }
 
@@ -167,12 +154,14 @@ tasks {
             )
         }
     }
+    
+    assemble {
+        dependsOn(shadowJar, devJar, apiJar)
+    }
 }
 
 reobf {
-    create("jar") {
-        dependsOn("shadowJar")
-    }
+    create("shadowJar")
     create("apiJar")
 }
 
@@ -203,8 +192,9 @@ repositories {
 dependencies {
     minecraft(group = "net.minecraftforge", name = "forge", version = "1.12.2-14.23.5.2855")
     
+    implementation(api.output)
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
-    api(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2, classifier = "api")) //GTE api depends on the ic2 api
+    apiImplementation(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2, classifier = "api")
     
     compileOnly(fg.deobf(group = "cofh", name = "RedstoneFlux", version = versionRF, classifier = "universal"))
     compileOnly(fg.deobf(group = "cofh", name = "CoFHCore", version = versionCoFHCore, classifier = "universal")) {
@@ -226,25 +216,16 @@ dependencies {
     compileOnly(fg.deobf(group = "slimeknights.mantle", name = "Mantle", version = versionMantle))
     compileOnly(fg.deobf(group = "slimeknights", name = "TConstruct", version = versionTConstruct))
 
-    shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0")
+    apiImplementation(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0"))
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.9.0")
-}
-
-val projectArtifacts = sequenceOf("shadowJar", "apiJar", "devJar")
-    .map(tasks::getByName)
-
-artifacts { 
-    projectArtifacts.forEach(::archives)
 }
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
-            groupId = project.group as String
-            artifactId = project.findProperty("archivesBaseName") as String
-            version = project.version as String
-            
-            projectArtifacts.forEach(::artifact)
+        create<MavenPublication>("mavenJava") {
+            artifact(tasks.shadowJar)
+            artifact(devJar)
+            artifact(apiJar)
         }
     }
     
