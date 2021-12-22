@@ -86,8 +86,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         
         if (isProcessing()) {
             boolean hasEnoughEnergy = checkEnergy();

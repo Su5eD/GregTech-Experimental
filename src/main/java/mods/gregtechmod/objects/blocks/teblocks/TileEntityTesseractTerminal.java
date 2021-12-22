@@ -82,8 +82,8 @@ public class TileEntityTesseractTerminal extends TileEntityTesseract {
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
 
         if (isAllowedToWork()) {
             TileEntityTesseractGenerator gen = getTesseractGen(true);

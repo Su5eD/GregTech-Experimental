@@ -63,8 +63,8 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         if (this.tickCounter % 10 == 0) {
             this.inputSlot.processFromTank(this.fluidTank, this.outputSlot);
 

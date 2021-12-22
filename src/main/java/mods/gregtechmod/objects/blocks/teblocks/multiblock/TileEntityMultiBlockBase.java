@@ -84,20 +84,20 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     protected void updateEntityClient() {
         super.updateEntityClient();
             
-        if (tickCounter++ % 5 == 0) {
+        if (this.tickCounter++ % 5 == 0) {
             this.structure.checkWorldStructure(this.pos, this.getFacing());
         }
     }
         
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         
-        if (tickCounter % 5 == 0) {
+        if (this.tickCounter % 5 == 0) {
             this.structure.checkWorldStructure(this.pos, this.getFacing());
         }
         
-        if (--startUpCheck >= 0) return;
+        if (--this.startUpCheck >= 0) return;
         Optional<Structure<T>.WorldStructure> struct = this.structure.getWorldStructure();
         if (!struct.map(Structure.WorldStructure::isValid).orElse(false)) {
             stopMachine();

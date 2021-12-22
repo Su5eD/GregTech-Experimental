@@ -23,7 +23,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -33,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine, IScannerInfoProvider {
-    protected final String descriptionKey;
-    
     @NBTPersistent(include = Include.NON_NULL)
     private GameProfile owner;
     @NBTPersistent
@@ -43,20 +40,14 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public final SidedRedstoneEmitter rsEmitter;
     @NBTPersistent
     private boolean enableWorking = true;
-    private final BooleanCountdown workStartedNow = new BooleanCountdown(2);
+    private final BooleanCountdown workStartedNow = createSingleCountDown();
     @NBTPersistent
     private boolean enableInput = true;
     @NBTPersistent
     private boolean enableOutput = true;
 
     public TileEntityCoverBehavior() {
-        String key = getDescriptionKey();
-        this.descriptionKey = FMLCommonHandler.instance().getSide() == Side.CLIENT && GtLocale.hasKey(key) ? key : null;
         this.rsEmitter = addComponent(new SidedRedstoneEmitter(this));
-    }
-    
-    protected String getDescriptionKey() {
-        return "teblock." + this.teBlock.getName() + ".description";
     }
 
     @Override
@@ -109,15 +100,13 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         
         for (ICover cover : this.coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
             if (tickRate > 0 && this.tickCounter % tickRate == 0) cover.doCoverThings();
         }
-        
-        this.workStartedNow.countDown();
     }
 
     @Override

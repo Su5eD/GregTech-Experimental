@@ -111,8 +111,8 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         
         TileEntityTesseractGenerator gen = TESSERACTS.get(this.frequency);
         if (isAllowedToWork() && tryUseEnergy(this.energyConsumption)) {

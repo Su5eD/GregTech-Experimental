@@ -67,8 +67,8 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         if (getActiveModule().updateServer()) IC2.network.get(true).updateTileEntityField(this, "module");
     }
 

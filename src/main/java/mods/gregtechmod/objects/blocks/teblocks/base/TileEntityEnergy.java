@@ -127,10 +127,10 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
     
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         
-        if(this.explode) this.explodeMachine(this.explosionPower);
+        if(this.explode) explodeMachine(this.explosionPower);
         if (this.shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         if (enableMachineSafety()) MachineSafety.checkSafety(this);
     }

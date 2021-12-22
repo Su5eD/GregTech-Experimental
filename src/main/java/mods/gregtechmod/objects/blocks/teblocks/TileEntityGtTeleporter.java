@@ -94,8 +94,8 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         
         if (this.tickCounter % 100 == 50) this.hasEgg = checkForEgg();
         

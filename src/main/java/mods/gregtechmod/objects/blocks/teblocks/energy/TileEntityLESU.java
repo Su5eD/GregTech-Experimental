@@ -34,8 +34,8 @@ public class TileEntityLESU extends TileEntityChargerBase {
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
         
         if (this.notify || this.init) {
             if (stepToFindOrCallLESUController(this.world, this.pos, new ArrayList<>()) < 2) {

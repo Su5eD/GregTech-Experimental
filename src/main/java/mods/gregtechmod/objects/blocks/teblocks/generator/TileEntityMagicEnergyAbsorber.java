@@ -48,8 +48,8 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
 
         if (isAllowedToWork() && this.tickCounter % 10 == 0) {
             if (canAddEnergy()) {
@@ -100,7 +100,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                     drainAura();
                 }
                 
-                if (shouldExplode) {
+                if (this.shouldExplode) {
                     int minFlux = (int) (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis / 3200D);
                     int maxFlux = (int) (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis / 1600D);
                     ModHandler.polluteAura(this.world, this.pos, minFlux + this.world.rand.nextInt(maxFlux), true);

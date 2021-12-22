@@ -2,25 +2,56 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.core.block.TileEntityInventory;
 import ic2.core.gui.dynamic.IGuiValueProvider;
+import mods.gregtechmod.util.BooleanCountdown;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.DoubleSupplier;
 
 public abstract class TileEntityAutoNBT extends TileEntityInventory implements IGuiValueProvider {
+    protected final String descriptionKey;
     private final Map<String, DoubleSupplier> guiValues = new HashMap<>();
+    private final Collection<BooleanCountdown> countdowns = new HashSet<>();
     
     protected int tickCounter;
+    
+    protected TileEntityAutoNBT() {
+        String key = getDescriptionKey();
+        this.descriptionKey = FMLCommonHandler.instance().getSide() == Side.CLIENT && GtLocale.hasKey(key) ? key : null;
+    }
+    
+    protected String getDescriptionKey() {
+        return "teblock." + this.teBlock.getName() + ".description";
+    }
 
     @Override
-    protected void updateEntityServer() {
+    protected final void updateEntityServer() {
         super.updateEntityServer();
-        
+        preTickServer();
+        postTickServer();
+    }
+    
+    protected void preTickServer() {
         this.tickCounter++;
+    }
+    
+    protected void postTickServer() {
+        this.countdowns.forEach(BooleanCountdown::countDown);
+    }
+    
+    protected BooleanCountdown createSingleCountDown() {
+        return createCountDown(1);
+    }
+    
+    protected BooleanCountdown createCountDown(int count) {
+        BooleanCountdown countdown = new BooleanCountdown(count);
+        this.countdowns.add(countdown);
+        return countdown;
     }
 
     @Override

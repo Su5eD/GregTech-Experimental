@@ -35,11 +35,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TileEntityElectricBufferSmall extends TileEntityUpgradable implements IHasGui, INetworkClientTileEntityEventListener {
+    public static final IUnlistedProperty<Boolean> REDSTONE_TEXTURE_PROPERTY = new UnlistedBooleanProperty("redstoneTextures");
     private static final TextureOverride OVERRIDE_DOWN;
     private static final TextureOverride OVERRIDE_UP;
-    public static final IUnlistedProperty<Boolean> REDSTONE_TEXTURE_PROPERTY = new UnlistedBooleanProperty("redstoneTextures");
 
-    public final BooleanCountdown inventoryModified = new BooleanCountdown(1);
+    public final BooleanCountdown inventoryModified = createSingleCountDown();
     public final InvSlot buffer;
     private final RedstoneEmitter emitter;
 
@@ -71,18 +71,17 @@ public class TileEntityElectricBufferSmall extends TileEntityUpgradable implemen
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
+    protected void preTickServer() {
+        super.preTickServer();
 
         int invSize = getSizeInventory();
         boolean hasItem = !this.buffer.isEmpty();
-        boolean invModified = this.inventoryModified.countDown();
         if (isAllowedToWork() && canUseEnergy(500) && (
                 workJustHasBeenEnabled() 
                 || this.tickCounter % 200 == 0
                 || this.tickCounter % 5 == 0 && (this.success > 0 || hasItem && this.tickCounter % 10 == 0 && invSize <= 1)
                 || this.success >= 20
-                || invModified
+                || this.inventoryModified.get()
         )) {
             this.success--;
             if (invSize > 1 || hasItem) {
