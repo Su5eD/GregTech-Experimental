@@ -38,7 +38,7 @@ public interface IUpgradableMachine extends IElectricMachine {
     
     void addExtraEUCapacity(int extraCapacity);
     
-    void addExtraSinkTier();
+    void addExtraTier();
 
     int getUpgradeCount(GtUpgradeType type);
 
@@ -76,5 +76,15 @@ public interface IUpgradableMachine extends IElectricMachine {
 
     void setMjCapacity(long capacity);
     
-    int getBaseSinkTier();
+    default int getBaseSinkTier() {
+        return 0;
+    }
+    
+    default int getBaseSourceTier() {
+        return 0;
+    }
+    
+    default int getBaseSourcePackets() {
+        return 1;
+    }
 }

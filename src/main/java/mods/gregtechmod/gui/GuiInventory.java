@@ -1,11 +1,10 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.ContainerBase;
-import ic2.core.GuiIC2;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 
-public abstract class GuiInventory<T extends ContainerBase<? extends IInventory>> extends GuiIC2<T> {
+public abstract class GuiInventory<T extends ContainerBase<? extends IInventory>> extends GuiSimple<T> {
 
     public GuiInventory(T container) {
         super(container);
@@ -13,8 +12,7 @@ public abstract class GuiInventory<T extends ContainerBase<? extends IInventory>
     
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
-        this.bindTexture();
-        this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         drawTitle();
         drawString(8, this.ySize - 96 + 3, I18n.format("container.inventory"), GuiColors.DARK_GRAY, false);
     }

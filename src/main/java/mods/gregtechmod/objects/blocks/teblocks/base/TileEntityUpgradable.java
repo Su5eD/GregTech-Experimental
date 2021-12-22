@@ -47,7 +47,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     protected boolean hasSteamUpgrade;
     public InternalFluidTank steamTank;
     protected int neededSteam;
-    private int extraSinkTier;
+    private int extraTier;
     private int extraEUCapacity;
 
     protected MjReceiverWrapper receiver;
@@ -80,14 +80,36 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     protected void onUpdateIC2Upgrade(IC2UpgradeType type, ItemStack stack) {}
     
     @Override
-    public void addExtraSinkTier() {
-        this.extraSinkTier++;
+    public void addExtraTier() {
+        this.extraTier++;
     }
 
     @Override
     public final int getSinkTier() {
+        return getBaseSinkTier() + getTransformerCount();
+    }
+
+    @Override
+    public final int getSourceTier() {
+        int transformers = getTransformerCount();
+        int tier = getBaseSourceTier() + transformers;
+        
+        return transformers > 0 && isMultiplePacketsForTransformer() ? tier - 1 : tier;
+    }
+
+    @Override
+    protected final int getSourcePackets() {
+        int basePackets = getBaseSourcePackets();
+        return basePackets == 1 && isMultiplePacketsForTransformer() && getTransformerCount() > 0 ? 4 : basePackets;
+    }
+    
+    private int getTransformerCount() {
         int transformers = getUpgradeCount(IC2UpgradeType.TRANSFORMER);
-        return getBaseSinkTier() + transformers + this.extraSinkTier;
+        return transformers + this.extraTier;
+    }
+    
+    protected boolean isMultiplePacketsForTransformer() {
+        return true;
     }
     
     protected abstract int getBaseEUCapacity();

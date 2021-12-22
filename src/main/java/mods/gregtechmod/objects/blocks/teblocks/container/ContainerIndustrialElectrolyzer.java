@@ -10,7 +10,7 @@ import java.util.List;
 public class ContainerIndustrialElectrolyzer extends ContainerMachineBase<TileEntityIndustrialCentrifugeBase> {
 
     public ContainerIndustrialElectrolyzer(EntityPlayer player, TileEntityIndustrialElectrolyzer base) {
-        super(player, base, 166);
+        super(player, base);
 
         addSlotToContainer(new SlotInvSlot(base.cellSlot, 0, 50, 46));
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 80, 46));

@@ -1,6 +1,5 @@
 package mods.gregtechmod.gui;
 
-import ic2.core.GuiIC2;
 import mods.gregtechmod.objects.blocks.teblocks.component.Maintenance;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerMultiblock;
 import mods.gregtechmod.util.GtLocale;
@@ -10,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.function.Supplier;
 
-public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
+public class GuiMultiblock extends GuiSimple<ContainerMultiblock> {
     private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("multiblock");
 
     public GuiMultiblock(ContainerMultiblock container) {
@@ -19,8 +18,7 @@ public class GuiMultiblock extends GuiIC2<ContainerMultiblock> {
 
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
-        this.bindTexture();
-        this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         
         String name = I18n.format(this.container.base.getName());
         this.drawString(10, 8, name, GuiColors.WHITE, false);

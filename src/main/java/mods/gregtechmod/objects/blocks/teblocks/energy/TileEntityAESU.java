@@ -41,7 +41,7 @@ public class TileEntityAESU extends TileEntityChargerBase {
     }
 
     @Override
-    public int getSourceTier() {
+    public int getBaseSourceTier() {
         return GregTechMod.classic ? 4 : 5;
     }
 

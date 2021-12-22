@@ -6,6 +6,7 @@ import ic2.core.block.invslot.InvSlot;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
+import ic2.core.util.Util;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
@@ -38,6 +39,9 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
@@ -47,9 +51,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -171,8 +173,8 @@ public final class GtUtil {
         return ItemStack.EMPTY;
     }
 
-    public static void sendMessage(EntityPlayer player, String message, Object... args) {
-        if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(message, args));
+    public static void sendMessage(EntityPlayer player, String key, Object... args) {
+        if (!player.world.isRemote) player.sendMessage(new TextComponentTranslation(key, args));
     }
 
     public static IC2UpgradeType getUpgradeType(ItemStack stack) {
@@ -262,6 +264,45 @@ public final class GtUtil {
     
     public static ResourceLocation getCoverTexture(String name) {
         return new ResourceLocation(Reference.MODID, "blocks/covers/" + name);
+    }
+    
+    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove) {
+        if (to != null) {
+            IItemHandler source = from.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, fromSide);
+            if (source != null) {
+                IItemHandler dest = to.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, toSide);
+
+                if (dest != null) {
+                    for (int i = 0; i < source.getSlots(); i++) {
+                        ItemStack sourceStack = source.extractItem(i, maxMove, true);
+                        if (!sourceStack.isEmpty()) {
+                            for (int j = 0; j < dest.getSlots(); j++) {
+                                ItemStack destStack = dest.getStackInSlot(j);
+
+                                ItemStack sourceStackCopy = sourceStack.copy();
+                                int totalSize = sourceStackCopy.getCount() + destStack.getCount();
+                                if (totalSize > maxTargetSize)
+                                    sourceStackCopy.setCount(maxTargetSize - destStack.getCount());
+
+                                if (totalSize >= minTargetSize && sourceStackCopy.getCount() >= minMove && (destStack.isEmpty() || ItemHandlerHelper.canItemStacksStack(sourceStackCopy, destStack))) {
+                                    ItemStack inserted = dest.insertItem(j, sourceStackCopy, false);
+                                    if (inserted.isEmpty()) source.extractItem(i, sourceStackCopy.getCount(), false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return 0;
+    }
+    
+    public static Set<EnumFacing> allSidesExcept(EnumFacing side) {
+        Set<EnumFacing> sides = new HashSet<>(Util.allFacings);
+        sides.remove(side);
+        return sides;
     }
 
     private static class VoidTank implements IFluidHandler {

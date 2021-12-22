@@ -287,6 +287,8 @@ gregtechmod.teblock.tesseract.frequency_short=Freq: %s
 gregtechmod.teblock.tesseract.frequency_occupied= §c(Occupied)
 gregtechmod.teblock.tesseract.frequency_connected= §a(Connected)
 gregtechmod.teblock.tesseract.frequency_underpowered= §6(Insufficient Energy)
+gregtechmod.teblock.electric_buffer_small.no_regulate=Do not regulate Item Stack Size
+gregtechmod.teblock.electric_buffer_small.regulate=Regulate Item Stack Size to: %s
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -924,6 +926,8 @@ gregtechmod.teblock.tesseract_generator=Tesseract Generator
 gregtechmod.teblock.tesseract_generator.description=Generates a Tesseract for the attached Inventory
 gregtechmod.teblock.tesseract_terminal=Tesseract Terminal
 gregtechmod.teblock.tesseract_terminal.description=Accesses Tesseracts remotely
+gregtechmod.teblock.electric_buffer_small=Small Electric Buffer
+gregtechmod.teblock.electric_buffer_small.description=A small directable Hopper with an inbuilt Energy Conduit!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

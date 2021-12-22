@@ -4,13 +4,13 @@ import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotCharge;
 import ic2.core.block.invslot.InvSlotDischarge;
-import ic2.core.util.Util;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.gui.GuiEnergyStorage;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
 import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -19,7 +19,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 public abstract class TileEntityChargerBase extends TileEntityUpgradable implements IHasGui {
@@ -37,6 +36,11 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
     }
     
     @Override
+    protected boolean isMultiplePacketsForTransformer() {
+        return false;
+    }
+
+    @Override
     public Set<GtUpgradeType> getCompatibleGtUpgrades() {
         return Collections.emptySet();
     }
@@ -48,9 +52,7 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        Set<EnumFacing> sides = new HashSet<>(Util.allFacings);
-        sides.remove(getFacing());
-        return sides;
+        return GtUtil.allSidesExcept(getFacing());
     }
     
     @Override

@@ -42,21 +42,27 @@ public class PropertyHelper {
 
     public static class TextureOverride {
         private final Map<EnumFacing, ResourceLocation> overrides;
+        private final boolean absolute;
         
         public TextureOverride(ResourceLocation texture) {
-            this(Util.allFacings.stream().collect(Collectors.toMap(Function.identity(), f -> texture)));
+            this(Util.allFacings.stream().collect(Collectors.toMap(Function.identity(), f -> texture)), false);
         }
         
         public TextureOverride(EnumFacing facing, ResourceLocation texture) {
-            this(Collections.singletonMap(facing, texture));
+            this(Collections.singletonMap(facing, texture), false);
         }
 
-        public TextureOverride(Map<EnumFacing, ResourceLocation> overrides) {
+        public TextureOverride(Map<EnumFacing, ResourceLocation> overrides, boolean absolute) {
             this.overrides = overrides;
+            this.absolute = absolute;
         }
 
         public boolean hasOverride(EnumFacing side) {
             return this.overrides.containsKey(side);
+        }
+        
+        public boolean isAbsolute() {
+            return this.absolute;
         }
 
         public ResourceLocation getTextureOverride(EnumFacing side) {

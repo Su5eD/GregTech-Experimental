@@ -313,11 +313,6 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     }
 
     @Override
-    public int getBaseSinkTier() {
-        return 0;
-    }
-
-    @Override
     protected int getBaseEUCapacity() {
         return 0;
     }

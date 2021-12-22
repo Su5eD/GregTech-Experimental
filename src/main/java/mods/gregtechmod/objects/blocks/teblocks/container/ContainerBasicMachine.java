@@ -9,7 +9,7 @@ import java.util.List;
 public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>> extends ContainerMachineBase<T> {
 
     public ContainerBasicMachine(EntityPlayer player, T base) {
-        super(player, base, 166);
+        super(player, base);
         addSlotToContainer(new SlotInvSlot(base.queueInputSlot, 0, 35, 25));
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 53, 25));
         addSlotToContainer(new SlotInvSlot(base.queueOutputSlot, 0, 107, 25));

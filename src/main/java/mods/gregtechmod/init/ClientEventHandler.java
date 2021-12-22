@@ -95,30 +95,16 @@ public class ClientEventHandler {
         JsonObject models = JsonHandler.readJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
 
         for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
-            String name = teBlock.getName();
-            GregTechTEBlock.ModelType modelType = teBlock.getModelType();
-            if (modelType == GregTechTEBlock.ModelType.BAKED) {
-                JsonObject obj = models.getAsJsonObject(name);
-                if (obj == null) throw new RuntimeException("Missing blockstate model definition for TEBlock " + name);
-                
-                String modelPath = new ResourceLocation(obj.get("model").getAsString()).getPath();
-                JsonHandler json = new JsonHandler(getItemModelPath("teblock", modelPath));
-                ModelTeBlock model;
-                if (teBlock.isStructure()) {
-                    JsonHandler valid = new JsonHandler(getItemModelPath("teblock", name + "_valid"));
-                    model = new ModelStructureTeBlock(valid.particle, json.generateTextureMap(), valid.generateTextureMap());
-                } else {
-                    model = new ModelTeBlock(json.particle, json.generateTextureMap());
-                }
-                loader.register("models/block/" + name, model);
-
-                if (teBlock.hasActive()) {
-                    JsonHandler active = new JsonHandler(getItemModelPath("teblock", name + "_active"));
-                    loader.register("models/block/" + name + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
-                }
-            }
-            else if (modelType == GregTechTEBlock.ModelType.CONNECTED) {
-                registerConnectedBakedModel(loader, name, "machines", "", ModelTEBlockConnected::new);
+            switch (teBlock.getModelType()) {
+                case BAKED:
+                    registerBakedModel(teBlock, models, loader);
+                    break;
+                case CONNECTED:
+                    registerConnectedBakedModel(loader, teBlock.getName(), "machines", "", ModelTEBlockConnected::new);
+                    break;
+                case REDSTONE:
+                    registerRedstoneModel(teBlock.getName(), models, loader);
+                    break;
             }
         }
         
@@ -132,12 +118,45 @@ public class ClientEventHandler {
         ModelLoaderRegistry.registerLoader(loader);
     }
     
+    private static void registerBakedModel(GregTechTEBlock teBlock, JsonObject models, BakedModelLoader loader) {
+        String name = teBlock.getName();
+        JsonHandler json = getTeBlockModel(name, models);
+        ModelTeBlock model;
+        if (teBlock.isStructure()) {
+            JsonHandler valid = new JsonHandler(getItemModelPath("teblock", name + "_valid"));
+            model = new ModelStructureTeBlock(json.particle, json.generateTextureMap(), valid.generateTextureMap());
+        } else {
+            model = new ModelTeBlock(json.particle, json.generateTextureMap());
+        }
+        loader.register("models/block/" + name, model);
+
+        if (teBlock.hasActive()) {
+            JsonHandler active = new JsonHandler(getItemModelPath("teblock", name + "_active"));
+            loader.register("models/block/" + name + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
+        }
+    }
+    
+    private static void registerRedstoneModel(String name, JsonObject models, BakedModelLoader loader) {
+        JsonHandler json = getTeBlockModel(name, models);
+        ModelRedstone model = new ModelRedstone(json.particle, json.generateTextureMap(), json.generateTextureMap("texturesRedstone"));
+        loader.register("models/block/" + name, model);
+    }
+    
+    private static JsonHandler getTeBlockModel(String name, JsonObject models) {
+        JsonObject obj = models.getAsJsonObject(name);
+        if (obj == null) throw new RuntimeException("Missing blockstate model definition for TEBlock " + name);
+        
+        String modelPath = new ResourceLocation(obj.get("model").getAsString()).getPath();
+        return new JsonHandler(getItemModelPath("teblock", modelPath));
+    }
+    
     private static void registerConnectedBakedModels(BakedModelLoader loader) {
         NormalStateMapper mapper = new NormalStateMapper();
         Stream.of(BlockItems.Block.STANDARD_MACHINE_CASING, BlockItems.Block.REINFORCED_MACHINE_CASING, BlockItems.Block.ADVANCED_MACHINE_CASING, BlockItems.Block.IRIDIUM_REINFORCED_TUNGSTEN_STEEL, BlockItems.Block.TUNGSTEN_STEEL)
                 .map(BlockItems.Block::getBlockInstance)
                 .forEach(block -> ModelLoader.setCustomStateMapper(block, mapper));
 
+        // TODO Migrate
         registerBlockConnectedBakedModel(loader, "standard_machine_casing", getRotorTextures("large_steam_turbine"));
         registerBlockConnectedBakedModel(loader, "reinforced_machine_casing", getRotorTextures("large_gas_turbine"));
         registerBlockConnectedBakedModel(loader, "advanced_machine_casing");
@@ -205,6 +224,8 @@ public class ClientEventHandler {
                 machines + "centrifuge/centrifuge_side_active3",
                 machines + "computer_cube/computer_cube_reactor",
                 machines + "computer_cube/computer_cube_scanner",
+                machines + "electric_buffer_small/electric_buffer_small_down",
+                machines + "electric_buffer_small/electric_buffer_small_down_redstone",
                 machines + "hatch_maintenance/hatch_maintenance_front_ducttape",
                 machines + "lesu/lesu_lv_out",
                 machines + "lesu/lesu_mv_out",

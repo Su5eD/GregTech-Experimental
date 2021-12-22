@@ -9,7 +9,7 @@ import java.util.List;
 public class ContainerIndustrialCentrifuge extends ContainerMachineBase<TileEntityIndustrialCentrifugeBase> {
 
     public ContainerIndustrialCentrifuge(EntityPlayer player, TileEntityIndustrialCentrifugeBase base) {
-        super(player, base, 166);
+        super(player, base);
         addSlotToContainer(new SlotInvSlot(base.cellSlot, 0, 50, 5));
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 80, 35));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 80, 5));

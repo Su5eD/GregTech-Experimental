@@ -10,6 +10,7 @@ import mods.gregtechmod.api.machine.IScannerInfoProvider;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
+import mods.gregtechmod.util.BooleanCountdown;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
@@ -42,7 +43,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public final SidedRedstoneEmitter rsEmitter;
     @NBTPersistent
     private boolean enableWorking = true;
-    private boolean enableWorkingOld = true;
+    private final BooleanCountdown workStartedNow = new BooleanCountdown(2);
     @NBTPersistent
     private boolean enableInput = true;
     @NBTPersistent
@@ -115,10 +116,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
             int tickRate = cover.getTickRate();
             if (tickRate > 0 && this.tickCounter % tickRate == 0) cover.doCoverThings();
         }
-
-        if (this.enableWorking != this.enableWorkingOld) {
-            this.enableWorkingOld = this.enableWorking;
-        }
+        
+        this.workStartedNow.countDown();
     }
 
     @Override
@@ -248,6 +247,12 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     public void setAllowedToWork(boolean value) {
         this.enableWorking = value;
+        if (this.enableWorking) this.workStartedNow.reset();
+    }
+
+    @Override
+    public boolean workJustHasBeenEnabled() {
+        return this.workStartedNow.get();
     }
 
     @Override

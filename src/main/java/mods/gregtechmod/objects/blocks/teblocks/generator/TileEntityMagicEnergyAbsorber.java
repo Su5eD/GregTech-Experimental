@@ -108,7 +108,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                 }
             }
             
-            setActive(getStoredEU() >= getMaxOutputEUt() + getMinimumStoredEnergy());
+            setActive(getStoredEU() >= getMaxOutputEUt() + getMinimumStoredEU());
         }
     }
     
@@ -133,7 +133,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     }
 
     @Override
-    public int getSourceTier() {
+    public int getBaseSourceTier() {
         return 2;
     }
 

@@ -7,6 +7,8 @@ public interface IGregTechMachine {
     void setRedstoneOutput(EnumFacing side, byte strength);
     
     void setAllowedToWork(boolean value);
+    
+    boolean workJustHasBeenEnabled();
 
     boolean isAllowedToWork();
 

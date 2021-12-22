@@ -17,6 +17,7 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerHatchIO;
 import mods.gregtechmod.util.PropertyHelper;
+import mods.gregtechmod.util.PropertyHelper.TextureOverride;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -52,7 +53,7 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
         Ic2BlockStateInstance extendedState = super.getExtendedState(state);
         EnumFacing facing = getFacing();
         if (facing.getAxis() == EnumFacing.Axis.Y) {
-            return extendedState.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new PropertyHelper.TextureOverride(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/machine_" + (facing == EnumFacing.UP ? "top" : "bottom") + "_pipe")));
+            return extendedState.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new TextureOverride(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/machine_" + (facing == EnumFacing.UP ? "top" : "bottom") + "_pipe")));
         }
         return extendedState;
     }

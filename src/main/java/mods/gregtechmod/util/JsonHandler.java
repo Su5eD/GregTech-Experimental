@@ -1,6 +1,7 @@
 package mods.gregtechmod.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -62,7 +63,8 @@ public class JsonHandler {
     private ResourceLocation getParticleTexture() {
         JsonObject textures = this.json.getAsJsonObject("textures");
         if (textures == null) textures = this.parent.get().json.getAsJsonObject("textures");
-        
-        return new ResourceLocation(textures.get("particle").getAsString());
+
+        JsonElement particle = textures.get("particle");
+        return particle != null ? new ResourceLocation(particle.getAsString()) : null;
     }
 }

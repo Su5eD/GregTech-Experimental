@@ -33,7 +33,7 @@ public class TileEntityIDSU extends TileEntityChargerBase {
     }
 
     @Override
-    public int getSourceTier() {
+    public int getBaseSourceTier() {
         return 5;
     }
 

@@ -608,7 +608,7 @@ public class BlockItems {
     }
 
     public enum Upgrade implements IOreDictItemProvider {
-        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraSinkTier()),
+        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraTier()),
         LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
         ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
         LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
@@ -676,7 +676,7 @@ public class BlockItems {
         public final int requiredTier;
         public final String descriptionKey;
         public final String oreDict;
-        public BiPredicate<ItemStack, IUpgradableMachine> condition;
+        public final BiPredicate<ItemStack, IUpgradableMachine> condition;
         public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert;
         public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
 

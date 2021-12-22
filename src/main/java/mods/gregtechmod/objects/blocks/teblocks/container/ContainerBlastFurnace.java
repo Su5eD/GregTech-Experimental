@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class ContainerBlastFurnace extends ContainerMachineBase<TileEntityIndustrialBlastFurnace> {
 
     public ContainerBlastFurnace(EntityPlayer player, TileEntityIndustrialBlastFurnace base) {
-        super(player, base, 166);
+        super(player, base);
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 34, 16));
         addSlotToContainer(new SlotInvSlot(base.secondaryInput, 0, 34, 34));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 86, 25));

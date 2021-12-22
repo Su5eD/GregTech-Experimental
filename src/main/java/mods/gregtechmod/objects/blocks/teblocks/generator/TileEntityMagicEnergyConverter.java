@@ -21,7 +21,7 @@ public class TileEntityMagicEnergyConverter extends TileEntityFluidGenerator {
     }
 
     @Override
-    public int getSourceTier() {
+    public int getBaseSourceTier() {
         return 1;
     }
 

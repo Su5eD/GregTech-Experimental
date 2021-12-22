@@ -43,7 +43,7 @@ public class TileEntityLightningRod extends TileEntityGenerator {
     }
 
     @Override
-    public int getSourceTier() {
+    public int getBaseSourceTier() {
         return 5;
     }
 

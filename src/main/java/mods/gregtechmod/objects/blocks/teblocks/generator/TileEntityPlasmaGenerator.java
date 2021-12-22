@@ -16,7 +16,7 @@ public class TileEntityPlasmaGenerator extends TileEntityFluidGenerator {
     }
 
     @Override
-    public int getSourceTier() {
+    public int getBaseSourceTier() {
         return 4;
     }
 

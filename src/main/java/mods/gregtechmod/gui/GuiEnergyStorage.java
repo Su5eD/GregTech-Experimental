@@ -8,7 +8,7 @@ import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
+public class GuiEnergyStorage extends GuiSimple<ContainerEnergyStorage<?>> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("energy_storage");
     
     private final int chargeBarLength;
@@ -26,8 +26,8 @@ public class GuiEnergyStorage extends GuiIC2<ContainerEnergyStorage<?>> {
     
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
-        bindTexture();
-        drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
+        
         drawString(11, 8, this.container.base.getGuiName(), GuiColors.WHITE, false);
         double capacity = this.container.base.getEUCapacity();
         int offsetY = getInfoOffsetY();

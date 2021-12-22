@@ -74,7 +74,12 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
     
     public double getMaxOutputEUp() {
-        return EnergyNet.instance.getPowerFromTier(getSourceTier());
+        int sourceTier = getSourceTier();
+        return sourceTier > 0 ? EnergyNet.instance.getPowerFromTier(sourceTier) : 0;
+    }
+    
+    protected int getMinimumStoredEU() {
+        return 512;
     }
     
     @Override
@@ -232,6 +237,12 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
             return TileEntityEnergy.this.getSourcePackets();
         }
         
+        @Override
+        protected double getOfferedEnergy() {
+            double output = getMaxOutputEUp();
+            return TileEntityEnergy.this.getStoredEU() >= output + TileEntityEnergy.this.getMinimumStoredEU() ? super.getOfferedEnergy() : 0;
+        }
+
         private Collection<EnumFacing> filterEnergySides(Collection<EnumFacing> sides) {
             return sides.stream()
                     .filter(side -> {

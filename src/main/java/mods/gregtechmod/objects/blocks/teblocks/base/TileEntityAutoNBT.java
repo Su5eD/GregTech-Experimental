@@ -4,6 +4,7 @@ import ic2.core.block.TileEntityInventory;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,5 +60,9 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     
     protected boolean isRedstonePowered() {
         return this.world != null && this.world.getRedstonePowerFromNeighbors(this.pos) > 0;
+    }
+    
+    public EnumFacing getOppositeFacing() {
+        return getFacing().getOpposite();
     }
 }

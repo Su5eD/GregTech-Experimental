@@ -16,16 +16,7 @@ public abstract class TileEntityGenerator extends TileEntityUpgradable {
     }
 
     protected boolean canAddEnergy() {
-        return getStoredEU() < getMaxOutputEUt() * 10 + getMinimumStoredEnergy();
-    }
-    
-    protected int getMinimumStoredEnergy() {
-        return 512;
-    }
-
-    @Override
-    public int getBaseSinkTier() {
-        return 0;
+        return getStoredEU() < getMaxOutputEUt() * 10 + getMinimumStoredEU();
     }
 
     @Override

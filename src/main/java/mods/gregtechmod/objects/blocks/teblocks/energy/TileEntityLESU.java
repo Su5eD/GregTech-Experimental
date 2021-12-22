@@ -90,7 +90,7 @@ public class TileEntityLESU extends TileEntityChargerBase {
     }
 
     @Override
-    public int getSourceTier() {
+    public int getBaseSourceTier() {
         return Math.max(1, EnergyNet.instance.getTierFromPower(getMaxOutputEUp()));
     }
 

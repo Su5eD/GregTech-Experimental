@@ -67,6 +67,10 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         return 1;
     }
     
+    protected double getOfferedEnergy() {
+        return Math.min(storedEnergy, getMaxOutputEUt());
+    }
+    
     public double getAverageEUInput() {
         return this.averageEUIn;
     }
@@ -140,6 +144,10 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         Collection<EnumFacing> sourceSides = getSourceSides();
         if (!JavaUtil.matchCollections(sourceSides, this.oldSourceSides)) refreshSides(getSourceSides(), sourceSides);
         return sourceSides;
+    }
+    
+    public void refreshSides() {
+        refreshSides(getSinkSides(), getSourceSides());
     }
     
     private void refreshSides(Collection<EnumFacing> sinkSides, Collection<EnumFacing> sourceSides) {
@@ -341,7 +349,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
 
         @Override
         public double getOfferedEnergy() {
-            return Math.min(storedEnergy, getMaxOutputEUt());
+            return AdjustableEnergy.this.getOfferedEnergy();
         }
         
         public double getMaxOutputEUp() { // Exposes method to public access

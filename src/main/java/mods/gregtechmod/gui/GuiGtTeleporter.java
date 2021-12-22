@@ -1,13 +1,12 @@
 package mods.gregtechmod.gui;
 
-import ic2.core.GuiIC2;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerGtTeleporter;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiGtTeleporter extends GuiIC2<ContainerGtTeleporter> {
+public class GuiGtTeleporter extends GuiSimple<ContainerGtTeleporter> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("gt_teleporter");
 
     public GuiGtTeleporter(ContainerGtTeleporter container) {
@@ -16,8 +15,7 @@ public class GuiGtTeleporter extends GuiIC2<ContainerGtTeleporter> {
 
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
-        this.bindTexture();
-        this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         
         drawString(46, 8, I18n.format(this.container.base.getName()), GuiColors.WHITE, false);
         drawString(46, 16, "X: " + this.container.base.targetPos.getX(), GuiColors.WHITE, false);

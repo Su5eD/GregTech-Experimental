@@ -9,8 +9,6 @@ import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
-import mods.gregtechmod.api.upgrade.GtUpgradeType;
-import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicMachine;
@@ -60,10 +58,20 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public int getBaseSinkTier() {
         return 1;
     }
+    
+    @Override
+    public int getBaseSourceTier() {
+        return 1;
+    }
 
     @Override
     protected int getBaseEUCapacity() {
         return 2000;
+    }
+
+    @Override
+    protected int getMinimumStoredEU() {
+        return 1000;
     }
 
     protected InvSlot getExtraSlot() {
@@ -195,20 +203,6 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
                 this.splitInput = value;
                 break;
         }
-    }
-
-    @Override
-    public int getSourceTier() {
-        if (this.provideEnergy) {
-            int transformers = this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) + this.getUpgradeCount(GtUpgradeType.TRANSFORMER);
-            if (transformers > 0) return transformers;
-        }
-        return 1;
-    }
-
-    @Override
-    protected int getSourcePackets() {
-        return this.getUpgradeCount(IC2UpgradeType.TRANSFORMER) > 0 ? 4 : super.getSourcePackets();
     }
 
     @Override

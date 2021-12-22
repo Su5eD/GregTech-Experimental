@@ -178,7 +178,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
     public void addExtraEUCapacity(int extraCapacity) {}
 
     @Override
-    public void addExtraSinkTier() {}
+    public void addExtraTier() {}
 
     @Override
     public int getUpgradeCount(GtUpgradeType type) {
@@ -187,11 +187,6 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public int getUpgradeCount(IC2UpgradeType type) {
-        return 0;
-    }
-
-    @Override
-    public int getBaseSinkTier() {
         return 0;
     }
 

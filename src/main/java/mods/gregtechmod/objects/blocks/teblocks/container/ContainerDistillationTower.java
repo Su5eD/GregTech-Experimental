@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class ContainerDistillationTower extends ContainerMachineBase<TileEntityDistillationTower> {
 
     public ContainerDistillationTower(EntityPlayer player, TileEntityDistillationTower base) {
-        super(player, base, 166);
+        super(player, base);
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 62, 41));
         addSlotToContainer(new SlotInvSlot(base.cellSlot, 0, 62, 59));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 98, 5));
