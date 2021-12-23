@@ -5,13 +5,14 @@ import net.minecraft.inventory.IInventory;
 
 import java.util.List;
 
-public class ContainerMachineBase<T extends IInventory> extends ContainerBase<T> {
+public class ContainerMachineBase<T extends IInventory> extends ContainerGtBase<T> {
 
     public ContainerMachineBase(EntityPlayer player, T base) {
         super(player, base);
     }
     
-    protected void getNetworkedFields(List<? super String> list) {
+    @Override
+    public void getNetworkedFields(List<? super String> list) {
         list.add("progress");
         list.add("maxProgress");
     }

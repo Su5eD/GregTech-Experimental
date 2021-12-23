@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
+import ic2.core.IC2;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import mods.gregtechmod.util.BooleanCountdown;
@@ -30,22 +31,15 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     }
 
     @Override
-    protected final void updateEntityServer() {
+    protected void updateEntityServer() {
         super.updateEntityServer();
-        preTickServer();
-        postTickServer();
-    }
-    
-    protected void preTickServer() {
+        
         this.tickCounter++;
-    }
-    
-    protected void postTickServer() {
         this.countdowns.forEach(BooleanCountdown::countDown);
     }
     
     protected BooleanCountdown createSingleCountDown() {
-        return createCountDown(1);
+        return createCountDown(2);
     }
     
     protected BooleanCountdown createCountDown(int count) {
@@ -54,6 +48,15 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
         return countdown;
     }
 
+    /**
+     * Runs on the SERVER side, updates CLIENT-side fields
+     */
+    public void updateClientField(String name) {
+        if (!this.world.isRemote) {
+            IC2.network.get(true).updateTileEntityField(this, name);
+        }
+    }
+    
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
@@ -95,5 +98,9 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     
     public EnumFacing getOppositeFacing() {
         return getFacing().getOpposite();
+    }
+    
+    public void updateRender() {
+        rerender();
     }
 }

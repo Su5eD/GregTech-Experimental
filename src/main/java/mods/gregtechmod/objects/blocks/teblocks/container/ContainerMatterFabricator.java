@@ -10,14 +10,8 @@ public class ContainerMatterFabricator extends ContainerGtBase<TileEntityMatterF
 
     public ContainerMatterFabricator(EntityPlayer player, TileEntityMatterFabricator base) {
         super(player, base);
-
-        for (int y = 0; y < 2; y++) {
-            for (int x = 0; x < 4; x++) {
-                int index = x + y * 4;
-                
-                addSlotToContainer(new SlotInvSlot(base.amplifierSlot, index, 8 + x * 18, 14 + y * 18));
-            }
-        }
+        
+        addInvSlotToContainer(2, 4, 8, 14, base.amplifierSlot);
         
         addSlotToContainer(new SlotInvSlot(base.output, 0, 128, 14));
     }

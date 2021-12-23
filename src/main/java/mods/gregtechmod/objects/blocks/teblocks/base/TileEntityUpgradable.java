@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import buildcraft.api.mj.MjAPI;
-import ic2.core.IC2;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.comp.Fluids.InternalFluidTank;
 import ic2.core.block.invslot.InvSlot;
@@ -169,8 +168,8 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
     
     private void onUpdate() {
-        IC2.network.get(true).updateTileEntityField(this, "upgradeManager");
-        IC2.network.get(true).updateTileEntityField(this, "extraEUCapacity");
+        updateClientField("upgradeManager");
+        updateClientField("extraEUCapacity");
     }
 
     @Override

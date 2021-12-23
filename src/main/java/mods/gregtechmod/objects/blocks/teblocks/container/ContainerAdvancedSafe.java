@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.slot.SlotInvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.inventory.SlotInvSlotHolo;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityAdvancedSafe;
@@ -13,11 +12,7 @@ public class ContainerAdvancedSafe extends ContainerGtBase<TileEntityAdvancedSaf
     public ContainerAdvancedSafe(EntityPlayer player, TileEntityAdvancedSafe base) {
         super(player, base);
         
-        for (int y = 0; y < 3; y++) {
-            for (int x = 0; x < 9; x++) {
-                addSlotToContainer(new SlotInvSlot(base.content, x + y * 9, 8 + x * 18, 23 + y * 18));
-            }
-        }
+        addInvSlotToContainer(3, 9, 8, 23, base.content);
         
         addSlotToContainer(new SlotInvSlotHolo(base.filter, 0, 80, 5));
     }

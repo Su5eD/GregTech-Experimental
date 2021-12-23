@@ -86,8 +86,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         
         if (isProcessing()) {
             boolean hasEnoughEnergy = checkEnergy();
@@ -146,7 +146,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     protected void processRecipe() {
         setActive(true);
-        this.progress += Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER));
+        this.progress += 1 << getUpgradeCount(IC2UpgradeType.OVERCLOCKER);
         if (this.progress >= this.maxProgress) {
             addOutput(pendingRecipe);
             this.progress = 0;
@@ -240,12 +240,14 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     @Override
     public String getSecondaryInfo() {
-        return GtLocale.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
+        double seconds = this.progress / (1 << getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20;
+        return GtLocale.translateGeneric("time_secs", Math.round(seconds));
     }
 
     @Override
     public String getTertiaryInfo() {
-        return  "/" + GtLocale.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
+        double seconds = this.maxProgress / (double) (1 << getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20;
+        return  "/" + GtLocale.translateGeneric("time_secs", Math.round(seconds));
     }
 
     @Override

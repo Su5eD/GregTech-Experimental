@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.struct;
 
-import ic2.core.IC2;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
@@ -40,7 +39,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
         super(2, GtRecipes.industrialBlastFurnace);
         this.secondaryInput = getInputSlot("secondary_input", InvSlot.InvSide.BOTTOM, false);
         
-        this.coilHandler = addComponent(new CoilHandler(this, 4, () -> IC2.network.get(true).updateTileEntityField(this, "coilHandler")));
+        this.coilHandler = addComponent(new CoilHandler(this, 4, () -> updateClientField("coilHandler")));
     }
 
     @Override

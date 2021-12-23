@@ -10,8 +10,8 @@ import net.minecraft.util.EnumFacing;
 public class TileEntityLightningRod extends TileEntityGenerator {
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         
         if (this.tickCounter % 256 == 0 && (this.world.isThundering() || this.world.isRaining() && this.world.rand.nextInt(10) == 0)) {
             int rodValue = 0;

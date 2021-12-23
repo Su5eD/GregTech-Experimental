@@ -22,7 +22,8 @@ public enum GregTechComponent {
     EXPLODING_ENERGY_SOURCE(TileEntityEnergy.ExplodingEnergySource.class),
     CONDUCTOR_ENERGY(TileEntitySuperconductorWire.ConductorEnergy.class),
     IDSU_ENERGY(TileEntityIDSU.IDSUEnergy.class),
-    COMPUTER_CUBE_MODULE(TileEntityComputerCube.ComputerCubeModuleComponent.class);
+    COMPUTER_CUBE_MODULE(TileEntityComputerCube.ComputerCubeModuleComponent.class),
+    GT_REDSTONE_EMITTER(GtRedstoneEmitter.class);
 
     private final Class<? extends GtComponentBase> clazz;
 

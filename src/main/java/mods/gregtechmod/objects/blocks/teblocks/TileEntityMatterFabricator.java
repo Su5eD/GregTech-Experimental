@@ -48,8 +48,8 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         int maxProgress = getMaxProgress();
         
         setActive(this.euLast != getStoredEU() || this.amplifierLast != this.amplifier || this.progress != this.progressLast);

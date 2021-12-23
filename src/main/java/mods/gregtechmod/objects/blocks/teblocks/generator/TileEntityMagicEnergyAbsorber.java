@@ -48,8 +48,8 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
 
         if (isAllowedToWork() && this.tickCounter % 10 == 0) {
             if (canAddEnergy()) {

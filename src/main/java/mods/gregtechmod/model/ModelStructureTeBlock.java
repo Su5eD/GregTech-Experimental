@@ -18,10 +18,10 @@ public class ModelStructureTeBlock extends ModelTeBlock {
     }
 
     @Override
-    protected TextureAtlasSprite getSprite(EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state) {
+    protected TextureAtlasSprite getSprite(EnumFacing face, EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state) {
         if (state.hasValue(TileEntityStructureBase.PROPERTY_VALID) && state.getValue(TileEntityStructureBase.PROPERTY_VALID) && this.validTextures.containsKey(rotatedSide)) {
             return this.sprites.get(this.validTextures.get(rotatedSide));
         }
-        return super.getSprite(side, rotatedSide, state);
+        return super.getSprite(face, side, rotatedSide, state);
     }
 }

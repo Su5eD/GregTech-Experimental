@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.computercube;
 
 import ic2.core.ContainerBase;
-import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
@@ -67,9 +66,9 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
-        if (getActiveModule().updateServer()) IC2.network.get(true).updateTileEntityField(this, "module");
+    protected void updateEntityServer() {
+        super.updateEntityServer();
+        if (getActiveModule().updateServer()) updateClientField("module");
     }
 
     @Override

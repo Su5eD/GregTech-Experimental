@@ -206,8 +206,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         if (this.tickCounter % 1200 == 0 || this.outputBlocked) dumpOutput();
     }
 

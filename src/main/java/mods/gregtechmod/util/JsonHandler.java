@@ -34,6 +34,10 @@ public class JsonHandler {
         }
     }
     
+    public ResourceLocation getResouceLocationElement(String name) {
+        return new ResourceLocation(this.json.get(name).getAsString());
+    }
+    
     public Map<EnumFacing, ResourceLocation> generateTextureMap() {
         Map<EnumFacing, ResourceLocation> map = generateTextureMap("textures");
         if (map.isEmpty()) {

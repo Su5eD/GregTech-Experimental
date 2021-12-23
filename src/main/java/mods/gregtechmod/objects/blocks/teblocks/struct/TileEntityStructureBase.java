@@ -41,8 +41,8 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
     }
     
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
                 
         if (this.tickCounter % 5 == 0) {
             this.structure.checkWorldStructure(this.pos, this.getFacing());

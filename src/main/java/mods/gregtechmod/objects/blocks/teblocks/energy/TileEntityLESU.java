@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.energy;
 
 import ic2.api.energy.EnergyNet;
-import ic2.core.IC2;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.gui.GuiLESU;
@@ -34,8 +33,8 @@ public class TileEntityLESU extends TileEntityChargerBase {
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         
         if (this.notify || this.init) {
             if (stepToFindOrCallLESUController(this.world, this.pos, new ArrayList<>()) < 2) {
@@ -43,9 +42,8 @@ public class TileEntityLESU extends TileEntityChargerBase {
             } else this.storage = 1000000;
             
             this.notify = this.init = false;
-            IC2.network.get(true).updateTileEntityField(this, "storage");
+            updateClientField("storage");
             updateChargeTier();
-            IC2.network.get(true).initiateTileEntityEvent(this, 0, true);
             rerender();
             this.world.notifyNeighborsOfStateChange(this.pos, this.blockType, true);
         }

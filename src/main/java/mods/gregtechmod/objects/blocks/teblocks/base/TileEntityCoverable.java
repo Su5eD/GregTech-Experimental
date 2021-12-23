@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Let's you add/remove covers on a tile entity. <b>Isn't responsible</b> for cover behavior.
+ * Lets you add/remove covers on a tile entity. <b>Isn't responsible</b> for cover behavior.
  */
 public abstract class TileEntityCoverable extends TileEntityAutoNBT implements ICoverable {
     protected final CoverHandler coverHandler;
@@ -146,10 +146,5 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
         List<ItemStack> ret = super.getWrenchDrops(player, fortune);
         for (ICover cover : coverHandler.covers.values()) ret.add(cover.getItem());
         return ret;
-    }
-
-    @Override
-    public void updateRender() {
-        rerender();
     }
 }

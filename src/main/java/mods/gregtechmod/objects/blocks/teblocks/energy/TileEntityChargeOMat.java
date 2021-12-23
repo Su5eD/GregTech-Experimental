@@ -36,8 +36,8 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         
         if (this.tickCounter % 20 == 0) {
             EntityPlayer player = this.world.getClosestPlayer(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5, 3, false);

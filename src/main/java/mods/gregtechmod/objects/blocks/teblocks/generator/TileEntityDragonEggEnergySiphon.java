@@ -15,8 +15,8 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
     private static TileEntityDragonEggEnergySiphon activeSiphon = null;
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         if (this.tickCounter == 1) activeSiphon = null;
         
         if (isAllowedToWork() && hasEgg()) {

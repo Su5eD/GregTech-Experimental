@@ -56,8 +56,8 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         
         if (isRedstonePowered() && this.currentIndex < 0) this.currentIndex = 0;
 

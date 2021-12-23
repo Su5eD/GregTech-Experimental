@@ -19,7 +19,7 @@ public class ContainerIndustrialSawmill extends ContainerMachineBase<TileEntityI
     }
     
     @Override
-    protected void getNetworkedFields(List<? super String> list) {
+    public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("waterTank");
     }

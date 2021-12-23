@@ -54,7 +54,7 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
     }
     
     public static double getTransferLimit(int tier) {
-        return Math.pow(2, tier) * 128;
+        return (1 << tier) * 128;
     }
 
     @Override

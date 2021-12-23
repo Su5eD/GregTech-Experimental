@@ -928,6 +928,8 @@ gregtechmod.teblock.tesseract_terminal=Tesseract Terminal
 gregtechmod.teblock.tesseract_terminal.description=Accesses Tesseracts remotely
 gregtechmod.teblock.electric_buffer_small=Small Electric Buffer
 gregtechmod.teblock.electric_buffer_small.description=A small directable Hopper with an inbuilt Energy Conduit!
+gregtechmod.teblock.electric_buffer_large=Large Electric Buffer
+gregtechmod.teblock.electric_buffer_large.description=A chest-sized Buffer!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

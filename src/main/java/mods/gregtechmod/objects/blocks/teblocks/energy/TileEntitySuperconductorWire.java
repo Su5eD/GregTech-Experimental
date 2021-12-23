@@ -5,7 +5,6 @@ import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergyTile;
-import ic2.core.IC2;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.block.state.UnlistedBooleanProperty;
 import ic2.core.util.Util;
@@ -84,7 +83,7 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
                     .filter(this::isSideConnectable)
                     .mapToInt(facing -> 1 << facing.getIndex())
                     .reduce(0, (a, b) -> a | b);
-            IC2.network.get(true).updateTileEntityField(this, "connections");
+            updateClientField("connections");
         }
     }
     

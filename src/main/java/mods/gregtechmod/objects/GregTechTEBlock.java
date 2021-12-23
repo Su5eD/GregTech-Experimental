@@ -19,6 +19,7 @@ import mods.gregtechmod.objects.blocks.teblocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.objects.blocks.teblocks.energy.*;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
+import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBufferLarge;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBufferSmall;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.*;
 import mods.gregtechmod.objects.blocks.teblocks.struct.*;
@@ -99,7 +100,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     GT_TELEPORTER(TileEntityGtTeleporter.class, 55, true, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON),
     TESSERACT_GENERATOR(TileEntityTesseractGenerator.class, 56, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON),
     TESSERACT_TERMINAL(TileEntityTesseractTerminal.class, 57, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON),
-    ELECTRIC_BUFFER_SMALL(TileEntityElectricBufferSmall.class, 58, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.REDSTONE);
+    ELECTRIC_BUFFER_SMALL(TileEntityElectricBufferSmall.class, 58, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_BUFFER_LARGE(TileEntityElectricBufferLarge.class, 59, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
@@ -284,7 +286,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
         DEFAULT,
         BAKED,
         CONNECTED,
-        REDSTONE
+        ELECTRIC_BUFFER
     }
 }
 

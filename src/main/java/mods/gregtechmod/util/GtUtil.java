@@ -281,13 +281,13 @@ public final class GtUtil {
 
                                 ItemStack sourceStackCopy = sourceStack.copy();
                                 int totalSize = sourceStackCopy.getCount() + destStack.getCount();
-                                if (totalSize > maxTargetSize)
-                                    sourceStackCopy.setCount(maxTargetSize - destStack.getCount());
+                                if (totalSize > maxTargetSize) sourceStackCopy.setCount(maxTargetSize - destStack.getCount());
 
-                                if (totalSize >= minTargetSize && sourceStackCopy.getCount() >= minMove && (destStack.isEmpty() || ItemHandlerHelper.canItemStacksStack(sourceStackCopy, destStack))) {
+                                if (totalSize >= minTargetSize && (destStack.isEmpty() || sourceStackCopy.getCount() >= minMove && ItemHandlerHelper.canItemStacksStack(sourceStackCopy, destStack))) {
                                     ItemStack inserted = dest.insertItem(j, sourceStackCopy, false);
-                                    if (inserted.isEmpty()) source.extractItem(i, sourceStackCopy.getCount(), false);
-                                    break;
+                                    int count = sourceStackCopy.getCount();
+                                    if (inserted.isEmpty()) source.extractItem(i, count, false);
+                                    return count;
                                 }
                             }
                         }

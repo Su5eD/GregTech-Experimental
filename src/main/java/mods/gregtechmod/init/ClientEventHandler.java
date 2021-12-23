@@ -102,8 +102,8 @@ public class ClientEventHandler {
                 case CONNECTED:
                     registerConnectedBakedModel(loader, teBlock.getName(), "machines", "", ModelTEBlockConnected::new);
                     break;
-                case REDSTONE:
-                    registerRedstoneModel(teBlock.getName(), models, loader);
+                case ELECTRIC_BUFFER:
+                    registerElectricBufferModel(teBlock.getName(), models, loader);
                     break;
             }
         }
@@ -136,9 +136,11 @@ public class ClientEventHandler {
         }
     }
     
-    private static void registerRedstoneModel(String name, JsonObject models, BakedModelLoader loader) {
+    private static void registerElectricBufferModel(String name, JsonObject models, BakedModelLoader loader) {
         JsonHandler json = getTeBlockModel(name, models);
-        ModelRedstone model = new ModelRedstone(json.particle, json.generateTextureMap(), json.generateTextureMap("texturesRedstone"));
+        ResourceLocation textureDown = json.getResouceLocationElement("textureDown");
+        ResourceLocation textureDownRedstone = json.getResouceLocationElement("textureDownRedstone");
+        ModelElectricBuffer model = new ModelElectricBuffer(json.particle, json.generateTextureMap(), json.generateTextureMap("texturesRedstone"), textureDown, textureDownRedstone);
         loader.register("models/block/" + name, model);
     }
     

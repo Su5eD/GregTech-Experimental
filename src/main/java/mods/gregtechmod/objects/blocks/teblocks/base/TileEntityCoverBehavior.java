@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import com.mojang.authlib.GameProfile;
-import ic2.core.IC2;
 import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.cover.ICover;
@@ -100,8 +99,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
         
         for (ICover cover : this.coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
@@ -256,7 +255,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     public void setOwner(GameProfile owner) {
         this.owner = owner;
-        IC2.network.get(true).updateTileEntityField(this, "owner");
+        updateClientField("owner");
     }
 
     public boolean isPrivate() {

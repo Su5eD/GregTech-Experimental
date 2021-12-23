@@ -30,8 +30,8 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
     }
 
     @Override
-    protected void preTickServer() {
-        super.preTickServer();
+    protected void updateEntityServer() {
+        super.updateEntityServer();
 
         if (this.tickCounter % 10 == 0) {
             IFuel<IRecipeIngredient> fuel = getFuel();
