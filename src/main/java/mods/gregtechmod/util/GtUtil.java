@@ -10,6 +10,7 @@ import ic2.core.util.Util;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
+import mods.gregtechmod.api.util.QuadFunction;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import net.minecraft.block.Block;
@@ -267,33 +268,56 @@ public final class GtUtil {
     }
     
     public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove) {
+        return moveItemStack(from, to, fromSide, toSide, maxMove, dest -> true, (source, dest, sourceStack, sourceSlot) -> {
+            for (int j = 0; j < dest.getSlots(); j++) {
+                int count = moveSingleItemStack(source, dest, sourceStack, sourceSlot, j, minMove, minTargetSize, maxTargetSize);
+                if (count > 0) return count;
+            }
+            return 0;
+        });
+    }
+    
+    public static int moveItemStackIntoSlot(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int destSlot, int maxTargetSize, int minTargetSize, int maxMove, int minMove) {
+        return moveItemStack(from, to, fromSide, toSide, maxMove, dest -> dest.getSlots() >= destSlot, (source, dest, sourceStack, sourceSlot) -> {
+            int count = moveSingleItemStack(source, dest, sourceStack, sourceSlot, destSlot, minMove, minTargetSize, maxTargetSize);
+            return Math.max(count, 0);
+        });
+    }
+    
+    private static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxMove,
+                                     java.util.function.Predicate<IItemHandler> condition, QuadFunction<IItemHandler, IItemHandler, ItemStack, Integer, Integer> consumer) {
         if (to != null) {
             IItemHandler source = from.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, fromSide);
             if (source != null) {
                 IItemHandler dest = to.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, toSide);
 
-                if (dest != null) {
+                if (dest != null && condition.test(dest)) {
                     for (int i = 0; i < source.getSlots(); i++) {
                         ItemStack sourceStack = source.extractItem(i, maxMove, true);
                         if (!sourceStack.isEmpty()) {
-                            for (int j = 0; j < dest.getSlots(); j++) {
-                                ItemStack destStack = dest.getStackInSlot(j);
-
-                                ItemStack sourceStackCopy = sourceStack.copy();
-                                int totalSize = sourceStackCopy.getCount() + destStack.getCount();
-                                if (totalSize > maxTargetSize) sourceStackCopy.setCount(maxTargetSize - destStack.getCount());
-
-                                if (totalSize >= minTargetSize && (destStack.isEmpty() || sourceStackCopy.getCount() >= minMove && ItemHandlerHelper.canItemStacksStack(sourceStackCopy, destStack))) {
-                                    ItemStack inserted = dest.insertItem(j, sourceStackCopy, false);
-                                    int count = sourceStackCopy.getCount();
-                                    if (inserted.isEmpty()) source.extractItem(i, count, false);
-                                    return count;
-                                }
-                            }
+                            return consumer.apply(source, dest, sourceStack, i);
                         }
                     }
                 }
             }
+        }
+        
+        return 0;
+    }
+    
+    private static int moveSingleItemStack(IItemHandler source, IItemHandler dest, ItemStack sourceStack, int sourceSlot, int destSlot, int minMove, int minTargetSize, int maxTargetSize) {
+        ItemStack destStack = dest.getStackInSlot(destSlot);
+        
+        ItemStack sourceStackCopy = sourceStack.copy();
+        int totalSize = sourceStackCopy.getCount() + destStack.getCount();
+        if (totalSize > maxTargetSize)
+            sourceStackCopy.setCount(maxTargetSize - destStack.getCount());
+        
+        if (totalSize >= minTargetSize && (destStack.isEmpty() || sourceStackCopy.getCount() >= minMove && ItemHandlerHelper.canItemStacksStack(sourceStackCopy, destStack))) {
+            ItemStack inserted = dest.insertItem(destSlot, sourceStackCopy, false);
+            int count = sourceStackCopy.getCount();
+            if (inserted.isEmpty()) source.extractItem(sourceSlot, count, false);
+            return count;
         }
         
         return 0;

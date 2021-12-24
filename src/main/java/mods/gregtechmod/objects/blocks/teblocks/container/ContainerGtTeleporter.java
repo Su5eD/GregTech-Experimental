@@ -13,8 +13,16 @@ public class ContainerGtTeleporter extends ContainerGtBase<TileEntityGtTeleporte
 
     public ContainerGtTeleporter(EntityPlayer player, TileEntityGtTeleporter base) {
         super(player, base);
-        
-        addButtons();
+
+        for (Button button : Button.VALUES) {
+            int yOffset = 5 + button.ordinal() * 18;
+
+            addSlotToContainer(new SlotInteractive(this.base, -1, 8, yOffset, clickType -> pushButton(-64, -512, clickType, button.onClick)));
+            addSlotToContainer(new SlotInteractive(this.base, -1, 26, yOffset, clickType -> pushButton(-1, -16, clickType, button.onClick)));
+
+            addSlotToContainer(new SlotInteractive(this.base, -1, 134, yOffset, clickType -> pushButton(1, 16, clickType, button.onClick)));
+            addSlotToContainer(new SlotInteractive(this.base, -1, 152, yOffset, clickType -> pushButton(64, 512, clickType, button.onClick)));
+        }
     }
     
     private enum Button {
@@ -33,19 +41,6 @@ public class ContainerGtTeleporter extends ContainerGtBase<TileEntityGtTeleporte
 
         Button(BiConsumer<TileEntityGtTeleporter, Integer> onClick) {
             this.onClick = onClick;
-        }
-    }
-    
-    private void addButtons() {
-        for (int y = 0; y < Button.VALUES.length; y++) {
-            Button button = Button.VALUES[y];
-            int yOffset = 5 + y * 18;
-            
-            addSlotToContainer(new SlotInteractive(this.base, -1, 8, yOffset, (dragType, clickType, player) -> pushButton(-64, -512, clickType, button.onClick)));
-            addSlotToContainer(new SlotInteractive(this.base, -1, 26, yOffset, (dragType, clickType, player) -> pushButton(-1, -16, clickType, button.onClick)));
-            
-            addSlotToContainer(new SlotInteractive(this.base, -1, 134, yOffset, (dragType, clickType, player) -> pushButton(1, 16, clickType, button.onClick)));
-            addSlotToContainer(new SlotInteractive(this.base, -1, 152, yOffset, (dragType, clickType, player) -> pushButton(64, 512, clickType, button.onClick)));
         }
     }
     

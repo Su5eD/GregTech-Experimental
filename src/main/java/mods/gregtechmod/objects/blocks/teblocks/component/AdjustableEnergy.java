@@ -24,8 +24,8 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     
     @NBTPersistent
     private double storedEnergy;
-    private Collection<EnumFacing> oldSinkSides = getSinkSides();
-    private Collection<EnumFacing> oldSourceSides = getSourceSides();
+    private Collection<EnumFacing> oldSinkSides;
+    private Collection<EnumFacing> oldSourceSides;
     
     private final Collection<IChargingSlot> chargingSlots = new HashSet<>();
     private final Collection<IDischargingSlot> dischargingSlots = new HashSet<>();
@@ -136,13 +136,19 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     
     private Collection<EnumFacing> getActualSinkSides() {
         Collection<EnumFacing> sinkSides = getSinkSides();
-        if (!JavaUtil.matchCollections(sinkSides, this.oldSinkSides)) refreshSides(sinkSides, getSourceSides());
+        
+        if (this.oldSinkSides == null) this.oldSinkSides = sinkSides;
+        else if (!JavaUtil.matchCollections(sinkSides, this.oldSinkSides)) refreshSides(sinkSides, getSourceSides());
+        
         return sinkSides;
     }
     
     private Collection<EnumFacing> getActualSourceSides() {
         Collection<EnumFacing> sourceSides = getSourceSides();
-        if (!JavaUtil.matchCollections(sourceSides, this.oldSourceSides)) refreshSides(getSourceSides(), sourceSides);
+        
+        if (this.oldSourceSides == null) this.oldSourceSides = sourceSides;
+        else if (!JavaUtil.matchCollections(sourceSides, this.oldSourceSides)) refreshSides(getSourceSides(), sourceSides);
+        
         return sourceSides;
     }
     
@@ -158,7 +164,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         if (reload) {
             this.onUnloaded();
             this.onLoaded();
-        } else parent.getWorld().notifyNeighborsOfStateChange(parent.getPos(), parent.getBlockType(), false);
+        } else this.parent.getWorld().notifyNeighborsOfStateChange(this.parent.getPos(), this.parent.getBlockType(), false);
     }
     
     @Override

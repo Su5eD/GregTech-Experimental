@@ -3,14 +3,13 @@
   "ingredients": [
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "large electric buffer"
+      "data": 59
     }
   ],
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???",
+    "data": 58,
     "count": 8
   }
 }

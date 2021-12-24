@@ -31,13 +31,12 @@
     "H":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "small electric buffer"
+      "data": 58
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 60
   }
 }

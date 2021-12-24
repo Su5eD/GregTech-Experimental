@@ -1,39 +1,19 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
+import mods.gregtechmod.inventory.SlotInteractive;
 import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntityAESU;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 public class ContainerAESU extends ContainerEnergyStorage<TileEntityAESU> {
     
     public ContainerAESU(EntityPlayer player, TileEntityAESU base) {
         super(player, base);
         
-        addSlotToContainer(new Slot(base, -1, 107, 5));
-        addSlotToContainer(new Slot(base, -1, 107, 23));
-        addSlotToContainer(new Slot(base, -1, 107, 41));
-        addSlotToContainer(new Slot(base, -1, 107, 59));
-    }
-
-    @Override
-    public ItemStack slotClick(int slotId, int dragType, ClickType clickType, EntityPlayer player) {
-        switch (slotId) {
-            case 42:
-                increaseOutputVoltage(clickType, 64, 256);
-                break;
-            case 43:
-                increaseOutputVoltage(clickType, 1, 16);
-                break;
-            case 44:
-                decreaseOutputVoltage(clickType, 1, 16);
-                break;
-            case 45:
-                decreaseOutputVoltage(clickType, 64, 256);
-                break;
-        }
-        return super.slotClick(slotId, dragType, clickType, player);
+        addSlotToContainer(new SlotInteractive(base, 107, 5, clickType -> increaseOutputVoltage(clickType, 64, 256)));
+        addSlotToContainer(new SlotInteractive(base, 107, 23, clickType -> increaseOutputVoltage(clickType, 1, 16)));
+        addSlotToContainer(new SlotInteractive(base, 107, 41, clickType -> decreaseOutputVoltage(clickType, 1, 16)));
+        addSlotToContainer(new SlotInteractive(base, 107, 59, clickType -> decreaseOutputVoltage(clickType, 64, 256)));
     }
     
     private void increaseOutputVoltage(ClickType clickType, int min, int max) {

@@ -31,14 +31,14 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     private final GtRedstoneEmitter emitter;
 
     @NBTPersistent
-    public boolean outputEnergy;
+    public boolean outputEnergy = true;
     @NBTPersistent
     public boolean redstoneIfFull;
     @NBTPersistent
     public boolean invertRedstone;
     @NBTPersistent
-    private int targetStackSize;
-    private int success;
+    protected int targetStackSize;
+    protected int success;
 
     public TileEntityElectricBuffer(int invSize) {
         this.buffer = new GtSlotElectricBuffer(this, "buffer", InvSlot.Access.IO, invSize);
@@ -48,24 +48,11 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-
-        int invSize = getSizeInventory();
+        
         boolean hasItem = !this.buffer.isEmpty();
-        if (isAllowedToWork() && canUseEnergy(500) && (
-                workJustHasBeenEnabled()
-                        || this.tickCounter % 200 == 0
-                        || this.tickCounter % 5 == 0 && (this.success > 0 || hasItem && this.tickCounter % 10 == 0 && invSize <= 1)
-                        || this.success >= 20
-                        || this.inventoryModified.get()
-        )) {
+        if (isAllowedToWork() && canUseEnergy(500) && shouldUpdate(hasItem)) {
             this.success--;
-            if (hasItem) {
-                int cost = GtUtil.moveItemStack(this, this.world.getTileEntity(this.pos.offset(getOppositeFacing())), getOppositeFacing(), getFacing(), this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1, 64, invSize > 10 ? 2 : 1);
-                if (cost > 0) {
-                    this.success = 20;
-                    useEnergy(cost);
-                }
-            }
+            if (hasItem) moveItem();
 
             if (this.redstoneIfFull) {
                 this.emitter.setLevel(this.invertRedstone ? 0 : 15);
@@ -77,6 +64,23 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
                     }
                 }
             } else this.emitter.setLevel(this.invertRedstone ? 15 : 0);
+        }
+    }
+    
+    protected boolean shouldUpdate(boolean hasItem) {
+        int invSize = getSizeInventory();
+        return workJustHasBeenEnabled() 
+                || this.tickCounter % 200 == 0
+                || this.tickCounter % 5 == 0 && (this.success > 0 || hasItem && this.tickCounter % 10 == 0 && invSize <= 1)
+                || this.success >= 20
+                || this.inventoryModified.get();
+    }
+    
+    protected void moveItem() {
+        int cost = GtUtil.moveItemStack(this, this.world.getTileEntity(this.pos.offset(getOppositeFacing())), getOppositeFacing(), getFacing(), this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1, 64, getSizeInventory() > 10 ? 2 : 1);
+        if (cost > 0) {
+            this.success = 20;
+            useEnergy(cost);
         }
     }
 

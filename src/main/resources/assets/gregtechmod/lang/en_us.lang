@@ -227,6 +227,7 @@ gregtechmod.info.tier=Tier: %s
 gregtechmod.info.empty=Empty. You need to recharge it.
 gregtechmod.info.max_energy_in=Max EU/p IN: %s
 gregtechmod.info.max_energy_out=Max EU/p OUT: %s
+gregtechmod.info.output_packets=Amount of Output Packets: %s
 gregtechmod.info.eu_storage=EU Storage: %s
 gregtechmod.info.access_error=Only %s can access this.
 gregtechmod.info.buildcraft_absent=BuildcraftLib is required to apply this upgrade
@@ -930,6 +931,8 @@ gregtechmod.teblock.electric_buffer_small=Small Electric Buffer
 gregtechmod.teblock.electric_buffer_small.description=A small directable Hopper with an inbuilt Energy Conduit!
 gregtechmod.teblock.electric_buffer_large=Large Electric Buffer
 gregtechmod.teblock.electric_buffer_large.description=A chest-sized Buffer!
+gregtechmod.teblock.electric_buffer_advanced=Advanced Buffer
+gregtechmod.teblock.electric_buffer_advanced.description=A Buffer, which lets you specify the target Slot!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

@@ -192,7 +192,11 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
         if (this.energy.isSink()) tooltip.add(GtLocale.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
-        if (this.energy.isSource()) tooltip.add(GtLocale.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
+        if (this.energy.isSource()) {
+            tooltip.add(GtLocale.translateInfo("max_energy_out", Math.round(getMaxOutputEUp())));
+            int packets = getSourcePackets();
+            if (packets > 1) tooltip.add(GtLocale.translateInfo("output_packets", packets));
+        }
         if (this.energyCapacityTooltip) tooltip.add(GtLocale.translateInfo("eu_storage", JavaUtil.formatNumber(this.energy.getCapacity())));
     }
     

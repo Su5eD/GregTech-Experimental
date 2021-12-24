@@ -90,7 +90,8 @@
       "tesseract_generator": { "model": "gregtechmod:tesseract_generator" },
       "tesseract_terminal": { "model": "gregtechmod:tesseract_terminal" },
       "electric_buffer_small": { "model": "gregtechmod:electric_buffer_small" },
-      "electric_buffer_large": { "model": "gregtechmod:electric_buffer_large" }
+      "electric_buffer_large": { "model": "gregtechmod:electric_buffer_large" },
+      "electric_buffer_advanced": { "model": "gregtechmod:electric_buffer_advanced" }
     },
     "facing": {
       "down": { "x": 90 },
