@@ -4,10 +4,10 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricBuffe
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiElectricBufferSmall extends GuiElectricBuffer<ContainerElectricBufferSmall<?>> {
-    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("electric_buffer_small");
+public class GuiElectricItemClearer extends GuiElectricBuffer<ContainerElectricBufferSmall<?>> {
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("electric_item_clearer");
     
-    public GuiElectricBufferSmall(ContainerElectricBufferSmall<?> container) {
+    public GuiElectricItemClearer(ContainerElectricBufferSmall<?> container) {
         super(container);
     }
     

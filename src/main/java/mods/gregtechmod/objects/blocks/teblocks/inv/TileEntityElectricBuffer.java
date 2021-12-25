@@ -88,6 +88,9 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("emitter");
+        list.add("outputEnergy");
+        list.add("redstoneIfFull");
+        list.add("invertRedstone");
     }
 
     @Override

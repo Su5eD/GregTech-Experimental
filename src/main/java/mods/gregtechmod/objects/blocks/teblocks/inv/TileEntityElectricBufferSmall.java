@@ -19,8 +19,8 @@ public class TileEntityElectricBufferSmall extends TileEntityElectricBuffer {
     }
 
     @Override
-    public ContainerElectricBufferSmall getGuiContainer(EntityPlayer player) {
-        return new ContainerElectricBufferSmall(player, this);
+    public ContainerElectricBufferSmall<?> getGuiContainer(EntityPlayer player) {
+        return new ContainerElectricBufferSmall<>(player, this);
     }
 
     @Override

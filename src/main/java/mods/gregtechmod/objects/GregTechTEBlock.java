@@ -22,6 +22,7 @@ import mods.gregtechmod.objects.blocks.teblocks.generator.*;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBufferAdvanced;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBufferLarge;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBufferSmall;
+import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricItemClearer;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.*;
 import mods.gregtechmod.objects.blocks.teblocks.struct.*;
 import mods.gregtechmod.util.LazyValue;
@@ -103,7 +104,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     TESSERACT_TERMINAL(TileEntityTesseractTerminal.class, 57, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON),
     ELECTRIC_BUFFER_SMALL(TileEntityElectricBufferSmall.class, 58, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_BUFFER_LARGE(TileEntityElectricBufferLarge.class, 59, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_BUFFER_ADVANCED(TileEntityElectricBufferAdvanced.class, 60, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER);
+    ELECTRIC_BUFFER_ADVANCED(TileEntityElectricBufferAdvanced.class, 60, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_ITEM_CLEARER(TileEntityElectricItemClearer.class, 61, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();

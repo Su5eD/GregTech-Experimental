@@ -17,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -26,6 +27,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
@@ -327,6 +329,16 @@ public final class GtUtil {
         Set<EnumFacing> sides = new HashSet<>(Util.allFacings);
         sides.remove(side);
         return sides;
+    }
+    
+    public static ItemStack pickUpItemFromArea(World world, BlockPos begin, BlockPos end) {
+        List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(begin, end));
+        if (list.size() > 0) {
+            EntityItem entityItem = list.get(0);
+            world.removeEntity(entityItem);
+            return entityItem.getItem();
+        } 
+        return ItemStack.EMPTY;
     }
 
     private static class VoidTank implements IFluidHandler {

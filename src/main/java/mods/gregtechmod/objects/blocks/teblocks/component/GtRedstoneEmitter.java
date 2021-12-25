@@ -26,13 +26,13 @@ public class GtRedstoneEmitter extends GtComponentBase {
 
     @Override
     public void readFromNbt(NBTTagCompound nbt) {
-        setLevel(nbt.getInteger("level"));
+        this.level = nbt.getInteger("level");
     }
 
     @Override
     public NBTTagCompound writeToNbt() {
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setInteger("level", getLevel());
+        nbt.setInteger("level", this.level);
         return nbt;
     }
 }
