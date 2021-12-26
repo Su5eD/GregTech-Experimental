@@ -4,7 +4,7 @@
     "particle": "gregtechmod:blocks/machines/translocator/translocator_up",
     "down": "gregtechmod:blocks/machines/translocator/translocator_up",
     "up": "gregtechmod:blocks/machines/translocator/translocator_up",
-    "north": "gregtechmod:blocks/machines/adv_machine_pipe_yellow",
+    "north": "gregtechmod:blocks/machines/crop_harvestor/crop_harvestor_front",
     "south": "gregtechmod:blocks/machines/adv_machine_pipe_red",
     "east": "gregtechmod:blocks/machines/translocator/translocator_left",
     "west": "gregtechmod:blocks/machines/translocator/translocator_right"
@@ -12,7 +12,7 @@
   "texturesRedstone": {
     "down": "gregtechmod:blocks/machines/translocator/translocator_up_redstone",
     "up": "gregtechmod:blocks/machines/translocator/translocator_up_redstone",
-    "north": "gregtechmod:blocks/machines/adv_machine_pipe_yellow_redstone",
+    "north": "gregtechmod:blocks/machines/crop_harvestor/crop_harvestor_front_redstone",
     "south": "gregtechmod:blocks/machines/adv_machine_pipe_red_redstone",
     "east": "gregtechmod:blocks/machines/translocator/translocator_left_redstone",
     "west": "gregtechmod:blocks/machines/translocator/translocator_right_redstone"

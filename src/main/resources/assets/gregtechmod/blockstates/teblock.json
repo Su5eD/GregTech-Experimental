@@ -92,7 +92,8 @@
       "electric_buffer_small": { "model": "gregtechmod:electric_buffer_small" },
       "electric_buffer_large": { "model": "gregtechmod:electric_buffer_large" },
       "electric_buffer_advanced": { "model": "gregtechmod:electric_buffer_advanced" },
-      "electric_item_clearer": { "model": "gregtechmod:electric_item_clearer" }
+      "electric_item_clearer": { "model": "gregtechmod:electric_item_clearer" },
+      "crop_harvestor": { "model": "gregtechmod:crop_harvestor" }
     },
     "facing": {
       "down": { "x": 90 },

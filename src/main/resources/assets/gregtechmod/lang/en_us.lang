@@ -935,6 +935,8 @@ gregtechmod.teblock.electric_buffer_advanced=Advanced Buffer
 gregtechmod.teblock.electric_buffer_advanced.description=A Buffer, which lets you specify the target Slot!
 gregtechmod.teblock.electric_item_clearer=Electric Item Clearer
 gregtechmod.teblock.electric_item_clearer.description=Clears out a 3x3x3 in front of it
+gregtechmod.teblock.crop_harvestor=Crop Harvestor
+gregtechmod.teblock.crop_harvestor.description=Harvests the Cropsticks in front of it
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

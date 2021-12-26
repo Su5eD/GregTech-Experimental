@@ -39,7 +39,7 @@ public class TileEntityElectricItemClearer extends TileEntityElectricBuffer {
             BlockPos beginPos = offsetPos.add(-negOffset, -negOffset, -negOffset);
             BlockPos endPos = offsetPos.add(rangeExt, rangeExt, rangeExt);
             
-            ItemStack stack = GtUtil.pickUpItemFromArea(this.world, beginPos, endPos);
+            ItemStack stack = GtUtil.collectItemFromArea(this.world, beginPos, endPos);
             this.buffer.put(stack);
         }
     }

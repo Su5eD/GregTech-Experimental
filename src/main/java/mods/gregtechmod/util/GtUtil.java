@@ -331,7 +331,7 @@ public final class GtUtil {
         return sides;
     }
     
-    public static ItemStack pickUpItemFromArea(World world, BlockPos begin, BlockPos end) {
+    public static ItemStack collectItemFromArea(World world, BlockPos begin, BlockPos end) {
         List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(begin, end));
         if (list.size() > 0) {
             EntityItem entityItem = list.get(0);

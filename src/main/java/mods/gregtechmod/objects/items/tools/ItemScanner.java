@@ -90,9 +90,10 @@ public class ItemScanner extends ItemElectricBase {
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
     }
 
+    // FIXME Remove client-only class usage, use ITextComponent instead 
     @SuppressWarnings("ConstantConditions")
     public static Pair<Collection<String>, Integer> getCoordinateScan(EntityPlayer player, World world, int scanLevel, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        ArrayList<String> ret = new ArrayList<>();
+        List<String> ret = new ArrayList<>();
         int energyCost = 0;
         TileEntity tileEntity = world.getTileEntity(pos);
         IBlockState state = world.getBlockState(pos);
@@ -200,17 +201,17 @@ public class ItemScanner extends ItemElectricBase {
 
             if (tileEntity instanceof ICropTile) {
                 ICropTile tile = (ICropTile) tileEntity;
+                CropCard crop = tile.getCrop();
                 if (tile.getScanLevel() < 4) {
                     energyCost += 10000;
                     tile.setScanLevel((byte) 4);
                 }
                 energyCost += 1000;
 
-                ret.add(GtLocale.translateScan("crop_type", tile.getStatGrowth(), tile.getStatGain(), tile.getStatResistance()));
+                ret.add(GtLocale.translateScan("crop_type", I18n.format(crop.getUnlocalizedName()), tile.getStatGrowth(), tile.getStatGain(), tile.getStatResistance()));
                 ret.add(GtLocale.translateScan("crop_fertilizer", tile.getStorageNutrients(), tile.getStorageWater(), tile.getStorageWeedEX(), tile.getScanLevel()));
                 ret.add(GtLocale.translateScan("crop_environment", tile.getTerrainNutrients(), tile.getTerrainHumidity(), tile.getTerrainAirQuality()));
-
-                CropCard crop = tile.getCrop();
+                
                 ret.add(GtLocale.translateScan("attributes", String.join(", ", crop.getAttributes())));
                 ret.add(GtLocale.translateScan("discoverer", crop.getDiscoveredBy()));
             }
