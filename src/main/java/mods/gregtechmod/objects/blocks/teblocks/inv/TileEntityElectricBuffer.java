@@ -27,7 +27,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     public static final IUnlistedProperty<Boolean> REDSTONE_TEXTURE_PROPERTY = new UnlistedBooleanProperty("redstoneTextures");
 
     public final BooleanCountdown inventoryModified = createSingleCountDown();
-    public final InvSlot buffer;
+    public final GtSlotElectricBuffer buffer;
     private final GtRedstoneEmitter emitter;
 
     @NBTPersistent
@@ -41,16 +41,24 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     protected int success;
 
     public TileEntityElectricBuffer(int invSize) {
-        this.buffer = new GtSlotElectricBuffer(this, "buffer", InvSlot.Access.IO, invSize);
+        this.buffer = new GtSlotElectricBuffer(this, "buffer", getBufferSlotAccess(), invSize);
         this.emitter = addComponent(new GtRedstoneEmitter(this, () -> updateClientField("emitter")));
     }
-
+    
+    protected InvSlot.Access getBufferSlotAccess() {
+        return InvSlot.Access.IO;
+    }
+    
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
         
+        if (isAllowedToWork()) work();
+    }
+    
+    protected void work() {
         boolean hasItem = !this.buffer.isEmpty();
-        if (isAllowedToWork() && canUseEnergy(500) && shouldUpdate(hasItem)) {
+        if (canUseEnergy(500) && shouldUpdate(hasItem)) {
             this.success--;
             if (hasItem) moveItem();
 
@@ -82,6 +90,10 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
             this.success = 20;
             useEnergy(cost);
         }
+    }
+    
+    protected int getOverclockerMultiplier() {
+        return (int) Math.pow(4, getUpgradeCount(IC2UpgradeType.OVERCLOCKER));
     }
 
     @Override

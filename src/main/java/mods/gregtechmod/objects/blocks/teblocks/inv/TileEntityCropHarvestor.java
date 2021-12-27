@@ -31,17 +31,15 @@ public class TileEntityCropHarvestor extends TileEntityElectricBuffer {
 
     @Override
     protected int getMinimumStoredEU() {
-        return 1000 + (int) Math.pow(4, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) * 100;
+        return 1000 + getOverclockerMultiplier() * 100;
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
-        
-        if (isAllowedToWork() && (workJustHasBeenEnabled() || this.tickCounter % 20 == 0)) {
+    protected void work() {
+        if (workJustHasBeenEnabled() || this.tickCounter % 20 == 0) {
             int overclockers = getUpgradeCount(IC2UpgradeType.OVERCLOCKER);
-            int overclockerFactor = (int) Math.pow(4, overclockers);
-            int harvestEnergy = 100 * overclockerFactor;
+            int multiplier = getOverclockerMultiplier();
+            int harvestEnergy = 100 * multiplier;
             if (canUseEnergy(harvestEnergy)) {
                 int range = 1 << overclockers;
                 for (int i = 0; i < range; i++) {
@@ -54,8 +52,8 @@ public class TileEntityCropHarvestor extends TileEntityElectricBuffer {
                             break;
                         }
                     }
-                    
-                    int collectEnergy = 64 * overclockerFactor;
+
+                    int collectEnergy = 64 * multiplier;
                     if (this.buffer.isEmpty() && canUseEnergy(collectEnergy)) {
                         BlockPos offset = this.pos.offset(getFacing(), i + 1);
                         ItemStack stack = GtUtil.collectItemFromArea(this.world, offset, offset.add(1, 1, 1));
@@ -67,6 +65,7 @@ public class TileEntityCropHarvestor extends TileEntityElectricBuffer {
                 }
             }
         }
+        super.work();
     }
 
     @Override

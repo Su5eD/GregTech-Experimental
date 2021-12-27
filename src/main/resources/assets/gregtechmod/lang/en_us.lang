@@ -937,6 +937,8 @@ gregtechmod.teblock.electric_item_clearer=Electric Item Clearer
 gregtechmod.teblock.electric_item_clearer.description=Clears out a 3x3x3 in front of it
 gregtechmod.teblock.crop_harvestor=Crop Harvestor
 gregtechmod.teblock.crop_harvestor.description=Harvests the Cropsticks in front of it
+gregtechmod.teblock.electric_rock_breaker=Electric Rock Breaker
+gregtechmod.teblock.electric_rock_breaker.description=Electric Cobble Generator Mk VI
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

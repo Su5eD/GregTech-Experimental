@@ -27,21 +27,19 @@ public class TileEntityElectricItemClearer extends TileEntityElectricBuffer {
     }
 
     @Override
-    protected void updateEntityServer() {
-        super.updateEntityServer();
-        
+    protected void work() {
         int overclockers = getUpgradeCount(IC2UpgradeType.OVERCLOCKER);
-        if (isAllowedToWork() && this.buffer.isEmpty() && canUseEnergy(64 * (1 << overclockers)) && (workJustHasBeenEnabled() || this.tickCounter % 20 == 0 || this.success == 20)) {
-            int offset = 2 + overclockers;
+        if (this.buffer.isEmpty() && canUseEnergy(64 * (1 << overclockers)) && (workJustHasBeenEnabled() || this.tickCounter % 20 == 0 || this.success == 20)) {
             int negOffset = 1 + overclockers;
             int rangeExt = 2 + overclockers * 2;
-            BlockPos offsetPos = this.pos.offset(getFacing(), offset);
+            BlockPos offsetPos = this.pos.offset(getFacing(), 2 + overclockers);
             BlockPos beginPos = offsetPos.add(-negOffset, -negOffset, -negOffset);
             BlockPos endPos = offsetPos.add(rangeExt, rangeExt, rangeExt);
-            
+
             ItemStack stack = GtUtil.collectItemFromArea(this.world, beginPos, endPos);
             this.buffer.put(stack);
         }
+        super.work();
     }
 
     @Override

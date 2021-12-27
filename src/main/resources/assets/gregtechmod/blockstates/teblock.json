@@ -93,7 +93,8 @@
       "electric_buffer_large": { "model": "gregtechmod:electric_buffer_large" },
       "electric_buffer_advanced": { "model": "gregtechmod:electric_buffer_advanced" },
       "electric_item_clearer": { "model": "gregtechmod:electric_item_clearer" },
-      "crop_harvestor": { "model": "gregtechmod:crop_harvestor" }
+      "crop_harvestor": { "model": "gregtechmod:crop_harvestor" },
+      "electric_rock_breaker": { "model": "gregtechmod:electric_rock_breaker" }
     },
     "facing": {
       "down": { "x": 90 },

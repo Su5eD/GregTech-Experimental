@@ -103,7 +103,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     ELECTRIC_BUFFER_LARGE(TileEntityElectricBufferLarge.class, 59, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_BUFFER_ADVANCED(TileEntityElectricBufferAdvanced.class, 60, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_ITEM_CLEARER(TileEntityElectricItemClearer.class, 61, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER),
-    CROP_HARVESTOR(TileEntityCropHarvestor.class, 62, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER);
+    CROP_HARVESTOR(TileEntityCropHarvestor.class, 62, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_ROCK_BREAKER(TileEntityElectricRockBreaker.class, 63, false, Util.allFacings, true, HarvestTool.Wrench, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, ModelType.ELECTRIC_BUFFER);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
