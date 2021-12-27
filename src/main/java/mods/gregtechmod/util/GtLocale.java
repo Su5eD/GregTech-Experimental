@@ -52,10 +52,6 @@ public final class GtLocale {
         return I18n.format(Reference.MODID + "." + key, parameters);
     }
     
-    public static String getTeBlockKey(ITeBlock teBlock, String name) {
-        return Reference.MODID + ".teblock." + teBlock.getName() + "." + name;
-    }
-    
     public static boolean hasKey(String key) {
         return I18n.hasKey(Reference.MODID + "." + key);
     }

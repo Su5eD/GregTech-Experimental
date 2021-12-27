@@ -43,7 +43,7 @@ public class ItemHardHammer extends ItemHammer {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         ItemStack copy = stack.copy();
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             GregTechMod.runProxy(clientProxy -> clientProxy.playSound(SoundEvents.BLOCK_ANVIL_USE, JavaUtil.RANDOM.nextFloat() * 0.1F + 0.9F));
         }
         if (copy.attemptDamageItem(4, JavaUtil.RANDOM, null)) return ItemStack.EMPTY;

@@ -39,17 +39,15 @@ public class ModelTeBlock extends ModelBase {
     }
     
     public ModelTeBlock(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
-        super(particle, textures);
+        super(particle, textures, false);
         this.textures = textures.get(0);
-        
-        this.enableCache = false;
     }
 
     @Override
     protected IBakedModel generateModel(IBlockState rawState) {
         Map<EnumFacing, ResourceLocation> covers = new HashMap<>();
         EnumFacing face = rawState.getValue(BlockTileEntity.facingProperty);
-        Ic2BlockStateInstance state = (Ic2BlockStateInstance)rawState;
+        Ic2BlockStateInstance state = (Ic2BlockStateInstance) rawState;
         Map<EnumFacing, List<BakedQuad>> faceQuads = new HashMap<>();
 
         if (state.hasValue(CoverHandler.COVER_HANDLER_PROPERTY)) {
