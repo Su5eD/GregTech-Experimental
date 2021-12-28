@@ -311,10 +311,10 @@ public final class GtUtil {
         ItemStack destStack = dest.getStackInSlot(destSlot);
         
         ItemStack sourceStackCopy = sourceStack.copy();
-        int totalSize = sourceStackCopy.getCount() + destStack.getCount();
-        if (totalSize > maxTargetSize)
-            sourceStackCopy.setCount(maxTargetSize - destStack.getCount());
+        int free = destStack.getMaxStackSize() - destStack.getCount();
+        sourceStackCopy.setCount(Math.min(sourceStackCopy.getCount(), Math.min(maxTargetSize - destStack.getCount(), free)));
         
+        int totalSize = sourceStackCopy.getCount() + destStack.getCount();
         if (totalSize >= minTargetSize && (destStack.isEmpty() || sourceStackCopy.getCount() >= minMove && ItemHandlerHelper.canItemStacksStack(sourceStackCopy, destStack))) {
             ItemStack inserted = dest.insertItem(destSlot, sourceStackCopy, false);
             int count = sourceStackCopy.getCount();

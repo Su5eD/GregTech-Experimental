@@ -34,13 +34,12 @@
     "H":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "item clearer"
+      "data": 61
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 64
   }
 }

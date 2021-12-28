@@ -49,10 +49,12 @@ public class JEIModule implements IModPlugin {
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
         initBasicMachine(registry, GuiAutoCompressor.class, "compressor");
         initBasicMachine(registry, GuiAutoElectricFurnace.class, "auto_electric_furnace", "minecraft.smelting");
+        
+        registry.addRecipeClickArea(GuiScrapboxinator.class, 62, 63, 16, 16, "ic2.scrapbox");
     }
 
     private void initBasicMachine(IModRegistry registry, Class<? extends GuiBasicMachine<?>> guiClass, String name) {
-        initBasicMachine(registry, guiClass, "auto_"+name, name);
+        initBasicMachine(registry, guiClass, "auto_" + name, name);
     }
 
     private void initBasicMachine(IModRegistry registry, Class<? extends GuiBasicMachine<?>> guiClass, String name, String categoryName) {

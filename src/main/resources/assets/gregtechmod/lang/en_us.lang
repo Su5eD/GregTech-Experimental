@@ -939,6 +939,8 @@ gregtechmod.teblock.crop_harvestor=Crop Harvestor
 gregtechmod.teblock.crop_harvestor.description=Harvests the Cropsticks in front of it
 gregtechmod.teblock.electric_rock_breaker=Electric Rock Breaker
 gregtechmod.teblock.electric_rock_breaker.description=Electric Cobble Generator Mk VI
+gregtechmod.teblock.scrapboxinator=Scrapboxinator
+gregtechmod.teblock.scrapboxinator.description=Makes Scrapboxes and Scrap into random Stuff!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

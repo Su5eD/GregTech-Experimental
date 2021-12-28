@@ -81,6 +81,7 @@ public class ModHandler {
     public static ItemStack refractoryCapsule = ItemStack.EMPTY;
     public static ItemStack can = ItemStack.EMPTY;
     public static ItemStack scrap = ItemStack.EMPTY;
+    public static ItemStack scrapbox = ItemStack.EMPTY;
     public static ItemStack itnt = ItemStack.EMPTY;
     public static ItemStack filledFuelCan = ItemStack.EMPTY;
     public static ItemStack rcTurbineRotor = ItemStack.EMPTY;
@@ -119,6 +120,7 @@ public class ModHandler {
         emptyCell = ProfileDelegate.getEmptyCell();
         emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
         scrap = IC2Items.getItem("crafting", "scrap");
+        scrapbox = IC2Items.getItem("crafting", "scrap_box");
         itnt = IC2Items.getItem("te", "itnt");
         filledFuelCan = IC2Items.getItem("filled_fuel_can");
         miningPipe = IC2Items.getItem("mining_pipe", "pipe");
