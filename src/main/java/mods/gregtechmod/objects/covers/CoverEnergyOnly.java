@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Locale;
 
 public class CoverEnergyOnly extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
     
     @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;

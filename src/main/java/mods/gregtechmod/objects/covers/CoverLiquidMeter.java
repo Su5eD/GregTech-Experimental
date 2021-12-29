@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class CoverLiquidMeter extends CoverMeter {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("liquid_meter");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("liquid_meter");
 
     public CoverLiquidMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);

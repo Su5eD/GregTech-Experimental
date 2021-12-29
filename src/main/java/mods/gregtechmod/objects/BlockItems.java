@@ -43,7 +43,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class BlockItems {
-    private static final String DELEGATED_DESCRIPTION = GregTechMod.classic ? "classic_description" : "description";
+    private static final String DESCRIPTION_DELEGATE = GregTechMod.classic ? "classic_description" : "description";
 
     public static net.minecraft.block.Block lightSource;
     public static Item sensorKit;
@@ -51,7 +51,7 @@ public class BlockItems {
     public static Map<String, ItemCellClassic> classicCells;
 
     public enum Block implements IItemProvider {
-        ADVANCED_MACHINE_CASING(BlockConnected::new, 3, 30),
+        ADVANCED_MACHINE_CASING(BlockConnected::new, 3, 30, true),
         ALUMINIUM(3, 30),
         BRASS(3.5F, 30),
         CHROME(10, 100),
@@ -62,41 +62,50 @@ public class BlockItems {
         INVAR(4.5F, 30),
         IRIDIUM(3.5F, 600),
         IRIDIUM_REINFORCED_STONE(100, 300),
-        IRIDIUM_REINFORCED_TUNGSTEN_STEEL(BlockConnected::new, 200, 400),
+        IRIDIUM_REINFORCED_TUNGSTEN_STEEL(BlockConnected::new, 200, 400, true),
         LEAD(3, 60),
         LESUBLOCK(BlockLESU::new, 4, 30),
         NICKEL(3, 45),
         OLIVINE(4.5F, 30),
         OSMIUM(4, 900),
         PLATINUM(4, 30),
-        REINFORCED_MACHINE_CASING(BlockConnectedTurbine::new, 3, 60),
+        REINFORCED_MACHINE_CASING(BlockConnectedTurbine::new, 3, 60, true, "large_gas_turbine"),
         RUBY(4.5F, 30),
         SAPPHIRE(4.5F, 30),
         SILVER(3, 30),
-        STANDARD_MACHINE_CASING(BlockConnectedTurbine::new, 3, 30),
+        STANDARD_MACHINE_CASING(BlockConnectedTurbine::new, 3, 30, true, "large_steam_turbine"),
         STEEL(3, 100),
         TITANIUM(10, 200),
         TUNGSTEN(4.5F, 100),
-        TUNGSTEN_STEEL(BlockConnected::new, 100, 300),
+        TUNGSTEN_STEEL(BlockConnected::new, 100, 300, true),
         ZINC(3.5F, 30);
         
         private final LazyValue<net.minecraft.block.Block> instance;
+        private final boolean hasConnectedModel;
+        @Nullable
+        private final String extraTextures;
 
         Block(float hardness, float resistance) {
             this(() -> new BlockBase(Material.IRON), hardness, resistance);
         }
         
         Block(Supplier<net.minecraft.block.Block> constructor, float hardness, float resistance) {
-            this(str -> constructor.get(), hardness, resistance);
+            this(str -> constructor.get(), hardness, resistance, false);
+        }
+        
+        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance, boolean hasConnectedModel) {
+            this(constructor, hardness, resistance, hasConnectedModel, null);
         }
 
-        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance) {
+        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance, boolean hasConnectedModel, @Nullable String extraTextures) {
             this.instance = new LazyValue<>(() -> constructor.apply(this.name())
                     .setRegistryName("block_" + this.name().toLowerCase(Locale.ROOT))
                     .setTranslationKey("block_" + this.name().toLowerCase(Locale.ROOT))
                     .setCreativeTab(GregTechMod.GREGTECH_TAB)
                     .setHardness(hardness)
                     .setResistance(resistance));
+            this.hasConnectedModel = hasConnectedModel;
+            this.extraTextures = extraTextures;
         }
 
         public net.minecraft.block.Block getBlockInstance() {
@@ -107,6 +116,15 @@ public class BlockItems {
         @Override
         public Item getInstance() {
             return Item.getItemFromBlock(getBlockInstance());
+        }
+
+        public boolean hasConnectedModel() {
+            return this.hasConnectedModel;
+        }
+
+        @Nullable
+        public String getExtraTextures() {
+            return this.extraTextures;
         }
     }
 
@@ -610,9 +628,9 @@ public class BlockItems {
     public enum Upgrade implements IOreDictItemProvider {
         HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraTier()),
         LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
             if (player != null && !player.getGameProfile().equals(machine.getOwner())) {
                 GtUtil.sendMessage(player, Reference.MODID + ".item.machine_lock.error");
@@ -836,7 +854,7 @@ public class BlockItems {
         TURBINE_BLADE_MAGNALIUM("craftingTurbineBladeMagnalium"),
         TURBINE_BLADE_STEEL("craftingTurbineBladeSteel"),
         TURBINE_BLADE_TUNGSTEN_STEEL("craftingTurbineBladeTungstenSteel"),
-        GEAR_IRON(DELEGATED_DESCRIPTION, "gearIron"),
+        GEAR_IRON(DESCRIPTION_DELEGATE, "gearIron"),
         GEAR_BRONZE("gearBronze"),
         GEAR_STEEL("gearSteel"),
         GEAR_TITANIUM("gearTitanium"),

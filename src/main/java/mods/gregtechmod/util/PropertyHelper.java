@@ -49,7 +49,11 @@ public class PropertyHelper {
         }
         
         public TextureOverride(EnumFacing facing, ResourceLocation texture) {
-            this(Collections.singletonMap(facing, texture), false);
+            this(facing, texture, false);
+        }
+        
+        public TextureOverride(EnumFacing facing, ResourceLocation texture, boolean absolute) {
+            this(Collections.singletonMap(facing, texture), absolute);
         }
 
         public TextureOverride(Map<EnumFacing, ResourceLocation> overrides, boolean absolute) {

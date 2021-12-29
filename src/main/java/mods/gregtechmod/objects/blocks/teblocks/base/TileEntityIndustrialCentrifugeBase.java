@@ -108,7 +108,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
         return item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic;
     }
 
-    public static boolean isCell(Item item) {
+    public static boolean isCell(Item item) { // TODO Move to utils
         return isIC2Cell(item) || StackUtil.checkItemEquality(ModHandler.can, item) || StackUtil.checkItemEquality(ModHandler.waxCapsule, item) || StackUtil.checkItemEquality(ModHandler.refractoryCapsule, item);
     }
 

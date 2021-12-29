@@ -20,7 +20,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class CoverCrafting extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
 
     public CoverCrafting(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);

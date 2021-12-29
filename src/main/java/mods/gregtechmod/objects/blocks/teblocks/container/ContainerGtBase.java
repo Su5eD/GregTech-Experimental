@@ -3,8 +3,9 @@ package mods.gregtechmod.objects.blocks.teblocks.container;
 import ic2.core.ContainerFullInv;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.slot.SlotInvSlot;
+import mods.gregtechmod.api.util.QuadFunction;
+import mods.gregtechmod.inventory.ISlotInteractive;
 import mods.gregtechmod.inventory.SlotArmor;
-import mods.gregtechmod.inventory.SlotInteractive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -28,7 +29,10 @@ public abstract class ContainerGtBase<T extends IInventory> extends ContainerFul
     public ItemStack slotClick(int slotId, int dragType, ClickType clickType, EntityPlayer player) {
         if (slotId >= 0 && slotId < this.inventorySlots.size()) {
             Slot slot = getSlot(slotId);
-            if (slot instanceof SlotInteractive) ((SlotInteractive) slot).slotClick(clickType);
+            if (slot instanceof ISlotInteractive) {
+                ItemStack stack = player.inventory.getItemStack();
+                if (((ISlotInteractive) slot).slotClick(clickType, stack)) return stack;
+            }
         }
         
         return super.slotClick(slotId, dragType, clickType, player);
@@ -51,13 +55,17 @@ public abstract class ContainerGtBase<T extends IInventory> extends ContainerFul
     }
     
     protected void addInvSlotToContainer(int rows, int cols, int xOffset, int yOffset, InvSlot invSlot) {
+        addInvSlotToContainer(rows, cols, xOffset, yOffset, 18, invSlot, SlotInvSlot::new);
+    }
+    
+    protected void addInvSlotToContainer(int rows, int cols, int xOffset, int yOffset, int slotOffset, InvSlot invSlot, QuadFunction<InvSlot, Integer, Integer, Integer, Slot> slotFactory) {
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < cols; x++) {
                 int index = x + y * cols;
-                int xPos = xOffset + x * 18;
-                int yPos = yOffset + y * 18;
+                int xPos = xOffset + x * slotOffset;
+                int yPos = yOffset + y * slotOffset;
                 
-                addSlotToContainer(new SlotInvSlot(invSlot, index, xPos, yPos));
+                addSlotToContainer(slotFactory.apply(invSlot, index, xPos, yPos));
             }
         }
     }

@@ -34,26 +34,29 @@ public class TileEntityElectricBufferAdvanced extends TileEntityElectricBuffer {
 
     @Override
     protected boolean shouldUpdate(boolean hasItem) {
-        return workJustHasBeenEnabled() 
+        return canUseEnergy(500) && (
+                workJustHasBeenEnabled() 
                 || this.tickCounter % 200 == 0
                 || this.success > 0 && this.tickCounter % 5 == 0
                 || this.success >= 20
-                || this.inventoryModified.get();
+                || this.inventoryModified.get()
+            );
     }
 
     @Override
-    protected void moveItem() {
-        int cost = GtUtil.moveItemStackIntoSlot(
+    protected int moveItem() {
+        return GtUtil.moveItemStackIntoSlot(
                 this, this.world.getTileEntity(this.pos.offset(getOppositeFacing())), 
                 getOppositeFacing(), getFacing(),
                 this.targetSlot,
-                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1, 64, 
-                getSizeInventory() > 10 ? 2 : 1
+                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1,
+                64, 1
         );
-        if (cost > 0) {
-            this.success = 30;
-            useEnergy(cost);
-        }
+    }
+
+    @Override
+    protected int getMaxSuccess() {
+        return 30;
     }
 
     @Override

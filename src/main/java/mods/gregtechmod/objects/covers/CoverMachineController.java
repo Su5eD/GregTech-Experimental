@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import java.util.Locale;
 
 public class CoverMachineController extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
     
     @NBTPersistent
     protected ControllerMode mode = ControllerMode.NORMAL;

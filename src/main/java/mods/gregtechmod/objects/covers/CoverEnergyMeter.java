@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Locale;
 
 public class CoverEnergyMeter extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
     
     @NBTPersistent
     protected Mode mode = Mode.UNIVERSAL;

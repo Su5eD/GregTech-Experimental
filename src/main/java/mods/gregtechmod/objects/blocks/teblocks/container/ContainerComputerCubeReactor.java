@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 import java.util.function.IntSupplier;
 
-public class ContainerComputerCubeReactor extends ContainerComputerCube {
+public class ContainerComputerCubeReactor extends ContainerComputerCube { // TODO Cleanup with SlotInteractive
 
     public ContainerComputerCubeReactor(TileEntityComputerCube base) {
         super(base, 156);
@@ -47,11 +47,11 @@ public class ContainerComputerCubeReactor extends ContainerComputerCube {
         
         if (slotId == 2) {
             module.saveNuclearReactor();
-            onCraftMatrixChanged(this.base);
+            detectAndSendChanges();
         }
         else if (slotId == 3) {
             module.loadNuclearReactor();
-            onCraftMatrixChanged(this.base);
+            detectAndSendChanges();
         }
         else if (slotId == 4) module.switchNuclearReactor();
         

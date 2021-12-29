@@ -27,7 +27,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import java.util.Locale;
 
 public class CoverDrain extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
     
     @NBTPersistent
     protected DrainMode mode = DrainMode.IMPORT;

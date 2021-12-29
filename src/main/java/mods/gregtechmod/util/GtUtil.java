@@ -340,6 +340,13 @@ public final class GtUtil {
         } 
         return ItemStack.EMPTY;
     }
+    
+    public static ItemStack copyWithoutDamage(ItemStack stack) {
+        ItemStack copy = stack.copy();
+        copy.setCount(1);
+        copy.setItemDamage(0);
+        return copy;
+    }
 
     private static class VoidTank implements IFluidHandler {
         

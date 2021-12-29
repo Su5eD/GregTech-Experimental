@@ -1,19 +1,13 @@
 package mods.gregtechmod.inventory.invslot;
 
-import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class GtSlotElectricBuffer extends InvSlot {
+public class GtSlotElectricBuffer extends GtSlot {
 
     public GtSlotElectricBuffer(TileEntityElectricBuffer base, String name, Access access, int count) {
         super(base, name, access, count);
-    }
-
-    @Override
-    public boolean accepts(ItemStack stack) {
-        return this.access.isInput();
     }
 
     @Override

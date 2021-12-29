@@ -7,6 +7,7 @@ import mods.gregtechmod.util.BooleanCountdown;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -102,5 +103,9 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     
     public void updateRender() {
         rerender();
+    }
+    
+    public TileEntity getNeighborTE(EnumFacing side) {
+        return this.world.getTileEntity(this.pos.offset(side));
     }
 }

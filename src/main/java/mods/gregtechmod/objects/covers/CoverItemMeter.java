@@ -12,7 +12,7 @@ import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class CoverItemMeter extends CoverMeter {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
 
     public CoverItemMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);

@@ -11,7 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class CoverRedstoneSignalizer extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_signalizer");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_signalizer");
     
     @NBTPersistent
     protected byte signal;

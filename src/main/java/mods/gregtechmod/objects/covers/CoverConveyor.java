@@ -11,7 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class CoverConveyor extends CoverInventory {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("conveyor");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("conveyor");
 
     public CoverConveyor(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);
