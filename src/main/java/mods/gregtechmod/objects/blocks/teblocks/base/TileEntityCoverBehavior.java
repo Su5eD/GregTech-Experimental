@@ -110,9 +110,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     public boolean canInsertItem(int index, ItemStack stack, EnumFacing side) {
-        if (!enableInput) return false;
-        else if (coverHandler.covers.containsKey(side)) return coverHandler.covers.get(side).letsItemsIn() && super.canInsertItem(index, stack, side);
-        return tryInsert(index, stack, side);
+        ICover cover = getCoverAtSide(side);
+        return this.enableInput && (cover == null || cover.letsItemsIn()) && isInputSide(side) && tryInsert(index, stack, side);
     }
 
     protected boolean tryInsert(int index, ItemStack stack, EnumFacing side) {
@@ -142,9 +141,8 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing side) {
-        if (!this.enableOutput) return false;
-        else if (this.coverHandler.covers.containsKey(side)) return this.coverHandler.covers.get(side).letsItemsOut() && super.canExtractItem(index, stack, side);
-        return super.canExtractItem(index, stack, side);
+        ICover cover = getCoverAtSide(side);
+        return this.enableOutput && (cover == null || cover.letsItemsOut()) && super.canExtractItem(index, stack, side);
     }
 
     @Override

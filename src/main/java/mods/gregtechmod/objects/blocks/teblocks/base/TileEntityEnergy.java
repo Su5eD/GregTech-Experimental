@@ -5,7 +5,6 @@ import ic2.api.energy.tile.IChargingSlot;
 import ic2.api.energy.tile.IDischargingSlot;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
-import ic2.core.block.TileEntityBlock;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IElectricMachine;
@@ -259,7 +258,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     
     public static class ExplodingEnergySource extends AdjustableEnergy {
 
-        public ExplodingEnergySource(TileEntityBlock parent) {
+        public ExplodingEnergySource(TileEntityAutoNBT parent) {
             super(parent);
         }
 

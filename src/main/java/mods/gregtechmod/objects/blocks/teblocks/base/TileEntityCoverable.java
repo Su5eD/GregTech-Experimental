@@ -32,7 +32,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
     protected Set<CoverType> coverBlacklist = new HashSet<>();
 
     public TileEntityCoverable() {
-        this.coverHandler = addComponent(new CoverHandler(this, this::rerender));
+        this.coverHandler = addComponent(new CoverHandler(this, this::updateRender));
     }
 
     @Override

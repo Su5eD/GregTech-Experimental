@@ -6,6 +6,8 @@ import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricTypeSorter
 import mods.gregtechmod.util.ButtonClick;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.util.List;
+
 public class ContainerElectricTypeSorter extends ContainerElectricBuffer<TileEntityElectricTypeSorter> {
     
     public ContainerElectricTypeSorter(EntityPlayer player, TileEntityElectricTypeSorter base) {
@@ -18,5 +20,11 @@ public class ContainerElectricTypeSorter extends ContainerElectricBuffer<TileEnt
             else base.nextType();
         }));
         addSlotToContainer(new SlotInteractive(134, 63, base::switchTargetFacing));
+    }
+
+    @Override
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("type");
     }
 }

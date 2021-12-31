@@ -6,9 +6,12 @@ import ic2.core.gui.dynamic.IGuiValueProvider;
 import mods.gregtechmod.util.BooleanCountdown;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.util.Constants.BlockFlags;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -102,10 +105,34 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     }
     
     public void updateRender() {
-        rerender();
+        IBlockState state = getBlockState();
+        this.world.notifyBlockUpdate(this.pos, state, state, BlockFlags.SEND_TO_CLIENTS);
+    }
+    
+    public void updateRenderNeighbors() {
+        IBlockState state = getBlockState();
+        this.world.notifyBlockUpdate(this.pos, state, state, BlockFlags.DEFAULT);
     }
     
     public TileEntity getNeighborTE(EnumFacing side) {
         return this.world.getTileEntity(this.pos.offset(side));
+    }
+
+    @Override
+    public boolean canInsertItem(int index, ItemStack stack, EnumFacing side) {
+        return isInputSide(side) && super.canInsertItem(index, stack, side);
+    }
+
+    public boolean isInputSide(EnumFacing side) {
+        return true;
+    }
+
+    @Override
+    public boolean canExtractItem(int index, ItemStack stack, EnumFacing side) {
+        return isOutputSide(side) && super.canExtractItem(index, stack, side);
+    }
+    
+    public boolean isOutputSide(EnumFacing side) {
+        return true;
     }
 }

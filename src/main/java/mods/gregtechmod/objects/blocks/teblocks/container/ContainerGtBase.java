@@ -27,9 +27,15 @@ public abstract class ContainerGtBase<T extends IInventory> extends ContainerBas
         if (slotId >= 0 && slotId < this.inventorySlots.size()) {
             Slot slot = getSlot(slotId);
             if (slot instanceof ISlotInteractive) {
-                ItemStack stack = player.inventory.getItemStack();
                 ButtonClick click = ButtonClick.fromClickType(clickType, dragType);
-                if (((ISlotInteractive) slot).slotClick(click, player, stack)) return stack;
+                
+                if (click != null) {
+                    ItemStack stack = player.inventory.getItemStack();
+                    boolean result = ((ISlotInteractive) slot).slotClick(click, player, stack);
+                    
+                    this.base.markDirty();
+                    if (result) return stack;
+                }
             }
         }
         

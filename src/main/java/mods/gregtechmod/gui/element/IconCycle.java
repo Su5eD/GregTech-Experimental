@@ -2,6 +2,7 @@ package mods.gregtechmod.gui.element;
 
 import ic2.core.GuiIC2;
 import ic2.core.gui.GuiElement;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.function.IntSupplier;
@@ -35,9 +36,10 @@ public class IconCycle extends GuiElement<IconCycle> {
         int textureY = this.vertical ? this.textureY + getStepOffset() : this.textureY;
         
         bindTexture(this.texture);
+        GlStateManager.color(1, 1, 1, 1);
         this.gui.drawTexturedModalRect(x, y, textureX, textureY, this.step, this.step);
     }
-    
+
     private int getStepOffset() {
         return this.valueSupplier.getAsInt() * this.step;
     }

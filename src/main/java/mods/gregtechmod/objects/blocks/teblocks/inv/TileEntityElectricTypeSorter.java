@@ -11,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
-import java.util.List;
 import java.util.function.Predicate;
 
 public class TileEntityElectricTypeSorter extends TileEntityElectricSorterBase {
@@ -19,12 +18,15 @@ public class TileEntityElectricTypeSorter extends TileEntityElectricSorterBase {
     private ItemType type = ItemType.ORE;
     
     public void nextType() {
-        int index = (this.type.ordinal() + 1) % ItemType.VALUES.length;
-        this.type = ItemType.VALUES[index];
+        switchType(1);
     }
     
     public void previousType() {
-        int index = (this.type.ordinal() - 1) % ItemType.VALUES.length;
+        switchType(-1);
+    }
+    
+    private void switchType(int step) {
+        int index = (this.type.ordinal() + step) % ItemType.VALUES.length;
         this.type = ItemType.VALUES[index];
     }
 
@@ -35,12 +37,6 @@ public class TileEntityElectricTypeSorter extends TileEntityElectricSorterBase {
     @Override
     protected boolean applyFilter(ItemStack stack) {
         return this.type.filter.test(stack);
-    }
-
-    @Override
-    public void getNetworkedFields(List<? super String> list) {
-        super.getNetworkedFields(list);
-        list.add("type");
     }
 
     @Override

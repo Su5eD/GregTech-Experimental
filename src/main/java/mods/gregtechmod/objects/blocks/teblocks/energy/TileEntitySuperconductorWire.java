@@ -121,7 +121,7 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     @Override
     public void onNetworkUpdate(String field) {
         super.onNetworkUpdate(field);
-        if (field.equals("connections")) rerender();
+        if (field.equals("connections")) updateRender();
     }
 
     public class ConductorEnergy extends DynamicAdjustableEnergy {

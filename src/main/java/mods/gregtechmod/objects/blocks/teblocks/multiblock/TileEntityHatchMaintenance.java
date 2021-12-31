@@ -58,7 +58,7 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
             this.ductTape = true;
             this.maintenance.setAll(true);
             stack.shrink(1);
-            rerender();
+            updateRender();
         }
     }
     

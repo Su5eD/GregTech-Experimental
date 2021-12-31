@@ -1,5 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
+import mods.gregtechmod.inventory.SlotInteractive;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBuffer;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -9,6 +10,10 @@ public class ContainerElectricBuffer<T extends TileEntityElectricBuffer> extends
 
     public ContainerElectricBuffer(EntityPlayer player, T base) {
         super(player, base);
+        
+        addSlotToContainer(new SlotInteractive(8, 63, base::switchOutputEnergy));
+        addSlotToContainer(new SlotInteractive(26, 63, base::switchRedstoneIfFull));
+        addSlotToContainer(new SlotInteractive(44, 63, base::switchInvertRedstone));
     }
 
     @Override

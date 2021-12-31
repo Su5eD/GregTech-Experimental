@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.inv;
 
-import ic2.api.network.INetworkClientTileEntityEventListener;
 import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.state.Ic2BlockState;
@@ -24,7 +23,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 
 import java.util.*;
 
-public abstract class TileEntityElectricBuffer extends TileEntityUpgradable implements IHasGui, INetworkClientTileEntityEventListener {
+public abstract class TileEntityElectricBuffer extends TileEntityUpgradable implements IHasGui {
     public static final IUnlistedProperty<Boolean> REDSTONE_TEXTURE_PROPERTY = new UnlistedBooleanProperty("redstoneTextures");
 
     public final BooleanCountdown inventoryModified = createSingleCountDown();
@@ -127,8 +126,6 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
         super.getNetworkedFields(list);
         list.add("emitter");
         list.add("outputEnergy");
-        list.add("redstoneIfFull");
-        list.add("invertRedstone");
     }
 
     @Override
@@ -155,16 +152,12 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, EnumFacing side) {
-        return side != getOppositeFacing() && super.canInsertItem(index, stack, side);
+    public boolean isInputSide(EnumFacing side) {
+        return side != getOppositeFacing();
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, EnumFacing side) {
-        return isOutputSide(side) && super.canExtractItem(index, stack, side);
-    }
-    
-    protected boolean isOutputSide(EnumFacing side) {
+    public boolean isOutputSide(EnumFacing side) {
         return side == getOppositeFacing();
     }
 
@@ -223,24 +216,17 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
         return this.emitter.getLevel();
     }
 
-    @Override
-    public void onNetworkEvent(EntityPlayer player, int event) {
-        boolean value = event % 2 != 0;
-        switch (event) {
-            case 0:
-            case 1:
-                this.outputEnergy = value;
-                this.energy.refreshSides();
-                break;
-            case 2:
-            case 3:
-                this.redstoneIfFull = value;
-                break;
-            case 4:
-            case 5:
-                this.invertRedstone = value;
-                break;
-        }
+    public void switchOutputEnergy() {
+        this.outputEnergy = !this.outputEnergy;
+        this.energy.refreshSides();
+    }
+
+    public void switchRedstoneIfFull() {
+        this.redstoneIfFull = !this.redstoneIfFull;
+    }
+
+    public void switchInvertRedstone() {
+        this.invertRedstone = !this.invertRedstone;
     }
 
     @Override

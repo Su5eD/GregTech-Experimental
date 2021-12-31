@@ -4,14 +4,15 @@ import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.*;
 import ic2.api.tile.IEnergyStorage;
-import ic2.core.block.TileEntityBlock;
 import ic2.core.network.GrowingBuffer;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityAutoNBT;
 import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     private boolean injectedEnergy;
     private boolean drawnEnergy;
 
-    public AdjustableEnergy(TileEntityBlock parent) {
+    public AdjustableEnergy(TileEntityAutoNBT parent) {
         super(parent);
     }
     
@@ -121,50 +122,57 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     public boolean isSink() {
         return !getActualSinkSides().isEmpty();
     }
-        
+    
     public boolean isSource() {
         return !getActualSourceSides().isEmpty();
     }
-    
+
     public void addChargingSlot(IChargingSlot slot) {
         this.chargingSlots.add(slot);
     }
-    
+
     public void addDischargingSlot(IDischargingSlot slot) {
         this.dischargingSlots.add(slot);
     }
-    
+
     private Collection<EnumFacing> getActualSinkSides() {
-        Collection<EnumFacing> sinkSides = getSinkSides();
-        
-        if (this.oldSinkSides == null) this.oldSinkSides = sinkSides;
-        else if (!JavaUtil.matchCollections(sinkSides, this.oldSinkSides)) refreshSides(sinkSides, getSourceSides());
-        
-        return sinkSides;
+        return refreshSides().getLeft();
     }
     
     private Collection<EnumFacing> getActualSourceSides() {
+        return refreshSides().getRight();
+    }
+    
+    public Pair<Collection<EnumFacing>, Collection<EnumFacing>> refreshSides() {
+        Collection<EnumFacing> sinkSides = getSinkSides();
         Collection<EnumFacing> sourceSides = getSourceSides();
         
-        if (this.oldSourceSides == null) this.oldSourceSides = sourceSides;
-        else if (!JavaUtil.matchCollections(sourceSides, this.oldSourceSides)) refreshSides(getSourceSides(), sourceSides);
+        refreshSides(sinkSides, getOldSinkSides(sinkSides), sourceSides, getOldSourceSides(sourceSides));
         
-        return sourceSides;
+        return Pair.of(sinkSides, sourceSides);
     }
     
-    public void refreshSides() {
-        refreshSides(getSinkSides(), getSourceSides());
-    }
-    
-    private void refreshSides(Collection<EnumFacing> sinkSides, Collection<EnumFacing> sourceSides) {
-        boolean reload = this.oldSinkSides.isEmpty() != sinkSides.isEmpty() || this.oldSourceSides.isEmpty() != sourceSides.isEmpty();
+    private void refreshSides(Collection<EnumFacing> sinkSides, Collection<EnumFacing> oldSinkSides, Collection<EnumFacing> sourceSides, Collection<EnumFacing> oldSourceSides) {
+        boolean reload = !JavaUtil.matchCollections(sinkSides, oldSinkSides) || !JavaUtil.matchCollections(sourceSides, oldSourceSides);
         this.oldSinkSides = sinkSides;
         this.oldSourceSides = sourceSides;
         
         if (reload) {
             this.onUnloaded();
             this.onLoaded();
-        } else this.parent.getWorld().notifyNeighborsOfStateChange(this.parent.getPos(), this.parent.getBlockType(), false);
+
+            ((TileEntityAutoNBT) this.parent).updateRenderNeighbors();
+        }
+    }
+
+    private Collection<EnumFacing> getOldSinkSides(Collection<EnumFacing> sinkSides) {
+        if (this.oldSinkSides == null) this.oldSinkSides = sinkSides;
+        return this.oldSinkSides;
+    }
+
+    private Collection<EnumFacing> getOldSourceSides(Collection<EnumFacing> sourceSides) {
+        if (this.oldSourceSides == null) this.oldSourceSides = sourceSides;
+        return this.oldSourceSides;
     }
     
     @Override

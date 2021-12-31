@@ -90,18 +90,13 @@ public class TileEntityTesseractTerminal extends TileEntityTesseract {
             if (gen != null && gen.ensureConnection(this)) {
                 if (!this.isConnected && getTesseractGen(false) != null) {
                     this.isConnected = true;
-                    updateConnections();
+                    updateRenderNeighbors();
                 }
             } else if (this.isConnected) {
                 this.isConnected = false;
-                updateConnections();
+                updateRenderNeighbors();
             }
         }
-    }
-    
-    private void updateConnections() {
-        rerender();
-        this.world.notifyNeighborsOfStateChange(this.pos, this.blockType, false);
     }
 
     @Override

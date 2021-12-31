@@ -2,6 +2,7 @@ package mods.gregtechmod.objects.blocks.teblocks.inv;
 
 import ic2.core.IC2;
 import ic2.core.block.state.Ic2BlockState;
+import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.TextureOverride;
@@ -95,8 +96,18 @@ public abstract class TileEntityElectricSorterBase extends TileEntityElectricBuf
     }
 
     @Override
-    protected boolean isOutputSide(EnumFacing side) {
-        return side == this.targetFacing || super.isOutputSide(side); // TODO Move up
+    public boolean isInputSide(EnumFacing side) {
+        return side != this.targetFacing && super.isInputSide(side);
+    }
+
+    @Override
+    public boolean isOutputSide(EnumFacing side) {
+        return side == this.targetFacing || super.isOutputSide(side);
+    }
+
+    @Override
+    public boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate) {
+        return side != this.targetFacing && super.placeCoverAtSide(cover, player, side, simulate);
     }
 
     @Override
@@ -108,6 +119,6 @@ public abstract class TileEntityElectricSorterBase extends TileEntityElectricBuf
     @Override
     public void onNetworkUpdate(String field) {
         super.onNetworkUpdate(field);
-        if (field.equals("targetFacing")) rerender();
+        if (field.equals("targetFacing")) updateRender();
     }
 }

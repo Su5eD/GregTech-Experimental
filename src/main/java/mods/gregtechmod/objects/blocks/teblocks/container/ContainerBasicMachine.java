@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
 import ic2.core.slot.SlotInvSlot;
+import mods.gregtechmod.inventory.SlotInteractive;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -10,11 +11,16 @@ public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>>
 
     public ContainerBasicMachine(EntityPlayer player, T base) {
         super(player, base);
+        
         addSlotToContainer(new SlotInvSlot(base.queueInputSlot, 0, 35, 25));
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 53, 25));
         addSlotToContainer(new SlotInvSlot(base.queueOutputSlot, 0, 107, 25));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 125, 25));
         addSlotToContainer(new SlotInvSlot(base.extraSlot, 0, 80, 63));
+        
+        addSlotToContainer(new SlotInteractive(8, 63, base::switchProvideEnergy));
+        addSlotToContainer(new SlotInteractive(26, 63, base::switchAutoOutput));
+        addSlotToContainer(new SlotInteractive(44, 63, base::switchSplitInput));
     }
 
     @Override

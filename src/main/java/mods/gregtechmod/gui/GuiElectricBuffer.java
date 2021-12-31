@@ -1,14 +1,15 @@
 package mods.gregtechmod.gui;
 
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricBuffer;
+import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBuffer;
 
-public abstract class GuiElectricBuffer<T extends ContainerElectricBuffer<?>> extends GuiSimple<T> {
+public abstract class GuiElectricBuffer<T extends ContainerElectricBuffer<? extends TileEntityElectricBuffer>> extends GuiSimple<T> {
 
     public GuiElectricBuffer(T container) {
         super(container);
         
-        addVerticalCycleButton(0, 58, 0, 76, 18, 7, 62, () -> container.base.outputEnergy ? 1 : 0);
-        addVerticalCycleButton(2, 130, 0, 148, 18, 25, 62, () -> container.base.redstoneIfFull ? 1 : 0);
-        addVerticalCycleButton(4, 148, 0, 166, 18, 43, 62, () -> container.base.invertRedstone ? 1 : 0);
+        addVerticalIconCycle(7, 62, 58, () -> container.base.outputEnergy);
+        addVerticalIconCycle(25, 62, 130, () -> container.base.redstoneIfFull);
+        addVerticalIconCycle(43, 62, 148, () -> container.base.invertRedstone);
     }
 }

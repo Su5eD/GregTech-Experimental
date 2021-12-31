@@ -52,7 +52,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     @Override
     protected void onUpdateIC2Upgrade(IC2UpgradeType type, ItemStack stack) {
         if (type == IC2UpgradeType.OVERCLOCKER) {
-            rerender();
+            updateRender();
         }
     }
 

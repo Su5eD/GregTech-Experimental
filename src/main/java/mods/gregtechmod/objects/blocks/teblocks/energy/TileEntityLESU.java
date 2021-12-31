@@ -44,8 +44,8 @@ public class TileEntityLESU extends TileEntityChargerBase {
             this.notify = this.init = false;
             updateClientField("storage");
             updateChargeTier();
-            rerender();
-            this.world.notifyNeighborsOfStateChange(this.pos, this.blockType, true);
+            
+            updateRenderNeighbors();
         }
     }
     

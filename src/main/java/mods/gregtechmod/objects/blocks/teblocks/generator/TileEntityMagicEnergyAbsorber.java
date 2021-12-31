@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.generator;
 
-import ic2.api.network.INetworkClientTileEntityEventListener;
 import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlotConsumable;
 import ic2.core.block.invslot.InvSlotOutput;
@@ -30,21 +29,28 @@ import thaumcraft.common.entities.monster.EntityWisp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implements IHasGui, INetworkClientTileEntityEventListener {
-    private static final List<EntityEnderCrystal> usedDragonCrystalList = new ArrayList<>();
-    private EntityEnderCrystal targetedCrystal;
+public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implements IHasGui {
+    private static final List<EntityEnderCrystal> USED_ENDER_CRYSTALS = new ArrayList<>();
     
+    public final InvSlotConsumable inputSlot;
+    public final InvSlotOutput outputSlot;
     @NBTPersistent
     public boolean drainCrystalEnergy;
     @NBTPersistent
     public boolean drainAura;
-    
-    public final InvSlotConsumable inputSlot;
-    public final InvSlotOutput outputSlot;
+    private EntityEnderCrystal targetedCrystal;
 
     public TileEntityMagicEnergyAbsorber() {
         this.inputSlot = new GtSlotConsumable(this, "input", 1);
         this.outputSlot = new InvSlotOutput(this, "output", 1);
+    }
+    
+    public void switchDrainAura() {
+        this.drainAura = !this.drainAura;
+    }
+    
+    public void switchDrainCrystalEnergy() {
+        this.drainCrystalEnergy = !this.drainCrystalEnergy;
     }
 
     @Override
@@ -63,8 +69,7 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                             short level = compound.getShort("lvl");
 
                             Enchantment enchantment = Enchantment.getEnchantmentByID(id);
-                            if (enchantment != null)
-                                addEnergy(1000000 * (level / (double) (enchantment.getMaxLevel() * enchantment.getRarity().getWeight())));
+                            if (enchantment != null) addEnergy(1000000 * (level / (double) (enchantment.getMaxLevel() * enchantment.getRarity().getWeight())));
                         }
                         input.getTagCompound().removeTag("ench");
                         
@@ -78,19 +83,18 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
             
             if (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal > 0 && this.drainCrystalEnergy) {
                 if (this.targetedCrystal == null) {
-                    int x = this.pos.getX();
-                    int y = this.pos.getY();
-                    int z = this.pos.getZ();
-                    List<EntityEnderCrystal> list = this.world.getEntitiesWithinAABB(EntityEnderCrystal.class, new AxisAlignedBB(x - 64, y - 64, z - 64, x + 64, y + 64, z + 64));
-                    list.removeAll(usedDragonCrystalList);
+                    AxisAlignedBB range = new AxisAlignedBB(this.pos.add(-64, -64, -64), this.pos.add(64, 64, 64));
+                    List<EntityEnderCrystal> list = this.world.getEntitiesWithinAABB(EntityEnderCrystal.class, range);
+                    
+                    list.removeAll(USED_ENDER_CRYSTALS);
                     if (!list.isEmpty()) {
                         this.targetedCrystal = list.get(0);
-                        if (this.targetedCrystal != null) usedDragonCrystalList.add(this.targetedCrystal);
+                        USED_ENDER_CRYSTALS.add(this.targetedCrystal);
                     } 
                 } else if (this.targetedCrystal.isEntityAlive()) {
                     addEnergy(GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal);
                 } else {
-                    usedDragonCrystalList.remove(this.targetedCrystal);
+                    USED_ENDER_CRYSTALS.remove(this.targetedCrystal);
                     this.targetedCrystal = null;
                 }  
             }
@@ -117,13 +121,10 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
         if (AuraHelper.drainVis(this.world, this.pos, 1, false) >= 1) {
             addEnergy(GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis);
             
-            int x = this.pos.getX();
-            int y = this.pos.getY();
-            int z = this.pos.getZ();
-            List<EntityWisp> wisps = this.world.getEntitiesWithinAABB(EntityWisp.class, new AxisAlignedBB(x - 8, y - 8, z - 8, x + 8, y + 8, z + 8));
-            if (!wisps.isEmpty()) {
-                markForExplosion();
-            }
+            AxisAlignedBB range = new AxisAlignedBB(this.pos.add(-8, -8, -8), this.pos.add(8, 8, 8));
+            List<EntityWisp> wisps = this.world.getEntitiesWithinAABB(EntityWisp.class, range);
+            
+            if (!wisps.isEmpty()) markForExplosion();
         }
     }
     
@@ -145,21 +146,6 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
     @Override
     public double getMaxOutputEUp() {
         return Math.max(128, GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal / 10D);
-    }
-    
-    @Override
-    public void onNetworkEvent(EntityPlayer player, int event) {
-        boolean value = event % 2 != 0;
-        switch (event) {
-            case 0:
-            case 1:
-                this.drainAura = value;
-                break;
-            case 2:
-            case 3:    
-                this.drainCrystalEnergy = value;
-                break;
-        }
     }
 
     @Override

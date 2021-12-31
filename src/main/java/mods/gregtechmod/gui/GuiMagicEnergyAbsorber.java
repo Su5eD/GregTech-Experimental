@@ -10,8 +10,8 @@ public class GuiMagicEnergyAbsorber extends GuiInventory<ContainerMagicEnergyAbs
     public GuiMagicEnergyAbsorber(ContainerMagicEnergyAbsorber container) {
         super(container);
         
-        addVerticalCycleButton(0, 176, 0, 192, 32, 10, 18, 16, TEXTURE, () -> GuiMagicEnergyAbsorber.this.container.base.drainAura ? 1 : 0);
-        addVerticalCycleButton(2, 176, 0, 192, 32, 10, 35, 16, TEXTURE, () -> GuiMagicEnergyAbsorber.this.container.base.drainCrystalEnergy ? 1 : 0);
+        addIconCycle(10, 18, TEXTURE, 176, 0, 16, true, () -> container.base.drainAura);
+        addIconCycle(10, 35, TEXTURE, 176, 0, 16, true, () -> container.base.drainCrystalEnergy);
     }
 
     @Override
