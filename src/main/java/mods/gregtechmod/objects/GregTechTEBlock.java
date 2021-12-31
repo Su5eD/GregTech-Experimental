@@ -104,7 +104,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     CROP_HARVESTOR(TileEntityCropHarvestor.class, 62, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_ROCK_BREAKER(TileEntityElectricRockBreaker.class, 63, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
     SCRAPBOXINATOR(TileEntityScrapboxinator.class, 64, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_SORTER(TileEntityElectricSorter.class, 65, false, Util.allFacings, ModelType.ELECTRIC_BUFFER);
+    ELECTRIC_SORTER(TileEntityElectricSorter.class, 65, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_TYPE_SORTER(TileEntityElectricTypeSorter.class, 66, false, Util.allFacings, ModelType.ELECTRIC_BUFFER);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();

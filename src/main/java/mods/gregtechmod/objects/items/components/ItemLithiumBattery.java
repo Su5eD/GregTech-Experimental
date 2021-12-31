@@ -36,7 +36,7 @@ public class ItemLithiumBattery extends ItemBattery implements ICustomItemModel 
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+".item.lithium_re_battery";
+        return Reference.MODID + ".item.lithium_re_battery";
     }
 
     @Override

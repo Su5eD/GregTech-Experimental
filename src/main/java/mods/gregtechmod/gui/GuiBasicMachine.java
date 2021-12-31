@@ -11,9 +11,9 @@ public abstract class GuiBasicMachine<T extends ContainerBase<? extends TileEnti
     public GuiBasicMachine(T container, Gauge.IGaugeStyle gaugeStyle) {
         super(container);
         
-        addCycleButton(0, 58, 0, 76, 18, 7, 62, () -> GuiBasicMachine.this.container.base.provideEnergy ? 1 : 0);
-        addCycleButton(2, 76, 0, 94, 18, 25, 62, () -> GuiBasicMachine.this.container.base.autoOutput ? 1 : 0);
-        addCycleButton(4, 94, 0, 112, 18, 43, 62, () -> GuiBasicMachine.this.container.base.splitInput ? 1 : 0);
+        addVerticalCycleButton(0, 58, 0, 76, 18, 7, 62, () -> GuiBasicMachine.this.container.base.provideEnergy ? 1 : 0);
+        addVerticalCycleButton(2, 76, 0, 94, 18, 25, 62, () -> GuiBasicMachine.this.container.base.autoOutput ? 1 : 0);
+        addVerticalCycleButton(4, 94, 0, 112, 18, 43, 62, () -> GuiBasicMachine.this.container.base.splitInput ? 1 : 0);
 
         addElement(new LinkedGauge(this, 78, 24, container.base, "progress", gaugeStyle));
     }

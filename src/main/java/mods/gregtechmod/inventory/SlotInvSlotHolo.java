@@ -3,9 +3,9 @@ package mods.gregtechmod.inventory;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.slot.SlotInvSlot;
 import ic2.core.util.StackUtil;
+import mods.gregtechmod.util.ButtonClick;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 
 public class SlotInvSlotHolo extends SlotInvSlot implements ISlotInteractive {
@@ -20,7 +20,7 @@ public class SlotInvSlotHolo extends SlotInvSlot implements ISlotInteractive {
     }
 
     @Override
-    public boolean slotClick(ClickType clickType, ItemStack stack) {
+    public boolean slotClick(ButtonClick click, EntityPlayer player, ItemStack stack) {
         putStack(!stack.isEmpty() ? stack.isItemDamaged() ? GtUtil.copyWithoutDamage(stack) : StackUtil.copyWithSize(stack, 1) : ItemStack.EMPTY);
         return true;
     }

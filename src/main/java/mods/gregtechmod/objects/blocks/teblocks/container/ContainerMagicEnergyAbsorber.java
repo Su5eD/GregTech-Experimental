@@ -6,10 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerMagicEnergyAbsorber extends ContainerGtBase<TileEntityMagicEnergyAbsorber> {
+public class ContainerMagicEnergyAbsorber extends ContainerGtInventory<TileEntityMagicEnergyAbsorber> {
 
     public ContainerMagicEnergyAbsorber(EntityPlayer player, TileEntityMagicEnergyAbsorber base) {
-        super(player, base, 166);
+        super(player, base);
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 80, 17));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 80, 53));
     }

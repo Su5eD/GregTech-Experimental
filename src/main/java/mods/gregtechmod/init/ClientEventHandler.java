@@ -221,27 +221,25 @@ public class ClientEventHandler {
     public static void registerIcons(TextureStitchEvent.Pre event) {
         TextureMap map = event.getMap();
         String machines = "blocks/machines/";
-        
-        Stream.of(
-                machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
-                machines + "adv_machine_pipe_blue",
-                machines + "adv_machine_pipe_blue_redstone",
-                machines + "centrifuge/centrifuge_top_active2",
-                machines + "centrifuge/centrifuge_top_active3",
-                machines + "centrifuge/centrifuge_side_active2",
-                machines + "centrifuge/centrifuge_side_active3",
-                machines + "computer_cube/computer_cube_reactor",
-                machines + "computer_cube/computer_cube_scanner",
-                machines + "hatch_maintenance/hatch_maintenance_front_ducttape",
-                machines + "lesu/lesu_lv_out",
-                machines + "lesu/lesu_mv_out",
-                machines + "lesu/lesu_hv_out",
-                machines + "machine_top_pipe"
-        )
-                .map(str -> new ResourceLocation(Reference.MODID, str))
-                .forEach(map::registerSprite);
 
-        Stream.concat(
+        Stream.of(
+                Stream.of(
+                        machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
+                        machines + "adv_machine_pipe_blue",
+                        machines + "adv_machine_pipe_blue_redstone",
+                        machines + "centrifuge/centrifuge_top_active2",
+                        machines + "centrifuge/centrifuge_top_active3",
+                        machines + "centrifuge/centrifuge_side_active2",
+                        machines + "centrifuge/centrifuge_side_active3",
+                        machines + "computer_cube/computer_cube_reactor",
+                        machines + "computer_cube/computer_cube_scanner",
+                        machines + "hatch_maintenance/hatch_maintenance_front_ducttape",
+                        machines + "lesu/lesu_lv_out",
+                        machines + "lesu/lesu_mv_out",
+                        machines + "lesu/lesu_hv_out",
+                        machines + "machine_top_pipe"
+                )
+                        .map(str -> new ResourceLocation(Reference.MODID, str)),
                 Stream.of(
                         CoverActiveDetector.TEXTURE,
                         CoverConveyor.TEXTURE,
@@ -262,12 +260,11 @@ public class ClientEventHandler {
                         CoverValve.TEXTURE
                 ),
                 Arrays.stream(CoverVent.VentType.values())
-                        .map(CoverVent.VentType::getIcon)
+                        .map(CoverVent.VentType::getIcon),
+                FluidLoader.FLUIDS.stream()
+                        .map(FluidLoader.IFluidProvider::getTexture)
         )
-                .forEach(map::registerSprite);
-
-        FluidLoader.FLUIDS.stream()
-                .map(FluidLoader.IFluidProvider::getTexture)
+                .flatMap(Function.identity())
                 .forEach(map::registerSprite);
     }
 

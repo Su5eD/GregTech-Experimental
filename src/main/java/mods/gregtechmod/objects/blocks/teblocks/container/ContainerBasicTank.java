@@ -7,10 +7,10 @@ import net.minecraft.inventory.IInventory;
 
 import java.util.List;
 
-public abstract class ContainerBasicTank<T extends IInventory> extends ContainerGtBase<T> {
+public abstract class ContainerBasicTank<T extends IInventory> extends ContainerGtInventory<T> {
 
     public ContainerBasicTank(EntityPlayer player, T base) {
-        super(player, base, 166);
+        super(player, base);
         initSlots();
     }
     

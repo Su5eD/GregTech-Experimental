@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.items;
 
-import ic2.core.IC2;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
@@ -13,6 +12,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -38,7 +38,7 @@ public class ItemSonictron extends ItemBase {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack stack = playerIn.inventory.getCurrentItem();
-        if (IC2.platform.isSimulating() && !playerIn.isSneaking()) {
+        if (!worldIn.isRemote && !playerIn.isSneaking()) {
             setCurrentIndex(stack, 0);
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
@@ -49,12 +49,12 @@ public class ItemSonictron extends ItemBase {
         ItemStack stack = player.inventory.getCurrentItem();
         if (!world.isRemote) {
             setCurrentIndex(stack, -1);
-            if (world.getTileEntity(pos) instanceof TileEntitySonictron) {
-                TileEntitySonictron sonictron = (TileEntitySonictron) world.getTileEntity(pos);
+            TileEntity te = world.getTileEntity(pos);
+            if (te instanceof TileEntitySonictron) {
                 List<ItemStack> inventory = getNBTInventory(stack);
 
-                if (player.isSneaking()) setNBTInventory(stack, sonictron);
-                else copyInventory(inventory.iterator(), sonictron);
+                if (player.isSneaking()) setNBTInventory(stack, (IInventory) te);
+                else copyInventory(inventory.iterator(), (IInventory) te);
                 
                 return EnumActionResult.SUCCESS;
             }

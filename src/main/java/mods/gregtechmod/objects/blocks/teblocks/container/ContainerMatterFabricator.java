@@ -6,12 +6,12 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerMatterFabricator extends ContainerGtBase<TileEntityMatterFabricator> {
+public class ContainerMatterFabricator extends ContainerGtInventory<TileEntityMatterFabricator> {
 
     public ContainerMatterFabricator(EntityPlayer player, TileEntityMatterFabricator base) {
         super(player, base);
         
-        addInvSlotToContainer(2, 4, 8, 14, base.amplifierSlot);
+        addSlotsToContainer(2, 4, 8, 14, base.amplifierSlot);
         
         addSlotToContainer(new SlotInvSlot(base.output, 0, 128, 14));
     }

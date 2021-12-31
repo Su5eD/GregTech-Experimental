@@ -96,7 +96,8 @@
       "crop_harvestor": { "model": "gregtechmod:crop_harvestor" },
       "electric_rock_breaker": { "model": "gregtechmod:electric_rock_breaker" },
       "scrapboxinator": { "model": "gregtechmod:scrapboxinator" },
-      "electric_sorter": { "model": "gregtechmod:electric_sorter" }
+      "electric_sorter": { "model": "gregtechmod:electric_sorter" },
+      "electric_type_sorter": { "model": "gregtechmod:electric_type_sorter" }
     },
     "facing": {
       "down": { "x": 90 },

@@ -1,8 +1,9 @@
 package mods.gregtechmod.inventory;
 
-import net.minecraft.inventory.ClickType;
+import mods.gregtechmod.util.ButtonClick;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public interface ISlotInteractive {
-    boolean slotClick(ClickType clickType, ItemStack stack);
+    boolean slotClick(ButtonClick click, EntityPlayer player, ItemStack stack);
 }

@@ -4,7 +4,7 @@ import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityAdvancedPump;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ContainerAdvancedPump extends ContainerGtBase<TileEntityAdvancedPump> {
+public class ContainerAdvancedPump extends ContainerGtInventory<TileEntityAdvancedPump> {
 
     public ContainerAdvancedPump(EntityPlayer player, TileEntityAdvancedPump base) {
         super(player, base);

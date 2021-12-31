@@ -251,8 +251,8 @@ public class BlockItems {
             String name = this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(name, this.description, this.hasEffect)
                     .setFolder("ingot")
-                    .setRegistryName("ingot_"+name)
-                    .setTranslationKey("ingot_"+name)
+                    .setRegistryName("ingot_" + name)
+                    .setTranslationKey("ingot_" + name)
                     .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1169,7 +1169,7 @@ public class BlockItems {
         Cell(String description) {
             this.description = description;
             
-            String name = "cell_"+this.name().toLowerCase(Locale.ROOT);
+            String name = "cell_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
                     .setFolder("cell")
                     .setRegistryName(name)

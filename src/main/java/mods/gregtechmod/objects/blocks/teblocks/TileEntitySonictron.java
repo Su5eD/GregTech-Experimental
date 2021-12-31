@@ -52,7 +52,6 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
 
     public TileEntitySonictron() {
         this.content = new InvSlot(this, "content", InvSlot.Access.NONE, 64);
-        this.content.setStackSizeLimit(24);
     }
 
     @Override
@@ -62,12 +61,13 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
         if (isRedstonePowered() && this.currentIndex < 0) this.currentIndex = 0;
 
         if (this.tickCounter % 2 == 0 && this.currentIndex > -1) {
-            this.setActive(true);
+            setActive(true);
             
-            doSonictronSound(this.content.get(currentIndex), this.world, this.pos);
+            doSonictronSound(this.content.get(this.currentIndex), this.world, this.pos);
             
             if (++this.currentIndex > 63) this.currentIndex = -1;
-        } else this.setActive(false);
+        }
+        else setActive(false);
     }
 
     @Override
@@ -164,11 +164,10 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
 
     public static void doSonictronSound(ItemStack stack, World world, BlockPos pos) {
         if (stack.isEmpty()) return;
-
-        float pitch = 1;
+        
         String name = GregTechAPI.instance().getSonictronSounds().stream()
-                .filter(sound -> StackUtil.checkItemEquality(stack, sound.item))
-                .map(sound -> sound.name)
+                .filter(sound -> StackUtil.checkItemEquality(stack, sound.getItem()))
+                .map(SonictronSound::getName)
                 .findFirst()
                 .orElse("block.note.harp");
         int count = stack.getCount();
@@ -185,10 +184,8 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
             String suffix = RECORD_NAMES.getOrDefault(count, "wherearewenow");
             name += suffix;
         }
-
-        if (name.startsWith("block.note.")) {
-            pitch = (float) Math.pow(2D, (double) (count - 13) / 12D);
-        }
+        
+        float pitch = name.startsWith("block.note.") ? (float) Math.pow(2D, (double) (count - 13) / 12D) : 1;
 
         SoundEvent sound = SoundEvent.REGISTRY.getObject(new ResourceLocation(name));
         if (sound == null) throw new IllegalArgumentException("Attempted to play invalid sound " + name);

@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public final class NBTSaveHandler {
+public final class NBTSaveHandler { // TODO Detect duplicate fields
     private static final Class<NBTPersistent> ANNOTATION_CLASS = NBTPersistent.class;
     private static final Map<Class<?>, List<FieldHandle>> HANDLES = new HashMap<>();
     private static final Map<Class<?>, LazyValue<INBTSerializer<Object, NBTBase>>> SERIALIZERS = new HashMap<>();

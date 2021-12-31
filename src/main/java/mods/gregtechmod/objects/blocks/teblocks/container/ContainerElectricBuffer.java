@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerElectricBuffer<T extends TileEntityElectricBuffer> extends ContainerGtBase<T> {
+public class ContainerElectricBuffer<T extends TileEntityElectricBuffer> extends ContainerGtInventory<T> {
 
     public ContainerElectricBuffer(EntityPlayer player, T base) {
         super(player, base);

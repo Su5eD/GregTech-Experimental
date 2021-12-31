@@ -8,6 +8,6 @@ public class ContainerElectricBufferLarge extends ContainerElectricBuffer<TileEn
     public ContainerElectricBufferLarge(EntityPlayer player, TileEntityElectricBufferLarge base) {
         super(player, base);
         
-        addInvSlotToContainer(3, 9, 8, 5, base.buffer);
+        addSlotsToContainer(3, 9, 8, 5, base.buffer);
     }
 }

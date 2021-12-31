@@ -119,7 +119,7 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel {
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+"."+super.getTranslationKey();
+        return Reference.MODID + "." + super.getTranslationKey();
     }
 
     @Override

@@ -69,7 +69,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
 
     @Override
     public ContainerComputerCubeGuide getGuiContainer(EntityPlayer player, TileEntityComputerCube base) {
-        return new ContainerComputerCubeGuide(base);
+        return new ContainerComputerCubeGuide(player, base);
     }
 
     @Override

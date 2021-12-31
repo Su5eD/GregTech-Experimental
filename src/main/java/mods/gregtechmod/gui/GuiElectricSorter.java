@@ -1,13 +1,14 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricSorter;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricBuffer;
+import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricSorterBase;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiElectricSorter extends GuiElectricBuffer<ContainerElectricSorter> {
+public class GuiElectricSorter<T extends ContainerElectricBuffer<? extends TileEntityElectricSorterBase>> extends GuiElectricBuffer<T> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("electric_sorter");
     
-    public GuiElectricSorter(ContainerElectricSorter container) {
+    public GuiElectricSorter(T container) {
         super(container);
     }
 

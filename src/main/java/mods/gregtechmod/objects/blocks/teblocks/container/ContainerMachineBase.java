@@ -5,7 +5,7 @@ import net.minecraft.inventory.IInventory;
 
 import java.util.List;
 
-public class ContainerMachineBase<T extends IInventory> extends ContainerGtBase<T> {
+public class ContainerMachineBase<T extends IInventory> extends ContainerGtInventory<T> {
 
     public ContainerMachineBase(EntityPlayer player, T base) {
         super(player, base);

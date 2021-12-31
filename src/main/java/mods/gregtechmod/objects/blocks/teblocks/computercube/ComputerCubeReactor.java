@@ -17,7 +17,6 @@ import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -29,7 +28,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -48,8 +50,7 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
         if (GregTechMod.classic) depletedItems.add(IC2Items.getItem("depleted_isotope_fuel_rod"));
         DEPLETED_ITEMS = Collections.unmodifiableList(depletedItems);
         
-        List<Item> components = new ArrayList<>();
-        Stream.of(
+        COMPONENTS = Stream.of(
                 Stream.of("uranium_fuel_rod", "dual_uranium_fuel_rod", "quad_uranium_fuel_rod", "mox_fuel_rod", "dual_mox_fuel_rod", "quad_mox_fuel_rod")
                         .map(ModHandler.ic2ItemApi::getItem),
                 Arrays.stream(BlockItems.NuclearFuelRod.values())
@@ -65,17 +66,10 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
                                 "heat_exchanger", "reactor_heat_exchanger", "component_heat_exchanger", "advanced_heat_exchanger")
                         .map(ModHandler.ic2ItemApi::getItem),
                 ForgeRegistries.ITEMS.getValuesCollection().stream()
-                        .filter(item -> {
-                            if (item instanceof IReactorComponent && !components.contains(item)) {
-                                return item != ModHandler.lithiumFuelRod && (GregTechMod.classic || item != ModHandler.depletedIsotopeFuelRod && item != ModHandler.heatpack);
-                            }
-                            return false;
-                        })
+                        .filter(item -> item instanceof IReactorComponent && item != ModHandler.lithiumFuelRod && (GregTechMod.classic || item != ModHandler.depletedIsotopeFuelRod && item != ModHandler.heatpack))
         )
                 .flatMap(Function.identity())
-                .forEach(components::add);
-        
-        COMPONENTS = components.stream()
+                .distinct()
                 .map(ItemStack::new)
                 .collect(Collectors.toList());
     }
@@ -294,7 +288,7 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
     @Override
     public ContainerComputerCubeReactor getGuiContainer(EntityPlayer player, TileEntityComputerCube base) {
-        return new ContainerComputerCubeReactor(this.parent);
+        return new ContainerComputerCubeReactor(player, this.parent);
     }
 
     @Override

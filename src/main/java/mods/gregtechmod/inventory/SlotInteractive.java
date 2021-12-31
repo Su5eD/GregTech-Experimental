@@ -1,21 +1,27 @@
 package mods.gregtechmod.inventory;
 
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.IInventory;
+import mods.gregtechmod.util.ButtonClick;
+import mods.gregtechmod.util.DummyInventory;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class SlotInteractive extends Slot implements ISlotInteractive {
-    private final Consumer<ClickType> onSlotClick;
+    private final BiConsumer<ButtonClick, ItemStack> onSlotClick;
     
-    public SlotInteractive(IInventory inv, int x, int y, Consumer<ClickType> onSlotClick) {
-        this(inv, -1, x, y, onSlotClick);
+    public SlotInteractive(int x, int y, Runnable onSlotClick) {
+        this(x, y, (click, stack) -> onSlotClick.run());
+    }
+    
+    public SlotInteractive(int x, int y, Consumer<ButtonClick> onSlotClick) {
+        this(x, y, (click, stack) -> onSlotClick.accept(click));
     }
 
-    public SlotInteractive(IInventory inv, int index, int x, int y, Consumer<ClickType> onSlotClick) {
-        super(inv, index, x, y);
+    public SlotInteractive(int x, int y, BiConsumer<ButtonClick, ItemStack> onSlotClick) {
+        super(DummyInventory.INSTANCE, -1, x, y);
         
         this.onSlotClick = onSlotClick;
     }
@@ -26,8 +32,8 @@ public class SlotInteractive extends Slot implements ISlotInteractive {
     }
 
     @Override
-    public boolean slotClick(ClickType clickType, ItemStack stack) {
-        this.onSlotClick.accept(clickType);
+    public boolean slotClick(ButtonClick click, EntityPlayer player, ItemStack stack) {
+        this.onSlotClick.accept(click, stack);
         return false;
     }
 }

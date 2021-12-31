@@ -1,11 +1,12 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerFullInv;
+import ic2.core.ContainerBase;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.slot.SlotInvSlot;
-import mods.gregtechmod.api.util.QuadFunction;
+import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.inventory.ISlotInteractive;
 import mods.gregtechmod.inventory.SlotArmor;
+import mods.gregtechmod.util.ButtonClick;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -15,14 +16,10 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public abstract class ContainerGtBase<T extends IInventory> extends ContainerFullInv<T> {
-    
-    public ContainerGtBase(EntityPlayer player, T base) {
-        this(player, base, 166);
-    }
+public abstract class ContainerGtBase<T extends IInventory> extends ContainerBase<T> {
 
-    public ContainerGtBase(EntityPlayer player, T base, int height) {
-        super(player, base, height);
+    public ContainerGtBase(T base) {
+        super(base);
     }
 
     @Override
@@ -31,7 +28,8 @@ public abstract class ContainerGtBase<T extends IInventory> extends ContainerFul
             Slot slot = getSlot(slotId);
             if (slot instanceof ISlotInteractive) {
                 ItemStack stack = player.inventory.getItemStack();
-                if (((ISlotInteractive) slot).slotClick(clickType, stack)) return stack;
+                ButtonClick click = ButtonClick.fromClickType(clickType, dragType);
+                if (((ISlotInteractive) slot).slotClick(click, player, stack)) return stack;
             }
         }
         
@@ -54,18 +52,18 @@ public abstract class ContainerGtBase<T extends IInventory> extends ContainerFul
         addSlotToContainer(new SlotArmor(player.inventory, 36, x, y + 54, EntityEquipmentSlot.FEET));
     }
     
-    protected void addInvSlotToContainer(int rows, int cols, int xOffset, int yOffset, InvSlot invSlot) {
-        addInvSlotToContainer(rows, cols, xOffset, yOffset, 18, invSlot, SlotInvSlot::new);
+    protected void addSlotsToContainer(int rows, int cols, int xOffset, int yOffset, InvSlot invSlot) {
+        addSlotsToContainer(rows, cols, xOffset, yOffset, 18, (index, x, y) -> new SlotInvSlot(invSlot, index, x, y));
     }
     
-    protected void addInvSlotToContainer(int rows, int cols, int xOffset, int yOffset, int slotOffset, InvSlot invSlot, QuadFunction<InvSlot, Integer, Integer, Integer, Slot> slotFactory) {
+    protected void addSlotsToContainer(int rows, int cols, int xOffset, int yOffset, int slotOffset, TriFunction<Integer, Integer, Integer, Slot> slotFactory) {
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < cols; x++) {
                 int index = x + y * cols;
                 int xPos = xOffset + x * slotOffset;
                 int yPos = yOffset + y * slotOffset;
                 
-                addSlotToContainer(slotFactory.apply(invSlot, index, xPos, yPos));
+                addSlotToContainer(slotFactory.apply(index, xPos, yPos));
             }
         }
     }

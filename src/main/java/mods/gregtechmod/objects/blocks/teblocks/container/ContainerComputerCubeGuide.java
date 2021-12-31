@@ -1,10 +1,10 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
 import ic2.core.slot.SlotInvSlot;
+import mods.gregtechmod.inventory.SlotInteractive;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeGuide;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -15,13 +15,19 @@ import java.util.stream.IntStream;
 public class ContainerComputerCubeGuide extends ContainerComputerCube {
     public final List<Slot> displaySlots;
 
-    public ContainerComputerCubeGuide(TileEntityComputerCube base) {
-        super(base, 206);
+    public ContainerComputerCubeGuide(EntityPlayer player, TileEntityComputerCube base) {
+        super(player, base, 206);
         
         ComputerCubeGuide module = (ComputerCubeGuide) base.getActiveModule();
         
-        addSlotToContainer(new Slot(base, -1, 190, 146));
-        addSlotToContainer(new Slot(base, -1, 206, 146));
+        addSlotToContainer(new SlotInteractive(190, 146, () -> {
+            module.previousPage();
+            displayStacks();
+        }));
+        addSlotToContainer(new SlotInteractive(206, 146, () -> {
+            module.nextPage();
+            displayStacks();
+        }));
 
         this.displaySlots = IntStream.range(0, 5)
                 .mapToObj(i -> new SlotInvSlot(module.displayStacks, i, 206, 38 + 18 * i))
@@ -44,21 +50,5 @@ public class ContainerComputerCubeGuide extends ContainerComputerCube {
                         
             slot.onSlotChanged();
         }
-    }
-
-    @Override
-    public ItemStack slotClick(int slotId, int dragType, ClickType clickType, EntityPlayer player) {
-        ComputerCubeGuide module = (ComputerCubeGuide) this.base.getActiveModule();
-        
-        if (slotId == 1) {
-            module.previousPage();
-            displayStacks();
-        }
-        else if (slotId == 2) {
-            module.nextPage();
-            displayStacks();
-        }
-        
-        return super.slotClick(slotId, dragType, clickType, player);
     }
 }
