@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Collects additional information for the scanner.
- * This event is <b>cancellable</b>.
+ * This event is <b>cancelable</b>.
  */
 @Cancelable
 public class ScannerEvent extends WorldEvent {
