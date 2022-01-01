@@ -20,7 +20,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidUtil;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, RM extends IGtRecipeManagerSecondaryFluid<R>> extends TileEntityStructureBase<T, R, List<IRecipeIngredient>, List<ItemStack>, RM> {
@@ -36,7 +35,7 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
         
         this.secondaryInput = getSecondaryInputSlot("secondary_input");
         this.fluidContainerOutput = new InvSlotOutput(this, "fluid_output", 1);
-        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Collections.emptySet(), Fluids.fluidPredicate(FluidRegistry.WATER), 10000));
+        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Util.noFacings, Fluids.fluidPredicate(FluidRegistry.WATER), 10000));
         
         addGuiValue("water_level", this::getWaterLevel);
     }

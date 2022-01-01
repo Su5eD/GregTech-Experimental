@@ -4,6 +4,7 @@ import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.state.Ic2BlockState;
 import ic2.core.block.state.UnlistedBooleanProperty;
+import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
@@ -103,7 +104,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     protected int moveItemStack(TileEntity to, EnumFacing fromSide) {
         return GtUtil.moveItemStack(
                 this, to,
-                fromSide, fromSide.getOpposite(),
+                fromSide,
                 this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1,
                 64, 1
         );
@@ -168,7 +169,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
 
     @Override
     protected Collection<EnumFacing> getSourceSides() {
-        return this.outputEnergy ? Collections.singleton(getOppositeFacing()) : Collections.emptySet();
+        return this.outputEnergy ? Collections.singleton(getOppositeFacing()) : Util.noFacings;
     }
 
     @Override

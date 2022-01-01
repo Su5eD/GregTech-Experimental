@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class TileEntityHatchDynamo extends TileEntityEnergy {
@@ -37,6 +36,6 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
     
     @Override
     public Collection<EnumFacing> getSourceSides() {
-        return Collections.singleton(getFacing());
+        return facingSideOnly();
     }
 }

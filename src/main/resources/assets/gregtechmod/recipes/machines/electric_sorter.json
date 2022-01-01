@@ -3,7 +3,7 @@
   "pattern":
   [
     "GBG",
-    "CPC",
+    "CHC",
     "GAG"
   ],
   "key":
@@ -16,7 +16,7 @@
     "A":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier00"
+      "ore": "craftingMonitorTier02"
     },
     "C":
     {
@@ -28,15 +28,15 @@
       "type": "forge:ore_dict",
       "ore": "plateElectrum"
     },
-    "P":
+    "H":
     {
-      "type": "forge:ore_dict",
-      "ore": "craftingConveyor"
+      "item": "gregtechmod:teblock",
+      "data": 67
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 65
   }
 }

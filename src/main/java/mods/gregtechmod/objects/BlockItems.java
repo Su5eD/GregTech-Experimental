@@ -699,11 +699,11 @@ public class BlockItems {
         public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
+            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrueBi(), (stack, machine, player) -> false, afterInsert);
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, descriptionKey, oreDict, JavaUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
+            this(type, maxCount, requiredTier, descriptionKey, oreDict, JavaUtil.alwaysTrueBi(), (stack, machine, player) -> false, afterInsert);
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
@@ -711,7 +711,7 @@ public class BlockItems {
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), beforeInsert, afterInsert);
+            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrueBi(), beforeInsert, afterInsert);
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {

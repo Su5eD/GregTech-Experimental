@@ -31,13 +31,12 @@
     "H":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "electric translocator"
+      "data": 67
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 66
   }
 }

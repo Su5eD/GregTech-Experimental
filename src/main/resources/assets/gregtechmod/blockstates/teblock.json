@@ -97,7 +97,8 @@
       "electric_rock_breaker": { "model": "gregtechmod:electric_rock_breaker" },
       "scrapboxinator": { "model": "gregtechmod:scrapboxinator" },
       "electric_sorter": { "model": "gregtechmod:electric_sorter" },
-      "electric_type_sorter": { "model": "gregtechmod:electric_type_sorter" }
+      "electric_type_sorter": { "model": "gregtechmod:electric_type_sorter" },
+      "electric_translocator": { "model": "gregtechmod:electric_translocator" }
     },
     "facing": {
       "down": { "x": 90 },

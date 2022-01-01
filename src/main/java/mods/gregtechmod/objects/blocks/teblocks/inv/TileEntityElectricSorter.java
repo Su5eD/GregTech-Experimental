@@ -28,7 +28,7 @@ public class TileEntityElectricSorter extends TileEntityElectricSorterBase {
     @Override
     protected boolean applyFilter(ItemStack stack) {
         return StreamSupport.stream(this.filter.spliterator(), false)
-                .anyMatch(s -> GtUtil.stackEquals(s, stack));
+                .anyMatch(s -> GtUtil.stackItemEquals(s, stack));
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +35,10 @@ public class JsonHandler {
         }
     }
     
+    @Nullable
     public ResourceLocation getResouceLocationElement(String name) {
-        return new ResourceLocation(this.json.get(name).getAsString());
+        JsonElement element = this.json.get(name);
+        return element != null ? new ResourceLocation(element.getAsString()) : null;
     }
     
     public Map<EnumFacing, ResourceLocation> generateTextureMap() {

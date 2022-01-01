@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,8 +28,12 @@ public final class JavaUtil {
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
     
     private JavaUtil() {}
+    
+    public static <T> Predicate<T> alwaysTrue() {
+        return a -> true;
+    }
 
-    public static <T, U> BiPredicate<T, U> alwaysTrue() {
+    public static <T, U> BiPredicate<T, U> alwaysTrueBi() {
         return (a, b) -> true;
     }
 

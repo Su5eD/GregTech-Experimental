@@ -945,6 +945,8 @@ gregtechmod.teblock.electric_sorter=Electric Sorter
 gregtechmod.teblock.electric_sorter.description=The Sorter will put matching Items into the Blue Side.
 gregtechmod.teblock.electric_type_sorter=Electric Type Sorter
 gregtechmod.teblock.electric_type_sorter.description=Like the regular Sorter, but with special Item Types instead of Filter Items
+gregtechmod.teblock.electric_translocator=Electric Translocator
+gregtechmod.teblock.electric_translocator.description=Moves Items from A to B
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

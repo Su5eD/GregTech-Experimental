@@ -23,15 +23,15 @@ public class ModelElectricBuffer extends ModelTeBlock {
         this.textureDownRedstone = textureDownRedstone;
         
         this.sprites.put(this.textureDown, null);
-        this.sprites.put(this.textureDownRedstone, null);
+        if (this.textureDownRedstone != null) this.sprites.put(this.textureDownRedstone, null);
     }
 
     @Override
     protected TextureAtlasSprite getSprite(EnumFacing face, EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state) {
         boolean horizontal = Util.horizontalFacings.contains(side);
         
-        if (state.getValue(TileEntityElectricBuffer.REDSTONE_TEXTURE_PROPERTY)) {
-            return this.sprites.get(face == EnumFacing.UP && horizontal ? this.textureDownRedstone : this.redstoneTextures.get(rotatedSide));
+        if (this.redstoneTextures.containsKey(rotatedSide) && Boolean.TRUE.equals(state.getValue(TileEntityElectricBuffer.REDSTONE_TEXTURE_PROPERTY))) {
+            return this.sprites.get(face == EnumFacing.UP && horizontal && this.textureDownRedstone != null ? this.textureDownRedstone : this.redstoneTextures.get(rotatedSide));
         }
         else if (horizontal) {
             if (face == EnumFacing.UP) {

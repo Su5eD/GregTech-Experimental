@@ -27,7 +27,6 @@ import net.minecraft.world.Explosion;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IMachineProgress, IExplosionPowerOverride, IPanelInfoProvider {
@@ -61,11 +60,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     protected Collection<EnumFacing> getSinkSides() {
         return Util.allFacings;
-    }
-       
-    @Override
-    protected Collection<EnumFacing> getSourceSides() {
-        return Collections.emptySet();
     }
 
     public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {

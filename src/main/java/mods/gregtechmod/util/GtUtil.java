@@ -158,6 +158,12 @@ public final class GtUtil {
                 && (first.getMetadata() == OreDictionary.WILDCARD_VALUE || first.getMetadata() == second.getMetadata())
                 && (!matchNbt || StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound()));
     }
+    
+    public static boolean stackItemEquals(ItemStack first, ItemStack second) {
+        if (first.isEmpty() || second.isEmpty()) return false;
+        
+        return first.getItem() == second.getItem() && (first.isItemStackDamageable() || first.getItemDamage() == second.getItemDamage());
+    }
 
     public static ItemStack copyWithMeta(ItemStack stack, int meta) {
         ItemStack ret = stack.copy();
@@ -269,8 +275,12 @@ public final class GtUtil {
         return new ResourceLocation(Reference.MODID, "blocks/covers/" + name);
     }
     
-    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove) {
-        return moveItemStack(from, to, fromSide, toSide, maxMove, dest -> true, (source, dest, sourceStack, sourceSlot) -> {
+    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove) {
+        return moveItemStack(from, to, fromSide, maxTargetSize, minTargetSize, maxMove, minMove, stack -> true);
+    }
+    
+    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove, java.util.function.Predicate<ItemStack> filter) {
+        return moveItemStack(from, to, fromSide, fromSide.getOpposite(), maxMove, dest -> true, filter, (source, dest, sourceStack, sourceSlot) -> {
             for (int j = 0; j < dest.getSlots(); j++) {
                 int count = moveSingleItemStack(source, dest, sourceStack, sourceSlot, j, minMove, minTargetSize, maxTargetSize);
                 if (count > 0) return count;
@@ -280,14 +290,14 @@ public final class GtUtil {
     }
     
     public static int moveItemStackIntoSlot(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int destSlot, int maxTargetSize, int minTargetSize, int maxMove, int minMove) {
-        return moveItemStack(from, to, fromSide, toSide, maxMove, dest -> dest.getSlots() >= destSlot, (source, dest, sourceStack, sourceSlot) -> {
+        return moveItemStack(from, to, fromSide, toSide, maxMove, dest -> dest.getSlots() >= destSlot, stack -> true, (source, dest, sourceStack, sourceSlot) -> {
             int count = moveSingleItemStack(source, dest, sourceStack, sourceSlot, destSlot, minMove, minTargetSize, maxTargetSize);
             return Math.max(count, 0);
         });
     }
     
     private static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxMove,
-                                     java.util.function.Predicate<IItemHandler> condition, QuadFunction<IItemHandler, IItemHandler, ItemStack, Integer, Integer> consumer) {
+                                     java.util.function.Predicate<IItemHandler> condition, java.util.function.Predicate<ItemStack> filter, QuadFunction<IItemHandler, IItemHandler, ItemStack, Integer, Integer> consumer) {
         if (to != null) {
             IItemHandler source = from.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, fromSide);
             if (source != null) {
@@ -296,7 +306,7 @@ public final class GtUtil {
                 if (dest != null && condition.test(dest)) {
                     for (int i = 0; i < source.getSlots(); i++) {
                         ItemStack sourceStack = source.extractItem(i, maxMove, true);
-                        if (!sourceStack.isEmpty()) {
+                        if (!sourceStack.isEmpty() && filter.test(sourceStack)) {
                             return consumer.apply(source, dest, sourceStack, i);
                         }
                     }

@@ -11,6 +11,7 @@ import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.client.util.ITooltipFlag;
@@ -50,11 +51,19 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
     
     protected Collection<EnumFacing> getSinkSides() {
-        return Collections.emptySet();
+        return Util.noFacings;
     }
     
     protected Collection<EnumFacing> getSourceSides() {
-        return Collections.emptySet();
+        return Util.noFacings;
+    }
+    
+    protected Collection<EnumFacing> facingSideOnly() {
+        return Collections.singleton(getFacing());
+    }
+    
+    protected Collection<EnumFacing> allSidesExceptFacing() {
+        return GtUtil.allSidesExcept(getFacing());
     }
     
     @Override
@@ -269,7 +278,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
         @Override
         public Collection<EnumFacing> getSinkSides() {
-            return Collections.emptySet();
+            return Util.noFacings;
         }
 
         @Override

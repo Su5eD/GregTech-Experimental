@@ -1,0 +1,13 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_up",
+    "down": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_up",
+    "up": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_up",
+    "north": "gregtechmod:blocks/machines/adv_machine_pipe_green",
+    "south": "gregtechmod:blocks/machines/adv_machine_pipe_red",
+    "east": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_left",
+    "west": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_right"
+  },
+  "textureDown": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_down"
+}

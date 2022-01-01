@@ -5,6 +5,7 @@ import ic2.core.block.invslot.InvSlotDischarge;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.StackUtil;
+import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
@@ -89,7 +90,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
 
     @Override
     protected Collection<EnumFacing> getSourceSides() {
-        return this.provideEnergy ? Collections.singleton(this.outputSide) : Collections.emptySet();
+        return this.provideEnergy ? Collections.singleton(this.outputSide) : Util.noFacings;
     }
 
     @Override

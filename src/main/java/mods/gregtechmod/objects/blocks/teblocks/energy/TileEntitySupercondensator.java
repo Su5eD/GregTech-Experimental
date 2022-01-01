@@ -3,7 +3,6 @@ package mods.gregtechmod.objects.blocks.teblocks.energy;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
-import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.EnumFacing;
 
 import java.util.Collection;
@@ -14,12 +13,12 @@ public class TileEntitySupercondensator extends TileEntityUpgradable {
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        return GtUtil.allSidesExcept(getFacing());
+        return allSidesExceptFacing();
     }
 
     @Override
     protected Collection<EnumFacing> getSourceSides() {
-        return Collections.singleton(getFacing());
+        return facingSideOnly();
     }
 
     @Override
