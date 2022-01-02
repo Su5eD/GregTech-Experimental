@@ -104,7 +104,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     protected int moveItemStack(TileEntity to, EnumFacing fromSide) {
         return GtUtil.moveItemStack(
                 this, to,
-                fromSide,
+                fromSide, fromSide.getOpposite(),
                 this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1,
                 64, 1
         );

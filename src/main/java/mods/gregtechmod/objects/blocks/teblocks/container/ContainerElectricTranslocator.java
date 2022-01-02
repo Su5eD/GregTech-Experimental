@@ -7,9 +7,9 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class ContainerElectricTranslocator extends ContainerGtInventory<TileEntityElectricTranslocator> {
+public class ContainerElectricTranslocator<T extends TileEntityElectricTranslocator> extends ContainerGtInventory<T> {
 
-    public ContainerElectricTranslocator(EntityPlayer player, TileEntityElectricTranslocator base) {
+    public ContainerElectricTranslocator(EntityPlayer player, T base) {
         super(player, base);
         
         addSlotToContainer(new SlotInteractive(8, 63, base::switchOutputEnergy));

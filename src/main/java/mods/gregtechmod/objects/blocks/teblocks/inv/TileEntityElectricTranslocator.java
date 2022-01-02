@@ -31,9 +31,16 @@ public class TileEntityElectricTranslocator extends TileEntityUpgradable impleme
     public boolean outputEnergy = true;
     @NBTPersistent
     public boolean invertFilter;
+    private final int minimumWorkEnergy;
     private int success;
-
+    
     public TileEntityElectricTranslocator() {
+        this(1000);
+    }
+
+    public TileEntityElectricTranslocator(int minimumWorkEnergy) {
+        this.minimumWorkEnergy = minimumWorkEnergy;
+        
         this.filter = new GtSlot(this, "filter", InvSlot.Access.NONE, 9);
     }
     
@@ -70,7 +77,7 @@ public class TileEntityElectricTranslocator extends TileEntityUpgradable impleme
     protected void updateEntityServer() {
         super.updateEntityServer();
         
-        if (isAllowedToWork() && canUseEnergy(1000) && (
+        if (isAllowedToWork() && canUseEnergy(this.minimumWorkEnergy) && (
                 workJustHasBeenEnabled()
                 || this.tickCounter % 200 == 0
                 || this.tickCounter % 5 == 0 && this.success > 0
@@ -86,7 +93,7 @@ public class TileEntityElectricTranslocator extends TileEntityUpgradable impleme
             int cost = GtUtil.moveItemStack(
                     getNeighborTE(getFacing()),
                     getNeighborTE(getOppositeFacing()),
-                    getOppositeFacing(),
+                    transferFromSide(), transferToSide(),
                     64, 1, 64, 1,
                     empty ? JavaUtil.alwaysTrue() : this.invertFilter ? filter.negate() : filter
             ) * multiplier;
@@ -96,6 +103,14 @@ public class TileEntityElectricTranslocator extends TileEntityUpgradable impleme
                 this.success = 30;
             }
         }
+    }
+    
+    protected EnumFacing transferFromSide() {
+        return getOppositeFacing();
+    }
+    
+    protected EnumFacing transferToSide() {
+        return getFacing();
     }
 
     @Override
@@ -139,14 +154,14 @@ public class TileEntityElectricTranslocator extends TileEntityUpgradable impleme
     }
 
     @Override
-    public ContainerElectricTranslocator getGuiContainer(EntityPlayer player) {
-        return new ContainerElectricTranslocator(player, this);
+    public ContainerElectricTranslocator<?> getGuiContainer(EntityPlayer player) {
+        return new ContainerElectricTranslocator<>(player, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
-        return new GuiElectricTranslocator(getGuiContainer(player));
+        return new GuiElectricTranslocator<>(getGuiContainer(player));
     }
 
     @Override

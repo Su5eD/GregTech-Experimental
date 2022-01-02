@@ -98,7 +98,8 @@
       "scrapboxinator": { "model": "gregtechmod:scrapboxinator" },
       "electric_sorter": { "model": "gregtechmod:electric_sorter" },
       "electric_type_sorter": { "model": "gregtechmod:electric_type_sorter" },
-      "electric_translocator": { "model": "gregtechmod:electric_translocator" }
+      "electric_translocator": { "model": "gregtechmod:electric_translocator" },
+      "electric_translocator_advanced": { "model": "gregtechmod:electric_translocator_advanced" }
     },
     "facing": {
       "down": { "x": 90 },

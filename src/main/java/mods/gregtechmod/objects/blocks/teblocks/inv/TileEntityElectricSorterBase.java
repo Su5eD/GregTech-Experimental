@@ -1,9 +1,9 @@
 package mods.gregtechmod.objects.blocks.teblocks.inv;
 
-import ic2.core.IC2;
 import ic2.core.block.state.Ic2BlockState;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.TextureOverride;
 import mods.gregtechmod.util.nbt.NBTPersistent;
@@ -26,10 +26,9 @@ public abstract class TileEntityElectricSorterBase extends TileEntityElectricBuf
     }
     
     public void switchTargetFacing() {
-        int index = (this.targetFacing.ordinal() + 1) % EnumFacing.VALUES.length;
-        this.targetFacing = EnumFacing.VALUES[index];
+        this.targetFacing = GtUtil.getNextFacing(this.targetFacing);
 
-        IC2.network.get(true).updateTileEntityField(this, "targetFacing");
+        updateClientField("targetFacing");
     }
 
     public EnumFacing getTargetFacing() {

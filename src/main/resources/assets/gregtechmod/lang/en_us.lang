@@ -947,6 +947,8 @@ gregtechmod.teblock.electric_type_sorter=Electric Type Sorter
 gregtechmod.teblock.electric_type_sorter.description=Like the regular Sorter, but with special Item Types instead of Filter Items
 gregtechmod.teblock.electric_translocator=Electric Translocator
 gregtechmod.teblock.electric_translocator.description=Moves Items from A to B
+gregtechmod.teblock.electric_translocator_advanced=Advanced Translocator
+gregtechmod.teblock.electric_translocator_advanced.description=No matter how often you click that dang Button, the second Facing WON'T CHANGE!!!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

@@ -275,12 +275,12 @@ public final class GtUtil {
         return new ResourceLocation(Reference.MODID, "blocks/covers/" + name);
     }
     
-    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove) {
-        return moveItemStack(from, to, fromSide, maxTargetSize, minTargetSize, maxMove, minMove, stack -> true);
+    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove) {
+        return moveItemStack(from, to, fromSide, toSide, maxTargetSize, minTargetSize, maxMove, minMove, stack -> true);
     }
     
-    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove, java.util.function.Predicate<ItemStack> filter) {
-        return moveItemStack(from, to, fromSide, fromSide.getOpposite(), maxMove, dest -> true, filter, (source, dest, sourceStack, sourceSlot) -> {
+    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxTargetSize, int minTargetSize, int maxMove, int minMove, java.util.function.Predicate<ItemStack> filter) {
+        return moveItemStack(from, to, fromSide, toSide, maxMove, dest -> true, filter, (source, dest, sourceStack, sourceSlot) -> {
             for (int j = 0; j < dest.getSlots(); j++) {
                 int count = moveSingleItemStack(source, dest, sourceStack, sourceSlot, j, minMove, minTargetSize, maxTargetSize);
                 if (count > 0) return count;
@@ -298,7 +298,7 @@ public final class GtUtil {
     
     private static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxMove,
                                      java.util.function.Predicate<IItemHandler> condition, java.util.function.Predicate<ItemStack> filter, QuadFunction<IItemHandler, IItemHandler, ItemStack, Integer, Integer> consumer) {
-        if (to != null) {
+        if (from != null && to != null) {
             IItemHandler source = from.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, fromSide);
             if (source != null) {
                 IItemHandler dest = to.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, toSide);
@@ -356,6 +356,11 @@ public final class GtUtil {
         copy.setCount(1);
         copy.setItemDamage(0);
         return copy;
+    }
+    
+    public static EnumFacing getNextFacing(EnumFacing facing) {
+        int index = (facing.ordinal() + 1) % EnumFacing.VALUES.length;
+        return EnumFacing.VALUES[index];
     }
 
     private static class VoidTank implements IFluidHandler {

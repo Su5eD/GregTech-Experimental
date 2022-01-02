@@ -4,10 +4,10 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricTrans
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiElectricTranslocator extends GuiSimple<ContainerElectricTranslocator> {
+public class GuiElectricTranslocator<T extends ContainerElectricTranslocator<?>> extends GuiSimple<T> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("electric_translocator");
 
-    public GuiElectricTranslocator(ContainerElectricTranslocator container) {
+    public GuiElectricTranslocator(T container) {
         super(container);
         
         addVerticalIconCycle(7, 62, 58, () -> container.base.outputEnergy);
