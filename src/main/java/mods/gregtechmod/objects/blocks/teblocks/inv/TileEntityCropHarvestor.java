@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Set;
 
-public class TileEntityCropHarvestor extends TileEntityElectricBuffer {
+public class TileEntityCropHarvestor extends TileEntityElectricBufferSingle {
 
     public TileEntityCropHarvestor() {
         super(1);

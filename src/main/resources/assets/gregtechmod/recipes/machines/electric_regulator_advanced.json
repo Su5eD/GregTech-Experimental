@@ -21,13 +21,12 @@
     "H":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "advanced buffer"
+      "data": 60
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 69
   }
 }

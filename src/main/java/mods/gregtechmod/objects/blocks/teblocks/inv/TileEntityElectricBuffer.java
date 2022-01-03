@@ -8,7 +8,6 @@ import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.inventory.invslot.GtSlotElectricBuffer;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtRedstoneEmitter;
 import mods.gregtechmod.util.BooleanCountdown;
@@ -28,7 +27,6 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     public static final IUnlistedProperty<Boolean> REDSTONE_TEXTURE_PROPERTY = new UnlistedBooleanProperty("redstoneTextures");
 
     public final BooleanCountdown inventoryModified = createSingleCountDown();
-    public final GtSlotElectricBuffer buffer;
     protected final GtRedstoneEmitter emitter;
 
     @NBTPersistent
@@ -41,14 +39,11 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     protected int targetStackSize;
     protected int success;
 
-    public TileEntityElectricBuffer(int invSize) {
-        this.buffer = new GtSlotElectricBuffer(this, "buffer", getBufferSlotAccess(), invSize);
+    public TileEntityElectricBuffer() {
         this.emitter = addComponent(new GtRedstoneEmitter(this, () -> updateClientField("emitter")));
     }
     
-    protected InvSlot.Access getBufferSlotAccess() {
-        return InvSlot.Access.IO;
-    }
+    protected abstract boolean hasItem();
     
     @Override
     protected void updateEntityServer() {
@@ -58,17 +53,14 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     }
     
     protected void work() {
-        boolean hasItem = !this.buffer.isEmpty();
-        if (shouldUpdate(hasItem)) {
+        if (hasItem() && canWork()) {
             this.success--;
-            if (hasItem) {
-                int cost = moveItem();
-                if (cost > 0) {
-                    this.success = getMaxSuccess();
-                    useEnergy(cost);
-                }
+            int cost = moveItem();
+            if (cost > 0) {
+                this.success = getMaxSuccess();
+                useEnergy(cost);
             }
-
+            
             updateRedstone();
         }
     }
@@ -86,12 +78,12 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
         } else this.emitter.setLevel(this.invertRedstone ? 15 : 0);
     }
     
-    protected boolean shouldUpdate(boolean hasItem) {
+    protected boolean canWork() {
         int invSize = getSizeInventory();
         return canUseEnergy(500) && (
                 workJustHasBeenEnabled() 
                 || this.tickCounter % 200 == 0
-                || this.tickCounter % 5 == 0 && (this.success > 0 || hasItem && this.tickCounter % 10 == 0 && invSize <= 1)
+                || this.tickCounter % 5 == 0 && (this.success > 0 || this.tickCounter % 10 == 0 && invSize <= 1)
                 || this.success >= 20
                 || this.inventoryModified.get()
             );
@@ -105,8 +97,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
         return GtUtil.moveItemStack(
                 this, to,
                 fromSide, fromSide.getOpposite(),
-                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1,
-                64, 1
+                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1
         );
     }
     

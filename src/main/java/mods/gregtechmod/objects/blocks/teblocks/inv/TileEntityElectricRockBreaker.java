@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Set;
 
-public class TileEntityElectricRockBreaker extends TileEntityElectricBuffer {
+public class TileEntityElectricRockBreaker extends TileEntityElectricBufferSingle {
     public final InvSlot redstoneSlot;
 
     public TileEntityElectricRockBreaker() {

@@ -21,7 +21,7 @@ public class SlotInvSlotHolo extends SlotInvSlot implements ISlotInteractive {
 
     @Override
     public boolean slotClick(ButtonClick click, EntityPlayer player, ItemStack stack) {
-        putStack(!stack.isEmpty() ? stack.isItemDamaged() ? GtUtil.copyWithoutDamage(stack) : StackUtil.copyWithSize(stack, 1) : ItemStack.EMPTY);
+        putStack(!stack.isEmpty() ? stack.isItemDamaged() ? GtUtil.copyWithoutDamage(stack, 1) : StackUtil.copyWithSize(stack, 1) : ItemStack.EMPTY);
         return true;
     }
 }

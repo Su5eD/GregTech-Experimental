@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
 
-public abstract class TileEntityElectricSorterBase extends TileEntityElectricBuffer {
+public abstract class TileEntityElectricSorterBase extends TileEntityElectricBufferSingle {
     private static final ResourceLocation TARGET_FACING_TEXTURE = new ResourceLocation(Reference.MODID, "blocks/machines/adv_machine_pipe_blue");
     private static final ResourceLocation TARGET_FACING_TEXTURE_REDSTONE = new ResourceLocation(Reference.MODID, "blocks/machines/adv_machine_pipe_blue_redstone");
     
@@ -86,7 +86,7 @@ public abstract class TileEntityElectricSorterBase extends TileEntityElectricBuf
     }
 
     @Override
-    protected boolean shouldUpdate(boolean hasItem) {
+    protected boolean canWork() {
         return canUseEnergy(1000) && (
                 workJustHasBeenEnabled()
                 || this.tickCounter % 20 == 0

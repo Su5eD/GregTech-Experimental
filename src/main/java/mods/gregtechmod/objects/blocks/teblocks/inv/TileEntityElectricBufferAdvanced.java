@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityElectricBufferAdvanced extends TileEntityElectricBuffer {
+public class TileEntityElectricBufferAdvanced extends TileEntityElectricBufferSingle {
     @NBTPersistent
     public int targetSlot;
 
@@ -33,7 +33,7 @@ public class TileEntityElectricBufferAdvanced extends TileEntityElectricBuffer {
     }
 
     @Override
-    protected boolean shouldUpdate(boolean hasItem) {
+    protected boolean canWork() {
         return canUseEnergy(500) && (
                 workJustHasBeenEnabled() 
                 || this.tickCounter % 200 == 0
@@ -49,8 +49,7 @@ public class TileEntityElectricBufferAdvanced extends TileEntityElectricBuffer {
                 this, this.world.getTileEntity(this.pos.offset(getOppositeFacing())), 
                 getOppositeFacing(), getFacing(),
                 this.targetSlot,
-                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1,
-                64, 1
+                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1
         );
     }
 

@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityElectricBufferLarge extends TileEntityElectricBuffer {
+public class TileEntityElectricBufferLarge extends TileEntityElectricBufferSingle {
 
     public TileEntityElectricBufferLarge() {
         super(27);

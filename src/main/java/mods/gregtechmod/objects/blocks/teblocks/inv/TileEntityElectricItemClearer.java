@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Set;
 
-public class TileEntityElectricItemClearer extends TileEntityElectricBuffer {
+public class TileEntityElectricItemClearer extends TileEntityElectricBufferSingle {
 
     public TileEntityElectricItemClearer() {
         super(1);

@@ -1,18 +1,18 @@
 package mods.gregtechmod.inventory.invslot;
 
-import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBuffer;
+import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBufferSingle;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class GtSlotElectricBuffer extends GtSlot {
 
-    public GtSlotElectricBuffer(TileEntityElectricBuffer base, String name, Access access, int count) {
+    public GtSlotElectricBuffer(TileEntityElectricBufferSingle base, String name, Access access, int count) {
         super(base, name, access, count);
     }
 
     @Override
     public void onChanged() {
-        ((TileEntityElectricBuffer) this.base).inventoryModified.reset();
+        ((TileEntityElectricBufferSingle) this.base).inventoryModified.reset();
     }
     
     public boolean canAdd(ItemStack stack) {

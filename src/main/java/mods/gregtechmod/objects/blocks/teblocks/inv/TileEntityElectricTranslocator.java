@@ -94,7 +94,7 @@ public class TileEntityElectricTranslocator extends TileEntityUpgradable impleme
                     getNeighborTE(getFacing()),
                     getNeighborTE(getOppositeFacing()),
                     transferFromSide(), transferToSide(),
-                    64, 1, 64, 1,
+                    64, 1,
                     empty ? JavaUtil.alwaysTrue() : this.invertFilter ? filter.negate() : filter
             ) * multiplier;
             

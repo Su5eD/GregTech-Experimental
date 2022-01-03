@@ -107,7 +107,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     ELECTRIC_SORTER(TileEntityElectricSorter.class, 65, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_TYPE_SORTER(TileEntityElectricTypeSorter.class, 66, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_TRANSLOCATOR(TileEntityElectricTranslocator.class, 67, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_TRANSLOCATOR_ADVANCED(TileEntityElectricTranslocatorAdvanced.class, 68, false, Util.allFacings, ModelType.ELECTRIC_BUFFER);
+    ELECTRIC_TRANSLOCATOR_ADVANCED(TileEntityElectricTranslocatorAdvanced.class, 68, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_REGULATOR_ADVANCED(TileEntityElectricRegulatorAdvanced.class, 69, false, Util.allFacings, ModelType.ELECTRIC_BUFFER);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
