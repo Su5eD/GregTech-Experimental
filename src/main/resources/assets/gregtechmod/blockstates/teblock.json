@@ -100,7 +100,8 @@
       "electric_type_sorter": { "model": "gregtechmod:electric_type_sorter" },
       "electric_translocator": { "model": "gregtechmod:electric_translocator" },
       "electric_translocator_advanced": { "model": "gregtechmod:electric_translocator_advanced" },
-      "electric_regulator_advanced": { "model": "gregtechmod:electric_regulator_advanced" }
+      "electric_regulator_advanced": { "model": "gregtechmod:electric_regulator_advanced" },
+      "electric_inventory_manager": { "model": "gregtechmod:electric_inventory_manager" }
     },
     "facing": {
       "down": { "x": 90 },

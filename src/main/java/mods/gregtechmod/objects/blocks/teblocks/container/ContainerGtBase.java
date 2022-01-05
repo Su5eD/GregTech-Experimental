@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.blocks.teblocks.container;
 import ic2.core.ContainerBase;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.slot.SlotInvSlot;
+import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.inventory.ISlotInteractive;
 import mods.gregtechmod.inventory.SlotArmor;
@@ -63,13 +64,17 @@ public abstract class ContainerGtBase<T extends IInventory> extends ContainerBas
     }
     
     protected void addSlotsToContainer(int rows, int cols, int xOffset, int yOffset, int slotOffset, TriFunction<Integer, Integer, Integer, Slot> slotFactory) {
+        forEachRowCol(rows, cols, xOffset, yOffset, slotOffset, (index, x, y) -> addSlotToContainer(slotFactory.apply(index, x, y)));
+    }
+
+    protected void forEachRowCol(int rows, int cols, int xOffset, int yOffset, int slotOffset, TriConsumer<Integer, Integer, Integer> consumer) {
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < cols; x++) {
                 int index = x + y * cols;
                 int xPos = xOffset + x * slotOffset;
                 int yPos = yOffset + y * slotOffset;
-                
-                addSlotToContainer(slotFactory.apply(index, xPos, yPos));
+
+                consumer.accept(index, xPos, yPos);
             }
         }
     }

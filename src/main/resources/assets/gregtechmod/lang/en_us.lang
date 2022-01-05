@@ -951,6 +951,8 @@ gregtechmod.teblock.electric_translocator_advanced=Advanced Translocator
 gregtechmod.teblock.electric_translocator_advanced.description=No matter how often you click that dang Button, the second Facing WON'T CHANGE!!!
 gregtechmod.teblock.electric_regulator_advanced=Advanced Regulator
 gregtechmod.teblock.electric_regulator_advanced.description=Lets you save up to 8 additional Machines when used correctly!
+gregtechmod.teblock.electric_inventory_manager=Inventory Manager
+gregtechmod.teblock.electric_inventory_manager.description=It's simplier than you think. I promise.
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

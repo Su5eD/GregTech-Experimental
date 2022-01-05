@@ -40,7 +40,7 @@ import java.util.Locale;
 import java.util.Set;
 
 public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITeBlockSpecialItem {
-    INDUSTRIAL_CENTRIFUGE(TileEntityIndustrialCentrifuge.class, 1, true, Util.noFacings),
+    INDUSTRIAL_CENTRIFUGE(TileEntityIndustrialCentrifuge.class, 1, true, Util.onlyNorth),
     DIGITAL_CHEST(TileEntityDigitalChest.class, 2, false, Util.allFacings),
     QUANTUM_CHEST(TileEntityQuantumChest.class, 3, false, Util.allFacings),
     QUANTUM_TANK(TileEntityQuantumTank.class, 4, false, Util.horizontalFacings),
@@ -59,8 +59,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     PRINTER(TileEntityPrinter.class, 17, true, Util.horizontalFacings),
     ASSEMBLER(TileEntityAssembler.class, 18, true, Util.horizontalFacings),
     LATHE(TileEntityLathe.class, 19, true, Util.horizontalFacings),
-    INDUSTRIAL_ELECTROLYZER(TileEntityIndustrialElectrolyzer.class, 20, true, Util.noFacings),
-    CHEMICAL_REACTOR(TileEntityChemicalReactor.class, 21, true, Util.noFacings),
+    INDUSTRIAL_ELECTROLYZER(TileEntityIndustrialElectrolyzer.class, 20, true, Util.onlyNorth),
+    CHEMICAL_REACTOR(TileEntityChemicalReactor.class, 21, true, Util.onlyNorth),
     INDUSTRIAL_BLAST_FURNACE(TileEntityIndustrialBlastFurnace.class, 22, false, Util.horizontalFacings, true),
     INDUSTRIAL_GRINDER(TileEntityIndustrialGrinder.class, 23, false, Util.horizontalFacings, true),
     IMPLOSION_COMPRESSOR(TileEntityImplosionCompressor.class, 24, false, Util.horizontalFacings, true),
@@ -72,7 +72,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     GAS_TURBINE(TileEntityGasTurbine.class, 30, false, Util.horizontalFacings),
     PLASMA_GENERATOR(TileEntityPlasmaGenerator.class, 31, true, Util.allFacings),
     MAGIC_ENERGY_CONVERTER(TileEntityMagicEnergyConverter.class, 32, true, Util.allFacings),
-    LIGHTNING_ROD(TileEntityLightningRod.class, 33, false, Util.noFacings),
+    LIGHTNING_ROD(TileEntityLightningRod.class, 33, false, Util.onlyNorth),
     MAGIC_ENERGY_ABSORBER(TileEntityMagicEnergyAbsorber.class, 34, true, Util.noFacings),
     DRAGON_EGG_ENERGY_SIPHON(TileEntityDragonEggEnergySiphon.class, 35, true, Util.noFacings),
     HATCH_INPUT(TileEntityHatchInput.class, 36, false, Util.allFacings),
@@ -108,7 +108,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     ELECTRIC_TYPE_SORTER(TileEntityElectricTypeSorter.class, 66, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_TRANSLOCATOR(TileEntityElectricTranslocator.class, 67, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_TRANSLOCATOR_ADVANCED(TileEntityElectricTranslocatorAdvanced.class, 68, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_REGULATOR_ADVANCED(TileEntityElectricRegulatorAdvanced.class, 69, false, Util.allFacings, ModelType.ELECTRIC_BUFFER);
+    ELECTRIC_REGULATOR_ADVANCED(TileEntityElectricRegulatorAdvanced.class, 69, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_INVENTORY_MANAGER(TileEntityElectricInventoryManager.class, 70, false, Util.onlyNorth);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();

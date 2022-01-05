@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.blocks.teblocks.container;
 
 import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.inventory.SlotInteractive;
-import mods.gregtechmod.inventory.SlotInvSlotRegulator;
+import mods.gregtechmod.inventory.SlotInvSlotSizeFilter;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricRegulatorAdvanced;
 import mods.gregtechmod.util.ButtonClick;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +15,7 @@ public class ContainerElectricRegulatorAdvanced extends ContainerGtInventory<Til
         super(player, base);
         
         addSlotsToContainer(3, 3, 8, 6, 18, (index, x, y) -> new SlotInvSlot(base.bufferSlots.get(index), 0, x, y));
-        addSlotsToContainer(3, 3, 64, 7, 17, (index, x, y) -> new SlotInvSlotRegulator(base.filter, index, x, y));
+        addSlotsToContainer(3, 3, 64, 7, 17, (index, x, y) -> new SlotInvSlotSizeFilter(base.filter, index, x, y));
         addSlotsToContainer(3, 3, 119, 7, 17, (index, x, y) -> new SlotInteractive(x, y, click -> {
             if (click == ButtonClick.MOUSE_RIGHT) base.slotIndices[index]++;
             else if (click == ButtonClick.MOUSE_LEFT) base.slotIndices[index] = Math.max(0, base.slotIndices[index] - 1); 

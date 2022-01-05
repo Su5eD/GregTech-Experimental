@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class TileEntityElectricRegulatorAdvanced extends TileEntityElectricBuffer {
     @NBTPersistent
@@ -22,10 +23,7 @@ public class TileEntityElectricRegulatorAdvanced extends TileEntityElectricBuffe
     public TileEntityElectricRegulatorAdvanced() {
         this.filter = new GtSlot(this, "filter", InvSlot.Access.NONE, 9);
         
-        for (int i = 0; i < 9; i++) {
-            int finalI = i;
-            this.bufferSlots.add(new GtSlotFiltered(this, "buffer" + i, InvSlot.Access.IO, 1, stack -> !this.filter.isEmpty(finalI) && GtUtil.stackItemEquals(this.filter.get(finalI), stack)));
-        }
+        IntStream.range(0, 9).forEach(i -> this.bufferSlots.add(new GtSlotFiltered(this, "buffer" + i, InvSlot.Access.IO, 1, stack -> !this.filter.isEmpty(i) && GtUtil.stackItemEquals(this.filter.get(i), stack))));
     }
 
     @Override

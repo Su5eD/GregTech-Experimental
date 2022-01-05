@@ -3,6 +3,7 @@ package mods.gregtechmod.gui;
 import ic2.core.ContainerBase;
 import ic2.core.GuiIC2;
 import mods.gregtechmod.gui.element.IconCycle;
+import mods.gregtechmod.gui.element.IconCycleGrid;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
@@ -39,6 +40,14 @@ public abstract class GuiSimple<T extends ContainerBase<? extends IInventory>> e
     }
     
     protected void addIconCycle(int x, int y, ResourceLocation texture, int textureX, int textureY, int step, boolean vertical, IntSupplier valueGetter) {
-        addElement(new IconCycle(this, x, y, texture, textureX, textureY, step, vertical, valueGetter));
+        addIconCycle(x, y, texture, textureX, textureY, step, step, vertical, valueGetter);
+    }
+    
+    protected void addIconCycle(int x, int y, ResourceLocation texture, int textureX, int textureY, int step, int height, boolean vertical, IntSupplier valueGetter) {
+        addElement(new IconCycle(this, x, y, texture, textureX, textureY, step, height, vertical, valueGetter));
+    }
+    
+    protected void addIconCycleGrid(int x, int y, ResourceLocation texture, int textureX, int textureY, int step, boolean vertical, IntSupplier xValueGetter, BooleanSupplier yValueGetter) {
+        addElement(new IconCycleGrid(this, x, y, texture, textureX, textureY, step, step, vertical, xValueGetter, () -> yValueGetter.getAsBoolean() ? 1 : 0));
     }
 }

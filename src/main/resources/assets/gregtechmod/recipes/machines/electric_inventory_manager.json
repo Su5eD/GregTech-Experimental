@@ -21,14 +21,12 @@
     "R":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "advanced regulator"
+      "data": 69
     },
     "S":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "electric sorter"
+      "data": 65
     },
     "E":
     {
@@ -39,6 +37,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 70
   }
 }

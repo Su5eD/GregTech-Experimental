@@ -6,9 +6,9 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public class SlotInvSlotRegulator extends SlotInvSlotHolo {
+public class SlotInvSlotSizeFilter extends SlotInvSlotHolo {
 
-    public SlotInvSlotRegulator(InvSlot invSlot, int index, int x, int y) {
+    public SlotInvSlotSizeFilter(InvSlot invSlot, int index, int x, int y) {
         super(invSlot, index, x, y);
     }
 

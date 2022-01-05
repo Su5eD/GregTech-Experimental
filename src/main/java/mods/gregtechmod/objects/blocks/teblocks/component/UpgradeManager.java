@@ -29,7 +29,7 @@ public class UpgradeManager extends GtComponentBase {
     private final TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade;
     private final BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade;
     
-    @NBTPersistent(include = Include.NOT_EMPTY, using = ItemStackListNBTSerializer.class)
+    @NBTPersistent(include = Include.NOT_EMPTY, handler = ItemStackListNBTSerializer.class)
     private final List<ItemStack> upgrades = new ArrayList<>();
 
     public <T extends TileEntityBlock & IUpgradableMachine> UpgradeManager(T parent, Runnable onUpdate, TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade, BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade) {

@@ -341,6 +341,12 @@ public final class GtUtil {
         return sides;
     }
     
+    public static Set<EnumFacing> allSidesExcept(Collection<EnumFacing> sides) { // TODO Migrate common usage
+        Set<EnumFacing> facings = new HashSet<>(Util.allFacings);
+        facings.removeAll(sides);
+        return facings;
+    }
+    
     public static ItemStack collectItemFromArea(World world, BlockPos begin, BlockPos end) {
         List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(begin, end));
         if (list.size() > 0) {

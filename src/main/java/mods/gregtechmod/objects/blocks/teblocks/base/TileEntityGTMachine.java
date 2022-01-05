@@ -34,7 +34,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
 
-    @NBTPersistent(include = Include.NOT_EMPTY, using = ItemStackListNBTSerializer.class)
+    @NBTPersistent(include = Include.NOT_EMPTY, handler = ItemStackListNBTSerializer.class)
     protected List<ItemStack> pendingRecipe = new ArrayList<>();
     @NBTPersistent
     protected double progress;

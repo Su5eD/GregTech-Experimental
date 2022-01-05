@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManagerBasic<RI, I, R>> extends TileEntityGTMachine<R, RI, I, RM> {
     @NBTPersistent
@@ -82,10 +81,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        EnumFacing facing = getFacing();
-        return Arrays.stream(EnumFacing.VALUES)
-                .filter(side -> side != facing)
-                .collect(Collectors.toSet());
+        return GtUtil.allSidesExcept(Arrays.asList(getFacing(), this.outputSide));
     }
 
     @Override

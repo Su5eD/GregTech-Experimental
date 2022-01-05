@@ -11,12 +11,12 @@ public class IconCycle extends GuiElement<IconCycle> {
     private final ResourceLocation texture;
     private final int textureX;
     private final int textureY;
-    private final int step;
+    protected final int step;
     private final boolean vertical;
     private final IntSupplier valueSupplier;
 
-    public IconCycle(GuiIC2<?> gui, int x, int y, ResourceLocation texture, int textureX, int textureY, int step, boolean vertical, IntSupplier valueSupplier) {
-        super(gui, x, y, step, step);
+    public IconCycle(GuiIC2<?> gui, int x, int y, ResourceLocation texture, int textureX, int textureY, int step, int height, boolean vertical, IntSupplier valueSupplier) {
+        super(gui, x, y, step, height);
         
         this.texture = texture;
         this.textureX = textureX;
@@ -32,15 +32,19 @@ public class IconCycle extends GuiElement<IconCycle> {
         
         int x = this.x + this.gui.getGuiLeft();
         int y = this.y + this.gui.getGuiTop();
-        int textureX = this.vertical ? this.textureX : this.textureX + getStepOffset();
-        int textureY = this.vertical ? this.textureY + getStepOffset() : this.textureY;
+        int textureX = this.vertical ? this.textureX : this.textureX + getXStepOffset();
+        int textureY = this.vertical ? this.textureY + getXStepOffset() : this.textureY + getYTextureOffset();
         
         bindTexture(this.texture);
         GlStateManager.color(1, 1, 1, 1);
-        this.gui.drawTexturedModalRect(x, y, textureX, textureY, this.step, this.step);
+        this.gui.drawTexturedModalRect(x, y, textureX, textureY, this.step, this.height);
     }
 
-    private int getStepOffset() {
+    protected int getXStepOffset() {
         return this.valueSupplier.getAsInt() * this.step;
+    }
+    
+    protected int getYTextureOffset() {
+        return 0;
     }
 }
