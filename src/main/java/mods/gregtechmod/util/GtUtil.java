@@ -341,7 +341,7 @@ public final class GtUtil {
         return sides;
     }
     
-    public static Set<EnumFacing> allSidesExcept(Collection<EnumFacing> sides) { // TODO Migrate common usage
+    public static Set<EnumFacing> allSidesExcept(Collection<EnumFacing> sides) {
         Set<EnumFacing> facings = new HashSet<>(Util.allFacings);
         facings.removeAll(sides);
         return facings;
