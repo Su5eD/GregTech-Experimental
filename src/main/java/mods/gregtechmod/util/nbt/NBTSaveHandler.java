@@ -1,27 +1,32 @@
 package mods.gregtechmod.util.nbt;
 
+import mods.gregtechmod.util.JavaUtil;
+import mods.gregtechmod.util.Try;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import one.util.streamex.StreamEx;
 
 import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public final class NBTSaveHandler {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
-    private static final Map<Class<?>, List<FieldHandle>> HANDLES = new HashMap<>();
+    private static final ConcurrentMap<Class<?>, List<FieldHandle>> HANDLES = new ConcurrentHashMap<>();
     
-    public static void initClass(Class<?> cls) { // TODO Parallel execution?
-        withParents(cls, clazz -> !HANDLES.containsKey(clazz), clazz -> {
-            List<FieldHandle> fieldHandles = Arrays.stream(clazz.getDeclaredFields())
-                    .filter(field -> field.isAnnotationPresent(NBTPersistent.class))
-                    .map(field -> {
-                        try {
+    public static void initClass(Class<?> clazz) {
+        withParents(clazz)
+                .parallel()
+                .remove(HANDLES::containsKey)
+                .cross(cls -> StreamEx.of(cls.getDeclaredFields())
+                        .parallel()
+                        .filter(field -> field.isAnnotationPresent(NBTPersistent.class))
+                        .map(Try.<Field, FieldHandle>of(field -> {
                             field.setAccessible(true);
                             NBTPersistent persistent = field.getAnnotation(NBTPersistent.class);
                             String annotatedName = persistent.name();
@@ -34,57 +39,58 @@ public final class NBTSaveHandler {
                             if (handler != Serializers.None.class) {
                                 serializer = handler;
                                 deserializer = handler;
-                            }
-                            else {
+                            } else {
                                 serializer = persistent.serializer();
                                 deserializer = persistent.deserializer();
                             }
                             
-                            checkForDuplicateField(name, clazz);
+                            checkForDuplicateField(name, cls);
                             return new FieldHandle(name, field.getType(), serializer, deserializer, persistent.include().predicate, modifyExisting, LOOKUP.unreflectGetter(field), LOOKUP.unreflectSetter(field));
-                        } catch (IllegalAccessException e) {
-                            throw new RuntimeException("Unable to create handle for field " + field.getName(), e);
-                        }
-                    })
-                    .collect(Collectors.toList());
-            if (!fieldHandles.isEmpty()) HANDLES.put(clazz, fieldHandles);
-        });
+                        })
+                                .catching(field -> "Unable to create handle for field " + field.getName()))
+                        .groupRuns(JavaUtil.alwaysTrueBi())
+                )
+                .removeValues(List::isEmpty)
+                .forKeyValue(HANDLES::put);
     }
 
     public static void writeClassToNBT(Object instance, NBTTagCompound nbt) {
-        withFieldHandles(instance.getClass(), fieldHandle -> {
-            Object value = fieldHandle.getFieldValue(instance);
-            if (fieldHandle.optional.test(value)) {
-                NBTBase serialized;
-                if (fieldHandle.serializer != Serializers.None.class) {
-                    serialized = NBTHandlerRegistry.getSpecialSerializer(fieldHandle.serializer).serialize(value);
-                }
-                else serialized = serializeField(value);
-
-                if (serialized != null) nbt.setTag(fieldHandle.name, serialized);
-            }
-        });
+        withFieldHandles(instance.getClass())
+                .cross(fieldHandle -> StreamEx.of(fieldHandle.getFieldValue(instance))
+                        .filter(fieldHandle.optional)
+                )
+                .mapToValuePartial((fieldHandle, value) -> {
+                    NBTBase serialized;
+                    if (fieldHandle.serializer != Serializers.None.class) {
+                        serialized = NBTHandlerRegistry.getSpecialSerializer(fieldHandle.serializer).serialize(value);
+                    }
+                    else serialized = serializeField(value);
+                    
+                    return Optional.ofNullable(serialized);
+                })
+                .mapKeys(FieldHandle::getName)
+                .forKeyValue(nbt::setTag);
     }
     
     public static void readClassFromNBT(Object instance, NBTTagCompound nbt) {
-        withFieldHandles(instance.getClass(), fieldHandle -> {
-            if (nbt.hasKey(fieldHandle.name)) {
-                NBTBase nbtValue = nbt.getTag(fieldHandle.name);
+        withFieldHandles(instance.getClass())
+                .parallel()
+                .cross(fieldHandle -> StreamEx.of(nbt.getTag(fieldHandle.name))
+                        .nonNull()
+                )
+                .forKeyValue((fieldHandle, nbtValue) -> {
+                    if (fieldHandle.modifyExisting) {
+                        Object value = fieldHandle.getFieldValue(instance);
+                        modifyExistingField(fieldHandle.type, value, nbtValue);
+                    } else {
+                        Object deserialized;
+                        if (fieldHandle.deserializer != Serializers.None.class) {
+                            deserialized = NBTHandlerRegistry.getSpecialDeserializer(fieldHandle.deserializer).deserialize(nbtValue, instance, fieldHandle.type);
+                        } else deserialized = deserializeField(nbtValue, instance, fieldHandle.type);
 
-                if (fieldHandle.modifyExisting) {
-                    Object value = fieldHandle.getFieldValue(instance);
-                    modifyExistingField(fieldHandle.type, value, nbtValue);
-                } else {
-                    Object deserialized;
-                    if (fieldHandle.deserializer != Serializers.None.class) {
-                        deserialized = NBTHandlerRegistry.getSpecialDeserializer(fieldHandle.deserializer).deserialize(nbtValue, instance, fieldHandle.type);
+                        if (deserialized != null) fieldHandle.setFieldValue(instance, deserialized);
                     }
-                    else deserialized = deserializeField(nbtValue, instance, fieldHandle.type);
-
-                    if (deserialized != null) fieldHandle.setFieldValue(instance, deserialized);
-                }
-            }
-        });
+                });
     }
 
     private static NBTBase serializeField(Object value) {
@@ -100,23 +106,23 @@ public final class NBTSaveHandler {
     }
     
     private static void checkForDuplicateField(String name, Class<?> cls) {
-        withFieldHandles(cls, fieldHandle -> {
-            if (name.equals(fieldHandle.name)) throw new RuntimeException("Duplicate field " + formatFieldName(cls, name));
-        });
+        boolean exists = withFieldHandles(cls)
+                .parallel()
+                .map(FieldHandle::getName)
+                .anyMatch(name::equals);
+        
+        if (exists) throw new RuntimeException("Duplicate field " + formatFieldName(cls, name));
     }
     
-    private static void withFieldHandles(Class<?> clazz, Consumer<FieldHandle> consumer) {
-        withParents(clazz, HANDLES::containsKey, cls -> {
-            List<FieldHandle> fieldHandles = HANDLES.get(cls);
-            fieldHandles.forEach(consumer);
-        });
+    private static StreamEx<FieldHandle> withFieldHandles(Class<?> clazz) {
+        return withParents(clazz)
+                .map(HANDLES::get)
+                .nonNull()
+                .flatMap(Collection::stream);
     }
     
-    private static void withParents(Class<?> clazz, Predicate<Class<?>> filter, Consumer<Class<?>> runnable) {
-        Class<?> parent = clazz.getSuperclass();
-        if (parent != Object.class) withParents(parent, filter, runnable);
-                
-        if (filter.test(clazz)) runnable.accept(clazz);
+    private static StreamEx<Class<?>> withParents(Class<?> clazz) {
+        return StreamEx.iterate(clazz, Objects::nonNull, Class::getSuperclass);
     }
     
     private static String formatFieldName(Class<?> clazz, String field) {

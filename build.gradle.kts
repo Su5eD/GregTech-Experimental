@@ -98,9 +98,6 @@ val devJar by tasks.registering(ShadowJar::class) {
     configurations = listOf(shade)
     manifest.attributes(manifestAttributes)
     
-    relocate("com.fasterxml", "mods.gregtechmod.repack.fasterxml")
-    relocate("org.yaml", "mods.gregtechmod.repack.yaml")
-    
     from(sourceSets.main.get().output)
     from(api.output)
     
@@ -131,8 +128,6 @@ tasks {
         manifest.attributes(manifestAttributes)
 
         from(api.output)
-        relocate("com.fasterxml", "mods.gregtechmod.repack.fasterxml")
-        relocate("org.yaml", "mods.gregtechmod.repack.yaml")
 
         archiveClassifier.set("")
     }
@@ -141,6 +136,11 @@ tasks {
         from(api.allSource)
     }
 
+    withType<ShadowJar>() {
+        sequenceOf("com.fasterxml", "org.yaml", "one.util")
+            .forEach { relocate(it, "mods.gregtechmod.repack.$it") }
+    }
+    
     processResources {
         inputs.properties(
             "version" to project.version,
@@ -218,6 +218,7 @@ dependencies {
 
     apiImplementation(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0"))
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.9.0")
+    shade(group = "one.util", name = "streamex", version = "0.8.1")
 }
 
 publishing {
