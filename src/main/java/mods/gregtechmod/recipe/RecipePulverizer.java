@@ -50,11 +50,10 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, double energyCost, int chance, boolean overwrite, boolean universal) {
-        output = RecipeUtil.adjustOutputCount("pulverizer", output, 2);
+        List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("pulverizer", output, 2);
+        RecipePulverizer recipe = new RecipePulverizer(input, adjustedOutput, energyCost, chance < 1 ? 10 : chance, overwrite, universal);
 
-        RecipePulverizer recipe = new RecipePulverizer(input, output, energyCost, chance < 1 ? 10 : chance, overwrite, universal);
-
-        if (!RecipeUtil.validateRecipeIO("pulverizer", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("pulverizer", input, adjustedOutput)) recipe.invalid = true;
 
         return recipe;
     }
@@ -86,21 +85,17 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     }
 
     @Override
-    public String toString() {
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        MoreObjects.ToStringHelper helper = super.toStringHelper();
         ItemStack secondaryOutput = getSecondaryOutput();
-        MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", getPrimaryOutput());
+        
         if (!secondaryOutput.isEmpty()) {
             helper.add("secondaryOutput", secondaryOutput)
-                    .add("chance", chance);
+                  .add("chance", chance);
         }
         
         return helper
-                .add("duration", duration)
-                .add("energyCost", energyCost)
                 .add("overwrite", overwrite)
-                .add("universal", universal)
-                .toString();
+                .add("universal", universal);
     }
 }

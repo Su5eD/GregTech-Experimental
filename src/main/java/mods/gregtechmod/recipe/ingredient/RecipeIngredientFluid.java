@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -117,16 +118,12 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
     }
 
     public static List<ItemStack> getContainersForFluids(List<Fluid> fluids) {
-        List<ItemStack> list = fluids.stream()
+        return StreamEx.of(fluids)
                 .map(fluid -> FluidUtil.getFilledBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME)))
-                .filter(stack -> !stack.isEmpty())
-                .collect(Collectors.toList());
-        
-        fluids.forEach(fluid -> {
-            ItemStack cell = ProfileDelegate.getCell(fluid.getName());
-            if (!cell.isEmpty()) list.add(cell);
-        });
-        
-        return list;
+                .append(StreamEx.of(fluids)
+                        .map(Fluid::getName)
+                        .map(ProfileDelegate::getCell))
+                .remove(ItemStack::isEmpty)
+                .toList();
     }
 }

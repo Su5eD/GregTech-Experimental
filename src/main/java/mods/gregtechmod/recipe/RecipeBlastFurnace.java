@@ -27,12 +27,12 @@ public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<Ite
                                             @JsonProperty(value = "energyCost") double energyCost,
                                             @JsonProperty(value = "heat", required = true) int heat,
                                             @JsonProperty(value = "universal") boolean universal) {
-        input = RecipeUtil.adjustInputCount("blast furnace", input, output, 2);
-        output = RecipeUtil.adjustOutputCount("blast furnace", output, 2);
+        List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("blast furnace", input, output, 2);
+        List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("blast furnace", output, 2);
 
-        RecipeBlastFurnace recipe = new RecipeBlastFurnace(input, output, duration, energyCost <= 0 ? 128 : energyCost, heat, universal);
+        RecipeBlastFurnace recipe = new RecipeBlastFurnace(adjustedInput, adjustedOutput, duration, energyCost <= 0 ? 128 : energyCost, heat, universal);
 
-        if (!RecipeUtil.validateRecipeIO("blast furnace", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("blast furnace", adjustedInput, adjustedOutput)) recipe.invalid = true;
 
         return recipe;
     }
@@ -48,14 +48,9 @@ public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<Ite
     }
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", output)
-                .add("duration", duration)
-                .add("energyCost", energyCost)
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        return super.toStringHelper()
                 .add("heat", heat)
-                .add("universal", universal)
-                .toString();
+                .add("universal", universal);
     }
 }

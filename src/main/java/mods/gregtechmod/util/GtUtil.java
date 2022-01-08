@@ -46,6 +46,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -54,7 +55,11 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -98,9 +103,9 @@ public final class GtUtil {
     }
     
     public static List<ItemStack> nonEmptyList(ItemStack... elements) {
-        return Stream.of(elements)
-                .filter(stack -> !stack.isEmpty())
-                .collect(Collectors.toList());
+        return StreamEx.of(elements)
+                .remove(ItemStack::isEmpty)
+                .toList();
     }
 
     public static boolean damageStack(EntityPlayer player, ItemStack stack, int damage) {

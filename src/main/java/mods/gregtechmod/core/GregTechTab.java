@@ -10,6 +10,7 @@ import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -27,9 +28,9 @@ public class GregTechTab extends CreativeTabs {
 
     @Override
     public void displayAllRelevantItems(@Nonnull NonNullList<ItemStack> list) {
-        BlockItemLoader.getBlocks().stream()
+        StreamEx.of(BlockItemLoader.getBlocks())
                 .map(ItemStack::new)
-                .filter(stack -> !stack.isEmpty())
+                .remove(ItemStack::isEmpty)
                 .forEach(list::add);
         Arrays.stream(GregTechTEBlock.VALUES)
                 .forEach(teblock -> list.add(GregTechTEBlock.blockTE.getItemStack(teblock)));

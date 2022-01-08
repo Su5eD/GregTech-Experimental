@@ -21,10 +21,10 @@ public class RecipeFusionFluid extends RecipeFusion<IRecipeIngredientFluid, Flui
                                            @JsonProperty(value = "duration", required = true) int duration,
                                            @JsonProperty(value = "energyCost", required = true) double energyCost,
                                            @JsonProperty(value = "startEnergy", required = true) double startEnergy) {
-        input = RecipeUtil.adjustInputCount("fusion", input, output, 2);
-        RecipeFusionFluid recipe = new RecipeFusionFluid(input, output, duration, energyCost, startEnergy);
+        List<IRecipeIngredientFluid> adjustedInput = RecipeUtil.adjustInputCount("fusion", input, output, 2);
+        RecipeFusionFluid recipe = new RecipeFusionFluid(adjustedInput, output, duration, energyCost, startEnergy);
 
-        RecipeUtil.validateRecipeInput("fusion", input);
+        RecipeUtil.validateRecipeInput("fusion", adjustedInput);
         if (output == null) {
             GregTechMod.LOGGER.warn("Tried to add a fusion recipe with null output! Invalidating...");
             recipe.invalid = true;

@@ -166,7 +166,10 @@ reobf {
 }
 
 repositories {
-    mavenCentral()
+    maven {
+        name = "Su5eD Artifactory"
+        url = uri("https://su5ed.jfrog.io/artifactory/maven")
+    }
     maven {
         name = "IC2"
         url = uri("https://maven.ic2.player.to")
@@ -187,6 +190,7 @@ repositories {
         name = "CoFH Maven"
         url = uri("https://maven.covers1624.net")
     }
+    mavenCentral()
 }
 
 dependencies {

@@ -4,7 +4,11 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManager;
 import mods.gregtechmod.api.recipe.manager.IRecipeProvider;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 
 public abstract class RecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> implements IGtRecipeManager<RI, I, R> {
     protected final List<R> recipes = new ArrayList<>();

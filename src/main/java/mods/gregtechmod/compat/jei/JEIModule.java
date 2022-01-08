@@ -1,7 +1,12 @@
 package mods.gregtechmod.compat.jei;
 
 import ic2.core.profile.Version;
-import mezz.jei.api.*;
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.IJeiRuntime;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.IModRegistry;
+import mezz.jei.api.IRecipeRegistry;
+import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
@@ -12,8 +17,38 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.compat.jei.category.*;
-import mods.gregtechmod.gui.*;
+import mods.gregtechmod.compat.jei.category.CategoryBase;
+import mods.gregtechmod.compat.jei.category.CategoryBasicMachineMulti;
+import mods.gregtechmod.compat.jei.category.CategoryBasicMachineSingle;
+import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
+import mods.gregtechmod.compat.jei.category.CategoryChemicalReactor;
+import mods.gregtechmod.compat.jei.category.CategoryDistillationTower;
+import mods.gregtechmod.compat.jei.category.CategoryElectrolyzer;
+import mods.gregtechmod.compat.jei.category.CategoryGenerator;
+import mods.gregtechmod.compat.jei.category.CategoryImplosionCompressor;
+import mods.gregtechmod.compat.jei.category.CategoryIndustrialBlastFurnace;
+import mods.gregtechmod.compat.jei.category.CategoryIndustrialGrinder;
+import mods.gregtechmod.compat.jei.category.CategoryIndustrialSawmill;
+import mods.gregtechmod.compat.jei.category.CategoryLathe;
+import mods.gregtechmod.compat.jei.category.CategoryPlasmaGenerator;
+import mods.gregtechmod.compat.jei.category.CategoryVacuumFreezer;
+import mods.gregtechmod.gui.GregtechGauge;
+import mods.gregtechmod.gui.GuiAlloySmelter;
+import mods.gregtechmod.gui.GuiAssembler;
+import mods.gregtechmod.gui.GuiAutoCanner;
+import mods.gregtechmod.gui.GuiAutoCompressor;
+import mods.gregtechmod.gui.GuiAutoElectricFurnace;
+import mods.gregtechmod.gui.GuiAutoExtractor;
+import mods.gregtechmod.gui.GuiAutoMacerator;
+import mods.gregtechmod.gui.GuiBasicMachine;
+import mods.gregtechmod.gui.GuiBender;
+import mods.gregtechmod.gui.GuiDieselGenerator;
+import mods.gregtechmod.gui.GuiGasTurbine;
+import mods.gregtechmod.gui.GuiMagicEnergyConverter;
+import mods.gregtechmod.gui.GuiScrapboxinator;
+import mods.gregtechmod.gui.GuiSemifluidGenerator;
+import mods.gregtechmod.gui.GuiThermalGenerator;
+import mods.gregtechmod.gui.GuiWiremill;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -28,13 +63,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import one.util.streamex.StreamEx;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 @JEIPlugin
 public class JEIModule implements IModPlugin {
     private static final Collection<CategoryBase<?, ?>> CATEGORIES = new HashSet<>();
-    
+
     public static final List<ItemStack> HIDDEN_ITEMS = new ArrayList<>();
     public static final List<IRecipeWrapper> HIDDEN_RECIPES = new ArrayList<>();
     public static IIngredientBlacklist ingredientBlacklist;
@@ -49,7 +90,7 @@ public class JEIModule implements IModPlugin {
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
         initBasicMachine(registry, GuiAutoCompressor.class, "compressor");
         initBasicMachine(registry, GuiAutoElectricFurnace.class, "auto_electric_furnace", "minecraft.smelting");
-        
+
         registry.addRecipeClickArea(GuiScrapboxinator.class, 62, 63, 16, 16, "ic2.scrapbox");
     }
 
@@ -98,8 +139,7 @@ public class JEIModule implements IModPlugin {
         hideEnum(BlockItems.Rod.values());
 
         if (!Version.shouldEnable(ItemCellClassic.class)) {
-            BlockItems.classicCells.values()
-                    .stream()
+            BlockItems.classicCells.values().stream()
                     .map(ItemStack::new)
                     .forEach(HIDDEN_ITEMS::add);
         }
@@ -108,9 +148,9 @@ public class JEIModule implements IModPlugin {
             HIDDEN_ITEMS.add(BlockItems.Upgrade.PNEUMATIC_GENERATOR.getItemStack());
             HIDDEN_ITEMS.add(BlockItems.Upgrade.RS_ENERGY_CELL.getItemStack());
         }
-        
-        Arrays.stream(GregTechTEBlock.VALUES)
-                .filter(teBlock -> !Version.shouldEnable(teBlock.getTeClass()))
+
+        StreamEx.of(GregTechTEBlock.VALUES)
+                .remove(teBlock -> Version.shouldEnable(teBlock.getTeClass()))
                 .map(GregTechTEBlock::getName)
                 .map(GregTechObjectAPI::getTileEntity)
                 .forEach(HIDDEN_ITEMS::add);
@@ -118,22 +158,20 @@ public class JEIModule implements IModPlugin {
         HIDDEN_ITEMS.forEach(ingredientBlacklist::addIngredientToBlacklist);
 
         IRecipeRegistry registry = jeiRuntime.getRecipeRegistry();
-        DamagedOreIngredientFixer.FIXED_RECIPES.stream()
-                .map(recipe -> registry.getRecipeWrapper(recipe, VanillaRecipeCategoryUid.CRAFTING))
-                .filter(Objects::nonNull)
+        StreamEx.of(DamagedOreIngredientFixer.fixedRecipes)
+                .mapPartial(recipe -> Optional.ofNullable(registry.getRecipeWrapper(recipe, VanillaRecipeCategoryUid.CRAFTING)))
                 .forEach(HIDDEN_RECIPES::add);
 
         // Hide the data orb clean recipe
         IRecipe dataOrbRepair = ForgeRegistries.RECIPES.getValue(new ResourceLocation(Reference.MODID, "components/data_orb_clean"));
         if (dataOrbRepair != null) HIDDEN_RECIPES.add(registry.getRecipeWrapper(dataOrbRepair, VanillaRecipeCategoryUid.CRAFTING));
-       
-        HIDDEN_RECIPES
-                .forEach(recipe -> registry.hideRecipe(recipe, VanillaRecipeCategoryUid.CRAFTING));
+
+        HIDDEN_RECIPES.forEach(recipe -> registry.hideRecipe(recipe, VanillaRecipeCategoryUid.CRAFTING));
     }
 
     private void hideEnum(IItemProvider[] values) {
-        Arrays.stream(values)
-                .filter(val -> !ProfileDelegate.shouldEnable(val))
+        StreamEx.of(values)
+                .remove(ProfileDelegate::shouldEnable)
                 .map(IItemProvider::getItemStack)
                 .forEach(HIDDEN_ITEMS::add);
     }

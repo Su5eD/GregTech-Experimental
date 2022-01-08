@@ -13,7 +13,7 @@ public class RecipeManagerBlastFurnace extends RecipeManagerMultiInput<IRecipeBl
     @Override
     public boolean addRecipe(IRecipeBlastFurnace recipe, boolean overwrite) {
         boolean ret = super.addRecipe(recipe, overwrite);
-        if (ret && recipe.isUniversal() && ModHandler.railcraft) addRCBlastFurnaceRecipe(recipe.getInput().get(0).asIngredient(), recipe.getOutput().get(0), recipe.getDuration());
+        if (ModHandler.railcraft && ret && recipe.isUniversal()) addRCBlastFurnaceRecipe(recipe.getInput().get(0).asIngredient(), recipe.getOutput().get(0), recipe.getDuration());
         return ret;
     }
 

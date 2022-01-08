@@ -64,6 +64,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
 import java.util.Arrays;
@@ -71,7 +72,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -102,12 +102,9 @@ public class ClientEventHandler {
                     }
                 });
 
-        BlockItemLoader.getAllItems().stream()
-                .filter(ICustomItemModel.class::isInstance)
-                .forEach(item -> {
-                    ResourceLocation path = ((ICustomItemModel) item).getItemModel();
-                    registerModel(item, path);
-                });
+        StreamEx.of(BlockItemLoader.getAllItems())
+                .select(ICustomItemModel.class)
+                .forEach(item -> registerModel((Item) item, item.getItemModel()));
         
         registerBakedModels();
 
@@ -302,8 +299,8 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         EntityPlayer player = event.getEntityPlayer();
-        boolean fullInvisibility = player.isInvisible() && player.inventory.armorInventory.stream()
-                .filter(stack -> !stack.isEmpty())
+        boolean fullInvisibility = player.isInvisible() && StreamEx.of(player.inventory.armorInventory)
+                .remove(ItemStack::isEmpty)
                 .anyMatch(stack -> {
                     Item item = stack.getItem();
                     return item instanceof ItemArmorElectricBase 
@@ -318,10 +315,10 @@ public class ClientEventHandler {
     public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         List<String> tooltip = event.getToolTip();
-
-        EXTRA_TOOLTIPS.entrySet().stream()
-                .filter(entry -> entry.getKey().isItemEqual(stack))
-                .map(Map.Entry::getValue)
+        
+        EntryStream.of(EXTRA_TOOLTIPS)
+                .filterKeys(stack::isItemEqual)
+                .values()
                 .map(Supplier::get)
                 .findFirst()
                 .ifPresent(str -> tooltip.add(1, str));
@@ -330,10 +327,10 @@ public class ClientEventHandler {
         Item item = stack.getItem();
         if (fluidStack != null && TileEntityIndustrialCentrifugeBase.isCell(item) && !(item instanceof ItemCellClassic)) {
             Fluid fluid = fluidStack.getFluid();
-            FluidLoader.FLUIDS.stream()
+            StreamEx.of(FluidLoader.FLUIDS)
                     .filter(provider -> provider.getFluid() == fluid)
                     .map(FluidLoader.IFluidProvider::getDescription)
-                    .filter(Objects::nonNull)
+                    .nonNull()
                     .findFirst()
                     .ifPresent(desc -> tooltip.add(item instanceof ItemFluidCell ? 2 : 1, desc));
         }
