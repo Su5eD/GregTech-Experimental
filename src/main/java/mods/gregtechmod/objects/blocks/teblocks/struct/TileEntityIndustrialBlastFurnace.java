@@ -39,7 +39,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
         super(2, GtRecipes.industrialBlastFurnace);
         this.secondaryInput = getInputSlot("secondary_input", InvSlot.InvSide.BOTTOM, false);
         
-        this.coilHandler = addComponent(new CoilHandler(this, 4, () -> updateClientField("coilHandler")));
+        this.coilHandler = addComponent(new CoilHandler(this, 4));
     }
 
     @Override

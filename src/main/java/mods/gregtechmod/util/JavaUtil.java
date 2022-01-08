@@ -2,6 +2,7 @@ package mods.gregtechmod.util;
 
 import com.google.common.base.Stopwatch;
 import mods.gregtechmod.core.GregTechMod;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -11,7 +12,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -71,9 +79,9 @@ public final class JavaUtil {
     }
 
     public static <T> List<T> mergeCollection(Collection<T> first, Collection<T> second) {
-        return Stream.of(first, second)
+        return StreamEx.of(first, second)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static <T> boolean matchCollections(Collection<T> first, Collection<T> second) {

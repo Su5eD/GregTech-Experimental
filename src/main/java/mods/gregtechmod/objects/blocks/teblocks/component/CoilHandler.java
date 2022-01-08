@@ -1,36 +1,33 @@
 package mods.gregtechmod.objects.blocks.teblocks.component;
 
 import ic2.core.block.TileEntityBlock;
+import ic2.core.network.GrowingBuffer;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 
+import java.io.DataInput;
+import java.io.IOException;
 import java.util.List;
 
 public class CoilHandler extends GtComponentBase {
     @NBTPersistent
     public int heatingCoilTier;
     private final int coilCount;
-    private final Runnable onUpdate;
     
-    public CoilHandler(TileEntityBlock parent, int coilCount, Runnable onUpdate) {
+    public CoilHandler(TileEntityBlock parent, int coilCount) {
         super(parent);
         this.coilCount = coilCount;
-        this.onUpdate = onUpdate;
-    }
-
-    @Override
-    public void onLoaded() {
-        this.onUpdate.run();
     }
 
     @Override
     public boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (!parent.getWorld().isRemote) {
+        if (!this.parent.getWorld().isRemote) {
             ItemStack stack = player.inventory.getCurrentItem();
             Item item = stack.getItem();
             boolean temp = false;
@@ -47,13 +44,26 @@ public class CoilHandler extends GtComponentBase {
 
                 if (temp) {
                     if (!player.capabilities.isCreativeMode) stack.shrink(this.coilCount);
-                    onUpdate.run();
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    @Override
+    public void onContainerUpdate(EntityPlayerMP player) {
+        GrowingBuffer buf = new GrowingBuffer(8);
+        buf.writeInt(this.heatingCoilTier);
+        buf.flip();
+
+        setNetworkUpdate(player, buf);
+    }
+
+    @Override
+    public void onNetworkUpdate(DataInput in) throws IOException {
+        this.heatingCoilTier = in.readInt();
     }
     
     public int getMaxProgress(int maxProgress) {

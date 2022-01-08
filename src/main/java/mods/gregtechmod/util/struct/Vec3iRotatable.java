@@ -24,8 +24,8 @@ public class Vec3iRotatable extends Vec3i {
                 } else {
                     return new Vec3i(getZ(), getY(), getX());
                 }
-            } else return this;
+            }
         }
-        return null;
+        return this;
     }
 }

@@ -8,14 +8,40 @@ import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.model.*;
+import mods.gregtechmod.model.ModelBlockConnected;
+import mods.gregtechmod.model.ModelBlockOre;
+import mods.gregtechmod.model.ModelElectricBuffer;
+import mods.gregtechmod.model.ModelStructureTeBlock;
+import mods.gregtechmod.model.ModelTEBlockConnected;
+import mods.gregtechmod.model.ModelTeBlock;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
-import mods.gregtechmod.objects.covers.*;
+import mods.gregtechmod.objects.covers.CoverActiveDetector;
+import mods.gregtechmod.objects.covers.CoverConveyor;
+import mods.gregtechmod.objects.covers.CoverCrafting;
+import mods.gregtechmod.objects.covers.CoverDrain;
+import mods.gregtechmod.objects.covers.CoverEnergyMeter;
+import mods.gregtechmod.objects.covers.CoverEnergyOnly;
+import mods.gregtechmod.objects.covers.CoverItemMeter;
+import mods.gregtechmod.objects.covers.CoverLiquidMeter;
+import mods.gregtechmod.objects.covers.CoverMachineController;
+import mods.gregtechmod.objects.covers.CoverNormal;
+import mods.gregtechmod.objects.covers.CoverPump;
+import mods.gregtechmod.objects.covers.CoverRedstoneConductor;
+import mods.gregtechmod.objects.covers.CoverRedstoneOnly;
+import mods.gregtechmod.objects.covers.CoverRedstoneSignalizer;
+import mods.gregtechmod.objects.covers.CoverSolarPanel;
+import mods.gregtechmod.objects.covers.CoverValve;
+import mods.gregtechmod.objects.covers.CoverVent;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
-import mods.gregtechmod.util.*;
+import mods.gregtechmod.util.ArmorPerk;
+import mods.gregtechmod.util.BakedModelLoader;
+import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.ICustomItemModel;
+import mods.gregtechmod.util.JsonHandler;
+import mods.gregtechmod.util.NormalStateMapper;
 import mods.gregtechmod.util.struct.Rotor;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -38,11 +64,16 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import one.util.streamex.StreamEx;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Reference.MODID, value = Side.CLIENT)
@@ -178,9 +209,9 @@ public class ClientEventHandler {
      * @see Rotor#TEXTURE_PARTS
      */
     private static Map<String, ResourceLocation> getRotorTextures(String name) {
-        return Rotor.TEXTURE_PARTS.stream()
-                .flatMap(str -> Stream.of("rotor_" + str, "rotor_" + str + "_active"))
-                .collect(Collectors.toMap(Function.identity(), str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str)));
+        return StreamEx.of(Rotor.TEXTURE_PARTS)
+                .flatMap(str -> StreamEx.of("rotor_" + str, "rotor_" + str + "_active"))
+                .toMap(str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str));
     }
     
     @SafeVarargs
@@ -196,11 +227,11 @@ public class ClientEventHandler {
      */
     private static void registerConnectedBakedModel(BakedModelLoader loader, String name, String dir, String prefix, Function<Map<String, ResourceLocation>, IModel> modelFactory) {
         String basePath = "blocks/" + dir + "/" + name + "/" + name;
-        Map<String, ResourceLocation> textures = ModelBlockConnected.TEXTURE_PARTS.stream()
-                .collect(Collectors.toMap(Function.identity(), str -> {
+        Map<String, ResourceLocation> textures = StreamEx.of(ModelBlockConnected.TEXTURE_PARTS)
+                .toMap(str -> {
                     String resPath = str.isEmpty() ? basePath : basePath + "_" + str;
                     return new ResourceLocation(Reference.MODID, resPath);
-                }));
+                });
         
         loader.register("models/block/" + prefix + name, modelFactory.apply(textures));
     }

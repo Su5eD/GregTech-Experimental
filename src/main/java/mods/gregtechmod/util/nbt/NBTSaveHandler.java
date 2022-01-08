@@ -9,22 +9,20 @@ import one.util.streamex.StreamEx;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public final class NBTSaveHandler {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
-    private static final ConcurrentMap<Class<?>, List<FieldHandle>> HANDLES = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, List<FieldHandle>> HANDLES = new HashMap<>();
     
     public static void initClass(Class<?> clazz) {
         withParents(clazz)
-                .parallel()
                 .remove(HANDLES::containsKey)
                 .cross(cls -> StreamEx.of(cls.getDeclaredFields())
-                        .parallel()
                         .filter(field -> field.isAnnotationPresent(NBTPersistent.class))
                         .map(Try.<Field, FieldHandle>of(field -> {
                             field.setAccessible(true);
@@ -74,7 +72,6 @@ public final class NBTSaveHandler {
     
     public static void readClassFromNBT(Object instance, NBTTagCompound nbt) {
         withFieldHandles(instance.getClass())
-                .parallel()
                 .cross(fieldHandle -> StreamEx.of(nbt.getTag(fieldHandle.name))
                         .nonNull()
                 )
@@ -107,7 +104,6 @@ public final class NBTSaveHandler {
     
     private static void checkForDuplicateField(String name, Class<?> cls) {
         boolean exists = withFieldHandles(cls)
-                .parallel()
                 .map(FieldHandle::getName)
                 .anyMatch(name::equals);
         

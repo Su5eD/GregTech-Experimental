@@ -32,7 +32,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -106,7 +113,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
         
         T instance = struct.get().getInstance();
         instance.collectMaintenanceStatus(this.maintenance);
-        int repairStatus = this.getRepairStatus();
+        int repairStatus = getRepairStatus();
         
         if (isAllowedToWork() && repairStatus > 0) {
             ItemStack machinePart = this.machinePartSlot.get();
@@ -368,8 +375,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
         }
         
         public void addEnergyOutput(int eu) {
-            dynamoHatches.stream()
-                    .anyMatch(hatch -> hatch.addEnergy(eu));
+            dynamoHatches.forEach(hatch -> hatch.addEnergy(eu));
         }
         
         public void polluteEnvironment(int pollutionLevel) {

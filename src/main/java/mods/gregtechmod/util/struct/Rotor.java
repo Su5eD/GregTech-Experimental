@@ -5,10 +5,13 @@ import com.google.common.base.Optional;
 import net.minecraft.block.properties.PropertyHelper;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
+import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Rotor implements Comparable<Rotor>, IStringSerializable {
@@ -21,13 +24,12 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
     public static final Collection<Rotor> VALUES;
 
     static {
-        Collection<Rotor> baseValues = Arrays.stream(EnumFacing.HORIZONTALS)
+        VALUES = StreamEx.of(EnumFacing.HORIZONTALS)
                 .flatMap(facing -> TEXTURE_PARTS.stream()
                         .flatMap(str -> Stream.of(new Rotor(facing, str, false), new Rotor(facing, str, true)))
                 )
-                .collect(Collectors.toCollection(ArrayList::new));
-        baseValues.add(DISABLED);
-        VALUES = Collections.unmodifiableCollection(baseValues);
+                .prepend(DISABLED)
+                .toImmutableList();
     }
 
     public final EnumFacing side;
@@ -41,9 +43,8 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
     }
 
     public static Rotor getRotor(EnumFacing facing, String texture, boolean active) {
-        return VALUES.stream()
-                .filter(rotor -> rotor.side == facing && rotor.texture.equals(texture) && rotor.active == active)
-                .findFirst()
+        return StreamEx.of(VALUES)
+                .findFirst(rotor -> rotor.side == facing && rotor.texture.equals(texture) && rotor.active == active)
                 .orElse(Rotor.DISABLED);
     }
 
