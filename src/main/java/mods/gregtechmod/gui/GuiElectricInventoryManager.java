@@ -3,6 +3,7 @@ package mods.gregtechmod.gui;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricInventoryManager;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricInventoryManager.SlotRangeSetting;
 import mods.gregtechmod.util.GtUtil;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.function.IntSupplier;
@@ -31,7 +32,10 @@ public class GuiElectricInventoryManager extends GuiSimple<ContainerElectricInve
             addIconCycleGrid(settingX, 4 + i * 18, TEXTURE, 0, 166, 18, false, () -> setting.targetSide.ordinal(), () -> setting.input);
         });
         addIconCycle(settingX, 59, TEXTURE, 126, 166, 18, false, facingSupplier);
-        addVerticalIconCycle(xOffset, 59, 58, () -> this.container.base.manager.ranges.get(index).outputEnergy);
+        addVerticalIconCycle(xOffset, 59, 58, () -> {
+            EnumFacing facing = this.container.base.manager.ranges.get(index).facing;
+            return this.container.base.manager.ranges.stream().anyMatch(slotRange -> slotRange.facing == facing && slotRange.outputEnergy);
+        });
     }
 
     @Override

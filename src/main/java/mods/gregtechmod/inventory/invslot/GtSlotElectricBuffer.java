@@ -9,11 +9,6 @@ public class GtSlotElectricBuffer extends GtSlot {
     public GtSlotElectricBuffer(TileEntityElectricBufferSingle base, String name, Access access, int count) {
         super(base, name, access, count);
     }
-
-    @Override
-    public void onChanged() {
-        ((TileEntityElectricBufferSingle) this.base).inventoryModified.reset();
-    }
     
     public boolean canAdd(ItemStack stack) {
         ItemStack existing = get();

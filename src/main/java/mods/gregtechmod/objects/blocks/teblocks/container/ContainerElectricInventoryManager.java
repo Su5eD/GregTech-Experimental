@@ -6,6 +6,8 @@ import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricInventoryM
 import mods.gregtechmod.util.ButtonClick;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.util.List;
+
 public class ContainerElectricInventoryManager extends ContainerGtInventory<TileEntityElectricInventoryManager> {
 
     public ContainerElectricInventoryManager(EntityPlayer player, TileEntityElectricInventoryManager base) {
@@ -18,7 +20,13 @@ public class ContainerElectricInventoryManager extends ContainerGtInventory<Tile
         
         addSlotsToContainer(3, 1, 155, 5, base.buffer);
     }
-    
+
+    @Override
+    public void getNetworkedFields(List<? super String> list) {
+        super.getNetworkedFields(list);
+        list.add("manager");
+    }
+
     private void addSlotRange(TileEntityElectricInventoryManager.SlotRange slotRange, int xOffset, boolean right) {
         int filterX = right ? 19 : -19;
         

@@ -15,13 +15,19 @@ import net.minecraftforge.common.util.Constants.BlockFlags;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.function.DoubleSupplier;
 
 public abstract class TileEntityAutoNBT extends TileEntityInventory implements IGuiValueProvider {
     protected final String descriptionKey;
     private final Map<String, DoubleSupplier> guiValues = new HashMap<>();
     private final Collection<BooleanCountdown> countdowns = new HashSet<>();
+    
+    private final BooleanCountdown inventoryModified = createSingleCountDown();
     
     protected int tickCounter;
     
@@ -134,5 +140,13 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     
     public boolean isOutputSide(EnumFacing side) {
         return true;
+    }
+    
+    public void onInventoryChanged() {
+        this.inventoryModified.reset();
+    }
+    
+    public boolean hasInventoryBeenModified() {
+        return this.inventoryModified.get();
     }
 }

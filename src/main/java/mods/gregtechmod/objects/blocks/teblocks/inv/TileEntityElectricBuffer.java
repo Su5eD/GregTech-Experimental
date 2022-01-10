@@ -10,7 +10,6 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtRedstoneEmitter;
-import mods.gregtechmod.util.BooleanCountdown;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
 import mods.gregtechmod.util.PropertyHelper;
@@ -21,12 +20,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class TileEntityElectricBuffer extends TileEntityUpgradable implements IHasGui {
     public static final IUnlistedProperty<Boolean> REDSTONE_TEXTURE_PROPERTY = new UnlistedBooleanProperty("redstoneTextures");
-
-    public final BooleanCountdown inventoryModified = createSingleCountDown();
+    
     protected final GtRedstoneEmitter emitter;
 
     @NBTPersistent
@@ -85,7 +87,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
                 || this.tickCounter % 200 == 0
                 || this.tickCounter % 5 == 0 && (this.success > 0 || this.tickCounter % 10 == 0 && invSize <= 1)
                 || this.success >= 20
-                || this.inventoryModified.get()
+                || hasInventoryBeenModified()
             );
     }
     

@@ -39,7 +39,7 @@ public class TileEntityElectricBufferAdvanced extends TileEntityElectricBufferSi
                 || this.tickCounter % 200 == 0
                 || this.success > 0 && this.tickCounter % 5 == 0
                 || this.success >= 20
-                || this.inventoryModified.get()
+                || hasInventoryBeenModified()
             );
     }
 
