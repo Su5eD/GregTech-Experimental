@@ -180,7 +180,7 @@ repositories {
     }
     maven {
         name = "CurseMaven"
-        url = uri("https://www.cursemaven.com")
+        url = uri("https://cfa2.cursemaven.com")
     }
     maven {
         name = "Progwml6 maven"

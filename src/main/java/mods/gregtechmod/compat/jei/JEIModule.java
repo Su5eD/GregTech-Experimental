@@ -1,12 +1,7 @@
 package mods.gregtechmod.compat.jei;
 
 import ic2.core.profile.Version;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IJeiRuntime;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.IRecipeRegistry;
-import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
@@ -17,38 +12,8 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.compat.jei.category.CategoryBase;
-import mods.gregtechmod.compat.jei.category.CategoryBasicMachineMulti;
-import mods.gregtechmod.compat.jei.category.CategoryBasicMachineSingle;
-import mods.gregtechmod.compat.jei.category.CategoryCentrifuge;
-import mods.gregtechmod.compat.jei.category.CategoryChemicalReactor;
-import mods.gregtechmod.compat.jei.category.CategoryDistillationTower;
-import mods.gregtechmod.compat.jei.category.CategoryElectrolyzer;
-import mods.gregtechmod.compat.jei.category.CategoryGenerator;
-import mods.gregtechmod.compat.jei.category.CategoryImplosionCompressor;
-import mods.gregtechmod.compat.jei.category.CategoryIndustrialBlastFurnace;
-import mods.gregtechmod.compat.jei.category.CategoryIndustrialGrinder;
-import mods.gregtechmod.compat.jei.category.CategoryIndustrialSawmill;
-import mods.gregtechmod.compat.jei.category.CategoryLathe;
-import mods.gregtechmod.compat.jei.category.CategoryPlasmaGenerator;
-import mods.gregtechmod.compat.jei.category.CategoryVacuumFreezer;
-import mods.gregtechmod.gui.GregtechGauge;
-import mods.gregtechmod.gui.GuiAlloySmelter;
-import mods.gregtechmod.gui.GuiAssembler;
-import mods.gregtechmod.gui.GuiAutoCanner;
-import mods.gregtechmod.gui.GuiAutoCompressor;
-import mods.gregtechmod.gui.GuiAutoElectricFurnace;
-import mods.gregtechmod.gui.GuiAutoExtractor;
-import mods.gregtechmod.gui.GuiAutoMacerator;
-import mods.gregtechmod.gui.GuiBasicMachine;
-import mods.gregtechmod.gui.GuiBender;
-import mods.gregtechmod.gui.GuiDieselGenerator;
-import mods.gregtechmod.gui.GuiGasTurbine;
-import mods.gregtechmod.gui.GuiMagicEnergyConverter;
-import mods.gregtechmod.gui.GuiScrapboxinator;
-import mods.gregtechmod.gui.GuiSemifluidGenerator;
-import mods.gregtechmod.gui.GuiThermalGenerator;
-import mods.gregtechmod.gui.GuiWiremill;
+import mods.gregtechmod.compat.jei.category.*;
+import mods.gregtechmod.gui.*;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -65,12 +30,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import one.util.streamex.StreamEx;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @JEIPlugin
 public class JEIModule implements IModPlugin {
@@ -109,7 +69,7 @@ public class JEIModule implements IModPlugin {
         Collection<CategoryBase<?, ?>> categories = Arrays.asList(
                 new CategoryCentrifuge(guiHelper),
                 new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, GtRecipes.wiremill, true, GregtechGauge.EXTRUDING, guiHelper),
-                new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
+                new CategoryBasicMachineMulti<>("gt_alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
                 new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, false, true, GregtechGauge.CANNING, guiHelper),
                 new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, GtRecipes.bender, true, GregtechGauge.BENDING, guiHelper),
                 new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, GregtechGauge.ASSEMBLING, guiHelper),

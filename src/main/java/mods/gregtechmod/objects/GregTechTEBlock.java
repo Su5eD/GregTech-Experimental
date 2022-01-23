@@ -51,7 +51,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     AUTO_RECYCLER(TileEntityAutoRecycler.class, 9, true, Util.horizontalFacings),
     AUTO_ELECTRIC_FURNACE(TileEntityAutoElectricFurnace.class, 10, true, Util.horizontalFacings),
     WIREMILL(TileEntityWiremill.class, 11, true, Util.horizontalFacings),
-    ALLOY_SMELTER(TileEntityAlloySmelter.class, 12, true, Util.horizontalFacings),
+    GT_ALLOY_SMELTER(TileEntityAlloySmelter.class, 12, true, Util.horizontalFacings),
     AUTO_CANNER(TileEntityAutoCanner.class, 13, true, Util.horizontalFacings),
     BENDER(TileEntityBender.class, 14, true, Util.horizontalFacings),
     UNIVERSAL_MACERATOR(TileEntityUniversalMacerator.class, 15, true, Util.horizontalFacings),
