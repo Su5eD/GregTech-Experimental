@@ -35,7 +35,7 @@ public class JEIUtils {
         return StreamEx.of(recipe.getInput())
                 .map(input -> {
                     int count = input.getCount();
-                    return StreamEx.of(input.getMatchingInputs())
+                    return input.stream()
                             .map(stack -> ItemHandlerHelper.copyStackWithSize(stack, count))
                             .toList();
                 })

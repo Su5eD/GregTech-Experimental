@@ -222,7 +222,7 @@ dependencies {
 
     apiImplementation(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0"))
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.9.0")
-    shade(group = "one.util", name = "streamex", version = "0.8.1")
+    apiImplementation(shade(group = "one.util", name = "streamex", version = "0.8.1"))
 }
 
 publishing {

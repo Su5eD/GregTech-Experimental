@@ -29,22 +29,22 @@ public class CoverRedstoneConductor extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregTechMachine)) return;
-        BlockPos pos = ((TileEntity)te).getPos();
-        World world = ((TileEntity)te).getWorld();
+        if (te instanceof IGregTechMachine) {
+            BlockPos pos = ((TileEntity) te).getPos();
+            World world = ((TileEntity) te).getWorld();
 
-        if (mode == ConductorMode.STRONGEST) {
-            byte strongest = 0;
-            for (EnumFacing facing : EnumFacing.values()) {
-                if (facing == this.side) continue;
-
-                strongest = (byte) Math.max(strongest, getPowerFromSide(facing, world, pos));
-            }
-            ((IGregTechMachine)te).setRedstoneOutput(this.side, strongest);
-        }
-        else {
-            EnumFacing side = EnumFacing.byIndex(mode.ordinal() - 1);
-            ((IGregTechMachine) te).setRedstoneOutput(this.side, (byte) (getPowerFromSide(side, world, pos) - 1));
+            if (mode == ConductorMode.STRONGEST) {
+                int strongest = 0;
+                for (EnumFacing facing : EnumFacing.VALUES) {
+                    if (facing != this.side) {
+                        strongest = Math.max(strongest, getPowerFromSide(facing, world, pos));
+                    }
+                }
+                ((IGregTechMachine) te).setRedstoneOutput(this.side, strongest);
+            } else {
+                EnumFacing side = EnumFacing.byIndex(mode.ordinal() - 1);
+                ((IGregTechMachine) te).setRedstoneOutput(this.side, getPowerFromSide(side, world, pos) - 1);
+            }   
         }
     }
 

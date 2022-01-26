@@ -4,6 +4,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import one.util.streamex.StreamEx;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,26 +30,24 @@ public abstract class RecipeIngredient<T extends Ingredient> implements IRecipeI
 
     @Override
     public boolean apply(ItemStack input, boolean checkSize) {
-        if (!input.isEmpty() && !isEmpty()) {
-            for (ItemStack stack : getMatchingInputs()) {
-                if (GtUtil.stackEquals(stack, input)) {
-                    if (checkSize) return input.getCount() >= this.count;
-                    else return true;
-                }
-            }
-        }
-
-        return false;
+        return !input.isEmpty() && !isEmpty() && stream()
+            .filter(stack -> GtUtil.stackEquals(stack, input))
+            .anyMatch(stack -> !checkSize || input.getCount() >= this.count);
     }
 
     @Override
-    public List<ItemStack> getMatchingInputs() { // TODO Array/stream variant for streams
+    public StreamEx<ItemStack> stream() {
+        return StreamEx.of(this.ingredient.getMatchingStacks());
+    }
+
+    @Override
+    public List<ItemStack> getMatchingInputs() {
         return Arrays.asList(this.ingredient.getMatchingStacks());
     }
 
     @Override
     public boolean apply(IRecipeIngredient ingredient) {
-        return ingredient.getMatchingInputs().stream()
-                .anyMatch(stack -> this.apply(stack, false)) && ingredient.getCount() >= this.count;
+        return ingredient.stream()
+            .anyMatch(stack -> apply(stack, false)) && ingredient.getCount() >= this.count;
     }
 }

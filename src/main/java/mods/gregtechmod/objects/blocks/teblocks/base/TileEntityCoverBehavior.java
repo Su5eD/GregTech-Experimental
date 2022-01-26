@@ -146,7 +146,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     }
 
     @Override
-    public void setRedstoneOutput(EnumFacing side, byte strength) {
+    public void setRedstoneOutput(EnumFacing side, int strength) {
         this.rsEmitter.setLevel(side, strength);
     }
 

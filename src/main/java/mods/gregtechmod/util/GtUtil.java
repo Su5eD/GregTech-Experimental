@@ -11,6 +11,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.QuadFunction;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -176,12 +177,6 @@ public final class GtUtil {
         if (first.isEmpty() || second.isEmpty()) return false;
 
         return first.getItem() == second.getItem() && (first.isItemStackDamageable() || first.getItemDamage() == second.getItemDamage());
-    }
-
-    public static ItemStack copyWithMeta(ItemStack stack, int meta) {
-        ItemStack ret = stack.copy();
-        ret.setItemDamage(meta);
-        return stack;
     }
     
     public static ItemStack copyWithMetaSize(ItemStack stack, int count, int meta) {
@@ -419,6 +414,17 @@ public final class GtUtil {
     
     public static Predicate<Fluid> fluidPredicate(Fluid... fluids) {
         return fluid -> ArrayUtils.contains(fluids, fluid);
+    }
+    
+    public static Path extractConfigAsset(String name) {
+        Path source = getAssetPath(name);
+        try {
+            Path dest = GregTechMod.modConfigDir.resolve(name);
+            if (Files.notExists(dest)) return Files.copy(source, dest);
+        } catch (IOException e) {
+            GregTechMod.LOGGER.error("Couldn't extract oredict config", e);
+        }
+        return source;
     }
 
     private static class VoidTank implements IFluidHandler {

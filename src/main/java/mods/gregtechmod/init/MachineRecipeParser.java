@@ -198,7 +198,7 @@ public final class MachineRecipeParser {
     public static void loadDynamicRecipes() {
         progressBar = ProgressManager.push("Loading Dynamic Recipes", 13);
         GregTechMod.LOGGER.info("Loading Dynamic Recipes");
-        dynamicRecipesDir = GregTechMod.configDir.toPath().resolve("GregTech/machine_recipes/dynamic");
+        dynamicRecipesDir = GregTechMod.configDir.resolve("GregTech/machine_recipes/dynamic");
         dynamicRecipesDir.toFile().mkdirs();
 
         DynamicRecipes.addPulverizerRecipes = parseDynamicRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class, DynamicRecipes.PULVERIZER);
@@ -455,7 +455,7 @@ public final class MachineRecipeParser {
 
     private static Path relocateConfig(Path recipesPath, String target) {
         try {
-            Path configDir = GregTechMod.configDir.toPath().resolve("GregTech").resolve(target);
+            Path configDir = GregTechMod.modConfigDir.resolve(target);
             Files.createDirectories(configDir);
             return JavaUtil.copyDir(recipesPath, configDir);
         } catch (IOException e) {

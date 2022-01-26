@@ -72,11 +72,11 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         return this.upgradeManager.addUpgrade(stack, player);
     }
 
-    protected void onUpdateGTUpgrade(IGtUpgradeItem item, ItemStack stack, EntityPlayer player) {
-        item.afterInsert(stack, this, player);
+    protected void onUpdateGTUpgrade(IGtUpgradeItem item, EntityPlayer player) {
+        item.afterInsert(this, player);
     }
 
-    protected void onUpdateIC2Upgrade(IC2UpgradeType type, ItemStack stack) {}
+    protected void onUpdateIC2Upgrade(IC2UpgradeType type) {}
     
     @Override
     public void addExtraTier() {

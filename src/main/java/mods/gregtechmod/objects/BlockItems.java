@@ -7,7 +7,6 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
-import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
@@ -38,9 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public class BlockItems {
     private static final String DESCRIPTION_DELEGATE = GregTechMod.classic ? "classic_description" : "description";
@@ -626,21 +623,21 @@ public class BlockItems {
     }
 
     public enum Upgrade implements IOreDictItemProvider {
-        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraTier()),
-        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
-        MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
+        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (machine, player) -> machine.addExtraTier()),
+        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (machine, player) -> machine.addExtraEUCapacity(100000)),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
+        MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (machine, player) -> {
             if (player != null && !player.getGameProfile().equals(machine.getOwner())) {
                 GtUtil.sendMessage(player, Reference.MODID + ".item.machine_lock.error");
                 return true;
             }
             return false;
-        }, (stack, machine, player) -> {
+        }, (machine, player) -> {
             if (!machine.isPrivate()) machine.setPrivate(true);
         }),
-        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade", (stack, machine, player) -> {
+        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade", (machine, player) -> {
             if (machine instanceof TileEntityDigitalChestBase) {
                 BlockPos pos = ((TileEntityDigitalChestBase) machine).getPos();
                 EnumFacing facing = ((TileEntityDigitalChestBase) machine).getFacing();
@@ -662,29 +659,29 @@ public class BlockItems {
                 player.world.setBlockState(pos, te.getBlockState());
             }
         }),
-        STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (stack, machine, player) -> {
+        STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
-        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
+        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", machine ->  machine.hasSteamTank(), (machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
-            if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + 64000 * stack.getCount());
+            if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + 64000);
         }),
-        PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (stack, machine, player) -> {
+        PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (machine, player) -> {
             if (!ModHandler.buildcraftLib) {
                 GtUtil.sendMessage(player, Reference.MODID + ".info.buildcraft_absent");
                 return true;
             }
             return false;
-        }, (stack, machine, player) -> {
-            if (!machine.hasMjUpgrade()) machine.addMjUpgrade();
+        }, (machine, player) -> {
+            machine.addMjUpgrade();
         }),
-        RS_ENERGY_CELL(GtUpgradeType.MJ, 16, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
+        RS_ENERGY_CELL(GtUpgradeType.MJ, 16, 1, "craftingEnergyCellUpgrade", machine -> machine.hasMjUpgrade(), (machine, player) -> {
             if (!ModHandler.buildcraftLib) {
                 GtUtil.sendMessage(player, Reference.MODID + ".info.buildcraft_absent");
                 return true;
             }
             return false;
-        }, (stack, machine, player) -> {
+        }, (machine, player) -> {
              machine.setMjCapacity(machine.getMjCapacity() + MjHelper.microJoules(100000));
         });
 
@@ -694,31 +691,31 @@ public class BlockItems {
         public final int requiredTier;
         public final String descriptionKey;
         public final String oreDict;
-        public final BiPredicate<ItemStack, IUpgradableMachine> condition;
-        public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert;
-        public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
+        public final Predicate<IUpgradableMachine> condition;
+        public final BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert;
+        public final BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert;
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrueBi(), (stack, machine, player) -> false, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), JavaUtil.alwaysFalseBi(), afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, descriptionKey, oreDict, JavaUtil.alwaysTrueBi(), (stack, machine, player) -> false, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, descriptionKey, oreDict, JavaUtil.alwaysTrue(), JavaUtil.alwaysFalseBi(), afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, condition, (stack, machine, player) -> false, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, Predicate<IUpgradableMachine> condition, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, condition, JavaUtil.alwaysFalseBi(), afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrueBi(), beforeInsert, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), beforeInsert, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, Predicate<IUpgradableMachine> condition, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
             this(type, maxCount, requiredTier, "description", oreDict, condition, beforeInsert, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, Predicate<IUpgradableMachine> condition, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
             this.type = type;
             this.maxCount = maxCount;
             this.requiredTier = requiredTier;

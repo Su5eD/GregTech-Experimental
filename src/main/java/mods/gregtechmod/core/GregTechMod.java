@@ -7,14 +7,7 @@ import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.init.ClientEventHandler;
-import mods.gregtechmod.init.CraftingRecipeLoader;
-import mods.gregtechmod.init.ItemStackModificator;
-import mods.gregtechmod.init.MachineRecipeLoader;
-import mods.gregtechmod.init.MachineRecipeParser;
-import mods.gregtechmod.init.OreDictHandler;
-import mods.gregtechmod.init.OreDictRegistrar;
-import mods.gregtechmod.init.RegistryHandler;
+import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityTesseractGenerator;
@@ -48,7 +41,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -57,26 +52,29 @@ public final class GregTechMod {
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
     public static final Logger LOGGER = LogManager.getLogger(Reference.MODID);
     
-    public static File configDir;
+    public static Path configDir;
+    public static Path modConfigDir;
     public static boolean classic;
     private static ClientProxy proxy;
     
     static {
         FluidRegistry.enableUniversalBucket();
     }
-    
-    public GregTechMod() {
+
+    @EventHandler
+    public static void preInit(FMLPreInitializationEvent event) throws IOException {
+        LOGGER.info("Pre-init started");
+        
+        configDir = event.getSuggestedConfigurationFile().getParentFile().toPath();
+        modConfigDir = GregTechMod.configDir.resolve("GregTech");
+        Files.createDirectories(modConfigDir);
+        
+        classic = IC2.version.isClassic();
+        if (event.getSide() == Side.CLIENT) proxy = new ClientProxy();
+        
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(OreDictHandler.INSTANCE);
-    }
-
-    @EventHandler
-    public static void preInit(FMLPreInitializationEvent event) {
-        LOGGER.info("Pre-init started");
-        configDir = event.getSuggestedConfigurationFile().getParentFile();
-        classic = IC2.version.isClassic();
-        if (event.getSide() == Side.CLIENT) proxy = new ClientProxy();
         
         GregTechTEBlock.blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
         GregTechTEBlock.blockTE.setCreativeTab(GregTechMod.GREGTECH_TAB);

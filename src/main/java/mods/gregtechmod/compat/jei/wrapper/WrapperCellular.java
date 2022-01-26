@@ -48,7 +48,7 @@ public class WrapperCellular implements IRecipeWrapper {
             ItemStack cell = cells > 0 ? ItemHandlerHelper.copyStackWithSize(ModHandler.emptyCell, cells) : ItemStack.EMPTY;
             ingredients.setInput(VanillaTypes.ITEM, cell);
         } else {
-            List<List<ItemStack>> inputs = StreamEx.of(input.getMatchingInputs())
+            List<List<ItemStack>> inputs = input.stream()
                 .map(stack -> ItemHandlerHelper.copyStackWithSize(stack, count))
                 .toListAndThen(list -> {
                     ItemStack cell = cells > 0 ? ItemHandlerHelper.copyStackWithSize(ModHandler.emptyCell, cells) : ItemStack.EMPTY;

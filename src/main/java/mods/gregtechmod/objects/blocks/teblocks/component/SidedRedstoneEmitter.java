@@ -7,24 +7,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SidedRedstoneEmitter extends GtComponentBase {
-    private final Map<EnumFacing, Byte> levels = new HashMap<>();
-    private Map<EnumFacing, Byte> oldLevels = new HashMap<>();
+    private final Map<EnumFacing, Integer> levels = new HashMap<>();
+    private Map<EnumFacing, Integer> oldLevels = new HashMap<>();
 
     public SidedRedstoneEmitter(TileEntityBlock parent) {
         super(parent);
     }
 
     public int getLevel(EnumFacing side) {
-        if (!levels.containsKey(side)) return 0;
-        return this.levels.get(side);
+        return this.levels.getOrDefault(side, 0);
     }
 
-    public void setLevel(EnumFacing side, byte newLevel) {
-        if (this.levels.containsKey(side)) {
-            if (this.levels.get(side) == newLevel) return;
+    public void setLevel(EnumFacing side, int newLevel) {
+        if (getLevel(side) != newLevel) {
+            this.levels.put(side, newLevel);
+            onChange();
         }
-        this.levels.put(side, newLevel);
-        this.onChange();
     }
 
     public void onChange() {

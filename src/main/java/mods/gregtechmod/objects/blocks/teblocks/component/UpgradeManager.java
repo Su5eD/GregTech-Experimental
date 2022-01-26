@@ -7,7 +7,6 @@ import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.upgrade.IGtUpgradeItem;
-import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
@@ -16,22 +15,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
+import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class UpgradeManager extends GtComponentBase {
+    private static final int MAX_UPGRADE_COUNT = 16;
+    
     private final Runnable onUpdate;
-    private final TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade;
-    private final BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade;
+    private final BiConsumer<IGtUpgradeItem, EntityPlayer> onUpdateGTUpgrade;
+    private final Consumer<IC2UpgradeType> onUpdateIC2Upgrade;
 
     @NBTPersistent(include = Include.NOT_EMPTY, handler = ItemStackListNBTSerializer.class)
     private final List<ItemStack> upgrades = new ArrayList<>();
 
-    public <T extends TileEntityBlock & IUpgradableMachine> UpgradeManager(T parent, Runnable onUpdate, TriConsumer<IGtUpgradeItem, ItemStack, EntityPlayer> onUpdateGTUpgrade, BiConsumer<IC2UpgradeType, ItemStack> onUpdateIC2Upgrade) {
+    public <T extends TileEntityBlock & IUpgradableMachine> UpgradeManager(T parent, Runnable onUpdate, BiConsumer<IGtUpgradeItem, EntityPlayer> onUpdateGTUpgrade, Consumer<IC2UpgradeType> onUpdateIC2Upgrade) {
         super(parent);
         this.onUpdate = onUpdate;
         this.onUpdateGTUpgrade = onUpdateGTUpgrade;
@@ -42,9 +45,9 @@ public class UpgradeManager extends GtComponentBase {
     public void onLoaded() {
         super.onLoaded();
         if (!this.parent.getWorld().isRemote) {
-            for (ItemStack stack : this.upgrades) {
-                updateUpgrade(stack, null);
-            }
+            StreamEx.of(this.upgrades)
+                .forEach(stack -> IntStreamEx.range(stack.getCount())
+                    .forEach(i -> updateUpgrade(stack, null)));
         }
     }
 
@@ -52,12 +55,13 @@ public class UpgradeManager extends GtComponentBase {
         ItemStack existing = StreamEx.of(this.upgrades)
             .findFirst(stack::isItemEqual)
             .orElse(ItemStack.EMPTY);
+        
         if (!existing.isEmpty()) existing.grow(stack.getCount());
         else this.upgrades.add(stack.copy());
     }
 
     public boolean addUpgrade(ItemStack stack, EntityPlayer player) {
-        if (getTotalUpgradeCount() < 16 && isUpgrade(stack)) {
+        if (getTotalUpgradeCount() < MAX_UPGRADE_COUNT && isUpgrade(stack)) {
             Item item = stack.getItem();
             ItemStack existing = this.upgrades.stream()
                 .filter(stack::isItemEqual)
@@ -73,19 +77,17 @@ public class UpgradeManager extends GtComponentBase {
                         return false;
                 }
             } else if (item instanceof IGtUpgradeItem && (areItemsEqual || existing.isEmpty())) {
-                if (((IGtUpgradeItem) item).beforeInsert(existing, (IUpgradableMachine) this.parent, player))
+                if (((IGtUpgradeItem) item).beforeInsert((IUpgradableMachine) this.parent, player))
                     return true;
                 else if (!((IGtUpgradeItem) item).canBeInserted(existing, (IUpgradableMachine) this.parent))
                     return false;
             }
 
-            ItemStack copy = ItemHandlerHelper.copyStackWithSize(stack, 1);
-
             if (areItemsEqual) existing.grow(1);
-            else this.upgrades.add(copy);
+            else this.upgrades.add(ItemHandlerHelper.copyStackWithSize(stack, 1));
 
             if (!player.capabilities.isCreativeMode) stack.shrink(1);
-            updateUpgrade(copy, player);
+            updateUpgrade(stack, player);
             this.onUpdate.run();
             return true;
         }
@@ -134,18 +136,13 @@ public class UpgradeManager extends GtComponentBase {
 
     private void updateUpgrade(ItemStack stack, @Nullable EntityPlayer player) {
         if (!this.parent.getWorld().isRemote) {
-            Item currentItem = stack.getItem();
-            int count = stack.getCount();
-
-            if (currentItem instanceof IGtUpgradeItem) {
-                for (int i = 0; i < count; i++) { // TODO wtf
-                    this.onUpdateGTUpgrade.accept((IGtUpgradeItem) currentItem, stack, player);
-                }
-            } else if (currentItem instanceof IUpgradeItem) {
+            Item item = stack.getItem();
+            
+            if (item instanceof IGtUpgradeItem) {
+                this.onUpdateGTUpgrade.accept((IGtUpgradeItem) item, player);
+            } else if (item instanceof IUpgradeItem) {
                 IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
-                for (int i = 0; i < count; i++) {
-                    this.onUpdateIC2Upgrade.accept(upgradeType, stack);
-                }
+                this.onUpdateIC2Upgrade.accept(upgradeType);
             }
         }
     }

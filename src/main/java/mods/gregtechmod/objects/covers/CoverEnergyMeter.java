@@ -60,9 +60,9 @@ public class CoverEnergyMeter extends CoverGeneric {
             }
             
             if (strength > 0) {
-                machine.setRedstoneOutput(side, this.mode.inverted ? (byte) (15 - strength) : strength);
+                machine.setRedstoneOutput(side, this.mode.inverted ? 15 - strength : strength);
             } else {
-                machine.setRedstoneOutput(side, (byte) (this.mode.inverted ? 15 : 0));
+                machine.setRedstoneOutput(side, this.mode.inverted ? 15 : 0);
             }
         }
     }
@@ -112,7 +112,7 @@ public class CoverEnergyMeter extends CoverGeneric {
     @Override
     public void onCoverRemove() {
         if (te instanceof IGregTechMachine) {
-            ((IGregTechMachine) te).setRedstoneOutput(side, (byte) 0);
+            ((IGregTechMachine) te).setRedstoneOutput(side, 0);
         }
     }
 

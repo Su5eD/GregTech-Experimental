@@ -161,7 +161,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     @Override
-    protected void onUpdateIC2Upgrade(IC2UpgradeType type, ItemStack stack) {
+    protected void onUpdateIC2Upgrade(IC2UpgradeType type) {
         if (type == IC2UpgradeType.OVERCLOCKER) {
             overclockEnergyConsume();
         }

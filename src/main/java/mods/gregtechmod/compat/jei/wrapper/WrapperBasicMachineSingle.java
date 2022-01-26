@@ -6,7 +6,6 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
-import one.util.streamex.StreamEx;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +25,7 @@ public class WrapperBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredien
         IRecipeIngredient ingredient = this.recipe.getInput();
         int count = ingredient.getCount();
         
-        List<ItemStack> inputs = StreamEx.of(ingredient.getMatchingInputs())
+        List<ItemStack> inputs = ingredient.stream()
             .map(stack -> ItemHandlerHelper.copyStackWithSize(stack, count))
             .toList();
 

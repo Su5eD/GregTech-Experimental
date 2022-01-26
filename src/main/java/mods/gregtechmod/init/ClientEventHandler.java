@@ -8,40 +8,14 @@ import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.model.ModelBlockConnected;
-import mods.gregtechmod.model.ModelBlockOre;
-import mods.gregtechmod.model.ModelElectricBuffer;
-import mods.gregtechmod.model.ModelStructureTeBlock;
-import mods.gregtechmod.model.ModelTEBlockConnected;
-import mods.gregtechmod.model.ModelTeBlock;
+import mods.gregtechmod.model.*;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
-import mods.gregtechmod.objects.covers.CoverActiveDetector;
-import mods.gregtechmod.objects.covers.CoverConveyor;
-import mods.gregtechmod.objects.covers.CoverCrafting;
-import mods.gregtechmod.objects.covers.CoverDrain;
-import mods.gregtechmod.objects.covers.CoverEnergyMeter;
-import mods.gregtechmod.objects.covers.CoverEnergyOnly;
-import mods.gregtechmod.objects.covers.CoverItemMeter;
-import mods.gregtechmod.objects.covers.CoverLiquidMeter;
-import mods.gregtechmod.objects.covers.CoverMachineController;
-import mods.gregtechmod.objects.covers.CoverNormal;
-import mods.gregtechmod.objects.covers.CoverPump;
-import mods.gregtechmod.objects.covers.CoverRedstoneConductor;
-import mods.gregtechmod.objects.covers.CoverRedstoneOnly;
-import mods.gregtechmod.objects.covers.CoverRedstoneSignalizer;
-import mods.gregtechmod.objects.covers.CoverSolarPanel;
-import mods.gregtechmod.objects.covers.CoverValve;
-import mods.gregtechmod.objects.covers.CoverVent;
+import mods.gregtechmod.objects.covers.*;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
-import mods.gregtechmod.util.ArmorPerk;
-import mods.gregtechmod.util.BakedModelLoader;
-import mods.gregtechmod.util.GtLocale;
-import mods.gregtechmod.util.ICustomItemModel;
-import mods.gregtechmod.util.JsonHandler;
-import mods.gregtechmod.util.NormalStateMapper;
+import mods.gregtechmod.util.*;
 import mods.gregtechmod.util.struct.Rotor;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -67,11 +41,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -122,7 +92,7 @@ public class ClientEventHandler {
     private static void registerBakedModels() {
         GregTechMod.LOGGER.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
-        JsonObject models = JsonHandler.readJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
+        JsonObject models = JsonHandler.readAssetJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
 
         for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
             switch (teBlock.getModelType()) {

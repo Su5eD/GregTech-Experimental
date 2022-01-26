@@ -42,7 +42,7 @@ public class WrapperSecondaryFluid<R extends IMachineRecipe<List<IRecipeIngredie
         IRecipeIngredient fluid = this.recipe.getInput().get(1);
         int count = fluid.getCount();
         int amount = count * Fluid.BUCKET_VOLUME;
-        List<ItemStack> containers = StreamEx.of(fluid.getMatchingInputs())
+        List<ItemStack> containers = fluid.stream()
             // NOTE: setting the count to the ingredient's count will work as long as the item's capacity equals Fluid.BUCKET_VOLUME
             .map(stack -> ItemHandlerHelper.copyStackWithSize(FluidUtil.tryEmptyContainer(stack, GtUtil.VOID_TANK, amount, null, true).result, count))
             .toList();

@@ -41,6 +41,10 @@ public final class JavaUtil {
     public static <T, U> BiPredicate<T, U> alwaysTrueBi() {
         return (a, b) -> true;
     }
+    
+    public static <T, U> BiPredicate<T, U> alwaysFalseBi() {
+        return (a, b) -> false;
+    }
 
     public static String capitalizeString(String str) {
         return str != null && str.length() > 0 ? str.substring(0, 1).toUpperCase() + str.substring(1) : "";
