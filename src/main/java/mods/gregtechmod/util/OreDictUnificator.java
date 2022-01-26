@@ -1,15 +1,15 @@
 package mods.gregtechmod.util;
 
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import one.util.streamex.IntStreamEx;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class OreDictUnificator {
     private static final Map<String, ItemStack> NAME_TO_ITEM = new HashMap<>();
@@ -42,10 +42,10 @@ public class OreDictUnificator {
     }
 
     public static void set(String name, ItemStack stack, boolean overwrite) {
-        ItemStack ore = StackUtil.copyWithSize(stack, 1);
+        ItemStack ore = ItemHandlerHelper.copyStackWithSize(stack, 1);
         addAssociation(name, ore);
         if (!NAME_TO_ITEM.containsKey(name)) NAME_TO_ITEM.put(name, ore);
-        else if (overwrite && Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(ore))) {
+        else if (overwrite && isSpecialTarget(ore)) {
             NAME_TO_ITEM.put(name, ore);
         }
         registerOre(name, ore);
@@ -54,7 +54,7 @@ public class OreDictUnificator {
     public static void override(String name, ItemStack stack) {
         if (!name.startsWith("itemDust")
                 && !stack.isEmpty()
-                && (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(stack)))) {
+                && (stack.getDisplayName().isEmpty() || isSpecialTarget(stack))) {
             set(name, stack);
         }
     }
@@ -81,10 +81,10 @@ public class OreDictUnificator {
         
         List<ItemStack> ores = OreDictionary.getOres(name);
         if (!ores.isEmpty()) {
-            ItemStack stack = StackUtil.copyWithSize(ores.get(0), count);
+            ItemStack stack = ItemHandlerHelper.copyStackWithSize(ores.get(0), count);
             return OptionalItemStack.of(stack);
         }
-        else return OptionalItemStack.EMPTY;
+        return OptionalItemStack.EMPTY;
     }
 
     public static ItemStack get(String name) {
@@ -101,7 +101,7 @@ public class OreDictUnificator {
             List<ItemStack> ores = OreDictionary.getOres(name);
             return !ores.isEmpty() ? ores.get(0) : replacement;
         }
-        return StackUtil.copyWithSize(stack, amount);
+        return ItemHandlerHelper.copyStackWithSize(stack, amount);
     }
     
     public static ItemStack get(ItemStack oreStack) {
@@ -126,12 +126,11 @@ public class OreDictUnificator {
 
     public static List<String> getAssociations(ItemStack stack) {
         String name = ITEM_TO_ORE.get(stack);
-        if (name == null) {
-            return Arrays.stream(OreDictionary.getOreIDs(stack))
-                    .mapToObj(OreDictionary::getOreName)
-                    .collect(Collectors.toList());
-        }
-        return Collections.singletonList(name);
+        
+        return name == null ? IntStreamEx.of(OreDictionary.getOreIDs(stack))
+            .mapToObj(OreDictionary::getOreName)
+            .toList()
+            : Collections.singletonList(name);
     }
 
     public static boolean isItemInstanceOf(Block block, String name, boolean prefix) {
@@ -148,10 +147,14 @@ public class OreDictUnificator {
             boolean nonexistent = OreDictionary.getOres(name).stream()
                     .noneMatch(stack::isItemEqual);
             if (nonexistent) {
-                ItemStack ore = StackUtil.copyWithSize(stack, 1);
+                ItemStack ore = ItemHandlerHelper.copyStackWithSize(stack, 1);
                 OreDictionary.registerOre(name, ore);
             }
         }
+    }
+    
+    public static boolean isSpecialTarget(ItemStack stack) {
+        return ArrayUtils.contains(GregTechConfig.UNIFICATION.specialUnificationTargets, getStackConfigName(stack));
     }
 
     public static String getStackConfigName(ItemStack stack) {

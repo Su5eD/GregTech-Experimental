@@ -29,8 +29,8 @@ public abstract class RecipeIngredient<T extends Ingredient> implements IRecipeI
 
     @Override
     public boolean apply(ItemStack input, boolean checkSize) {
-        if (!input.isEmpty() && !this.isEmpty()) {
-            for (ItemStack stack : this.getMatchingInputs()) {
+        if (!input.isEmpty() && !isEmpty()) {
+            for (ItemStack stack : getMatchingInputs()) {
                 if (GtUtil.stackEquals(stack, input)) {
                     if (checkSize) return input.getCount() >= this.count;
                     else return true;
@@ -42,7 +42,7 @@ public abstract class RecipeIngredient<T extends Ingredient> implements IRecipeI
     }
 
     @Override
-    public List<ItemStack> getMatchingInputs() {
+    public List<ItemStack> getMatchingInputs() { // TODO Array/stream variant for streams
         return Arrays.asList(this.ingredient.getMatchingStacks());
     }
 

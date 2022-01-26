@@ -2,9 +2,9 @@ package mods.gregtechmod.inventory.invslot;
 
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.util.StackUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class GtSlotLargeItemStack extends InvSlot {
     
@@ -29,7 +29,7 @@ public class GtSlotLargeItemStack extends InvSlot {
         ItemStack stack = get();
         if (!stack.isEmpty()) {
             NBTTagCompound tag = new NBTTagCompound();
-            ItemStack content = StackUtil.copyWithSize(stack, 1);
+            ItemStack content = ItemHandlerHelper.copyStackWithSize(stack, 1);
             nbt.setTag("content", content.writeToNBT(tag));
             nbt.setInteger("contentCount", stack.getCount());
         }

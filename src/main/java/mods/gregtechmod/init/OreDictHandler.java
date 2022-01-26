@@ -35,6 +35,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
 import org.apache.commons.lang3.tuple.Pair;
@@ -62,6 +63,7 @@ public class OreDictHandler {
     private boolean activated = false;
 
     static {
+        // TODO Remove hardcoding
         GT_ORE_NAMES.put("battery", "crafting10kEUStore");
         GT_ORE_NAMES.put("basicCircuit", "craftingCircuitTier02");
         GT_ORE_NAMES.put("circuitBasic", "craftingCircuitTier02");
@@ -325,13 +327,13 @@ public class OreDictHandler {
                         );
                         ModHandler.addShapelessRecipe(
                                 ingotName + "ToNuggets",
-                                StackUtil.copyWithSize(unified, 9),
+                                ItemHandlerHelper.copyStackWithSize(unified, 9),
                                 new OreIngredient(ingotName)
                         );
                         ModHandler.removeFactorizerRecipe(ingot, true);
                         ModHandler.removeFactorizerRecipe(unified, false);
-                        ModHandler.addFactorizerRecipe(ingot, StackUtil.copyWithSize(unified, 9), true);
-                        ModHandler.addFactorizerRecipe(StackUtil.copyWithSize(unified, 9), ingot, false);
+                        ModHandler.addFactorizerRecipe(ingot, ItemHandlerHelper.copyStackWithSize(unified, 9), true);
+                        ModHandler.addFactorizerRecipe(ItemHandlerHelper.copyStackWithSize(unified, 9), ingot, false);
                     });
         } else if (name.startsWith("plate")) {
             if (!name.startsWith("plateAlloy")) {
@@ -396,7 +398,7 @@ public class OreDictHandler {
             }
 
             ModHandler.getCraftingResult(ore)
-                    .ifPresent(dye -> DynamicRecipes.addExtractorRecipe(Recipes.inputFactory.forOreDict(name), StackUtil.copyWithSize(dye, dye.getCount() + 1)));
+                    .ifPresent(dye -> DynamicRecipes.addExtractorRecipe(Recipes.inputFactory.forOreDict(name), ItemHandlerHelper.copyStackWithSize(dye, dye.getCount() + 1)));
         }
     }
     
@@ -437,7 +439,7 @@ public class OreDictHandler {
         if (recipe != null) {
             ItemStack result = recipe.getRecipeOutput();
             if (!result.isEmpty()) {
-                ItemStack planks = StackUtil.copyWithSize(result, result.getCount() * 3 / 2);
+                ItemStack planks = ItemHandlerHelper.copyStackWithSize(result, result.getCount() * 3 / 2);
                 DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientItemStack.create(stack), Arrays.asList(planks, BlockItems.Dust.WOOD.getItemStack()), 1, true));
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
@@ -451,7 +453,7 @@ public class OreDictHandler {
                 GameRegistry.addShapelessRecipe(
                         new ResourceLocation(Reference.MODID, recipeName),
                         null,
-                        StackUtil.copyWithSize(result, result.getCount() / (GregTechConfig.GENERAL.woodNeedsSawForCrafting ? 2 : 1)),
+                        ItemHandlerHelper.copyStackWithSize(result, result.getCount() / (GregTechConfig.GENERAL.woodNeedsSawForCrafting ? 2 : 1)),
                         Ingredient.fromStacks(stack)
                 );
             }
@@ -498,7 +500,7 @@ public class OreDictHandler {
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
             
             if (storageBlockCrafting) processBlockRecipe(ore, name + "FromGems");
-            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToGem", StackUtil.copyWithSize(stack, 9), new OreIngredient(name));
+            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToGem", ItemHandlerHelper.copyStackWithSize(stack, 9), new OreIngredient(name));
                             
             DynamicRecipes.addIngotToBlockRecipe(gemName, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
         })) {
@@ -635,7 +637,7 @@ public class OreDictHandler {
                     Ingredient[] ingredients = new Ingredient[count];
                     Arrays.fill(ingredients, new OreIngredient(name));
                     ModHandler.addShapelessRecipe(dustName + "FromSmalldusts", dust, ingredients);
-                    ModHandler.addShapelessRecipe(dustName + "ToSmalldusts", StackUtil.copyWithSize(stack, count), new OreIngredient(dustName));
+                    ModHandler.addShapelessRecipe(dustName + "ToSmalldusts", ItemHandlerHelper.copyStackWithSize(stack, count), new OreIngredient(dustName));
                 });
     }
 
@@ -693,7 +695,7 @@ public class OreDictHandler {
                 DynamicRecipes.addSmeltingRecipe(name, stack, BlockItems.Dust.SALTPETER.getItemStack(3));
                 break;
             case "oreSulfur":
-                DynamicRecipes.addSmeltingRecipe(name, stack, StackUtil.copyWithSize(IC2Items.getItem("dust", "sulfur"), 3));
+                DynamicRecipes.addSmeltingRecipe(name, stack, ItemHandlerHelper.copyStackWithSize(IC2Items.getItem("dust", "sulfur"), 3));
                 break;
         }
     }

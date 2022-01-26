@@ -16,7 +16,7 @@ public final class NBTSaveHandler {
     public static void initClass(Class<?> clazz) {
         withParents(clazz)
                 .remove(HANDLES::containsKey)
-                .mapToEntry(cls -> StreamEx.of(cls.getDeclaredFields()) // TODO TEST
+                .mapToEntry(cls -> StreamEx.of(cls.getDeclaredFields())
                         .filter(field -> field.isAnnotationPresent(NBTPersistent.class))
                         .map(Try.<Field, FieldHandle>of(field -> {
                             field.setAccessible(true);

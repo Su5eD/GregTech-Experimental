@@ -26,6 +26,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.List;
 
@@ -80,7 +81,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
                         int cellsFromInputSlot = isIC2Cell(input.getItem()) ? Math.min(recipe.getCells(), cells) : 0;
                         this.inputSlot.consume(cells, false, true);
                         this.cellSlot.consume(recipe.getCells() - cellsFromInputSlot);
-                        if (addCellsToOutput(StackUtil.copyWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.DISSOLVE) this.maxProgress *= 1.5;
+                        if (addCellsToOutput(ItemHandlerHelper.copyStackWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.DISSOLVE) this.maxProgress *= 1.5;
                         return;
                     }
                 } else if (input.getCount() == 1) {

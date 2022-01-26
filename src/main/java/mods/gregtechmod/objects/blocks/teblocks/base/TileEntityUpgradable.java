@@ -130,7 +130,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     public InternalFluidTank createSteamTank() {
-        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE::test, getSteamCapacity());
+        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE, getSteamCapacity());
     }
 
     @Override

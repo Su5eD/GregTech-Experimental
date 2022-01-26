@@ -3,14 +3,13 @@ package mods.gregtechmod.objects.covers;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Locale;
 
@@ -25,17 +24,8 @@ public abstract class CoverMeter extends CoverGeneric {
     @Override
     public void doCoverThings() {
         if (te instanceof IGregTechMachine) {
-            Pair<Integer, Integer> info = getItemStorageAndCapacity();
-            int stored = info.getLeft();
-            int capacity = info.getRight();
-            
-            if (capacity > 0) {
-                capacity /= 15;
-                double strength = stored / (double) capacity;
-                ((IGregTechMachine)te).setRedstoneOutput(side, (byte) (mode == MeterMode.NORMAL ? strength : 15 - strength));
-            } else {
-                ((IGregTechMachine)te).setRedstoneOutput(side, (byte) (mode == MeterMode.INVERTED ? 0 : 15));
-            }
+            int strength = getRedstoneStrength();
+            ((IGregTechMachine)te).setRedstoneOutput(side, (byte) (mode == MeterMode.NORMAL ? strength : 15 - strength));
         }
     }
 
@@ -45,8 +35,8 @@ public abstract class CoverMeter extends CoverGeneric {
         GtUtil.sendMessage(player, mode.getMessageKey());
         return true;
     }
-
-    protected abstract Pair<Integer, Integer> getItemStorageAndCapacity();
+    
+    public abstract int getRedstoneStrength();
 
     public enum MeterMode {
         NORMAL,
@@ -59,7 +49,7 @@ public abstract class CoverMeter extends CoverGeneric {
         }
 
         public String getMessageKey() {
-            return Reference.MODID + ".cover.mode." + this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "mode", this.name().toLowerCase(Locale.ROOT));
         }
     }
 

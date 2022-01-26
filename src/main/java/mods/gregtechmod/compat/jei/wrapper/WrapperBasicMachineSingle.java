@@ -1,15 +1,15 @@
 package mods.gregtechmod.compat.jei.wrapper;
 
-import ic2.core.util.StackUtil;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
+import one.util.streamex.StreamEx;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class WrapperBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredient, List<ItemStack>>> extends WrapperBasicMachine<R> {
 
@@ -25,9 +25,10 @@ public class WrapperBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredien
     protected void setInputs(IIngredients ingredients) {
         IRecipeIngredient ingredient = this.recipe.getInput();
         int count = ingredient.getCount();
-        List<ItemStack> inputs = ingredient.getMatchingInputs().stream()
-                .map(stack -> StackUtil.copyWithSize(stack, count))
-                .collect(Collectors.toList());
+        
+        List<ItemStack> inputs = StreamEx.of(ingredient.getMatchingInputs())
+            .map(stack -> ItemHandlerHelper.copyStackWithSize(stack, count))
+            .toList();
 
         ingredients.setInputLists(VanillaTypes.ITEM, Collections.singletonList(inputs));
     }

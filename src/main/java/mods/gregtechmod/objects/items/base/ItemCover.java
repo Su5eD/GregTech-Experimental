@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.items.base;
 
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.cover.ICoverable;
@@ -13,6 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ItemCover extends ItemBase {
     private final ICoverProvider coverProvider;
@@ -29,7 +29,7 @@ public class ItemCover extends ItemBase {
             ItemStack stack = player.inventory.getCurrentItem();
             
             if (block instanceof ICoverable) {
-                ICover cover = this.coverProvider.constructCover(side, (ICoverable) block, StackUtil.copyWithSize(stack, 1));
+                ICover cover = this.coverProvider.constructCover(side, (ICoverable) block, ItemHandlerHelper.copyStackWithSize(stack, 1));
                 if (((ICoverable)block).placeCoverAtSide(cover, player, side, false)) {
                     if (!player.capabilities.isCreativeMode) stack.shrink(1);
                     return EnumActionResult.SUCCESS;

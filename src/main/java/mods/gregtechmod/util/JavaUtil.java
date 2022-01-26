@@ -12,14 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -38,7 +31,11 @@ public final class JavaUtil {
     private JavaUtil() {}
     
     public static <T> Predicate<T> alwaysTrue() {
-        return a -> true;
+        return o -> true;
+    }
+    
+    public static <T> Predicate<T> alwaysFalse() {
+        return o -> false;
     }
 
     public static <T, U> BiPredicate<T, U> alwaysTrueBi() {

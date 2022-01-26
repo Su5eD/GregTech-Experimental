@@ -15,7 +15,6 @@ import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.ItemName;
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
@@ -43,11 +42,13 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
+import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
 import thaumcraft.api.aura.AuraHelper;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ModHandler {
     public static boolean thermalfoundation;
@@ -69,7 +70,7 @@ public class ModHandler {
     public static boolean twilightForest;
     public static boolean enderStorage;
     public static boolean agricraft;
-    
+
     public static IItemAPI ic2ItemApi;
 
     public static ItemStack emptyCell = ItemStack.EMPTY;
@@ -116,7 +117,7 @@ public class ModHandler {
 
     public static void gatherModItems() {
         ic2ItemApi = IC2Items.getItemAPI();
-        
+
         emptyCell = ProfileDelegate.getEmptyCell();
         emptyFuelCan = IC2Items.getItem("crafting", "empty_fuel_can");
         scrap = IC2Items.getItem("crafting", "scrap");
@@ -155,8 +156,7 @@ public class ModHandler {
 
     public static ItemStack getModItem(String modid, String itemName, int meta) {
         Item item = getItem(modid, itemName);
-        if (item == null) return ItemStack.EMPTY;
-        return new ItemStack(item, 1, meta);
+        return item == null ? ItemStack.EMPTY : new ItemStack(item, 1, meta);
     }
 
     public static ItemStack getTEItem(String baseItem, int meta) {
@@ -206,7 +206,8 @@ public class ModHandler {
     }
 
     public static void addTEPulverizerRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
-        if (thermalExpansion) registerPulverizerRecipe(energy, input, primaryOutput, secondaryOutput, chance, overwrite);
+        if (thermalExpansion)
+            registerPulverizerRecipe(energy, input, primaryOutput, secondaryOutput, chance, overwrite);
     }
 
     public static void removeTEPulverizerRecipe(ItemStack input) {
@@ -230,19 +231,20 @@ public class ModHandler {
 
     @Optional.Method(modid = "thermalexpansion")
     private static List<IRecipePulverizer> _getTEPulverizerRecipes() {
-        PulverizerManager.PulverizerRecipe[] recipes = PulverizerManager.getRecipeList();
-        return Arrays.stream(recipes)
-                .map(recipe -> {
-                    IRecipeIngredient input = RecipeIngredientItemStack.create(recipe.getInput());
-                    if (!input.isEmpty()) return RecipePulverizer.create(input, GtUtil.nonEmptyList(recipe.getPrimaryOutput(), recipe.getSecondaryOutput()), 3, recipe.getSecondaryOutputChance(), false, false);
-                    return null;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        return StreamEx.of(PulverizerManager.getRecipeList())
+            .<IRecipePulverizer>map(recipe -> {
+                IRecipeIngredient input = RecipeIngredientItemStack.create(recipe.getInput());
+                return !input.isEmpty()
+                    ? RecipePulverizer.create(input, GtUtil.nonEmptyList(recipe.getPrimaryOutput(), recipe.getSecondaryOutput()), 3, recipe.getSecondaryOutputChance(), false, false)
+                    : null;
+            })
+            .nonNull()
+            .toList();
     }
 
     public static void addInductionSmelterRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {
-        if (thermalExpansion) registerInductionSmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
+        if (thermalExpansion)
+            registerInductionSmelterRecipe(primaryInput, secondaryInput, primaryOutput, secondaryOutput, energy, chance);
     }
 
     @Optional.Method(modid = "thermalexpansion")
@@ -256,10 +258,10 @@ public class ModHandler {
 
     @Optional.Method(modid = "thermalexpansion")
     private static void _removeInductionSelterRecipe(ItemStack input) {
-        Arrays.stream(SmelterManager.getRecipeList())
-                .filter(recipe -> GtUtil.stackEquals(recipe.getPrimaryInput(), input) || GtUtil.stackEquals(recipe.getSecondaryInput(), input))
-                .collect(Collectors.toList())
-                .forEach(recipe -> SmelterManager.removeRecipe(recipe.getPrimaryInput(), recipe.getSecondaryInput()));
+        StreamEx.of(SmelterManager.getRecipeList())
+            .filter(recipe -> GtUtil.stackEquals(recipe.getPrimaryInput(), input) || GtUtil.stackEquals(recipe.getSecondaryInput(), input))
+            .toList()
+            .forEach(recipe -> SmelterManager.removeRecipe(recipe.getPrimaryInput(), recipe.getSecondaryInput()));
     }
 
     public static void addLiquidTransposerFillRecipe(ItemStack emptyContainer, FluidStack fluid, ItemStack fullContainer, int energy) {
@@ -306,10 +308,10 @@ public class ModHandler {
     private static void registerAEGrinderRecipe(ItemStack input, ItemStack output, int turns) {
         IGrinderRegistry registry = AEApi.instance().registries().grinder();
         IGrinderRecipe recipe = registry.builder()
-                .withInput(input)
-                .withOutput(output)
-                .withTurns(turns)
-                .build();
+            .withInput(input)
+            .withOutput(output)
+            .withTurns(turns)
+            .build();
         registry.addRecipe(recipe);
     }
 
@@ -320,10 +322,9 @@ public class ModHandler {
     @Optional.Method(modid = "railcraft")
     private static void registerRockCrusherRecipe(ItemStack input, Map<ItemStack, Float> outputs) {
         IRockCrusherCrafter.IRockCrusherRecipeBuilder builder = Crafters.rockCrusher()
-                .makeRecipe(input);
-        for (Map.Entry<ItemStack, Float> output : outputs.entrySet()) {
-            builder.addOutput(output.getKey(), output.getValue());
-        }
+            .makeRecipe(input);
+        EntryStream.of(outputs)
+            .forKeyValue(builder::addOutput);
         builder.register();
     }
 
@@ -333,27 +334,26 @@ public class ModHandler {
 
     @Optional.Method(modid = "railcraft")
     private static List<IRecipePulverizer> _getRockCrusherRecipes() {
-        return Crafters.rockCrusher()
-                .getRecipes().stream()
-                .map(recipe -> {
-                    List<IOutputEntry> outputs = recipe.getOutputs();
-                    IOutputEntry primaryOutput = outputs.get(0);
+        return StreamEx.of(Crafters.rockCrusher().getRecipes())
+            .<IRecipePulverizer>map(recipe -> {
+                List<IOutputEntry> outputs = recipe.getOutputs();
+                IOutputEntry primaryOutput = outputs.get(0);
 
-                    List<ItemStack> output = new ArrayList<>();
-                    if (primaryOutput.getGenRule().test(JavaUtil.RANDOM)) output.add(primaryOutput.getOutput());
+                List<ItemStack> output = new ArrayList<>();
+                if (primaryOutput.getGenRule().test(JavaUtil.RANDOM)) output.add(primaryOutput.getOutput());
 
-                    IOutputEntry secondaryOutput = outputs.size() > 1 ? outputs.get(1) : null;
-                    int secondaryChance;
+                IOutputEntry secondaryOutput = outputs.size() > 1 ? outputs.get(1) : null;
+                int secondaryChance;
 
-                    if (secondaryOutput != null) {
-                        secondaryChance = (int) RailcraftHelper.getRandomChance(secondaryOutput.getGenRule());
-                        output.add(secondaryOutput.getOutput());
-                    } else secondaryChance = 0;
+                if (secondaryOutput != null) {
+                    secondaryChance = (int) RailcraftHelper.getRandomChance(secondaryOutput.getGenRule());
+                    output.add(secondaryOutput.getOutput());
+                } else secondaryChance = 0;
 
-                    return !output.isEmpty() ? RecipePulverizer.create(RecipeIngredientItemStack.create(Arrays.asList(recipe.getInput().getMatchingStacks()), 1), output, 4, secondaryChance, false, false) : null;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                return !output.isEmpty() ? RecipePulverizer.create(RecipeIngredientItemStack.create(Arrays.asList(recipe.getInput().getMatchingStacks()), 1), output, 4, secondaryChance, false, false) : null;
+            })
+            .nonNull()
+            .toList();
     }
 
     public static void addRollingMachineRecipe(String name, ItemStack output, Object... pattern) {
@@ -363,9 +363,9 @@ public class ModHandler {
     @Optional.Method(modid = "railcraft")
     private static void registerRollingMachineRecipe(String name, ItemStack output, Object... pattern) {
         Crafters.rollingMachine()
-                .newRecipe(output)
-                .name(Reference.MODID, name)
-                .shaped(pattern);
+            .newRecipe(output)
+            .name(Reference.MODID, name)
+            .shaped(pattern);
     }
 
     public static void polluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
@@ -376,29 +376,29 @@ public class ModHandler {
     private static void reallyPolluteAura(World world, BlockPos pos, int amount, boolean showEffect) {
         AuraHelper.polluteAura(world, pos, amount, showEffect);
     }
-    
+
     public static void addShapedRecipe(String name, ItemStack output, Object... params) {
         addShapedRecipe(name, null, output, params);
     }
 
     public static void addShapedRecipe(String name, ResourceLocation group, ItemStack output, Object... params) {
         GameRegistry.addShapedRecipe(
-                new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
-                group,
-                output,
-                params
+            new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
+            group,
+            output,
+            params
         );
     }
 
     public static void addShapelessRecipe(String name, ItemStack output, Ingredient... inputs) {
         addShapelessRecipe(name, null, output, inputs);
     }
-    
+
     public static void addShapelessRecipe(String name, ResourceLocation group, ItemStack output, Ingredient... inputs) {
         GameRegistry.addShapelessRecipe(new ResourceLocation(Reference.MODID, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name)),
-                group,
-                output,
-                inputs);
+            group,
+            output,
+            inputs);
     }
 
     public static IRecipe getCraftingRecipe(ItemStack... stacks) {
@@ -406,14 +406,16 @@ public class ModHandler {
     }
 
     public static IRecipe getCraftingRecipe(Collection<IRecipe> recipes, ItemStack... stacks) {
-        InventoryCrafting crafting = new InventoryCrafting(new DummyContainer(),  3, 3);
-        for (int i = 0; i < 9 && i < stacks.length; i++) {
-            crafting.setInventorySlotContents(i, stacks[i]);
-        }
+        InventoryCrafting crafting = new InventoryCrafting(new DummyContainer(), 3, 3);
+
+        EntryStream.of(stacks)
+            .limit(9)
+            .forKeyValue(crafting::setInventorySlotContents);
+
         return recipes.stream()
-                .filter(recipe -> recipe.matches(crafting, DummyWorld.INSTANCE))
-                .findFirst()
-                .orElse(null);
+            .filter(recipe -> recipe.matches(crafting, DummyWorld.INSTANCE))
+            .findFirst()
+            .orElse(null);
     }
 
     public static OptionalItemStack getCraftingResult(ItemStack... stacks) {
@@ -440,14 +442,15 @@ public class ModHandler {
 
     public static void removeCraftingRecipe(ItemStack output) {
         new ArrayList<>(ForgeRegistries.RECIPES.getValuesCollection()).stream()
-                .filter(recipe -> GtUtil.stackEquals(recipe.getRecipeOutput(), output))
-                .map(IRecipe::getRegistryName)
-                .filter(name -> !name.getNamespace().equals(Reference.MODID))
-                .forEach(((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES)::remove);
+            .filter(recipe -> GtUtil.stackEquals(recipe.getRecipeOutput(), output))
+            .map(IRecipe::getRegistryName)
+            .filter(name -> !name.getNamespace().equals(Reference.MODID))
+            .forEach(((IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES)::remove);
     }
 
     public static void removeIC2Recipe(ItemStack input, BasicMachineRecipeManager manager) {
         Iterator<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> iterator = manager.getRecipes().iterator();
+
         while (iterator.hasNext()) {
             MachineRecipe<IRecipeInput, Collection<ItemStack>> recipe = iterator.next();
             if (recipe.getInput().matches(input)) {
@@ -456,7 +459,7 @@ public class ModHandler {
             }
         }
     }
-    
+
     public static boolean addIC2Recipe(BasicMachineRecipeManager manager, IRecipeInput input, NBTTagCompound metadata, boolean overwrite, ItemStack... outputs) {
         if (overwrite) input.getInputs().forEach(stack -> removeIC2Recipe(stack, manager));
         return manager.addRecipe(input, metadata, false, outputs);
@@ -464,10 +467,9 @@ public class ModHandler {
 
     public static void removeSmeltingRecipe(ItemStack input) {
         Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
-        recipes.keySet().stream()
-                .filter(stack -> GtUtil.stackEquals(stack, input, false))
-                .collect(Collectors.toList())
-                .forEach(recipes::remove);
+        StreamEx.ofKeys(new HashMap<>(recipes))
+            .filter(stack -> GtUtil.stackEquals(stack, input, false))
+            .forEach(recipes::remove);
     }
 
     public static ItemStack getIC2ItemSafely(String name, String variant) {
@@ -495,16 +497,16 @@ public class ModHandler {
             return "";
         }
     }
-    
-    public static int getFuelCanValue(ItemStack fuelCan) { 
+
+    public static int getFuelCanValue(ItemStack fuelCan) {
         if (!fuelCan.isEmpty() && fuelCan.isItemEqual(ModHandler.filledFuelCan)) {
             NBTTagCompound nbt = fuelCan.getTagCompound();
             if (nbt != null) return nbt.getInteger("value") * 5;
         }
         return 0;
     }
-    
+
     public static ItemStack adjustWoodSize(ItemStack stack) {
-        return StackUtil.copyWithSize(stack, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? stack.getCount() : stack.getCount() * 5 / 4);
+        return ItemHandlerHelper.copyStackWithSize(stack, GregTechConfig.GENERAL.woodNeedsSawForCrafting ? stack.getCount() : stack.getCount() * 5 / 4);
     }
 }

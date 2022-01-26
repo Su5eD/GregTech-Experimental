@@ -7,7 +7,6 @@ import net.minecraft.util.EnumFacing;
 
 import java.util.Collection;
 
-@SuppressWarnings("Guava")
 public class GtFluidTankProcessableFuel<FM extends IFuelManagerFluid<?>> extends GtFluidTank {
     
     public GtFluidTankProcessableFuel(ICoverable parent, String identifier, FM fuelManager, int capacity) {
@@ -15,6 +14,6 @@ public class GtFluidTankProcessableFuel<FM extends IFuelManagerFluid<?>> extends
     }
 
     public GtFluidTankProcessableFuel(ICoverable parent, String identifier, FM fuelManager, Collection<EnumFacing> inputSides, Collection<EnumFacing> outputSides, int capacity) {
-        super(parent, identifier, inputSides, outputSides, fuelManager != null ? fuelManager::hasFuel : fluid1 -> false, capacity);
+        super(parent, identifier, inputSides, outputSides, fuelManager != null ? fuelManager::hasFuel : f -> false, capacity);
     }
 }

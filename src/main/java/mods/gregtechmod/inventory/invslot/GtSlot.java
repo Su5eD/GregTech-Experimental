@@ -24,10 +24,6 @@ public class GtSlot extends InvSlot {
         ((TileEntityAutoNBT) this.base).onInventoryChanged();
     }
     
-    public ItemStack getLast() {
-        return get(size() - 1);
-    }
-    
     public boolean canAdd(ItemStack stack) {
         ItemStack existing = get();
         return !stack.isEmpty() && (existing.isEmpty() || ItemHandlerHelper.canItemStacksStack(existing, stack) && GtUtil.canGrowStack(existing, stack));

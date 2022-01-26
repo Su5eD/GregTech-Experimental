@@ -55,4 +55,8 @@ public final class GtLocale {
     public static boolean hasKey(String key) {
         return I18n.hasKey(Reference.MODID + "." + key);
     }
+    
+    public static String buildKey(String... paths) {
+        return Reference.MODID + String.join(".", paths);
+    }
 }
