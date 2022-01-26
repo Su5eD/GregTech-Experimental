@@ -43,9 +43,7 @@ version = getGitVersion()
 setProperty("archivesBaseName", "gregtechmod")
 
 val api: SourceSet by sourceSets.creating
-val apiImplementation: Configuration by configurations.getting {
-    extendsFrom(configurations.minecraft.get())
-}
+val apiDep: Configuration by configurations.creating
 
 val shade: Configuration by configurations.creating {
     configurations.implementation.get().extendsFrom(this)
@@ -90,6 +88,16 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
     
     withSourcesJar()
+}
+
+configurations {
+    "apiImplementation" {
+        extendsFrom(apiDep, configurations.minecraft.get())
+    }
+    
+    apiElements {
+        setExtendsFrom(setOf(apiDep, shade))
+    }
 }
 
 val devJar by tasks.registering(ShadowJar::class) {
@@ -198,7 +206,7 @@ dependencies {
     
     implementation(api.output)
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
-    apiImplementation(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2, classifier = "api")
+    apiDep(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2, classifier = "api")
     
     compileOnly(fg.deobf(group = "cofh", name = "RedstoneFlux", version = versionRF, classifier = "universal"))
     compileOnly(fg.deobf(group = "cofh", name = "CoFHCore", version = versionCoFHCore, classifier = "universal")) {
@@ -220,15 +228,25 @@ dependencies {
     compileOnly(fg.deobf(group = "slimeknights.mantle", name = "Mantle", version = versionMantle))
     compileOnly(fg.deobf(group = "slimeknights", name = "TConstruct", version = versionTConstruct))
 
-    apiImplementation(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0"))
+    apiDep(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0"))
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.9.0")
-    apiImplementation(shade(group = "one.util", name = "streamex", version = "0.8.1"))
+    apiDep(shade(group = "one.util", name = "streamex", version = "0.8.1"))
+}
+
+afterEvaluate {
+    val component = components["java"] as AdhocComponentWithVariants
+    component.withVariantsFromConfiguration(configurations.runtimeElements.get(), ConfigurationVariantDetails::skip)
 }
 
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            artifact(tasks.shadowJar)
+            groupId = project.group as String
+            artifactId = "gregtechmod"
+            version = project.version as String             
+            
+            from(components["java"])
+            
             artifact(devJar)
             artifact(apiJar)
         }
