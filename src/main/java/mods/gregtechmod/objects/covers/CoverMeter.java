@@ -55,7 +55,7 @@ public abstract class CoverMeter extends CoverGeneric {
         public static final MeterMode[] VALUES = values();
 
         public MeterMode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getMessageKey() {

@@ -1,6 +1,5 @@
 package mods.gregtechmod.inventory.tank;
 
-import com.google.common.base.Predicate;
 import ic2.core.block.comp.Fluids;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
@@ -9,13 +8,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 
-@SuppressWarnings("Guava")
 public class GtFluidTank extends Fluids.InternalFluidTank {
     private final ICoverable parent;
 
     public GtFluidTank(ICoverable parent, String identifier, Collection<EnumFacing> inputSides, Collection<EnumFacing> outputSides, Predicate<Fluid> acceptedFluids, int capacity) {
-        super(identifier, inputSides, outputSides, acceptedFluids, capacity);
+        super(identifier, inputSides, outputSides, acceptedFluids::test, capacity);
         this.parent = parent;
     }
 
@@ -33,5 +32,9 @@ public class GtFluidTank extends Fluids.InternalFluidTank {
         
         ICover cover = parent.getCoverAtSide(side);
         return super.canDrain(side) && (cover == null || cover.letsLiquidsOut());
+    }
+    
+    public boolean isEmpty() {
+        return getFluidAmount() <= 0;
     }
 }

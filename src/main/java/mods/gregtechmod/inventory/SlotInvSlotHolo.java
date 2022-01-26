@@ -15,7 +15,7 @@ public class SlotInvSlotHolo extends SlotInvSlot implements ISlotInteractive {
     }
 
     @Override
-    public boolean canTakeStack(EntityPlayer playerIn) {
+    public boolean canTakeStack(EntityPlayer player) {
         return false;
     }
 

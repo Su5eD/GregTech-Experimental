@@ -30,4 +30,9 @@ public class Try<T, R> implements Function<T, R> {
             throw new RuntimeException(message, e);
         }
     }
+    
+    @FunctionalInterface
+    public interface CheckedFunction<T, R> {
+        R apply(T t) throws Exception;
+    }
 }

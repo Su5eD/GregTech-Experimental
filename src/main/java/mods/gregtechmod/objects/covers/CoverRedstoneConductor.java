@@ -90,7 +90,7 @@ public class CoverRedstoneConductor extends CoverGeneric {
         private static final ConductorMode[] VALUES = values();
 
         public ConductorMode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getMessageKey() {

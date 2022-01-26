@@ -1,6 +1,5 @@
 package mods.gregtechmod.inventory.tank;
 
-import com.google.common.base.Predicates;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.recipe.fuel.IFuelManagerFluid;
@@ -16,6 +15,6 @@ public class GtFluidTankProcessableFuel<FM extends IFuelManagerFluid<?>> extends
     }
 
     public GtFluidTankProcessableFuel(ICoverable parent, String identifier, FM fuelManager, Collection<EnumFacing> inputSides, Collection<EnumFacing> outputSides, int capacity) {
-        super(parent, identifier, inputSides, outputSides, fuelManager != null ? fuelManager::hasFuel : Predicates.alwaysFalse(), capacity);
+        super(parent, identifier, inputSides, outputSides, fuelManager != null ? fuelManager::hasFuel : fluid1 -> false, capacity);
     }
 }

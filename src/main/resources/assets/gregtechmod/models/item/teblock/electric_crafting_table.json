@@ -1,0 +1,13 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/adv_machine_crafting",
+    "down": "gregtechmod:blocks/machines/adv_machine_crafting",
+    "up": "gregtechmod:blocks/machines/adv_machine_crafting",
+    "north": "gregtechmod:blocks/machines/adv_machine_pipe_green",
+    "south": "gregtechmod:blocks/machines/adv_machine_pipe_red",
+    "east": "gregtechmod:blocks/machines/adv_machine_crafting",
+    "west": "gregtechmod:blocks/machines/adv_machine_crafting"
+  },
+  "textureDown": "gregtechmod:blocks/machines/adv_machine_crafting"
+}

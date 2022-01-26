@@ -44,6 +44,10 @@ public class OptionalItemStack {
         return this.value.copy();
     }
     
+    public ItemStack orEmpty() {
+        return isPresent() ? this.value.copy() : ItemStack.EMPTY;
+    }
+    
     public boolean isPresent() {
         return !this.value.isEmpty();
     }

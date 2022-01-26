@@ -116,7 +116,7 @@ public class CoverActiveDetector extends CoverGeneric {
         }
 
         public DetectorMode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getMessageKey() {

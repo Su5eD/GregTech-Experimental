@@ -1,8 +1,9 @@
 package mods.gregtechmod.model;
 
-import ic2.core.block.state.Ic2BlockState;
+import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBuffer;
+import mods.gregtechmod.util.PropertyHelper.VerticalRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -27,7 +28,12 @@ public class ModelElectricBuffer extends ModelTeBlock {
     }
 
     @Override
-    protected TextureAtlasSprite getSprite(EnumFacing face, EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state) {
+    protected VerticalRotation getVerticalRotation(Ic2BlockStateInstance state) {
+        return VerticalRotation.ROTATE_X;
+    }
+
+    @Override
+    protected TextureAtlasSprite getSprite(EnumFacing face, EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state) {
         boolean horizontal = Util.horizontalFacings.contains(side);
         
         if (this.redstoneTextures.containsKey(rotatedSide) && Boolean.TRUE.equals(state.getValue(TileEntityElectricBuffer.REDSTONE_TEXTURE_PROPERTY))) {

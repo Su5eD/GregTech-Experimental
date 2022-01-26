@@ -1,6 +1,5 @@
 package mods.gregtechmod.util.nbt;
 
-import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.Try;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,12 +7,7 @@ import one.util.streamex.StreamEx;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public final class NBTSaveHandler {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
@@ -22,7 +16,7 @@ public final class NBTSaveHandler {
     public static void initClass(Class<?> clazz) {
         withParents(clazz)
                 .remove(HANDLES::containsKey)
-                .cross(cls -> StreamEx.of(cls.getDeclaredFields())
+                .mapToEntry(cls -> StreamEx.of(cls.getDeclaredFields()) // TODO TEST
                         .filter(field -> field.isAnnotationPresent(NBTPersistent.class))
                         .map(Try.<Field, FieldHandle>of(field -> {
                             field.setAccessible(true);
@@ -46,7 +40,7 @@ public final class NBTSaveHandler {
                             return new FieldHandle(name, field.getType(), serializer, deserializer, persistent.include().predicate, modifyExisting, LOOKUP.unreflectGetter(field), LOOKUP.unreflectSetter(field));
                         })
                                 .catching(field -> "Unable to create handle for field " + field.getName()))
-                        .groupRuns(JavaUtil.alwaysTrueBi())
+                        .toList()
                 )
                 .removeValues(List::isEmpty)
                 .forKeyValue(HANDLES::put);

@@ -38,6 +38,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -47,6 +48,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import one.util.streamex.StreamEx;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -179,6 +181,17 @@ public final class GtUtil {
         ItemStack ret = stack.copy();
         ret.setItemDamage(meta);
         return stack;
+    }
+    
+    // TODO Test
+    public static ItemStack getEmptyFluidContainer(ItemStack stack) {
+        IFluidHandlerItem handler = FluidUtil.getFluidHandler(stack.copy());
+        if (handler != null) {
+            handler.drain(Integer.MAX_VALUE, true);
+            return handler.getContainer();
+        }
+        
+        return ItemStack.EMPTY;
     }
 
     public static ItemStack getFluidContainer(ItemStack stack, Fluid fluid) {
@@ -378,7 +391,26 @@ public final class GtUtil {
         int index = (facing.ordinal() + 1) % EnumFacing.VALUES.length;
         return EnumFacing.VALUES[index];
     }
-
+    
+    public static boolean canGrowStack(ItemStack existing, ItemStack addition) {
+        return addition.getCount() + existing.getCount() <= existing.getMaxStackSize();
+    }
+    
+    public static Pair<ItemStack, FluidStack> fillContainer(ItemStack container, IFluidHandler source, int maxFill) {
+        ItemStack containerCopy = ItemHandlerHelper.copyStackWithSize(container, 1); // do not modify the input
+        IFluidHandlerItem dest = FluidUtil.getFluidHandler(containerCopy);
+        
+        if (dest != null) {
+            FluidStack transfer = FluidUtil.tryFluidTransfer(dest, source, maxFill, true);
+            if (transfer != null) {
+                ItemStack stack = dest.getContainer();
+                return Pair.of(stack, transfer);
+            }
+        }
+        
+        return Pair.of(ItemStack.EMPTY, null);
+    }
+    
     private static class VoidTank implements IFluidHandler {
         
         @Override

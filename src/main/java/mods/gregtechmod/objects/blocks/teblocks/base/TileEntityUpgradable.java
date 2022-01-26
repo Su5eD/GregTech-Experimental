@@ -129,8 +129,8 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         return ic2Batteries + this.extraEUCapacity;
     }
 
-    public Fluids.InternalFluidTank createSteamTank() {
-        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE, getSteamCapacity());
+    public InternalFluidTank createSteamTank() {
+        return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE::test, getSteamCapacity());
     }
 
     @Override

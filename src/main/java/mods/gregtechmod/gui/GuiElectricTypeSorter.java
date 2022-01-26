@@ -10,7 +10,7 @@ public class GuiElectricTypeSorter extends GuiElectricSorter<ContainerElectricTy
     public GuiElectricTypeSorter(ContainerElectricTypeSorter container) {
         super(container);
         
-        addIconCycle(70, 22, TEXTURE, 0, 166, 18, false, () -> container.base.getType().ordinal());
+        addIconCycle(70, 22, TEXTURE, 0, 166, container.base::getType);
     }
 
     @Override

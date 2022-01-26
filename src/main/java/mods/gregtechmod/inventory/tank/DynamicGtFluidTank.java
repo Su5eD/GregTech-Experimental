@@ -13,7 +13,7 @@ public class DynamicGtFluidTank extends GtFluidTank {
     private final Predicate<EnumFacing> outputPredicate;
 
     public DynamicGtFluidTank(ICoverable parent, String identifier, Predicate<EnumFacing> inputPredicate, Predicate<EnumFacing> outputPredicate, Predicate<Fluid> acceptedFluids, int capacity) {
-        super(parent, identifier, Collections.emptySet(), Collections.emptySet(), acceptedFluids, capacity);
+        super(parent, identifier, Collections.emptySet(), Collections.emptySet(), acceptedFluids::test, capacity);
         
         this.inputPredicate = inputPredicate;
         this.outputPredicate = outputPredicate;

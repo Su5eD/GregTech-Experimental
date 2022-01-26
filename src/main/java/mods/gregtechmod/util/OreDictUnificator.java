@@ -5,6 +5,7 @@ import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.*;
@@ -13,6 +14,16 @@ import java.util.stream.Collectors;
 public class OreDictUnificator {
     private static final Map<String, ItemStack> NAME_TO_ITEM = new HashMap<>();
     private static final Map<ItemStack, String> ITEM_TO_ORE = new HashMap<>();
+    private static final List<ItemStack> BLACK_LIST = new ArrayList<>();
+    
+    public static void addToBlacklist(ItemStack stack) {
+        BLACK_LIST.add(stack);
+    }
+    
+    public static boolean isBlacklisted(ItemStack stack) {
+        return BLACK_LIST.stream()
+                .anyMatch(ore -> GtUtil.stackEquals(ore, stack));
+    }
 
     public static void add(String name, Block block) {
         add(name, new ItemStack(block));
@@ -88,10 +99,21 @@ public class OreDictUnificator {
         ItemStack stack = NAME_TO_ITEM.get(name);
         if (stack == null) {
             List<ItemStack> ores = OreDictionary.getOres(name);
-            if (!ores.isEmpty()) return ores.get(0);
-            else return replacement;
-        } else return StackUtil.copyWithSize(stack, amount);
+            return !ores.isEmpty() ? ores.get(0) : replacement;
+        }
+        return StackUtil.copyWithSize(stack, amount);
     }
+    
+    public static ItemStack get(ItemStack oreStack) {
+        if (!oreStack.isEmpty() && !isBlacklisted(oreStack)) {
+            String name = getAssociation(oreStack);
+            if (name != null) {
+                ItemStack item = NAME_TO_ITEM.get(name);
+                return item != null ? ItemHandlerHelper.copyStackWithSize(item, oreStack.getCount()) : oreStack.copy();
+            }
+        }
+        return oreStack;
+      }
 
     public static void addAssociation(String name, ItemStack stack) {
         ITEM_TO_ORE.put(stack, name);
@@ -108,7 +130,8 @@ public class OreDictUnificator {
             return Arrays.stream(OreDictionary.getOreIDs(stack))
                     .mapToObj(OreDictionary::getOreName)
                     .collect(Collectors.toList());
-        } else return Collections.singletonList(name);
+        }
+        return Collections.singletonList(name);
     }
 
     public static boolean isItemInstanceOf(Block block, String name, boolean prefix) {

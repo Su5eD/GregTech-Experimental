@@ -21,6 +21,7 @@ public class OreDictRegistrar {
 
     public static void registerItems() {
         GregTechMod.LOGGER.debug("Adding certain items to the OreDict unification blacklist");
+        OreDictUnificator.addToBlacklist(IC2Items.getItem("crafting", "industrial_diamond"));
 
         GregTechMod.LOGGER.debug("Registering GregTech items to the Ore Dictionary");
 

@@ -55,7 +55,7 @@ public class ModelTeBlock extends ModelBase {
             handler.covers.forEach((side, cover) -> covers.put(side, cover.getIcon()));
         }
 
-        VerticalRotation verticalRotation = state.hasValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) ? state.getValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) : VerticalRotation.MIRROR_BACK;
+        VerticalRotation verticalRotation = getVerticalRotation(state);
         for (EnumFacing side : EnumFacing.VALUES) {
             EnumFacing rotatedSide = rotateSide(verticalRotation, face, side, covers);
             TextureAtlasSprite sprite = getSpriteFromDirection(face, side, rotatedSide, state, covers);
@@ -76,6 +76,10 @@ public class ModelTeBlock extends ModelBase {
             else if (facing == EnumFacing.EAST) return side == EnumFacing.UP ? 90 : -90;
         }
         return 0;
+    }
+    
+    protected VerticalRotation getVerticalRotation(Ic2BlockStateInstance state) {
+        return state.hasValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) ? state.getValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) : VerticalRotation.MIRROR_BACK;
     }
 
     /**

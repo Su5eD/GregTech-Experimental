@@ -49,7 +49,7 @@ public enum InventoryMode {
     }
 
     public InventoryMode next() {
-        return VALUES[(this.ordinal() + 1) % VALUES.length];
+        return VALUES[(ordinal() + 1) % VALUES.length];
     }
 
     public boolean consumesEnergy(EnumFacing side) {

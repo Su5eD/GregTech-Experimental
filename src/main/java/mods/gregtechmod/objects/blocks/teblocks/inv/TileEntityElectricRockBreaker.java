@@ -57,7 +57,7 @@ public class TileEntityElectricRockBreaker extends TileEntityElectricBufferSingl
                 int base = obsidian ? 500 : 100;
                 if (tryUseEnergy(base * getOverclockerMultiplier())) {
                     if (obsidian) this.redstoneSlot.get().shrink(1);
-                    this.buffer.add(output);
+                    this.buffer.add(0, output);
                 }
             }
         }

@@ -35,7 +35,7 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
         
         this.secondaryInput = getSecondaryInputSlot("secondary_input");
         this.fluidContainerOutput = new InvSlotOutput(this, "fluid_output", 1);
-        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Util.noFacings, Fluids.fluidPredicate(FluidRegistry.WATER), 10000));
+        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Util.noFacings, Fluids.fluidPredicate(FluidRegistry.WATER)::apply, 10000));
         
         addGuiValue("water_level", this::getWaterLevel);
     }

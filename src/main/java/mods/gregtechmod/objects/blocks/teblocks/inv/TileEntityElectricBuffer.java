@@ -12,7 +12,6 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtRedstoneEmitter;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
-import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,11 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class TileEntityElectricBuffer extends TileEntityUpgradable implements IHasGui {
     public static final IUnlistedProperty<Boolean> REDSTONE_TEXTURE_PROPERTY = new UnlistedBooleanProperty("redstoneTextures");
@@ -188,11 +183,6 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     @Override
     public long getMjCapacity() {
         return getEUCapacity();
-    }
-
-    @Override
-    protected PropertyHelper.VerticalRotation getVerticalRotation() {
-        return PropertyHelper.VerticalRotation.ROTATE_X;
     }
 
     @Override

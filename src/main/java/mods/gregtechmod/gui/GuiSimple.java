@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 public abstract class GuiSimple<T extends ContainerBase<? extends IInventory>> extends GuiIC2<T> {
 
@@ -37,6 +38,10 @@ public abstract class GuiSimple<T extends ContainerBase<? extends IInventory>> e
     
     protected void addIconCycle(int x, int y, ResourceLocation texture, int textureX, int textureY, int step, boolean vertical, BooleanSupplier valueGetter) {
         addIconCycle(x, y, texture, textureX, textureY, step, vertical, () -> valueGetter.getAsBoolean() ? 1 : 0);
+    }
+    
+    protected void addIconCycle(int x, int y, ResourceLocation texture, int textureX, int textureY, Supplier<Enum<?>> valueGetter) {
+        addIconCycle(x, y, texture, textureX, textureY, 18, 18, false, () -> valueGetter.get().ordinal());
     }
     
     protected void addIconCycle(int x, int y, ResourceLocation texture, int textureX, int textureY, int step, boolean vertical, IntSupplier valueGetter) {
