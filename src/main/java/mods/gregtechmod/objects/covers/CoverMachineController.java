@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.covers;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,12 +28,12 @@ public class CoverMachineController extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregTechMachine)) return;
-
-        World world = ((TileEntity)te).getWorld();
-        BlockPos offset = ((TileEntity)te).getPos().offset(side);
-        boolean isPowered = world.isBlockPowered(offset) || world.isSidePowered(offset, side);
-        ((IGregTechMachine)te).setAllowedToWork(isPowered == (mode == ControllerMode.NORMAL) && mode != ControllerMode.DISABLED);
+        if (te instanceof IGregTechMachine) {
+            World world = ((TileEntity) te).getWorld();
+            BlockPos offset = ((TileEntity) te).getPos().offset(side);
+            boolean isPowered = world.isBlockPowered(offset) || world.isSidePowered(offset, side);
+            ((IGregTechMachine) te).setAllowedToWork(isPowered == (mode == ControllerMode.NORMAL) && mode != ControllerMode.DISABLED);
+        }
     }
 
     @Override
@@ -65,7 +65,7 @@ public class CoverMachineController extends CoverGeneric {
         }
 
         public String getMessageKey() {
-            return Reference.MODID+".cover.mode."+this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "mode", name().toLowerCase(Locale.ROOT));
         }
     }
 

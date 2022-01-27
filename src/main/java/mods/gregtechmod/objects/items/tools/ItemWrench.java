@@ -10,7 +10,6 @@ import ic2.core.audio.PositionSpec;
 import ic2.core.item.tool.ItemToolWrench;
 import ic2.core.util.RotationUtil;
 import mods.gregtechmod.api.GregTechAPI;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.util.GtLocale;
@@ -74,7 +73,7 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID + ".item." + name;
+        return GtLocale.buildKeyItem(this.name);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.zuxelus.energycontrol.api.*;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.base.ItemBase;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -37,7 +38,7 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
 
     @Override
     public String getUnlocalizedName() {
-        return Reference.MODID+".item.gregtechmod.sensor_card";
+        return GtLocale.buildKeyItem("gregtechmod.sensor_card");
     }
 
     @Override

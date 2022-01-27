@@ -7,9 +7,9 @@ import ic2.core.block.state.UnlistedBooleanProperty;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtRedstoneEmitter;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
@@ -129,9 +129,9 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     protected void updateTargetStackSize(EntityPlayer player) {
         this.targetStackSize = (this.targetStackSize + 1) % 64;
         if (this.targetStackSize == 0)
-            GtUtil.sendMessage(player, Reference.MODID + ".teblock.electric_buffer_small.no_regulate");
+            GtUtil.sendMessage(player, GtLocale.buildKey("teblock", "electric_buffer_small", "no_regulate"));
         else
-            GtUtil.sendMessage(player, Reference.MODID + ".teblock.electric_buffer_small.regulate", this.targetStackSize);
+            GtUtil.sendMessage(player, GtLocale.buildKey("teblock", "electric_buffer_small", "regulate"), this.targetStackSize);
     }
 
     @Override

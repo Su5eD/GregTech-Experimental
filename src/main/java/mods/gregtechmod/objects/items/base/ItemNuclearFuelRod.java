@@ -5,7 +5,6 @@ import ic2.api.reactor.IReactorComponent;
 import ic2.core.IC2Potion;
 import ic2.core.item.armor.ItemArmorHazmat;
 import ic2.core.item.reactor.ItemReactorUranium;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
@@ -44,7 +43,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements ICustomIte
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID + ".item." + this.name;
+        return GtLocale.buildKeyItem(this.name);
     }
 
     @Override

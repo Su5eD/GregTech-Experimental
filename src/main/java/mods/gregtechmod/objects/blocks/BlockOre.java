@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.blocks;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.core.GregTechConfig;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.ICustomItemModel;
 import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.PropertyHelper;
@@ -48,7 +49,7 @@ public class BlockOre extends Block implements ICustomItemModel {
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID + "." + super.getTranslationKey();
+        return GtLocale.buildKey(super.getTranslationKey());
     }
 
     @Override

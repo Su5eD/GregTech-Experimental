@@ -4,7 +4,7 @@ import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IMachineProgress;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -121,7 +121,7 @@ public class CoverActiveDetector extends CoverGeneric {
         }
 
         public String getMessageKey() {
-            return Reference.MODID + ".item.active_detector.mode." + this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "active_detector", "mode", name().toLowerCase(Locale.ROOT));
         }
     }
 }

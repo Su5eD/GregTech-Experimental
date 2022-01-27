@@ -6,7 +6,6 @@ import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.util.BooleanCountdown;
@@ -79,7 +78,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         }
         
         if (!checkAccess(player)) {
-            GtUtil.sendMessage(player, Reference.MODID + ".info.access_error", owner.getName());
+            GtUtil.sendMessage(player, GtLocale.buildKeyInfo("access_error", owner.getName()));
             return true;
         }
         
@@ -175,7 +174,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     protected boolean wrenchCanRemove(EntityPlayer player) {
         if (!checkAccess(player)) {
-            GtUtil.sendMessage(player, Reference.MODID + ".info.wrench_error", player.getName());
+            GtUtil.sendMessage(player, GtLocale.buildKeyInfo("wrench_error", player.getName()));
             return false;
         }
         return super.wrenchCanRemove(player);

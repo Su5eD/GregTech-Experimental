@@ -53,7 +53,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID + ".armor." + this.name + ".name";
+        return GtLocale.buildKey("armor", this.name, "name");
     }
 
     @Override

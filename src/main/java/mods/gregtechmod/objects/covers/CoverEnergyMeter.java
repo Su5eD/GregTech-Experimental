@@ -5,7 +5,7 @@ import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -161,7 +161,7 @@ public class CoverEnergyMeter extends CoverGeneric {
         }
 
         public String getMessageKey() {
-            return Reference.MODID + ".item.energy_meter.mode." + this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "energy_meter", "mode", name().toLowerCase(Locale.ROOT));
         }
     }
 }

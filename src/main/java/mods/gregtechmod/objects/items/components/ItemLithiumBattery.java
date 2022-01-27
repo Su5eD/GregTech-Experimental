@@ -36,7 +36,7 @@ public class ItemLithiumBattery extends ItemBattery implements ICustomItemModel 
 
     @Override
     public String getTranslationKey() {
-        return GtLocale.buildKey("item", "lithium_re_battery");
+        return GtLocale.buildKeyItem("lithium_re_battery");
     }
 
     @Override

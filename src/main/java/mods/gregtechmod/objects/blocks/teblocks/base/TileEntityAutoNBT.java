@@ -1,6 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.core.IC2;
+import ic2.core.block.ITeBlock;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import mods.gregtechmod.util.BooleanCountdown;
@@ -15,11 +16,7 @@ import net.minecraftforge.common.util.Constants.BlockFlags;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.DoubleSupplier;
 
 public abstract class TileEntityAutoNBT extends TileEntityInventory implements IGuiValueProvider {
@@ -148,5 +145,9 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     
     public boolean hasInventoryBeenModified() {
         return this.inventoryModified.get();
+    }
+    
+    public ITeBlock getTeBlock() {
+        return this.teBlock;
     }
 }

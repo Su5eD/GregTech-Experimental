@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.items.base;
 
 import ic2.api.reactor.IReactor;
 import ic2.core.item.reactor.ItemReactorHeatStorage;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
@@ -26,7 +25,7 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IC
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID + ".item." + this.name;
+        return GtLocale.translateItem(this.name);
     }
     
     @Override

@@ -2,10 +2,10 @@ package mods.gregtechmod.objects.items.base;
 
 import ic2.core.item.IPseudoDamageItem;
 import ic2.core.item.tool.ToolClass;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
+import mods.gregtechmod.util.INamedItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class ItemToolBase extends ItemTool implements ICustomItemModel {
+public class ItemToolBase extends ItemTool implements ICustomItemModel, INamedItem {
     public final String name;
     protected Supplier<String> description;
     protected final int damageOnHit;
@@ -119,11 +119,16 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel {
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID + "." + super.getTranslationKey();
+        return GtLocale.buildKey(super.getTranslationKey());
     }
 
     @Override
     public String getTranslationKey(ItemStack stack) {
         return this.getTranslationKey();
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 }

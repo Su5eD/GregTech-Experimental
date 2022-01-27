@@ -58,7 +58,7 @@ public class TileEntityAESU extends TileEntityChargerBase {
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
-        tooltip.set(3, GtLocale.translateTeBlock("aesu", "max_energy_out", this.maxOutputVoltage));
+        tooltip.set(3, GtLocale.translateTeBlock(this, "max_energy_out", this.maxOutputVoltage));
     }
 
     @Override

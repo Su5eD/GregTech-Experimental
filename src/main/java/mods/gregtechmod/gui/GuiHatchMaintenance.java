@@ -18,7 +18,7 @@ public class GuiHatchMaintenance extends GuiSimple<ContainerHatchMaintenance> {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
         
         drawString(8, 4, I18n.format(this.container.base.getName()), GuiColors.DARK_GRAY, false);
-        drawString(8, 12, GtLocale.translateTeBlock("hatch_maintenance", "gui_tooltip"), GuiColors.DARK_GRAY, false);
+        drawString(8, 12, GtLocale.translateTeBlock(this.container.base, "gui_tooltip"), GuiColors.DARK_GRAY, false);
     }
 
     @Override

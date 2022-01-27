@@ -17,15 +17,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.item.EntityEnderEye;
-import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.item.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -41,13 +33,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import one.util.streamex.StreamEx;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -253,7 +239,7 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
 
     @Override
     public String getMainInfo() {
-        return GtLocale.translateTeBlock("gt_teleporter", "charge", this.getUniversalEnergy());
+        return GtLocale.translateTeBlock(this, "charge", this.getUniversalEnergy());
     }
 
     @Override
@@ -263,6 +249,6 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
 
     @Override
     public String getTertiaryInfo() {
-        return GtLocale.translateTeBlock("gt_teleporter", "dimension", this.targetDimension.getName());
+        return GtLocale.translateTeBlock(this, "dimension", this.targetDimension.getName());
     }
 }

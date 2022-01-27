@@ -5,6 +5,7 @@ import com.zuxelus.energycontrol.api.ItemStackHelper;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.items.base.ItemBase;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -35,7 +36,7 @@ public class ItemSensorKit extends ItemBase implements IItemKit {
 
     @Override
     public String getUnlocalizedName() {
-        return Reference.MODID + ".item.gregtechmod.sensor_kit";
+        return GtLocale.buildKeyItem("gregtechmod.sensor_kit");
     }
 
     @Override

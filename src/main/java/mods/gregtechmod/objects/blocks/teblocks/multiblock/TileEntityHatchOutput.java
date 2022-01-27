@@ -51,7 +51,7 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
         boolean ret = super.onScrewdriverActivated(stack, side, player, hitX, hitY, hitZ);
         if (!ret) {
             this.mode = this.mode.next();
-            GtUtil.sendMessage(player, GtLocale.buildKey("teblock", "hatch_output", "mode", this.mode.name().toLowerCase(Locale.ROOT)));
+            GtUtil.sendMessage(player, GtLocale.buildKeyTeBlock(this, "mode", this.mode.name().toLowerCase(Locale.ROOT)));
         }
         return true;
     }
