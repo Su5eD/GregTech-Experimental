@@ -23,7 +23,6 @@ import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
@@ -50,11 +49,15 @@ public class ComputerCubeGuide implements IComputerCubeModule {
     }
 
     public void nextPage() {
-        this.currentPage = (this.currentPage + 1) % PAGES.size();
+        switchPage(1);
     }
 
     public void previousPage() {
-        if (--this.currentPage < 0) this.currentPage = PAGES.size() - 1;
+        switchPage(-1);
+    }
+    
+    public void switchPage(int step) {
+        this.currentPage = (PAGES.size() + this.currentPage + step) % PAGES.size();
     }
 
     @Override
@@ -166,7 +169,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
             StreamEx.of(values())
                 .mapToEntry(page -> page.stacks.get()
                     .limit(5)
-                    .toList())
+                    .toImmutableList())
                 .forKeyValue((page, stacks) -> addPage(page.translationKey, page.length, stacks));
         }
     }
@@ -181,7 +184,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
 
             this.translationKey = translationKey;
             this.length = length;
-            this.stacks = Collections.unmodifiableList(stacks);
+            this.stacks = stacks;
         }
     }
 }

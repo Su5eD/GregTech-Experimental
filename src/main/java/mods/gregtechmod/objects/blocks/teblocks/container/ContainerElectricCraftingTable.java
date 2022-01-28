@@ -20,8 +20,8 @@ public class ContainerElectricCraftingTable extends ContainerGtInventory<TileEnt
         addSlotToContainer(new SlotInvSlot(base.output, 0, 152, 41));
         addSlotsToContainer(1, 9, 8, 60, base.buffer);
         
-        addSlotToContainer(new SlotInteractive(121, 5, base::nextThroughPutMode));
-        addSlotToContainer(new SlotInteractive(121, 41, click -> {
+        addSlotToContainer(SlotInteractive.serverOnly(121, 5, base::nextThroughPutMode));
+        addSlotToContainer(SlotInteractive.serverOnly(121, 41, click -> {
             if (click == ButtonClick.MOUSE_LEFT) base.nextCraftingMode();
             else if (click == ButtonClick.MOUSE_RIGHT) base.previousCraftingMode();
         }));

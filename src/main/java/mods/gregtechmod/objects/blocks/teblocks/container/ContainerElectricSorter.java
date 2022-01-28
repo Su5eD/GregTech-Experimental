@@ -15,6 +15,6 @@ public class ContainerElectricSorter extends ContainerElectricBuffer<TileEntityE
         
         addSlotsToContainer(3, 3, 63, 6, 17, (index, x, y) -> new SlotInvSlotHolo(base.filter, index, x, y));
         
-        addSlotToContainer(new SlotInteractive(134, 63, base::switchTargetFacing));
+        addSlotToContainer(SlotInteractive.serverOnly(134, 63, base::switchTargetFacing));
     }
 }

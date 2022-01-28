@@ -41,7 +41,8 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     
     public void switchModule() {
         this.module.activeModule = getNextModule(this.module.activeModule.getName());
-        if (!this.world.isRemote) updateRender();
+        markDirty();
+        updateRender();
     }
 
     public IComputerCubeModule getNextModule(ResourceLocation current) {

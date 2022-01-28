@@ -7,32 +7,32 @@ import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerC
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import one.util.streamex.IntStreamEx;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ContainerComputerCubeGuide extends ContainerComputerCube {
-    public final List<Slot> displaySlots;
+    public final List<? extends Slot> displaySlots;
 
     public ContainerComputerCubeGuide(EntityPlayer player, TileEntityComputerCube base) {
         super(player, base, 206);
         
-        ComputerCubeGuide module = (ComputerCubeGuide) base.getActiveModule();
-        
-        addSlotToContainer(new SlotInteractive(190, 146, () -> {
-            module.previousPage();
+        addSlotToContainer(SlotInteractive.serverOnly(190, 146, () -> {
+            ((ComputerCubeGuide) base.getActiveModule()).previousPage();
             displayStacks();
+            detectAndSendChanges();
         }));
-        addSlotToContainer(new SlotInteractive(206, 146, () -> {
-            module.nextPage();
+        addSlotToContainer(SlotInteractive.serverOnly(206, 146, () -> {
+            ((ComputerCubeGuide) base.getActiveModule()).nextPage();
             displayStacks();
+            detectAndSendChanges();
         }));
 
-        this.displaySlots = IntStream.range(0, 5)
+        ComputerCubeGuide module = (ComputerCubeGuide) base.getActiveModule();
+        this.displaySlots = IntStreamEx.range(0, 5)
                 .mapToObj(i -> new SlotInvSlot(module.displayStacks, i, 206, 38 + 18 * i))
                 .peek(this::addSlotToContainer)
-                .collect(Collectors.toList());
+                .toList();
         
         displayStacks();
     }

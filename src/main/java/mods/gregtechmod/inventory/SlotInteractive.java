@@ -11,19 +11,29 @@ import java.util.function.Consumer;
 
 public class SlotInteractive extends Slot implements ISlotInteractive {
     private final BiConsumer<ButtonClick, ItemStack> onSlotClick;
-    
-    public SlotInteractive(int x, int y, Runnable onSlotClick) {
-        this(x, y, (click, stack) -> onSlotClick.run());
-    }
-    
-    public SlotInteractive(int x, int y, Consumer<ButtonClick> onSlotClick) {
-        this(x, y, (click, stack) -> onSlotClick.accept(click));
-    }
+    private final boolean serverOnly;
 
-    public SlotInteractive(int x, int y, BiConsumer<ButtonClick, ItemStack> onSlotClick) {
+    private SlotInteractive(int x, int y, boolean serverOnly, BiConsumer<ButtonClick, ItemStack> onSlotClick) {
         super(DummyInventory.INSTANCE, -1, x, y);
-        
+
         this.onSlotClick = onSlotClick;
+        this.serverOnly = serverOnly;
+    }
+    
+    public static SlotInteractive serverOnly(int x, int y, Runnable onSlotClick) {
+        return serverOnly(x, y, click -> onSlotClick.run());
+    }
+    
+    public static SlotInteractive serverOnly(int x, int y, Consumer<ButtonClick> onSlotClick) {
+        return serverOnly(x, y, (click, stack) -> onSlotClick.accept(click));
+    }
+    
+    public static SlotInteractive serverOnly(int x, int y, BiConsumer<ButtonClick, ItemStack> onSlotClick) {
+        return new SlotInteractive(x, y, true, onSlotClick);
+    }
+    
+    public static SlotInteractive bothSides(int x, int y, Runnable onSlotClick) {
+        return new SlotInteractive(x, y, false, (click, stack) -> onSlotClick.run());
     }
 
     @Override
@@ -33,7 +43,7 @@ public class SlotInteractive extends Slot implements ISlotInteractive {
 
     @Override
     public boolean slotClick(ButtonClick click, EntityPlayer player, ItemStack stack) {
-        this.onSlotClick.accept(click, stack);
+        if (!this.serverOnly || !player.world.isRemote) this.onSlotClick.accept(click, stack);
         return false;
     }
 }

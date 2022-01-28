@@ -7,6 +7,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 public class GuiElectricInventoryManager extends GuiSimple<ContainerElectricInventoryManager> {
@@ -28,8 +29,8 @@ public class GuiElectricInventoryManager extends GuiSimple<ContainerElectricInve
         
         addIconCycle(xOffset, 4, TEXTURE, 0, 202, 18, 53, false, facingSupplier);
         IntStream.range(0, 3).forEach(i -> {
-            SlotRangeSetting setting = this.container.base.manager.ranges.get(index).rangeSettings.get(i);
-            addIconCycleGrid(settingX, 4 + i * 18, TEXTURE, 0, 166, 18, false, () -> setting.targetSide.ordinal(), () -> setting.input);
+            Supplier<SlotRangeSetting> setting = () -> this.container.base.manager.ranges.get(index).rangeSettings.get(i);
+            addIconCycleGrid(settingX, 4 + i * 18, TEXTURE, 0, 166, 18, false, () -> setting.get().targetSide.ordinal(), () -> setting.get().input);
         });
         addIconCycle(settingX, 59, TEXTURE, 126, 166, 18, false, facingSupplier);
         addVerticalIconCycle(xOffset, 59, 58, () -> {

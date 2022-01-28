@@ -15,11 +15,11 @@ public class ContainerElectricTypeSorter extends ContainerElectricBuffer<TileEnt
         
         addSlotToContainer(new SlotInvSlot(base.buffer, 0, 25, 23));
         
-        addSlotToContainer(new SlotInteractive(70, 22, click -> {
+        addSlotToContainer(SlotInteractive.serverOnly(70, 22, click -> {
             if (click == ButtonClick.MOUSE_RIGHT) base.previousType();
             else base.nextType();
         }));
-        addSlotToContainer(new SlotInteractive(134, 63, base::switchTargetFacing));
+        addSlotToContainer(SlotInteractive.serverOnly(134, 63, base::switchTargetFacing));
     }
 
     @Override

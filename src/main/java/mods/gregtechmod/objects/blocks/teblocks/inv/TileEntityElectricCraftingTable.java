@@ -56,7 +56,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
 
         this.input = new GtSlot(this, "input", InvSlot.Access.I, 9);
         this.crafting = new GtSlot(this, "crafting", InvSlot.Access.NONE, 1);
-        this.craftingGrid = new GtSlotCraftingGrid(this, "craftingGrid", 9); // TODO Dim slots when disabled
+        this.craftingGrid = new GtSlotCraftingGrid(this, "craftingGrid", 9);
         this.output = new GtSlot(this, "output", InvSlot.Access.O, 1);
         this.buffer = new GtSlot(this, "buffer", InvSlot.Access.O, 9);
 
@@ -127,7 +127,8 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
 
                     if (!this.craftingMode.predicate.test(this)) {
                         Pair<ItemStack[], ItemStack> recipePair = this.craftingMode.recipe.apply(this);
-                        recipe = recipePair.getLeft();
+                        ItemStack[] recipeStacks = recipePair.getLeft();
+                        if (recipeStacks != null) recipe = recipeStacks;
                         output = recipePair.getRight();
                     }
                 }
@@ -380,7 +381,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         private final int energyCost;
 
         CraftingMode(int energyCost) {
-            this(te -> false, te -> Pair.of(new ItemStack[9], ItemStack.EMPTY), energyCost); // TODO Remove
+            this(te -> false, te -> Pair.of(null, ItemStack.EMPTY), energyCost); // TODO Remove this and array null checks
         }
 
         CraftingMode(Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe, int energyCost) {
@@ -394,7 +395,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         }
 
         public CraftingMode switchType(int step) {
-            return VALUES[(ordinal() + step) % VALUES.length];
+            return VALUES[(VALUES.length + ordinal() + step) % VALUES.length];
         }
 
         private static Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe(Function<TileEntityElectricCraftingTable, ItemStack[]> recipe) {

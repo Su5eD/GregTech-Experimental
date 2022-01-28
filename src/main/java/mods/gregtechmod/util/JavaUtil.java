@@ -74,9 +74,8 @@ public final class JavaUtil {
     }
 
     public static <T> List<T> toList(Iterable<T> iterable) {
-        List<T> list = new ArrayList<>();
-        iterable.forEach(list::add);
-        return Collections.unmodifiableList(list);
+        return StreamEx.of(iterable.iterator())
+            .toImmutableList();
     }
 
     public static <T> List<T> mergeCollection(Collection<T> first, Collection<T> second) {
@@ -121,8 +120,8 @@ public final class JavaUtil {
         try(DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
             for (Path path : stream) {
                 Path dest = Paths.get(target.toString(), path.getFileName().toString());
-                GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest);
                 if (!Files.exists(dest)) {
+                    GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest);
                     Files.copy(path, dest);
                     if (Files.isDirectory(path)) copyDir(path, dest);
                 }

@@ -34,13 +34,13 @@ public class ContainerElectricInventoryManager extends ContainerGtInventory<Tile
             TileEntityElectricInventoryManager.SlotRangeSetting setting = slotRange.rangeSettings.get(index);
             
             addSlotToContainer(new SlotInvSlotSizeFilter(setting.filter, 0, x, y));
-            addSlotToContainer(new SlotInteractive(x + filterX, y, click -> {
+            addSlotToContainer(SlotInteractive.serverOnly(x + filterX, y, click -> {
                 if (click == ButtonClick.MOUSE_RIGHT) setting.switchInput();
                 else if (click == ButtonClick.MOUSE_LEFT) setting.switchTargetSide();
             }));
         });
         
-        addSlotToContainer(new SlotInteractive(xOffset + filterX, 60, slotRange::switchFacing));
-        addSlotToContainer(new SlotInteractive(xOffset, 60, slotRange::switchOutputEnergy));
+        addSlotToContainer(SlotInteractive.serverOnly(xOffset + filterX, 60, slotRange::switchFacing));
+        addSlotToContainer(SlotInteractive.serverOnly(xOffset, 60, slotRange::switchOutputEnergy));
     }
 }

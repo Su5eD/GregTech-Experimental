@@ -78,7 +78,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         }
         
         if (!checkAccess(player)) {
-            GtUtil.sendMessage(player, GtLocale.buildKeyInfo("access_error", owner.getName()));
+            GtUtil.sendMessage(player, GtLocale.buildKeyInfo("access_error"), owner.getName());
             return true;
         }
         

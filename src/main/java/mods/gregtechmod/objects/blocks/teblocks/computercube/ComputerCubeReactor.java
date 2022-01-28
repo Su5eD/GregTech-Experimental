@@ -14,6 +14,7 @@ import mods.gregtechmod.gui.GuiComputerCubeReactor;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCubeReactor;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.IItemProvider;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,15 +27,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IDataOrbSerializable {
     private static final ResourceLocation NAME = new ResourceLocation(Reference.MODID, "reactor");
@@ -42,36 +39,30 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
     private static final Collection<ItemStack> DEPLETED_ITEMS;
     public static final List<ItemStack> COMPONENTS;
-    
+
     static {
-        List<ItemStack> depletedItems = Stream.of("depleted_uranium", "depleted_dual_uranium", "depleted_quad_uranium", "depleted_mox", "depleted_dual_mox", "depleted_quad_mox")
-                .map(s -> IC2Items.getItem("nuclear", s))
-                .collect(Collectors.toList());
-        if (GregTechMod.classic) depletedItems.add(IC2Items.getItem("depleted_isotope_fuel_rod"));
-        DEPLETED_ITEMS = Collections.unmodifiableList(depletedItems);
-        
-        COMPONENTS = Stream.of(
-                Stream.of("uranium_fuel_rod", "dual_uranium_fuel_rod", "quad_uranium_fuel_rod", "mox_fuel_rod", "dual_mox_fuel_rod", "quad_mox_fuel_rod")
-                        .map(ModHandler.ic2ItemApi::getItem),
-                Arrays.stream(BlockItems.NuclearFuelRod.values())
-                        .map(BlockItems.NuclearFuelRod::getInstance), 
-                Stream.of("neutron_reflector", "thick_neutron_reflector", "iridium_reflector",
-                                "heat_storage", "tri_heat_storage", "hex_heat_storage")
-                        .map(ModHandler.ic2ItemApi::getItem),
-                Arrays.stream(BlockItems.NuclearCoolantPack.values())
-                        .map(BlockItems.NuclearCoolantPack::getInstance),
-                Stream.of("rsh_condensator", "lzh_condensator", 
-                                "plating", "heat_plating", "containment_plating", 
-                                "heat_vent", "reactor_heat_vent", "overclocked_heat_vent", "component_heat_vent", "advanced_heat_vent", 
-                                "heat_exchanger", "reactor_heat_exchanger", "component_heat_exchanger", "advanced_heat_exchanger")
-                        .map(ModHandler.ic2ItemApi::getItem),
-                ForgeRegistries.ITEMS.getValuesCollection().stream()
-                        .filter(item -> item instanceof IReactorComponent && item != ModHandler.lithiumFuelRod && (GregTechMod.classic || item != ModHandler.depletedIsotopeFuelRod && item != ModHandler.heatpack))
-        )
-                .flatMap(Function.identity())
-                .distinct()
-                .map(ItemStack::new)
-                .collect(Collectors.toList());
+        DEPLETED_ITEMS = StreamEx.of("depleted_uranium", "depleted_dual_uranium", "depleted_quad_uranium", "depleted_mox", "depleted_dual_mox", "depleted_quad_mox")
+            .map(s -> IC2Items.getItem("nuclear", s))
+            .append(GregTechMod.classic ? StreamEx.empty() : StreamEx.of(IC2Items.getItem("depleted_isotope_fuel_rod")))
+            .toImmutableList();
+
+        COMPONENTS = StreamEx.of("uranium_fuel_rod", "dual_uranium_fuel_rod", "quad_uranium_fuel_rod", "mox_fuel_rod", "dual_mox_fuel_rod", "quad_mox_fuel_rod")
+            .map(ModHandler.ic2ItemApi::getItem)
+            .append(StreamEx.of(BlockItems.NuclearFuelRod.values())
+                .map(IItemProvider::getInstance))
+            .append(StreamEx.of("neutron_reflector", "thick_neutron_reflector", "iridium_reflector", "heat_storage", "tri_heat_storage", "hex_heat_storage")
+                .map(ModHandler.ic2ItemApi::getItem))
+            .append(StreamEx.of(BlockItems.NuclearCoolantPack.values())
+                .map(IItemProvider::getInstance))
+            .append(StreamEx.of("rsh_condensator", "lzh_condensator", "plating", "heat_plating", "containment_plating",
+                    "heat_vent", "reactor_heat_vent", "overclocked_heat_vent", "component_heat_vent", "advanced_heat_vent",
+                    "heat_exchanger", "reactor_heat_exchanger", "component_heat_exchanger", "advanced_heat_exchanger")
+                .map(ModHandler.ic2ItemApi::getItem))
+            .append(StreamEx.of(ForgeRegistries.ITEMS.getValuesCollection())
+                .filter(item -> item instanceof IReactorComponent && item != ModHandler.lithiumFuelRod && (GregTechMod.classic || item != ModHandler.depletedIsotopeFuelRod && item != ModHandler.heatpack)))
+            .distinct()
+            .map(ItemStack::new)
+            .toImmutableList();
     }
 
     private final TileEntityComputerCube parent;
@@ -120,7 +111,7 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
                 this.hem = 1;
                 this.explosionStrength = 10;
                 float multiplier = 1;
-                
+
                 for (int y = 0; y < 6; y++) {
                     for (int x = 0; x < 9; x++) {
                         ItemStack stack = this.content.get(x + y * 9);
@@ -130,7 +121,7 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
                                 component.processChamber(stack, this, x, y, true);
                                 component.processChamber(stack, this, x, y, false);
                                 float influence = ((IReactorComponent) stack.getItem()).influenceExplosion(stack, this);
-                                
+
                                 if (influence > 0 && influence < 1) multiplier *= influence;
                                 else this.explosionStrength += influence;
                             } else if (GtUtil.containsStack(stack, DEPLETED_ITEMS)) {
@@ -172,13 +163,13 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
     public void stopNuclearReactor() {
         this.started = false;
     }
-    
+
     public void saveNuclearReactor() {
         for (int i = 0; i < this.content.size(); i++) {
             this.contentCopy.put(i, this.content.get(i).copy());
         }
     }
-    
+
     public void loadNuclearReactor() {
         for (int i = 0; i < this.contentCopy.size(); i++) {
             this.content.put(i, this.contentCopy.get(i).copy());
@@ -247,7 +238,7 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
     @Override
     public ItemStack getItemAt(int x, int y) {
-        if (x < 0 || x > 8 || y < 0 || y > 5) return ItemStack.EMPTY; 
+        if (x < 0 || x > 8 || y < 0 || y > 5) return ItemStack.EMPTY;
         return this.content.get(x + y * 9);
     }
 

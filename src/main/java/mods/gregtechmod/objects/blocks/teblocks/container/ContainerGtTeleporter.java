@@ -17,11 +17,11 @@ public class ContainerGtTeleporter extends ContainerGtInventory<TileEntityGtTele
         for (Button button : Button.VALUES) {
             int yOffset = 5 + button.ordinal() * 18;
 
-            addSlotToContainer(new SlotInteractive(8, yOffset, click -> pushButton(-64, -512, click, button.onClick)));
-            addSlotToContainer(new SlotInteractive(26, yOffset, click -> pushButton(-1, -16, click, button.onClick)));
+            addSlotToContainer(SlotInteractive.serverOnly(8, yOffset, click -> pushButton(-64, -512, click, button.onClick)));
+            addSlotToContainer(SlotInteractive.serverOnly(26, yOffset, click -> pushButton(-1, -16, click, button.onClick)));
 
-            addSlotToContainer(new SlotInteractive(134, yOffset, click -> pushButton(1, 16, click, button.onClick)));
-            addSlotToContainer(new SlotInteractive(152, yOffset, click -> pushButton(64, 512, click, button.onClick)));
+            addSlotToContainer(SlotInteractive.serverOnly(134, yOffset, click -> pushButton(1, 16, click, button.onClick)));
+            addSlotToContainer(SlotInteractive.serverOnly(152, yOffset, click -> pushButton(64, 512, click, button.onClick)));
         }
     }
     
@@ -52,5 +52,7 @@ public class ContainerGtTeleporter extends ContainerGtInventory<TileEntityGtTele
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("hasEgg");
+        list.add("targetPos");
+        list.add("targetDimension");
     }
 }

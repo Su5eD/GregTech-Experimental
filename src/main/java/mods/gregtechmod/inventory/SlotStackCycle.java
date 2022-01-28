@@ -7,7 +7,6 @@ import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -23,7 +22,7 @@ public class SlotStackCycle extends SlotInvSlot implements ISlotInteractive {
     public SlotStackCycle(InvSlot invSlot, int index, int x, int y, List<ItemStack> stacks, Function<List<ItemStack>, Integer> supplier) {
         super(invSlot, index, x, y);
 
-        this.stacks = Collections.unmodifiableList(stacks);
+        this.stacks = stacks;
         this.supplier = supplier;
     }
 
@@ -40,11 +39,11 @@ public class SlotStackCycle extends SlotInvSlot implements ISlotInteractive {
         return true;
     }
     
-    private ItemStack getNextStack(ItemStack offset) {
+    public ItemStack getNextStack(ItemStack offset) {
         if (!offset.isEmpty()) {
             Iterator<ItemStack> it = this.stacks.iterator();
             while (it.hasNext()) {
-                ItemStack stack = it.next().copy();
+                ItemStack stack = it.next();
                 if (GtUtil.stackEquals(stack, offset) && it.hasNext()) return it.next().copy();
             }
         }

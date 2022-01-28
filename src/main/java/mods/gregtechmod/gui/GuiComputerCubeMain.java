@@ -1,13 +1,13 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCubeMain;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCube;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiComputerCubeMain extends GuiInventory<ContainerComputerCubeMain> {
+public class GuiComputerCubeMain extends GuiInventory<ContainerComputerCube> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("computer_cube_main");
     
-    public GuiComputerCubeMain(ContainerComputerCubeMain container) {
+    public GuiComputerCubeMain(ContainerComputerCube container) {
         super(container);
     }
 
@@ -19,9 +19,7 @@ public class GuiComputerCubeMain extends GuiInventory<ContainerComputerCubeMain>
     }
 
     @Override
-    protected void drawTitle() {
-        // noop
-    }
+    protected void drawTitle() {}
 
     @Override
     protected ResourceLocation getTexture() {

@@ -11,8 +11,8 @@ public class ContainerElectricTranslocatorAdvanced extends ContainerElectricTran
     public ContainerElectricTranslocatorAdvanced(EntityPlayer player, TileEntityElectricTranslocatorAdvanced base) {
         super(player, base);
         
-        addSlotToContainer(new SlotInteractive(43, 5, base::switchInputFacing));
-        addSlotToContainer(new SlotInteractive(117, 5, base::switchOutputFacing));
+        addSlotToContainer(SlotInteractive.serverOnly(43, 5, base::switchInputFacing));
+        addSlotToContainer(SlotInteractive.serverOnly(117, 5, base::switchOutputFacing));
     }
 
     @Override

@@ -15,8 +15,8 @@ public class ContainerElectricBufferAdvanced extends ContainerElectricBuffer<Til
         
         addSlotToContainer(new SlotInvSlot(base.buffer, 0, 80, 23));
         
-        addSlotToContainer(new SlotInteractive(80, 63, click -> base.targetSlot = Math.max(0, base.targetSlot - (click == ButtonClick.SHIFT_MOVE ? 16 : 1))));
-        addSlotToContainer(new SlotInteractive(134, 63, click -> base.targetSlot = Math.min(8192, base.targetSlot + (click == ButtonClick.SHIFT_MOVE ? 16 : 1))));
+        addSlotToContainer(SlotInteractive.serverOnly(80, 63, click -> base.targetSlot = Math.max(0, base.targetSlot - (click == ButtonClick.SHIFT_MOVE ? 16 : 1))));
+        addSlotToContainer(SlotInteractive.serverOnly(134, 63, click -> base.targetSlot = Math.min(8192, base.targetSlot + (click == ButtonClick.SHIFT_MOVE ? 16 : 1))));
     }
 
     @Override

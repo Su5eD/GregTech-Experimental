@@ -18,9 +18,9 @@ public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>>
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 125, 25));
         addSlotToContainer(new SlotInvSlot(base.extraSlot, 0, 80, 63));
         
-        addSlotToContainer(new SlotInteractive(8, 63, base::switchProvideEnergy));
-        addSlotToContainer(new SlotInteractive(26, 63, base::switchAutoOutput));
-        addSlotToContainer(new SlotInteractive(44, 63, base::switchSplitInput));
+        addSlotToContainer(SlotInteractive.serverOnly(8, 63, base::switchProvideEnergy));
+        addSlotToContainer(SlotInteractive.serverOnly(26, 63, base::switchAutoOutput));
+        addSlotToContainer(SlotInteractive.serverOnly(44, 63, base::switchSplitInput));
     }
 
     @Override

@@ -2,7 +2,7 @@ package mods.gregtechmod.objects.blocks.teblocks.computercube;
 
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.gui.GuiComputerCubeMain;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCubeMain;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCube;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -26,8 +26,8 @@ public class ComputerCubeMain implements IComputerCubeModule {
     }
 
     @Override
-    public ContainerComputerCubeMain getGuiContainer(EntityPlayer player, TileEntityComputerCube base) {
-        return new ContainerComputerCubeMain(player, base);
+    public ContainerComputerCube getGuiContainer(EntityPlayer player, TileEntityComputerCube base) {
+        return new ContainerComputerCube(player, base, 156);
     }
 
     @Override

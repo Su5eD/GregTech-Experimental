@@ -26,7 +26,7 @@ public class TileEntityElectricTypeSorter extends TileEntityElectricSorterBase {
     }
     
     private void switchType(int step) {
-        int index = (this.type.ordinal() + step) % ItemType.VALUES.length;
+        int index = (ItemType.VALUES.length + this.type.ordinal() + step) % ItemType.VALUES.length;
         this.type = ItemType.VALUES[index];
     }
 

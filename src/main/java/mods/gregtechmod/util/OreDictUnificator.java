@@ -125,12 +125,15 @@ public class OreDictUnificator {
     }
 
     public static List<String> getAssociations(ItemStack stack) {
-        String name = ITEM_TO_ORE.get(stack);
-        
-        return name == null ? IntStreamEx.of(OreDictionary.getOreIDs(stack))
-            .mapToObj(OreDictionary::getOreName)
-            .toList()
-            : Collections.singletonList(name);
+        if (!stack.isEmpty()) {
+            String name = ITEM_TO_ORE.get(stack);
+
+            return name == null ? IntStreamEx.of(OreDictionary.getOreIDs(stack))
+                .mapToObj(OreDictionary::getOreName)
+                .toList()
+                : Collections.singletonList(name);
+        }
+        return Collections.emptyList();
     }
 
     public static boolean isItemInstanceOf(Block block, String name, boolean prefix) {

@@ -15,8 +15,8 @@ public class ContainerMagicEnergyAbsorber extends ContainerGtInventory<TileEntit
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 80, 17));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 80, 53));
         
-        addSlotToContainer(new SlotInteractive(10, 18, base::switchDrainAura));
-        addSlotToContainer(new SlotInteractive(10, 35, base::switchDrainCrystalEnergy));
+        addSlotToContainer(SlotInteractive.serverOnly(10, 18, base::switchDrainAura));
+        addSlotToContainer(SlotInteractive.serverOnly(10, 35, base::switchDrainCrystalEnergy));
     }
 
     @Override

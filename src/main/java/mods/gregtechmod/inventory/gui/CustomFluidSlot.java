@@ -15,17 +15,16 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
     private final ResourceLocation texture;
     private final double textureX;
     private final double textureY;
-    private final boolean fluidNameOnly;
+    private final boolean verboseTooltip;
 
-    public CustomFluidSlot(GuiIC2<?> gui, int x, int y, IFluidTank tank, ResourceLocation backgroundTexture, double textureX, double textureY, boolean displayFluidNameOnly) {
+    public CustomFluidSlot(GuiIC2<?> gui, int x, int y, IFluidTank tank, ResourceLocation texture, double textureX, double textureY, boolean verboseTooltip) {
         super(gui, x, y, 18, 18);
-        if (tank == null) throw new NullPointerException("FluidTank is null");
-        else this.tank = tank;
         
-        this.texture = backgroundTexture;
+        this.tank = tank;
+        this.texture = texture;
         this.textureX = textureX;
         this.textureY = textureY;
-        this.fluidNameOnly = displayFluidNameOnly;
+        this.verboseTooltip = verboseTooltip;
     }
 
     @Override
@@ -37,12 +36,10 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
         
         FluidStack fs = this.tank.getFluid();
         if (fs != null && fs.amount > 0) {
-            int fluidX = this.x + 1;
-            int fluidY = this.y + 1;
             Fluid fluid = fs.getFluid();
             TextureAtlasSprite sprite = fluid != null ? getBlockTextureMap().getAtlasSprite(fluid.getStill(fs).toString()) : null;
             bindBlockTexture();
-            this.gui.drawSprite(fluidX, fluidY, 16, 16, sprite, fluid != null ? fluid.getColor(fs) : -1, 1, false, false);
+            this.gui.drawSprite(this.x + 1, this.y + 1, 16, 16, sprite, fluid != null ? fluid.getColor(fs) : -1, 1, false, false);
         }
     }
 
@@ -54,11 +51,11 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
             Fluid fluid = stack.getFluid();
             if (fluid != null) {
                 ret.add(fluid.getLocalizedName(stack));
-                if (fluidNameOnly) return ret;
+                if (verboseTooltip) return ret;
 
                 ret.add("Amount: " + stack.amount + " mB");
                 ret.add("Type: " + (stack.getFluid().isGaseous() ? "Gas" : "Liquid"));
-            } else if (!fluidNameOnly) ret.add("<Invalid>");
+            } else if (!verboseTooltip) ret.add("<Invalid>");
         }
         return ret;
     }

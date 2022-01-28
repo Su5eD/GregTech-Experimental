@@ -11,9 +11,9 @@ public class ContainerElectricBuffer<T extends TileEntityElectricBuffer> extends
     public ContainerElectricBuffer(EntityPlayer player, T base) {
         super(player, base);
         
-        addSlotToContainer(new SlotInteractive(8, 63, base::switchOutputEnergy));
-        addSlotToContainer(new SlotInteractive(26, 63, base::switchRedstoneIfFull));
-        addSlotToContainer(new SlotInteractive(44, 63, base::switchInvertRedstone));
+        addSlotToContainer(SlotInteractive.serverOnly(8, 63, base::switchOutputEnergy));
+        addSlotToContainer(SlotInteractive.serverOnly(26, 63, base::switchRedstoneIfFull));
+        addSlotToContainer(SlotInteractive.serverOnly(44, 63, base::switchInvertRedstone));
     }
 
     @Override

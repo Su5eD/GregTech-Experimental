@@ -4,9 +4,11 @@ import mods.gregtechmod.inventory.SlotInteractive;
 import mods.gregtechmod.inventory.SlotStackCycle;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeReactor;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import one.util.streamex.EntryStream;
 
 public class ContainerComputerCubeReactor extends ContainerComputerCube {
 
@@ -19,23 +21,27 @@ public class ContainerComputerCubeReactor extends ContainerComputerCube {
         addSlotToContainer(slotItemSelection); // Item Selection
         
         // Save
-        addSlotToContainer(new SlotInteractive(156, 54, () -> {
+        addSlotToContainer(SlotInteractive.serverOnly(156, 54, () -> {
             module.saveNuclearReactor();
             detectAndSendChanges();
         }));
         
         // Load
-        addSlotToContainer(new SlotInteractive(156, 70, () -> {
+        addSlotToContainer(SlotInteractive.serverOnly(156, 70, () -> {
             module.loadNuclearReactor();
             detectAndSendChanges();
         }));
         
         // Start/Stop Reactor
-        addSlotToContainer(new SlotInteractive(156, 86, module::switchNuclearReactor));
+        addSlotToContainer(SlotInteractive.serverOnly(156, 86, module::switchNuclearReactor));
         
         addSlotsToContainer(6, 9, 5, 5, 16, (index, x, y) -> new SlotStackCycle(module.content, index, x, y, ComputerCubeReactor.COMPONENTS, list -> {
             ItemStack stack = slotItemSelection.getStack();
-            return stack.isEmpty() ? 0 : list.indexOf(stack);
+            return EntryStream.of(list)
+                .filterValues(s -> GtUtil.stackEquals(s, stack))
+                .keys()
+                .findFirst()
+                .orElse(0);
         }));
     }
 }

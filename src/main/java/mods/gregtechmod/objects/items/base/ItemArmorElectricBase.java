@@ -22,6 +22,7 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -38,7 +39,7 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
     public ItemArmorElectricBase(String name, EntityEquipmentSlot slot, int maxCharge, int transferLimit, int tier, int damageEnergyCost, double absorbtionPercentage, boolean chargeProvider, ArmorPerk... perks) {
         super(null, null, slot, maxCharge, transferLimit, tier);
         this.name = name;
-        this.perks = Collections.unmodifiableList(Arrays.asList(perks));
+        this.perks = StreamEx.of(perks).toImmutableList();
         this.chargeProvider = chargeProvider;
         this.absorbtionPercentage = absorbtionPercentage;
         this.damageEnergyCost = damageEnergyCost;
