@@ -32,5 +32,6 @@ public class ContainerElectricCraftingTable extends ContainerGtInventory<TileEnt
         super.getNetworkedFields(list);
         list.add("throughPutMode");
         list.add("craftingMode");
+        list.add("tank");
     }
 }

@@ -1,14 +1,14 @@
-package mods.gregtechmod.inventory.gui;
+package mods.gregtechmod.gui.element;
 
+import ic2.core.GuiIC2;
 import mods.gregtechmod.gui.GuiFluidGenerator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.IFluidTank;
 
 public class GeneratorFluidSlot extends CustomFluidSlot {
-        
-    public GeneratorFluidSlot(GuiFluidGenerator gui, int x, int y, IFluidTank tank, ResourceLocation backgroundTexture, double textureX, double textureY, boolean displayFluidNameOnly) {
-        super(gui, x, y, tank, backgroundTexture, textureX, textureY, displayFluidNameOnly);
+
+    public GeneratorFluidSlot(GuiIC2<?> gui, int x, int y, IFluidTank tank) {
+        super(gui, x, y, tank, false);
     }
 
     @Override

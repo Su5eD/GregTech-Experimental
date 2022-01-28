@@ -32,7 +32,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class TileEntityElectricCraftingTable extends TileEntityUpgradable implements IHasGui {
-    private final GtFluidTank tank;
+    public final GtFluidTank tank;
     @NBTPersistent
     private ThroughPutMode throughPutMode = ThroughPutMode.BOTH;
     @NBTPersistent
@@ -261,6 +261,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         super.getNetworkedFields(list);
         list.add("throughPutMode");
         list.add("craftingMode");
+        list.add("tank");
     }
 
     @Override

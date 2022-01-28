@@ -1,7 +1,7 @@
 package mods.gregtechmod.gui;
 
 import ic2.core.ContainerBase;
-import mods.gregtechmod.inventory.gui.CustomFluidSlot;
+import mods.gregtechmod.gui.element.CustomFluidSlot;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
@@ -20,7 +20,7 @@ public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends
     }
     
     protected void addFluidSlot() {
-        addElement(new CustomFluidSlot(this, 58, 41, this.fluidTank, null, 0, 0, true));
+        addElement(new CustomFluidSlot(this, 58, 41, this.fluidTank, false));
     }
 
     @Override

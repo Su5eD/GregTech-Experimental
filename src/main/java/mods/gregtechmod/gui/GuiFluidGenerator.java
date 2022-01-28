@@ -1,6 +1,6 @@
 package mods.gregtechmod.gui;
 
-import mods.gregtechmod.inventory.gui.GeneratorFluidSlot;
+import mods.gregtechmod.gui.element.GeneratorFluidSlot;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicTank;
@@ -13,6 +13,6 @@ public abstract class GuiFluidGenerator extends GuiBasicTank<ContainerBasicTank<
 
     @Override
     protected void addFluidSlot() {
-        addElement(new GeneratorFluidSlot(this, 58, 41, this.fluidTank, null, 0, 0, true));
+        addElement(new GeneratorFluidSlot(this, 58, 41, this.fluidTank));
     }
 }
