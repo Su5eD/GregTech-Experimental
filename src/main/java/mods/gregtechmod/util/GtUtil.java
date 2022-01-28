@@ -426,6 +426,12 @@ public final class GtUtil {
         }
         return source;
     }
+    
+    public static ItemStack[] emptyStackArray(int size) {
+        return StreamEx.generate(() -> ItemStack.EMPTY)
+            .limit(9)
+            .toArray(ItemStack[]::new);
+    }
 
     private static class VoidTank implements IFluidHandler {
 

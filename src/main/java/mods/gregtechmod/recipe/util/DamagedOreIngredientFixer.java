@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreIngredient;
 import one.util.streamex.StreamEx;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,34 +23,35 @@ public class DamagedOreIngredientFixer {
 
     public static void fixRecipes() {
         fixedRecipes = StreamEx.of(new ArrayList<>(ForgeRegistries.RECIPES.getValuesCollection()))
-                .select(ShapelessRecipes.class)
-                .mapPartial(recipe -> {
-                    NonNullList<Ingredient> ingredients = NonNullList.create();
-                    ingredients.addAll(recipe.getIngredients());
+            .select(ShapelessRecipes.class)
+            .mapPartial(recipe -> {
+                NonNullList<Ingredient> ingredients = NonNullList.create();
+                ingredients.addAll(recipe.getIngredients());
 
-                    boolean changed = StreamEx.of(ingredients)
-                            .select(OreIngredient.class)
-                            .mapToEntry(ingredient -> StreamEx.of(ingredient.getMatchingStacks())
-                                            .filter(stack -> {
-                                                Item item = stack.getItem();
-                                                return item.getRegistryName().getNamespace().equals(Reference.MODID) && item.getMaxDamage(stack) > 0;
-                                            })
-                                            .map(StackUtil::copyWithWildCard)
-                                            .toArray(ItemStack[]::new)
-                                    )
-                            .mapValues(Ingredient::fromStacks)
-                            .mapKeyValue((ingredient, newIngredient) -> ingredients.remove(ingredient) && ingredients.add(newIngredient))
-                            .anyMatch(Boolean::booleanValue);
+                boolean changed = StreamEx.of(ingredients)
+                    .select(OreIngredient.class)
+                    .mapToEntry(ingredient -> StreamEx.of(ingredient.getMatchingStacks())
+                        .filter(stack -> {
+                            Item item = stack.getItem();
+                            return item.getRegistryName().getNamespace().equals(Reference.MODID) && item.getMaxDamage(stack) > 0;
+                        })
+                        .map(StackUtil::copyWithWildCard)
+                        .toArray(ItemStack[]::new)
+                    )
+                    .filterValues(ArrayUtils::isNotEmpty)
+                    .mapValues(Ingredient::fromStacks)
+                    .mapKeyValue((ingredient, newIngredient) -> ingredients.remove(ingredient) && ingredients.add(newIngredient))
+                    .anyMatch(Boolean::booleanValue);
 
-                    if (changed) {
-                        ResourceLocation name = new ResourceLocation(Reference.MODID, "fixed/" + recipe.getRegistryName().getPath());
-                        IRecipe newRecipe = new ShapelessRecipes(recipe.getGroup(), recipe.getRecipeOutput(), ingredients).setRegistryName(name);
-                        ForgeRegistries.RECIPES.register(newRecipe);
-                        
-                        return Optional.of(newRecipe);
-                    }
-                    return Optional.empty();
-                })
-                .toImmutableList();
+                if (changed) {
+                    ResourceLocation name = new ResourceLocation(Reference.MODID, "fixed/" + recipe.getRegistryName().getPath());
+                    IRecipe newRecipe = new ShapelessRecipes(recipe.getGroup(), recipe.getRecipeOutput(), ingredients).setRegistryName(name);
+                    ForgeRegistries.RECIPES.register(newRecipe);
+
+                    return Optional.of(newRecipe);
+                }
+                return Optional.empty();
+            })
+            .toImmutableList();
     }
 }

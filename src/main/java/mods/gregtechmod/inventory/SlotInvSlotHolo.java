@@ -8,15 +8,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class SlotInvSlotHolo extends SlotInvSlot implements ISlotInteractive {
+public class SlotInvSlotHolo extends SlotReadOnly implements ISlotInteractive {
 
     public SlotInvSlotHolo(InvSlot invSlot, int index, int x, int y) {
         super(invSlot, index, x, y);
-    }
-
-    @Override
-    public boolean canTakeStack(EntityPlayer player) {
-        return false;
     }
 
     @Override

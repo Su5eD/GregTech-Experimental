@@ -1,10 +1,12 @@
 package mods.gregtechmod.util;
 
 import net.minecraft.item.ItemStack;
+import scala.tools.cmd.Opt;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -44,17 +46,26 @@ public class OptionalItemStack {
         return this.value.copy();
     }
     
-    public ItemStack orEmpty() {
-        return isPresent() ? this.value.copy() : ItemStack.EMPTY;
-    }
-    
     public boolean isPresent() {
         return !this.value.isEmpty();
+    }
+    
+    public boolean isEmpty() {
+        return this.value.isEmpty();
     }
     
     public OptionalItemStack flatMap(Function<ItemStack, OptionalItemStack> mapper) {
         if (isPresent()) return mapper.apply(this.value);
         else return EMPTY;
+    }
+    
+    public OptionalItemStack ifEmpty(Runnable runnable) {
+        if (isEmpty()) runnable.run();
+        return this;
+    }
+    
+    public OptionalItemStack switchIfEmpty(Supplier<OptionalItemStack> optional) {
+        return isEmpty() ? optional.get() : this;
     }
     
     public boolean ifPresent(Consumer<ItemStack> consumer) {
