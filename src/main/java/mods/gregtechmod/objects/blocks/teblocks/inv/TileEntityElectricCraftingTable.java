@@ -6,6 +6,7 @@ import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
+import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiElectricCraftingTable;
 import mods.gregtechmod.inventory.invslot.GtSlot;
@@ -29,7 +30,7 @@ import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -372,8 +373,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         }, recipe(te -> StreamEx.of(te.craftingGrid.iterator())
             .map(stack -> stack.isEmpty() ? stack : ItemHandlerHelper.copyStackWithSize(stack, 1))
             .toArray(ItemStack[]::new))),
-        DYNAMIC(recipe((te, recipe) -> {
-            ItemStack stack = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+        DYNAMIC(recipe((te, recipe, stack) -> {
             // Try crafting 1x1 first
             recipe[0] = stack;
             if (ModHandler.getCraftingResult(recipe).isEmpty()) {
@@ -393,24 +393,32 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
                 }
             }
         })),
-        SINGLE(recipe((te, recipe) -> {
-            recipe[0] = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+        SINGLE(recipe((te, recipe, stack) -> {
+            recipe[0] = stack;
             addFallbackOutput(te, recipe);
         })),
-        SMALL(recipe((te, recipe) -> {
-            ItemStack stack = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+        SMALL(recipe((te, recipe, stack) -> {
             recipe[0] = stack;
             recipe[1] = stack;
             recipe[3] = stack;
             recipe[4] = stack;
             addFallbackOutput(te, recipe);
         })),
-        LARGE(recipe((te, recipe) -> {
-            ItemStack stack = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+        LARGE(recipe((te, recipe, stack) -> {
             Arrays.fill(recipe, stack);
             addFallbackOutput(te, recipe);
         })),
-        OREDICT(128),
+        OREDICT(recipeOutput((te, recipe) -> {
+            ItemStack stack = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+            ItemStack output = OreDictUnificator.get(stack);
+            
+            if (output.isEmpty() || GtUtil.stackEquals(stack, output)) {
+                addFallbackOutput(te, recipe);
+            } 
+            else recipe[0] = stack;
+            
+            return output;
+        }), 128),
         DUST(128),
         NUGGET(128),
         REPAIR(2048),
@@ -452,11 +460,19 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
             return te -> Pair.of(recipe.apply(te), ItemStack.EMPTY);
         }
         
-        private static Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe(BiConsumer<TileEntityElectricCraftingTable, ItemStack[]> recipe) {
+        private static Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe(TriConsumer<TileEntityElectricCraftingTable, ItemStack[], ItemStack> recipe) {
+            return recipeOutput((te, stacks) -> {
+                ItemStack stack = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+                recipe.accept(te, stacks, stack);
+                return ItemStack.EMPTY;
+            });
+        }
+        
+        private static Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipeOutput(BiFunction<TileEntityElectricCraftingTable, ItemStack[], ItemStack> recipe) {
             return te -> {
                 ItemStack[] stacks = GtUtil.emptyStackArray(9);
-                recipe.accept(te, stacks);
-                return Pair.of(stacks, ItemStack.EMPTY);
+                ItemStack output = recipe.apply(te, stacks);
+                return Pair.of(stacks, output);
             };
         }
 
