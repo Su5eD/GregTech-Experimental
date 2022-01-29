@@ -172,11 +172,17 @@ public final class GtUtil {
             && (first.getMetadata() == OreDictionary.WILDCARD_VALUE || first.getMetadata() == second.getMetadata())
             && (!matchNbt || StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound()));
     }
-
+    
     public static boolean stackItemEquals(ItemStack first, ItemStack second) {
+        return stackItemEquals(first, second, false);
+    }
+
+    public static boolean stackItemEquals(ItemStack first, ItemStack second, boolean matchNbt) {
         if (first.isEmpty() || second.isEmpty()) return false;
 
-        return first.getItem() == second.getItem() && (first.isItemStackDamageable() || first.getItemDamage() == second.getItemDamage());
+        return first.getItem() == second.getItem()
+            && (first.isItemStackDamageable() || first.getItemDamage() == second.getItemDamage())
+            && (!matchNbt || StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound()));
     }
     
     public static ItemStack copyWithMetaSize(ItemStack stack, int count, int meta) {
