@@ -14,6 +14,7 @@ import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.LazyValue;
+import net.minecraft.client.resources.I18n;
 
 import java.util.Collection;
 
@@ -67,7 +68,7 @@ public abstract class CategoryBase<R, W extends IRecipeWrapper> implements IReci
 
     @Override
     public String getTitle() {
-        return GtLocale.translate("teblock." + this.name);
+        return I18n.format(GtLocale.buildKey("teblock", this.name));
     }
 
     @Override

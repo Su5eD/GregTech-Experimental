@@ -56,7 +56,7 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
     
     @Override
     protected Collection<EnumFacing> getSourceSides() {
-        return getSinkSides();
+        return facingSideOnly();
     }
 
     public String getGuiName() {

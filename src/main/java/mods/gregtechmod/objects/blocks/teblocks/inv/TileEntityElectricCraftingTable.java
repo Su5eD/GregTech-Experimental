@@ -120,7 +120,10 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
 
                 OptionalItemStack.of(pair.getRight())
                     .switchIfEmpty(() -> recipe != null ? ModHandler.getCraftingResult(recipe) : OptionalItemStack.EMPTY)
-                    .ifEmpty(() -> this.lastCraftSuccessful = false) // TODO Clear crafting slot
+                    .ifEmpty(() -> {
+                        this.lastCraftSuccessful = false;
+                        this.crafting.clear();
+                    })
                     .ifPresent(output -> {
                         if (this.craftingMode == CraftingMode.PATTERN) this.crafting.put(output);
 
@@ -332,6 +335,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         this.output.put(stack);
         slot.clear();
         this.ticksUntilNextUpdate = 1;
+        markDirty();
     }
 
     public enum ThroughPutMode {
@@ -389,9 +393,23 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
                 }
             }
         })),
-        SINGLE(2048),
-        SMALL(2048),
-        LARGE(2048),
+        SINGLE(recipe((te, recipe) -> {
+            recipe[0] = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+            addFallbackOutput(te, recipe);
+        })),
+        SMALL(recipe((te, recipe) -> {
+            ItemStack stack = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+            recipe[0] = stack;
+            recipe[1] = stack;
+            recipe[3] = stack;
+            recipe[4] = stack;
+            addFallbackOutput(te, recipe);
+        })),
+        LARGE(recipe((te, recipe) -> {
+            ItemStack stack = ItemHandlerHelper.copyStackWithSize(te.currentSlotPos.getStack(), 1);
+            Arrays.fill(recipe, stack);
+            addFallbackOutput(te, recipe);
+        })),
         OREDICT(128),
         DUST(128),
         NUGGET(128),

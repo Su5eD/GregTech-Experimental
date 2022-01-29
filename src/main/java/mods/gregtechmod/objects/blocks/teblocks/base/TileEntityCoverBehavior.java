@@ -186,12 +186,6 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         list.add("owner");
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        if (this.descriptionKey != null) tooltip.add(GtLocale.translate(this.descriptionKey));
-    }
-
     @Nonnull
     @Override
     public final List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {

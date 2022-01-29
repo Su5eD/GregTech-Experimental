@@ -8,6 +8,8 @@ import mods.gregtechmod.util.BooleanCountdown;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -15,6 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants.BlockFlags;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
 import java.util.function.DoubleSupplier;
@@ -30,11 +33,11 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     
     protected TileEntityAutoNBT() {
         String key = getDescriptionKey();
-        this.descriptionKey = FMLCommonHandler.instance().getSide() == Side.CLIENT && GtLocale.hasKey(key) ? key : null;
+        this.descriptionKey = FMLCommonHandler.instance().getSide() == Side.CLIENT && I18n.hasKey(key) ? key : null;
     }
     
     protected String getDescriptionKey() {
-        return "teblock." + this.teBlock.getName() + ".description";
+        return GtLocale.buildKeyTeBlock(this, "description");
     }
 
     @Override
@@ -43,6 +46,12 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
         
         this.tickCounter++;
         this.countdowns.forEach(BooleanCountdown::countDown);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
+        if (this.descriptionKey != null) tooltip.add(I18n.format(this.descriptionKey));
     }
     
     protected BooleanCountdown createSingleCountDown() {

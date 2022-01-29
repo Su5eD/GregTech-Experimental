@@ -14,43 +14,43 @@ public final class GtLocale {
     }
 
     public static String translateTeBlock(String teBlockName, String key, Object... parameters) {
-        return translate("teblock." + teBlockName + "." + key, parameters);
+        return I18n.format(buildKey("teblock", teBlockName, key), parameters);
     }
 
     public static String translateTeBlockName(TileEntityAutoNBT te) {
-        return translate("teblock." + te.getTeBlock().getName());
+        return I18n.format(buildKeyTeBlock(te));
     }
 
     public static String translateScan(String key, Object... parameters) {
-        return translate("scan." + key, parameters);
+        return I18n.format(buildKey("scan", key), parameters);
     }
 
     public static String translateTeBlockDescription(String key) {
-        return translate("teblock." + key + ".description");
+        return I18n.format(buildKey("teblock", key, "description"));
     }
 
     public static String translateInfo(String key, Object... parameters) {
-        return translate("info." + key, parameters);
+        return I18n.format(buildKey("info", key), parameters);
     }
 
     public static String translateGenericDescription(String key, Object... parameters) {
-        return translateGeneric(key + ".description", parameters);
+        return I18n.format(buildKey("generic", key, "description"), parameters);
     }
 
     public static String translateGeneric(String key, Object... parameters) {
-        return translate("generic." + key, parameters);
+        return I18n.format(buildKey("generic", key), parameters);
     }
 
     public static String translateItemDescription(String key, Object... parameters) {
-        return translateItem(key + ".description", parameters);
+        return I18n.format(buildKeyItem(key, "description"), parameters);
     }
 
     public static String translateItem(String key, Object... parameters) {
-        return translate("item." + key, parameters);
+        return I18n.format(buildKeyItem(key), parameters);
     }
     
     public static String translateKey(String... paths) {
-        return translate(buildKey(paths));
+        return I18n.format(buildKey(paths));
     }
 
     public static String translate(String key, Object... parameters) {
@@ -84,9 +84,5 @@ public final class GtLocale {
             .append(paths)
             .append(args)
             .joining(".");
-    }
-    
-    public static boolean hasKey(String key) {
-        return I18n.hasKey(Reference.MODID + "." + key);
     }
 }

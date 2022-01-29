@@ -1417,11 +1417,11 @@ public class BlockItems {
 
         public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {
             ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-            stack.setTagInfo("title", new NBTTagString(GtLocale.translate("book." + name + ".name")));
+            stack.setTagInfo("title", new NBTTagString(GtLocale.translateKey("book", name, "name")));
             stack.setTagInfo("author", new NBTTagString(author));
             NBTTagList tagList = new NBTTagList();
             for (int i = 0; i < pages; i++) {
-                String page = '\"' + GtLocale.translate("book." + name + ".page" + (i < 10 ? "0" + i : i)) + '\"';
+                String page = '\"' + GtLocale.translateKey("book", name, "page" + (i < 10 ? "0" + i : i)) + '\"';
                 if (i < 48) {
                     if (page.length() < 256) {
                         tagList.appendTag(new NBTTagString(page));
