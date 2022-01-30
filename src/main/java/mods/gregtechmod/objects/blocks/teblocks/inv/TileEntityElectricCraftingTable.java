@@ -32,6 +32,7 @@ import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
@@ -121,7 +122,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
                 ItemStack[] recipe = pair.getLeft();
 
                 OptionalItemStack.of(pair.getRight())
-                    .switchIfEmpty(() -> recipe != null ? ModHandler.getCraftingResult(recipe) : OptionalItemStack.EMPTY)
+                    .orElseFlat(() -> recipe != null ? ModHandler.getRecipeResult(recipe) : OptionalItemStack.EMPTY)
                     .ifEmpty(() -> this.lastCraftSuccessful = false)
                     .ifPresent(output -> {
                         if (this.craftingMode == CraftingMode.PATTERN) this.crafting.put(output);
@@ -172,7 +173,13 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
             this.currentSlotPos = this.slotPositions.get(this.currentSlot);
         }
         
-        return !this.craftingMode.predicate.test(this, this.currentSlotPos.getStack()) ? this.craftingMode.recipe.apply(this) : Pair.of(null, ItemStack.EMPTY);
+        ItemStack stack = this.currentSlotPos.getStack();
+        if (this.craftingMode.predicate.test(this, stack)) {
+            this.craftingMode.fallback.accept(this, stack);
+            return Pair.of(null, ItemStack.EMPTY);
+        }
+        
+        return this.craftingMode.recipe.apply(this);
     }
 
     private void processTank() {
@@ -359,26 +366,23 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
     }
 
     public enum CraftingMode {
-        PATTERN((te, stack) -> {
-            if (!te.isItemInCraftingGrid(stack)) {
-                if (te.output.isEmpty() && te.throughPutMode.items && te.currentSlot < 8) {
-                    te.addStackToOutput(te.currentSlotPos, stack);
-                }
-                return true;
+        PATTERN((te, stack) -> !te.isItemInCraftingGrid(stack), (te, stack) -> {
+            if (te.output.isEmpty() && te.throughPutMode.items && te.currentSlot < 8) {
+                te.addStackToOutput(te.currentSlotPos, stack);
             }
-            return false;
         }, recipe(te -> StreamEx.of(te.craftingGrid.iterator())
             .map(stack -> stack.isEmpty() ? stack : ItemHandlerHelper.copyStackWithSize(stack, 1))
-            .toArray(ItemStack[]::new))),
+            .toArray(ItemStack[]::new))
+        ),
         DYNAMIC(recipe((te, recipe, stack) -> {
             // Try crafting 1x1 first
             recipe[0] = stack;
-            if (ModHandler.getCraftingResult(recipe).isEmpty()) {
+            if (ModHandler.getRecipeOutput(recipe).isEmpty()) {
                 // Try 2x2 now
                 recipe[1] = stack;
                 recipe[3] = stack;
                 recipe[4] = stack;
-                if (ModHandler.getCraftingResult(recipe).isEmpty()) {
+                if (ModHandler.getRecipeOutput(recipe).isEmpty()) {
                     // Finally, try 3x3
                     recipe[2] = stack;
                     recipe[5] = stack;
@@ -415,22 +419,23 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
             
             return output;
         }), 128),
-        DUST((te, stack) -> {
-            if (te.isItemInCraftingGrid(stack) || !OreDictUnificator.isItemInstanceOf(stack, "dustSmall", true)) {
-                if (te.output.isEmpty() && te.throughPutMode.items) {
-                    te.addStackToOutput(te.currentSlotPos, stack);
-                }
-                return true;
-            }
-            return false;
-        }, CraftingMode.SMALL.recipe, 128),
-        NUGGET(128),
-        REPAIR(2048),
+        DUST((te, stack) -> checkStackOreDict(te, stack, "dustSmall"), SMALL.recipe, 128),
+        NUGGET((te, stack) -> checkStackOreDict(te, stack, "nugget"), LARGE.recipe, 128), // TODO Process addCurrentStackToOutput in lambda caller
+        REPAIR((te, stack) -> te.isItemInCraftingGrid(stack) || stack.getItemDamage() <= 0 || !stack.getItem().isRepairable(), recipe((te, recipe, stack) ->
+            IntStreamEx.range(te.currentSlot + 1, te.slotPositions.size())
+                .mapToObj(i -> te.slotPositions.get(i).getStack())
+                .findFirst(slotStack -> GtUtil.stackItemEquals(slotStack, stack) && stack.getItemDamage() + slotStack.getItemDamage() > stack.getMaxDamage())
+                .ifPresent(slotStack -> {
+                    recipe[0] = stack;
+                    recipe[1] = slotStack;
+                    addFallbackOutput(te, recipe, ModHandler::getRecipeResult);
+                }))),
         MIXER(2048);
 
         private static final CraftingMode[] VALUES = values();
 
         private final BiPredicate<TileEntityElectricCraftingTable, ItemStack> predicate;
+        private final BiConsumer<TileEntityElectricCraftingTable, ItemStack> fallback;
         private final Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe;
         private final int energyCost;
 
@@ -443,7 +448,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         }
 
         CraftingMode(Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe, int energyCost) {
-            this(CraftingMode::checkStack, recipe, energyCost);
+            this(TileEntityElectricCraftingTable::isItemInCraftingGrid, recipe, energyCost);
         }
         
         CraftingMode(BiPredicate<TileEntityElectricCraftingTable, ItemStack> predicate, Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe) {
@@ -451,7 +456,16 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         }
 
         CraftingMode(BiPredicate<TileEntityElectricCraftingTable, ItemStack> predicate, Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe, int energyCost) {
+            this(predicate, CraftingMode::addCurrentStackToOutput, recipe, energyCost);
+        }
+        
+        CraftingMode(BiPredicate<TileEntityElectricCraftingTable, ItemStack> predicate, BiConsumer<TileEntityElectricCraftingTable, ItemStack> fallback, Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe) {
+            this(predicate, fallback, recipe, 2048);
+        }
+
+        CraftingMode(BiPredicate<TileEntityElectricCraftingTable, ItemStack> predicate, BiConsumer<TileEntityElectricCraftingTable, ItemStack> fallback, Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe, int energyCost) {
             this.predicate = predicate;
+            this.fallback = fallback;
             this.recipe = recipe;
             this.energyCost = energyCost;
         }
@@ -479,19 +493,23 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
                 return Pair.of(stacks, output);
             };
         }
-
-        private static boolean checkStack(TileEntityElectricCraftingTable te, ItemStack stack) {
-            if (te.isItemInCraftingGrid(stack)) {
-                if (te.output.isEmpty() && te.throughPutMode.items) {
-                    te.addStackToOutput(te.currentSlotPos, stack);
-                }
-                return true;
+        
+        private static boolean checkStackOreDict(TileEntityElectricCraftingTable te, ItemStack stack, String type) {
+            return te.isItemInCraftingGrid(stack) || !OreDictUnificator.isItemInstanceOf(stack, type, true);
+        }
+        
+        private static void addCurrentStackToOutput(TileEntityElectricCraftingTable te, ItemStack stack) {
+            if (te.output.isEmpty() && te.throughPutMode.items) {
+                te.addStackToOutput(te.currentSlotPos, stack);
             }
-            return false;
         }
         
         private static void addFallbackOutput(TileEntityElectricCraftingTable te, ItemStack[] recipe) {
-            if (ModHandler.getCraftingResult(recipe).isEmpty() && te.output.isEmpty()) {
+            addFallbackOutput(te, recipe, ModHandler::getRecipeOutput);
+        }
+        
+        private static void addFallbackOutput(TileEntityElectricCraftingTable te, ItemStack[] recipe, Function<ItemStack[], OptionalItemStack> crafting) {
+            if (crafting.apply(recipe).isEmpty() && te.output.isEmpty()) {
                 te.output.put(te.currentSlotPos.getStack());
                 te.currentSlotPos.clear();
                 te.ticksUntilNextUpdate = 1;

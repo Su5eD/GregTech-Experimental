@@ -1,12 +1,10 @@
 package mods.gregtechmod.util;
 
 import net.minecraft.item.ItemStack;
-import scala.tools.cmd.Opt;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -64,7 +62,11 @@ public class OptionalItemStack {
         return this;
     }
     
-    public OptionalItemStack switchIfEmpty(Supplier<OptionalItemStack> optional) {
+    public OptionalItemStack orElse(Supplier<ItemStack> stack) {
+        return isEmpty() ? of(stack.get()) : this;
+    }
+    
+    public OptionalItemStack orElseFlat(Supplier<OptionalItemStack> optional) {
         return isEmpty() ? optional.get() : this;
     }
     

@@ -202,7 +202,7 @@ public class MachineRecipeLoader {
             ItemStack stone = new ItemStack(Blocks.STONE);
             addToRecyclerBlacklist(new ItemStack(Blocks.STONE, 1, OreDictionary.WILDCARD_VALUE));
             addToRecyclerBlacklist(FurnaceRecipes.instance().getSmeltingResult(stone));
-            ModHandler.getCraftingResult(stone, ItemStack.EMPTY, stone, ItemStack.EMPTY, stone)
+            ModHandler.getRecipeOutput(stone, ItemStack.EMPTY, stone, ItemStack.EMPTY, stone)
                     .ifPresent(MachineRecipeLoader::addToRecyclerBlacklist);
             if (ModHandler.buildcraftTransport) {
                 addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_stone_item"));

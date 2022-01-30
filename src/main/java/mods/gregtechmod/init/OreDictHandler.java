@@ -268,7 +268,7 @@ public final class OreDictHandler {
                 );
             }
 
-            ModHandler.getCraftingResult(ore)
+            ModHandler.getRecipeOutput(ore)
                     .ifPresent(dye -> DynamicRecipes.addExtractorRecipe(Recipes.inputFactory.forOreDict(name), ItemHandlerHelper.copyStackWithSize(dye, dye.getCount() + 1)));
         }
     }
@@ -366,7 +366,7 @@ public final class OreDictHandler {
         });
         
         if (!gem.ifPresent(stack -> {
-            if (ModHandler.getCraftingResult(stack, stack, ItemStack.EMPTY, stack, stack).itemEquals(ore)) return;
+            if (ModHandler.getRecipeOutput(stack, stack, ItemStack.EMPTY, stack, stack).itemEquals(ore)) return;
                             
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
             
@@ -445,12 +445,12 @@ public final class OreDictHandler {
         ItemStack unified = OreDictUnificator.getUnifiedOre(name, stack);
 
         if (!OreDictUnificator.getFirstOre("gearStone")
-                .flatMap(gearStone -> ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, gearStone, unified, ItemStack.EMPTY, unified, ItemStack.EMPTY))
+                .flatMap(gearStone -> ModHandler.getRecipeOutput(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, gearStone, unified, ItemStack.EMPTY, unified, ItemStack.EMPTY))
                 .ifPresent(output -> DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(RecipeIngredientOre.create("gearStone"), RecipeIngredientItemStack.create(unified, 4), output, 1600, 2)))
         ) {
             OptionalItemStack.when(
-                    ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Items.IRON_INGOT), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY), 
-                    ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Blocks.COBBLESTONE), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY)
+                    ModHandler.getRecipeOutput(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Items.IRON_INGOT), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY), 
+                    ModHandler.getRecipeOutput(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Blocks.COBBLESTONE), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY)
             ).ifPresent(output -> DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(RecipeIngredientOre.create("stoneCobble"), RecipeIngredientItemStack.create(unified, 4), output, 1600, 2)));
         }
 

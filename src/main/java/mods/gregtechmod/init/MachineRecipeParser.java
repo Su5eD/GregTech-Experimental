@@ -221,7 +221,7 @@ public final class MachineRecipeParser {
         ModCompat.registerTools();
 
         ItemStack ingotCopper = IC2Items.getItem("ingot", "copper");
-        ModHandler.getCraftingResult(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, IC2Items.getItem("ingot", "tin"))
+        ModHandler.getRecipeOutput(ingotCopper, ingotCopper, ItemStack.EMPTY, ingotCopper, IC2Items.getItem("ingot", "tin"))
             .ifPresent(bronze -> {
                 int count = bronze.getCount();
                 GtRecipes.industrialCentrifuge.addRecipe(
@@ -236,15 +236,15 @@ public final class MachineRecipeParser {
 
         ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
         ItemStack stick = new ItemStack(Items.STICK);
-        ModHandler.getCraftingResult(ingotIron, ItemStack.EMPTY, ingotIron, ingotIron, stick, ingotIron, ingotIron, ItemStack.EMPTY, ingotIron)
+        ModHandler.getRecipeOutput(ingotIron, ItemStack.EMPTY, ingotIron, ingotIron, stick, ingotIron, ingotIron, ItemStack.EMPTY, ingotIron)
             .ifPresent(rail -> DynamicRecipes.addPulverizerRecipe(rail, StackUtil.setSize(IC2Items.getItem("dust", "iron"), 6), BlockItems.Smalldust.WOOD.getItemStack(2), 95));
         ItemStack ingotGold = new ItemStack(Items.GOLD_INGOT);
         ItemStack redstone = new ItemStack(Items.REDSTONE);
-        ModHandler.getCraftingResult(ingotGold, ItemStack.EMPTY, ingotGold, ingotGold, stick, ingotGold, ingotGold, redstone, ingotGold)
+        ModHandler.getRecipeOutput(ingotGold, ItemStack.EMPTY, ingotGold, ingotGold, stick, ingotGold, ingotGold, redstone, ingotGold)
             .ifPresent(poweredRail -> DynamicRecipes.addPulverizerRecipe(poweredRail, StackUtil.setSize(IC2Items.getItem("dust", "gold"), 6), redstone, 95));
 
         ItemStack ingotTin = IC2Items.getItem("ingot", "tin");
-        ModHandler.getCraftingResult(ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY)
+        ModHandler.getRecipeOutput(ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ingotTin, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY)
             .ifPresent(tinCan -> {
                 int tinNuggetCount = 27 / tinCan.getCount();
                 if (tinNuggetCount > 0) {
