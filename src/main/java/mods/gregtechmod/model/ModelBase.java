@@ -17,23 +17,23 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class ModelBase extends AbstractModel {
-    protected final Map<ResourceLocation, TextureAtlasSprite> sprites;
+    protected final Map<ResourceLocation, TextureAtlasSprite> sprites = new HashMap<>();
     protected final ResourceLocation particle;
     protected final FaceBakery bakery = new FaceBakery();
     
-    protected boolean enableCache = true;
-    private final Map<String, IBakedModel> cache = new ConcurrentHashMap<>();
+    protected final boolean enableCache;
+    private final Map<IBlockState, IBakedModel> cache = new ConcurrentHashMap<>();
     
-    public ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
+    public ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures, boolean enableCache) {
         this(particle, textures.stream()
                 .map(Map::values)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()), enableCache);
     }
     
-    public ModelBase(ResourceLocation particle, Collection<ResourceLocation> textures) {
+    public ModelBase(ResourceLocation particle, Collection<ResourceLocation> textures, boolean enableCache) {
         this.particle = Objects.requireNonNull(particle);
-        this.sprites = new HashMap<>();
+        this.enableCache = enableCache;
         textures.forEach(loc -> this.sprites.put(loc, null));
         this.sprites.put(particle, null);
     }
@@ -55,7 +55,7 @@ public abstract class ModelBase extends AbstractModel {
     @Override
     public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
         IBakedModel model;
-        if (this.enableCache) model = this.cache.computeIfAbsent(state.toString(), s -> generateModel(state));
+        if (this.enableCache) model = this.cache.computeIfAbsent(state, this::generateModel);
         else model = generateModel(state);
         
         return model.getQuads(state, side, rand);

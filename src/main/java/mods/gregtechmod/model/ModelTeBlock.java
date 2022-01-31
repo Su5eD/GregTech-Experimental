@@ -39,17 +39,15 @@ public class ModelTeBlock extends ModelBase {
     }
     
     public ModelTeBlock(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
-        super(particle, textures);
+        super(particle, textures, false);
         this.textures = textures.get(0);
-        
-        this.enableCache = false;
     }
 
     @Override
     protected IBakedModel generateModel(IBlockState rawState) {
         Map<EnumFacing, ResourceLocation> covers = new HashMap<>();
         EnumFacing face = rawState.getValue(BlockTileEntity.facingProperty);
-        Ic2BlockStateInstance state = (Ic2BlockStateInstance)rawState;
+        Ic2BlockStateInstance state = (Ic2BlockStateInstance) rawState;
         Map<EnumFacing, List<BakedQuad>> faceQuads = new HashMap<>();
 
         if (state.hasValue(CoverHandler.COVER_HANDLER_PROPERTY)) {
@@ -57,10 +55,10 @@ public class ModelTeBlock extends ModelBase {
             handler.covers.forEach((side, cover) -> covers.put(side, cover.getIcon()));
         }
 
-        VerticalRotation verticalRotation = state.hasValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) ? state.getValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) : VerticalRotation.MIRROR_BACK;
+        VerticalRotation verticalRotation = getVerticalRotation(state);
         for (EnumFacing side : EnumFacing.VALUES) {
             EnumFacing rotatedSide = rotateSide(verticalRotation, face, side, covers);
-            TextureAtlasSprite sprite = getSpriteFromDirection(side, rotatedSide, state, covers);
+            TextureAtlasSprite sprite = getSpriteFromDirection(face, side, rotatedSide, state, covers);
             faceQuads.put(side, Collections.singletonList(getQuad(new Vector3f(0,0,0), new Vector3f(16, side == EnumFacing.DOWN ? 0 : 16,16), side, face, sprite)));
         }
 
@@ -79,13 +77,17 @@ public class ModelTeBlock extends ModelBase {
         }
         return 0;
     }
+    
+    protected VerticalRotation getVerticalRotation(Ic2BlockStateInstance state) {
+        return state.hasValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) ? state.getValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) : VerticalRotation.MIRROR_BACK;
+    }
 
     /**
      * @param side the side to get the texture for
      * @param rotatedSide the current side relative to the block's facing
      * @return the side's texture depending on the block's facing
      */
-    private TextureAtlasSprite getSpriteFromDirection(EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state, Map<EnumFacing, ResourceLocation> covers) {
+    private TextureAtlasSprite getSpriteFromDirection(EnumFacing face, EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state, Map<EnumFacing, ResourceLocation> covers) {
         TextureMap map = Minecraft.getMinecraft().getTextureMapBlocks();
 
         if (covers.containsKey(side)) return map.getAtlasSprite(covers.get(rotatedSide).toString());
@@ -107,10 +109,10 @@ public class ModelTeBlock extends ModelBase {
             return map.getAtlasSprite(String.format("%s:blocks/machines/machine_%s_pipe", Reference.MODID, textureName));
         }
         
-        return getSprite(side, rotatedSide, state);
+        return getSprite(face, side, rotatedSide, state);
     }
     
-    protected TextureAtlasSprite getSprite(EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state) {
+    protected TextureAtlasSprite getSprite(EnumFacing face, EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state) {
         return this.sprites.get(this.textures.get(rotatedSide));
     }
     
@@ -120,7 +122,7 @@ public class ModelTeBlock extends ModelBase {
             else if (Util.verticalFacings.contains(face)) {
                 return behavior.rotation.apply(face, side);
             }
-            else if (!Util.verticalFacings.contains(side)) {
+            else if (Util.horizontalFacings.contains(side)) {
                 if (face == EnumFacing.SOUTH) return side.getOpposite();
                 else return face.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? side.rotateY().getOpposite() : side.rotateY();
             }

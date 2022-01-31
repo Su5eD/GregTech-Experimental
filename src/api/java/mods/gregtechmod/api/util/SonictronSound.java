@@ -5,9 +5,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class SonictronSound {
-    public final ItemStack item;
-    public final String name;
-    public final int count;
+    private final ItemStack item;
+    private final String name;
+    private final int count;
 
     public SonictronSound(String name, Block block) {
         this(name, new ItemStack(block), 1);
@@ -29,5 +29,17 @@ public class SonictronSound {
         this.item = item;
         this.name = name;
         this.count = count;
+    }
+
+    public ItemStack getItem() {
+        return this.item;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getCount() {
+        return this.count;
     }
 }

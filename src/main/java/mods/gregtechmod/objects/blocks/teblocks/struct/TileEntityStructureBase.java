@@ -44,7 +44,7 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
     protected void updateEntityServer() {
         super.updateEntityServer();
                 
-        if (tickCounter % 5 == 0) {
+        if (this.tickCounter % 5 == 0) {
             this.structure.checkWorldStructure(this.pos, this.getFacing());
         }
     }

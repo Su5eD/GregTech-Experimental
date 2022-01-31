@@ -1,13 +1,12 @@
 package mods.gregtechmod.inventory.tank;
 
-import com.google.common.base.Predicate;
 import mods.gregtechmod.api.cover.ICoverable;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 
 import java.util.Collections;
+import java.util.function.Predicate;
 
-@SuppressWarnings("Guava")
 public class DynamicGtFluidTank extends GtFluidTank {
     private final Predicate<EnumFacing> inputPredicate;
     private final Predicate<EnumFacing> outputPredicate;
@@ -21,11 +20,11 @@ public class DynamicGtFluidTank extends GtFluidTank {
 
     @Override
     public boolean canFill(EnumFacing side) {
-        return this.inputPredicate.apply(side);
+        return this.inputPredicate.test(side);
     }
 
     @Override
     public boolean canDrain(EnumFacing side) {
-        return this.outputPredicate.apply(side);
+        return this.outputPredicate.test(side);
     }
 }

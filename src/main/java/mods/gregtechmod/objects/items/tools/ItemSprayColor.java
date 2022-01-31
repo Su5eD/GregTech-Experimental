@@ -44,7 +44,7 @@ public class ItemSprayColor extends ItemToolCrafting {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(GtLocale.translateGeneric("spray_color.description_dying", stack.getMaxDamage() + 1) + " " + GtLocale.translate("color."+this.color.getTranslationKey()));
+        tooltip.add(GtLocale.translateGeneric("spray_color.description_dying", stack.getMaxDamage() + 1) + " " + GtLocale.translateKey("color", this.color.getTranslationKey()));
         tooltip.add(GtLocale.translateGeneric("spray_color.description_crafting", (stack.getMaxDamage() + 1) / this.craftingDamage));
     }
 

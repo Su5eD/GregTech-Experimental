@@ -2,7 +2,6 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import mods.gregtechmod.util.JavaUtil;
@@ -25,23 +24,13 @@ public class RecipeCanner extends Recipe<List<IRecipeIngredient>, List<ItemStack
                                       @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                       @JsonProperty(value = "duration", required = true) int duration,
                                       @JsonProperty(value = "energyCost") double energyCost) {
-        input = RecipeUtil.adjustInputCount("canner", input, output, 2);
-        output = RecipeUtil.adjustOutputCount("canner", output, 2);
+        List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("canner", input, output, 2);
+        List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("canner", output, 2);
 
-        RecipeCanner recipe = new RecipeCanner(input, output, duration <= 0 ? 1 : duration, Math.max(energyCost, 1));
+        RecipeCanner recipe = new RecipeCanner(adjustedInput, adjustedOutput, duration <= 0 ? 1 : duration, Math.max(energyCost, 1));
 
-        if (!RecipeUtil.validateRecipeIO("canner", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("canner", adjustedInput, adjustedOutput)) recipe.invalid = true;
 
         return recipe;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", output)
-                .add("duration", duration)
-                .add("energyCost", energyCost)
-                .toString();
     }
 }

@@ -5,10 +5,10 @@ import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeScanner
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ContainerComputerCubeScanner extends ContainerComputerCubeMain {
+public class ContainerComputerCubeScanner extends ContainerComputerCube {
 
     public ContainerComputerCubeScanner(EntityPlayer player, TileEntityComputerCube base) {
-        super(player, base);
+        super(player, base, 156);
         
         ComputerCubeScanner module = (ComputerCubeScanner) base.getActiveModule();
         

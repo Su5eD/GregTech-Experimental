@@ -33,6 +33,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
@@ -152,8 +153,8 @@ class DynamicRecipes {
     }
 
     static void addDustToIngotSmeltingRecipe(String name, ItemStack input, ItemStack output) {
-        ItemStack dust = StackUtil.copyWithSize(input, 2);
-        ItemStack ingots = StackUtil.copyWithSize(output, 2);
+        ItemStack dust = ItemHandlerHelper.copyStackWithSize(input, 2);
+        ItemStack ingots = ItemHandlerHelper.copyStackWithSize(output, 2);
         addInductionSmelterRecipe(name, dust, new ItemStack(Blocks.SAND), ingots, ModHandler.slag, 800, 25);
         addSmeltingRecipe(name, input, output);
     }
@@ -174,9 +175,9 @@ class DynamicRecipes {
     }
 
     public static void addSmelterOreToIngotsRecipe(ItemStack input, ItemStack output) {
-        ItemStack ore = StackUtil.copyWithSize(input, 1);
-        ItemStack ingots2 = StackUtil.copyWithSize(output, 2);
-        ItemStack ingots3 = StackUtil.copyWithSize(output, 3);
+        ItemStack ore = ItemHandlerHelper.copyStackWithSize(input, 1);
+        ItemStack ingots2 = ItemHandlerHelper.copyStackWithSize(output, 2);
+        ItemStack ingots3 = ItemHandlerHelper.copyStackWithSize(output, 3);
 
         addInductionSmelterRecipe(ore, new ItemStack(Blocks.SAND), ingots2, ModHandler.slagRich, 3200, 5);
         addInductionSmelterRecipe(ore, ModHandler.slagRich, ingots3, ModHandler.slag, 4000, 75);
@@ -187,7 +188,7 @@ class DynamicRecipes {
         addCompressorRecipe(Recipes.inputFactory.forOreDict(material, 9), output);
 
         OreDictionary.getOres(material).forEach(stack -> ModHandler.removeFactorizerRecipe(stack, false));
-        ItemStack inputStack = StackUtil.copyWithSize(input, 9);
+        ItemStack inputStack = ItemHandlerHelper.copyStackWithSize(input, 9);
         if (crafting) ModHandler.addFactorizerRecipe(inputStack, output, false);
 
         if (!decrafting) ModHandler.removeFactorizerRecipe(output, true);
@@ -201,8 +202,8 @@ class DynamicRecipes {
         ItemStack plateBronze = BlockItems.Plate.BRONZE.getItemStack();
 
         OptionalItemStack.either(
-                () -> ModHandler.getCraftingResult(input, input, input, input, ItemStack.EMPTY, input, input, input, input),
-                () -> ModHandler.getCraftingResult(plateBronze, plateBronze, plateBronze, plateBronze, ItemStack.EMPTY, plateBronze, plateBronze, plateBronze, plateBronze)
+                () -> ModHandler.getRecipeOutput(input, input, input, input, ItemStack.EMPTY, input, input, input, input),
+                () -> ModHandler.getRecipeOutput(plateBronze, plateBronze, plateBronze, plateBronze, ItemStack.EMPTY, plateBronze, plateBronze, plateBronze, plateBronze)
         ).ifPresent(stack -> {
             OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
             addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "bronze"), 8)));
@@ -214,14 +215,14 @@ class DynamicRecipes {
         ItemStack dustTin = StackUtil.setSize(IC2Items.getItem("dust", "tin"), 4);
         ItemStack ingotIron = new ItemStack(Items.IRON_INGOT);
         
-        ModHandler.getCraftingResult(ingotIron, glass, ingotIron, glass, gearTin, glass, ingotIron, glass, ingotIron)
+        ModHandler.getRecipeOutput(ingotIron, glass, ingotIron, glass, gearTin, glass, ingotIron, glass, ingotIron)
                 .ifPresent(stack -> {
                     OreDictUnificator.registerOre("craftingRawMachineTier00", stack);
                     addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "iron"), 4), dustTin));
                 });
 
         ItemStack ingotSteel = BlockItems.Ingot.STEEL.getItemStack();
-        ModHandler.getCraftingResult(ingotSteel, glass, ingotSteel, glass, gearTin, glass, ingotSteel, glass, ingotSteel)
+        ModHandler.getRecipeOutput(ingotSteel, glass, ingotSteel, glass, gearTin, glass, ingotSteel, glass, ingotSteel)
                 .ifPresent(stack -> {
                     OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
                     addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), StackUtil.setSize(IC2Items.getItem("dust", "steel"), 4), dustTin));
@@ -231,12 +232,12 @@ class DynamicRecipes {
             ItemStack ingotRefinedIron = OreDictUnificator.get("ingotRefinedIron");
             ItemStack plateRefinedIron = OreDictUnificator.get("plateRefinedIron");
             OptionalItemStack.either(
-                    () -> ModHandler.getCraftingResult(ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ItemStack.EMPTY, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron),
-                    () -> ModHandler.getCraftingResult(plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron, ItemStack.EMPTY, plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron)
+                    () -> ModHandler.getRecipeOutput(ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ItemStack.EMPTY, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron, ingotRefinedIron),
+                    () -> ModHandler.getRecipeOutput(plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron, ItemStack.EMPTY, plateRefinedIron, plateRefinedIron, plateRefinedIron, plateRefinedIron)
             ).ifPresent(stack -> {
                 OreDictUnificator.registerOre("craftingRawMachineTier01", stack);
                 addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientItemStack.create(stack), OreDictUnificator.get("dustRefinedIron", StackUtil.setSize(IC2Items.getItem("dust", "iron"), 8), 8)));
-                addSmeltingRecipe(stack, StackUtil.copyWithSize(ingotRefinedIron, 8));
+                addSmeltingRecipe(stack, ItemHandlerHelper.copyStackWithSize(ingotRefinedIron, 8));
             });
         }
 
@@ -365,10 +366,10 @@ class DynamicRecipes {
         ItemStack sawdust = BlockItems.Dust.WOOD.getItemStack();
         MATERIAL_USAGES.forEach(material -> {
             if (material.backMacerating) {
-                if (material.bonus > 0) addPulverizerRecipe(material.recipeOutput, StackUtil.copyWithSize(material.output, material.count * material.output.getCount() + material.bonus), material.chance, true);
-                else addPulverizerRecipe(material.recipeOutput, StackUtil.copyWithSize(material.output, material.count * material.output.getCount()), sawdust, material.chance, true);
+                if (material.bonus > 0) addPulverizerRecipe(material.recipeOutput, ItemHandlerHelper.copyStackWithSize(material.output, material.count * material.output.getCount() + material.bonus), material.chance, true);
+                else addPulverizerRecipe(material.recipeOutput, ItemHandlerHelper.copyStackWithSize(material.output, material.count * material.output.getCount()), sawdust, material.chance, true);
             }
-            if (material.backSmelting && material.recipeOutput.getCount() == 1 && material.input.getCount() == 1) addSmeltingAndAlloySmeltingRecipe(material.recipeOutput, StackUtil.copyWithSize(material.input, material.count), true);
+            if (material.backSmelting && material.recipeOutput.getCount() == 1 && material.input.getCount() == 1) addSmeltingAndAlloySmeltingRecipe(material.recipeOutput, ItemHandlerHelper.copyStackWithSize(material.input, material.count), true);
         });
     }
 

@@ -20,11 +20,6 @@ public abstract class TileEntityGenerator extends TileEntityUpgradable {
     }
 
     @Override
-    protected Collection<EnumFacing> getSinkSides() {
-        return Collections.emptySet();
-    }
-
-    @Override
     protected Collection<EnumFacing> getSourceSides() {
         return Util.allFacings;
     }

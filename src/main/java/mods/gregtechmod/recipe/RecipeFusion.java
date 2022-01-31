@@ -20,13 +20,8 @@ public abstract class RecipeFusion<I extends IRecipeIngredient, T> extends Recip
     }
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", output)
-                .add("duration", duration)
-                .add("energyCost", energyCost)
-                .add("startEnergy", startEnergy)
-                .toString();
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        return super.toStringHelper()
+                .add("startEnergy", startEnergy);
     }
 }

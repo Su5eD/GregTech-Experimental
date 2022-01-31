@@ -9,18 +9,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Collects additional information for the scanner.
- * This event is <b>cancellable</b>.
+ * This event is <b>cancelable</b>.
  */
 @Cancelable
 public class ScannerEvent extends WorldEvent {
     public final EntityPlayer player;
     public final int scanLevel;
     public final BlockPos pos;
-    public final ArrayList<String> list;
+    public final List<String> list;
     public final EnumFacing side;
     public final float hitX, hitY, hitZ;
     public final TileEntity tileEntity;
@@ -28,7 +28,7 @@ public class ScannerEvent extends WorldEvent {
 
     public int euCost = 0;
 
-    public ScannerEvent(World world, EntityPlayer player, BlockPos pos, EnumFacing side, int scanLevel, Block block, TileEntity tileEntity, ArrayList<String> list, float hitX, float hitY, float hitZ) {
+    public ScannerEvent(World world, EntityPlayer player, BlockPos pos, EnumFacing side, int scanLevel, Block block, TileEntity tileEntity, List<String> list, float hitX, float hitY, float hitZ) {
         super(world);
         this.player = player;
         this.scanLevel = scanLevel;

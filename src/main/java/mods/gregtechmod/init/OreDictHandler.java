@@ -1,5 +1,7 @@
 package mods.gregtechmod.init;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.Recipes;
 import ic2.core.init.OreValues;
@@ -17,10 +19,7 @@ import mods.gregtechmod.recipe.crafting.ToolOreIngredient;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
-import mods.gregtechmod.util.JavaUtil;
-import mods.gregtechmod.util.OptionalItemStack;
-import mods.gregtechmod.util.OreDictUnificator;
-import mods.gregtechmod.util.ProfileDelegate;
+import mods.gregtechmod.util.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -35,169 +34,43 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
+import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
-public class OreDictHandler {
+public final class OreDictHandler {
     public static final OreDictHandler INSTANCE;
-
-    public static final Map<String, String> GT_ORE_NAMES = new HashMap<>();
+    public static final Map<String, String> GT_ORE_NAMES;
     
     private static final Pattern GRANITE_PATTERN = Pattern.compile("\\bstone.*Granite");
-    private static final Map<String, Integer> VALUABLE_ORES = new HashMap<>();
+    private static final Map<String, Integer> VALUABLE_ORES;
     private static final Map<String, Pair<Supplier<Item>, Supplier<Item>>> BLAST_FURNACE_DUSTS = new HashMap<>();
     private static final Map<String, Supplier<ItemStack>> DUST_TO_INGOT = new HashMap<>();
     private static final Map<String, Supplier<ItemStack>> ORE_TO_INGOT = new HashMap<>();
-    private static final List<String> IGNORED_NAMES = Arrays.asList("blockClay", "dustClay", "blockPrismarine", "blockPrismarineBrick", "naquadah", "brickXyEngineering", "breederUranium", "diamondNugget", "infiniteBattery", "superconductor", "itemCharcoalSugar", "aluminumWire", "aluminiumWire", "silverWire",
-            "tinWire", "eliteBattery", "advancedBattery", "transformer", "coil", "wireMill", "multimeter", "itemMultimeter", "chunkLazurite", "itemRecord", "aluminumNatural", "aluminiumNatural", "naturalAluminum", "naturalAluminium",
-            "antimatterMilligram", "antimatterGram", "strangeMatter", "HSLivingmetalIngot", "oilMoving", "oilStill", "oilBucket", "orePetroleum", "dieselFuel", "lava", "water", "obsidianRod", "motor", "wrench", "coalGenerator",
-            "electricFurnace", "ironTube", "netherTube", "obbyTube", "valvePart", "aquaRegia", "leatherSeal", "leatherSlimeSeal", "enrichedUranium", "batteryInfinite", "itemSuperconductor", "camoPaste", "CAMO_PASTE");
+    private static final List<String> IGNORED_NAMES;
     
     private boolean activated = false;
 
     static {
-        GT_ORE_NAMES.put("battery", "crafting10kEUStore");
-        GT_ORE_NAMES.put("basicCircuit", "craftingCircuitTier02");
-        GT_ORE_NAMES.put("circuitBasic", "craftingCircuitTier02");
-        GT_ORE_NAMES.put("advancedCircuit", "craftingCircuitTier04");
-        GT_ORE_NAMES.put("circuitAdvanced", "craftingCircuitTier04");
-        GT_ORE_NAMES.put("eliteCircuit", "craftingCircuitTier06");
-        GT_ORE_NAMES.put("circuitElite", "craftingCircuitTier06");
-        GT_ORE_NAMES.put("basalt", "stoneBasalt");
-        GT_ORE_NAMES.put("marble", "stoneMarble");
-        GT_ORE_NAMES.put("mossystone", "stoneMossy");
-        GT_ORE_NAMES.put("MonazitOre", "oreMonazit");
-        GT_ORE_NAMES.put("blockQuickSilver", "blockQuicksilver");
-        GT_ORE_NAMES.put("ingotQuickSilver", "ingotQuicksilver");
-        GT_ORE_NAMES.put("ingotQuicksilver", "itemQuicksilver");
-        GT_ORE_NAMES.put("dustQuickSilver", "dustQuicksilver");
-        GT_ORE_NAMES.put("dustQuicksilver", "itemQuicksilver");
-        GT_ORE_NAMES.put("itemQuickSilver", "itemQuicksilver");
-        GT_ORE_NAMES.put("dustCharCoal", "dustCharcoal");
-        GT_ORE_NAMES.put("quartzCrystal", "crystalQuartz");
-        GT_ORE_NAMES.put("quartz", "crystalQuartz");
-        GT_ORE_NAMES.put("woodGas", "gasWood");
-        GT_ORE_NAMES.put("woodLog", "logWood");
-        GT_ORE_NAMES.put("pulpWood", "dustWood");
-        GT_ORE_NAMES.put("blockCobble", "stoneCobble");
-        GT_ORE_NAMES.put("gemPeridot", "gemOlivine");
-        GT_ORE_NAMES.put("dustPeridot", "dustOlivine");
-        GT_ORE_NAMES.put("dustDiamond", "itemDiamond");
-        GT_ORE_NAMES.put("gemDiamond", "itemDiamond");
-        GT_ORE_NAMES.put("dustLapis", "itemLazurite");
-        GT_ORE_NAMES.put("dustLapisLazuli", "itemLazurite");
-        GT_ORE_NAMES.put("dustLazurite", "itemLazurite");
-        GT_ORE_NAMES.put("craftingRawMachineTier01", "craftingRawMachineTier00");
-        GT_ORE_NAMES.put("dustSulfur", "craftingSulfurToGunpowder");
-        GT_ORE_NAMES.put("dustSaltpeter", "craftingSaltpeterToGunpowder");
-        GT_ORE_NAMES.put("crystalQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("crystalNetherQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("crystalCertusQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("dustQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("dustCertusQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("dustNetherQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("ingotQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("ingotNetherQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("ingotCertusQuartz", "craftingQuartz");
-        GT_ORE_NAMES.put("blockAluminum", "blockAluminium");
-        GT_ORE_NAMES.put("ingotAluminum", "ingotAluminium");
-
-        VALUABLE_ORES.put("soulsand", 1);
-        VALUABLE_ORES.put("glowstone", 1);
-        VALUABLE_ORES.put("oreLapis", 3);
-        VALUABLE_ORES.put("oreSodalite", 3);
-        VALUABLE_ORES.put("oreRedstone", 3);
-        VALUABLE_ORES.put("oreQuartz", 4);
-        VALUABLE_ORES.put("oreNikolite", 3);
-        VALUABLE_ORES.put("oreIron", 3);
-        VALUABLE_ORES.put("oreGold", 4);
-        VALUABLE_ORES.put("oreSilver", 3);
-        VALUABLE_ORES.put("oreLead", 3);
-        VALUABLE_ORES.put("oreSilverLead", 4);
-        VALUABLE_ORES.put("oreGalena", 4);
-        VALUABLE_ORES.put("oreDiamond", 5);
-        VALUABLE_ORES.put("oreEmerald", 5);
-        VALUABLE_ORES.put("oreRuby", 4);
-        VALUABLE_ORES.put("oreSapphire", 4);
-        VALUABLE_ORES.put("oreGreenSapphire", 4);
-        VALUABLE_ORES.put("oreOlivine", 4);
-        VALUABLE_ORES.put("oreCoal", 1);
-        VALUABLE_ORES.put("oreCopper", 3);
-        VALUABLE_ORES.put("oreTin", 3);
-        VALUABLE_ORES.put("oreZinc", 2);
-        VALUABLE_ORES.put("oreCassiterite", 3);
-        VALUABLE_ORES.put("oreTetrahedrite", 3);
-        VALUABLE_ORES.put("oreAntimony", 3);
-        VALUABLE_ORES.put("oreIridium", 10);
-        VALUABLE_ORES.put("oreCooperite", 10);
-        VALUABLE_ORES.put("oreSheldonite", 10);
-        VALUABLE_ORES.put("orePlatinum", 7);
-        VALUABLE_ORES.put("oreNickel", 4);
-        VALUABLE_ORES.put("orePyrite", 1);
-        VALUABLE_ORES.put("oreCinnabar", 3);
-        VALUABLE_ORES.put("oreSphalerite", 2);
-        VALUABLE_ORES.put("oreAluminium", 2);
-        VALUABLE_ORES.put("oreAluminum", 2);
-        VALUABLE_ORES.put("oreSteel", 4);
-        VALUABLE_ORES.put("oreTitan", 5);
-        VALUABLE_ORES.put("oreTitanium", 5);
-        VALUABLE_ORES.put("oreChrome", 10);
-        VALUABLE_ORES.put("oreChromium", 10);
-        VALUABLE_ORES.put("oreElectrum", 5);
-        VALUABLE_ORES.put("oreTungsten", 4);
-        VALUABLE_ORES.put("oreTungstate", 4);
-        VALUABLE_ORES.put("oreBauxite", 2);
-        VALUABLE_ORES.put("oreApatite", 1);
-        VALUABLE_ORES.put("oreSulfur", 1);
-        VALUABLE_ORES.put("oreSaltpeter", 2);
-        VALUABLE_ORES.put("orePhosphorite", 2);
-        VALUABLE_ORES.put("oreMagnesium", 2);
-        VALUABLE_ORES.put("oreManganese", 2);
-        VALUABLE_ORES.put("oreMonazit", 3);
-        VALUABLE_ORES.put("oreMonazite", 3);
-        VALUABLE_ORES.put("oreFortronite", 3);
-        VALUABLE_ORES.put("oreThorium", 5);
-        VALUABLE_ORES.put("orePlutonium", 15);
-        VALUABLE_ORES.put("oreOsmium", 20);
-        VALUABLE_ORES.put("oreEximite", 3);
-        VALUABLE_ORES.put("oreMeutoite", 3);
-        VALUABLE_ORES.put("orePrometheum", 3);
-        VALUABLE_ORES.put("oreDeepIron", 2);
-        VALUABLE_ORES.put("oreInfuscolium", 3);
-        VALUABLE_ORES.put("oreOureclase", 3);
-        VALUABLE_ORES.put("oreAredrite", 3);
-        VALUABLE_ORES.put("oreAstralSilver", 4);
-        VALUABLE_ORES.put("oreCarmot", 4);
-        VALUABLE_ORES.put("oreMithril", 4);
-        VALUABLE_ORES.put("oreRubracium", 3);
-        VALUABLE_ORES.put("oreOrichalcum", 3);
-        VALUABLE_ORES.put("oreAdamantine", 5);
-        VALUABLE_ORES.put("oreAtlarus", 3);
-        VALUABLE_ORES.put("oreIgnatius", 3);
-        VALUABLE_ORES.put("oreShadowIron", 4);
-        VALUABLE_ORES.put("oreMidasium", 3);
-        VALUABLE_ORES.put("oreVyroxeres", 3);
-        VALUABLE_ORES.put("oreCeruclase", 3);
-        VALUABLE_ORES.put("oreKalendrite", 3);
-        VALUABLE_ORES.put("oreVulcanite", 3);
-        VALUABLE_ORES.put("oreSanguinite", 3);
-        VALUABLE_ORES.put("oreLemurite", 3);
-        VALUABLE_ORES.put("oreAdluorite", 3);
-        VALUABLE_ORES.put("oreNaquadah", 8);
-        VALUABLE_ORES.put("oreBitumen", 2);
-        VALUABLE_ORES.put("oreForce", 3);
-        VALUABLE_ORES.put("oreCertusQuartz", 4);
-        VALUABLE_ORES.put("oreVinteum", 3);
-        VALUABLE_ORES.put("orePotash", 2);
-        VALUABLE_ORES.put("oreArdite", 2);
-        VALUABLE_ORES.put("oreCobalt", 2);
-        VALUABLE_ORES.put("oreUranium", 5);
+        Path path = GtUtil.extractConfigAsset("oredict.json");
+        JsonObject json = JsonHandler.readJSON(path);
+        GT_ORE_NAMES = StreamEx.of(json.getAsJsonObject("ore_aliases").entrySet())
+            .toMap(Map.Entry::getKey, entry -> entry.getValue().getAsString());
+        
+        VALUABLE_ORES = StreamEx.of(json.getAsJsonObject("valuable_ores").entrySet())
+            .toMap(Map.Entry::getKey, entry -> entry.getValue().getAsInt());
+        
+        IGNORED_NAMES = StreamEx.of(json.getAsJsonArray("ignored_names").iterator())
+            .map(JsonElement::getAsString)
+            .toList();
         
         BLAST_FURNACE_DUSTS.put("steel", Pair.of(BlockItems.Ingot.STEEL::getInstance, BlockItems.Dust.STEEL::getInstance));
         BLAST_FURNACE_DUSTS.put("chrome", Pair.of(BlockItems.Ingot.CHROME::getInstance, BlockItems.Dust.CHROME::getInstance));
@@ -325,13 +198,13 @@ public class OreDictHandler {
                         );
                         ModHandler.addShapelessRecipe(
                                 ingotName + "ToNuggets",
-                                StackUtil.copyWithSize(unified, 9),
+                                ItemHandlerHelper.copyStackWithSize(unified, 9),
                                 new OreIngredient(ingotName)
                         );
                         ModHandler.removeFactorizerRecipe(ingot, true);
                         ModHandler.removeFactorizerRecipe(unified, false);
-                        ModHandler.addFactorizerRecipe(ingot, StackUtil.copyWithSize(unified, 9), true);
-                        ModHandler.addFactorizerRecipe(StackUtil.copyWithSize(unified, 9), ingot, false);
+                        ModHandler.addFactorizerRecipe(ingot, ItemHandlerHelper.copyStackWithSize(unified, 9), true);
+                        ModHandler.addFactorizerRecipe(ItemHandlerHelper.copyStackWithSize(unified, 9), ingot, false);
                     });
         } else if (name.startsWith("plate")) {
             if (!name.startsWith("plateAlloy")) {
@@ -395,8 +268,8 @@ public class OreDictHandler {
                 );
             }
 
-            ModHandler.getCraftingResult(ore)
-                    .ifPresent(dye -> DynamicRecipes.addExtractorRecipe(Recipes.inputFactory.forOreDict(name), StackUtil.copyWithSize(dye, dye.getCount() + 1)));
+            ModHandler.getRecipeOutput(ore)
+                    .ifPresent(dye -> DynamicRecipes.addExtractorRecipe(Recipes.inputFactory.forOreDict(name), ItemHandlerHelper.copyStackWithSize(dye, dye.getCount() + 1)));
         }
     }
     
@@ -437,7 +310,7 @@ public class OreDictHandler {
         if (recipe != null) {
             ItemStack result = recipe.getRecipeOutput();
             if (!result.isEmpty()) {
-                ItemStack planks = StackUtil.copyWithSize(result, result.getCount() * 3 / 2);
+                ItemStack planks = ItemHandlerHelper.copyStackWithSize(result, result.getCount() * 3 / 2);
                 DynamicRecipes.addSawmillRecipe(RecipeSawmill.create(RecipeIngredientItemStack.create(stack), Arrays.asList(planks, BlockItems.Dust.WOOD.getItemStack()), 1, true));
                 ModHandler.removeCraftingRecipeFromInputs(stack);
                 String recipeName = recipe.getRegistryName().getPath();
@@ -451,7 +324,7 @@ public class OreDictHandler {
                 GameRegistry.addShapelessRecipe(
                         new ResourceLocation(Reference.MODID, recipeName),
                         null,
-                        StackUtil.copyWithSize(result, result.getCount() / (GregTechConfig.GENERAL.woodNeedsSawForCrafting ? 2 : 1)),
+                        ItemHandlerHelper.copyStackWithSize(result, result.getCount() / (GregTechConfig.GENERAL.woodNeedsSawForCrafting ? 2 : 1)),
                         Ingredient.fromStacks(stack)
                 );
             }
@@ -493,12 +366,12 @@ public class OreDictHandler {
         });
         
         if (!gem.ifPresent(stack -> {
-            if (ModHandler.getCraftingResult(stack, stack, ItemStack.EMPTY, stack, stack).itemEquals(ore)) return;
+            if (ModHandler.getRecipeOutput(stack, stack, ItemStack.EMPTY, stack, stack).itemEquals(ore)) return;
                             
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
             
             if (storageBlockCrafting) processBlockRecipe(ore, name + "FromGems");
-            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToGem", StackUtil.copyWithSize(stack, 9), new OreIngredient(name));
+            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToGem", ItemHandlerHelper.copyStackWithSize(stack, 9), new OreIngredient(name));
                             
             DynamicRecipes.addIngotToBlockRecipe(gemName, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
         })) {
@@ -572,12 +445,12 @@ public class OreDictHandler {
         ItemStack unified = OreDictUnificator.getUnifiedOre(name, stack);
 
         if (!OreDictUnificator.getFirstOre("gearStone")
-                .flatMap(gearStone -> ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, gearStone, unified, ItemStack.EMPTY, unified, ItemStack.EMPTY))
+                .flatMap(gearStone -> ModHandler.getRecipeOutput(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, gearStone, unified, ItemStack.EMPTY, unified, ItemStack.EMPTY))
                 .ifPresent(output -> DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(RecipeIngredientOre.create("gearStone"), RecipeIngredientItemStack.create(unified, 4), output, 1600, 2)))
         ) {
             OptionalItemStack.when(
-                    ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Items.IRON_INGOT), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY), 
-                    ModHandler.getCraftingResult(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Blocks.COBBLESTONE), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY)
+                    ModHandler.getRecipeOutput(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Items.IRON_INGOT), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY), 
+                    ModHandler.getRecipeOutput(ItemStack.EMPTY, unified, ItemStack.EMPTY, unified, new ItemStack(Blocks.COBBLESTONE), unified, ItemStack.EMPTY, unified, ItemStack.EMPTY)
             ).ifPresent(output -> DynamicRecipes.addAssemblerRecipe(RecipeDualInput.create(RecipeIngredientOre.create("stoneCobble"), RecipeIngredientItemStack.create(unified, 4), output, 1600, 2)));
         }
 
@@ -635,7 +508,7 @@ public class OreDictHandler {
                     Ingredient[] ingredients = new Ingredient[count];
                     Arrays.fill(ingredients, new OreIngredient(name));
                     ModHandler.addShapelessRecipe(dustName + "FromSmalldusts", dust, ingredients);
-                    ModHandler.addShapelessRecipe(dustName + "ToSmalldusts", StackUtil.copyWithSize(stack, count), new OreIngredient(dustName));
+                    ModHandler.addShapelessRecipe(dustName + "ToSmalldusts", ItemHandlerHelper.copyStackWithSize(stack, count), new OreIngredient(dustName));
                 });
     }
 
@@ -693,7 +566,7 @@ public class OreDictHandler {
                 DynamicRecipes.addSmeltingRecipe(name, stack, BlockItems.Dust.SALTPETER.getItemStack(3));
                 break;
             case "oreSulfur":
-                DynamicRecipes.addSmeltingRecipe(name, stack, StackUtil.copyWithSize(IC2Items.getItem("dust", "sulfur"), 3));
+                DynamicRecipes.addSmeltingRecipe(name, stack, ItemHandlerHelper.copyStackWithSize(IC2Items.getItem("dust", "sulfur"), 3));
                 break;
         }
     }

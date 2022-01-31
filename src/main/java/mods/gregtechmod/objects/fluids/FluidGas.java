@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.fluids;
 
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 
@@ -13,7 +13,7 @@ public class FluidGas extends Fluid {
 
     @Override
     public String getUnlocalizedName() {
-        return Reference.MODID + "." + super.getUnlocalizedName();
+        return GtLocale.buildKey(super.getUnlocalizedName());
     }
 
     @Override

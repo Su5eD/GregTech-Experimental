@@ -3,7 +3,6 @@ package mods.gregtechmod.objects.blocks.teblocks.struct;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotOutput;
-import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
@@ -18,9 +17,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, RM extends IGtRecipeManagerSecondaryFluid<R>> extends TileEntityStructureBase<T, R, List<IRecipeIngredient>, List<ItemStack>, RM> {
@@ -36,7 +35,7 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
         
         this.secondaryInput = getSecondaryInputSlot("secondary_input");
         this.fluidContainerOutput = new InvSlotOutput(this, "fluid_output", 1);
-        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Collections.emptySet(), Fluids.fluidPredicate(FluidRegistry.WATER), 10000));
+        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Util.noFacings, GtUtil.fluidPredicate(FluidRegistry.WATER), 10000));
         
         addGuiValue("water_level", this::getWaterLevel);
     }
@@ -57,7 +56,7 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
             this.waterTank.drainInternal(mb, true);
         } else {
             ItemStack container = this.secondaryInput.consume(count, true);
-            this.pendingFluidContainer = StackUtil.copyWithSize(FluidUtil.tryEmptyContainer(container, GtUtil.VOID_TANK, mb, null, true).result, container.getCount());
+            this.pendingFluidContainer = ItemHandlerHelper.copyStackWithSize(FluidUtil.tryEmptyContainer(container, GtUtil.VOID_TANK, mb, null, true).result, container.getCount());
         }
     }
     

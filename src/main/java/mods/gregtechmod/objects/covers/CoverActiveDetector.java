@@ -4,7 +4,7 @@ import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IMachineProgress;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Locale;
 
 public class CoverActiveDetector extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("active_detector");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("active_detector");
     
     @NBTPersistent
     protected DetectorMode mode = DetectorMode.NORMAL;
@@ -31,18 +31,19 @@ public class CoverActiveDetector extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IMachineProgress)) return;
-        IMachineProgress machine = (IMachineProgress) te;
+        if (te instanceof IMachineProgress) {
+            IMachineProgress machine = (IMachineProgress) te;
 
-        byte strength = (byte) ((machine.getProgress() + 4) / machine.getMaxProgress() * 15);
-        if (mode == DetectorMode.NORMAL || mode == DetectorMode.INVERTED) {
-            if (strength > 0 && machine.isActive()) {
-                machine.setRedstoneOutput(side, mode.inverted ? (byte) (15 - strength) : strength);
+            int strength = (int) ((machine.getProgress() + 4) / machine.getMaxProgress() * 15);
+            if (mode == DetectorMode.NORMAL || mode == DetectorMode.INVERTED) {
+                if (strength > 0 && machine.isActive()) {
+                    machine.setRedstoneOutput(side, mode.inverted ? 15 - strength : strength);
+                } else {
+                    machine.setRedstoneOutput(side, mode.inverted ? 15 : 0);
+                }
             } else {
-                machine.setRedstoneOutput(side, (byte) (mode.inverted ? 15 : 0));
+                machine.setRedstoneOutput(side, (mode == DetectorMode.READY) != (machine.getProgress() == 0) ? 0 : 15);
             }
-        } else {
-            machine.setRedstoneOutput(side, (mode == DetectorMode.READY) != (machine.getProgress() == 0) ? (byte) 0 : 15);
         }
     }
 
@@ -90,7 +91,7 @@ public class CoverActiveDetector extends CoverGeneric {
 
     @Override
     public void onCoverRemove() {
-        if (te instanceof IGregTechMachine) ((IGregTechMachine) te).setRedstoneOutput(side, (byte) 0);
+        if (te instanceof IGregTechMachine) ((IGregTechMachine) te).setRedstoneOutput(side, 0);
     }
 
     @Override
@@ -116,11 +117,11 @@ public class CoverActiveDetector extends CoverGeneric {
         }
 
         public DetectorMode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getMessageKey() {
-            return Reference.MODID + ".item.active_detector.mode." + this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "active_detector", "mode", name().toLowerCase(Locale.ROOT));
         }
     }
 }

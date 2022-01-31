@@ -1,0 +1,47 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "GHG",
+    "DPM",
+    "GCG"
+  ],
+  "key":
+  {
+    "D":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingDiamondBlade"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateElectrum"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingPiston"
+    },
+    "H":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 61
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 62
+  }
+}

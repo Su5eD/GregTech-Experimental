@@ -20,11 +20,10 @@ public class RecipeDistillation extends RecipeCellular {
                                             @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                             @JsonProperty(value = "cells") int cells,
                                             @JsonProperty(value = "duration", required = true) int duration) {
-        output = RecipeUtil.adjustOutputCount("distillation", output, 4);
+        List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("distillation", output, 4);
+        RecipeDistillation recipe = new RecipeDistillation(input, adjustedOutput, cells, duration);
 
-        RecipeDistillation recipe = new RecipeDistillation(input, output, cells, duration);
-
-        if (!RecipeUtil.validateRecipeIO("distillation", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("distillation", input, adjustedOutput)) recipe.invalid = true;
 
         return recipe;
     }

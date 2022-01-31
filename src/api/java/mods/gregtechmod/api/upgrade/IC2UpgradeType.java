@@ -1,6 +1,7 @@
 package mods.gregtechmod.api.upgrade;
 
 import com.google.common.base.CaseFormat;
+import ic2.api.upgrade.UpgradableProperty;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -12,26 +13,31 @@ public enum IC2UpgradeType {
 
     public static final Set<IC2UpgradeType> DEFAULT = EnumSet.of(OVERCLOCKER, TRANSFORMER, BATTERY);
     
-    public final String property;
+    public final UpgradableProperty property;
     public final int maxCount;
     public final String itemType;
 
     IC2UpgradeType(int maxCount) {
-        this.property = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.name());
+        String propertyName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name());
+        this.property = UpgradableProperty.valueOf(propertyName);
         this.maxCount = maxCount;
-        this.itemType = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this.property);
+        this.itemType = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, propertyName);
     }
 
 
     IC2UpgradeType(String name, int maxCount) {
-        this.property = name;
+        this.property = UpgradableProperty.valueOf(name);
         this.maxCount = maxCount;
-        this.itemType = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this.property);
+        this.itemType = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
     }
 
     IC2UpgradeType(String name, int maxCount, String itemType) {
-        this.property = name;
+        this.property = UpgradableProperty.valueOf(name);
         this.maxCount = maxCount;
         this.itemType = itemType;
+    }
+    
+    public UpgradableProperty getProperty() {
+        return this.property;
     }
 }

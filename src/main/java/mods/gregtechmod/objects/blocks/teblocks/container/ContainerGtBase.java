@@ -1,8 +1,13 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerFullInv;
+import ic2.core.ContainerBase;
+import ic2.core.block.invslot.InvSlot;
+import ic2.core.slot.SlotInvSlot;
+import mods.gregtechmod.api.util.TriConsumer;
+import mods.gregtechmod.api.util.TriFunction;
+import mods.gregtechmod.inventory.ISlotInteractive;
 import mods.gregtechmod.inventory.SlotArmor;
-import mods.gregtechmod.inventory.SlotInteractive;
+import mods.gregtechmod.util.ButtonClick;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -12,21 +17,27 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public class ContainerGtBase<T extends IInventory> extends ContainerFullInv<T> {
-    
-    public ContainerGtBase(EntityPlayer player, T base) {
-        this(player, base, 166);
-    }
+public abstract class ContainerGtBase<T extends IInventory> extends ContainerBase<T> {
 
-    public ContainerGtBase(EntityPlayer player, T base, int height) {
-        super(player, base, height);
+    public ContainerGtBase(T base) {
+        super(base);
     }
 
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickType, EntityPlayer player) {
         if (slotId >= 0 && slotId < this.inventorySlots.size()) {
             Slot slot = getSlot(slotId);
-            if (slot instanceof SlotInteractive) ((SlotInteractive) slot).slotClick(dragType, clickType, player);
+            if (slot instanceof ISlotInteractive) {
+                ButtonClick click = ButtonClick.fromClickType(clickType, dragType);
+                
+                if (click != null) {
+                    ItemStack stack = player.inventory.getItemStack();
+                    boolean result = ((ISlotInteractive) slot).slotClick(click, player, stack);
+                    
+                    this.base.markDirty();
+                    if (result) return stack;
+                }
+            }
         }
         
         return super.slotClick(slotId, dragType, clickType, player);
@@ -46,5 +57,25 @@ public class ContainerGtBase<T extends IInventory> extends ContainerFullInv<T> {
         addSlotToContainer(new SlotArmor(player.inventory, 38, x, y + 18, EntityEquipmentSlot.CHEST));
         addSlotToContainer(new SlotArmor(player.inventory, 37, x, y + 36, EntityEquipmentSlot.LEGS));
         addSlotToContainer(new SlotArmor(player.inventory, 36, x, y + 54, EntityEquipmentSlot.FEET));
+    }
+    
+    protected void addSlotsToContainer(int rows, int cols, int xOffset, int yOffset, InvSlot invSlot) {
+        addSlotsToContainer(rows, cols, xOffset, yOffset, 18, (index, x, y) -> new SlotInvSlot(invSlot, index, x, y));
+    }
+    
+    protected void addSlotsToContainer(int rows, int cols, int xOffset, int yOffset, int slotOffset, TriFunction<Integer, Integer, Integer, Slot> slotFactory) {
+        forEachRowCol(rows, cols, xOffset, yOffset, slotOffset, (index, x, y) -> addSlotToContainer(slotFactory.apply(index, x, y)));
+    }
+
+    protected void forEachRowCol(int rows, int cols, int xOffset, int yOffset, int slotOffset, TriConsumer<Integer, Integer, Integer> consumer) {
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                int index = x + y * cols;
+                int xPos = xOffset + x * slotOffset;
+                int yPos = yOffset + y * slotOffset;
+
+                consumer.accept(index, xPos, yPos);
+            }
+        }
     }
 }

@@ -48,9 +48,26 @@ public class OptionalItemStack {
         return !this.value.isEmpty();
     }
     
+    public boolean isEmpty() {
+        return this.value.isEmpty();
+    }
+    
     public OptionalItemStack flatMap(Function<ItemStack, OptionalItemStack> mapper) {
         if (isPresent()) return mapper.apply(this.value);
         else return EMPTY;
+    }
+    
+    public OptionalItemStack ifEmpty(Runnable runnable) {
+        if (isEmpty()) runnable.run();
+        return this;
+    }
+    
+    public OptionalItemStack orElse(Supplier<ItemStack> stack) {
+        return isEmpty() ? of(stack.get()) : this;
+    }
+    
+    public OptionalItemStack orElseFlat(Supplier<OptionalItemStack> optional) {
+        return isEmpty() ? optional.get() : this;
     }
     
     public boolean ifPresent(Consumer<ItemStack> consumer) {

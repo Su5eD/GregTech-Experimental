@@ -1,10 +1,9 @@
 package mods.gregtechmod.objects.blocks;
 
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
@@ -31,11 +30,11 @@ public class BlockBase extends Block {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-        tooltip.add(I18n.format(Reference.MODID + ".tile.disable_creature_spawning"));
+        tooltip.add(GtLocale.translateKey("tile", "disable_creature_spawning"));
     }
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID + "." + super.getTranslationKey();
+        return GtLocale.buildKey(super.getTranslationKey());
     }
 }

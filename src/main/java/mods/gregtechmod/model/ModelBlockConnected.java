@@ -31,10 +31,15 @@ public class ModelBlockConnected extends ModelBase {
         TEXTURE_ALIASES.put("n", "ns");
         TEXTURE_ALIASES.put("s", "ns");
     }
-
+    
     @SafeVarargs
     public ModelBlockConnected(Map<String, ResourceLocation> mainTextures, Map<String, ResourceLocation>... extras) {
-        super(mainTextures.get(""), getTextures(mainTextures, extras).map(Map.Entry::getValue).collect(Collectors.toList()));
+        this(true, mainTextures, extras);
+    }
+
+    @SafeVarargs
+    protected ModelBlockConnected(boolean enableCache, Map<String, ResourceLocation> mainTextures, Map<String, ResourceLocation>... extras) {
+        super(mainTextures.get(""), getTextures(mainTextures, extras).map(Map.Entry::getValue).collect(Collectors.toList()), enableCache);
         this.textures = getTextures(mainTextures, extras).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
     

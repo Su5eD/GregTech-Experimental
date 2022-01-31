@@ -54,11 +54,11 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
             return item instanceof ISolderingTool && ((ISolderingTool) item).solder(stack, player, false);
         }, this.maintenance::setSolderingTool);
         
-        if (OreDictUnificator.isItemInstanceOf(stack, "craftingDuctTape", false)) {
+        if (!stack.isEmpty() && OreDictUnificator.isItemInstanceOf(stack, "craftingDuctTape", false)) {
             this.ductTape = true;
             this.maintenance.setAll(true);
             stack.shrink(1);
-            rerender();
+            updateRender();
         }
     }
     

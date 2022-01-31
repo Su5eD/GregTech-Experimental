@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "GBG",
+    "CBC",
+    "GBG"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateElectrum"
+    },
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingConveyor"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 59
+  }
+}

@@ -7,10 +7,10 @@ import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverProvider;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.util.nbt.INBTSerializer;
+import mods.gregtechmod.util.nbt.INBTHandler;
+import mods.gregtechmod.util.nbt.NBTHandlerRegistry;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
-import mods.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class CoverHandler extends GtComponentBase {
     public static final IUnlistedProperty<CoverHandler> COVER_HANDLER_PROPERTY = new UnlistedProperty<>("coverhandler", CoverHandler.class);
     
-    @NBTPersistent(include = Include.NOT_EMPTY, using = CoverMapNBTSerializer.class)
+    @NBTPersistent(include = Include.NOT_EMPTY, handler = CoverMapNBTSerializer.class)
     public final Map<EnumFacing, ICover> covers = new HashMap<>();
     private final Runnable changeHandler;
 
@@ -33,7 +33,7 @@ public class CoverHandler extends GtComponentBase {
     }
     
     static {
-        NBTSaveHandler.addSpecialSerializer(Map.class, CoverMapNBTSerializer::new);
+        NBTHandlerRegistry.addSpecialHandler(CoverMapNBTSerializer::new);
     }
 
     public boolean placeCoverAtSide(ICover cover, EnumFacing side, boolean simulate) {
@@ -65,7 +65,7 @@ public class CoverHandler extends GtComponentBase {
         return false;
     }
 
-    private static class CoverMapNBTSerializer implements INBTSerializer<Map<EnumFacing, ICover>, NBTTagCompound> {
+    private static class CoverMapNBTSerializer implements INBTHandler<Map<EnumFacing, ICover>, NBTTagCompound> {
         @Override
         public NBTTagCompound serialize(Map<EnumFacing, ICover> map) {
             NBTTagCompound nbt = new NBTTagCompound();

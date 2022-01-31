@@ -51,7 +51,7 @@ public interface ICover {
 
     boolean overrideRedstoneOut();
 
-    byte getRedstoneInput();
+    int getRedstoneInput();
 
     /**
      * @return The location of the cover's texture

@@ -1,0 +1,47 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "GBG",
+    "PMH",
+    "GCG"
+  ],
+  "key":
+  {
+    "B":
+    {
+      "type": "forge:ore_dict",
+      "ore": "crafting10kEUStore"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier02"
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier02"
+    },
+    "G":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateElectrum"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingTeleporter"
+    },
+    "H":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 58
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 61
+  }
+}

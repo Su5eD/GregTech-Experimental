@@ -2,7 +2,6 @@ package mods.gregtechmod.recipe.manager;
 
 import ic2.api.recipe.Recipes;
 import ic2.core.recipe.BasicMachineRecipeManager;
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.compat.ModHandler;
@@ -10,6 +9,7 @@ import mods.gregtechmod.recipe.compat.ModRecipes;
 import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,15 +25,15 @@ public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverize
         }
         return ret;
     }
-    
+
     private static void addPulverisationRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
         ModRecipes.convertRecipeIngredient(input)
-                .forEach(recipeInput -> ModHandler.addIC2Recipe((BasicMachineRecipeManager) Recipes.macerator, recipeInput, null, overwrite, primaryOutput));
-        
+            .forEach(recipeInput -> ModHandler.addIC2Recipe((BasicMachineRecipeManager) Recipes.macerator, recipeInput, null, overwrite, primaryOutput));
+
         int count = input.getCount();
-        input.getMatchingInputs().stream()
-                .map(stack -> StackUtil.copyWithSize(stack, count))
-                .forEach(stack -> addPulverisationRecipe(stack, primaryOutput, secondaryOutput, chance, overwrite));
+        input.stream()
+            .map(stack -> ItemHandlerHelper.copyStackWithSize(stack, count))
+            .forEach(stack -> addPulverisationRecipe(stack, primaryOutput, secondaryOutput, chance, overwrite));
     }
 
     private static void addPulverisationRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {

@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import one.util.streamex.StreamEx;
 
 public class FuelManagerFluid<F extends IFuel<? extends IRecipeIngredient>> extends FuelManagerSolid<F> implements IFuelManagerFluid<F> {
     @Override
@@ -23,8 +24,7 @@ public class FuelManagerFluid<F extends IFuel<? extends IRecipeIngredient>> exte
         return this.fuels.stream()
                 .filter(fuel -> {
                     IRecipeIngredient input = fuel.getInput();
-                    if (input instanceof IRecipeIngredientFluid) return ((IRecipeIngredientFluid) input).apply(target);
-                    return false;
+                    return input instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) input).apply(target);
                 })
                 .findFirst()
                 .orElse(null);
@@ -38,10 +38,9 @@ public class FuelManagerFluid<F extends IFuel<? extends IRecipeIngredient>> exte
 
     @Override
     public boolean hasFuel(Fluid target) {
-        return this.fuels.stream()
+        return StreamEx.of(this.fuels)
                 .map(IFuel::getInput)
-                .filter(IRecipeIngredientFluid.class::isInstance)
-                .map(IRecipeIngredientFluid.class::cast)
+                .select(IRecipeIngredientFluid.class)
                 .anyMatch(input -> input.apply(target));
     }
 }

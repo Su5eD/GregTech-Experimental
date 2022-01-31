@@ -1,7 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,14 +29,14 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
                     return true;
                 }
             }
-            else return addOutput(fluid);
+            return addOutput(fluid);
         }
         return false;
     }
     
     public boolean addOutput(FluidStack stack) {
         if (stack != null) {
-            if (GtUtil.STEAM_PREDICATE.apply(stack.getFluid()) ? this.mode.outputsSteam : this.mode.outputsLiquids) {
+            if (GtUtil.STEAM_PREDICATE.test(stack.getFluid()) ? this.mode.outputsSteam : this.mode.outputsLiquids) {
                 int amount = this.tank.content.fill(stack, false);
                 if (amount >= stack.amount) {
                     return this.tank.content.fill(stack, true) >= stack.amount;
@@ -51,7 +51,7 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
         boolean ret = super.onScrewdriverActivated(stack, side, player, hitX, hitY, hitZ);
         if (!ret) {
             this.mode = this.mode.next();
-            GtUtil.sendMessage(player, Reference.MODID + ".teblock.hatch_output.mode." + this.mode.name().toLowerCase(Locale.ROOT));
+            GtUtil.sendMessage(player, GtLocale.buildKeyTeBlock(this, "mode", this.mode.name().toLowerCase(Locale.ROOT)));
         }
         return true;
     }
@@ -79,7 +79,7 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
         }
         
         public Mode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
     }
 }

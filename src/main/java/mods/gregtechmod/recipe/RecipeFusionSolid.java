@@ -20,10 +20,10 @@ public class RecipeFusionSolid extends RecipeFusion<IRecipeIngredient, ItemStack
                                            @JsonProperty(value = "duration", required = true) int duration,
                                            @JsonProperty(value = "energyCost", required = true) double energyCost,
                                            @JsonProperty(value = "startEnergy", required = true) double startEnergy) {
-        input = RecipeUtil.adjustInputCount("fusion", input, output, 2);
-        RecipeFusionSolid recipe = new RecipeFusionSolid(input, output, duration, energyCost, startEnergy);
+        List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("fusion", input, output, 2);
+        RecipeFusionSolid recipe = new RecipeFusionSolid(adjustedInput, output, duration, energyCost, startEnergy);
 
-        RecipeUtil.validateRecipeIO("fusion", input, output);
+        RecipeUtil.validateRecipeIO("fusion", adjustedInput, output);
 
         return recipe;
     }

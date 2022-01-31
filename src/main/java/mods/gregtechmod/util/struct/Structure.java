@@ -1,14 +1,22 @@
 package mods.gregtechmod.util.struct;
 
+import com.google.common.primitives.Chars;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.tuple.Triple;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -22,12 +30,14 @@ import java.util.stream.Collectors;
  * @param <T> Generic type of {@link WorldStructure#instance}
  */
 public class Structure<T> {
+    public static final Character STRUCTURE_ROOT = 'X'; 
+    private static final List<Character> IGNORED = Arrays.asList(STRUCTURE_ROOT, ' ');
+    
     private final Map<Character, Collection<StructureElement>> elements;
-    public final List<List<String>> pattern;
+    private final List<List<String>> pattern;
     private final BiFunction<EnumFacing, Map<Character, Collection<BlockPos>>, T> factory;
     private final Consumer<T> onInvalidate;
-    
-    public final Collection<Triple<Character, Collection<StructureElement>, Collection<Vec3iRotatable>>> applied = new HashSet<>();
+    private final Collection<Triple<Character, Collection<StructureElement>, List<Vec3iRotatable>>> applied;
     
     private WorldStructure worldStructure;
 
@@ -47,112 +57,79 @@ public class Structure<T> {
      */
     public Structure(List<List<String>> pattern, Map<Character, Collection<StructureElement>> elements, BiFunction<EnumFacing, Map<Character, Collection<BlockPos>>, T> factory, Consumer<T> onInvalidate) {
         this.elements = Collections.unmodifiableMap(elements);
-        this.pattern = pattern;
+        this.pattern = Collections.unmodifiableList(pattern);
         this.factory = factory;
         this.onInvalidate = onInvalidate;
         
         Vec3iRotatable root = findRoot(this.pattern);
-        if (root == null) throw new RuntimeException("Could not find structure pattern root");
-                
-        Map<Character, Collection<Vec3iRotatable>> vecs = new HashMap<>();
-        this.elements.forEach((id, element) -> vecs.put(id, new HashSet<>()));
-        
-        for (int y = 0; y < this.pattern.size(); y++) {
-            List<String> layer = this.pattern.get(y);
-            
-            int size = layer.size();
-            for (int z = 0; z < size; z++) {
-                char[] row = layer.get(z).toCharArray();
-                
-                for (int x = 0; x < row.length; x++) {
-                    char ch = row[x];
+        this.applied = EntryStream.of(this.pattern)
+                .mapValues(layer -> EntryStream.of(layer)
+                        .mapValues(row -> EntryStream.of(Chars.asList(row.toCharArray()))
+                                .removeValues(IGNORED::contains)))
+                .flatMapKeyValue((y, layer) -> 
+                        layer.flatMapKeyValue((z, row) -> row.invert()
+                                .mapValues(x -> new Vec3iRotatable(x, y, z).relativise(root))
+                        )
+                )
+                .mapToEntry(Entry::getKey, Entry::getValue)
+                .sorted(Entry.comparingByKey())
+                .collapseKeys()
+                .mapKeyValue((ch, list) -> {
+                    Collection<StructureElement> elms = Optional.ofNullable(this.elements.get(ch)).orElseThrow(() -> {
+                        String message = String.format("Unknown element identifier '%s' in structure pattern %s. Known identifiers: %s", ch, this.pattern, this.elements.keySet());
+                        return new IllegalArgumentException(message);
+                    });
                     
-                    if (ch != ' ' && ch != 'X') {
-                        Collection<StructureElement> pred = this.elements.get(ch);
-                        if (pred == null) throw new IllegalArgumentException(String.format("Unknown element identifier '%s' in structure pattern %s. Known identifiers: %s", ch, this.pattern, this.elements.keySet()));
-                        
-                        Vec3iRotatable vec = new Vec3iRotatable(x, y, z);
-                        Vec3iRotatable relative = vec.relativise(root);
-                        vecs.get(ch).add(relative);
-                    }
-                }
-            }
-        }
-        
-        vecs.forEach((id, vectors) -> this.applied.add(Triple.of(id, this.elements.get(id), vectors)));
+                    StreamEx.of(elms)
+                            .filter(element -> element.minCount == 0 && element.maxCount == 0)
+                            .forEach(element -> element.minCount = element.maxCount = list.size());
+                    
+                    return Triple.of(ch, elms, list);
+                })
+                .toList();
     }
     
     private Vec3iRotatable findRoot(List<List<String>> pattern) {
-        Vec3iRotatable root = null;
-        for (int y = 0; y < pattern.size(); y++) {
-            List<String> layer = pattern.get(y);
-                
-            int size = layer.size();
-            for (int z = 0; z < size; z++) {
-                char[] row = layer.get(z).toCharArray();
-                    
-                for (int x = 0; x < row.length; x++) {
-                    char ch = row[x];
-                        
-                    if (ch == 'X') {
-                        if (root == null) root = new Vec3iRotatable(x, y, z);
-                        else throw new IllegalArgumentException("Duplicate structure root found");
-                    }
-                }
-            }
-        }
-            
-        return root;
+        return EntryStream.of(pattern)
+                .mapValues(EntryStream::of)
+                .flatMapValues(layer -> 
+                        layer.flatMapValues(row -> EntryStream.of(Chars.asList(row.toCharArray()))
+                                .filterValues(STRUCTURE_ROOT::equals))
+                )
+                .mapKeyValue((y, layer) -> new Vec3iRotatable(layer.getValue().getKey(), y, layer.getKey()))
+                .toListAndThen(list -> {
+                    if (list.isEmpty()) throw new RuntimeException("Could not find structure pattern root");
+                    else if (list.size() > 1) throw new RuntimeException("Duplicate structure root found");
+                    else return list.get(0);
+                });
     }
     
     public void checkWorldStructure(BlockPos root, EnumFacing facing) {
         if (this.worldStructure == null || this.worldStructure.facing != facing) {
-            Collection<Triple<Character, Collection<StructureElement>, Collection<BlockPos>>> worldApplied = this.applied.stream()
+            Collection<Triple<Character, Collection<StructureElement>, Collection<BlockPos>>> worldApplied = StreamEx.of(this.applied)
                     .map(triple -> {
-                        Collection<Vec3iRotatable> vecs = triple.getRight();
-                        Collection<BlockPos> positions = vecs.stream()
+                        Collection<BlockPos> positions = StreamEx.of(triple.getRight())
                                 .map(vec -> {
                                     Vec3i rotated = vec.rotateHorizontal(facing);
                                     return root.add(rotated);
                                 })
-                                .collect(Collectors.toSet());
+                                .toSet();
                         return Triple.of(triple.getLeft(), triple.getMiddle(), positions);
                     })
-                    .collect(Collectors.toSet());
+                    .toSet();
             
             this.worldStructure = new WorldStructure(facing, worldApplied);
         }
         
-        boolean oldValid = this.worldStructure.valid;
         boolean valid = this.worldStructure.elements.stream()
-                .allMatch(triple -> {
-                    Collection<StructureElement> elements = triple.getMiddle();
-                    Map<StructureElement, Integer> counts = elements.stream()
-                            .collect(Collectors.toMap(Function.identity(), e -> 0));
-
-                    boolean validPositions = triple.getRight().stream()
-                            .allMatch(pos -> elements.stream()
-                                    .filter(e -> e.predicate.test(pos))
-                                    .findFirst()
-                                    .map(structElement -> {
-                                        //noinspection ConstantConditions
-                                        counts.compute(structElement, (e, count) -> count + 1);
-                                        return true;
-                                    })
-                                    .orElse(false));
-                    
-                    boolean validCounts = counts.entrySet().stream()
-                            .allMatch(entry -> {
-                                StructureElement structElement = entry.getKey();
-                                int count = entry.getValue();
-                                return (structElement.minCount < 1 || count >= structElement.minCount) && (structElement.maxCount < 1 || count <= structElement.maxCount);
-                            });
-                    
-                    return validPositions && validCounts;
-                });
+                .allMatch(triple -> StreamEx.of(triple.getMiddle())
+                        .mapToEntry(element -> StreamEx.of(triple.getRight())
+                                .filter(element.predicate)
+                                .count())
+                        .allMatch((element, count) -> (element.minCount < 1 || count >= element.minCount) && (element.maxCount < 1 || count <= element.maxCount)));
         
         if (valid) {
-            if (!oldValid) {
+            if (!this.worldStructure.valid) {
                 Map<Character, Collection<BlockPos>> elements = this.worldStructure.elements.stream()
                         .collect(Collectors.toMap(Triple::getLeft, Triple::getRight));
                 this.worldStructure.valid = true;
@@ -179,7 +156,7 @@ public class Structure<T> {
 
     /**
      * An in-world instance of this Structure.
-     * This is cached based on the root position and facing.
+     * This is cached based on the facing.
      */
     public class WorldStructure {
         public final EnumFacing facing;

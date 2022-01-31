@@ -30,6 +30,6 @@ public class MultiItemIngredient implements IIngredientFactory {
                 return Ingredient.fromStacks(stack);
             }
         }
-        throw new JsonSyntaxException("IMultiItem "+parts[0]+" not found");
+        throw new JsonSyntaxException("IMultiItem " + parts[0] + " not found");
     }
 }

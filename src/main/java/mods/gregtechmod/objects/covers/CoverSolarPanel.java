@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CoverSolarPanel extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("solar_panel");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("solar_panel");
     
     private final double daytimeEnergy;
     private final double nighttimeEnergy;

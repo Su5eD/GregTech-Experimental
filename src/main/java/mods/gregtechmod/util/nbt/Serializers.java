@@ -1,7 +1,6 @@
 package mods.gregtechmod.util.nbt;
 
 import com.mojang.authlib.GameProfile;
-import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
@@ -17,7 +16,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public final class Serializers {
     
@@ -74,21 +73,7 @@ public final class Serializers {
         }
     }
     
-    public static NBTTagCompound serializeInvSlot(InvSlot slot) {
-        NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setInteger("size", slot.size());
-        slot.writeToNbt(nbt);
-        return nbt;
-    }
-    
-    public static InvSlot deserializeInvSlot(NBTTagCompound nbt) {
-        int size = nbt.getInteger("size");
-        InvSlot slot = new InvSlot(size);
-        slot.readFromNbt(nbt);
-        return slot;
-    }
-    
-    static class ComputerCubeModuleSerializer implements INBTSerializer<IComputerCubeModule, NBTTagCompound> {
+    static class ComputerCubeModuleSerializer implements INBTHandler<IComputerCubeModule, NBTTagCompound> {
         @Override
         public NBTTagCompound serialize(IComputerCubeModule value) {
             NBTTagCompound tag = new NBTTagCompound();
@@ -109,7 +94,65 @@ public final class Serializers {
         }
     }
 
-    public static class ItemStackListNBTSerializer implements INBTSerializer<List<ItemStack>, NBTTagList> {
+    public static class ListSerializer implements INBTSerializer<List<?>, NBTTagList> {
+        
+        @Override
+        public NBTTagList serialize(List<?> value) {
+            NBTTagList list = new NBTTagList();
+
+            value.stream()
+                    .map(val -> {
+                        NBTTagCompound nbt = new NBTTagCompound();
+                        NBTSaveHandler.writeClassToNBT(val, nbt);
+                        return nbt;
+                    })
+                    .forEach(list::appendTag);
+
+            return list;
+        }
+    }
+    
+    public static abstract class ListDeserializer implements INBTDeserializer<List<?>, NBTTagList> {
+        private final BiFunction<Object, Integer, ?> factory;
+
+        public ListDeserializer(BiFunction<Object, Integer, ?> factory) {
+            this.factory = factory;
+        }
+
+        @Override
+        public List<?> deserialize(NBTTagList nbt, Object instance, Class<?> cls) {
+            List<Object> list = new ArrayList<>();
+
+            for (int i = 0; i < nbt.tagCount(); i++) {
+                NBTTagCompound tag = nbt.getCompoundTagAt(i);
+                Object value = this.factory.apply(instance, i);
+                NBTSaveHandler.readClassFromNBT(value, tag);
+                list.add(value);
+            }
+
+            return list;
+        }
+    }
+    
+    public static class ListModifyingDeserializer implements INBTModifyingDeserializer<List<?>, NBTTagList> {
+
+        @Override
+        public void modifyValue(List<?> value, NBTTagList nbt) {
+            if (nbt.getTagType() != 10) {
+                throw new IllegalArgumentException("NBTTagList must be of type 10 (NBTTagCompound)");
+            }
+            else if (value.size() != nbt.tagCount()) {
+                GregTechMod.LOGGER.error("Found varying sizes for tag list {} and value {}", nbt, value);
+                throw new IllegalArgumentException("Varying sizes of existing and serialized value");
+            }
+
+            for (int i = 0; i < value.size(); i++) {
+                NBTSaveHandler.readClassFromNBT(value.get(i), nbt.getCompoundTagAt(i));
+            }
+        }
+    }
+
+    public static class ItemStackListNBTSerializer implements INBTHandler<List<ItemStack>, NBTTagList> {
         @Override
         public NBTTagList serialize(List<ItemStack> value) {
             NBTTagList list = new NBTTagList();
@@ -127,7 +170,7 @@ public final class Serializers {
         }
     }
     
-    static class EnumNBTSerializer implements INBTSerializer<Enum<?>, NBTTagString> {
+    static class EnumNBTSerializer implements INBTHandler<Enum<?>, NBTTagString> {
         @Override
         public NBTTagString serialize(Enum<?> value) {
             return new NBTTagString(value.name());
@@ -141,27 +184,7 @@ public final class Serializers {
         }
     }
     
-    static class SimpleNBTSerializer<T, U extends NBTBase> implements INBTSerializer<T, U> {
-        private final Function<T, U> serializer;
-        private final Function<U, T> deserializer;
-
-        public SimpleNBTSerializer(Function<T, U> serializer, Function<U, T> deserializer) {
-            this.serializer = serializer;
-            this.deserializer = deserializer;
-        }
-
-        @Override
-        public U serialize(T value) {
-            return this.serializer.apply(value);
-        }
-
-        @Override
-        public T deserialize(U nbt, Object instance, Class<?> cls) {
-            return this.deserializer.apply(nbt);
-        }
-    }
-    
-    static class None implements INBTSerializer<Object, NBTBase> {
+    static class None implements INBTHandler<Object, NBTBase> {
         @Override
         public NBTBase serialize(Object value) {
             throw new UnsupportedOperationException();

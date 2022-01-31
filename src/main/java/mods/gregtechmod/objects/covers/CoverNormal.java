@@ -9,8 +9,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class CoverNormal extends CoverGeneric {
-    private static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
-    private static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
+    public static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
+    public static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
     
     @NBTPersistent
     protected CoverMeter.MeterMode mode = CoverMeter.MeterMode.NORMAL;

@@ -8,7 +8,7 @@ import java.io.File;
 
 public class DynamicConfig {
     public static void init() {
-        File dynamicCfgFile = new File(new File(GregTechMod.configDir, "GregTech"), "DynamicConfig.cfg");
+        File dynamicCfgFile = GregTechMod.configDir.resolve("GregTech/DynamicConfig.cfg").toFile();
         Configuration config = new Configuration(dynamicCfgFile);
         config.load();
         JavaUtil.setStaticValue(GregTechAPI.class, "dynamicConfig", config);

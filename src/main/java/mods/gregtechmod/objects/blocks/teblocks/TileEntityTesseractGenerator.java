@@ -123,7 +123,7 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
         
         if (TESSERACTS.get(this.frequency) == this) {
             if (this.isWorking <= 20) ++this.isWorking;
-            if (this.isWorking == 20) rerender();
+            if (this.isWorking == 20) updateRender();
         } else {
             this.isWorking = 0;
         }

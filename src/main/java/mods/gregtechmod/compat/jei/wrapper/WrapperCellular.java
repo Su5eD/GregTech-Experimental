@@ -1,6 +1,5 @@
 package mods.gregtechmod.compat.jei.wrapper;
 
-import ic2.core.util.StackUtil;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -13,11 +12,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.items.ItemHandlerHelper;
+import one.util.streamex.StreamEx;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class WrapperCellular implements IRecipeWrapper {
     private final RecipeCellular recipe;
@@ -34,34 +34,34 @@ public class WrapperCellular implements IRecipeWrapper {
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        IRecipeIngredient input = recipe.getInput();
-        int cells = recipe.getCells();
+        IRecipeIngredient input = this.recipe.getInput();
+        int cells = this.recipe.getCells();
         int count = input.getCount();
 
         if (input instanceof IRecipeIngredientFluid) {
             int amount = count * Fluid.BUCKET_VOLUME;
-            List<FluidStack> fluids = ((IRecipeIngredientFluid) input).getMatchingFluids().stream()
-                    .map(fluid -> new FluidStack(fluid, amount))
-                    .collect(Collectors.toList());
+            List<FluidStack> fluids = StreamEx.of(((IRecipeIngredientFluid) input).getMatchingFluids())
+                .map(fluid -> new FluidStack(fluid, amount))
+                .toList();
             ingredients.setInputs(VanillaTypes.FLUID, fluids);
-            ItemStack cell = cells > 0 ? StackUtil.copyWithSize(ModHandler.emptyCell, cells) : ItemStack.EMPTY;
+
+            ItemStack cell = cells > 0 ? ItemHandlerHelper.copyStackWithSize(ModHandler.emptyCell, cells) : ItemStack.EMPTY;
             ingredients.setInput(VanillaTypes.ITEM, cell);
         } else {
-            List<ItemStack> stacks = input.getMatchingInputs()
-                    .stream()
-                    .map(stack -> StackUtil.copyWithSize(stack, count))
-                    .collect(Collectors.toList());
-            List<List<ItemStack>> inputs = new ArrayList<>(Collections.singletonList(stacks));
-            ItemStack cell = cells > 0 ? StackUtil.copyWithSize(ModHandler.emptyCell, cells) : ItemStack.EMPTY;
-            inputs.add(0, Collections.singletonList(cell));
+            List<List<ItemStack>> inputs = input.stream()
+                .map(stack -> ItemHandlerHelper.copyStackWithSize(stack, count))
+                .toListAndThen(list -> {
+                    ItemStack cell = cells > 0 ? ItemHandlerHelper.copyStackWithSize(ModHandler.emptyCell, cells) : ItemStack.EMPTY;
+                    return Arrays.asList(Collections.singletonList(cell), list);
+                });
             ingredients.setInputLists(VanillaTypes.ITEM, inputs);
         }
 
-        ingredients.setOutputs(VanillaTypes.ITEM, recipe.getOutput());
+        ingredients.setOutputs(VanillaTypes.ITEM, this.recipe.getOutput());
     }
 
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        JEIUtils.drawInfo(minecraft, recipe, showEnergyCost);
+        JEIUtils.drawInfo(minecraft, this.recipe, this.showEnergyCost);
     }
 }

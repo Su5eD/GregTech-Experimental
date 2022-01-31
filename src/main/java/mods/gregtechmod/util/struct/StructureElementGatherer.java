@@ -7,7 +7,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -25,7 +30,7 @@ public class StructureElementGatherer {
     }
     
     public StructureElementGatherer tileEntity(char id, Class<? extends TileEntity> tileEntity, int minCount) {
-        return tileEntity(id, tileEntity, minCount, 0);
+        return tileEntity(id, tileEntity, minCount, minCount);
     }
     
     public StructureElementGatherer tileEntity(char id, Class<? extends TileEntity> tileEntity, int minCount, int maxCount) {
@@ -60,7 +65,7 @@ public class StructureElementGatherer {
         }
         
         public ElementBuilder tileEntity(Class<? extends TileEntity> tileEntity, int minCount) {
-            return tileEntity(tileEntity, minCount, 0);
+            return tileEntity(tileEntity, minCount, minCount);
         }
         
         public ElementBuilder tileEntity(Class<? extends TileEntity> tileEntity, int minCount, int maxCount) {

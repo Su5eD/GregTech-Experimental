@@ -17,12 +17,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Locale;
-
 public class OreDictRegistrar {
 
     public static void registerItems() {
         GregTechMod.LOGGER.debug("Adding certain items to the OreDict unification blacklist");
+        OreDictUnificator.addToBlacklist(IC2Items.getItem("crafting", "industrial_diamond"));
 
         GregTechMod.LOGGER.debug("Registering GregTech items to the Ore Dictionary");
 
@@ -39,8 +38,8 @@ public class OreDictRegistrar {
         registerOresWildcard("craftingToolSaw", BlockItems.Saw.values());
         registerOresWildcard("craftingToolSolderingMetal", BlockItems.SolderingMetal.values());
         registerOresWildcard("craftingToolWrench", BlockItems.Wrench.values());
-        registerOresWildcard("dye", BlockItems.ColorSpray.values());
-        registerOresWildcard("cell", BlockItems.Cell.values());
+        registerOresWildcardPrefix("dye", BlockItems.ColorSpray.values());
+        registerOresWildcardPrefix("cell", BlockItems.Cell.values());
         registerOres(BlockItems.Upgrade.values());
         registerOres(BlockItems.CoverItem.values());
         registerOres(BlockItems.Component.values());
@@ -341,7 +340,7 @@ public class OreDictRegistrar {
         //registerOre("craftingRawMachineTier01", GregTechTEBlock.machine_box); TODO add machine box to oredict when added
         //registerOre("craftingCircuitTier03", GregTechTEBlock.restone_circuit_block); TODO add redstone circuit block to oredict when added
         registerOre("craftingCircuitTier10", GregTechObjectAPI.getTileEntity("computer_cube"));
-        //registerOre("craftingWorkBench", GregTechTEBlock.electric_workbench); TODO add electric crafting table to oredict when added
+        registerOre("craftingWorkBench", GregTechObjectAPI.getTileEntity("electric_crafting_table"));
         registerOre("craftingChest", GregTechObjectAPI.getTileEntity("advanced_safe"));
         registerOre("craftingMacerator", GregTechObjectAPI.getTileEntity("auto_macerator"));
         registerOre("craftingRecycler", GregTechObjectAPI.getTileEntity("auto_recycler"));
@@ -394,10 +393,20 @@ public class OreDictRegistrar {
     }
     
     public static <T extends Enum<?> & IItemProvider> void registerOres(String prefix, T[] providers, boolean filterProfile) {
+        registerOres(prefix, providers, filterProfile, false);
+    }
+    
+    public static <T extends Enum<?> & IItemProvider> void registerOresWildcardPrefix(String prefix, T[] providers) {
+        registerOres(prefix, providers, false, true);
+    }
+    
+    public static <T extends Enum<?> & IItemProvider> void registerOres(String prefix, T[] providers, boolean filterProfile, boolean wildcard) {
         for (T provider : providers) {
             if (!filterProfile || ProfileDelegate.shouldEnable(provider)) {
-                String name = provider.name().toLowerCase(Locale.ROOT);
-                registerOre(prefix + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name), provider.getItemStack());
+                String name = prefix + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, provider.name());
+                
+                if (wildcard) registerOreWildcard(name, provider.getInstance());
+                else registerOre(name, provider.getItemStack());
             }
         }
     }

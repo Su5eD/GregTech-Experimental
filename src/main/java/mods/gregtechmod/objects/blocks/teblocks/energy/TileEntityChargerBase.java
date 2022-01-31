@@ -10,7 +10,6 @@ import mods.gregtechmod.gui.GuiEnergyStorage;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
 import mods.gregtechmod.util.GtLocale;
-import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -52,16 +51,16 @@ public abstract class TileEntityChargerBase extends TileEntityUpgradable impleme
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        return GtUtil.allSidesExcept(getFacing());
+        return allSidesExceptFacing();
     }
     
     @Override
     protected Collection<EnumFacing> getSourceSides() {
-        return Collections.singleton(getFacing());
+        return facingSideOnly();
     }
 
     public String getGuiName() {
-        return GtLocale.translateTeBlock(this.teBlock, "container.name");
+        return GtLocale.translateTeBlock(this, "container.name");
     }
     
     @Override

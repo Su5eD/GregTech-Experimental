@@ -93,7 +93,7 @@ public class ItemElectricBase extends ItemBase implements IElectricItem, IPseudo
     @Override
     public String getTranslationKey(ItemStack stack) {
         if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
-            return super.getTranslationKey(stack)+".empty";
+            return super.getTranslationKey(stack) + ".empty";
         }
         return super.getTranslationKey(stack);
     }

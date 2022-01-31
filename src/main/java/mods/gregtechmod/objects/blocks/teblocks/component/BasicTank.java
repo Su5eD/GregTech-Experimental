@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.component;
 
-import com.google.common.base.Predicates;
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.TileEntityBlock;
 import ic2.core.block.comp.Fluids;
@@ -42,9 +41,8 @@ public class BasicTank extends GtComponentBase {
         this.slowProcessing = slowProcessing;
     }
     
-    @SuppressWarnings("Guava")
     private static GtFluidTank getDefaultFluidTank(ICoverable parent, int capacity, Collection<EnumFacing> inputSides, Collection<EnumFacing> outputSides) {
-        return new GtFluidTank(parent, "content", inputSides, outputSides, Predicates.alwaysTrue(), capacity);
+        return new GtFluidTank(parent, "content", inputSides, outputSides, fluid -> true, capacity);
     }
     
     @Override

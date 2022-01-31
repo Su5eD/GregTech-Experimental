@@ -1,13 +1,11 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import com.mojang.authlib.GameProfile;
-import ic2.core.IC2;
 import ic2.core.block.comp.TileEntityComponent;
 import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IScannerInfoProvider;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.objects.blocks.teblocks.component.SidedRedstoneEmitter;
 import mods.gregtechmod.util.BooleanCountdown;
@@ -23,7 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -33,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TileEntityCoverBehavior extends TileEntityCoverable implements IGregTechMachine, IScannerInfoProvider {
-    protected final String descriptionKey;
-    
     @NBTPersistent(include = Include.NON_NULL)
     private GameProfile owner;
     @NBTPersistent
@@ -43,20 +38,14 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public final SidedRedstoneEmitter rsEmitter;
     @NBTPersistent
     private boolean enableWorking = true;
-    private final BooleanCountdown workStartedNow = new BooleanCountdown(2);
+    private final BooleanCountdown workStartedNow = createSingleCountDown();
     @NBTPersistent
     private boolean enableInput = true;
     @NBTPersistent
     private boolean enableOutput = true;
 
     public TileEntityCoverBehavior() {
-        String key = getDescriptionKey();
-        this.descriptionKey = FMLCommonHandler.instance().getSide() == Side.CLIENT && GtLocale.hasKey(key) ? key : null;
         this.rsEmitter = addComponent(new SidedRedstoneEmitter(this));
-    }
-    
-    protected String getDescriptionKey() {
-        return "teblock." + this.teBlock.getName() + ".description";
     }
 
     @Override
@@ -89,7 +78,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         }
         
         if (!checkAccess(player)) {
-            GtUtil.sendMessage(player, Reference.MODID + ".info.access_error", owner.getName());
+            GtUtil.sendMessage(player, GtLocale.buildKeyInfo("access_error"), owner.getName());
             return true;
         }
         
@@ -116,15 +105,12 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
             int tickRate = cover.getTickRate();
             if (tickRate > 0 && this.tickCounter % tickRate == 0) cover.doCoverThings();
         }
-        
-        this.workStartedNow.countDown();
     }
 
     @Override
     public boolean canInsertItem(int index, ItemStack stack, EnumFacing side) {
-        if (!enableInput) return false;
-        else if (coverHandler.covers.containsKey(side)) return coverHandler.covers.get(side).letsItemsIn() && super.canInsertItem(index, stack, side);
-        return tryInsert(index, stack, side);
+        ICover cover = getCoverAtSide(side);
+        return this.enableInput && (cover == null || cover.letsItemsIn()) && isInputSide(side) && tryInsert(index, stack, side);
     }
 
     protected boolean tryInsert(int index, ItemStack stack, EnumFacing side) {
@@ -154,13 +140,12 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing side) {
-        if (!this.enableOutput) return false;
-        else if (this.coverHandler.covers.containsKey(side)) return this.coverHandler.covers.get(side).letsItemsOut() && super.canExtractItem(index, stack, side);
-        return super.canExtractItem(index, stack, side);
+        ICover cover = getCoverAtSide(side);
+        return this.enableOutput && (cover == null || cover.letsItemsOut()) && super.canExtractItem(index, stack, side);
     }
 
     @Override
-    public void setRedstoneOutput(EnumFacing side, byte strength) {
+    public void setRedstoneOutput(EnumFacing side, int strength) {
         this.rsEmitter.setLevel(side, strength);
     }
 
@@ -189,7 +174,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     protected boolean wrenchCanRemove(EntityPlayer player) {
         if (!checkAccess(player)) {
-            GtUtil.sendMessage(player, Reference.MODID + ".info.wrench_error", player.getName());
+            GtUtil.sendMessage(player, GtLocale.buildKeyInfo("wrench_error", player.getName()));
             return false;
         }
         return super.wrenchCanRemove(player);
@@ -199,12 +184,6 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("owner");
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
-        if (this.descriptionKey != null) tooltip.add(GtLocale.translate(this.descriptionKey));
     }
 
     @Nonnull
@@ -267,7 +246,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     public void setOwner(GameProfile owner) {
         this.owner = owner;
-        IC2.network.get(true).updateTileEntityField(this, "owner");
+        updateClientField("owner");
     }
 
     public boolean isPrivate() {

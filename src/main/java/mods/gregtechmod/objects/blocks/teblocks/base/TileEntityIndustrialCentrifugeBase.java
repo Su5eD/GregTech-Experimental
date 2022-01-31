@@ -26,6 +26,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.List;
 
@@ -50,9 +51,9 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     }
 
     @Override
-    protected void onUpdateIC2Upgrade(IC2UpgradeType type, ItemStack stack) {
+    protected void onUpdateIC2Upgrade(IC2UpgradeType type) {
         if (type == IC2UpgradeType.OVERCLOCKER) {
-            rerender();
+            updateRender();
         }
     }
 
@@ -80,7 +81,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
                         int cellsFromInputSlot = isIC2Cell(input.getItem()) ? Math.min(recipe.getCells(), cells) : 0;
                         this.inputSlot.consume(cells, false, true);
                         this.cellSlot.consume(recipe.getCells() - cellsFromInputSlot);
-                        if (addCellsToOutput(StackUtil.copyWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.DISSOLVE) this.maxProgress *= 1.5;
+                        if (addCellsToOutput(ItemHandlerHelper.copyStackWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.DISSOLVE) this.maxProgress *= 1.5;
                         return;
                     }
                 } else if (input.getCount() == 1) {
@@ -108,7 +109,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
         return item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic;
     }
 
-    public static boolean isCell(Item item) {
+    public static boolean isCell(Item item) { // TODO Move to utils
         return isIC2Cell(item) || StackUtil.checkItemEquality(ModHandler.can, item) || StackUtil.checkItemEquality(ModHandler.waxCapsule, item) || StackUtil.checkItemEquality(ModHandler.refractoryCapsule, item);
     }
 

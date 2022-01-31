@@ -55,7 +55,7 @@ public class CoverVent extends CoverGeneric {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid vent ItemStack: " + stack));
     }
 
-    private enum VentType {
+    public enum VentType {
         NORMAL(1.5, "machine_vent_rotating", IC2Items.getItem("heat_vent")),
         SPREAD(3, "adv_machine_vent", IC2Items.getItem("component_heat_vent")),
         ADVANCED(3, "adv_machine_vent_rotating", IC2Items.getItem("advanced_heat_vent"), IC2Items.getItem("overclocked_heat_vent"));

@@ -7,15 +7,19 @@ class FieldHandle {
     final String name;
     final Class<?> type;
     final Class<? extends INBTSerializer<?, ?>> serializer;
+    final Class<? extends INBTDeserializer<?, ?>> deserializer;
     final Predicate<Object> optional;
+    final boolean modifyExisting;
     final MethodHandle getter;
     final MethodHandle setter;
 
-    public FieldHandle(String name, Class<?> type, Class<? extends INBTSerializer<?, ?>> serializer, Predicate<Object> optional, MethodHandle getter, MethodHandle setter) {
+    public FieldHandle(String name, Class<?> type, Class<? extends INBTSerializer<?, ?>> serializer, Class<? extends INBTDeserializer<?, ?>> deserializer, Predicate<Object> optional, boolean modifyExisting, MethodHandle getter, MethodHandle setter) {
         this.name = name;
         this.type = type;
         this.serializer = serializer;
+        this.deserializer = deserializer;
         this.optional = optional;
+        this.modifyExisting = modifyExisting;
         this.getter = getter;
         this.setter = setter;
     }

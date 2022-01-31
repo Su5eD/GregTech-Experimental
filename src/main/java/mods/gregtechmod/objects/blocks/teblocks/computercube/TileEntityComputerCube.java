@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.computercube;
 
 import ic2.core.ContainerBase;
-import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
@@ -42,7 +41,8 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     
     public void switchModule() {
         this.module.activeModule = getNextModule(this.module.activeModule.getName());
-        if (!this.world.isRemote) rerender();
+        markDirty();
+        updateRender();
     }
 
     public IComputerCubeModule getNextModule(ResourceLocation current) {
@@ -69,7 +69,7 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        if (getActiveModule().updateServer()) IC2.network.get(true).updateTileEntityField(this, "module");
+        if (getActiveModule().updateServer()) updateClientField("module");
     }
 
     @Override

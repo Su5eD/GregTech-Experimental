@@ -21,11 +21,10 @@ public class RecipeCentrifuge extends RecipeCellular {
                                           @JsonProperty(value = "cells") int cells,
                                           @JsonProperty(value = "duration", required = true) int duration,
                                           @JsonProperty(value = "cellType") CellType cellType) {
-        output = RecipeUtil.adjustOutputCount("centrifuge", output, 4);
+        List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("centrifuge", output, 4);
+        RecipeCentrifuge recipe = new RecipeCentrifuge(input, adjustedOutput, cells, duration, cellType == null ? CellType.CELL : cellType);
 
-        RecipeCentrifuge recipe = new RecipeCentrifuge(input, output, cells, duration, cellType == null ? CellType.CELL : cellType);
-
-        if (!RecipeUtil.validateRecipeIO("centrifuge", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("centrifuge", input, adjustedOutput)) recipe.invalid = true;
 
         return recipe;
     }

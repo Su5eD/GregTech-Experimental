@@ -4,7 +4,7 @@ import net.minecraft.util.EnumFacing;
 
 public interface IGregTechMachine {
     
-    void setRedstoneOutput(EnumFacing side, byte strength);
+    void setRedstoneOutput(EnumFacing side, int strength);
     
     void setAllowedToWork(boolean value);
     

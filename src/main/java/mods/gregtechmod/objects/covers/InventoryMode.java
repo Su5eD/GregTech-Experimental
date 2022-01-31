@@ -1,6 +1,6 @@
 package mods.gregtechmod.objects.covers;
 
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import net.minecraft.util.EnumFacing;
 
 import java.util.Locale;
@@ -49,7 +49,7 @@ public enum InventoryMode {
     }
 
     public InventoryMode next() {
-        return VALUES[(this.ordinal() + 1) % VALUES.length];
+        return VALUES[(ordinal() + 1) % VALUES.length];
     }
 
     public boolean consumesEnergy(EnumFacing side) {
@@ -65,6 +65,6 @@ public enum InventoryMode {
     }
 
     public String getMessageKey() {
-        return Reference.MODID + ".cover.inventory_mode." + this.name().toLowerCase(Locale.ROOT);
+        return GtLocale.buildKey("cover", "inventory_mode", this.name().toLowerCase(Locale.ROOT));
     }
 }

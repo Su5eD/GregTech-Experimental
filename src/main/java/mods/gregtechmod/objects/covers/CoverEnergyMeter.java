@@ -5,7 +5,7 @@ import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Locale;
 
 public class CoverEnergyMeter extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
     
     @NBTPersistent
     protected Mode mode = Mode.UNIVERSAL;
@@ -60,9 +60,9 @@ public class CoverEnergyMeter extends CoverGeneric {
             }
             
             if (strength > 0) {
-                machine.setRedstoneOutput(side, this.mode.inverted ? (byte) (15 - strength) : strength);
+                machine.setRedstoneOutput(side, this.mode.inverted ? 15 - strength : strength);
             } else {
-                machine.setRedstoneOutput(side, (byte) (this.mode.inverted ? 15 : 0));
+                machine.setRedstoneOutput(side, this.mode.inverted ? 15 : 0);
             }
         }
     }
@@ -112,7 +112,7 @@ public class CoverEnergyMeter extends CoverGeneric {
     @Override
     public void onCoverRemove() {
         if (te instanceof IGregTechMachine) {
-            ((IGregTechMachine) te).setRedstoneOutput(side, (byte) 0);
+            ((IGregTechMachine) te).setRedstoneOutput(side, 0);
         }
     }
 
@@ -157,11 +157,11 @@ public class CoverEnergyMeter extends CoverGeneric {
         }
 
         public Mode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getMessageKey() {
-            return Reference.MODID + ".item.energy_meter.mode." + this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "energy_meter", "mode", name().toLowerCase(Locale.ROOT));
         }
     }
 }

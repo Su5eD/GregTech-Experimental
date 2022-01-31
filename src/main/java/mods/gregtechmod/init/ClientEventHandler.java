@@ -12,10 +12,12 @@ import mods.gregtechmod.model.*;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
+import mods.gregtechmod.objects.covers.*;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
 import mods.gregtechmod.util.*;
 import mods.gregtechmod.util.struct.Rotor;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,11 +38,12 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Reference.MODID, value = Side.CLIENT)
@@ -69,12 +72,9 @@ public class ClientEventHandler {
                     }
                 });
 
-        BlockItemLoader.getAllItems().stream()
-                .filter(ICustomItemModel.class::isInstance)
-                .forEach(item -> {
-                    ResourceLocation path = ((ICustomItemModel) item).getItemModel();
-                    registerModel(item, path);
-                });
+        StreamEx.of(BlockItemLoader.getAllItems())
+                .select(ICustomItemModel.class)
+                .forEach(item -> registerModel((Item) item, item.getItemModel()));
         
         registerBakedModels();
 
@@ -92,7 +92,7 @@ public class ClientEventHandler {
     private static void registerBakedModels() {
         GregTechMod.LOGGER.info("Registering baked models");
         BakedModelLoader loader = new BakedModelLoader();
-        JsonObject models = JsonHandler.readJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
+        JsonObject models = JsonHandler.readAssetJSON("blockstates/teblock.json").getAsJsonObject("variants").getAsJsonObject("type");
 
         for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
             switch (teBlock.getModelType()) {
@@ -102,18 +102,19 @@ public class ClientEventHandler {
                 case CONNECTED:
                     registerConnectedBakedModel(loader, teBlock.getName(), "machines", "", ModelTEBlockConnected::new);
                     break;
-                case REDSTONE:
-                    registerRedstoneModel(teBlock.getName(), models, loader);
+                case ELECTRIC_BUFFER:
+                    registerElectricBufferModel(teBlock.getName(), models, loader);
                     break;
             }
         }
         
-        for (BlockItems.Ore ore : BlockItems.Ore.values()) {
-            JsonHandler json = new JsonHandler(getItemModelPath("ore", ore.name().toLowerCase(Locale.ROOT)));
-            loader.register("models/block/ore/" + ore.name().toLowerCase(Locale.ROOT), new ModelBlockOre(json.particle, json.generateTextureMap(), json.generateTextureMap("textures_nether"), json.generateTextureMap("textures_end")));
-        }
+        registerBlockConnectedBakedModels(loader);
         
-        registerConnectedBakedModels(loader);
+        for (BlockItems.Ore ore : BlockItems.Ore.values()) {
+            String name = ore.name().toLowerCase(Locale.ROOT);
+            JsonHandler json = new JsonHandler(getItemModelPath("ore", name));
+            loader.register("models/block/ore/" + name, new ModelBlockOre(json.particle, json.generateTextureMap(), json.generateTextureMap("textures_nether"), json.generateTextureMap("textures_end")));
+        }
         
         ModelLoaderRegistry.registerLoader(loader);
     }
@@ -136,9 +137,12 @@ public class ClientEventHandler {
         }
     }
     
-    private static void registerRedstoneModel(String name, JsonObject models, BakedModelLoader loader) {
+    private static void registerElectricBufferModel(String name, JsonObject models, BakedModelLoader loader) {
         JsonHandler json = getTeBlockModel(name, models);
-        ModelRedstone model = new ModelRedstone(json.particle, json.generateTextureMap(), json.generateTextureMap("texturesRedstone"));
+        ResourceLocation textureDown = json.getResouceLocationElement("textureDown");
+        ResourceLocation textureDownRedstone = json.getResouceLocationElement("textureDownRedstone");
+        
+        ModelElectricBuffer model = new ModelElectricBuffer(json.particle, json.generateTextureMap(), json.generateTextureMap("texturesRedstone"), textureDown, textureDownRedstone);
         loader.register("models/block/" + name, model);
     }
     
@@ -150,18 +154,19 @@ public class ClientEventHandler {
         return new JsonHandler(getItemModelPath("teblock", modelPath));
     }
     
-    private static void registerConnectedBakedModels(BakedModelLoader loader) {
-        NormalStateMapper mapper = new NormalStateMapper();
-        Stream.of(BlockItems.Block.STANDARD_MACHINE_CASING, BlockItems.Block.REINFORCED_MACHINE_CASING, BlockItems.Block.ADVANCED_MACHINE_CASING, BlockItems.Block.IRIDIUM_REINFORCED_TUNGSTEN_STEEL, BlockItems.Block.TUNGSTEN_STEEL)
-                .map(BlockItems.Block::getBlockInstance)
-                .forEach(block -> ModelLoader.setCustomStateMapper(block, mapper));
-
-        // TODO Migrate
-        registerBlockConnectedBakedModel(loader, "standard_machine_casing", getRotorTextures("large_steam_turbine"));
-        registerBlockConnectedBakedModel(loader, "reinforced_machine_casing", getRotorTextures("large_gas_turbine"));
-        registerBlockConnectedBakedModel(loader, "advanced_machine_casing");
-        registerBlockConnectedBakedModel(loader, "iridium_reinforced_tungsten_steel");
-        registerBlockConnectedBakedModel(loader, "tungsten_steel");
+    private static void registerBlockConnectedBakedModels(BakedModelLoader loader) {
+        Arrays.stream(BlockItems.Block.values())
+                .filter(BlockItems.Block::hasConnectedModel)
+                .forEach(block -> {
+                    Block instance = block.getBlockInstance();
+                    ModelLoader.setCustomStateMapper(instance, NormalStateMapper.INSTANCE);
+                    
+                    String name = block.name().toLowerCase(Locale.ROOT);
+                    String rotorTextures = block.getExtraTextures();
+                    
+                    if (rotorTextures != null) registerBlockConnectedBakedModel(loader, name, getRotorTextures(rotorTextures));
+                    else registerBlockConnectedBakedModel(loader, name);
+                });
     }
     
     /**
@@ -171,9 +176,9 @@ public class ClientEventHandler {
      * @see Rotor#TEXTURE_PARTS
      */
     private static Map<String, ResourceLocation> getRotorTextures(String name) {
-        return Rotor.TEXTURE_PARTS.stream()
-                .flatMap(str -> Stream.of("rotor_" + str, "rotor_" + str + "_active"))
-                .collect(Collectors.toMap(Function.identity(), str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str)));
+        return StreamEx.of(Rotor.TEXTURE_PARTS)
+                .flatMap(str -> StreamEx.of("rotor_" + str, "rotor_" + str + "_active"))
+                .toMap(str -> new ResourceLocation(Reference.MODID, "blocks/machines/" + name + "/" + str));
     }
     
     @SafeVarargs
@@ -189,11 +194,11 @@ public class ClientEventHandler {
      */
     private static void registerConnectedBakedModel(BakedModelLoader loader, String name, String dir, String prefix, Function<Map<String, ResourceLocation>, IModel> modelFactory) {
         String basePath = "blocks/" + dir + "/" + name + "/" + name;
-        Map<String, ResourceLocation> textures = ModelBlockConnected.TEXTURE_PARTS.stream()
-                .collect(Collectors.toMap(Function.identity(), str -> {
+        Map<String, ResourceLocation> textures = StreamEx.of(ModelBlockConnected.TEXTURE_PARTS)
+                .toMap(str -> {
                     String resPath = str.isEmpty() ? basePath : basePath + "_" + str;
                     return new ResourceLocation(Reference.MODID, resPath);
-                }));
+                });
         
         loader.register("models/block/" + prefix + name, modelFactory.apply(textures));
     }
@@ -213,58 +218,59 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void registerIcons(TextureStitchEvent.Pre event) {
         TextureMap map = event.getMap();
-        String covers = "blocks/covers/";
         String machines = "blocks/machines/";
-        
-        Stream.of(
-                machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
-                machines + "centrifuge/centrifuge_top_active2",
-                machines + "centrifuge/centrifuge_top_active3",
-                machines + "centrifuge/centrifuge_side_active2",
-                machines + "centrifuge/centrifuge_side_active3",
-                machines + "computer_cube/computer_cube_reactor",
-                machines + "computer_cube/computer_cube_scanner",
-                machines + "electric_buffer_small/electric_buffer_small_down",
-                machines + "electric_buffer_small/electric_buffer_small_down_redstone",
-                machines + "hatch_maintenance/hatch_maintenance_front_ducttape",
-                machines + "lesu/lesu_lv_out",
-                machines + "lesu/lesu_mv_out",
-                machines + "lesu/lesu_hv_out",
-                machines + "machine_top_pipe",
-                covers + "active_detector",
-                covers + "adv_machine_vent",
-                covers + "adv_machine_vent_rotating",
-                covers + "conveyor",
-                covers + "crafting",
-                covers + "drain",
-                covers + "energy_only",
-                covers + "eu_meter",
-                covers + "item_meter",
-                covers + "liquid_meter",
-                covers + "machine_controller",
-                covers + "machine_vent_rotating",
-                covers + "noredstone",
-                covers + "normal",
-                covers + "pump",
-                covers + "redstone_conductor",
-                covers + "redstone_only",
-                covers + "redstone_signalizer",
-                covers + "solar_panel",
-                covers + "valve"
-        )
-                .map(str -> new ResourceLocation(Reference.MODID, str))
-                .forEach(map::registerSprite);
 
-        FluidLoader.FLUIDS.stream()
-                .map(FluidLoader.IFluidProvider::getTexture)
+        Stream.of(
+                Stream.of(
+                        machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
+                        machines + "adv_machine_pipe_blue",
+                        machines + "adv_machine_pipe_blue_redstone",
+                        machines + "centrifuge/centrifuge_top_active2",
+                        machines + "centrifuge/centrifuge_top_active3",
+                        machines + "centrifuge/centrifuge_side_active2",
+                        machines + "centrifuge/centrifuge_side_active3",
+                        machines + "computer_cube/computer_cube_reactor",
+                        machines + "computer_cube/computer_cube_scanner",
+                        machines + "hatch_maintenance/hatch_maintenance_front_ducttape",
+                        machines + "lesu/lesu_lv_out",
+                        machines + "lesu/lesu_mv_out",
+                        machines + "lesu/lesu_hv_out",
+                        machines + "machine_top_pipe"
+                )
+                        .map(str -> new ResourceLocation(Reference.MODID, str)),
+                Stream.of(
+                        CoverActiveDetector.TEXTURE,
+                        CoverConveyor.TEXTURE,
+                        CoverCrafting.TEXTURE,
+                        CoverDrain.TEXTURE,
+                        CoverEnergyOnly.TEXTURE,
+                        CoverEnergyMeter.TEXTURE,
+                        CoverItemMeter.TEXTURE,
+                        CoverLiquidMeter.TEXTURE,
+                        CoverMachineController.TEXTURE,
+                        CoverNormal.TEXTURE_NORMAL,
+                        CoverNormal.TEXTURE_NOREDSTONE,
+                        CoverPump.TEXTURE,
+                        CoverRedstoneConductor.TEXTURE,
+                        CoverRedstoneOnly.TEXTURE,
+                        CoverRedstoneSignalizer.TEXTURE,
+                        CoverSolarPanel.TEXTURE,
+                        CoverValve.TEXTURE
+                ),
+                Arrays.stream(CoverVent.VentType.values())
+                        .map(CoverVent.VentType::getIcon),
+                FluidLoader.FLUIDS.stream()
+                        .map(FluidLoader.IFluidProvider::getTexture)
+        )
+                .flatMap(Function.identity())
                 .forEach(map::registerSprite);
     }
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         EntityPlayer player = event.getEntityPlayer();
-        boolean fullInvisibility = player.isInvisible() && player.inventory.armorInventory.stream()
-                .filter(stack -> !stack.isEmpty())
+        boolean fullInvisibility = player.isInvisible() && StreamEx.of(player.inventory.armorInventory)
+                .remove(ItemStack::isEmpty)
                 .anyMatch(stack -> {
                     Item item = stack.getItem();
                     return item instanceof ItemArmorElectricBase 
@@ -279,10 +285,10 @@ public class ClientEventHandler {
     public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         List<String> tooltip = event.getToolTip();
-
-        EXTRA_TOOLTIPS.entrySet().stream()
-                .filter(entry -> entry.getKey().isItemEqual(stack))
-                .map(Map.Entry::getValue)
+        
+        EntryStream.of(EXTRA_TOOLTIPS)
+                .filterKeys(stack::isItemEqual)
+                .values()
                 .map(Supplier::get)
                 .findFirst()
                 .ifPresent(str -> tooltip.add(1, str));
@@ -291,10 +297,10 @@ public class ClientEventHandler {
         Item item = stack.getItem();
         if (fluidStack != null && TileEntityIndustrialCentrifugeBase.isCell(item) && !(item instanceof ItemCellClassic)) {
             Fluid fluid = fluidStack.getFluid();
-            FluidLoader.FLUIDS.stream()
+            StreamEx.of(FluidLoader.FLUIDS)
                     .filter(provider -> provider.getFluid() == fluid)
                     .map(FluidLoader.IFluidProvider::getDescription)
-                    .filter(Objects::nonNull)
+                    .nonNull()
                     .findFirst()
                     .ifPresent(desc -> tooltip.add(item instanceof ItemFluidCell ? 2 : 1, desc));
         }

@@ -27,7 +27,6 @@ import net.minecraft.world.Explosion;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManager<RI, I, R>> extends TileEntityUpgradable implements IHasGui, IMachineProgress, IExplosionPowerOverride, IPanelInfoProvider {
@@ -35,7 +34,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public final GtSlotProcessableItemStack<RM, I> inputSlot;
     public InvSlotOutput outputSlot;
 
-    @NBTPersistent(include = Include.NOT_EMPTY, using = ItemStackListNBTSerializer.class)
+    @NBTPersistent(include = Include.NOT_EMPTY, handler = ItemStackListNBTSerializer.class)
     protected List<ItemStack> pendingRecipe = new ArrayList<>();
     @NBTPersistent
     protected double progress;
@@ -61,11 +60,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     protected Collection<EnumFacing> getSinkSides() {
         return Util.allFacings;
-    }
-       
-    @Override
-    protected Collection<EnumFacing> getSourceSides() {
-        return Collections.emptySet();
     }
 
     public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
@@ -146,7 +140,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     protected void processRecipe() {
         setActive(true);
-        this.progress += Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER));
+        this.progress += 1 << getUpgradeCount(IC2UpgradeType.OVERCLOCKER);
         if (this.progress >= this.maxProgress) {
             addOutput(pendingRecipe);
             this.progress = 0;
@@ -167,7 +161,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     @Override
-    protected void onUpdateIC2Upgrade(IC2UpgradeType type, ItemStack stack) {
+    protected void onUpdateIC2Upgrade(IC2UpgradeType type) {
         if (type == IC2UpgradeType.OVERCLOCKER) {
             overclockEnergyConsume();
         }
@@ -240,12 +234,14 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     @Override
     public String getSecondaryInfo() {
-        return GtLocale.translateGeneric("time_secs", Math.round(this.progress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
+        double seconds = this.progress / (1 << getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20;
+        return GtLocale.translateGeneric("time_secs", Math.round(seconds));
     }
 
     @Override
     public String getTertiaryInfo() {
-        return  "/" + GtLocale.translateGeneric("time_secs", Math.round(this.maxProgress / Math.pow(2, getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20));
+        double seconds = this.maxProgress / (double) (1 << getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20;
+        return  "/" + GtLocale.translateGeneric("time_secs", Math.round(seconds));
     }
 
     @Override

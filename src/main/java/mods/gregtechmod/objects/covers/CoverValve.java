@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class CoverValve extends CoverPump {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("valve");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("valve");
 
     public CoverValve(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);

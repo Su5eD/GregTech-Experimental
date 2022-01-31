@@ -2,19 +2,27 @@ package mods.gregtechmod.objects.blocks.teblocks.container;
 
 import mods.gregtechmod.inventory.SlotInteractive;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityGtTeleporter;
+import mods.gregtechmod.util.ButtonClick;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.world.DimensionType;
 
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class ContainerGtTeleporter extends ContainerGtBase<TileEntityGtTeleporter> {
+public class ContainerGtTeleporter extends ContainerGtInventory<TileEntityGtTeleporter> {
 
     public ContainerGtTeleporter(EntityPlayer player, TileEntityGtTeleporter base) {
         super(player, base);
-        
-        addButtons();
+
+        for (Button button : Button.VALUES) {
+            int yOffset = 5 + button.ordinal() * 18;
+
+            addSlotToContainer(SlotInteractive.serverOnly(8, yOffset, click -> pushButton(-64, -512, click, button.onClick)));
+            addSlotToContainer(SlotInteractive.serverOnly(26, yOffset, click -> pushButton(-1, -16, click, button.onClick)));
+
+            addSlotToContainer(SlotInteractive.serverOnly(134, yOffset, click -> pushButton(1, 16, click, button.onClick)));
+            addSlotToContainer(SlotInteractive.serverOnly(152, yOffset, click -> pushButton(64, 512, click, button.onClick)));
+        }
     }
     
     private enum Button {
@@ -36,26 +44,15 @@ public class ContainerGtTeleporter extends ContainerGtBase<TileEntityGtTeleporte
         }
     }
     
-    private void addButtons() {
-        for (int y = 0; y < Button.VALUES.length; y++) {
-            Button button = Button.VALUES[y];
-            int yOffset = 5 + y * 18;
-            
-            addSlotToContainer(new SlotInteractive(this.base, -1, 8, yOffset, (dragType, clickType, player) -> pushButton(-64, -512, clickType, button.onClick)));
-            addSlotToContainer(new SlotInteractive(this.base, -1, 26, yOffset, (dragType, clickType, player) -> pushButton(-1, -16, clickType, button.onClick)));
-            
-            addSlotToContainer(new SlotInteractive(this.base, -1, 134, yOffset, (dragType, clickType, player) -> pushButton(1, 16, clickType, button.onClick)));
-            addSlotToContainer(new SlotInteractive(this.base, -1, 152, yOffset, (dragType, clickType, player) -> pushButton(64, 512, clickType, button.onClick)));
-        }
-    }
-    
-    private void pushButton(int min, int max, ClickType clickType, BiConsumer<TileEntityGtTeleporter, Integer> consumer) {
-        consumer.accept(this.base, clickType == ClickType.QUICK_MOVE ? max : min);
+    private void pushButton(int min, int max, ButtonClick click, BiConsumer<TileEntityGtTeleporter, Integer> consumer) {
+        consumer.accept(this.base, click == ButtonClick.SHIFT_MOVE ? max : min);
     }
 
     @Override
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("hasEgg");
+        list.add("targetPos");
+        list.add("targetDimension");
     }
 }

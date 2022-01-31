@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class TileEntityHatchDynamo extends TileEntityEnergy {
@@ -17,7 +16,7 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
     @Override
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
-        tooltip.set(2, GtLocale.translateTeBlock("hatch_dynamo", "description2"));
+        tooltip.set(2, GtLocale.translateTeBlock(this, "description2"));
     }
 
     @Override
@@ -37,6 +36,6 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
     
     @Override
     public Collection<EnumFacing> getSourceSides() {
-        return Collections.singleton(getFacing());
+        return facingSideOnly();
     }
 }

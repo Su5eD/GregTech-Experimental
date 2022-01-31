@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.items.components;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.item.ItemBattery;
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.util.GtLocale;
@@ -14,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -24,7 +24,7 @@ public class ItemLithiumBattery extends ItemBattery implements ICustomItemModel 
         super(null, 100000, 128, 1);
         setRegistryName("lithium_re_battery");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-        this.addPropertyOverride(new ResourceLocation(Reference.MODID, "battery_charge"), (stack, worldIn, entityIn) -> ElectricItem.manager.getCharge(StackUtil.copyWithSize(stack, 1)) > 0 ? 1 : 0);
+        addPropertyOverride(new ResourceLocation(Reference.MODID, "battery_charge"), (stack, worldIn, entityIn) -> ElectricItem.manager.getCharge(ItemHandlerHelper.copyStackWithSize(stack, 1)) > 0 ? 1 : 0);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ItemLithiumBattery extends ItemBattery implements ICustomItemModel 
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID+".item.lithium_re_battery";
+        return GtLocale.buildKeyItem("lithium_re_battery");
     }
 
     @Override

@@ -6,19 +6,22 @@ import com.google.gson.JsonObject;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JsonHandler {
-    private static final Gson GSON = new Gson();
+    public static final Gson GSON = new Gson();
     
     public final JsonObject json;
     public final ResourceLocation particle;
     private final LazyValue<JsonHandler> parent;
 
     public JsonHandler(String path) {
-        this.json = readJSON(path);
+        this.json = readAssetJSON(path);
         this.parent = new LazyValue<>(() -> {
             String parentPath = new ResourceLocation(this.json.get("parent").getAsString()).getPath();
             return new JsonHandler("models/" + parentPath + ".json");
@@ -26,12 +29,26 @@ public class JsonHandler {
         this.particle = getParticleTexture();
     }
 
-    public static JsonObject readJSON(String path) {
+    public static JsonObject readAssetJSON(String path) {
         try(Reader reader = GtUtil.readAsset(path)) {
             return GSON.fromJson(reader, JsonObject.class);
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not find resource " + path, e);
         }
+    }
+    
+    public static JsonObject readJSON(Path path) {
+        try(Reader reader = Files.newBufferedReader(path)) {
+            return GSON.fromJson(reader, JsonObject.class);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not read json " + path, e);
+        }
+    }
+    
+    @Nullable
+    public ResourceLocation getResouceLocationElement(String name) {
+        JsonElement element = this.json.get(name);
+        return element != null ? new ResourceLocation(element.getAsString()) : null;
     }
     
     public Map<EnumFacing, ResourceLocation> generateTextureMap() {

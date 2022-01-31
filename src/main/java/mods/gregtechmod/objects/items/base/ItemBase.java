@@ -1,9 +1,9 @@
 package mods.gregtechmod.objects.items.base;
 
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
+import mods.gregtechmod.util.INamedItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ItemBase extends Item implements ICustomItemModel {
+public class ItemBase extends Item implements ICustomItemModel, INamedItem {
     protected String name;
     protected Supplier<String> description;
     protected String folder;
@@ -106,11 +106,16 @@ public class ItemBase extends Item implements ICustomItemModel {
 
     @Override
     public String getTranslationKey() {
-        return Reference.MODID + "." + super.getTranslationKey();
+        return GtLocale.buildKey(super.getTranslationKey());
     }
 
     @Override
     public String getTranslationKey(ItemStack stack) {
         return this.getTranslationKey();
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 }

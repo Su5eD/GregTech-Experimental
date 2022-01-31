@@ -1,18 +1,29 @@
 package mods.gregtechmod.util;
 
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.core.GregTechConfig;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import one.util.streamex.IntStreamEx;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class OreDictUnificator {
     private static final Map<String, ItemStack> NAME_TO_ITEM = new HashMap<>();
     private static final Map<ItemStack, String> ITEM_TO_ORE = new HashMap<>();
+    private static final List<ItemStack> BLACK_LIST = new ArrayList<>();
+    
+    public static void addToBlacklist(ItemStack stack) {
+        BLACK_LIST.add(stack);
+    }
+    
+    public static boolean isBlacklisted(ItemStack stack) {
+        return BLACK_LIST.stream()
+                .anyMatch(ore -> GtUtil.stackEquals(ore, stack));
+    }
 
     public static void add(String name, Block block) {
         add(name, new ItemStack(block));
@@ -31,10 +42,10 @@ public class OreDictUnificator {
     }
 
     public static void set(String name, ItemStack stack, boolean overwrite) {
-        ItemStack ore = StackUtil.copyWithSize(stack, 1);
+        ItemStack ore = ItemHandlerHelper.copyStackWithSize(stack, 1);
         addAssociation(name, ore);
         if (!NAME_TO_ITEM.containsKey(name)) NAME_TO_ITEM.put(name, ore);
-        else if (overwrite && Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(ore))) {
+        else if (overwrite && isSpecialTarget(ore)) {
             NAME_TO_ITEM.put(name, ore);
         }
         registerOre(name, ore);
@@ -43,7 +54,7 @@ public class OreDictUnificator {
     public static void override(String name, ItemStack stack) {
         if (!name.startsWith("itemDust")
                 && !stack.isEmpty()
-                && (stack.getDisplayName().isEmpty() || Arrays.asList(GregTechConfig.UNIFICATION.specialUnificationTargets).contains(getStackConfigName(stack)))) {
+                && (stack.getDisplayName().isEmpty() || isSpecialTarget(stack))) {
             set(name, stack);
         }
     }
@@ -70,10 +81,10 @@ public class OreDictUnificator {
         
         List<ItemStack> ores = OreDictionary.getOres(name);
         if (!ores.isEmpty()) {
-            ItemStack stack = StackUtil.copyWithSize(ores.get(0), count);
+            ItemStack stack = ItemHandlerHelper.copyStackWithSize(ores.get(0), count);
             return OptionalItemStack.of(stack);
         }
-        else return OptionalItemStack.EMPTY;
+        return OptionalItemStack.EMPTY;
     }
 
     public static ItemStack get(String name) {
@@ -88,10 +99,21 @@ public class OreDictUnificator {
         ItemStack stack = NAME_TO_ITEM.get(name);
         if (stack == null) {
             List<ItemStack> ores = OreDictionary.getOres(name);
-            if (!ores.isEmpty()) return ores.get(0);
-            else return replacement;
-        } else return StackUtil.copyWithSize(stack, amount);
+            return !ores.isEmpty() ? ores.get(0) : replacement;
+        }
+        return ItemHandlerHelper.copyStackWithSize(stack, amount);
     }
+    
+    public static ItemStack get(ItemStack oreStack) {
+        if (!oreStack.isEmpty() && !isBlacklisted(oreStack)) {
+            String name = getAssociation(oreStack);
+            if (name != null) {
+                ItemStack item = NAME_TO_ITEM.get(name);
+                return item != null ? ItemHandlerHelper.copyStackWithSize(item, oreStack.getCount()) : oreStack.copy();
+            }
+        }
+        return oreStack;
+      }
 
     public static void addAssociation(String name, ItemStack stack) {
         ITEM_TO_ORE.put(stack, name);
@@ -103,12 +125,15 @@ public class OreDictUnificator {
     }
 
     public static List<String> getAssociations(ItemStack stack) {
-        String name = ITEM_TO_ORE.get(stack);
-        if (name == null) {
-            return Arrays.stream(OreDictionary.getOreIDs(stack))
-                    .mapToObj(OreDictionary::getOreName)
-                    .collect(Collectors.toList());
-        } else return Collections.singletonList(name);
+        if (!stack.isEmpty()) {
+            String name = ITEM_TO_ORE.get(stack);
+
+            return name == null ? IntStreamEx.of(OreDictionary.getOreIDs(stack))
+                .mapToObj(OreDictionary::getOreName)
+                .toList()
+                : Collections.singletonList(name);
+        }
+        return Collections.emptyList();
     }
 
     public static boolean isItemInstanceOf(Block block, String name, boolean prefix) {
@@ -125,10 +150,14 @@ public class OreDictUnificator {
             boolean nonexistent = OreDictionary.getOres(name).stream()
                     .noneMatch(stack::isItemEqual);
             if (nonexistent) {
-                ItemStack ore = StackUtil.copyWithSize(stack, 1);
+                ItemStack ore = ItemHandlerHelper.copyStackWithSize(stack, 1);
                 OreDictionary.registerOre(name, ore);
             }
         }
+    }
+    
+    public static boolean isSpecialTarget(ItemStack stack) {
+        return ArrayUtils.contains(GregTechConfig.UNIFICATION.specialUnificationTargets, getStackConfigName(stack));
     }
 
     public static String getStackConfigName(ItemStack stack) {

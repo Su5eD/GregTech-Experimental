@@ -14,7 +14,14 @@ import java.util.function.Predicate;
 public @interface NBTPersistent {
     String name() default "";
     
-    Class<? extends INBTSerializer<?, ?>> using() default Serializers.None.class;
+    /**
+     * Specifies the handler of this field. Don't use in combination with {@link #serializer()} or {@link #deserializer()} as their value will be overwritten with this.
+     */
+    Class<? extends INBTHandler<?, ?>> handler() default Serializers.None.class;
+    
+    Class<? extends INBTSerializer<?, ?>> serializer() default Serializers.None.class;
+    
+    Class<? extends INBTDeserializer<?, ?>> deserializer() default Serializers.None.class;
     
     Include include() default Include.ALWAYS;
     

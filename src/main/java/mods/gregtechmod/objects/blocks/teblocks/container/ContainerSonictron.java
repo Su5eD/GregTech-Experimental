@@ -1,61 +1,56 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.ContainerBase;
+import ic2.core.block.invslot.InvSlot;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.SonictronSound;
+import mods.gregtechmod.inventory.SlotStackCycle;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
+import mods.gregtechmod.util.ButtonClick;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ContainerSonictron extends ContainerBase<IInventory> {
+public class ContainerSonictron extends ContainerGtBase<TileEntitySonictron> {
 
-    public ContainerSonictron(IInventory base) {
+    public ContainerSonictron(TileEntitySonictron base) {
         super(base);
-
-        for (int j = 0; j < 8; j++) {
-            for (int i = 0; i < 8; i++) {
-                addSlotToContainer(new Slot(base, i + j * 8, 24 + 16 * i, 19 + 16 * j));
-            }
-        }
-    }
-
-    @Override
-    public ItemStack slotClick(int slotId, int dragType, ClickType clickType, EntityPlayer player) {
-        if (slotId < 0) return super.slotClick(slotId, dragType, clickType, player);
         
-        Slot slot = this.inventorySlots.get(slotId);
-        ItemStack content = slot.getStack();
         List<SonictronSound> sonictronSounds = GregTechAPI.instance().getSonictronSounds();
+        List<ItemStack> stacks = sonictronSounds.stream()
+                .map(SonictronSound::getItem)
+                .collect(Collectors.toList());
+        
+        addSlotsToContainer(8, 8, 24, 19, 16, (index, x, y) -> new SlotSonictronCycle(base.content, index, x, y, stacks, sonictronSounds));
+    }
+    
+    private static class SlotSonictronCycle extends SlotStackCycle {
+        private final List<SonictronSound> sonictronSounds;
 
-        if (clickType == ClickType.QUICK_MOVE) slot.putStack(ItemStack.EMPTY);
-        else if (clickType == ClickType.PICKUP && dragType < 1) {
-            if (content.isEmpty()) slot.putStack(sonictronSounds.get(0).item.copy());
-            else {
-                for (int i = 1; i < sonictronSounds.size(); i++) {
-                    if (StackUtil.checkItemEquality(content, sonictronSounds.get(i - 1).item)) {
-                        slot.putStack(sonictronSounds.get(i).item.copy());
-                        return ItemStack.EMPTY;
+        public SlotSonictronCycle(InvSlot invSlot, int index, int x, int y, List<ItemStack> stacks, List<SonictronSound> sonictronSounds) {
+            super(invSlot, index, x, y, stacks);
+            
+            this.sonictronSounds = sonictronSounds;
+        }
+
+        @Override
+        public boolean slotClick(ButtonClick click, EntityPlayer player, ItemStack stack) {
+            ItemStack content = getStack();
+
+            if (click == ButtonClick.MOUSE_RIGHT && !content.isEmpty()) {
+                for (SonictronSound sound : this.sonictronSounds) {
+                    if (StackUtil.checkItemEquality(content, sound.getItem())) {
+                        int count = Math.max(1, (content.getCount() + 1) % (sound.getCount() + 1));
+                        content.setCount(count);
+
+                        return true;
                     }
                 }
-                slot.putStack(ItemStack.EMPTY);
             }
-        }
-        else if (clickType != ClickType.PICKUP_ALL && !content.isEmpty()) {
-            for (SonictronSound sonictronSound : sonictronSounds) {
-                if (StackUtil.checkItemEquality(content, sonictronSound.item)) {
-                    content.grow(1);
-                    content.setCount(content.getCount() % (sonictronSound.count + 1));
-                    if (content.getCount() == 0) content.grow(1);
-                    break;
-                }
-            }
-        }
 
-        return ItemStack.EMPTY;
+            return super.slotClick(click, player, stack);
+        }
     }
 }

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 
@@ -53,10 +54,7 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
         return this.recipes.stream()
                 .filter(recipe -> {
                     IRecipeIngredient ingredient = recipe.getInput();
-                    if (ingredient instanceof IRecipeIngredientFluid) {
-                        return ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells());
-                    }
-                    return false;
+                    return ingredient instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells());
                 })
                 .min(this::compareCount)
                 .orElse(null);
@@ -67,26 +65,25 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
         IRecipeIngredient input = recipe.getInput();
         int cells = recipe.getCells();
         CellType cellType = recipe.getCellType();
-        return this.recipes.stream()
-                .filter(r -> r.getInput().apply(input) && r.getCells() <= cells && r.getCellType() == cellType && compareCount(r, recipe) == 0)
-                .findFirst()
+        return StreamEx.of(this.recipes)
+                .findFirst(r -> r.getInput().apply(input) && r.getCells() <= cells && r.getCellType() == cellType && compareCount(r, recipe) == 0)
                 .orElse(null);
     }
 
     @Override
     public boolean hasRecipeFor(FluidStack input) {
-        return this.recipes.stream()
+        return StreamEx.of(this.recipes)
                 .map(IMachineRecipe::getInput)
-                .filter(ingredient -> ingredient instanceof IRecipeIngredientFluid)
-                .anyMatch(ingredient -> ((IRecipeIngredientFluid) ingredient).apply(input));
+                .select(IRecipeIngredientFluid.class)
+                .anyMatch(ingredient -> ingredient.apply(input));
     }
 
     @Override
     public boolean hasRecipeFor(Fluid input) {
-        return this.recipes.stream()
+        return StreamEx.of(this.recipes)
                 .map(IMachineRecipe::getInput)
-                .filter(ingredient -> ingredient instanceof IRecipeIngredientFluid)
-                .anyMatch(ingredient -> ((IRecipeIngredientFluid) ingredient).apply(input));
+                .select(IRecipeIngredientFluid.class)
+                .anyMatch(ingredient -> ingredient.apply(input));
     }
 
     @Override

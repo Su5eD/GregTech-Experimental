@@ -117,7 +117,7 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
 
     @Override
     public String getMainInfo() {
-        return delegatePanelInfo(GtLocale.translateTeBlockName(this.teBlock), IPanelInfoProvider::getMainInfo);
+        return delegatePanelInfo(GtLocale.translateTeBlockName(this), IPanelInfoProvider::getMainInfo);
     }
 
     @Override

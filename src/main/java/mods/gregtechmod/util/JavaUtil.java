@@ -2,6 +2,7 @@ package mods.gregtechmod.util;
 
 import com.google.common.base.Stopwatch;
 import mods.gregtechmod.core.GregTechMod;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,9 +29,21 @@ public final class JavaUtil {
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
     
     private JavaUtil() {}
+    
+    public static <T> Predicate<T> alwaysTrue() {
+        return o -> true;
+    }
+    
+    public static <T> Predicate<T> alwaysFalse() {
+        return o -> false;
+    }
 
-    public static <T, U> BiPredicate<T, U> alwaysTrue() {
+    public static <T, U> BiPredicate<T, U> alwaysTrueBi() {
         return (a, b) -> true;
+    }
+    
+    public static <T, U> BiPredicate<T, U> alwaysFalseBi() {
+        return (a, b) -> false;
     }
 
     public static String capitalizeString(String str) {
@@ -60,15 +74,14 @@ public final class JavaUtil {
     }
 
     public static <T> List<T> toList(Iterable<T> iterable) {
-        List<T> list = new ArrayList<>();
-        iterable.forEach(list::add);
-        return Collections.unmodifiableList(list);
+        return StreamEx.of(iterable.iterator())
+            .toImmutableList();
     }
 
     public static <T> List<T> mergeCollection(Collection<T> first, Collection<T> second) {
-        return Stream.of(first, second)
+        return StreamEx.of(first, second)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static <T> boolean matchCollections(Collection<T> first, Collection<T> second) {
@@ -107,8 +120,8 @@ public final class JavaUtil {
         try(DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
             for (Path path : stream) {
                 Path dest = Paths.get(target.toString(), path.getFileName().toString());
-                GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest);
                 if (!Files.exists(dest)) {
+                    GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest);
                     Files.copy(path, dest);
                     if (Files.isDirectory(path)) copyDir(path, dest);
                 }

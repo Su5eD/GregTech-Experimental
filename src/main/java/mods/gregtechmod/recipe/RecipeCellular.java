@@ -29,14 +29,9 @@ public abstract class RecipeCellular extends Recipe<IRecipeIngredient, List<Item
     }
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", output)
-                .add("duration", duration)
-                .add("energyCost", energyCost)
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        return super.toStringHelper()
                 .add("cells", cells)
-                .add("cellType", cellType)
-                .toString();
+                .add("cellType", cellType);
     }
 }

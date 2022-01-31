@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import ic2.core.IC2;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.gui.GuiAutoElectricFurnace;
@@ -19,7 +18,7 @@ public abstract class TileEntityElectricFurnaceBase<RI, I, R extends IMachineRec
     protected TileEntityElectricFurnaceBase(IGtRecipeManagerBasic<RI, I, R> recipeManager) {
         super(recipeManager);
         
-        this.coilHandler = addComponent(new CoilHandler(this, 1, () -> IC2.network.get(true).updateTileEntityField(this, "coilHandler")));
+        this.coilHandler = addComponent(new CoilHandler(this, 1));
     }
 
     @Override

@@ -5,9 +5,7 @@ import ic2.api.item.IC2Items;
 import ic2.core.profile.NotExperimental;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
-import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.compat.buildcraft.MjHelper;
 import mods.gregtechmod.core.GregTechMod;
@@ -38,12 +36,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public class BlockItems {
-    private static final String DELEGATED_DESCRIPTION = GregTechMod.classic ? "classic_description" : "description";
+    private static final String DESCRIPTION_DELEGATE = GregTechMod.classic ? "classic_description" : "description";
 
     public static net.minecraft.block.Block lightSource;
     public static Item sensorKit;
@@ -51,7 +47,7 @@ public class BlockItems {
     public static Map<String, ItemCellClassic> classicCells;
 
     public enum Block implements IItemProvider {
-        ADVANCED_MACHINE_CASING(BlockConnected::new, 3, 30),
+        ADVANCED_MACHINE_CASING(BlockConnected::new, 3, 30, true),
         ALUMINIUM(3, 30),
         BRASS(3.5F, 30),
         CHROME(10, 100),
@@ -62,41 +58,50 @@ public class BlockItems {
         INVAR(4.5F, 30),
         IRIDIUM(3.5F, 600),
         IRIDIUM_REINFORCED_STONE(100, 300),
-        IRIDIUM_REINFORCED_TUNGSTEN_STEEL(BlockConnected::new, 200, 400),
+        IRIDIUM_REINFORCED_TUNGSTEN_STEEL(BlockConnected::new, 200, 400, true),
         LEAD(3, 60),
         LESUBLOCK(BlockLESU::new, 4, 30),
         NICKEL(3, 45),
         OLIVINE(4.5F, 30),
         OSMIUM(4, 900),
         PLATINUM(4, 30),
-        REINFORCED_MACHINE_CASING(BlockConnectedTurbine::new, 3, 60),
+        REINFORCED_MACHINE_CASING(BlockConnectedTurbine::new, 3, 60, true, "large_gas_turbine"),
         RUBY(4.5F, 30),
         SAPPHIRE(4.5F, 30),
         SILVER(3, 30),
-        STANDARD_MACHINE_CASING(BlockConnectedTurbine::new, 3, 30),
+        STANDARD_MACHINE_CASING(BlockConnectedTurbine::new, 3, 30, true, "large_steam_turbine"),
         STEEL(3, 100),
         TITANIUM(10, 200),
         TUNGSTEN(4.5F, 100),
-        TUNGSTEN_STEEL(BlockConnected::new, 100, 300),
+        TUNGSTEN_STEEL(BlockConnected::new, 100, 300, true),
         ZINC(3.5F, 30);
-        
+
         private final LazyValue<net.minecraft.block.Block> instance;
+        private final boolean hasConnectedModel;
+        @Nullable
+        private final String extraTextures;
 
         Block(float hardness, float resistance) {
             this(() -> new BlockBase(Material.IRON), hardness, resistance);
         }
-        
+
         Block(Supplier<net.minecraft.block.Block> constructor, float hardness, float resistance) {
-            this(str -> constructor.get(), hardness, resistance);
+            this(str -> constructor.get(), hardness, resistance, false);
         }
 
-        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance) {
+        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance, boolean hasConnectedModel) {
+            this(constructor, hardness, resistance, hasConnectedModel, null);
+        }
+
+        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance, boolean hasConnectedModel, @Nullable String extraTextures) {
             this.instance = new LazyValue<>(() -> constructor.apply(this.name())
-                    .setRegistryName("block_" + this.name().toLowerCase(Locale.ROOT))
-                    .setTranslationKey("block_" + this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                    .setHardness(hardness)
-                    .setResistance(resistance));
+                .setRegistryName("block_" + this.name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("block_" + this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB)
+                .setHardness(hardness)
+                .setResistance(resistance));
+            this.hasConnectedModel = hasConnectedModel;
+            this.extraTextures = extraTextures;
         }
 
         public net.minecraft.block.Block getBlockInstance() {
@@ -107,6 +112,15 @@ public class BlockItems {
         @Override
         public Item getInstance() {
             return Item.getItemFromBlock(getBlockInstance());
+        }
+
+        public boolean hasConnectedModel() {
+            return this.hasConnectedModel;
+        }
+
+        @Nullable
+        public String getExtraTextures() {
+            return this.extraTextures;
         }
     }
 
@@ -123,7 +137,8 @@ public class BlockItems {
         }),
         SAPPHIRE(4, 3, 5, (fortune, drops, rand) -> {
             drops.add(Miscellaneous.SAPPHIRE.getItemStack(1 + rand.nextInt(1 + fortune)));
-            if (rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0) drops.add(Miscellaneous.GREEN_SAPPHIRE.getItemStack());
+            if (rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
+                drops.add(Miscellaneous.GREEN_SAPPHIRE.getItemStack());
         }),
         BAUXITE(3, 0, 0, (fortune, drops, rand) -> {}),
         PYRITE(2, 1, 1, (fortune, drops, rand) -> {
@@ -160,13 +175,13 @@ public class BlockItems {
             this.dropChance = dropChance;
             this.dropRandom = dropRandom;
             this.loot = loot;
-            
+
             String name = this.name().toLowerCase(Locale.ROOT) + "_ore";
             this.instance = new LazyValue<>(() -> new BlockOre(this.name().toLowerCase(Locale.ROOT), this.dropChance, this.dropRandom, this.loot)
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                    .setHardness(this.hardness));
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB)
+                .setHardness(this.hardness));
         }
 
         public net.minecraft.block.Block getBlockInstance() {
@@ -229,13 +244,13 @@ public class BlockItems {
         Ingot(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
-            
+
             String name = this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(name, this.description, this.hasEffect)
-                    .setFolder("ingot")
-                    .setRegistryName("ingot_"+name)
-                    .setTranslationKey("ingot_"+name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setFolder("ingot")
+                .setRegistryName("ingot_" + name)
+                .setTranslationKey("ingot_" + name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -273,13 +288,13 @@ public class BlockItems {
 
         Nugget(Supplier<String> description) {
             this.description = description;
-            
-            String name = "nugget_"+this.name().toLowerCase(Locale.ROOT);
+
+            String name = "nugget_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
-                    .setFolder("nugget")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setFolder("nugget")
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -330,13 +345,13 @@ public class BlockItems {
 
         Plate(Supplier<String> description) {
             this.description = description;
-            
+
             String name = "plate_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> {
                 Item item = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
-                        .setFolder("plate")
-                        .setRegistryName(name)
-                        .setTranslationKey(name);
+                    .setFolder("plate")
+                    .setRegistryName(name)
+                    .setTranslationKey(name);
                 if (ProfileDelegate.shouldEnable(this)) item.setCreativeTab(GregTechMod.GREGTECH_TAB);
                 return item;
             });
@@ -382,13 +397,13 @@ public class BlockItems {
 
         Rod(Supplier<String> description) {
             this.description = description;
-            
-            String name = "rod_"+this.name().toLowerCase(Locale.ROOT);
+
+            String name = "rod_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> {
                 Item item = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
-                        .setFolder("rod")
-                        .setRegistryName(name)
-                        .setTranslationKey(name);
+                    .setFolder("rod")
+                    .setRegistryName(name)
+                    .setTranslationKey(name);
                 if (ProfileDelegate.shouldEnable(this)) item.setCreativeTab(GregTechMod.GREGTECH_TAB);
                 return item;
             });
@@ -484,13 +499,13 @@ public class BlockItems {
         Dust(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
-            
-            String name = "dust_"+this.name().toLowerCase(Locale.ROOT);
+
+            String name = "dust_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
-                    .setFolder("dust")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setFolder("dust")
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -592,13 +607,13 @@ public class BlockItems {
         Smalldust(Supplier<String> description, boolean hasEffect) {
             this.description = description;
             this.hasEffect = hasEffect;
-            
+
             String name = "smalldust_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
-                    .setFolder("smalldust")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setFolder("smalldust")
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -608,21 +623,21 @@ public class BlockItems {
     }
 
     public enum Upgrade implements IOreDictItemProvider {
-        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (stack, machine, player) -> machine.addExtraTier()),
-        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (stack, machine, player) -> machine.addExtraEUCapacity(100000)),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DELEGATED_DESCRIPTION, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (stack, machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
-        MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (stack, machine, player) -> {
+        HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (machine, player) -> machine.addExtraTier()),
+        LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (machine, player) -> machine.addExtraEUCapacity(100000)),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
+        MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (machine, player) -> {
             if (player != null && !player.getGameProfile().equals(machine.getOwner())) {
-                GtUtil.sendMessage(player, Reference.MODID + ".item.machine_lock.error");
+                GtUtil.sendMessage(player, GtLocale.buildKeyItem("machine_lock", "error"));
                 return true;
             }
             return false;
-        }, (stack, machine, player) -> {
+        }, (machine, player) -> {
             if (!machine.isPrivate()) machine.setPrivate(true);
         }),
-        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade", (stack, machine, player) -> {
+        QUANTUM_CHEST(GtUpgradeType.OTHER, 1, 0, "craftingQuantumChestUpgrade", (machine, player) -> {
             if (machine instanceof TileEntityDigitalChestBase) {
                 BlockPos pos = ((TileEntityDigitalChestBase) machine).getPos();
                 EnumFacing facing = ((TileEntityDigitalChestBase) machine).getFacing();
@@ -644,30 +659,30 @@ public class BlockItems {
                 player.world.setBlockState(pos, te.getBlockState());
             }
         }),
-        STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (stack, machine, player) -> {
+        STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
-        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", (stack, machine) ->  machine.hasSteamTank(), (stack, machine, player) -> {
+        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", machine -> machine.hasSteamTank(), (machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
-            if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + 64000 * stack.getCount());
+            if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + 64000);
         }),
-        PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (stack, machine, player) -> {
+        PNEUMATIC_GENERATOR(GtUpgradeType.MJ, 1, 1, "craftingPneumaticGenerator", (machine, player) -> {
             if (!ModHandler.buildcraftLib) {
-                GtUtil.sendMessage(player, Reference.MODID + ".info.buildcraft_absent");
+                GtUtil.sendMessage(player, GtLocale.buildKeyInfo("buildcraft_absent"));
                 return true;
             }
             return false;
-        }, (stack, machine, player) -> {
-            if (!machine.hasMjUpgrade()) machine.addMjUpgrade();
+        }, (machine, player) -> {
+            machine.addMjUpgrade();
         }),
-        RS_ENERGY_CELL(GtUpgradeType.MJ, 16, 1, "craftingEnergyCellUpgrade", (stack, machine) -> machine.hasMjUpgrade(), (stack, machine, player) -> {
+        RS_ENERGY_CELL(GtUpgradeType.MJ, 16, 1, "craftingEnergyCellUpgrade", machine -> machine.hasMjUpgrade(), (machine, player) -> {
             if (!ModHandler.buildcraftLib) {
-                GtUtil.sendMessage(player, Reference.MODID + ".info.buildcraft_absent");
+                GtUtil.sendMessage(player, GtLocale.buildKeyInfo("buildcraft_absent"));
                 return true;
             }
             return false;
-        }, (stack, machine, player) -> {
-             machine.setMjCapacity(machine.getMjCapacity() + MjHelper.microJoules(100000));
+        }, (machine, player) -> {
+            machine.setMjCapacity(machine.getMjCapacity() + MjHelper.microJoules(100000));
         });
 
         private final LazyValue<Item> instance;
@@ -676,31 +691,31 @@ public class BlockItems {
         public final int requiredTier;
         public final String descriptionKey;
         public final String oreDict;
-        public final BiPredicate<ItemStack, IUpgradableMachine> condition;
-        public final TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert;
-        public final TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert;
+        public final Predicate<IUpgradableMachine> condition;
+        public final BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert;
+        public final BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert;
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), JavaUtil.alwaysFalseBi(), afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, descriptionKey, oreDict, JavaUtil.alwaysTrue(), (stack, machine, player) -> false, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, descriptionKey, oreDict, JavaUtil.alwaysTrue(), JavaUtil.alwaysFalseBi(), afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, condition, (stack, machine, player) -> false, afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, Predicate<IUpgradableMachine> condition, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, "description", oreDict, condition, JavaUtil.alwaysFalseBi(), afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
             this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), beforeInsert, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, Predicate<IUpgradableMachine> condition, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
             this(type, maxCount, requiredTier, "description", oreDict, condition, beforeInsert, afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, BiPredicate<ItemStack, IUpgradableMachine> condition, TriFunction<ItemStack, IUpgradableMachine, EntityPlayer, Boolean> beforeInsert, TriConsumer<ItemStack, IUpgradableMachine, EntityPlayer> afterInsert) {
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, Predicate<IUpgradableMachine> condition, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
             this.type = type;
             this.maxCount = maxCount;
             this.requiredTier = requiredTier;
@@ -709,13 +724,13 @@ public class BlockItems {
             this.condition = condition;
             this.beforeInsert = beforeInsert;
             this.afterInsert = afterInsert;
-            
+
             String name = this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemUpgrade(name, name + "." + this.descriptionKey, this.type, this.maxCount, this.requiredTier, this.condition, this.beforeInsert, this.afterInsert)
-                    .setFolder("upgrade")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setFolder("upgrade")
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -757,18 +772,18 @@ public class BlockItems {
         CoverItem(String oreDict) {
             this(null, oreDict);
         }
-                
+
         CoverItem(String itemName, String oreDict) {
             this.oreDict = oreDict;
             this.instance = new LazyValue<>(() -> {
                 Cover cover = Cover.valueOf(this.name());
                 String name = itemName != null ? itemName : this.name().toLowerCase(Locale.ROOT);
-                
+
                 return new ItemCover(cover.name().toLowerCase(Locale.ROOT), cover.instance.get(), name)
-                        .setFolder("coveritem")
-                        .setRegistryName(name)
-                        .setTranslationKey(name)
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
+                    .setFolder("coveritem")
+                    .setRegistryName(name)
+                    .setTranslationKey(name)
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
             });
         }
 
@@ -800,12 +815,12 @@ public class BlockItems {
             this.efficiency = efficiency;
             this.efficiencyMultiplier = efficiencyMultiplier;
             this.durability = durability;
-            
+
             String name = "turbine_rotor_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemTurbineRotor(name, this.durability, this.efficiency, this.efficiencyMultiplier)
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -836,7 +851,7 @@ public class BlockItems {
         TURBINE_BLADE_MAGNALIUM("craftingTurbineBladeMagnalium"),
         TURBINE_BLADE_STEEL("craftingTurbineBladeSteel"),
         TURBINE_BLADE_TUNGSTEN_STEEL("craftingTurbineBladeTungstenSteel"),
-        GEAR_IRON(DELEGATED_DESCRIPTION, "gearIron"),
+        GEAR_IRON(DESCRIPTION_DELEGATE, "gearIron"),
         GEAR_BRONZE("gearBronze"),
         GEAR_STEEL("gearSteel"),
         GEAR_TITANIUM("gearTitanium"),
@@ -860,17 +875,17 @@ public class BlockItems {
         Component(String descriptionKey, String oreDict) {
             String name = this.name().toLowerCase(Locale.ROOT);
             this.oreDict = oreDict;
-            
-            this.instance = new LazyValue<>(() -> new ItemBase(name, () -> GtLocale.translateItem(name+"."+descriptionKey))
-                    .setFolder("component")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+
+            this.instance = new LazyValue<>(() -> new ItemBase(name, () -> GtLocale.translateItem(name + "." + descriptionKey))
+                .setFolder("component")
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         Component(Supplier<Item> constructor, String oreDict) {
             this.oreDict = oreDict;
-            
+
             this.instance = new LazyValue<>(constructor);
         }
 
@@ -905,10 +920,10 @@ public class BlockItems {
         WRENCH_ADVANCED(ItemWrenchAdvanced::new),
         DESTRUCTORPACK(ItemDestructorPack::new),
         LAPOTRONIC_ENERGY_ORB(() -> new ItemElectricBase("lapotronic_energy_orb", JavaUtil.NULL_SUPPLIER, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, true)
-                .setFolder("tool")
-                .setRegistryName("lapotronic_energy_orb")
-                .setTranslationKey("lapotronic_energy_orb")
-                .setCreativeTab(GregTechMod.GREGTECH_TAB), GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore"),
+            .setFolder("tool")
+            .setRegistryName("lapotronic_energy_orb")
+            .setTranslationKey("lapotronic_energy_orb")
+            .setCreativeTab(GregTechMod.GREGTECH_TAB), GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore"),
         SONICTRON_PORTABLE(ItemSonictron::new),
         SPRAY_BUG(ItemSprayBug::new),
         SPRAY_ICE(ItemSprayIce::new, "molecule_1n"),
@@ -926,7 +941,7 @@ public class BlockItems {
 
         Tool(Supplier<Item> constructor, String oreDict) {
             this.oreDict = oreDict;
-            
+
             this.instance = new LazyValue<>(constructor);
         }
 
@@ -946,7 +961,7 @@ public class BlockItems {
             return true;
         }
     }
-    
+
     public enum ColorSpray implements IItemProvider {
         WHITE,
         ORANGE,
@@ -966,7 +981,7 @@ public class BlockItems {
         BLACK;
 
         private final LazyValue<Item> instance;
-        
+
         ColorSpray() {
             this.instance = new LazyValue<>(() -> new ItemSprayColor(EnumDyeColor.byMetadata(this.ordinal())));
         }
@@ -990,10 +1005,10 @@ public class BlockItems {
         Wrench(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
-            
-            this.instance = new LazyValue<>(() -> new ItemWrench("wrench_"+this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
-                    .setRegistryName("wrench_"+this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+
+            this.instance = new LazyValue<>(() -> new ItemWrench("wrench_" + this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
+                .setRegistryName("wrench_" + this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1022,11 +1037,11 @@ public class BlockItems {
             this.transferLimit = transferLimit;
             this.efficiency = efficiency;
             this.canMineObsidian = canMineObsidian;
-            
-            this.instance = new LazyValue<>(() -> new ItemJackHammer("jack_hammer_"+this.name().toLowerCase(Locale.ROOT), this.operationEnergyCost, this.maxCharge, this.tier, this.transferLimit, this.efficiency, this.canMineObsidian)
-                    .setRegistryName("jack_hammer_"+this.name().toLowerCase(Locale.ROOT))
-                    .setTranslationKey("jack_hammer_"+this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+
+            this.instance = new LazyValue<>(() -> new ItemJackHammer("jack_hammer_" + this.name().toLowerCase(Locale.ROOT), this.operationEnergyCost, this.maxCharge, this.tier, this.transferLimit, this.efficiency, this.canMineObsidian)
+                .setRegistryName("jack_hammer_" + this.name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("jack_hammer_" + this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1048,11 +1063,11 @@ public class BlockItems {
         Hammer(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
-            
+
             this.instance = new LazyValue<>(() -> new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
-                    .setRegistryName("hammer_"+this.name().toLowerCase(Locale.ROOT))
-                    .setTranslationKey("hammer_"+this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setRegistryName("hammer_" + this.name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("hammer_" + this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1076,11 +1091,11 @@ public class BlockItems {
             this.durability = durability;
             this.efficiency = efficiency;
             this.entityDamage = entityDamage;
-            
+
             this.instance = new LazyValue<>(() -> new ItemSaw(this.name().toLowerCase(Locale.ROOT), this.durability, this.efficiency, this.entityDamage)
-                    .setRegistryName("saw_"+this.name().toLowerCase(Locale.ROOT))
-                    .setTranslationKey("saw_"+this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setRegistryName("saw_" + this.name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("saw_" + this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1098,11 +1113,11 @@ public class BlockItems {
 
         SolderingMetal(int durability) {
             this.durability = durability;
-            
+
             this.instance = new LazyValue<>(() -> new ItemSolderingMetal(this.name().toLowerCase(Locale.ROOT), this.durability)
-                    .setRegistryName("soldering_"+this.name().toLowerCase(Locale.ROOT))
-                    .setTranslationKey("soldering_"+this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setRegistryName("soldering_" + this.name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("soldering_" + this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1124,11 +1139,11 @@ public class BlockItems {
         File(int durability, int entityDamage) {
             this.durability = durability;
             this.entityDamage = entityDamage;
-            
+
             this.instance = new LazyValue<>(() -> new ItemFile(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
-                    .setRegistryName("file_"+this.name().toLowerCase(Locale.ROOT))
-                    .setTranslationKey("file_"+this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setRegistryName("file_" + this.name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("file_" + this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1150,13 +1165,13 @@ public class BlockItems {
 
         Cell(String description) {
             this.description = description;
-            
-            String name = "cell_"+this.name().toLowerCase(Locale.ROOT);
+
+            String name = "cell_" + this.name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
-                    .setFolder("cell")
-                    .setRegistryName(name)
-                    .setTranslationKey(name)
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setFolder("cell")
+                .setRegistryName(name)
+                .setTranslationKey(name)
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1180,10 +1195,10 @@ public class BlockItems {
         NuclearCoolantPack(int heatStorage, String oreDict) {
             this.heatStorage = heatStorage;
             this.oreDict = oreDict;
-            
+
             this.instance = new LazyValue<>(() -> new ItemNuclearHeatStorage(this.name().toLowerCase(Locale.ROOT), this.heatStorage)
-                    .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setRegistryName(this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1230,10 +1245,10 @@ public class BlockItems {
             this.radiation = radiation;
             this.heat = heat;
             this.depletedStack = depletedStack;
-            
-            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_"+this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
-                    .setRegistryName("fuel_rod_"+this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+
+            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_" + this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
+                .setRegistryName("fuel_rod_" + this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1274,12 +1289,12 @@ public class BlockItems {
             this.chargeProvider = chargeProvider;
             this.oreDict = oreDict;
             this.perks = perks;
-            
+
             this.instance = new LazyValue<>(() -> new ItemArmorElectricBase(this.name().toLowerCase(Locale.ROOT), this.slot, this.maxCharge, this.transferLimit, this.tier, this.damageEnergyCost, this.absorbtionDamage, this.chargeProvider, this.perks)
-                    .setFolder("armor")
-                    .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                    .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
-                    .setCreativeTab(GregTechMod.GREGTECH_TAB));
+                .setFolder("armor")
+                .setRegistryName(this.name().toLowerCase(Locale.ROOT))
+                .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
+                .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
         @Override
@@ -1317,18 +1332,18 @@ public class BlockItems {
         FLOUR(JavaUtil.NULL_SUPPLIER, "dustWheat"),
         SPRAY_CAN_EMPTY((Supplier<String>) null, "craftingSprayCan"),
         LAVA_FILTER(() -> new ItemBase("lava_filter", 100)
-                            .setFolder("component")
-                            .setEnchantable(false)
-                            .setRegistryName("lava_filter")
-                            .setTranslationKey("lava_filter")
-                            .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                            .setMaxStackSize(1)
-                            .setNoRepair()),
+            .setFolder("component")
+            .setEnchantable(false)
+            .setRegistryName("lava_filter")
+            .setTranslationKey("lava_filter")
+            .setCreativeTab(GregTechMod.GREGTECH_TAB)
+            .setMaxStackSize(1)
+            .setNoRepair()),
         MORTAR_FLINT(() -> GtLocale.translateItemDescription("mortar"), null),
         MORTAR_IRON(() -> new ItemMortar("iron", 63, IC2Items.getItem("dust", "iron"))
-                            .setRegistryName("mortar_iron")
-                            .setTranslationKey("mortar_iron")
-                            .setCreativeTab(GregTechMod.GREGTECH_TAB));
+            .setRegistryName("mortar_iron")
+            .setTranslationKey("mortar_iron")
+            .setCreativeTab(GregTechMod.GREGTECH_TAB));
 
         private final LazyValue<Item> instance;
         public final String oreDict;
@@ -1343,19 +1358,19 @@ public class BlockItems {
 
         Miscellaneous(Supplier<String> description, String oreDict) {
             this.oreDict = oreDict;
-            
+
             this.instance = new LazyValue<>(() -> {
                 String name = this.name().toLowerCase(Locale.ROOT);
                 return new ItemBase(name, description != null ? description : () -> GtLocale.translateItemDescription(name))
-                        .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                        .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
-                        .setCreativeTab(GregTechMod.GREGTECH_TAB);
+                    .setRegistryName(this.name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
+                    .setCreativeTab(GregTechMod.GREGTECH_TAB);
             });
         }
 
         Miscellaneous(Supplier<Item> constructor) {
             this.oreDict = null;
-            
+
             this.instance = new LazyValue<>(constructor);
         }
 
@@ -1392,21 +1407,21 @@ public class BlockItems {
         Book(String author, int pages) {
             this.author = author;
             this.pages = pages;
-            
+
             this.instance = new LazyValue<>(() -> getWrittenBook(this.name().toLowerCase(Locale.ROOT), this.author, this.pages, this.ordinal()));
         }
-        
+
         public ItemStack getInstance() {
             return this.instance.get();
         }
 
         public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {
             ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-            stack.setTagInfo("title", new NBTTagString(GtLocale.translate("book." + name + ".name")));
+            stack.setTagInfo("title", new NBTTagString(GtLocale.translateKey("book", name, "name")));
             stack.setTagInfo("author", new NBTTagString(author));
             NBTTagList tagList = new NBTTagList();
             for (int i = 0; i < pages; i++) {
-                String page = '\"' + GtLocale.translate("book." + name + ".page" + (i < 10 ? "0" + i : i)) + '\"';
+                String page = '\"' + GtLocale.translateKey("book", name, "page" + (i < 10 ? "0" + i : i)) + '\"';
                 if (i < 48) {
                     if (page.length() < 256) {
                         tagList.appendTag(new NBTTagString(page));

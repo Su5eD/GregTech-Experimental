@@ -12,12 +12,8 @@ public class BooleanCountdown {
         this.count = this.initialCount;
     }
     
-    public boolean countDown() {
-        if (this.count > 0) {
-            this.count--;
-            return true;
-        }
-        return false;
+    public void countDown() {
+        if (this.count > 0) this.count--;
     }
     
     public boolean get() {

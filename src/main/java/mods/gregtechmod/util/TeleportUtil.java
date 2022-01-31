@@ -54,9 +54,7 @@ public class TeleportUtil {
             this.world.getBlockState(new BlockPos(this.x, this.y, this.z)); //dummy load to maybe gen chunk
 
             entity.setPosition(this.x, this.y, this.z);
-            entity.motionX = 0;
-            entity.motionY = 0;
-            entity.motionZ = 0;
+            entity.motionX = entity.motionY = entity.motionZ = 0;
         }
     }
 }

@@ -28,13 +28,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import one.util.streamex.StreamEx;
 
 import java.util.*;
 
 @JEIPlugin
 public class JEIModule implements IModPlugin {
     private static final Collection<CategoryBase<?, ?>> CATEGORIES = new HashSet<>();
-    
+
     public static final List<ItemStack> HIDDEN_ITEMS = new ArrayList<>();
     public static final List<IRecipeWrapper> HIDDEN_RECIPES = new ArrayList<>();
     public static IIngredientBlacklist ingredientBlacklist;
@@ -49,10 +50,12 @@ public class JEIModule implements IModPlugin {
         initBasicMachine(registry, GuiAutoExtractor.class, "extractor");
         initBasicMachine(registry, GuiAutoCompressor.class, "compressor");
         initBasicMachine(registry, GuiAutoElectricFurnace.class, "auto_electric_furnace", "minecraft.smelting");
+
+        registry.addRecipeClickArea(GuiScrapboxinator.class, 62, 63, 16, 16, "ic2.scrapbox");
     }
 
     private void initBasicMachine(IModRegistry registry, Class<? extends GuiBasicMachine<?>> guiClass, String name) {
-        initBasicMachine(registry, guiClass, "auto_"+name, name);
+        initBasicMachine(registry, guiClass, "auto_" + name, name);
     }
 
     private void initBasicMachine(IModRegistry registry, Class<? extends GuiBasicMachine<?>> guiClass, String name, String categoryName) {
@@ -66,7 +69,7 @@ public class JEIModule implements IModPlugin {
         Collection<CategoryBase<?, ?>> categories = Arrays.asList(
                 new CategoryCentrifuge(guiHelper),
                 new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, GtRecipes.wiremill, true, GregtechGauge.EXTRUDING, guiHelper),
-                new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
+                new CategoryBasicMachineMulti<>("gt_alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
                 new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, false, true, GregtechGauge.CANNING, guiHelper),
                 new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, GtRecipes.bender, true, GregtechGauge.BENDING, guiHelper),
                 new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, GregtechGauge.ASSEMBLING, guiHelper),
@@ -96,8 +99,7 @@ public class JEIModule implements IModPlugin {
         hideEnum(BlockItems.Rod.values());
 
         if (!Version.shouldEnable(ItemCellClassic.class)) {
-            BlockItems.classicCells.values()
-                    .stream()
+            BlockItems.classicCells.values().stream()
                     .map(ItemStack::new)
                     .forEach(HIDDEN_ITEMS::add);
         }
@@ -106,9 +108,9 @@ public class JEIModule implements IModPlugin {
             HIDDEN_ITEMS.add(BlockItems.Upgrade.PNEUMATIC_GENERATOR.getItemStack());
             HIDDEN_ITEMS.add(BlockItems.Upgrade.RS_ENERGY_CELL.getItemStack());
         }
-        
-        Arrays.stream(GregTechTEBlock.VALUES)
-                .filter(teBlock -> !Version.shouldEnable(teBlock.getTeClass()))
+
+        StreamEx.of(GregTechTEBlock.VALUES)
+                .remove(teBlock -> Version.shouldEnable(teBlock.getTeClass()))
                 .map(GregTechTEBlock::getName)
                 .map(GregTechObjectAPI::getTileEntity)
                 .forEach(HIDDEN_ITEMS::add);
@@ -116,22 +118,20 @@ public class JEIModule implements IModPlugin {
         HIDDEN_ITEMS.forEach(ingredientBlacklist::addIngredientToBlacklist);
 
         IRecipeRegistry registry = jeiRuntime.getRecipeRegistry();
-        DamagedOreIngredientFixer.FIXED_RECIPES.stream()
-                .map(recipe -> registry.getRecipeWrapper(recipe, VanillaRecipeCategoryUid.CRAFTING))
-                .filter(Objects::nonNull)
+        StreamEx.of(DamagedOreIngredientFixer.fixedRecipes)
+                .mapPartial(recipe -> Optional.ofNullable(registry.getRecipeWrapper(recipe, VanillaRecipeCategoryUid.CRAFTING)))
                 .forEach(HIDDEN_RECIPES::add);
 
         // Hide the data orb clean recipe
         IRecipe dataOrbRepair = ForgeRegistries.RECIPES.getValue(new ResourceLocation(Reference.MODID, "components/data_orb_clean"));
         if (dataOrbRepair != null) HIDDEN_RECIPES.add(registry.getRecipeWrapper(dataOrbRepair, VanillaRecipeCategoryUid.CRAFTING));
-       
-        HIDDEN_RECIPES
-                .forEach(recipe -> registry.hideRecipe(recipe, VanillaRecipeCategoryUid.CRAFTING));
+
+        HIDDEN_RECIPES.forEach(recipe -> registry.hideRecipe(recipe, VanillaRecipeCategoryUid.CRAFTING));
     }
 
     private void hideEnum(IItemProvider[] values) {
-        Arrays.stream(values)
-                .filter(val -> !ProfileDelegate.shouldEnable(val))
+        StreamEx.of(values)
+                .remove(ProfileDelegate::shouldEnable)
                 .map(IItemProvider::getItemStack)
                 .forEach(HIDDEN_ITEMS::add);
     }

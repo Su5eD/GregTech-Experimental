@@ -3,7 +3,6 @@ package mods.gregtechmod.objects.items.tools;
 import ic2.core.IC2;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
 import mods.gregtechmod.util.GtLocale;
@@ -67,13 +66,13 @@ public class ItemRubberHammer extends ItemHammer {
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        TileEntity tileEntity = world.getTileEntity(pos);
+        TileEntity te = world.getTileEntity(pos);
 
-        if(tileEntity instanceof IGregTechMachine && GtUtil.damageStack(player, player.inventory.getCurrentItem(), 1)) {
-            ((IGregTechMachine) tileEntity).setAllowedToWork(!((IGregTechMachine) tileEntity).isAllowedToWork());
+        if(te instanceof IGregTechMachine && GtUtil.damageStack(player, player.inventory.getCurrentItem(), 1)) {
+            ((IGregTechMachine) te).setAllowedToWork(!((IGregTechMachine) te).isAllowedToWork());
 
-            GtUtil.sendMessage(player, Reference.MODID+".item.hammer_rubber.info.processing_"+(((IGregTechMachine) tileEntity).isAllowedToWork() ? "enabled" : "disabled"));
-            IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1.0F, 1.0F);
+            GtUtil.sendMessage(player, GtLocale.buildKeyItem(this, "processing_" + (((IGregTechMachine) te).isAllowedToWork() ? "enabled" : "disabled")));
+            IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1, 1);
             return EnumActionResult.SUCCESS;
         }
 

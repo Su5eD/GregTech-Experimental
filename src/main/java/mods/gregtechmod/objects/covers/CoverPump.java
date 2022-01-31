@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 public class CoverPump extends CoverInventory {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("pump");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("pump");
 
     public CoverPump(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);

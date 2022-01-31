@@ -1,11 +1,11 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import ic2.api.network.INetworkClientTileEntityEventListener;
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotDischarge;
 import ic2.core.block.invslot.InvSlotOutput;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.StackUtil;
+import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
@@ -26,9 +26,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManagerBasic<RI, I, R>> extends TileEntityGTMachine<R, RI, I, RM> implements INetworkClientTileEntityEventListener {
+public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<ItemStack>>, RI, I, RM extends IGtRecipeManagerBasic<RI, I, R>> extends TileEntityGTMachine<R, RI, I, RM> {
     @NBTPersistent
     public EnumFacing outputSide = EnumFacing.SOUTH;
     public final InvSlotOutput queueOutputSlot;
@@ -37,11 +36,11 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     protected boolean outputBlocked;
 
     @NBTPersistent
-    public boolean provideEnergy = false;
+    public boolean provideEnergy;
     @NBTPersistent
     public boolean autoOutput = true;
     @NBTPersistent
-    public boolean splitInput = false;
+    public boolean splitInput;
 
     public TileEntityBasicMachine(RM recipeManager) {
         this(recipeManager, false);
@@ -82,21 +81,18 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        EnumFacing facing = getFacing();
-        return Arrays.stream(EnumFacing.VALUES)
-                .filter(side -> side != facing)
-                .collect(Collectors.toSet());
+        return GtUtil.allSidesExcept(Arrays.asList(getFacing(), this.outputSide));
     }
 
     @Override
     protected Collection<EnumFacing> getSourceSides() {
-        return this.provideEnergy ? Collections.singleton(this.outputSide) : Collections.emptySet();
+        return this.provideEnergy ? Collections.singleton(this.outputSide) : Util.noFacings;
     }
 
     @Override
     protected void onLoaded() {
         super.onLoaded();
-        rerender();
+        updateRender();
     }
 
     @Override
@@ -150,13 +146,13 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, EnumFacing side) {
-        return side != getFacing() && super.canInsertItem(index, stack, side);
+    public boolean isInputSide(EnumFacing side) {
+        return side != getFacing();
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, EnumFacing side) {
-        return side != getFacing() && super.canExtractItem(index, stack, side);
+    public boolean isOutputSide(EnumFacing side) {
+        return side != getFacing();
     }
 
     public void moveStack(InvSlot src, InvSlot dest) {
@@ -185,24 +181,18 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
         
         return ret == null ? BlockItems.Component.MACHINE_PARTS.getItemStack() : ret;
     }
-
-    @Override
-    public void onNetworkEvent(EntityPlayer player, int event) {
-        boolean value = event % 2 != 0;
-        switch (event) {
-            case 0:
-            case 1:
-                this.provideEnergy = value;
-                break;
-            case 2:
-            case 3:
-                this.autoOutput = value;
-                break;
-            case 4:
-            case 5:
-                this.splitInput = value;
-                break;
-        }
+    
+    public void switchProvideEnergy() {
+        this.provideEnergy = !this.provideEnergy;
+        this.energy.refreshSides();
+    }
+    
+    public void switchAutoOutput() {
+        this.autoOutput = !this.autoOutput;
+    }
+    
+    public void switchSplitInput() {
+        this.splitInput = !this.splitInput;
     }
 
     @Override
@@ -232,7 +222,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     protected boolean setFacingWrench(EnumFacing facing, EntityPlayer player) {
         if (this.outputSide != facing) {
             this.outputSide = facing;
-            rerender();
+            updateRender();
             return true;
         }
         return false;
@@ -252,7 +242,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     @Override
     public void onNetworkUpdate(String field) {
         super.onNetworkUpdate(field);
-        if (field.equals("outputSide")) rerender();
+        if (field.equals("outputSide")) updateRender();
     }
 
     @Override

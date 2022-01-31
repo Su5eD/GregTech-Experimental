@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gregtechmod:teblock",
+      "data": 59
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 58,
+    "count": 8
+  }
+}

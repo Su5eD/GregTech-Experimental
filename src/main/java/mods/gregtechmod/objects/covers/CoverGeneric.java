@@ -106,7 +106,7 @@ public class CoverGeneric implements ICover {
     }
 
     @Override
-    public byte getRedstoneInput() {
+    public int getRedstoneInput() {
         return 0;
     }
 

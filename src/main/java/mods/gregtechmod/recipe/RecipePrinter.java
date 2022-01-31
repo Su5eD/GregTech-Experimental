@@ -29,29 +29,23 @@ public class RecipePrinter extends Recipe<List<IRecipeIngredient>, List<ItemStac
     }
 
     public static RecipePrinter create(List<IRecipeIngredient> input, IRecipeIngredient copy, ItemStack output, int duration, double energyCost) {
-        input = RecipeUtil.adjustInputCount("printer", input, output, 3);
+        List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("printer", input, output, 3);
+        RecipePrinter recipe = new RecipePrinter(adjustedInput, copy, output, duration, Math.max(energyCost, 1));
 
-        RecipePrinter recipe = new RecipePrinter(input, copy, output, duration, Math.max(energyCost, 1));
-
-        if (!RecipeUtil.validateRecipeIO("printer", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("printer", adjustedInput, output)) recipe.invalid = true;
 
         return recipe;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("copy", copy)
-                .add("output", output)
-                .add("duration", duration)
-                .add("energyCost", energyCost)
-                .toString();
     }
 
     @Override
     @Nullable
     public IRecipeIngredient getCopyIngredient() {
         return this.copy;
+    }
+
+    @Override
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        return super.toStringHelper()
+                .add("copy", copy);
     }
 }

@@ -14,9 +14,7 @@ public class ModelTEBlockConnected extends ModelBlockConnected {
 
     @SafeVarargs
     public ModelTEBlockConnected(Map<String, ResourceLocation> mainTextures, Map<String, ResourceLocation>... extras) {
-        super(mainTextures, extras);
-        
-        this.enableCache = false;
+        super(false, mainTextures, extras);
     }
 
     @Override

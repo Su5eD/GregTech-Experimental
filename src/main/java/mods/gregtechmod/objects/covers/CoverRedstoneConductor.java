@@ -4,7 +4,7 @@ import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import java.util.Locale;
 
 public class CoverRedstoneConductor extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
     
     @NBTPersistent
     protected ConductorMode mode = ConductorMode.STRONGEST;
@@ -29,22 +29,22 @@ public class CoverRedstoneConductor extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IGregTechMachine)) return;
-        BlockPos pos = ((TileEntity)te).getPos();
-        World world = ((TileEntity)te).getWorld();
+        if (te instanceof IGregTechMachine) {
+            BlockPos pos = ((TileEntity) te).getPos();
+            World world = ((TileEntity) te).getWorld();
 
-        if (mode == ConductorMode.STRONGEST) {
-            byte strongest = 0;
-            for (EnumFacing facing : EnumFacing.values()) {
-                if (facing == this.side) continue;
-
-                strongest = (byte) Math.max(strongest, getPowerFromSide(facing, world, pos));
-            }
-            ((IGregTechMachine)te).setRedstoneOutput(this.side, strongest);
-        }
-        else {
-            EnumFacing side = EnumFacing.byIndex(mode.ordinal() - 1);
-            ((IGregTechMachine) te).setRedstoneOutput(this.side, (byte) (getPowerFromSide(side, world, pos) - 1));
+            if (mode == ConductorMode.STRONGEST) {
+                int strongest = 0;
+                for (EnumFacing facing : EnumFacing.VALUES) {
+                    if (facing != this.side) {
+                        strongest = Math.max(strongest, getPowerFromSide(facing, world, pos));
+                    }
+                }
+                ((IGregTechMachine) te).setRedstoneOutput(this.side, strongest);
+            } else {
+                EnumFacing side = EnumFacing.byIndex(mode.ordinal() - 1);
+                ((IGregTechMachine) te).setRedstoneOutput(this.side, getPowerFromSide(side, world, pos) - 1);
+            }   
         }
     }
 
@@ -90,11 +90,11 @@ public class CoverRedstoneConductor extends CoverGeneric {
         private static final ConductorMode[] VALUES = values();
 
         public ConductorMode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getMessageKey() {
-            return Reference.MODID+".cover.conductor_mode."+this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "conductor_mode", name().toLowerCase(Locale.ROOT));
         }
     }
 

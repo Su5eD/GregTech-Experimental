@@ -1,0 +1,22 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_up",
+    "down": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_up",
+    "up": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_up",
+    "north": "gregtechmod:blocks/machines/crop_harvestor/crop_harvestor_front",
+    "south": "gregtechmod:blocks/machines/adv_machine_pipe_red",
+    "east": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_left",
+    "west": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_right"
+  },
+  "texturesRedstone": {
+    "down": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_up_redstone",
+    "up": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_up_redstone",
+    "north": "gregtechmod:blocks/machines/crop_harvestor/crop_harvestor_front_redstone",
+    "south": "gregtechmod:blocks/machines/adv_machine_pipe_red_redstone",
+    "east": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_left_redstone",
+    "west": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_right_redstone"
+  },
+  "textureDown": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_down",
+  "textureDownRedstone": "gregtechmod:blocks/machines/electric_translocator/electric_translocator_down_redstone"
+}

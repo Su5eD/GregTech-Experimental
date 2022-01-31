@@ -19,7 +19,7 @@ public class ContainerIndustrialCentrifuge extends ContainerMachineBase<TileEnti
     }
 
     @Override
-    protected void getNetworkedFields(List<? super String> list) {
+    public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("tank");
     }

@@ -2,7 +2,6 @@ package mods.gregtechmod.recipe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.MoreObjects;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
@@ -24,21 +23,11 @@ public class RecipeLathe extends Recipe<IRecipeIngredient, List<ItemStack>> {
                                      @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                      @JsonProperty(value = "duration", required = true) int duration,
                                      @JsonProperty(value = "energyCost") double energyCost) {
-        output = RecipeUtil.adjustOutputCount("lathe", output, 2);
-        RecipeLathe recipe = new RecipeLathe(input, output, duration, energyCost <= 0 ? 8 : energyCost);
+        List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("lathe", output, 2);
+        RecipeLathe recipe = new RecipeLathe(input, adjustedOutput, duration, energyCost <= 0 ? 8 : energyCost);
 
-        if (!RecipeUtil.validateRecipeIO("lathe", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("lathe", input, adjustedOutput)) recipe.invalid = true;
 
         return recipe;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", output)
-                .add("duration", duration)
-                .add("energyCost", energyCost)
-                .toString();
     }
 }

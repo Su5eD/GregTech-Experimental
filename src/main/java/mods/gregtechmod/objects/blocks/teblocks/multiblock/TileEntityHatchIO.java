@@ -1,10 +1,7 @@
 package mods.gregtechmod.objects.blocks.teblocks.multiblock;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import ic2.core.IHasGui;
 import ic2.core.block.comp.Fluids;
-import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.invslot.InvSlotConsumableLiquid;
 import ic2.core.block.invslot.InvSlotConsumableLiquidByTank;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
@@ -16,6 +13,7 @@ import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerHatchIO;
+import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.TextureOverride;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,7 +25,8 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("Guava")
+import java.util.function.Predicate;
+
 public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implements IHasGui {
     private final boolean wildcardInput;
     private final Predicate<EnumFacing> facingPredicate = side -> side == getFacing();
@@ -35,7 +34,7 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
 
     public TileEntityHatchIO(InvSlotConsumableLiquid.OpType opType, boolean isInput, boolean isOutput, boolean wildcardInput) {
         Fluids fluids = addComponent(new Fluids(this));
-        GtFluidTank fluidTank = new DynamicGtFluidTank(this, "content", isInput ? facingPredicate : Predicates.alwaysFalse(), isOutput ? facingPredicate : Predicates.alwaysFalse(), Predicates.alwaysTrue(), 16000);
+        GtFluidTank fluidTank = new DynamicGtFluidTank(this, "content", isInput ? facingPredicate : JavaUtil.alwaysFalse(), isOutput ? facingPredicate : JavaUtil.alwaysFalse(), JavaUtil.alwaysTrue(), 16000);
         this.tank = addComponent(new BasicTank(this, fluids, fluidTank, t -> new HatchTankInputSlot(opType, t), false));
         this.wildcardInput = wildcardInput;
         
@@ -75,7 +74,7 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
     private class HatchTankInputSlot extends InvSlotConsumableLiquidByTank {
 
         public HatchTankInputSlot(OpType opType, IFluidTank tank) {
-            super(TileEntityHatchIO.this, "tankInputSlot", InvSlot.Access.I, 1, InvSlot.InvSide.NOTSIDE, opType, tank);
+            super(TileEntityHatchIO.this, "tankInputSlot", Access.I, 1, InvSide.NOTSIDE, opType, tank);
         }
 
         @Override

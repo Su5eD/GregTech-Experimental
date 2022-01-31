@@ -74,7 +74,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
         if (recipe == null) {
             ItemStack secondaryInput = this.inputSlot.get();
             if (OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)) {
-                OptionalItemStack result = ModHandler.getCraftingResult(primaryInput, secondaryInput);
+                OptionalItemStack result = ModHandler.getRecipeOutput(primaryInput, secondaryInput);
                 if (result.isPresent()) return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, null, result.get(), 200, 2));
             }
 
@@ -118,7 +118,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
                 ItemStack secondaryInput = input.get(1);
                 
                 if (OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)) {
-                    OptionalItemStack result = ModHandler.getCraftingResult(primaryInput, secondaryInput);
+                    OptionalItemStack result = ModHandler.getRecipeOutput(primaryInput, secondaryInput);
                     if (result.isPresent()) {
                         return addLazyRecipe(primaryInput, secondaryInput, null, result.get(), 200, 2);
                     }

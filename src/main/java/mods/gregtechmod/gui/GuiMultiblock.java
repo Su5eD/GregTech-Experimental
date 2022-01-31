@@ -60,6 +60,6 @@ public class GuiMultiblock extends GuiSimple<ContainerMultiblock> {
     }
     
     private void displayStatus(String name, int y) {
-        drawString(10, y, GtLocale.translate("multiblock." + name), GuiColors.WHITE, false);
+        drawString(10, y, GtLocale.translateKey("multiblock", name), GuiColors.WHITE, false);
     }
 }

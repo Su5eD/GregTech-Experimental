@@ -12,11 +12,12 @@ import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.RecipeManagerBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ModRecipes {
     public static final IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> MACERATOR = new RecipeManagerBasic<>();
@@ -29,34 +30,34 @@ public class ModRecipes {
         convertBasicRecipes(Recipes.extractor.getRecipes(), EXTRACTOR);
         convertBasicRecipes(Recipes.compressor.getRecipes(), COMPRESSOR);
 
-        FurnaceRecipes.instance().getSmeltingList()
-                .forEach((key, value) -> {
-                    IRecipeIngredient ingredient = RecipeIngredientItemStack.create(key);
-                    FURNACE.addRecipe(RecipeFurnace.create(ingredient, value));
-                });
+        EntryStream.of(FurnaceRecipes.instance().getSmeltingList())
+            .mapKeys(RecipeIngredientItemStack::create)
+            .mapKeyValue(RecipeFurnace::create)
+            .forEach(FURNACE::addRecipe);
     }
 
-    private static void convertBasicRecipes(Iterable<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> recipes,
-                                            IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
+    private static void convertBasicRecipes(Iterable<? extends MachineRecipe<IRecipeInput, Collection<ItemStack>>> recipes, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>> manager) {
         recipes.forEach(recipe -> {
             IRecipeIngredient input = convertRecipeInput(recipe.getInput());
 
             manager.addRecipe(new IC2MachineRecipe(input, new ArrayList<>(recipe.getOutput()), 300, 2));
         });
     }
-    
+
     public static List<IRecipeInput> convertRecipeIngredient(IRecipeIngredient ingredient) {
         int count = ingredient.getCount();
-        if (ingredient instanceof RecipeIngredientOre) return ((RecipeIngredientOre) ingredient).asIngredient().getOres().stream()
+        if (ingredient instanceof RecipeIngredientOre) {
+            return StreamEx.of(((RecipeIngredientOre) ingredient).asIngredient().getOres())
                 .map(ore -> Recipes.inputFactory.forOreDict(ore, count))
-                .collect(Collectors.toList());
-        else return ingredient.getMatchingInputs().stream()
-                .map(Recipes.inputFactory::forStack)
-                .collect(Collectors.toList());
+                .toList();
+        } else return ingredient.stream()
+            .map(Recipes.inputFactory::forStack)
+            .toList();
     }
 
     public static IRecipeIngredient convertRecipeInput(IRecipeInput input) {
-        if (input instanceof RecipeInputOreDict) return RecipeIngredientOre.create(((RecipeInputOreDict) input).input, input.getAmount());
-        else return RecipeIngredientItemStack.create(input.getInputs(), input.getAmount());
+        return input instanceof RecipeInputOreDict 
+            ? RecipeIngredientOre.create(((RecipeInputOreDict) input).input, input.getAmount()) 
+            : RecipeIngredientItemStack.create(input.getInputs(), input.getAmount());
     }
 }

@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.items.tools;
 
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
 import mods.gregtechmod.util.GtLocale;
@@ -43,11 +42,10 @@ public class ItemHardHammer extends ItemHammer {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         ItemStack copy = stack.copy();
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             GregTechMod.runProxy(clientProxy -> clientProxy.playSound(SoundEvents.BLOCK_ANVIL_USE, JavaUtil.RANDOM.nextFloat() * 0.1F + 0.9F));
         }
-        if (copy.attemptDamageItem(4, JavaUtil.RANDOM, null)) return ItemStack.EMPTY;
-        return copy;
+        return copy.attemptDamageItem(4, JavaUtil.RANDOM, null) ? ItemStack.EMPTY : copy;
     }
 
     @Override
@@ -62,19 +60,19 @@ public class ItemHardHammer extends ItemHammer {
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (!world.isRemote) {
-            TileEntity tileEntity = world.getTileEntity(pos);
+            TileEntity te = world.getTileEntity(pos);
 
-            if (tileEntity instanceof IGregTechMachine) {
-                boolean input = ((IGregTechMachine) tileEntity).isInputEnabled();
-                boolean output = ((IGregTechMachine) tileEntity).isOutputEnabled();
+            if (te instanceof IGregTechMachine) {
+                boolean input = ((IGregTechMachine) te).isInputEnabled();
+                boolean output = ((IGregTechMachine) te).isOutputEnabled();
 
                 if (input = !input) output = !output;
-                ((IGregTechMachine) tileEntity).setInputEnabled(input);
-                ((IGregTechMachine) tileEntity).setOutputEnabled(output);
+                ((IGregTechMachine) te).setInputEnabled(input);
+                ((IGregTechMachine) te).setOutputEnabled(output);
 
                 String enabled = GtLocale.translateGeneric("enabled");
                 String disabled = GtLocale.translateGeneric("disabled");
-                GtUtil.sendMessage(player, Reference.MODID + ".generic.hard_hammer.auto_input", input ? enabled : disabled, output ? enabled : disabled);
+                GtUtil.sendMessage(player, GtLocale.buildKey("generic", "hard_hammer", "auto_input"), input ? enabled : disabled, output ? enabled : disabled);
                 return EnumActionResult.SUCCESS;
             }
         }

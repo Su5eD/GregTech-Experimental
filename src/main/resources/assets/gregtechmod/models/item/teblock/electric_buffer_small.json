@@ -16,5 +16,7 @@
     "south": "gregtechmod:blocks/machines/adv_machine_pipe_red_redstone",
     "east": "gregtechmod:blocks/machines/electric_buffer_small/electric_buffer_small_left_redstone",
     "west": "gregtechmod:blocks/machines/electric_buffer_small/electric_buffer_small_right_redstone"
-  }
+  },
+  "textureDown": "gregtechmod:blocks/machines/electric_buffer_small/electric_buffer_small_down",
+  "textureDownRedstone": "gregtechmod:blocks/machines/electric_buffer_small/electric_buffer_small_down_redstone"
 }

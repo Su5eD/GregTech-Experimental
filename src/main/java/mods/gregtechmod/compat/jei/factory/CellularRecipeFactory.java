@@ -10,10 +10,10 @@ import mods.gregtechmod.compat.jei.wrapper.WrapperCellular;
 import mods.gregtechmod.recipe.RecipeCellular;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import one.util.streamex.StreamEx;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class CellularRecipeFactory {
@@ -22,8 +22,8 @@ public abstract class CellularRecipeFactory {
     protected CellularRecipeFactory() {}
     
     public List<? extends WrapperCellular> getCellularRecipes(IGtRecipeManagerCellular recipeManager, boolean showEnergyCost) {
-        return recipeManager.getRecipes().stream()
-                .filter(recipe -> !recipe.getInput().getMatchingInputs().isEmpty())
+        return StreamEx.of(recipeManager.getRecipes())
+                .remove(recipe -> recipe.getInput().getMatchingInputs().isEmpty())
                 .flatMap(recipe -> {
                     IRecipeIngredient input = recipe.getInput();
                     if (input instanceof IRecipeIngredientFluid && recipe.getCellType() == CellType.CELL) {
@@ -51,7 +51,7 @@ public abstract class CellularRecipeFactory {
                     return Stream.of(recipe);
                 })
                 .map(recipe -> new WrapperCellular((RecipeCellular) recipe, showEnergyCost))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     protected abstract IRecipeCellular createCellRecipe(List<Fluid> input, List<ItemStack> output, int count, int cellCount, int duration, double energyCost);

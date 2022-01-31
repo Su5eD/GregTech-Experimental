@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
@@ -18,28 +17,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraftforge.items.ItemHandlerHelper;
+import one.util.streamex.StreamEx;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Let's you add/remove covers on a tile entity. <b>Isn't responsible</b> for cover behavior.
+ * Lets you add/remove covers on a tile entity. <b>Isn't responsible</b> for cover behavior.
  */
 public abstract class TileEntityCoverable extends TileEntityAutoNBT implements ICoverable {
     protected final CoverHandler coverHandler;
     protected Set<CoverType> coverBlacklist = new HashSet<>();
 
     public TileEntityCoverable() {
-        this.coverHandler = addComponent(new CoverHandler(this, this::rerender));
+        this.coverHandler = addComponent(new CoverHandler(this, this::updateRender));
     }
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (beforeActivated(player.inventory.getCurrentItem(), player, side, hitX, hitY, hitZ)) return true;
-
-        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+        return beforeActivated(player.inventory.getCurrentItem(), player, side, hitX, hitY, hitZ) 
+            || super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
     
     protected boolean beforeActivated(ItemStack stack, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -51,19 +48,21 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
             return true;
         } else if (GtUtil.isScrewdriver(stack)) {
             return onScrewdriverActivated(stack, side, player, hitX, hitY, hitZ);
-        } else return attemptUseCrowbar(stack, side, player);
+        }
+        return attemptUseCrowbar(stack, side, player);
     }
     
     protected boolean onScrewdriverActivated(ItemStack stack, EnumFacing side, EntityPlayer player, float hitX, float hitY, float hitZ) {
-        ICover cover = getCoverAtSide(side);
-        if (cover != null) {
-            if (cover.onScrewdriverClick(player)) {
+        ICover existing = getCoverAtSide(side);
+        if (existing != null) {
+            if (existing.onScrewdriverClick(player)) {
                 stack.damageItem(1, player);
                 return true;
             }
-        } else return placeCoverAtSide(Cover.NORMAL.instance.get().constructCover(side, this, ItemStack.EMPTY), player, side, false);
+        }
         
-        return false;
+        ICover cover = Cover.NORMAL.instance.get().constructCover(side, this, ItemStack.EMPTY);
+        return placeCoverAtSide(cover, player, side, false);
     }
 
     public boolean attemptUseCrowbar(ItemStack stack, EnumFacing side, EntityPlayer player) {
@@ -76,18 +75,19 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
         return false;
     }
 
-    private void placeCover(Cover cover, EntityPlayer player, EnumFacing side, ItemStack stack) { //For generic covers and vents
-        ItemStack coverStack = StackUtil.copyWithSize(stack, 1);
-        if (placeCoverAtSide(cover.instance.get().constructCover(side, this, coverStack), player, side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
+    // For generic covers and vents
+    private void placeCover(Cover type, EntityPlayer player, EnumFacing side, ItemStack stack) {
+        ItemStack coverStack = ItemHandlerHelper.copyStackWithSize(stack, 1);
+        ICover cover = type.instance.get().constructCover(side, this, coverStack);
+        if (placeCoverAtSide(cover, player, side, false) && !player.capabilities.isCreativeMode) stack.shrink(1);
     }
 
     @Override
     protected ItemStack getPickBlock(EntityPlayer player, RayTraceResult target) {
-        if (target != null) {
-            ICover cover = getCoverAtSide(target.sideHit);
-            if (cover != null) return cover.getItem();
-        }
-        return super.getPickBlock(player, target);
+        return Optional.ofNullable(target)
+            .map(trace -> getCoverAtSide(trace.sideHit))
+            .map(ICover::getItem)
+            .orElseGet(() -> super.getPickBlock(player, target));
     }
 
     @Override
@@ -117,39 +117,31 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
 
     @Override
     public boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate) {
-        if (this.coverBlacklist.contains(cover.getType())) return false;
-        return this.coverHandler.placeCoverAtSide(cover, side, simulate);
+        return !this.coverBlacklist.contains(cover.getType()) && this.coverHandler.placeCoverAtSide(cover, side, simulate);
     }
 
     @Override
     public boolean removeCover(EnumFacing side, boolean simulate) {
-        if (this.coverHandler.covers.containsKey(side)) {
-            ICover cover = this.coverHandler.covers.get(side);
+        ICover cover = this.coverHandler.covers.get(side);
+        if (cover != null) {
             ItemStack coverItem = cover.getItem();
             if (this.coverHandler.removeCover(side, false)) {
-                if (coverItem != null) {
-                    EntityItem entity = new EntityItem(this.world, pos.getX() + side.getXOffset() + 0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ()+side.getZOffset() + 0.5, coverItem);
-                    entity.motionX = 0;
-                    entity.motionY = 0;
-                    entity.motionZ = 0;
-                    if (!this.world.isRemote) this.world.spawnEntity(entity);
+                if (coverItem != null && !this.world.isRemote) {
+                    EntityItem entity = new EntityItem(this.world, pos.getX() + side.getXOffset() + 0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ() + side.getZOffset() + 0.5, coverItem);
+                    entity.motionX = entity.motionY = entity.motionZ = 0;
+                    this.world.spawnEntity(entity);
                 }
                 return true;
             }
         }
-        
         return false;
     }
 
     @Override
     protected List<ItemStack> getWrenchDrops(EntityPlayer player, int fortune) {
-        List<ItemStack> ret = super.getWrenchDrops(player, fortune);
-        for (ICover cover : coverHandler.covers.values()) ret.add(cover.getItem());
-        return ret;
-    }
-
-    @Override
-    public void updateRender() {
-        rerender();
+        return StreamEx.of(super.getWrenchDrops(player, fortune))
+            .append(StreamEx.of(this.coverHandler.covers.values())
+                .map(ICover::getItem))
+            .toList();
     }
 }

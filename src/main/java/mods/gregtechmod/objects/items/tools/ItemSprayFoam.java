@@ -3,10 +3,10 @@ package mods.gregtechmod.objects.items.tools;
 import ic2.api.item.IC2Items;
 import ic2.core.block.wiring.TileEntityCable;
 import ic2.core.util.StackUtil;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
@@ -158,11 +158,11 @@ public class ItemSprayFoam extends ItemToolCrafting {
         private static final SprayMode[] VALUES = values();
 
         public SprayMode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getTooltipKey() {
-            return Reference.MODID + ".item.spray_foam.mode." + this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKeyItem("spray_foam", "mode", name().toLowerCase(Locale.ROOT));
         }
     }
 }

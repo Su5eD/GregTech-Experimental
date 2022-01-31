@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.covers;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Locale;
 
 public class CoverEnergyOnly extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
     
     @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;
@@ -58,11 +58,11 @@ public class CoverEnergyOnly extends CoverGeneric {
         }
 
         public EnergyMode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getMessageKey() {
-            return Reference.MODID + ".cover.energy_mode." + this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "energy_mode", name().toLowerCase(Locale.ROOT));
         }
     }
 

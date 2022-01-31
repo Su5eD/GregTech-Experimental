@@ -24,12 +24,10 @@ public class ModelBlockOre extends ModelBase {
     private final Map<EnumFacing, ResourceLocation> texturesEnd;
 
     public ModelBlockOre(ResourceLocation particle, Map<EnumFacing, ResourceLocation> textures, Map<EnumFacing, ResourceLocation> texturesNether, Map<EnumFacing, ResourceLocation> texturesEnd) {
-        super(particle, Arrays.asList(textures, texturesNether, texturesEnd));
+        super(particle, Arrays.asList(textures, texturesNether, texturesEnd), false);
         this.textures = textures;
         this.texturesNether = texturesNether;
         this.texturesEnd = texturesEnd;
-        
-        this.enableCache = false;
     }
 
     @Override

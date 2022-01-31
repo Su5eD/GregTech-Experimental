@@ -27,12 +27,11 @@ public class RecipeSawmill extends Recipe<List<IRecipeIngredient>, List<ItemStac
                                        @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                        @JsonProperty(value = "water") int water,
                                        @JsonProperty(value = "universal") boolean universal) {
-        output = RecipeUtil.adjustOutputCount("sawmill", output, 2);
-
+        List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("sawmill", output, 2);
         IRecipeIngredientFluid fluid = RecipeIngredientFluid.fromFluid(FluidRegistry.WATER, Math.max(water, 1));
-        RecipeSawmill recipe = new RecipeSawmill(input, fluid, output, universal);
+        RecipeSawmill recipe = new RecipeSawmill(input, fluid, adjustedOutput, universal);
 
-        if (!RecipeUtil.validateRecipeIO("sawmill", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("sawmill", input, adjustedOutput)) recipe.invalid = true;
 
         return recipe;
     }
@@ -43,13 +42,8 @@ public class RecipeSawmill extends Recipe<List<IRecipeIngredient>, List<ItemStac
     }
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", output)
-                .add("duration", duration)
-                .add("energyCost", energyCost)
-                .add("universal", universal)
-                .toString();
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        return super.toStringHelper()
+                .add("universal", universal);
     }
 }

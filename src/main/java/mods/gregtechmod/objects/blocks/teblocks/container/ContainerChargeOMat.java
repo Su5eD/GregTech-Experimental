@@ -4,7 +4,7 @@ import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntityChargeOMat;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ContainerChargeOMat extends ContainerGtBase<TileEntityChargeOMat> {
+public class ContainerChargeOMat extends ContainerGtInventory<TileEntityChargeOMat> {
 
     public ContainerChargeOMat(EntityPlayer player, TileEntityChargeOMat base) {
         super(player, base);

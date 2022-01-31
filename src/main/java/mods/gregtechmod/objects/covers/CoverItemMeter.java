@@ -9,10 +9,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import org.apache.commons.lang3.tuple.Pair;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class CoverItemMeter extends CoverMeter {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
 
     public CoverItemMeter(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
         super(name, te, side, stack);
@@ -20,26 +20,15 @@ public class CoverItemMeter extends CoverMeter {
 
     @Override
     public void doCoverThings() {
-        if (!(te instanceof IInventory)) return;
-
-        super.doCoverThings();
+        if (te instanceof IInventory) {
+            super.doCoverThings();
+        }
     }
 
     @Override
-    protected Pair<Integer, Integer> getItemStorageAndCapacity() {
+    public int getRedstoneStrength() {
         IItemHandler handler = ((TileEntity)te).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
-        int capacity = 0;
-        int storage = 0;
-        if (handler != null) {
-            for (int i = 0; i < handler.getSlots(); i++) {;
-                ItemStack stack = handler.getStackInSlot(i);
-                int maxStackSize = stack.getMaxStackSize();
-                capacity += maxStackSize;
-                storage += stack.getCount() * 64 / maxStackSize;
-            }
-        }
-
-        return Pair.of(storage, capacity);
+        return ItemHandlerHelper.calcRedstoneFromInventory(handler);
     }
 
     @Override

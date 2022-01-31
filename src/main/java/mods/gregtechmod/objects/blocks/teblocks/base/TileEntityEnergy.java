@@ -5,13 +5,13 @@ import ic2.api.energy.tile.IChargingSlot;
 import ic2.api.energy.tile.IDischargingSlot;
 import ic2.api.energy.tile.IExplosionPowerOverride;
 import ic2.core.ExplosionIC2;
-import ic2.core.block.TileEntityBlock;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.machine.IElectricMachine;
 import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.util.GtLocale;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.MachineSafety;
 import net.minecraft.client.util.ITooltipFlag;
@@ -51,11 +51,19 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
     
     protected Collection<EnumFacing> getSinkSides() {
-        return Collections.emptySet();
+        return Util.noFacings;
     }
     
     protected Collection<EnumFacing> getSourceSides() {
-        return Collections.emptySet();
+        return Util.noFacings;
+    }
+    
+    protected Collection<EnumFacing> facingSideOnly() {
+        return Collections.singleton(getFacing());
+    }
+    
+    protected Collection<EnumFacing> allSidesExceptFacing() {
+        return GtUtil.allSidesExcept(getFacing());
     }
     
     @Override
@@ -130,7 +138,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     protected void updateEntityServer() {
         super.updateEntityServer();
         
-        if(this.explode) this.explodeMachine(this.explosionPower);
+        if(this.explode) explodeMachine(this.explosionPower);
         if (this.shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         if (enableMachineSafety()) MachineSafety.checkSafety(this);
     }
@@ -192,7 +200,11 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
         if (this.energy.isSink()) tooltip.add(GtLocale.translateInfo("max_energy_in", Math.round(getMaxInputEUp())));
-        if (this.energy.isSource()) tooltip.add(GtLocale.translateInfo("max_energy_out", Math.round(getMaxOutputEUt())));
+        if (this.energy.isSource()) {
+            tooltip.add(GtLocale.translateInfo("max_energy_out", Math.round(getMaxOutputEUp())));
+            int packets = getSourcePackets();
+            if (packets > 1) tooltip.add(GtLocale.translateInfo("output_packets", packets));
+        }
         if (this.energyCapacityTooltip) tooltip.add(GtLocale.translateInfo("eu_storage", JavaUtil.formatNumber(this.energy.getCapacity())));
     }
     
@@ -255,7 +267,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     
     public static class ExplodingEnergySource extends AdjustableEnergy {
 
-        public ExplodingEnergySource(TileEntityBlock parent) {
+        public ExplodingEnergySource(TileEntityAutoNBT parent) {
             super(parent);
         }
 
@@ -266,7 +278,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
         @Override
         public Collection<EnumFacing> getSinkSides() {
-            return Collections.emptySet();
+            return Util.noFacings;
         }
 
         @Override

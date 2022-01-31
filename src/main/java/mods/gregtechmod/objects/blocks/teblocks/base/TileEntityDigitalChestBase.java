@@ -11,6 +11,7 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotLargeItemStack;
 import mods.gregtechmod.objects.blocks.teblocks.component.UpgradeManager;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.entity.item.EntityItem;
@@ -43,7 +44,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         this.capacity = capacity;
         this.content = new GtSlotLargeItemStack(this, "mainSlot", InvSlot.Access.IO);
         this.content.setStackSizeLimit(capacity);
-        this.upgradeManager = addComponent(new UpgradeManager(this, () -> {}, (item, stack, player) -> item.afterInsert(stack, this, player), (item, stack) -> {}));
+        this.upgradeManager = addComponent(new UpgradeManager(this, () -> {}, (item, player) -> item.afterInsert(this, player), type -> {}));
         
         this.coverBlacklist.add(CoverType.ENERGY);
     }
@@ -282,7 +283,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
 
     @Override
     public String getTertiaryInfo() {
-        return "Max: " + this.capacity;
+        return GtLocale.translateInfo("max", this.capacity);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import buildcraft.api.mj.MjAPI;
-import ic2.core.IC2;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.comp.Fluids.InternalFluidTank;
 import ic2.core.block.invslot.InvSlot;
@@ -73,11 +72,11 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         return this.upgradeManager.addUpgrade(stack, player);
     }
 
-    protected void onUpdateGTUpgrade(IGtUpgradeItem item, ItemStack stack, EntityPlayer player) {
-        item.afterInsert(stack, this, player);
+    protected void onUpdateGTUpgrade(IGtUpgradeItem item, EntityPlayer player) {
+        item.afterInsert(this, player);
     }
 
-    protected void onUpdateIC2Upgrade(IC2UpgradeType type, ItemStack stack) {}
+    protected void onUpdateIC2Upgrade(IC2UpgradeType type) {}
     
     @Override
     public void addExtraTier() {
@@ -130,7 +129,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         return ic2Batteries + this.extraEUCapacity;
     }
 
-    public Fluids.InternalFluidTank createSteamTank() {
+    public InternalFluidTank createSteamTank() {
         return new GtFluidTank(this, "steamTank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtUtil.STEAM_PREDICATE, getSteamCapacity());
     }
 
@@ -169,8 +168,8 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
     
     private void onUpdate() {
-        IC2.network.get(true).updateTileEntityField(this, "upgradeManager");
-        IC2.network.get(true).updateTileEntityField(this, "extraEUCapacity");
+        updateClientField("upgradeManager");
+        updateClientField("extraEUCapacity");
     }
 
     @Override

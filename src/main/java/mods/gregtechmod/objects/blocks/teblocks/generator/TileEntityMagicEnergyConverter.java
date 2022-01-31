@@ -33,7 +33,7 @@ public class TileEntityMagicEnergyConverter extends TileEntityFluidGenerator {
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        if (shouldExplode) {
+        if (this.shouldExplode) {
             ModHandler.polluteAura(this.world, this.pos, 20 * this.world.rand.nextInt(20), true);
         }
     }

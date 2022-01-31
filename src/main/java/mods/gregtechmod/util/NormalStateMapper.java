@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 
 public class NormalStateMapper extends StateMapperBase {
+    public static final NormalStateMapper INSTANCE = new NormalStateMapper();
 
     @Override
     protected ModelResourceLocation getModelResourceLocation(IBlockState state) {

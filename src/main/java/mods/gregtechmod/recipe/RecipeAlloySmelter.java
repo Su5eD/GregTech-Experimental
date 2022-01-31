@@ -24,11 +24,10 @@ public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeUniver
                                             @JsonProperty(value = "duration", required = true) int duration,
                                             @JsonProperty(value = "energyCost") double energyCost,
                                             @JsonProperty(value = "universal") boolean universal) {
-        input = RecipeUtil.adjustInputCount("alloy smelter", input, output, 2);
+        List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("alloy smelter", input, output, 2);
+        RecipeAlloySmelter recipe = new RecipeAlloySmelter(adjustedInput, output, duration, Math.max(energyCost, 1), universal);
 
-        RecipeAlloySmelter recipe = new RecipeAlloySmelter(input, output, duration, Math.max(energyCost, 1), universal);
-
-        if (!RecipeUtil.validateRecipeIO("alloy smelter", input, output)) recipe.invalid = true;
+        if (!RecipeUtil.validateRecipeIO("alloy smelter", adjustedInput, output)) recipe.invalid = true;
 
         return recipe;
     }
@@ -39,13 +38,8 @@ public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeUniver
     }
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", output)
-                .add("energyCost", energyCost)
-                .add("duration", duration)
-                .add("universal", universal)
-                .toString();
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        return super.toStringHelper()
+                .add("universal", universal);
     }
 }

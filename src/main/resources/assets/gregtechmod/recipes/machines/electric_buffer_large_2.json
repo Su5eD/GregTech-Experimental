@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "TTT",
+    "TCT",
+    "TTT"
+  ],
+  "key":
+  {
+    "T":
+    {
+      "item": "gregtechmod:teblock",
+      "data": 58
+    },
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 59
+  }
+}

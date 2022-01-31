@@ -4,7 +4,7 @@ import ic2.core.util.LiquidUtil;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.block.Block;
@@ -27,7 +27,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import java.util.Locale;
 
 public class CoverDrain extends CoverGeneric {
-    private static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
     
     @NBTPersistent
     protected DrainMode mode = DrainMode.IMPORT;
@@ -142,11 +142,11 @@ public class CoverDrain extends CoverGeneric {
         }
 
         public DrainMode next() {
-            return VALUES[(this.ordinal() + 1) % VALUES.length];
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public String getMessageKey() {
-            return Reference.MODID+".cover.inventory_mode."+this.name().toLowerCase(Locale.ROOT);
+            return GtLocale.buildKey("cover", "inventory_mode", name().toLowerCase(Locale.ROOT));
         }
     }
 }
