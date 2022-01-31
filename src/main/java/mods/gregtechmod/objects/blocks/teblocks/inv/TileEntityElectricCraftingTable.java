@@ -16,7 +16,6 @@ import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricCraftingTable;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.OptionalItemStack;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.nbt.NBTPersistent;
@@ -164,11 +163,11 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
     
     private Pair<ItemStack[], ItemStack> getRecipe() {
         if (!this.lastCraftSuccessful) {
-            nextSlot();
+            cycleNextSlot();
 
             IntStreamEx.ofIndices(this.slotPositions)
                 .takeWhile(i -> this.slotPositions.get(this.currentSlot).isEmpty())
-                .forEach(i -> nextSlot());
+                .forEach(i -> cycleNextSlot());
 
             this.currentSlotPos = this.slotPositions.get(this.currentSlot);
         }
@@ -306,8 +305,12 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         this.energy.refreshSides();
     }
     
-    private void nextSlot() {
-        this.currentSlot = (this.currentSlot + 1) % this.slotPositions.size();
+    private void cycleNextSlot() {
+        this.currentSlot = nextSlot(1);
+    }
+    
+    private int nextSlot(int step) {
+        return (this.currentSlot + step) % this.slotPositions.size();
     }
 
     private boolean isItemInCraftingGrid(ItemStack stack) {
@@ -420,7 +423,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
             return output;
         }), 128),
         DUST((te, stack) -> checkStackOreDict(te, stack, "dustSmall"), SMALL.recipe, 128),
-        NUGGET((te, stack) -> checkStackOreDict(te, stack, "nugget"), LARGE.recipe, 128), // TODO Process addCurrentStackToOutput in lambda caller
+        NUGGET((te, stack) -> checkStackOreDict(te, stack, "nugget"), LARGE.recipe, 128),
         REPAIR((te, stack) -> te.isItemInCraftingGrid(stack) || stack.getItemDamage() <= 0 || !stack.getItem().isRepairable(), recipe((te, recipe, stack) ->
             IntStreamEx.range(te.currentSlot + 1, te.slotPositions.size())
                 .mapToObj(i -> te.slotPositions.get(i).getStack())
@@ -430,7 +433,17 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
                     recipe[1] = slotStack;
                     addFallbackOutput(te, recipe, ModHandler::getRecipeResult);
                 }))),
-        MIXER(2048);
+        MIXER(recipe((te, recipe, s) -> {
+            for (int i = 0, j = 0; i < te.slotPositions.size() && j < te.input.size() && (j < 2 || ModHandler.getRecipeResult(recipe).isEmpty()); i++) {
+                ItemStack stack = te.slotPositions.get(te.nextSlot(i)).getStack();
+                if (!stack.isEmpty()) {
+                    recipe[j] = ItemHandlerHelper.copyStackWithSize(stack, 1);
+                    j++;
+                }
+            }
+            
+            if (recipe[1].isEmpty()) recipe[0] = ItemStack.EMPTY;
+        }));
 
         private static final CraftingMode[] VALUES = values();
 
@@ -438,10 +451,6 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
         private final BiConsumer<TileEntityElectricCraftingTable, ItemStack> fallback;
         private final Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe;
         private final int energyCost;
-
-        CraftingMode(int energyCost) {
-            this(JavaUtil.alwaysFalseBi(), te -> Pair.of(null, ItemStack.EMPTY), energyCost); // TODO Remove this and array null checks
-        }
         
         CraftingMode(Function<TileEntityElectricCraftingTable, Pair<ItemStack[], ItemStack>> recipe) {
             this(recipe, 2048);
