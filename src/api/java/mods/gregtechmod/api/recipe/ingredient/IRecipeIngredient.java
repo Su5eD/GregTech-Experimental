@@ -1,7 +1,7 @@
 package mods.gregtechmod.api.recipe.ingredient;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import one.util.streamex.StreamEx;
 
 import java.util.List;

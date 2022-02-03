@@ -1,0 +1,37 @@
+modLoader="javafml"
+
+loaderVersion="[36,)"
+license="GNU Lesser General Public License v3.0"
+issueTrackerURL="https://github.com/Su5eD/GregTech-Experimental/issues" 
+
+[[mods]]
+modId="gregtechmod"
+version="${file.jarVersion}"
+displayName="GregTech Experimental"
+displayURL="https://github.com/Su5eD/GregTech-Experimental"
+logoFile="GTE_Logo.png"
+credits="Player and his team for IndustrialCraft, Mr. Brain, TheSirusKing and matix for Textures, GregoriousTechnecities for GregTech3"
+authors="Su5eD"
+description='''
+This addon adds the awesome technology of GregTech-Intergalactical to your world!
+Fusion reactors, lightning rods and many other technologies and convenient recipes are added by this addon...
+'''
+
+[[dependencies.gregtechmod]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.gregtechmod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.1]"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.gregtechmod]]
+    modId="ic2"
+    mandatory=true
+    versionRange="[1.18.1]"
+    ordering="NONE"
+    side="BOTH"

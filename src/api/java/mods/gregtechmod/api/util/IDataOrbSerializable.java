@@ -1,6 +1,6 @@
 package mods.gregtechmod.api.util;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundTag;
 
 import javax.annotation.Nullable;
 
@@ -9,7 +9,7 @@ public interface IDataOrbSerializable {
     String getDataName();
     
     @Nullable
-    NBTTagCompound saveDataToOrb();
+    CompoundTag saveDataToOrb();
     
-    void loadDataFromOrb(NBTTagCompound nbt);
+    void loadDataFromOrb(CompoundTag nbt);
 }

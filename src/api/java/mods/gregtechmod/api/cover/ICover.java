@@ -1,11 +1,11 @@
 package mods.gregtechmod.api.cover;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -22,9 +22,9 @@ public interface ICover {
      */
     void doCoverThings();
 
-    boolean onCoverRightClick(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ);
+    boolean onCoverRightClick(Player player, InteractionHand hand, Direction side, float hitX, float hitY, float hitZ);
 
-    boolean onScrewdriverClick(EntityPlayer player);
+    boolean onScrewdriverClick(Player player);
 
     boolean allowEnergyTransfer();
 
@@ -45,7 +45,7 @@ public interface ICover {
      * @param side the activated side
      * @return a <b>condition</b> under which the gui can be accessed. <b>NEVER</b> return <code>true</code> or <code>false</code> as it will break other covers (especially the Screen). For example, <code>side != this.side</code> or <code>side == this.side</code>
      */
-    boolean opensGui(EnumFacing side);
+    boolean opensGui(Direction side);
 
     boolean acceptsRedstone();
 
@@ -61,7 +61,7 @@ public interface ICover {
     /**
      * @return The cover's side
      */
-    EnumFacing getSide();
+    Direction getSide();
 
     /**
      * @return The cover's associated item
@@ -73,9 +73,9 @@ public interface ICover {
     
     CoverType getType();
 
-    NBTTagCompound writeToNBT(NBTTagCompound nbt);
+    CompoundTag writeToNBT(CompoundTag nbt);
 
-    void readFromNBT(NBTTagCompound nbt);
+    void readFromNBT(CompoundTag nbt);
 
     int getTickRate();
 

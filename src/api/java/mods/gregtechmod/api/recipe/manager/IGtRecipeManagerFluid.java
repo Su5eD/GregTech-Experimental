@@ -1,7 +1,7 @@
 package mods.gregtechmod.api.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IMachineRecipe;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;

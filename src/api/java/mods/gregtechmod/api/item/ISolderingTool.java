@@ -1,7 +1,7 @@
 package mods.gregtechmod.api.item;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public interface ISolderingTool {
     /**
@@ -11,5 +11,5 @@ public interface ISolderingTool {
      * @param simulate Whether the solder should be simulated or not. Such simulation can be used to determine if the solder can be performed.
      * @return <code>true</code> if the solder was performed successfully
      */
-    boolean solder(ItemStack stack, EntityPlayer player, boolean simulate);
+    boolean solder(ItemStack stack, Player player, boolean simulate);
 }

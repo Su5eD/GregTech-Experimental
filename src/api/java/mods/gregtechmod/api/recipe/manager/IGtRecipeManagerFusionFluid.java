@@ -2,8 +2,8 @@ package mods.gregtechmod.api.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeFusion;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;

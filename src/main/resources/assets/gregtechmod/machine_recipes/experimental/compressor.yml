@@ -1,6 +1,0 @@
-# Emperimental IC2 Compressor Recipes
----
-- input:
-    ore: dustUranium
-  output:
-    item: ic2:nuclear#uranium_238

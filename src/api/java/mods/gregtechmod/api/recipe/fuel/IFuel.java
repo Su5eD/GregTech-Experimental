@@ -1,7 +1,7 @@
 package mods.gregtechmod.api.recipe.fuel;
 
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 

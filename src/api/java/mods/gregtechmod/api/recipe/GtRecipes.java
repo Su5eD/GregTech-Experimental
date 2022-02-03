@@ -5,7 +5,7 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerBasic;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerFusionFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSecondaryFluid;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 

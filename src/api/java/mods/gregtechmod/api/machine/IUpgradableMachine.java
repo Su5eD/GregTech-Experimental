@@ -3,9 +3,9 @@ package mods.gregtechmod.api.machine;
 import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidTank;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -21,7 +21,7 @@ public interface IUpgradableMachine extends IElectricMachine {
      */
     void forceAddUpgrade(ItemStack stack);
     
-    boolean addUpgrade(ItemStack stack, EntityPlayer player);
+    boolean addUpgrade(ItemStack stack, Player player);
     
     boolean hasSteamTank();
 

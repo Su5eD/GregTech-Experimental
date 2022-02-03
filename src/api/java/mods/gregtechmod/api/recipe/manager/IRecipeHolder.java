@@ -1,6 +1,6 @@
 package mods.gregtechmod.api.recipe.manager;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface IRecipeHolder<I> {
     /**

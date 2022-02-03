@@ -3,8 +3,8 @@ package mods.gregtechmod.api;
 import com.fasterxml.jackson.databind.JsonNode;
 import mods.gregtechmod.api.util.SonictronSound;
 import mods.gregtechmod.api.util.TurbineRotor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Collection;
 import java.util.List;

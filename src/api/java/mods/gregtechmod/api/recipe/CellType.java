@@ -1,13 +1,13 @@
 package mods.gregtechmod.api.recipe;
 
-import ic2.api.item.IC2Items;
-import net.minecraft.item.ItemStack;
+import ic2.core.ref.Ic2Items;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.function.BiPredicate;
 
 public enum CellType {
-    CELL((stack, classic) -> classic ? stack.isItemEqual(IC2Items.getItem("cell", "empty")) : stack.isItemEqual(IC2Items.getItem("fluid_cell")) && stack.getTagCompound() == null),
-    FUEL_CAN((stack, classic) -> stack.isItemEqual(IC2Items.getItem("crafting", "empty_fuel_can")));
+    CELL((stack, classic) -> /* TODO stack.isItemEqual(Ic2Items.FLUID_CELL) && stack.getTag() == null */ classic && stack.getItem() == Ic2Items.EMPTY_CELL),
+    FUEL_CAN((stack, classic) -> stack.getItem() == Ic2Items.EMPTY_FUEL_CAN);
 
     private final BiPredicate<ItemStack, Boolean> matcher;
 

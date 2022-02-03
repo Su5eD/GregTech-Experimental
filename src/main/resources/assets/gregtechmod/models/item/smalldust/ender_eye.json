@@ -1,6 +1,0 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "gregtechmod:items/materials/smalldust/ender_eye"
-    }
-}

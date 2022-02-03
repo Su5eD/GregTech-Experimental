@@ -1,8 +1,8 @@
 package mods.gregtechmod.api.upgrade;
 
 import mods.gregtechmod.api.machine.IUpgradableMachine;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public interface IGtUpgradeItem {
 
@@ -18,10 +18,10 @@ public interface IGtUpgradeItem {
     /**
      * Called right before the upgrade is inserted into the machine. Return true to cancel the insertion
      */
-    boolean beforeInsert(IUpgradableMachine machine, EntityPlayer player);
+    boolean beforeInsert(IUpgradableMachine machine, Player player);
 
     /**
      * Called after the upgrade is inserted into the machine
      */
-    void afterInsert(IUpgradableMachine machine, EntityPlayer player);
+    void afterInsert(IUpgradableMachine machine, Player player);
 }

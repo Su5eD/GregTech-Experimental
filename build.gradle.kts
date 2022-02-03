@@ -2,7 +2,6 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import fr.brouillard.oss.jgitver.GitVersionCalculator
 import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.common.util.RunConfig
-import wtf.gofancy.fancygradle.script.extensions.curse
 import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
 
@@ -17,30 +16,17 @@ plugins {
     `maven-publish`
     idea
     id("net.minecraftforge.gradle") version "5.1.+"
+    id("org.parchmentmc.librarian.forgegradle") version "1.+"
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("wtf.gofancy.fancygradle") version "1.1.+"
 }
 
 val versionMc: String by project
 val versionIC2: String by project
-val versionBuildCraft: String by project
 val versionJEI: String by project
-val versionCodeChickenLib: String by project
-val versionCoFHCore: String by project
-val versionCoFHWorld: String by project
-val versionRF: String by project
-val versionThermalFoundation: String by project
-val versionThermalExpansion: String by project
-val versionAE2: String by project
-val versionMantle: String by project
-val versionTConstruct: String by project
-val versionEnergyControl: String by project
-val versionRailcraft: String by project
-val versionThaumcraft: String by project
 
-group = "mods.su5ed"
+group = "dev.su5ed"
 version = getGitVersion()
-setProperty("archivesBaseName", "gregtechmod")
 
 val api: SourceSet by sourceSets.creating
 val apiDep: Configuration by configurations.creating
@@ -49,6 +35,7 @@ val shade: Configuration by configurations.creating {
     configurations.implementation.get().extendsFrom(this)
 }
 
+val relocateTarget = "dev.gregtechmod.repack"
 val manifestAttributes = mapOf(
     "Specification-Title" to project.name,
     "Specification-Vendor" to "Su5eD",
@@ -60,7 +47,7 @@ val manifestAttributes = mapOf(
 )
 
 minecraft {
-    mappings("stable", "39-1.12")
+    mappings("parchment", "2022.01.23-1.18.1")
 
     runs {
         val config = Action<RunConfig> {
@@ -75,17 +62,8 @@ minecraft {
     }
 }
 
-fancyGradle {
-    patches {
-        resources
-        coremods
-        codeChickenLib
-        asm
-    }
-}
-
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
     
     withSourcesJar()
 }
@@ -146,21 +124,7 @@ tasks {
 
     withType<ShadowJar>() {
         sequenceOf("com.fasterxml", "org.yaml", "one.util")
-            .forEach { relocate(it, "mods.gregtechmod.repack.$it") }
-    }
-    
-    processResources {
-        inputs.properties(
-            "version" to project.version,
-            "mcversion" to versionMc
-        )
-
-        filesMatching("mcmod.info") {
-            expand(
-                "version" to project.version,
-                "mcversion" to versionMc
-            )
-        }
+            .forEach { relocate(it, "$relocateTarget.$it") }
     }
     
     assemble {
@@ -183,53 +147,36 @@ repositories {
         url = uri("https://maven.ic2.player.to")
     }
     maven {
-        name = "BuildCraft"
-        url = uri("https://mod-buildcraft.com/maven")
-    }
-    maven {
-        name = "CurseMaven"
-        url = uri("https://cfa2.cursemaven.com")
-    }
-    maven {
         name = "Progwml6 maven"
         url = uri("https://dvs1.progwml6.com/files/maven")
     }
-    maven {
-        name = "CoFH Maven"
-        url = uri("https://maven.covers1624.net")
+    ivy { 
+        val ic2build = versionIC2.split("+").first().substringAfterLast('.')
+        
+        name = "IC2 Jenkins"
+        url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.18/$ic2build/artifact/tmp/out")
+        patternLayout { 
+            artifact("[module]-[revision]-$versionMc-forge.[ext]")
+        }
+        metadataSources { 
+            artifact()
+        }
     }
     mavenCentral()
 }
 
 dependencies {
-    minecraft(group = "net.minecraftforge", name = "forge", version = "1.12.2-14.23.5.2860")
+    minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.1-39.0.64")
     
     implementation(api.output)
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
-    apiDep(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2, classifier = "api")
+    apiDep(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2)
     
-    compileOnly(fg.deobf(group = "cofh", name = "RedstoneFlux", version = versionRF, classifier = "universal"))
-    compileOnly(fg.deobf(group = "cofh", name = "CoFHCore", version = versionCoFHCore, classifier = "universal")) {
-        exclude(group = "mezz.jei")
-    }
-    compileOnly(fg.deobf(group = "cofh", name = "CoFHWorld", version = versionCoFHWorld, classifier = "universal"))
-    compileOnly(fg.deobf(group = "cofh", name = "ThermalFoundation", version = versionThermalFoundation, classifier = "universal"))
-    compileOnly(fg.deobf(group = "codechicken", name = "CodeChickenLib", version = versionCodeChickenLib, classifier = "universal"))
-    compileOnly(fg.deobf(group = "cofh", name = "ThermalExpansion", version = versionThermalExpansion, classifier = "universal")) { 
-        exclude(group = "mezz.jei")
-    }
-    runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI))
-    compileOnly(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI, classifier = "api")
-    compileOnly(fg.deobf(group = "com.mod-buildcraft", name = "buildcraft-main", version = versionBuildCraft))
-    compileOnly(fg.deobf(curse(mod = "energy-control", projectId = 51195, fileId = versionEnergyControl.toLong())))
-    compileOnly(fg.deobf(curse(mod = "railcraft", projectId = 51195, fileId = versionRailcraft.toLong())))
-    compileOnly(fg.deobf(curse(mod = "applied-energistics-2", projectId = 223794, fileId = versionAE2.toLong())))
-    compileOnly(fg.deobf(curse(mod = "thaumcraft", projectId = 223628, fileId = versionThaumcraft.toLong())))
-    compileOnly(fg.deobf(group = "slimeknights.mantle", name = "Mantle", version = versionMantle))
-    compileOnly(fg.deobf(group = "slimeknights", name = "TConstruct", version = versionTConstruct))
+    runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc", version = versionJEI))
+    compileOnly(group = "mezz.jei", name = "jei-$versionMc", version = versionJEI, classifier = "api")
 
-    apiDep(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0"))
-    shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.9.0")
+    apiDep(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.13.1"))
+    shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.13.1")
     apiDep(shade(group = "one.util", name = "streamex", version = "0.8.1"))
 }
 
@@ -266,7 +213,7 @@ publishing {
 
 fun getGitVersion(): String {
     val jgitver = GitVersionCalculator.location(rootDir)
-        .setNonQualifierBranches("forge-1.12.2")
+        .setNonQualifierBranches("forge-1.18.1")
         .setStrategy(Strategies.SCRIPT)
         .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version

@@ -1,24 +1,24 @@
 package mods.gregtechmod.api.cover;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 
 /**
- * Lets your {@link net.minecraft.tileentity.TileEntity TileEntity} accept covers.
+ * Lets your {@link net.minecraft.world.level.block.entity.BlockEntity} accept covers.
  */
 public interface ICoverable {
 
-    boolean removeCover(EnumFacing side, boolean simulate);
+    boolean removeCover(Direction side, boolean simulate);
 
     @Nullable
-    ICover getCoverAtSide(EnumFacing side);
+    ICover getCoverAtSide(Direction side);
 
     Collection<? extends ICover> getCovers();
 
-    boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate);
+    boolean placeCoverAtSide(ICover cover, Player player, Player side, boolean simulate);
 
     void updateRender();
 }

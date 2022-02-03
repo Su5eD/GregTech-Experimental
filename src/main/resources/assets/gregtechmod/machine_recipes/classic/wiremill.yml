@@ -1,9 +1,0 @@
-# Classic Wiremill Recipes
----
-- input:
-    ore: ingotRefinedIron
-  output:
-    item: ic2:cable#type:iron,insulation:0
-    count: 6
-  duration: 200
-  energyCost: 2

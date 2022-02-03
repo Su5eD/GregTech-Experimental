@@ -1,10 +1,10 @@
 package mods.gregtechmod.api.machine;
 
-import net.minecraft.util.EnumFacing;
+import net.minecraft.core.Direction;
 
 public interface IGregTechMachine {
     
-    void setRedstoneOutput(EnumFacing side, int strength);
+    void setRedstoneOutput(Direction side, int strength);
     
     void setAllowedToWork(boolean value);
     
