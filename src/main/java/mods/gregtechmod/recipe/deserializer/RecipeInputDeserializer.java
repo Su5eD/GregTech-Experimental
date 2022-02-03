@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.util.deserializer;
+package mods.gregtechmod.recipe.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -16,15 +16,17 @@ public class RecipeInputDeserializer extends JsonDeserializer<IRecipeInput> {
     @Override
     public IRecipeInput deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
         JsonNode node = parser.getCodec().readTree(parser);
-        IRecipeInput input = null;
+        IRecipeInput input;
         int count = node.has("count") ? node.get("count").asInt(1) : 1;
 
         if (node.has("item")) {
             ItemStack stack = ItemStackDeserializer.INSTANCE.deserialize(node, 1);
             input = Recipes.inputFactory.forStack(stack, count);
-        } else if (node.has("ore")) {
+        }
+        else if (node.has("ore")) {
             input = Recipes.inputFactory.forOreDict(node.get("ore").asText(), count);
         }
+        else input = null;
 
         return input;
     }

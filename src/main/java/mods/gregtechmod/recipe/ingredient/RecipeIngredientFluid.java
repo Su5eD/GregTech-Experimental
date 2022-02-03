@@ -16,14 +16,13 @@ import one.util.streamex.StreamEx;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implements IRecipeIngredientFluid {
     public static final RecipeIngredientFluid EMPTY = new RecipeIngredientFluid(Collections.emptyList(), 0);
     private final List<Fluid> matchingFluids;
 
     private RecipeIngredientFluid(List<Fluid> fluids, int buckets) {
-        super(Ingredient.fromStacks(getContainersForFluids(fluids).toArray(new ItemStack[0])), buckets);
+        super(Ingredient.fromStacks(getContainersForFluids(fluids)), buckets);
         this.matchingFluids = fluids;
     }
 
@@ -32,14 +31,16 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
     }
 
     public static RecipeIngredientFluid fromNames(List<String> names, int buckets) {
-        List<Fluid> fluids = names.stream()
-                .map(FluidRegistry::getFluid)
-                .collect(Collectors.toList());
+        List<Fluid> fluids = StreamEx.of(names)
+            .map(FluidRegistry::getFluid)
+            .toImmutableList();
         if (fluids.isEmpty()) {
             GregTechMod.LOGGER.error("Tried to a create an IRecipeIngredientFluid with no matching inputs");
-        } else if (fluids.contains(null)) {
+        }
+        else if (fluids.contains(null)) {
             GregTechMod.LOGGER.error("Tried to create an IRecipeIngredientfluid with an invalid fluid among its matching fluids: " + String.join(", ", names));
-        } else return fromFluids(fluids, buckets);
+        }
+        else return fromFluids(fluids, buckets);
 
         return EMPTY;
     }
@@ -55,15 +56,16 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
     @Override
     public boolean apply(@Nullable FluidStack input) {
         return input != null && this.matchingFluids.stream()
-                .map(fluid -> new FluidStack(fluid, this.getMilliBuckets()))
-                .anyMatch(input::containsFluid);
+            .map(fluid -> new FluidStack(fluid, this.getMilliBuckets()))
+            .anyMatch(input::containsFluid);
     }
 
     @Override
     public boolean apply(Fluid fluid) {
+        String name = fluid.getName();
         return this.matchingFluids.stream()
-                .map(Fluid::getName)
-                .anyMatch(name -> name.equals(fluid.getName()));
+            .map(Fluid::getName)
+            .anyMatch(name::equals);
     }
 
     @Override
@@ -79,8 +81,10 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
                 if (checkCount) {
                     fluidStack.amount *= input.getCount();
                     return apply(fluidStack);
-                } else return apply(fluidStack.getFluid());
-            } else return super.apply(input, checkCount);
+                }
+                return apply(fluidStack.getFluid());
+            }
+            else return super.apply(input, checkCount);
         }
 
         return false;
@@ -88,12 +92,11 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
 
     @Override
     public boolean apply(IRecipeIngredient ingredient) {
-        if (ingredient instanceof IRecipeIngredientFluid) {
-            return this.matchingFluids.stream()
-                    .anyMatch(firstFluid -> ((IRecipeIngredientFluid) ingredient).getMatchingFluids().stream()
-                        .anyMatch(secondFluid -> firstFluid.getName().equals(secondFluid.getName()))) && this.count <= ingredient.getCount();
-        }
-        return super.apply(ingredient);
+        return ingredient instanceof IRecipeIngredientFluid
+            ? this.matchingFluids.stream()
+            .anyMatch(firstFluid -> ((IRecipeIngredientFluid) ingredient).getMatchingFluids().stream()
+                .anyMatch(secondFluid -> firstFluid.getName().equals(secondFluid.getName()))) && this.count <= ingredient.getCount()
+            : super.apply(ingredient);
     }
 
     @Override
@@ -108,22 +111,22 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
 
     @Override
     public String toString() {
-        List<String> fluids = this.matchingFluids.stream()
-                .map(Fluid::getName)
-                .collect(Collectors.toList());
+        List<String> fluids = StreamEx.of(this.matchingFluids)
+            .map(Fluid::getName)
+            .toList();
         return MoreObjects.toStringHelper(this)
-                .add("ingredient", ingredient)
-                .add("matchingFluids", fluids)
-                .toString();
+            .add("ingredient", ingredient)
+            .add("matchingFluids", fluids)
+            .toString();
     }
 
-    public static List<ItemStack> getContainersForFluids(List<Fluid> fluids) {
+    public static ItemStack[] getContainersForFluids(List<Fluid> fluids) {
         return StreamEx.of(fluids)
-                .map(fluid -> FluidUtil.getFilledBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME)))
-                .append(StreamEx.of(fluids)
-                        .map(Fluid::getName)
-                        .map(ProfileDelegate::getCell))
-                .remove(ItemStack::isEmpty)
-                .toList();
+            .map(fluid -> FluidUtil.getFilledBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME)))
+            .append(StreamEx.of(fluids)
+                .map(Fluid::getName)
+                .map(ProfileDelegate::getCell))
+            .remove(ItemStack::isEmpty)
+            .toArray(ItemStack[]::new);
     }
 }

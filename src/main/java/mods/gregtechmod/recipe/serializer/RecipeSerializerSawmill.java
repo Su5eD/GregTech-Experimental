@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.util.serializer;
+package mods.gregtechmod.recipe.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import mods.gregtechmod.api.recipe.IRecipeUniversal;

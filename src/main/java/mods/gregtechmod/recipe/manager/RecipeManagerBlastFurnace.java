@@ -13,17 +13,19 @@ public class RecipeManagerBlastFurnace extends RecipeManagerMultiInput<IRecipeBl
     @Override
     public boolean addRecipe(IRecipeBlastFurnace recipe, boolean overwrite) {
         boolean ret = super.addRecipe(recipe, overwrite);
-        if (ModHandler.railcraft && ret && recipe.isUniversal()) addRCBlastFurnaceRecipe(recipe.getInput().get(0).asIngredient(), recipe.getOutput().get(0), recipe.getDuration());
+        if (ModHandler.railcraft && ret && recipe.isUniversal()) {
+            addRCBlastFurnaceRecipe(recipe.getInput().get(0).asIngredient(), recipe.getOutput().get(0), recipe.getDuration());
+        }
         return ret;
     }
 
     @Optional.Method(modid = "railcraft")
     public static void addRCBlastFurnaceRecipe(Ingredient input, ItemStack output, int duration) {
         Crafters.blastFurnace()
-                .newRecipe(input)
-                .output(output)
-                .time(duration)
-                .name(output.getItem().getRegistryName())
-                .register();
+            .newRecipe(input)
+            .output(output)
+            .time(duration)
+            .name(output.getItem().getRegistryName())
+            .register();
     }
 }

@@ -9,22 +9,23 @@ import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientFactory;
 import net.minecraftforge.common.crafting.JsonContext;
+import one.util.streamex.IntStreamEx;
 
 import javax.annotation.Nonnull;
-import java.util.stream.IntStream;
 
 @SuppressWarnings("unused")
 public class MultiIngredientFactory implements IIngredientFactory {
+
     @Nonnull
     @Override
     public Ingredient parse(JsonContext context, JsonObject json) {
         JsonArray array = JsonUtils.getJsonArray(json, "items");
         int size = array.size();
-        ItemStack[] stacks = IntStream.range(0, size)
-                .mapToObj(array::get)
-                .map(JsonElement::getAsJsonObject)
-                .map(item -> CraftingHelper.getIngredient(item, context).getMatchingStacks()[0]) // Allows compatibility with custom ingredient types
-                .toArray(ItemStack[]::new);
+        ItemStack[] stacks = IntStreamEx.range(size)
+            .mapToObj(array::get)
+            .map(JsonElement::getAsJsonObject)
+            .map(item -> CraftingHelper.getIngredient(item, context).getMatchingStacks()[0]) // Allows compatibility with custom ingredient types
+            .toArray(ItemStack[]::new);
         return Ingredient.fromStacks(stacks);
     }
 }

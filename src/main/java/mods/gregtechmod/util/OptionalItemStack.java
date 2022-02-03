@@ -69,6 +69,12 @@ public class OptionalItemStack {
     public OptionalItemStack orElseFlat(Supplier<OptionalItemStack> optional) {
         return isEmpty() ? optional.get() : this;
     }
+
+    public <T extends Throwable> ItemStack orElseThrow(Supplier<? extends T> exceptionSupplier) throws T {
+        if (isEmpty()) throw exceptionSupplier.get();
+        
+        return this.value;
+    }
     
     public boolean ifPresent(Consumer<ItemStack> consumer) {
         if (isPresent()) {

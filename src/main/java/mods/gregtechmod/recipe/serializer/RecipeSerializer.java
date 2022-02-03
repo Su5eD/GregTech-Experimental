@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.util.serializer;
+package mods.gregtechmod.recipe.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -28,8 +28,8 @@ public class RecipeSerializer<R extends IMachineRecipe<I, O>, I, O> extends Json
         serializeOutput(value.getOutput(), gen);
         serializeExtraFields(value, gen);
 
-        if (writeDuration) gen.writeNumberField("duration", value.getDuration());
-        if (writeEnergyCost) gen.writeNumberField("energyCost", value.getEnergyCost());
+        if (this.writeDuration) gen.writeNumberField("duration", value.getDuration());
+        if (this.writeEnergyCost) gen.writeNumberField("energyCost", value.getEnergyCost());
         gen.writeEndObject();
     }
 

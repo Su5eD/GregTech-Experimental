@@ -1,15 +1,17 @@
 package mods.gregtechmod.recipe.ingredient;
 
 import com.google.common.base.MoreObjects;
-import mods.gregtechmod.core.GregTechMod;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class RecipeIngredientItemStack extends RecipeIngredient<Ingredient> {
     public static final RecipeIngredientItemStack EMPTY = new RecipeIngredientItemStack(1);
+    private static final Logger LOGGER = LogManager.getLogger();
 
     protected RecipeIngredientItemStack(int count, ItemStack... stacks) {
         super(Ingredient.fromStacks(stacks), count);
@@ -39,7 +41,7 @@ public class RecipeIngredientItemStack extends RecipeIngredient<Ingredient> {
     public static RecipeIngredientItemStack create(List<ItemStack> stacks, int count) {
         for (ItemStack stack : stacks) {
             if (stack.isEmpty()) {
-                GregTechMod.LOGGER.error("Tried to parse a RecipeIngredientItemStack with an empty stack among the matching stacks: " + stacks);
+                LOGGER.error("Tried to parse a RecipeIngredientItemStack with an empty stack among the matching stacks: " + stacks);
                 return EMPTY;
             }
         }

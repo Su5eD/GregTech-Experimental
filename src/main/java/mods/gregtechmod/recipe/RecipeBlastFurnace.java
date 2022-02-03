@@ -50,7 +50,7 @@ public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<Ite
     @Override
     protected MoreObjects.ToStringHelper toStringHelper() {
         return super.toStringHelper()
-                .add("heat", heat)
-                .add("universal", universal);
+            .add("heat", heat)
+            .add("universal", universal);
     }
 }

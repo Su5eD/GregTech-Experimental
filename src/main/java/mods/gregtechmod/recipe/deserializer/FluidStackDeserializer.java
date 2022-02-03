@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.util.deserializer;
+package mods.gregtechmod.recipe.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -28,13 +28,13 @@ public class FluidStackDeserializer extends JsonDeserializer<FluidStack> {
             String name = node.get("fluid").asText();
             fluid = FluidRegistry.getFluid(name);
             if (fluid == null) {
-                if (!hasFallback) {
-                    GregTechMod.LOGGER.warn("Unable to find fluid "+name);
-                } else {
+                if (!hasFallback) GregTechMod.LOGGER.warn("Unable to find fluid " + name);
+                else {
                     JsonNode fallback = node.get("fallback");
                     return deserialize(fallback, getAmount(fallback));
                 }
-            } else return new FluidStack(fluid, count);
+            }
+            else return new FluidStack(fluid, count);
         }
 
         return null;

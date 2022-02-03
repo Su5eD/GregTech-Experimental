@@ -1,16 +1,18 @@
 package mods.gregtechmod.recipe.ingredient;
 
 import com.google.common.base.MoreObjects;
-import mods.gregtechmod.core.GregTechMod;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
 
-public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
+public class RecipeIngredientOre extends RecipeIngredient<MultiOreIngredient> {
     public static final RecipeIngredientOre EMPTY = new RecipeIngredientOre(Collections.emptyList(), 0);
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private RecipeIngredientOre(List<String> ores, int count) {
-        super(new GtOreIngredient(ores), count);
+        super(new MultiOreIngredient(ores), count);
     }
 
     public static RecipeIngredientOre create(String ore) {
@@ -18,18 +20,14 @@ public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
     }
 
     public static RecipeIngredientOre create(String ore, int count) {
-        if (ore.isEmpty()) return EMPTY;
-        return new RecipeIngredientOre(Collections.singletonList(ore), count);
+        return ore.isEmpty() ? EMPTY : new RecipeIngredientOre(Collections.singletonList(ore), count);
     }
 
     public static RecipeIngredientOre create(List<String> ores, int count) {
-        for (String ore : ores) {
-            if (ore.isEmpty()) {
-                GregTechMod.LOGGER.error("Found empty string among ores: "+ores);
-                return EMPTY;
-            }
+        if (ores.stream().anyMatch(String::isEmpty)) {
+            LOGGER.error("Found empty string among ores: " + ores);
+            return EMPTY;
         }
-
         return new RecipeIngredientOre(ores, count);
     }
 
@@ -41,8 +39,8 @@ public class RecipeIngredientOre extends RecipeIngredient<GtOreIngredient> {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("ingredient", ingredient)
-                .add("count", count)
-                .toString();
+            .add("ingredient", ingredient)
+            .add("count", count)
+            .toString();
     }
 }

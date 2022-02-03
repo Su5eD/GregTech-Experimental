@@ -17,19 +17,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class GtOreIngredient extends Ingredient {
+public class MultiOreIngredient extends Ingredient {
     private final List<String> ores;
     private final List<List<ItemStack>> matchingStacks = new ArrayList<>();
     private IntList itemIds = null;
     private ItemStack[] array = null;
     private int lastSizeA = -1, lastSizeL = -1;
 
-    public GtOreIngredient(List<String> ores) {
+    public MultiOreIngredient(List<String> ores) {
         super(0);
         this.ores = ores;
         ores.stream()
-                .map(OreDictionary::getOres)
-                .forEach(matchingStacks::add);
+            .map(OreDictionary::getOres)
+            .forEach(matchingStacks::add);
     }
 
     public List<String> getOres() {
@@ -42,11 +42,12 @@ public class GtOreIngredient extends Ingredient {
         if (array == null || this.lastSizeA != matchingStacks.size()) {
             NonNullList<ItemStack> lst = NonNullList.create();
             this.matchingStacks.stream()
-                    .flatMap(Collection::stream)
-                    .forEach(itemstack -> {
-                        if (itemstack.getMetadata() == OreDictionary.WILDCARD_VALUE) itemstack.getItem().getSubItems(CreativeTabs.SEARCH, lst);
-                        else lst.add(itemstack);
-                    });
+                .flatMap(Collection::stream)
+                .forEach(itemstack -> {
+                    if (itemstack.getMetadata() == OreDictionary.WILDCARD_VALUE)
+                        itemstack.getItem().getSubItems(CreativeTabs.SEARCH, lst);
+                    else lst.add(itemstack);
+                });
             this.array = lst.toArray(new ItemStack[0]);
             this.lastSizeA = matchingStacks.size();
         }
@@ -61,17 +62,19 @@ public class GtOreIngredient extends Ingredient {
             this.itemIds = new IntArrayList(this.matchingStacks.size());
 
             this.matchingStacks.stream()
-                    .flatMap(Collection::stream)
-                    .forEach(stack -> {
-                        if (stack.getMetadata() == OreDictionary.WILDCARD_VALUE) {
-                            NonNullList<ItemStack> lst = NonNullList.create();
-                            stack.getItem().getSubItems(CreativeTabs.SEARCH, lst);
-                            for (ItemStack item : lst) this.itemIds.add(RecipeItemHelper.pack(item));
-                        }
-                        else {
-                            this.itemIds.add(RecipeItemHelper.pack(stack));
-                        }
-                    });
+                .flatMap(Collection::stream)
+                .forEach(stack -> {
+                    if (stack.getMetadata() == OreDictionary.WILDCARD_VALUE) {
+                        NonNullList<ItemStack> lst = NonNullList.create();
+                        stack.getItem().getSubItems(CreativeTabs.SEARCH, lst);
+                        lst.stream()
+                            .map(RecipeItemHelper::pack)
+                            .forEach(this.itemIds::add);
+                    }
+                    else {
+                        this.itemIds.add(RecipeItemHelper.pack(stack));
+                    }
+                });
 
             this.itemIds.sort(IntComparators.NATURAL_COMPARATOR);
             this.lastSizeL = matchingStacks.size();
@@ -85,9 +88,9 @@ public class GtOreIngredient extends Ingredient {
     public boolean apply(@Nullable ItemStack input) {
         if (input == null) return false;
 
-       return this.matchingStacks.stream()
-                .flatMap(Collection::stream)
-                .anyMatch(target -> OreDictionary.itemMatches(target, input, false));
+        return this.matchingStacks.stream()
+            .flatMap(Collection::stream)
+            .anyMatch(target -> OreDictionary.itemMatches(target, input, false));
     }
 
     @Override

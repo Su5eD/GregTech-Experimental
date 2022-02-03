@@ -43,11 +43,11 @@ public abstract class Fuel implements IFuel<IRecipeIngredient> {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("energy", energy)
-                .add("output", output)
-                .add("invalid", invalid)
-                .toString();
+            .add("input", input)
+            .add("energy", energy)
+            .add("output", output)
+            .add("invalid", invalid)
+            .toString();
     }
 
     protected void validate() {

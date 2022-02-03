@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.util.serializer;
+package mods.gregtechmod.recipe.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -18,7 +18,8 @@ public class RecipeInputSerializer extends JsonSerializer<IRecipeInput> {
 
         if (value instanceof RecipeInputOreDict) {
             gen.writeStringField("ore", ((RecipeInputOreDict) value).input);
-        } else {
+        }
+        else {
             List<ItemStack> stacks = value.getInputs();
             if (stacks.size() > 1) gen.writeObjectField("items", stacks);
         }

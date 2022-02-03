@@ -12,6 +12,7 @@ import java.util.Collection;
 
 /**
  * Used as a bridge between the GTE recipe config system and IC2 recipes
+ *
  * @see MachineRecipeParser#registerRecipes(String, Collection, BasicMachineRecipeManager) MachineRecipeLoader#registerRecipes
  */
 public class BasicMachineRecipe implements IBasicMachineRecipe {

@@ -31,7 +31,7 @@ public abstract class RecipeCellular extends Recipe<IRecipeIngredient, List<Item
     @Override
     protected MoreObjects.ToStringHelper toStringHelper() {
         return super.toStringHelper()
-                .add("cells", cells)
-                .add("cellType", cellType);
+            .add("cells", cells)
+            .add("cellType", cellType);
     }
 }

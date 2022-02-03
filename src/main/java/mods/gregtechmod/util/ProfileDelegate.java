@@ -29,11 +29,10 @@ public class ProfileDelegate {
         if (GregTechMod.classic) {
             Item cell = BlockItems.classicCells.get(fluid);
             if (cell != null) return new ItemStack(cell);
-            else {
-                if (fluid == null) fluid = "empty";
-                else if (fluid.startsWith("ic2")) fluid = fluid.substring(3);
-                return ModHandler.getIC2ItemSafely("cell", fluid);
-            }
-        } else return ModHandler.getIC2ItemSafely("fluid_cell", fluid == null || fluid.equals("empty") ? null : fluid);
+            
+            String name = fluid == null ? "empty" : fluid.startsWith("ic2") ? fluid.substring(3) : fluid;
+            return ModHandler.getIC2ItemSafely("cell", name);
+        }
+        return ModHandler.getIC2ItemSafely("fluid_cell", fluid == null || fluid.equals("empty") ? null : fluid);
     }
 }

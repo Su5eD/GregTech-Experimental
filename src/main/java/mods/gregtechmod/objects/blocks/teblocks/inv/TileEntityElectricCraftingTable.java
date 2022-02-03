@@ -263,7 +263,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        return GtUtil.allSidesExcept(getOppositeFacing());
+        return GtUtil.allSidesWithout(getOppositeFacing());
     }
 
     @Override

@@ -19,23 +19,23 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 public final class Serializers {
-    
+
     public static NBTTagByte serializeBoolean(boolean bool) {
         return new NBTTagByte(bool ? (byte) 1 : 0);
     }
-    
+
     public static boolean deserializeBoolean(NBTTagByte nbt) {
         return nbt.getByte() != 0;
     }
-    
+
     public static NBTTagCompound serializeItemStack(ItemStack stack) {
         return stack.writeToNBT(new NBTTagCompound());
     }
-    
+
     public static NBTTagCompound serializeGameProfile(GameProfile profile) {
         return NBTUtil.writeGameProfile(new NBTTagCompound(), profile);
     }
-    
+
     public static NBTTagCompound serializeBlockPos(BlockPos vec) {
         NBTTagCompound nbt = new NBTTagCompound();
         nbt.setInteger("x", vec.getX());
@@ -43,14 +43,14 @@ public final class Serializers {
         nbt.setInteger("z", vec.getZ());
         return nbt;
     }
-    
+
     public static BlockPos deserializeBlockPos(NBTTagCompound nbt) {
         int x = nbt.getInteger("x");
         int y = nbt.getInteger("y");
         int z = nbt.getInteger("z");
         return new BlockPos(x, y, z);
     }
-    
+
     @SuppressWarnings("ConstantConditions")
     public static NBTTagCompound serializeIForgeRegistryEntry(IForgeRegistryEntry<?> entry) {
         NBTTagCompound nbt = new NBTTagCompound();
@@ -58,8 +58,8 @@ public final class Serializers {
         nbt.setString("type", entry.getRegistryType().getName());
         return nbt;
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static IForgeRegistryEntry<?> deserializeIForgeRegistryEntry(NBTTagCompound nbt) {
         try {
             ResourceLocation name = new ResourceLocation(nbt.getString("name"));
@@ -72,7 +72,7 @@ public final class Serializers {
             return null;
         }
     }
-    
+
     static class ComputerCubeModuleSerializer implements INBTHandler<IComputerCubeModule, NBTTagCompound> {
         @Override
         public NBTTagCompound serialize(IComputerCubeModule value) {
@@ -95,23 +95,23 @@ public final class Serializers {
     }
 
     public static class ListSerializer implements INBTSerializer<List<?>, NBTTagList> {
-        
+
         @Override
         public NBTTagList serialize(List<?> value) {
             NBTTagList list = new NBTTagList();
 
             value.stream()
-                    .map(val -> {
-                        NBTTagCompound nbt = new NBTTagCompound();
-                        NBTSaveHandler.writeClassToNBT(val, nbt);
-                        return nbt;
-                    })
-                    .forEach(list::appendTag);
+                .map(val -> {
+                    NBTTagCompound nbt = new NBTTagCompound();
+                    NBTSaveHandler.writeClassToNBT(val, nbt);
+                    return nbt;
+                })
+                .forEach(list::appendTag);
 
             return list;
         }
     }
-    
+
     public static abstract class ListDeserializer implements INBTDeserializer<List<?>, NBTTagList> {
         private final BiFunction<Object, Integer, ?> factory;
 
@@ -133,7 +133,7 @@ public final class Serializers {
             return list;
         }
     }
-    
+
     public static class ListModifyingDeserializer implements INBTModifyingDeserializer<List<?>, NBTTagList> {
 
         @Override
@@ -157,8 +157,8 @@ public final class Serializers {
         public NBTTagList serialize(List<ItemStack> value) {
             NBTTagList list = new NBTTagList();
             value.stream()
-                    .map(stack -> stack.writeToNBT(new NBTTagCompound()))
-                    .forEach(list::appendTag);
+                .map(stack -> stack.writeToNBT(new NBTTagCompound()))
+                .forEach(list::appendTag);
             return list;
         }
 
@@ -169,27 +169,27 @@ public final class Serializers {
             return list;
         }
     }
-    
+
     static class EnumNBTSerializer implements INBTHandler<Enum<?>, NBTTagString> {
         @Override
         public NBTTagString serialize(Enum<?> value) {
             return new NBTTagString(value.name());
         }
 
-        @SuppressWarnings({"rawtypes", "unchecked"})
+        @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override
         public Enum<?> deserialize(NBTTagString nbt, Object instance, Class cls) {
             String name = nbt.getString();
             return Enum.valueOf(cls, name);
         }
     }
-    
+
     static class None implements INBTHandler<Object, NBTBase> {
         @Override
         public NBTBase serialize(Object value) {
             throw new UnsupportedOperationException();
         }
-    
+
         @Override
         public Object deserialize(NBTBase nbt, Object instance, Class<?> cls) {
             throw new UnsupportedOperationException();

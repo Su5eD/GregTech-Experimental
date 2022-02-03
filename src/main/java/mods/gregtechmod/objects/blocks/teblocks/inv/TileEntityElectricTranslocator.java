@@ -125,7 +125,7 @@ public class TileEntityElectricTranslocator extends TileEntityUpgradable impleme
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        return GtUtil.allSidesExcept(getOppositeFacing());
+        return GtUtil.allSidesWithout(getOppositeFacing());
     }
 
     @Override

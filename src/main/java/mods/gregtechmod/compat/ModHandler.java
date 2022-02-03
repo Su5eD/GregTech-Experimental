@@ -14,12 +14,12 @@ import ic2.api.item.IItemAPI;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.core.recipe.BasicMachineRecipeManager;
+import ic2.core.ref.IMultiItem;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
@@ -27,6 +27,7 @@ import mods.gregtechmod.util.*;
 import mods.railcraft.api.crafting.Crafters;
 import mods.railcraft.api.crafting.IOutputEntry;
 import mods.railcraft.api.crafting.IRockCrusherCrafter;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -497,13 +498,18 @@ public class ModHandler {
         return ItemStack.EMPTY;
     }
 
-    public static ItemStack getTEBlockSafely(String variant) {
-        try {
-            ItemStack stack = GregTechTEBlock.blockTE.getItemStack(variant);
-            if (stack != null) return stack;
-        } catch (Throwable ignored) {}
+    public static OptionalItemStack getMultiItem(ResourceLocation location, String variant) {
+        Item item = ForgeRegistries.ITEMS.getValue(location);
 
-        return ItemStack.EMPTY;
+        if (item != null && item != Items.AIR) {
+            if (item instanceof IMultiItem<?>) {
+                ItemStack stack = ((IMultiItem<?>) item).getItemStack(variant);
+                return OptionalItemStack.of(stack);
+            }
+            throw new IllegalArgumentException("Item " + location + " is not a MultiItem");
+        }
+
+        return OptionalItemStack.EMPTY;
     }
 
     public static String getVariantSafely(ItemName item, ItemStack stack) {

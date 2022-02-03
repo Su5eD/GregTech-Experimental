@@ -30,18 +30,18 @@ public abstract class FuelManager<F extends IFuel<? extends IRecipeIngredient>, 
     public Collection<F> getFuels() {
         return this.fuels;
     }
-    
+
     protected F getProvidedFuel(I target) {
         return this.providers.stream()
-                .map(provider -> provider.getFuel(target))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+            .map(provider -> provider.getFuel(target))
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElse(null);
     }
-    
+
     protected boolean hasProvidedFuel(I target) {
         return this.providers.stream()
-                .anyMatch(provider -> provider.hasFuel(target));
+            .anyMatch(provider -> provider.hasFuel(target));
     }
 
     @Override

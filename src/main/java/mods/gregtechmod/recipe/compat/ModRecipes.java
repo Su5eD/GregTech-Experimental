@@ -50,14 +50,15 @@ public class ModRecipes {
             return StreamEx.of(((RecipeIngredientOre) ingredient).asIngredient().getOres())
                 .map(ore -> Recipes.inputFactory.forOreDict(ore, count))
                 .toList();
-        } else return ingredient.stream()
+        }
+        else return ingredient.stream()
             .map(Recipes.inputFactory::forStack)
             .toList();
     }
 
     public static IRecipeIngredient convertRecipeInput(IRecipeInput input) {
-        return input instanceof RecipeInputOreDict 
-            ? RecipeIngredientOre.create(((RecipeInputOreDict) input).input, input.getAmount()) 
+        return input instanceof RecipeInputOreDict
+            ? RecipeIngredientOre.create(((RecipeInputOreDict) input).input, input.getAmount())
             : RecipeIngredientItemStack.create(input.getInputs(), input.getAmount());
     }
 }

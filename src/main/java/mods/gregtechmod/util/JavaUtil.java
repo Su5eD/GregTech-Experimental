@@ -27,13 +27,13 @@ public final class JavaUtil {
 
     private static final DecimalFormat INT_FORMAT = new DecimalFormat("#,###,###,##0");
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###,###,##0.00");
-    
+
     private JavaUtil() {}
-    
+
     public static <T> Predicate<T> alwaysTrue() {
         return o -> true;
     }
-    
+
     public static <T> Predicate<T> alwaysFalse() {
         return o -> false;
     }
@@ -41,7 +41,7 @@ public final class JavaUtil {
     public static <T, U> BiPredicate<T, U> alwaysTrueBi() {
         return (a, b) -> true;
     }
-    
+
     public static <T, U> BiPredicate<T, U> alwaysFalseBi() {
         return (a, b) -> false;
     }
@@ -62,8 +62,8 @@ public final class JavaUtil {
     @SafeVarargs
     public static <T> List<T> nonNullList(T... elements) {
         return Stream.of(elements)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 
     public static <T> void fillEmptyList(List<T> list, T fill, int maxSize) {
@@ -80,8 +80,8 @@ public final class JavaUtil {
 
     public static <T> List<T> mergeCollection(Collection<T> first, Collection<T> second) {
         return StreamEx.of(first, second)
-                .flatMap(Collection::stream)
-                .toList();
+            .flatMap(Collection::stream)
+            .toImmutableList();
     }
 
     public static <T> boolean matchCollections(Collection<T> first, Collection<T> second) {
@@ -90,11 +90,11 @@ public final class JavaUtil {
 
     public static <K, V> Map<K, V> zipToMap(List<K> keys, List<V> values) {
         if (keys.size() != values.size()) throw new IllegalArgumentException("Lists must be the same size");
-        
+
         Iterator<K> keyIt = keys.iterator();
         Iterator<V> valIt = values.iterator();
         return IntStream.range(0, keys.size()).boxed()
-                .collect(Collectors.toMap(_i -> keyIt.next(), _i -> valIt.next()));
+            .collect(Collectors.toMap(_i -> keyIt.next(), _i -> valIt.next()));
     }
 
     @Nullable
@@ -117,7 +117,7 @@ public final class JavaUtil {
     }
 
     public static Path copyDir(Path source, Path target) {
-        try(DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
             for (Path path : stream) {
                 Path dest = Paths.get(target.toString(), path.getFileName().toString());
                 if (!Files.exists(dest)) {

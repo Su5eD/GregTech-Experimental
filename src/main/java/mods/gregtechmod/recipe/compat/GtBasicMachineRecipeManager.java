@@ -6,7 +6,7 @@ import mods.gregtechmod.compat.ModHandler;
 import net.minecraft.item.ItemStack;
 
 public class GtBasicMachineRecipeManager extends BasicMachineRecipeManager {
-    
+
     public boolean addRecipe(IRecipeInput input, ItemStack output) {
         return ModHandler.addIC2Recipe(this, input, null, true, output);
     }

@@ -22,6 +22,6 @@ public abstract class RecipeFusion<I extends IRecipeIngredient, T> extends Recip
     @Override
     protected MoreObjects.ToStringHelper toStringHelper() {
         return super.toStringHelper()
-                .add("startEnergy", startEnergy);
+            .add("startEnergy", startEnergy);
     }
 }

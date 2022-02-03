@@ -1,4 +1,4 @@
-package mods.gregtechmod.recipe.util.serializer;
+package mods.gregtechmod.recipe.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -8,10 +8,10 @@ import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import one.util.streamex.StreamEx;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RecipeIngredientSerializer extends JsonSerializer<IRecipeIngredient> {
 
@@ -24,25 +24,30 @@ public class RecipeIngredientSerializer extends JsonSerializer<IRecipeIngredient
             List<String> ores = ((RecipeIngredientOre) value).asIngredient().getOres();
             if (ores.size() > 1) {
                 gen.writeObjectField("ores", ores);
-            } else {
+            }
+            else {
                 gen.writeStringField("ore", ores.get(0));
             }
             if (count > 1) gen.writeNumberField("count", count);
-        } else if (value instanceof RecipeIngredientFluid) {
-            List<String> fluids = ((RecipeIngredientFluid) value).getMatchingFluids().stream()
-                    .map(Fluid::getName)
-                    .collect(Collectors.toList());
+        }
+        else if (value instanceof RecipeIngredientFluid) {
+            List<String> fluids = StreamEx.of(((RecipeIngredientFluid) value).getMatchingFluids())
+                .map(Fluid::getName)
+                .toImmutableList();
             if (fluids.size() > 1) {
                 gen.writeObjectField("fluids", fluids);
-            } else {
+            }
+            else {
                 gen.writeStringField("fluid", fluids.get(0));
             }
             if (count > 1) gen.writeNumberField("count", count);
-        } else {
+        }
+        else {
             List<ItemStack> inputs = value.getMatchingInputs();
             if (inputs.size() > 1) {
                 gen.writeObjectField("items", inputs);
-            } else {
+            }
+            else {
                 ItemStackSerializer.INSTANCE.serialize(inputs.get(0), gen, count);
             }
         }

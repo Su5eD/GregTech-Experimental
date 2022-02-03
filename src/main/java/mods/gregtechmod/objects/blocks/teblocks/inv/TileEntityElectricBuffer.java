@@ -152,7 +152,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        return GtUtil.allSidesExcept(getOppositeFacing());
+        return GtUtil.allSidesWithout(getOppositeFacing());
     }
 
     @Override

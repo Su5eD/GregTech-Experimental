@@ -24,27 +24,27 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
     @Override
     public IRecipeCellular getRecipeFor(ItemStack input, @Nullable ItemStack cell) {
         return this.recipes.stream()
-                .filter(recipe -> {
-                    if (recipe.getInput().apply(input)) {
-                        if (cell != null) {
-                            int availableCells = cell.getCount();
-                            IRecipeIngredient ingredient = recipe.getInput();
-                            if (ingredient instanceof IRecipeIngredientFluid) {
-                                FluidStack fluid = FluidUtil.getFluidContained(input);
-                                if (fluid != null) {
-                                    if (fluid.amount == Fluid.BUCKET_VOLUME && TileEntityIndustrialCentrifugeBase.isIC2Cell(input.getItem())) {
-                                        availableCells += Math.min(ingredient.getCount(), input.getCount());
-                                    }
+            .filter(recipe -> {
+                if (recipe.getInput().apply(input)) {
+                    if (cell != null) {
+                        int availableCells = cell.getCount();
+                        IRecipeIngredient ingredient = recipe.getInput();
+                        if (ingredient instanceof IRecipeIngredientFluid) {
+                            FluidStack fluid = FluidUtil.getFluidContained(input);
+                            if (fluid != null) {
+                                if (fluid.amount == Fluid.BUCKET_VOLUME && TileEntityIndustrialCentrifugeBase.isIC2Cell(input.getItem())) {
+                                    availableCells += Math.min(ingredient.getCount(), input.getCount());
                                 }
                             }
-                            return (cell.isEmpty() || recipe.getCellType().apply(cell, GregTechMod.classic)) && availableCells >= recipe.getCells();
                         }
-                        return true;
+                        return (cell.isEmpty() || recipe.getCellType().apply(cell, GregTechMod.classic)) && availableCells >= recipe.getCells();
                     }
-                    return false;
-                })
-                .min(this::compareCount)
-                .orElseGet(() -> getProvidedRecipe(input));
+                    return true;
+                }
+                return false;
+            })
+            .min(this::compareCount)
+            .orElseGet(() -> getProvidedRecipe(input));
     }
 
     @Override
@@ -52,12 +52,12 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
         if (input == null) return null;
 
         return this.recipes.stream()
-                .filter(recipe -> {
-                    IRecipeIngredient ingredient = recipe.getInput();
-                    return ingredient instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells());
-                })
-                .min(this::compareCount)
-                .orElse(null);
+            .filter(recipe -> {
+                IRecipeIngredient ingredient = recipe.getInput();
+                return ingredient instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells());
+            })
+            .min(this::compareCount)
+            .orElse(null);
     }
 
     @Override
@@ -66,24 +66,24 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
         int cells = recipe.getCells();
         CellType cellType = recipe.getCellType();
         return StreamEx.of(this.recipes)
-                .findFirst(r -> r.getInput().apply(input) && r.getCells() <= cells && r.getCellType() == cellType && compareCount(r, recipe) == 0)
-                .orElse(null);
+            .findFirst(r -> r.getInput().apply(input) && r.getCells() <= cells && r.getCellType() == cellType && compareCount(r, recipe) == 0)
+            .orElse(null);
     }
 
     @Override
     public boolean hasRecipeFor(FluidStack input) {
         return StreamEx.of(this.recipes)
-                .map(IMachineRecipe::getInput)
-                .select(IRecipeIngredientFluid.class)
-                .anyMatch(ingredient -> ingredient.apply(input));
+            .map(IMachineRecipe::getInput)
+            .select(IRecipeIngredientFluid.class)
+            .anyMatch(ingredient -> ingredient.apply(input));
     }
 
     @Override
     public boolean hasRecipeFor(Fluid input) {
         return StreamEx.of(this.recipes)
-                .map(IMachineRecipe::getInput)
-                .select(IRecipeIngredientFluid.class)
-                .anyMatch(ingredient -> ingredient.apply(input));
+            .map(IMachineRecipe::getInput)
+            .select(IRecipeIngredientFluid.class)
+            .anyMatch(ingredient -> ingredient.apply(input));
     }
 
     @Override

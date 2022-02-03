@@ -81,7 +81,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        return GtUtil.allSidesExcept(Arrays.asList(getFacing(), this.outputSide));
+        return GtUtil.allSidesWithout(Arrays.asList(getFacing(), this.outputSide));
     }
 
     @Override

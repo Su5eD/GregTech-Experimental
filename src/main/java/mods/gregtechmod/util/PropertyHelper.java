@@ -7,13 +7,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import one.util.streamex.StreamEx;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class PropertyHelper {
     public static final IUnlistedProperty<AnimationSpeed> ANIMATION_SPEED_PROPERTY = new UnlistedProperty<>("animationSpeed", AnimationSpeed.class);
@@ -45,7 +44,7 @@ public class PropertyHelper {
         private final boolean absolute;
         
         public TextureOverride(ResourceLocation texture) {
-            this(Util.allFacings.stream().collect(Collectors.toMap(Function.identity(), f -> texture)), false);
+            this(StreamEx.of(Util.allFacings).toMap(f -> texture), false);
         }
         
         public TextureOverride(EnumFacing facing, ResourceLocation texture) {

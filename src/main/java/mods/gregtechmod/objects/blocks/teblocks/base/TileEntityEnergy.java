@@ -63,7 +63,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
     
     protected Collection<EnumFacing> allSidesExceptFacing() {
-        return GtUtil.allSidesExcept(getFacing());
+        return GtUtil.allSidesWithout(getFacing());
     }
     
     @Override

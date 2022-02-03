@@ -1,8 +1,9 @@
-package mods.gregtechmod.recipe.util.serializer;
+package mods.gregtechmod.recipe.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.recipe.RecipePulverizer;
 import net.minecraft.item.ItemStack;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class RecipeSerializerPulverizer extends RecipeSerializer<IRecipePulveriz
     @Override
     public void serializeExtraFields(IRecipePulverizer recipe, JsonGenerator gen) throws IOException {
         int chance = recipe.getChance();
-        if (chance != 10) gen.writeNumberField("chance", chance);
+        if (chance != RecipePulverizer.DEFAULT_CHANCE) gen.writeNumberField("chance", chance);
 
         boolean overwrite = recipe.shouldOverwrite();
         if (overwrite) gen.writeBooleanField("overwrite", true);

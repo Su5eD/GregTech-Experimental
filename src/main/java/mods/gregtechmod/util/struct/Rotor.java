@@ -17,19 +17,19 @@ import java.util.stream.Stream;
 public class Rotor implements Comparable<Rotor>, IStringSerializable {
     public static final Rotor DISABLED = new Rotor(null, null, false);
     public static final List<String> TEXTURE_PARTS = Arrays.asList(
-            "top_left", "top_mid", "top_right",
-            "mid_left", "mid_right",
-            "bot_left", "bot_mid", "bot_right"
+        "top_left", "top_mid", "top_right",
+        "mid_left", "mid_right",
+        "bot_left", "bot_mid", "bot_right"
     );
     public static final Collection<Rotor> VALUES;
 
     static {
         VALUES = StreamEx.of(EnumFacing.HORIZONTALS)
-                .flatMap(facing -> TEXTURE_PARTS.stream()
-                        .flatMap(str -> Stream.of(new Rotor(facing, str, false), new Rotor(facing, str, true)))
-                )
-                .prepend(DISABLED)
-                .toImmutableList();
+            .flatMap(facing -> TEXTURE_PARTS.stream()
+                .flatMap(str -> Stream.of(new Rotor(facing, str, false), new Rotor(facing, str, true)))
+            )
+            .prepend(DISABLED)
+            .toImmutableList();
     }
 
     public final EnumFacing side;
@@ -44,8 +44,8 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
 
     public static Rotor getRotor(EnumFacing facing, String texture, boolean active) {
         return StreamEx.of(VALUES)
-                .findFirst(rotor -> rotor.side == facing && rotor.texture.equals(texture) && rotor.active == active)
-                .orElse(Rotor.DISABLED);
+            .findFirst(rotor -> rotor.side == facing && rotor.texture.equals(texture) && rotor.active == active)
+            .orElse(Rotor.DISABLED);
     }
 
     public String getTexture() {
@@ -56,7 +56,7 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
     public String getName() {
         return this == DISABLED ? "disabled" : this.side.getName() + "_" + this.texture + getActive();
     }
-    
+
     private String getActive() {
         return this.active ? "_active" : "";
     }
@@ -69,10 +69,10 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("side", this.side)
-                .add("texture", this.texture + getActive())
-                .add("active", this.active)
-                .toString();
+            .add("side", this.side)
+            .add("texture", this.texture + getActive())
+            .add("active", this.active)
+            .toString();
     }
 
     @Override
@@ -103,12 +103,12 @@ public class Rotor implements Comparable<Rotor>, IStringSerializable {
         @Override
         public Optional<Rotor> parseValue(String value) {
             if (value.isEmpty() || value.equals("disabled")) return Optional.of(Rotor.DISABLED);
-            
+
             int firstSeparator = value.indexOf('_');
             boolean active = value.endsWith("_active");
             String facingName = value.substring(0, firstSeparator);
             String texture = active ? value.substring(firstSeparator + 1, value.lastIndexOf('_')) : value.substring(firstSeparator + 1);
-            
+
             EnumFacing facing = EnumFacing.byName(facingName);
             if (facing == null && texture.equals("null") && !active) return Optional.of(Rotor.DISABLED);
             else {

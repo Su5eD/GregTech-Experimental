@@ -46,6 +46,6 @@ public class RecipePrinter extends Recipe<List<IRecipeIngredient>, List<ItemStac
     @Override
     protected MoreObjects.ToStringHelper toStringHelper() {
         return super.toStringHelper()
-                .add("copy", copy);
+            .add("copy", copy);
     }
 }
