@@ -13,6 +13,8 @@ import ic2.api.item.IC2Items;
 import ic2.api.item.IItemAPI;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
+import ic2.core.block.BlockTileEntity;
+import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
 import ic2.core.ref.IMultiItem;
 import ic2.core.ref.ItemName;
@@ -484,8 +486,9 @@ public class ModHandler {
 
     public static void removeSmeltingRecipe(ItemStack input) {
         Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
-        StreamEx.ofKeys(new HashMap<>(recipes))
+        StreamEx.ofKeys(recipes)
             .filter(stack -> GtUtil.stackEquals(stack, input, false))
+            .toImmutableList()
             .forEach(recipes::remove);
     }
 
@@ -496,6 +499,24 @@ public class ModHandler {
         } catch (Throwable ignored) {}
 
         return ItemStack.EMPTY;
+    }
+    
+    public static ItemStack getMultiItemOrTEBlock(ResourceLocation location, String name) {
+        if (location.getNamespace().equals("ic2")) return IC2Items.getItem(location.getPath(), name);
+        
+        return OptionalItemStack.either(() -> getTEBlock(location, name), () -> getMultiItem(location, name))
+            .orElseThrow(() -> new RuntimeException("MultiItem " + name + " not found"));
+    }
+
+    public static OptionalItemStack getTEBlock(ResourceLocation location, String name) {
+        BlockTileEntity blockTe = TeBlockRegistry.get(location);
+
+        if (blockTe != null) {
+            ItemStack stack = blockTe.getItemStack(name);
+            return OptionalItemStack.of(stack);
+        }
+
+        return OptionalItemStack.EMPTY;
     }
 
     public static OptionalItemStack getMultiItem(ResourceLocation location, String variant) {

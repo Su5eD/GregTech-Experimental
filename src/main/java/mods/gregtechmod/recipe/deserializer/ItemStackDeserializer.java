@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import ic2.core.block.BlockTileEntity;
-import ic2.core.block.TeBlockRegistry;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.util.OptionalItemStack;
 import mods.gregtechmod.util.OreDictUnificator;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.init.Items;
@@ -50,8 +47,7 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
             String[] parts = name.split("#");
             ResourceLocation location = new ResourceLocation(parts[0]);
 
-            ret = OptionalItemStack.either(() -> getTEBlock(location, parts[1]), () -> ModHandler.getMultiItem(location, parts[1]))
-                .orElseThrow(() -> new RuntimeException("MultiItem " + parts[1] + " not found"));
+            ret = ModHandler.getMultiItemOrTEBlock(location, parts[1]);
         }
         else if (node.has("cell")) {
             String fluid = node.get("cell").asText();
@@ -105,16 +101,5 @@ public class ItemStackDeserializer extends JsonDeserializer<ItemStack> {
             });
 
         return tag;
-    }
-
-    private static OptionalItemStack getTEBlock(ResourceLocation location, String name) {
-        BlockTileEntity blockTe = TeBlockRegistry.get(location);
-
-        if (blockTe != null) {
-            ItemStack stack = blockTe.getItemStack(name);
-            return OptionalItemStack.of(stack);
-        }
-
-        return OptionalItemStack.EMPTY;
     }
 }

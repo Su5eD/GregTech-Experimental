@@ -2,7 +2,7 @@ package mods.gregtechmod.recipe.crafting;
 
 import com.google.gson.JsonObject;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.util.OptionalItemStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +21,7 @@ public class MultiItemIngredient implements IIngredientFactory {
         String[] parts = rawName.split("#");
         ResourceLocation location = new ResourceLocation(parts[0]);
 
-        OptionalItemStack stack = ModHandler.getMultiItem(location, parts[1]);
-        return Ingredient.fromStacks(stack.get());
+        ItemStack stack = ModHandler.getMultiItemOrTEBlock(location, parts[1]);
+        return Ingredient.fromStacks(stack);
     }
 }

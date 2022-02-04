@@ -109,7 +109,7 @@ public final class GtUtil {
     public static List<ItemStack> copyStackList(List<ItemStack> list) {
         return StreamEx.of(list)
             .map(ItemStack::copy)
-            .toImmutableList();
+            .toMutableList();
     }
 
     public static List<ItemStack> nonEmptyList(ItemStack... elements) {

@@ -32,7 +32,7 @@ public class RecipeIngredientDeserializer extends JsonDeserializer<IRecipeIngred
             ingredient = RecipeIngredientItemStack.create(stack, count);
         }
         else if (node.has("items")) {
-            List<ItemStack> stacks = StreamEx.of(node.get("items"))
+            List<ItemStack> stacks = StreamEx.of(node.get("items").iterator())
                 .map(json -> ItemStackDeserializer.INSTANCE.deserialize(json, 1))
                 .toImmutableList();
             ingredient = RecipeIngredientItemStack.create(stacks, count);
@@ -45,7 +45,7 @@ public class RecipeIngredientDeserializer extends JsonDeserializer<IRecipeIngred
             ingredient = RecipeIngredientOre.create(node.get("ore").asText(), count);
         }
         else if (node.has("ores")) {
-            List<String> ores = StreamEx.of(node.get("ores"))
+            List<String> ores = StreamEx.of(node.get("ores").iterator())
                 .map(JsonNode::asText)
                 .toImmutableList();
             ingredient = RecipeIngredientOre.create(ores, count);

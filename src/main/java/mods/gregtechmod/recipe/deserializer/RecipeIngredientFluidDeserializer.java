@@ -30,7 +30,7 @@ public class RecipeIngredientFluidDeserializer extends JsonDeserializer<IRecipeI
             ingredient = RecipeIngredientFluid.fromName(node.get("fluid").asText(), count);
         }
         else if (node.has("fluids")) {
-            List<String> names = StreamEx.of(node.get("fluids"))
+            List<String> names = StreamEx.of(node.get("fluids").iterator())
                 .map(JsonNode::asText)
                 .toImmutableList();
             ingredient = RecipeIngredientFluid.fromNames(names, count);

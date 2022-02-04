@@ -1,6 +1,7 @@
 package mods.gregtechmod.recipe.crafting;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import mods.gregtechmod.recipe.ingredient.MultiOreIngredient;
 import net.minecraft.item.crafting.Ingredient;
@@ -19,8 +20,8 @@ public class GtOreIngredientFactory implements IIngredientFactory {
     @Override
     public Ingredient parse(JsonContext context, JsonObject json) {
         JsonArray array = JsonUtils.getJsonArray(json, "ores");
-        List<String> ores = StreamEx.of(array)
-            .map(JsonArray::getAsString)
+        List<String> ores = StreamEx.of(array.iterator())
+            .map(JsonElement::getAsString)
             .toImmutableList();
         return new MultiOreIngredient(ores);
     }

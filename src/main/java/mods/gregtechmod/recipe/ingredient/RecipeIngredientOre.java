@@ -25,8 +25,7 @@ public class RecipeIngredientOre extends RecipeIngredient<MultiOreIngredient> {
 
     public static RecipeIngredientOre create(List<String> ores, int count) {
         if (ores.stream().anyMatch(String::isEmpty)) {
-            LOGGER.error("Found empty string among ores: " + ores);
-            return EMPTY;
+            throw new IllegalArgumentException("Found empty string among ores: " + ores);
         }
         return new RecipeIngredientOre(ores, count);
     }
