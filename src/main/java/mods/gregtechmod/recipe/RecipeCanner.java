@@ -3,9 +3,12 @@ package mods.gregtechmod.recipe;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import mods.gregtechmod.util.JavaUtil;
+import mods.gregtechmod.util.OreDictUnificator;
 import net.minecraft.item.ItemStack;
+import one.util.streamex.StreamEx;
 
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class RecipeCanner extends Recipe<List<IRecipeIngredient>, List<ItemStack
                                       @JsonProperty(value = "output", required = true) List<ItemStack> output,
                                       @JsonProperty(value = "duration", required = true) int duration,
                                       @JsonProperty(value = "energyCost") double energyCost) {
-        List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("canner", input, output, 2);
+        List<IRecipeIngredient> adjustedInput = filterOreDictInput(RecipeUtil.adjustInputCount("canner", input, output, 2), output.get(0));
         List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("canner", output, 2);
 
         RecipeCanner recipe = new RecipeCanner(adjustedInput, adjustedOutput, duration <= 0 ? 1 : duration, Math.max(energyCost, 1));
@@ -32,5 +35,22 @@ public class RecipeCanner extends Recipe<List<IRecipeIngredient>, List<ItemStack
         if (!RecipeUtil.validateRecipeIO("canner", adjustedInput, adjustedOutput)) recipe.invalid = true;
 
         return recipe;
+    }
+
+    private static List<IRecipeIngredient> filterOreDictInput(List<IRecipeIngredient> input, ItemStack filter) {
+        return StreamEx.of(input)
+            .map(ingredient -> {
+                if (ingredient instanceof RecipeIngredientOre) {
+                    List<String> ores = ((RecipeIngredientOre) ingredient).asIngredient().getOres();
+                    
+                    for (String ore : ores) {
+                        if (OreDictUnificator.isItemInstanceOf(filter, ore, false)) {
+                            return RecipeIngredientOre.create(ores, ingredient.getCount(), filter);
+                        }
+                    }
+                }
+                return ingredient;
+            })
+            .toImmutableList();
     }
 }

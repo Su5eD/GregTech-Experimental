@@ -1,14 +1,17 @@
 package mods.gregtechmod.recipe.ingredient;
 
+import com.google.common.base.MoreObjects;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntComparators;
 import it.unimi.dsi.fastutil.ints.IntList;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,14 +22,20 @@ import java.util.List;
 
 public class MultiOreIngredient extends Ingredient {
     private final List<String> ores;
+    private final ItemStack filter;
     private final List<List<ItemStack>> matchingStacks = new ArrayList<>();
     private IntList itemIds = null;
     private ItemStack[] array = null;
     private int lastSizeA = -1, lastSizeL = -1;
 
     public MultiOreIngredient(List<String> ores) {
+        this(ores, ItemStack.EMPTY);
+    }
+
+    public MultiOreIngredient(List<String> ores, ItemStack filter) {
         super(0);
         this.ores = Collections.unmodifiableList(ores);
+        this.filter = filter;
         ores.stream()
             .map(OreDictionary::getOres)
             .forEach(matchingStacks::add);
@@ -41,8 +50,7 @@ public class MultiOreIngredient extends Ingredient {
     public ItemStack[] getMatchingStacks() {
         if (this.array == null || this.lastSizeA != this.matchingStacks.size()) {
             NonNullList<ItemStack> lst = NonNullList.create();
-            this.matchingStacks.stream()
-                .flatMap(Collection::stream)
+            matchingStacksFiltered()
                 .forEach(itemstack -> {
                     if (itemstack.getMetadata() == OreDictionary.WILDCARD_VALUE)
                         itemstack.getItem().getSubItems(CreativeTabs.SEARCH, lst);
@@ -54,15 +62,13 @@ public class MultiOreIngredient extends Ingredient {
         return this.array;
     }
 
-
     @Override
     @Nonnull
     public IntList getValidItemStacksPacked() {
         if (this.itemIds == null || this.lastSizeL != matchingStacks.size()) {
             this.itemIds = new IntArrayList(this.matchingStacks.size());
 
-            this.matchingStacks.stream()
-                .flatMap(Collection::stream)
+            matchingStacksFiltered()
                 .forEach(stack -> {
                     if (stack.getMetadata() == OreDictionary.WILDCARD_VALUE) {
                         NonNullList<ItemStack> lst = NonNullList.create();
@@ -83,13 +89,15 @@ public class MultiOreIngredient extends Ingredient {
         return this.itemIds;
     }
 
+    private StreamEx<ItemStack> matchingStacksFiltered() {
+        return StreamEx.of(this.matchingStacks)
+            .flatMap(Collection::stream)
+            .remove(stack -> GtUtil.stackEquals(stack, this.filter));
+    }
 
     @Override
     public boolean apply(@Nullable ItemStack input) {
-        if (input == null) return false;
-
-        return this.matchingStacks.stream()
-            .flatMap(Collection::stream)
+        return input != null && matchingStacksFiltered()
             .anyMatch(target -> OreDictionary.itemMatches(target, input, false));
     }
 
@@ -102,5 +110,13 @@ public class MultiOreIngredient extends Ingredient {
     @Override
     public boolean isSimple() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+            .add("ores", ores)
+            .add("filter", filter)
+            .toString();
     }
 }
