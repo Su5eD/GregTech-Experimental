@@ -22,6 +22,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.Explosion;
 
 import javax.annotation.Nullable;
@@ -219,9 +221,9 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     @Override
-    public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
+    public void getScanInfoPost(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
         super.getScanInfoPost(scan, player, pos, scanLevel);
-        if (scanLevel > 0) scan.add(GtLocale.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
+        if (scanLevel > 0) scan.add(new TextComponentTranslation(GtLocale.buildKeyInfo("machine_" + (isActive() ? "active" : "inactive"))));
     }
 
     @Override

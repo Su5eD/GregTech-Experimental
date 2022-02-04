@@ -69,9 +69,6 @@ public interface ICover {
      */
     ItemStack getItem();
 
-    @Nonnull
-    List<String> getDescription();
-
     CoverType getType();
 
     NBTTagCompound writeToNBT(NBTTagCompound nbt);

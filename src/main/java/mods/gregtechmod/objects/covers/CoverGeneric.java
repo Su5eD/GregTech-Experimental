@@ -125,12 +125,6 @@ public class CoverGeneric implements ICover {
         return this.stack;
     }
 
-    @Nonnull
-    @Override
-    public List<String> getDescription() {
-        return Collections.emptyList();
-    }
-
     @Override
     public CoverType getType() {
         return CoverType.GENERIC;

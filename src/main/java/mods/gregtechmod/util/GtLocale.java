@@ -3,6 +3,8 @@ package mods.gregtechmod.util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityAutoNBT;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import one.util.streamex.StreamEx;
 
 public final class GtLocale {
@@ -21,8 +23,8 @@ public final class GtLocale {
         return I18n.format(buildKeyTeBlock(te));
     }
 
-    public static String translateScan(String key, Object... parameters) {
-        return I18n.format(buildKey("scan", key), parameters);
+    public static ITextComponent translateScan(String key, Object... args) {
+        return new TextComponentTranslation(GtLocale.buildKeyScan(key), args);
     }
 
     public static String translateTeBlockDescription(String key) {
@@ -55,6 +57,10 @@ public final class GtLocale {
 
     public static String translate(String key, Object... parameters) {
         return I18n.format(Reference.MODID + "." + key, parameters);
+    }
+
+    public static String buildKeyScan(String key, String... paths) {
+        return buildKey(paths, "scan", key);
     }
 
     public static String buildKeyTeBlock(TileEntityAutoNBT teBlock, String... paths) {

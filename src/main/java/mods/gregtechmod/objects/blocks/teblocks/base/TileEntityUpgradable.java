@@ -26,6 +26,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -318,20 +320,23 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     @Override
-    public void getScanInfoPre(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
-        if (scanLevel > 2) scan.add("Meta-ID: " + this.getBlockType().getItemStack(this.teBlock).getMetadata());
+    public void getScanInfoPre(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
+        if (scanLevel > 2) {
+            scan.add(GtLocale.translateScan("meta-id", this.getBlockType().getItemStack(this.teBlock).getMetadata()));
+        }
     }
 
     @Override
-    public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
+    public void getScanInfoPost(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
         if (scanLevel > 0) {
             if (this.hasSteamUpgrade) {
                 FluidStack fluidStack = this.steamTank.getFluid();
-                String name = fluidStack != null ? fluidStack.getLocalizedName() : GtLocale.translateGeneric("steam");
-                scan.add(this.steamTank.getFluidAmount() + " / " + this.steamTank.getCapacity() + " " + name);
+                ITextComponent name = new TextComponentTranslation(fluidStack != null ? fluidStack.getUnlocalizedName() : GtLocale.buildKey("generic", "steam"));
+                
+                scan.add(GtLocale.translateScan("storage", this.steamTank.getFluidAmount(), this.steamTank.getCapacity(), name));
             }
             if (this.hasMjUpgrade) {
-                scan.add(MjHelper.joules(this.receiver.getStored()) + " / " + MjHelper.joules(this.receiver.getCapacity()) + " MJ");
+                scan.add(GtLocale.translateScan("storage", MjHelper.joules(this.receiver.getStored()), MjHelper.joules(this.receiver.getCapacity()), "MJ"));
             }
         }
     }

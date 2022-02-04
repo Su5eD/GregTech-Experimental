@@ -20,6 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -186,20 +189,22 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
 
     @Nonnull
     @Override
-    public final List<String> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
-        List<String> scan = new ArrayList<>();
-        if (scanLevel > 1) scan.add(GtLocale.translateInfo(checkAccess(player) ? "machine_accessible" : "machine_not_accessible"));
+    public final List<ITextComponent> getScanInfo(EntityPlayer player, BlockPos pos, int scanLevel) {
+        List<ITextComponent> scan = new ArrayList<>();
+        if (scanLevel > 1) scan.add(new TextComponentTranslation(GtLocale.buildKeyInfo(checkAccess(player) ? "machine_accessible" : "machine_not_accessible")));
+        
         getScanInfoPre(scan, player, pos, scanLevel);
-        for (TileEntityComponent component : getComponents()) {
-            if (component instanceof GtComponentBase) ((GtComponentBase) component).getScanInfo(scan, player, pos, scanLevel);
-        }
+        StreamEx.of(getComponents())
+            .select(GtComponentBase.class)
+            .forEach(component -> component.getScanInfo(scan, player, pos, scanLevel));
         getScanInfoPost(scan, player, pos, scanLevel);
+        
         return scan;
     }
 
-    public void getScanInfoPre(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
+    public void getScanInfoPre(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
 
-    public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
+    public void getScanInfoPost(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
 
     @Override
     public void setInputEnabled(boolean value) {

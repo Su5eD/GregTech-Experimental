@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public abstract class GtComponentBase extends TileEntityComponent {
         return false;
     }
 
-    public void getScanInfo(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
+    public void getScanInfo(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
 
     @Override
     public void readFromNbt(NBTTagCompound nbt) {
