@@ -7,10 +7,10 @@ import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityBasicMachine;
 import net.minecraft.client.resources.I18n;
 
 public abstract class GuiBasicMachine<T extends ContainerBase<? extends TileEntityBasicMachine<?, ?, ?, ?>>> extends GuiSimple<T> {
-    
+
     public GuiBasicMachine(T container, Gauge.IGaugeStyle gaugeStyle) {
         super(container);
-        
+
         addVerticalIconCycle(7, 62, 58, () -> container.base.provideEnergy);
         addVerticalIconCycle(25, 62, 76, () -> container.base.autoOutput);
         addVerticalIconCycle(43, 62, 94, () -> container.base.splitInput);

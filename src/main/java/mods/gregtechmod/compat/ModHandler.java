@@ -352,7 +352,8 @@ public class ModHandler {
                 if (secondaryOutput != null) {
                     secondaryChance = (int) RailcraftHelper.getRandomChance(secondaryOutput.getGenRule());
                     output.add(secondaryOutput.getOutput());
-                } else secondaryChance = 0;
+                }
+                else secondaryChance = 0;
 
                 return !output.isEmpty() ? RecipePulverizer.create(RecipeIngredientItemStack.create(Arrays.asList(recipe.getInput().getMatchingStacks()), 1), output, 4, secondaryChance, false, false) : null;
             })
@@ -412,18 +413,18 @@ public class ModHandler {
     public static IRecipe getCraftingRecipe(Collection<IRecipe> recipes, ItemStack... stacks) {
         return getCraftingRecipeInv(recipes, stacks).getLeft();
     }
-    
+
     public static Pair<IRecipe, InventoryCrafting> getCraftingRecipeInv(Collection<IRecipe> recipes, ItemStack... stacks) {
         InventoryCrafting crafting = new InventoryCrafting(new DummyContainer(), 3, 3);
 
         EntryStream.of(stacks)
             .limit(9)
             .forKeyValue(crafting::setInventorySlotContents);
-        
+
         IRecipe recipe = StreamEx.of(recipes)
             .findFirst(r -> r.matches(crafting, DummyWorld.INSTANCE))
             .orElse(null);
-        
+
         return Pair.of(recipe, crafting);
     }
 
@@ -432,14 +433,14 @@ public class ModHandler {
 
         return recipe != null ? OptionalItemStack.of(recipe.getRecipeOutput()) : OptionalItemStack.EMPTY;
     }
-    
+
     public static OptionalItemStack getRecipeResult(ItemStack... stacks) {
         Pair<IRecipe, InventoryCrafting> pair = getCraftingRecipeInv(ForgeRegistries.RECIPES.getValuesCollection(), stacks);
         IRecipe recipe = pair.getLeft();
-        
+
         return recipe != null
             ? OptionalItemStack.of(recipe.getRecipeOutput())
-                .orElse(() -> recipe.getCraftingResult(pair.getRight()))
+            .orElse(() -> recipe.getCraftingResult(pair.getRight()))
             : OptionalItemStack.EMPTY;
     }
 
@@ -500,10 +501,10 @@ public class ModHandler {
 
         return ItemStack.EMPTY;
     }
-    
+
     public static ItemStack getMultiItemOrTEBlock(ResourceLocation location, String name) {
         if (location.getNamespace().equals("ic2")) return IC2Items.getItem(location.getPath(), name);
-        
+
         return OptionalItemStack.either(() -> getTEBlock(location, name), () -> getMultiItem(location, name))
             .orElseThrow(() -> new RuntimeException("MultiItem " + name + " not found"));
     }

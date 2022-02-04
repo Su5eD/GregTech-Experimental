@@ -9,7 +9,7 @@ import java.util.function.BooleanSupplier;
 
 @SuppressWarnings("unused")
 public class ExperimentalConditionFactory implements IConditionFactory {
-    
+
     @Override
     public BooleanSupplier parse(JsonContext context, JsonObject json) {
         return () -> !GregTechMod.classic;

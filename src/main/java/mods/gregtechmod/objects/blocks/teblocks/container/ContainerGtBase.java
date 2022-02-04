@@ -29,17 +29,17 @@ public abstract class ContainerGtBase<T extends IInventory> extends ContainerBas
             Slot slot = getSlot(slotId);
             if (slot instanceof ISlotInteractive) {
                 ButtonClick click = ButtonClick.fromClickType(clickType, dragType);
-                
+
                 if (click != null) {
                     ItemStack stack = player.inventory.getItemStack();
                     boolean result = ((ISlotInteractive) slot).slotClick(click, player, stack);
-                    
+
                     this.base.markDirty();
                     if (result) return stack;
                 }
             }
         }
-        
+
         return super.slotClick(slotId, dragType, clickType, player);
     }
 
@@ -49,20 +49,20 @@ public abstract class ContainerGtBase<T extends IInventory> extends ContainerBas
         getNetworkedFields(ret);
         return ret;
     }
-    
+
     public void getNetworkedFields(List<? super String> list) {}
-    
+
     protected void addArmorSlots(EntityPlayer player, int x, int y) {
         addSlotToContainer(new SlotArmor(player.inventory, 39, x, y, EntityEquipmentSlot.HEAD));
         addSlotToContainer(new SlotArmor(player.inventory, 38, x, y + 18, EntityEquipmentSlot.CHEST));
         addSlotToContainer(new SlotArmor(player.inventory, 37, x, y + 36, EntityEquipmentSlot.LEGS));
         addSlotToContainer(new SlotArmor(player.inventory, 36, x, y + 54, EntityEquipmentSlot.FEET));
     }
-    
+
     protected void addSlotsToContainer(int rows, int cols, int xOffset, int yOffset, InvSlot invSlot) {
         addSlotsToContainer(rows, cols, xOffset, yOffset, 18, (index, x, y) -> new SlotInvSlot(invSlot, index, x, y));
     }
-    
+
     protected void addSlotsToContainer(int rows, int cols, int xOffset, int yOffset, int slotOffset, TriFunction<Integer, Integer, Integer, Slot> slotFactory) {
         forEachRowCol(rows, cols, xOffset, yOffset, slotOffset, (index, x, y) -> addSlotToContainer(slotFactory.apply(index, x, y)));
     }

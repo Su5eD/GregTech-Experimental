@@ -1425,10 +1425,12 @@ public class BlockItems {
                 if (i < 48) {
                     if (page.length() < 256) {
                         tagList.appendTag(new NBTTagString(page));
-                    } else {
+                    }
+                    else {
                         GregTechMod.LOGGER.warn("String for written book too long: " + page);
                     }
-                } else {
+                }
+                else {
                     GregTechMod.LOGGER.warn("Too many pages for written book: " + name);
                     break;
                 }

@@ -21,7 +21,7 @@ import java.util.List;
 
 public class CategoryIndustrialGrinder extends CategoryBase<RecipeGrinder, WrapperSecondaryFluid<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
     private final IDrawable gauge;
-    
+
     public CategoryIndustrialGrinder(IGuiHelper guiHelper) {
         super("industrial_grinder", RecipeGrinder.class, recipe -> new WrapperSecondaryFluid<>(recipe, 4), guiHelper);
         gauge = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.MACERATING);
@@ -30,8 +30,8 @@ public class CategoryIndustrialGrinder extends CategoryBase<RecipeGrinder, Wrapp
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(GuiIndustrialGrinder.TEXTURE, 33, 15, 123, 46)
-                .addPadding(10, 33, 26, 26)
-                .build();
+            .addPadding(10, 33, 26, 26)
+            .build();
     }
 
     @Override

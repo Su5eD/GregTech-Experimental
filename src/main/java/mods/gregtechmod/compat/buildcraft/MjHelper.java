@@ -21,11 +21,11 @@ public class MjHelper {
     public static long microJoules(double joules) {
         return (long) (joules * MJ);
     }
-    
+
     public static double joules(long microJoules) {
         return microJoules / (double) MJ;
     }
-    
+
     public static double toEU(long microJoules) {
         double mj = microJoules / (double) MJ;
         return mj * 2.5;

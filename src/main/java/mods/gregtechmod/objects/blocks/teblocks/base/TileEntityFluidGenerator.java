@@ -17,7 +17,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class TileEntityFluidGenerator extends TileEntityGenerator implements IHasGui {
     protected final IFuelManagerFluid<IFuel<IRecipeIngredient>> fuelManager;
-    
+
     public BasicTank tank;
     @NBTPersistent
     private double fuelEnergy;
@@ -45,13 +45,16 @@ public abstract class TileEntityFluidGenerator extends TileEntityGenerator imple
                 while (canAddEnergy()) {
                     if (this.solidFuelEnergy >= this.fuelEnergy) {
                         this.solidFuelEnergy -= this.fuelEnergy;
-                    } else if (this.tank.content.getFluidAmount() > 0) {
+                    }
+                    else if (this.tank.content.getFluidAmount() > 0) {
                         this.tank.content.drainInternal(1, true);
-                    } else break;
+                    }
+                    else break;
 
                     addEnergy(this.fuelEnergy);
                 }
-            } else setActive(false);
+            }
+            else setActive(false);
         }
     }
 

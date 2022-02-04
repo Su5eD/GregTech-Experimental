@@ -36,23 +36,23 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     public Gauge.GaugeProperties getProperties() {
         return this.properties;
     }
-    
+
     private static Gauge.GaugeProperties buildGauge(ResourceLocation texture) {
         return buildGauge(texture, 18);
     }
-    
+
     private static Gauge.GaugeProperties buildGauge(ResourceLocation texture, int height) {
         return buildGauge(texture, 176, 20, height, Gauge.GaugePropertyBuilder.GaugeOrientation.Right);
     }
-    
+
     private static Gauge.GaugeProperties buildGauge(ResourceLocation texture, int x, int width, int height, Gauge.GaugePropertyBuilder.GaugeOrientation orientation) {
         return buildGauge(texture, x, 0, width, height, orientation);
     }
-    
+
     private static Gauge.GaugeProperties buildGauge(ResourceLocation texture, int x, int y, int width, int height, Gauge.GaugePropertyBuilder.GaugeOrientation orientation) {
         return new Gauge.GaugePropertyBuilder(x, y, width, height, orientation)
-                .withTexture(texture)
-                .withSmooth(false)
-                .build();
+            .withTexture(texture)
+            .withSmooth(false)
+            .build();
     }
 }

@@ -18,10 +18,10 @@ import java.util.function.Predicate;
 final class GregTechAPIImpl implements IGregTechAPI {
     private final List<SonictronSound> sonictronSounds = new ArrayList<>();
     private final Map<String, Predicate<JsonNode>> conditions = new HashMap<>();
-    
+
     private final Set<ItemStack> jackHammerMinableBlocks = new HashSet<>();
     private final Set<TurbineRotor> turbineRotors = new HashSet<>();
-    
+
     private final Set<ItemStack> wrenches = new HashSet<>();
     private final Set<ItemStack> screwdrivers = new HashSet<>();
     private final Set<ItemStack> softHammers = new HashSet<>();
@@ -62,15 +62,15 @@ final class GregTechAPIImpl implements IGregTechAPI {
     public void registerCondition(String type, Predicate<JsonNode> predicate) {
         conditions.put(type, predicate);
     }
-        
+
     @Override
     public boolean testCondition(String type, JsonNode node) {
         Predicate<JsonNode> condition = conditions.get(type);
         if (condition == null) throw new IllegalArgumentException("Unknown condition type: " + type);
-            
+
         return condition.test(node);
     }
-    
+
     @Override
     public void registerTurbineRotor(ItemStack stack, int efficiency, int efficiencyMultiplier, int damageToComponent) {
         TurbineRotor rotor = new TurbineRotor(stack, efficiency, efficiencyMultiplier, damageToComponent);
@@ -80,8 +80,8 @@ final class GregTechAPIImpl implements IGregTechAPI {
     @Override
     public Optional<TurbineRotor> getTurbineRotor(ItemStack stack) {
         return turbineRotors.stream()
-                .filter(rotor -> StackUtil.checkItemEquality(stack, rotor.item.getItem()))
-                .findFirst();
+            .filter(rotor -> StackUtil.checkItemEquality(stack, rotor.item.getItem()))
+            .findFirst();
     }
 
     @Override
@@ -171,7 +171,7 @@ final class GregTechAPIImpl implements IGregTechAPI {
     private static void registerTool(ItemStack stack, Set<ItemStack> registry) {
         if (!stack.isEmpty()) registry.add(stack);
     }
-    
+
     static void createAndInject() {
         IGregTechAPI api = new GregTechAPIImpl();
         JavaUtil.setStaticValue(GregTechAPI.class, "impl", api);

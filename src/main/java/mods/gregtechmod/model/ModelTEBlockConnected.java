@@ -29,7 +29,7 @@ public class ModelTEBlockConnected extends ModelBlockConnected {
         connections.put(EnumFacing.EAST, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_EAST));
         return connections;
     }
-    
+
     private static Boolean getOrDefault(Ic2BlockStateInstance state, IUnlistedProperty<Boolean> property) {
         Boolean value = state.getValue(property);
         return value != null ? value : false;

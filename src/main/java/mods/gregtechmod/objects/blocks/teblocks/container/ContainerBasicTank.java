@@ -13,14 +13,14 @@ public abstract class ContainerBasicTank<T extends IInventory> extends Container
         super(player, base);
         initSlots();
     }
-    
+
     protected void initSlots() {
         addSlotToContainer(new SlotInvSlot(getInputSlot(), 0, 80, 17));
         addSlotToContainer(new SlotInvSlot(getOutputSlot(), 0, 80, 53));
     }
-    
+
     protected abstract InvSlot getInputSlot();
-    
+
     protected abstract InvSlot getOutputSlot();
 
     @Override

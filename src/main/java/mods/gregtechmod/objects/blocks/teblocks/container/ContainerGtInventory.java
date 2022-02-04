@@ -7,7 +7,7 @@ public abstract class ContainerGtInventory<T extends IInventory> extends Contain
 
     public ContainerGtInventory(EntityPlayer player, T base) {
         super(base);
-        
+
         addPlayerInventorySlots(player, 166);
     }
 }

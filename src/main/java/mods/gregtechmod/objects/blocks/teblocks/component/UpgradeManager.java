@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 
 public class UpgradeManager extends GtComponentBase {
     private static final int MAX_UPGRADE_COUNT = 16;
-    
+
     private final Runnable onUpdate;
     private final BiConsumer<IGtUpgradeItem, EntityPlayer> onUpdateGTUpgrade;
     private final Consumer<IC2UpgradeType> onUpdateIC2Upgrade;
@@ -55,7 +55,7 @@ public class UpgradeManager extends GtComponentBase {
         ItemStack existing = StreamEx.of(this.upgrades)
             .findFirst(stack::isItemEqual)
             .orElse(ItemStack.EMPTY);
-        
+
         if (!existing.isEmpty()) existing.grow(stack.getCount());
         else this.upgrades.add(stack.copy());
     }
@@ -76,7 +76,8 @@ public class UpgradeManager extends GtComponentBase {
                     if (upgradeCount >= upgradeType.maxCount || upgradeType == IC2UpgradeType.TRANSFORMER && upgradeCount >= upgradeType.maxCount - ((IUpgradableMachine) this.parent).getBaseSinkTier() + 1)
                         return false;
                 }
-            } else if (item instanceof IGtUpgradeItem && (areItemsEqual || existing.isEmpty())) {
+            }
+            else if (item instanceof IGtUpgradeItem && (areItemsEqual || existing.isEmpty())) {
                 if (((IGtUpgradeItem) item).beforeInsert((IUpgradableMachine) this.parent, player))
                     return true;
                 else if (!((IGtUpgradeItem) item).canBeInserted(existing, (IUpgradableMachine) this.parent))
@@ -126,7 +127,8 @@ public class UpgradeManager extends GtComponentBase {
 
         if (item instanceof IGtUpgradeItem) {
             return ((IUpgradableMachine) this.parent).getCompatibleGtUpgrades().contains(((IGtUpgradeItem) item).getType());
-        } else if (item instanceof IUpgradeItem) {
+        }
+        else if (item instanceof IUpgradeItem) {
             return StreamEx.of(((IUpgradableMachine) this.parent).getCompatibleIC2Upgrades())
                 .map(IC2UpgradeType::getProperty)
                 .toSetAndThen(properties -> ((IUpgradeItem) item).isSuitableFor(stack, properties));
@@ -137,10 +139,11 @@ public class UpgradeManager extends GtComponentBase {
     private void updateUpgrade(ItemStack stack, @Nullable EntityPlayer player) {
         if (!this.parent.getWorld().isRemote) {
             Item item = stack.getItem();
-            
+
             if (item instanceof IGtUpgradeItem) {
                 this.onUpdateGTUpgrade.accept((IGtUpgradeItem) item, player);
-            } else if (item instanceof IUpgradeItem) {
+            }
+            else if (item instanceof IUpgradeItem) {
                 IC2UpgradeType upgradeType = GtUtil.getUpgradeType(stack);
                 this.onUpdateIC2Upgrade.accept(upgradeType);
             }

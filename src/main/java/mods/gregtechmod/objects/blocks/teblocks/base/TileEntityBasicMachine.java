@@ -57,7 +57,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public int getBaseSinkTier() {
         return 1;
     }
-    
+
     @Override
     public int getBaseSourceTier() {
         return 1;
@@ -131,7 +131,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
             if (this.outputSlot.canAdd(output) || this.queueOutputSlot.canAdd(output)) {
                 this.outputBlocked = false;
                 return recipe;
-            } else this.outputBlocked = true;
+            }
+            else this.outputBlocked = true;
         }
         return null;
     }
@@ -161,7 +162,8 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
         if (!srcItem.isEmpty() && destItem.isEmpty()) {
             src.clear();
             dest.put(srcItem);
-        } else if (ItemHandlerHelper.canItemStacksStack(srcItem, destItem)) {
+        }
+        else if (ItemHandlerHelper.canItemStacksStack(srcItem, destItem)) {
             int toMove = Math.min(destItem.getMaxStackSize() - destItem.getCount(), srcItem.getCount());
             srcItem.shrink(toMove);
             destItem.grow(toMove);
@@ -178,19 +180,19 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     @Override
     protected ItemStack adjustDrop(ItemStack drop, boolean wrench) {
         ItemStack ret = super.adjustDrop(drop, wrench);
-        
+
         return ret == null ? BlockItems.Component.MACHINE_PARTS.getItemStack() : ret;
     }
-    
+
     public void switchProvideEnergy() {
         this.provideEnergy = !this.provideEnergy;
         this.energy.refreshSides();
     }
-    
+
     public void switchAutoOutput() {
         this.autoOutput = !this.autoOutput;
     }
-    
+
     public void switchSplitInput() {
         this.splitInput = !this.splitInput;
     }

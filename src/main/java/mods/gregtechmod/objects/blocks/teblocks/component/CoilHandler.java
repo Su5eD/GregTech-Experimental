@@ -19,7 +19,7 @@ public class CoilHandler extends GtComponentBase {
     @NBTPersistent
     public int heatingCoilTier;
     private final int coilCount;
-    
+
     public CoilHandler(TileEntityBlock parent, int coilCount) {
         super(parent);
         this.coilCount = coilCount;
@@ -65,12 +65,12 @@ public class CoilHandler extends GtComponentBase {
     public void onNetworkUpdate(DataInput in) throws IOException {
         this.heatingCoilTier = in.readInt();
     }
-    
+
     public int getMaxProgress(int maxProgress) {
         if (this.heatingCoilTier > 0) return maxProgress / this.heatingCoilTier;
         return maxProgress;
     }
-    
+
     public List<ItemStack> addDrops(List<ItemStack> list) {
         if (this.heatingCoilTier > 0) list.add(new ItemStack(BlockItems.Component.COIL_KANTHAL.getInstance(), coilCount));
         if (this.heatingCoilTier > 1) list.add(new ItemStack(BlockItems.Component.COIL_NICHROME.getInstance(), coilCount));

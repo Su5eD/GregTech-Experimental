@@ -9,7 +9,7 @@ public class GuiElectricTranslocator<T extends ContainerElectricTranslocator<?>>
 
     public GuiElectricTranslocator(T container) {
         super(container);
-        
+
         addVerticalIconCycle(7, 62, 58, () -> container.base.outputEnergy);
         addVerticalIconCycle(25, 62, 166, () -> container.base.invertFilter);
     }

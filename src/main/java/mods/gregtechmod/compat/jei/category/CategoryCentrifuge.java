@@ -26,21 +26,21 @@ public class CategoryCentrifuge extends CategoryBase<RecipeCentrifuge, WrapperCe
 
     public CategoryCentrifuge(IGuiHelper guiHelper) {
         super("industrial_centrifuge", RecipeCentrifuge.class, WrapperCellular::new, guiHelper);
-        
+
         gaugeUp = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_UP);
         gaugeDown = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_DOWN);
         gaugeRight = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_RIGHT);
         gaugeLeft = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SMALL_ARROW_LEFT);
-        
+
         tank = guiHelper.createDrawable(GtUtil.COMMON_TEXTURE, 40, 0, 18, 18);
     }
 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper
-                .drawableBuilder(GuiIndustrialCentrifuge.TEXTURE, 48, 4, 79, 79)
-                .addPadding(0, 0, 48, 48)
-                .build();
+            .drawableBuilder(GuiIndustrialCentrifuge.TEXTURE, 48, 4, 79, 79)
+            .addPadding(0, 0, 48, 48)
+            .build();
     }
 
     @Override

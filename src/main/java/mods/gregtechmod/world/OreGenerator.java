@@ -27,7 +27,7 @@ public final class OreGenerator implements IWorldGenerator {
     public static final Predicate<IBlockState> MATCHER_VOID = blockstate -> blockstate.getBlock() == Blocks.AIR || blockstate.getBlock() == Blocks.STONE || blockstate.getBlock() == Blocks.NETHERRACK || blockstate.getBlock() == Blocks.END_STONE;
 
     private OreGenerator() {}
-    
+
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
         generateWorld(random, chunkX, chunkZ, world, true);
@@ -52,16 +52,16 @@ public final class OreGenerator implements IWorldGenerator {
         else oreDimension = DimensionType.OVERWORLD;
 
         Arrays.stream(WorldOre.values())
-                .filter(ore -> ore.enabled.getAsBoolean() && oreDimension == ore.dimension && (ore.biomeList.isEmpty() || ore.biomeList.contains(biome.getRegistryName())) && (ore.probability <= 1 || random.nextInt(ore.probability) == 0))
-                .forEach(ore -> {
-                    Block block = ore.block.getBlockInstance();
-                    if (ore.type == WorldOre.OreType.NORMAL) {
-                        if (ore.dimension == DimensionType.THE_END) genEndOre(block, MATCHER, world, random, xPos, zPos, ore.size, ore.amount);
-                        else genNormalOre(block, GregTechConfig.WORLDGEN.generateInVoid ? MATCHER_VOID : MATCHER, world, random, xPos, zPos, ore.size, ore.amount, ore.minY, ore.maxY);
-                    }
-                    else if (ore.type == WorldOre.OreType.SINGLE) genSingleOre(block, MATCHER, world, random, xPos, zPos, ore.amount, ore.minY, ore.maxY);
-                    else if (ore.type == WorldOre.OreType.SINGLE_UNDER_LAVA) genSingleBlockUnderLava(block, MATCHER, world, random, xPos, zPos, ore.amount, ore.minY, ore.maxY);
-                });
+            .filter(ore -> ore.enabled.getAsBoolean() && oreDimension == ore.dimension && (ore.biomeList.isEmpty() || ore.biomeList.contains(biome.getRegistryName())) && (ore.probability <= 1 || random.nextInt(ore.probability) == 0))
+            .forEach(ore -> {
+                Block block = ore.block.getBlockInstance();
+                if (ore.type == WorldOre.OreType.NORMAL) {
+                    if (ore.dimension == DimensionType.THE_END) genEndOre(block, MATCHER, world, random, xPos, zPos, ore.size, ore.amount);
+                    else genNormalOre(block, GregTechConfig.WORLDGEN.generateInVoid ? MATCHER_VOID : MATCHER, world, random, xPos, zPos, ore.size, ore.amount, ore.minY, ore.maxY);
+                }
+                else if (ore.type == WorldOre.OreType.SINGLE) genSingleOre(block, MATCHER, world, random, xPos, zPos, ore.amount, ore.minY, ore.maxY);
+                else if (ore.type == WorldOre.OreType.SINGLE_UNDER_LAVA) genSingleBlockUnderLava(block, MATCHER, world, random, xPos, zPos, ore.amount, ore.minY, ore.maxY);
+            });
 
         if (!newGen) {
             world.getChunk(chunkX, chunkZ).markDirty();
@@ -95,8 +95,8 @@ public final class OreGenerator implements IWorldGenerator {
             BlockPos orePos = getOrePos(random, chunkX, chunkZ, minY, maxY).add(8, 0, 8);
             IBlockState state = world.getBlockState(orePos);
             Block block = state.getBlock();
-            if ((GregTechConfig.WORLDGEN.generateInVoid && block.isReplaceableOreGen(state, world, orePos, MATCHER_VOID) || block.isReplaceableOreGen(state, world, orePos, matcher)) 
-                    && (world.getBlockState(orePos.offset(EnumFacing.UP)).getBlock() == Blocks.LAVA || world.getBlockState(orePos).getBlock() == Blocks.FLOWING_LAVA)) {
+            if ((GregTechConfig.WORLDGEN.generateInVoid && block.isReplaceableOreGen(state, world, orePos, MATCHER_VOID) || block.isReplaceableOreGen(state, world, orePos, matcher))
+                && (world.getBlockState(orePos.offset(EnumFacing.UP)).getBlock() == Blocks.LAVA || world.getBlockState(orePos).getBlock() == Blocks.FLOWING_LAVA)) {
                 world.setBlockState(orePos, oreBlock.getDefaultState());
             }
         }
@@ -114,7 +114,7 @@ public final class OreGenerator implements IWorldGenerator {
             int posY = 10 + random.nextInt(237);
             if (random.nextInt(25) == 0) {
                 new WorldGenMinable(Blocks.END_STONE.getDefaultState(), 100 + random.nextInt(101), MATCHER_VOID)
-                        .generate(world, random, new BlockPos(chunkX + random.nextInt(16), posY, chunkZ + random.nextInt(16)));
+                    .generate(world, random, new BlockPos(chunkX + random.nextInt(16), posY, chunkZ + random.nextInt(16)));
                 if (GregTechConfig.WORLDGEN.tungstate) {
                     genLargeEndAsteroid(world, random, chunkX, chunkZ, posY, WorldOre.TUNGSTATE, WorldOre.TUNGSTATE.amount * 5 / 4F);
                 }
@@ -130,9 +130,9 @@ public final class OreGenerator implements IWorldGenerator {
             }
             for (int i = 0; i < 5; i++)
                 new WorldGenMinable(Blocks.END_STONE.getDefaultState(), 30 + random.nextInt(31), MATCHER_VOID)
-                        .generate(world, random, new BlockPos(chunkX + random.nextInt(16), posY + random.nextInt(51) - 25, chunkZ + random.nextInt(16)));
+                    .generate(world, random, new BlockPos(chunkX + random.nextInt(16), posY + random.nextInt(51) - 25, chunkZ + random.nextInt(16)));
             if (GregTechConfig.WORLDGEN.tungstate) {
-                genSmallEndAsteroid(world, random, chunkX, chunkZ, posY, WorldOre.TUNGSTATE, WorldOre.TUNGSTATE.size * 0.75,  WorldOre.TUNGSTATE.amount * 5 / 4F);
+                genSmallEndAsteroid(world, random, chunkX, chunkZ, posY, WorldOre.TUNGSTATE, WorldOre.TUNGSTATE.size * 0.75, WorldOre.TUNGSTATE.amount * 5 / 4F);
             }
             if (GregTechConfig.WORLDGEN.sheldonite) {
                 genSmallEndAsteroid(world, random, chunkX, chunkZ, posY, WorldOre.SHELDONITE, WorldOre.SHELDONITE.size, WorldOre.SHELDONITE.amount);
@@ -142,14 +142,14 @@ public final class OreGenerator implements IWorldGenerator {
             }
         }
     }
-    
+
     private static void genSmallEndAsteroid(World world, Random random, int chunkX, int chunkZ, int posY, WorldOre worldOre, double size, double amount) {
         WorldGenMinable ore = new WorldGenMinable(worldOre.block.getBlockInstance().getDefaultState(), (int) size, MATCHER_VOID);
         for (int i = 0; i < amount; i++) {
             ore.generate(world, random, new BlockPos(chunkX - 8 + random.nextInt(24), posY + random.nextInt(41) - 20, chunkZ - 8 + random.nextInt(24)));
         }
     }
-    
+
     private static void genLargeEndAsteroid(World world, Random random, int chunkX, int chunkZ, int posY, WorldOre worldOre, double amount) {
         WorldGenMinable ore = new WorldGenMinable(worldOre.block.getBlockInstance().getDefaultState(), worldOre.size, MATCHER_VOID);
         for (int i = 0; i < amount; i++) {

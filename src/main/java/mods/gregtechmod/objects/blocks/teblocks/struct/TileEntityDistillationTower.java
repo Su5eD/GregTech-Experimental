@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class TileEntityDistillationTower extends TileEntityStructureBase<Object, IRecipeCellular, IRecipeIngredient, ItemStack, IGtRecipeManagerCellular> {
     public GtConsumableCell cellSlot;
-    
+
     public TileEntityDistillationTower() {
         super(4, GtRecipes.distillation);
         this.cellSlot = new GtConsumableCell(this, "cell_slot", 1);
@@ -43,52 +43,52 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
-                Arrays.asList(
-                        " X ",
-                        "SSS",
-                        "SSS",
-                        "SSS"
-                ),
-                Arrays.asList(
-                        "   ",
-                        "DDD",
-                        "DAD",
-                        "DDD"
-                ),
-                Arrays.asList(
-                        "   ",
-                        "SSS",
-                        "SAS",
-                        "SSS"
-                ),
-                Arrays.asList(
-                        "   ",
-                        "DDD",
-                        "DAD",
-                        "DDD"
-                ),
-                Arrays.asList(
-                        "   ",
-                        "SSS",
-                        "SSS",
-                        "SSS"
-                )
+            Arrays.asList(
+                " X ",
+                "SSS",
+                "SSS",
+                "SSS"
+            ),
+            Arrays.asList(
+                "   ",
+                "DDD",
+                "DAD",
+                "DDD"
+            ),
+            Arrays.asList(
+                "   ",
+                "SSS",
+                "SAS",
+                "SSS"
+            ),
+            Arrays.asList(
+                "   ",
+                "DDD",
+                "DAD",
+                "DDD"
+            ),
+            Arrays.asList(
+                "   ",
+                "SSS",
+                "SSS",
+                "SSS"
+            )
         );
     }
-    
+
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
-                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
-                .block('A', Blocks.AIR)
-                .gather();
+            .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+            .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
+            .block('A', Blocks.AIR)
+            .gather();
     }
 
     @Override
     public void consumeInput(IRecipeCellular recipe, boolean consumeContainers) {
         IRecipeIngredient input = recipe.getInput();
-        
+
         this.inputSlot.consume(input.getCount(), true);
         this.cellSlot.consume(recipe.getCells());
     }

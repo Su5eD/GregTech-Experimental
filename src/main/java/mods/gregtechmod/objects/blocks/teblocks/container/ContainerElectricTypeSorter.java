@@ -9,12 +9,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import java.util.List;
 
 public class ContainerElectricTypeSorter extends ContainerElectricBuffer<TileEntityElectricTypeSorter> {
-    
+
     public ContainerElectricTypeSorter(EntityPlayer player, TileEntityElectricTypeSorter base) {
         super(player, base);
-        
+
         addSlotToContainer(new SlotInvSlot(base.buffer, 0, 25, 23));
-        
+
         addSlotToContainer(SlotInteractive.serverOnly(70, 22, click -> {
             if (click == ButtonClick.MOUSE_RIGHT) base.previousType();
             else base.nextType();

@@ -22,17 +22,17 @@ public class BlockConnectedTurbine extends BlockConnected {
     @Override
     protected IBlockState getBaseState() {
         return super.getBaseState()
-                .withProperty(BlockConnectedTurbine.TURBINE, false)
-                .withProperty(BlockConnectedTurbine.TURBINE_ROTOR, Rotor.DISABLED);
+            .withProperty(BlockConnectedTurbine.TURBINE, false)
+            .withProperty(BlockConnectedTurbine.TURBINE_ROTOR, Rotor.DISABLED);
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer.Builder(this)
-                .add(TURBINE, TURBINE_ROTOR, CONNECTED_DOWN, CONNECTED_UP, CONNECTED_NORTH, CONNECTED_SOUTH, CONNECTED_WEST, CONNECTED_EAST)
-                .build();
+            .add(TURBINE, TURBINE_ROTOR, CONNECTED_DOWN, CONNECTED_UP, CONNECTED_NORTH, CONNECTED_SOUTH, CONNECTED_WEST, CONNECTED_EAST)
+            .build();
     }
-    
+
     @Override
     protected boolean isSideConnectable(IBlockAccess world, BlockPos pos, EnumFacing side) {
         if (!GregTechConfig.GENERAL.connectedTextures) return false;

@@ -108,25 +108,25 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
 
         dumpOutput();
     }
-    
+
     public static class PrinterRecipeProvider implements IRecipeProvider<List<IRecipeIngredient>, List<ItemStack>, IRecipePrinter> {
         @Override
         public IRecipePrinter getRecipeFor(List<ItemStack> input) {
             ItemStack primaryInput = input.get(0);
-            
+
             if (input.size() > 1) {
                 ItemStack secondaryInput = input.get(1);
-                
+
                 if (OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)) {
                     OptionalItemStack result = ModHandler.getRecipeOutput(primaryInput, secondaryInput);
                     if (result.isPresent()) {
                         return addLazyRecipe(primaryInput, secondaryInput, null, result.get(), 200, 2);
                     }
                 }
-                
+
                 if (input.size() > 2) {
                     ItemStack extra = input.get(2);
-                    
+
                     if (!extra.isEmpty() && OreDictUnificator.isItemInstanceOf(secondaryInput, "dyeBlack", false)) {
                         Item extraItem = extra.getItem();
                         Item primaryItem = primaryInput.getItem();
@@ -141,7 +141,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
                     }
                 }
             }
-            
+
             return null;
         }
 
@@ -149,13 +149,13 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
         public boolean hasRecipeFor(List<ItemStack> input) {
             ItemStack primaryInput = input.get(0);
             if (StackUtil.checkItemEquality(primaryInput, Items.BOOK) || StackUtil.checkItemEquality(primaryInput, Items.MAP)) return true;
-                                    
+
             if (input.size() > 1) {
                 ItemStack secondaryInput = input.get(1);
                 return OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)
-                        || OreDictUnificator.isItemInstanceOf(secondaryInput, "dyeBlack", false);
+                    || OreDictUnificator.isItemInstanceOf(secondaryInput, "dyeBlack", false);
             }
-            
+
             return false;
         }
 

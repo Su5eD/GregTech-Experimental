@@ -7,7 +7,7 @@ public class ItemMortar extends ItemCrafting {
     private final ItemStack emptyItem;
 
     public ItemMortar(String material, int durability, ItemStack emptyItem) {
-        super("mortar_"+material, "mortar", durability, 1);
+        super("mortar_" + material, "mortar", durability, 1);
         this.emptyItem = emptyItem;
     }
 

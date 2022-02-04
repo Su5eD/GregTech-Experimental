@@ -12,7 +12,7 @@ public class TileEntityQuantumChest extends TileEntityDigitalChestBase {
     public TileEntityQuantumChest() {
         super(GregTechConfig.FEATURES.quantumChestMaxItemCount);
     }
-    
+
     @Override
     public Set<GtUpgradeType> getCompatibleGtUpgrades() {
         return Collections.singleton(GtUpgradeType.LOCK);

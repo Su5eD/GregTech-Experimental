@@ -35,7 +35,7 @@ public class FuelIngredientFluidDeserializer extends JsonDeserializer<IRecipeIng
             List<String> names = StreamEx.of(node.get("fluids").iterator())
                 .map(JsonNode::asText)
                 .toImmutableList();
-            
+
             ingredient = FuelIngredientFluid.fromNames(names, milliBuckets);
         }
         else ingredient = RecipeIngredientFluid.EMPTY;

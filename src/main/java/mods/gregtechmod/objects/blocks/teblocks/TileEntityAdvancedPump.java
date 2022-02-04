@@ -39,13 +39,13 @@ import java.util.*;
 public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHasGui {
     private static final LazyValue<IBlockState> MINING_PIPE_STATE = new LazyValue<>(() -> BlockName.mining_pipe.getBlockState(BlockMiningPipe.MiningPipeType.pipe));
     private static final LazyValue<IBlockState> MINING_PIPE_TIP_STATE = new LazyValue<>(() -> BlockName.mining_pipe.getBlockState(BlockMiningPipe.MiningPipeType.tip));
-    
+
     public final InvSlotConsumableLiquid inputSlot;
     public final InvSlot pipeSlot;
     public final InvSlotOutput outputSlot;
     private final Stack<BlockPos> pumpList = new Stack<>();
     private final FluidTank fluidTank;
-    
+
     @NBTPersistent(include = Include.NON_NULL)
     private Block pumpedBlock;
 
@@ -83,7 +83,8 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
                             if (hasNoTarget()) getFluid(offset);
                             else break;
                         }
-                    } else if (getPumpHeadPos().getY() < this.pos.getY()) {
+                    }
+                    else if (getPumpHeadPos().getY() < this.pos.getY()) {
                         if (movedOneDown || this.pumpList.isEmpty() && this.tickCounter % 200 == 100 || this.tickCounter % 72000 == 100) {
                             this.pumpList.clear();
                             for (int y = this.pos.getY() - 1, yHead = getPumpHeadPos().getY(); this.pumpList.empty() && y >= yHead; y--) {
@@ -111,11 +112,14 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
 
         if (block == Blocks.LAVA || block == Blocks.FLOWING_LAVA) {
             this.pumpedBlock = Blocks.LAVA;
-        } else if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
+        }
+        else if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
             this.pumpedBlock = Blocks.WATER;
-        } else if (block instanceof IFluidBlock) {
+        }
+        else if (block instanceof IFluidBlock) {
             this.pumpedBlock = block;
-        } else {
+        }
+        else {
             this.pumpedBlock = null;
         }
     }
@@ -130,7 +134,8 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
                 FluidStack fluid = LiquidUtil.drainBlock(this.world, pos, false);
                 this.fluidTank.fillInternal(fluid, true);
                 useEnergy(1280);
-            } else {
+            }
+            else {
                 useEnergy(320);
             }
 
@@ -149,7 +154,7 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
         if (posZ && z < rootZ + distance) scanForFluid(x, y, z + 1, rootX, rootZ, distance);
         if (negZ && z > rootZ - distance) scanForFluid(x, y, z - 1, rootX, rootZ, distance);
     }
-    
+
     private boolean addIfFluidAndNotAlreadyAdded(int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         if (!this.pumpList.contains(pos)) {
@@ -189,13 +194,13 @@ public class TileEntityAdvancedPump extends TileEntityUpgradable implements IHas
 
         return yPos;
     }
-    
+
     private boolean findExistingHead(BlockPos origPos) {
         BlockPos pos = origPos.add(0, -1, 0);
         IBlockState state = this.world.getBlockState(pos);
         return state == MINING_PIPE_STATE.get() ? findExistingHead(pos) : state == MINING_PIPE_TIP_STATE.get();
     }
-    
+
     private void setMiningPipe(BlockPos pos) {
         ItemStack stack = this.pipeSlot.get();
         if (!stack.isEmpty()) {

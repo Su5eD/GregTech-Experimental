@@ -19,10 +19,10 @@ public class TileEntityElectricRegulatorAdvanced extends TileEntityElectricBuffe
     public final int[] slotIndices = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     public final List<GtSlotFiltered> bufferSlots = new ArrayList<>();
     public final InvSlot filter;
-    
+
     public TileEntityElectricRegulatorAdvanced() {
         this.filter = new GtSlot(this, "filter", InvSlot.Access.NONE, 9);
-        
+
         IntStream.range(0, 9).forEach(i -> this.bufferSlots.add(new GtSlotFiltered(this, "buffer" + i, InvSlot.Access.IO, 1, stack -> !this.filter.isEmpty(i) && GtUtil.stackItemEquals(this.filter.get(i), stack))));
     }
 
@@ -30,12 +30,12 @@ public class TileEntityElectricRegulatorAdvanced extends TileEntityElectricBuffe
     protected void work() {
         if (hasItem() && canWork()) {
             this.success--;
-            
+
             for (int i = 0; i < this.bufferSlots.size(); i++) {
                 GtSlotFiltered slot = this.bufferSlots.get(i);
                 if (!slot.isEmpty()) {
                     int targetSlot = this.slotIndices[i];
-                    
+
                     int cost = moveItem(targetSlot);
                     if (cost > 0) {
                         useEnergy(cost);
@@ -45,20 +45,20 @@ public class TileEntityElectricRegulatorAdvanced extends TileEntityElectricBuffe
             }
         }
     }
-    
+
     protected int moveItem(int targetSlot) {
         return GtUtil.moveItemStackIntoSlot(
-                this, getNeighborTE(getOppositeFacing()),
-                getOppositeFacing(), getFacing(),
-                targetSlot,
-                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1
+            this, getNeighborTE(getOppositeFacing()),
+            getOppositeFacing(), getFacing(),
+            targetSlot,
+            this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1
         ) * getMoveCostMultiplier();
     }
 
     @Override
     protected boolean hasItem() {
         return this.bufferSlots.stream()
-                .anyMatch(slot -> !slot.isEmpty());
+            .anyMatch(slot -> !slot.isEmpty());
     }
 
     @Override

@@ -16,7 +16,7 @@ public class GtSlotChargeHybrid extends InvSlot implements IChargingSlot, IDisch
 
     public GtSlotChargeHybrid(IInventorySlotHolder<?> base, String name, int tier, BooleanSupplier shouldDischarge) {
         super(base, name, Access.IO, 1);
-        
+
         this.tier = tier;
         this.shouldDischarge = shouldDischarge;
     }
@@ -24,8 +24,8 @@ public class GtSlotChargeHybrid extends InvSlot implements IChargingSlot, IDisch
     @Override
     public boolean accepts(ItemStack stack) {
         return !stack.isEmpty() && (ElectricItem.manager.charge(stack, Double.POSITIVE_INFINITY, this.tier, true, true) > 0
-                || Info.itemInfo.getEnergyValue(stack) > 0 
-                || ElectricItem.manager.discharge(stack, Double.POSITIVE_INFINITY, this.tier, true, true, true) > 0);
+            || Info.itemInfo.getEnergyValue(stack) > 0
+            || ElectricItem.manager.discharge(stack, Double.POSITIVE_INFINITY, this.tier, true, true, true) > 0);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class GtSlotChargeHybrid extends InvSlot implements IChargingSlot, IDisch
                     double energyValue = Info.itemInfo.getEnergyValue(stack);
                     if (energyValue > 0) stack.shrink(1);
                 }
-                
+
                 return realAmount;
             }
         }

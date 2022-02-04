@@ -75,7 +75,8 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements ICustomIte
                     acceptUraniumPulse(stack, reactor, stack, x, y, x, y, false);
                 }
                 checkPulseables(reactor, x, y, stack, false);
-            } else {
+            }
+            else {
                 pulses += checkPulseables(reactor, x, y, stack, true);
 
                 List<ItemStackPos> heatAcceptors = new ArrayList<>();
@@ -83,7 +84,7 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements ICustomIte
                 addHeatAcceptor(reactor, x + 1, y, heatAcceptors);
                 addHeatAcceptor(reactor, x, y - 1, heatAcceptors);
                 addHeatAcceptor(reactor, x, y + 1, heatAcceptors);
-                
+
                 int triangularPulses = triangularNumber(pulses) * 4;
                 int heat = getFinalHeat(stack, reactor, x, y, triangularPulses);
                 heat = Math.round(heat * this.heat);
@@ -97,14 +98,15 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements ICustomIte
                 if (heat > 0) reactor.addHeat(heat);
             }
         }
-        
+
         if (getCustomDamage(stack) >= getMaxCustomDamage(stack) - 1) {
             reactor.setItemAt(x, y, getDepletedStack(stack, reactor));
-        } else if (heatRun) {
+        }
+        else if (heatRun) {
             this.applyCustomDamage(stack, 1, null);
         }
     }
-    
+
     private void addHeatAcceptor(IReactor reactor, int x, int y, Collection<ItemStackPos> heatAcceptors) {
         ItemStack component = reactor.getItemAt(x, y);
         if (component != null) {
@@ -114,12 +116,12 @@ public class ItemNuclearFuelRod extends ItemReactorUranium implements ICustomIte
             }
         }
     }
-    
+
     private static int checkPulseables(IReactor reactor, int x, int y, ItemStack stack, boolean heatRun) {
         return checkPulseable(reactor, x - 1, y, stack, x, y, heatRun)
-                + checkPulseable(reactor, x + 1, y, stack, x, y, heatRun)
-                + checkPulseable(reactor, x, y - 1, stack, x, y, heatRun)
-                + checkPulseable(reactor, x, y + 1, stack, x, y, heatRun);
+            + checkPulseable(reactor, x + 1, y, stack, x, y, heatRun)
+            + checkPulseable(reactor, x, y - 1, stack, x, y, heatRun)
+            + checkPulseable(reactor, x, y + 1, stack, x, y, heatRun);
     }
 
     @Override

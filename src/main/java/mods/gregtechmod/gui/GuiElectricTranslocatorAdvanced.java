@@ -14,7 +14,7 @@ public class GuiElectricTranslocatorAdvanced extends GuiElectricTranslocator<Con
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        
+
         drawString(7, 7, this.container.base.inputSide.name(), GuiColors.WHITE, false);
         drawString(138, 7, this.container.base.outputSide.name(), GuiColors.WHITE, false);
     }

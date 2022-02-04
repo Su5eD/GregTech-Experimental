@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class CoverHandler extends GtComponentBase {
     public static final IUnlistedProperty<CoverHandler> COVER_HANDLER_PROPERTY = new UnlistedProperty<>("coverhandler", CoverHandler.class);
-    
+
     @NBTPersistent(include = Include.NOT_EMPTY, handler = CoverMapNBTSerializer.class)
     public final Map<EnumFacing, ICover> covers = new HashMap<>();
     private final Runnable changeHandler;
@@ -31,7 +31,7 @@ public class CoverHandler extends GtComponentBase {
         super(te);
         this.changeHandler = changeHandler;
     }
-    
+
     static {
         NBTHandlerRegistry.addSpecialHandler(CoverMapNBTSerializer::new);
     }
@@ -95,7 +95,8 @@ public class CoverHandler extends GtComponentBase {
                     ICover cover = provider.constructCover(facing, (ICoverable) ((CoverHandler) instance).parent, stack);
                     cover.readFromNBT(tag.getCompoundTag("cover"));
                     map.put(facing, cover);
-                } else {
+                }
+                else {
                     GregTechMod.LOGGER.error("CoverProvider for {} not found", name);
                 }
             }

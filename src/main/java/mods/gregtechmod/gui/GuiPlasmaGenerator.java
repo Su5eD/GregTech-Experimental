@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiPlasmaGenerator extends GuiFluidGenerator {
     private static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("plasma_generator");
-    
+
     public GuiPlasmaGenerator(ContainerBasicTank<TileEntityFluidGenerator> container, GtFluidTank fluidTank) {
         super(container, fluidTank);
     }
@@ -24,7 +24,7 @@ public class GuiPlasmaGenerator extends GuiFluidGenerator {
     protected String getDisplayName() {
         return GtLocale.translateInfo("plasma_amount");
     }
-    
+
     @Override
     protected ResourceLocation getTexture() {
         return TEXTURE;

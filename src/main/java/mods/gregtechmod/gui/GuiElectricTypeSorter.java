@@ -6,10 +6,10 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiElectricTypeSorter extends GuiElectricSorter<ContainerElectricTypeSorter> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("electric_type_sorter");
-    
+
     public GuiElectricTypeSorter(ContainerElectricTypeSorter container) {
         super(container);
-        
+
         addIconCycle(70, 22, TEXTURE, 0, 166, container.base::getType);
     }
 

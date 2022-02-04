@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class CoverRedstoneConductor extends CoverGeneric {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
-    
+
     @NBTPersistent
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
@@ -41,10 +41,11 @@ public class CoverRedstoneConductor extends CoverGeneric {
                     }
                 }
                 ((IGregTechMachine) te).setRedstoneOutput(this.side, strongest);
-            } else {
+            }
+            else {
                 EnumFacing side = EnumFacing.byIndex(mode.ordinal() - 1);
                 ((IGregTechMachine) te).setRedstoneOutput(this.side, getPowerFromSide(side, world, pos) - 1);
-            }   
+            }
         }
     }
 
@@ -54,7 +55,8 @@ public class CoverRedstoneConductor extends CoverGeneric {
         ICover cover = te.getCoverAtSide(side);
         if (cover != null) {
             if (cover.letsRedstoneIn()) return Math.max(power, cover.getRedstoneInput());
-        } else {
+        }
+        else {
             return power;
         }
 

@@ -42,7 +42,7 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
         if (side != getFacing()) return true;
         return super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
-    
+
     public void onToolClick(ItemStack stack, EntityPlayer player) {
         checkTool(player, stack, GtUtil::isWrench, this.maintenance::setWrench);
         checkTool(player, stack, GtUtil::isScrewdriver, this.maintenance::setScrewdriver);
@@ -53,7 +53,7 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
             Item item = s.getItem();
             return item instanceof ISolderingTool && ((ISolderingTool) item).solder(stack, player, false);
         }, this.maintenance::setSolderingTool);
-        
+
         if (!stack.isEmpty() && OreDictUnificator.isItemInstanceOf(stack, "craftingDuctTape", false)) {
             this.ductTape = true;
             this.maintenance.setAll(true);
@@ -61,7 +61,7 @@ public class TileEntityHatchMaintenance extends TileEntityCoverBehavior implemen
             updateRender();
         }
     }
-    
+
     private void checkTool(EntityPlayer player, ItemStack stack, Predicate<ItemStack> predicate, Consumer<Boolean> setter) {
         if (predicate.test(stack) && GtUtil.damageStack(player, stack, 1)) setter.accept(true);
     }

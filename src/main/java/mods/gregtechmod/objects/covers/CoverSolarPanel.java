@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class CoverSolarPanel extends CoverGeneric {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("solar_panel");
-    
+
     private final double daytimeEnergy;
     private final double nighttimeEnergy;
 
@@ -28,14 +28,14 @@ public class CoverSolarPanel extends CoverGeneric {
     public void doCoverThings() {
         if (side != EnumFacing.UP || !(te instanceof IElectricMachine)) return;
 
-        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && ((IElectricMachine)te).getMaxInputEUp() < this.daytimeEnergy) return;
+        if (GregTechConfig.BALANCE.solarPanelCoverOvervoltageProtection && ((IElectricMachine) te).getMaxInputEUp() < this.daytimeEnergy) return;
 
-        World world = ((TileEntity)te).getWorld();
-        BlockPos pos = ((TileEntity)te).getPos();
+        World world = ((TileEntity) te).getWorld();
+        BlockPos pos = ((TileEntity) te).getPos();
         if (!world.isThundering()) {
-            boolean bRain = world.isRaining() && world.getBiome(((TileEntity)te).getPos()).getRainfall() > 0;
+            boolean bRain = world.isRaining() && world.getBiome(((TileEntity) te).getPos()).getRainfall() > 0;
             if ((!bRain || world.getSkylightSubtracted() < 4) && getSkyAtSide(world, pos, side)) {
-                ((IElectricMachine)te).addEnergy(bRain || !world.isDaytime() ? nighttimeEnergy : daytimeEnergy);
+                ((IElectricMachine) te).addEnergy(bRain || !world.isDaytime() ? nighttimeEnergy : daytimeEnergy);
             }
         }
     }

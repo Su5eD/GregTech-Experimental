@@ -44,16 +44,16 @@ public enum Cover {
     Cover(Class<? extends ICover> clazz, QuadFunction<ResourceLocation, ICoverable, EnumFacing, ItemStack, ICover> factory) {
         NBTSaveHandler.initClass(clazz);
         this.instance = new LazyValue<>(() -> new CoverProvider(factory)
-                .setRegistryName(new ResourceLocation(Reference.MODID, name().toLowerCase(Locale.ROOT))));
+            .setRegistryName(new ResourceLocation(Reference.MODID, name().toLowerCase(Locale.ROOT))));
     }
 
     private static class CoverProvider extends IForgeRegistryEntry.Impl<ICoverProvider> implements ICoverProvider {
-        private final QuadFunction<ResourceLocation,ICoverable, EnumFacing, ItemStack, ICover> factory;
+        private final QuadFunction<ResourceLocation, ICoverable, EnumFacing, ItemStack, ICover> factory;
 
         public CoverProvider(QuadFunction<ResourceLocation, ICoverable, EnumFacing, ItemStack, ICover> factory) {
             this.factory = factory;
         }
-        
+
         @Override
         public ICover constructCover(EnumFacing side, ICoverable parent, ItemStack stack) {
             return this.factory.apply(getRegistryName(), parent, side, stack);

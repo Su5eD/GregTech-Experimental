@@ -55,7 +55,7 @@ public class ItemSonictron extends ItemBase {
 
                 if (player.isSneaking()) setNBTInventory(stack, (IInventory) te);
                 else copyInventory(inventory.iterator(), (IInventory) te);
-                
+
                 return EnumActionResult.SUCCESS;
             }
         }
@@ -65,15 +65,15 @@ public class ItemSonictron extends ItemBase {
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (!world.isRemote) {
-            int	currentIndex = getCurrentIndex(stack);
+            int currentIndex = getCurrentIndex(stack);
             if (world.getWorldTime() % 2 == 0 && currentIndex > -1) {
                 List<ItemStack> inventory = getNBTInventory(stack);
                 if (inventory.isEmpty() || currentIndex >= inventory.size()) return;
-                
+
                 TileEntitySonictron.doSonictronSound(inventory.get(currentIndex), entity.world, entity.getPosition());
-                
+
                 if (++currentIndex > 63) {
-                    if (entity instanceof EntityPlayer && ((EntityPlayer)entity).openContainer instanceof ContainerSonictron) currentIndex = 0;
+                    if (entity instanceof EntityPlayer && ((EntityPlayer) entity).openContainer instanceof ContainerSonictron) currentIndex = 0;
                     else currentIndex = -1;
                 }
                 setCurrentIndex(stack, currentIndex);
@@ -91,7 +91,7 @@ public class ItemSonictron extends ItemBase {
         NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
         NBTTagList contentList = nbt.getTagList("Items", 10);
 
-        for(int i = 0; i < contentList.tagCount(); ++i) {
+        for (int i = 0; i < contentList.tagCount(); ++i) {
             NBTTagCompound slotNbt = contentList.getCompoundTagAt(i);
             int slot = slotNbt.getByte("Slot");
             if (slot >= 0 && slot < 64) {
@@ -107,14 +107,14 @@ public class ItemSonictron extends ItemBase {
     }
 
     public static void copyInventory(Iterator<ItemStack> from, IInventory to) {
-        for(int i = 0; from.hasNext(); i++) {
+        for (int i = 0; from.hasNext(); i++) {
             to.setInventorySlotContents(i, from.next());
         }
     }
 
     public static void setNBTInventory(ItemStack stack, IInventory inventory) {
         NBTTagCompound stackNBT = StackUtil.getOrCreateNbtData(stack);
-        
+
         NBTTagList tagList = new NBTTagList();
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             ItemStack invStack = inventory.getStackInSlot(i);

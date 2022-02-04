@@ -1,6 +1,5 @@
 package mods.gregtechmod.recipe.ingredient;
 
-import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntComparators;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -15,6 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class MultiOreIngredient extends Ingredient {
@@ -26,20 +26,20 @@ public class MultiOreIngredient extends Ingredient {
 
     public MultiOreIngredient(List<String> ores) {
         super(0);
-        this.ores = ores;
+        this.ores = Collections.unmodifiableList(ores);
         ores.stream()
             .map(OreDictionary::getOres)
             .forEach(matchingStacks::add);
     }
 
     public List<String> getOres() {
-        return ImmutableList.copyOf(ores);
+        return this.ores;
     }
 
     @Override
     @Nonnull
     public ItemStack[] getMatchingStacks() {
-        if (array == null || this.lastSizeA != matchingStacks.size()) {
+        if (this.array == null || this.lastSizeA != this.matchingStacks.size()) {
             NonNullList<ItemStack> lst = NonNullList.create();
             this.matchingStacks.stream()
                 .flatMap(Collection::stream)
@@ -49,7 +49,7 @@ public class MultiOreIngredient extends Ingredient {
                     else lst.add(itemstack);
                 });
             this.array = lst.toArray(new ItemStack[0]);
-            this.lastSizeA = matchingStacks.size();
+            this.lastSizeA = this.matchingStacks.size();
         }
         return this.array;
     }

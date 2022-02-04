@@ -15,20 +15,20 @@ import net.minecraft.world.WorldServer;
  * @author McJty
  */
 public class TeleportUtil {
-    
+
     public static void performTeleport(Entity entity, DimensionType dimension, double x, double y, double z) {
         DimensionType oldDim = entity.getEntityWorld().provider.getDimensionType();
-        
+
         if (oldDim != dimension) teleportToDimension(entity, dimension, x, y, z);
         else entity.setPositionAndUpdate(x, y, z);
     }
-    
+
     public static void teleportToDimension(Entity entity, DimensionType dimension, double x, double y, double z) {
         MinecraftServer server = entity.getEntityWorld().getMinecraftServer();
         if (server != null) {
             int dimId = dimension.getId();
             WorldServer worldServer = server.getWorld(dimId);
-            
+
             entity.changeDimension(dimId, new GtTeleporter(worldServer, x, y, z));
             entity.setPositionAndUpdate(x, y, z);
         }

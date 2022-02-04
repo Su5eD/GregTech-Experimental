@@ -115,7 +115,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
     public static BlockTileEntity blockTE;
-    
+
     private final Class<? extends TileEntityBlock> teClass;
     private final int itemMeta;
     private final boolean hasActive;
@@ -126,26 +126,26 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     private final EnumRarity rarity;
     private final ModelType modelType;
     private final boolean isStructure;
-    
+
     private final LazyValue<TileEntityBlock> dummyTe = new LazyValue<>(this::buildDummyTeBlock);
     private ITePlaceHandler placeHandler;
-    
+
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings) {
         this(teClass, itemMeta, hasActive, supportedFacings, false);
     }
-    
+
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, ModelType modelType) {
         this(teClass, itemMeta, hasActive, supportedFacings, modelType, false);
     }
-    
+
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean isStructure) {
         this(teClass, itemMeta, hasActive, supportedFacings, ModelType.BAKED, isStructure);
     }
-        
+
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, ModelType modelType, boolean isStructure) {
         this(teClass, itemMeta, hasActive, supportedFacings, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, modelType, isStructure);
     }
-    
+
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, ModelType modelType, boolean isStructure) {
         this.teClass = teClass;
         this.itemMeta = itemMeta;
@@ -160,9 +160,9 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
 
         GameRegistry.registerTileEntity(teClass, new ResourceLocation(Reference.MODID, getName()));
         NBTSaveHandler.initClass(teClass);
- 	}
- 	
- 	public boolean isStructure() {
+    }
+
+    public boolean isStructure() {
         return this.isStructure;
     }
 
@@ -263,12 +263,12 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
         if (tab == CreativeTabs.SEARCH) {
             Arrays.stream(VALUES)
-                    .filter(teblock -> Version.shouldEnable(teblock.teClass))
-                    .map(block::getItemStack)
-                    .forEach(list::add);
+                .filter(teblock -> Version.shouldEnable(teblock.teClass))
+                .map(block::getItemStack)
+                .forEach(list::add);
         }
     }
-    
+
     public TileEntityBlock buildDummyTeBlock() {
         if (this.teClass != null) {
             try {
@@ -279,7 +279,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
             }
         }
         return null;
- 	}
+    }
 
     @Override
     public boolean doesOverrideDefault(ItemStack stack) {
@@ -290,13 +290,13 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     public ModelResourceLocation getModelLocation(ItemStack stack) {
         String name = getName();
         String location = Reference.MODID + ":teblock/" + name;
-        
+
         if (this.isStructure) location += "_valid";
         else if (this.hasActive) location += "_active";
-        
+
         return new ModelResourceLocation(location, name);
     }
-    
+
     public enum ModelType {
         DEFAULT,
         BAKED,

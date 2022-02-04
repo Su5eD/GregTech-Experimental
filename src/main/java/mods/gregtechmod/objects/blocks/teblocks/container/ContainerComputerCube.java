@@ -11,7 +11,7 @@ public class ContainerComputerCube extends ContainerGtBase<TileEntityComputerCub
 
     public ContainerComputerCube(EntityPlayer player, TileEntityComputerCube base, int switchSlotX) {
         super(base);
-        
+
         addSlotToContainer(SlotInteractive.bothSides(switchSlotX, 4, () -> {
             base.switchModule();
             IC2.platform.launchGui(player, base);

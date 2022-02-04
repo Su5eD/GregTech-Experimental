@@ -18,19 +18,19 @@ import java.util.stream.Collectors;
 
 public class WrapperFuel<T extends IFuel<IRecipeIngredient>> implements IRecipeWrapper {
     private final T fuel;
-    
+
     public WrapperFuel(T fuel) {
         this.fuel = fuel;
     }
- 
+
     @Override
     public void getIngredients(IIngredients ingredients) {
         IRecipeIngredient input = this.fuel.getInput();
         ingredients.setInputLists(VanillaTypes.ITEM, Collections.singletonList(input.getMatchingInputs()));
         if (input instanceof IRecipeIngredientFluid) {
             List<FluidStack> fluids = ((IRecipeIngredientFluid) input).getMatchingFluids().stream()
-                    .map(fluid -> new FluidStack(fluid, Fluid.BUCKET_VOLUME))
-                    .collect(Collectors.toList());
+                .map(fluid -> new FluidStack(fluid, Fluid.BUCKET_VOLUME))
+                .collect(Collectors.toList());
             ingredients.setInputLists(VanillaTypes.FLUID, Collections.singletonList(fluids));
         }
     }

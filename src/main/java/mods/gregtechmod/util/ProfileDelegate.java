@@ -24,12 +24,12 @@ public class ProfileDelegate {
     public static ItemStack getEmptyCell() {
         return getCell(null);
     }
-    
+
     public static ItemStack getCell(String fluid) {
         if (GregTechMod.classic) {
             Item cell = BlockItems.classicCells.get(fluid);
             if (cell != null) return new ItemStack(cell);
-            
+
             String name = fluid == null ? "empty" : fluid.startsWith("ic2") ? fluid.substring(3) : fluid;
             return ModHandler.getIC2ItemSafely("cell", name);
         }

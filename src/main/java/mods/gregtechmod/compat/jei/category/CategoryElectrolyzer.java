@@ -30,8 +30,8 @@ public class CategoryElectrolyzer extends CategoryBase<RecipeElectrolyzer, Wrapp
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(GuiIndustrialElectrolyzer.TEXTURE, 48, 9, 79, 74)
-                .addPadding(0, 15, 48, 48)
-                .build();
+            .addPadding(0, 15, 48, 48)
+            .build();
     }
 
     @Override

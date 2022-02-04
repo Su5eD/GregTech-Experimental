@@ -56,7 +56,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         this.upgradeManager = addComponent(new UpgradeManager(this, this::onUpdate, this::onUpdateGTUpgrade, this::onUpdateIC2Upgrade));
         this.fluids = addComponent(new Fluids(this));
     }
-    
+
     @Override
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         return addUpgrade(player.inventory.getCurrentItem(), player) || super.onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
@@ -77,7 +77,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     }
 
     protected void onUpdateIC2Upgrade(IC2UpgradeType type) {}
-    
+
     @Override
     public void addExtraTier() {
         this.extraTier++;
@@ -92,7 +92,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public final int getSourceTier() {
         int transformers = getTransformerCount();
         int tier = getBaseSourceTier() + transformers;
-        
+
         return transformers > 0 && isMultiplePacketsForTransformer() ? tier - 1 : tier;
     }
 
@@ -101,18 +101,18 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         int basePackets = getBaseSourcePackets();
         return basePackets == 1 && isMultiplePacketsForTransformer() && getTransformerCount() > 0 ? 4 : basePackets;
     }
-    
+
     private int getTransformerCount() {
         int transformers = getUpgradeCount(IC2UpgradeType.TRANSFORMER);
         return transformers + this.extraTier;
     }
-    
+
     protected boolean isMultiplePacketsForTransformer() {
         return true;
     }
-    
+
     protected abstract int getBaseEUCapacity();
-    
+
     @Override
     public void addExtraEUCapacity(int extraCapacity) {
         this.extraEUCapacity += extraCapacity;
@@ -122,7 +122,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public final int getEUCapacity() {
         return getBaseEUCapacity() + getExtraEUCapacity();
     }
-    
+
     @Override
     public int getExtraEUCapacity() {
         int ic2Batteries = getUpgradeCount(IC2UpgradeType.BATTERY) * 10000;
@@ -166,7 +166,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         list.add("upgradeManager");
         list.add("extraEUCapacity");
     }
-    
+
     private void onUpdate() {
         updateClientField("upgradeManager");
         updateClientField("extraEUCapacity");
@@ -185,15 +185,15 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         super.addInformation(stack, tooltip, advanced);
         String possibleUpgrades = Stream.concat(
                 this.getCompatibleIC2Upgrades().stream()
-                        .sorted(Comparator.comparing(Enum::ordinal))
-                        .map(entry -> entry.toString().substring(0, 1)),
+                    .sorted(Comparator.comparing(Enum::ordinal))
+                    .map(entry -> entry.toString().substring(0, 1)),
                 this.getCompatibleGtUpgrades().stream()
-                        .filter(upgrade -> upgrade.display)
-                        .map(entry -> entry.toString().substring(0, 1))
-                        .sorted()
-        )
-                .distinct()
-                .collect(Collectors.joining(" "));
+                    .filter(upgrade -> upgrade.display)
+                    .map(entry -> entry.toString().substring(0, 1))
+                    .sorted()
+            )
+            .distinct()
+            .collect(Collectors.joining(" "));
         if (!possibleUpgrades.isEmpty()) tooltip.add(GtLocale.translateTeBlock("info", "possible_upgrades", possibleUpgrades));
     }
 
@@ -246,7 +246,7 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public boolean canUseEnergy(double amount) {
         return getUniversalEnergy() >= amount;
     }
-    
+
     @Override
     public double useEnergy(double amount, boolean simulate) {
         double discharged = super.useEnergy(amount, simulate);
@@ -261,18 +261,18 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
         }
         return 0;
     }
-    
+
     protected boolean canDrainSteam(int requiredAmount) {
         return requiredAmount > 0 && this.steamTank != null && this.steamTank.getFluidAmount() >= requiredAmount;
     }
-    
+
     @Override
     public double getUniversalEnergy() {
         double steam = this.steamTank != null ? SteamHelper.getEUForSteam(this.steamTank.getFluid()) : 0;
         double mj = this.receiver != null ? MjHelper.toEU(this.receiver.getStored()) : 0;
         return Math.max(getStoredEU(), Math.max(steam, mj));
     }
-    
+
     @Override
     public double getUniversalEnergyCapacity() {
         double steam = this.steamTank != null ? SteamHelper.getEUForSteam(this.steamTank.getFluid(), this.steamTank.getCapacity()) : 0;
@@ -284,12 +284,12 @@ public abstract class TileEntityUpgradable extends TileEntityEnergy implements I
     public double getStoredSteam() {
         return this.steamTank != null ? this.steamTank.getFluidAmount() : 0;
     }
-    
+
     @Override
     public int getSteamCapacity() {
         return 10000;
     }
-    
+
     @Override
     public long getStoredMj() {
         return this.hasMjUpgrade ? this.receiver.getStored() : 0;

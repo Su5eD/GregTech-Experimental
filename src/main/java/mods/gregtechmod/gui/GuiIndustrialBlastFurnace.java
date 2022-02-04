@@ -11,10 +11,10 @@ public class GuiIndustrialBlastFurnace extends GuiStructure<ContainerBlastFurnac
 
     public GuiIndustrialBlastFurnace(ContainerBlastFurnace container) {
         super(container);
-        
+
         addElement(new LinkedGauge(this, 58, 28, container.base, "progress", GregtechGauge.BLASTING));
     }
-        
+
     @Override
     protected void doWhenValid() {
         drawString(8, ySize - 103, GtLocale.translateInfo("heat_capacity", this.container.base.getHeatCapacity()), GuiColors.DARK_GRAY, false);

@@ -31,14 +31,14 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     public TileEntityComputerCube() {
         this.module = addComponent(new ComputerCubeModuleComponent(this));
         this.coverBlacklist.addAll(CoverType.VALUES);
-        
+
         setPrivate(true);
     }
-    
+
     public IComputerCubeModule getActiveModule() {
         return this.module.activeModule;
     }
-    
+
     public void switchModule() {
         this.module.activeModule = getNextModule(this.module.activeModule.getName());
         markDirty();
@@ -83,12 +83,12 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     protected Collection<EnumFacing> getSinkSides() {
         return Util.allFacings;
     }
-    
+
     @Override
     public int getBaseSinkTier() {
         return 1;
     }
-    
+
     @Override
     protected int getBaseEUCapacity() {
         return 10000;
@@ -144,11 +144,11 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
 
     @Override
     public void onGuiClosed(EntityPlayer entityPlayer) {}
-    
+
     public static class ComputerCubeModuleComponent extends GtComponentBase {
         @NBTPersistent
         private IComputerCubeModule activeModule = ComputerCubeMain.INSTANCE;
-        
+
         public ComputerCubeModuleComponent(TileEntityComputerCube parent) {
             super(parent);
         }

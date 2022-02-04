@@ -10,7 +10,7 @@ public class GuiIndustrialGrinder extends GuiStructure<ContainerIndustrialGrinde
 
     public GuiIndustrialGrinder(ContainerIndustrialGrinder container) {
         super(container);
-        
+
         addElement(new LinkedGauge(this, 58, 24, container.base, "progress", GregtechGauge.MACERATING));
         addElement(new LinkedGauge(this, 33, 33, container.base, "water_level", GregtechGauge.WATER_LEVEL));
     }

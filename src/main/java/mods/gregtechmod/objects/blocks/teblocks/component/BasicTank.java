@@ -21,17 +21,17 @@ public class BasicTank extends GtComponentBase {
     public final InvSlotConsumableLiquid inputSlot;
     public final InvSlotOutput outputSlot;
     private final boolean slowProcessing;
-    
+
     private int tickCounter;
-    
+
     public <T extends TileEntityBlock & IInventorySlotHolder<?> & ICoverable> BasicTank(T parent, int capacity, Fluids fluidComponent) {
         this(parent, fluidComponent, getDefaultFluidTank(parent, capacity, Util.allFacings, Util.allFacings), InvSlotConsumableLiquid.OpType.Both, true);
     }
-    
+
     public <T extends TileEntityBlock & IInventorySlotHolder<?> & ICoverable> BasicTank(T parent, Fluids fluidComponent, GtFluidTank tank, InvSlotConsumableLiquid.OpType opType, boolean slowProcessing) {
         this(parent, fluidComponent, tank, fluidTank -> new InvSlotConsumableLiquidByTank(parent, "tankInputSlot", InvSlot.Access.I, 1, InvSlot.InvSide.NOTSIDE, opType, fluidTank), slowProcessing);
     }
-    
+
     public <T extends TileEntityBlock & IInventorySlotHolder<?> & ICoverable> BasicTank(T parent, Fluids fluidComponent, GtFluidTank tank, Function<GtFluidTank, InvSlotConsumableLiquid> inputSlotFactory, boolean slowProcessing) {
         super(parent);
         this.content = tank;
@@ -40,11 +40,11 @@ public class BasicTank extends GtComponentBase {
         this.outputSlot = new InvSlotOutput(parent, "tankOutputSlot", 1);
         this.slowProcessing = slowProcessing;
     }
-    
+
     private static GtFluidTank getDefaultFluidTank(ICoverable parent, int capacity, Collection<EnumFacing> inputSides, Collection<EnumFacing> outputSides) {
         return new GtFluidTank(parent, "content", inputSides, outputSides, fluid -> true, capacity);
     }
-    
+
     @Override
     public boolean enableWorldTick() {
         return !this.parent.getWorld().isRemote;
@@ -53,7 +53,7 @@ public class BasicTank extends GtComponentBase {
     @Override
     public void onWorldTick() {
         if (this.slowProcessing && this.tickCounter++ % 10 != 0) return;
-        
+
         this.inputSlot.processIntoTank(this.content, this.outputSlot);
         this.inputSlot.processFromTank(this.content, this.outputSlot);
     }

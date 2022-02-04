@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ItemStackModificator {
-    
+
     public static void init() {
         modifyBlockHardnessAndResistance();
         modifyItemMaxStacksize();
@@ -63,19 +63,19 @@ public class ItemStackModificator {
     private static void addJackHammerMinableBlocks() {
         Collection<ItemStack> blocks = Stream.of(
                 Stream.of(
-                        Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.END_STONE,
-                        Blocks.GLOWSTONE, Blocks.NETHER_BRICK,  Blocks.RED_NETHER_BRICK, Blocks.END_BRICKS
+                    Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE, Blocks.NETHERRACK, Blocks.END_STONE,
+                    Blocks.GLOWSTONE, Blocks.NETHER_BRICK, Blocks.RED_NETHER_BRICK, Blocks.END_BRICKS
                 ).map(ItemStack::new),
                 Stream.of(
-                        Blocks.STONE, Blocks.SANDSTONE, ModHandler.ic2ItemApi.getBlock("foam"), ModHandler.ic2ItemApi.getBlock("wall")
+                    Blocks.STONE, Blocks.SANDSTONE, ModHandler.ic2ItemApi.getBlock("foam"), ModHandler.ic2ItemApi.getBlock("wall")
                 ).map(block -> new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE)),
                 Stream.of(
-                        IC2Items.getItem("resource", "reinforced_stone"), IC2Items.getItem("glass", "reinforced"),
-                        IC2Items.getItem("reinforced_door"), IC2Items.getItem("resource", "basalt")
+                    IC2Items.getItem("resource", "reinforced_stone"), IC2Items.getItem("glass", "reinforced"),
+                    IC2Items.getItem("reinforced_door"), IC2Items.getItem("resource", "basalt")
                 )
-        )
-                .flatMap(Function.identity())
-                .collect(Collectors.toList());
+            )
+            .flatMap(Function.identity())
+            .collect(Collectors.toList());
         GregTechAPI.instance().addJackHammerMinableBlocks(blocks);
     }
 }

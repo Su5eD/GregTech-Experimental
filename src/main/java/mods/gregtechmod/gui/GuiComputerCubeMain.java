@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiComputerCubeMain extends GuiInventory<ContainerComputerCube> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("computer_cube_main");
-    
+
     public GuiComputerCubeMain(ContainerComputerCube container) {
         super(container);
     }
@@ -14,7 +14,7 @@ public class GuiComputerCubeMain extends GuiInventory<ContainerComputerCube> {
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        
+
         drawString(64, 61, "G.L.A.D.-OS", GuiColors.WHITE, false);
     }
 

@@ -33,7 +33,7 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
         }
         return false;
     }
-    
+
     public boolean addOutput(FluidStack stack) {
         if (stack != null) {
             if (GtUtil.STEAM_PREDICATE.test(stack.getFluid()) ? this.mode.outputsSteam : this.mode.outputsLiquids) {
@@ -65,19 +65,19 @@ public class TileEntityHatchOutput extends TileEntityHatchIO {
         I_ONLY(false, false, true),
         L_ONLY(false, true, false),
         NOTHING(false, false, false);
-        
+
         public final boolean outputsSteam;
         public final boolean outputsLiquids;
         public final boolean outputsItems;
-        
+
         private static final Mode[] VALUES = values();
-        
+
         Mode(boolean outputsSteam, boolean outputsLiquids, boolean outputsItems) {
             this.outputsSteam = outputsSteam;
             this.outputsLiquids = outputsLiquids;
             this.outputsItems = outputsItems;
         }
-        
+
         public Mode next() {
             return VALUES[(ordinal() + 1) % VALUES.length];
         }

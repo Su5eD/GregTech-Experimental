@@ -23,21 +23,21 @@ import java.util.Map;
 
 public class ModelTeBlock extends ModelBase {
     private final Map<EnumFacing, ResourceLocation> textures;
-    
+
     //Block face UVs in DUNSWE order
     public static final float[][] BLOCK_FACE_UVS = new float[][] {
-            { 0, 16, 16, 0 },
-            { 0, 0, 16, 16 },
-            { 0, 0, 16, 16 },
-            { 0, 0, 16, 16 },
-            { 0, 0, 16, 16 },
-            { 0, 0, 16, 16 }
+        { 0, 16, 16, 0 },
+        { 0, 0, 16, 16 },
+        { 0, 0, 16, 16 },
+        { 0, 0, 16, 16 },
+        { 0, 0, 16, 16 },
+        { 0, 0, 16, 16 }
     };
 
     public ModelTeBlock(ResourceLocation particle, Map<EnumFacing, ResourceLocation> textures) {
         this(particle, Collections.singletonList(textures));
     }
-    
+
     public ModelTeBlock(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
         super(particle, textures, false);
         this.textures = textures.get(0);
@@ -59,7 +59,7 @@ public class ModelTeBlock extends ModelBase {
         for (EnumFacing side : EnumFacing.VALUES) {
             EnumFacing rotatedSide = rotateSide(verticalRotation, face, side, covers);
             TextureAtlasSprite sprite = getSpriteFromDirection(face, side, rotatedSide, state, covers);
-            faceQuads.put(side, Collections.singletonList(getQuad(new Vector3f(0,0,0), new Vector3f(16, side == EnumFacing.DOWN ? 0 : 16,16), side, face, sprite)));
+            faceQuads.put(side, Collections.singletonList(getQuad(new Vector3f(0, 0, 0), new Vector3f(16, side == EnumFacing.DOWN ? 0 : 16, 16), side, face, sprite)));
         }
 
         return new SimpleBakedModel(Collections.emptyList(), faceQuads, true, true, getParticleTexture(), ItemCameraTransforms.DEFAULT, ItemOverrideList.NONE);
@@ -68,7 +68,7 @@ public class ModelTeBlock extends ModelBase {
     private BakedQuad getQuad(Vector3f from, Vector3f to, EnumFacing direction, EnumFacing facing, TextureAtlasSprite sprite) {
         return bakery.makeBakedQuad(from, to, new BlockPartFace(direction, 0, this.textures.get(direction).toString(), new BlockFaceUV(BLOCK_FACE_UVS[direction.getIndex()], getTextureRotation(direction, facing))), sprite, direction, ModelRotation.X0_Y0, null, true, true);
     }
-    
+
     private static int getTextureRotation(EnumFacing side, EnumFacing facing) {
         if (Util.verticalFacings.contains(side)) {
             if (facing == EnumFacing.NORTH) return 180;
@@ -77,13 +77,13 @@ public class ModelTeBlock extends ModelBase {
         }
         return 0;
     }
-    
+
     protected VerticalRotation getVerticalRotation(Ic2BlockStateInstance state) {
         return state.hasValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) ? state.getValue(PropertyHelper.VERTICAL_ROTATION_PROPERTY) : VerticalRotation.MIRROR_BACK;
     }
 
     /**
-     * @param side the side to get the texture for
+     * @param side        the side to get the texture for
      * @param rotatedSide the current side relative to the block's facing
      * @return the side's texture depending on the block's facing
      */
@@ -91,31 +91,31 @@ public class ModelTeBlock extends ModelBase {
         TextureMap map = Minecraft.getMinecraft().getTextureMapBlocks();
 
         if (covers.containsKey(side)) return map.getAtlasSprite(covers.get(rotatedSide).toString());
-        
+
         PropertyHelper.AnimationSpeed prop = state.getValue(PropertyHelper.ANIMATION_SPEED_PROPERTY);
         if (prop != null && prop.getSides().contains(rotatedSide) && prop.getValue() > 1) {
             return map.getAtlasSprite(this.textures.get(rotatedSide).toString() + prop.getValue());
         }
-        
+
         PropertyHelper.TextureOverride overrides = state.getValue(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY);
         if (overrides != null) {
             EnumFacing actualSide = overrides.isAbsolute() ? side : rotatedSide;
             if (overrides.hasOverride(actualSide)) return map.getAtlasSprite(overrides.getTextureOverride(actualSide).toString());
         }
-        
+
         EnumFacing outputSide = state.getValue(PropertyHelper.OUTPUT_SIDE_PROPERTY);
         if (outputSide != null && outputSide == side) {
             String textureName = side == EnumFacing.DOWN ? "bottom" : side == EnumFacing.UP ? "top" : "side";
             return map.getAtlasSprite(String.format("%s:blocks/machines/machine_%s_pipe", Reference.MODID, textureName));
         }
-        
+
         return getSprite(face, side, rotatedSide, state);
     }
-    
+
     protected TextureAtlasSprite getSprite(EnumFacing face, EnumFacing side, EnumFacing rotatedSide, Ic2BlockStateInstance state) {
         return this.sprites.get(this.textures.get(rotatedSide));
     }
-    
+
     private static EnumFacing rotateSide(VerticalRotation behavior, EnumFacing face, EnumFacing side, Map<EnumFacing, ResourceLocation> covers) {
         if (!covers.containsKey(side) && face != EnumFacing.NORTH) {
             if (face == side) return EnumFacing.NORTH;
@@ -127,7 +127,7 @@ public class ModelTeBlock extends ModelBase {
                 else return face.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? side.rotateY().getOpposite() : side.rotateY();
             }
         }
-        
+
         return side;
     }
 }

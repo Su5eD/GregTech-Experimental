@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/dictionaries/
+/httpRequests/
+
+*.xml
+!/codeStyles/*
+!/inspectionProfiles/*

@@ -6,7 +6,7 @@ import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicTank;
 import mods.gregtechmod.util.GtLocale;
 
 public class GuiGasTurbine extends GuiFluidGenerator {
-    
+
     public GuiGasTurbine(ContainerBasicTank<TileEntityFluidGenerator> container, GtFluidTank fluidTank) {
         super(container, fluidTank);
     }

@@ -67,9 +67,9 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(GtLocale.translateInfo("tier", this.tier));
         this.perks.stream()
-                .map(perk -> "armor.perk." + perk.name().toLowerCase(Locale.ROOT) + ".name")
-                .map(GtLocale::translateItem)
-                .forEach(tooltip::add);
+            .map(perk -> "armor.perk." + perk.name().toLowerCase(Locale.ROOT) + ".name")
+            .map(GtLocale::translateItem)
+            .forEach(tooltip::add);
     }
 
     @Override

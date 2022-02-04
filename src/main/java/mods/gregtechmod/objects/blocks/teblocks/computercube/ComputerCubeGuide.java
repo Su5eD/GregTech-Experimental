@@ -55,7 +55,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
     public void previousPage() {
         switchPage(-1);
     }
-    
+
     public void switchPage(int step) {
         this.currentPage = (PAGES.size() + this.currentPage + step) % PAGES.size();
     }
@@ -164,7 +164,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
             this.length = length;
             this.stacks = stacks;
         }
-        
+
         public static void register() {
             StreamEx.of(values())
                 .mapToEntry(page -> page.stacks.get()

@@ -23,16 +23,16 @@ public class TileEntityLargeGasTurbine extends TileEntityTurbineBase {
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         Block casing = BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance();
         return new StructureElementGatherer(this::getWorld)
-                .block('C', casing)
-                .block('R', casing)
-                .id('H', builder -> builder
-                        .block(casing)
-                        .tileEntity(TileEntityHatchInput.class, 1)
-                        .tileEntity(TileEntityHatchOutput.class)
-                        .tileEntity(TileEntityHatchMaintenance.class, 1)
-                        .tileEntity(TileEntityHatchMuffler.class, 1))
-                .tileEntity('D', TileEntityHatchDynamo.class, 1)
-                .gather();
+            .block('C', casing)
+            .block('R', casing)
+            .id('H', builder -> builder
+                .block(casing)
+                .tileEntity(TileEntityHatchInput.class, 1)
+                .tileEntity(TileEntityHatchOutput.class)
+                .tileEntity(TileEntityHatchMaintenance.class, 1)
+                .tileEntity(TileEntityHatchMuffler.class, 1))
+            .tileEntity('D', TileEntityHatchDynamo.class, 1)
+            .gather();
     }
 
     @Override

@@ -10,9 +10,9 @@ public class ContainerDestructorpack extends ContainerHandHeldInventory<HandHeld
 
     public ContainerDestructorpack(EntityPlayer player, HandHeldDestructorPack inventory) {
         super(inventory);
-        
+
         addPlayerInventorySlots(player, 166);
-        
+
         addSlotToContainer(new Slot(DummyInventory.INSTANCE, -1, 80, 17));
     }
 

@@ -42,15 +42,15 @@ public class PropertyHelper {
     public static class TextureOverride {
         private final Map<EnumFacing, ResourceLocation> overrides;
         private final boolean absolute;
-        
+
         public TextureOverride(ResourceLocation texture) {
             this(StreamEx.of(Util.allFacings).toMap(f -> texture), false);
         }
-        
+
         public TextureOverride(EnumFacing facing, ResourceLocation texture) {
             this(facing, texture, false);
         }
-        
+
         public TextureOverride(EnumFacing facing, ResourceLocation texture, boolean absolute) {
             this(Collections.singletonMap(facing, texture), absolute);
         }
@@ -63,7 +63,7 @@ public class PropertyHelper {
         public boolean hasOverride(EnumFacing side) {
             return this.overrides.containsKey(side);
         }
-        
+
         public boolean isAbsolute() {
             return this.absolute;
         }
@@ -79,22 +79,22 @@ public class PropertyHelper {
 
         public DimensionalTextureInfo(Map<EnumFacing, EnumFacing> sideOverrides, DimensionType dimension) {
             this.sideOverrides = sideOverrides;
-             this.dimension = dimension;
+            this.dimension = dimension;
         }
     }
-    
+
     public enum VerticalRotation {
         MIRROR_BACK((face, side) -> side == EnumFacing.NORTH ? EnumFacing.SOUTH : side),
         ROTATE_X((face, side) -> {
             EnumFacing target = face == EnumFacing.UP ? EnumFacing.NORTH : EnumFacing.SOUTH;
-            
+
             if (side == target) return face.getOpposite();
             else if (side == target.getOpposite()) return face;
             else if (side == face.getOpposite()) return EnumFacing.SOUTH;
-            
+
             return side;
         });
-        
+
         public final BiFunction<EnumFacing, EnumFacing, EnumFacing> rotation;
 
         VerticalRotation(BiFunction<EnumFacing, EnumFacing, EnumFacing> rotation) {

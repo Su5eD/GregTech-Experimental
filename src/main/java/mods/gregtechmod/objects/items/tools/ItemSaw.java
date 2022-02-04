@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class ItemSaw extends ItemToolCrafting {
 
     public ItemSaw(String material, int durability, int efficiency, int entityDamage) {
-        super("saw_"+material, "saw", durability, entityDamage, 1);
+        super("saw_" + material, "saw", durability, entityDamage, 1);
         this.efficiency = efficiency;
         setHarvestLevel("axe", 2);
     }

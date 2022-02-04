@@ -30,10 +30,10 @@ public class ItemSolderingTool extends ItemElectricBase implements ISolderingToo
 
     public ItemStack findSolderingMetal(EntityPlayer player) {
         return IntStream.range(0, player.inventory.getSizeInventory())
-                .mapToObj(player.inventory::getStackInSlot)
-                .filter(stack -> stack.getItem() instanceof ISolderingMetal)
-                .findFirst()
-                .orElse(null);
+            .mapToObj(player.inventory::getStackInSlot)
+            .filter(stack -> stack.getItem() instanceof ISolderingMetal)
+            .findFirst()
+            .orElse(null);
     }
 
     @Override

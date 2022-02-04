@@ -10,9 +10,9 @@ public class ContainerMatterFabricator extends ContainerGtInventory<TileEntityMa
 
     public ContainerMatterFabricator(EntityPlayer player, TileEntityMatterFabricator base) {
         super(player, base);
-        
+
         addSlotsToContainer(2, 4, 8, 14, base.amplifierSlot);
-        
+
         addSlotToContainer(new SlotInvSlot(base.output, 0, 128, 14));
     }
 

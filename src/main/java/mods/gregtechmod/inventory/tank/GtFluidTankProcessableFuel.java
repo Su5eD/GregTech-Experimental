@@ -8,7 +8,7 @@ import net.minecraft.util.EnumFacing;
 import java.util.Collection;
 
 public class GtFluidTankProcessableFuel<FM extends IFuelManagerFluid<?>> extends GtFluidTank {
-    
+
     public GtFluidTankProcessableFuel(ICoverable parent, String identifier, FM fuelManager, int capacity) {
         this(parent, identifier, fuelManager, Util.allFacings, Util.allFacings, capacity);
     }

@@ -9,7 +9,7 @@ public class ContainerHatchMaintenance extends ContainerGtInventory<TileEntityHa
 
     public ContainerHatchMaintenance(EntityPlayer player, TileEntityHatchMaintenance base) {
         super(player, base);
-        
+
         addSlotToContainer(SlotInteractive.serverOnly(80, 35, (click, stack) -> {
             if (!stack.isEmpty()) {
                 this.base.onToolClick(stack, player);

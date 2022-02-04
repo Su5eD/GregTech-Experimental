@@ -26,8 +26,8 @@ public class CategoryChemicalReactor extends CategoryBase<RecipeChemical, Wrappe
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(GuiChemicalReactor.TEXTURE, 69, 15, 37, 47)
-                .addPadding(10, 32, 69, 69)
-                .build();
+            .addPadding(10, 32, 69, 69)
+            .build();
     }
 
     @Override

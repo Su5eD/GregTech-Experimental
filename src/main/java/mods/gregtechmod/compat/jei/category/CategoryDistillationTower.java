@@ -26,15 +26,15 @@ public class CategoryDistillationTower extends CategoryBase<RecipeDistillation, 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(GuiDistillationTower.TEXTURE, 61, 4, 54, 72)
-                        .addPadding(0, 17, 65, 55)
-                        .build();
+            .addPadding(0, 17, 65, 55)
+            .build();
     }
 
     @Override
     protected Collection<?> getRecipes() {
         return ElectrolyzerRecipeFactory.INSTANCE.getCellularRecipes(GtRecipes.distillation, true);
     }
-    
+
     @Override
     public void init(IModRegistry registry) {
         super.init(registry);

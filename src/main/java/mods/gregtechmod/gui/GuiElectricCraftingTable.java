@@ -13,21 +13,21 @@ public class GuiElectricCraftingTable extends GuiSimple<ContainerElectricCraftin
 
     public GuiElectricCraftingTable(ContainerElectricCraftingTable container) {
         super(container);
-        
+
         addIconCycle(120, 4, TEXTURE, 0, 184, container.base::getThroughPutMode);
         addIconCycle(120, 40, TEXTURE, 0, 166, container.base::getCraftingMode);
-        
+
         addElement(new BoundedFluidSlot(this, 135, 22, container.base.tank, BOUNDS, true));
     }
 
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        
+
         if (this.container.base.tank.isEmpty()) {
             drawColoredRect(136, 23, 16, 16, GuiColors.SLOT_BACKGROUND);
         }
-        
+
         GlStateManager.translate(0, 0, 1);
         drawTexturedRect(136, 23, 16, 16, 176, 0);
         GlStateManager.translate(0, 0, -1);
@@ -36,7 +36,7 @@ public class GuiElectricCraftingTable extends GuiSimple<ContainerElectricCraftin
     @Override
     protected void drawForegroundLayer(int mouseX, int mouseY) {
         super.drawForegroundLayer(mouseX, mouseY);
-        
+
         if (this.container.base.getCraftingMode() != TileEntityElectricCraftingTable.CraftingMode.PATTERN) {
             GlStateManager.translate(0, 0, 300);
             drawRect(64, 6, 114, 56, 0x80000000);

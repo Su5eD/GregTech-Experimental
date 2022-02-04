@@ -30,8 +30,8 @@ public class CategoryImplosionCompressor extends CategoryBase<RecipeImplosion, W
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(GuiImplosionCompressor.TEXTURE, 33, 15, 88, 46)
-                .addPadding(10, 33, 43, 43)
-                .build();
+            .addPadding(10, 33, 43, 43)
+            .build();
     }
 
     @Override

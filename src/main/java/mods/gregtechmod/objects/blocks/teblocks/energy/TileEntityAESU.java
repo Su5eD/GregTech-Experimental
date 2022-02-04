@@ -22,7 +22,7 @@ import java.util.Set;
 public class TileEntityAESU extends TileEntityChargerBase {
     @NBTPersistent
     public int outputVoltage;
-    
+
     public final int maxOutputVoltage = GregTechMod.classic ? 2048 : 8192;
 
     @Override

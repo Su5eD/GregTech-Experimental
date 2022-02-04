@@ -27,7 +27,7 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IC
     public String getTranslationKey() {
         return GtLocale.translateItem(this.name);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {

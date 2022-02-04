@@ -9,7 +9,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import one.util.streamex.IntStreamEx;
 
 public class GtSlot extends InvSlot {
-    
+
     public GtSlot(IInventorySlotHolder<?> base, String name, Access access, int count) {
         super(base, name, access, count);
     }
@@ -18,23 +18,23 @@ public class GtSlot extends InvSlot {
     public boolean accepts(ItemStack stack) {
         return this.access.isInput();
     }
-    
+
     @Override
     public void onChanged() {
         ((TileEntityAutoNBT) this.base).onInventoryChanged();
     }
-    
+
     public boolean canAdd(ItemStack stack) {
         ItemStack existing = get();
         return !stack.isEmpty() && (existing.isEmpty() || ItemHandlerHelper.canItemStacksStack(existing, stack) && GtUtil.canGrowStack(existing, stack));
     }
-    
+
     public boolean add(ItemStack stack) {
         return IntStreamEx.range(0, size())
-                .findFirst(i -> add(i, stack))
-                .isPresent();
+            .findFirst(i -> add(i, stack))
+            .isPresent();
     }
-    
+
     public boolean add(int index, ItemStack stack) {
         if (isEmpty(index)) {
             put(index, stack);

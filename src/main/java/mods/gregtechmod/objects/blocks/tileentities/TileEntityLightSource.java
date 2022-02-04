@@ -10,14 +10,14 @@ public class TileEntityLightSource extends TileEntity implements ITickable {
     @Override
     public void update() {
         if (!this.world.isRemote) {
-             boolean remove = true;
-             if (++tickTimer%20 == 0) {
-                 for (EntityPlayer player : this.world.playerEntities) {
-                     if (player.getPosition().up() == this.pos) remove = false;
-                 }
+            boolean remove = true;
+            if (++tickTimer % 20 == 0) {
+                for (EntityPlayer player : this.world.playerEntities) {
+                    if (player.getPosition().up() == this.pos) remove = false;
+                }
 
-                 if (remove) this.world.setBlockToAir(this.pos);
-             }
+                if (remove) this.world.setBlockToAir(this.pos);
+            }
         }
     }
 }

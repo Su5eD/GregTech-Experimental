@@ -19,19 +19,19 @@ public class SlotInteractive extends Slot implements ISlotInteractive {
         this.onSlotClick = onSlotClick;
         this.serverOnly = serverOnly;
     }
-    
+
     public static SlotInteractive serverOnly(int x, int y, Runnable onSlotClick) {
         return serverOnly(x, y, click -> onSlotClick.run());
     }
-    
+
     public static SlotInteractive serverOnly(int x, int y, Consumer<ButtonClick> onSlotClick) {
         return serverOnly(x, y, (click, stack) -> onSlotClick.accept(click));
     }
-    
+
     public static SlotInteractive serverOnly(int x, int y, BiConsumer<ButtonClick, ItemStack> onSlotClick) {
         return new SlotInteractive(x, y, true, onSlotClick);
     }
-    
+
     public static SlotInteractive bothSides(int x, int y, Runnable onSlotClick) {
         return new SlotInteractive(x, y, false, (click, stack) -> onSlotClick.run());
     }

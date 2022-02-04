@@ -77,14 +77,16 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
                     }
                     if (isFilledBucket(input)) {
                         this.inputSlot.put(new ItemStack(Items.BUCKET));
-                    } else if (cells > 0) {
+                    }
+                    else if (cells > 0) {
                         int cellsFromInputSlot = isIC2Cell(input.getItem()) ? Math.min(recipe.getCells(), cells) : 0;
                         this.inputSlot.consume(cells, false, true);
                         this.cellSlot.consume(recipe.getCells() - cellsFromInputSlot);
                         if (addCellsToOutput(ItemHandlerHelper.copyStackWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.DISSOLVE) this.maxProgress *= 1.5;
                         return;
                     }
-                } else if (input.getCount() == 1) {
+                }
+                else if (input.getCount() == 1) {
                     IFluidHandler handler = FluidUtil.getFluidHandler(input);
                     if (handler != null) {
                         int drain = mb;
@@ -98,13 +100,15 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
                         handler.drain(drain, true);
                     }
                 }
-            } else this.tank.drainInternal(mb, true);
-        } else {
+            }
+            else this.tank.drainInternal(mb, true);
+        }
+        else {
             this.consumeInput(recipe, true);
         }
         this.cellSlot.consume(recipe.getCells());
     }
-    
+
     public static boolean isIC2Cell(Item item) {
         return item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic;
     }
@@ -123,7 +127,8 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
             Item item = input.getItem();
             output.add(new ItemStack(item instanceof ItemCellClassic ? ModHandler.emptyCell.getItem() : item, input.getCount()));
             return CellAdditionResult.ADD;
-        } else {
+        }
+        else {
             for (ItemStack stack : output) {
                 if (stack.isItemEqual(IC2Items.getItem("ingot", "tin"))) {
                     stack.grow(getTinForCells(input));

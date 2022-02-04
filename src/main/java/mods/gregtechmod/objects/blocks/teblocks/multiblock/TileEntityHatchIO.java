@@ -37,7 +37,7 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
         GtFluidTank fluidTank = new DynamicGtFluidTank(this, "content", isInput ? facingPredicate : JavaUtil.alwaysFalse(), isOutput ? facingPredicate : JavaUtil.alwaysFalse(), JavaUtil.alwaysTrue(), 16000);
         this.tank = addComponent(new BasicTank(this, fluids, fluidTank, t -> new HatchTankInputSlot(opType, t), false));
         this.wildcardInput = wildcardInput;
-        
+
         this.coverBlacklist.add(CoverType.GENERIC);
         this.coverBlacklist.add(CoverType.ENERGY);
     }
@@ -61,7 +61,7 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
     public ContainerHatchIO getGuiContainer(EntityPlayer player) {
         return new ContainerHatchIO(player, this);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
@@ -70,7 +70,7 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
 
     @Override
     public void onGuiClosed(EntityPlayer entityPlayer) {}
-    
+
     private class HatchTankInputSlot extends InvSlotConsumableLiquidByTank {
 
         public HatchTankInputSlot(OpType opType, IFluidTank tank) {

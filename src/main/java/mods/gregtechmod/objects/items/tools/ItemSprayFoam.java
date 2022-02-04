@@ -61,12 +61,12 @@ public class ItemSprayFoam extends ItemToolCrafting {
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (world.isRemote || player.isSneaking()) return EnumActionResult.PASS;
-        
+
         ItemStack stack = player.inventory.getCurrentItem();
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityCable) {
-            if (!((TileEntityCable)tileEntity).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
-                ((TileEntityCable)tileEntity).foam();
+            if (!((TileEntityCable) tileEntity).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
+                ((TileEntityCable) tileEntity).foam();
                 return EnumActionResult.SUCCESS;
             }
             return EnumActionResult.PASS;
@@ -78,9 +78,11 @@ public class ItemSprayFoam extends ItemToolCrafting {
         EnumFacing facing;
         if (rotationpitch >= 65) {
             facing = EnumFacing.UP;
-        } else if (rotationpitch <= -65) {
+        }
+        else if (rotationpitch <= -65) {
             facing = EnumFacing.DOWN;
-        } else {
+        }
+        else {
             switch (MathHelper.floor(player.rotationYaw * 4F / 360F + 0.5) & 3) {
                 case 0:
                     facing = EnumFacing.NORTH;

@@ -52,7 +52,7 @@ public class TileEntityIDSU extends TileEntityChargerBase {
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiIDSU(getGuiContainer(player));
     }
-    
+
     public class IDSUEnergy extends DynamicAdjustableEnergy {
 
         @Override

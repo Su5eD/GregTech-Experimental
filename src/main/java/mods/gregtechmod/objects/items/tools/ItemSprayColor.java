@@ -59,10 +59,10 @@ public class ItemSprayColor extends ItemToolCrafting {
                     int meta = block.getMetaFromState(state);
                     int targetMeta = this.color.getMetadata();
                     if (block != Blocks.WOOL) targetMeta = 15 - targetMeta;
-                    
+
                     if (meta != targetMeta) {
                         if (GtUtil.damageStack(player, stack, 1)) world.setBlockState(pos, block.getStateFromMeta(targetMeta));
-                        
+
                         return EnumActionResult.SUCCESS;
                     }
                 }

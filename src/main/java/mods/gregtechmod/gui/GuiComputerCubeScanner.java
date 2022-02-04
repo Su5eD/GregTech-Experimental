@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiComputerCubeScanner extends GuiInventory<ContainerComputerCubeScanner> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("computer_cube_scanner");
-    
+
     private ComputerCubeScanner module;
-    
+
     public GuiComputerCubeScanner(ContainerComputerCubeScanner container) {
         super(container);
     }
@@ -19,18 +19,19 @@ public class GuiComputerCubeScanner extends GuiInventory<ContainerComputerCubeSc
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        
+
         IComputerCubeModule newModule = this.container.base.getActiveModule();
         if (newModule instanceof ComputerCubeScanner) this.module = (ComputerCubeScanner) newModule;
-        
+
         if (this.module != null) {
             int progress = this.module.getProgress();
-            
+
             drawString(51, 7, GtLocale.translate("computercube.scanner.title"), GuiColors.WHITE, false);
             if (progress == 0) {
                 drawString(51, 24, GtLocale.translate("computercube.scanner.usage"), GuiColors.WHITE, false);
                 drawString(51, 32, GtLocale.translate("computercube.scanner.usage.2"), GuiColors.WHITE, false);
-            } else {
+            }
+            else {
                 drawString(51, 24, GtLocale.translateInfo("progress"), GuiColors.WHITE, false);
                 drawString(51, 32, progress + "%", GuiColors.WHITE, false);
             }

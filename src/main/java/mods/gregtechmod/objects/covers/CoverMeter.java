@@ -25,7 +25,7 @@ public abstract class CoverMeter extends CoverGeneric {
     public void doCoverThings() {
         if (te instanceof IGregTechMachine) {
             int strength = getRedstoneStrength();
-            ((IGregTechMachine)te).setRedstoneOutput(side, mode == MeterMode.NORMAL ? strength : 15 - strength);
+            ((IGregTechMachine) te).setRedstoneOutput(side, mode == MeterMode.NORMAL ? strength : 15 - strength);
         }
     }
 
@@ -35,7 +35,7 @@ public abstract class CoverMeter extends CoverGeneric {
         GtUtil.sendMessage(player, mode.getMessageKey());
         return true;
     }
-    
+
     public abstract int getRedstoneStrength();
 
     public enum MeterMode {

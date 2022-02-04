@@ -21,15 +21,15 @@ public class CategoryIndustrialBlastFurnace extends CategoryBase<RecipeBlastFurn
 
     public CategoryIndustrialBlastFurnace(IGuiHelper guiHelper) {
         super("industrial_blast_furnace", RecipeBlastFurnace.class, WrapperIndustrialBlastFurnace::new, guiHelper);
-        
+
         gauge = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.BLASTING);
     }
 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(GuiIndustrialBlastFurnace.TEXTURE, 33, 15, 88, 39)
-                .addPadding(7, 43, 43, 43)
-                .build();
+            .addPadding(7, 43, 43, 43)
+            .build();
     }
 
     @Override

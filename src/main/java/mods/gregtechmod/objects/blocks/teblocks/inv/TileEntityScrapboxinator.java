@@ -17,8 +17,8 @@ public class TileEntityScrapboxinator extends TileEntityElectricBufferSingle {
 
     public TileEntityScrapboxinator() {
         super(1);
-        
-        this.scrapSlot = new GtSlotFiltered(this, "scrap", InvSlot.Access.I, 1, stack -> stack.isItemEqual(ModHandler.scrapbox) || stack.isItemEqual(ModHandler.scrap)); 
+
+        this.scrapSlot = new GtSlotFiltered(this, "scrap", InvSlot.Access.I, 1, stack -> stack.isItemEqual(ModHandler.scrapbox) || stack.isItemEqual(ModHandler.scrap));
     }
 
     @Override
@@ -38,8 +38,8 @@ public class TileEntityScrapboxinator extends TileEntityElectricBufferSingle {
 
     @Override
     protected void work() {
-        if (canUseEnergy(500) && (this.tickCounter % 200 == 0 || this.success > 0 && this.tickCounter % 5 == 0 || this.success >= 20) 
-                && this.buffer.isEmpty() && !this.scrapSlot.isEmpty()
+        if (canUseEnergy(500) && (this.tickCounter % 200 == 0 || this.success > 0 && this.tickCounter % 5 == 0 || this.success >= 20)
+            && this.buffer.isEmpty() && !this.scrapSlot.isEmpty()
         ) {
             ItemStack scrap = this.scrapSlot.get();
             boolean isScrapbox = scrap.isItemEqual(ModHandler.scrapbox);
@@ -53,7 +53,7 @@ public class TileEntityScrapboxinator extends TileEntityElectricBufferSingle {
                 }
             }
         }
-        
+
         super.work();
     }
 

@@ -35,17 +35,17 @@ public class DummyWorld extends World {
     protected boolean isChunkLoaded(int x, int z, boolean allowEmpty) {
         return false;
     }
-    
+
     private static class DummyWorldProvider extends WorldProvider {
-        
+
         @Override
         public DimensionType getDimensionType() {
             return DimensionType.OVERWORLD;
         }
     }
-    
+
     private static class DummySaveHandler implements ISaveHandler {
-        
+
         @Nullable
         @Override
         public WorldInfo loadWorldInfo() {

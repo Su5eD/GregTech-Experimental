@@ -15,7 +15,7 @@ public class SlotInvSlotSizeFilter extends SlotInvSlotHolo {
     @Override
     public boolean slotClick(ButtonClick click, EntityPlayer player, ItemStack stack) {
         ItemStack content = getStack();
-        
+
         if (click == ButtonClick.SHIFT_MOVE) putStack(ItemStack.EMPTY);
         else if (!content.isEmpty()) {
             if (click == ButtonClick.MOUSE_LEFT) content.shrink(1);
@@ -24,7 +24,7 @@ public class SlotInvSlotSizeFilter extends SlotInvSlotHolo {
         else if (!stack.isEmpty()) {
             putStack(stack.isItemDamaged() ? GtUtil.copyWithoutDamage(stack, stack.getCount()) : stack.copy());
         }
-        
+
         return true;
     }
 }

@@ -162,8 +162,8 @@ public class CoverGeneric implements ICover {
         String path = name.getPath();
 
         return namespace.equals(Reference.MODID) && path.startsWith("plate") ||
-               namespace.equals("ic2") && !ModHandler.getVariantSafely(ItemName.plate, stack).isEmpty() ||
-               StackUtil.checkItemEquality(stack, ItemName.crafting.getItemStack(CraftingItemType.iridium));
+            namespace.equals("ic2") && !ModHandler.getVariantSafely(ItemName.plate, stack).isEmpty() ||
+            StackUtil.checkItemEquality(stack, ItemName.crafting.getItemStack(CraftingItemType.iridium));
     }
 
     private String getCoverName(ItemStack stack) {
@@ -175,7 +175,7 @@ public class CoverGeneric implements ICover {
             }
             else return item.getRegistryName().getPath().substring(6); //GT plate
         }
-        
+
         return "";
     }
 

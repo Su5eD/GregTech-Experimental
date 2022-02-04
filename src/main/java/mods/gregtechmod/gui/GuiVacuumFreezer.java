@@ -10,7 +10,7 @@ public class GuiVacuumFreezer extends GuiStructure<ContainerVacuumFreezer> {
 
     public GuiVacuumFreezer(ContainerVacuumFreezer container) {
         super(container);
-        
+
         addElement(new LinkedGauge(this, 58, 28, container.base, "progress", GregtechGauge.FREEZING));
     }
 

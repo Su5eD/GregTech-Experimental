@@ -18,9 +18,9 @@ public class SlotArmor extends Slot {
     public int getSlotStackLimit() {
         return 1;
     }
-    
+
     @Override
     public boolean isItemValid(ItemStack stack) {
-        return !stack.isEmpty() && stack.getItem().isValidArmor(stack, this.armorType, ((InventoryPlayer)this.inventory).player);
+        return !stack.isEmpty() && stack.getItem().isValidArmor(stack, this.armorType, ((InventoryPlayer) this.inventory).player);
     }
 }

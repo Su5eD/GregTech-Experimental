@@ -14,15 +14,12 @@ import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.InvUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,7 +31,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     private GameProfile owner;
     @NBTPersistent
     private boolean isPrivate;
-    
+
     public final SidedRedstoneEmitter rsEmitter;
     @NBTPersistent
     private boolean enableWorking = true;
@@ -51,9 +48,9 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {
         super.onPlaced(stack, placer, facing);
-        
+
         if (placer instanceof EntityPlayer && !this.world.isRemote) setOwner(((EntityPlayer) placer).getGameProfile());
-        
+
         for (TileEntityComponent component : getComponents()) {
             if (component instanceof GtComponentBase) ((GtComponentBase) component).onPlaced(stack, placer, facing);
         }
@@ -64,35 +61,35 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         if (!this.world.isRemote) {
             ItemStack stack = player.inventory.getCurrentItem();
             if (player.isSneaking()) return false;
-            else if (beforeActivated(stack, player, side, hitX, hitY, hitZ) 
-                    || this.coverHandler.covers.containsKey(side) 
-                    && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
-            
+            else if (beforeActivated(stack, player, side, hitX, hitY, hitZ)
+                || this.coverHandler.covers.containsKey(side)
+                && this.coverHandler.covers.get(side).onCoverRightClick(player, hand, side, hitX, hitY, hitZ)) return true;
+
             for (ICover cover : this.coverHandler.covers.values()) {
                 if (!cover.opensGui(side)) return true;
             }
-            
+
             for (TileEntityComponent component : this.getComponents()) {
                 if (component instanceof GtComponentBase && ((GtComponentBase) component).onActivated(player, hand, side, hitX, hitY, hitZ)) return true;
             }
         }
-        
+
         if (!checkAccess(player)) {
             GtUtil.sendMessage(player, GtLocale.buildKeyInfo("access_error"), owner.getName());
             return true;
         }
-        
+
         return onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
-    
+
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
-    
+
     public boolean checkAccess(EntityPlayer player) {
         return checkAccess(player.getGameProfile());
     }
-    
+
     public boolean checkAccess(GameProfile profile) {
         return !this.isPrivate || this.owner == null || this.owner.equals(profile);
     }
@@ -100,7 +97,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         for (ICover cover : this.coverHandler.covers.values()) {
             int tickRate = cover.getTickRate();
             if (tickRate > 0 && this.tickCounter % tickRate == 0) cover.doCoverThings();
@@ -119,17 +116,18 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
             if (targetSlot != null && targetSlot.canInput() && targetSlot.accepts(stack)) {
                 if (targetSlot.preferredSide != InvSlot.InvSide.ANY && !strictInputSides() || targetSlot.preferredSide.matches(side)) {
                     return true;
-                } else {
+                }
+                else {
                     return InvUtil.getInvSlots(this).stream()
-                            .allMatch(invSlot -> invSlot == targetSlot || invSlot.preferredSide == InvSlot.InvSide.ANY 
-                                    || !checkDynamicInvSide(invSlot.preferredSide, side) || !invSlot.canInput() || !invSlot.accepts(stack));
+                        .allMatch(invSlot -> invSlot == targetSlot || invSlot.preferredSide == InvSlot.InvSide.ANY
+                            || !checkDynamicInvSide(invSlot.preferredSide, side) || !invSlot.canInput() || !invSlot.accepts(stack));
                 }
             }
         }
 
         return false;
     }
-    
+
     private boolean checkDynamicInvSide(InvSlot.InvSide invSide, EnumFacing side) {
         return invSide == GtUtil.INV_SIDE_NS ? getFacing().getAxis() == side.getAxis() : invSide.matches(side);
     }
@@ -198,9 +196,9 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         getScanInfoPost(scan, player, pos, scanLevel);
         return scan;
     }
-    
+
     public void getScanInfoPre(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
-    
+
     public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
 
     @Override
@@ -238,7 +236,7 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
     public boolean isAllowedToWork() {
         return this.enableWorking;
     }
-    
+
     @Nullable
     public GameProfile getOwner() {
         return this.owner;

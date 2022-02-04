@@ -35,23 +35,25 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        return beforeActivated(player.inventory.getCurrentItem(), player, side, hitX, hitY, hitZ) 
+        return beforeActivated(player.inventory.getCurrentItem(), player, side, hitX, hitY, hitZ)
             || super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
-    
+
     protected boolean beforeActivated(ItemStack stack, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (CoverGeneric.isGenericCover(stack)) {
             placeCover(Cover.GENERIC, player, side, stack);
             return true;
-        } else if (CoverVent.isVent(stack)) {
+        }
+        else if (CoverVent.isVent(stack)) {
             placeCover(Cover.VENT, player, side, stack);
             return true;
-        } else if (GtUtil.isScrewdriver(stack)) {
+        }
+        else if (GtUtil.isScrewdriver(stack)) {
             return onScrewdriverActivated(stack, side, player, hitX, hitY, hitZ);
         }
         return attemptUseCrowbar(stack, side, player);
     }
-    
+
     protected boolean onScrewdriverActivated(ItemStack stack, EnumFacing side, EntityPlayer player, float hitX, float hitY, float hitZ) {
         ICover existing = getCoverAtSide(side);
         if (existing != null) {
@@ -60,7 +62,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
                 return true;
             }
         }
-        
+
         ICover cover = Cover.NORMAL.instance.get().constructCover(side, this, ItemStack.EMPTY);
         return placeCoverAtSide(cover, player, side, false);
     }
@@ -95,7 +97,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
         Ic2BlockStateInstance ret = state.withProperty(PropertyHelper.VERTICAL_ROTATION_PROPERTY, getVerticalRotation());
         return this.coverHandler != null ? ret.withProperty(CoverHandler.COVER_HANDLER_PROPERTY, this.coverHandler) : ret;
     }
-    
+
     protected VerticalRotation getVerticalRotation() {
         return VerticalRotation.MIRROR_BACK;
     }
@@ -104,7 +106,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
     public ICover getCoverAtSide(EnumFacing side) {
         return this.coverHandler.covers.get(side);
     }
-    
+
     @Override
     public void getNetworkedFields(List<? super String> list) {
         list.add("coverHandler");

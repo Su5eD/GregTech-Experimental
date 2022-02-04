@@ -27,10 +27,10 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
 
     public TileEntityChargeOMat() {
         this.chargeSlots = Stream.generate(() -> new GtSlotChargeHybrid(this, "charge", getSourceTier(), this::isRedstonePowered))
-                .limit(9)
-                .peek(this::addChargingSlot)
-                .peek(this::addDischargingSlot)
-                .toArray(GtSlotChargeHybrid[]::new);
+            .limit(9)
+            .peek(this::addChargingSlot)
+            .peek(this::addDischargingSlot)
+            .toArray(GtSlotChargeHybrid[]::new);
         this.outputSlot = new InvSlotOutput(this, "output", 9);
         this.energyCapacityTooltip = true;
     }
@@ -38,7 +38,7 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         if (this.tickCounter % 20 == 0) {
             EntityPlayer player = this.world.getClosestPlayer(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5, 3, false);
             if (player != null) {
@@ -46,45 +46,46 @@ public class TileEntityChargeOMat extends TileEntityEnergy implements IHasGui {
                 int sourceTier = getSourceTier();
                 int tier = Math.max(sinkTier, sourceTier);
                 boolean discharge = isRedstonePowered();
-                
+
                 for (int i = 0; i < tier; i++) {
                     player.inventory.armorInventory.stream()
-                            .filter(stack -> stack.getItem() instanceof IElectricItem)
-                            .forEach(stack -> {
-                                if (discharge) {
-                                    double demandedEnergy = Math.min(getEUCapacity() - getStoredEU(), getMaxInputEUp());
-                                    if (demandedEnergy > 0) {
-                                        double decharged = ElectricItem.manager.discharge(stack, demandedEnergy, sinkTier, false, false, false);
-                                        addEnergy(decharged);
-                                    }
-                                } else {
-                                    double storedEU = getStoredEU();
-                                    if (storedEU > 0) {
-                                        double charged = ElectricItem.manager.charge(stack, storedEU, sourceTier, false, false);
-                                        useEnergy(charged);
-                                    }
+                        .filter(stack -> stack.getItem() instanceof IElectricItem)
+                        .forEach(stack -> {
+                            if (discharge) {
+                                double demandedEnergy = Math.min(getEUCapacity() - getStoredEU(), getMaxInputEUp());
+                                if (demandedEnergy > 0) {
+                                    double decharged = ElectricItem.manager.discharge(stack, demandedEnergy, sinkTier, false, false, false);
+                                    addEnergy(decharged);
                                 }
-                            });
+                            }
+                            else {
+                                double storedEU = getStoredEU();
+                                if (storedEU > 0) {
+                                    double charged = ElectricItem.manager.charge(stack, storedEU, sourceTier, false, false);
+                                    useEnergy(charged);
+                                }
+                            }
+                        });
                 }
             }
         }
-        
+
         if (this.tickCounter % 100 == 0) {
             for (GtSlotChargeHybrid slot : this.chargeSlots) {
                 ItemStack stack = slot.get();
 
                 if (!stack.isEmpty()) {
                     IElectricItem item = (IElectricItem) stack.getItem();
-                    
+
                     if (isRedstonePowered() && (!item.canProvideEnergy(stack) || ElectricItem.manager.discharge(stack, 1000000, getSinkTier(), true, true, true) <= 0)
-                            || ElectricItem.manager.charge(stack, 1000000, getSourceTier(), true, true) <= 0) {
+                        || ElectricItem.manager.charge(stack, 1000000, getSourceTier(), true, true) <= 0) {
                         moveToOutputSlot(slot, stack);
                     }
                 }
             }
         }
     }
-    
+
     private void moveToOutputSlot(InvSlot slot, ItemStack stack) {
         for (int i = 0; i < this.outputSlot.size(); i++) {
             if (this.outputSlot.isEmpty(i)) {

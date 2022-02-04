@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 public class GtSlotProcessableFuel extends InvSlotConsumableLiquid {
     private final IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager;
-    
+
     public GtSlotProcessableFuel(IInventorySlotHolder<?> parent, String name, IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager) {
         super(parent, name, Access.I, 1, InvSide.TOP, OpType.Both);
         this.fuelManager = fuelManager;

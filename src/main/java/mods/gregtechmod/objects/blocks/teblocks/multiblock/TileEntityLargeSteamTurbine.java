@@ -21,28 +21,28 @@ public class TileEntityLargeSteamTurbine extends TileEntityTurbineBase {
     public TileEntityLargeSteamTurbine() {
         super(GtFuels.steam);
     }
-    
+
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
-                Arrays.asList(
-                        "RRR",
-                        "CHC",
-                        "CHC",
-                        "CCC"
-                ),
-                Arrays.asList(
-                        "RXR",
-                        "H H",
-                        "H H",
-                        "CDC"
-                ),
-                Arrays.asList(
-                        "RRR",
-                        "CHC",
-                        "CHC",
-                        "CCC"
-                )
+            Arrays.asList(
+                "RRR",
+                "CHC",
+                "CHC",
+                "CCC"
+            ),
+            Arrays.asList(
+                "RXR",
+                "H H",
+                "H H",
+                "CDC"
+            ),
+            Arrays.asList(
+                "RRR",
+                "CHC",
+                "CHC",
+                "CCC"
+            )
         );
     }
 
@@ -50,24 +50,24 @@ public class TileEntityLargeSteamTurbine extends TileEntityTurbineBase {
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         Block casing = BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance();
         return new StructureElementGatherer(this::getWorld)
-                .block('C', casing)
-                .block('R', casing)
-                .id('H', builder -> builder
-                        .block(casing)
-                        .tileEntity(TileEntityHatchInput.class, 1)
-                        .tileEntity(TileEntityHatchOutput.class)
-                        .tileEntity(TileEntityHatchMaintenance.class, 1))
-                .tileEntity('D', TileEntityHatchDynamo.class, 1)
-                .gather();
+            .block('C', casing)
+            .block('R', casing)
+            .id('H', builder -> builder
+                .block(casing)
+                .tileEntity(TileEntityHatchInput.class, 1)
+                .tileEntity(TileEntityHatchOutput.class)
+                .tileEntity(TileEntityHatchMaintenance.class, 1))
+            .tileEntity('D', TileEntityHatchDynamo.class, 1)
+            .gather();
     }
-    
+
     @Override
     public void processFuel(MultiBlockInstance instance, IFuel<IRecipeIngredient> fuel) {
         this.fuelEnergy = fuel.getEnergy();
         this.maxProgress = 1;
         super.processFuel(instance, fuel);
     }
-    
+
     @Override
     public int getPollutionPerTick(ItemStack stack) {
         return 0;

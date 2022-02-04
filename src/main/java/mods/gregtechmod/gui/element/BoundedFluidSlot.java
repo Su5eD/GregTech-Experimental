@@ -11,7 +11,7 @@ public class BoundedFluidSlot extends CustomFluidSlot {
 
     public BoundedFluidSlot(GuiIC2<?> gui, int x, int y, IFluidTank tank, int[][] bounds, boolean verboseTooltip) {
         super(gui, x, y, tank, verboseTooltip);
-        
+
         this.bounds = bounds;
     }
 

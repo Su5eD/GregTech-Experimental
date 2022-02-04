@@ -18,7 +18,7 @@ public final class RetrogenHandler {
     public static final String RETRO_NAME = "GregTechOreGen";
     public static final RetrogenHandler INSTANCE = new RetrogenHandler();
     public TIntObjectHashMap<ArrayDeque<ChunkPos>> chunksToGen = new TIntObjectHashMap<>();
-    
+
     @SubscribeEvent
     public void tickEnd(TickEvent.WorldTickEvent event) {
         if (event.side == Side.SERVER && event.phase == TickEvent.Phase.END) {
@@ -35,7 +35,8 @@ public final class RetrogenHandler {
                 rand.setSeed(xSeed * c.x + zSeed * c.z ^ worldSeed);
                 OreGenerator.INSTANCE.generateWorld(rand, c.x, c.z, world, false);
                 this.chunksToGen.put(dimension, chunks);
-            } else if (chunks != null) {
+            }
+            else if (chunks != null) {
                 this.chunksToGen.remove(dimension);
             }
         }
@@ -64,7 +65,8 @@ public final class RetrogenHandler {
                 GregTechMod.LOGGER.debug("Queuing Retrogen for chunk: " + coord + ".");
                 regen = true;
             }
-        } else {
+        }
+        else {
             regen = GregTechConfig.WORLDGEN.retrogen;
         }
 

@@ -4,10 +4,10 @@ import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricBufferLarg
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerElectricBufferLarge extends ContainerElectricBuffer<TileEntityElectricBufferLarge> {
-    
+
     public ContainerElectricBufferLarge(EntityPlayer player, TileEntityElectricBufferLarge base) {
         super(player, base);
-        
+
         addSlotsToContainer(3, 9, 8, 5, base.buffer);
     }
 }

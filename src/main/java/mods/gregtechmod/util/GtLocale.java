@@ -6,7 +6,7 @@ import net.minecraft.client.resources.I18n;
 import one.util.streamex.StreamEx;
 
 public final class GtLocale {
-    
+
     private GtLocale() {}
 
     public static String translateTeBlock(TileEntityAutoNBT te, String key, Object... parameters) {
@@ -48,7 +48,7 @@ public final class GtLocale {
     public static String translateItem(String key, Object... parameters) {
         return I18n.format(buildKeyItem(key), parameters);
     }
-    
+
     public static String translateKey(String... paths) {
         return I18n.format(buildKey(paths));
     }
@@ -56,29 +56,29 @@ public final class GtLocale {
     public static String translate(String key, Object... parameters) {
         return I18n.format(Reference.MODID + "." + key, parameters);
     }
-    
+
     public static String buildKeyTeBlock(TileEntityAutoNBT teBlock, String... paths) {
         return buildKey(paths, "teblock", teBlock.getTeBlock().getName());
     }
-    
+
     public static String buildKeyInfo(String... paths) {
         return buildKey(paths, "info");
     }
-    
+
     public static String buildKeyItem(INamedItem item, String... paths) {
         return buildKeyItem(item.getName(), paths);
     }
-    
+
     public static String buildKeyItem(String item, String... paths) {
         return buildKey(paths, "item", item);
     }
-    
+
     public static String buildKey(String... paths) {
         return StreamEx.of(Reference.MODID)
             .append(paths)
             .joining(".");
     }
-    
+
     private static String buildKey(String[] args, String... paths) {
         return StreamEx.of(Reference.MODID)
             .append(paths)

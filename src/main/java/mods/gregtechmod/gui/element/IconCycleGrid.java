@@ -10,7 +10,7 @@ public class IconCycleGrid extends IconCycle {
 
     public IconCycleGrid(GuiIC2<?> gui, int x, int y, ResourceLocation texture, int textureX, int textureY, int step, int height, boolean vertical, IntSupplier xValueSupplier, IntSupplier yValueSupplier) {
         super(gui, x, y, texture, textureX, textureY, step, height, vertical, xValueSupplier);
-        
+
         this.yValueSupplier = yValueSupplier;
     }
 

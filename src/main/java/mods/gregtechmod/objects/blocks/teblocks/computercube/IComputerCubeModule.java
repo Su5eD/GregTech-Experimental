@@ -16,7 +16,7 @@ public interface IComputerCubeModule {
      * @return send a network update to the client
      */
     boolean updateServer();
-    
+
     ContainerBase<?> getGuiContainer(EntityPlayer player, TileEntityComputerCube base);
 
     @SideOnly(Side.CLIENT)

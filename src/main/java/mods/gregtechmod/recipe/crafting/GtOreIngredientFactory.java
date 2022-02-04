@@ -15,7 +15,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class GtOreIngredientFactory implements IIngredientFactory {
-    
+
     @Nonnull
     @Override
     public Ingredient parse(JsonContext context, JsonObject json) {

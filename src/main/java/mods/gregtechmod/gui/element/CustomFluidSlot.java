@@ -18,14 +18,14 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
     private final double textureX;
     private final double textureY;
     private final boolean verboseTooltip;
-    
+
     public CustomFluidSlot(GuiIC2<?> gui, int x, int y, IFluidTank tank, boolean verboseTooltip) {
         this(gui, x, y, tank, null, 0, 0, verboseTooltip);
     }
 
     public CustomFluidSlot(GuiIC2<?> gui, int x, int y, IFluidTank tank, @Nullable ResourceLocation texture, double textureX, double textureY, boolean verboseTooltip) {
         super(gui, x, y, 18, 18);
-        
+
         this.tank = tank;
         this.texture = texture;
         this.textureX = textureX;
@@ -39,7 +39,7 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
             bindTexture(this.texture);
             this.gui.drawTexturedRect(this.x, this.y, this.width, this.height, this.textureX, this.textureY);
         }
-        
+
         FluidStack fs = this.tank.getFluid();
         if (fs != null && fs.amount > 0) {
             Fluid fluid = fs.getFluid();
@@ -58,7 +58,7 @@ public class CustomFluidSlot extends GuiElement<CustomFluidSlot> {
             if (fluid != null) {
                 ret.add(fluid.getLocalizedName(stack));
                 if (!this.verboseTooltip) return ret;
-                
+
                 ret.add(GtLocale.translateInfo("fluid.amount", stack.amount));
                 String type = stack.getFluid().isGaseous() ? "gas" : "liquid";
                 ret.add(GtLocale.translateInfo("fluid.type", GtLocale.translateInfo("fluid.type." + type)));

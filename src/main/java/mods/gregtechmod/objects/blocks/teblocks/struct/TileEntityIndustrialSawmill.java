@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TileEntityIndustrialSawmill extends TileEntityStructureFluid<Object, IRecipeUniversal<List<IRecipeIngredient>>, IGtRecipeManagerSecondaryFluid<IRecipeUniversal<List<IRecipeIngredient>>>> {
-    
+
     public TileEntityIndustrialSawmill() {
         super(2, GtRecipes.industrialSawmill);
     }
@@ -36,25 +36,25 @@ public class TileEntityIndustrialSawmill extends TileEntityStructureFluid<Object
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
-                Arrays.asList(
-                        "SSS",
-                        "SDS",
-                        "SSS"
-                ),
-                Arrays.asList(
-                        "   ",
-                        " X ",
-                        "   "
-                )
+            Arrays.asList(
+                "SSS",
+                "SDS",
+                "SSS"
+            ),
+            Arrays.asList(
+                "   ",
+                " X ",
+                "   "
+            )
         );
     }
-    
+
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
-                .block('D', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
-                .gather();
+            .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+            .block('D', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
+            .gather();
     }
 
     @Override

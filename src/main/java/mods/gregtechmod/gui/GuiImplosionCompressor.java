@@ -10,7 +10,7 @@ public class GuiImplosionCompressor extends GuiStructure<ContainerImplosionCompr
 
     public GuiImplosionCompressor(ContainerImplosionCompressor container) {
         super(container);
-        
+
         addElement(new LinkedGauge(this, 58, 28, container.base, "progress", GregtechGauge.IMPLODING));
     }
 

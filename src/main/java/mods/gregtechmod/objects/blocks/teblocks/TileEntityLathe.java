@@ -37,7 +37,8 @@ public class TileEntityLathe extends TileEntityBasicMachineSingleInput<IMachineR
             if (this.queueOutputSlot.canAdd(output.get(0)) && (output.size() <= 1 || this.outputSlot.canAdd(output.get(1)))) {
                 this.outputBlocked = false;
                 return recipe;
-            } else this.outputBlocked = true;
+            }
+            else this.outputBlocked = true;
         }
         return null;
     }

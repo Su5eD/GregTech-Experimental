@@ -7,7 +7,7 @@ public abstract class GuiElectricBuffer<T extends ContainerElectricBuffer<? exte
 
     public GuiElectricBuffer(T container) {
         super(container);
-        
+
         addVerticalIconCycle(7, 62, 58, () -> container.base.outputEnergy);
         addVerticalIconCycle(25, 62, 130, () -> container.base.redstoneIfFull);
         addVerticalIconCycle(43, 62, 148, () -> container.base.invertRedstone);

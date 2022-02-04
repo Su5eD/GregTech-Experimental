@@ -16,7 +16,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ItemCover extends ItemBase {
     private final ICoverProvider coverProvider;
-    
+
     public ItemCover(String name, ICoverProvider coverProvider, String descriptionKey) {
         super(name, () -> GtLocale.translateItemDescription(descriptionKey));
         this.coverProvider = coverProvider;
@@ -27,10 +27,10 @@ public class ItemCover extends ItemBase {
         if (!player.isSneaking()) {
             TileEntity block = world.getTileEntity(pos);
             ItemStack stack = player.inventory.getCurrentItem();
-            
+
             if (block instanceof ICoverable) {
                 ICover cover = this.coverProvider.constructCover(side, (ICoverable) block, ItemHandlerHelper.copyStackWithSize(stack, 1));
-                if (((ICoverable)block).placeCoverAtSide(cover, player, side, false)) {
+                if (((ICoverable) block).placeCoverAtSide(cover, player, side, false)) {
                     if (!player.capabilities.isCreativeMode) stack.shrink(1);
                     return EnumActionResult.SUCCESS;
                 }

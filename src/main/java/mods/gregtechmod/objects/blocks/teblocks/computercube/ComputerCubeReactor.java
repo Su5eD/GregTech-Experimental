@@ -124,9 +124,11 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
                                 if (influence > 0 && influence < 1) multiplier *= influence;
                                 else this.explosionStrength += influence;
-                            } else if (GtUtil.containsStack(stack, DEPLETED_ITEMS)) {
+                            }
+                            else if (GtUtil.containsStack(stack, DEPLETED_ITEMS)) {
                                 stopNuclearReactor();
-                            } else {
+                            }
+                            else {
                                 this.content.put(x + y * 9, ItemStack.EMPTY);
                             }
                         }

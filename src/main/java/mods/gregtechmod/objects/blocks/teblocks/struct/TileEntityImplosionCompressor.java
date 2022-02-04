@@ -24,7 +24,7 @@ import java.util.*;
 
 public class TileEntityImplosionCompressor extends TileEntityStructureBase<Object, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, List<IRecipeIngredient>, List<ItemStack>, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>> {
     public final GtSlotProcessableImplosion secondaryInput;
-    
+
     public TileEntityImplosionCompressor() {
         super(2, GtRecipes.implosion);
         this.secondaryInput = new GtSlotProcessableImplosion(this, "itnt_input", 1);
@@ -43,36 +43,36 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
-                Arrays.asList(
-                        "SRS",
-                        "RRR",
-                        "SRS"
-                ),
-                Arrays.asList(
-                        "RRR",
-                        "RAR",
-                        "RRR"
-                ),
-                Arrays.asList(
-                        "SRS",
-                        "RRR",
-                        "SRS"
-                ),
-                Arrays.asList(
-                        "   ",
-                        " X ",
-                        "   "
-                )
+            Arrays.asList(
+                "SRS",
+                "RRR",
+                "SRS"
+            ),
+            Arrays.asList(
+                "RRR",
+                "RAR",
+                "RRR"
+            ),
+            Arrays.asList(
+                "SRS",
+                "RRR",
+                "SRS"
+            ),
+            Arrays.asList(
+                "   ",
+                " X ",
+                "   "
+            )
         );
     }
-    
+
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
-                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
-                .block('A', Blocks.AIR)
-                .gather();
+            .block('S', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance())
+            .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
+            .block('A', Blocks.AIR)
+            .gather();
     }
 
     @Override

@@ -14,22 +14,22 @@ import java.util.*;
 
 public class TileEntityTesseractGenerator extends TileEntityTesseract {
     private static final Map<Integer, TileEntityTesseractGenerator> TESSERACTS = new HashMap<>();
-    
+
     private final Set<TileEntityTesseractTerminal> connections = new HashSet<>();
-    
+
     private int isWorking;
     private int energyConsumption;
 
     public TileEntityTesseractGenerator() {
         this.frequencyMessageTesseractGlobal = true;
-        
+
         setPrivate(true);
     }
-    
+
     public static TileEntityTesseractGenerator getTesseract(int frequency, World world, GameProfile owner) {
         return getTesseract(frequency, world, owner, false);
     }
-    
+
     public static TileEntityTesseractGenerator getTesseract(int frequency, World world, GameProfile owner, boolean workIrrelevant) {
         TileEntityTesseractGenerator generator = TESSERACTS.get(frequency);
         if (generator == null || generator.isInvalid(owner, workIrrelevant) || !GregTechConfig.MACHINES.TESSERACT.interdimensional && generator.world != world) return null;
@@ -64,7 +64,7 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
     private boolean isInvalid(GameProfile owner, boolean workIrrelevant) {
         return isInvalid() || !isAllowedToWork() || owner != null && !checkAccess(owner) || !workIrrelevant && this.isWorking < 20;
     }
-    
+
     public boolean ensureConnection(TileEntityTesseractTerminal terminal) {
         if (isAllowedToWork()) {
             if (this.connections.contains(terminal)) {
@@ -79,32 +79,32 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
         }
         return false;
     }
-    
+
     private void disconnect() {
         this.connections.clear();
         this.energyConsumption = 0;
     }
-    
+
     public void disconnectTerminal(TileEntityTesseractTerminal terminal) {
         this.connections.remove(terminal);
         updateEnergyConsumption();
     }
-    
+
     private void unregister() {
         disconnect();
         TESSERACTS.remove(this.frequency);
     }
 
     private int getEnergyConsumption(TileEntityTesseractTerminal terminal) {
-        return terminal.getWorld() == this.world 
-                ? GregTechConfig.MACHINES.TESSERACT.energyPerTick 
-                : GregTechConfig.MACHINES.TESSERACT.interDimensionalEnergyPerTick;
+        return terminal.getWorld() == this.world
+            ? GregTechConfig.MACHINES.TESSERACT.energyPerTick
+            : GregTechConfig.MACHINES.TESSERACT.interDimensionalEnergyPerTick;
     }
-    
+
     private void updateEnergyConsumption() {
         this.energyConsumption = this.connections.stream().mapToInt(this::getEnergyConsumption).sum();
     }
-    
+
     public TileEntity getTargetTileEntity() {
         BlockPos pos = this.pos.offset(getFacing().getOpposite());
         return this.world.getTileEntity(pos);
@@ -113,18 +113,19 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         TileEntityTesseractGenerator gen = TESSERACTS.get(this.frequency);
         if (isAllowedToWork() && tryUseEnergy(this.energyConsumption)) {
             if (gen == null || gen.isInvalid(null, true)) {
                 TESSERACTS.put(this.frequency, this);
             }
         }
-        
+
         if (TESSERACTS.get(this.frequency) == this) {
             if (this.isWorking <= 20) ++this.isWorking;
             if (this.isWorking == 20) updateRender();
-        } else {
+        }
+        else {
             this.isWorking = 0;
         }
     }
@@ -148,7 +149,7 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
     public int getSteamCapacity() {
         return getEUCapacity();
     }
-    
+
     @Override
     protected String getExistingTesseractMessage() {
         return "frequency_occupied";

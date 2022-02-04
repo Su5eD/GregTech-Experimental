@@ -14,10 +14,10 @@ import java.util.Set;
 
 public class TileEntityTesseractTerminal extends TileEntityTesseract {
     private static final Set<Capability<?>> ALLOWED_CAPABILITIES = Sets.newHashSet(
-            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
-            CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY
+        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY
     );
-    
+
     public boolean isConnected;
 
     public TileEntityTesseractTerminal() {
@@ -33,7 +33,7 @@ public class TileEntityTesseractTerminal extends TileEntityTesseract {
         TileEntityTesseractGenerator gen = getTesseractGen(false);
         return gen != null ? gen.getTargetTileEntity() : null;
     }
-    
+
     private void disconnect() {
         TileEntityTesseractGenerator gen = getTesseractGen(false);
         if (gen != null) gen.disconnectTerminal(this);
@@ -67,7 +67,7 @@ public class TileEntityTesseractTerminal extends TileEntityTesseract {
             TileEntity target = getTargetGeneratorTE();
             if (target != null) return target.hasCapability(capability, side);
         }
-        
+
         return false;
     }
 
@@ -77,7 +77,7 @@ public class TileEntityTesseractTerminal extends TileEntityTesseract {
             TileEntity target = getTargetGeneratorTE();
             if (target != null) return target.getCapability(capability, side);
         }
-        
+
         return null;
     }
 
@@ -92,7 +92,8 @@ public class TileEntityTesseractTerminal extends TileEntityTesseract {
                     this.isConnected = true;
                     updateRenderNeighbors();
                 }
-            } else if (this.isConnected) {
+            }
+            else if (this.isConnected) {
                 this.isConnected = false;
                 updateRenderNeighbors();
             }

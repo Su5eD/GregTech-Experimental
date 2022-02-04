@@ -14,7 +14,7 @@ public class GeneratorFluidSlot extends CustomFluidSlot {
     @Override
     public void drawBackground(int mouseX, int mouseY) {
         super.drawBackground(mouseX, mouseY);
-        
+
         if (this.tank.getFluid() == null && ((GuiFluidGenerator) this.gui).getContainer().base.getSolidFuelEnergy() > 0) {
             TextureAtlasSprite sprite = getBlockTextureMap().getAtlasSprite("minecraft:blocks/fire_layer_0");
             bindBlockTexture();

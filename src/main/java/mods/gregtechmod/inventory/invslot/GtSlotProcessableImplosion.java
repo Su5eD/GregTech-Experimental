@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public class GtSlotProcessableImplosion extends GtSlotProcessableItemStack<IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>, List<ItemStack>>{
-    
+public class GtSlotProcessableImplosion extends GtSlotProcessableItemStack<IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>>, List<ItemStack>> {
+
     public GtSlotProcessableImplosion(IInventorySlotHolder<?> base, String name, int count) {
         super(base, name, Access.I, count, GtUtil.INV_SIDE_NS, GtRecipes.implosion);
     }

@@ -23,7 +23,7 @@ public class GtRedstoneEmitter extends GtComponentBase {
             ((TileEntityAutoNBT) this.parent).updateRender();
         }
     }
-    
+
     public boolean emitsRedstone() {
         return this.level > 0;
     }

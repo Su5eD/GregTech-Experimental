@@ -45,7 +45,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
         this.content = new GtSlotLargeItemStack(this, "mainSlot", InvSlot.Access.IO);
         this.content.setStackSizeLimit(capacity);
         this.upgradeManager = addComponent(new UpgradeManager(this, () -> {}, (item, player) -> item.afterInsert(this, player), type -> {}));
-        
+
         this.coverBlacklist.add(CoverType.ENERGY);
     }
 
@@ -128,7 +128,7 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             ItemStack output = slot.copy();
             if (player.isSneaking()) output = slot.splitStack(1);
             else output = slot.splitStack(Math.min(64, output.getCount()));
-            EntityItem entityItem = new EntityItem(getWorld(), getPos().getX() + getFacing().getXOffset()+0.5, getPos().getY() + getFacing().getYOffset() + 0.5, getPos().getZ()+getFacing().getZOffset()+0.5, output);
+            EntityItem entityItem = new EntityItem(getWorld(), getPos().getX() + getFacing().getXOffset() + 0.5, getPos().getY() + getFacing().getYOffset() + 0.5, getPos().getZ() + getFacing().getZOffset() + 0.5, output);
             entityItem.motionX = 0;
             entityItem.motionY = 0;
             entityItem.motionZ = 0;
@@ -231,13 +231,15 @@ public abstract class TileEntityDigitalChestBase extends TileEntityCoverBehavior
             if (!simulate) {
                 if (existing.isEmpty()) {
                     content.put(reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, capacity) : stack);
-                } else {
+                }
+                else {
                     content.get().grow(insertCount);
                 }
                 onContentsChanged(slot);
             }
             return ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - insertCount);
         }
+
         @Nonnull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {

@@ -14,9 +14,9 @@ import java.util.List;
  * Used to create covers, providing <code>{@link ICoverable}</code> machines all the information they need
  */
 public interface ICover {
-    
+
     ResourceLocation getName();
-    
+
     /**
      * Ticked every n tick(s), depending on the cover's {@link ICover#getTickRate() tick rate}
      */
@@ -42,6 +42,7 @@ public interface ICover {
 
     /**
      * Declares whether or not can a player access the parent's GUI when activating <b>any of the sides</b>
+     *
      * @param side the activated side
      * @return a <b>condition</b> under which the gui can be accessed. <b>NEVER</b> return <code>true</code> or <code>false</code> as it will break other covers (especially the Screen). For example, <code>side != this.side</code> or <code>side == this.side</code>
      */
@@ -70,7 +71,7 @@ public interface ICover {
 
     @Nonnull
     List<String> getDescription();
-    
+
     CoverType getType();
 
     NBTTagCompound writeToNBT(NBTTagCompound nbt);

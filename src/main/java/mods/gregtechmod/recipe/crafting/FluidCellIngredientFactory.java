@@ -18,7 +18,7 @@ public class FluidCellIngredientFactory implements IIngredientFactory {
     public Ingredient parse(JsonContext context, JsonObject json) {
         String fluidName = JsonUtils.getString(json, "fluid");
         ItemStack fluidCell = ProfileDelegate.getCell(fluidName);
-        
+
         return Ingredient.fromStacks(fluidCell);
     }
 }

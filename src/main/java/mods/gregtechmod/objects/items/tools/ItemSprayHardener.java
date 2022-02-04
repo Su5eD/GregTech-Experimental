@@ -37,7 +37,7 @@ public class ItemSprayHardener extends ItemToolCrafting {
             Method methodChangeFoam = TileEntityCable.class.getDeclaredMethod("changeFoam", classCableFoam, boolean.class);
             methodChangeFoam.setAccessible(true);
             handleChangeFoam = MethodHandles.lookup().unreflect(methodChangeFoam);
-        } catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException e) {
             handleChangeFoam = null;
             cableFoamHardened = null;
             GregTechMod.LOGGER.error("Failed to reflect foam hardening methods", e);
@@ -66,13 +66,14 @@ public class ItemSprayHardener extends ItemToolCrafting {
             if (!block.isAir(state, world, pos)) {
                 ItemStack stack = player.inventory.getCurrentItem();
                 TileEntity te = world.getTileEntity(pos);
-                
+
                 if (te instanceof TileEntityCable) {
                     if (((TileEntityCable) te).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
                         hardenCableFoam(te);
                         return EnumActionResult.SUCCESS;
                     }
-                } else {
+                }
+                else {
                     Item itemFoam = IC2Items.getItem("foam", "normal").getItem();
                     if (block.getRegistryName().equals(itemFoam.getRegistryName())) {
                         if (GtUtil.damageStack(player, stack, 1)) {

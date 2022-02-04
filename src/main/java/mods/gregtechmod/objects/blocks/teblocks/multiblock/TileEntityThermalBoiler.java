@@ -25,21 +25,21 @@ public class TileEntityThermalBoiler extends TileEntityMultiBlockBase<TileEntity
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
-                Arrays.asList(
-                        "CCC",
-                        "CHC",
-                        "CCC"
-                ),
-                Arrays.asList(
-                        "CXC",
-                        "HAH",
-                        "CHC"
-                ),
-                Arrays.asList(
-                        "CCC",
-                        "CHC",
-                        "CCC"
-                )
+            Arrays.asList(
+                "CCC",
+                "CHC",
+                "CCC"
+            ),
+            Arrays.asList(
+                "CXC",
+                "HAH",
+                "CHC"
+            ),
+            Arrays.asList(
+                "CCC",
+                "CHC",
+                "CCC"
+            )
         );
     }
 
@@ -47,14 +47,14 @@ public class TileEntityThermalBoiler extends TileEntityMultiBlockBase<TileEntity
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         Block casing = BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance();
         return new StructureElementGatherer(this::getWorld)
-                .block('C', casing)
-                .id('H', builder -> builder
-                        .block(casing)
-                        .tileEntity(TileEntityHatchInput.class, 1)
-                        .tileEntity(TileEntityHatchOutput.class)
-                        .tileEntity(TileEntityHatchMaintenance.class, 1))
-                .block('A', Blocks.AIR)
-                .gather();
+            .block('C', casing)
+            .id('H', builder -> builder
+                .block(casing)
+                .tileEntity(TileEntityHatchInput.class, 1)
+                .tileEntity(TileEntityHatchOutput.class)
+                .tileEntity(TileEntityHatchMaintenance.class, 1))
+            .block('A', Blocks.AIR)
+            .gather();
     }
 
     @Override
@@ -65,11 +65,11 @@ public class TileEntityThermalBoiler extends TileEntityMultiBlockBase<TileEntity
     @Override
     public IFuel<IRecipeIngredient> getFuel(MultiBlockInstance instance) {
         return getFluidFuel(instance)
-                .orElseGet(() -> instance.getInputItems().stream()
-                        .map(this.fuelManager::getFuel)
-                        .filter(Objects::nonNull)
-                        .findFirst()
-                        .orElse(null));
+            .orElseGet(() -> instance.getInputItems().stream()
+                .map(this.fuelManager::getFuel)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null));
     }
 
     @Override
@@ -83,14 +83,14 @@ public class TileEntityThermalBoiler extends TileEntityMultiBlockBase<TileEntity
     public ItemStack getFuelOutput(IFuel<IRecipeIngredient> fuel) {
         List<ItemStack> output = fuel.getOutput();
         int size = output.size();
-        
+
         if (acceptsMachinePart(this.machinePartSlot.get())) {
             if (size > 1 && this.world.rand.nextInt(1000) < 100) return output.get(1);
             else if (size > 2 && this.world.rand.nextInt(900) < 50) return output.get(2);
             else if (size > 3 && this.world.rand.nextInt(850) < 25) return output.get(3);
         }
-        
-        return size > 0 ? output.get(0) : ItemStack.EMPTY; 
+
+        return size > 0 ? output.get(0) : ItemStack.EMPTY;
     }
 
     @Override

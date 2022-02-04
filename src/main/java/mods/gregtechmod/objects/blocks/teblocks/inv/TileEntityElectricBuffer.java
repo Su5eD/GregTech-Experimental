@@ -23,7 +23,7 @@ import java.util.*;
 
 public abstract class TileEntityElectricBuffer extends TileEntityUpgradable implements IHasGui {
     public static final IUnlistedProperty<Boolean> REDSTONE_TEXTURE_PROPERTY = new UnlistedBooleanProperty("redstoneTextures");
-    
+
     protected final GtRedstoneEmitter emitter;
 
     @NBTPersistent
@@ -39,16 +39,16 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     public TileEntityElectricBuffer() {
         this.emitter = addComponent(new GtRedstoneEmitter(this, () -> updateClientField("emitter")));
     }
-    
+
     protected abstract boolean hasItem();
-    
+
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         if (isAllowedToWork()) work();
     }
-    
+
     protected void work() {
         if (hasItem() && canWork()) {
             this.success--;
@@ -57,11 +57,11 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
                 this.success = getMaxSuccess();
                 useEnergy(cost);
             }
-            
+
             updateRedstone();
         }
     }
-    
+
     protected void updateRedstone() {
         if (this.redstoneIfFull) {
             this.emitter.setLevel(this.invertRedstone ? 0 : 15);
@@ -72,40 +72,41 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
                     break;
                 }
             }
-        } else this.emitter.setLevel(this.invertRedstone ? 15 : 0);
+        }
+        else this.emitter.setLevel(this.invertRedstone ? 15 : 0);
     }
-    
+
     protected boolean canWork() {
         int invSize = getSizeInventory();
         return canUseEnergy(500) && (
-                workJustHasBeenEnabled() 
+            workJustHasBeenEnabled()
                 || this.tickCounter % 200 == 0
                 || this.tickCounter % 5 == 0 && (this.success > 0 || this.tickCounter % 10 == 0 && invSize <= 1)
                 || this.success >= 20
                 || hasInventoryBeenModified()
-            );
+        );
     }
-    
+
     protected int moveItem() {
         return moveItemStack(getNeighborTE(getOppositeFacing()), getOppositeFacing()) * getMoveCostMultiplier();
     }
-    
+
     protected int moveItemStack(TileEntity to, EnumFacing fromSide) {
         return GtUtil.moveItemStack(
-                this, to,
-                fromSide, fromSide.getOpposite(),
-                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1
+            this, to,
+            fromSide, fromSide.getOpposite(),
+            this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1
         );
     }
-    
+
     protected int getMoveCostMultiplier() {
         return getSizeInventory() >= 10 ? 2 : 1;
     }
-    
+
     protected int getMaxSuccess() {
         return 20;
     }
-    
+
     protected int getOverclockerMultiplier() {
         return (int) Math.pow(4, getUpgradeCount(IC2UpgradeType.OVERCLOCKER));
     }
@@ -125,7 +126,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
         }
         return super.onScrewdriverActivated(stack, side, player, hitX, hitY, hitZ);
     }
-    
+
     protected void updateTargetStackSize(EntityPlayer player) {
         this.targetStackSize = (this.targetStackSize + 1) % 64;
         if (this.targetStackSize == 0)
@@ -137,7 +138,7 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     @Override
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
         return super.getExtendedState(state)
-                .withProperty(REDSTONE_TEXTURE_PROPERTY, this.emitter.emitsRedstone());
+            .withProperty(REDSTONE_TEXTURE_PROPERTY, this.emitter.emitsRedstone());
     }
 
     @Override

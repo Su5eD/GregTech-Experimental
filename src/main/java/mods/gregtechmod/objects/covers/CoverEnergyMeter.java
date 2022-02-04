@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class CoverEnergyMeter extends CoverGeneric {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
-    
+
     @NBTPersistent
     protected Mode mode = Mode.UNIVERSAL;
 
@@ -30,38 +30,44 @@ public class CoverEnergyMeter extends CoverGeneric {
         if (te instanceof IElectricMachine) {
             IElectricMachine machine = (IElectricMachine) te;
             byte strength;
-            
+
             if (this.mode == Mode.AVERAGE_EU_IN || this.mode == Mode.AVERAGE_EU_IN_INVERTED) {
                 strength = (byte) (machine.getAverageEUInput() / (machine.getMaxInputEUp() / 15));
-            } else if (this.mode == Mode.AVERAGE_EU_OUT || this.mode == Mode.AVERAGE_EU_OUT_INVERTED) {
+            }
+            else if (this.mode == Mode.AVERAGE_EU_OUT || this.mode == Mode.AVERAGE_EU_OUT_INVERTED) {
                 strength = (byte) (machine.getAverageEUOutput() / (machine.getMaxOutputEUt() / 15));
-            } else {
+            }
+            else {
                 boolean upgradable = machine instanceof IUpgradableMachine;
                 double stored = -1;
                 double capacity = 1;
-                
+
                 if (this.mode == Mode.UNIVERSAL || this.mode == Mode.UNIVERSAL_INVERTED) {
                     stored = upgradable ? ((IUpgradableMachine) machine).getUniversalEnergy() : machine.getStoredEU();
                     capacity = upgradable ? ((IUpgradableMachine) machine).getUniversalEnergyCapacity() : machine.getEUCapacity();
-                } else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
+                }
+                else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
                     stored = machine.getStoredEU();
                     capacity = machine.getEUCapacity();
-                } else if (upgradable) {
+                }
+                else if (upgradable) {
                     if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && ((IUpgradableMachine) machine).hasMjUpgrade()) {
                         stored = ((IUpgradableMachine) machine).getStoredMj();
                         capacity = ((IUpgradableMachine) machine).getMjCapacity();
-                    } else if ((this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) && ((IUpgradableMachine) machine).hasSteamTank()) {
+                    }
+                    else if ((this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) && ((IUpgradableMachine) machine).hasSteamTank()) {
                         stored = ((IUpgradableMachine) machine).getStoredSteam();
                         capacity = ((IUpgradableMachine) machine).getSteamCapacity();
                     }
                 }
-                
+
                 strength = (byte) ((stored + 1) / capacity * 15);
             }
-            
+
             if (strength > 0) {
                 machine.setRedstoneOutput(side, this.mode.inverted ? 15 - strength : strength);
-            } else {
+            }
+            else {
                 machine.setRedstoneOutput(side, this.mode.inverted ? 15 : 0);
             }
         }

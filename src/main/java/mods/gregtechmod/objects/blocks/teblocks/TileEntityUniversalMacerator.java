@@ -30,17 +30,17 @@ public class TileEntityUniversalMacerator extends TileEntityBasicMachineSingleIn
     public static void initMaceratorRecipes() {
         ItemStack gravel = new ItemStack(Blocks.GRAVEL);
         ModHandler.getTEPulverizerRecipes().stream()
-                .filter(recipe -> !recipe.getInput().apply(gravel))
-                .forEach(GtRecipes.pulverizer::addRecipe);
+            .filter(recipe -> !recipe.getInput().apply(gravel))
+            .forEach(GtRecipes.pulverizer::addRecipe);
 
         ModHandler.getRockCrusherRecipes()
-                .forEach(GtRecipes.pulverizer::addRecipe);
+            .forEach(GtRecipes.pulverizer::addRecipe);
 
         StreamSupport.stream(Recipes.macerator.getRecipes().spliterator(), false)
-                .collect(Collectors.toList())
-                .stream()
-                .map(recipe -> RecipePulverizer.create(ModRecipes.convertRecipeInput(recipe.getInput()), new ArrayList<>(recipe.getOutput()), 2, 0, false, false))
-                .forEach(GtRecipes.pulverizer::addRecipe);
+            .collect(Collectors.toList())
+            .stream()
+            .map(recipe -> RecipePulverizer.create(ModRecipes.convertRecipeInput(recipe.getInput()), new ArrayList<>(recipe.getOutput()), 2, 0, false, false))
+            .forEach(GtRecipes.pulverizer::addRecipe);
     }
 
     @Override
@@ -58,7 +58,8 @@ public class TileEntityUniversalMacerator extends TileEntityBasicMachineSingleIn
             IRecipePulverizer recipe = this.recipeManager.getRecipeFor(input);
             if (recipe != null) this.addSecondaryOutput = this.world.rand.nextInt(100) < recipe.getChance();
             return recipe;
-        } else this.outputBlocked = true;
+        }
+        else this.outputBlocked = true;
 
         return null;
     }
@@ -70,7 +71,8 @@ public class TileEntityUniversalMacerator extends TileEntityBasicMachineSingleIn
         if (output.size() > 1 && this.addSecondaryOutput) {
             this.queueOutputSlot.add(stack);
             this.outputSlot.add(output.get(1));
-        } else {
+        }
+        else {
             this.outputSlot.add(stack);
         }
 

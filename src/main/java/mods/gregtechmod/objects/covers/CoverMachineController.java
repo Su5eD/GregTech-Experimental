@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class CoverMachineController extends CoverGeneric {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
-    
+
     @NBTPersistent
     protected ControllerMode mode = ControllerMode.NORMAL;
 
@@ -71,7 +71,7 @@ public class CoverMachineController extends CoverGeneric {
 
     @Override
     public void onCoverRemove() {
-        if (te instanceof IGregTechMachine) ((IGregTechMachine)te).setAllowedToWork(true);
+        if (te instanceof IGregTechMachine) ((IGregTechMachine) te).setAllowedToWork(true);
     }
 
     @Override

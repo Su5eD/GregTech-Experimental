@@ -5,7 +5,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 
 public class ClientProxy {
-    
+
     public void playSound(SoundEvent sound, float pitch) {
         Minecraft minecraft = Minecraft.getMinecraft();
         if (minecraft.world != null && minecraft.player != null) {

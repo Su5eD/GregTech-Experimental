@@ -35,20 +35,21 @@ public class TileEntityLESU extends TileEntityChargerBase {
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         if (this.notify || this.init) {
             if (stepToFindOrCallLESUController(this.world, this.pos, new ArrayList<>()) < 2) {
                 this.storage = 1000000 * stepToGetLESUAmount(this.pos, new ArrayList<>());
-            } else this.storage = 1000000;
-            
+            }
+            else this.storage = 1000000;
+
             this.notify = this.init = false;
             updateClientField("storage");
             updateChargeTier();
-            
+
             updateRenderNeighbors();
         }
     }
-    
+
     private void updateChargeTier() {
         int tier = getSourceTier();
         this.chargeSlot.setTier(tier);
@@ -103,12 +104,12 @@ public class TileEntityLESU extends TileEntityChargerBase {
         int tier = getSourceTier();
         String tierName = tier == 1 ? "lv" : tier == 2 ? "mv" : "hv";
         return super.getExtendedState(state)
-                .withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new PropertyHelper.TextureOverride(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/lesu/lesu_" + tierName + "_out")));
+            .withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new PropertyHelper.TextureOverride(EnumFacing.NORTH, new ResourceLocation(Reference.MODID, "blocks/machines/lesu/lesu_" + tierName + "_out")));
     }
 
     public static int stepToFindOrCallLESUController(World world, BlockPos pos, List<BlockPos> list) {
         list.add(pos);
-        
+
         int controllerCount = 0;
         if (isLESUController(world, pos)) {
             TileEntityLESU te = (TileEntityLESU) world.getTileEntity(pos);
@@ -118,10 +119,10 @@ public class TileEntityLESU extends TileEntityChargerBase {
             }
         }
         controllerCount += Arrays.stream(EnumFacing.VALUES)
-                .map(pos::offset)
-                .filter(offset -> isLESUBlock(world, offset) && !list.contains(offset))
-                .mapToInt(offset -> stepToFindOrCallLESUController(world, offset, list))
-                .sum();
+            .map(pos::offset)
+            .filter(offset -> isLESUBlock(world, offset) && !list.contains(offset))
+            .mapToInt(offset -> stepToFindOrCallLESUController(world, offset, list))
+            .sum();
         return controllerCount;
     }
 
@@ -129,10 +130,10 @@ public class TileEntityLESU extends TileEntityChargerBase {
         list.add(pos);
 
         return Arrays.stream(EnumFacing.VALUES)
-                .map(pos::offset)
-                .filter(offset -> isLESUStorage(this.world, offset) && !list.contains(offset))
-                .mapToInt(offset -> stepToGetLESUAmount(offset, list))
-                .sum() + 1;
+            .map(pos::offset)
+            .filter(offset -> isLESUStorage(this.world, offset) && !list.contains(offset))
+            .mapToInt(offset -> stepToGetLESUAmount(offset, list))
+            .sum() + 1;
     }
 
     public static boolean isLESUBlock(World world, BlockPos pos) {

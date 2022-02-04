@@ -63,7 +63,7 @@ public class BlockOre extends Block implements ICustomItemModel {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        Random rand = world instanceof World ? ((World)world).rand : JavaUtil.RANDOM;
+        Random rand = world instanceof World ? ((World) world).rand : JavaUtil.RANDOM;
         this.loot.accept(fortune, drops, rand);
         if (drops.isEmpty()) drops.add(new ItemStack(this.getItemDropped(state, rand, fortune)));
     }
@@ -82,8 +82,8 @@ public class BlockOre extends Block implements ICustomItemModel {
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer.Builder(this)
-                .add(PropertyHelper.TEXTURE_INDEX_PROPERTY)
-                .build();
+            .add(PropertyHelper.TEXTURE_INDEX_PROPERTY)
+            .build();
     }
 
     @Override

@@ -37,7 +37,7 @@ public class MachineRecipeLoader {
         registerMatterAmplifiers();
         addScrapboxDrops();
         loadRecyclerBlackList();
-        
+
         if (GregTechMod.classic) registerMatterCraftingRecipes();
     }
 
@@ -65,7 +65,7 @@ public class MachineRecipeLoader {
         addMatterRecipe("woodAcacia", new ItemStack(Blocks.LOG2, 8), "   ", "  U", "   ");
         addMatterRecipe("woodDarkOak", new ItemStack(Blocks.LOG2, 8, 1), "   ", "   ", "U  ");
 
-        ItemStack[] input = new ItemStack[]{ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ModHandler.uuMatter, ModHandler.uuMatter, ModHandler.uuMatter};
+        ItemStack[] input = new ItemStack[] { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ModHandler.uuMatter, ModHandler.uuMatter, ModHandler.uuMatter };
         ModHandler.removeCraftingRecipeFromInputs(input);
         IRecipe recipe = ModHandler.getCraftingRecipe(TileEntityAssemblyBench.RECIPES, input);
         if (recipe != null) TileEntityAssemblyBench.RECIPES.remove(recipe);
@@ -73,10 +73,11 @@ public class MachineRecipeLoader {
         ItemStack dustPlutonium = BlockItems.Dust.PLUTONIUM.getItemStack();
         List<Object> pattern;
         if (GregTechAPI.getDynamicConfig("gregtech_recipes", "matterfabricator", true)
-                && GregTechConfig.DISABLED_RECIPES.massFabricator
-                && GregTechConfig.MACHINES.matterFabricationRate >= 10000000) {
+            && GregTechConfig.DISABLED_RECIPES.massFabricator
+            && GregTechConfig.MACHINES.matterFabricationRate >= 10000000) {
             pattern = Arrays.asList("U", "R", 'R', "dustUranium");
-        } else pattern = Arrays.asList("UUU", "URU", "UUU", 'R', "dustUranium");
+        }
+        else pattern = Arrays.asList("UUU", "URU", "UUU", 'R', "dustUranium");
 
         List<Object> patternWithMatter = new ArrayList<>(pattern);
         patternWithMatter.add('U');
@@ -88,7 +89,7 @@ public class MachineRecipeLoader {
 
     private static void registerMatterAmplifiers() {
         GregTechMod.LOGGER.info("Adding matter amplifiers");
-        
+
         addMatterAmplifier("dustElectrotine", 5000);
         addMatterAmplifier("dustTungsten", 50000);
         addMatterAmplifier("dustManganese", 5000);
@@ -109,14 +110,14 @@ public class MachineRecipeLoader {
         addMatterAmplifier("dustPlutonium", 2000000);
         addMatterAmplifier("dustThorium", 500000);
     }
-    
+
     private static void addMatterAmplifier(String ore, int amp) {
         Recipes.matterAmplifier.addRecipe(Recipes.inputFactory.forOreDict(ore), amp, null, true);
     }
 
     private static void addScrapboxDrops() {
         GregTechMod.LOGGER.info("Adding Scrapbox drops");
-        
+
         addScrapboxDrop(IC2Items.getItem("crafting", "scrap"), 200);
         addScrapboxDrop(Items.WOODEN_AXE, 2);
         addScrapboxDrop(Items.WOODEN_SWORD, 2);
@@ -166,14 +167,15 @@ public class MachineRecipeLoader {
         addScrapboxDrop(BlockItems.Dust.SALTPETER, 2);
         addScrapboxDrop(BlockItems.Dust.LAZURITE, 2);
     }
+
     private static void addScrapboxDrop(IItemProvider item, float value) {
         addScrapboxDrop(item.getItemStack(), value);
     }
-    
+
     private static void addScrapboxDrop(Item item, float value) {
         addScrapboxDrop(new ItemStack(item), value);
     }
-    
+
     private static void addScrapboxDrop(ItemStack stack, float value) {
         Recipes.scrapboxDrops.addDrop(stack, value);
     }
@@ -203,7 +205,7 @@ public class MachineRecipeLoader {
             addToRecyclerBlacklist(new ItemStack(Blocks.STONE, 1, OreDictionary.WILDCARD_VALUE));
             addToRecyclerBlacklist(FurnaceRecipes.instance().getSmeltingResult(stone));
             ModHandler.getRecipeOutput(stone, ItemStack.EMPTY, stone, ItemStack.EMPTY, stone)
-                    .ifPresent(MachineRecipeLoader::addToRecyclerBlacklist);
+                .ifPresent(MachineRecipeLoader::addToRecyclerBlacklist);
             if (ModHandler.buildcraftTransport) {
                 addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_stone_item"));
                 addToRecyclerBlacklist(ModHandler.getModItem("buildcrafttransport", "pipe_cobble_item"));
@@ -237,7 +239,7 @@ public class MachineRecipeLoader {
 
     private static void addMatterRecipe(String name, int count, Object... pattern) {
         OreDictUnificator.getFirstOre(name, count)
-                .ifPresent(output -> addMatterRecipe(name, output, pattern));
+            .ifPresent(output -> addMatterRecipe(name, output, pattern));
     }
 
     private static void addMatterRecipe(String name, ItemStack output, Object... pattern) {

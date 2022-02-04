@@ -17,7 +17,7 @@ public class IconCycle extends GuiElement<IconCycle> {
 
     public IconCycle(GuiIC2<?> gui, int x, int y, ResourceLocation texture, int textureX, int textureY, int step, int height, boolean vertical, IntSupplier valueSupplier) {
         super(gui, x, y, step, height);
-        
+
         this.texture = texture;
         this.textureX = textureX;
         this.textureY = textureY;
@@ -29,12 +29,12 @@ public class IconCycle extends GuiElement<IconCycle> {
     @Override
     public void drawBackground(int mouseX, int mouseY) {
         super.drawBackground(mouseX, mouseY);
-        
+
         int x = this.x + this.gui.getGuiLeft();
         int y = this.y + this.gui.getGuiTop();
         int textureX = this.vertical ? this.textureX : this.textureX + getXStepOffset();
         int textureY = this.vertical ? this.textureY + getXStepOffset() : this.textureY + getYTextureOffset();
-        
+
         bindTexture(this.texture);
         GlStateManager.color(1, 1, 1, 1);
         this.gui.drawTexturedModalRect(x, y, textureX, textureY, this.step, this.height);
@@ -43,7 +43,7 @@ public class IconCycle extends GuiElement<IconCycle> {
     protected int getXStepOffset() {
         return this.valueSupplier.getAsInt() * this.step;
     }
-    
+
     protected int getYTextureOffset() {
         return 0;
     }
