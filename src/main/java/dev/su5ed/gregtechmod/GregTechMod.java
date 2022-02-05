@@ -1,6 +1,8 @@
 package dev.su5ed.gregtechmod;
 
-import mods.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.object.ModObjects;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -12,10 +14,14 @@ public class GregTechMod {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public GregTechMod() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::setup);
+        
+        bus.register(ModObjects.INSTANCE);
+        bus.register(DataGenerators.INSTANCE);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        
+        LOGGER.info("Common setup started");
     }
 }

@@ -1,0 +1,6 @@
+2e8c483c862c230fb17ef555618ec3f3832725bc assets/gregtechmod/blockstates/aluminium_block.json
+114305a04f3d1132ec0cdb422b1cc3c34b025528 assets/gregtechmod/models/block/aluminium_block.json
+6ea4ba7520eaaa1adedf61d580787651a12749ef assets/gregtechmod/models/item/aluminium_block.json
+482c3cdde1e5f2ba3e1e5bdf5236715c015d1550 data/gregtechmod/loot_tables/blocks/aluminium_block.json
+dd49c18d7706345c2001aa45e11681bcee75abda data/minecraft/tags/blocks/mineable/pickaxe.json
+dd49c18d7706345c2001aa45e11681bcee75abda data/minecraft/tags/blocks/needs_iron_tool.json

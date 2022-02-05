@@ -6,7 +6,7 @@ import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
 
 buildscript {
-    dependencies { 
+    dependencies {
         classpath(group = "fr.brouillard.oss", name = "jgitver", version = "0.14.0")
     }
 }
@@ -14,7 +14,6 @@ buildscript {
 plugins {
     java
     `maven-publish`
-    idea
     id("net.minecraftforge.gradle") version "5.1.+"
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
     id("com.github.johnrengelman.shadow") version "7.0.0"
@@ -30,6 +29,12 @@ version = getGitVersion()
 
 val api: SourceSet by sourceSets.creating
 val apiDep: Configuration by configurations.creating
+val generated: SourceSet by sourceSets.creating {
+    val main = sourceSets.main.get()
+    
+    java.srcDir(main.java.srcDirs)
+    resources.srcDir(main.resources.srcDirs)
+}
 
 val shade: Configuration by configurations.creating {
     configurations.implementation.get().extendsFrom(this)
@@ -52,19 +57,44 @@ minecraft {
     runs {
         val config = Action<RunConfig> {
             property("forge.logging.console.level", "debug")
+            sources(sourceSets.main.get(), api)
             workingDirectory = project.file("run").canonicalPath
-            source(sourceSets.main.get())
             forceExit = false
         }
 
         create("client", config)
         create("server", config)
+        
+        create("data") {
+            property("forge.logging.console.level", "debug")
+            sources(generated)
+            workingDirectory = project.file("run").canonicalPath
+            forceExit = false
+            args(
+                "--mod", "gregtechmod",
+                "--all",
+                "--output", file("src/generated/resources/"),
+                "--existing", file("src/main/resources/")
+            )
+        }
+
+        all {
+            lazyToken("minecraft_classpath") {
+                shade.resolve().joinToString(separator = File.pathSeparator, transform = File::getAbsolutePath)
+            }
+        }
+    }
+}
+
+sourceSets.main {
+    resources {
+        srcDir("src/generated/resources")
     }
 }
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
-    
+
     withSourcesJar()
 }
 
@@ -72,27 +102,35 @@ configurations {
     "apiImplementation" {
         extendsFrom(apiDep, configurations.minecraft.get())
     }
-    
+
     apiElements {
         setExtendsFrom(setOf(apiDep, shade))
+    }
+    
+    "generatedCompileOnly" {
+        extendsFrom(apiDep)
+    }
+    
+    "generatedImplementation" {
+        extendsFrom(shade, configurations.minecraft.get())
     }
 }
 
 val devJar by tasks.registering(ShadowJar::class) {
     dependsOn("classes", "apiClasses")
-            
+
     configurations = listOf(shade)
     manifest.attributes(manifestAttributes)
-    
+
     from(sourceSets.main.get().output)
     from(api.output)
-    
+
     archiveClassifier.set("dev")
 }
 
 val apiJar by tasks.registering(Jar::class) {
     finalizedBy("reobfApiJar")
-    
+
     from(api.allSource, api.output)
     exclude("META-INF/**")
     archiveClassifier.set("api")
@@ -103,7 +141,7 @@ tasks {
         from(api.output)
 
         manifest.attributes(manifestAttributes)
-        
+
         archiveClassifier.set("slim")
     }
 
@@ -117,7 +155,7 @@ tasks {
 
         archiveClassifier.set("")
     }
-    
+
     named<Jar>("sourcesJar") {
         from(api.allSource)
     }
@@ -126,7 +164,7 @@ tasks {
         sequenceOf("com.fasterxml", "org.yaml", "one.util")
             .forEach { relocate(it, "$relocateTarget.$it") }
     }
-    
+
     assemble {
         dependsOn(shadowJar, devJar, apiJar)
     }
@@ -139,10 +177,6 @@ reobf {
 
 repositories {
     maven {
-        name = "Su5eD Artifactory"
-        url = uri("https://su5ed.jfrog.io/artifactory/maven")
-    }
-    maven {
         name = "IC2"
         url = uri("https://maven.ic2.player.to")
     }
@@ -150,15 +184,15 @@ repositories {
         name = "Progwml6 maven"
         url = uri("https://dvs1.progwml6.com/files/maven")
     }
-    ivy { 
+    ivy {
         val ic2build = versionIC2.split("+").first().substringAfterLast('.')
-        
+
         name = "IC2 Jenkins"
         url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.18/$ic2build/artifact/tmp/out")
-        patternLayout { 
+        patternLayout {
             artifact("[module]-[revision]-$versionMc-forge.[ext]")
         }
-        metadataSources { 
+        metadataSources {
             artifact()
         }
     }
@@ -166,11 +200,12 @@ repositories {
 }
 
 dependencies {
-    minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.1-39.0.64")
+    minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.1-39.0.66")
     
-    implementation(api.output)
+    compileOnly(api.output)
+    "generatedCompileOnly"(api.output)
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
-    apiDep(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2)
+    apiDep(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2)) // TODO Use api jar when available
     
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc", version = versionJEI))
     compileOnly(group = "mezz.jei", name = "jei-$versionMc", version = versionJEI, classifier = "api")
@@ -190,15 +225,15 @@ publishing {
         create<MavenPublication>("mavenJava") {
             groupId = project.group as String
             artifactId = "gregtechmod"
-            version = project.version as String             
-            
+            version = project.version as String
+
             from(components["java"])
-            
+
             artifact(devJar)
             artifact(apiJar)
         }
     }
-    
+
     repositories {
         maven {
             credentials {

@@ -29,9 +29,9 @@ Fusion reactors, lightning rods and many other technologies and convenient recip
     versionRange="[1.18.1]"
     ordering="NONE"
     side="BOTH"
-[[dependencies.gregtechmod]]
-    modId="ic2"
-    mandatory=true
-    versionRange="[1.18.1]"
-    ordering="NONE"
-    side="BOTH"
+#[[dependencies.gregtechmod]]
+#    modId="ic2"
+#    mandatory=true
+#    versionRange="[1.18.1]"
+#    ordering="NONE"
+#    side="BOTH"
