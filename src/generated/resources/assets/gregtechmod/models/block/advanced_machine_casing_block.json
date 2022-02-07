@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gregtechmod:connected_model_loader"
+}

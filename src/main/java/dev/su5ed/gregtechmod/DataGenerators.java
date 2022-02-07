@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -18,9 +19,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelProvider;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
@@ -67,12 +66,25 @@ public final class DataGenerators {
         @Override
         protected void registerStatesAndModels() {
             Arrays.stream(ModObjects.ModBlock.values())
-                .map(ModObjects.ModBlock::getBlockInstance)
-                .forEach(block -> {
+                .forEach(modBlock -> {
+                    Block block = modBlock.getBlockInstance();
                     ResourceLocation name = block.getRegistryName();
-                    String path = name.getPath().replace("_block", "");
-                    ResourceLocation location = new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + path);
-                    simpleBlock(block, models().cubeAll(name.getPath(), location));
+                    String path = name.getPath();
+                    
+                    ModelFile model;
+                    if (modBlock.connectedTexture) {
+                        model = models().getBuilder(path)
+                            .parent(models().getExistingFile(mcLoc("cube")))
+                            .customLoader((blockModelBuilder, helper) -> new CustomLoaderBuilder<BlockModelBuilder>(ConnectedModelLoader.LOCATION, blockModelBuilder, helper) { })
+                            .end();
+                    }
+                    else {
+                        String texturePath = name.getPath().replace("_block", "");
+                        ResourceLocation location = new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + texturePath);
+                        model = models().cubeAll(path, location);
+                    }
+                    
+                    simpleBlock(block, model);
                 });
         }
     }

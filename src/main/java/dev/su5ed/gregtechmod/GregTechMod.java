@@ -18,6 +18,7 @@ public class GregTechMod {
         bus.addListener(this::setup);
         
         bus.register(ModObjects.INSTANCE);
+        bus.register(ClientSetup.INSTANCE);
         bus.register(DataGenerators.INSTANCE);
     }
 
