@@ -12,8 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.IModelData;
-import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
+import dev.su5ed.gregtechmod.model.DirectionsProperty.DirectionsWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,7 +40,7 @@ public class ConnectedModel implements IDynamicBakedModel {
     private final TextureAtlasSprite particle;
     private final ItemOverrides overrides;
     private final ItemTransforms transforms;
-    private final Map<ModelKey, Map<Direction, List<BakedQuad>>> quads;
+    private final Map<DirectionsWrapper, Map<Direction, List<BakedQuad>>> quads;
 
     public ConnectedModel(TextureAtlasSprite particle, Map<String, Material> materials, Function<Material, TextureAtlasSprite> spriteGetter, ItemOverrides overrides, ItemTransforms transforms, ResourceLocation modelLocation) {
         this.particle = particle;
@@ -49,25 +49,17 @@ public class ConnectedModel implements IDynamicBakedModel {
         this.quads = pregenQuads(materials, spriteGetter, modelLocation);
     }
 
-    private Map<ModelKey, Map<Direction, List<BakedQuad>>> pregenQuads(Map<String, Material> materials, Function<Material, TextureAtlasSprite> spriteGetter, ResourceLocation modelLocation) {
+    private Map<DirectionsWrapper, Map<Direction, List<BakedQuad>>> pregenQuads(Map<String, Material> materials, Function<Material, TextureAtlasSprite> spriteGetter, ResourceLocation modelLocation) {
         Map<Material, TextureAtlasSprite> sprites = StreamEx.ofValues(materials)
             .mapToEntry(spriteGetter)
             .toImmutableMap();
         
-        return IntStreamEx.range(0b111111)
-            .mapToObj(i -> new ModelKey(
-                (0b000001 & i) != 0,
-                (0b000010 & i) != 0,
-                (0b0000100 & i) != 0,
-                (0b001000 & i) != 0,
-                (0b010000 & i) != 0,
-                (0b100000 & i) != 0
-            ))
+        return StreamEx.of(DirectionsWrapper.VALUES)
             .mapToEntry(key -> getQuadsForKey(key, materials, sprites, modelLocation))
             .toImmutableMap();
     }
 
-    private Map<Direction, List<BakedQuad>> getQuadsForKey(ModelKey key, Map<String, Material> materials, Map<Material, TextureAtlasSprite> sprites, ResourceLocation modelLocation) {
+    private Map<Direction, List<BakedQuad>> getQuadsForKey(DirectionsWrapper key, Map<String, Material> materials, Map<Material, TextureAtlasSprite> sprites, ResourceLocation modelLocation) {
         return StreamEx.of(Direction.values())
             .toMap(facing -> {
                 Vector3f to = facing == Direction.DOWN ? MAX_DOWN : MAX;
@@ -85,21 +77,17 @@ public class ConnectedModel implements IDynamicBakedModel {
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
         if (side != null) {
-            ModelKey key = ModelKey.fromState(state);
+            DirectionsWrapper key = getDirections(state);
             Map<Direction, List<BakedQuad>> faceQuads = this.quads.get(key);
             return faceQuads.get(side);
         }
         return List.of();
     }
 
-    private String getTexture(ModelKey key, Direction side, Map<String, Material> materials) {
-        Map<Direction, Boolean> connections = key.getConnections();
-
-        String connectionStringRaw = StreamEx.ofKeys(connections)
-            .remove(GtUtil::isVerticalFacing)
-            .mapToEntry(facing -> connections.get(getRelativeSide(side, facing)))
-            .filterValues(Boolean::booleanValue)
-            .mapKeyValue((facing, connected) -> {
+    private String getTexture(DirectionsWrapper key, Direction side, Map<String, Material> materials) {
+        String connectionStringRaw = StreamEx.of(GtUtil.HORIZONTAL_FACINGS)
+            .filter(facing -> key.isSideConnected(getRelativeSide(side, facing)))
+            .map(facing -> {
                 Direction actualFacing = side == Direction.DOWN && facing.getAxis() == Direction.Axis.Z || GtUtil.isHorizontalFacing(side) && facing.getAxis() == Direction.Axis.X
                     ? facing.getOpposite()
                     : facing;
@@ -162,31 +150,8 @@ public class ConnectedModel implements IDynamicBakedModel {
     public ItemTransforms getTransforms() {
         return this.transforms;
     }
-
-    private record ModelKey(boolean connectedDown, boolean connectedUp, boolean connectedNorth, boolean connectedSouth, boolean connectedWest, boolean connectedEast) {
-        public static final ModelKey DEFAULT = new ModelKey(false, false, false, false, false, false);
-
-        public static ModelKey fromState(@Nullable BlockState state) {
-            return state != null ? new ModelKey(
-                state.getValue(ConnectedBlock.CONNECTED_DOWN), 
-                state.getValue(ConnectedBlock.CONNECTED_UP), 
-                state.getValue(ConnectedBlock.CONNECTED_NORTH),
-                state.getValue(ConnectedBlock.CONNECTED_SOUTH),
-                state.getValue(ConnectedBlock.CONNECTED_WEST),
-                state.getValue(ConnectedBlock.CONNECTED_EAST)
-            )
-                : DEFAULT;
-        }
-
-        public Map<Direction, Boolean> getConnections() {
-            return Map.of(
-                Direction.DOWN, this.connectedDown,
-                Direction.UP, this.connectedUp,
-                Direction.NORTH, this.connectedNorth,
-                Direction.SOUTH, this.connectedSouth,
-                Direction.WEST, this.connectedWest,
-                Direction.EAST, this.connectedEast
-            );
-        }
+    
+    private static DirectionsProperty.DirectionsWrapper getDirections(@Nullable BlockState state) {
+        return state != null ? state.getValue(ConnectedBlock.DIRECTIONS) : DirectionsProperty.DirectionsWrapper.from();
     }
 }

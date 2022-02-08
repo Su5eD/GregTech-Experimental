@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class GtUtil {
     private static final Collection<Direction> VERTICAL_FACINGS = List.of(Direction.DOWN, Direction.UP);
-    private static final Collection<Direction> HORIZONTAL_FACINGS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+    public static final Collection<Direction> HORIZONTAL_FACINGS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
     
     private GtUtil() {}
     

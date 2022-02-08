@@ -1,5 +1,7 @@
 package dev.su5ed.gregtechmod.block;
 
+import dev.su5ed.gregtechmod.model.DirectionsProperty;
+import dev.su5ed.gregtechmod.model.DirectionsProperty.DirectionsWrapper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -7,19 +9,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 
 public class ConnectedBlock extends ResourceBlock {
-    // TODO Custom property?
-    public static final Property<Boolean> CONNECTED_DOWN = BooleanProperty.create("connected_down");
-    public static final Property<Boolean> CONNECTED_UP = BooleanProperty.create("connected_up");
-    public static final Property<Boolean> CONNECTED_NORTH = BooleanProperty.create("connected_north");
-    public static final Property<Boolean> CONNECTED_SOUTH = BooleanProperty.create("connected_south");
-    public static final Property<Boolean> CONNECTED_WEST = BooleanProperty.create("connected_west");
-    public static final Property<Boolean> CONNECTED_EAST = BooleanProperty.create("connected_east");
+    public static final Property<DirectionsWrapper> DIRECTIONS = new DirectionsProperty("directions");
 
     public ConnectedBlock(float strength, float resistance) {
         super(strength, resistance);
@@ -27,13 +23,7 @@ public class ConnectedBlock extends ResourceBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder
-            .add(CONNECTED_DOWN)
-            .add(CONNECTED_UP)
-            .add(CONNECTED_NORTH)
-            .add(CONNECTED_SOUTH)
-            .add(CONNECTED_WEST)
-            .add(CONNECTED_EAST);
+        pBuilder.add(DIRECTIONS);
     }
 
     @SuppressWarnings("deprecation")
@@ -53,13 +43,11 @@ public class ConnectedBlock extends ResourceBlock {
     }
 
     public BlockState getActualState(Level world, BlockPos pos) {
+        Direction[] dirs = StreamEx.of(Direction.values())
+            .filter(side -> isSideConnectable(world, pos, side))
+            .toArray(Direction[]::new);
         return defaultBlockState()
-            .setValue(CONNECTED_DOWN, isSideConnectable(world, pos, Direction.DOWN))
-            .setValue(CONNECTED_UP, isSideConnectable(world, pos, Direction.UP))
-            .setValue(CONNECTED_NORTH, isSideConnectable(world, pos, Direction.NORTH))
-            .setValue(CONNECTED_SOUTH, isSideConnectable(world, pos, Direction.SOUTH))
-            .setValue(CONNECTED_WEST, isSideConnectable(world, pos, Direction.WEST))
-            .setValue(CONNECTED_EAST, isSideConnectable(world, pos, Direction.EAST));
+            .setValue(DIRECTIONS, DirectionsWrapper.from(dirs));
     }
 
     protected boolean isSideConnectable(Level world, BlockPos pos, Direction side) {
