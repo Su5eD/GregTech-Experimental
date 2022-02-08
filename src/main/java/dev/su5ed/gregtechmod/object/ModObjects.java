@@ -28,7 +28,7 @@ public final class ModObjects {
         IForgeRegistry<Block> registry = event.getRegistry();
 
         Arrays.stream(ModBlock.values())
-            .map(block -> block.getBlockInstance().setRegistryName(Reference.MODID, block.name))
+            .map(block -> block.getBlockInstance().setRegistryName(Reference.MODID, block.registryName))
             .forEach(registry::register);
     }
     
@@ -37,12 +37,12 @@ public final class ModObjects {
         IForgeRegistry<Item> registry = event.getRegistry();
         
         Arrays.stream(ModBlock.values())
-            .map(block -> block.getItemInstance().setRegistryName(Reference.MODID, block.name))
+            .map(block -> block.getItemInstance().setRegistryName(Reference.MODID, block.registryName))
             .forEach(registry::register);
     }
 
     public enum ModBlock {
-        ADVANCED_MACHINE_CASING(ConnectedBlock::new, 3, 30, true),
+        ADVANCED_MACHINE_CASING(ConnectedBlock::new, 3, 30),
         ALUMINIUM(3, 30),
         BRASS(3.5F, 30),
         CHROME(10, 100),
@@ -53,44 +53,38 @@ public final class ModObjects {
         INVAR(4.5F, 30),
         IRIDIUM(3.5F, 600),
         IRIDIUM_REINFORCED_STONE(100, 300),
-//        IRIDIUM_REINFORCED_TUNGSTEN_STEEL(BlockConnected::new, 200, 400, true),
+        IRIDIUM_REINFORCED_TUNGSTEN_STEEL(ConnectedBlock::new, 200, 400),
         LEAD(3, 60),
-//        LESUBLOCK(BlockLESU::new, 4, 30),
+        LESUBLOCK(4, 30),
         NICKEL(3, 45),
         OLIVINE(4.5F, 30),
         OSMIUM(4, 900),
         PLATINUM(4, 30),
-//        REINFORCED_MACHINE_CASING(BlockConnectedTurbine::new, 3, 60, true, "large_gas_turbine"),
+        REINFORCED_MACHINE_CASING(ConnectedBlock::new, 3, 60),
         RUBY(4.5F, 30),
         SAPPHIRE(4.5F, 30),
         SILVER(3, 30),
-//        STANDARD_MACHINE_CASING(BlockConnectedTurbine::new, 3, 30, true, "large_steam_turbine"),
+        STANDARD_MACHINE_CASING(ConnectedBlock::new, 3, 30),
         STEEL(3, 100),
         TITANIUM(10, 200),
         TUNGSTEN(4.5F, 100),
-//        TUNGSTEN_STEEL(BlockConnected::new, 100, 300, true),
+        TUNGSTEN_STEEL(ConnectedBlock::new, 100, 300),
         ZINC(3.5F, 30);
 
-        private final String name;
-        public final boolean connectedTexture;
+        private final String registryName;
         private final Lazy<Block> blockInstance;
         private final Lazy<Item> itemInstance;
-
+        
         ModBlock(float strength, float resistance) {
-            this(strength, resistance, false);
+            this(() -> new ResourceBlock(strength, resistance));
         }
         
-        ModBlock(float strength, float resistance, boolean connectedTexture) {
-            this(() -> new ResourceBlock(strength, resistance), connectedTexture);
-        }
-        
-        ModBlock(BiFunction<Float, Float, Block> constructor, float strength, float resistance, boolean connectedTexture) {
-            this(() -> constructor.apply(strength, resistance), connectedTexture);
+        ModBlock(BiFunction<Float, Float, Block> constructor, float strength, float resistance) {
+            this(() -> constructor.apply(strength, resistance));
         }
 
-        ModBlock(Supplier<Block> constructor, boolean connectedTexture) {
-            this.name = this.name().toLowerCase(Locale.ROOT) + "_block";
-            this.connectedTexture = connectedTexture;
+        ModBlock(Supplier<Block> constructor) {
+            this.registryName = getName() + "_block";
             this.blockInstance = Lazy.of(constructor);
             this.itemInstance = Lazy.of(() -> new BlockItem(getBlockInstance(), ITEM_PROPERTIES));
         }
@@ -101,6 +95,10 @@ public final class ModObjects {
 
         public Block getBlockInstance() {
             return this.blockInstance.get();
+        }
+        
+        public String getName() {
+            return name().toLowerCase(Locale.ROOT);
         }
     }
 }

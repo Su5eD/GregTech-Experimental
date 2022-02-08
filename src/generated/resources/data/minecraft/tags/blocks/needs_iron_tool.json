@@ -12,17 +12,22 @@
     "gregtechmod:invar_block",
     "gregtechmod:iridium_block",
     "gregtechmod:iridium_reinforced_stone_block",
+    "gregtechmod:iridium_reinforced_tungsten_steel_block",
     "gregtechmod:lead_block",
+    "gregtechmod:lesublock_block",
     "gregtechmod:nickel_block",
     "gregtechmod:olivine_block",
     "gregtechmod:osmium_block",
     "gregtechmod:platinum_block",
+    "gregtechmod:reinforced_machine_casing_block",
     "gregtechmod:ruby_block",
     "gregtechmod:sapphire_block",
     "gregtechmod:silver_block",
+    "gregtechmod:standard_machine_casing_block",
     "gregtechmod:steel_block",
     "gregtechmod:titanium_block",
     "gregtechmod:tungsten_block",
+    "gregtechmod:tungsten_steel_block",
     "gregtechmod:zinc_block"
   ]
 }

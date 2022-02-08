@@ -3,7 +3,7 @@ package dev.su5ed.gregtechmod;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.su5ed.gregtechmod.api.util.Reference;
-import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
+import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -70,16 +70,19 @@ public final class DataGenerators {
                     Block block = modBlock.getBlockInstance();
                     ResourceLocation name = block.getRegistryName();
                     String path = name.getPath();
+                    String texturePath = modBlock.getName();
                     
                     ModelFile model;
-                    if (modBlock.connectedTexture) {
+                    if (modBlock.getBlockInstance() instanceof ConnectedBlock) {
                         model = models().getBuilder(path)
                             .parent(models().getExistingFile(mcLoc("cube")))
-                            .customLoader((blockModelBuilder, helper) -> new CustomLoaderBuilder<BlockModelBuilder>(ConnectedModelLoader.LOCATION, blockModelBuilder, helper) { })
+                            .customLoader((blockModelBuilder, helper) -> {
+                                ResourceLocation location = ClientSetup.getLoaderLocation(texturePath);
+                                return new CustomLoaderBuilder<BlockModelBuilder>(location, blockModelBuilder, helper) { };
+                            })
                             .end();
                     }
                     else {
-                        String texturePath = name.getPath().replace("_block", "");
                         ResourceLocation location = new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + texturePath);
                         model = models().cubeAll(path, location);
                     }
