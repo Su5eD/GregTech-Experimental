@@ -56,15 +56,15 @@ public class TurbineInstance extends TileEntityMultiBlockBase.MultiBlockInstance
     public void setRotorProperty(EnumFacing facing, boolean active) {
         this.rotorTextures
             .forEach((pos, texture) -> {
-                IBlockState state = world.getBlockState(pos);
+                IBlockState state = this.world.getBlockState(pos);
 
                 if (state.getBlock() instanceof BlockConnectedTurbine) {
                     Rotor rotor;
                     if (facing == null) rotor = Rotor.DISABLED;
                     else rotor = Rotor.getRotor(facing, texture, active);
-
+                    
                     IBlockState newState = state.withProperty(BlockConnectedTurbine.TURBINE_ROTOR, rotor);
-                    world.setBlockState(pos, newState, Constants.BlockFlags.DEFAULT_AND_RERENDER);
+                    this.world.setBlockState(pos, newState, Constants.BlockFlags.SEND_TO_CLIENTS | Constants.BlockFlags.RERENDER_MAIN_THREAD);
                 }
             });
     }
@@ -72,10 +72,10 @@ public class TurbineInstance extends TileEntityMultiBlockBase.MultiBlockInstance
     public void setTurbineProperty(boolean value) {
         this.positions
             .forEach(pos -> {
-                IBlockState state = world.getBlockState(pos);
+                IBlockState state = this.world.getBlockState(pos);
                 if (state.getBlock() instanceof BlockConnectedTurbine) {
                     IBlockState newState = state.withProperty(BlockConnectedTurbine.TURBINE, value);
-                    world.setBlockState(pos, newState, Constants.BlockFlags.DEFAULT_AND_RERENDER);
+                    this.world.setBlockState(pos, newState, Constants.BlockFlags.DEFAULT_AND_RERENDER);
                 }
             });
     }

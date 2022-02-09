@@ -3,21 +3,24 @@ package mods.gregtechmod.model;
 import ic2.core.block.BlockTileEntity;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
 import ic2.core.util.Util;
+import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.VerticalRotation;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockFaceUV;
+import net.minecraft.client.renderer.block.model.BlockPartFace;
+import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.util.vector.Vector3f;
+import one.util.streamex.EntryStream;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,34 +42,30 @@ public class ModelTeBlock extends ModelBase {
     }
 
     public ModelTeBlock(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
-        super(particle, textures, false);
+        super(particle, textures);
         this.textures = textures.get(0);
     }
 
     @Override
-    protected IBakedModel generateModel(IBlockState rawState) {
-        Map<EnumFacing, ResourceLocation> covers = new HashMap<>();
+    protected List<BakedQuad> getQuads(IBlockState rawState, EnumFacing side) {
+        Map<EnumFacing, ResourceLocation> covers;
         EnumFacing face = rawState.getValue(BlockTileEntity.facingProperty);
         Ic2BlockStateInstance state = (Ic2BlockStateInstance) rawState;
-        Map<EnumFacing, List<BakedQuad>> faceQuads = new HashMap<>();
 
         if (state.hasValue(CoverHandler.COVER_HANDLER_PROPERTY)) {
             CoverHandler handler = state.getValue(CoverHandler.COVER_HANDLER_PROPERTY);
-            handler.covers.forEach((side, cover) -> covers.put(side, cover.getIcon()));
+            covers = EntryStream.of(handler.covers)
+                .mapValues(ICover::getIcon)
+                .toImmutableMap();
         }
+        else covers = Collections.emptyMap();
 
         VerticalRotation verticalRotation = getVerticalRotation(state);
-        for (EnumFacing side : EnumFacing.VALUES) {
-            EnumFacing rotatedSide = rotateSide(verticalRotation, face, side, covers);
-            TextureAtlasSprite sprite = getSpriteFromDirection(face, side, rotatedSide, state, covers);
-            faceQuads.put(side, Collections.singletonList(getQuad(new Vector3f(0, 0, 0), new Vector3f(16, side == EnumFacing.DOWN ? 0 : 16, 16), side, face, sprite)));
-        }
-
-        return new SimpleBakedModel(Collections.emptyList(), faceQuads, true, true, getParticleTexture(), ItemCameraTransforms.DEFAULT, ItemOverrideList.NONE);
-    }
-
-    private BakedQuad getQuad(Vector3f from, Vector3f to, EnumFacing direction, EnumFacing facing, TextureAtlasSprite sprite) {
-        return bakery.makeBakedQuad(from, to, new BlockPartFace(direction, 0, this.textures.get(direction).toString(), new BlockFaceUV(BLOCK_FACE_UVS[direction.getIndex()], getTextureRotation(direction, facing))), sprite, direction, ModelRotation.X0_Y0, null, true, true);
+        EnumFacing rotatedSide = rotateSide(verticalRotation, face, side, covers);
+        TextureAtlasSprite sprite = getSpriteFromDirection(face, side, rotatedSide, state, covers);
+        BlockFaceUV faceUV = new BlockFaceUV(BLOCK_FACE_UVS[side.getIndex()], getTextureRotation(side, face));
+        BakedQuad quad = BAKERY.makeBakedQuad(ZERO, side == EnumFacing.DOWN ? MAX_DOWN : MAX, new BlockPartFace(side, 0, this.textures.get(side).toString(), faceUV), sprite, side, ModelRotation.X0_Y0, null, true, true);
+        return Collections.singletonList(quad);
     }
 
     private static int getTextureRotation(EnumFacing side, EnumFacing facing) {

@@ -115,8 +115,8 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
                     stopMachine();
                 }
                 else {
+                    if (!getActive()) onStart(instance);
                     setActive(true);
-                    onStart(instance);
                     onRunningTick(instance);
 
                     if (++this.progress >= this.maxProgress) {
@@ -202,10 +202,12 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
         this.fuelEnergy = 0;
         this.fuelOutput = null;
         setAllowedToWork(false);
+        if (getActive()) {
+            this.structure.getWorldStructure()
+                .map(Structure.WorldStructure::getInstance)
+                .ifPresent(this::onStop);
+        }
         setActive(false);
-        this.structure.getWorldStructure()
-            .map(Structure.WorldStructure::getInstance)
-            .ifPresent(this::onStop);
     }
 
     /**

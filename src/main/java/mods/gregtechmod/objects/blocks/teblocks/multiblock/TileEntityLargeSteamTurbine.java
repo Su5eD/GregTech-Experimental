@@ -11,39 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 public class TileEntityLargeSteamTurbine extends TileEntityTurbineBase {
 
     public TileEntityLargeSteamTurbine() {
         super(GtFuels.steam);
-    }
-
-    @Override
-    protected List<List<String>> getStructurePattern() {
-        return Arrays.asList(
-            Arrays.asList(
-                "RRR",
-                "CHC",
-                "CHC",
-                "CCC"
-            ),
-            Arrays.asList(
-                "RXR",
-                "H H",
-                "H H",
-                "CDC"
-            ),
-            Arrays.asList(
-                "RRR",
-                "CHC",
-                "CHC",
-                "CCC"
-            )
-        );
     }
 
     @Override

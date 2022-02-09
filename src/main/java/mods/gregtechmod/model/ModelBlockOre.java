@@ -4,17 +4,22 @@ import mods.gregtechmod.util.LazyValue;
 import mods.gregtechmod.util.PropertyHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockPartFace;
+import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import org.lwjgl.util.vector.Vector3f;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class ModelBlockOre extends ModelBase {
     private final LazyValue<TextureMap> textureMap = new LazyValue<>(() -> Minecraft.getMinecraft().getTextureMapBlocks());
@@ -24,20 +29,19 @@ public class ModelBlockOre extends ModelBase {
     private final Map<EnumFacing, ResourceLocation> texturesEnd;
 
     public ModelBlockOre(ResourceLocation particle, Map<EnumFacing, ResourceLocation> textures, Map<EnumFacing, ResourceLocation> texturesNether, Map<EnumFacing, ResourceLocation> texturesEnd) {
-        super(particle, Arrays.asList(textures, texturesNether, texturesEnd), false);
+        super(particle, Arrays.asList(textures, texturesNether, texturesEnd));
         this.textures = textures;
         this.texturesNether = texturesNether;
         this.texturesEnd = texturesEnd;
     }
 
     @Override
-    public IBakedModel generateModel(IBlockState rawState) {
-        PropertyHelper.DimensionalTextureInfo textureInfo = rawState != null ? ((IExtendedBlockState) rawState).getValue(PropertyHelper.TEXTURE_INDEX_PROPERTY) : null;
-        Map<EnumFacing, List<BakedQuad>> faceQuads = new HashMap<>();
+    protected List<BakedQuad> getQuads(IBlockState state, EnumFacing side) {
+        PropertyHelper.DimensionalTextureInfo textureInfo = state != null ? ((IExtendedBlockState) state).getValue(PropertyHelper.TEXTURE_INDEX_PROPERTY) : null;
 
-        Arrays.stream(EnumFacing.VALUES).forEach(facing -> faceQuads.put(facing, Collections.singletonList(getQuad(new Vector3f(0, 0, 0), new Vector3f(16, facing == EnumFacing.DOWN ? 0 : 16, 16), facing, getOreTexture(facing, textureInfo)))));
-
-        return new SimpleBakedModel(Collections.emptyList(), faceQuads, true, true, getParticleTexture(), ItemCameraTransforms.DEFAULT, ItemOverrideList.NONE);
+        BlockPartFace face = new BlockPartFace(side.getOpposite(), 0, this.textures.get(side).toString(), FACE_UV);
+        BakedQuad quad = BAKERY.makeBakedQuad(ModelBase.ZERO, side == EnumFacing.DOWN ? MAX_DOWN : MAX, face, getOreTexture(side, textureInfo), side, ModelRotation.X0_Y0, null, true, true);
+        return Collections.singletonList(quad);
     }
 
     public TextureAtlasSprite getOreTexture(EnumFacing side, @Nullable PropertyHelper.DimensionalTextureInfo info) {
@@ -56,21 +60,17 @@ public class ModelBlockOre extends ModelBase {
                 }
                 return this.sprites.get(texture);
             }
-            else {
-                return this.textureMap.get().getAtlasSprite("minecraft:blocks/" + (info.dimension == DimensionType.OVERWORLD ? "stone" : info.dimension == DimensionType.NETHER ? "netherrack" : "end_stone"));
-            }
+            return this.textureMap.get().getAtlasSprite("minecraft:blocks/" + (info.dimension == DimensionType.OVERWORLD ? "stone" : info.dimension == DimensionType.NETHER ? "netherrack" : "end_stone"));
         }
-        else return this.sprites.get(this.textures.get(null));
+        return this.sprites.get(this.textures.get(null));
     }
 
-    private ResourceLocation getTextureWithFallback(EnumFacing side, Map<EnumFacing, ResourceLocation> primary, Map<EnumFacing, ResourceLocation> secondary, Map<EnumFacing, ResourceLocation> tertiary) {
-        ResourceLocation loc = primary.get(side);
-        if (loc == null) loc = secondary.get(side);
-        if (loc == null) loc = tertiary.get(side);
-        return loc;
-    }
-
-    private BakedQuad getQuad(Vector3f from, Vector3f to, EnumFacing direction, TextureAtlasSprite sprite) {
-        return bakery.makeBakedQuad(from, to, new BlockPartFace(direction.getOpposite(), 0, this.textures.get(direction).toString(), new BlockFaceUV(new float[] { 0, 0, 16, 16 }, 0)), sprite, direction, ModelRotation.X0_Y0, null, true, true);
+    @SafeVarargs
+    private final ResourceLocation getTextureWithFallback(EnumFacing side, Map<EnumFacing, ResourceLocation>... textures) {
+        return StreamEx.of(textures)
+            .map(map -> map.get(side))
+            .nonNull()
+            .findFirst()
+            .orElse(null);
     }
 }
