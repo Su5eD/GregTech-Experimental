@@ -6,8 +6,8 @@ import java.util.function.Predicate;
 
 public class StructureElement {
     public final Predicate<BlockPos> predicate;
-    public int minCount;
-    public int maxCount;
+    public final int minCount;
+    public final int maxCount;
 
     public StructureElement(Predicate<BlockPos> predicate) {
         this(predicate, 0, 0);

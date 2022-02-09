@@ -74,11 +74,6 @@ public class Structure<T> {
                     String message = String.format("Unknown element identifier '%s' in structure pattern %s. Known identifiers: %s", ch, this.pattern, this.elements.keySet());
                     return new IllegalArgumentException(message);
                 });
-
-                StreamEx.of(elms)
-                    .filter(element -> element.minCount == 0 && element.maxCount == 0)
-                    .forEach(element -> element.minCount = element.maxCount = list.size());
-
                 return Triple.of(ch, elms, list);
             })
             .toImmutableList();
@@ -99,6 +94,7 @@ public class Structure<T> {
             });
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void checkWorldStructure(BlockPos root, EnumFacing facing) {
         if (this.worldStructure == null || this.worldStructure.facing != facing) {
             Collection<Triple<Character, Collection<StructureElement>, Collection<BlockPos>>> worldApplied = StreamEx.of(this.applied)
@@ -116,12 +112,23 @@ public class Structure<T> {
             this.worldStructure = new WorldStructure(facing, worldApplied);
         }
 
-        boolean valid = this.worldStructure.elements.stream()
-            .allMatch(triple -> StreamEx.of(triple.getMiddle())
-                .mapToEntry(element -> StreamEx.of(triple.getRight())
-                    .filter(element.predicate)
-                    .count())
-                .allMatch((element, count) -> (element.minCount < 1 || count >= element.minCount) && (element.maxCount < 1 || count <= element.maxCount)));
+        boolean valid = StreamEx.of(this.worldStructure.elements)
+            .allMatch(triple -> {
+                Collection<StructureElement> elements = triple.getMiddle();
+                Map<StructureElement, Integer> counts = StreamEx.of(elements).toMap(e -> 0);
+
+                boolean validPositions = StreamEx.of(triple.getRight())
+                    .allMatch(pos -> StreamEx.of(elements)
+                        .filter(e -> e.predicate.test(pos))
+                        .peek(element -> counts.compute(element, (e, count) -> count + 1))
+                        .findFirst()
+                        .isPresent());
+
+                boolean validCounts = EntryStream.of(counts)
+                    .allMatch((element, count) -> (element.minCount < 1 || count >= element.minCount) && (element.maxCount < 1 || count <= element.maxCount));
+
+                return validPositions && validCounts;
+            });
 
         if (valid) {
             if (!this.worldStructure.valid) {
@@ -136,7 +143,6 @@ public class Structure<T> {
             if (this.worldStructure.instance != null) this.onInvalidate.accept(this.worldStructure.instance);
             this.worldStructure.instance = null;
         }
-
     }
 
     public Optional<WorldStructure> getWorldStructure() {
