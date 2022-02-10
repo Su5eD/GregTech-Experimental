@@ -1,8 +1,8 @@
 {
   "itemGroup.gregtechmod": "GregTech Experimental",
-  
-  "gregtechmod.no_mob_spawn": "Mobs can't spawn on this Block",
-  
+
+  "info.gregtechmod.no_mob_spawn": "Mobs can't spawn on this Block",
+
   "block.gregtechmod.advanced_machine_casing_block": "Advanced Machine Casing",
   "block.gregtechmod.aluminium_block": "Block of Aluminium",
   "block.gregtechmod.brass_block": "Block of Brass",
@@ -30,5 +30,32 @@
   "block.gregtechmod.titanium_block": "Block of Titanium",
   "block.gregtechmod.tungsten_block": "Block of Tungsten",
   "block.gregtechmod.tungsten_steel_block": "Block of Tungstensteel",
-  "block.gregtechmod.zinc_block": "Block of Zinc"
+  "block.gregtechmod.zinc_block": "Block of Zinc",
+
+  "item.gregtechmod.aluminium_ingot": "Aluminium Ingot",
+  "item.gregtechmod.antimony_ingot": "Antimony Ingot",
+  "item.gregtechmod.battery_alloy_ingot": "Battery Alloy Ingot",
+  "item.gregtechmod.brass_ingot": "Brass Ingot",
+  "item.gregtechmod.chrome_ingot": "Chrome Ingot",
+  "item.gregtechmod.copper_ingot": "Copper Ingot",
+  "item.gregtechmod.electrum_ingot": "Electrum Ingot",
+  "item.gregtechmod.hot_tungsten_steel_ingot": "Hot Tungstensteel Ingot",
+  "item.gregtechmod.invar_ingot": "Invar Ingot",
+  "item.gregtechmod.iridium_ingot": "Iridium Ingot",
+  "item.gregtechmod.iridium_alloy_ingot": "Iridium Alloy Ingot",
+  "item.gregtechmod.lead_ingot": "Lead Ingot",
+  "item.gregtechmod.magnalium_ingot": "Magnalium Ingot",
+  "item.gregtechmod.nickel_ingot": "Nickel Ingot",
+  "item.gregtechmod.osmium_ingot": "Osmium Ingot",
+  "item.gregtechmod.platinum_ingot": "Platinum Ingot",
+  "item.gregtechmod.plutonium_ingot": "Plutonium Ingot",
+  "item.gregtechmod.silver_ingot": "Silver Ingot",
+  "item.gregtechmod.soldering_alloy_ingot": "Soldering Alloy Ingot",
+  "item.gregtechmod.steel_ingot": "Steel Ingot",
+  "item.gregtechmod.thorium_ingot": "Thorium Ingot",
+  "item.gregtechmod.titanium_ingot": "Titanium Ingot",
+  "item.gregtechmod.tungsten_ingot": "Tungsten Ingot",
+  "item.gregtechmod.tungsten_steel_ingot": "Tungstensteel Ingot",
+  "item.gregtechmod.tungsten_steel_ingot.description": "Vacuum Hardened",
+  "item.gregtechmod.zinc_ingot": "Zinc Ingot"
 }

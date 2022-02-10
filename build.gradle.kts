@@ -31,14 +31,11 @@ val api: SourceSet by sourceSets.creating
 val apiDep: Configuration by configurations.creating
 val generated: SourceSet by sourceSets.creating {
     val main = sourceSets.main.get()
-    
+
     java.srcDir(main.java.srcDirs)
     resources.srcDir(main.resources.srcDirs)
 }
-
-val shade: Configuration by configurations.creating {
-    configurations.implementation.get().extendsFrom(this)
-}
+val shade: Configuration by configurations.creating
 
 val relocateTarget = "dev.gregtechmod.repack"
 val manifestAttributes = mapOf(
@@ -64,10 +61,10 @@ minecraft {
 
         create("client", config)
         create("server", config)
-        
+
         create("data") {
             property("forge.logging.console.level", "debug")
-            sources(generated)
+            sources(generated, api)
             workingDirectory = project.file("run").canonicalPath
             forceExit = false
             args(
@@ -99,19 +96,19 @@ java {
 }
 
 configurations {
-    "apiImplementation" {
+    "apiCompileOnly" {
         extendsFrom(apiDep, configurations.minecraft.get())
     }
 
     apiElements {
         setExtendsFrom(setOf(apiDep, shade))
     }
-    
-    "generatedCompileOnly" {
-        extendsFrom(apiDep)
+
+    implementation {
+        extendsFrom(shade)
     }
-    
-    "generatedImplementation" {
+
+    "generatedCompileOnly" {
         extendsFrom(shade, configurations.minecraft.get())
     }
 }
@@ -201,12 +198,12 @@ repositories {
 
 dependencies {
     minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.1-39.0.66")
-    
+
     compileOnly(api.output)
     "generatedCompileOnly"(api.output)
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
     apiDep(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2)) // TODO Use api jar when available
-    
+
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc", version = versionJEI))
     compileOnly(group = "mezz.jei", name = "jei-$versionMc", version = versionJEI, classifier = "api")
 

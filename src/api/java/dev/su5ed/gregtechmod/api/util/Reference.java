@@ -1,6 +1,14 @@
 package dev.su5ed.gregtechmod.api.util;
 
-public class Reference {
+import net.minecraft.resources.ResourceLocation;
+
+public final class Reference {
     public static final String NAME = "Gregtech Experimental";
     public static final String MODID = "gregtechmod";
+
+    private Reference() {}
+    
+    public static ResourceLocation location(String path) {
+        return new ResourceLocation(MODID, path);
+    }
 }

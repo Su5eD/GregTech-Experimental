@@ -1,14 +1,15 @@
 package dev.su5ed.gregtechmod;
 
-import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
-import dev.su5ed.gregtechmod.object.ModObjects;
+import dev.su5ed.gregtechmod.object.ModBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import one.util.streamex.StreamEx;
+
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class ClientSetup {
     static final ClientSetup INSTANCE = new ClientSetup();
@@ -17,9 +18,9 @@ public final class ClientSetup {
 
     @SubscribeEvent
     public void onModelRegistryEvent(ModelRegistryEvent event) {
-        StreamEx.of(ModObjects.ModBlock.values())
-            .filter(block -> block.getBlockInstance() instanceof ConnectedBlock)
-            .map(ModObjects.ModBlock::getName)
+        StreamEx.of(ModBlock.values())
+            .filter(block -> block.getBlock() instanceof ConnectedBlock)
+            .map(ModBlock::getName)
             .forEach(name -> {
                 ResourceLocation location = getLoaderLocation(name);
                 ConnectedModelLoader loader = new ConnectedModelLoader(name);
@@ -28,6 +29,6 @@ public final class ClientSetup {
     }
 
     public static ResourceLocation getLoaderLocation(String name) {
-        return new ResourceLocation(Reference.MODID, name + "_model");
+        return location(name + "_model");
     }
 }
