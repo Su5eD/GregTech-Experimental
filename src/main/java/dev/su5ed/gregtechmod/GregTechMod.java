@@ -3,7 +3,9 @@ package dev.su5ed.gregtechmod;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +22,9 @@ public class GregTechMod {
         bus.register(ModObjects.INSTANCE);
         bus.register(ClientSetup.INSTANCE);
         bus.register(DataGenerators.INSTANCE);
+
+        ModLoadingContext ctx = ModLoadingContext.get();
+        ctx.registerConfig(ModConfig.Type.CLIENT, GregTechConfig.CLIENT_SPEC);
     }
 
     private void setup(final FMLCommonSetupEvent event) {

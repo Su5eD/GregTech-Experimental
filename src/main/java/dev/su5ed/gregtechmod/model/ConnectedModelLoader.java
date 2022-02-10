@@ -11,8 +11,6 @@ import one.util.streamex.StreamEx;
 import java.util.Map;
 
 public class ConnectedModelLoader implements IModelLoader<ConnectedModelGeometry> {
-    public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "connected_model_loader");
-    
     private final Map<String, ResourceLocation> textures;
     private final ResourceLocation particle;
     

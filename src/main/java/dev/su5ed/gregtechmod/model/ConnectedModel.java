@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.model;
 
 import com.mojang.math.Vector3f;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
+import dev.su5ed.gregtechmod.model.DirectionsProperty.DirectionsWrapper;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -13,7 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.IModelData;
 import one.util.streamex.StreamEx;
-import dev.su5ed.gregtechmod.model.DirectionsProperty.DirectionsWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -23,7 +23,9 @@ import java.util.function.Function;
 public class ConnectedModel implements IDynamicBakedModel {
     private static final FaceBakery BAKERY = new FaceBakery();
     private static final BlockFaceUV FACE_UV = new BlockFaceUV(new float[] { 0, 0, 16, 16 }, 0);
-
+    private static final Vector3f MAX = new Vector3f(16, 16, 16);
+    private static final Vector3f MAX_DOWN = new Vector3f(16, 0, 16);
+    
     public static final List<String> TEXTURE_PARTS = Arrays.asList(
         "en", "ens", "ensw", "enw", "es",
         "esw", "ew", "ns", "nsw", "nw", "sw"
@@ -34,8 +36,6 @@ public class ConnectedModel implements IDynamicBakedModel {
         "n", "ns",
         "s", "ns"
     );
-    private static final Vector3f MAX = new Vector3f(16, 16, 16);
-    private static final Vector3f MAX_DOWN = new Vector3f(16, 0, 16);
 
     private final TextureAtlasSprite particle;
     private final ItemOverrides overrides;
@@ -53,7 +53,7 @@ public class ConnectedModel implements IDynamicBakedModel {
         Map<Material, TextureAtlasSprite> sprites = StreamEx.ofValues(materials)
             .mapToEntry(spriteGetter)
             .toImmutableMap();
-        
+
         return StreamEx.of(DirectionsWrapper.VALUES)
             .mapToEntry(key -> getQuadsForKey(key, materials, sprites, modelLocation))
             .toImmutableMap();
@@ -150,7 +150,7 @@ public class ConnectedModel implements IDynamicBakedModel {
     public ItemTransforms getTransforms() {
         return this.transforms;
     }
-    
+
     private static DirectionsProperty.DirectionsWrapper getDirections(@Nullable BlockState state) {
         return state != null ? state.getValue(ConnectedBlock.DIRECTIONS) : DirectionsProperty.DirectionsWrapper.from();
     }

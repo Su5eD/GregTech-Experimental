@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.block;
 
+import dev.su5ed.gregtechmod.GregTechConfig;
 import dev.su5ed.gregtechmod.model.DirectionsProperty;
 import dev.su5ed.gregtechmod.model.DirectionsProperty.DirectionsWrapper;
 import net.minecraft.core.BlockPos;
@@ -51,10 +52,10 @@ public class ConnectedBlock extends ResourceBlock {
     }
 
     protected boolean isSideConnectable(Level world, BlockPos pos, Direction side) {
-//        if (GregTechConfig.GENERAL.connectedTextures) { TODO Config
-        BlockState state = world.getBlockState(pos.relative(side));
-        return state.getBlock() == this;
-//        }
-//        return false;
+        if (GregTechConfig.CLIENT.connectedTextures.get()) {
+            BlockState state = world.getBlockState(pos.relative(side));
+            return state.getBlock() == this;
+        }
+        return false;
     }
 }
