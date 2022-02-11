@@ -27,6 +27,7 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(Nugget.values(), "nugget");
         registerItems(Rod.values(), "rod");
         registerItems(Dust.values(), "dust");
+        registerItems(Smalldust.values(), "smalldust");
     }
 
     private void registerItems(ItemProvider[] providers, String folder) {
