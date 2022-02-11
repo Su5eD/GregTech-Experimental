@@ -4,6 +4,7 @@ import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.object.Ingot;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.Nugget;
+import dev.su5ed.gregtechmod.object.Rod;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,7 @@ class ItemModelGen extends ItemModelProvider {
         
         registerItems(Ingot.values(), "ingot");
         registerItems(Nugget.values(), "nugget");
+        registerItems(Rod.values(), "rod");
     }
 
     private void registerItems(ItemProvider[] providers, String folder) {

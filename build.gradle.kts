@@ -109,7 +109,7 @@ configurations {
     }
 
     "generatedCompileOnly" {
-        extendsFrom(shade, configurations.minecraft.get())
+        extendsFrom(apiDep, shade, compileOnly.get(), configurations.minecraft.get())
     }
 }
 

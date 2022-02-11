@@ -31,6 +31,7 @@ public final class ModObjects {
         StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ingot.values())
             .append(Nugget.values())
+            .append(Rod.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }
