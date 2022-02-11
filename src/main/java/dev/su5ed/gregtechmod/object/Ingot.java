@@ -40,6 +40,7 @@ public enum Ingot implements ItemProvider {
     ZINC("Zn");
 
     private final Lazy<Item> instance;
+    final Supplier<String> description;
 
     Ingot() {
         this(JavaUtil.nullSupplier());
@@ -58,8 +59,10 @@ public enum Ingot implements ItemProvider {
     }
 
     Ingot(Supplier<String> description, boolean isFoil) {
+        this.description = description;
+        
         ResourceLocation name = location(getName() + "_ingot");
-        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.ITEM_PROPERTIES, description, isFoil).setRegistryName(name));
+        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.ITEM_PROPERTIES, this.description, isFoil).setRegistryName(name));
     }
     
     @Override

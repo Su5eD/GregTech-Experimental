@@ -57,5 +57,24 @@
   "item.gregtechmod.tungsten_ingot": "Tungsten Ingot",
   "item.gregtechmod.tungsten_steel_ingot": "Tungstensteel Ingot",
   "item.gregtechmod.tungsten_steel_ingot.description": "Vacuum Hardened",
-  "item.gregtechmod.zinc_ingot": "Zinc Ingot"
+  "item.gregtechmod.zinc_ingot": "Zinc Ingot",
+
+  "item.gregtechmod.aluminium_nugget": "Aluminium Nugget",
+  "item.gregtechmod.antimony_nugget": "Antimony Nugget",
+  "item.gregtechmod.brass_nugget": "Brass Nugget",
+  "item.gregtechmod.chrome_nugget": "Chrome Nugget",
+  "item.gregtechmod.copper_nugget": "Copper Nugget",
+  "item.gregtechmod.electrum_nugget": "Electrum Nugget",
+  "item.gregtechmod.invar_nugget": "Invar Nugget",
+  "item.gregtechmod.iridium_nugget": "Iridium Nugget",
+  "item.gregtechmod.lead_nugget": "Lead Nugget",
+  "item.gregtechmod.nickel_nugget": "Nickel Nugget",
+  "item.gregtechmod.osmium_nugget": "Osmium Nugget",
+  "item.gregtechmod.platinum_nugget": "Platinum Nugget",
+  "item.gregtechmod.silver_nugget": "Silver Nugget",
+  "item.gregtechmod.steel_nugget": "Steel Nugget",
+  "item.gregtechmod.tin_nugget": "Tin Nugget",
+  "item.gregtechmod.titanium_nugget": "Titanium Nugget",
+  "item.gregtechmod.tungsten_nugget": "Tungsten Nugget",
+  "item.gregtechmod.zinc_nugget": "Zinc Nugget"
 }

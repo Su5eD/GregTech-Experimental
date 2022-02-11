@@ -27,13 +27,10 @@ public final class ModObjects {
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
-
-        registerItems(registry, ModBlock.values());
-        registerItems(registry, Ingot.values());
-    }
-
-    private void registerItems(IForgeRegistry<Item> registry, ItemProvider[] providers) {
-        StreamEx.of(providers)
+        
+        StreamEx.<ItemProvider>of(ModBlock.values())
+            .append(Ingot.values())
+            .append(Nugget.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }

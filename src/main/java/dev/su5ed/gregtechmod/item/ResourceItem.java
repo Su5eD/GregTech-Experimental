@@ -16,6 +16,10 @@ public class ResourceItem extends Item {
     private final Supplier<String> description;
     private final boolean isFoil;
 
+    public ResourceItem(Properties pProperties, Supplier<String> description) {
+        this(pProperties, description, false);
+    }
+    
     public ResourceItem(Properties pProperties, Supplier<String> description, boolean isFoil) {
         super(pProperties);
         
