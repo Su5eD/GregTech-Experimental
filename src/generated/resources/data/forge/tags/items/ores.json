@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "gregtechmod:galena_ore",
+    "gregtechmod:iridium_ore",
+    "gregtechmod:ruby_ore",
+    "gregtechmod:sapphire_ore",
+    "gregtechmod:bauxite_ore",
+    "gregtechmod:pyrite_ore",
+    "gregtechmod:cinnabar_ore",
+    "gregtechmod:sphalerite_ore",
+    "gregtechmod:tungstate_ore",
+    "gregtechmod:sheldonite_ore",
+    "gregtechmod:olivine_ore",
+    "gregtechmod:sodalite_ore",
+    "gregtechmod:tetrahedrite_ore",
+    "gregtechmod:cassiterite_ore"
+  ]
+}

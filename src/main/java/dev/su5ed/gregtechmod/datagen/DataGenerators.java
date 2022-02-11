@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.datagen;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
@@ -16,7 +17,9 @@ public final class DataGenerators {
         ExistingFileHelper helper = event.getExistingFileHelper();
 
         if (event.includeServer()) {
-            generator.addProvider(new BlockTagsGen(generator, helper));
+            BlockTagsProvider blockTags = new BlockTagsGen(generator, helper);
+            generator.addProvider(blockTags);
+            generator.addProvider(new ItemTagsGen(generator, blockTags, helper));
             generator.addProvider(new LootTableGen(generator));
         }
 

@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.block.ResourceBlock;
+import dev.su5ed.gregtechmod.util.BlockProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public enum ModBlock implements ItemProvider {
+public enum ModBlock implements BlockProvider, ItemProvider {
     ADVANCED_MACHINE_CASING(() -> new ConnectedBlock(3, 30)),
     ALUMINIUM(3, 30),
     BRASS(3.5F, 30),
@@ -57,12 +58,14 @@ public enum ModBlock implements ItemProvider {
         this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.ITEM_PROPERTIES).setRegistryName(name));
     }
 
-    public Block getBlock() {
-        return this.block.get();
-    }
-
+    @Override
     public String getName() {
         return name().toLowerCase(Locale.ROOT);
+    }
+
+    @Override
+    public Block getBlock() {
+        return this.block.get();
     }
 
     @Override

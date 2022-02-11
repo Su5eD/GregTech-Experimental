@@ -1,16 +1,18 @@
 package dev.su5ed.gregtechmod.datagen;
 
-import dev.su5ed.gregtechmod.ClientSetup;
+import dev.su5ed.gregtechmod.setup.ClientSetup;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.object.ModBlock;
+import dev.su5ed.gregtechmod.object.Ore;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import one.util.streamex.StreamEx;
 
-import java.util.Arrays;
+import javax.annotation.Nonnull;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -22,7 +24,7 @@ class BlockStateGen extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        Arrays.stream(ModBlock.values())
+        StreamEx.of(ModBlock.values())
             .forEach(modBlock -> {
                 Block block = modBlock.getBlock();
                 String path = block.getRegistryName().getPath();
@@ -45,5 +47,20 @@ class BlockStateGen extends BlockStateProvider {
 
                 simpleBlock(block, model);
             });
+        
+        StreamEx.of(Ore.values())
+            .forEach(ore -> {
+                Block block = ore.getBlock();
+                String path = block.getRegistryName().getPath();
+                String texturePath = ore.getName();
+                ResourceLocation location = location(ModelProvider.BLOCK_FOLDER + "/ore/" + texturePath);
+                simpleBlock(block, models().cubeAll(path, location));
+            });
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return Reference.NAME + " Blockstates";
     }
 }

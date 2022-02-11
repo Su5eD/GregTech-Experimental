@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.datagen.DataGenerators;
 import dev.su5ed.gregtechmod.object.ModObjects;
+import dev.su5ed.gregtechmod.setup.ClientSetup;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;

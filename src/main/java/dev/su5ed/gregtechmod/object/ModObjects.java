@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTab;
+import dev.su5ed.gregtechmod.util.BlockProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -19,8 +20,9 @@ public final class ModObjects {
     public void registerBlocks(RegistryEvent.Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
 
-        StreamEx.of(ModBlock.values())
-            .map(ModBlock::getBlock)
+        StreamEx.<BlockProvider>of(ModBlock.values())
+            .append(Ore.values())
+            .map(BlockProvider::getBlock)
             .forEach(registry::register);
     }
 
@@ -29,6 +31,7 @@ public final class ModObjects {
         IForgeRegistry<Item> registry = event.getRegistry();
         
         StreamEx.<ItemProvider>of(ModBlock.values())
+            .append(Ore.values())
             .append(Ingot.values())
             .append(Nugget.values())
             .append(Rod.values())

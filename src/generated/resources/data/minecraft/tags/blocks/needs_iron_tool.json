@@ -28,6 +28,13 @@
     "gregtechmod:titanium_block",
     "gregtechmod:tungsten_block",
     "gregtechmod:tungsten_steel_block",
-    "gregtechmod:zinc_block"
+    "gregtechmod:zinc_block",
+    "gregtechmod:ruby_ore",
+    "gregtechmod:sapphire_ore",
+    "gregtechmod:cinnabar_ore",
+    "gregtechmod:tungstate_ore",
+    "gregtechmod:sodalite_ore",
+    "gregtechmod:tetrahedrite_ore",
+    "gregtechmod:cassiterite_ore"
   ]
 }

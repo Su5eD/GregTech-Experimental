@@ -16,7 +16,7 @@ import one.util.streamex.StreamEx;
 import javax.annotation.Nullable;
 
 public class ConnectedBlock extends ResourceBlock {
-    public static final Property<DirectionsWrapper> DIRECTIONS = new DirectionsProperty("directions");
+    public static final Property<DirectionsWrapper> DIRECTIONS = new DirectionsProperty("directions"); // Try not using a property?
 
     public ConnectedBlock(float strength, float resistance) {
         super(strength, resistance);

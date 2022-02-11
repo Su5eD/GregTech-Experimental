@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "gregtechmod:galena_ore",
+    "gregtechmod:bauxite_ore",
+    "gregtechmod:pyrite_ore",
+    "gregtechmod:sphalerite_ore"
+  ]
+}

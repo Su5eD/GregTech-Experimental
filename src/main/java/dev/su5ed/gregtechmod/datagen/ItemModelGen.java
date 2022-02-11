@@ -9,6 +9,8 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.StreamEx;
 
+import javax.annotation.Nonnull;
+
 class ItemModelGen extends ItemModelProvider {
     private final ResourceLocation generatedParent = mcLoc("item/generated");
     
@@ -18,7 +20,8 @@ class ItemModelGen extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        StreamEx.of(ModBlock.values())
+        StreamEx.<ItemProvider>of(ModBlock.values())
+            .append(Ore.values())
             .map(block -> block.getItem().getRegistryName().getPath())
             .mapToEntry(name -> modLoc("block/" + name))
             .forKeyValue(this::withExistingParent);
@@ -29,6 +32,12 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(Dust.values(), "dust");
         registerItems(Smalldust.values(), "smalldust");
         registerItems(Plate.values(), "plate");
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return Reference.NAME + " Item Models";
     }
 
     private void registerItems(ItemProvider[] providers, String folder) {

@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod;
+package dev.su5ed.gregtechmod.setup;
 
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
@@ -12,7 +12,7 @@ import one.util.streamex.StreamEx;
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class ClientSetup {
-    static final ClientSetup INSTANCE = new ClientSetup();
+    public static final ClientSetup INSTANCE = new ClientSetup();
 
     private ClientSetup() {}
 
