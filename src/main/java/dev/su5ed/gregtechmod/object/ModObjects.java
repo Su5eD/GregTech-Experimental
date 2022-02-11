@@ -34,6 +34,7 @@ public final class ModObjects {
             .append(Rod.values())
             .append(Dust.values())
             .append(Smalldust.values())
+            .append(Plate.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }

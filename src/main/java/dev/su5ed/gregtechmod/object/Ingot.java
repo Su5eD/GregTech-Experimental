@@ -60,11 +60,11 @@ public enum Ingot implements ItemProvider {
 
     Ingot(Supplier<String> description, boolean isFoil) {
         this.description = description;
-        
+
         ResourceLocation name = location(getName() + "_ingot");
         this.instance = Lazy.of(() -> new ResourceItem(ModObjects.ITEM_PROPERTIES, this.description, isFoil).setRegistryName(name));
     }
-    
+
     @Override
     public String getName() {
         return name().toLowerCase(Locale.ROOT);
