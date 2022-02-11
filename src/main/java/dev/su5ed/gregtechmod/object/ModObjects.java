@@ -32,6 +32,7 @@ public final class ModObjects {
             .append(Ingot.values())
             .append(Nugget.values())
             .append(Rod.values())
+            .append(Dust.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }
