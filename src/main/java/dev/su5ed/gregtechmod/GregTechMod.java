@@ -27,6 +27,7 @@ public class GregTechMod {
 
         ModLoadingContext ctx = ModLoadingContext.get();
         ctx.registerConfig(ModConfig.Type.CLIENT, GregTechConfig.CLIENT_SPEC);
+        ctx.registerConfig(ModConfig.Type.COMMON, GregTechConfig.COMMON_SPEC);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
