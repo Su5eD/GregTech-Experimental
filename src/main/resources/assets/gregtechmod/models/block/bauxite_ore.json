@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gregtechmod:bauxite_ore_model",
+  "textures": {
+    "particle": "gregtechmod:block/ore/overworld/bauxite_y",
+    "down": "gregtechmod:block/ore/overworld/bauxite_y",
+    "up": "gregtechmod:block/ore/overworld/bauxite_y",
+    "north": "gregtechmod:block/ore/overworld/bauxite_z",
+    "south": "gregtechmod:block/ore/overworld/bauxite_z",
+    "east": "gregtechmod:block/ore/overworld/bauxite_x",
+    "west": "gregtechmod:block/ore/overworld/bauxite_x",
+    "": "gregtechmod:block/ore/bauxite"
+  }
+}

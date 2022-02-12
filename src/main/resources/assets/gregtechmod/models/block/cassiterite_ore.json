@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gregtechmod:cassiterite_ore_model",
+  "textures": {
+    "particle": "gregtechmod:block/ore/overworld/cassiterite_all",
+    "down": "gregtechmod:block/ore/overworld/cassiterite_all",
+    "up": "gregtechmod:block/ore/overworld/cassiterite_all",
+    "north": "gregtechmod:block/ore/overworld/cassiterite_all",
+    "south": "gregtechmod:block/ore/overworld/cassiterite_all",
+    "east": "gregtechmod:block/ore/overworld/cassiterite_all",
+    "west": "gregtechmod:block/ore/overworld/cassiterite_all",
+    "": "gregtechmod:block/ore/cassiterite"
+  }
+}

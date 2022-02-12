@@ -3,7 +3,10 @@ package dev.su5ed.gregtechmod.model;
 import com.mojang.math.Vector3f;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockElementFace;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.Material;
@@ -12,7 +15,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import one.util.streamex.IntStreamEx;
@@ -23,12 +25,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
-public class ConnectedModel implements IDynamicBakedModel {
-    private static final FaceBakery BAKERY = new FaceBakery();
-    private static final BlockFaceUV FACE_UV = new BlockFaceUV(new float[] { 0, 0, 16, 16 }, 0);
-    private static final Vector3f MAX = new Vector3f(16, 16, 16);
-    private static final Vector3f MAX_DOWN = new Vector3f(16, 0, 16);
-
+public class ConnectedModel extends BaseModel {
     public static final List<String> TEXTURE_PARTS = Arrays.asList(
         "en", "ens", "ensw", "enw", "es",
         "esw", "ew", "ns", "nsw", "nw", "sw"
@@ -40,23 +37,14 @@ public class ConnectedModel implements IDynamicBakedModel {
         "s", "ns"
     );
 
-    private final TextureAtlasSprite particle;
-    private final ItemOverrides overrides;
-    private final ItemTransforms transforms;
     private final Map<Set<Direction>, Map<Direction, List<BakedQuad>>> quads;
 
-    public ConnectedModel(TextureAtlasSprite particle, Map<String, Material> materials, Function<Material, TextureAtlasSprite> spriteGetter, ItemOverrides overrides, ItemTransforms transforms, ResourceLocation modelLocation) {
-        this.particle = particle;
-        this.overrides = overrides;
-        this.transforms = transforms;
-        this.quads = pregenQuads(materials, spriteGetter, modelLocation);
+    public ConnectedModel(TextureAtlasSprite particle, Map<String, Material> materials, Map<Material, TextureAtlasSprite> sprites, ItemOverrides overrides, ItemTransforms transforms, ResourceLocation modelLocation) {
+        super(particle, overrides, transforms);
+        this.quads = pregenQuads(materials, sprites, modelLocation);
     }
 
-    private Map<Set<Direction>, Map<Direction, List<BakedQuad>>> pregenQuads(Map<String, Material> materials, Function<Material, TextureAtlasSprite> spriteGetter, ResourceLocation modelLocation) {
-        Map<Material, TextureAtlasSprite> sprites = StreamEx.ofValues(materials)
-            .mapToEntry(spriteGetter)
-            .toImmutableMap();
-
+    private Map<Set<Direction>, Map<Direction, List<BakedQuad>>> pregenQuads(Map<String, Material> materials, Map<Material, TextureAtlasSprite> sprites, ResourceLocation modelLocation) {
         return IntStreamEx.rangeClosed(0, 0b111111)
             .mapToObj(i -> IntStreamEx.range(Direction.values().length)
                 .filter(j -> (i & 1 << j) != 0)
@@ -83,12 +71,11 @@ public class ConnectedModel implements IDynamicBakedModel {
     @Nonnull
     @Override
     public IModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
-        if (state.getBlock() instanceof ConnectedBlock block) {
-            return new ModelDataMap.Builder()
+        return state.getBlock() instanceof ConnectedBlock block
+            ? new ModelDataMap.Builder()
                 .withInitial(ConnectedBlock.DIRECTIONS, block.getConnections(world, pos))
-                .build();
-        }
-        return tileData;
+                .build()
+            : tileData;
     }
 
     @Nonnull
@@ -131,42 +118,6 @@ public class ConnectedModel implements IDynamicBakedModel {
             return relative.getAxisDirection() == Direction.AxisDirection.POSITIVE ? facing.getClockWise() : facing.getCounterClockWise();
         }
         return facing;
-    }
-
-    @Override
-    public boolean useAmbientOcclusion() {
-        return true;
-    }
-
-    @Override
-    public boolean isGui3d() {
-        return false;
-    }
-
-    @Override
-    public boolean usesBlockLight() {
-        return true;
-    }
-
-    @Override
-    public boolean isCustomRenderer() {
-        return false;
-    }
-
-    @Override
-    public TextureAtlasSprite getParticleIcon() {
-        return this.particle;
-    }
-
-    @Override
-    public ItemOverrides getOverrides() {
-        return this.overrides;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public ItemTransforms getTransforms() {
-        return this.transforms;
     }
 
     private static Set<Direction> getConnections(IModelData data) {

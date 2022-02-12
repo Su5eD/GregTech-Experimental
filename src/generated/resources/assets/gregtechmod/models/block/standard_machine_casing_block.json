@@ -1,4 +1,4 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:standard_machine_casing_model"
+  "loader": "gregtechmod:standard_machine_casing_block_model"
 }

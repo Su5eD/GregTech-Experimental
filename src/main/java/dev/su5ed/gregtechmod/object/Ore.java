@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.object;
 
+import dev.su5ed.gregtechmod.block.OreBlock;
 import dev.su5ed.gregtechmod.util.BlockProvider;
 import dev.su5ed.gregtechmod.util.HarvestLevel;
 import dev.su5ed.gregtechmod.util.ItemProvider;
@@ -7,8 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.util.Lazy;
 
 import java.util.Locale;
@@ -41,9 +40,7 @@ public enum Ore implements BlockProvider, ItemProvider {
     }
 
     Ore(float strength, HarvestLevel harvestLevel) {
-        this(() -> new Block(BlockBehaviour.Properties.of(Material.STONE)
-            .strength(strength)
-            .requiresCorrectToolForDrops()), harvestLevel);
+        this(() -> new OreBlock(strength), harvestLevel);
     }
 
     Ore(Supplier<Block> block, HarvestLevel harvestLevel) {

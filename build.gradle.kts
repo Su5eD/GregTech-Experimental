@@ -197,7 +197,7 @@ repositories {
 }
 
 dependencies {
-    minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.1-39.0.66")
+    minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.1-39.0.75")
 
     compileOnly(api.output)
     "generatedCompileOnly"(api.output)

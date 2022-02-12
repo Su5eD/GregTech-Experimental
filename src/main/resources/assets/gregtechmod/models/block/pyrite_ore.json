@@ -1,0 +1,24 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gregtechmod:pyrite_ore_model",
+  "textures": {
+    "particle": "gregtechmod:block/ore/nether/pyrite_down_east",
+    "": "gregtechmod:block/ore/pyrite"
+  },
+  "textures_nether": {
+    "down": "gregtechmod:block/ore/nether/pyrite_down_east",
+    "up": "gregtechmod:block/ore/nether/pyrite_up_south",
+    "north": "gregtechmod:block/ore/nether/pyrite_north_west",
+    "south": "gregtechmod:block/ore/nether/pyrite_up_south",
+    "east": "gregtechmod:block/ore/nether/pyrite_down_east",
+    "west": "gregtechmod:block/ore/nether/pyrite_north_west"
+  },
+  "textures_end": {
+    "down": "gregtechmod:block/ore/end/pyrite_all",
+    "up": "gregtechmod:block/ore/end/pyrite_all",
+    "north": "gregtechmod:block/ore/end/pyrite_all",
+    "south": "gregtechmod:block/ore/end/pyrite_all",
+    "east": "gregtechmod:block/ore/end/pyrite_all",
+    "west": "gregtechmod:block/ore/end/pyrite_all"
+  }
+}

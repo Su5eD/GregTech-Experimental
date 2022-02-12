@@ -1,4 +1,4 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:tungsten_steel_model"
+  "loader": "gregtechmod:tungsten_steel_block_model"
 }

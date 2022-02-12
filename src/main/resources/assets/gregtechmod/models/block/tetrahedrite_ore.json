@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gregtechmod:tetrahedrite_ore_model",
+  "textures": {
+    "particle": "gregtechmod:block/ore/overworld/tetrahedrite_down",
+    "down": "gregtechmod:block/ore/overworld/tetrahedrite_down",
+    "up": "gregtechmod:block/ore/overworld/tetrahedrite_up",
+    "north": "gregtechmod:block/ore/overworld/tetrahedrite_north",
+    "south": "gregtechmod:block/ore/overworld/tetrahedrite_south",
+    "east": "gregtechmod:block/ore/overworld/tetrahedrite_east",
+    "west": "gregtechmod:block/ore/overworld/tetrahedrite_west",
+    "": "gregtechmod:block/ore/tetrahedrite"
+  }
+}
