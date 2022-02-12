@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 
 public class PropertyHelper {
     public static final IUnlistedProperty<AnimationSpeed> ANIMATION_SPEED_PROPERTY = new UnlistedProperty<>("animationSpeed", AnimationSpeed.class);
@@ -97,7 +98,7 @@ public class PropertyHelper {
 
         public final BiFunction<EnumFacing, EnumFacing, EnumFacing> rotation;
 
-        VerticalRotation(BiFunction<EnumFacing, EnumFacing, EnumFacing> rotation) {
+        VerticalRotation(BinaryOperator<EnumFacing> rotation) {
             this.rotation = rotation;
         }
     }

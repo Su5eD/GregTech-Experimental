@@ -26,10 +26,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class BlockOre extends Block implements ICustomItemModel {
     private final String name;
@@ -70,8 +67,7 @@ public class BlockOre extends Block implements ICustomItemModel {
 
     @Override
     public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
-        if (entity instanceof EntityDragon) return false;
-        return super.canEntityDestroy(state, world, pos, entity);
+        return !(entity instanceof EntityDragon) && super.canEntityDestroy(state, world, pos, entity);
     }
 
     @Override

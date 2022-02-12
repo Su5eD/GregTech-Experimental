@@ -20,7 +20,7 @@ public abstract class ModelCached extends ModelBase {
     private final Block block;
     private Map<IBlockState, Map<EnumFacing, List<BakedQuad>>> cache;
 
-    public ModelCached(Block block, ResourceLocation particle, Collection<ResourceLocation> textures) {
+    protected ModelCached(Block block, ResourceLocation particle, Collection<ResourceLocation> textures) {
         super(particle, textures);
         this.block = block;
     }

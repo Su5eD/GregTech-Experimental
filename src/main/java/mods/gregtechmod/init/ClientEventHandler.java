@@ -165,8 +165,8 @@ public class ClientEventHandler {
                 String name = block.name().toLowerCase(Locale.ROOT);
                 String rotorTextures = block.getExtraTextures();
 
-                if (rotorTextures != null) registerBlockConnectedBakedModel(loader, name, getRotorTextures(rotorTextures));
-                else registerBlockConnectedBakedModel(loader, name);
+                if (rotorTextures != null) registerBlockConnectedBakedModel(loader, instance, name, getRotorTextures(rotorTextures));
+                else registerBlockConnectedBakedModel(loader, instance, name);
             });
     }
 
@@ -183,8 +183,8 @@ public class ClientEventHandler {
     }
 
     @SafeVarargs
-    private static void registerBlockConnectedBakedModel(BakedModelLoader loader, String name, Map<String, ResourceLocation>... extraTextures) {
-        registerConnectedBakedModel(loader, name, "connected", "block_", textures -> new ModelBlockConnected(textures, extraTextures));
+    private static void registerBlockConnectedBakedModel(BakedModelLoader loader, Block block, String name, Map<String, ResourceLocation>... extraTextures) {
+        registerConnectedBakedModel(loader, name, "connected", "block_", textures -> new ModelBlockConnected(block, textures, extraTextures));
     }
 
     /**

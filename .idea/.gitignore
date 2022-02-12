@@ -3,6 +3,7 @@
 /workspace.xml
 /dictionaries/
 /httpRequests/
+/sonarlint/
 
 *.xml
 !/codeStyles/*

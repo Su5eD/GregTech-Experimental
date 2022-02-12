@@ -27,14 +27,14 @@ public abstract class ModelBase extends AbstractModel {
     protected final Map<ResourceLocation, TextureAtlasSprite> sprites = new HashMap<>();
     protected final ResourceLocation particle;
 
-    public ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
+    protected ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
         this(particle, StreamEx.of(textures)
             .map(Map::values)
             .flatMap(Collection::stream)
             .toImmutableList());
     }
 
-    public ModelBase(ResourceLocation particle, Collection<ResourceLocation> textures) {
+    protected ModelBase(ResourceLocation particle, Collection<ResourceLocation> textures) {
         this.particle = Objects.requireNonNull(particle);
         textures.forEach(loc -> this.sprites.put(loc, null));
         this.sprites.put(particle, null);
