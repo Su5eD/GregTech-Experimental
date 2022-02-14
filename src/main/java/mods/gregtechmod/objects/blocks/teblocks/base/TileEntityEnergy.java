@@ -43,9 +43,6 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     }
 
     @Override
-    public abstract int getEUCapacity();
-
-    @Override
     public double getStoredEU() {
         return this.energy.getStoredEnergy();
     }

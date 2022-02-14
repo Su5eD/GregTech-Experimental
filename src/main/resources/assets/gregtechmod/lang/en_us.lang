@@ -298,6 +298,9 @@ gregtechmod.teblock.tesseract.frequency_connected= §a(Connected)
 gregtechmod.teblock.tesseract.frequency_underpowered= §6(Insufficient Energy)
 gregtechmod.teblock.electric_buffer_small.no_regulate=Do not regulate Item Stack Size
 gregtechmod.teblock.electric_buffer_small.regulate=Regulate Item Stack Size to: %s
+gregtechmod.teblock.player_detector.mode.detect_all=Detects all Players
+gregtechmod.teblock.player_detector.mode.detect_owner=Detects only you
+gregtechmod.teblock.player_detector.mode.detect_non_owner=Detects only other Players
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -963,6 +966,7 @@ gregtechmod.teblock.electric_inventory_manager=Inventory Manager
 gregtechmod.teblock.electric_inventory_manager.description=It's simplier than you think. I promise.
 gregtechmod.teblock.electric_crafting_table=Electric Craftingtable
 gregtechmod.teblock.electric_crafting_table.description=Automatic Crafting Table Mk III
+gregtechmod.teblock.player_detector=Player Detector
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

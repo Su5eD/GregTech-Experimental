@@ -1,9 +1,10 @@
 package mods.gregtechmod.objects.blocks.teblocks.component;
 
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityAutoNBT;
-import net.minecraft.nbt.NBTTagCompound;
+import mods.gregtechmod.util.nbt.NBTPersistent;
 
 public class GtRedstoneEmitter extends GtComponentBase {
+    @NBTPersistent
     private int level;
     private final Runnable onUpdate;
 
@@ -20,23 +21,11 @@ public class GtRedstoneEmitter extends GtComponentBase {
         if (level != this.level) {
             this.level = level;
             this.onUpdate.run();
-            ((TileEntityAutoNBT) this.parent).updateRender();
+            ((TileEntityAutoNBT) this.parent).updateAndNotifyNeighbors();
         }
     }
 
     public boolean emitsRedstone() {
         return this.level > 0;
-    }
-
-    @Override
-    public void readFromNbt(NBTTagCompound nbt) {
-        this.level = nbt.getInteger("level");
-    }
-
-    @Override
-    public NBTTagCompound writeToNbt() {
-        NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setInteger("level", this.level);
-        return nbt;
     }
 }

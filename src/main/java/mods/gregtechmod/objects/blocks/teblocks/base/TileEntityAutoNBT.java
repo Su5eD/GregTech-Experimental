@@ -125,6 +125,12 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
         IBlockState state = getBlockState();
         this.world.notifyBlockUpdate(this.pos, state, state, BlockFlags.DEFAULT);
     }
+    
+    public void updateAndNotifyNeighbors() {
+        IBlockState state = getBlockState();
+        this.world.notifyBlockUpdate(this.pos, state, state, BlockFlags.DEFAULT);
+        this.world.notifyNeighborsOfStateChange(this.pos, this.blockType, true);
+    }
 
     public TileEntity getNeighborTE(EnumFacing side) {
         return this.world.getTileEntity(this.pos.offset(side));

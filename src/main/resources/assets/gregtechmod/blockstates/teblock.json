@@ -102,7 +102,9 @@
       "electric_translocator_advanced": { "model": "gregtechmod:electric_translocator_advanced" },
       "electric_regulator_advanced": { "model": "gregtechmod:electric_regulator_advanced" },
       "electric_inventory_manager": { "model": "gregtechmod:electric_inventory_manager" },
-      "electric_crafting_table": { "model": "gregtechmod:electric_crafting_table" }
+      "electric_crafting_table": { "model": "gregtechmod:electric_crafting_table" },
+      "player_detector": { "model": "gregtechmod:player_detector" },
+      "player_detector_active": { "model": "gregtechmod:player_detector_active" }
     },
     "facing": {
       "down": { "x": 90 },
