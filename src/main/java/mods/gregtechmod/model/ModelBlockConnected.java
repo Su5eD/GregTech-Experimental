@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 public class ModelBlockConnected extends ModelCached {
     public static final List<String> TEXTURE_PARTS = Arrays.asList(
-        "en", "ens", "ensw", "enw", "es",
+        "", "en", "ens", "ensw", "enw", "es",
         "esw", "ew", "ns", "nsw", "nw", "sw"
     );
     private static final Map<String, String> TEXTURE_ALIASES = ImmutableMap.of(

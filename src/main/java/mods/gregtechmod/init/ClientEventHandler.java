@@ -47,8 +47,10 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Reference.MODID, value = Side.CLIENT)
-public class ClientEventHandler {
+public final class ClientEventHandler {
     private static final Map<ItemStack, Supplier<String>> EXTRA_TOOLTIPS = new HashMap<>();
+    
+    private ClientEventHandler() {}
 
     public static void gatherModItems() {
         EXTRA_TOOLTIPS.put(IC2Items.getItem("dust", "coal"), () -> "C2");
@@ -148,8 +150,7 @@ public class ClientEventHandler {
     }
 
     private static JsonHandler getTeBlockModel(String name, JsonObject models) {
-        JsonObject obj = models.getAsJsonObject(name);
-        if (obj == null) throw new RuntimeException("Missing blockstate model definition for TEBlock " + name);
+        JsonObject obj = Objects.requireNonNull(models.getAsJsonObject(name), "Missing blockstate model definition for TEBlock " + name);
 
         String modelPath = new ResourceLocation(obj.get("model").getAsString()).getPath();
         return new JsonHandler(getItemModelPath("teblock", modelPath));

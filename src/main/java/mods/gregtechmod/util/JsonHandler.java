@@ -66,7 +66,7 @@ public class JsonHandler {
         JsonObject map = this.json.getAsJsonObject(elementName);
 
         return map != null ? EntryStream.of(map.entrySet().iterator())
-            .removeKeys("particle"::equals)
+            .withoutKeys("particle")
             .mapKeys(EnumFacing::byName)
             .mapValues(json -> new ResourceLocation(json.getAsString()))
             .toImmutableMap()

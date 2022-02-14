@@ -1,5 +1,7 @@
 package mods.gregtechmod.objects.blocks;
 
+import ic2.core.item.tool.HarvestLevel;
+import ic2.core.item.tool.ToolClass;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.core.GregTechConfig;
@@ -26,7 +28,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class BlockOre extends Block implements ICustomItemModel {
     private final String name;
@@ -34,7 +39,7 @@ public class BlockOre extends Block implements ICustomItemModel {
     private final int dropRandom;
     private final TriConsumer<Integer, List<ItemStack>, Random> loot;
 
-    public BlockOre(String name, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
+    public BlockOre(String name, HarvestLevel harvestLevel, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
         super(Material.ROCK);
         this.name = name;
         this.dropChance = dropChance;
@@ -42,6 +47,7 @@ public class BlockOre extends Block implements ICustomItemModel {
         this.loot = loot;
         setResistance(10);
         setSoundType(SoundType.STONE);
+        setHarvestLevel(ToolClass.Pickaxe.name, harvestLevel.level);
     }
 
     @Override

@@ -2,6 +2,7 @@ package mods.gregtechmod.objects;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.item.IC2Items;
+import ic2.core.item.tool.HarvestLevel;
 import ic2.core.profile.NotExperimental;
 import mods.gregtechmod.api.machine.IUpgradableMachine;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
@@ -126,16 +127,16 @@ public class BlockItems {
 
     public enum Ore implements IItemProvider {
         GALENA(3, 0, 0, (fortune, drops, rand) -> {}),
-        IRIDIUM(20, 30, 21, (fortune, drops, rand) -> {
+        IRIDIUM(HarvestLevel.Diamond, 20, 30, 21, (fortune, drops, rand) -> {
             ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
             iridium.setCount(1 + rand.nextInt(1 + fortune / 2));
             drops.add(iridium);
         }),
-        RUBY(4, 3, 5, (fortune, drops, rand) -> {
+        RUBY(HarvestLevel.Iron, 4, 3, 5, (fortune, drops, rand) -> {
             drops.add(Miscellaneous.RUBY.getItemStack(1 + rand.nextInt(1 + fortune)));
             if (rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(Miscellaneous.RED_GARNET.getItemStack());
         }),
-        SAPPHIRE(4, 3, 5, (fortune, drops, rand) -> {
+        SAPPHIRE(HarvestLevel.Iron, 4, 3, 5, (fortune, drops, rand) -> {
             drops.add(Miscellaneous.SAPPHIRE.getItemStack(1 + rand.nextInt(1 + fortune)));
             if (rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
                 drops.add(Miscellaneous.GREEN_SAPPHIRE.getItemStack());
@@ -144,7 +145,7 @@ public class BlockItems {
         PYRITE(2, 1, 1, (fortune, drops, rand) -> {
             drops.add(Dust.PYRITE.getItemStack(2 + rand.nextInt(1 + fortune)));
         }),
-        CINNABAR(3, 3, 3, (fortune, drops, rand) -> {
+        CINNABAR(HarvestLevel.Iron, 3, 3, 3, (fortune, drops, rand) -> {
             drops.add(Dust.CINNABAR.getItemStack(2 + rand.nextInt(1 + fortune)));
             if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(new ItemStack(Items.REDSTONE));
         }),
@@ -153,31 +154,35 @@ public class BlockItems {
             if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(Dust.ZINC.getItemStack());
             if (rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(Dust.YELLOW_GARNET.getItemStack());
         }),
-        TUNGSTATE(4, 0, 0, (fortune, drops, rand) -> {}),
-        SHELDONITE(3.5F, 0, 0, (fortune, drops, rand) -> {}),
-        OLIVINE(3, 0, 0, (fortune, drops, rand) -> {
+        TUNGSTATE(HarvestLevel.Iron, 4, 0, 0, (fortune, drops, rand) -> {}),
+        SHELDONITE(HarvestLevel.Diamond, 3.5F, 0, 0, (fortune, drops, rand) -> {}),
+        OLIVINE(HarvestLevel.Diamond, 3, 0, 0, (fortune, drops, rand) -> {
             drops.add(Miscellaneous.OLIVINE.getItemStack(1 + rand.nextInt(1 + fortune)));
         }),
-        SODALITE(3, 0, 0, (fortune, drops, rand) -> {
+        SODALITE(HarvestLevel.Iron, 3, 0, 0, (fortune, drops, rand) -> {
             drops.add(Dust.SODALITE.getItemStack(6 + 3 * rand.nextInt(1 + fortune)));
             if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(Dust.ALUMINIUM.getItemStack());
         }),
-        TETRAHEDRITE(3, 0, 0, (fortune, drops, rand) -> {}),
-        CASSITERITE(3, 0, 0, (fortune, drops, rand) -> {});
+        TETRAHEDRITE(HarvestLevel.Iron, 3, 0, 0, (fortune, drops, rand) -> {}),
+        CASSITERITE(HarvestLevel.Iron, 3, 0, 0, (fortune, drops, rand) -> {});
         private final LazyValue<net.minecraft.block.Block> instance;
         public final float hardness;
         public final int dropChance;
         public final int dropRandom;
         public final TriConsumer<Integer, List<ItemStack>, Random> loot;
-
+        
         Ore(float hardness, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
+            this(HarvestLevel.Stone, hardness, dropChance, dropRandom, loot);
+        }
+
+        Ore(HarvestLevel level, float hardness, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
             this.hardness = hardness;
             this.dropChance = dropChance;
             this.dropRandom = dropRandom;
             this.loot = loot;
 
             String name = this.name().toLowerCase(Locale.ROOT) + "_ore";
-            this.instance = new LazyValue<>(() -> new BlockOre(this.name().toLowerCase(Locale.ROOT), this.dropChance, this.dropRandom, this.loot)
+            this.instance = new LazyValue<>(() -> new BlockOre(this.name().toLowerCase(Locale.ROOT), level, this.dropChance, this.dropRandom, this.loot)
                 .setRegistryName(name)
                 .setTranslationKey(name)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)
@@ -662,7 +667,7 @@ public class BlockItems {
         STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
-        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", machine -> machine.hasSteamTank(), (machine, player) -> {
+        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", IUpgradableMachine::hasSteamTank, (machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
             if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + 64000);
         }),
@@ -672,10 +677,8 @@ public class BlockItems {
                 return true;
             }
             return false;
-        }, (machine, player) -> {
-            machine.addMjUpgrade();
-        }),
-        RS_ENERGY_CELL(GtUpgradeType.MJ, 16, 1, "craftingEnergyCellUpgrade", machine -> machine.hasMjUpgrade(), (machine, player) -> {
+        }, (machine, player) -> machine.addMjUpgrade()),
+        RS_ENERGY_CELL(GtUpgradeType.MJ, 16, 1, "craftingEnergyCellUpgrade", IUpgradableMachine::hasMjUpgrade, (machine, player) -> {
             if (!ModHandler.buildcraftLib) {
                 GtUtil.sendMessage(player, GtLocale.buildKeyInfo("buildcraft_absent"));
                 return true;
