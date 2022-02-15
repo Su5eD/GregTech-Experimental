@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.covers;
 
 import mods.gregtechmod.api.cover.CoverType;
-import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
 import mods.gregtechmod.util.GtLocale;
@@ -34,33 +33,14 @@ public class CoverRedstoneConductor extends CoverGeneric {
             World world = ((TileEntity) te).getWorld();
 
             if (mode == ConductorMode.STRONGEST) {
-                int strongest = 0;
-                for (EnumFacing facing : EnumFacing.VALUES) {
-                    if (facing != this.side) {
-                        strongest = Math.max(strongest, getPowerFromSide(facing, world, pos));
-                    }
-                }
+                int strongest = GtUtil.getStrongestRedstone(this.te, world, pos, this.side);
                 ((IGregTechMachine) te).setRedstoneOutput(this.side, strongest);
             }
             else {
                 EnumFacing side = EnumFacing.byIndex(mode.ordinal() - 1);
-                ((IGregTechMachine) te).setRedstoneOutput(this.side, getPowerFromSide(side, world, pos) - 1);
+                ((IGregTechMachine) te).setRedstoneOutput(this.side, GtUtil.getPowerFromSide(side, world, pos, this.te) - 1);
             }
         }
-    }
-
-    public int getPowerFromSide(EnumFacing side, World world, BlockPos pos) {
-        int power = world.getRedstonePower(pos.offset(side), side);
-
-        ICover cover = te.getCoverAtSide(side);
-        if (cover != null) {
-            if (cover.letsRedstoneIn()) return Math.max(power, cover.getRedstoneInput());
-        }
-        else {
-            return power;
-        }
-
-        return 0;
     }
 
     @Override

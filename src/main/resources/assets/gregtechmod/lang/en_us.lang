@@ -967,6 +967,8 @@ gregtechmod.teblock.electric_inventory_manager.description=It's simplier than yo
 gregtechmod.teblock.electric_crafting_table=Electric Craftingtable
 gregtechmod.teblock.electric_crafting_table.description=Automatic Crafting Table Mk III
 gregtechmod.teblock.player_detector=Player Detector
+gregtechmod.teblock.redstone_note_block=Redstone Note Block
+gregtechmod.teblock.redstone_note_block.description=Rotate to switch Notes
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

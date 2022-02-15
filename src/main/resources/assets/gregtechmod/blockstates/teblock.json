@@ -104,7 +104,8 @@
       "electric_inventory_manager": { "model": "gregtechmod:electric_inventory_manager" },
       "electric_crafting_table": { "model": "gregtechmod:electric_crafting_table" },
       "player_detector": { "model": "gregtechmod:player_detector" },
-      "player_detector_active": { "model": "gregtechmod:player_detector_active" }
+      "player_detector_active": { "model": "gregtechmod:player_detector_active" },
+      "redstone_note_block": { "model": "gregtechmod:redstone_note_block" }
     },
     "facing": {
       "down": { "x": 90 },

@@ -23,6 +23,8 @@ public interface IGregTechAPI {
     void registerSonictronSounds(Collection<SonictronSound> sounds);
 
     List<SonictronSound> getSonictronSounds();
+    
+    String getSoundFor(ItemStack stack);
 
     void registerCondition(String type, Predicate<JsonNode> predicate);
 

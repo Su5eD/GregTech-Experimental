@@ -113,7 +113,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     ELECTRIC_REGULATOR_ADVANCED(TileEntityElectricRegulatorAdvanced.class, 69, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
     ELECTRIC_INVENTORY_MANAGER(TileEntityElectricInventoryManager.class, 70, NO_ACTIVE, Util.onlyNorth),
     ELECTRIC_CRAFTING_TABLE(TileEntityElectricCraftingTable.class, 71, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    PLAYER_DETECTOR(TileEntityPlayerDetector.class, 72, ACTIVE, Util.noFacings);
+    PLAYER_DETECTOR(TileEntityPlayerDetector.class, 72, ACTIVE, Util.noFacings),
+    REDSTONE_NOTE_BLOCK(TileEntityRedstoneNoteblock.class, 73, NO_ACTIVE, Util.allFacings);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();

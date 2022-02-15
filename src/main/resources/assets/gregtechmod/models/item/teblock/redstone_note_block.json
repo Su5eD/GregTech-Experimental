@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/redstone_note_block/redstone_note_block_side",
+    "down": "gregtechmod:blocks/machines/redstone_note_block/redstone_note_block_side",
+    "up": "gregtechmod:blocks/machines/redstone_note_block/redstone_note_block_side",
+    "north": "gregtechmod:blocks/machines/redstone_note_block/redstone_note_block_side",
+    "south": "gregtechmod:blocks/machines/redstone_note_block/redstone_note_block_side",
+    "east": "gregtechmod:blocks/machines/redstone_note_block/redstone_note_block_side",
+    "west": "gregtechmod:blocks/machines/redstone_note_block/redstone_note_block_side"
+  }
+}

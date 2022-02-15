@@ -7,6 +7,8 @@ import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.QuadFunction;
@@ -434,6 +436,26 @@ public final class GtUtil {
         return StreamEx.generate(() -> ItemStack.EMPTY)
             .limit(size)
             .toArray(ItemStack[]::new);
+    }
+
+    public static int getStrongestRedstone(ICoverable te, World world, BlockPos pos, EnumFacing excludeFacing) {
+        return StreamEx.of(EnumFacing.VALUES)
+            .filter(side -> excludeFacing == null || side != excludeFacing)
+            .mapToInt(side -> getPowerFromSide(side, world, pos, te))
+            .max()
+            .orElse(0);
+    }
+
+    public static int getPowerFromSide(EnumFacing side, World world, BlockPos pos, ICoverable te) {
+        int power = world.getRedstonePower(pos.offset(side), side);
+
+        ICover cover = te.getCoverAtSide(side);
+        if (cover != null) {
+            if (cover.letsRedstoneIn()) return Math.max(power, cover.getRedstoneInput());
+        }
+        else return power;
+
+        return 0;
     }
 
     private static class VoidTank implements IFluidHandler {

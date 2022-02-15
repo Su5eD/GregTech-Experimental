@@ -11,6 +11,7 @@ import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import one.util.streamex.StreamEx;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -56,6 +57,15 @@ final class GregTechAPIImpl implements IGregTechAPI {
     @Override
     public List<SonictronSound> getSonictronSounds() {
         return Collections.unmodifiableList(sonictronSounds);
+    }
+
+    @Override
+    public String getSoundFor(ItemStack stack) {
+        return StreamEx.of(sonictronSounds)
+            .filter(sound -> StackUtil.checkItemEquality(stack, sound.getItem()))
+            .map(SonictronSound::getName)
+            .findFirst()
+            .orElse("block.note.harp");
     }
 
     @Override

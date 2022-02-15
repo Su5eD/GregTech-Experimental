@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.blocks.teblocks;
 
 import ic2.core.IHasGui;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.IDataOrbSerializable;
 import mods.gregtechmod.api.util.SonictronSound;
@@ -161,15 +160,15 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
         );
         GregTechAPI.instance().registerSonictronSounds(sounds);
     }
-
+    
     public static void doSonictronSound(ItemStack stack, World world, BlockPos pos) {
+        doSonictronSound(stack, world, pos, 0.3F);
+    }
+
+    public static void doSonictronSound(ItemStack stack, World world, BlockPos pos, float volume) {
         if (stack.isEmpty()) return;
 
-        String name = GregTechAPI.instance().getSonictronSounds().stream()
-            .filter(sound -> StackUtil.checkItemEquality(stack, sound.getItem()))
-            .map(SonictronSound::getName)
-            .findFirst()
-            .orElse("block.note.harp");
+        String name = GregTechAPI.instance().getSoundFor(stack);
         int count = stack.getCount();
 
         if (name.startsWith("random.explode")) {
@@ -186,16 +185,16 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
             name += suffix;
         }
 
-        float pitch = name.startsWith("block.note.") ? (float) Math.pow(2D, (double) (count - 13) / 12D) : 1;
+        float pitch = name.startsWith("block.note.") ? (float) Math.pow(2, (count - 13) / 12D) : 1;
 
         SoundEvent sound = SoundEvent.REGISTRY.getObject(new ResourceLocation(name));
         if (sound == null) throw new IllegalArgumentException("Attempted to play invalid sound " + name);
 
         if (name.startsWith("record.")) {
-            world.playRecord(pos.add(0.5, 0.5, 0.5), sound);
+            world.playRecord(pos, sound);
         }
         else {
-            world.playSound(null, pos, sound, SoundCategory.NEUTRAL, 0.3F, pitch);
+            world.playSound(null, pos, sound, SoundCategory.NEUTRAL, volume, pitch);
         }
     }
 }
