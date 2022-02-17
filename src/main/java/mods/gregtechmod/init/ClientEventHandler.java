@@ -11,6 +11,8 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.model.*;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityButtonPanel;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityRedstoneDisplay;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.covers.*;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -51,7 +53,8 @@ import java.util.stream.Stream;
 @EventBusSubscriber(modid = Reference.MODID, value = Side.CLIENT)
 public final class ClientEventHandler {
     private static final Map<ItemStack, Supplier<String>> EXTRA_TOOLTIPS = new HashMap<>();
-    
+    private static final String MACHINES_PATH = "blocks/machines/";
+
     private ClientEventHandler() {}
 
     public static void gatherModItems() {
@@ -110,7 +113,12 @@ public final class ClientEventHandler {
                     registerElectricBufferModel(teBlock.getName(), models, loader);
                     break;
                 case BUTTON_PANEL:
-                    registerBakedModel(teBlock, models, loader, ModelButtonPanel::new);
+                    registerBakedModel(teBlock, models, loader,
+                        (particle, textures) -> new ModelTextureMode("button_panel", MACHINES_PATH, EnumSet.allOf(TileEntityButtonPanel.PanelMode.class), particle, textures));
+                    break;
+                case REDSTONE_DISPLAY:
+                    registerBakedModel(teBlock, models, loader,
+                        (particle, textures) -> new ModelTextureMode("redstone_display", MACHINES_PATH, EnumSet.allOf(TileEntityRedstoneDisplay.DisplayMode.class), particle, textures));
                     break;
             }
         }
@@ -225,24 +233,23 @@ public final class ClientEventHandler {
     @SubscribeEvent
     public static void registerIcons(TextureStitchEvent.Pre event) {
         TextureMap map = event.getMap();
-        String machines = "blocks/machines/";
 
         Stream.of(
                 Stream.of(
-                        machines + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
-                        machines + "adv_machine_pipe_blue",
-                        machines + "adv_machine_pipe_blue_redstone",
-                        machines + "centrifuge/centrifuge_top_active2",
-                        machines + "centrifuge/centrifuge_top_active3",
-                        machines + "centrifuge/centrifuge_side_active2",
-                        machines + "centrifuge/centrifuge_side_active3",
-                        machines + "computer_cube/computer_cube_reactor",
-                        machines + "computer_cube/computer_cube_scanner",
-                        machines + "hatch_maintenance/hatch_maintenance_front_ducttape",
-                        machines + "lesu/lesu_lv_out",
-                        machines + "lesu/lesu_mv_out",
-                        machines + "lesu/lesu_hv_out",
-                        machines + "machine_top_pipe"
+                        MACHINES_PATH + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
+                        MACHINES_PATH + "adv_machine_pipe_blue",
+                        MACHINES_PATH + "adv_machine_pipe_blue_redstone",
+                        MACHINES_PATH + "centrifuge/centrifuge_top_active2",
+                        MACHINES_PATH + "centrifuge/centrifuge_top_active3",
+                        MACHINES_PATH + "centrifuge/centrifuge_side_active2",
+                        MACHINES_PATH + "centrifuge/centrifuge_side_active3",
+                        MACHINES_PATH + "computer_cube/computer_cube_reactor",
+                        MACHINES_PATH + "computer_cube/computer_cube_scanner",
+                        MACHINES_PATH + "hatch_maintenance/hatch_maintenance_front_ducttape",
+                        MACHINES_PATH + "lesu/lesu_lv_out",
+                        MACHINES_PATH + "lesu/lesu_mv_out",
+                        MACHINES_PATH + "lesu/lesu_hv_out",
+                        MACHINES_PATH + "machine_top_pipe"
                     )
                     .map(str -> new ResourceLocation(Reference.MODID, str)),
                 Stream.of(

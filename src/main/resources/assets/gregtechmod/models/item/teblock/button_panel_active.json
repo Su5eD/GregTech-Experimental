@@ -2,11 +2,11 @@
   "parent": "gregtechmod:block/block_directional",
   "textures": {
     "particle": "gregtechmod:blocks/machines/machine_side",
-    "down": "gregtechmod:blocks/machines/button_panel/button_panel_bottom_active",
-    "up": "gregtechmod:blocks/machines/button_panel/button_panel_top_active",
-    "north": "gregtechmod:blocks/machines/button_panel/small/button_small_0",
-    "south": "gregtechmod:blocks/machines/button_panel/button_panel_side_active",
-    "east": "gregtechmod:blocks/machines/button_panel/button_panel_side_active",
-    "west": "gregtechmod:blocks/machines/button_panel/button_panel_side_active"
+    "down": "gregtechmod:blocks/machines/machine_redstone_bottom_active",
+    "up": "gregtechmod:blocks/machines/machine_redstone_top_active",
+    "north": "gregtechmod:blocks/machines/button_panel/small/button_panel_small_0",
+    "south": "gregtechmod:blocks/machines/machine_redstone_side_active",
+    "east": "gregtechmod:blocks/machines/machine_redstone_side_active",
+    "west": "gregtechmod:blocks/machines/machine_redstone_side_active"
   }
 }

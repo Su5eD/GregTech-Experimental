@@ -1,45 +1,40 @@
 package mods.gregtechmod.objects.blocks.teblocks;
 
-import ic2.core.block.state.Ic2BlockState;
-import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.util.QuadFunction;
-import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
+import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityMultiMode;
 import mods.gregtechmod.util.BooleanCountdown;
+import mods.gregtechmod.util.ITextureMode;
 import mods.gregtechmod.util.JavaUtil;
-import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import one.util.streamex.StreamEx;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.function.IntUnaryOperator;
 
-public class TileEntityButtonPanel extends TileEntityCoverBehavior {
+public class TileEntityButtonPanel extends TileEntityMultiMode {
     @NBTPersistent
     private PanelMode mode = PanelMode.SMALL;
     private int emitted;
     private final BooleanCountdown update = createCountDown(3);
 
     @Override
-    protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
-        return super.getExtendedState(state)
-            .withProperty(PropertyHelper.BUTTON_PANEL_INFO_PROPERTY, new PropertyHelper.ButtonPanelInfo(this.mode, this.emitted));
+    protected ITextureMode getMode() {
+        return this.mode;
     }
 
     @Override
-    protected boolean onScrewdriverActivated(ItemStack stack, EnumFacing side, EntityPlayer player, float hitX, float hitY, float hitZ) {
-        if (side == getFacing()) {
-            if (!this.world.isRemote) {
-                this.mode = this.mode.next();
-                updateClientField("mode");
-                rerender();
-            }
-            return true;
-        }
-        return super.onScrewdriverActivated(stack, side, player, hitX, hitY, hitZ);
+    protected void updateMode() {
+        this.mode = this.mode.next();
+        updateClientField("mode");
+    }
+
+    @Override
+    protected int getTextureIndex() {
+        return this.emitted;
     }
 
     @Override
@@ -76,17 +71,12 @@ public class TileEntityButtonPanel extends TileEntityCoverBehavior {
     }
 
     @Override
-    public boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate) {
-        return side != getFacing() && super.placeCoverAtSide(cover, player, side, simulate);
-    }
-
-    @Override
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);
         list.add("mode");
     }
 
-    public enum PanelMode {
+    public enum PanelMode implements ITextureMode {
         SMALL((side, x, y, z) -> {
             switch (side) {
                 case DOWN:
@@ -102,7 +92,7 @@ public class TileEntityButtonPanel extends TileEntityCoverBehavior {
                     return (int) (4 - z * 4) + 4 * (int) (4 - y * 4);
             }
             return 0;
-        }, IntUnaryOperator.identity()),
+        }, IntUnaryOperator.identity(), 16),
         LARGE((side, x, y, z) -> {
             switch (side) {
                 case DOWN:
@@ -118,7 +108,7 @@ public class TileEntityButtonPanel extends TileEntityCoverBehavior {
                     return 1 << (int) (2 - z * 2) + 2 * (int) (2 - y * 2);
             }
             return 0;
-        }, i -> 1 + JavaUtil.log2(i)),
+        }, i -> 1 + JavaUtil.log2(i), 5),
         ROW((side, x, y, z) -> {
             switch (side) {
                 case DOWN:
@@ -127,28 +117,40 @@ public class TileEntityButtonPanel extends TileEntityCoverBehavior {
                 default:
                     return 1 << (int) (4 - y * 4);
             }
-        }, LARGE.indexGetter);
+        }, LARGE.indexGetter, 5);
 
         private static final PanelMode[] VALUES = values();
 
         private final QuadFunction<EnumFacing, Float, Float, Float, Integer> strengthGetter;
         private final IntUnaryOperator indexGetter;
+        private final int count;
 
-        PanelMode(QuadFunction<EnumFacing, Float, Float, Float, Integer> strengthGetter, IntUnaryOperator indexGetter) {
+        PanelMode(QuadFunction<EnumFacing, Float, Float, Float, Integer> strengthGetter, IntUnaryOperator indexGetter, int count) {
             this.strengthGetter = strengthGetter;
             this.indexGetter = indexGetter;
+            this.count = count;
         }
 
         private int getRedstoneStrength(EnumFacing side, float x, float y, float z) {
             return this.strengthGetter.apply(side, x, y, z);
         }
-        
+
         private int getEmittedIndex(int strength) {
             return this.indexGetter.applyAsInt(strength);
         }
 
         public PanelMode next() {
             return VALUES[(ordinal() + 1) % VALUES.length];
+        }
+
+        @Override
+        public String getName() {
+            return name().toLowerCase(Locale.ROOT);
+        }
+
+        @Override
+        public int getCount() {
+            return this.count;
         }
     }
 }

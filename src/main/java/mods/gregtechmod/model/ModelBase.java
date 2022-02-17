@@ -49,8 +49,9 @@ public abstract class ModelBase extends AbstractModel {
 
     @Override
     public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-        this.sprites.entrySet()
-            .forEach(entry -> entry.setValue(bakedTextureGetter.apply(entry.getKey())));
+        StreamEx.ofKeys(this.sprites)
+            .mapToEntry(bakedTextureGetter)
+            .forKeyValue(this.sprites::put);
         return this;
     }
 

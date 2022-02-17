@@ -107,7 +107,8 @@
       "player_detector_active": { "model": "gregtechmod:player_detector_active" },
       "redstone_note_block": { "model": "gregtechmod:redstone_note_block" },
       "button_panel": { "model": "gregtechmod:button_panel" },
-      "button_panel_active": { "model": "gregtechmod:button_panel_active" }
+      "button_panel_active": { "model": "gregtechmod:button_panel_active" },
+      "redstone_display": { "model": "gregtechmod:redstone_display" }
     },
     "facing": {
       "down": { "x": 90 },

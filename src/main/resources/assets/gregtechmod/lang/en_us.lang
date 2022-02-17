@@ -971,6 +971,8 @@ gregtechmod.teblock.redstone_note_block=Redstone Note Block
 gregtechmod.teblock.redstone_note_block.description=Rotate to switch Notes
 gregtechmod.teblock.button_panel=Button Panel
 gregtechmod.teblock.button_panel.description=Rightclick with Screwdriver to change Button Design
+gregtechmod.teblock.redstone_display=Redstone Display
+gregtechmod.teblock.redstone_display.description=Displays Redstone Strength
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

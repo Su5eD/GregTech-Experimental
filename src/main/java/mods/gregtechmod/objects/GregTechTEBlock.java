@@ -115,7 +115,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     ELECTRIC_CRAFTING_TABLE(TileEntityElectricCraftingTable.class, 71, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
     PLAYER_DETECTOR(TileEntityPlayerDetector.class, 72, ACTIVE, Util.noFacings),
     REDSTONE_NOTE_BLOCK(TileEntityRedstoneNoteblock.class, 73, NO_ACTIVE, Util.allFacings),
-    BUTTON_PANEL(TileEntityButtonPanel.class, 74, ACTIVE, Util.allFacings, ModelType.BUTTON_PANEL);
+    BUTTON_PANEL(TileEntityButtonPanel.class, 74, ACTIVE, Util.allFacings, ModelType.BUTTON_PANEL),
+    REDSTONE_DISPLAY(TileEntityRedstoneDisplay.class, 75, NO_ACTIVE, Util.allFacings, ModelType.REDSTONE_DISPLAY);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
@@ -307,7 +308,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
         BAKED,
         CONNECTED,
         ELECTRIC_BUFFER,
-        BUTTON_PANEL
+        BUTTON_PANEL,
+        REDSTONE_DISPLAY
     }
     
     public enum ActiveType {
