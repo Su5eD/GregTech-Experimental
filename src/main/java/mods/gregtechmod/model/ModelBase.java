@@ -56,10 +56,7 @@ public abstract class ModelBase extends AbstractModel {
 
     @Override
     public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
-        if (side != null) {
-            return getQuads(state, side);
-        }
-        return Collections.emptyList();
+        return side != null ? getQuads(state, side) : Collections.emptyList();
     }
 
     @Override

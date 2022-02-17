@@ -138,8 +138,7 @@ public class BlockItems {
         }),
         SAPPHIRE(HarvestLevel.Iron, 4, 3, 5, (fortune, drops, rand) -> {
             drops.add(Miscellaneous.SAPPHIRE.getItemStack(1 + rand.nextInt(1 + fortune)));
-            if (rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0)
-                drops.add(Miscellaneous.GREEN_SAPPHIRE.getItemStack());
+            if (rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0) drops.add(Miscellaneous.GREEN_SAPPHIRE.getItemStack());
         }),
         BAUXITE(3, 0, 0, (fortune, drops, rand) -> {}),
         PYRITE(2, 1, 1, (fortune, drops, rand) -> {

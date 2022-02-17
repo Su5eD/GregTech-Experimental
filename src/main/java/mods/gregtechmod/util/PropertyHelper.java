@@ -3,6 +3,7 @@ package mods.gregtechmod.util;
 import ic2.core.block.state.UnlistedEnumProperty;
 import ic2.core.block.state.UnlistedProperty;
 import ic2.core.util.Util;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityButtonPanel;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
@@ -21,6 +22,7 @@ public class PropertyHelper {
     public static final IUnlistedProperty<DimensionalTextureInfo> TEXTURE_INDEX_PROPERTY = new UnlistedProperty<>("textureInfo", DimensionalTextureInfo.class);
     public static final IUnlistedProperty<EnumFacing> OUTPUT_SIDE_PROPERTY = new UnlistedEnumProperty<>("outputSide", EnumFacing.class);
     public static final IUnlistedProperty<VerticalRotation> VERTICAL_ROTATION_PROPERTY = new UnlistedEnumProperty<>("rotationBehavior", VerticalRotation.class);
+    public static final IUnlistedProperty<ButtonPanelInfo> BUTTON_PANEL_INFO_PROPERTY = new UnlistedProperty<>("buttonPanelInfo", ButtonPanelInfo.class);
 
     public static class AnimationSpeed {
         private final Set<EnumFacing> sides;
@@ -100,6 +102,16 @@ public class PropertyHelper {
 
         VerticalRotation(BinaryOperator<EnumFacing> rotation) {
             this.rotation = rotation;
+        }
+    }
+    
+    public static class ButtonPanelInfo {
+        public final TileEntityButtonPanel.PanelMode mode;
+        public final int index;
+
+        public ButtonPanelInfo(TileEntityButtonPanel.PanelMode mode, int index) {
+            this.mode = mode;
+            this.index = index;
         }
     }
 }

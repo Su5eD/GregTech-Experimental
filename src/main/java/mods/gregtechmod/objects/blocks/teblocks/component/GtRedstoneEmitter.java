@@ -7,6 +7,10 @@ public class GtRedstoneEmitter extends GtComponentBase {
     @NBTPersistent
     private int level;
     private final Runnable onUpdate;
+    
+    public GtRedstoneEmitter(TileEntityAutoNBT parent) {
+        this(parent, () -> {});
+    }
 
     public GtRedstoneEmitter(TileEntityAutoNBT parent, Runnable onUpdate) {
         super(parent);

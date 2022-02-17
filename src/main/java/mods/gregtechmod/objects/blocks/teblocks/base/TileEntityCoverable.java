@@ -56,11 +56,9 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
 
     protected boolean onScrewdriverActivated(ItemStack stack, EnumFacing side, EntityPlayer player, float hitX, float hitY, float hitZ) {
         ICover existing = getCoverAtSide(side);
-        if (existing != null) {
-            if (existing.onScrewdriverClick(player)) {
-                stack.damageItem(1, player);
-                return true;
-            }
+        if (existing != null && existing.onScrewdriverClick(player)) {
+            stack.damageItem(1, player);
+            return true;
         }
 
         ICover cover = Cover.NORMAL.instance.get().constructCover(side, this, ItemStack.EMPTY);

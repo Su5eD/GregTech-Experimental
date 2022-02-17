@@ -15,19 +15,18 @@
     },
     "S":
     {
-      "item": "ic2:te",
-      "data": 66
+      "type": "gregtechmod:multi",
+      "item": "ic2:te#personal_chest" 
     },
     "B":
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "small electric buffer"
+      "data": 58
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 53
   }
 }

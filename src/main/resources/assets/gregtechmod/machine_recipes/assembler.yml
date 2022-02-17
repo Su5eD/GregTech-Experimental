@@ -3,22 +3,6 @@
 # TODO Add these recipes then their output TE is implemented
 #- input:
 #    - ore: craftingRawMachineTier01
-#    - item: minecraft:noteblock
-#      count: 4
-#  output:
-#    item: gregtechmod:redstone_note_block
-#  duration: 800
-#  energyCost: 1
-#- input:
-#    - ore: craftingRawMachineTier01
-#    - item: minecraft:stone_button
-#      count: 16
-#  output:
-#    item: gregtechmod:button_panel
-#  duration: 800
-#  energyCost: 1
-#- input:
-#    - ore: craftingRawMachineTier01
 #    - ore: craftingMachineParts
 #  output:
 #    item: gregtechmod:machine_box
@@ -790,3 +774,19 @@
   conditions:
     - type: mod_loaded
       modid: buildcraftsilicon
+- input:
+    - ore: craftingRawMachineTier01
+    - item: minecraft:noteblock
+      count: 4
+  output:
+    item: gregtechmod:teblock#redstone_note_block
+  duration: 800
+  energyCost: 1
+- input:
+    - ore: craftingRawMachineTier01
+    - item: minecraft:stone_button
+      count: 16
+  output:
+    item: gregtechmod:teblock#button_panel
+  duration: 800
+  energyCost: 1

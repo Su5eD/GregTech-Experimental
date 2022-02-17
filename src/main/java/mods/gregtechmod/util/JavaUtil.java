@@ -139,4 +139,8 @@ public final class JavaUtil {
         stopwatch.stop();
         GregTechMod.LOGGER.debug(name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
     }
+
+    public static int log2(int a) {
+        return (int) (Math.log(a) / Math.log(2));
+    }
 }

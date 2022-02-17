@@ -24,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -42,6 +43,7 @@ import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -99,13 +101,16 @@ public final class ClientEventHandler {
         for (GregTechTEBlock teBlock : GregTechTEBlock.values()) {
             switch (teBlock.getModelType()) {
                 case BAKED:
-                    registerBakedModel(teBlock, models, loader);
+                    registerBakedModel(teBlock, models, loader, ModelTeBlock::new);
                     break;
                 case CONNECTED:
                     registerConnectedBakedModel(loader, teBlock.getName(), "machines", "", ModelTEBlockConnected::new);
                     break;
                 case ELECTRIC_BUFFER:
                     registerElectricBufferModel(teBlock.getName(), models, loader);
+                    break;
+                case BUTTON_PANEL:
+                    registerBakedModel(teBlock, models, loader, ModelButtonPanel::new);
                     break;
             }
         }
@@ -121,22 +126,22 @@ public final class ClientEventHandler {
         ModelLoaderRegistry.registerLoader(loader);
     }
 
-    private static void registerBakedModel(GregTechTEBlock teBlock, JsonObject models, BakedModelLoader loader) {
+    private static void registerBakedModel(GregTechTEBlock teBlock, JsonObject models, BakedModelLoader loader, BiFunction<ResourceLocation, Map<EnumFacing, ResourceLocation>, IModel> factory) {
         String name = teBlock.getName();
         JsonHandler json = getTeBlockModel(name, models);
-        ModelTeBlock model;
+        IModel model;
         if (teBlock.isStructure()) {
             JsonHandler valid = new JsonHandler(getItemModelPath("teblock", name + "_valid"));
             model = new ModelStructureTeBlock(json.particle, json.generateTextureMap(), valid.generateTextureMap());
         }
         else {
-            model = new ModelTeBlock(json.particle, json.generateTextureMap());
+            model = factory.apply(json.particle, json.generateTextureMap());
         }
         loader.register("models/block/" + name, model);
 
         if (teBlock.hasActive()) {
             JsonHandler active = new JsonHandler(getItemModelPath("teblock", name + "_active"));
-            loader.register("models/block/" + name + "_active", new ModelTeBlock(json.particle, active.generateTextureMap()));
+            loader.register("models/block/" + name + "_active", factory.apply(json.particle, active.generateTextureMap()));
         }
     }
 
