@@ -14,17 +14,33 @@ import java.util.function.Supplier;
 
 public class ResourceItem extends Item {
     private final Supplier<String> description;
-    private final boolean isFoil;
-
-    public ResourceItem(Properties pProperties, Supplier<String> description) {
-        this(pProperties, description, false);
-    }
+    private boolean isFoil;
+    private boolean isEnchantable;
     
-    public ResourceItem(Properties pProperties, Supplier<String> description, boolean isFoil) {
+    public ResourceItem(Properties pProperties, Supplier<String> description) {
         super(pProperties);
         
         this.description = description;
-        this.isFoil = isFoil;
+    }
+    
+    public ResourceItem setIsFoil(boolean value) {
+        this.isFoil = value;
+        return this;
+    }
+    
+    public ResourceItem setIsEnchantable(boolean value) {
+        this.isEnchantable = value;
+        return this;
+    }
+    
+    public ResourceItem registryName(String... paths) {
+        setRegistryName(String.join("_", paths));
+        return this;
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack pStack) {
+        return this.isEnchantable && super.isEnchantable(pStack);
     }
 
     @Override

@@ -8,7 +8,7 @@ public final class Reference {
 
     private Reference() {}
     
-    public static ResourceLocation location(String path) {
-        return new ResourceLocation(MODID, path);
+    public static ResourceLocation location(String... paths) {
+        return new ResourceLocation(MODID, String.join("/", paths));
     }
 }

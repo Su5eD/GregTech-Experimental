@@ -19,7 +19,7 @@ public class ConnectedModelLoader implements IModelLoader<ConnectedModelGeometry
         this.textures = StreamEx.of(ConnectedModel.TEXTURE_PARTS)
             .mapToEntry(part -> name + "_" + part)
             .prepend("", name)
-            .mapValues(texture -> location("block/connected/" + name + "/" + texture))
+            .mapValues(texture -> location("block", "connected", name, texture))
             .toImmutableMap();
         this.particle = this.textures.get("");
     }

@@ -11,6 +11,8 @@ import one.util.streamex.StreamEx;
 
 import javax.annotation.Nonnull;
 
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
+
 class ItemModelGen extends ItemModelProvider {
     private final ResourceLocation generatedParent = mcLoc("item/generated");
     
@@ -23,7 +25,7 @@ class ItemModelGen extends ItemModelProvider {
         StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ore.values())
             .map(block -> block.getItem().getRegistryName().getPath())
-            .mapToEntry(name -> modLoc("block/" + name))
+            .mapToEntry(name -> location("block", name))
             .forKeyValue(this::withExistingParent);
         
         registerItems(Ingot.values(), "ingot");
@@ -32,6 +34,7 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(Dust.values(), "dust");
         registerItems(Smalldust.values(), "smalldust");
         registerItems(Plate.values(), "plate");
+        registerItems(TurbineRotor.values(), "turbine_rotor");
     }
 
     @Nonnull
@@ -44,7 +47,7 @@ class ItemModelGen extends ItemModelProvider {
         StreamEx.of(providers)
             .forEach(provider -> {
                 String path = provider.getItem().getRegistryName().getPath();
-                ResourceLocation texture = modLoc("item/" + folder + "/" + provider.getName());
+                ResourceLocation texture = location("item", folder, provider.getName());
                 singleTexture(path, this.generatedParent, "layer0", texture);
             });
     }

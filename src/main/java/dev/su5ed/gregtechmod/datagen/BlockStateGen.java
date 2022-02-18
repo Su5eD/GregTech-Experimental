@@ -46,7 +46,7 @@ class BlockStateGen extends BlockStateProvider {
     }
 
     private void simpleModel(Block block, String path, String name) {
-        ResourceLocation location = location(ModelProvider.BLOCK_FOLDER + "/" + name);
+        ResourceLocation location = location(ModelProvider.BLOCK_FOLDER, name);
         simpleBlock(block, models().cubeAll(path, location));
     }
 

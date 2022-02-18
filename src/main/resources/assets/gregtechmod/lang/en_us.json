@@ -3,6 +3,8 @@
 
   "info.gregtechmod.no_mob_spawn": "Mobs can't spawn on this Block",
 
+  "generic.gregtechmod.turbine_rotor.description": "Turbine Efficiency:  %s%%",
+
   "block.gregtechmod.advanced_machine_casing_block": "Advanced Machine Casing",
   "block.gregtechmod.aluminium_block": "Block of Aluminium",
   "block.gregtechmod.brass_block": "Block of Brass",
@@ -270,5 +272,11 @@
   "item.gregtechmod.tungsten_plate": "Tungsten Plate",
   "item.gregtechmod.tungsten_steel_plate": "Tungstensteel Plate",
   "item.gregtechmod.wood_plate": "Wood Plate",
-  "item.gregtechmod.zinc_plate": "Zinc Plate"
+  "item.gregtechmod.zinc_plate": "Zinc Plate",
+
+  "item.gregtechmod.bronze_turbine_rotor": "Bronze Turbine Rotor",
+  "item.gregtechmod.steel_turbine_rotor": "Steel Turbine Rotor",
+  "item.gregtechmod.magnalium_turbine_rotor": "Magnalium Turbine Rotor",
+  "item.gregtechmod.tungsten_steel_turbine_rotor": "Tungstensteel Turbine Rotor",
+  "item.gregtechmod.carbon_turbine_rotor": "Carbon Turbine Rotor"
 }

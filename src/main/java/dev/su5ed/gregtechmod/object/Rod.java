@@ -3,14 +3,10 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import ic2.core.profile.NotExperimental;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 
-import java.util.Locale;
 import java.util.function.Supplier;
-
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public enum Rod implements ItemProvider {
     ALUMINIUM(Ingot.ALUMINIUM.description),
@@ -47,13 +43,7 @@ public enum Rod implements ItemProvider {
     Rod(Supplier<String> description) {
         this.description = description;
 
-        ResourceLocation name = location(getName() + "_rod");
-        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.ITEM_PROPERTIES, this.description).setRegistryName(name));
-    }
-
-    @Override
-    public String getName() {
-        return name().toLowerCase(Locale.ROOT);
+        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).registryName(getName(), "rod"));
     }
 
     @Override

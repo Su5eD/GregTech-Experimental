@@ -2,20 +2,18 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.block.ResourceBlock;
-import dev.su5ed.gregtechmod.util.BlockProvider;
-import dev.su5ed.gregtechmod.util.ItemProvider;
+import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
 
-import java.util.Locale;
 import java.util.function.Supplier;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public enum ModBlock implements BlockProvider, ItemProvider {
+public enum ModBlock implements BlockItemProvider {
     ADVANCED_MACHINE_CASING(() -> new ConnectedBlock(3, 30)),
     ALUMINIUM(3, 30),
     BRASS(3.5F, 30),
@@ -55,12 +53,7 @@ public enum ModBlock implements BlockProvider, ItemProvider {
     ModBlock(Supplier<Block> block) {
         ResourceLocation name = location(getName() + "_block");
         this.block = Lazy.of(() -> block.get().setRegistryName(name));
-        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.ITEM_PROPERTIES).setRegistryName(name));
-    }
-
-    @Override
-    public String getName() {
-        return name().toLowerCase(Locale.ROOT);
+        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.DEFAULT_ITEM_PROPERTIES).setRegistryName(name));
     }
 
     @Override
