@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
+import dev.su5ed.gregtechmod.util.JavaUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -16,6 +17,10 @@ public class ResourceItem extends Item {
     private final Supplier<String> description;
     private boolean isFoil;
     private boolean isEnchantable;
+    
+    public ResourceItem(Properties pProperties) {
+        this(pProperties, JavaUtil.nullSupplier());
+    }
     
     public ResourceItem(Properties pProperties, Supplier<String> description) {
         super(pProperties);

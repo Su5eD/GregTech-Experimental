@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gregtechmod:item/component/lithium_re_battery"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "gregtechmod:charge": 1.0
+      },
+      "model": "gregtechmod:item/lithium_re_battery_full"
+    }
+  ]
+}

@@ -43,6 +43,7 @@ public final class ModObjects {
             .append(Smalldust.values())
             .append(Plate.values())
             .append(TurbineRotor.values())
+            .append(Component.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }

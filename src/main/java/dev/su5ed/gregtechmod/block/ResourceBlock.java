@@ -3,7 +3,6 @@ package dev.su5ed.gregtechmod.block;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -28,6 +27,6 @@ public class ResourceBlock extends Block {
     public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
         
-        pTooltip.add(new TranslatableComponent(GtLocale.buildKey("info", "no_mob_spawn")).withStyle(ChatFormatting.GRAY));
+        pTooltip.add(GtLocale.key("info", "no_mob_spawn").toComponent().withStyle(ChatFormatting.GRAY));
     }
 }
