@@ -57,7 +57,7 @@ public class ConnectedModel extends BaseModel {
                 String texture = getTexture(sides, facing, materials);
                 Material material = materials.get(texture);
                 TextureAtlasSprite sprite = sprites.get(material);
-                BlockElementFace face = new BlockElementFace(facing.getOpposite(), 0, material.texture().toString(), FACE_UV);
+                BlockElementFace face = new BlockElementFace(facing, 0, material.texture().toString(), FACE_UV);
                 return bakeSingleQuad(face, sprite, facing, modelLocation);
             });
     }

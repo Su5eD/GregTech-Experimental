@@ -12,15 +12,17 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.util.Lazy;
 
 public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
-    AUTO_MACERATOR(AutomaticMaceratorBlockEntity::new);
+    AUTO_MACERATOR(AutomaticMaceratorBlockEntity::new, AllowedFacings.HORIZONTAL);
 
     private final BlockEntityType<?> type;
+    private final AllowedFacings allowedFacings;
     private final Lazy<Block> block;
     private final Lazy<Item> item;
 
-    GTBlockEntity(BlockEntityType.BlockEntitySupplier<? extends BaseBlockEntity> factory) {
+    GTBlockEntity(BlockEntityType.BlockEntitySupplier<? extends BaseBlockEntity> factory, AllowedFacings allowedFacings) {
         String name = getName();
-        this.block = Lazy.of(() -> new BaseEntityBlock(factory).setRegistryName(name));
+        this.allowedFacings = allowedFacings;
+        this.block = Lazy.of(() -> new BaseEntityBlock(this).setRegistryName(name));
         this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.DEFAULT_ITEM_PROPERTIES).setRegistryName(name));
         this.type = BlockEntityType.Builder.of(factory, getBlock()).build(null).setRegistryName(name);
     }
@@ -38,5 +40,10 @@ public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
     @Override
     public BlockEntityType<?> getType() {
         return this.type;
+    }
+
+    @Override
+    public AllowedFacings getAllowedFacings() {
+        return this.allowedFacings;
     }
 }
