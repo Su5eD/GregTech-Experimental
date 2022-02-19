@@ -2,14 +2,20 @@ package dev.su5ed.gregtechmod.setup;
 
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
+import dev.su5ed.gregtechmod.model.CoverableModelLoader;
 import dev.su5ed.gregtechmod.model.OreModelLoader;
+import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.Ore;
+import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.IModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import one.util.streamex.StreamEx;
+
+import java.util.function.Supplier;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -30,10 +36,15 @@ public final class ClientSetup {
                 ModelLoaderRegistry.registerLoader(location, loader);
             });
         
-        StreamEx.of(Ore.values())
-            .map(ore -> ore.getBlock().getRegistryName().getPath())
+        registerBlockProviderModels(Ore.values(), OreModelLoader::new);
+        registerBlockProviderModels(GTBlockEntity.values(), CoverableModelLoader::new);
+    }
+    
+    private static void registerBlockProviderModels(BlockItemProvider[] providers, Supplier<IModelLoader<?>> supplier) {
+        StreamEx.of(providers)
+            .map(provider -> provider.getBlock().getRegistryName().getPath())
             .map(ClientSetup::getLoaderLocation)
-            .forEach(location -> ModelLoaderRegistry.registerLoader(location, new OreModelLoader()));
+            .forEach(location -> ModelLoaderRegistry.registerLoader(location, supplier.get()));
     }
 
     public static ResourceLocation getLoaderLocation(String name) {

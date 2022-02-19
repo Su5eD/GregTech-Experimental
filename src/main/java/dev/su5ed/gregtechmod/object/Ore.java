@@ -3,15 +3,12 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.block.OreBlock;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.HarvestLevel;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
 
 import java.util.function.Supplier;
-
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public enum Ore implements BlockItemProvider {
     GALENA(3),
@@ -42,7 +39,7 @@ public enum Ore implements BlockItemProvider {
     }
 
     Ore(Supplier<Block> block, HarvestLevel harvestLevel) {
-        ResourceLocation name = location(getName() + "_ore");
+        String name = getName() + "_ore";
         this.block = Lazy.of(() -> block.get().setRegistryName(name));
         this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.DEFAULT_ITEM_PROPERTIES).setRegistryName(name));
         this.harvestLevel = harvestLevel;

@@ -1,6 +1,5 @@
 package dev.su5ed.gregtechmod.model;
 
-import com.mojang.math.Vector3f;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -8,7 +7,6 @@ import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +21,6 @@ import one.util.streamex.StreamEx;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Function;
 
 public class ConnectedModel extends BaseModel {
     public static final List<String> TEXTURE_PARTS = Arrays.asList(
@@ -57,14 +54,11 @@ public class ConnectedModel extends BaseModel {
     private Map<Direction, List<BakedQuad>> getQuadsForSides(Set<Direction> sides, Map<String, Material> materials, Map<Material, TextureAtlasSprite> sprites, ResourceLocation modelLocation) {
         return StreamEx.of(Direction.values())
             .toMap(facing -> {
-                Vector3f to = facing == Direction.DOWN ? MAX_DOWN : MAX;
                 String texture = getTexture(sides, facing, materials);
                 Material material = materials.get(texture);
                 TextureAtlasSprite sprite = sprites.get(material);
                 BlockElementFace face = new BlockElementFace(facing.getOpposite(), 0, material.texture().toString(), FACE_UV);
-
-                BakedQuad quad = BAKERY.bakeQuad(Vector3f.ZERO, to, face, sprite, facing, BlockModelRotation.X0_Y0, null, true, modelLocation);
-                return List.of(quad);
+                return bakeSingleQuad(face, sprite, facing, modelLocation);
             });
     }
 

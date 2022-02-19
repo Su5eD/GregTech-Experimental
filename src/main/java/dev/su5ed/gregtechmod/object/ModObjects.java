@@ -1,10 +1,12 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTab;
+import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -26,6 +28,7 @@ public final class ModObjects {
 
         StreamEx.<BlockItemProvider>of(ModBlock.values())
             .append(Ore.values())
+            .append(GTBlockEntity.values())
             .map(BlockItemProvider::getBlock)
             .forEach(registry::register);
     }
@@ -44,7 +47,17 @@ public final class ModObjects {
             .append(Plate.values())
             .append(TurbineRotor.values())
             .append(Component.values())
+            .append(GTBlockEntity.values())
             .map(ItemProvider::getItem)
+            .forEach(registry::register);
+    }
+    
+    @SubscribeEvent
+    public void registerBlockEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
+        IForgeRegistry<BlockEntityType<?>> registry = event.getRegistry();
+        
+        StreamEx.<BlockEntityProvider>of(GTBlockEntity.values())
+            .map(BlockEntityProvider::getType)
             .forEach(registry::register);
     }
 }

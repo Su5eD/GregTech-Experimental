@@ -1,13 +1,11 @@
 package dev.su5ed.gregtechmod.model;
 
-import com.mojang.math.Vector3f;
 import dev.su5ed.gregtechmod.block.OreBlock;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -65,8 +63,7 @@ public class OreModel extends BaseModel {
             OreModelKey key = extraData.getData(OreBlock.ORE_MODEL_KEY);
             Pair<Material, TextureAtlasSprite> texture = getOreTexture(side, key);
             BlockElementFace face = new BlockElementFace(side.getOpposite(), 0, texture.getLeft().texture().toString(), FACE_UV);
-            BakedQuad quad = BAKERY.bakeQuad(Vector3f.ZERO, side == Direction.DOWN ? MAX_DOWN : MAX, face, texture.getRight(), side, BlockModelRotation.X0_Y0, null, true, this.modelLocation);
-            return List.of(quad);
+            return bakeSingleQuad(face, texture.getRight(), side, this.modelLocation);
         }
         return List.of();
     }

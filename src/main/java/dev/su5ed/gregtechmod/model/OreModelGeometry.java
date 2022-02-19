@@ -17,13 +17,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-public class OreModeGeometry implements IModelGeometry<OreModeGeometry> {
+public class OreModelGeometry implements IModelGeometry<OreModelGeometry> {
     private final Material particle;
     private final Map<Direction, Material> textures;
     private final Map<Direction, Material> texturesNether;
     private final Map<Direction, Material> texturesEnd;
 
-    public OreModeGeometry(ResourceLocation particle, Map<Direction, ResourceLocation> textures, Map<Direction, ResourceLocation> texturesNether, Map<Direction, ResourceLocation> texturesEnd) {
+    public OreModelGeometry(ResourceLocation particle, Map<Direction, ResourceLocation> textures, Map<Direction, ResourceLocation> texturesNether, Map<Direction, ResourceLocation> texturesEnd) {
         this.particle = GtUtil.getMaterial(particle);
         this.textures = getMaterials(textures);
         this.texturesNether = getMaterials(texturesNether);

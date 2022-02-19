@@ -26,6 +26,7 @@ class ItemModelGen extends ItemModelProvider {
     protected void registerModels() {
         StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ore.values())
+            .append(GTBlockEntity.values())
             .map(block -> block.getItem().getRegistryName().getPath())
             .mapToEntry(name -> location("block", name))
             .forKeyValue(this::withExistingParent);

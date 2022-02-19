@@ -48,6 +48,9 @@
   "block.gregtechmod.sodalite_ore": "Sodalite Ore",
   "block.gregtechmod.tetrahedrite_ore": "Tetrahedrite Ore",
   "block.gregtechmod.cassiterite_ore": "Cassiterite Ore",
+  
+  "block.gregtechmod.auto_macerator": "Automatic Macerator",
+  "block.gregtechmod.auto_macerator.description": "Maceratron-E-901",
 
   "item.gregtechmod.aluminium_ingot": "Aluminium Ingot",
   "item.gregtechmod.antimony_ingot": "Antimony Ingot",
