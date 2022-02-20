@@ -2,11 +2,10 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.util.ItemProvider;
-import dev.su5ed.gregtechmod.util.JavaUtil;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
-
-import java.util.function.Supplier;
 
 public enum Dust implements ItemProvider {
     ALMANDINE("Al2Fe3Si3O12"),
@@ -70,25 +69,25 @@ public enum Dust implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
-    public final Supplier<String> description;
+    public final MutableComponent description;
     
     Dust() {
-        this(JavaUtil.nullSupplier());
+        this((String) null);
     }
 
     Dust(String description) {
         this(description, false);
     }
     
-    Dust(Supplier<String> description) {
+    Dust(MutableComponent description) {
         this(description, false);
     }
     
     Dust(String description, boolean isFoil) {
-        this(() -> description, isFoil);
+        this(new TextComponent(description), isFoil);
     }
 
-    Dust(Supplier<String> description, boolean isFoil) {
+    Dust(MutableComponent description, boolean isFoil) {
         this.description = description;
 
         this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).setIsFoil(isFoil).registryName(getName(), "dust"));

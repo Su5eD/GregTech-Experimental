@@ -1,25 +1,42 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTab;
+import dev.su5ed.gregtechmod.api.GregTechAPI;
+import dev.su5ed.gregtechmod.api.cover.ICoverProvider;
+import dev.su5ed.gregtechmod.cover.Cover;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
+import dev.su5ed.gregtechmod.util.JavaUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
 import one.util.streamex.StreamEx;
+
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class ModObjects {
     public static final ModObjects INSTANCE = new ModObjects();
     public static final Item.Properties DEFAULT_ITEM_PROPERTIES = new Item.Properties().tab(GregTechTab.INSTANCE);
 
     private ModObjects() {}
-    
+
     static Item.Properties itemProperties() {
         return new Item.Properties().tab(GregTechTab.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public void registerRegistries(RegistryEvent.NewRegistry event) {
+        IForgeRegistry<ICoverProvider> registry = new RegistryBuilder<ICoverProvider>()
+            .setName(location("covers"))
+            .setType(ICoverProvider.class)
+            .setMaxID(Integer.MAX_VALUE - 1)
+            .create();
+        JavaUtil.setStaticValue(GregTechAPI.class, "coverRegistry", registry);
     }
 
     @SubscribeEvent
@@ -36,7 +53,7 @@ public final class ModObjects {
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
-        
+
         StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ore.values())
             .append(Ingot.values())
@@ -48,16 +65,25 @@ public final class ModObjects {
             .append(TurbineRotor.values())
             .append(Component.values())
             .append(GTBlockEntity.values())
+            .append(ModCover.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }
-    
+
     @SubscribeEvent
     public void registerBlockEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
         IForgeRegistry<BlockEntityType<?>> registry = event.getRegistry();
-        
+
         StreamEx.<BlockEntityProvider>of(GTBlockEntity.values())
             .map(BlockEntityProvider::getType)
+            .forEach(registry::register);
+    }
+
+    @SubscribeEvent
+    public void registerCovers(RegistryEvent.Register<ICoverProvider> event) {
+        IForgeRegistry<ICoverProvider> registry = event.getRegistry();
+        StreamEx.of(Cover.values())
+            .map(Cover::getInstance)
             .forEach(registry::register);
     }
 }

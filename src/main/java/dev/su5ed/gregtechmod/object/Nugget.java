@@ -2,10 +2,10 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.util.ItemProvider;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
-
-import java.util.function.Supplier;
 
 public enum Nugget implements ItemProvider {
     ALUMINIUM(Ingot.ALUMINIUM.description),
@@ -28,13 +28,13 @@ public enum Nugget implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
-    public final Supplier<String> description;
+    public final MutableComponent description;
 
     Nugget(String description) {
-        this(() -> description);
+        this(new TextComponent(description));
     }
 
-    Nugget(Supplier<String> description) {
+    Nugget(MutableComponent description) {
         this.description = description;
 
         this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).registryName(getName(), "nugget"));

@@ -14,7 +14,7 @@ public interface ICoverable {
     boolean removeCover(Direction side, boolean simulate);
 
     @Nullable
-    ICover getCoverAtSide(Direction side);
+    ICover getCoverAtSide(Direction side); // TODO Optional
 
     Collection<? extends ICover> getCovers();
 

@@ -67,9 +67,6 @@ public interface ICover {
      * @return The cover's associated item
      */
     ItemStack getItem();
-
-    @Nonnull
-    List<String> getDescription();
     
     CoverType getType();
 

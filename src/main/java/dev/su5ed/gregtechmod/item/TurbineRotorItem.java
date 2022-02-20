@@ -1,14 +1,13 @@
 package dev.su5ed.gregtechmod.item;
 
 import dev.su5ed.gregtechmod.util.TurbineRotor;
-
-import java.util.function.Supplier;
+import net.minecraft.network.chat.MutableComponent;
 
 public class TurbineRotorItem extends ResourceItem implements TurbineRotor {
     private final int efficiency;
     private final int efficiencyMultiplier;
 
-    public TurbineRotorItem(Properties pProperties, Supplier<String> description, int efficiency, int efficiencyMultiplier) {
+    public TurbineRotorItem(Properties pProperties, MutableComponent description, int efficiency, int efficiencyMultiplier) {
         super(pProperties, description);
         
         this.efficiency = efficiency;

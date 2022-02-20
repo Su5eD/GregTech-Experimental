@@ -4,8 +4,11 @@ import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import dev.su5ed.gregtechmod.util.JavaUtil;
 import ic2.core.profile.NotExperimental;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
+import org.lwjgl.system.CallbackI;
 
 import java.util.function.Supplier;
 
@@ -39,17 +42,17 @@ public enum Plate implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
-    public final Supplier<String> description;
+    public final MutableComponent description;
     
     Plate() {
-        this(JavaUtil.nullSupplier());
+        this((String) null);
     }
         
     Plate(String description) {
-        this(() -> description);
+        this(new TextComponent(description));
     }
 
-    Plate(Supplier<String> description) {
+    Plate(MutableComponent description) {
         this.description = description;
 
         this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).registryName(getName(), "plate"));

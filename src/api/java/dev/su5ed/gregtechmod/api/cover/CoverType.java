@@ -11,6 +11,4 @@ public enum CoverType {
     CONTROLLER,
     UTIL,
     OTHER;
-    
-    public static final Collection<CoverType> VALUES = Arrays.asList(values());
 }

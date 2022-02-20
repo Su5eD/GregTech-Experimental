@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.setup;
 
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
+import dev.su5ed.gregtechmod.cover.CoverScreen;
 import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
 import dev.su5ed.gregtechmod.model.CoverableModelLoader;
 import dev.su5ed.gregtechmod.model.OreModelLoader;
@@ -9,7 +10,9 @@ import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.IModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,6 +41,14 @@ public final class ClientSetup {
         
         registerBlockProviderModels(Ore.values(), OreModelLoader::new);
         registerBlockProviderModels(GTBlockEntity.values(), CoverableModelLoader::new);
+    }
+    
+    @SubscribeEvent
+    public void onTextureStitchEvent(TextureStitchEvent.Pre event) {
+        if (event.getAtlas().location().equals(InventoryMenu.BLOCK_ATLAS)) {
+            StreamEx.of(CoverScreen.TEXTURE)
+                .forEach(event::addSprite);
+        }
     }
     
     private static void registerBlockProviderModels(BlockItemProvider[] providers, Supplier<IModelLoader<?>> supplier) {

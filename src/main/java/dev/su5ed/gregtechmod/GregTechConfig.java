@@ -24,12 +24,17 @@ public final class GregTechConfig {
 
     public static final class Common {
         public final ForgeConfigSpec.BooleanValue hiddenOres;
+        public final ForgeConfigSpec.BooleanValue solarPanelCoverOvervoltageProtection;
 
         private Common(ForgeConfigSpec.Builder builder) {
             builder.push("General config");
-
-            this.hiddenOres = builder.define("hidden_ores", true);
-
+            this.hiddenOres = builder.define("hiddenOres", true);
+            builder.pop();
+            
+            builder.push("Balance");
+            this.solarPanelCoverOvervoltageProtection = builder
+                .comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
+                .define("solarPanelCoverOvervoltageProtection", false);
             builder.pop();
         }
     }

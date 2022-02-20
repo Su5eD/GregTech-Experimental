@@ -55,7 +55,7 @@ public enum Component implements TaggedItemProvider {
         this.tag = tag;
 
         String name = getName();
-        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, () -> GtLocale.translateProfileItemDescription(name)).registryName(name));
+        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, GtLocale.profileItemDescriptionKey(name).toComponent()).registryName(name));
     }
 
     Component(Supplier<Item> constructor, Tag.Named<Item> tag) {

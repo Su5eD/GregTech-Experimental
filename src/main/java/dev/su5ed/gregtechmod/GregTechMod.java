@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 @Mod(Reference.MODID)
 public class GregTechMod {
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
     
     public static boolean isClassic; // PLACEHOLDER until ic2 profiles are ported
 

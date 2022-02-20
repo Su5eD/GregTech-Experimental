@@ -2,11 +2,10 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.util.ItemProvider;
-import dev.su5ed.gregtechmod.util.JavaUtil;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
-
-import java.util.function.Supplier;
 
 public enum Smalldust implements ItemProvider {
     ALMANDINE(Dust.ALMANDINE.description),
@@ -79,25 +78,25 @@ public enum Smalldust implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
-    public final Supplier<String> description;
+    public final MutableComponent description;
 
     Smalldust() {
-        this(JavaUtil.nullSupplier());
+        this((String) null);
     }
 
     Smalldust(String description) {
         this(description, false);
     }
 
-    Smalldust(Supplier<String> description) {
+    Smalldust(MutableComponent description) {
         this(description, false);
     }
 
     Smalldust(String description, boolean isFoil) {
-        this(() -> description, isFoil);
+        this(new TextComponent(description), isFoil);
     }
 
-    Smalldust(Supplier<String> description, boolean isFoil) {
+    Smalldust(MutableComponent description, boolean isFoil) {
         this.description = description;
 
         this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).setIsFoil(isFoil).registryName(getName(), "smalldust"));

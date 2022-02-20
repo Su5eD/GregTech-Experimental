@@ -10,20 +10,16 @@ public final class GtLocale {
 
     private GtLocale() {}
 
-    public static String translateProfileItemDescription(String name) {
+    public static TranslationKey profileItemDescriptionKey(String name) {
         if (GregTechMod.isClassic) {
             TranslationKey classicKey = key("item", name, "classic_description");
-            if (classicKey.exists()) return classicKey.translate();
+            if (classicKey.exists()) return classicKey;
         }
-        return translateItemDescription(name);
+        return itemDescriptionKey(name);
     }
 
-    public static String translateItemDescription(String name) {
-        return itemDescriptionKey(name).translate();
-    }
-
-    public static String translateGenericDescription(String name, Object... params) {
-        return key("generic", name, "description").translate(params);
+    public static TranslatableComponent translateGenericDescription(String name, Object... params) {
+        return key("generic", name, "description").toComponent(params);
     }
     
     public static TranslationKey itemDescriptionKey(String name) {
@@ -46,10 +42,6 @@ public final class GtLocale {
 
         public boolean exists() {
             return I18n.exists(this.key);
-        }
-
-        public String translate(Object... params) {
-            return I18n.get(this.key, params);
         }
 
         public TranslatableComponent toComponent(Object... args) {

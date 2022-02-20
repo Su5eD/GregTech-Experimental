@@ -3,11 +3,10 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.ItemProvider;
-import dev.su5ed.gregtechmod.util.JavaUtil;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
-
-import java.util.function.Supplier;
 
 public enum Ingot implements ItemProvider {
     ALUMINIUM("Al"),
@@ -32,14 +31,14 @@ public enum Ingot implements ItemProvider {
     THORIUM("Th", true),
     TITANIUM("Ti"),
     TUNGSTEN("W"),
-    TUNGSTEN_STEEL(() -> GtLocale.translateItemDescription("tungsten_steel_ingot")),
+    TUNGSTEN_STEEL(GtLocale.itemDescriptionKey("tungsten_steel_ingot").toComponent(), false),
     ZINC("Zn");
 
     private final Lazy<Item> instance;
-    final Supplier<String> description;
+    final MutableComponent description;
 
     Ingot() {
-        this(JavaUtil.nullSupplier());
+        this(null);
     }
 
     Ingot(String description) {
@@ -47,14 +46,10 @@ public enum Ingot implements ItemProvider {
     }
 
     Ingot(String description, boolean isFoil) {
-        this(() -> description, isFoil);
+        this(new TextComponent(description), isFoil);
     }
 
-    Ingot(Supplier<String> description) {
-        this(description, false);
-    }
-
-    Ingot(Supplier<String> description, boolean isFoil) {
+    Ingot(MutableComponent description, boolean isFoil) {
         this.description = description;
 
         this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).setIsFoil(isFoil).registryName(getName(), "ingot"));

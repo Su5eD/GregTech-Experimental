@@ -39,6 +39,7 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(Plate.values(), "plate");
         registerItems(TurbineRotor.values(), "turbine_rotor");
         registerItems(Component.values(), "component");
+        registerItems(ModCover.values(), "cover");
         
         String fullName = Component.LITHIUM_RE_BATTERY.getName() + "_full";
         providerModel(Component.LITHIUM_RE_BATTERY, "component")

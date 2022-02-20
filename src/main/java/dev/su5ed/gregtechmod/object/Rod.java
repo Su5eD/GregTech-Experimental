@@ -3,10 +3,10 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import ic2.core.profile.NotExperimental;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
-
-import java.util.function.Supplier;
 
 public enum Rod implements ItemProvider {
     ALUMINIUM(Ingot.ALUMINIUM.description),
@@ -34,13 +34,13 @@ public enum Rod implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
-    public final Supplier<String> description;
+    public final MutableComponent description;
 
     Rod(String description) {
-        this(() -> description);
+        this(new TextComponent(description));
     }
 
-    Rod(Supplier<String> description) {
+    Rod(MutableComponent description) {
         this.description = description;
 
         this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).registryName(getName(), "rod"));

@@ -1,12 +1,26 @@
 package dev.su5ed.gregtechmod.util;
 
+import dev.su5ed.gregtechmod.api.cover.ICover;
+import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import one.util.streamex.StreamEx;
 
 import java.util.Collection;
 import java.util.EnumSet;
+
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class GtUtil {
     public static final Collection<Direction> VERTICAL_FACINGS = EnumSet.of(Direction.DOWN, Direction.UP);
@@ -24,5 +38,39 @@ public final class GtUtil {
 
     public static Material getMaterial(ResourceLocation location) {
         return new Material(InventoryMenu.BLOCK_ATLAS, location);
+    }
+
+    public static void sendActionBarMessage(Player player, GtLocale.TranslationKey key, Object... args) {
+        if (player instanceof ServerPlayer serverPlayer) serverPlayer.displayClientMessage(key.toComponent(args), true);
+    }
+
+    public static ResourceLocation getCoverTexture(String name) {
+        return location("block", "cover", name);
+    }
+
+    public static FluidStack drainBlock(BlockEntity blockEntity, Direction side, int amount, FluidAction action) {
+        return blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)
+            .map(handler -> handler.drain(amount, action))
+            .orElse(FluidStack.EMPTY);
+    }
+
+    public static int getStrongestSignal(ICoverable te, Level level, BlockPos pos, Direction excludeFacing) {
+        return StreamEx.of(Direction.values())
+            .filter(side -> excludeFacing == null || side != excludeFacing)
+            .mapToInt(side -> getSignalFromSide(side, level, pos, te))
+            .max()
+            .orElse(0);
+    }
+
+    public static int getSignalFromSide(Direction side, Level level, BlockPos pos, ICoverable be) {
+        int power = level.getSignal(pos.relative(side), side);
+
+        ICover cover = be.getCoverAtSide(side);
+        if (cover != null) {
+            if (cover.letsRedstoneIn()) return Math.max(power, cover.getRedstoneInput());
+        }
+        else return power;
+
+        return 0;
     }
 }

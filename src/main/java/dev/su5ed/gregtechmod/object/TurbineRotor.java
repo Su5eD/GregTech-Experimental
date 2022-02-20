@@ -17,7 +17,7 @@ public enum TurbineRotor implements ItemProvider {
 
     TurbineRotor(int efficiency, int efficiencyMultiplier, int durability) {
         this.instance = Lazy.of(() -> new TurbineRotorItem(ModObjects.itemProperties().durability(durability).setNoRepair(),
-            () -> GtLocale.translateGenericDescription("turbine_rotor", efficiency),
+            GtLocale.translateGenericDescription("turbine_rotor", efficiency),
             efficiency, efficiencyMultiplier)
             .setIsEnchantable(false)
             .registryName(getName(), "turbine_rotor"));
