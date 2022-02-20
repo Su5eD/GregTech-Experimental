@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public final class NBTSaveHandler {
-    private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup(); // TODO Use VarHandle
+    private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
     private static final Map<Class<?>, List<FieldHandle>> HANDLES = new HashMap<>();
     
     private NBTSaveHandler() {}
@@ -40,7 +40,7 @@ public final class NBTSaveHandler {
                         }
 
                         checkForDuplicateField(name, cls);
-                        return new FieldHandle(name, field.getType(), serializer, deserializer, persistent.include().predicate, modifyExisting, LOOKUP.unreflectGetter(field), LOOKUP.unreflectSetter(field));
+                        return new FieldHandle(name, field.getType(), serializer, deserializer, persistent.include().predicate, modifyExisting, LOOKUP.unreflectVarHandle(field));
                     })
                     .catching(field -> "Unable to create handle for field " + field.getName()))
                 .toImmutableList()

@@ -21,14 +21,14 @@ import org.apache.logging.log4j.Logger;
 @Mod(Reference.MODID)
 public class GregTechMod {
     public static final Logger LOGGER = LogManager.getLogger();
-    
+
     public static boolean isClassic; // PLACEHOLDER until ic2 profiles are ported
 
     public GregTechMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::clientSetup);
-        
+
         bus.register(ModObjects.INSTANCE);
         bus.register(ClientSetup.INSTANCE);
         bus.register(DataGenerators.INSTANCE);
@@ -41,8 +41,10 @@ public class GregTechMod {
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("Common setup started");
     }
-    
+
     private void clientSetup(final FMLClientSetupEvent event) {
+        LOGGER.info("Client setup started");
+
         event.enqueueWork(() -> ItemProperties.register(
             Component.LITHIUM_RE_BATTERY.getItem(),
             LithiumBatteryItem.CHARGE_PROPERTY,

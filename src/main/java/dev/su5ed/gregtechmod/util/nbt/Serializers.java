@@ -66,15 +66,15 @@ public final class Serializers {
         }
     }
 
-    public abstract static class ListDeserializer implements NBTDeserializer<List<?>, ListTag> {
-        private final BiFunction<Object, Integer, ?> factory;
+    public abstract static class ListDeserializer<T> implements NBTDeserializer<List<?>, ListTag, T> {
+        private final BiFunction<T, Integer, ?> factory;
 
-        protected ListDeserializer(BiFunction<Object, Integer, ?> factory) {
+        protected ListDeserializer(BiFunction<T, Integer, ?> factory) {
             this.factory = factory;
         }
 
         @Override
-        public List<?> deserialize(ListTag nbt, Object instance, Class<?> cls) {
+        public List<?> deserialize(ListTag nbt, T instance, Class<?> cls) {
             List<? super Object> list = new ArrayList<>();
 
             for (int i = 0; i < nbt.size(); i++) {
@@ -106,14 +106,14 @@ public final class Serializers {
         }
     }
 
-    public static class ItemStackListNBTSerializer implements NBTHandler<List<ItemStack>, ListTag> {
+    public static class ItemStackListNBTSerializer implements NBTHandler<List<ItemStack>, ListTag, Object> {
         @Override
         public ListTag serialize(List<ItemStack> value) {
             return StreamEx.of(value)
                 .<Tag>map(stack -> stack.save(new CompoundTag()))
                 .toCollection(ListTag::new);
         }
-
+        
         @Override
         public List<ItemStack> deserialize(ListTag tag, Object instance, Class<?> cls) {
             return StreamEx.of(tag)
@@ -123,7 +123,7 @@ public final class Serializers {
         }
     }
 
-    static class EnumNBTSerializer implements NBTHandler<Enum<?>, StringTag> {
+    static class EnumNBTSerializer implements NBTHandler<Enum<?>, StringTag, Object> {
         @Override
         public StringTag serialize(Enum<?> value) {
             return StringTag.valueOf(value.name());
@@ -131,20 +131,20 @@ public final class Serializers {
 
         @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override
-        public Enum<?> deserialize(StringTag nbt, Object instance, Class cls) {
-            String name = nbt.getAsString();
+        public Enum<?> deserialize(StringTag tag, Object instance, Class cls) {
+            String name = tag.getAsString();
             return Enum.valueOf(cls, name);
         }
     }
 
-    static class None implements NBTHandler<Object, Tag> {
+    static class None implements NBTHandler<Object, Tag, Object> {
         @Override
         public Tag serialize(Object value) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public Object deserialize(Tag nbt, Object instance, Class<?> cls) {
+        public Object deserialize(Tag tag, Object instance, Class<?> cls) {
             throw new UnsupportedOperationException();
         }
     }
