@@ -7,10 +7,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class CoverRedstoneOnly extends CoverGeneric {
+public class RedstoneOnlyCover extends GenericCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_only");
 
-    public CoverRedstoneOnly(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
+    public RedstoneOnlyCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
         super(name, te, side, stack);
     }
 

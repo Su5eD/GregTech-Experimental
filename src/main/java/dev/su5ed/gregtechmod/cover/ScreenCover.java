@@ -8,10 +8,10 @@ import net.minecraft.world.item.ItemStack;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public class CoverScreen extends CoverGeneric {
+public class ScreenCover extends GenericCover {
     public static final ResourceLocation TEXTURE = location("blockentity/adv_machine_screen_random");
 
-    public CoverScreen(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public ScreenCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

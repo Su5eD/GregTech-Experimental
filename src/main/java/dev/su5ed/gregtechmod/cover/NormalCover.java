@@ -8,20 +8,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class CoverNormal extends CoverGeneric {
+public class NormalCover extends GenericCover {
     public static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
     public static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
 
     @NBTPersistent
-    protected CoverMeter.MeterMode mode = CoverMeter.MeterMode.NORMAL;
+    protected MeterCover.MeterMode mode = MeterCover.MeterMode.NORMAL;
 
-    public CoverNormal(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public NormalCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return mode == CoverMeter.MeterMode.NORMAL ? TEXTURE_NORMAL : TEXTURE_NOREDSTONE;
+        return mode == MeterCover.MeterMode.NORMAL ? TEXTURE_NORMAL : TEXTURE_NOREDSTONE;
     }
 
     @Override
@@ -33,36 +33,36 @@ public class CoverNormal extends CoverGeneric {
 
     @Override
     public boolean letsRedstoneIn() {
-        return mode == CoverMeter.MeterMode.NORMAL;
+        return mode == MeterCover.MeterMode.NORMAL;
     }
 
     @Override
     public boolean letsRedstoneOut() {
-        return mode == CoverMeter.MeterMode.NORMAL;
+        return mode == MeterCover.MeterMode.NORMAL;
     }
 
     @Override
     public boolean allowEnergyTransfer() {
-        return mode == CoverMeter.MeterMode.INVERTED;
+        return mode == MeterCover.MeterMode.INVERTED;
     }
 
     @Override
     public boolean letsLiquidsIn() {
-        return mode == CoverMeter.MeterMode.INVERTED;
+        return mode == MeterCover.MeterMode.INVERTED;
     }
 
     @Override
     public boolean letsLiquidsOut() {
-        return mode == CoverMeter.MeterMode.INVERTED;
+        return mode == MeterCover.MeterMode.INVERTED;
     }
 
     @Override
     public boolean letsItemsIn() {
-        return mode == CoverMeter.MeterMode.INVERTED;
+        return mode == MeterCover.MeterMode.INVERTED;
     }
 
     @Override
     public boolean letsItemsOut() {
-        return mode == CoverMeter.MeterMode.INVERTED;
+        return mode == MeterCover.MeterMode.INVERTED;
     }
 }

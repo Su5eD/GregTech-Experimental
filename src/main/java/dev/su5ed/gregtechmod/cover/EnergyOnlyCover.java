@@ -13,13 +13,13 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Locale;
 
-public class CoverEnergyOnly extends CoverGeneric {
+public class EnergyOnlyCover extends GenericCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
 
     @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public CoverEnergyOnly(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public EnergyOnlyCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

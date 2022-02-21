@@ -14,13 +14,13 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Locale;
 
-public class CoverActiveDetector extends CoverGeneric {
+public class ActiveDetectorCover extends GenericCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("active_detector");
 
     @NBTPersistent
     protected DetectorMode mode = DetectorMode.NORMAL;
 
-    public CoverActiveDetector(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public ActiveDetectorCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

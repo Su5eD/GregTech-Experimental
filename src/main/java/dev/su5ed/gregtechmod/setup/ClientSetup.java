@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.setup;
 
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
-import dev.su5ed.gregtechmod.cover.CoverScreen;
+import dev.su5ed.gregtechmod.cover.*;
 import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
 import dev.su5ed.gregtechmod.model.CoverableModelLoader;
 import dev.su5ed.gregtechmod.model.OreModelLoader;
@@ -38,19 +38,38 @@ public final class ClientSetup {
                 ConnectedModelLoader loader = new ConnectedModelLoader(name);
                 ModelLoaderRegistry.registerLoader(location, loader);
             });
-        
+
         registerBlockProviderModels(Ore.values(), OreModelLoader::new);
         registerBlockProviderModels(GTBlockEntity.values(), CoverableModelLoader::new);
     }
-    
+
     @SubscribeEvent
     public void onTextureStitchEvent(TextureStitchEvent.Pre event) {
         if (event.getAtlas().location().equals(InventoryMenu.BLOCK_ATLAS)) {
-            StreamEx.of(CoverScreen.TEXTURE)
+            StreamEx.of(ScreenCover.TEXTURE)
+                .append(
+                    ActiveDetectorCover.TEXTURE,
+                    ConveyorCover.TEXTURE,
+                    CraftingCover.TEXTURE,
+                    DrainCover.TEXTURE,
+                    EnergyOnlyCover.TEXTURE,
+                    EnergyMeterCover.TEXTURE,
+                    ItemMeterCover.TEXTURE,
+                    LiquidMeterCover.TEXTURE,
+                    MachineControllerCover.TEXTURE,
+                    NormalCover.TEXTURE_NORMAL,
+                    NormalCover.TEXTURE_NOREDSTONE,
+                    PumpCover.TEXTURE,
+                    RedstoneConductorCover.TEXTURE,
+                    RedstoneOnlyCover.TEXTURE,
+                    RedstoneSignalizerCover.TEXTURE,
+                    SolarPanelCover.TEXTURE,
+                    ValveCover.TEXTURE
+                )
                 .forEach(event::addSprite);
         }
     }
-    
+
     private static void registerBlockProviderModels(BlockItemProvider[] providers, Supplier<IModelLoader<?>> supplier) {
         StreamEx.of(providers)
             .map(provider -> provider.getBlock().getRegistryName().getPath())

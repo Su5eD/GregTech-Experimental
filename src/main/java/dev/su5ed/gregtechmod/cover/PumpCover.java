@@ -12,10 +12,10 @@ import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
-public class CoverPump extends CoverInventory {
+public class PumpCover extends InventoryCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("pump");
 
-    public CoverPump(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public PumpCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

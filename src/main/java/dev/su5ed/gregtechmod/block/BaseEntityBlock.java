@@ -7,6 +7,7 @@ import dev.su5ed.gregtechmod.util.VerticalRotation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -21,9 +22,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class BaseEntityBlock extends Block implements EntityBlock {
     private final BlockEntityProvider provider;
@@ -48,6 +51,13 @@ public class BaseEntityBlock extends Block implements EntityBlock {
     
     protected VerticalRotation getVerticalRotation() {
         return VerticalRotation.MIRROR_BACK;
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+        return getBlockEntity(world, pos)
+            .flatMap(be -> be.getCloneItemStack(state, target, world, pos, player))
+            .orElseGet(() -> super.getCloneItemStack(state, target, world, pos, player));
     }
 
     @Nullable
@@ -79,5 +89,12 @@ public class BaseEntityBlock extends Block implements EntityBlock {
                 else blockEntity.tickServer();
             }
         };
+    }
+    
+    private Optional<BaseBlockEntity> getBlockEntity(BlockGetter world, BlockPos pos) {
+        BlockEntity be = world.getBlockEntity(pos);
+        return be instanceof BaseBlockEntity baseBe
+            ? Optional.of(baseBe)
+            : Optional.empty();
     }
 }

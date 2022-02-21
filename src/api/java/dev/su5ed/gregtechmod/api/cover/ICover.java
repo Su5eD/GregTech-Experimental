@@ -66,11 +66,11 @@ public interface ICover {
     /**
      * @return The cover's associated item
      */
-    ItemStack getItem();
+    ItemStack getItem(); // TODO Use item
     
     CoverType getType();
 
-    void save(CompoundTag tag);
+    CompoundTag save();
 
     void load(CompoundTag tag);
 

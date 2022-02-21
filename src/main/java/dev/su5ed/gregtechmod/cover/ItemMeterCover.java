@@ -10,10 +10,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class CoverItemMeter extends CoverMeter {
+public class ItemMeterCover extends MeterCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
 
-    public CoverItemMeter(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public ItemMeterCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

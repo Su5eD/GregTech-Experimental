@@ -10,13 +10,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class CoverRedstoneSignalizer extends CoverGeneric {
+public class RedstoneSignalizerCover extends GenericCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_signalizer");
 
     @NBTPersistent
     protected int signal;
 
-    public CoverRedstoneSignalizer(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
+    public RedstoneSignalizerCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
         super(name, te, side, stack);
     }
 

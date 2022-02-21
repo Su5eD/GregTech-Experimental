@@ -22,11 +22,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class CoverCrafting extends CoverGeneric {
+public class CraftingCover extends GenericCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
     private static final Component CONTAINER_TITLE = new TranslatableComponent("container.crafting");
 
-    public CoverCrafting(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public CraftingCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 
@@ -64,7 +64,7 @@ public class CoverCrafting extends CoverGeneric {
 
         @Override
         public boolean stillValid(Player player) {
-            BlockEntity be = (BlockEntity) CoverCrafting.this.be;
+            BlockEntity be = (BlockEntity) CraftingCover.this.be;
             Block block = be.getBlockState().getBlock();
             return be.getLevel().getBlockState(be.getBlockPos()).getBlock().equals(block);
         }

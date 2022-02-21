@@ -12,13 +12,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class CoverSolarPanel extends CoverGeneric {
+public class SolarPanelCover extends GenericCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("solar_panel");
 
     private final double daytimeEnergy;
     private final double nighttimeEnergy;
 
-    public CoverSolarPanel(ResourceLocation name, ICoverable te, Direction side, ItemStack stack, double daytimeEnergy, double nighttimeEnergy) {
+    public SolarPanelCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack, double daytimeEnergy, double nighttimeEnergy) {
         super(name, te, side, stack);
         this.daytimeEnergy = daytimeEnergy;
         this.nighttimeEnergy = nighttimeEnergy;

@@ -1,6 +1,5 @@
 package dev.su5ed.gregtechmod.util;
 
-import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
@@ -11,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
@@ -65,12 +63,8 @@ public final class GtUtil {
     public static int getSignalFromSide(Direction side, Level level, BlockPos pos, ICoverable be) {
         int power = level.getSignal(pos.relative(side), side);
 
-        ICover cover = be.getCoverAtSide(side);
-        if (cover != null) {
-            if (cover.letsRedstoneIn()) return Math.max(power, cover.getRedstoneInput());
-        }
-        else return power;
-
-        return 0;
+        return be.getCoverAtSide(side)
+            .map(cover -> cover.letsRedstoneIn() ? Math.max(power, cover.getRedstoneInput()) : 0)
+            .orElse(power);
     }
 }

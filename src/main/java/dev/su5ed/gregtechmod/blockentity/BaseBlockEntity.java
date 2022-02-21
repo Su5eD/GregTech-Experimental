@@ -1,13 +1,20 @@
 package dev.su5ed.gregtechmod.blockentity;
 
+import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
+
+import java.util.Optional;
 
 public abstract class BaseBlockEntity extends BlockEntity {
     
@@ -23,6 +30,14 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
     
     public void tickServer() {
+    }
+    
+    public Optional<ItemStack> getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+        return Optional.empty();
+    }
+    
+    public void updateClientField(String name) {
+        GregTechNetwork.updateClientField(this, name);
     }
 
     @Override

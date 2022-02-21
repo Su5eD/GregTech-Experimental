@@ -8,10 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class CoverValve extends CoverPump {
+public class ValveCover extends PumpCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("valve");
 
-    public CoverValve(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
+    public ValveCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
         super(name, te, side, stack);
     }
 
@@ -19,7 +19,7 @@ public class CoverValve extends CoverPump {
     public void doCoverThings() {
         if (canWork()) {
             if (shouldUseEnergy(128) && ((IElectricMachine) this.be).canUseEnergy(128)) {
-                ((IElectricMachine) this.be).useEnergy(CoverConveyor.moveItemStack((BlockEntity) this.be, this.side, this.mode));
+                ((IElectricMachine) this.be).useEnergy(ConveyorCover.moveItemStack((BlockEntity) this.be, this.side, this.mode));
             }
 
             super.doCoverThings();

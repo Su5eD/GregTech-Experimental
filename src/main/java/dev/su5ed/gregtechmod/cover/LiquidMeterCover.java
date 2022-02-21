@@ -10,10 +10,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class CoverLiquidMeter extends CoverMeter {
+public class LiquidMeterCover extends MeterCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("liquid_meter");
 
-    public CoverLiquidMeter(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public LiquidMeterCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

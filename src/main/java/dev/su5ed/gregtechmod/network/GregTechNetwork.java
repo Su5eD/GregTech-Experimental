@@ -22,12 +22,14 @@ public final class GregTechNetwork {
         INSTANCE.registerMessage(id++, BlockEntityUpdate.class, BlockEntityUpdate::encode, BlockEntityUpdate::decode, BlockEntityUpdate::processPacket);
     }
 
-    private static void updateClientField(BlockEntity be, String name) {
-        FieldHandle field = NBTSaveHandler.getFieldHandle(name, be);
-        CompoundTag tag = NBTSaveHandler.serializeFields(be, Mode.SYNC, field);
-        BlockEntityUpdate packet = new BlockEntityUpdate(be, tag);
-        
-        INSTANCE.send(PacketDistributor.TRACKING_CHUNK.with(() -> be.getLevel().getChunkAt(be.getBlockPos())), packet);
+    public static void updateClientField(BlockEntity be, String name) {
+        if (!be.getLevel().isClientSide) {
+            FieldHandle field = NBTSaveHandler.getFieldHandle(name, be);
+            CompoundTag tag = NBTSaveHandler.serializeFields(be, Mode.SYNC, field);
+            BlockEntityUpdate packet = new BlockEntityUpdate(be, tag);
+
+            INSTANCE.send(PacketDistributor.TRACKING_CHUNK.with(() -> be.getLevel().getChunkAt(be.getBlockPos())), packet);
+        }
     }
 
     public static void receiveFieldUpdate(BlockEntity be, CompoundTag data) {

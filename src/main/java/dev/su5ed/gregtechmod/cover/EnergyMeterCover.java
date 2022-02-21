@@ -15,13 +15,13 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Locale;
 
-public class CoverEnergyMeter extends CoverGeneric {
+public class EnergyMeterCover extends GenericCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
 
     @NBTPersistent
     protected Mode mode = Mode.UNIVERSAL;
 
-    public CoverEnergyMeter(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public EnergyMeterCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

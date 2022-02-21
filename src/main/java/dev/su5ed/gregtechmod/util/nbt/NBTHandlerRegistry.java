@@ -78,7 +78,7 @@ public final class NBTHandlerRegistry {
         MODIFYING_DESERIALIZERS.put(clazz, (NBTModifyingDeserializer<Object, Tag>) deserializer);
     }
 
-    public static void addSpecialHandler(NBTHandler<?, ? extends Tag, Object> handler) {
+    public static void addSpecialHandler(NBTHandler<?, ? extends Tag, ?> handler) {
         addSpecialSerializer(handler);
         addSpecialDeserializer(handler);
     }
@@ -89,7 +89,7 @@ public final class NBTHandlerRegistry {
     }
 
     @SuppressWarnings({ "unchecked" })
-    public static void addSpecialDeserializer(NBTDeserializer<?, ? extends Tag, Object> deserializer) {
+    public static void addSpecialDeserializer(NBTDeserializer<?, ? extends Tag, ?> deserializer) {
         SPECIAL_DESERIALIZERS.add((NBTDeserializer<Object, Tag, Object>) deserializer);
     }
 

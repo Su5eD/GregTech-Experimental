@@ -16,41 +16,34 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class CoverRedstoneConductor extends CoverGeneric {
-    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
+public class MachineControllerCover extends GenericCover {
+    public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
 
     @NBTPersistent
-    protected ConductorMode mode = ConductorMode.STRONGEST;
+    protected ControllerMode mode = ControllerMode.NORMAL;
 
-    public CoverRedstoneConductor(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public MachineControllerCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 
     @Override
     public void doCoverThings() {
         if (this.be instanceof IGregTechMachine machine) {
-            BlockPos pos = ((BlockEntity) this.be).getBlockPos();
             Level level = ((BlockEntity) this.be).getLevel();
-
-            if (mode == ConductorMode.STRONGEST) {
-                int strongest = GtUtil.getStrongestSignal(this.be, level, pos, this.side);
-                machine.setRedstoneOutput(this.side, strongest);
-            }
-            else {
-                Direction side = Direction.from3DDataValue(this.mode.ordinal() - 1);
-                machine.setRedstoneOutput(this.side, GtUtil.getSignalFromSide(side, level, pos, this.be) - 1);
-            }
+            BlockPos offset = ((BlockEntity) this.be).getBlockPos().relative(this.side);
+            boolean isPowered = level.hasNeighborSignal(offset) || level.hasSignal(offset, this.side);
+            machine.setAllowedToWork(isPowered == (this.mode == ControllerMode.NORMAL) && this.mode != ControllerMode.DISABLED);
         }
+    }
+
+    @Override
+    public CoverType getType() {
+        return CoverType.CONTROLLER;
     }
 
     @Override
     public ResourceLocation getIcon() {
         return TEXTURE;
-    }
-
-    @Override
-    public int getTickRate() {
-        return 1;
     }
 
     @Override
@@ -60,38 +53,34 @@ public class CoverRedstoneConductor extends CoverGeneric {
         return true;
     }
 
-    private enum ConductorMode {
-        STRONGEST,
-        DOWN,
-        UP,
-        NORTH,
-        SOUTH,
-        WEST,
-        EAST;
+    private enum ControllerMode {
+        NORMAL,
+        INVERTED,
+        DISABLED;
 
-        private static final ConductorMode[] VALUES = values();
+        private static final ControllerMode[] VALUES = values();
 
-        public ConductorMode next() {
+        public ControllerMode next() {
             return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public GtLocale.TranslationKey getMessageKey() {
-            return GtLocale.key("cover", "conductor_mode", name().toLowerCase(Locale.ROOT));
+            return GtLocale.key("cover", "mode", name().toLowerCase(Locale.ROOT));
         }
     }
 
     @Override
+    public void onCoverRemove() {
+        if (this.be instanceof IGregTechMachine machine) machine.setAllowedToWork(true);
+    }
+
+    @Override
+    public int getTickRate() {
+        return 1;
+    }
+
+    @Override
     public boolean allowEnergyTransfer() {
-        return true;
-    }
-
-    @Override
-    public boolean letsRedstoneIn() {
-        return true;
-    }
-
-    @Override
-    public boolean letsRedstoneOut() {
         return true;
     }
 
@@ -116,12 +105,7 @@ public class CoverRedstoneConductor extends CoverGeneric {
     }
 
     @Override
-    public boolean overrideRedstoneOut() {
+    public boolean acceptsRedstone() {
         return true;
-    }
-
-    @Override
-    public CoverType getType() {
-        return CoverType.UTIL;
     }
 }

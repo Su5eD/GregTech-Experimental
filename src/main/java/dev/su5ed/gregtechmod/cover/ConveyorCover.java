@@ -9,10 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class CoverConveyor extends CoverInventory {
+public class ConveyorCover extends InventoryCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("conveyor");
 
-    public CoverConveyor(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public ConveyorCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

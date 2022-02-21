@@ -27,13 +27,13 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 import java.util.Locale;
 
-public class CoverDrain extends CoverGeneric {
+public class DrainCover extends GenericCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
 
     @NBTPersistent
     protected DrainMode mode = DrainMode.IMPORT;
 
-    public CoverDrain(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public DrainCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

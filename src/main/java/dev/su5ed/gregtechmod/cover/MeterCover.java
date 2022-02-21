@@ -13,11 +13,11 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Locale;
 
-public abstract class CoverMeter extends CoverGeneric {
+public abstract class MeterCover extends GenericCover {
     @NBTPersistent
     protected MeterMode mode = MeterMode.NORMAL;
 
-    public CoverMeter(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    public MeterCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
         super(name, be, side, stack);
     }
 

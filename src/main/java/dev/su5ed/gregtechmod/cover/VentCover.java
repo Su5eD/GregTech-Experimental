@@ -19,10 +19,10 @@ import java.util.List;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public class CoverVent extends CoverGeneric {
+public class VentCover extends GenericCover {
     private final double efficiency;
 
-    public CoverVent(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
+    public VentCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
         super(name, te, side, stack);
         this.efficiency = getVentType(stack).efficiency;
     }

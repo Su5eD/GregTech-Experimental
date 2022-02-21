@@ -45,7 +45,6 @@ public final class NBTSaveHandler {
                     .catching(field -> "Unable to create handle for field " + field.getName()))
                 .toImmutableList()
             )
-            .removeValues(List::isEmpty)
             .forKeyValue(HANDLES::put);
     }
     
@@ -64,14 +63,14 @@ public final class NBTSaveHandler {
             )
             .forKeyValue((fieldHandle, nbtValue) -> {
                 if (fieldHandle.modifyExisting) {
-                    Object value = fieldHandle.getFieldValue(instance);
+                    Object value = fieldHandle.getValue(instance);
                     modifyExistingField(fieldHandle.type, value, nbtValue);
                 }
                 else {
                     Object deserialized = deserializeField(fieldHandle, nbtValue, instance);
 
                     if (deserialized != null) {
-                        fieldHandle.setFieldValue(instance, deserialized);
+                        fieldHandle.setValue(instance, deserialized);
                     }
                 }
             });
@@ -93,29 +92,40 @@ public final class NBTSaveHandler {
 
     @Nullable
     private static Tag serializeField(FieldHandle field, Object instance) {
-        return field.getFieldValue(instance)
+        return field.getValue(instance)
             .map(value -> serializeFieldValue(field, value))
             .orElse(null);
     }
 
     @Nullable
     private static Tag serializeFieldValue(FieldHandle field, Object value) {
-        NBTSerializer<Object, Tag> serializer = field.serializer != Serializers.None.class
-            ? NBTHandlerRegistry.getSpecialSerializer(field.serializer)
-            : NBTHandlerRegistry.getSerializer(value);
+        NBTSerializer<Object, Tag> serializer;
+        if (field.serializer != Serializers.None.class) serializer = NBTHandlerRegistry.getSpecialSerializer(field.serializer);
+        else if (isClassRegistered(field.type)) return writeClassToNBT(value, field.mode);
+        else serializer = NBTHandlerRegistry.getSerializer(value);
+        
         return serializer.serialize(value);
     }
 
     @Nullable
-    private static Object deserializeField(FieldHandle field, Tag nbt, Object instance) {
-        NBTDeserializer<Object, Tag, Object> deserializer = field.deserializer != Serializers.None.class
-            ? NBTHandlerRegistry.getSpecialDeserializer(field.deserializer)
-            : NBTHandlerRegistry.getDeserializer(field.type);
-        return deserializer.deserialize(nbt, instance, field.type);
+    private static Object deserializeField(FieldHandle field, Tag tag, Object instance) {
+        NBTDeserializer<Object, Tag, Object> deserializer;
+        if (field.deserializer != Serializers.None.class) deserializer = NBTHandlerRegistry.getSpecialDeserializer(field.deserializer);
+        else if (isClassRegistered(field.type) && tag instanceof CompoundTag compound) {
+            field.getValue(instance).ifPresent(obj -> readClassFromNBT(obj, compound));
+            return null;
+        }
+        else deserializer = NBTHandlerRegistry.getDeserializer(field.type);
+        
+        return deserializer.deserialize(tag, instance, field.type);
+    }
+    
+    public static boolean isClassRegistered(Class<?> type) {
+        return HANDLES.containsKey(type);
     }
 
-    private static void modifyExistingField(Class<?> type, Object value, Tag nbt) {
-        NBTHandlerRegistry.getModifyingDeserializer(type).modifyValue(value, nbt);
+    private static void modifyExistingField(Class<?> type, Object value, Tag tag) {
+        NBTHandlerRegistry.getModifyingDeserializer(type).modifyValue(value, tag);
     }
 
     private static void checkForDuplicateField(String name, Class<?> cls) {
@@ -141,7 +151,8 @@ public final class NBTSaveHandler {
     }
 
     public static StreamEx<Class<?>> withParents(Class<?> clazz) {
-        return StreamEx.iterate(clazz, Objects::nonNull, Class::getSuperclass);
+        return StreamEx.<Class<?>>iterate(clazz, Objects::nonNull, Class::getSuperclass)
+            .without(Object.class);
     }
 
     public static String formatFieldName(Class<?> clazz, String field) {
