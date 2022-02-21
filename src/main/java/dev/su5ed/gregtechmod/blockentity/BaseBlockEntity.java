@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.blockentity;
 
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
+import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -18,17 +19,35 @@ public abstract class BaseBlockEntity extends BlockEntity {
         super(type, pos, state);
     }
     
-    public void tickServer() {}
+    public void tickClient() {
+    }
+    
+    public void tickServer() {
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return NBTSaveHandler.writeClassToNBT(this, Mode.SYNC);
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        NBTSaveHandler.readClassFromNBT(this, tag);
+    }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        NBTSaveHandler.readClassFromNBT(this, tag);
+        
+        CompoundTag compound = tag.getCompound("fields");
+        NBTSaveHandler.readClassFromNBT(this, compound);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        NBTSaveHandler.writeClassToNBT(this, tag);
+        
+        CompoundTag compound = NBTSaveHandler.writeClassToNBT(this);
+        tag.put("fields", compound);
     }
 }

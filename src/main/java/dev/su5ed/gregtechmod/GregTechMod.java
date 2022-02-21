@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.datagen.DataGenerators;
 import dev.su5ed.gregtechmod.item.LithiumBatteryItem;
+import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import dev.su5ed.gregtechmod.setup.ClientSetup;
@@ -40,6 +41,8 @@ public class GregTechMod {
 
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("Common setup started");
+        
+        GregTechNetwork.registerPackets();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {

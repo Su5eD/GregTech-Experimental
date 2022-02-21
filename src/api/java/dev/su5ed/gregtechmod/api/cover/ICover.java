@@ -70,7 +70,7 @@ public interface ICover {
     
     CoverType getType();
 
-    CompoundTag save(CompoundTag tag);
+    void save(CompoundTag tag);
 
     void load(CompoundTag tag);
 

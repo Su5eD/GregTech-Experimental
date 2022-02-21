@@ -54,9 +54,14 @@ minecraft {
     runs {
         val config = Action<RunConfig> {
             property("forge.logging.console.level", "debug")
-            sources(sourceSets.main.get(), api)
             workingDirectory = project.file("run").canonicalPath
             forceExit = false
+            
+            mods {
+                create("gregtechmod") {
+                    sources(sourceSets.main.get(), api)
+                }
+            }
         }
 
         create("client", config)

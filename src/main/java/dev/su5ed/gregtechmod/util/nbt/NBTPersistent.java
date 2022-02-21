@@ -12,16 +12,18 @@ import java.util.function.Predicate;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface NBTPersistent {
+    Mode mode() default Mode.SAVE;
+
     String name() default "";
 
     /**
      * Specifies the handler of this field. Don't use in combination with {@link #serializer()} or {@link #deserializer()} as their value will be overwritten with this.
      */
-    Class<? extends NBTHandler<?, ?>> handler() default Serializers.None.class;
+    Class<? extends NBTHandler<?, ?, ?>> handler() default Serializers.None.class;
 
     Class<? extends NBTSerializer<?, ?>> serializer() default Serializers.None.class;
 
-    Class<? extends NBTDeserializer<?, ?>> deserializer() default Serializers.None.class;
+    Class<? extends NBTDeserializer<?, ?, ?>> deserializer() default Serializers.None.class;
 
     Include include() default Include.ALWAYS;
 
@@ -34,6 +36,24 @@ public @interface NBTPersistent {
 
         Include(Predicate<Object> predicate) {
             this.predicate = predicate;
+        }
+    }
+
+    enum Mode {
+        SYNC(true, false),
+        SAVE(false, true),
+        BOTH(true, true);
+
+        public final boolean sync;
+        public final boolean save;
+
+        Mode(boolean sync, boolean save) {
+            this.sync = sync;
+            this.save = save;
+        }
+
+        public boolean accepts(Mode mode) {
+            return this.sync == mode.sync || this.save == mode.save;
         }
     }
 }

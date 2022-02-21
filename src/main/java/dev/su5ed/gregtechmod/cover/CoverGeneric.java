@@ -5,6 +5,7 @@ import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.object.Plate;
+import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import ic2.core.IC2;
 import ic2.core.ref.Ic2Items;
@@ -48,7 +49,7 @@ public class CoverGeneric implements ICover {
     }
 
     @Override
-    public void doCoverThings() {}
+    public void doCoverThings() {} // TODO Move methods to base cover class
 
     @Override
     public boolean onCoverRightClick(Player player, InteractionHand hand, Direction side, float hitX, float hitY, float hitZ) {
@@ -136,14 +137,13 @@ public class CoverGeneric implements ICover {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        NBTSaveHandler.writeClassToNBT(this, tag);
-        return tag;
+    public void save(CompoundTag tag) {
+        tag.put("fields", NBTSaveHandler.writeClassToNBT(this));
     }
 
     @Override
     public void load(CompoundTag tag) {
-        NBTSaveHandler.readClassFromNBT(this, tag);
+        NBTSaveHandler.readClassFromNBT(this, tag.getCompound("fields"));
     }
 
     @Override

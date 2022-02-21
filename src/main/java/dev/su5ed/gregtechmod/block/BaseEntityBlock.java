@@ -73,8 +73,11 @@ public class BaseEntityBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return !level.isClientSide() ? (lvl, pos, blockState, be) -> {
-            if (be instanceof BaseBlockEntity blockEntity) blockEntity.tickServer();
-        } : null;
+        return (lvl, pos, blockState, be) -> {
+            if (be instanceof BaseBlockEntity blockEntity) {
+                if (lvl.isClientSide) blockEntity.tickClient();
+                else blockEntity.tickServer();
+            }
+        };
     }
 }

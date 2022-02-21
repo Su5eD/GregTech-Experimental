@@ -45,7 +45,7 @@ public abstract class CoverMeter extends CoverGeneric {
         public static final MeterMode[] VALUES = values();
 
         public MeterMode next() {
-            return VALUES[(ordinal() + 1) % VALUES.length]; // TODO Cache values
+            return VALUES[(ordinal() + 1) % VALUES.length];
         }
 
         public GtLocale.TranslationKey getMessageKey() {

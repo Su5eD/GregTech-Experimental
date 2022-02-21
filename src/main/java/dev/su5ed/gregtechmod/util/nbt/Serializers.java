@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 public final class Serializers {
-    
+
     private Serializers() {}
 
     public static ByteTag serializeBoolean(boolean bool) {
@@ -57,6 +57,7 @@ public final class Serializers {
     }
 
     public static class ListSerializer implements NBTSerializer<List<?>, ListTag> {
+        public static final ListSerializer INSTANCE = new ListSerializer();
 
         @Override
         public ListTag serialize(List<?> value) {
@@ -89,6 +90,7 @@ public final class Serializers {
     }
 
     public static class ListModifyingDeserializer implements NBTModifyingDeserializer<List<?>, ListTag> {
+        public static final ListModifyingDeserializer INSTANCE = new ListModifyingDeserializer();
 
         @Override
         public void modifyValue(List<?> value, ListTag tag) {
@@ -107,13 +109,15 @@ public final class Serializers {
     }
 
     public static class ItemStackListNBTSerializer implements NBTHandler<List<ItemStack>, ListTag, Object> {
+        public static final ItemStackListNBTSerializer INSTANCE = new ItemStackListNBTSerializer();
+
         @Override
         public ListTag serialize(List<ItemStack> value) {
             return StreamEx.of(value)
                 .<Tag>map(stack -> stack.save(new CompoundTag()))
                 .toCollection(ListTag::new);
         }
-        
+
         @Override
         public List<ItemStack> deserialize(ListTag tag, Object instance, Class<?> cls) {
             return StreamEx.of(tag)
@@ -124,6 +128,8 @@ public final class Serializers {
     }
 
     static class EnumNBTSerializer implements NBTHandler<Enum<?>, StringTag, Object> {
+        public static final EnumNBTSerializer INSTANCE = new EnumNBTSerializer();
+
         @Override
         public StringTag serialize(Enum<?> value) {
             return StringTag.valueOf(value.name());

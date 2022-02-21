@@ -4,22 +4,20 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public final class NBTHandlerRegistry {
-    private static final Map<Class<?>, Lazy<NBTSerializer<Object, Tag>>> SERIALIZERS = new HashMap<>();
-    private static final Collection<Lazy<NBTSerializer<Object, Tag>>> SPECIAL_SERIALIZERS = new HashSet<>();
+    private static final Map<Class<?>, NBTSerializer<Object, Tag>> SERIALIZERS = new HashMap<>();
+    private static final Collection<NBTSerializer<Object, Tag>> SPECIAL_SERIALIZERS = new HashSet<>();
 
-    private static final Map<Class<?>, Lazy<NBTDeserializer<Object, Tag>>> DESERIALIZERS = new HashMap<>();
-    private static final Map<Class<?>, Lazy<NBTModifyingDeserializer<Object, Tag>>> MODIFYING_DESERIALIZERS = new HashMap<>();
-    private static final Collection<Lazy<NBTDeserializer<Object, Tag>>> SPECIAL_DESERIALIZERS = new HashSet<>();
+    private static final Map<Class<?>, NBTDeserializer<Object, Tag, Object>> DESERIALIZERS = new HashMap<>();
+    private static final Map<Class<?>, NBTModifyingDeserializer<Object, Tag>> MODIFYING_DESERIALIZERS = new HashMap<>();
+    private static final Collection<NBTDeserializer<Object, Tag, Object>> SPECIAL_DESERIALIZERS = new HashSet<>();
 
     private NBTHandlerRegistry() {}
 
@@ -39,60 +37,60 @@ public final class NBTHandlerRegistry {
         addSimpleSerializer(GameProfile.class, Serializers::serializeGameProfile, NbtUtils::readGameProfile);
         addSimpleSerializer(IForgeRegistryEntry.class, Serializers::serializeIForgeRegistryEntry, Serializers::deserializeIForgeRegistryEntry);
         addSimpleSerializer(BlockPos.class, NbtUtils::writeBlockPos, NbtUtils::readBlockPos);
-        addSerializer(List.class, Serializers.ListSerializer::new);
+        addSerializer(List.class, Serializers.ListSerializer.INSTANCE);
 
-        addModifyingDeserializer(List.class, Serializers.ListModifyingDeserializer::new);
+        addModifyingDeserializer(List.class, Serializers.ListModifyingDeserializer.INSTANCE);
 
-        addHandler(Enum.class, Serializers.EnumNBTSerializer::new);
+        addHandler(Enum.class, Serializers.EnumNBTSerializer.INSTANCE);
 
-        addSpecialHandler(Serializers.ItemStackListNBTSerializer::new);
+        addSpecialHandler(Serializers.ItemStackListNBTSerializer.INSTANCE);
     }
 
     @SuppressWarnings("unchecked")
     public static <T, U extends Tag> void addSimpleSerializer(Class<T> clazz, NBTSerializer<T, U> serializer, Function<U, T> deserializer) {
-        addSerializer(clazz, () -> serializer);
-        addDeserializer(clazz, () -> (nbt, instance, cls) -> deserializer.apply((U) nbt));
+        addSerializer(clazz, serializer);
+        addDeserializer(clazz, (nbt, instance, cls) -> deserializer.apply((U) nbt));
     }
 
     @SuppressWarnings("unchecked")
     public static <T, U extends Tag> void addSimpleSerializer(Class<T> serializeClass, NBTSerializer<T, U> serializer, Class<T> deserializeClass, Function<U, T> deserializer) {
-        addSerializer(serializeClass, () -> serializer);
-        addDeserializer(deserializeClass, () -> (nbt, instance, cls) -> deserializer.apply((U) nbt));
+        addSerializer(serializeClass, serializer);
+        addDeserializer(deserializeClass, (nbt, instance, cls) -> deserializer.apply((U) nbt));
     }
 
-    public static <T, U extends Tag> void addHandler(Class<?> clazz, Supplier<NBTHandler<T, U>> handler) {
+    public static <T, U extends Tag, V> void addHandler(Class<?> clazz, NBTHandler<T, U, V> handler) {
         addSerializer(clazz, handler);
         addDeserializer(clazz, handler);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static <T, U extends Tag> void addSerializer(Class<?> clazz, Supplier<? extends NBTSerializer<T, U>> serializer) {
-        SERIALIZERS.put(clazz, (Lazy) Lazy.of(serializer));
+    @SuppressWarnings({ "unchecked" })
+    public static <T, U extends Tag> void addSerializer(Class<?> clazz, NBTSerializer<T, U> serializer) {
+        SERIALIZERS.put(clazz, (NBTSerializer<Object, Tag>) serializer);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static <T, U extends Tag> void addDeserializer(Class<?> clazz, Supplier<? extends NBTDeserializer<T, U>> serializer) {
-        DESERIALIZERS.put(clazz, (Lazy) Lazy.of(serializer));
+    @SuppressWarnings({ "unchecked" })
+    public static <T, U extends Tag, V> void addDeserializer(Class<?> clazz, NBTDeserializer<T, U, V> deserializer) {
+        DESERIALIZERS.put(clazz, (NBTDeserializer<Object, Tag, Object>) deserializer);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static void addModifyingDeserializer(Class<?> clazz, Supplier<? extends NBTModifyingDeserializer<?, ? extends Tag>> deserializer) {
-        MODIFYING_DESERIALIZERS.put(clazz, (Lazy) Lazy.of(deserializer));
+    @SuppressWarnings({ "unchecked" })
+    public static void addModifyingDeserializer(Class<?> clazz, NBTModifyingDeserializer<?, ? extends Tag> deserializer) {
+        MODIFYING_DESERIALIZERS.put(clazz, (NBTModifyingDeserializer<Object, Tag>) deserializer);
     }
 
-    public static void addSpecialHandler(Supplier<? extends NBTHandler<?, ? extends Tag>> handler) {
+    public static void addSpecialHandler(NBTHandler<?, ? extends Tag, Object> handler) {
         addSpecialSerializer(handler);
         addSpecialDeserializer(handler);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static void addSpecialSerializer(Supplier<? extends NBTSerializer<?, ? extends Tag>> serializer) {
-        SPECIAL_SERIALIZERS.add((Lazy) Lazy.of(serializer));
+    @SuppressWarnings({ "unchecked" })
+    public static void addSpecialSerializer(NBTSerializer<?, ? extends Tag> serializer) {
+        SPECIAL_SERIALIZERS.add((NBTSerializer<Object, Tag>) serializer);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static void addSpecialDeserializer(Supplier<? extends NBTDeserializer<?, ? extends Tag>> deserializer) {
-        SPECIAL_DESERIALIZERS.add((Lazy) Lazy.of(deserializer));
+    @SuppressWarnings({ "unchecked" })
+    public static void addSpecialDeserializer(NBTDeserializer<?, ? extends Tag, Object> deserializer) {
+        SPECIAL_DESERIALIZERS.add((NBTDeserializer<Object, Tag, Object>) deserializer);
     }
 
     static NBTSerializer<Object, Tag> getSerializer(Object obj) {
@@ -103,7 +101,7 @@ public final class NBTHandlerRegistry {
         return getForClass("serializer", SERIALIZERS, cls);
     }
 
-    static NBTDeserializer<Object, Tag> getDeserializer(Class<?> cls) {
+    static NBTDeserializer<Object, Tag, Object> getDeserializer(Class<?> cls) {
         return getForClass("deserializer", DESERIALIZERS, cls);
     }
 
@@ -115,22 +113,21 @@ public final class NBTHandlerRegistry {
         return getSpecial("serializer", SPECIAL_SERIALIZERS, cls);
     }
 
-    static NBTDeserializer<Object, Tag> getSpecialDeserializer(Class<?> cls) {
+    static NBTDeserializer<Object, Tag, Object> getSpecialDeserializer(Class<?> cls) {
         return getSpecial("deserializer", SPECIAL_DESERIALIZERS, cls);
     }
 
-    private static <T> T getSpecial(String name, Collection<Lazy<T>> collection, Class<?> cls) {
+    private static <T> T getSpecial(String name, Collection<T> collection, Class<?> cls) {
         return StreamEx.of(collection)
-            .map(Supplier::get)
             .findFirst(obj -> obj.getClass() == cls)
             .orElseThrow(() -> new RuntimeException("Can't find special " + name + " of type " + cls.getName()));
     }
 
-    private static <T> T getForClass(String name, Map<Class<?>, Lazy<T>> map, Class<?> cls) {
+    public static <T> T getForClass(String name, Map<Class<?>, T> map, Class<?> clazz) {
         return EntryStream.of(map)
-            .filterKeys(clazz -> clazz.isAssignableFrom(cls))
-            .mapKeyValue((clazz, lazy) -> lazy.get())
+            .filterKeys(cls -> cls.isAssignableFrom(clazz))
+            .values()
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("Can't find " + name + " for class " + cls.getName()));
+            .orElseThrow(() -> new RuntimeException("Can't find " + name + " for class " + clazz.getName()));
     }
 }
