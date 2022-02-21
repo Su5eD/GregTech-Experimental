@@ -5,10 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-
-import javax.annotation.Nonnull;
-import java.util.List;
+import net.minecraft.world.item.Item;
 
 /**
  * Used to create covers, providing <code>{@link ICoverable}</code> machines all the information they need
@@ -66,7 +63,7 @@ public interface ICover {
     /**
      * @return The cover's associated item
      */
-    ItemStack getItem(); // TODO Use item
+    Item getItem();
     
     CoverType getType();
 

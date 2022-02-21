@@ -10,20 +10,20 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class RedstoneConductorCover extends GenericCover {
+public class RedstoneConductorCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
 
     @NBTPersistent
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
-    public RedstoneConductorCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    public RedstoneConductorCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override

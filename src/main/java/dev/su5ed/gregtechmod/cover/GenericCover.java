@@ -25,13 +25,13 @@ public class GenericCover extends BaseCover {
         .map(Plate::getItem)
         .toImmutableSet();
 
-    public GenericCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    public GenericCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return CoverTexture.valueOf(getCoverName(this.stack).toUpperCase(Locale.ROOT)).getTextureLocation();
+        return CoverTexture.valueOf(getCoverName(this.item).toUpperCase(Locale.ROOT)).getTextureLocation();
     }
 
     @Override
@@ -45,9 +45,8 @@ public class GenericCover extends BaseCover {
         return GT_PLATES.contains(item) || IC2_PLATES.contains(item);
     }
 
-    private String getCoverName(ItemStack stack) {
-        if (!stack.isEmpty()) {
-            Item item = stack.getItem();
+    private String getCoverName(Item item) {
+        if (item != null) {
             return item == Ic2Items.IRIDIUM ? "iridium_alloy" : item.getRegistryName().getPath().replace("_plate", "");
         }
         return "";

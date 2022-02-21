@@ -55,8 +55,12 @@ public final class NBTSaveHandler {
     public static CompoundTag writeClassToNBT(Object instance, Mode mode) {
         return serializeFields(instance, mode, getFieldHandles(instance.getClass()));
     }
-
+    
     public static void readClassFromNBT(Object instance, CompoundTag nbt) {
+        readClassFromNBT(instance, nbt, true);
+    }
+
+    public static void readClassFromNBT(Object instance, CompoundTag nbt, boolean notifyListeners) {
         getFieldHandles(instance.getClass())
             .cross(fieldHandle -> StreamEx.of(nbt.get(fieldHandle.getName()))
                 .nonNull()
@@ -67,10 +71,12 @@ public final class NBTSaveHandler {
                     modifyExistingField(fieldHandle.type, value, nbtValue);
                 }
                 else {
-                    Object deserialized = deserializeField(fieldHandle, nbtValue, instance);
+                    Object deserialized = deserializeField(fieldHandle, nbtValue, instance, notifyListeners);
 
                     if (deserialized != null) {
                         fieldHandle.setValue(instance, deserialized);
+                        
+                        if (notifyListeners && instance instanceof FieldUpdateListener listener) listener.onFieldUpdate(fieldHandle.name);
                     }
                 }
             });
@@ -108,11 +114,11 @@ public final class NBTSaveHandler {
     }
 
     @Nullable
-    private static Object deserializeField(FieldHandle field, Tag tag, Object instance) {
+    private static Object deserializeField(FieldHandle field, Tag tag, Object instance, boolean notifyListeners) {
         NBTDeserializer<Object, Tag, Object> deserializer;
         if (field.deserializer != Serializers.None.class) deserializer = NBTHandlerRegistry.getSpecialDeserializer(field.deserializer);
         else if (isClassRegistered(field.type) && tag instanceof CompoundTag compound) {
-            field.getValue(instance).ifPresent(obj -> readClassFromNBT(obj, compound));
+            field.getValue(instance).ifPresent(obj -> readClassFromNBT(obj, compound, notifyListeners));
             return null;
         }
         else deserializer = NBTHandlerRegistry.getDeserializer(field.type);

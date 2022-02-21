@@ -1,5 +1,7 @@
 package dev.su5ed.gregtechmod.model;
 
+import dev.su5ed.gregtechmod.api.cover.ICover;
+import dev.su5ed.gregtechmod.blockentity.component.CoverHandler;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.VerticalRotation;
 import ic2.core.util.Util;
@@ -8,14 +10,19 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.client.model.data.IModelData;
+import one.util.streamex.EntryStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class CoverableModel extends BaseModel {
     //Block face UVs in DUNSWE order
@@ -44,7 +51,7 @@ public class CoverableModel extends BaseModel {
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
         if (side != null) {
-            Map<Direction, Material> covers = Map.of(); // TODO
+            Map<Direction, Material> covers = getCoverData(extraData);
             Direction face = getValueOrDefault(state, BlockStateProperties.FACING, Direction.NORTH);
             VerticalRotation verticalRotation = getValueOrDefault(state, VerticalRotation.ROTATION_PROPERTY, VerticalRotation.MIRROR_BACK);
 
@@ -61,6 +68,17 @@ public class CoverableModel extends BaseModel {
     
     private static <T extends Comparable<T>> T getValueOrDefault(BlockState state, Property<T> property, T fallback) {
         return state == null ? fallback : state.getValue(property);
+    }
+    
+    private Map<Direction, Material> getCoverData(IModelData data) {
+        Map<Direction, ICover> covers = data.getData(CoverHandler.COVER_HANDLER_PROPERTY);
+        if (covers != null) {
+            return EntryStream.of(covers)
+                .mapValues(ICover::getIcon)
+                .mapValues(location -> new Material(InventoryMenu.BLOCK_ATLAS, location))
+                .toImmutableMap();
+        }
+        return Map.of();
     }
 
     private static Direction rotateSide(VerticalRotation behavior, Direction face, Direction side, Collection<Direction> covers) {

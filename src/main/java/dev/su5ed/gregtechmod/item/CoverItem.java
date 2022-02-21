@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 public class CoverItem extends ResourceItem {
     private final ICoverProvider coverProvider;
@@ -29,7 +28,7 @@ public class CoverItem extends ResourceItem {
 
             if (be instanceof ICoverable coverable) {
                 Direction side = context.getClickedFace();
-                ICover cover = this.coverProvider.constructCover(side, coverable, ItemHandlerHelper.copyStackWithSize(stack, 1));
+                ICover cover = this.coverProvider.constructCover(side, coverable, this);
 
                 if (coverable.placeCoverAtSide(cover, player, side, false)) {
                     if (!player.isCreative()) stack.shrink(1);

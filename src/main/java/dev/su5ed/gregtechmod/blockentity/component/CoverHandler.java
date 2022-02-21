@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.blockentity.component;
 
+import com.google.common.collect.ImmutableMap;
 import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.api.GregTechAPI;
 import dev.su5ed.gregtechmod.api.cover.ICover;
@@ -15,22 +16,26 @@ import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.data.ModelProperty;
+import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComponentBase<T> {
-    public static final ModelProperty<CoverHandler<?>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
+    public static final ModelProperty<Map<Direction, ICover>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
+    private static final ResourceLocation NAME = location("cover_handler");
 
     @NBTPersistent(mode = Mode.BOTH, include = Include.NOT_EMPTY, handler = CoverMapNBTSerializer.class)
     private Map<Direction, ICover> covers = new HashMap<>();
-    private final Runnable changeHandler;
 
-    public CoverHandler(T te, Runnable changeHandler) {
+    public CoverHandler(T te) {
         super(te);
-        this.changeHandler = changeHandler;
     }
 
     static {
@@ -38,8 +43,13 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
         NBTHandlerRegistry.addSpecialHandler(CoverMapNBTSerializer.INSTANCE);
     }
 
-    public Collection<ICover> getCovers() {
-        return this.covers.values();
+    @Override
+    public ResourceLocation getName() {
+        return NAME;
+    }
+
+    public Map<Direction, ICover> getCovers() {
+        return ImmutableMap.copyOf(this.covers);
     }
 
     public Optional<ICover> getCoverAtSide(Direction side) {
@@ -51,7 +61,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
             if (isServerSide() && !simulate) {
                 this.covers.put(side, cover);
                 this.parent.setChanged();
-                this.changeHandler.run();
+                updateClient();
             }
             return true;
         }
@@ -65,11 +75,16 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
                     cover.onCoverRemove();
                     this.covers.remove(side);
                     this.parent.setChanged();
-                    this.changeHandler.run();
+                    updateClient();
                 }
                 return true;
             })
             .orElse(false);
+    }
+
+    @Override
+    public void onFieldUpdate(String name) {
+        if (name.equals("covers")) this.parent.updateModel();
     }
 
     private static class CoverMapNBTSerializer implements NBTHandler<Map<Direction, ICover>, CompoundTag, CoverHandler<?>> {
@@ -82,7 +97,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
                 CompoundTag coverTag = new CompoundTag();
 
                 coverTag.putString("name", cover.getName().toString());
-                coverTag.put("item", cover.getItem().save(new CompoundTag()));
+                coverTag.putString("item", cover.getItem().getRegistryName().toString());
                 coverTag.put("cover", cover.save());
 
                 tag.put(facing.name(), coverTag);
@@ -96,11 +111,11 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
                 .mapToEntry(Direction::valueOf, tag::getCompound)
                 .mapToValuePartial((facing, coverTag) -> {
                     ResourceLocation name = new ResourceLocation(coverTag.getString("name"));
-                    ItemStack stack = ItemStack.of(coverTag.getCompound("item"));
+                    Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(coverTag.getString("item")));
                     ICoverProvider provider = GregTechAPI.coverRegistry.getValue(name);
 
                     if (provider != null) {
-                        ICover cover = provider.constructCover(facing, instance.parent, stack);
+                        ICover cover = provider.constructCover(facing, instance.parent, item);
                         cover.load(coverTag.getCompound("cover"));
 
                         return Optional.of(cover);
@@ -110,7 +125,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
                         return Optional.empty();
                     }
                 })
-                .toImmutableMap();
+                .toMap();
         }
     }
 }

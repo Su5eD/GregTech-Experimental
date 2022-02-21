@@ -17,7 +17,6 @@ import one.util.streamex.StreamEx;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 public class ItemTagsGen extends ItemTagsProvider {
 

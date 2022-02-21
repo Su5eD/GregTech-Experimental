@@ -9,18 +9,18 @@ import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public class EnergyOnlyCover extends GenericCover {
+public class EnergyOnlyCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
 
     @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public EnergyOnlyCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    public EnergyOnlyCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override

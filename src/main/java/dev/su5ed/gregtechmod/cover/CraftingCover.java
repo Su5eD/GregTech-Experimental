@@ -17,17 +17,17 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.CraftingMenu;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class CraftingCover extends GenericCover {
+public class CraftingCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
     private static final Component CONTAINER_TITLE = new TranslatableComponent("container.crafting");
 
-    public CraftingCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    public CraftingCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override

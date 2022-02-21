@@ -8,18 +8,18 @@ import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class SolarPanelCover extends GenericCover {
+public class SolarPanelCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("solar_panel");
 
     private final double daytimeEnergy;
     private final double nighttimeEnergy;
 
-    public SolarPanelCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack, double daytimeEnergy, double nighttimeEnergy) {
-        super(name, te, side, stack);
+    public SolarPanelCover(ResourceLocation name, ICoverable te, Direction side, Item item, double daytimeEnergy, double nighttimeEnergy) {
+        super(name, te, side, item);
         this.daytimeEnergy = daytimeEnergy;
         this.nighttimeEnergy = nighttimeEnergy;
     }

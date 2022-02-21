@@ -9,16 +9,16 @@ import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public abstract class MeterCover extends GenericCover {
+public abstract class MeterCover extends BaseCover {
     @NBTPersistent
     protected MeterMode mode = MeterMode.NORMAL;
 
-    public MeterCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    protected MeterCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override

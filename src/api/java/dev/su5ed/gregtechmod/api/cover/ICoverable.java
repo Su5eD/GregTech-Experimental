@@ -3,7 +3,6 @@ package dev.su5ed.gregtechmod.api.cover;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Optional;
 

@@ -1,8 +1,12 @@
 package dev.su5ed.gregtechmod.blockentity.component;
 
 import dev.su5ed.gregtechmod.blockentity.BaseBlockEntity;
+import dev.su5ed.gregtechmod.network.GregTechNetwork;
+import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
+import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,15 +15,20 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public abstract class GtComponentBase<T extends BaseBlockEntity> {
+public abstract class GtComponentBase<T extends BaseBlockEntity> implements BlockEntityComponent {
     protected final T parent;
 
     protected GtComponentBase(T parent) {
         this.parent = parent;
     }
 
+    @Override
     public T getParent() {
         return this.parent;
+    }
+    
+    public void updateClient() {
+        GregTechNetwork.updateClientComponent(this.parent, this);
     }
     
     public boolean isServerSide() {
@@ -33,4 +42,14 @@ public abstract class GtComponentBase<T extends BaseBlockEntity> {
     }
 
     public void getScanInfo(List<Component> scan, Player player, BlockPos pos, int scanLevel) {}
+    
+    @Override
+    public CompoundTag save(Mode mode) {
+        return NBTSaveHandler.writeClassToNBT(this, mode);
+    }
+    
+    @Override
+    public void load(CompoundTag tag, boolean notifyListeners) {
+        NBTSaveHandler.readClassFromNBT(this, tag, notifyListeners);
+    }
 }

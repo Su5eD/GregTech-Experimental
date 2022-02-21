@@ -3,15 +3,12 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.block.ResourceBlock;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
 
 import java.util.function.Supplier;
-
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public enum ModBlock implements BlockItemProvider {
     ADVANCED_MACHINE_CASING(() -> new ConnectedBlock(3, 30)),

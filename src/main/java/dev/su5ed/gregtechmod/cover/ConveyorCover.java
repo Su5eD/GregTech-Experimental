@@ -6,14 +6,14 @@ import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.InvUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class ConveyorCover extends InventoryCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("conveyor");
 
-    public ConveyorCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    public ConveyorCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override

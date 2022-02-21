@@ -22,9 +22,9 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
 public class VentCover extends GenericCover {
     private final double efficiency;
 
-    public VentCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
-        super(name, te, side, stack);
-        this.efficiency = getVentType(stack).efficiency;
+    public VentCover(ResourceLocation name, ICoverable te, Direction side, Item item) {
+        super(name, te, side, item);
+        this.efficiency = getVentType(item).efficiency;
     }
 
     @Override
@@ -43,18 +43,18 @@ public class VentCover extends GenericCover {
 
     @Override
     public ResourceLocation getIcon() {
-        return getVentType(this.stack).getIcon();
+        return getVentType(this.item).getIcon();
     }
 
     public static boolean isVent(ItemStack stack) {
-        return Arrays.stream(VentType.values())
-            .anyMatch(vent -> vent.apply(stack));
+        return !stack.isEmpty() && Arrays.stream(VentType.values())
+            .anyMatch(vent -> vent.apply(stack.getItem()));
     }
 
-    public static VentType getVentType(ItemStack stack) {
+    public static VentType getVentType(Item item) {
         return StreamEx.of(VentType.values())
-            .findFirst(vent -> vent.apply(stack))
-            .orElseThrow(() -> new IllegalArgumentException("Invalid vent ItemStack: " + stack));
+            .findFirst(vent -> vent.apply(item))
+            .orElseThrow(() -> new IllegalArgumentException("Invalid vent Item: " + item));
     }
 
     public enum VentType {
@@ -72,8 +72,7 @@ public class VentCover extends GenericCover {
             this.icon = location("block", "cover", icon);
         }
 
-        public boolean apply(ItemStack stack) {
-            Item item = stack.getItem();
+        public boolean apply(Item item) {
             return StreamEx.of(this.items)
                 .anyMatch(item::equals);
         }

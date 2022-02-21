@@ -7,7 +7,7 @@ import dev.su5ed.gregtechmod.api.util.QuadFunction;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -39,7 +39,7 @@ public enum Cover {
 
     private final Lazy<ICoverProvider> instance;
 
-    Cover(Class<? extends ICover> clazz, QuadFunction<ResourceLocation, ICoverable, Direction, ItemStack, ICover> factory) {
+    Cover(Class<? extends ICover> clazz, QuadFunction<ResourceLocation, ICoverable, Direction, Item, ICover> factory) {
         NBTSaveHandler.initClass(clazz);
         this.instance = Lazy.of(() -> new CoverProvider(factory)
             .setRegistryName(name().toLowerCase(Locale.ROOT)));
@@ -50,15 +50,15 @@ public enum Cover {
     }
 
     private static class CoverProvider extends ForgeRegistryEntry<ICoverProvider> implements ICoverProvider { // TODO Texture info
-        private final QuadFunction<ResourceLocation, ICoverable, Direction, ItemStack, ICover> factory;
+        private final QuadFunction<ResourceLocation, ICoverable, Direction, Item, ICover> factory;
 
-        public CoverProvider(QuadFunction<ResourceLocation, ICoverable, Direction, ItemStack, ICover> factory) {
+        public CoverProvider(QuadFunction<ResourceLocation, ICoverable, Direction, Item, ICover> factory) {
             this.factory = factory;
         }
 
         @Override
-        public ICover constructCover(Direction side, ICoverable parent, ItemStack stack) {
-            return this.factory.apply(getRegistryName(), parent, side, stack);
+        public ICover constructCover(Direction side, ICoverable parent, Item item) {
+            return this.factory.apply(getRegistryName(), parent, side, item);
         }
     }
 }

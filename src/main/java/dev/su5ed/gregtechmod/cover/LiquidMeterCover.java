@@ -5,7 +5,7 @@ import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -13,8 +13,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 public class LiquidMeterCover extends MeterCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("liquid_meter");
 
-    public LiquidMeterCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    public LiquidMeterCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override

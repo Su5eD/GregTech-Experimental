@@ -5,7 +5,7 @@ import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -13,8 +13,8 @@ import net.minecraftforge.items.ItemHandlerHelper;
 public class ItemMeterCover extends MeterCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
 
-    public ItemMeterCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    public ItemMeterCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override

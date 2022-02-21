@@ -1,9 +1,10 @@
 package dev.su5ed.gregtechmod.util.nbt;
 
+import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
+
 import java.lang.invoke.VarHandle;
 import java.util.Optional;
 import java.util.function.Predicate;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
 
 public class FieldHandle {
     public final Mode mode;

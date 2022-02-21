@@ -5,14 +5,14 @@ import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class ValveCover extends PumpCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("valve");
 
-    public ValveCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
-        super(name, te, side, stack);
+    public ValveCover(ResourceLocation name, ICoverable te, Direction side, Item item) {
+        super(name, te, side, item);
     }
 
     @Override

@@ -8,19 +8,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
-public abstract class BaseCover implements ICover { // TODO Rename cover classes
+public abstract class BaseCover implements ICover {
     private final ResourceLocation name;
     protected final ICoverable be;
     protected final Direction side;
-    protected final ItemStack stack;
+    protected final Item item;
 
-    protected BaseCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
+    protected BaseCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
         this.name = name;
         this.be = be;
         this.side = side;
-        this.stack = stack;
+        this.item = item;
     }
 
     @Override
@@ -102,8 +102,8 @@ public abstract class BaseCover implements ICover { // TODO Rename cover classes
     }
 
     @Override
-    public ItemStack getItem() {
-        return this.stack;
+    public Item getItem() {
+        return this.item;
     }
 
     @Override

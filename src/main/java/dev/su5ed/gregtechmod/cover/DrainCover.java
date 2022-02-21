@@ -11,7 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -27,14 +27,14 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 import java.util.Locale;
 
-public class DrainCover extends GenericCover {
+public class DrainCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
 
     @NBTPersistent
     protected DrainMode mode = DrainMode.IMPORT;
 
-    public DrainCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    public DrainCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     @Override

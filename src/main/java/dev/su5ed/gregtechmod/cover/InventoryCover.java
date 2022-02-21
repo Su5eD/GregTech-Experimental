@@ -10,14 +10,14 @@ import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
-public abstract class InventoryCover extends GenericCover {
+public abstract class InventoryCover extends BaseCover {
     @NBTPersistent
     protected InventoryMode mode = InventoryMode.EXPORT;
 
-    public InventoryCover(ResourceLocation name, ICoverable be, Direction side, ItemStack stack) {
-        super(name, be, side, stack);
+    protected InventoryCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
+        super(name, be, side, item);
     }
 
     public boolean canWork() {

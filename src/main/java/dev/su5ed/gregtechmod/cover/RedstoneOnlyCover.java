@@ -5,13 +5,13 @@ import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
-public class RedstoneOnlyCover extends GenericCover {
+public class RedstoneOnlyCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_only");
 
-    public RedstoneOnlyCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
-        super(name, te, side, stack);
+    public RedstoneOnlyCover(ResourceLocation name, ICoverable te, Direction side, Item item) {
+        super(name, te, side, item);
     }
 
     @Override

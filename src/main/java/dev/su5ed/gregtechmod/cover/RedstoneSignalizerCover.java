@@ -8,16 +8,16 @@ import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
-public class RedstoneSignalizerCover extends GenericCover {
+public class RedstoneSignalizerCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_signalizer");
 
     @NBTPersistent
     protected int signal;
 
-    public RedstoneSignalizerCover(ResourceLocation name, ICoverable te, Direction side, ItemStack stack) {
-        super(name, te, side, stack);
+    public RedstoneSignalizerCover(ResourceLocation name, ICoverable te, Direction side, Item item) {
+        super(name, te, side, item);
     }
 
     @Override
