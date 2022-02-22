@@ -5,14 +5,20 @@ import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.blockentity.component.CoverHandler;
+import dev.su5ed.gregtechmod.cover.Cover;
+import dev.su5ed.gregtechmod.cover.GenericCover;
+import dev.su5ed.gregtechmod.cover.VentCover;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -38,6 +44,33 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
 
     protected Collection<CoverType> getCoverBlacklist() {
         return List.of();
+    }
+
+    @Override
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        return beforeUse(player, hand, hit) ? InteractionResult.SUCCESS 
+            : super.use(state, level, pos, player, hand, hit);
+    }
+
+    protected boolean beforeUse(Player player, InteractionHand hand, BlockHitResult hit) {
+        ItemStack stack = player.getItemInHand(hand);
+        Direction side = hit.getDirection();
+        if (GenericCover.isGenericCover(stack)) {
+            return placeCover(Cover.GENERIC, player, side, stack);
+        }
+        else if (VentCover.isVent(stack)) {
+            return placeCover(Cover.VENT, player, side, stack);
+        }
+        return false;
+    }
+
+    private boolean placeCover(Cover type, Player player, Direction side, ItemStack stack) {
+        ICover cover = type.getInstance().constructCover(side, this, stack.getItem());
+        if (placeCoverAtSide(cover, player, side, false)) {
+            if (!player.isCreative()) stack.shrink(1);
+            return true;
+        }
+        return false;
     }
 
     @Nonnull
@@ -98,7 +131,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
     @Override
     public void updateRender() {
         Preconditions.checkState(!this.level.isClientSide, "Render must only be updated from server side");
-        
+
         BlockState state = getBlockState();
         this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);
     }

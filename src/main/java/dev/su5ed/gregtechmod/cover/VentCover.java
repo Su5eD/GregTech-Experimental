@@ -16,6 +16,7 @@ import one.util.streamex.StreamEx;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -58,18 +59,18 @@ public class VentCover extends GenericCover {
     }
 
     public enum VentType {
-        NORMAL(1.5, "machine_vent_rotating", Ic2Items.HEAT_VENT),
-        SPREAD(3, "adv_machine_vent", Ic2Items.COMPONENT_HEAT_VENT),
-        ADVANCED(3, "adv_machine_vent_rotating", Ic2Items.ADVANCED_HEAT_VENT, Ic2Items.OVERCLOCKED_HEAT_VENT);
+        NORMAL(1.5, Ic2Items.HEAT_VENT),
+        SPREAD(3, Ic2Items.COMPONENT_HEAT_VENT),
+        ADVANCED(3, Ic2Items.ADVANCED_HEAT_VENT, Ic2Items.OVERCLOCKED_HEAT_VENT);
 
         private final double efficiency;
         private final Collection<Item> items;
         private final ResourceLocation icon;
 
-        VentType(double efficiency, String icon, Item... items) {
+        VentType(double efficiency, Item... items) {
             this.efficiency = efficiency;
             this.items = List.of(items);
-            this.icon = location("block", "cover", icon);
+            this.icon = location("block", "cover", "vent_" + name().toLowerCase(Locale.ROOT));
         }
 
         public boolean apply(Item item) {

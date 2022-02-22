@@ -19,6 +19,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import one.util.streamex.StreamEx;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -66,6 +67,8 @@ public final class ClientSetup {
                     SolarPanelCover.TEXTURE,
                     ValveCover.TEXTURE
                 )
+                .append(Stream.of(VentCover.VentType.values())
+                    .map(VentCover.VentType::getIcon))
                 .forEach(event::addSprite);
         }
     }
