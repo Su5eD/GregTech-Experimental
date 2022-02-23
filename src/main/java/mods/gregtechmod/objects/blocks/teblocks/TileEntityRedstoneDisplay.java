@@ -51,7 +51,9 @@ public class TileEntityRedstoneDisplay extends TileEntityMultiMode {
         BAR,
         HEX,
         DEC,
-        LARGE;
+        LARGE,
+        COL,
+        ENERGY;
 
         private static final DisplayMode[] VALUES = values();
 
