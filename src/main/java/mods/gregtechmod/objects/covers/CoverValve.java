@@ -18,8 +18,8 @@ public class CoverValve extends CoverPump {
     @Override
     public void doCoverThings() {
         if (canWork()) {
-            if (shouldUseEnergy(128)) {
-                if (((IElectricMachine) te).canUseEnergy(128)) ((IElectricMachine) te).useEnergy(CoverConveyor.moveItemStack((TileEntity) te, side, mode));
+            if (shouldUseEnergy(128) && ((IElectricMachine) te).canUseEnergy(128)) {
+                ((IElectricMachine) te).useEnergy(CoverConveyor.moveItemStack((TileEntity) te, side, mode));
             }
 
             super.doCoverThings();

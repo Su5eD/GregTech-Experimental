@@ -48,7 +48,6 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Reference.MODID, value = Side.CLIENT)
 public final class ClientEventHandler {
@@ -234,49 +233,46 @@ public final class ClientEventHandler {
     public static void registerIcons(TextureStitchEvent.Pre event) {
         TextureMap map = event.getMap();
 
-        Stream.of(
-                Stream.of(
-                        MACHINES_PATH + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
-                        MACHINES_PATH + "adv_machine_pipe_blue",
-                        MACHINES_PATH + "adv_machine_pipe_blue_redstone",
-                        MACHINES_PATH + "centrifuge/centrifuge_top_active2",
-                        MACHINES_PATH + "centrifuge/centrifuge_top_active3",
-                        MACHINES_PATH + "centrifuge/centrifuge_side_active2",
-                        MACHINES_PATH + "centrifuge/centrifuge_side_active3",
-                        MACHINES_PATH + "computer_cube/computer_cube_reactor",
-                        MACHINES_PATH + "computer_cube/computer_cube_scanner",
-                        MACHINES_PATH + "hatch_maintenance/hatch_maintenance_front_ducttape",
-                        MACHINES_PATH + "lesu/lesu_lv_out",
-                        MACHINES_PATH + "lesu/lesu_mv_out",
-                        MACHINES_PATH + "lesu/lesu_hv_out",
-                        MACHINES_PATH + "machine_top_pipe"
-                    )
-                    .map(str -> new ResourceLocation(Reference.MODID, str)),
-                Stream.of(
-                    CoverActiveDetector.TEXTURE,
-                    CoverConveyor.TEXTURE,
-                    CoverCrafting.TEXTURE,
-                    CoverDrain.TEXTURE,
-                    CoverEnergyOnly.TEXTURE,
-                    CoverEnergyMeter.TEXTURE,
-                    CoverItemMeter.TEXTURE,
-                    CoverLiquidMeter.TEXTURE,
-                    CoverMachineController.TEXTURE,
-                    CoverNormal.TEXTURE_NORMAL,
-                    CoverNormal.TEXTURE_NOREDSTONE,
-                    CoverPump.TEXTURE,
-                    CoverRedstoneConductor.TEXTURE,
-                    CoverRedstoneOnly.TEXTURE,
-                    CoverRedstoneSignalizer.TEXTURE,
-                    CoverSolarPanel.TEXTURE,
-                    CoverValve.TEXTURE
-                ),
-                Arrays.stream(CoverVent.VentType.values())
-                    .map(CoverVent.VentType::getIcon),
-                FluidLoader.FLUIDS.stream()
-                    .map(FluidLoader.IFluidProvider::getTexture)
+        StreamEx.of(
+                MACHINES_PATH + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
+                MACHINES_PATH + "adv_machine_pipe_blue",
+                MACHINES_PATH + "adv_machine_pipe_blue_redstone",
+                MACHINES_PATH + "centrifuge/centrifuge_top_active2",
+                MACHINES_PATH + "centrifuge/centrifuge_top_active3",
+                MACHINES_PATH + "centrifuge/centrifuge_side_active2",
+                MACHINES_PATH + "centrifuge/centrifuge_side_active3",
+                MACHINES_PATH + "computer_cube/computer_cube_reactor",
+                MACHINES_PATH + "computer_cube/computer_cube_scanner",
+                MACHINES_PATH + "hatch_maintenance/hatch_maintenance_front_ducttape",
+                MACHINES_PATH + "lesu/lesu_lv_out",
+                MACHINES_PATH + "lesu/lesu_mv_out",
+                MACHINES_PATH + "lesu/lesu_hv_out",
+                MACHINES_PATH + "machine_top_pipe"
             )
-            .flatMap(Function.identity())
+            .map(str -> new ResourceLocation(Reference.MODID, str))
+            .append(
+                CoverActiveDetector.TEXTURE,
+                CoverConveyor.TEXTURE,
+                CoverCrafting.TEXTURE,
+                CoverDrain.TEXTURE,
+                CoverEnergyOnly.TEXTURE,
+                CoverEnergyMeter.TEXTURE,
+                CoverItemMeter.TEXTURE,
+                CoverLiquidMeter.TEXTURE,
+                CoverMachineController.TEXTURE,
+                CoverNormal.TEXTURE_NORMAL,
+                CoverNormal.TEXTURE_NOREDSTONE,
+                CoverPump.TEXTURE,
+                CoverRedstoneConductor.TEXTURE,
+                CoverRedstoneOnly.TEXTURE,
+                CoverRedstoneSignalizer.TEXTURE,
+                CoverSolarPanel.TEXTURE,
+                CoverValve.TEXTURE
+            )
+            .append(StreamEx.of(CoverVent.VentType.values())
+                .map(CoverVent.VentType::getIcon))
+            .append(StreamEx.of(FluidLoader.FLUIDS)
+                .map(FluidLoader.IFluidProvider::getTexture))
             .forEach(map::registerSprite);
     }
 

@@ -18,6 +18,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 
 public class CoverCrafting extends CoverGeneric {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
@@ -34,7 +36,7 @@ public class CoverCrafting extends CoverGeneric {
             player.openContainer = new CoverContainerWorkbench(player.inventory, ((TileEntity) te).getWorld(), ((TileEntity) te).getPos());
             player.openContainer.windowId = ((EntityPlayerMP) player).currentWindowId;
             player.openContainer.addListener((EntityPlayerMP) player);
-            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.player.PlayerContainerEvent.Open(player, player.openContainer));
+            MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(player, player.openContainer));
         }
         player.addStat(StatList.CRAFTING_TABLE_INTERACTION);
         return true;

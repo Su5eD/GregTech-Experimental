@@ -99,7 +99,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
                 boolean hasEnoughEnergy = checkEnergy();
                 if (hasEnoughEnergy) {
-                    if (this.maxProgress <= 0 && pendingRecipe.size() < 1) {
+                    if (this.maxProgress <= 0 && this.pendingRecipe.isEmpty()) {
                         prepareRecipeForProcessing(recipe);
                     }
                     processRecipe();
@@ -135,7 +135,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     protected boolean canProcessRecipe(R recipe) {
-        return recipe != null && canAddOutput(recipe);
+        return recipe != null && isAllowedToWork() && canAddOutput(recipe);
     }
 
     protected boolean canAddOutput(R recipe) {

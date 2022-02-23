@@ -66,11 +66,9 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
     }
 
     public boolean attemptUseCrowbar(ItemStack stack, EnumFacing side, EntityPlayer player) {
-        if (GtUtil.isCrowbar(stack)) {
-            if (removeCover(side, false)) {
-                stack.damageItem(1, player);
-                return true;
-            }
+        if (GtUtil.isCrowbar(stack) && removeCover(side, false)) {
+            stack.damageItem(1, player);
+            return true;
         }
         return false;
     }

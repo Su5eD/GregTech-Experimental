@@ -12,7 +12,6 @@ import one.util.streamex.StreamEx;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 
 public class PropertyHelper {
@@ -97,7 +96,7 @@ public class PropertyHelper {
             return side;
         });
 
-        public final BiFunction<EnumFacing, EnumFacing, EnumFacing> rotation;
+        public final BinaryOperator<EnumFacing> rotation;
 
         VerticalRotation(BinaryOperator<EnumFacing> rotation) {
             this.rotation = rotation;

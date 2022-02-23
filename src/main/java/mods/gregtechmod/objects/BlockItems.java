@@ -164,28 +164,20 @@ public class BlockItems {
         }),
         TETRAHEDRITE(HarvestLevel.Iron, 3, 0, 0, (fortune, drops, rand) -> {}),
         CASSITERITE(HarvestLevel.Iron, 3, 0, 0, (fortune, drops, rand) -> {});
+        
         private final LazyValue<net.minecraft.block.Block> instance;
-        public final float hardness;
-        public final int dropChance;
-        public final int dropRandom;
-        public final TriConsumer<Integer, List<ItemStack>, Random> loot;
         
         Ore(float hardness, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
             this(HarvestLevel.Stone, hardness, dropChance, dropRandom, loot);
         }
 
         Ore(HarvestLevel level, float hardness, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
-            this.hardness = hardness;
-            this.dropChance = dropChance;
-            this.dropRandom = dropRandom;
-            this.loot = loot;
-
             String name = this.name().toLowerCase(Locale.ROOT) + "_ore";
-            this.instance = new LazyValue<>(() -> new BlockOre(this.name().toLowerCase(Locale.ROOT), level, this.dropChance, this.dropRandom, this.loot)
+            this.instance = new LazyValue<>(() -> new BlockOre(this.name().toLowerCase(Locale.ROOT), level, dropChance, dropRandom, loot)
                 .setRegistryName(name)
                 .setTranslationKey(name)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)
-                .setHardness(this.hardness));
+                .setHardness(hardness));
         }
 
         public net.minecraft.block.Block getBlockInstance() {
@@ -227,7 +219,6 @@ public class BlockItems {
 
         private final LazyValue<Item> instance;
         public final Supplier<String> description;
-        public final boolean hasEffect;
 
         Ingot() {
             this(JavaUtil.NULL_SUPPLIER);
@@ -247,10 +238,9 @@ public class BlockItems {
 
         Ingot(Supplier<String> description, boolean hasEffect) {
             this.description = description;
-            this.hasEffect = hasEffect;
 
             String name = this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(name, this.description, this.hasEffect)
+            this.instance = new LazyValue<>(() -> new ItemBase(name, this.description, hasEffect)
                 .setFolder("ingot")
                 .setRegistryName("ingot_" + name)
                 .setTranslationKey("ingot_" + name)
@@ -284,17 +274,14 @@ public class BlockItems {
         ZINC(Ingot.ZINC.description);
 
         private final LazyValue<Item> instance;
-        public final Supplier<String> description;
 
         Nugget(String description) {
             this(() -> description);
         }
 
         Nugget(Supplier<String> description) {
-            this.description = description;
-
             String name = "nugget_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description)
                 .setFolder("nugget")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -482,7 +469,6 @@ public class BlockItems {
 
         private final LazyValue<Item> instance;
         public final Supplier<String> description;
-        public final boolean hasEffect;
 
         Dust() {
             this(JavaUtil.NULL_SUPPLIER);
@@ -502,10 +488,8 @@ public class BlockItems {
 
         Dust(Supplier<String> description, boolean hasEffect) {
             this.description = description;
-            this.hasEffect = hasEffect;
-
             String name = "dust_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
+            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, hasEffect)
                 .setFolder("dust")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -589,8 +573,6 @@ public class BlockItems {
         ZINC(Ingot.ZINC.description);
 
         private final LazyValue<Item> instance;
-        public final Supplier<String> description;
-        public final boolean hasEffect;
 
         Smalldust() {
             this(JavaUtil.NULL_SUPPLIER);
@@ -609,11 +591,8 @@ public class BlockItems {
         }
 
         Smalldust(Supplier<String> description, boolean hasEffect) {
-            this.description = description;
-            this.hasEffect = hasEffect;
-
             String name = "smalldust_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, this.hasEffect)
+            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description, hasEffect)
                 .setFolder("smalldust")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -688,14 +667,7 @@ public class BlockItems {
         });
 
         private final LazyValue<Item> instance;
-        public final GtUpgradeType type;
-        public final int maxCount;
-        public final int requiredTier;
-        public final String descriptionKey;
         public final String oreDict;
-        public final Predicate<IUpgradableMachine> condition;
-        public final BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert;
-        public final BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert;
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
             this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), JavaUtil.alwaysFalseBi(), afterInsert);
@@ -718,17 +690,10 @@ public class BlockItems {
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, Predicate<IUpgradableMachine> condition, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
-            this.type = type;
-            this.maxCount = maxCount;
-            this.requiredTier = requiredTier;
-            this.descriptionKey = descriptionKey;
             this.oreDict = oreDict;
-            this.condition = condition;
-            this.beforeInsert = beforeInsert;
-            this.afterInsert = afterInsert;
 
             String name = this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemUpgrade(name, name + "." + this.descriptionKey, this.type, this.maxCount, this.requiredTier, this.condition, this.beforeInsert, this.afterInsert)
+            this.instance = new LazyValue<>(() -> new ItemUpgrade(name, name + "." + descriptionKey, type, maxCount, requiredTier, condition, beforeInsert, afterInsert)
                 .setFolder("upgrade")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -809,17 +774,11 @@ public class BlockItems {
         CARBON(125, 100, 2500);
 
         private final LazyValue<Item> instance;
-        private final int efficiency;
-        private final int efficiencyMultiplier;
-        private final int durability;
 
         TurbineRotor(int efficiency, int efficiencyMultiplier, int durability) {
-            this.efficiency = efficiency;
-            this.efficiencyMultiplier = efficiencyMultiplier;
-            this.durability = durability;
 
             String name = "turbine_rotor_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemTurbineRotor(name, this.durability, this.efficiency, this.efficiencyMultiplier)
+            this.instance = new LazyValue<>(() -> new ItemTurbineRotor(name, durability, efficiency, efficiencyMultiplier)
                 .setRegistryName(name)
                 .setTranslationKey(name)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -1001,14 +960,9 @@ public class BlockItems {
         TUNGSTEN_STEEL(5120, 10);
 
         private final LazyValue<Item> instance;
-        public final int durability;
-        public final int entityDamage;
 
         Wrench(int durability, int entityDamage) {
-            this.durability = durability;
-            this.entityDamage = entityDamage;
-
-            this.instance = new LazyValue<>(() -> new ItemWrench("wrench_" + this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
+            this.instance = new LazyValue<>(() -> new ItemWrench("wrench_" + this.name().toLowerCase(Locale.ROOT), durability, entityDamage)
                 .setRegistryName("wrench_" + this.name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
@@ -1025,22 +979,9 @@ public class BlockItems {
         DIAMOND(250, 100000, 2, 100, 45F, true);
 
         private final LazyValue<Item> instance;
-        public final int operationEnergyCost;
-        public final int maxCharge;
-        public final int tier;
-        public final int transferLimit;
-        public final float efficiency;
-        public final boolean canMineObsidian;
 
         JackHammer(int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency, boolean canMineObsidian) {
-            this.operationEnergyCost = operationEnergyCost;
-            this.maxCharge = maxCharge;
-            this.tier = tier;
-            this.transferLimit = transferLimit;
-            this.efficiency = efficiency;
-            this.canMineObsidian = canMineObsidian;
-
-            this.instance = new LazyValue<>(() -> new ItemJackHammer("jack_hammer_" + this.name().toLowerCase(Locale.ROOT), this.operationEnergyCost, this.maxCharge, this.tier, this.transferLimit, this.efficiency, this.canMineObsidian)
+            this.instance = new LazyValue<>(() -> new ItemJackHammer("jack_hammer_" + this.name().toLowerCase(Locale.ROOT), operationEnergyCost, maxCharge, tier, transferLimit, efficiency, canMineObsidian)
                 .setRegistryName("jack_hammer_" + this.name().toLowerCase(Locale.ROOT))
                 .setTranslationKey("jack_hammer_" + this.name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -1059,14 +1000,9 @@ public class BlockItems {
         TUNGSTEN_STEEL(5120, 10);
 
         private final LazyValue<Item> instance;
-        public final int durability;
-        public final int entityDamage;
 
         Hammer(int durability, int entityDamage) {
-            this.durability = durability;
-            this.entityDamage = entityDamage;
-
-            this.instance = new LazyValue<>(() -> new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
+            this.instance = new LazyValue<>(() -> new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), durability, entityDamage)
                 .setRegistryName("hammer_" + this.name().toLowerCase(Locale.ROOT))
                 .setTranslationKey("hammer_" + this.name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -1085,16 +1021,9 @@ public class BlockItems {
         TUNGSTEN_STEEL(5120, 8, 5);
 
         private final LazyValue<Item> instance;
-        public final int durability;
-        public final int efficiency;
-        public final int entityDamage;
 
         Saw(int durability, int efficiency, int entityDamage) {
-            this.durability = durability;
-            this.efficiency = efficiency;
-            this.entityDamage = entityDamage;
-
-            this.instance = new LazyValue<>(() -> new ItemSaw(this.name().toLowerCase(Locale.ROOT), this.durability, this.efficiency, this.entityDamage)
+            this.instance = new LazyValue<>(() -> new ItemSaw(this.name().toLowerCase(Locale.ROOT), durability, efficiency, entityDamage)
                 .setRegistryName("saw_" + this.name().toLowerCase(Locale.ROOT))
                 .setTranslationKey("saw_" + this.name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -1111,12 +1040,9 @@ public class BlockItems {
         TIN(50);
 
         private final LazyValue<Item> instance;
-        public final int durability;
 
         SolderingMetal(int durability) {
-            this.durability = durability;
-
-            this.instance = new LazyValue<>(() -> new ItemSolderingMetal(this.name().toLowerCase(Locale.ROOT), this.durability)
+            this.instance = new LazyValue<>(() -> new ItemSolderingMetal(this.name().toLowerCase(Locale.ROOT), durability)
                 .setRegistryName("soldering_" + this.name().toLowerCase(Locale.ROOT))
                 .setTranslationKey("soldering_" + this.name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -1163,13 +1089,10 @@ public class BlockItems {
         SULFURIC_ACID("H2SO4");
 
         private final LazyValue<Item> instance;
-        public final String description;
 
         Cell(String description) {
-            this.description = description;
-
             String name = "cell_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description)
                 .setFolder("cell")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -1191,14 +1114,12 @@ public class BlockItems {
         COOLANT_HELIUM_360K(360000, "crafting360kCoolantStore");
 
         private final LazyValue<Item> instance;
-        public final int heatStorage;
         public final String oreDict;
 
         NuclearCoolantPack(int heatStorage, String oreDict) {
-            this.heatStorage = heatStorage;
             this.oreDict = oreDict;
 
-            this.instance = new LazyValue<>(() -> new ItemNuclearHeatStorage(this.name().toLowerCase(Locale.ROOT), this.heatStorage)
+            this.instance = new LazyValue<>(() -> new ItemNuclearHeatStorage(this.name().toLowerCase(Locale.ROOT), heatStorage)
                 .setRegistryName(this.name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
@@ -1229,26 +1150,13 @@ public class BlockItems {
         PLUTONIUM_QUAD(4, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_quad_uranium"));
 
         private final LazyValue<Item> instance;
-        public final int cells;
-        public final int duration;
-        public final float energy;
-        public final int radiation;
-        public final float heat;
-        public final ItemStack depletedStack;
 
         NuclearFuelRod(int cells, int duration, float energy, int radiation, float heat) {
             this(cells, duration, energy, radiation, heat, null);
         }
 
         NuclearFuelRod(int cells, int duration, float energy, int radiation, float heat, ItemStack depletedStack) {
-            this.cells = cells;
-            this.duration = duration;
-            this.energy = energy;
-            this.radiation = radiation;
-            this.heat = heat;
-            this.depletedStack = depletedStack;
-
-            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_" + this.name().toLowerCase(Locale.ROOT), this.cells, this.duration, this.energy, this.radiation, this.heat, this.depletedStack)
+            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_" + this.name().toLowerCase(Locale.ROOT), cells, duration, energy, radiation, heat, depletedStack)
                 .setRegistryName("fuel_rod_" + this.name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
@@ -1267,32 +1175,16 @@ public class BlockItems {
         LIGHT_HELMET(EntityEquipmentSlot.HEAD, 10000, 32, 1, 0, 0, false, ArmorPerk.LAMP, ArmorPerk.SOLARPANEL);
 
         private final LazyValue<Item> instance;
-        public final EntityEquipmentSlot slot;
-        public final int maxCharge;
-        public final int transferLimit;
-        public final int tier;
-        public final int damageEnergyCost;
-        public final double absorbtionDamage;
-        public final boolean chargeProvider;
         public final String oreDict;
-        public final ArmorPerk[] perks;
 
         Armor(EntityEquipmentSlot slot, int maxCharge, int transferLimit, int tier, int damageEnergyCost, double absorbtionPercentage, boolean chargeProvider, ArmorPerk... perks) {
             this(slot, maxCharge, transferLimit, tier, damageEnergyCost, absorbtionPercentage, chargeProvider, null, perks);
         }
 
         Armor(EntityEquipmentSlot slot, int maxCharge, int transferLimit, int tier, int damageEnergyCost, double absorbtionPercentage, boolean chargeProvider, String oreDict, ArmorPerk... perks) {
-            this.slot = slot;
-            this.maxCharge = maxCharge;
-            this.transferLimit = transferLimit;
-            this.tier = tier;
-            this.damageEnergyCost = damageEnergyCost;
-            this.absorbtionDamage = absorbtionPercentage;
-            this.chargeProvider = chargeProvider;
             this.oreDict = oreDict;
-            this.perks = perks;
 
-            this.instance = new LazyValue<>(() -> new ItemArmorElectricBase(this.name().toLowerCase(Locale.ROOT), this.slot, this.maxCharge, this.transferLimit, this.tier, this.damageEnergyCost, this.absorbtionDamage, this.chargeProvider, this.perks)
+            this.instance = new LazyValue<>(() -> new ItemArmorElectricBase(this.name().toLowerCase(Locale.ROOT), slot, maxCharge, transferLimit, tier, damageEnergyCost, absorbtionPercentage, chargeProvider, perks)
                 .setFolder("armor")
                 .setRegistryName(this.name().toLowerCase(Locale.ROOT))
                 .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
@@ -1401,16 +1293,11 @@ public class BlockItems {
         MICROWAVE_OVEN_MANUAL("Kitchen Industries", 6),
         TURBINE_MANUAL("Gregorius Techneticies", 19),
         THERMAL_BOILER_MANUAL("Gregorius Techneticies", 16);
-
-        public final String author;
-        public final int pages;
+        
         private final LazyValue<ItemStack> instance;
 
         Book(String author, int pages) {
-            this.author = author;
-            this.pages = pages;
-
-            this.instance = new LazyValue<>(() -> getWrittenBook(this.name().toLowerCase(Locale.ROOT), this.author, this.pages, this.ordinal()));
+            this.instance = new LazyValue<>(() -> getWrittenBook(this.name().toLowerCase(Locale.ROOT), author, pages, this.ordinal()));
         }
 
         public ItemStack getInstance() {

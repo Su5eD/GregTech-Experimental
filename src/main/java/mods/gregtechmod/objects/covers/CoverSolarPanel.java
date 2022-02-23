@@ -33,7 +33,7 @@ public class CoverSolarPanel extends CoverGeneric {
         World world = ((TileEntity) te).getWorld();
         BlockPos pos = ((TileEntity) te).getPos();
         if (!world.isThundering()) {
-            boolean bRain = world.isRaining() && world.getBiome(((TileEntity) te).getPos()).getRainfall() > 0;
+            boolean bRain = world.isRaining() && world.getBiome(pos).getRainfall() > 0;
             if ((!bRain || world.getSkylightSubtracted() < 4) && getSkyAtSide(world, pos, side)) {
                 ((IElectricMachine) te).addEnergy(bRain || !world.isDaytime() ? nighttimeEnergy : daytimeEnergy);
             }
