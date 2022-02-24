@@ -6,8 +6,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import one.util.streamex.EntryStream;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ModelTEBlockConnected extends ModelBlockConnected {
@@ -19,19 +19,20 @@ public class ModelTEBlockConnected extends ModelBlockConnected {
 
     @Override
     protected Map<EnumFacing, Boolean> getConnections(IBlockState rawState) {
-        Map<EnumFacing, Boolean> connections = new HashMap<>();
         Ic2BlockStateInstance state = (Ic2BlockStateInstance) rawState;
-        connections.put(EnumFacing.DOWN, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_DOWN));
-        connections.put(EnumFacing.UP, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_UP));
-        connections.put(EnumFacing.NORTH, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_NORTH));
-        connections.put(EnumFacing.SOUTH, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_SOUTH));
-        connections.put(EnumFacing.WEST, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_WEST));
-        connections.put(EnumFacing.EAST, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_EAST));
-        return connections;
+        return EntryStream.of(
+            EnumFacing.DOWN, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_DOWN),
+            EnumFacing.UP, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_UP),
+            EnumFacing.NORTH, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_NORTH),
+            EnumFacing.SOUTH, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_SOUTH),
+            EnumFacing.WEST, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_WEST),
+            EnumFacing.EAST, getOrDefault(state, TileEntitySuperconductorWire.CONNECTED_EAST)
+        )
+            .toImmutableMap();
     }
 
     private static Boolean getOrDefault(Ic2BlockStateInstance state, IUnlistedProperty<Boolean> property) {
         Boolean value = state.getValue(property);
-        return value != null ? value : false;
+        return Boolean.TRUE.equals(value);
     }
 }
