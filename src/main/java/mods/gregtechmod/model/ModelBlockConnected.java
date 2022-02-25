@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import ic2.core.util.Util;
 import mods.gregtechmod.objects.blocks.BlockConnected;
 import mods.gregtechmod.objects.blocks.BlockConnectedTurbine;
+import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.struct.Rotor;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -15,6 +16,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
+import org.apache.commons.lang3.BooleanUtils;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -50,8 +52,8 @@ public class ModelBlockConnected extends ModelCached<ModelBlockConnected.ModelCo
     @Override
     protected ModelConnectedKey getModelKey(IBlockState state) {
         Map<EnumFacing, Boolean> connections = getConnections(state);
-        boolean turbine = state.getValue(BlockConnectedTurbine.TURBINE);
-        Rotor rotor = state.getValue(BlockConnectedTurbine.TURBINE_ROTOR);
+        boolean turbine = BooleanUtils.toBoolean(GtUtil.getStateValueSafely(state, BlockConnectedTurbine.TURBINE));
+        Rotor rotor = GtUtil.getStateValueSafely(state, BlockConnectedTurbine.TURBINE_ROTOR);
         return new ModelConnectedKey(connections, turbine, rotor);
     }
 
