@@ -7,9 +7,9 @@ import mods.gregtechmod.util.nbt.NBTPersistent;
 import java.util.List;
 import java.util.Locale;
 
-public class TileEntityRedstoneDisplay extends TileEntityRedstoneDisplayBase {
+public class TileEntityRedstoneScale extends TileEntityRedstoneDisplayBase {
     @NBTPersistent
-    private DisplayMode mode = DisplayMode.BAR;
+    private ScaleMode mode = ScaleMode.WEIGH;
 
     @Override
     protected ITextureMode getMode() {
@@ -28,17 +28,13 @@ public class TileEntityRedstoneDisplay extends TileEntityRedstoneDisplayBase {
         list.add("mode");
     }
 
-    public enum DisplayMode implements ITextureMode {
-        BAR,
-        HEX,
-        DEC,
-        LARGE,
-        COL,
-        ENERGY;
+    public enum ScaleMode implements ITextureMode {
+        WEIGH,
+        RECEIVE;
 
-        private static final DisplayMode[] VALUES = values();
+        private static final ScaleMode[] VALUES = values();
 
-        public DisplayMode next() {
+        public ScaleMode next() {
             return VALUES[(ordinal() + 1) % VALUES.length];
         }
 

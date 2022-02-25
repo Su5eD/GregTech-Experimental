@@ -108,7 +108,8 @@
       "redstone_note_block": { "model": "gregtechmod:redstone_note_block" },
       "button_panel": { "model": "gregtechmod:button_panel" },
       "button_panel_active": { "model": "gregtechmod:button_panel_active" },
-      "redstone_display": { "model": "gregtechmod:redstone_display" }
+      "redstone_display": { "model": "gregtechmod:redstone_display" },
+      "redstone_scale": { "model": "gregtechmod:redstone_scale" }
     },
     "facing": {
       "down": { "x": 90 },

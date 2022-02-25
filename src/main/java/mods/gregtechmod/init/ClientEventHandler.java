@@ -13,6 +13,7 @@ import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityButtonPanel;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityRedstoneDisplay;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityRedstoneScale;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.covers.*;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -118,6 +119,10 @@ public final class ClientEventHandler {
                 case REDSTONE_DISPLAY:
                     registerBakedModel(teBlock, models, loader,
                         (particle, textures) -> new ModelTextureMode("redstone_display", MACHINES_PATH, EnumSet.allOf(TileEntityRedstoneDisplay.DisplayMode.class), particle, textures));
+                    break;
+                case REDSTONE_SCALE:
+                    registerBakedModel(teBlock, models, loader,
+                        (particle, textures) -> new ModelTextureMode("redstone_scale", MACHINES_PATH, EnumSet.allOf(TileEntityRedstoneScale.ScaleMode.class), particle, textures));
                     break;
             }
         }
