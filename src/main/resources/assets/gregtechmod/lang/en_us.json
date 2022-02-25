@@ -441,5 +441,8 @@
   "cover.gregtechmod.conductor_mode.south": "Conducts from south Input",
   "cover.gregtechmod.conductor_mode.west": "Conducts from west Input",
   "cover.gregtechmod.conductor_mode.east": "Conducts from east Input",
-  "cover.gregtechmod.signal": "Signal = %s"
+  "cover.gregtechmod.signal": "Signal = %s",
+  
+  "item.gregtechmod.crowbar": "Crowbar",
+  "item.gregtechmod.crowbar.description": "To remove covers from machines"
 }

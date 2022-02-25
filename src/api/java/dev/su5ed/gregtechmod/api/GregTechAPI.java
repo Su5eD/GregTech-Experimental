@@ -6,12 +6,14 @@ import dev.su5ed.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @SuppressWarnings("unused")
-public class GregTechAPI {
+public final class GregTechAPI {
     public static IForgeRegistry<ICoverProvider> coverRegistry;
     private static IGregTechAPI impl;
     private static IRecipeFactory recipeFactory;
     private static IRecipeIngredientFactory ingredientFactory;
-    
+
+    private GregTechAPI() {}
+
     public static IGregTechAPI instance() {
         return impl;
     }

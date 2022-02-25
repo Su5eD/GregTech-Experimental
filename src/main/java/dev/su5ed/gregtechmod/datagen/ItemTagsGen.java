@@ -2,7 +2,9 @@ package dev.su5ed.gregtechmod.datagen;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.object.Component;
+import dev.su5ed.gregtechmod.object.ModCover;
 import dev.su5ed.gregtechmod.object.Ore;
+import dev.su5ed.gregtechmod.object.Tool;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.data.DataGenerator;
@@ -34,6 +36,8 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         Map<Tag.Named<Item>, TagAppender<Item>> tags = new HashMap<>();
         StreamEx.<TaggedItemProvider>of(Component.values())
+            .append(ModCover.values())
+            .append(Tool.values())
             .mapToEntry(provider -> tags.computeIfAbsent(provider.getTag(), this::tag), ItemProvider::getItem)
             .forKeyValue(TagAppender::add);
     }

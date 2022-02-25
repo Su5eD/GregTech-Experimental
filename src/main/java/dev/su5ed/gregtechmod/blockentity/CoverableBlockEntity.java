@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.blockentity;
 
 import com.google.common.base.Preconditions;
+import dev.su5ed.gregtechmod.ModTags;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
@@ -11,6 +12,7 @@ import dev.su5ed.gregtechmod.cover.VentCover;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -48,7 +50,8 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        return beforeUse(player, hand, hit) ? InteractionResult.SUCCESS 
+        return beforeUse(player, hand, hit)
+            ? InteractionResult.SUCCESS 
             : super.use(state, level, pos, player, hand, hit);
     }
 
@@ -61,13 +64,21 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
         else if (VentCover.isVent(stack)) {
             return placeCover(Cover.VENT, player, side, stack);
         }
-        return false;
+        return tryUseCrowbar(stack, side, player);
     }
 
     private boolean placeCover(Cover type, Player player, Direction side, ItemStack stack) {
         ICover cover = type.getInstance().constructCover(side, this, stack.getItem());
         if (placeCoverAtSide(cover, player, side, false)) {
             if (!player.isCreative()) stack.shrink(1);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean tryUseCrowbar(ItemStack stack, Direction side, Player player) {
+        if (ModTags.CROWBAR.contains(stack.getItem()) && removeCover(side, false)) {
+            if (player instanceof ServerPlayer sp && !player.isCreative()) stack.hurt(1, player.getRandom(), sp);
             return true;
         }
         return false;
@@ -108,7 +119,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
 
     @Override
     public boolean removeCover(Direction side, boolean simulate) {
-        return !this.level.isClientSide && getCoverAtSide(side)
+        return getCoverAtSide(side)
             .map(cover -> {
                 Item coverItem = cover.getItem();
                 if (this.coverHandler.removeCover(side, false)) {

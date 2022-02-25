@@ -25,7 +25,7 @@ public final class ModObjects {
 
     private ModObjects() {}
 
-    static Item.Properties itemProperties() {
+    public static Item.Properties itemProperties() {
         return new Item.Properties().tab(GregTechTab.INSTANCE);
     }
 
@@ -66,6 +66,7 @@ public final class ModObjects {
             .append(Component.values())
             .append(GTBlockEntity.values())
             .append(ModCover.values())
+            .append(Tool.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }

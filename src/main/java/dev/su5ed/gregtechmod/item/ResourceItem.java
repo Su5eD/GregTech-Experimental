@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
+import dev.su5ed.gregtechmod.util.GtLocale;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -18,7 +19,11 @@ public class ResourceItem extends Item {
     private boolean isEnchantable;
     
     public ResourceItem(Properties properties) {
-        this(properties, null);
+        this(properties, (MutableComponent) null);
+    }
+    
+    public ResourceItem(Properties properties, String description) {
+        this(properties, GtLocale.itemDescriptionKey(description).toComponent());
     }
     
     public ResourceItem(Properties properties, MutableComponent description) {

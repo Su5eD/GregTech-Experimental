@@ -5,12 +5,12 @@ import dev.su5ed.gregtechmod.api.cover.ICoverProvider;
 import dev.su5ed.gregtechmod.cover.Cover;
 import dev.su5ed.gregtechmod.item.CoverItem;
 import dev.su5ed.gregtechmod.util.GtLocale;
-import dev.su5ed.gregtechmod.util.ItemProvider;
+import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 
-public enum ModCover implements ItemProvider {
+public enum ModCover implements TaggedItemProvider {
     ACTIVE_DETECTOR(ModTags.CRAFTING_WORK_DETECTOR),
     CONVEYOR(ModTags.CRAFTING_CONVEYOR),
     CRAFTING(ModTags.CRAFTING_WORKBENCH),
@@ -32,14 +32,14 @@ public enum ModCover implements ItemProvider {
     SOLAR_PANEL_HV(ModTags.CRAFTING_SOLAR_PANEL_HV);
 
     private final Lazy<Item> instance;
-    public final Tag<Item> tag;
+    public final Tag.Named<Item> tag;
     
-    ModCover(Tag<Item> tag) {
+    ModCover(Tag.Named<Item> tag) {
         this.tag = tag;
         this.instance = createItemInstance(Cover.valueOf(name()).getInstance());
     }
 
-    ModCover(Cover cover, Tag<Item> tag) {
+    ModCover(Cover cover, Tag.Named<Item> tag) {
         this.tag = tag;
         this.instance = createItemInstance(cover.getInstance());
     }
@@ -51,5 +51,10 @@ public enum ModCover implements ItemProvider {
     @Override
     public Item getItem() {
         return this.instance.get();
+    }
+
+    @Override
+    public Tag.Named<Item> getTag() {
+        return this.tag;
     }
 }

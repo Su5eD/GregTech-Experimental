@@ -10,7 +10,6 @@ import dev.su5ed.gregtechmod.blockentity.BaseBlockEntity;
 import dev.su5ed.gregtechmod.util.nbt.NBTHandler;
 import dev.su5ed.gregtechmod.util.nbt.NBTHandlerRegistry;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Include;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.Direction;
@@ -31,7 +30,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
     public static final ModelProperty<Map<Direction, ICover>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
     private static final ResourceLocation NAME = location("cover_handler");
 
-    @NBTPersistent(mode = Mode.BOTH, include = Include.NOT_EMPTY, handler = CoverMapNBTSerializer.class)
+    @NBTPersistent(mode = Mode.BOTH, handler = CoverMapNBTSerializer.class)
     private Map<Direction, ICover> covers = new HashMap<>();
 
     public CoverHandler(T te) {

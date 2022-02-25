@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.util.TurbineRotor;
+import dev.su5ed.gregtechmod.api.GregTechAPI;
+import dev.su5ed.gregtechmod.api.item.TurbineRotor;
 import net.minecraft.network.chat.MutableComponent;
 
 public class TurbineRotorItem extends ResourceItem implements TurbineRotor {
@@ -12,6 +13,7 @@ public class TurbineRotorItem extends ResourceItem implements TurbineRotor {
         
         this.efficiency = efficiency;
         this.efficiencyMultiplier = efficiencyMultiplier;
+        GregTechAPI.instance().registerTurbineRotor(this);
     }
 
     @Override
@@ -22,5 +24,10 @@ public class TurbineRotorItem extends ResourceItem implements TurbineRotor {
     @Override
     public int getEfficiencyMultiplier() {
         return this.efficiencyMultiplier;
+    }
+
+    @Override
+    public int getDamageToComponent() {
+        return 1;
     }
 }

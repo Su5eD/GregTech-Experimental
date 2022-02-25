@@ -29,6 +29,8 @@ public class GregTechMod {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::clientSetup);
+        
+        GregTechAPIImpl.createAndInject();
 
         bus.register(ModObjects.INSTANCE);
         bus.register(ClientSetup.INSTANCE);
