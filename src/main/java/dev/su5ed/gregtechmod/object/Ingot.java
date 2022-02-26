@@ -39,7 +39,7 @@ public enum Ingot implements ItemProvider {
     final MutableComponent description;
 
     Ingot() {
-        this(null);
+        this((MutableComponent) null, false);
     }
 
     Ingot(String description) {

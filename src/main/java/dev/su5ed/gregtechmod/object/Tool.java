@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.Lazy;
 import java.util.function.Supplier;
 
 public enum Tool implements TaggedItemProvider {
-    CROWBAR(() -> new ToolItem(new ToolItemProperties(ModObjects.itemProperties().durability(256)).attackDamage(6)), ModTags.CROWBAR),
+    CROWBAR(() -> new ToolItem(new ToolItemProperties(ModObjects.itemProperties().durability(256)).autoDescription().attackDamage(6)), ModTags.CROWBAR),
     SCREWDRIVER(ScrewdriverItem::new, ModTags.SCREWDRIVER);
     
     private final Lazy<Item> instance;

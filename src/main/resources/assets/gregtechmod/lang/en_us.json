@@ -301,12 +301,12 @@
   "item.gregtechmod.bronze_turbine_blade.description": "Heavy Turbine Blade",
   "item.gregtechmod.carbon_turbine_blade": "Carbon Turbine Blade",
   "item.gregtechmod.carbon_turbine_blade.description": "Ultralight Turbine Blade",
-  "item.gregtechmod.coil_cupronickel": "Cupronickel Heating Coil",
-  "item.gregtechmod.coil_cupronickel.description": "Cheap and simple Heating Coil",
-  "item.gregtechmod.coil_kanthal": "Kanthal heating coil",
-  "item.gregtechmod.coil_kanthal.description": "Standard Heating Coil",
-  "item.gregtechmod.coil_nichrome": "Nichrome Heating Coil",
-  "item.gregtechmod.coil_nichrome.description": "Advanced Heating Coil",
+  "item.gregtechmod.cupronickel_coil": "Cupronickel Heating Coil",
+  "item.gregtechmod.cupronickel_coil.description": "Cheap and simple Heating Coil",
+  "item.gregtechmod.kanthal_coil": "Kanthal heating coil",
+  "item.gregtechmod.kanthal_coil.description": "Standard Heating Coil",
+  "item.gregtechmod.nichrome_coil": "Nichrome Heating Coil",
+  "item.gregtechmod.nichrome_coil.description": "Advanced Heating Coil",
   "item.gregtechmod.data_orb": "Data Orb",
   "item.gregtechmod.data_storage_circuit": "Data Storage Circuit",
   "item.gregtechmod.data_storage_circuit.description": "Stores Data",
@@ -447,6 +447,6 @@
   "item.gregtechmod.crowbar.description": "To remove covers from machines",
   "item.gregtechmod.screwdriver": "Screwdriver",
   "item.gregtechmod.screwdriver.description": "To screw covers on machines",
-  "item.gregtechmod.description_2.description": "Can switch the design of certain blocks",
-  "item.gregtechmod.description_3.description": "Can rotate repeaters and comparators"
+  "item.gregtechmod.screwdriver.description_1": "Can switch the design of certain blocks",
+  "item.gregtechmod.screwdriver.description_2": "Can rotate repeaters and comparators"
 }

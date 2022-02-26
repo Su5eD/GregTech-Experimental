@@ -16,7 +16,7 @@ public class ScrewdriverItem extends ToolItem {
 
     public ScrewdriverItem() {
         super(new ToolItemProperties(ModObjects.itemProperties().durability(256))
-            .autoDescription()
+            .multiDescription(3)
             .attackDamage(4)
             .effectiveAganist(
                 "minecraft:spider",

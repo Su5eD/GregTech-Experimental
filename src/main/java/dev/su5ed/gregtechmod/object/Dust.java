@@ -73,7 +73,7 @@ public enum Dust implements ItemProvider {
     final MutableComponent description;
     
     Dust() {
-        this((String) null);
+        this((MutableComponent) null);
     }
 
     Dust(String description) {

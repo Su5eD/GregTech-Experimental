@@ -81,7 +81,7 @@ public enum Smalldust implements ItemProvider {
     private final Lazy<Item> instance;
 
     Smalldust() {
-        this((String) null);
+        this((MutableComponent) null);
     }
 
     Smalldust(String description) {
