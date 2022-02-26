@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.util.nbt;
 
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.util.Try;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import one.util.streamex.StreamEx;
@@ -40,7 +40,7 @@ public final class NBTSaveHandler {
                             .unreflectVarHandle(field);
 
                         checkForDuplicateField(name, cls);
-                        return new FieldHandle(persistent.mode(), name, field.getType(), handle, serializer, deserializer, persistent.include().predicate, modifyExisting);
+                        return new FieldHandle(persistent.target(), name, field.getType(), handle, serializer, deserializer, persistent.include().predicate, modifyExisting);
                     })
                     .catching(field -> "Unable to create handle for field " + field.getName()))
                 .toImmutableList()
@@ -49,11 +49,11 @@ public final class NBTSaveHandler {
     }
     
     public static CompoundTag writeClassToNBT(Object instance) {
-        return writeClassToNBT(instance, Mode.SAVE);
+        return writeClassToNBT(instance, NBTTarget.SAVE);
     }
     
-    public static CompoundTag writeClassToNBT(Object instance, Mode mode) {
-        return serializeFields(instance, mode, getFieldHandles(instance.getClass()));
+    public static CompoundTag writeClassToNBT(Object instance, NBTTarget target) {
+        return serializeFields(instance, target, getFieldHandles(instance.getClass()));
     }
     
     public static void readClassFromNBT(Object instance, CompoundTag nbt) {
@@ -82,14 +82,14 @@ public final class NBTSaveHandler {
             });
     }
 
-    public static CompoundTag serializeFields(Object instance, NBTPersistent.Mode mode, FieldHandle... fields) {
-        return serializeFields(instance, mode, StreamEx.of(fields));
+    public static CompoundTag serializeFields(Object instance, NBTTarget target, FieldHandle... fields) {
+        return serializeFields(instance, target, StreamEx.of(fields));
     }
 
-    public static CompoundTag serializeFields(Object instance, NBTPersistent.Mode mode, StreamEx<FieldHandle> fields) {
+    public static CompoundTag serializeFields(Object instance, NBTTarget target, StreamEx<FieldHandle> fields) {
         CompoundTag compound = new CompoundTag();
         fields
-            .filter(field -> field.mode.accepts(mode))
+            .filter(field -> field.target.accepts(target))
             .mapToEntry(FieldHandle::getName, field -> serializeField(field, instance))
             .nonNullValues()
             .forKeyValue(compound::put);
@@ -107,10 +107,10 @@ public final class NBTSaveHandler {
     private static Tag serializeFieldValue(FieldHandle field, Object value) {
         NBTSerializer<Object, Tag> serializer;
         if (field.serializer != Serializers.None.class) serializer = NBTHandlerRegistry.getSpecialSerializer(field.serializer);
-        else if (isClassRegistered(field.type)) return writeClassToNBT(value, field.mode);
+        else if (isClassRegistered(field.type)) return writeClassToNBT(value, field.target);
         else serializer = NBTHandlerRegistry.getSerializer(value);
         
-        return serializer.serialize(value);
+        return serializer.serialize(value, field.target);
     }
 
     @Nullable

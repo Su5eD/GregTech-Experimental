@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
+import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -28,16 +29,13 @@ public enum Nugget implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
-    public final MutableComponent description;
 
     Nugget(String description) {
         this(new TextComponent(description));
     }
 
     Nugget(MutableComponent description) {
-        this.description = description;
-
-        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).registryName(getName(), "nugget"));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)).registryName(getName(), "nugget"));
     }
 
     @Override

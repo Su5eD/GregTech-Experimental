@@ -4,6 +4,7 @@ import dev.su5ed.gregtechmod.ModTags;
 import dev.su5ed.gregtechmod.item.DataOrbItem;
 import dev.su5ed.gregtechmod.item.LithiumBatteryItem;
 import dev.su5ed.gregtechmod.item.ResourceItem;
+import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.Tag;
@@ -55,7 +56,7 @@ public enum Component implements TaggedItemProvider {
         this.tag = tag;
 
         String name = getName();
-        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, GtLocale.profileItemDescriptionKey(name).toComponent()).registryName(name));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(GtLocale.profileItemDescriptionKey(name))).registryName(name));
     }
 
     Component(Supplier<Item> constructor, Tag.Named<Item> tag) {

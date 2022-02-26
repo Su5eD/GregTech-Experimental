@@ -2,10 +2,13 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -37,8 +40,16 @@ public abstract class BaseCover implements ICover {
     }
 
     @Override
-    public boolean onScrewdriverClick(Player player) {
-        return false;
+    public CoverInteractionResult onScrewdriverClick(Player player) {
+        return !player.level.isClientSide && player instanceof ServerPlayer sp ? onServerScrewdriverClick(sp) : onClientScrewdriverClick(player);
+    }
+    
+    protected CoverInteractionResult onClientScrewdriverClick(Player player) {
+        return CoverInteractionResult.PASS;
+    }
+    
+    protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
+        return CoverInteractionResult.PASS;
     }
 
     @Override
@@ -107,13 +118,13 @@ public abstract class BaseCover implements ICover {
     }
 
     @Override
-    public CompoundTag save() {
-        return NBTSaveHandler.writeClassToNBT(this);
+    public CompoundTag save(NBTTarget target) {
+        return NBTSaveHandler.writeClassToNBT(this, target);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        NBTSaveHandler.readClassFromNBT(this, tag);
+    public void load(CompoundTag tag, boolean notifyListeners) {
+        NBTSaveHandler.readClassFromNBT(this, tag, notifyListeners);
     }
 
     @Override

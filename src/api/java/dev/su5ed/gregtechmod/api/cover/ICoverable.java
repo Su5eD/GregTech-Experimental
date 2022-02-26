@@ -20,4 +20,6 @@ public interface ICoverable {
     boolean removeCover(Direction side, boolean simulate);
 
     void updateRender();
+    
+    void updateRenderClient();
 }

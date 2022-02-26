@@ -2,18 +2,22 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.util.GtUtil;
+import dev.su5ed.gregtechmod.util.nbt.FieldUpdateListener;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
-public class NormalCover extends BaseCover {
+public class NormalCover extends BaseCover implements FieldUpdateListener {
     public static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
     public static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
 
-    @NBTPersistent
+    @NBTPersistent(target = NBTTarget.BOTH)
     protected MeterCover.MeterMode mode = MeterCover.MeterMode.NORMAL;
 
     public NormalCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
@@ -31,10 +35,14 @@ public class NormalCover extends BaseCover {
     }
 
     @Override
-    public boolean onScrewdriverClick(Player player) {
+    protected CoverInteractionResult onClientScrewdriverClick(Player player) {
+        return CoverInteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         this.mode = this.mode.next();
-        this.be.updateRender();
-        return true;
+        return CoverInteractionResult.UPDATE;
     }
 
     @Override
@@ -70,5 +78,10 @@ public class NormalCover extends BaseCover {
     @Override
     public boolean letsItemsOut() {
         return this.mode == MeterCover.MeterMode.INVERTED;
+    }
+
+    @Override
+    public void onFieldUpdate(String name) {
+        if (name.equals("mode")) this.be.updateRenderClient();
     }
 }

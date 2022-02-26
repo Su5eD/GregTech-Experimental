@@ -1,5 +1,7 @@
 package dev.su5ed.gregtechmod.util.nbt;
 
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -12,7 +14,7 @@ import java.util.function.Predicate;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface NBTPersistent {
-    Mode mode() default Mode.SAVE;
+    NBTTarget target() default NBTTarget.SAVE;
 
     String name() default "";
 
@@ -36,24 +38,6 @@ public @interface NBTPersistent {
 
         Include(Predicate<Object> predicate) {
             this.predicate = predicate;
-        }
-    }
-
-    enum Mode {
-        SYNC(true, false),
-        SAVE(false, true),
-        BOTH(true, true);
-
-        public final boolean sync;
-        public final boolean save;
-
-        Mode(boolean sync, boolean save) {
-            this.sync = sync;
-            this.save = save;
-        }
-
-        public boolean accepts(Mode mode) {
-            return this.sync == mode.sync || this.save == mode.save;
         }
     }
 }

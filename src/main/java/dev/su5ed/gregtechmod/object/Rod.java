@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
+import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import ic2.core.profile.NotExperimental;
 import net.minecraft.network.chat.MutableComponent;
@@ -43,7 +44,7 @@ public enum Rod implements ItemProvider {
     Rod(MutableComponent description) {
         this.description = description;
 
-        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).registryName(getName(), "rod"));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)).registryName(getName(), "rod"));
     }
 
     @Override

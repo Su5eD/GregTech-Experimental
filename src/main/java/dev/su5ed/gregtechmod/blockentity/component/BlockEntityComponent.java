@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.blockentity.component;
 
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.blockentity.BaseBlockEntity;
 import dev.su5ed.gregtechmod.util.nbt.FieldUpdateListener;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
@@ -11,7 +12,7 @@ public interface BlockEntityComponent extends FieldUpdateListener {
     
     ResourceLocation getName();
     
-    CompoundTag save(NBTPersistent.Mode mode);
+    CompoundTag save(NBTTarget target);
     
     void load(CompoundTag tag, boolean notifyListeners);
 }

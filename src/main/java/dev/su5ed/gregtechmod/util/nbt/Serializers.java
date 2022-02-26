@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.util.nbt;
 
 import com.mojang.authlib.GameProfile;
 import dev.su5ed.gregtechmod.GregTechMod;
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -60,7 +61,7 @@ public final class Serializers {
         public static final ListSerializer INSTANCE = new ListSerializer();
 
         @Override
-        public ListTag serialize(List<?> value) {
+        public ListTag serialize(List<?> value, NBTTarget target) {
             return StreamEx.of(value)
                 .<Tag>map(NBTSaveHandler::writeClassToNBT)
                 .toCollection(ListTag::new);
@@ -112,7 +113,7 @@ public final class Serializers {
         public static final ItemStackListNBTSerializer INSTANCE = new ItemStackListNBTSerializer();
 
         @Override
-        public ListTag serialize(List<ItemStack> value) {
+        public ListTag serialize(List<ItemStack> value, NBTTarget target) {
             return StreamEx.of(value)
                 .<Tag>map(stack -> stack.save(new CompoundTag()))
                 .toCollection(ListTag::new);
@@ -131,7 +132,7 @@ public final class Serializers {
         public static final EnumNBTSerializer INSTANCE = new EnumNBTSerializer();
 
         @Override
-        public StringTag serialize(Enum<?> value) {
+        public StringTag serialize(Enum<?> value, NBTTarget target) {
             return StringTag.valueOf(value.name());
         }
 
@@ -145,7 +146,7 @@ public final class Serializers {
 
     static class None implements NBTHandler<Object, Tag, Object> {
         @Override
-        public Tag serialize(Object value) {
+        public Tag serialize(Object value, NBTTarget target) {
             throw new UnsupportedOperationException();
         }
 

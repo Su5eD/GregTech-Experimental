@@ -1,24 +1,26 @@
 package dev.su5ed.gregtechmod.blockentity;
 
-import com.google.common.base.Preconditions;
 import dev.su5ed.gregtechmod.ModTags;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.blockentity.component.CoverHandler;
 import dev.su5ed.gregtechmod.cover.Cover;
 import dev.su5ed.gregtechmod.cover.GenericCover;
 import dev.su5ed.gregtechmod.cover.VentCover;
+import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -51,7 +53,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         return beforeUse(player, hand, hit)
-            ? InteractionResult.SUCCESS 
+            ? InteractionResult.SUCCESS
             : super.use(state, level, pos, player, hand, hit);
     }
 
@@ -64,6 +66,9 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
         else if (VentCover.isVent(stack)) {
             return placeCover(Cover.VENT, player, side, stack);
         }
+        else if (ModTags.SCREWDRIVER.contains(stack.getItem())) {
+            return useScrewdriver(stack, side, player);
+        }
         return tryUseCrowbar(stack, side, player);
     }
 
@@ -75,10 +80,30 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
         }
         return false;
     }
-    
+
+    protected boolean useScrewdriver(ItemStack stack, Direction side, Player player) {
+        boolean success = getCoverAtSide(side)
+            .map(cover -> {
+                CoverInteractionResult result = cover.onScrewdriverClick(player);
+                if (result == CoverInteractionResult.UPDATE) {
+                    GregTechNetwork.updateClientCover(this, cover);
+                }
+                return result.isSuccess();
+            })
+            .orElse(false);
+        if (success) {
+            setChanged();
+            GtUtil.hurtStack(stack, 1, player);
+            return true;
+        }
+
+        ICover cover = Cover.NORMAL.getInstance().constructCover(side, this, Items.AIR);
+        return placeCoverAtSide(cover, player, side, false);
+    }
+
     public boolean tryUseCrowbar(ItemStack stack, Direction side, Player player) {
         if (ModTags.CROWBAR.contains(stack.getItem()) && removeCover(side, false)) {
-            if (player instanceof ServerPlayer sp && !player.isCreative()) stack.hurt(1, player.getRandom(), sp);
+            GtUtil.hurtStack(stack, 1, player);
             return true;
         }
         return false;
@@ -123,7 +148,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
             .map(cover -> {
                 Item coverItem = cover.getItem();
                 if (this.coverHandler.removeCover(side, false)) {
-                    if (coverItem != null && !this.level.isClientSide) {
+                    if (coverItem != Items.AIR && !this.level.isClientSide) {
                         ItemEntity entity = new ItemEntity(
                             this.level,
                             this.worldPosition.getX() + side.getStepX() + 0.5,
@@ -141,7 +166,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
 
     @Override
     public void updateRender() {
-        Preconditions.checkState(!this.level.isClientSide, "Render must only be updated from server side");
+        GtUtil.ensureServer(this.level);
 
         BlockState state = getBlockState();
         this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);

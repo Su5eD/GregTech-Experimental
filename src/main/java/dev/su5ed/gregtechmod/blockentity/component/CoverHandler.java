@@ -6,11 +6,11 @@ import dev.su5ed.gregtechmod.api.GregTechAPI;
 import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverProvider;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.blockentity.BaseBlockEntity;
 import dev.su5ed.gregtechmod.util.nbt.NBTHandler;
 import dev.su5ed.gregtechmod.util.nbt.NBTHandlerRegistry;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -30,7 +30,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
     public static final ModelProperty<Map<Direction, ICover>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
     private static final ResourceLocation NAME = location("cover_handler");
 
-    @NBTPersistent(mode = Mode.BOTH, handler = CoverMapNBTSerializer.class)
+    @NBTPersistent(target = NBTTarget.BOTH, handler = CoverMapNBTSerializer.class)
     private Map<Direction, ICover> covers = new HashMap<>();
 
     public CoverHandler(T te) {
@@ -83,21 +83,21 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
 
     @Override
     public void onFieldUpdate(String name) {
-        if (name.equals("covers")) this.parent.updateModel();
+        if (name.equals("covers")) this.parent.updateRenderClient();
     }
 
     private static class CoverMapNBTSerializer implements NBTHandler<Map<Direction, ICover>, CompoundTag, CoverHandler<?>> {
         public static final CoverMapNBTSerializer INSTANCE = new CoverMapNBTSerializer();
 
         @Override
-        public CompoundTag serialize(Map<Direction, ICover> value) {
+        public CompoundTag serialize(Map<Direction, ICover> value, NBTTarget target) {
             CompoundTag tag = new CompoundTag();
             value.forEach((facing, cover) -> {
                 CompoundTag coverTag = new CompoundTag();
 
                 coverTag.putString("name", cover.getName().toString());
                 coverTag.putString("item", cover.getItem().getRegistryName().toString());
-                coverTag.put("cover", cover.save());
+                coverTag.put("cover", cover.save(target));
 
                 tag.put(facing.name(), coverTag);
             });
@@ -115,7 +115,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
 
                     if (provider != null) {
                         ICover cover = provider.constructCover(facing, instance.parent, item);
-                        cover.load(coverTag.getCompound("cover"));
+                        cover.load(coverTag.getCompound("cover"), false);
 
                         return Optional.of(cover);
                     }

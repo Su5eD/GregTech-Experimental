@@ -1,11 +1,15 @@
 package dev.su5ed.gregtechmod.api.cover;
 
+import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+
+import javax.annotation.Nullable;
 
 /**
  * Used to create covers, providing <code>{@link ICoverable}</code> machines all the information they need
@@ -21,7 +25,7 @@ public interface ICover {
 
     boolean onCoverRightClick(Player player, InteractionHand hand, Direction side, float hitX, float hitY, float hitZ);
 
-    boolean onScrewdriverClick(Player player);
+    CoverInteractionResult onScrewdriverClick(Player player);
 
     boolean allowEnergyTransfer();
 
@@ -67,9 +71,9 @@ public interface ICover {
     
     CoverType getType();
 
-    CompoundTag save();
+    CompoundTag save(NBTTarget target);
 
-    void load(CompoundTag tag);
+    void load(CompoundTag tag, boolean notifyListeners);
 
     int getTickRate();
 

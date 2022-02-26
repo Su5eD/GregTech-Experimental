@@ -8,8 +8,8 @@ public class TurbineRotorItem extends ResourceItem implements TurbineRotor {
     private final int efficiency;
     private final int efficiencyMultiplier;
 
-    public TurbineRotorItem(Properties pProperties, MutableComponent description, int efficiency, int efficiencyMultiplier) {
-        super(pProperties, description);
+    public TurbineRotorItem(ExtendedItemProperties<?> properties, int efficiency, int efficiencyMultiplier) {
+        super(properties);
         
         this.efficiency = efficiency;
         this.efficiencyMultiplier = efficiencyMultiplier;

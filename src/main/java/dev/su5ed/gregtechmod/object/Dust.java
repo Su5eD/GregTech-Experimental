@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
+import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -69,7 +70,7 @@ public enum Dust implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
-    public final MutableComponent description;
+    final MutableComponent description;
     
     Dust() {
         this((String) null);
@@ -89,8 +90,7 @@ public enum Dust implements ItemProvider {
 
     Dust(MutableComponent description, boolean isFoil) {
         this.description = description;
-
-        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).setIsFoil(isFoil).registryName(getName(), "dust"));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)).registryName(getName(), "dust"));
     }
 
     @Override

@@ -1,13 +1,13 @@
 package dev.su5ed.gregtechmod.util.nbt;
 
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 
 import java.lang.invoke.VarHandle;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 public class FieldHandle {
-    public final Mode mode;
+    public final NBTTarget target;
     public final String name;
     public final Class<?> type;
     private final VarHandle handle;
@@ -16,8 +16,8 @@ public class FieldHandle {
     public final Predicate<Object> optional;
     public final boolean modifyExisting;
 
-    public FieldHandle(Mode mode, String name, Class<?> type, VarHandle handle, Class<? extends NBTSerializer<?, ?>> serializer, Class<? extends NBTDeserializer<?, ?, ?>> deserializer, Predicate<Object> optional, boolean modifyExisting) {
-        this.mode = mode;
+    public FieldHandle(NBTTarget target, String name, Class<?> type, VarHandle handle, Class<? extends NBTSerializer<?, ?>> serializer, Class<? extends NBTDeserializer<?, ?, ?>> deserializer, Predicate<Object> optional, boolean modifyExisting) {
+        this.target = target;
         this.name = name;
         this.type = type;
         this.handle = handle;

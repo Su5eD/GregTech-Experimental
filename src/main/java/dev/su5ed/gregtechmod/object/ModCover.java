@@ -4,6 +4,7 @@ import dev.su5ed.gregtechmod.ModTags;
 import dev.su5ed.gregtechmod.api.cover.ICoverProvider;
 import dev.su5ed.gregtechmod.cover.Cover;
 import dev.su5ed.gregtechmod.item.CoverItem;
+import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.Tag;
@@ -45,7 +46,7 @@ public enum ModCover implements TaggedItemProvider {
     }
     
     private Lazy<Item> createItemInstance(ICoverProvider provider) {
-        return Lazy.of(() -> new CoverItem(ModObjects.DEFAULT_ITEM_PROPERTIES, GtLocale.itemDescriptionKey(getName()).toComponent(), provider).registryName(getName()));
+        return Lazy.of(() -> new CoverItem(new ExtendedItemProperties<>().description(GtLocale.itemDescriptionKey(getName())), provider).registryName(getName()));
     }
 
     @Override

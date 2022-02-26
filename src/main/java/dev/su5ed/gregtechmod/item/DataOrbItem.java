@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
 import dev.su5ed.gregtechmod.api.util.IDataOrbSerializable;
-import dev.su5ed.gregtechmod.object.ModObjects;
 import ic2.core.util.StackUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
@@ -14,7 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class DataOrbItem extends ResourceItem {
 
     public DataOrbItem() {
-        super(ModObjects.DEFAULT_ITEM_PROPERTIES);
+        super(new ExtendedItemProperties<>());
     }
 
     @Override

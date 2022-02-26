@@ -4,7 +4,6 @@ import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverProvider;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,8 +13,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class CoverItem extends ResourceItem {
     private final ICoverProvider coverProvider;
 
-    public CoverItem(Properties pProperties, MutableComponent description, ICoverProvider coverProvider) {
-        super(pProperties, description);
+    public CoverItem(ExtendedItemProperties<?> properties, ICoverProvider coverProvider) {
+        super(properties);
 
         this.coverProvider = coverProvider;
     }

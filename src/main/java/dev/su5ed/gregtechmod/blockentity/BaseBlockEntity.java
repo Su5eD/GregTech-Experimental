@@ -1,10 +1,10 @@
 package dev.su5ed.gregtechmod.blockentity;
 
-import com.google.common.base.Preconditions;
+import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent.Mode;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -67,8 +67,8 @@ public abstract class BaseBlockEntity extends BlockEntity {
         return Optional.ofNullable(this.components.get(name));
     }
 
-    public void updateModel() {
-        Preconditions.checkState(this.level.isClientSide, "Model must only be updated client-side");
+    public void updateRenderClient() {
+        GtUtil.ensureClient(this.level);
 
         requestModelDataUpdate();
         BlockState state = getBlockState();
@@ -77,7 +77,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
 
     @Override
     public CompoundTag getUpdateTag() {
-        return saveTag(new CompoundTag(), Mode.SYNC);
+        return saveTag(new CompoundTag(), NBTTarget.SYNC);
     }
 
     @Override
@@ -88,7 +88,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        saveTag(tag, Mode.SAVE);
+        saveTag(tag, NBTTarget.SAVE);
     }
 
     @Override
@@ -97,10 +97,10 @@ public abstract class BaseBlockEntity extends BlockEntity {
         loadTag(tag, false);
     }
 
-    private CompoundTag saveComponents(Mode mode) {
+    private CompoundTag saveComponents(NBTTarget target) {
         CompoundTag tag = new CompoundTag();
         this.components.forEach((name, component) -> {
-            CompoundTag compound = component.save(mode);
+            CompoundTag compound = component.save(target);
             tag.put(name.toString(), compound);
         });
         return tag;
@@ -113,9 +113,9 @@ public abstract class BaseBlockEntity extends BlockEntity {
             .forKeyValue((component, compound) -> component.load(compound, notifyListeners));
     }
 
-    private CompoundTag saveTag(CompoundTag tag, Mode mode) {
-        tag.put("fields", NBTSaveHandler.writeClassToNBT(this, mode));
-        tag.put("components", saveComponents(mode));
+    private CompoundTag saveTag(CompoundTag tag, NBTTarget target) {
+        tag.put("fields", NBTSaveHandler.writeClassToNBT(this, target));
+        tag.put("components", saveComponents(target));
         return tag;
     }
 

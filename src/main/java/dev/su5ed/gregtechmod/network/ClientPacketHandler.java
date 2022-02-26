@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.network;
 
+import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.blockentity.BaseBlockEntity;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.client.Minecraft;
@@ -13,18 +14,28 @@ public final class ClientPacketHandler {
     private ClientPacketHandler() {}
 
     public static void handleBlockEntityUpdatePacket(BlockEntityUpdate packet) {
-        runBeTask(packet.getPos(), be -> NBTSaveHandler.readClassFromNBT(be, packet.getData()));
+        runBlockEntityTask(packet.getPos(), be -> NBTSaveHandler.readClassFromNBT(be, packet.getData()));
     }
 
     public static void handleBlockEntityComponentUpdatePacket(BlockEntityComponentUpdate packet) {
-        runBeTask(packet.getPos(), be -> {
+        runBlockEntityTask(packet.getPos(), be -> {
             if (be instanceof BaseBlockEntity base) {
-                base.getComponent(packet.getName()).ifPresent(component -> NBTSaveHandler.readClassFromNBT(component, packet.getData()));
+                base.getComponent(packet.getName()).ifPresent(component -> component.load(packet.getData(), true));
             }
         });
     }
 
-    private static void runBeTask(BlockPos pos, Consumer<BlockEntity> consumer) {
+    public static void handleBlockEntityCoverUpdatePacket(BlockEntityCoverUpdate packet) {
+        runBlockEntityTask(packet.getPos(), be -> {
+            if (be instanceof ICoverable coverable) {
+                coverable.getCoverAtSide(packet.getSide())
+                    .filter(cover -> cover.getName().equals(packet.getName()))
+                    .ifPresent(cover -> cover.load(packet.getData(), true));
+            }
+        });
+    }
+
+    private static void runBlockEntityTask(BlockPos pos, Consumer<BlockEntity> consumer) {
         Minecraft mc = Minecraft.getInstance();
         mc.doRunTask(() -> {
             BlockEntity be = mc.level.getBlockEntity(pos);

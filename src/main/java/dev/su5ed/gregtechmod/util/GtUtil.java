@@ -1,13 +1,17 @@
 package dev.su5ed.gregtechmod.util;
 
+import com.google.common.base.Preconditions;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
@@ -15,6 +19,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import one.util.streamex.StreamEx;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.EnumSet;
 
@@ -66,5 +71,26 @@ public final class GtUtil {
         return be.getCoverAtSide(side)
             .map(cover -> cover.letsRedstoneIn() ? Math.max(power, cover.getRedstoneInput()) : 0)
             .orElse(power);
+    }
+
+    public static void damageEntity(LivingEntity target, LivingEntity attacker, float damage) {
+        int oldHurtResistanceTime = target.invulnerableTime;
+        target.invulnerableTime = 0;
+        target.hurt(DamageSource.mobAttack(attacker), damage);
+        target.invulnerableTime = oldHurtResistanceTime;
+    }
+    
+    public static void hurtStack(ItemStack stack, int damage, Player player) {
+        if (player instanceof ServerPlayer sp && !player.isCreative()) {
+            stack.hurt(damage, player.getRandom(), sp);
+        }
+    }
+    
+    public static void ensureServer(@Nullable Level level) {
+        Preconditions.checkState(level == null || !level.isClientSide, "Must only be called on the server side");
+    }
+    
+    public static void ensureClient(@Nullable Level level) {
+        Preconditions.checkState(level == null || level.isClientSide, "Must only be called on the client side");
     }
 }

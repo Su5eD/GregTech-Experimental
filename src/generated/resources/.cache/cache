@@ -302,6 +302,7 @@ cbb7eba450d112e846ab1ceb4b5177fbd3b304a6 assets/gregtechmod/models/item/saltpete
 480abe0cfc37886680b12a8531531c001d761358 assets/gregtechmod/models/item/sapphire_ore.json
 98cf93cda2a0316d06844965c087e0676e1cb3f2 assets/gregtechmod/models/item/sapphire_smalldust.json
 7108458cb6c2e233b7715798f6b0ce63810eadf4 assets/gregtechmod/models/item/screen.json
+9913cf9d608417c7ec36fbc22ada4ec48e6e96ba assets/gregtechmod/models/item/screwdriver.json
 688eab982c64f0768c97b05e49bfbd59bca342ef assets/gregtechmod/models/item/sheldonite_ore.json
 bb3689781e139900bb5b9474c17e41b6cf583777 assets/gregtechmod/models/item/silicon_plate.json
 7a3ef47bbfc230951c94410e89e5fa6f19dbdec6 assets/gregtechmod/models/item/silver_block.json
@@ -398,6 +399,7 @@ c4b0b6f4121a9a0f9880a13a52e026df4764a268 data/forge/tags/items/gears/steel.json
 c299ba7cd5b5c6b2db730b338e9fc86f07a4def5 data/forge/tags/items/gears/tungsten_steel.json
 764dd20917c9442f6199e86668517ddd55451049 data/forge/tags/items/ores.json
 814342e146b42a8ec7e646010326519d9b427e61 data/forge/tags/items/tools/crowbar.json
+c093bb1acd5314f06555cfb9b41525a59aaf8cd3 data/forge/tags/items/tools/screwdriver.json
 880ac36a8df085afa460d17365bf02a53ff6897d data/gregtechmod/loot_tables/blocks/advanced_machine_casing_block.json
 482c3cdde1e5f2ba3e1e5bdf5236715c015d1550 data/gregtechmod/loot_tables/blocks/aluminium_block.json
 b636a2c53622472a3e3477b397463f1525b0c35b data/gregtechmod/loot_tables/blocks/brass_block.json

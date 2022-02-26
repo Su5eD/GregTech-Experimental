@@ -3,11 +3,13 @@ package dev.su5ed.gregtechmod.cover;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
+import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
@@ -29,10 +31,15 @@ public class EnergyOnlyCover extends BaseCover {
     }
 
     @Override
-    public boolean onScrewdriverClick(Player player) {
+    protected CoverInteractionResult onClientScrewdriverClick(Player player) {
+        return CoverInteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         mode = mode.next();
         GtUtil.sendActionBarMessage(player, this.mode.getMessageKey());
-        return true;
+        return CoverInteractionResult.UPDATE;
     }
 
     private enum EnergyMode {

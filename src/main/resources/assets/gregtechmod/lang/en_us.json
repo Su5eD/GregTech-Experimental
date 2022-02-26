@@ -444,5 +444,9 @@
   "cover.gregtechmod.signal": "Signal = %s",
   
   "item.gregtechmod.crowbar": "Crowbar",
-  "item.gregtechmod.crowbar.description": "To remove covers from machines"
+  "item.gregtechmod.crowbar.description": "To remove covers from machines",
+  "item.gregtechmod.screwdriver": "Screwdriver",
+  "item.gregtechmod.screwdriver.description": "To screw covers on machines",
+  "item.gregtechmod.description_2.description": "Can switch the design of certain blocks",
+  "item.gregtechmod.description_3.description": "Can rotate repeaters and comparators"
 }

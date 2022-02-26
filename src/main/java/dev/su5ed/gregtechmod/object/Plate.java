@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
+import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import ic2.core.profile.NotExperimental;
 import net.minecraft.network.chat.MutableComponent;
@@ -38,10 +39,9 @@ public enum Plate implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
-    public final MutableComponent description;
     
     Plate() {
-        this((String) null);
+        this((MutableComponent) null);
     }
         
     Plate(String description) {
@@ -49,9 +49,7 @@ public enum Plate implements ItemProvider {
     }
 
     Plate(MutableComponent description) {
-        this.description = description;
-
-        this.instance = Lazy.of(() -> new ResourceItem(ModObjects.DEFAULT_ITEM_PROPERTIES, this.description).registryName(getName(), "plate"));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)).registryName(getName(), "plate"));
     }
 
     @Override
