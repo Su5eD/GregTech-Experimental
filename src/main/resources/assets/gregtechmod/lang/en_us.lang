@@ -975,6 +975,8 @@ gregtechmod.teblock.redstone_display=Redstone Display
 gregtechmod.teblock.redstone_display.description=Displays Redstone Strength
 gregtechmod.teblock.redstone_scale=Redstone Scale
 gregtechmod.teblock.redstone_scale.description=Redstone Strength on a Scale
+gregtechmod.teblock.wood_shelf=Wood encased Shelf
+gregtechmod.teblock.wood_shelf.description=Decorative Item Storage
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

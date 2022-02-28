@@ -378,7 +378,7 @@ public final class GtUtil {
 
     public static ItemStack collectItemFromArea(World world, BlockPos begin, BlockPos end) {
         List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(begin, end));
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             EntityItem entityItem = list.get(0);
             world.removeEntity(entityItem);
             return entityItem.getItem();
@@ -456,6 +456,12 @@ public final class GtUtil {
         else return power;
 
         return 0;
+    }
+
+    public static void spawnItemInWorld(World world, BlockPos pos, EnumFacing facing, ItemStack stack) {
+        EntityItem entityItem = new EntityItem(world, pos.getX() + facing.getXOffset() + 0.5, pos.getY() + facing.getYOffset() + 0.5, pos.getZ() + facing.getZOffset() + 0.5, stack);
+        entityItem.motionX = entityItem.motionY = entityItem.motionZ = 0;
+        world.spawnEntity(entityItem);
     }
 
     private static class VoidTank implements IFluidHandler {

@@ -11,7 +11,6 @@ import mods.gregtechmod.objects.covers.CoverVent;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.VerticalRotation;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -36,7 +35,11 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         return beforeActivated(player.inventory.getCurrentItem(), player, side, hitX, hitY, hitZ)
-            || super.onActivated(player, hand, side, hitX, hitY, hitZ);
+            || onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
+    }
+
+    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
 
     protected boolean beforeActivated(ItemStack stack, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -125,9 +128,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
             ItemStack coverItem = cover.getItem();
             if (this.coverHandler.removeCover(side, false)) {
                 if (coverItem != null && !this.world.isRemote) {
-                    EntityItem entity = new EntityItem(this.world, pos.getX() + side.getXOffset() + 0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ() + side.getZOffset() + 0.5, coverItem);
-                    entity.motionX = entity.motionY = entity.motionZ = 0;
-                    this.world.spawnEntity(entity);
+                    GtUtil.spawnItemInWorld(this.world, this.pos, side, coverItem);
                 }
                 return true;
             }

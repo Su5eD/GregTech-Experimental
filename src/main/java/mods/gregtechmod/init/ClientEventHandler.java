@@ -14,6 +14,7 @@ import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityButtonPanel;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityRedstoneDisplay;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityRedstoneScale;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityShelf;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.covers.*;
 import mods.gregtechmod.objects.items.ItemCellClassic;
@@ -278,6 +279,9 @@ public final class ClientEventHandler {
                 .map(CoverVent.VentType::getIcon))
             .append(StreamEx.of(FluidLoader.FLUIDS)
                 .map(FluidLoader.IFluidProvider::getTexture))
+            .append(StreamEx.of(TileEntityShelf.Type.VALUES)
+                .map(type -> type.texture)
+                .filter(texture -> texture != null && texture.getNamespace().equals(Reference.MODID)))
             .forEach(map::registerSprite);
     }
 

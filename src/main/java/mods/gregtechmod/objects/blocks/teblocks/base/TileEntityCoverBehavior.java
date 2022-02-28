@@ -78,14 +78,10 @@ public abstract class TileEntityCoverBehavior extends TileEntityCoverable implem
         }
 
         if (!checkAccess(player)) {
-            GtUtil.sendMessage(player, GtLocale.buildKeyInfo("access_error"), owner.getName());
+            GtUtil.sendMessage(player, GtLocale.buildKeyInfo("access_error"), this.owner.getName());
             return true;
         }
 
-        return onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
-    }
-
-    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         return super.onActivated(player, hand, side, hitX, hitY, hitZ);
     }
 
