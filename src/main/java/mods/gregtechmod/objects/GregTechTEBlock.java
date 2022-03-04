@@ -118,7 +118,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     BUTTON_PANEL(TileEntityButtonPanel.class, 74, ACTIVE, Util.allFacings, ModelType.BUTTON_PANEL),
     REDSTONE_DISPLAY(TileEntityRedstoneDisplay.class, 75, NO_ACTIVE, Util.allFacings, ModelType.REDSTONE_DISPLAY),
     REDSTONE_SCALE(TileEntityRedstoneScale.class, 76, NO_ACTIVE, Util.allFacings, ModelType.REDSTONE_SCALE),
-    WOOD_SHELF(TileEntityShelf.class, 77, NO_ACTIVE, Util.horizontalFacings);
+    WOOD_SHELF(TileEntityShelfWood.class, 77, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF),
+    METAL_SHELF(TileEntityShelfMetal.class, 78, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
@@ -312,7 +313,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
         ELECTRIC_BUFFER,
         BUTTON_PANEL,
         REDSTONE_DISPLAY,
-        REDSTONE_SCALE
+        REDSTONE_SCALE,
+        SHELF
     }
     
     public enum ActiveType {

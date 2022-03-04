@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,13 +38,10 @@ public class ModelTeBlock extends ModelBase {
         { 0, 0, 16, 16 }
     };
 
-    public ModelTeBlock(ResourceLocation particle, Map<EnumFacing, ResourceLocation> textures) {
-        this(particle, Collections.singletonList(textures));
-    }
-
-    public ModelTeBlock(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
-        super(particle, textures);
-        this.textures = textures.get(0);
+    @SafeVarargs
+    public ModelTeBlock(ResourceLocation particle, Map<EnumFacing, ResourceLocation> mainTextures, Map<?, ResourceLocation>... extraTextures) {
+        super(particle, StreamEx.<Map<?, ResourceLocation>>of(mainTextures).append(extraTextures));
+        this.textures = mainTextures;
     }
 
     @Override

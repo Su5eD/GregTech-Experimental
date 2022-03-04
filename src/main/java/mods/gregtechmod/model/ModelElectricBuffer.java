@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class ModelElectricBuffer extends ModelTeBlock {
@@ -18,7 +17,7 @@ public class ModelElectricBuffer extends ModelTeBlock {
 
     public ModelElectricBuffer(ResourceLocation particle, Map<EnumFacing, ResourceLocation> textures, Map<EnumFacing, ResourceLocation> redstoneTextures,
                                ResourceLocation textureDown, ResourceLocation textureDownRedstone) {
-        super(particle, Arrays.asList(textures, redstoneTextures));
+        super(particle, textures, redstoneTextures);
         this.redstoneTextures = redstoneTextures;
         this.textureDown = textureDown;
         this.textureDownRedstone = textureDownRedstone;

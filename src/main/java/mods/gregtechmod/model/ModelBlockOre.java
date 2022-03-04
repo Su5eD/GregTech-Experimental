@@ -16,7 +16,6 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class ModelBlockOre extends ModelBase {
     private final Map<EnumFacing, ResourceLocation> texturesEnd;
 
     public ModelBlockOre(ResourceLocation particle, Map<EnumFacing, ResourceLocation> textures, Map<EnumFacing, ResourceLocation> texturesNether, Map<EnumFacing, ResourceLocation> texturesEnd) {
-        super(particle, Arrays.asList(textures, texturesNether, texturesEnd));
+        super(particle, StreamEx.of(textures, texturesNether, texturesEnd));
         this.textures = textures;
         this.texturesNether = texturesNether;
         this.texturesEnd = texturesEnd;

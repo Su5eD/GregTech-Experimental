@@ -2,31 +2,31 @@ package mods.gregtechmod.objects.blocks.teblocks;
 
 import ic2.core.block.invslot.InvSlot;
 import ic2.core.block.state.Ic2BlockState.Ic2BlockStateInstance;
+import ic2.core.block.state.UnlistedEnumProperty;
 import mods.gregtechmod.api.cover.ICover;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
+import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.OreDictUnificator;
-import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.items.ItemHandlerHelper;
 import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Predicate;
 
-public class TileEntityShelf extends TileEntityCoverBehavior {
+public abstract class TileEntityShelf extends TileEntityCoverBehavior {
+    public static final IUnlistedProperty<Type> SHELF_TYPE_PROPERTY = new UnlistedEnumProperty<>("shelfType", Type.class);
+    
     @NBTPersistent
-    private Type type = Type.EMPTY;
+    private Type type;
     private final InvSlot content = new InvSlot(this, "content", InvSlot.Access.NONE, 1);
 
     @Override
@@ -36,7 +36,7 @@ public class TileEntityShelf extends TileEntityCoverBehavior {
             if (stack.isEmpty()) {
                 ItemStack content = this.content.get();
                 if (!content.isEmpty()) {
-                    processType(Type.EMPTY, player, content, stack);
+                    processType(null, player, content, stack);
                 }
             }
             else if (this.content.isEmpty()) {
@@ -60,19 +60,20 @@ public class TileEntityShelf extends TileEntityCoverBehavior {
 
             GtUtil.spawnItemInWorld(this.world, this.pos, getFacing(), output);
             if (stack.isEmpty()) {
-                setType(Type.EMPTY);
+                setType(null);
             }
         }
     }
 
     @Override
     protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
-        Ic2BlockStateInstance ret = super.getExtendedState(state);
-        if (this.type != Type.EMPTY) {
-            PropertyHelper.TextureOverride override = new PropertyHelper.TextureOverride(EnumFacing.NORTH, this.type.texture);
-            return ret.withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, override);
-        }
-        return ret;
+        return super.getExtendedState(state)
+            .withProperty(SHELF_TYPE_PROPERTY, this.type);
+    }
+
+    @Override
+    protected String getDescriptionKey() {
+        return GtLocale.buildKey("teblock", "decorative_storage", "description");
     }
 
     private void processType(Type type, EntityPlayer player, ItemStack give, ItemStack store) {
@@ -104,25 +105,16 @@ public class TileEntityShelf extends TileEntityCoverBehavior {
     }
 
     public enum Type {
-        EMPTY(JavaUtil.alwaysFalse(), null),
         PAPER(stack -> OreDictUnificator.isItemInstanceOf(stack, "paper", true)),
-        BOOK(stack -> OreDictUnificator.isItemInstanceOf(stack, "book", true), new ResourceLocation("blocks/bookshelf")),
+        BOOK(stack -> OreDictUnificator.isItemInstanceOf(stack, "book", true)),
         TIN_CAN(stack -> GtUtil.stackItemEquals(ModHandler.tinCan, stack) || GtUtil.stackItemEquals(ModHandler.filledTinCan, stack));
 
         public static final Type[] VALUES = values();
 
         private final Predicate<ItemStack> predicate;
-        @Nullable
-        public final ResourceLocation texture;
 
         Type(Predicate<ItemStack> predicate) {
             this.predicate = predicate;
-            this.texture = new ResourceLocation(Reference.MODID, "blocks/machines/wood_shelf/wood_shelf_" + name().toLowerCase(Locale.ROOT));
-        }
-
-        Type(Predicate<ItemStack> predicate, ResourceLocation texture) {
-            this.predicate = predicate;
-            this.texture = texture;
         }
 
         @Nullable

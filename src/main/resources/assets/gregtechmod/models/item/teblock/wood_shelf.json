@@ -8,5 +8,10 @@
     "south": "minecraft:blocks/planks_oak",
     "east": "minecraft:blocks/planks_oak",
     "west": "minecraft:blocks/planks_oak"
+  },
+  "typeTextures": {
+    "paper": "gregtechmod:blocks/machines/wood_shelf/wood_shelf_paper",
+    "book": "minecraft:blocks/bookshelf",
+    "tin_can": "gregtechmod:blocks/machines/wood_shelf/wood_shelf_tin_can"
   }
 }

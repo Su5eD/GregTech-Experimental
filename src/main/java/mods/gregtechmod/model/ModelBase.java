@@ -27,8 +27,8 @@ public abstract class ModelBase extends AbstractModel {
     protected final Map<ResourceLocation, TextureAtlasSprite> sprites = new HashMap<>();
     protected final ResourceLocation particle;
 
-    protected ModelBase(ResourceLocation particle, List<Map<EnumFacing, ResourceLocation>> textures) {
-        this(particle, StreamEx.of(textures)
+    protected ModelBase(ResourceLocation particle, StreamEx<Map<?, ResourceLocation>> textures) {
+        this(particle, textures
             .map(Map::values)
             .flatMap(Collection::stream)
             .toImmutableList());

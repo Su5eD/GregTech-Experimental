@@ -301,6 +301,7 @@ gregtechmod.teblock.electric_buffer_small.regulate=Regulate Item Stack Size to: 
 gregtechmod.teblock.player_detector.mode.detect_all=Detects all Players
 gregtechmod.teblock.player_detector.mode.detect_owner=Detects only you
 gregtechmod.teblock.player_detector.mode.detect_non_owner=Detects only other Players
+gregtechmod.teblock.decorative_storage.description=Decorative Item Storage
 
 gregtechmod.multiblock.error.wrench=Pipe is loose.
 gregtechmod.multiblock.error.screwdriver=Screws are missing.
@@ -976,7 +977,7 @@ gregtechmod.teblock.redstone_display.description=Displays Redstone Strength
 gregtechmod.teblock.redstone_scale=Redstone Scale
 gregtechmod.teblock.redstone_scale.description=Redstone Strength on a Scale
 gregtechmod.teblock.wood_shelf=Wood encased Shelf
-gregtechmod.teblock.wood_shelf.description=Decorative Item Storage
+gregtechmod.teblock.metal_shelf=Metal encased Shelf
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

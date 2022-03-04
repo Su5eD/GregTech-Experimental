@@ -125,6 +125,16 @@ public final class ClientEventHandler {
                     registerBakedModel(teBlock, models, loader,
                         (particle, textures) -> new ModelTextureMode("redstone_scale", MACHINES_PATH, EnumSet.allOf(TileEntityRedstoneScale.ScaleMode.class), particle, textures));
                     break;
+                case SHELF:
+                    JsonHandler json = getTeBlockModel(teBlock.getName(), models);
+                    JsonObject object = json.json.getAsJsonObject("typeTextures");
+                    Map<TileEntityShelf.Type, ResourceLocation> typeTextures = EntryStream.of(object.entrySet().iterator())
+                        .mapKeys(name -> TileEntityShelf.Type.valueOf(name.toUpperCase(Locale.ROOT)))
+                        .mapValues(texture -> new ResourceLocation(texture.getAsString()))
+                        .toImmutableMap();
+                    
+                    registerBakedModel(teBlock, models, loader, (particle, textures) -> new ModelShelf(json.particle, json.generateTextureMap(), typeTextures));
+                    break;
             }
         }
 
@@ -279,9 +289,6 @@ public final class ClientEventHandler {
                 .map(CoverVent.VentType::getIcon))
             .append(StreamEx.of(FluidLoader.FLUIDS)
                 .map(FluidLoader.IFluidProvider::getTexture))
-            .append(StreamEx.of(TileEntityShelf.Type.VALUES)
-                .map(type -> type.texture)
-                .filter(texture -> texture != null && texture.getNamespace().equals(Reference.MODID)))
             .forEach(map::registerSprite);
     }
 

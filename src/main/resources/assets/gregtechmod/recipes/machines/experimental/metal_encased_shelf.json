@@ -11,7 +11,7 @@
     "I":
     {
       "type": "forge:ore_dict",
-      "ore": "plateRefinedIron"
+      "ore": "plateIron"
     },
     "A":
     {
@@ -22,13 +22,13 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???",
+    "data": 78,
     "count": 4
   },
   "conditions":
   [
     {
-      "type": "gregtechmod:classic"
+      "type": "gregtechmod:experimental"
     }
   ]
 }
