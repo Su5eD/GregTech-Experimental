@@ -978,6 +978,7 @@ gregtechmod.teblock.redstone_scale=Redstone Scale
 gregtechmod.teblock.redstone_scale.description=Redstone Strength on a Scale
 gregtechmod.teblock.wood_shelf=Wood encased Shelf
 gregtechmod.teblock.metal_shelf=Metal encased Shelf
+gregtechmod.teblock.file_cabinet=File Cabinet
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

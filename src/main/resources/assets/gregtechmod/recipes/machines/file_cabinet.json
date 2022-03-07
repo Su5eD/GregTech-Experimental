@@ -2,14 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "metal encased shelf"
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#metal_shelf"
     }
   ],
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 79
   }
 }

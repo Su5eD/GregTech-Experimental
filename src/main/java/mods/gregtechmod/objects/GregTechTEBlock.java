@@ -10,7 +10,6 @@ import ic2.core.profile.Version;
 import ic2.core.ref.IC2Material;
 import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
-import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
@@ -119,7 +118,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     REDSTONE_DISPLAY(TileEntityRedstoneDisplay.class, 75, NO_ACTIVE, Util.allFacings, ModelType.REDSTONE_DISPLAY),
     REDSTONE_SCALE(TileEntityRedstoneScale.class, 76, NO_ACTIVE, Util.allFacings, ModelType.REDSTONE_SCALE),
     WOOD_SHELF(TileEntityShelfWood.class, 77, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF),
-    METAL_SHELF(TileEntityShelfMetal.class, 78, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF);
+    METAL_SHELF(TileEntityShelfMetal.class, 78, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF),
+    FILE_CABINET(TileEntityFileCabinet.class, 79, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
@@ -137,7 +137,6 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     private final boolean isStructure;
 
     private final LazyValue<TileEntityBlock> dummyTe = new LazyValue<>(this::buildDummyTeBlock);
-    private ITePlaceHandler placeHandler;
 
     GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, ActiveType activeType, Set<EnumFacing> supportedFacings) {
         this(teClass, itemMeta, activeType, supportedFacings, false);
@@ -238,18 +237,6 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     @Override
     public Material getMaterial() {
         return IC2Material.MACHINE;
-    }
-
-    @Override
-    public void setPlaceHandler(ITePlaceHandler handler) {
-        if (this.placeHandler != null) throw new RuntimeException("Value already present");
-        this.placeHandler = handler;
-    }
-
-    @Nullable
-    @Override
-    public ITePlaceHandler getPlaceHandler() {
-        return this.placeHandler;
     }
 
     @Nullable

@@ -111,7 +111,8 @@
       "redstone_display": { "model": "gregtechmod:redstone_display" },
       "redstone_scale": { "model": "gregtechmod:redstone_scale" },
       "wood_shelf": { "model": "gregtechmod:wood_shelf" },
-      "metal_shelf": { "model": "gregtechmod:metal_shelf" }
+      "metal_shelf": { "model": "gregtechmod:metal_shelf" },
+      "file_cabinet": { "model": "gregtechmod:file_cabinet" }
     },
     "facing": {
       "down": { "x": 90 },
