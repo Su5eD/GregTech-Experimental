@@ -21,8 +21,7 @@ public class ModelShelf extends ModelTeBlock {
     protected TextureAtlasSprite getSprite(EnumFacing face, EnumFacing side, EnumFacing rotatedSide, Ic2BlockState.Ic2BlockStateInstance state) {
         if (face == side) {
             TileEntityShelf.Type type = state.getValue(TileEntityShelf.SHELF_TYPE_PROPERTY);
-            ResourceLocation texture = this.typeTextures.get(type);
-            if (texture != null) return this.sprites.get(texture);
+            if (type != null) return this.sprites.get(this.typeTextures.get(type));
         }
         return super.getSprite(face, side, rotatedSide, state);
     }

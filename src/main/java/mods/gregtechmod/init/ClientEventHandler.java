@@ -128,8 +128,7 @@ public final class ClientEventHandler {
                 case SHELF:
                     JsonHandler json = getTeBlockModel(teBlock.getName(), models);
                     JsonObject object = json.json.getAsJsonObject("typeTextures");
-                    Map<TileEntityShelf.Type, ResourceLocation> typeTextures = object == null ? Collections.emptyMap()
-                        : EntryStream.of(object.entrySet().iterator())
+                    Map<TileEntityShelf.Type, ResourceLocation> typeTextures = EntryStream.of(object.entrySet().iterator())
                         .mapKeys(name -> TileEntityShelf.Type.valueOf(name.toUpperCase(Locale.ROOT)))
                         .mapValues(texture -> new ResourceLocation(texture.getAsString()))
                         .toImmutableMap();

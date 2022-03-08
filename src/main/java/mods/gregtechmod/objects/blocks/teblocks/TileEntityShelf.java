@@ -41,7 +41,7 @@ public abstract class TileEntityShelf extends TileEntityCoverBehavior {
             }
             else if (this.content.isEmpty()) {
                 Type type = Type.fromStack(stack);
-                if (type != null) {
+                if (accepts(type, stack)) {
                     processType(type, player, ItemStack.EMPTY, stack);
                 }
             }
@@ -102,6 +102,10 @@ public abstract class TileEntityShelf extends TileEntityCoverBehavior {
     public void onNetworkUpdate(String field) {
         super.onNetworkUpdate(field);
         if (field.equals("type")) rerender();
+    }
+    
+    public boolean accepts(@Nullable Type type, ItemStack stack) {
+        return type != null && type.predicate.test(stack);
     }
 
     public enum Type {

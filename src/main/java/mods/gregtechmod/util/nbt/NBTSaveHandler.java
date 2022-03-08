@@ -53,13 +53,9 @@ public final class NBTSaveHandler {
                 .filter(fieldHandle.optional)
             )
             .mapToValuePartial((fieldHandle, value) -> {
-                NBTBase serialized;
-                if (fieldHandle.serializer != Serializers.None.class) {
-                    serialized = NBTHandlerRegistry.getSpecialSerializer(fieldHandle.serializer).serialize(value);
-                }
-                else serialized = serializeField(value);
-
-                return Optional.ofNullable(serialized);
+                if (fieldHandle.serializer != Serializers.None.class) return Optional.of(NBTHandlerRegistry.getSpecialSerializer(fieldHandle.serializer).serialize(value));
+                else if (value != null) return Optional.ofNullable(serializeField(value));
+                return Optional.empty();
             })
             .mapKeys(FieldHandle::getName)
             .forKeyValue(nbt::setTag);
