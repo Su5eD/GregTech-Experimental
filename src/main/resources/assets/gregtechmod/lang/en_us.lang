@@ -980,6 +980,7 @@ gregtechmod.teblock.wood_shelf=Wood encased Shelf
 gregtechmod.teblock.metal_shelf=Metal encased Shelf
 gregtechmod.teblock.file_cabinet=File Cabinet
 gregtechmod.teblock.metal_desk=Metal encased Desk
+gregtechmod.teblock.compartment=Compartment
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

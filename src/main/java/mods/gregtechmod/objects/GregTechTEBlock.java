@@ -120,7 +120,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     WOOD_SHELF(TileEntityShelfWood.class, 77, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF),
     METAL_SHELF(TileEntityShelfMetal.class, 78, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF),
     FILE_CABINET(TileEntityFileCabinet.class, 79, NO_ACTIVE, Util.horizontalFacings),
-    METAL_DESK(TileEntityMetalDesk.class, 80, NO_ACTIVE, Util.horizontalFacings);
+    METAL_DESK(TileEntityMetalDesk.class, 80, NO_ACTIVE, Util.horizontalFacings),
+    COMPARTMENT(TileEntityCompartment.class, 81, NO_ACTIVE, Util.horizontalFacings, ModelType.COMPARTMENT);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
@@ -302,7 +303,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
         BUTTON_PANEL,
         REDSTONE_DISPLAY,
         REDSTONE_SCALE,
-        SHELF
+        SHELF,
+        COMPARTMENT;
     }
     
     public enum ActiveType {

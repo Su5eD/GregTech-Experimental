@@ -31,7 +31,7 @@ public abstract class ModelBase extends AbstractModel {
         this(particle, textures
             .map(Map::values)
             .flatMap(Collection::stream)
-            .toImmutableList());
+            .toImmutableSet());
     }
 
     protected ModelBase(ResourceLocation particle, Collection<ResourceLocation> textures) {

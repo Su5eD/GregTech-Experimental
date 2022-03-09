@@ -6,6 +6,7 @@ import ic2.api.item.IC2Items;
 import ic2.core.item.ItemFluidCell;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.model.*;
@@ -126,14 +127,17 @@ public final class ClientEventHandler {
                         (particle, textures) -> new ModelTextureMode("redstone_scale", MACHINES_PATH, EnumSet.allOf(TileEntityRedstoneScale.ScaleMode.class), particle, textures));
                     break;
                 case SHELF:
-                    JsonHandler json = getTeBlockModel(teBlock.getName(), models);
-                    JsonObject object = json.json.getAsJsonObject("typeTextures");
-                    Map<TileEntityShelf.Type, ResourceLocation> typeTextures = EntryStream.of(object.entrySet().iterator())
-                        .mapKeys(name -> TileEntityShelf.Type.valueOf(name.toUpperCase(Locale.ROOT)))
-                        .mapValues(texture -> new ResourceLocation(texture.getAsString()))
-                        .toImmutableMap();
-                    
-                    registerBakedModel(teBlock, models, loader, (particle, textures) -> new ModelShelf(json.particle, json.generateTextureMap(), typeTextures));
+                    registerJsonBakedModel(teBlock, models, loader, (json, particle, textures) -> {
+                        JsonObject object = json.json.getAsJsonObject("typeTextures");
+                        Map<TileEntityShelf.Type, ResourceLocation> typeTextures = EntryStream.of(object.entrySet().iterator())
+                            .mapKeys(name -> TileEntityShelf.Type.valueOf(name.toUpperCase(Locale.ROOT)))
+                            .mapValues(texture -> new ResourceLocation(texture.getAsString()))
+                            .toImmutableMap();
+                        return new ModelShelf(particle, textures, typeTextures);
+                    });
+                    break;
+                case COMPARTMENT:
+                    registerBakedModel(teBlock, models, loader, ModelCompartment::new);
                     break;
             }
         }
@@ -148,8 +152,12 @@ public final class ClientEventHandler {
 
         ModelLoaderRegistry.registerLoader(loader);
     }
-
+    
     private static void registerBakedModel(GregTechTEBlock teBlock, JsonObject models, BakedModelLoader loader, BiFunction<ResourceLocation, Map<EnumFacing, ResourceLocation>, IModel> factory) {
+        registerJsonBakedModel(teBlock, models, loader, (json, particle, textures) -> factory.apply(particle, textures));
+    }
+
+    private static void registerJsonBakedModel(GregTechTEBlock teBlock, JsonObject models, BakedModelLoader loader, TriFunction<JsonHandler, ResourceLocation, Map<EnumFacing, ResourceLocation>, IModel> factory) {
         String name = teBlock.getName();
         JsonHandler json = getTeBlockModel(name, models);
         IModel model;
@@ -158,13 +166,13 @@ public final class ClientEventHandler {
             model = new ModelStructureTeBlock(json.particle, json.generateTextureMap(), valid.generateTextureMap());
         }
         else {
-            model = factory.apply(json.particle, json.generateTextureMap());
+            model = factory.apply(json, json.particle, json.generateTextureMap());
         }
         loader.register("models/block/" + name, model);
 
         if (teBlock.hasActive()) {
             JsonHandler active = new JsonHandler(getItemModelPath("teblock", name + "_active"));
-            loader.register("models/block/" + name + "_active", factory.apply(json.particle, active.generateTextureMap()));
+            loader.register("models/block/" + name + "_active", factory.apply(json, json.particle, active.generateTextureMap()));
         }
     }
 

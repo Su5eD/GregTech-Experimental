@@ -21,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,11 @@ public class ModelTeBlock extends ModelBase {
     @SafeVarargs
     public ModelTeBlock(ResourceLocation particle, Map<EnumFacing, ResourceLocation> mainTextures, Map<?, ResourceLocation>... extraTextures) {
         super(particle, StreamEx.<Map<?, ResourceLocation>>of(mainTextures).append(extraTextures));
+        this.textures = mainTextures;
+    }
+
+    public ModelTeBlock(ResourceLocation particle, Map<EnumFacing, ResourceLocation> mainTextures, Collection<ResourceLocation> extraTextures) {
+        super(particle, StreamEx.ofValues(mainTextures).append(extraTextures).toSet());
         this.textures = mainTextures;
     }
 
