@@ -25,6 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import one.util.streamex.StreamEx;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -144,9 +145,9 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
         private int heatCapacity;
 
         public BlastFurnaceStructure(World world, Map<Character, Collection<BlockPos>> elements) {
-            elements.get('C').stream()
-                .map(world::getBlockState)
-                .map(IBlockState::getBlock)
+            StreamEx.ofValues(elements)
+                .flatMap(Collection::stream)
+                .map(pos -> world.getBlockState(pos).getBlock())
                 .forEach(block -> {
                     if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance()) {
                         heatCapacity += 30;
