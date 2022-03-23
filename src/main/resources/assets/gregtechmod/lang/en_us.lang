@@ -981,6 +981,8 @@ gregtechmod.teblock.metal_shelf=Metal encased Shelf
 gregtechmod.teblock.file_cabinet=File Cabinet
 gregtechmod.teblock.metal_desk=Metal encased Desk
 gregtechmod.teblock.compartment=Compartment
+gregtechmod.teblock.machine_box=Machine Box
+gregtechmod.teblock.machine_box.description=You just need §5i§dm§4a§cg§ei§an§ba§3t§9i§1o§5n§7 to use this.
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

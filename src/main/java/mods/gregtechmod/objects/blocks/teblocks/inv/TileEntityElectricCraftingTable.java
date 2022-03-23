@@ -92,12 +92,12 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
 
     @Override
     public int getSteamCapacity() {
-        return getEUCapacity();
+        return getBaseEUCapacity();
     }
 
     @Override
     public long getMjCapacity() {
-        return getEUCapacity();
+        return getBaseEUCapacity();
     }
 
     @Override

@@ -178,12 +178,12 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
 
     @Override
     public int getSteamCapacity() {
-        return getEUCapacity();
+        return getBaseEUCapacity();
     }
 
     @Override
     public long getMjCapacity() {
-        return getEUCapacity();
+        return getBaseEUCapacity();
     }
 
     @Override

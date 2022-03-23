@@ -1,14 +1,4 @@
 # Assembler recipes
-#
-# TODO Add these recipes then their output TE is implemented
-#- input:
-#    - ore: craftingRawMachineTier01
-#    - ore: craftingMachineParts
-#  output:
-#    item: gregtechmod:machine_box
-#  duration: 1600
-#  energyCost: 2
-#
 ---
 - input:
     - ore: plateAlloyAdvanced
@@ -790,3 +780,10 @@
     item: gregtechmod:teblock#button_panel
   duration: 800
   energyCost: 1
+- input:
+    - ore: craftingRawMachineTier01
+    - ore: craftingMachineParts
+  output:
+    item: gregtechmod:teblock#machine_box
+  duration: 1600
+  energyCost: 2

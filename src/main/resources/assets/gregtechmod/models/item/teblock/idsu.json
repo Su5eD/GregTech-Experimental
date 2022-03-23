@@ -4,7 +4,7 @@
     "particle": "gregtechmod:blocks/machines/idsu/idsu_side",
     "down": "gregtechmod:blocks/machines/idsu/idsu_side",
     "up": "gregtechmod:blocks/machines/idsu/idsu_side",
-    "north": "gregtechmod:blocks/machines/idsu/idsu_front",
+    "north": "gregtechmod:blocks/machines/high_adv_machine_qev_out",
     "south": "gregtechmod:blocks/machines/idsu/idsu_side",
     "east": "gregtechmod:blocks/machines/idsu/idsu_side",
     "west": "gregtechmod:blocks/machines/idsu/idsu_side"

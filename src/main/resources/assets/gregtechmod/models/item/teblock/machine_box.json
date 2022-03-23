@@ -1,0 +1,44 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_side",
+    "down": "gregtechmod:blocks/machines/machine_bottom",
+    "up": "gregtechmod:blocks/machines/machine_top",
+    "north": "gregtechmod:blocks/machines/machine_lv_out",
+    "south": "gregtechmod:blocks/machines/machine_side",
+    "east": "gregtechmod:blocks/machines/machine_side",
+    "west": "gregtechmod:blocks/machines/machine_side"
+  },
+  "textures_tier_2": {
+    "down": "gregtechmod:blocks/machines/adv_machine",
+    "up": "gregtechmod:blocks/machines/adv_machine",
+    "north": "gregtechmod:blocks/machines/adv_machine_mv_out",
+    "south": "gregtechmod:blocks/machines/adv_machine",
+    "east": "gregtechmod:blocks/machines/adv_machine",
+    "west": "gregtechmod:blocks/machines/adv_machine"
+  },
+  "textures_tier_3": {
+    "down": "gregtechmod:blocks/machines/high_adv_machine",
+    "up": "gregtechmod:blocks/machines/high_adv_machine",
+    "north": "gregtechmod:blocks/machines/high_adv_machine_hv_out",
+    "south": "gregtechmod:blocks/machines/high_adv_machine",
+    "east": "gregtechmod:blocks/machines/high_adv_machine",
+    "west": "gregtechmod:blocks/machines/high_adv_machine"
+  },
+  "textures_tier_4": {
+    "down": "gregtechmod:blocks/machines/high_adv_machine",
+    "up": "gregtechmod:blocks/machines/high_adv_machine",
+    "north": "gregtechmod:blocks/machines/high_adv_machine_ev_out",
+    "south": "gregtechmod:blocks/machines/high_adv_machine",
+    "east": "gregtechmod:blocks/machines/high_adv_machine",
+    "west": "gregtechmod:blocks/machines/high_adv_machine"
+  },
+  "textures_tier_5": {
+    "down": "gregtechmod:blocks/machines/high_adv_machine",
+    "up": "gregtechmod:blocks/machines/high_adv_machine",
+    "north": "gregtechmod:blocks/machines/high_adv_machine_qev_out",
+    "south": "gregtechmod:blocks/machines/high_adv_machine",
+    "east": "gregtechmod:blocks/machines/high_adv_machine",
+    "west": "gregtechmod:blocks/machines/high_adv_machine"
+  }
+}

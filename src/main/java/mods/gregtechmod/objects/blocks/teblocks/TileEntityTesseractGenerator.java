@@ -142,12 +142,12 @@ public class TileEntityTesseractGenerator extends TileEntityTesseract {
 
     @Override
     public long getMjCapacity() {
-        return getEUCapacity();
+        return getBaseEUCapacity();
     }
 
     @Override
     public int getSteamCapacity() {
-        return getEUCapacity();
+        return getBaseEUCapacity();
     }
 
     @Override

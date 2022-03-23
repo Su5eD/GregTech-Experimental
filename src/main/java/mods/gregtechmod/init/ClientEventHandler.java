@@ -45,6 +45,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import one.util.streamex.EntryStream;
+import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
 
 import java.util.*;
@@ -138,6 +139,14 @@ public final class ClientEventHandler {
                     break;
                 case COMPARTMENT:
                     registerBakedModel(teBlock, models, loader, ModelCompartment::new);
+                    break;
+                case MACHINE_BOX:
+                    registerJsonBakedModel(teBlock, models, loader, (json, particle, textures) -> {
+                        Map<Integer, Map<EnumFacing, ResourceLocation>> tierTextures = IntStreamEx.range(2, 6)
+                            .mapToEntry(i -> i, i -> json.generateTextureMap("textures_tier_" + i))
+                            .toImmutableMap();
+                        return new ModelMachineBox(particle, textures, tierTextures);
+                    });
                     break;
             }
         }

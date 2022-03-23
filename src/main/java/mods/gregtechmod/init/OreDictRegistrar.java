@@ -338,7 +338,7 @@ public class OreDictRegistrar {
         registerOre("craftingSolarPanel", IC2Items.getItem("te", "solar_generator"));
 
         registerOre("craftingCentrifuge", GregTechObjectAPI.getTileEntity("industrial_centrifuge"));
-        //registerOre("craftingRawMachineTier01", GregTechTEBlock.machine_box); TODO add machine box to oredict when added
+        registerOre("craftingRawMachineTier01", GregTechObjectAPI.getTileEntity("machine_box"));
         //registerOre("craftingCircuitTier03", GregTechTEBlock.restone_circuit_block); TODO add redstone circuit block to oredict when added
         registerOre("craftingCircuitTier10", GregTechObjectAPI.getTileEntity("computer_cube"));
         registerOre("craftingWorkBench", GregTechObjectAPI.getTileEntity("electric_crafting_table"));

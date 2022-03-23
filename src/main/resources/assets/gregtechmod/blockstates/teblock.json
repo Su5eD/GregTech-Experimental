@@ -114,7 +114,8 @@
       "metal_shelf": { "model": "gregtechmod:metal_shelf" },
       "file_cabinet": { "model": "gregtechmod:file_cabinet" },
       "metal_desk": { "model": "gregtechmod:metal_desk" },
-      "compartment": { "model": "gregtechmod:compartment" }
+      "compartment": { "model": "gregtechmod:compartment" },
+      "machine_box": { "model": "gregtechmod:machine_box" }
     },
     "facing": {
       "down": { "x": 90 },
