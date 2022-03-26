@@ -25,7 +25,7 @@ public class StructureElementGatherer {
     }
 
     public StructureElementGatherer tileEntity(char id, Class<? extends TileEntity> tileEntity, int minCount) {
-        return tileEntity(id, tileEntity, minCount, minCount);
+        return tileEntity(id, tileEntity, minCount, 0);
     }
 
     public StructureElementGatherer tileEntity(char id, Class<? extends TileEntity> tileEntity, int minCount, int maxCount) {
@@ -60,7 +60,7 @@ public class StructureElementGatherer {
         }
 
         public ElementBuilder tileEntity(Class<? extends TileEntity> tileEntity, int minCount) {
-            return tileEntity(tileEntity, minCount, minCount);
+            return tileEntity(tileEntity, minCount, 0);
         }
 
         public ElementBuilder tileEntity(Class<? extends TileEntity> tileEntity, int minCount, int maxCount) {

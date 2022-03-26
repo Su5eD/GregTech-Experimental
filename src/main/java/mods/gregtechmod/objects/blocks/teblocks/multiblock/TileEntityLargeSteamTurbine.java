@@ -31,7 +31,7 @@ public class TileEntityLargeSteamTurbine extends TileEntityTurbineBase {
                 .tileEntity(TileEntityHatchInput.class, 1)
                 .tileEntity(TileEntityHatchOutput.class)
                 .tileEntity(TileEntityHatchMaintenance.class, 1))
-            .tileEntity('D', TileEntityHatchDynamo.class, 1)
+            .tileEntity('D', TileEntityHatchDynamo.class, 1, 1)
             .gather();
     }
 
