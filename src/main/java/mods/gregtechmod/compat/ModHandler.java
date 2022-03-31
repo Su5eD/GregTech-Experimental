@@ -25,6 +25,7 @@ import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientWrapped;
 import mods.gregtechmod.util.*;
 import mods.railcraft.api.crafting.Crafters;
 import mods.railcraft.api.crafting.IOutputEntry;
@@ -359,7 +360,7 @@ public class ModHandler {
                 }
                 else secondaryChance = 0;
 
-                return !output.isEmpty() ? RecipePulverizer.create(RecipeIngredientItemStack.create(Arrays.asList(recipe.getInput().getMatchingStacks()), 1), output, 4, secondaryChance, false, false) : null;
+                return !output.isEmpty() ? RecipePulverizer.create(RecipeIngredientWrapped.create(recipe.getInput(), 1), output, 4, secondaryChance, false, false) : null;
             })
             .nonNull()
             .toList();
