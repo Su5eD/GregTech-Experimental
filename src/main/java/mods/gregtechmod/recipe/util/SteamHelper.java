@@ -16,16 +16,16 @@ public class SteamHelper {
         }
         return 0;
     }
-    
+
     public static double getEUForSteam(@Nullable FluidStack fluid) {
         return fluid != null ? getEUForSteam(fluid, fluid.amount) : 0;
     }
-    
+
     public static double getEUForSteam(@Nullable FluidStack fluid, double milibuckets) {
         double buckets = milibuckets / (double) Fluid.BUCKET_VOLUME;
         return fluid != null ? getEUForSteamBucket(fluid.getFluid()) * buckets : 0;
     }
-    
+
     public static double getEUForSteamBucket(Fluid fluid) {
         return GtFuels.steam.getFuel(fluid).getEnergy();
     }

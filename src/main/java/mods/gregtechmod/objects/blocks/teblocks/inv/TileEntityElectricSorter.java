@@ -19,7 +19,7 @@ public class TileEntityElectricSorter extends TileEntityElectricSorterBase {
     public TileEntityElectricSorter() {
         this.filter = new GtSlot(this, "filter", InvSlot.Access.NONE, 9);
     }
-    
+
     @Override
     public long getMjCapacity() {
         return getBaseEUCapacity() / 2;
@@ -28,7 +28,7 @@ public class TileEntityElectricSorter extends TileEntityElectricSorterBase {
     @Override
     protected boolean applyFilter(ItemStack stack) {
         return StreamSupport.stream(this.filter.spliterator(), false)
-                .anyMatch(s -> GtUtil.stackItemEquals(s, stack));
+            .anyMatch(s -> GtUtil.stackItemEquals(s, stack));
     }
 
     @Override

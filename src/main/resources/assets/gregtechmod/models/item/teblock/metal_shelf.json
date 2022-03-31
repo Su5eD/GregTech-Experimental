@@ -1,0 +1,17 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_side",
+    "down": "gregtechmod:blocks/machines/machine_bottom",
+    "up": "gregtechmod:blocks/machines/machine_top",
+    "north": "gregtechmod:blocks/machines/metal_shelf/metal_shelf_empty",
+    "south": "gregtechmod:blocks/machines/machine_side",
+    "east": "gregtechmod:blocks/machines/machine_side",
+    "west": "gregtechmod:blocks/machines/machine_side"
+  },
+  "typeTextures": {
+    "paper": "gregtechmod:blocks/machines/metal_shelf/metal_shelf_paper",
+    "book": "gregtechmod:blocks/machines/metal_shelf/metal_shelf_book",
+    "tin_can": "gregtechmod:blocks/machines/metal_shelf/metal_shelf_tin_can"
+  }
+}

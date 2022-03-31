@@ -19,7 +19,7 @@ import java.util.List;
 
 public class WrapperSecondaryFluid<R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> extends WrapperMultiInput<IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> {
     private static final List<ItemStack> FILLER = Collections.singletonList(ItemStack.EMPTY);
-    
+
     private final int outputCount;
 
     public WrapperSecondaryFluid(R recipe, int outputCount) {

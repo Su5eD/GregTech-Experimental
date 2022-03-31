@@ -32,7 +32,7 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
 
     @Override
     public IMachineRecipe<IRecipeIngredient, List<ItemStack>> getRecipe() {
-        IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe =  super.getRecipe();
+        IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe = super.getRecipe();
         if (recipe == null) { // workaround for the egg recipe
             ItemStack input = getInput();
             if (input.getItem() == Items.EGG) return RecipeFurnace.create(RecipeIngredientItemStack.create(Items.EGG), new ItemStack(Items.EGG)); // We don't care what the output is, the microwave will explode before we get to adding it
@@ -46,8 +46,8 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
         recipe.getOutput().forEach(this::checkStack);
 
         recipe.getOutput().stream()
-                .map(ItemStack::copy)
-                .forEach(this.pendingRecipe::add);
+            .map(ItemStack::copy)
+            .forEach(this.pendingRecipe::add);
         this.maxProgress = 25;
         consumeInput(recipe);
     }
@@ -68,10 +68,11 @@ public class TileEntityMicrowave extends TileEntityBasicMachineSingleInput<IMach
 
     private boolean checkStack(ItemStack stack) {
         if (OreDictUnificator.isItemInstanceOf(stack, "ingot", true) || OreDictUnificator.isItemInstanceOf(stack, "dustGunpowder", false) ||
-                stack.isItemEqual(NETHERRACK.get()) || StackUtil.checkItemEquality(stack, Items.EGG)) {
+            stack.isItemEqual(NETHERRACK.get()) || StackUtil.checkItemEquality(stack, Items.EGG)) {
             explodeMachine(4);
             return true;
-        } else if (TileEntityFurnace.getItemBurnTime(stack) > 0) {
+        }
+        else if (TileEntityFurnace.getItemBurnTime(stack) > 0) {
             MachineSafety.setBlockOnFire(this.world, this.pos);
             return true;
         }

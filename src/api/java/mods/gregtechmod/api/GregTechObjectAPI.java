@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
+@SuppressWarnings({ "unused", "MismatchedQueryAndUpdateOfCollection" })
 public class GregTechObjectAPI {
     private static final Logger LOGGER = LogManager.getLogger();
     private static Map<String, ItemStack> items;

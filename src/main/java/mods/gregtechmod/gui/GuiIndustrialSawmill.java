@@ -10,7 +10,7 @@ public class GuiIndustrialSawmill extends GuiStructure<ContainerIndustrialSawmil
 
     public GuiIndustrialSawmill(ContainerIndustrialSawmill container) {
         super(container);
-        
+
         addElement(new LinkedGauge(this, 58, 28, container.base, "progress", GregtechGauge.SAWING));
         addElement(new LinkedGauge(this, 33, 33, container.base, "water_level", GregtechGauge.WATER_LEVEL));
     }

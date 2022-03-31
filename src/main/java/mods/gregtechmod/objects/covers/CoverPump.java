@@ -20,16 +20,16 @@ public class CoverPump extends CoverInventory {
 
     @Override
     public void doCoverThings() {
-        if (canWork() && LiquidUtil.isFluidTile((TileEntity)te, side)) {
-            LiquidUtil.AdjacentFluidHandler target = LiquidUtil.getAdjacentHandler((TileEntity)te, side);
+        if (canWork() && LiquidUtil.isFluidTile((TileEntity) te, side)) {
+            LiquidUtil.AdjacentFluidHandler target = LiquidUtil.getAdjacentHandler((TileEntity) te, side);
             if (target != null) {
-                FluidStack stack = LiquidUtil.drainTile(this.mode.isImport ? target.handler : (TileEntity)te, this.mode.isImport ? side.getOpposite() : side, 1000, true);
+                FluidStack stack = LiquidUtil.drainTile(this.mode.isImport ? target.handler : (TileEntity) te, this.mode.isImport ? side.getOpposite() : side, 1000, true);
                 if (stack != null) {
                     double energy = Math.min(1, stack.amount / 100D);
-                    
+
                     if (shouldUseEnergy(energy) && !((IElectricMachine) te).canUseEnergy(energy)) return;
-                    
-                    LiquidUtil.transfer(this.mode.isImport ? target.handler : (TileEntity)te, this.mode.isImport ? side.getOpposite() : side, this.mode.isImport ? (TileEntity)te : target.handler, Fluid.BUCKET_VOLUME);
+
+                    LiquidUtil.transfer(this.mode.isImport ? target.handler : (TileEntity) te, this.mode.isImport ? side.getOpposite() : side, this.mode.isImport ? (TileEntity) te : target.handler, Fluid.BUCKET_VOLUME);
                 }
             }
         }

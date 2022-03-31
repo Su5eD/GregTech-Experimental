@@ -9,7 +9,7 @@ public abstract class TileEntityElectricBufferSingle extends TileEntityElectricB
     public TileEntityElectricBufferSingle(int invSize) {
         this.buffer = new GtSlotElectricBuffer(this, "buffer", getBufferSlotAccess(), invSize);
     }
-    
+
     protected InvSlot.Access getBufferSlotAccess() {
         return InvSlot.Access.IO;
     }

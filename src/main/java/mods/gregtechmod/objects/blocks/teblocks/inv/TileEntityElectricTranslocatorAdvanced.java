@@ -20,13 +20,13 @@ public class TileEntityElectricTranslocatorAdvanced extends TileEntityElectricTr
 
     public void switchInputFacing() {
         this.inputSide = GtUtil.getNextFacing(this.inputSide);
-        
+
         updateClientField("inputSide");
     }
-    
+
     public void switchOutputFacing() {
         this.outputSide = GtUtil.getNextFacing(this.outputSide);
-        
+
         updateClientField("outputSide");
     }
 

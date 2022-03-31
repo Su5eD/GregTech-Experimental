@@ -10,8 +10,8 @@ public class RecipeManagerBasic<R extends IMachineRecipe<IRecipeIngredient, ?>> 
     @Override
     public R getRecipeFor(ItemStack input) {
         return this.recipes.stream()
-                .filter(recipe -> recipe.getInput().apply(input))
-                .min(this::compareCount)
-                .orElseGet(() -> getProvidedRecipe(input));
+            .filter(recipe -> recipe.getInput().apply(input))
+            .min(this::compareCount)
+            .orElseGet(() -> getProvidedRecipe(input));
     }
 }

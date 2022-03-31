@@ -23,7 +23,7 @@ public class TileEntityIndustrialCentrifuge extends TileEntityIndustrialCentrifu
     public TileEntityIndustrialCentrifuge() {
         super(32000, GtRecipes.industrialCentrifuge);
     }
-    
+
     @Override
     protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
         Ic2BlockStateInstance extendedState = super.getExtendedState(state);

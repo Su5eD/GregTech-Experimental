@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "PPP",
+    "CAC",
+    "PPP"
+  ],
+  "key":
+  {
+    "P":
+    {
+      "type": "gregtechmod:ore_dict",
+      "ores": [ "plateIron", "plateAluminium" ]
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingEnergyMeter"
+    },
+    "C":
+    {
+      "item": "minecraft:comparator"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 76
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:experimental"
+    }
+  ]
+}

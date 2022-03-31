@@ -9,12 +9,12 @@ public class ContainerComputerCubeScanner extends ContainerComputerCube {
 
     public ContainerComputerCubeScanner(EntityPlayer player, TileEntityComputerCube base) {
         super(player, base, 156);
-        
+
         ComputerCubeScanner module = (ComputerCubeScanner) base.getActiveModule();
-        
+
         addSlotToContainer(new SlotInvSlot(module.inputSlot, 0, 8, 28));
         addSlotToContainer(new SlotInvSlot(module.inputSlot, 1, 26, 28));
-        
+
         addSlotToContainer(new SlotInvSlot(module.outputSlot, 0, 134, 28));
         addSlotToContainer(new SlotInvSlot(module.outputSlot, 1, 152, 28));
     }

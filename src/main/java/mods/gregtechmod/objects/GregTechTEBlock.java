@@ -10,7 +10,6 @@ import ic2.core.profile.Version;
 import ic2.core.ref.IC2Material;
 import ic2.core.ref.TeBlock.DefaultDrop;
 import ic2.core.ref.TeBlock.HarvestTool;
-import ic2.core.ref.TeBlock.ITePlaceHandler;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechMod;
@@ -39,86 +38,99 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Set;
 
+import static mods.gregtechmod.objects.GregTechTEBlock.ActiveType.*;
+
 public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITeBlockSpecialItem {
-    INDUSTRIAL_CENTRIFUGE(TileEntityIndustrialCentrifuge.class, 1, true, Util.onlyNorth),
-    DIGITAL_CHEST(TileEntityDigitalChest.class, 2, false, Util.allFacings),
-    QUANTUM_CHEST(TileEntityQuantumChest.class, 3, false, Util.allFacings),
-    QUANTUM_TANK(TileEntityQuantumTank.class, 4, false, Util.horizontalFacings),
-    SONICTRON(TileEntitySonictron.class, 5, true, Util.noFacings, ModelType.DEFAULT),
-    AUTO_MACERATOR(TileEntityAutoMacerator.class, 6, true, Util.horizontalFacings),
-    AUTO_EXTRACTOR(TileEntityAutoExtractor.class, 7, true, Util.horizontalFacings),
-    AUTO_COMPRESSOR(TileEntityAutoCompressor.class, 8, true, Util.horizontalFacings),
-    AUTO_RECYCLER(TileEntityAutoRecycler.class, 9, true, Util.horizontalFacings),
-    AUTO_ELECTRIC_FURNACE(TileEntityAutoElectricFurnace.class, 10, true, Util.horizontalFacings),
-    WIREMILL(TileEntityWiremill.class, 11, true, Util.horizontalFacings),
-    GT_ALLOY_SMELTER(TileEntityAlloySmelter.class, 12, true, Util.horizontalFacings),
-    AUTO_CANNER(TileEntityAutoCanner.class, 13, true, Util.horizontalFacings),
-    BENDER(TileEntityBender.class, 14, true, Util.horizontalFacings),
-    UNIVERSAL_MACERATOR(TileEntityUniversalMacerator.class, 15, true, Util.horizontalFacings),
-    MICROWAVE(TileEntityMicrowave.class, 16, true, Util.horizontalFacings),
-    PRINTER(TileEntityPrinter.class, 17, true, Util.horizontalFacings),
-    ASSEMBLER(TileEntityAssembler.class, 18, true, Util.horizontalFacings),
-    LATHE(TileEntityLathe.class, 19, true, Util.horizontalFacings),
-    INDUSTRIAL_ELECTROLYZER(TileEntityIndustrialElectrolyzer.class, 20, true, Util.onlyNorth),
-    CHEMICAL_REACTOR(TileEntityChemicalReactor.class, 21, true, Util.onlyNorth),
-    INDUSTRIAL_BLAST_FURNACE(TileEntityIndustrialBlastFurnace.class, 22, false, Util.horizontalFacings, true),
-    INDUSTRIAL_GRINDER(TileEntityIndustrialGrinder.class, 23, false, Util.horizontalFacings, true),
-    IMPLOSION_COMPRESSOR(TileEntityImplosionCompressor.class, 24, false, Util.horizontalFacings, true),
-    VACUUM_FREEZER(TileEntityVacuumFreezer.class, 25, false, Util.horizontalFacings, true),
-    DISTILLATION_TOWER(TileEntityDistillationTower.class, 26, false, Util.horizontalFacings, true),
-    THERMAL_GENERATOR(TileEntityThermalGenerator.class, 27, true, Util.horizontalFacings),
-    DIESEL_GENERATOR(TileEntityDieselGenerator.class, 28, true, Util.horizontalFacings),
-    GT_SEMIFLUID_GENERATOR(TileEntitySemifluidGenerator.class, 29, false, Util.horizontalFacings),
-    GAS_TURBINE(TileEntityGasTurbine.class, 30, false, Util.horizontalFacings),
-    PLASMA_GENERATOR(TileEntityPlasmaGenerator.class, 31, true, Util.allFacings),
-    MAGIC_ENERGY_CONVERTER(TileEntityMagicEnergyConverter.class, 32, true, Util.allFacings),
-    LIGHTNING_ROD(TileEntityLightningRod.class, 33, false, Util.onlyNorth),
-    MAGIC_ENERGY_ABSORBER(TileEntityMagicEnergyAbsorber.class, 34, true, Util.noFacings),
-    DRAGON_EGG_ENERGY_SIPHON(TileEntityDragonEggEnergySiphon.class, 35, true, Util.noFacings),
-    HATCH_INPUT(TileEntityHatchInput.class, 36, false, Util.allFacings),
-    HATCH_OUTPUT(TileEntityHatchOutput.class, 37, false, Util.allFacings),
-    HATCH_MAINTENANCE(TileEntityHatchMaintenance.class, 38, false, Util.allFacings),
-    HATCH_DYNAMO(TileEntityHatchDynamo.class, 39, false, Util.allFacings),
-    HATCH_MUFFLER(TileEntityHatchMuffler.class, 40, false, Util.allFacings),
-    INDUSTRIAL_SAWMILL(TileEntityIndustrialSawmill.class, 41, false, Util.horizontalFacings, true),
-    THERMAL_BOILER(TileEntityThermalBoiler.class, 42, true, Util.horizontalFacings),
-    LARGE_STEAM_TURBINE(TileEntityLargeSteamTurbine.class, 43, true, Util.horizontalFacings),
-    LARGE_GAS_TURBINE(TileEntityLargeGasTurbine.class, 44, true, Util.horizontalFacings),
-    SUPERCONDENSATOR(TileEntitySupercondensator.class, 45, false, Util.allFacings),
-    SUPERCONDUCTOR_WIRE(TileEntitySuperconductorWire.class, 46, false, Util.noFacings, ModelType.CONNECTED),
-    LESU(TileEntityLESU.class, 47, false, Util.allFacings),
-    AESU(TileEntityAESU.class, 48, false, Util.allFacings),
-    IDSU(TileEntityIDSU.class, 49, false, Util.allFacings),
-    COMPUTER_CUBE(TileEntityComputerCube.class, 50, false, Util.horizontalFacings),
-    CHARGE_O_MAT(TileEntityChargeOMat.class, 51, false, Util.horizontalFacings),
-    ADVANCED_PUMP(TileEntityAdvancedPump.class, 52, true, Util.horizontalFacings),
-    ADVANCED_SAFE(TileEntityAdvancedSafe.class, 53, false, Util.horizontalFacings),
-    MATTER_FABRICATOR(TileEntityMatterFabricator.class, 54, true, Util.noFacings),
-    GT_TELEPORTER(TileEntityGtTeleporter.class, 55, true, Util.allFacings),
-    TESSERACT_GENERATOR(TileEntityTesseractGenerator.class, 56, false, Util.allFacings),
-    TESSERACT_TERMINAL(TileEntityTesseractTerminal.class, 57, false, Util.allFacings),
-    ELECTRIC_BUFFER_SMALL(TileEntityElectricBufferSmall.class, 58, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_BUFFER_LARGE(TileEntityElectricBufferLarge.class, 59, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_BUFFER_ADVANCED(TileEntityElectricBufferAdvanced.class, 60, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_ITEM_CLEARER(TileEntityElectricItemClearer.class, 61, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    CROP_HARVESTOR(TileEntityCropHarvestor.class, 62, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_ROCK_BREAKER(TileEntityElectricRockBreaker.class, 63, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    SCRAPBOXINATOR(TileEntityScrapboxinator.class, 64, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_SORTER(TileEntityElectricSorter.class, 65, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_TYPE_SORTER(TileEntityElectricTypeSorter.class, 66, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_TRANSLOCATOR(TileEntityElectricTranslocator.class, 67, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_TRANSLOCATOR_ADVANCED(TileEntityElectricTranslocatorAdvanced.class, 68, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_REGULATOR_ADVANCED(TileEntityElectricRegulatorAdvanced.class, 69, false, Util.allFacings, ModelType.ELECTRIC_BUFFER),
-    ELECTRIC_INVENTORY_MANAGER(TileEntityElectricInventoryManager.class, 70, false, Util.onlyNorth),
-    ELECTRIC_CRAFTING_TABLE(TileEntityElectricCraftingTable.class, 71, false, Util.allFacings, ModelType.ELECTRIC_BUFFER);
+    INDUSTRIAL_CENTRIFUGE(TileEntityIndustrialCentrifuge.class, 1, ACTIVE_GUI, Util.onlyNorth),
+    DIGITAL_CHEST(TileEntityDigitalChest.class, 2, NO_ACTIVE, Util.allFacings),
+    QUANTUM_CHEST(TileEntityQuantumChest.class, 3, NO_ACTIVE, Util.allFacings),
+    QUANTUM_TANK(TileEntityQuantumTank.class, 4, NO_ACTIVE, Util.horizontalFacings),
+    SONICTRON(TileEntitySonictron.class, 5, ACTIVE_GUI, Util.noFacings, ModelType.DEFAULT),
+    AUTO_MACERATOR(TileEntityAutoMacerator.class, 6, ACTIVE_GUI, Util.horizontalFacings),
+    AUTO_EXTRACTOR(TileEntityAutoExtractor.class, 7, ACTIVE_GUI, Util.horizontalFacings),
+    AUTO_COMPRESSOR(TileEntityAutoCompressor.class, 8, ACTIVE_GUI, Util.horizontalFacings),
+    AUTO_RECYCLER(TileEntityAutoRecycler.class, 9, ACTIVE_GUI, Util.horizontalFacings),
+    AUTO_ELECTRIC_FURNACE(TileEntityAutoElectricFurnace.class, 10, ACTIVE_GUI, Util.horizontalFacings),
+    WIREMILL(TileEntityWiremill.class, 11, ACTIVE_GUI, Util.horizontalFacings),
+    GT_ALLOY_SMELTER(TileEntityAlloySmelter.class, 12, ACTIVE_GUI, Util.horizontalFacings),
+    AUTO_CANNER(TileEntityAutoCanner.class, 13, ACTIVE_GUI, Util.horizontalFacings),
+    BENDER(TileEntityBender.class, 14, ACTIVE_GUI, Util.horizontalFacings),
+    UNIVERSAL_MACERATOR(TileEntityUniversalMacerator.class, 15, ACTIVE_GUI, Util.horizontalFacings),
+    MICROWAVE(TileEntityMicrowave.class, 16, ACTIVE_GUI, Util.horizontalFacings),
+    PRINTER(TileEntityPrinter.class, 17, ACTIVE_GUI, Util.horizontalFacings),
+    ASSEMBLER(TileEntityAssembler.class, 18, ACTIVE_GUI, Util.horizontalFacings),
+    LATHE(TileEntityLathe.class, 19, ACTIVE_GUI, Util.horizontalFacings),
+    INDUSTRIAL_ELECTROLYZER(TileEntityIndustrialElectrolyzer.class, 20, ACTIVE_GUI, Util.onlyNorth),
+    CHEMICAL_REACTOR(TileEntityChemicalReactor.class, 21, ACTIVE_GUI, Util.onlyNorth),
+    INDUSTRIAL_BLAST_FURNACE(TileEntityIndustrialBlastFurnace.class, 22, NO_ACTIVE, Util.horizontalFacings, true),
+    INDUSTRIAL_GRINDER(TileEntityIndustrialGrinder.class, 23, NO_ACTIVE, Util.horizontalFacings, true),
+    IMPLOSION_COMPRESSOR(TileEntityImplosionCompressor.class, 24, NO_ACTIVE, Util.horizontalFacings, true),
+    VACUUM_FREEZER(TileEntityVacuumFreezer.class, 25, NO_ACTIVE, Util.horizontalFacings, true),
+    DISTILLATION_TOWER(TileEntityDistillationTower.class, 26, NO_ACTIVE, Util.horizontalFacings, true),
+    THERMAL_GENERATOR(TileEntityThermalGenerator.class, 27, ACTIVE_GUI, Util.horizontalFacings),
+    DIESEL_GENERATOR(TileEntityDieselGenerator.class, 28, ACTIVE_GUI, Util.horizontalFacings),
+    GT_SEMIFLUID_GENERATOR(TileEntitySemifluidGenerator.class, 29, NO_ACTIVE, Util.horizontalFacings),
+    GAS_TURBINE(TileEntityGasTurbine.class, 30, NO_ACTIVE, Util.horizontalFacings),
+    PLASMA_GENERATOR(TileEntityPlasmaGenerator.class, 31, ACTIVE_GUI, Util.allFacings),
+    MAGIC_ENERGY_CONVERTER(TileEntityMagicEnergyConverter.class, 32, ACTIVE_GUI, Util.allFacings),
+    LIGHTNING_ROD(TileEntityLightningRod.class, 33, NO_ACTIVE, Util.onlyNorth),
+    MAGIC_ENERGY_ABSORBER(TileEntityMagicEnergyAbsorber.class, 34, ACTIVE_GUI, Util.noFacings),
+    DRAGON_EGG_ENERGY_SIPHON(TileEntityDragonEggEnergySiphon.class, 35, ACTIVE_GUI, Util.noFacings),
+    HATCH_INPUT(TileEntityHatchInput.class, 36, NO_ACTIVE, Util.allFacings),
+    HATCH_OUTPUT(TileEntityHatchOutput.class, 37, NO_ACTIVE, Util.allFacings),
+    HATCH_MAINTENANCE(TileEntityHatchMaintenance.class, 38, NO_ACTIVE, Util.allFacings),
+    HATCH_DYNAMO(TileEntityHatchDynamo.class, 39, NO_ACTIVE, Util.allFacings),
+    HATCH_MUFFLER(TileEntityHatchMuffler.class, 40, NO_ACTIVE, Util.allFacings),
+    INDUSTRIAL_SAWMILL(TileEntityIndustrialSawmill.class, 41, NO_ACTIVE, Util.horizontalFacings, true),
+    THERMAL_BOILER(TileEntityThermalBoiler.class, 42, ACTIVE_GUI, Util.horizontalFacings),
+    LARGE_STEAM_TURBINE(TileEntityLargeSteamTurbine.class, 43, ACTIVE_GUI, Util.horizontalFacings),
+    LARGE_GAS_TURBINE(TileEntityLargeGasTurbine.class, 44, ACTIVE_GUI, Util.horizontalFacings),
+    SUPERCONDENSATOR(TileEntitySupercondensator.class, 45, NO_ACTIVE, Util.allFacings),
+    SUPERCONDUCTOR_WIRE(TileEntitySuperconductorWire.class, 46, NO_ACTIVE, Util.noFacings, ModelType.CONNECTED),
+    LESU(TileEntityLESU.class, 47, NO_ACTIVE, Util.allFacings),
+    AESU(TileEntityAESU.class, 48, NO_ACTIVE, Util.allFacings),
+    IDSU(TileEntityIDSU.class, 49, NO_ACTIVE, Util.allFacings),
+    COMPUTER_CUBE(TileEntityComputerCube.class, 50, NO_ACTIVE, Util.horizontalFacings),
+    CHARGE_O_MAT(TileEntityChargeOMat.class, 51, NO_ACTIVE, Util.horizontalFacings),
+    ADVANCED_PUMP(TileEntityAdvancedPump.class, 52, ACTIVE_GUI, Util.horizontalFacings),
+    ADVANCED_SAFE(TileEntityAdvancedSafe.class, 53, NO_ACTIVE, Util.horizontalFacings),
+    MATTER_FABRICATOR(TileEntityMatterFabricator.class, 54, ACTIVE_GUI, Util.noFacings),
+    GT_TELEPORTER(TileEntityGtTeleporter.class, 55, ACTIVE_GUI, Util.allFacings),
+    TESSERACT_GENERATOR(TileEntityTesseractGenerator.class, 56, NO_ACTIVE, Util.allFacings),
+    TESSERACT_TERMINAL(TileEntityTesseractTerminal.class, 57, NO_ACTIVE, Util.allFacings),
+    ELECTRIC_BUFFER_SMALL(TileEntityElectricBufferSmall.class, 58, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_BUFFER_LARGE(TileEntityElectricBufferLarge.class, 59, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_BUFFER_ADVANCED(TileEntityElectricBufferAdvanced.class, 60, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_ITEM_CLEARER(TileEntityElectricItemClearer.class, 61, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    CROP_HARVESTOR(TileEntityCropHarvestor.class, 62, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_ROCK_BREAKER(TileEntityElectricRockBreaker.class, 63, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    SCRAPBOXINATOR(TileEntityScrapboxinator.class, 64, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_SORTER(TileEntityElectricSorter.class, 65, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_TYPE_SORTER(TileEntityElectricTypeSorter.class, 66, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_TRANSLOCATOR(TileEntityElectricTranslocator.class, 67, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_TRANSLOCATOR_ADVANCED(TileEntityElectricTranslocatorAdvanced.class, 68, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_REGULATOR_ADVANCED(TileEntityElectricRegulatorAdvanced.class, 69, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    ELECTRIC_INVENTORY_MANAGER(TileEntityElectricInventoryManager.class, 70, NO_ACTIVE, Util.onlyNorth),
+    ELECTRIC_CRAFTING_TABLE(TileEntityElectricCraftingTable.class, 71, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
+    PLAYER_DETECTOR(TileEntityPlayerDetector.class, 72, ACTIVE, Util.noFacings),
+    REDSTONE_NOTE_BLOCK(TileEntityRedstoneNoteblock.class, 73, NO_ACTIVE, Util.allFacings),
+    BUTTON_PANEL(TileEntityButtonPanel.class, 74, ACTIVE, Util.allFacings, ModelType.BUTTON_PANEL),
+    REDSTONE_DISPLAY(TileEntityRedstoneDisplay.class, 75, NO_ACTIVE, Util.allFacings, ModelType.REDSTONE_DISPLAY),
+    REDSTONE_SCALE(TileEntityRedstoneScale.class, 76, NO_ACTIVE, Util.allFacings, ModelType.REDSTONE_SCALE),
+    WOOD_SHELF(TileEntityShelfWood.class, 77, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF),
+    METAL_SHELF(TileEntityShelfMetal.class, 78, NO_ACTIVE, Util.horizontalFacings, ModelType.SHELF),
+    FILE_CABINET(TileEntityFileCabinet.class, 79, NO_ACTIVE, Util.horizontalFacings),
+    METAL_DESK(TileEntityMetalDesk.class, 80, NO_ACTIVE, Util.horizontalFacings),
+    COMPARTMENT(TileEntityCompartment.class, 81, NO_ACTIVE, Util.horizontalFacings, ModelType.COMPARTMENT),
+    MACHINE_BOX(TileEntityMachineBox.class, 82, NO_ACTIVE, Util.allFacings, ModelType.MACHINE_BOX);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
     public static BlockTileEntity blockTE;
-    
+
     private final Class<? extends TileEntityBlock> teClass;
     private final int itemMeta;
-    private final boolean hasActive;
+    private final ActiveType activeType;
     private final Set<EnumFacing> supportedFacings;
     private final DefaultDrop defaultDrop;
     private final float hardness;
@@ -126,30 +138,29 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     private final EnumRarity rarity;
     private final ModelType modelType;
     private final boolean isStructure;
-    
+
     private final LazyValue<TileEntityBlock> dummyTe = new LazyValue<>(this::buildDummyTeBlock);
-    private ITePlaceHandler placeHandler;
-    
-    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings) {
-        this(teClass, itemMeta, hasActive, supportedFacings, false);
+
+    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, ActiveType activeType, Set<EnumFacing> supportedFacings) {
+        this(teClass, itemMeta, activeType, supportedFacings, false);
     }
-    
-    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, ModelType modelType) {
-        this(teClass, itemMeta, hasActive, supportedFacings, modelType, false);
+
+    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, ActiveType activeType, Set<EnumFacing> supportedFacings, ModelType modelType) {
+        this(teClass, itemMeta, activeType, supportedFacings, modelType, false);
     }
-    
-    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, boolean isStructure) {
-        this(teClass, itemMeta, hasActive, supportedFacings, ModelType.BAKED, isStructure);
+
+    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, ActiveType activeType, Set<EnumFacing> supportedFacings, boolean isStructure) {
+        this(teClass, itemMeta, activeType, supportedFacings, ModelType.BAKED, isStructure);
     }
-        
-    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, ModelType modelType, boolean isStructure) {
-        this(teClass, itemMeta, hasActive, supportedFacings, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, modelType, isStructure);
+
+    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, ActiveType activeType, Set<EnumFacing> supportedFacings, ModelType modelType, boolean isStructure) {
+        this(teClass, itemMeta, activeType, supportedFacings, DefaultDrop.Self, 10, 30, EnumRarity.COMMON, modelType, isStructure);
     }
-    
-    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, boolean hasActive, Set<EnumFacing> supportedFacings, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, ModelType modelType, boolean isStructure) {
+
+    GregTechTEBlock(Class<? extends TileEntityBlock> teClass, int itemMeta, ActiveType activeType, Set<EnumFacing> supportedFacings, DefaultDrop defaultDrop, float hardness, float explosionResistance, EnumRarity rarity, ModelType modelType, boolean isStructure) {
         this.teClass = teClass;
         this.itemMeta = itemMeta;
-        this.hasActive = hasActive;
+        this.activeType = activeType;
         this.supportedFacings = supportedFacings;
         this.defaultDrop = defaultDrop;
         this.hardness = hardness;
@@ -160,9 +171,9 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
 
         GameRegistry.registerTileEntity(teClass, new ResourceLocation(Reference.MODID, getName()));
         NBTSaveHandler.initClass(teClass);
- 	}
- 	
- 	public boolean isStructure() {
+    }
+
+    public boolean isStructure() {
         return this.isStructure;
     }
 
@@ -188,7 +199,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
 
     @Override
     public boolean hasActive() {
-        return this.hasActive;
+        return this.activeType.active;
     }
 
     @Override
@@ -231,18 +242,6 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
         return IC2Material.MACHINE;
     }
 
-    @Override
-    public void setPlaceHandler(ITePlaceHandler handler) {
-        if (this.placeHandler != null) throw new RuntimeException("Value already present");
-        this.placeHandler = handler;
-    }
-
-    @Nullable
-    @Override
-    public ITePlaceHandler getPlaceHandler() {
-        return this.placeHandler;
-    }
-
     @Nullable
     @Override
     public TileEntityBlock getDummyTe() {
@@ -263,12 +262,12 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     public void addSubBlocks(NonNullList<ItemStack> list, BlockTileEntity block, ItemBlockTileEntity item, CreativeTabs tab) {
         if (tab == CreativeTabs.SEARCH) {
             Arrays.stream(VALUES)
-                    .filter(teblock -> Version.shouldEnable(teblock.teClass))
-                    .map(block::getItemStack)
-                    .forEach(list::add);
+                .filter(teblock -> Version.shouldEnable(teblock.teClass))
+                .map(block::getItemStack)
+                .forEach(list::add);
         }
     }
-    
+
     public TileEntityBlock buildDummyTeBlock() {
         if (this.teClass != null) {
             try {
@@ -279,7 +278,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
             }
         }
         return null;
- 	}
+    }
 
     @Override
     public boolean doesOverrideDefault(ItemStack stack) {
@@ -290,18 +289,38 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     public ModelResourceLocation getModelLocation(ItemStack stack) {
         String name = getName();
         String location = Reference.MODID + ":teblock/" + name;
-        
+
         if (this.isStructure) location += "_valid";
-        else if (this.hasActive) location += "_active";
-        
+        else if (this.activeType.gui) location += "_active";
+
         return new ModelResourceLocation(location, name);
     }
-    
+
     public enum ModelType {
         DEFAULT,
         BAKED,
         CONNECTED,
-        ELECTRIC_BUFFER
+        ELECTRIC_BUFFER,
+        BUTTON_PANEL,
+        REDSTONE_DISPLAY,
+        REDSTONE_SCALE,
+        SHELF,
+        COMPARTMENT,
+        MACHINE_BOX;
+    }
+    
+    public enum ActiveType {
+        ACTIVE(true, false),
+        ACTIVE_GUI(true, true),
+        NO_ACTIVE(false, false);
+        
+        private final boolean active;
+        private final boolean gui;
+
+        ActiveType(boolean active, boolean gui) {
+            this.active = active;
+            this.gui = gui;
+        }
     }
 }
 

@@ -11,14 +11,11 @@ import mods.gregtechmod.objects.blocks.teblocks.component.GtComponentBase;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricInventoryManager;
 import mods.gregtechmod.util.BooleanCountdown;
 import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.nbt.ModifyExisting;
-import mods.gregtechmod.util.nbt.NBTHandlerRegistry;
-import mods.gregtechmod.util.nbt.NBTPersistent;
-import mods.gregtechmod.util.nbt.NBTSaveHandler;
-import mods.gregtechmod.util.nbt.Serializers;
+import mods.gregtechmod.util.nbt.*;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
+import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
 
 import java.util.Collection;
@@ -31,12 +28,12 @@ import java.util.stream.IntStream;
 public class TileEntityElectricInventoryManager extends TileEntityUpgradable implements IHasGui {
     public final InvSlot buffer;
     public final SlotRangeManager manager;
-    
+
     private final BooleanCountdown workedLastTick = createSingleCountDown();
-    
+
     static {
         NBTHandlerRegistry.addSpecialDeserializer(SlotRangeListDeserializer::new);
-        
+
         NBTSaveHandler.initClass(SlotRangeSetting.class);
         NBTSaveHandler.initClass(SlotRange.class);
     }
@@ -53,15 +50,15 @@ public class TileEntityElectricInventoryManager extends TileEntityUpgradable imp
 
     @Override
     protected Collection<EnumFacing> getSinkSides() {
-        return GtUtil.allSidesExcept(getSourceSides());
+        return GtUtil.allSidesWithout(getSourceSides());
     }
 
     @Override
     protected Collection<EnumFacing> getSourceSides() {
-        return this.manager.ranges.stream()
-                .filter(slotRange -> slotRange.outputEnergy)
-                .map(slotRange -> slotRange.facing)
-                .collect(Collectors.toSet());
+        return StreamEx.of(this.manager.ranges)
+            .filter(slotRange -> slotRange.outputEnergy)
+            .map(slotRange -> slotRange.facing)
+            .toImmutableSet();
     }
 
     @Override
@@ -102,29 +99,29 @@ public class TileEntityElectricInventoryManager extends TileEntityUpgradable imp
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         if (isAllowedToWork() && canUseEnergy(5000) && (
-                workJustHasBeenEnabled()
+            workJustHasBeenEnabled()
                 || this.tickCounter % 100 == 0
                 || this.workedLastTick.get()
                 || hasInventoryBeenModified()
         )) {
             int cost = StreamEx.of(this.manager.ranges)
-                    .cross(slotRange -> StreamEx.ofNullable(getNeighborTE(slotRange.facing)))
-                    .flatMapKeyValue((slotRange, tileEntity) -> StreamEx.of(slotRange.rangeSettings)
-                            .mapToEntry(setting -> setting.filter.get())
-                            .mapKeyValue((setting, filter) -> 5 * GtUtil.moveItemStack(
-                                    setting.input ? tileEntity : this,
-                                    setting.input ? this : tileEntity,
-                                    setting.input ? setting.targetSide : slotRange.facing.getOpposite(),
-                                    setting.input ? slotRange.facing.getOpposite() : setting.targetSide,
-                                    filter.isEmpty() ? 64 : filter.getCount(), 1,
-                                    stack -> filter.isEmpty() || GtUtil.stackItemEquals(filter, stack)
-                            ))
-                    )
-                    .mapToInt(i -> i)
-                    .sum();
-            
+                .cross(slotRange -> StreamEx.ofNullable(getNeighborTE(slotRange.facing)))
+                .flatMapKeyValue((slotRange, tileEntity) -> StreamEx.of(slotRange.rangeSettings)
+                    .mapToEntry(setting -> setting.filter.get())
+                    .mapKeyValue((setting, filter) -> 5 * GtUtil.moveItemStack(
+                        setting.input ? tileEntity : this,
+                        setting.input ? this : tileEntity,
+                        setting.input ? setting.targetSide : slotRange.facing.getOpposite(),
+                        setting.input ? slotRange.facing.getOpposite() : setting.targetSide,
+                        filter.isEmpty() ? 64 : filter.getCount(), 1,
+                        stack -> filter.isEmpty() || GtUtil.stackItemEquals(filter, stack)
+                    ))
+                )
+                .mapToInt(i -> i)
+                .sum();
+
             if (cost > 0) {
                 this.workedLastTick.reset();
                 useEnergy(cost);
@@ -150,20 +147,20 @@ public class TileEntityElectricInventoryManager extends TileEntityUpgradable imp
 
     @Override
     public void onGuiClosed(EntityPlayer player) {}
-    
+
     public static class SlotRangeManager extends GtComponentBase {
         @NBTPersistent(deserializer = SlotRangeListDeserializer.class)
         public final List<SlotRange> ranges;
 
         public SlotRangeManager(TileEntityElectricInventoryManager parent) {
             super(parent);
-            
-            this.ranges = IntStream.range(0, 4)
-                    .mapToObj(i -> new SlotRange(parent, i))
-                    .collect(Collectors.toList());
+
+            this.ranges = IntStreamEx.range(4)
+                .mapToObj(i -> new SlotRange(parent, i))
+                .toImmutableList();
         }
     }
-    
+
     private static class SlotRangeListDeserializer extends Serializers.ListDeserializer {
         public SlotRangeListDeserializer() {
             super((instance, i) -> {
@@ -172,35 +169,35 @@ public class TileEntityElectricInventoryManager extends TileEntityUpgradable imp
             });
         }
     }
-    
+
     public static class SlotRange {
         private final TileEntityElectricInventoryManager parent;
-        
+
         @NBTPersistent
-        @ModifyExisting 
+        @ModifyExisting
         public final List<SlotRangeSetting> rangeSettings;
         @NBTPersistent
         public EnumFacing facing = EnumFacing.DOWN;
-        @NBTPersistent 
+        @NBTPersistent
         public boolean outputEnergy;
-        
+
         public SlotRange(TileEntityElectricInventoryManager parent, int index) {
             this.parent = parent;
             this.rangeSettings = IntStream.range(0, 3)
-                    .mapToObj(i -> new SlotRangeSetting(parent, index, i))
-                    .collect(Collectors.toList());
+                .mapToObj(i -> new SlotRangeSetting(parent, index, i))
+                .collect(Collectors.toList());
         }
-        
+
         public void switchFacing() {
             this.facing = GtUtil.getNextFacing(this.facing);
         }
-        
+
         public void switchOutputEnergy() {
             this.outputEnergy = !this.outputEnergy;
             this.parent.energy.refreshSides();
         }
     }
-    
+
     public static class SlotRangeSetting {
         public final InvSlot filter;
         @NBTPersistent
@@ -215,7 +212,7 @@ public class TileEntityElectricInventoryManager extends TileEntityUpgradable imp
         public void switchTargetSide() {
             this.targetSide = GtUtil.getNextFacing(this.targetSide);
         }
-        
+
         public void switchInput() {
             this.input = !this.input;
         }

@@ -35,21 +35,21 @@ public class TileEntityElectricBufferAdvanced extends TileEntityElectricBufferSi
     @Override
     protected boolean canWork() {
         return canUseEnergy(500) && (
-                workJustHasBeenEnabled() 
+            workJustHasBeenEnabled()
                 || this.tickCounter % 200 == 0
                 || this.success > 0 && this.tickCounter % 5 == 0
                 || this.success >= 20
                 || hasInventoryBeenModified()
-            );
+        );
     }
 
     @Override
     protected int moveItem() {
         return GtUtil.moveItemStackIntoSlot(
-                this, this.world.getTileEntity(this.pos.offset(getOppositeFacing())), 
-                getOppositeFacing(), getFacing(),
-                this.targetSlot,
-                this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1
+            this, this.world.getTileEntity(this.pos.offset(getOppositeFacing())),
+            getOppositeFacing(), getFacing(),
+            this.targetSlot,
+            this.targetStackSize != 0 ? this.targetStackSize : 64, this.targetStackSize != 0 ? this.targetStackSize : 1
         );
     }
 

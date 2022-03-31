@@ -17,7 +17,7 @@ public abstract class TileEntityElectricFurnaceBase<RI, I, R extends IMachineRec
 
     protected TileEntityElectricFurnaceBase(IGtRecipeManagerBasic<RI, I, R> recipeManager) {
         super(recipeManager);
-        
+
         this.coilHandler = addComponent(new CoilHandler(this, 1));
     }
 

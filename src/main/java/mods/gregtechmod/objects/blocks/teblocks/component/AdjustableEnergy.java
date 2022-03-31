@@ -22,17 +22,17 @@ import java.util.HashSet;
 
 public abstract class AdjustableEnergy extends GtComponentBase {
     protected DelegateBase delegate;
-    
+
     @NBTPersistent
     private double storedEnergy;
     private Collection<EnumFacing> oldSinkSides;
     private Collection<EnumFacing> oldSourceSides;
-    
+
     private final Collection<IChargingSlot> chargingSlots = new HashSet<>();
     private final Collection<IDischargingSlot> dischargingSlots = new HashSet<>();
-    
-    protected double[] averageEUInputs = new double[] { 0,0,0,0,0 };
-    protected double[] averageEUOutputs = new double[] { 0,0,0,0,0 };
+
+    protected double[] averageEUInputs = new double[] { 0, 0, 0, 0, 0 };
+    protected double[] averageEUOutputs = new double[] { 0, 0, 0, 0, 0 };
     protected int averageEUInputIndex = 0;
     protected int averageEUOutputIndex = 0;
     private double averageEUIn;
@@ -43,62 +43,62 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     public AdjustableEnergy(TileEntityAutoNBT parent) {
         super(parent);
     }
-    
+
     public abstract int getCapacity();
-    
+
     public double getStoredEnergy() {
         return this.storedEnergy;
     }
-    
+
     public abstract Collection<EnumFacing> getSinkSides();
-    
+
     public abstract Collection<EnumFacing> getSourceSides();
-    
+
     public abstract int getSinkTier();
-    
+
     public abstract int getSourceTier();
-    
+
     public abstract double getMaxOutputEUp();
-    
+
     public double getMaxOutputEUt() {
         return getMaxOutputEUp() * getSourcePackets();
     }
-    
+
     public int getSourcePackets() {
         return 1;
     }
-    
+
     protected double getOfferedEnergy() {
         return Math.min(storedEnergy, getMaxOutputEUt());
     }
-    
+
     public double getAverageEUInput() {
         return this.averageEUIn;
     }
-    
+
     private void updateAverageEUInput(double amount) {
         this.averageEUInputIndex = ++this.averageEUInputIndex % this.averageEUInputs.length;
         this.averageEUInputs[this.averageEUInputIndex] = amount;
     }
-    
+
     public double getAverageEUOutput() {
         return this.averageEUOut;
     }
-    
+
     private void updateAverageEUOutput(double amount) {
         this.averageEUOutputIndex = ++this.averageEUOutputIndex % this.averageEUOutputs.length;
         this.averageEUOutputs[this.averageEUOutputIndex] = amount;
     }
-    
+
     protected double injectEnergy(double amount) {
         double injected = Math.min(getCapacity() - this.storedEnergy, amount);
         this.storedEnergy += injected;
-        
+
         updateAverageEUInput(injected);
-        
+
         return injected;
     }
-    
+
     public boolean charge(double amount) {
         return injectEnergy(amount) >= amount;
     }
@@ -106,11 +106,11 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     public void forceCharge(double amount) {
         this.storedEnergy += amount;
     }
-    
+
     public double discharge(double amount) {
         return discharge(amount, false);
     }
-    
+
     public double discharge(double amount, boolean simulate) {
         if (this.storedEnergy >= amount) {
             if (!simulate) this.storedEnergy -= amount;
@@ -118,11 +118,11 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         }
         return 0;
     }
-    
+
     public boolean isSink() {
         return !getActualSinkSides().isEmpty();
     }
-    
+
     public boolean isSource() {
         return !getActualSourceSides().isEmpty();
     }
@@ -138,25 +138,25 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     private Collection<EnumFacing> getActualSinkSides() {
         return refreshSides().getLeft();
     }
-    
+
     private Collection<EnumFacing> getActualSourceSides() {
         return refreshSides().getRight();
     }
-    
+
     public Pair<Collection<EnumFacing>, Collection<EnumFacing>> refreshSides() {
         Collection<EnumFacing> sinkSides = getSinkSides();
         Collection<EnumFacing> sourceSides = getSourceSides();
-        
+
         refreshSides(sinkSides, getOldSinkSides(sinkSides), sourceSides, getOldSourceSides(sourceSides));
-        
+
         return Pair.of(sinkSides, sourceSides);
     }
-    
+
     private void refreshSides(Collection<EnumFacing> sinkSides, Collection<EnumFacing> oldSinkSides, Collection<EnumFacing> sourceSides, Collection<EnumFacing> oldSourceSides) {
         boolean reload = !JavaUtil.matchCollections(sinkSides, oldSinkSides) || !JavaUtil.matchCollections(sourceSides, oldSourceSides);
         this.oldSinkSides = sinkSides;
         this.oldSourceSides = sourceSides;
-        
+
         if (reload) {
             this.onUnloaded();
             this.onLoaded();
@@ -174,7 +174,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         if (this.oldSourceSides == null) this.oldSourceSides = sourceSides;
         return this.oldSourceSides;
     }
-    
+
     @Override
     public void onLoaded() {
         if (this.delegate == null && !this.parent.getWorld().isRemote) {
@@ -182,7 +182,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
             if (this.delegate != null) MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this.delegate));
         }
     }
-    
+
     @Override
     public void onUnloaded() {
         if (this.delegate != null) {
@@ -190,19 +190,22 @@ public abstract class AdjustableEnergy extends GtComponentBase {
             this.delegate = null;
         }
     }
-    
+
     protected DelegateBase createDelegate() {
         boolean sink = !getSinkSides().isEmpty();
         boolean source = !getSourceSides().isEmpty();
         if (sink && source) {
             return new DualDelegate();
-        } else if (sink) {
+        }
+        else if (sink) {
             return new SinkDelegate();
-        } else if (source) {
+        }
+        else if (source) {
             return new SourceDelegate();
-        } else return null;
+        }
+        else return null;
     }
-    
+
     private DelegateBase initDelegate() {
         DelegateBase delegate = createDelegate();
         if (delegate != null) {
@@ -220,46 +223,48 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     @Override
     public void onWorldTick() {
         this.chargingSlots
-                .forEach(slot -> {
-                    if (this.storedEnergy > 0) this.discharge(slot.charge(this.storedEnergy));
-                });
+            .forEach(slot -> {
+                if (this.storedEnergy > 0) this.discharge(slot.charge(this.storedEnergy));
+            });
         this.dischargingSlots
-                .forEach(slot -> {
-                    double space = getCapacity() - this.storedEnergy;
-                    
-                    if (space > 0) {
-                        double energy = slot.discharge(space, false);
-                        if (energy > 0) this.charge(energy);
-                    }
-                });
+            .forEach(slot -> {
+                double space = getCapacity() - this.storedEnergy;
+
+                if (space > 0) {
+                    double energy = slot.discharge(space, false);
+                    if (energy > 0) this.charge(energy);
+                }
+            });
         if (!this.parent.getWorld().isRemote) {
             if (!this.injectedEnergy) updateAverageEUInput(0);
             if (!this.drawnEnergy) updateAverageEUOutput(0);
-            
+
             if (isSink()) {
                 double sum = Arrays.stream(this.averageEUInputs).sum();
                 this.averageEUIn = sum / this.averageEUInputs.length;
-            } else this.averageEUIn = 0;
+            }
+            else this.averageEUIn = 0;
 
             if (isSource()) {
                 double sum = Arrays.stream(this.averageEUOutputs).sum();
                 this.averageEUOut = sum / this.averageEUOutputs.length;
-            } else averageEUOut = 0;
-            
+            }
+            else averageEUOut = 0;
+
             this.injectedEnergy = false;
             this.drawnEnergy = false;
         }
     }
-    
+
     @Override
     public void onContainerUpdate(EntityPlayerMP player) {
         GrowingBuffer buf = new GrowingBuffer(8);
         buf.writeDouble(this.storedEnergy);
         buf.flip();
-                                
+
         setNetworkUpdate(player, buf);
     }
-        
+
     @Override
     public void onNetworkUpdate(DataInput in) throws IOException {
         this.storedEnergy = in.readDouble();
@@ -302,7 +307,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
             return isSource() && getMaxOutputEUt() >= 128 && getCapacity() >= 500000;
         }
     }
-    
+
     private class DualDelegate extends SourceDelegate implements IEnergySink {
         @Override
         public double getDemandedEnergy() {
@@ -325,31 +330,31 @@ public abstract class AdjustableEnergy extends GtComponentBase {
             return getActualSinkSides().contains(side);
         }
     }
-    
+
     private class SinkDelegate extends DelegateBase implements IEnergySink {
-    
+
         @Override
         public int getSinkTier() {
             return AdjustableEnergy.this.getSinkTier();
         }
-    
+
         @Override
         public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
             return getActualSinkSides().contains(side);
         }
-    
+
         @Override
         public double getDemandedEnergy() {
             int capacity = getCapacity();
             return isSink() && storedEnergy < capacity ? capacity - storedEnergy : 0;
         }
-    
+
         @Override
         public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
             return amount - AdjustableEnergy.this.injectEnergy(amount);
         }
     }
-    
+
     public class SourceDelegate extends DelegateBase implements IMultiEnergySource {
         @Override
         public boolean sendMultipleEnergyPackets() {
@@ -365,7 +370,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         public double getOfferedEnergy() {
             return AdjustableEnergy.this.getOfferedEnergy();
         }
-        
+
         public double getMaxOutputEUp() { // Exposes method to public access
             return AdjustableEnergy.this.getMaxOutputEUp();
         }

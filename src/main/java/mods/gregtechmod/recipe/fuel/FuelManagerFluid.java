@@ -22,12 +22,12 @@ public class FuelManagerFluid<F extends IFuel<? extends IRecipeIngredient>> exte
     @Override
     public F getFuel(Fluid target) {
         return this.fuels.stream()
-                .filter(fuel -> {
-                    IRecipeIngredient input = fuel.getInput();
-                    return input instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) input).apply(target);
-                })
-                .findFirst()
-                .orElse(null);
+            .filter(fuel -> {
+                IRecipeIngredient input = fuel.getInput();
+                return input instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) input).apply(target);
+            })
+            .findFirst()
+            .orElse(null);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class FuelManagerFluid<F extends IFuel<? extends IRecipeIngredient>> exte
     @Override
     public boolean hasFuel(Fluid target) {
         return StreamEx.of(this.fuels)
-                .map(IFuel::getInput)
-                .select(IRecipeIngredientFluid.class)
-                .anyMatch(input -> input.apply(target));
+            .map(IFuel::getInput)
+            .select(IRecipeIngredientFluid.class)
+            .anyMatch(input -> input.apply(target));
     }
 }

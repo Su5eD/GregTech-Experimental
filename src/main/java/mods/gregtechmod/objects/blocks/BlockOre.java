@@ -1,5 +1,7 @@
 package mods.gregtechmod.objects.blocks;
 
+import ic2.core.item.tool.HarvestLevel;
+import ic2.core.item.tool.ToolClass;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.api.util.TriConsumer;
 import mods.gregtechmod.core.GregTechConfig;
@@ -37,7 +39,7 @@ public class BlockOre extends Block implements ICustomItemModel {
     private final int dropRandom;
     private final TriConsumer<Integer, List<ItemStack>, Random> loot;
 
-    public BlockOre(String name, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
+    public BlockOre(String name, HarvestLevel harvestLevel, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
         super(Material.ROCK);
         this.name = name;
         this.dropChance = dropChance;
@@ -45,6 +47,7 @@ public class BlockOre extends Block implements ICustomItemModel {
         this.loot = loot;
         setResistance(10);
         setSoundType(SoundType.STONE);
+        setHarvestLevel(ToolClass.Pickaxe.name, harvestLevel.level);
     }
 
     @Override
@@ -63,15 +66,14 @@ public class BlockOre extends Block implements ICustomItemModel {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        Random rand = world instanceof World ? ((World)world).rand : JavaUtil.RANDOM;
+        Random rand = world instanceof World ? ((World) world).rand : JavaUtil.RANDOM;
         this.loot.accept(fortune, drops, rand);
         if (drops.isEmpty()) drops.add(new ItemStack(this.getItemDropped(state, rand, fortune)));
     }
 
     @Override
     public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
-        if (entity instanceof EntityDragon) return false;
-        return super.canEntityDestroy(state, world, pos, entity);
+        return !(entity instanceof EntityDragon) && super.canEntityDestroy(state, world, pos, entity);
     }
 
     @Override
@@ -82,8 +84,8 @@ public class BlockOre extends Block implements ICustomItemModel {
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer.Builder(this)
-                .add(PropertyHelper.TEXTURE_INDEX_PROPERTY)
-                .build();
+            .add(PropertyHelper.TEXTURE_INDEX_PROPERTY)
+            .build();
     }
 
     @Override

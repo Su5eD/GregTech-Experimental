@@ -13,7 +13,7 @@ public class RecipeLathe extends Recipe<IRecipeIngredient, List<ItemStack>> {
     private RecipeLathe(IRecipeIngredient input, List<ItemStack> output, int duration, double energyCost) {
         super(input, output, duration, energyCost);
     }
-    
+
     public static RecipeLathe create(IRecipeIngredient input, List<ItemStack> output, int duration) {
         return create(input, output, duration, 8);
     }

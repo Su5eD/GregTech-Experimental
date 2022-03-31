@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CategoryBasicMachineMulti<R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> extends CategoryBasicMachine<WrapperBasicMachine<R>, R> {
     private final boolean secondaryOutput;
-    
+
     public CategoryBasicMachineMulti(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, ? extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> recipeManager, boolean customTexture, Gauge.IGaugeStyle gauge, IGuiHelper guiHelper) {
         this(name, recipeClass, guiClass, recipeManager, customTexture, false, gauge, guiHelper);
     }

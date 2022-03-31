@@ -18,13 +18,13 @@ import java.util.UUID;
 
 public class IDSUData extends WorldSavedData {
     public static final String DATA_NAME = Reference.MODID + "_idsu_data";
-    
+
     private final Map<UUID, EnergyWrapper> data = new Object2ObjectOpenHashMap<>();
 
     public IDSUData() {
         this(DATA_NAME);
     }
-    
+
     // Required
     public IDSUData(String name) {
         super(name);
@@ -34,13 +34,13 @@ public class IDSUData extends WorldSavedData {
         MapStorage storage = Objects.requireNonNull(world.getMapStorage());
 
         return Optional.ofNullable((IDSUData) storage.getOrLoadData(IDSUData.class, DATA_NAME))
-                .orElseGet(() -> {
-                    IDSUData data = new IDSUData();
-                    storage.setData(DATA_NAME, data);
-                    return data;
-                });
+            .orElseGet(() -> {
+                IDSUData data = new IDSUData();
+                storage.setData(DATA_NAME, data);
+                return data;
+            });
     }
-    
+
     public EnergyWrapper getOrCreateWrapper(UUID uuid) {
         return this.data.computeIfAbsent(uuid, u -> new EnergyWrapper(this));
     }
@@ -66,10 +66,10 @@ public class IDSUData extends WorldSavedData {
         nbt.setTag(DATA_NAME, list);
         return nbt;
     }
-    
+
     public static class EnergyWrapper {
         public static final EnergyWrapper EMPTY = new EnergyWrapper(null);
-        
+
         private final IDSUData parent;
         private double energy;
 
@@ -80,7 +80,7 @@ public class IDSUData extends WorldSavedData {
         public double getEnergy() {
             return this.energy;
         }
-        
+
         public void addEnergy(double energy) {
             this.energy += energy;
             if (this.parent != null) this.parent.markDirty();
@@ -90,9 +90,9 @@ public class IDSUData extends WorldSavedData {
             this.energy -= energy;
             if (this.parent != null) this.parent.markDirty();
         }
-        
+
         public static class EnergyWrapperEncoder implements INetworkCustomEncoder {
-            
+
             @Override
             public void encode(IGrowingBuffer buffer, Object o) throws IOException {
                 buffer.writeDouble(((EnergyWrapper) o).getEnergy());

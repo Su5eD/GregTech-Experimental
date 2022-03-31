@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 public class CoverNormal extends CoverGeneric {
     public static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
     public static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
-    
+
     @NBTPersistent
     protected CoverMeter.MeterMode mode = CoverMeter.MeterMode.NORMAL;
 

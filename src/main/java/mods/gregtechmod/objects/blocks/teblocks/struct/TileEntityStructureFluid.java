@@ -26,20 +26,20 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
     public final GtSlotProcessableSecondary<RM, List<ItemStack>> secondaryInput;
     public final InvSlotOutput fluidContainerOutput;
     public final Fluids.InternalFluidTank waterTank;
-    
+
     @NBTPersistent(include = Include.NON_NULL)
     private ItemStack pendingFluidContainer;
 
     public TileEntityStructureFluid(int outputSlots, RM recipeManager) {
         super(outputSlots, recipeManager);
-        
+
         this.secondaryInput = getSecondaryInputSlot("secondary_input");
         this.fluidContainerOutput = new InvSlotOutput(this, "fluid_output", 1);
         this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Util.noFacings, GtUtil.fluidPredicate(FluidRegistry.WATER), 10000));
-        
+
         addGuiValue("water_level", this::getWaterLevel);
     }
-    
+
     protected GtSlotProcessableSecondary<RM, List<ItemStack>> getSecondaryInputSlot(String name) {
         return new GtSlotProcessableSecondary<>(this, name, 1, InvSlot.InvSide.BOTTOM, this.recipeManager);
     }
@@ -54,12 +54,13 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
         int mb = count * Fluid.BUCKET_VOLUME;
         if (fluid.apply(FluidRegistry.WATER) && this.waterTank.getFluidAmount() >= mb) {
             this.waterTank.drainInternal(mb, true);
-        } else {
+        }
+        else {
             ItemStack container = this.secondaryInput.consume(count, true);
             this.pendingFluidContainer = ItemHandlerHelper.copyStackWithSize(FluidUtil.tryEmptyContainer(container, GtUtil.VOID_TANK, mb, null, true).result, container.getCount());
         }
     }
-    
+
     @Override
     public R getRecipe() {
         ItemStack input = this.inputSlot.get();
@@ -70,13 +71,13 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
     @Override
     public void addOutput(List<ItemStack> output) {
         super.addOutput(output);
-        
+
         if (this.pendingFluidContainer != null) {
             this.fluidContainerOutput.add(this.pendingFluidContainer);
             this.pendingFluidContainer = null;
         }
     }
-    
+
     public double getWaterLevel() {
         return (double) this.waterTank.getFluidAmount() / this.waterTank.getCapacity();
     }

@@ -12,6 +12,7 @@ import java.util.Set;
 
 /**
  * Provides upgrade item compatibility
+ *
  * @author Su5eD
  */
 public interface IUpgradableMachine extends IElectricMachine {
@@ -20,9 +21,9 @@ public interface IUpgradableMachine extends IElectricMachine {
      * I'm not responsible for any damage caused by calling this method
      */
     void forceAddUpgrade(ItemStack stack);
-    
+
     boolean addUpgrade(ItemStack stack, EntityPlayer player);
-    
+
     boolean hasSteamTank();
 
     @Nullable
@@ -31,13 +32,13 @@ public interface IUpgradableMachine extends IElectricMachine {
     void addSteamTank();
 
     GameProfile getOwner();
-    
+
     void setOwner(GameProfile owner);
 
     int getExtraEUCapacity();
-    
+
     void addExtraEUCapacity(int extraCapacity);
-    
+
     void addExtraTier();
 
     int getUpgradeCount(GtUpgradeType type);
@@ -75,15 +76,15 @@ public interface IUpgradableMachine extends IElectricMachine {
     long getMjCapacity();
 
     void setMjCapacity(long capacity);
-    
+
     default int getBaseSinkTier() {
         return 0;
     }
-    
+
     default int getBaseSourceTier() {
         return 0;
     }
-    
+
     default int getBaseSourcePackets() {
         return 1;
     }

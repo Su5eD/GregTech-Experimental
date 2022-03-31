@@ -14,7 +14,7 @@ public class GuiDistillationTower extends GuiStructure<ContainerDistillationTowe
 
     public GuiDistillationTower(ContainerDistillationTower container) {
         super(container);
-        
+
         addElement(new LinkedGauge(this, 80, 4, container.base, "progress", GregtechGauge.DISTILLING));
     }
 

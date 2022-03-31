@@ -17,14 +17,14 @@ import java.util.List;
 public abstract class TileEntityElectricSorterBase extends TileEntityElectricBufferSingle {
     private static final ResourceLocation TARGET_FACING_TEXTURE = new ResourceLocation(Reference.MODID, "blocks/machines/adv_machine_pipe_blue");
     private static final ResourceLocation TARGET_FACING_TEXTURE_REDSTONE = new ResourceLocation(Reference.MODID, "blocks/machines/adv_machine_pipe_blue_redstone");
-    
+
     @NBTPersistent
     private EnumFacing targetFacing = EnumFacing.DOWN;
 
     public TileEntityElectricSorterBase() {
         super(1);
     }
-    
+
     public void switchTargetFacing() {
         this.targetFacing = GtUtil.getNextFacing(this.targetFacing);
 
@@ -49,7 +49,7 @@ public abstract class TileEntityElectricSorterBase extends TileEntityElectricBuf
     protected Ic2BlockState.Ic2BlockStateInstance getExtendedState(Ic2BlockState.Ic2BlockStateInstance state) {
         ResourceLocation texture = this.emitter.emitsRedstone() ? TARGET_FACING_TEXTURE_REDSTONE : TARGET_FACING_TEXTURE;
         return super.getExtendedState(state)
-                .withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new TextureOverride(this.targetFacing, texture, true));
+            .withProperty(PropertyHelper.TEXTURE_OVERRIDE_PROPERTY, new TextureOverride(this.targetFacing, texture, true));
     }
 
     @Override
@@ -64,15 +64,15 @@ public abstract class TileEntityElectricSorterBase extends TileEntityElectricBuf
     @Override
     protected int moveItem() {
         ItemStack stack = this.buffer.get();
-        
+
         if (applyFilter(stack)) {
             int cost = moveItemStack(getNeighborTE(this.targetFacing), this.targetFacing);
             if (cost > 0) return cost;
         }
-        
+
         return super.moveItem();
     }
-    
+
     protected abstract boolean applyFilter(ItemStack stack);
 
     @Override
@@ -88,10 +88,10 @@ public abstract class TileEntityElectricSorterBase extends TileEntityElectricBuf
     @Override
     protected boolean canWork() {
         return canUseEnergy(1000) && (
-                workJustHasBeenEnabled()
+            workJustHasBeenEnabled()
                 || this.tickCounter % 20 == 0
                 || this.success > 0 && this.tickCounter % 5 == 0
-            );
+        );
     }
 
     @Override

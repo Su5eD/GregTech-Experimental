@@ -23,16 +23,16 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
     protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (side == getFacing()) {
             int screw = getUpdatedFrequency(side, hitX, hitY, hitZ);
-            
+
             if (screw < 2) {
                 if (!this.world.isRemote) beforeFrequencyChanged();
-                
+
                 if (screw == 1) ++this.frequency;
                 else if (screw == 0) --this.frequency;
-                
+
                 if (!this.world.isRemote) onFrequencyChanged();
             }
-            
+
             if (!this.world.isRemote) sendFrequencyMessage(player);
             return true;
         }
@@ -45,7 +45,7 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
             int screw = getUpdatedFrequency(side, hitX, hitY, hitZ);
 
             if (!this.world.isRemote) beforeFrequencyChanged();
-            
+
             switch (screw) {
                 case 0:
                     this.frequency -= 64;
@@ -60,7 +60,7 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
                     this.frequency += 512;
                     break;
             }
-            
+
             if (!this.world.isRemote) {
                 onFrequencyChanged();
                 sendFrequencyMessage(player);
@@ -92,24 +92,26 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
         }
         return screw;
     }
-    
+
     protected abstract String getExistingTesseractMessage();
+
     protected void beforeFrequencyChanged() {}
+
     protected void onFrequencyChanged() {}
 
     private void sendFrequencyMessage(EntityPlayer player) {
         TileEntityTesseractGenerator gen = TileEntityTesseractGenerator.getTesseract(this.frequency, this.world, this.frequencyMessageTesseractGlobal ? null : getOwner());
         String msg = GtLocale.translateTeBlock("tesseract", "frequency", this.frequency);
         if (gen != null && gen != this) msg += GtLocale.translateTeBlock("tesseract", getExistingTesseractMessage());
-        
+
         GtUtil.sendMessage(player, msg);
     }
-    
+
     @Override
     public boolean placeCoverAtSide(ICover cover, EntityPlayer player, EnumFacing side, boolean simulate) {
         return side != getFacing() && super.placeCoverAtSide(cover, player, side, simulate);
     }
-    
+
     @Override
     public boolean isGivingInformation() {
         return true;
@@ -124,7 +126,7 @@ public abstract class TileEntityTesseract extends TileEntityUpgradable implement
     public String getSecondaryInfo() {
         return delegatePanelInfo(GtLocale.translateTeBlock("tesseract", "frequency_short", this.frequency), IPanelInfoProvider::getSecondaryInfo);
     }
-    
+
     protected abstract boolean isTesseractActive();
 
     @Override

@@ -24,7 +24,7 @@ public class WrapperBasicMachineSingle<R extends IMachineRecipe<IRecipeIngredien
     protected void setInputs(IIngredients ingredients) {
         IRecipeIngredient ingredient = this.recipe.getInput();
         int count = ingredient.getCount();
-        
+
         List<ItemStack> inputs = ingredient.stream()
             .map(stack -> ItemHandlerHelper.copyStackWithSize(stack, count))
             .toList();

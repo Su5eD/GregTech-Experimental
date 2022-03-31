@@ -40,6 +40,6 @@ public class RecipeAlloySmelter extends RecipeDualInput implements IRecipeUniver
     @Override
     protected MoreObjects.ToStringHelper toStringHelper() {
         return super.toStringHelper()
-                .add("universal", universal);
+            .add("universal", universal);
     }
 }

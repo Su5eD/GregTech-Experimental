@@ -14,7 +14,7 @@ public class GuiChargeOMat extends GuiInventory<ContainerChargeOMat> {
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        
+
         GuiEnergyStorage.drawChargeBar(this, this.container.base, 77, 60, 141);
     }
 

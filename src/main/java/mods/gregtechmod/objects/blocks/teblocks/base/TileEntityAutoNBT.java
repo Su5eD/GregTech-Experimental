@@ -26,16 +26,16 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     protected final String descriptionKey;
     private final Map<String, DoubleSupplier> guiValues = new HashMap<>();
     private final Collection<BooleanCountdown> countdowns = new HashSet<>();
-    
+
     private final BooleanCountdown inventoryModified = createSingleCountDown();
-    
+
     protected int tickCounter;
-    
+
     protected TileEntityAutoNBT() {
         String key = getDescriptionKey();
         this.descriptionKey = FMLCommonHandler.instance().getSide() == Side.CLIENT && I18n.hasKey(key) ? key : null;
     }
-    
+
     protected String getDescriptionKey() {
         return GtLocale.buildKeyTeBlock(this, "description");
     }
@@ -43,21 +43,21 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         this.tickCounter++;
         this.countdowns.forEach(BooleanCountdown::countDown);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         if (this.descriptionKey != null) tooltip.add(I18n.format(this.descriptionKey));
     }
-    
+
     protected BooleanCountdown createSingleCountDown() {
         return createCountDown(2);
     }
-    
+
     protected BooleanCountdown createCountDown(int count) {
         BooleanCountdown countdown = new BooleanCountdown(count);
         this.countdowns.add(countdown);
@@ -72,7 +72,7 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
             IC2.network.get(true).updateTileEntityField(this, name);
         }
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
@@ -84,19 +84,19 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
         NBTSaveHandler.writeClassToNBT(this, nbt);
         return super.writeToNBT(nbt);
     }
-    
+
     @Override
     public final List<String> getNetworkedFields() {
         List<String> ret = super.getNetworkedFields();
         getNetworkedFields(ret);
         return ret;
     }
-    
+
     public void getNetworkedFields(List<? super String> list) {}
-    
+
     public void addGuiValue(String name, DoubleSupplier supplier) {
         if (this.guiValues.containsKey(name)) throw new IllegalArgumentException("Duplicate Gui value " + name);
-        
+
         this.guiValues.put(name, supplier);
     }
 
@@ -104,28 +104,34 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     public final double getGuiValue(String name) {
         DoubleSupplier supplier = this.guiValues.get(name);
         if (supplier != null) return supplier.getAsDouble();
-        
+
         throw new IllegalArgumentException("Cannot get value for " + name);
     }
-    
+
     protected boolean isRedstonePowered() {
         return this.world != null && this.world.getRedstonePowerFromNeighbors(this.pos) > 0;
     }
-    
+
     public EnumFacing getOppositeFacing() {
         return getFacing().getOpposite();
     }
-    
+
     public void updateRender() {
         IBlockState state = getBlockState();
         this.world.notifyBlockUpdate(this.pos, state, state, BlockFlags.SEND_TO_CLIENTS);
     }
-    
+
     public void updateRenderNeighbors() {
         IBlockState state = getBlockState();
         this.world.notifyBlockUpdate(this.pos, state, state, BlockFlags.DEFAULT);
     }
     
+    public void updateAndNotifyNeighbors() {
+        IBlockState state = getBlockState();
+        this.world.notifyBlockUpdate(this.pos, state, state, BlockFlags.DEFAULT);
+        this.world.notifyNeighborsOfStateChange(this.pos, this.blockType, true);
+    }
+
     public TileEntity getNeighborTE(EnumFacing side) {
         return this.world.getTileEntity(this.pos.offset(side));
     }
@@ -143,19 +149,19 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing side) {
         return isOutputSide(side) && super.canExtractItem(index, stack, side);
     }
-    
+
     public boolean isOutputSide(EnumFacing side) {
         return true;
     }
-    
+
     public void onInventoryChanged() {
         this.inventoryModified.reset();
     }
-    
+
     public boolean hasInventoryBeenModified() {
         return this.inventoryModified.get();
     }
-    
+
     public ITeBlock getTeBlock() {
         return this.teBlock;
     }

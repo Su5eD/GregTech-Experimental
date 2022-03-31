@@ -66,7 +66,7 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
     public boolean providesEnhancedOverlay(World world, BlockPos pos, EnumFacing facing, EntityPlayer player, ItemStack stack) {
         if (GregTechConfig.GENERAL.enhancedWrenchOverlay) {
             Block block = world.getBlockState(pos).getBlock();
-            return block instanceof IWrenchable && (world.getTileEntity(pos) instanceof IPipe || Arrays.stream(EnumFacing.VALUES).anyMatch(side -> ((IWrenchable)block).canSetFacing(world, pos, side, player)));
+            return block instanceof IWrenchable && (world.getTileEntity(pos) instanceof IPipe || Arrays.stream(EnumFacing.VALUES).anyMatch(side -> ((IWrenchable) block).canSetFacing(world, pos, side, player)));
         }
         return false;
     }
@@ -91,7 +91,7 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
             if (te instanceof IPipe) {
                 EnumFacing rotated = RotationUtil.rotateByHit(side, hitX, hitY, hitZ);
                 ((IPipe) te).flipConnection(rotated);
-                
+
                 TileEntity neighborPipe = world.getTileEntity(pos.offset(rotated));
                 if (neighborPipe instanceof IPipe) {
                     EnumFacing rotatedOpposite = rotated.getOpposite();
@@ -99,7 +99,7 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
                         ((IPipe) neighborPipe).flipConnection(rotatedOpposite);
                     }
                 }
-                
+
                 playWrenchSound(world, player);
                 return EnumActionResult.SUCCESS;
             }
@@ -107,11 +107,11 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
                 EnumFacing face = ((IWrenchable) block).getFacing(world, pos);
                 EnumFacing rotated = RotationUtil.rotateByHit(side, hitX, hitY, hitZ);
                 if (rotated == face && !canTakeDamage(stack, this.removeDamage)) return EnumActionResult.FAIL;
-                
+
                 String result = ((Object) ItemToolWrench.wrenchBlock(world, pos, rotated, player, true)).toString();
                 int damage = result.equals("Removed") ? this.removeDamage : result.equals("Rotated") ? this.rotateDamage : 0;
                 GtUtil.damageStack(player, stack, damage);
-            
+
                 playWrenchSound(world, player);
                 return EnumActionResult.SUCCESS;
             }
@@ -119,7 +119,7 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
 
         return EnumActionResult.PASS;
     }
-    
+
     private void playWrenchSound(World world, EntityPlayer player) {
         if (world.isRemote) IC2.audioManager.playOnce(player, PositionSpec.Hand, "Tools/wrench.ogg", true, IC2.audioManager.getDefaultVolume());
     }

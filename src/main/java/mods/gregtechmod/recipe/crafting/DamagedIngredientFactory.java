@@ -19,6 +19,7 @@ public class DamagedIngredientFactory implements IIngredientFactory {
         String itemName = JsonUtils.getString(json, "item");
         String[] parts = itemName.split(":");
         Item item = ModHandler.getItem(parts[0], parts[1]);
+
         if (item != null) return DamagedIngredient.fromItem(item);
         throw new JsonSyntaxException("Item " + itemName + " not found");
     }

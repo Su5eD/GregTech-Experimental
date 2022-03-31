@@ -41,7 +41,7 @@ public class TileEntityDieselGenerator extends TileEntityFluidGenerator {
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiDieselGenerator(getGuiContainer(player), this.tank.content);
     }
-    
+
     public static class FuelCanRecipeProvider implements IFuelProvider<IFuel<IRecipeIngredient>, ItemStack> {
         @Override
         public IFuel<IRecipeIngredient> getFuel(ItemStack target) {

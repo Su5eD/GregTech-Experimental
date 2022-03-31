@@ -20,7 +20,7 @@ import java.util.List;
 
 public class CategoryIndustrialSawmill extends CategoryBase<RecipeSawmill, WrapperSecondaryFluid<IRecipeUniversal<List<IRecipeIngredient>>>> {
     private final IDrawable gauge;
-    
+
     public CategoryIndustrialSawmill(IGuiHelper guiHelper) {
         super("industrial_sawmill", RecipeSawmill.class, recipe -> new WrapperSecondaryFluid<>(recipe, 3), guiHelper);
         gauge = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.SAWING);
@@ -29,8 +29,8 @@ public class CategoryIndustrialSawmill extends CategoryBase<RecipeSawmill, Wrapp
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(GuiIndustrialSawmill.TEXTURE, 33, 15, 106, 46)
-                .addPadding(10, 33, 26, 43)
-                .build();
+            .addPadding(10, 33, 26, 43)
+            .build();
     }
 
     @Override

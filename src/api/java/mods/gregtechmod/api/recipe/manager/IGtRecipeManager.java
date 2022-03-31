@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IGtRecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> extends IRecipeHolder<I> {
     default boolean addRecipe(R recipe) {
-       return addRecipe(recipe, false);
+        return addRecipe(recipe, false);
     }
 
     boolean addRecipe(R recipe, boolean overwrite);
@@ -14,6 +14,6 @@ public interface IGtRecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> extend
     void removeRecipe(R recipe);
 
     List<R> getRecipes();
-    
+
     void registerProvider(IRecipeProvider<RI, I, R> provider);
 }

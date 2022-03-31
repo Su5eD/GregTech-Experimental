@@ -28,12 +28,12 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
     public int getSourceTier() {
         return EnergyNet.instance.getTierFromPower(getMaxOutputEUp());
     }
-    
+
     @Override
     public double getMaxOutputEUp() {
         return Math.max(0, Math.min(getStoredEU() - MINIMUM_STORED_ENERGY, 2048));
     }
-    
+
     @Override
     public Collection<EnumFacing> getSourceSides() {
         return facingSideOnly();

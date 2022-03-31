@@ -66,7 +66,8 @@ public enum ArmorPerk {
 
                 player.motionY += charge * 0.3F;
                 charge *= 0.75F;
-            } else if (charge < 1) {
+            }
+            else if (charge < 1) {
                 charge = 0;
             }
         }
@@ -127,7 +128,8 @@ public enum ArmorPerk {
                 if (armor.perks.contains(ArmorPerk.SOLARPANEL) && targetChargeItem != null) {
                     ElectricItem.manager.charge(targetChargeItem, 20, Integer.MAX_VALUE, true, false);
                 }
-            } else {
+            }
+            else {
                 if (armor.perks.contains(ArmorPerk.LAMP) && targetDechargeItem != null && ElectricItem.manager.canUse(targetDechargeItem, 10)) {
                     BlockPos up = player.getPosition().up();
                     if (player.world.getBlockState(up).getBlock() == Blocks.AIR) {

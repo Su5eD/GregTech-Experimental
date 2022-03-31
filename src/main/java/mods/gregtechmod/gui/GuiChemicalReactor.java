@@ -10,7 +10,7 @@ public class GuiChemicalReactor extends GuiInventory<ContainerChemicalReactor> {
 
     public GuiChemicalReactor(ContainerChemicalReactor container) {
         super(container);
-        
+
         for (int i = 0; i < 3; i++) {
             addElement(new LinkedGauge(this, 73 + i * 10, 34, container.base, "progress", GregtechGauge.SMALL_ARROW_DOWN));
         }

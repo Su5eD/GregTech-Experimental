@@ -67,27 +67,27 @@ public class JEIModule implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registry) {
         IGuiHelper guiHelper = registry.getJeiHelpers().getGuiHelper();
         Collection<CategoryBase<?, ?>> categories = Arrays.asList(
-                new CategoryCentrifuge(guiHelper),
-                new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, GtRecipes.wiremill, true, GregtechGauge.EXTRUDING, guiHelper),
-                new CategoryBasicMachineMulti<>("gt_alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
-                new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, false, true, GregtechGauge.CANNING, guiHelper),
-                new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, GtRecipes.bender, true, GregtechGauge.BENDING, guiHelper),
-                new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, GregtechGauge.ASSEMBLING, guiHelper),
-                new CategoryLathe(guiHelper),
-                new CategoryElectrolyzer(guiHelper),
-                new CategoryChemicalReactor(guiHelper),
-                new CategoryIndustrialBlastFurnace(guiHelper),
-                new CategoryIndustrialGrinder(guiHelper),
-                new CategoryIndustrialSawmill(guiHelper),
-                new CategoryImplosionCompressor(guiHelper),
-                new CategoryVacuumFreezer(guiHelper),
-                new CategoryDistillationTower(guiHelper),
-                CategoryGenerator.createFluidGeneratorCategory("thermal_generator", GuiThermalGenerator.class, GtFuels.hot, guiHelper),
-                CategoryGenerator.createFluidGeneratorCategory("diesel_generator", GuiDieselGenerator.class, GtFuels.diesel, guiHelper),
-                CategoryGenerator.createFluidGeneratorCategory("gt_semifluid_generator", GuiSemifluidGenerator.class, GtFuels.denseLiquid, guiHelper),
-                CategoryGenerator.createFluidGeneratorCategory("gas_turbine", GuiGasTurbine.class, GtFuels.gas, guiHelper),
-                new CategoryPlasmaGenerator(guiHelper),
-                CategoryGenerator.createFluidGeneratorCategory("magic_energy_converter", GuiMagicEnergyConverter.class, GtFuels.magic, guiHelper)
+            new CategoryCentrifuge(guiHelper),
+            new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, GtRecipes.wiremill, true, GregtechGauge.EXTRUDING, guiHelper),
+            new CategoryBasicMachineMulti<>("gt_alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
+            new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, false, true, GregtechGauge.CANNING, guiHelper),
+            new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, GtRecipes.bender, true, GregtechGauge.BENDING, guiHelper),
+            new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, GregtechGauge.ASSEMBLING, guiHelper),
+            new CategoryLathe(guiHelper),
+            new CategoryElectrolyzer(guiHelper),
+            new CategoryChemicalReactor(guiHelper),
+            new CategoryIndustrialBlastFurnace(guiHelper),
+            new CategoryIndustrialGrinder(guiHelper),
+            new CategoryIndustrialSawmill(guiHelper),
+            new CategoryImplosionCompressor(guiHelper),
+            new CategoryVacuumFreezer(guiHelper),
+            new CategoryDistillationTower(guiHelper),
+            CategoryGenerator.createFluidGeneratorCategory("thermal_generator", GuiThermalGenerator.class, GtFuels.hot, guiHelper),
+            CategoryGenerator.createFluidGeneratorCategory("diesel_generator", GuiDieselGenerator.class, GtFuels.diesel, guiHelper),
+            CategoryGenerator.createFluidGeneratorCategory("gt_semifluid_generator", GuiSemifluidGenerator.class, GtFuels.denseLiquid, guiHelper),
+            CategoryGenerator.createFluidGeneratorCategory("gas_turbine", GuiGasTurbine.class, GtFuels.gas, guiHelper),
+            new CategoryPlasmaGenerator(guiHelper),
+            CategoryGenerator.createFluidGeneratorCategory("magic_energy_converter", GuiMagicEnergyConverter.class, GtFuels.magic, guiHelper)
         );
         CATEGORIES.addAll(categories);
         registry.addRecipeCategories(categories.toArray(new IRecipeCategory[0]));
@@ -100,8 +100,8 @@ public class JEIModule implements IModPlugin {
 
         if (!Version.shouldEnable(ItemCellClassic.class)) {
             BlockItems.classicCells.values().stream()
-                    .map(ItemStack::new)
-                    .forEach(HIDDEN_ITEMS::add);
+                .map(ItemStack::new)
+                .forEach(HIDDEN_ITEMS::add);
         }
 
         if (!ModHandler.buildcraftLib) {
@@ -110,29 +110,30 @@ public class JEIModule implements IModPlugin {
         }
 
         StreamEx.of(GregTechTEBlock.VALUES)
-                .remove(teBlock -> Version.shouldEnable(teBlock.getTeClass()))
-                .map(GregTechTEBlock::getName)
-                .map(GregTechObjectAPI::getTileEntity)
-                .forEach(HIDDEN_ITEMS::add);
+            .remove(teBlock -> Version.shouldEnable(teBlock.getTeClass()))
+            .map(GregTechTEBlock::getName)
+            .map(GregTechObjectAPI::getTileEntity)
+            .forEach(HIDDEN_ITEMS::add);
 
         HIDDEN_ITEMS.forEach(ingredientBlacklist::addIngredientToBlacklist);
 
         IRecipeRegistry registry = jeiRuntime.getRecipeRegistry();
         StreamEx.of(DamagedOreIngredientFixer.fixedRecipes)
-                .mapPartial(recipe -> Optional.ofNullable(registry.getRecipeWrapper(recipe, VanillaRecipeCategoryUid.CRAFTING)))
-                .forEach(HIDDEN_RECIPES::add);
+            .mapPartial(recipe -> Optional.ofNullable(registry.getRecipeWrapper(recipe, VanillaRecipeCategoryUid.CRAFTING)))
+            .forEach(HIDDEN_RECIPES::add);
 
         // Hide the data orb clean recipe
         IRecipe dataOrbRepair = ForgeRegistries.RECIPES.getValue(new ResourceLocation(Reference.MODID, "components/data_orb_clean"));
-        if (dataOrbRepair != null) HIDDEN_RECIPES.add(registry.getRecipeWrapper(dataOrbRepair, VanillaRecipeCategoryUid.CRAFTING));
+        if (dataOrbRepair != null)
+            HIDDEN_RECIPES.add(registry.getRecipeWrapper(dataOrbRepair, VanillaRecipeCategoryUid.CRAFTING));
 
         HIDDEN_RECIPES.forEach(recipe -> registry.hideRecipe(recipe, VanillaRecipeCategoryUid.CRAFTING));
     }
 
     private void hideEnum(IItemProvider[] values) {
         StreamEx.of(values)
-                .remove(ProfileDelegate::shouldEnable)
-                .map(IItemProvider::getItemStack)
-                .forEach(HIDDEN_ITEMS::add);
+            .remove(ProfileDelegate::shouldEnable)
+            .map(IItemProvider::getItemStack)
+            .forEach(HIDDEN_ITEMS::add);
     }
 }

@@ -24,7 +24,7 @@ public class ContainerGtTeleporter extends ContainerGtInventory<TileEntityGtTele
             addSlotToContainer(SlotInteractive.serverOnly(152, yOffset, click -> pushButton(64, 512, click, button.onClick)));
         }
     }
-    
+
     private enum Button {
         X((te, i) -> te.targetPos = te.targetPos.add(i, 0, 0)),
         Y((te, i) -> te.targetPos = te.targetPos.add(0, i, 0)),
@@ -34,16 +34,16 @@ public class ContainerGtTeleporter extends ContainerGtInventory<TileEntityGtTele
             int idx = (te.targetDimension.ordinal() + i) % types.length;
             te.targetDimension = types[idx < 0 ? types.length + idx : idx];
         });
-        
+
         private static final Button[] VALUES = values();
-        
+
         private final BiConsumer<TileEntityGtTeleporter, Integer> onClick;
 
         Button(BiConsumer<TileEntityGtTeleporter, Integer> onClick) {
             this.onClick = onClick;
         }
     }
-    
+
     private void pushButton(int min, int max, ButtonClick click, BiConsumer<TileEntityGtTeleporter, Integer> consumer) {
         consumer.accept(this.base, click == ButtonClick.SHIFT_MOVE ? max : min);
     }

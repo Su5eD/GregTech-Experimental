@@ -26,8 +26,8 @@ public class CategoryVacuumFreezer extends CategoryBase<RecipeVacuumFreezer, Wra
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(GuiVacuumFreezer.TEXTURE, 33, 24, 70, 18)
-                .addPadding(20, 51, 52, 52)
-                .build();
+            .addPadding(20, 51, 52, 52)
+            .build();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CategoryVacuumFreezer extends CategoryBase<RecipeVacuumFreezer, Wra
 
     @Override
     public void init(IModRegistry registry) {
-        super.init(registry);    
+        super.init(registry);
         registry.addRecipeClickArea(GuiVacuumFreezer.class, 58, 28, 20, 11, this.uid);
     }
 

@@ -26,7 +26,7 @@ public abstract class CoverInventory extends CoverGeneric {
         }
         return true;
     }
-    
+
     protected boolean shouldUseEnergy(double minCapacity) {
         if (this.mode.consumesEnergy(side) && te instanceof IElectricMachine) {
             double capacity = te instanceof IUpgradableMachine ? ((IUpgradableMachine) te).getUniversalEnergyCapacity() : ((IElectricMachine) te).getEUCapacity();

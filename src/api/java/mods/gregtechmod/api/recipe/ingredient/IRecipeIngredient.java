@@ -18,7 +18,7 @@ public interface IRecipeIngredient {
     boolean apply(ItemStack stack, boolean checkCount);
 
     boolean apply(IRecipeIngredient ingredient);
-    
+
     StreamEx<ItemStack> stream();
 
     List<ItemStack> getMatchingInputs();

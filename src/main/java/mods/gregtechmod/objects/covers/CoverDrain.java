@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class CoverDrain extends CoverGeneric {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
-    
+
     @NBTPersistent
     protected DrainMode mode = DrainMode.IMPORT;
 
@@ -45,7 +45,7 @@ public class CoverDrain extends CoverGeneric {
     public void doCoverThings() {
         if (!canWork()) return;
 
-        TileEntity te = (TileEntity) this.te; 
+        TileEntity te = (TileEntity) this.te;
         World world = te.getWorld();
         BlockPos pos = te.getPos();
         BlockPos offset = pos.offset(side);
@@ -64,14 +64,14 @@ public class CoverDrain extends CoverGeneric {
             FluidStack liquid;
             if (block == Blocks.WATER) liquid = new FluidStack(FluidRegistry.WATER, 1000);
             else if (block == Blocks.LAVA) liquid = new FluidStack(FluidRegistry.LAVA, 1000);
-            else if (block instanceof IFluidBlock) liquid = ((IFluidBlock)block).drain(world, offset, false);
+            else if (block instanceof IFluidBlock) liquid = ((IFluidBlock) block).drain(world, offset, false);
             else liquid = null;
 
             if (liquid != null) {
                 Fluid fluid = liquid.getFluid();
                 if (fluid != null) {
-                    if(side == EnumFacing.DOWN && !(fluid.getDensity() <= 0) || side == EnumFacing.UP && !(fluid.getDensity() >= 0)) return;
-                
+                    if (side == EnumFacing.DOWN && !(fluid.getDensity() <= 0) || side == EnumFacing.UP && !(fluid.getDensity() >= 0)) return;
+
                     if (handler.fill(liquid, false) == liquid.amount) {
                         handler.fill(liquid, true);
                         world.setBlockToAir(offset);
@@ -100,7 +100,7 @@ public class CoverDrain extends CoverGeneric {
     }
 
     public boolean canWork() {
-        return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine)te).isAllowedToWork() == mode.inverted);
+        return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine) te).isAllowedToWork() == mode.inverted);
     }
 
     @Override

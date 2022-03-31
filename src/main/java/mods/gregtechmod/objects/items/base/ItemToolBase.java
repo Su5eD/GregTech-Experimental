@@ -69,7 +69,7 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel, INamedIt
     public boolean canHarvestBlock(IBlockState state) {
         Material material = state.getMaterial();
 
-        for(ToolClass toolClass : this.toolClasses) {
+        for (ToolClass toolClass : this.toolClasses) {
             if (toolClass.whitelist.contains(material) || toolClass.whitelist.contains(state.getBlock())) return true;
             if (toolClass.blacklist.contains(material) || toolClass.blacklist.contains(state.getBlock())) return false;
         }
@@ -108,7 +108,7 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel, INamedIt
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         if (this.damageOnHit > 0) stack.damageItem(this.damageOnHit, attacker);
         ResourceLocation entityName = EntityList.getKey(target);
-        if (entityName != null && this.effectiveAganist.contains(entityName.toString())) GtUtil.damageEntity(target, attacker, this.attackDamage+1);
+        if (entityName != null && this.effectiveAganist.contains(entityName.toString())) GtUtil.damageEntity(target, attacker, this.attackDamage + 1);
         return true;
     }
 

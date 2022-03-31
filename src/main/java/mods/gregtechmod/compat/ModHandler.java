@@ -13,13 +13,15 @@ import ic2.api.item.IC2Items;
 import ic2.api.item.IItemAPI;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
+import ic2.core.block.BlockTileEntity;
+import ic2.core.block.TeBlockRegistry;
 import ic2.core.recipe.BasicMachineRecipeManager;
+import ic2.core.ref.IMultiItem;
 import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.recipe.IRecipePulverizer;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import mods.gregtechmod.recipe.crafting.AdvancementRecipeFixer;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
@@ -27,6 +29,7 @@ import mods.gregtechmod.util.*;
 import mods.railcraft.api.crafting.Crafters;
 import mods.railcraft.api.crafting.IOutputEntry;
 import mods.railcraft.api.crafting.IRockCrusherCrafter;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -89,6 +92,8 @@ public class ModHandler {
     public static ItemStack rcTurbineRotor = ItemStack.EMPTY;
     public static ItemStack miningPipe = ItemStack.EMPTY;
     public static ItemStack uuMatter = ItemStack.EMPTY;
+    public static ItemStack tinCan = ItemStack.EMPTY;
+    public static ItemStack filledTinCan = ItemStack.EMPTY;
     public static Item depletedIsotopeFuelRod = null;
     public static Item heatpack = null;
     public static Item lithiumFuelRod = null;
@@ -127,6 +132,8 @@ public class ModHandler {
         filledFuelCan = IC2Items.getItem("filled_fuel_can");
         miningPipe = IC2Items.getItem("mining_pipe", "pipe");
         uuMatter = IC2Items.getItem("misc_resource", "matter");
+        tinCan = IC2Items.getItem("crafting", "tin_can");
+        filledTinCan = IC2Items.getItem("filled_tin_can");
         depletedIsotopeFuelRod = ic2ItemApi.getItem("depleted_isotope_fuel_rod");
         heatpack = ic2ItemApi.getItem("heatpack");
         lithiumFuelRod = ic2ItemApi.getItem("lithium_fuel_rod");
@@ -349,7 +356,8 @@ public class ModHandler {
                 if (secondaryOutput != null) {
                     secondaryChance = (int) RailcraftHelper.getRandomChance(secondaryOutput.getGenRule());
                     output.add(secondaryOutput.getOutput());
-                } else secondaryChance = 0;
+                }
+                else secondaryChance = 0;
 
                 return !output.isEmpty() ? RecipePulverizer.create(RecipeIngredientItemStack.create(Arrays.asList(recipe.getInput().getMatchingStacks()), 1), output, 4, secondaryChance, false, false) : null;
             })
@@ -409,18 +417,18 @@ public class ModHandler {
     public static IRecipe getCraftingRecipe(Collection<IRecipe> recipes, ItemStack... stacks) {
         return getCraftingRecipeInv(recipes, stacks).getLeft();
     }
-    
+
     public static Pair<IRecipe, InventoryCrafting> getCraftingRecipeInv(Collection<IRecipe> recipes, ItemStack... stacks) {
         InventoryCrafting crafting = new InventoryCrafting(new DummyContainer(), 3, 3);
 
         EntryStream.of(stacks)
             .limit(9)
             .forKeyValue(crafting::setInventorySlotContents);
-        
+
         IRecipe recipe = StreamEx.of(recipes)
             .findFirst(r -> r.matches(crafting, DummyWorld.INSTANCE))
             .orElse(null);
-        
+
         return Pair.of(recipe, crafting);
     }
 
@@ -429,14 +437,14 @@ public class ModHandler {
 
         return recipe != null ? OptionalItemStack.of(recipe.getRecipeOutput()) : OptionalItemStack.EMPTY;
     }
-    
+
     public static OptionalItemStack getRecipeResult(ItemStack... stacks) {
         Pair<IRecipe, InventoryCrafting> pair = getCraftingRecipeInv(ForgeRegistries.RECIPES.getValuesCollection(), stacks);
         IRecipe recipe = pair.getLeft();
-        
+
         return recipe != null
             ? OptionalItemStack.of(recipe.getRecipeOutput())
-                .orElse(() -> recipe.getCraftingResult(pair.getRight()))
+            .orElse(() -> recipe.getCraftingResult(pair.getRight()))
             : OptionalItemStack.EMPTY;
     }
 
@@ -483,8 +491,9 @@ public class ModHandler {
 
     public static void removeSmeltingRecipe(ItemStack input) {
         Map<ItemStack, ItemStack> recipes = FurnaceRecipes.instance().getSmeltingList();
-        StreamEx.ofKeys(new HashMap<>(recipes))
+        StreamEx.ofKeys(recipes)
             .filter(stack -> GtUtil.stackEquals(stack, input, false))
+            .toImmutableList()
             .forEach(recipes::remove);
     }
 
@@ -497,13 +506,36 @@ public class ModHandler {
         return ItemStack.EMPTY;
     }
 
-    public static ItemStack getTEBlockSafely(String variant) {
-        try {
-            ItemStack stack = GregTechTEBlock.blockTE.getItemStack(variant);
-            if (stack != null) return stack;
-        } catch (Throwable ignored) {}
+    public static ItemStack getMultiItemOrTEBlock(ResourceLocation location, String name) {
+        if (location.getNamespace().equals("ic2")) return IC2Items.getItem(location.getPath(), name);
 
-        return ItemStack.EMPTY;
+        return OptionalItemStack.either(() -> getTEBlock(location, name), () -> getMultiItem(location, name))
+            .orElseThrow(() -> new RuntimeException("MultiItem " + name + " not found"));
+    }
+
+    public static OptionalItemStack getTEBlock(ResourceLocation location, String name) {
+        BlockTileEntity blockTe = TeBlockRegistry.get(location);
+
+        if (blockTe != null) {
+            ItemStack stack = blockTe.getItemStack(name);
+            return OptionalItemStack.of(stack);
+        }
+
+        return OptionalItemStack.EMPTY;
+    }
+
+    public static OptionalItemStack getMultiItem(ResourceLocation location, String variant) {
+        Item item = ForgeRegistries.ITEMS.getValue(location);
+
+        if (item != null && item != Items.AIR) {
+            if (item instanceof IMultiItem<?>) {
+                ItemStack stack = ((IMultiItem<?>) item).getItemStack(variant);
+                return OptionalItemStack.of(stack);
+            }
+            throw new IllegalArgumentException("Item " + location + " is not a MultiItem");
+        }
+
+        return OptionalItemStack.EMPTY;
     }
 
     public static String getVariantSafely(ItemName item, ItemStack stack) {

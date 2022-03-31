@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class GtSlotLargeItemStack extends InvSlot {
-    
+
     public GtSlotLargeItemStack(IInventorySlotHolder<?> base, String name, Access access) {
         super(base, name, access, 1);
     }
@@ -17,7 +17,7 @@ public class GtSlotLargeItemStack extends InvSlot {
         if (nbt.hasKey("content")) {
             NBTTagCompound contentTag = nbt.getCompoundTag("content");
             int count = nbt.getInteger("contentCount");
-            
+
             ItemStack content = new ItemStack(contentTag);
             content.setCount(count);
             put(content);

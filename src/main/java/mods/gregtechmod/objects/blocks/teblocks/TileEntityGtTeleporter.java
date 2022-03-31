@@ -39,29 +39,29 @@ import java.util.stream.Stream;
 
 public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHasGui, IPanelInfoProvider {
     private static final Map<Class<? extends Entity>, Function<Object, Float>> WEIGHTS = new HashMap<>();
-    
+
     @NBTPersistent(include = Include.NON_NULL)
     public BlockPos targetPos;
     @NBTPersistent(include = Include.NON_NULL)
     public DimensionType targetDimension;
-    
+
     private boolean hasEgg;
-    
+
     static {
         addEntityWeight(EntityPlayer.class, player -> {
             int handsSize = 128;
             int mainInventoryCount = handsSize + StreamEx.of(player.inventory.mainInventory)
-                    .remove(ItemStack::isEmpty)
-                    .mapToInt(stack -> stack.getMaxStackSize() > 1 ? stack.getCount() : 64)
-                    .sum();
+                .remove(ItemStack::isEmpty)
+                .mapToInt(stack -> stack.getMaxStackSize() > 1 ? stack.getCount() : 64)
+                .sum();
             int armorInventoryCount = (int) (StreamEx.of(player.inventory.armorInventory)
-                    .remove(ItemStack::isEmpty)
-                    .count() * 256);
-            
+                .remove(ItemStack::isEmpty)
+                .count() * 256);
+
             return (mainInventoryCount + armorInventoryCount) / 666.6F;
         });
         Stream.of(EntityArrow.class, EntityEnderEye.class, EntityFireball.class, EntityFireworkRocket.class, EntityItem.class, EntityThrowable.class, EntityXPOrb.class)
-                .forEach(clazz -> addEntityWeight(clazz, e -> 0.001F));
+            .forEach(clazz -> addEntityWeight(clazz, e -> 0.001F));
         addEntityWeight(EntityHanging.class, 0.005F);
         addEntityWeight(EntityFallingBlock.class, 0.01F);
         addEntityWeight(EntityBoat.class, 0.1F);
@@ -71,12 +71,12 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
         addEntityWeight(EntityIC2Explosive.class, 5);
         addEntityWeight(EntityTNTPrimed.class, 5);
     }
-    
+
     public static <T extends Entity> void addEntityWeight(Class<T> clazz, float weight) {
         WEIGHTS.put(clazz, e -> weight);
     }
-    
-    @SuppressWarnings({"rawtypes", "unchecked"})
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T extends Entity> void addEntityWeight(Class<T> clazz, Function<T, Float> weight) {
         WEIGHTS.put(clazz, (Function) weight);
     }
@@ -84,7 +84,7 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
     @Override
     protected void onLoaded() {
         super.onLoaded();
-        
+
         this.hasEgg = checkForEgg();
         if (this.targetPos == null) this.targetPos = this.pos.offset(EnumFacing.UP);
         if (this.targetDimension == null) this.targetDimension = this.world.provider.getDimensionType();
@@ -98,44 +98,45 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         if (this.tickCounter % 100 == 50) this.hasEgg = checkForEgg();
-        
+
         if (isAllowedToWork() && isRedstonePowered()) {
             useEnergy(8192);
-            
+
             int distance = calculateDistance();
             BlockPos offset = this.pos.offset(getFacing(), 2);
             AxisAlignedBB teleportRange = new AxisAlignedBB(offset.add(-1, -1, -1), offset.add(2, 2, 2));
-            
+
             this.world.getEntitiesWithinAABB(Entity.class, teleportRange).stream()
-                    .filter(entity -> !entity.isDead)
-                    .forEach(entity -> {
-                        int cost = (int) (Math.pow(distance, 2) * calculateWeight(entity));
-                        if (cost >= 0 && canUseEnergy(cost)) {
-                            if (entity.isRiding()) entity.dismountRidingEntity();
-                            if (entity.isBeingRidden()) entity.getPassengers().forEach(Entity::dismountRidingEntity);
-                            
-                            if (teleportEntity(entity)) useEnergy(cost);
-                        }
-                    });
+                .filter(entity -> !entity.isDead)
+                .forEach(entity -> {
+                    int cost = (int) (Math.pow(distance, 2) * calculateWeight(entity));
+                    if (cost >= 0 && canUseEnergy(cost)) {
+                        if (entity.isRiding()) entity.dismountRidingEntity();
+                        if (entity.isBeingRidden()) entity.getPassengers().forEach(Entity::dismountRidingEntity);
+
+                        if (teleportEntity(entity)) useEnergy(cost);
+                    }
+                });
             setActive(true);
-        } else {
+        }
+        else {
             setActive(false);
         }
     }
-    
+
     private boolean teleportEntity(Entity entity) {
         double x = this.targetPos.getX() + 0.5;
         double y = this.targetPos.getY() + 1.5 + entity.getYOffset();
         double z = this.targetPos.getZ() + 0.5;
         DimensionType dimension = isDimensionalTeleportAvailable() ? this.targetDimension : this.world.provider.getDimensionType();
-        
+
         TeleportUtil.performTeleport(entity, dimension, x, y, z);
-        
+
         return true;
     }
-    
+
     public boolean checkForEgg() {
         for (int i = -5; i <= 5; i++) {
             for (int j = -5; j <= 5; j++) {
@@ -147,37 +148,37 @@ public class TileEntityGtTeleporter extends TileEntityUpgradable implements IHas
         }
         return false;
     }
-    
+
     private int calculateDistance() {
         int multiplier = this.targetDimension != this.world.provider.getDimensionType() && isDimensionalTeleportAvailable() ? 100 : 1;
         double x = Math.pow(this.pos.getX() - this.targetPos.getX(), 2);
         double y = Math.pow(this.pos.getY() - this.targetPos.getY(), 2);
         double z = Math.pow(this.pos.getZ() - this.targetPos.getZ(), 2);
-        
+
         return Math.abs(multiplier * (int) Math.sqrt(x + y + z));
     }
-    
+
     public boolean canTeleportAcrossDimensions() {
         return this.hasEgg;
     }
-    
+
     private boolean isDimensionalTeleportAvailable() {
         return canTeleportAcrossDimensions() && this.targetDimension != null;
     }
-    
+
     private float calculateWeight(Entity entity) {
         Function<Object, Float> func = getWeightFunc(entity.getClass());
         return func != null ? func.apply(entity) : -1;
     }
-    
+
     private Function<Object, Float> getWeightFunc(Class<?> clazz) {
         Function<Object, Float> weight = WEIGHTS.get(clazz);
-        
+
         if (weight == null) {
             Class<?> superClass = clazz.getSuperclass();
             return superClass != Object.class ? getWeightFunc(superClass) : null;
         }
-        
+
         return weight;
     }
 

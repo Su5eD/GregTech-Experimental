@@ -27,7 +27,7 @@ public abstract class CategoryBasicMachine<W extends WrapperBasicMachine<R>, R e
 
     public CategoryBasicMachine(String name, Class<R> recipeClass, Class<? extends GuiBasicMachine<?>> guiClass, IRecipeWrapperFactory<R> recipeWrapperFactory, Supplier<Collection<?>> recipeFactory, boolean customTexture, Gauge.IGaugeStyle gauge, IGuiHelper guiHelper) {
         super(name, recipeClass, recipeWrapperFactory, guiHelper);
-        
+
         this.guiClass = guiClass;
         this.recipeFactory = recipeFactory;
         this.backgroundTexture = new ResourceLocation(Reference.MODID, String.format("textures/gui%s/%s.png", customTexture ? "/jei" : "", name));
@@ -37,8 +37,8 @@ public abstract class CategoryBasicMachine<W extends WrapperBasicMachine<R>, R e
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(this.backgroundTexture, 34, 24, 108, 18)
-                .addPadding(24, 44, 34, 34)
-                .build();
+            .addPadding(24, 44, 34, 34)
+            .build();
     }
 
     @Override

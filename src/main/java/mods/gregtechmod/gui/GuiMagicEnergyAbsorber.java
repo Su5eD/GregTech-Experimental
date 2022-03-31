@@ -9,7 +9,7 @@ public class GuiMagicEnergyAbsorber extends GuiInventory<ContainerMagicEnergyAbs
 
     public GuiMagicEnergyAbsorber(ContainerMagicEnergyAbsorber container) {
         super(container);
-        
+
         addIconCycle(10, 18, TEXTURE, 176, 0, 16, true, () -> container.base.drainAura);
         addIconCycle(10, 35, TEXTURE, 176, 0, 16, true, () -> container.base.drainCrystalEnergy);
     }

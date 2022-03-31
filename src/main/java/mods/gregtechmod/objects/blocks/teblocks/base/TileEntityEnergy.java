@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 
 public abstract class TileEntityEnergy extends TileEntityCoverBehavior implements IExplosionPowerOverride, IElectricMachine {
     protected boolean energyCapacityTooltip;
-    
+
     protected AdjustableEnergy energy;
-    
+
     public boolean shouldExplode;
     private boolean explode;
     private float explosionPower;
@@ -37,35 +37,32 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public TileEntityEnergy() {
         this.energy = addComponent(createEnergyComponent());
     }
-    
+
     protected AdjustableEnergy createEnergyComponent() {
         return new DynamicAdjustableEnergy();
     }
-    
+
     @Override
-    public abstract int getEUCapacity();
-    
-    @Override
-    public double getStoredEU() { 
+    public double getStoredEU() {
         return this.energy.getStoredEnergy();
     }
-    
+
     protected Collection<EnumFacing> getSinkSides() {
         return Util.noFacings;
     }
-    
+
     protected Collection<EnumFacing> getSourceSides() {
         return Util.noFacings;
     }
-    
+
     protected Collection<EnumFacing> facingSideOnly() {
         return Collections.singleton(getFacing());
     }
-    
+
     protected Collection<EnumFacing> allSidesExceptFacing() {
-        return GtUtil.allSidesExcept(getFacing());
+        return GtUtil.allSidesWithout(getFacing());
     }
-    
+
     @Override
     public int getSinkTier() {
         return 0;
@@ -75,32 +72,32 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public int getSourceTier() {
         return 0;
     }
-    
+
     @Override
     public double getMaxInputEUp() {
         return EnergyNet.instance.getPowerFromTier(getSinkTier());
     }
-    
+
     public double getMaxOutputEUp() {
         int sourceTier = getSourceTier();
         return sourceTier > 0 ? EnergyNet.instance.getPowerFromTier(sourceTier) : 0;
     }
-    
+
     protected int getMinimumStoredEU() {
         return 512;
     }
-    
+
     @Override
     public final double getMaxOutputEUt() {
         return this.energy.getMaxOutputEUt();
     }
-    
+
     @Override
     public boolean addEnergy(double amount) {
         if (this.energy.isSink() && amount > getMaxInputEUp()) markForExplosion();
         return this.energy.charge(amount);
     }
-    
+
     protected void forceAddEnergy(double amount) {
         this.energy.forceCharge(amount);
     }
@@ -108,17 +105,17 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     protected int getSourcePackets() {
         return 1;
     }
-    
+
     @Override
     public double getAverageEUInput() {
         return this.energy.getAverageEUInput();
     }
-    
+
     @Override
     public double getAverageEUOutput() {
         return this.energy.getAverageEUOutput();
     }
-    
+
     @Override
     public double useEnergy(double amount, boolean simulate) {
         return this.energy.discharge(amount, simulate);
@@ -133,20 +130,20 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public boolean canUseEnergy(double amount) {
         return getStoredEU() >= amount;
     }
-    
+
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
-        if(this.explode) explodeMachine(this.explosionPower);
+
+        if (this.explode) explodeMachine(this.explosionPower);
         if (this.shouldExplode) this.explode = true; //Extra step so machines don't explode before the packet of death is sent
         if (enableMachineSafety()) MachineSafety.checkSafety(this);
     }
-    
+
     protected void addChargingSlot(IChargingSlot slot) {
         this.energy.addChargingSlot(slot);
     }
-    
+
     protected void addDischargingSlot(IDischargingSlot slot) {
         this.energy.addDischargingSlot(slot);
     }
@@ -182,14 +179,14 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
     public float getExplosionPower(int tier, float defaultPower) {
         return Math.max(defaultPower, tier * GregTechConfig.BALANCE.explosionPowerMultiplier);
     }
-    
+
     public void explodeMachine(float power) {
         int x = this.pos.getX(), y = this.pos.getY(), z = this.pos.getZ();
         this.energy.onUnloaded();
         this.world.setBlockToAir(this.pos);
         new ExplosionIC2(this.world, null, x + 0.5, y + 0.5, z + 0.5, power, 0.5F, ExplosionIC2.Type.Normal).doExplosion();
     }
-    
+
     @Override
     protected boolean isFlammable(EnumFacing face) {
         return true;
@@ -207,9 +204,9 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         }
         if (this.energyCapacityTooltip) tooltip.add(GtLocale.translateInfo("eu_storage", JavaUtil.formatNumber(this.energy.getCapacity())));
     }
-    
+
     public class DynamicAdjustableEnergy extends AdjustableEnergy {
-        
+
         public DynamicAdjustableEnergy() {
             super(TileEntityEnergy.this);
         }
@@ -248,7 +245,7 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         public int getSourcePackets() {
             return TileEntityEnergy.this.getSourcePackets();
         }
-        
+
         @Override
         protected double getOfferedEnergy() {
             double output = getMaxOutputEUp();
@@ -257,14 +254,14 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
 
         private Collection<EnumFacing> filterEnergySides(Collection<EnumFacing> sides) {
             return sides.stream()
-                    .filter(side -> {
-                        ICover cover = coverHandler.covers.get(side);
-                        return cover == null || cover.allowEnergyTransfer();
-                    })
-                    .collect(Collectors.toList());
+                .filter(side -> {
+                    ICover cover = coverHandler.covers.get(side);
+                    return cover == null || cover.allowEnergyTransfer();
+                })
+                .collect(Collectors.toList());
         }
     }
-    
+
     public static class ExplodingEnergySource extends AdjustableEnergy {
 
         public ExplodingEnergySource(TileEntityAutoNBT parent) {

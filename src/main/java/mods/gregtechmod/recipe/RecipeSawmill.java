@@ -44,6 +44,6 @@ public class RecipeSawmill extends Recipe<List<IRecipeIngredient>, List<ItemStac
     @Override
     protected MoreObjects.ToStringHelper toStringHelper() {
         return super.toStringHelper()
-                .add("universal", universal);
+            .add("universal", universal);
     }
 }

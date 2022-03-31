@@ -23,16 +23,16 @@ public class ComputerCubeScanner implements IComputerCubeModule {
     private static final ResourceLocation NAME = new ResourceLocation(Reference.MODID, "scanner");
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "blocks/machines/computer_cube/computer_cube_scanner");
     private static final Predicate<ItemStack> INPUT_PREDICATE = stack -> stack.getItem() == ModHandler.cropSeedBag;
-    
+
     private final TileEntityComputerCube parent;
     public final InvSlot inputSlot;
     public final InvSlot outputSlot;
     @NBTPersistent
     private int progress;
-    
+
     public ComputerCubeScanner(TileEntityComputerCube parent) {
         this.parent = parent;
-        
+
         this.inputSlot = new GtSlotFiltered(parent, "input", InvSlot.Access.I, 2, INPUT_PREDICATE);
         this.outputSlot = new InvSlotOutput(parent, "output", 2);
     }
@@ -59,23 +59,25 @@ public class ComputerCubeScanner implements IComputerCubeModule {
                     tag.setByte("scan", (byte) 4);
                     this.progress = 0;
                     return true;
-                } else if (this.parent.tryUseEnergy(100)) {
+                }
+                else if (this.parent.tryUseEnergy(100)) {
                     ++this.progress;
                     return true;
                 }
-            } else return stop();
+            }
+            else return stop();
         }
-        
+
         return stop();
     }
-    
+
     private boolean stop() {
         boolean updateNetwork = this.progress != 0;
         this.progress = 0;
         moveStack(this.inputSlot, 1, this.outputSlot, 0);
         return updateNetwork;
     }
-    
+
     public static void moveStack(InvSlot src, int srcIndex, InvSlot dest, int destIndex) {
         ItemStack srcStack = src.get(srcIndex);
         if (!srcStack.isEmpty()) {

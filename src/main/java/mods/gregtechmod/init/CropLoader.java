@@ -21,17 +21,17 @@ public class CropLoader {
         GregTechMod.LOGGER.info("Registering crops");
         for (Crop type : Crop.values()) {
             CropCard crop = GenericCropCard.create(type.name().toLowerCase(Locale.ROOT))
-                    .setOwner(Reference.MODID)
-                    .setDiscoveredBy(type.discoverer)
-                    .setProperties(new CropProperties(type.tier, type.statChemistry, type.statConsumable, type.statDefensive, type.statColorful, type.statWeed))
-                    .setAttributes(type.attributes)
-                    .setHarvestSize(type.harvestSize)
-                    .setAfterHarvestSize(type.afterHarvestSize)
-                    .setGrowthSpeed(type.growthSpeed)
-                    .setMaxSize(type.maxSize)
-                    .setDrops(type.drop)
-                    .setSpecialDrops(type.specialDrops)
-                    .register();
+                .setOwner(Reference.MODID)
+                .setDiscoveredBy(type.discoverer)
+                .setProperties(new CropProperties(type.tier, type.statChemistry, type.statConsumable, type.statDefensive, type.statColorful, type.statWeed))
+                .setAttributes(type.attributes)
+                .setHarvestSize(type.harvestSize)
+                .setAfterHarvestSize(type.afterHarvestSize)
+                .setGrowthSpeed(type.growthSpeed)
+                .setMaxSize(type.maxSize)
+                .setDrops(type.drop)
+                .setSpecialDrops(type.specialDrops)
+                .register();
 
             if (type.baseSeed != null) {
                 GregTechMod.LOGGER.info("Registering base seed for crop " + type.name().toLowerCase(Locale.ROOT));

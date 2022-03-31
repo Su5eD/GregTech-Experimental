@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class SlotStackCycle extends SlotInvSlot implements ISlotInteractive {
     private final List<ItemStack> stacks;
     private final Function<List<ItemStack>, Integer> supplier;
-    
+
     public SlotStackCycle(InvSlot invSlot, int index, int x, int y, List<ItemStack> stacks) {
         this(invSlot, index, x, y, stacks, list -> 0);
     }
@@ -38,7 +38,7 @@ public class SlotStackCycle extends SlotInvSlot implements ISlotInteractive {
 
         return true;
     }
-    
+
     public ItemStack getNextStack(ItemStack offset) {
         if (!offset.isEmpty()) {
             Iterator<ItemStack> it = this.stacks.iterator();
@@ -47,7 +47,7 @@ public class SlotStackCycle extends SlotInvSlot implements ISlotInteractive {
                 if (GtUtil.stackEquals(stack, offset) && it.hasNext()) return it.next().copy();
             }
         }
-        
+
         return ItemStack.EMPTY;
     }
 }

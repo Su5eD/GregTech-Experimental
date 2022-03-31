@@ -24,24 +24,24 @@ public abstract class TileEntityTurbineBase extends TileEntityMultiBlockBase<Tur
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
-                Arrays.asList(
-                        "RRR",
-                        "CHC",
-                        "CHC",
-                        "CCC"
-                ),
-                Arrays.asList(
-                        "RXR",
-                        "H H",
-                        "H H",
-                        "CDC"
-                ),
-                Arrays.asList(
-                        "RRR",
-                        "CHC",
-                        "CHC",
-                        "CCC"
-                )
+            Arrays.asList(
+                "RRR",
+                "CHC",
+                "CHC",
+                "CCC"
+            ),
+            Arrays.asList(
+                "RXR",
+                "H H",
+                "H H",
+                "CDC"
+            ),
+            Arrays.asList(
+                "RRR",
+                "CHC",
+                "CHC",
+                "CCC"
+            )
         );
     }
 
@@ -70,8 +70,8 @@ public abstract class TileEntityTurbineBase extends TileEntityMultiBlockBase<Tur
     @Override
     public int getDamageToComponent(ItemStack stack) {
         return GregTechAPI.instance().getTurbineRotor(stack)
-                .map(rotor -> rotor.damageToComponent)
-                .orElse(0);
+            .map(rotor -> rotor.damageToComponent)
+            .orElse(0);
     }
 
     @Override
@@ -82,44 +82,44 @@ public abstract class TileEntityTurbineBase extends TileEntityMultiBlockBase<Tur
     @Override
     public int getMaxEfficiency(ItemStack stack) {
         return GregTechAPI.instance().getTurbineRotor(stack)
-                .map(rotor -> {
-                    float efficiency = rotor.efficiency / 100F;
-                    return (int) (10000 * efficiency);
-                })
-                .orElse(0);
+            .map(rotor -> {
+                float efficiency = rotor.efficiency / 100F;
+                return (int) (10000 * efficiency);
+            })
+            .orElse(0);
     }
 
     @Override
     public IFuel<IRecipeIngredient> getFuel(MultiBlockInstance instance) {
         return getFluidFuel(instance)
-                .orElse(null);
+            .orElse(null);
     }
 
     @Override
     public void processFuel(MultiBlockInstance instance, IFuel<IRecipeIngredient> fuel) {
         GregTechAPI.instance().getTurbineRotor(this.machinePartSlot.get())
-                .ifPresent(rotor -> this.efficiencyIncrease = this.maxProgress * rotor.efficiencyMultiplier);
+            .ifPresent(rotor -> this.efficiencyIncrease = this.maxProgress * rotor.efficiencyMultiplier);
     }
 
     @Override
     protected boolean consumeFluidInput(MultiBlockInstance instance, IRecipeIngredientFluid input) {
         int milliBuckets = input.getMilliBuckets();
         return input.getMatchingFluids()
-                .stream()
-                .map(fluid -> new FluidStack(fluid, milliBuckets))
-                .anyMatch(instance::depleteInput);
+            .stream()
+            .map(fluid -> new FluidStack(fluid, milliBuckets))
+            .anyMatch(instance::depleteInput);
     }
 
     @Override
     public ItemStack getFuelOutput(IFuel<IRecipeIngredient> fuel) {
         return ItemStack.EMPTY;
     }
-    
+
     @Override
     protected void onStart(TurbineInstance instance) {
         instance.setRotorProperty(getFacing(), true);
     }
-    
+
     @Override
     protected void onStop(TurbineInstance instance) {
         instance.setRotorProperty(getFacing(), false);

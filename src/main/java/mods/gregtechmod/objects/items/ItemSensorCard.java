@@ -44,10 +44,10 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
     @Override
     public CardState update(World world, ICardReader card, int i, BlockPos blockPos) {
         TileEntity tileEntity = world.getTileEntity(card.getTarget());
-        if (tileEntity instanceof IPanelInfoProvider && ((IPanelInfoProvider)tileEntity).isGivingInformation()) {
-            card.setString("mainInfo", ((IPanelInfoProvider)tileEntity).getMainInfo());
-            card.setString("secondaryInfo", ((IPanelInfoProvider)tileEntity).getSecondaryInfo());
-            card.setString("tertiaryInfo", ((IPanelInfoProvider)tileEntity).getTertiaryInfo());
+        if (tileEntity instanceof IPanelInfoProvider && ((IPanelInfoProvider) tileEntity).isGivingInformation()) {
+            card.setString("mainInfo", ((IPanelInfoProvider) tileEntity).getMainInfo());
+            card.setString("secondaryInfo", ((IPanelInfoProvider) tileEntity).getSecondaryInfo());
+            card.setString("tertiaryInfo", ((IPanelInfoProvider) tileEntity).getTertiaryInfo());
             return CardState.OK;
         }
         return CardState.NO_TARGET;
@@ -57,17 +57,17 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
     public List<PanelString> getStringData(int displaySettings, ICardReader card, boolean b, boolean b1) {
         List<PanelString> result = new LinkedList<>();
 
-        if((displaySettings & DISPLAY_MAIN) != 0)  {
+        if ((displaySettings & DISPLAY_MAIN) != 0) {
             PanelString line = new PanelString();
             line.textLeft = card.getString("mainInfo");
             result.add(line);
         }
-        if((displaySettings & DISPLAY_SECOND) != 0) {
+        if ((displaySettings & DISPLAY_SECOND) != 0) {
             PanelString line = new PanelString();
             line.textLeft = card.getString("secondaryInfo");
             result.add(line);
         }
-        if((displaySettings & DISPLAY_TERTIARY) != 0) {
+        if ((displaySettings & DISPLAY_TERTIARY) != 0) {
             PanelString line = new PanelString();
             line.textLeft = card.getString("tertiaryInfo");
             result.add(line);

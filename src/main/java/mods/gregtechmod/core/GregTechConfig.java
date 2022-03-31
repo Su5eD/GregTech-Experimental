@@ -72,15 +72,15 @@ public class GregTechConfig {
         @Name("magic_energy_absorber")
         @LangKey(Reference.MODID + ".teblock.magic_energy_absorber")
         public final MagicEnergyAbsorber MAGIC_ENERGY_ABSORBER = new MagicEnergyAbsorber();
-        
+
         @Name("dragon_egg_energy_siphon")
         @LangKey(Reference.MODID + ".teblock.dragon_egg_energy_siphon")
         public final DragonEggEnergySiphon DRAGON_EGG_ENERGY_SIPHON = new DragonEggEnergySiphon();
-        
+
         @Name("tesseract")
         @LangKey(Reference.MODID + ".config.tesseract")
         public final Tesseract TESSERACT = new Tesseract();
-        
+
         @Comment("Makes active machines lose their current progress when they run out of power")
         public boolean constantNeedOfEnergy = true;
         @Comment("If set tot true, machines will have a chance to catch fire in the rain")
@@ -96,14 +96,14 @@ public class GregTechConfig {
         @Comment("Nearby explosions cause machines to explode")
         public boolean machineChainExplosions = true;
         public int matterFabricationRate = 10000000;
-        
+
         public static class MagicEnergyAbsorber {
             @Comment("EU/t generated from an Ender Crystal")
             public int energyPerEnderCrystal = 320;
             @Comment("EU/t generated from Vis. Requires Thaumcraft to be installed.")
             public int energyFromVis = 12800;
         }
-        
+
         public static class DragonEggEnergySiphon {
             @Comment("EU/t generated from a Dragon Egg")
             public int dragonEggEnergy = 1024;
@@ -111,12 +111,12 @@ public class GregTechConfig {
             @Comment("If thaumcraft is installed, has a chance of releasing flux into the aura")
             public boolean outputFlux = true;
         }
-        
+
         public static class Tesseract {
             public int energyPerTick = 8;
-            
+
             public int interDimensionalEnergyPerTick = 32;
-            
+
             public boolean interdimensional = true;
         }
     }
@@ -127,7 +127,7 @@ public class GregTechConfig {
         public boolean projectred = true;
         public boolean thaumcraft = true;
         public boolean thermalfoundation = false;
-        
+
         @Comment("Defines overrides for oredict unification. Each entry represents an itemstack in the form of <registry name>:<metadata>")
         public String[] specialUnificationTargets = new String[0];
     }

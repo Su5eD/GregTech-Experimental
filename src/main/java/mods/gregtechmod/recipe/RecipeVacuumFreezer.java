@@ -17,8 +17,8 @@ public class RecipeVacuumFreezer extends Recipe<IRecipeIngredient, List<ItemStac
 
     @JsonCreator
     public static RecipeVacuumFreezer create(@JsonProperty(value = "input", required = true) IRecipeIngredient input,
-                                      @JsonProperty(value = "output", required = true) ItemStack output,
-                                      @JsonProperty(value = "duration", required = true) int duration) {
+                                             @JsonProperty(value = "output", required = true) ItemStack output,
+                                             @JsonProperty(value = "duration", required = true) int duration) {
         RecipeVacuumFreezer recipe = new RecipeVacuumFreezer(input, output, duration);
 
         if (!RecipeUtil.validateRecipeIO("vacuum frezzer", input, output)) recipe.invalid = true;

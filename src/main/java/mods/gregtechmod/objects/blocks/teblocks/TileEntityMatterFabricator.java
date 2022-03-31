@@ -36,14 +36,14 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
     @NBTPersistent
     private int amplifier;
     private int amplifierLast;
-    
+
     public final InvSlot amplifierSlot;
     public final InvSlotOutput output;
-    
+
     public TileEntityMatterFabricator() {
         this.amplifierSlot = new GtSlotFiltered(this, "amplifiers", InvSlot.Access.I, 8, stack -> Recipes.matterAmplifier.apply(stack, true) != null);
         this.output = new InvSlotOutput(this, "output", 1);
-        
+
         addGuiValue("progress", () -> Math.max(0, Math.min(30000, this.progress / Math.max(1, getMaxProgress() / 100))));
     }
 
@@ -51,15 +51,15 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
     protected void updateEntityServer() {
         super.updateEntityServer();
         int maxProgress = getMaxProgress();
-        
+
         setActive(this.euLast != getStoredEU() || this.amplifierLast != this.amplifier || this.progress != this.progressLast);
         this.euLast = getStoredEU();
         this.amplifierLast = this.amplifier;
         this.progressLast = this.progress;
-        
+
         if (this.euLast > 0 && !isRedstonePowered()) {
             Iterator<? extends MachineRecipe<IRecipeInput, Integer>> it = Recipes.matterAmplifier.getRecipes().iterator();
-            
+
             while (this.amplifier < 100000 && it.hasNext()) {
                 MachineRecipe<IRecipeInput, Integer> amp = it.next();
                 IRecipeInput input = amp.getInput();
@@ -67,7 +67,7 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
                 if (value > 0) {
                     for (ItemStack stack : this.amplifierSlot) {
                         if (this.amplifier >= 100000) break;
-                        
+
                         if (input.matches(stack)) {
                             this.amplifier += value;
                             stack.shrink(1);
@@ -75,21 +75,21 @@ public class TileEntityMatterFabricator extends TileEntityEnergy implements IHas
                     }
                 }
             }
-            
+
             double used = Math.min(GregTechConfig.DISABLED_RECIPES.massFabricator ? 8192 : getEUCapacity(), Math.min(getStoredEU(), this.amplifier));
             if (used > 0) {
                 this.progress += used;
                 this.amplifier -= used;
                 useEnergy(used);
             }
-            
+
             while (this.progress > maxProgress && this.output.canAdd(ModHandler.uuMatter)) {
                 this.progress -= maxProgress;
                 this.output.add(ModHandler.uuMatter.copy());
-            } 
+            }
         }
     }
-    
+
     private int getMaxProgress() {
         return GregTechConfig.FEATURES.matterFabricationRate;
     }

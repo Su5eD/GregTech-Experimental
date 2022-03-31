@@ -90,8 +90,7 @@ public class ItemBase extends Item implements ICustomItemModel, INamedItem {
     }
 
     protected final String getDurabilityInfo(ItemStack stack) {
-        if (stack.getMaxDamage() > 0) return (stack.getMaxDamage() - stack.getItemDamage() + 1) + " / " + (stack.getMaxDamage() + 1);
-        else return "";
+        return stack.getMaxDamage() > 0 ? (stack.getMaxDamage() - stack.getItemDamage() + 1) + " / " + (stack.getMaxDamage() + 1) : "";
     }
 
     @Override

@@ -17,7 +17,7 @@ public class GtSlotProcessableSecondary<RM extends IGtRecipeManager<List<IRecipe
     @Override
     public boolean accepts(ItemStack stack) {
         return this.recipeManager.getRecipes().stream()
-                .map(IMachineRecipe::getInput)
-                .anyMatch(list -> list.get(1).apply(stack));
+            .map(IMachineRecipe::getInput)
+            .anyMatch(list -> list.get(1).apply(stack));
     }
 }

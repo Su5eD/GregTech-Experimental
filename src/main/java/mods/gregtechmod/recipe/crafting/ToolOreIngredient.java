@@ -16,7 +16,7 @@ public class ToolOreIngredient extends OreIngredient {
         super(ore);
         this.damage = damage;
     }
-    
+
     public static ToolOreIngredient saw() {
         return new ToolOreIngredient("craftingToolSaw", 1);
     }

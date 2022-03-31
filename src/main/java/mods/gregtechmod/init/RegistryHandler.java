@@ -44,10 +44,10 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void registerRegistries(RegistryEvent.NewRegistry event) {
         IForgeRegistry<ICoverProvider> registry = new RegistryBuilder<ICoverProvider>()
-                .setName(new ResourceLocation(Reference.MODID, "covers"))
-                .setType(ICoverProvider.class)
-                .setMaxID(Integer.MAX_VALUE - 1)
-                .create();
+            .setName(new ResourceLocation(Reference.MODID, "covers"))
+            .setType(ICoverProvider.class)
+            .setMaxID(Integer.MAX_VALUE - 1)
+            .create();
         JavaUtil.setStaticValue(GregTechAPI.class, "coverRegistry", registry);
     }
 
@@ -57,43 +57,43 @@ public class RegistryHandler {
         BlockItemLoader.init();
         IForgeRegistry<Block> registry = event.getRegistry();
         Map<String, Block> blocks = BlockItemLoader.getBlocks().stream()
-                .peek(registry::register)
-                .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), Function.identity()));
+            .peek(registry::register)
+            .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), Function.identity()));
         JavaUtil.setStaticValue(GregTechObjectAPI.class, "blocks", blocks);
-        
+
         GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(Reference.MODID, "light_source"));
-        
+
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
-                .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(GregTechTEBlock.blockTE, 1, teblock.getId())));
+            .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(GregTechTEBlock.blockTE, 1, teblock.getId())));
         JavaUtil.setStaticValue(GregTechObjectAPI.class, "teBlocks", teblocks);
-        
+
         ModCompat.disableCasingFacades();
     }
-    
+
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         GregTechMod.LOGGER.info("Registering items");
         IForgeRegistry<Item> registry = event.getRegistry();
         Map<String, ItemStack> items = BlockItemLoader.getAllItems().stream()
-                .peek(registry::register)
-                .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), ItemStack::new));
+            .peek(registry::register)
+            .collect(Collectors.toMap(value -> value.getRegistryName().getPath(), ItemStack::new));
         JavaUtil.setStaticValue(GregTechObjectAPI.class, "items", items);
     }
-    
+
     @SubscribeEvent
     public static void registerTEBlocks(TeBlockFinalCallEvent event) {
         GtUtil.withModContainerOverride(FMLCommonHandler.instance().findContainerFor(Reference.MODID), () -> TeBlockRegistry.addAll(GregTechTEBlock.class, GregTechTEBlock.LOCATION));
         TeBlockRegistry.addCreativeRegisterer(GregTechTEBlock.INDUSTRIAL_CENTRIFUGE, GregTechTEBlock.LOCATION);
     }
-    
+
     @SubscribeEvent
     public static void registerCovers(RegistryEvent.Register<ICoverProvider> event) {
         IForgeRegistry<ICoverProvider> registry = event.getRegistry();
         Arrays.stream(Cover.values())
-                .map(cover -> cover.instance.get())
-                .forEach(registry::register);
+            .map(cover -> cover.instance.get())
+            .forEach(registry::register);
     }
-    
+
     public static void registerComponents() {
         Arrays.stream(GregTechComponent.values()).forEach(GregTechComponent::register);
     }
@@ -118,13 +118,13 @@ public class RegistryHandler {
             if (GregTechMod.class.getResource("/assets/" + Reference.MODID + "/loot_tables/" + path + ".json") != null) {
                 ResourceLocation name = new ResourceLocation(Reference.MODID, path);
                 GregTechMod.LOGGER.info("Loading Loot Table " + name);
-                
+
                 LootTable table = event.getLootTableManager().getLootTableFromLocation(name);
                 LootTable vanillaLoot = event.getTable();
                 Stream.of("gregtechmod_materials", "gregtechmod_sprays")
-                        .map(table::getPool)
-                        .filter(Objects::nonNull)
-                        .forEach(vanillaLoot::addPool);
+                    .map(table::getPool)
+                    .filter(Objects::nonNull)
+                    .forEach(vanillaLoot::addPool);
             }
         }
     }

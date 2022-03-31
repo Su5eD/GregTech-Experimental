@@ -18,7 +18,7 @@ public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends
         this.fluidTank = fluidTank;
         addFluidSlot();
     }
-    
+
     protected void addFluidSlot() {
         addElement(new CustomFluidSlot(this, 58, 41, this.fluidTank, false));
     }
@@ -29,7 +29,7 @@ public class GuiBasicTank<T extends ContainerBase<? extends IInventory>> extends
         drawString(10, 20, getDisplayName(), GuiColors.LIGHT_GRAY, false);
         drawString(10, 30, JavaUtil.formatNumber(this.fluidTank.getFluidAmount()), GuiColors.LIGHT_GRAY, false);
     }
-    
+
     protected String getDisplayName() {
         return GtLocale.translateInfo("liquid_amount");
     }

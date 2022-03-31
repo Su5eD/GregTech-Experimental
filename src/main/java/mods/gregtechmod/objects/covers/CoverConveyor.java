@@ -21,8 +21,9 @@ public class CoverConveyor extends CoverInventory {
     public void doCoverThings() {
         if (canWork()) {
             if (shouldUseEnergy(128)) {
-                if (((IElectricMachine) te).canUseEnergy(128)) ((IElectricMachine) te).useEnergy(moveItemStack((TileEntity)te, side, mode));
-            } else moveItemStack((TileEntity)te, side, mode);
+                if (((IElectricMachine) te).canUseEnergy(128)) ((IElectricMachine) te).useEnergy(moveItemStack((TileEntity) te, side, mode));
+            }
+            else moveItemStack((TileEntity) te, side, mode);
         }
     }
 

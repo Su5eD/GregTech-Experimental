@@ -23,7 +23,7 @@ public class TileEntityElectricRockBreaker extends TileEntityElectricBufferSingl
 
     public TileEntityElectricRockBreaker() {
         super(1);
-        
+
         this.redstoneSlot = new GtSlotFiltered(this, "redstone", InvSlot.Access.I, 1, stack -> stack.getItem() == Items.REDSTONE);
     }
 
@@ -36,7 +36,7 @@ public class TileEntityElectricRockBreaker extends TileEntityElectricBufferSingl
     protected int getBaseEUCapacity() {
         return 10000;
     }
-    
+
     @Override
     protected int getMinimumStoredEU() {
         return 1000 + getOverclockerMultiplier() * 100;
@@ -66,9 +66,9 @@ public class TileEntityElectricRockBreaker extends TileEntityElectricBufferSingl
 
     private boolean findNearbyBlock(Block block) {
         return Util.horizontalFacings.stream()
-                .map(this.pos::offset)
-                .map(this.world::getBlockState)
-                .anyMatch(state -> state.getBlock() == block);
+            .map(this.pos::offset)
+            .map(this.world::getBlockState)
+            .anyMatch(state -> state.getBlock() == block);
     }
 
     @Override

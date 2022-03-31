@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    " E ",
+    "ACA",
+    " E "
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier10"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier04"
+    },
+    "E":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier05"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 72
+  }
+}

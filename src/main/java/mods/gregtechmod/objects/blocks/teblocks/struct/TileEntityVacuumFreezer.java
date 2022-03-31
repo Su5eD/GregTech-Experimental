@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMachineRecipe<IRecipeIngredient, List<ItemStack>>, IRecipeIngredient, ItemStack, IGtRecipeManagerBasic<IRecipeIngredient, ItemStack, IMachineRecipe<IRecipeIngredient, List<ItemStack>>>> {
-    
+
     public TileEntityVacuumFreezer() {
         super(1, GtRecipes.vacuumFreezer);
     }
@@ -40,36 +40,36 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
-                Arrays.asList(
-                        "RRR",
-                        "RDR",
-                        "RRR"
-                ),
-                Arrays.asList(
-                        "RDR",
-                        "DAD",
-                        "RDR"
-                ),
-                Arrays.asList(
-                        "RRR",
-                        "RDR",
-                        "RRR"
-                ),
-                Arrays.asList(
-                        "   ",
-                        " X ",
-                        "   "
-                )
+            Arrays.asList(
+                "RRR",
+                "RDR",
+                "RRR"
+            ),
+            Arrays.asList(
+                "RDR",
+                "DAD",
+                "RDR"
+            ),
+            Arrays.asList(
+                "RRR",
+                "RDR",
+                "RRR"
+            ),
+            Arrays.asList(
+                "   ",
+                " X ",
+                "   "
+            )
         );
     }
-    
+
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
-                .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
-                .block('A', Blocks.AIR)
-                .gather();
+            .block('R', BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance())
+            .block('D', BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
+            .block('A', Blocks.AIR)
+            .gather();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
 
     @Override
     public ContainerVacuumFreezer getGuiContainer(EntityPlayer player) {
-        return new ContainerVacuumFreezer(player, this); 
+        return new ContainerVacuumFreezer(player, this);
     }
 
     @Override

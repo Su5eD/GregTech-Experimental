@@ -22,17 +22,17 @@ import java.util.Collection;
 public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
     private final IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager;
     protected final Class<? extends GuiFluidGenerator> guiClass;
-    
+
     public CategoryGenerator(String name, Class<R> recipeClass, Class<? extends GuiFluidGenerator> guiClass, IRecipeWrapperFactory<R> recipeWrapperFactory, IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager, IGuiHelper guiHelper) {
         super(name, recipeClass, recipeWrapperFactory, guiHelper);
         this.fuelManager = fuelManager;
         this.guiClass = guiClass;
     }
-    
+
     public static CategoryGenerator<FuelSimple> createFluidGeneratorCategory(String name, Class<? extends GuiFluidGenerator> guiClass, IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager, IGuiHelper guiHelper) {
         return new CategoryGenerator<>(name, FuelSimple.class, guiClass, WrapperFuel::new, fuelManager, guiHelper);
     }
-    
+
     @Override
     protected void addRecipeClickArea(IModRegistry registry) {
         registry.addRecipeClickArea(this.guiClass, 81, 35, 14, 15, this.uid);
@@ -41,8 +41,8 @@ public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
         return guiHelper.drawableBuilder(new ResourceLocation(Reference.MODID, "textures/gui/jei/fuel.png"), 60, 34, 56, 18)
-                .addPadding(20, 20, 60, 60)
-                .build();
+            .addPadding(20, 20, 60, 60)
+            .build();
     }
 
     @Override

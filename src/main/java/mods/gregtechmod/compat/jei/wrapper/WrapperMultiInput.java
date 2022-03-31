@@ -13,7 +13,7 @@ import java.util.List;
 
 public class WrapperMultiInput<R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> implements IRecipeWrapper {
     protected final R recipe;
-    
+
     public WrapperMultiInput(R recipe) {
         this.recipe = recipe;
     }

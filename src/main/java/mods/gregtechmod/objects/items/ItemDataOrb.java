@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemDataOrb extends ItemBase {
-    
+
     public ItemDataOrb() {
         super("data_orb", JavaUtil.NULL_SUPPLIER);
         setRegistryName("data_orb");
@@ -35,11 +35,11 @@ public class ItemDataOrb extends ItemBase {
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         ItemStack stack = player.inventory.getCurrentItem();
         if (stack.getCount() != 1 || world.isRemote) return EnumActionResult.PASS;
-        
+
         TileEntity te = world.getTileEntity(pos);
         NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
         String dataTitle = nbt.getString("dataTitle");
-        
+
         if (te instanceof IDataOrbSerializable) {
             String teDataName = ((IDataOrbSerializable) te).getDataName();
             if (player.isSneaking()) {
@@ -47,7 +47,8 @@ public class ItemDataOrb extends ItemBase {
                     NBTTagCompound data = nbt.getCompoundTag("data");
                     ((IDataOrbSerializable) te).loadDataFromOrb(data);
                 }
-            } else if (teDataName != null) {
+            }
+            else if (teDataName != null) {
                 NBTTagCompound data = ((IDataOrbSerializable) te).saveDataToOrb();
                 if (data != null) {
                     nbt.setString("dataTitle", teDataName);
@@ -57,7 +58,7 @@ public class ItemDataOrb extends ItemBase {
             }
             return EnumActionResult.SUCCESS;
         }
-        
+
         return EnumActionResult.PASS;
     }
 
@@ -65,7 +66,7 @@ public class ItemDataOrb extends ItemBase {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
         NBTTagCompound nbt = StackUtil.getOrCreateNbtData(stack);
-        
+
         String dataTitle = nbt.getString("dataTitle");
         if (!dataTitle.isEmpty()) {
             tooltip.add(dataTitle);

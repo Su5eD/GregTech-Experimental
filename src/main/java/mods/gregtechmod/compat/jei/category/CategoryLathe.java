@@ -10,7 +10,7 @@ import mods.gregtechmod.gui.GuiLathe;
 import mods.gregtechmod.recipe.RecipeLathe;
 
 public class CategoryLathe extends CategoryBasicMachine<WrapperBasicMachineSingle<RecipeLathe>, RecipeLathe> {
-    
+
     public CategoryLathe(IGuiHelper guiHelper) {
         super("lathe", RecipeLathe.class, GuiLathe.class, WrapperBasicMachineSingle::new, () -> RecipeWrapperFactory.getBasicMachineSingleRecipes(GtRecipes.lathe), true, GregtechGauge.TURNING, guiHelper);
     }

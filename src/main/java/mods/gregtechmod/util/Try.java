@@ -11,11 +11,11 @@ public class Try<T, R> implements Function<T, R> {
     private Try(CheckedFunction<T, R> tryFunc) {
         this.tryFunc = tryFunc;
     }
-    
+
     public static <T, R> Try<T, R> of(CheckedFunction<T, R> tryFunc) {
         return new Try<>(tryFunc);
     }
-    
+
     public Try<T, R> catching(Function<T, String> catchFunc) {
         this.catchFunc = catchFunc;
         return this;
@@ -30,7 +30,7 @@ public class Try<T, R> implements Function<T, R> {
             throw new RuntimeException(message, e);
         }
     }
-    
+
     @FunctionalInterface
     public interface CheckedFunction<T, R> {
         R apply(T t) throws Exception;

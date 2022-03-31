@@ -17,21 +17,21 @@ public class ContainerSonictron extends ContainerGtBase<TileEntitySonictron> {
 
     public ContainerSonictron(TileEntitySonictron base) {
         super(base);
-        
+
         List<SonictronSound> sonictronSounds = GregTechAPI.instance().getSonictronSounds();
         List<ItemStack> stacks = sonictronSounds.stream()
-                .map(SonictronSound::getItem)
-                .collect(Collectors.toList());
-        
+            .map(SonictronSound::getItem)
+            .collect(Collectors.toList());
+
         addSlotsToContainer(8, 8, 24, 19, 16, (index, x, y) -> new SlotSonictronCycle(base.content, index, x, y, stacks, sonictronSounds));
     }
-    
+
     private static class SlotSonictronCycle extends SlotStackCycle {
         private final List<SonictronSound> sonictronSounds;
 
         public SlotSonictronCycle(InvSlot invSlot, int index, int x, int y, List<ItemStack> stacks, List<SonictronSound> sonictronSounds) {
             super(invSlot, index, x, y, stacks);
-            
+
             this.sonictronSounds = sonictronSounds;
         }
 

@@ -23,18 +23,18 @@ public class TurbineInstance extends TileEntityMultiBlockBase.MultiBlockInstance
     public TurbineInstance(EnumFacing facing, World world, Map<Character, Collection<BlockPos>> elements, boolean active) {
         super(world, elements);
         this.world = world;
-        
+
         Collection<BlockPos> rotorCasings = elements.get('R');
         if (rotorCasings == null) throw new IllegalArgumentException("Could not find the 'R' structure element");
         List<BlockPos> sorted = rotorCasings.stream()
-                .sorted(Comparator.comparing(Function.identity(), (one, two) -> compareBlockPos(facing, one, two)))
-                .collect(Collectors.toList());
+            .sorted(Comparator.comparing(Function.identity(), (one, two) -> compareBlockPos(facing, one, two)))
+            .collect(Collectors.toList());
         this.rotorTextures = JavaUtil.zipToMap(sorted, Rotor.TEXTURE_PARTS);
-        
+
         setTurbineProperty(true);
         setRotorProperty(facing, active);
     }
-    
+
     private static int compareBlockPos(EnumFacing facing, BlockPos one, BlockPos two) {
         if (two.getY() == one.getY()) {
             if (two.getZ() == one.getZ()) {
@@ -52,31 +52,31 @@ public class TurbineInstance extends TileEntityMultiBlockBase.MultiBlockInstance
         }
         else return two.getY() - one.getY();
     }
-    
+
     public void setRotorProperty(EnumFacing facing, boolean active) {
         this.rotorTextures
-                .forEach((pos, texture) -> {
-                    IBlockState state = world.getBlockState(pos);
+            .forEach((pos, texture) -> {
+                IBlockState state = this.world.getBlockState(pos);
+
+                if (state.getBlock() instanceof BlockConnectedTurbine) {
+                    Rotor rotor;
+                    if (facing == null) rotor = Rotor.DISABLED;
+                    else rotor = Rotor.getRotor(facing, texture, active);
                     
-                    if (state.getBlock() instanceof BlockConnectedTurbine) {
-                        Rotor rotor;
-                        if (facing == null) rotor = Rotor.DISABLED;
-                        else rotor = Rotor.getRotor(facing, texture, active);
-                                            
-                        IBlockState newState = state.withProperty(BlockConnectedTurbine.TURBINE_ROTOR, rotor);
-                        world.setBlockState(pos, newState, Constants.BlockFlags.DEFAULT_AND_RERENDER);
-                    }
-                });
+                    IBlockState newState = state.withProperty(BlockConnectedTurbine.TURBINE_ROTOR, rotor);
+                    this.world.setBlockState(pos, newState, Constants.BlockFlags.SEND_TO_CLIENTS | Constants.BlockFlags.RERENDER_MAIN_THREAD);
+                }
+            });
     }
 
     public void setTurbineProperty(boolean value) {
         this.positions
-                .forEach(pos -> {
-                    IBlockState state = world.getBlockState(pos);
-                    if (state.getBlock() instanceof BlockConnectedTurbine) {
-                        IBlockState newState = state.withProperty(BlockConnectedTurbine.TURBINE, value);
-                        world.setBlockState(pos, newState, Constants.BlockFlags.DEFAULT_AND_RERENDER);
-                    }
-                });
+            .forEach(pos -> {
+                IBlockState state = this.world.getBlockState(pos);
+                if (state.getBlock() instanceof BlockConnectedTurbine) {
+                    IBlockState newState = state.withProperty(BlockConnectedTurbine.TURBINE, value);
+                    this.world.setBlockState(pos, newState, Constants.BlockFlags.DEFAULT_AND_RERENDER);
+                }
+            });
     }
 }

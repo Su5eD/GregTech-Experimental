@@ -48,10 +48,10 @@ public class Recipe<I, O> implements IMachineRecipe<I, O> {
 
     protected MoreObjects.ToStringHelper toStringHelper() {
         return MoreObjects.toStringHelper(this)
-                .add("input", input)
-                .add("output", output)
-                .add("duration", duration)
-                .add("energyCost", energyCost);
+            .add("input", input)
+            .add("output", output)
+            .add("duration", duration)
+            .add("energyCost", energyCost);
     }
 
     @Override

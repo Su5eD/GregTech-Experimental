@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/player_detector/player_detector_side",
+    "down": "gregtechmod:blocks/machines/player_detector/player_detector_side",
+    "up": "gregtechmod:blocks/machines/player_detector/player_detector_side",
+    "north": "gregtechmod:blocks/machines/player_detector/player_detector_side",
+    "south": "gregtechmod:blocks/machines/player_detector/player_detector_side",
+    "east": "gregtechmod:blocks/machines/player_detector/player_detector_side",
+    "west": "gregtechmod:blocks/machines/player_detector/player_detector_side"
+  }
+}

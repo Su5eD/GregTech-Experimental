@@ -5,10 +5,10 @@ import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricRockBreake
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerElectricRockBreaker extends ContainerElectricBufferSmall<TileEntityElectricRockBreaker> {
-    
+
     public ContainerElectricRockBreaker(EntityPlayer player, TileEntityElectricRockBreaker base) {
         super(player, base);
-        
+
         addSlotToContainer(new SlotInvSlot(base.redstoneSlot, 0, 80, 41));
     }
 }

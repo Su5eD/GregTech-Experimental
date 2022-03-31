@@ -32,16 +32,15 @@ import mods.gregtechmod.objects.blocks.teblocks.TileEntityPrinter;
 import mods.gregtechmod.objects.blocks.teblocks.generator.TileEntityDieselGenerator;
 import mods.gregtechmod.recipe.*;
 import mods.gregtechmod.recipe.compat.BasicMachineRecipe;
-import mods.gregtechmod.recipe.fuel.FuelIngredientFluidDeserializer;
+import mods.gregtechmod.recipe.deserializer.*;
 import mods.gregtechmod.recipe.fuel.FuelManagerFluid;
 import mods.gregtechmod.recipe.fuel.FuelMulti;
 import mods.gregtechmod.recipe.fuel.FuelSimple;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientOre;
 import mods.gregtechmod.recipe.manager.*;
+import mods.gregtechmod.recipe.serializer.*;
 import mods.gregtechmod.recipe.util.IBasicMachineRecipe;
 import mods.gregtechmod.recipe.util.RecipeFilter;
-import mods.gregtechmod.recipe.util.deserializer.*;
-import mods.gregtechmod.recipe.util.serializer.*;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.OreDictUnificator;
@@ -139,7 +138,8 @@ public final class MachineRecipeParser {
         if (gtConfig == null) {
             GregTechMod.LOGGER.error("Couldn't find the fuels config directory. Loading default fuels...");
             MachineRecipeParser.fuelsPath = recipesPath;
-        } else MachineRecipeParser.fuelsPath = gtConfig;
+        }
+        else MachineRecipeParser.fuelsPath = gtConfig;
         classicFuelsPath = fuelsPath.resolve("classic");
     }
 
@@ -251,8 +251,8 @@ public final class MachineRecipeParser {
                     tinCan.setCount(1);
                     if (tinNuggetCount % 9 == 0) {
                         DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, ItemHandlerHelper.copyStackWithSize(ingotTin, tinNuggetCount / 9));
-                    } else
-                        DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, new ItemStack(BlockItems.Nugget.TIN.getInstance(), tinNuggetCount));
+                    }
+                    else DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(tinCan, new ItemStack(BlockItems.Nugget.TIN.getInstance(), tinNuggetCount));
                 }
             });
 
@@ -260,7 +260,8 @@ public final class MachineRecipeParser {
         ModHandler.addLiquidTransposerEmptyRecipe(IC2Items.getItem("dust", "coal_fuel"), new FluidStack(FluidRegistry.WATER, 100), IC2Items.getItem("dust", "coal"), 1250);
         if (GregTechMod.classic) {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), StackUtil.setSize(IC2Items.getItem("ingot", "refined_iron"), 8));
-        } else {
+        }
+        else {
             DynamicRecipes.addSmeltingRecipe("machineCasing", IC2Items.getItem("resource", "machine"), new ItemStack(Items.IRON_INGOT, 8));
         }
         DynamicRecipes.addSmeltingRecipe("resin", new ItemStack(Items.SLIME_BALL), IC2Items.getItem("misc_resource", "resin"));

@@ -32,7 +32,7 @@ public class FluidLoader {
         ResourceLocation getTexture();
 
         boolean isFallbackFluid();
-        
+
         boolean hasClassicCell();
     }
 
@@ -109,8 +109,8 @@ public class FluidLoader {
             if (this.instance == null) {
                 if (this.fallback && FluidRegistry.isFluidRegistered(this.name)) this.instance = FluidRegistry.getFluid(this.name);
                 else this.instance = new FluidLiquid(this.name, this.texture, this.texture)
-                        .setUnlocalizedName(this.name)
-                        .setDensity(this.density);
+                    .setUnlocalizedName(this.name)
+                    .setDensity(this.density);
             }
 
             return this.instance;
@@ -130,7 +130,7 @@ public class FluidLoader {
         public boolean isFallbackFluid() {
             return this.fallback;
         }
-        
+
         @Override
         public boolean hasClassicCell() {
             return true;
@@ -161,11 +161,11 @@ public class FluidLoader {
         Gas(String description) {
             this(description, true);
         }
-        
+
         Gas(String description, boolean hasClassicCell) {
             this(description, hasClassicCell, false);
         }
-        
+
         Gas(String description, boolean hasClassicCell, boolean fallback) {
             this.description = description;
             this.hasClassicCell = hasClassicCell;
@@ -183,7 +183,7 @@ public class FluidLoader {
             if (this.instance == null) {
                 String name = this.name().toLowerCase(Locale.ROOT);
                 this.instance = new FluidGas(name, this.texture, this.texture)
-                        .setUnlocalizedName(name);
+                    .setUnlocalizedName(name);
             }
 
             return this.instance;

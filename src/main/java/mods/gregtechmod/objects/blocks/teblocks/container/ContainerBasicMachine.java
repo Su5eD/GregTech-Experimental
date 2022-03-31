@@ -11,13 +11,13 @@ public class ContainerBasicMachine<T extends TileEntityBasicMachine<?, ?, ?, ?>>
 
     public ContainerBasicMachine(EntityPlayer player, T base) {
         super(player, base);
-        
+
         addSlotToContainer(new SlotInvSlot(base.queueInputSlot, 0, 35, 25));
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 53, 25));
         addSlotToContainer(new SlotInvSlot(base.queueOutputSlot, 0, 107, 25));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 125, 25));
         addSlotToContainer(new SlotInvSlot(base.extraSlot, 0, 80, 63));
-        
+
         addSlotToContainer(SlotInteractive.serverOnly(8, 63, base::switchProvideEnergy));
         addSlotToContainer(SlotInteractive.serverOnly(26, 63, base::switchAutoOutput));
         addSlotToContainer(SlotInteractive.serverOnly(44, 63, base::switchSplitInput));

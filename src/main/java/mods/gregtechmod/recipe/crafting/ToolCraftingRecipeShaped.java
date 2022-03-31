@@ -27,11 +27,11 @@ public class ToolCraftingRecipeShaped extends ShapedRecipes {
         this.tools = tools;
         this.craftingDamage = craftingDamage;
     }
-    
+
     public static IRecipe makeSawingRecipe(ItemStack result, Object... params) {
         return makeRecipe("", ModHandler.adjustWoodSize(result), Collections.singletonList(IC2Items.getItem("chainsaw")), 1, params);
     }
-    
+
     public static IRecipe makeRecipe(String group, ItemStack result, Collection<ItemStack> tools, int craftingDamage, Object... params) {
         CraftingHelper.ShapedPrimer primer = CraftingHelper.parseShaped(params);
         return new ToolCraftingRecipeShaped(group, primer.width, primer.height, primer.input, result, tools, craftingDamage);
@@ -49,12 +49,14 @@ public class ToolCraftingRecipeShaped extends ShapedRecipes {
             ItemStack itemstack = inv.getStackInSlot(i);
 
             if (tools.stream()
-                    .map(ItemStack::getItem)
-                    .anyMatch(item -> StackUtil.checkItemEquality(itemstack, item))) {
-                if (itemstack.getItem() instanceof IElectricItem) ElectricItem.manager.use(itemstack, craftingDamage * 1000, null);
+                .map(ItemStack::getItem)
+                .anyMatch(item -> StackUtil.checkItemEquality(itemstack, item))) {
+                if (itemstack.getItem() instanceof IElectricItem)
+                    ElectricItem.manager.use(itemstack, craftingDamage * 1000, null);
                 else itemstack.attemptDamageItem(craftingDamage, JavaUtil.RANDOM, null);
                 list.set(i, itemstack.copy());
-            } else list.set(i, ForgeHooks.getContainerItem(itemstack));
+            }
+            else list.set(i, ForgeHooks.getContainerItem(itemstack));
         }
 
         return list;

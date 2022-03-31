@@ -26,7 +26,7 @@ import java.util.function.Function;
 
 @NotExperimental
 public class ItemCellClassic extends ItemBase {
-    
+
     static {
         try {
             GregTechMod.LOGGER.info("Injecting custom CellFluidHandler into ItemClassicCell");
@@ -56,7 +56,8 @@ public class ItemCellClassic extends ItemBase {
         Item item = stack.getItem();
         if (item instanceof ItemCellClassic) {
             return new GtCellFluidHandler(stack);
-        } else if (item instanceof ItemClassicCell) {
+        }
+        else if (item instanceof ItemClassicCell) {
             ItemClassicCell cell = ItemName.cell.getInstance();
             CellType type = cell.getType(stack);
 
@@ -131,7 +132,8 @@ public class ItemCellClassic extends ItemBase {
                     this.container = ItemName.cell.getItemStack(CellType.empty);
                     return;
                 }
-            } else {
+            }
+            else {
                 String name = stack.getFluid().getName();
                 if (this.typeGetter.get() == CellType.empty && getContainedFluid() == null && BlockItems.classicCells.containsKey(name)) {
                     this.container = new ItemStack(BlockItems.classicCells.get(name));

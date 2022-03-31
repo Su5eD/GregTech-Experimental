@@ -14,7 +14,7 @@ public enum CellType {
     CellType(BiPredicate<ItemStack, Boolean> matcher) {
         this.matcher = matcher;
     }
-    
+
     public boolean apply(ItemStack stack, boolean classic) {
         return !stack.isEmpty() && this.matcher.test(stack, classic);
     }

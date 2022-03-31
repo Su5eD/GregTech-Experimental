@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>> implements IRecipePulverizer {
+    public static final int DEFAULT_CHANCE = 10;
+
     private final int chance;
     private final boolean overwrite;
     private final boolean universal;
@@ -25,17 +27,17 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, ItemStack output) {
-        return create(input, Collections.singletonList(output), 10, false);
+        return create(input, Collections.singletonList(output), DEFAULT_CHANCE, false);
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput) {
-        return create(input, GtUtil.nonEmptyList(primaryOutput, secondaryOutput), 10, false);
+        return create(input, GtUtil.nonEmptyList(primaryOutput, secondaryOutput), DEFAULT_CHANCE, false);
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
         return create(input, GtUtil.nonEmptyList(primaryOutput, secondaryOutput), chance, false);
     }
-    
+
     public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite) {
         return create(input, output, chance, overwrite, false);
     }
@@ -51,7 +53,7 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
 
     public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, double energyCost, int chance, boolean overwrite, boolean universal) {
         List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("pulverizer", output, 2);
-        RecipePulverizer recipe = new RecipePulverizer(input, adjustedOutput, energyCost, chance < 1 ? 10 : chance, overwrite, universal);
+        RecipePulverizer recipe = new RecipePulverizer(input, adjustedOutput, energyCost, chance < 1 ? DEFAULT_CHANCE : chance, overwrite, universal);
 
         if (!RecipeUtil.validateRecipeIO("pulverizer", input, adjustedOutput)) recipe.invalid = true;
 
@@ -88,14 +90,14 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     protected MoreObjects.ToStringHelper toStringHelper() {
         MoreObjects.ToStringHelper helper = super.toStringHelper();
         ItemStack secondaryOutput = getSecondaryOutput();
-        
+
         if (!secondaryOutput.isEmpty()) {
             helper.add("secondaryOutput", secondaryOutput)
-                  .add("chance", chance);
+                .add("chance", chance);
         }
-        
+
         return helper
-                .add("overwrite", overwrite)
-                .add("universal", universal);
+            .add("overwrite", overwrite)
+            .add("universal", universal);
     }
 }

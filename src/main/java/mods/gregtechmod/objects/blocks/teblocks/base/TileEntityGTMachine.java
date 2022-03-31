@@ -22,6 +22,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.Explosion;
 
 import javax.annotation.Nullable;
@@ -53,10 +55,10 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
         this.recipeManager = recipeManager;
         this.inputSlot = getInputSlot("input", wildcardInput);
         this.outputSlot = getOutputSlot("output", outputSlots);
-        
+
         addGuiValue("progress", this::getGuiProgress);
     }
-    
+
     @Override
     protected Collection<EnumFacing> getSinkSides() {
         return Util.allFacings;
@@ -65,7 +67,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, boolean acceptAnything) {
         return new GtSlotProcessableItemStack<>(this, name, 1, acceptAnything ? null : recipeManager);
     }
-    
+
     public GtSlotProcessableItemStack<RM, I> getInputSlot(String name, InvSlot.InvSide side, boolean acceptAnything) {
         return new GtSlotProcessableItemStack<>(this, name, InvSlot.Access.I, 1, side, acceptAnything ? null : recipeManager);
     }
@@ -82,7 +84,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-        
+
         if (isProcessing()) {
             boolean hasEnoughEnergy = checkEnergy();
             if (hasEnoughEnergy) {
@@ -94,23 +96,25 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             R recipe = getRecipe();
             if (canProcessRecipe(recipe)) {
                 updateEnergyConsume(recipe);
-                
+
                 boolean hasEnoughEnergy = checkEnergy();
                 if (hasEnoughEnergy) {
-                    if (this.maxProgress <= 0 && pendingRecipe.size() < 1) {
+                    if (this.maxProgress <= 0 && this.pendingRecipe.isEmpty()) {
                         prepareRecipeForProcessing(recipe);
                     }
                     processRecipe();
                 }
                 else stop();
-            } else stop();
+            }
+            else stop();
         }
     }
-    
+
     protected boolean checkEnergy() {
         if (useEnergy(this.energyConsume) > 0 || this.hasMjUpgrade && this.receiver.extractPower(MjHelper.microJoules(this.energyConsume))) {
-           return true;
-        } else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = SteamHelper.getSteamForEU(this.energyConsume, this.steamTank.getFluid()))) {
+            return true;
+        }
+        else if (this.hasSteamUpgrade && canDrainSteam(this.neededSteam = SteamHelper.getSteamForEU(this.energyConsume, this.steamTank.getFluid()))) {
             this.steamTank.drain(this.neededSteam, true);
             return true;
         }
@@ -123,7 +127,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             overclockEnergyConsume();
         }
     }
-    
+
     protected boolean isProcessing() {
         boolean active = this.maxProgress > 0 || !this.pendingRecipe.isEmpty();
         if (!active && !isAllowedToWork()) return false;
@@ -131,9 +135,9 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     }
 
     protected boolean canProcessRecipe(R recipe) {
-        return recipe != null && canAddOutput(recipe);
+        return recipe != null && isAllowedToWork() && canAddOutput(recipe);
     }
-    
+
     protected boolean canAddOutput(R recipe) {
         return this.outputSlot.canAdd(recipe.getOutput());
     }
@@ -154,8 +158,8 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     protected void prepareRecipeForProcessing(R recipe) {
         recipe.getOutput().stream()
-                .map(ItemStack::copy)
-                .forEach(this.pendingRecipe::add);
+            .map(ItemStack::copy)
+            .forEach(this.pendingRecipe::add);
         this.maxProgress = recipe.getDuration();
         consumeInput(recipe);
     }
@@ -211,15 +215,15 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public void increaseProgress(double amount) {
         this.progress += amount;
     }
-    
+
     private double getGuiProgress() {
         return this.progress / Math.max(this.maxProgress, 1);
     }
 
     @Override
-    public void getScanInfoPost(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
+    public void getScanInfoPost(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
         super.getScanInfoPost(scan, player, pos, scanLevel);
-        if (scanLevel > 0) scan.add(GtLocale.translateInfo("machine_" + (isActive() ? "active" : "inactive")));
+        if (scanLevel > 0) scan.add(new TextComponentTranslation(GtLocale.buildKeyInfo("machine_" + (isActive() ? "active" : "inactive"))));
     }
 
     @Override
@@ -241,7 +245,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     public String getTertiaryInfo() {
         double seconds = this.maxProgress / (double) (1 << getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) / 20;
-        return  "/" + GtLocale.translateGeneric("time_secs", Math.round(seconds));
+        return "/" + GtLocale.translateGeneric("time_secs", Math.round(seconds));
     }
 
     @Override

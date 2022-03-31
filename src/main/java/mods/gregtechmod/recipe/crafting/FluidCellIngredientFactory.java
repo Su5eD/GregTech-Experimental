@@ -12,11 +12,13 @@ import javax.annotation.Nonnull;
 
 @SuppressWarnings("unused")
 public class FluidCellIngredientFactory implements IIngredientFactory {
+
     @Nonnull
     @Override
     public Ingredient parse(JsonContext context, JsonObject json) {
         String fluidName = JsonUtils.getString(json, "fluid");
         ItemStack fluidCell = ProfileDelegate.getCell(fluidName);
+
         return Ingredient.fromStacks(fluidCell);
     }
 }

@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class CoverEnergyOnly extends CoverGeneric {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
-    
+
     @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;
 
@@ -68,7 +68,7 @@ public class CoverEnergyOnly extends CoverGeneric {
 
     @Override
     public boolean allowEnergyTransfer() {
-        return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine)te).isAllowedToWork() == mode.inverted);
+        return !(mode.conditional && te instanceof IGregTechMachine && ((IGregTechMachine) te).isAllowedToWork() == mode.inverted);
     }
 
     @Override

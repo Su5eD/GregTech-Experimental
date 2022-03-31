@@ -18,10 +18,10 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
     protected void updateEntityServer() {
         super.updateEntityServer();
         if (this.tickCounter == 1) activeSiphon = null;
-        
+
         if (isAllowedToWork() && hasEgg()) {
             setActive(true);
-            
+
             if (activeSiphon != this && !GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.allowMultipleEggs) {
                 if (activeSiphon == null || activeSiphon.isInvalid() || !activeSiphon.hasEgg()) {
                     activeSiphon = this;
@@ -30,10 +30,10 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
                     markForExplosion(10);
                 }
             }
-            
-            if (addEnergy(GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy) 
-                    && GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.outputFlux 
-                    && this.world.rand.nextInt(1000) == 5) {
+
+            if (addEnergy(GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy)
+                && GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.outputFlux
+                && this.world.rand.nextInt(1000) == 5) {
                 ModHandler.polluteAura(this.world, this.pos, 4, true);
             }
         }

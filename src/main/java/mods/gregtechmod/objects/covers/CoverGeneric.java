@@ -19,9 +19,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nonnull;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 public class CoverGeneric implements ICover {
@@ -125,12 +122,6 @@ public class CoverGeneric implements ICover {
         return this.stack;
     }
 
-    @Nonnull
-    @Override
-    public List<String> getDescription() {
-        return Collections.emptyList();
-    }
-
     @Override
     public CoverType getType() {
         return CoverType.GENERIC;
@@ -162,8 +153,8 @@ public class CoverGeneric implements ICover {
         String path = name.getPath();
 
         return namespace.equals(Reference.MODID) && path.startsWith("plate") ||
-               namespace.equals("ic2") && !ModHandler.getVariantSafely(ItemName.plate, stack).isEmpty() ||
-               StackUtil.checkItemEquality(stack, ItemName.crafting.getItemStack(CraftingItemType.iridium));
+            namespace.equals("ic2") && !ModHandler.getVariantSafely(ItemName.plate, stack).isEmpty() ||
+            StackUtil.checkItemEquality(stack, ItemName.crafting.getItemStack(CraftingItemType.iridium));
     }
 
     private String getCoverName(ItemStack stack) {
@@ -175,7 +166,7 @@ public class CoverGeneric implements ICover {
             }
             else return item.getRegistryName().getPath().substring(6); //GT plate
         }
-        
+
         return "";
     }
 
@@ -187,7 +178,7 @@ public class CoverGeneric implements ICover {
         ELECTRUM(Reference.MODID, CoverTexture.BLOCK_PATH + "electrum"),
         INVAR(Reference.MODID, CoverTexture.BLOCK_PATH + "invar"),
         IRIDIUM(Reference.MODID, CoverTexture.BLOCK_PATH + "iridium"),
-        IRIDIUM_ALLOY(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH + "block_iridium_reinforced_tungsten_steel/block_iridium_reinforced_tungsten_steel0c"),
+        IRIDIUM_ALLOY(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH + "iridium_reinforced_tungsten_steel/iridium_reinforced_tungsten_steel"),
         LEAD(Reference.MODID, CoverTexture.BLOCK_PATH + "lead"),
         NICKEL(Reference.MODID, CoverTexture.BLOCK_PATH + "nickel"),
         OSMIUM(Reference.MODID, CoverTexture.BLOCK_PATH + "osmium"),
@@ -196,10 +187,10 @@ public class CoverGeneric implements ICover {
         STEEL(Reference.MODID, CoverTexture.BLOCK_PATH + "steel"),
         TITANIUM(Reference.MODID, CoverTexture.BLOCK_PATH + "titanium"),
         TUNGSTEN(Reference.MODID, CoverTexture.BLOCK_PATH + "tungsten"),
-        TUNGSTEN_STEEL(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH + "block_tungsten_steel/block_tungsten_steel0c"),
+        TUNGSTEN_STEEL(Reference.MODID, CoverTexture.BLOCK_CONNECTED_PATH + "tungsten_steel/tungsten_steel"),
         ZINC(Reference.MODID, CoverTexture.BLOCK_PATH + "zinc"),
         //Generic IC2
-        COPPER("ic2", CoverTexture.IC2_BLOCK_PATH + "bronze_block"),
+        COPPER("ic2", CoverTexture.IC2_BLOCK_PATH + "copper_block"),
         BRONZE("ic2", CoverTexture.IC2_BLOCK_PATH + "bronze_block"),
         TIN("ic2", CoverTexture.IC2_BLOCK_PATH + "tin_block"),
         REFINED_IRON("ic2", CoverTexture.IC2_BLOCK_PATH + "machine"),

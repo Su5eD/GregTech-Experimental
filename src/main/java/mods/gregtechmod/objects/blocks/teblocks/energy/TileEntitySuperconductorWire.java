@@ -28,9 +28,9 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     public static final IUnlistedProperty<Boolean> CONNECTED_SOUTH = new UnlistedBooleanProperty("connected_south");
     public static final IUnlistedProperty<Boolean> CONNECTED_WEST = new UnlistedBooleanProperty("connected_west");
     public static final IUnlistedProperty<Boolean> CONNECTED_EAST = new UnlistedBooleanProperty("connected_east");
-    
+
     private int connections;
-    
+
     public TileEntitySuperconductorWire() {
         this.coverBlacklist.addAll(CoverType.VALUES);
     }
@@ -76,40 +76,40 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
     public int getEUCapacity() {
         return 0;
     }
-    
+
     private void updateConnections() {
         if (!this.world.isRemote) {
             this.connections = Arrays.stream(EnumFacing.VALUES)
-                    .filter(this::isSideConnectable)
-                    .mapToInt(facing -> 1 << facing.getIndex())
-                    .reduce(0, (a, b) -> a | b);
+                .filter(this::isSideConnectable)
+                .mapToInt(facing -> 1 << facing.getIndex())
+                .reduce(0, (a, b) -> a | b);
             updateClientField("connections");
         }
     }
-    
+
     private boolean isSideConnectable(EnumFacing side) {
         if (GregTechConfig.GENERAL.connectedTextures) {
             IEnergyTile energyTile = EnergyNet.instance.getTile(this.world, this.pos.offset(side));
             ConductorEnergy.DelegateConductor delegate = ((ConductorEnergy) this.energy).getDelegate();
-            
+
             return energyTile instanceof IEnergyAcceptor && ((IEnergyAcceptor) energyTile).acceptsEnergyFrom(delegate, side.getOpposite())
-                    || energyTile instanceof IEnergyEmitter && ((IEnergyEmitter) energyTile).emitsEnergyTo(delegate, side.getOpposite());
+                || energyTile instanceof IEnergyEmitter && ((IEnergyEmitter) energyTile).emitsEnergyTo(delegate, side.getOpposite());
         }
         return false;
     }
-    
+
     private boolean isSideConnected(EnumFacing side) {
         return (this.connections & 1 << side.getIndex()) != 0;
     }
-        
+
     @Override
     protected Ic2BlockStateInstance getExtendedState(Ic2BlockStateInstance state) {
         return state.withProperty(CONNECTED_DOWN, isSideConnected(EnumFacing.DOWN))
-                .withProperty(CONNECTED_UP, isSideConnected(EnumFacing.UP))
-                .withProperty(CONNECTED_NORTH, isSideConnected(EnumFacing.NORTH))
-                .withProperty(CONNECTED_SOUTH, isSideConnected(EnumFacing.SOUTH))
-                .withProperty(CONNECTED_WEST, isSideConnected(EnumFacing.WEST))
-                .withProperty(CONNECTED_EAST, isSideConnected(EnumFacing.EAST));
+            .withProperty(CONNECTED_UP, isSideConnected(EnumFacing.UP))
+            .withProperty(CONNECTED_NORTH, isSideConnected(EnumFacing.NORTH))
+            .withProperty(CONNECTED_SOUTH, isSideConnected(EnumFacing.SOUTH))
+            .withProperty(CONNECTED_WEST, isSideConnected(EnumFacing.WEST))
+            .withProperty(CONNECTED_EAST, isSideConnected(EnumFacing.EAST));
     }
 
     @Override
@@ -130,13 +130,13 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
         protected AdjustableEnergy.DelegateBase createDelegate() {
             return new DelegateConductor();
         }
-        
+
         private DelegateConductor getDelegate() {
             return (DelegateConductor) this.delegate;
         }
-        
+
         private class DelegateConductor extends DelegateBase implements IEnergyConductor {
-            
+
             @Override
             public double getConductionLoss() {
                 return 0;
@@ -177,5 +177,5 @@ public class TileEntitySuperconductorWire extends TileEntityEnergy {
                 return true;
             }
         }
-    } 
+    }
 }

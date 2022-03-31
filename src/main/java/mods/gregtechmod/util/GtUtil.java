@@ -1,12 +1,14 @@
 package mods.gregtechmod.util;
 
 import ic2.api.upgrade.IUpgradeItem;
-import ic2.core.block.invslot.InvSlot;
+import ic2.core.block.invslot.InvSlot.InvSide;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
 import ic2.core.util.Util;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.cover.ICover;
+import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.QuadFunction;
@@ -58,17 +60,19 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class GtUtil {
     public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
     public static final IFluidHandler VOID_TANK = new VoidTank();
     public static final Predicate<Fluid> STEAM_PREDICATE = fluid -> fluid == FluidRegistry.getFluid("steam") || fluid == FluidName.steam.getInstance() || fluid == FluidName.superheated_steam.getInstance();
-    public static final InvSlot.InvSide INV_SIDE_VERTICAL = addInvside("VERTICAL", EnumFacing.UP, EnumFacing.DOWN);
-    public static final InvSlot.InvSide INV_SIDE_NS = addInvside("NS", EnumFacing.NORTH, EnumFacing.SOUTH);
+    public static final InvSide INV_SIDE_VERTICAL = addInvside("VERTICAL", EnumFacing.UP, EnumFacing.DOWN);
+    public static final InvSide INV_SIDE_NS = addInvside("NS", EnumFacing.NORTH, EnumFacing.SOUTH);
 
     private static final LazyValue<Path> MOD_FILE = new LazyValue<>(() -> {
         Path source = Loader.instance().activeModContainer().getSource().toPath();
@@ -84,8 +88,7 @@ public final class GtUtil {
         return source;
     });
 
-    private GtUtil() {
-    }
+    private GtUtil() {}
 
     public static Path getAssetPath(String name) {
         String path = "assets/" + Reference.MODID + "/" + name;
@@ -101,20 +104,20 @@ public final class GtUtil {
         }
     }
 
-    public static InvSlot.InvSide addInvside(String name, EnumFacing... sides) {
-        return EnumHelper.addEnum(InvSlot.InvSide.class, name, new Class[]{EnumFacing[].class}, (Object) sides);
+    private static InvSide addInvside(String name, EnumFacing... sides) {
+        return EnumHelper.addEnum(InvSide.class, name, new Class[] { EnumFacing[].class }, (Object) sides);
     }
 
     public static List<ItemStack> copyStackList(List<ItemStack> list) {
         return StreamEx.of(list)
             .map(ItemStack::copy)
-            .toList();
+            .toMutableList();
     }
 
     public static List<ItemStack> nonEmptyList(ItemStack... elements) {
         return StreamEx.of(elements)
             .remove(ItemStack::isEmpty)
-            .toList();
+            .toImmutableList();
     }
 
     public static boolean damageStack(EntityPlayer player, ItemStack stack, int damage) {
@@ -147,7 +150,7 @@ public final class GtUtil {
     }
 
     public static List<ItemStack> correctStacksize(List<ItemStack> list) {
-        return list.stream()
+        return StreamEx.of(list)
             .flatMap(stack -> {
                 int maxSize = stack.getMaxStackSize();
                 if (stack.getCount() > maxSize) {
@@ -158,7 +161,7 @@ public final class GtUtil {
                 }
                 return Stream.of(stack);
             })
-            .collect(Collectors.toList());
+            .toImmutableList();
     }
 
     public static boolean stackEquals(ItemStack first, ItemStack second) {
@@ -166,25 +169,23 @@ public final class GtUtil {
     }
 
     public static boolean stackEquals(ItemStack first, ItemStack second, boolean matchNbt) {
-        if (first.isEmpty() || second.isEmpty()) return false;
-
-        return first.getItem() == second.getItem()
+        return !first.isEmpty() && !second.isEmpty()
+            && first.getItem() == second.getItem()
             && (first.getMetadata() == OreDictionary.WILDCARD_VALUE || first.getMetadata() == second.getMetadata())
             && (!matchNbt || StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound()));
     }
-    
+
     public static boolean stackItemEquals(ItemStack first, ItemStack second) {
         return stackItemEquals(first, second, false);
     }
 
     public static boolean stackItemEquals(ItemStack first, ItemStack second, boolean matchNbt) {
-        if (first.isEmpty() || second.isEmpty()) return false;
-
-        return first.getItem() == second.getItem()
+        return !first.isEmpty() && !second.isEmpty()
+            && first.getItem() == second.getItem()
             && (first.isItemStackDamageable() || first.getItemDamage() == second.getItemDamage())
             && (!matchNbt || StackUtil.checkNbtEquality(first.getTagCompound(), second.getTagCompound()));
     }
-    
+
     public static ItemStack copyWithMetaSize(ItemStack stack, int count, int meta) {
         ItemStack ret = ItemHandlerHelper.copyStackWithSize(stack, count);
         ret.setItemDamage(meta);
@@ -221,9 +222,8 @@ public final class GtUtil {
         if (item instanceof IUpgradeItem) {
             ItemUpgradeModule.UpgradeType upgradeType = ItemUpgradeModule.UpgradeType.values()[stack.getMetadata()];
             String name = upgradeType.name();
-            return Arrays.stream(IC2UpgradeType.values())
-                .filter(type -> type.itemType.equals(name))
-                .findFirst()
+            return StreamEx.of(IC2UpgradeType.values())
+                .findFirst(type -> type.itemType.equals(name))
                 .orElse(null);
         }
         return null;
@@ -309,7 +309,7 @@ public final class GtUtil {
         return moveItemStack(from, to, fromSide, toSide, maxTargetSize, minTargetSize, stack -> true);
     }
 
-    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxTargetSize, int minTargetSize, java.util.function.Predicate<ItemStack> filter) {
+    public static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, int maxTargetSize, int minTargetSize, Predicate<ItemStack> filter) {
         return moveItemStack(from, to, fromSide, toSide, dest -> true, filter, (source, dest, sourceStack, sourceSlot) -> {
             for (int j = 0; j < dest.getSlots(); j++) {
                 int count = moveSingleItemStack(source, dest, sourceStack, sourceSlot, j, minTargetSize, maxTargetSize);
@@ -326,8 +326,7 @@ public final class GtUtil {
         });
     }
 
-    private static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide,
-                                     java.util.function.Predicate<IItemHandler> condition, java.util.function.Predicate<ItemStack> filter, QuadFunction<IItemHandler, IItemHandler, ItemStack, Integer, Integer> consumer) {
+    private static int moveItemStack(TileEntity from, TileEntity to, EnumFacing fromSide, EnumFacing toSide, Predicate<IItemHandler> condition, Predicate<ItemStack> filter, QuadFunction<IItemHandler, IItemHandler, ItemStack, Integer, Integer> consumer) {
         if (from != null && to != null) {
             IItemHandler source = from.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, fromSide);
             if (source != null) {
@@ -365,21 +364,21 @@ public final class GtUtil {
         return 0;
     }
 
-    public static Set<EnumFacing> allSidesExcept(EnumFacing side) {
-        Set<EnumFacing> sides = new HashSet<>(Util.allFacings);
-        sides.remove(side);
-        return sides;
+    public static Set<EnumFacing> allSidesWithout(EnumFacing... sides) {
+        return StreamEx.of(Util.allFacings)
+            .without(sides)
+            .toImmutableSet();
     }
 
-    public static Set<EnumFacing> allSidesExcept(Collection<EnumFacing> sides) {
-        Set<EnumFacing> facings = new HashSet<>(Util.allFacings);
-        facings.removeAll(sides);
-        return facings;
+    public static Set<EnumFacing> allSidesWithout(Collection<EnumFacing> sides) {
+        return StreamEx.of(Util.allFacings)
+            .remove(sides::contains)
+            .toImmutableSet();
     }
 
     public static ItemStack collectItemFromArea(World world, BlockPos begin, BlockPos end) {
         List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(begin, end));
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             EntityItem entityItem = list.get(0);
             world.removeEntity(entityItem);
             return entityItem.getItem();
@@ -417,11 +416,11 @@ public final class GtUtil {
 
         return Pair.of(ItemStack.EMPTY, null);
     }
-    
+
     public static Predicate<Fluid> fluidPredicate(Fluid... fluids) {
         return fluid -> ArrayUtils.contains(fluids, fluid);
     }
-    
+
     public static Path extractConfigAsset(String name) {
         Path source = getAssetPath(name);
         try {
@@ -432,11 +431,37 @@ public final class GtUtil {
         }
         return source;
     }
-    
+
     public static ItemStack[] emptyStackArray(int size) {
         return StreamEx.generate(() -> ItemStack.EMPTY)
-            .limit(9)
+            .limit(size)
             .toArray(ItemStack[]::new);
+    }
+
+    public static int getStrongestRedstone(ICoverable te, World world, BlockPos pos, EnumFacing excludeFacing) {
+        return StreamEx.of(EnumFacing.VALUES)
+            .filter(side -> excludeFacing == null || side != excludeFacing)
+            .mapToInt(side -> getPowerFromSide(side, world, pos, te))
+            .max()
+            .orElse(0);
+    }
+
+    public static int getPowerFromSide(EnumFacing side, World world, BlockPos pos, ICoverable te) {
+        int power = world.getRedstonePower(pos.offset(side), side);
+
+        ICover cover = te.getCoverAtSide(side);
+        if (cover != null) {
+            if (cover.letsRedstoneIn()) return Math.max(power, cover.getRedstoneInput());
+        }
+        else return power;
+
+        return 0;
+    }
+
+    public static void spawnItemInWorld(World world, BlockPos pos, EnumFacing facing, ItemStack stack) {
+        EntityItem entityItem = new EntityItem(world, pos.getX() + facing.getXOffset() + 0.5, pos.getY() + facing.getYOffset() + 0.5, pos.getZ() + facing.getZOffset() + 0.5, stack);
+        entityItem.motionX = entityItem.motionY = entityItem.motionZ = 0;
+        world.spawnEntity(entityItem);
     }
 
     private static class VoidTank implements IFluidHandler {

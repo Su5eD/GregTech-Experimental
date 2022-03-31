@@ -24,7 +24,7 @@ public class TileEntityIndustrialElectrolyzer extends TileEntityIndustrialCentri
     public ContainerIndustrialElectrolyzer getGuiContainer(EntityPlayer player) {
         return new ContainerIndustrialElectrolyzer(player, this);
     }
-        
+
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {

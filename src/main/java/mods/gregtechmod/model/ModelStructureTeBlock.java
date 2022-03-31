@@ -6,14 +6,13 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class ModelStructureTeBlock extends ModelTeBlock {
     private final Map<EnumFacing, ResourceLocation> validTextures;
 
     public ModelStructureTeBlock(ResourceLocation particle, Map<EnumFacing, ResourceLocation> textures, Map<EnumFacing, ResourceLocation> validTextures) {
-        super(particle, Arrays.asList(textures, validTextures));
+        super(particle, textures, validTextures);
         this.validTextures = validTextures;
     }
 

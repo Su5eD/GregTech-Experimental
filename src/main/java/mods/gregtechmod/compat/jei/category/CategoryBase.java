@@ -24,7 +24,7 @@ public abstract class CategoryBase<R, W extends IRecipeWrapper> implements IReci
     private final LazyValue<IDrawable> background;
     private final Class<R> recipeClass;
     private final IRecipeWrapperFactory<R> recipeWrapperFactory;
-    
+
     public CategoryBase(String name, Class<R> recipeClass, IRecipeWrapperFactory<R> recipeWrapperFactory, IGuiHelper guiHelper) {
         this.name = name;
         this.uid = Reference.MODID + "." + this.name;
@@ -32,33 +32,33 @@ public abstract class CategoryBase<R, W extends IRecipeWrapper> implements IReci
         this.recipeClass = recipeClass;
         this.recipeWrapperFactory = recipeWrapperFactory;
     }
-    
+
     protected abstract IDrawable drawBackground(IGuiHelper guiHelper);
-    
+
     protected abstract Collection<?> getRecipes();
-    
+
     public void init(IModRegistry registry) {
         registry.handleRecipes(this.recipeClass, this.recipeWrapperFactory, this.uid);
         registry.addRecipes(getRecipes(), this.uid);
         registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity(this.name), this.uid);
-        addRecipeClickArea(registry);   
+        addRecipeClickArea(registry);
     }
-    
+
     protected void addRecipeClickArea(IModRegistry registry) {}
-    
+
     @Override
     public final void setRecipe(IRecipeLayout recipeLayout, W recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         initSlots(guiItemStacks);
         guiItemStacks.set(ingredients);
-        
+
         IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
         initFluidsSlots(guiFluidStacks);
         guiFluidStacks.set(ingredients);
     }
-    
+
     protected void initSlots(IGuiItemStackGroup guiItemStacks) {}
-    
+
     protected void initFluidsSlots(IGuiFluidStackGroup guiFluidStacks) {}
 
     @Override

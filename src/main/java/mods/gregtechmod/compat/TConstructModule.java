@@ -50,11 +50,11 @@ public class TConstructModule {
         }
         return false;
     }
-    
+
     private enum CastingRecipeType {
         BASIN,
         TABLE;
-        
+
         public String getName() {
             return name().toLowerCase(Locale.ROOT) + "_casting";
         }

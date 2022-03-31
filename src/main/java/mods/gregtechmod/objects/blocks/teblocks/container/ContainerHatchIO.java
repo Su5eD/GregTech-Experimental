@@ -5,7 +5,7 @@ import mods.gregtechmod.objects.blocks.teblocks.multiblock.TileEntityHatchIO;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerHatchIO extends ContainerBasicTank<TileEntityHatchIO> {
-    
+
     public ContainerHatchIO(EntityPlayer player, TileEntityHatchIO base) {
         super(player, base);
     }

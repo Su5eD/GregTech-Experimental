@@ -51,12 +51,12 @@ import java.util.stream.Stream;
 public final class GregTechMod {
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
     public static final Logger LOGGER = LogManager.getLogger(Reference.MODID);
-    
+
     public static Path configDir;
     public static Path modConfigDir;
     public static boolean classic;
     private static ClientProxy proxy;
-    
+
     static {
         FluidRegistry.enableUniversalBucket();
     }
@@ -64,18 +64,18 @@ public final class GregTechMod {
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) throws IOException {
         LOGGER.info("Pre-init started");
-        
+
         configDir = event.getSuggestedConfigurationFile().getParentFile().toPath();
         modConfigDir = GregTechMod.configDir.resolve("GregTech");
         Files.createDirectories(modConfigDir);
-        
+
         classic = IC2.version.isClassic();
         if (event.getSide() == Side.CLIENT) proxy = new ClientProxy();
-        
+
         MinecraftForge.EVENT_BUS.register(OreGenerator.INSTANCE);
         MinecraftForge.EVENT_BUS.register(RetrogenHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(OreDictHandler.INSTANCE);
-        
+
         GregTechTEBlock.blockTE = TeBlockRegistry.get(GregTechTEBlock.LOCATION);
         GregTechTEBlock.blockTE.setCreativeTab(GregTechMod.GREGTECH_TAB);
         GregTechAPIImpl.createAndInject();
@@ -87,7 +87,7 @@ public final class GregTechMod {
         ComputerCubeModules.Module.registerModules();
         DataEncoder.addNetworkEncoder(IDSUData.EnergyWrapper.class, new IDSUData.EnergyWrapper.EnergyWrapperEncoder());
         GameRegistry.registerWorldGenerator(OreGenerator.INSTANCE, 0);
-        
+
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());
         GregTechAPI.instance().registerWrench(ItemName.wrench_new.getInstance());
     }
@@ -97,7 +97,7 @@ public final class GregTechMod {
         ModHandler.gatherModItems();
         if (event.getSide() == Side.CLIENT) ClientEventHandler.gatherModItems();
         ComputerCubeGuide.Page.register();
-        
+
         OreDictRegistrar.registerItems();
         JavaUtil.measureTime("Parsing recipes", () -> {
             MachineRecipeParser.loadRecipes();
@@ -111,13 +111,13 @@ public final class GregTechMod {
         LOGGER.debug("Registering loot");
         LootFunctionManager.registerFunction(new LootFunctionWriteBook.Serializer());
         Stream.of(
-                "abandoned_mineshaft", "desert_pyramid", "jungle_temple", "jungle_temple_dispenser", 
+                "abandoned_mineshaft", "desert_pyramid", "jungle_temple", "jungle_temple_dispenser",
                 "simple_dungeon", "stronghold_crossing", "stronghold_library", "village_blacksmith"
-        )
-                .map(path -> new ResourceLocation(Reference.MODID, "chests/" + path))
-                .forEach(LootTableList::register);
+            )
+            .map(path -> new ResourceLocation(Reference.MODID, "chests/" + path))
+            .forEach(LootTableList::register);
     }
-    
+
     @EventHandler
     public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
@@ -132,12 +132,12 @@ public final class GregTechMod {
         DamagedOreIngredientFixer.fixRecipes();
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
     }
-    
+
     @EventHandler
     public static void onServerStopping(FMLServerStoppingEvent event) {
         TileEntityTesseractGenerator.onServerStopping();
     }
-    
+
     public static void runProxy(Consumer<ClientProxy> consumer) {
         if (proxy != null) consumer.accept(proxy);
     }

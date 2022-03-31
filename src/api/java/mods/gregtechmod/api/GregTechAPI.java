@@ -19,7 +19,7 @@ public class GregTechAPI {
         if (dynamicConfig.hasChanged()) dynamicConfig.save();
         return ret;
     }
-    
+
     public static IGregTechAPI instance() {
         return impl;
     }

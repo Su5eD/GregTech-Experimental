@@ -31,7 +31,7 @@ import java.util.List;
 
 public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implements IHasGui {
     private static final List<EntityEnderCrystal> USED_ENDER_CRYSTALS = new ArrayList<>();
-    
+
     public final InvSlotConsumable inputSlot;
     public final InvSlotOutput outputSlot;
     @NBTPersistent
@@ -44,11 +44,11 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
         this.inputSlot = new GtSlotConsumable(this, "input", 1);
         this.outputSlot = new InvSlotOutput(this, "output", 1);
     }
-    
+
     public void switchDrainAura() {
         this.drainAura = !this.drainAura;
     }
-    
+
     public void switchDrainCrystalEnergy() {
         this.drainCrystalEnergy = !this.drainCrystalEnergy;
     }
@@ -72,38 +72,40 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                             if (enchantment != null) addEnergy(1000000 * (level / (double) (enchantment.getMaxLevel() * enchantment.getRarity().getWeight())));
                         }
                         input.getTagCompound().removeTag("ench");
-                        
+
                         if (StackUtil.checkItemEquality(input, Items.ENCHANTED_BOOK)) this.outputSlot.add(new ItemStack(Items.BOOK));
                         else this.outputSlot.add(input);
-                        
+
                         this.inputSlot.consume(1);
                     }
                 }
             }
-            
+
             if (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal > 0 && this.drainCrystalEnergy) {
                 if (this.targetedCrystal == null) {
                     AxisAlignedBB range = new AxisAlignedBB(this.pos.add(-64, -64, -64), this.pos.add(64, 64, 64));
                     List<EntityEnderCrystal> list = this.world.getEntitiesWithinAABB(EntityEnderCrystal.class, range);
-                    
+
                     list.removeAll(USED_ENDER_CRYSTALS);
                     if (!list.isEmpty()) {
                         this.targetedCrystal = list.get(0);
                         USED_ENDER_CRYSTALS.add(this.targetedCrystal);
-                    } 
-                } else if (this.targetedCrystal.isEntityAlive()) {
+                    }
+                }
+                else if (this.targetedCrystal.isEntityAlive()) {
                     addEnergy(GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyPerEnderCrystal);
-                } else {
+                }
+                else {
                     USED_ENDER_CRYSTALS.remove(this.targetedCrystal);
                     this.targetedCrystal = null;
-                }  
+                }
             }
-            
+
             if (ModHandler.thaumcraft) {
                 if (this.drainAura && GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis > 0 && getStoredEU() < GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis) {
                     drainAura();
                 }
-                
+
                 if (this.shouldExplode) {
                     int minFlux = (int) (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis / 3200D);
                     int maxFlux = (int) (GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis / 1600D);
@@ -111,23 +113,23 @@ public class TileEntityMagicEnergyAbsorber extends TileEntityGenerator implement
                     polluteAura();
                 }
             }
-            
+
             setActive(getStoredEU() >= getMaxOutputEUt() + getMinimumStoredEU());
         }
     }
-    
+
     @Optional.Method(modid = "thaumcraft")
     private void drainAura() {
         if (AuraHelper.drainVis(this.world, this.pos, 1, false) >= 1) {
             addEnergy(GregTechConfig.MACHINES.MAGIC_ENERGY_ABSORBER.energyFromVis);
-            
+
             AxisAlignedBB range = new AxisAlignedBB(this.pos.add(-8, -8, -8), this.pos.add(8, 8, 8));
             List<EntityWisp> wisps = this.world.getEntitiesWithinAABB(EntityWisp.class, range);
-            
+
             if (!wisps.isEmpty()) markForExplosion();
         }
     }
-    
+
     @Optional.Method(modid = "thaumcraft")
     private void polluteAura() {
         AuraHelper.polluteAura(this.world, this.pos, 50 + this.world.rand.nextInt(50), true);

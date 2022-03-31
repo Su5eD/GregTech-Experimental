@@ -45,14 +45,14 @@ public class CoverVent extends CoverGeneric {
 
     public static boolean isVent(ItemStack stack) {
         return Arrays.stream(VentType.values())
-                .anyMatch(vent -> vent.apply(stack));
+            .anyMatch(vent -> vent.apply(stack));
     }
 
     public static VentType getVentType(ItemStack stack) {
         return Arrays.stream(VentType.values())
-                .filter(vent -> vent.apply(stack))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid vent ItemStack: " + stack));
+            .filter(vent -> vent.apply(stack))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Invalid vent ItemStack: " + stack));
     }
 
     public enum VentType {
@@ -69,10 +69,10 @@ public class CoverVent extends CoverGeneric {
             this.stacks = Arrays.asList(stacks);
             this.icon = new ResourceLocation(Reference.MODID, "blocks/covers/" + icon);
         }
-        
+
         public boolean apply(ItemStack stack) {
             return this.stacks.stream()
-                    .anyMatch(coverItem -> GtUtil.stackEquals(coverItem, stack, false));
+                .anyMatch(coverItem -> GtUtil.stackEquals(coverItem, stack, false));
         }
 
         public ResourceLocation getIcon() {

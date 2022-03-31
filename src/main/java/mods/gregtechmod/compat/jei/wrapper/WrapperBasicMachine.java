@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public abstract class WrapperBasicMachine<R extends IMachineRecipe<?, List<ItemStack>>> implements IRecipeWrapper {
     protected final R recipe;
     private final int yOffset;
-    
+
     public WrapperBasicMachine(R recipe, int yOffset) {
         this.recipe = recipe;
         this.yOffset = yOffset;
@@ -25,8 +25,8 @@ public abstract class WrapperBasicMachine<R extends IMachineRecipe<?, List<ItemS
     public void getIngredients(IIngredients ingredients) {
         setInputs(ingredients);
         List<List<ItemStack>> output = recipe.getOutput().stream()
-                .map(Collections::singletonList)
-                .collect(Collectors.toList());
+            .map(Collections::singletonList)
+            .collect(Collectors.toList());
         ingredients.setOutputLists(VanillaTypes.ITEM, output);
     }
 

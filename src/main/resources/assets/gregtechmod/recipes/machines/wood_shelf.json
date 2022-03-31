@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "WWW",
+    "A A",
+    "WWW"
+  ],
+  "key":
+  {
+    "W":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "A":
+    {
+      "type": "forge:ore_dict",
+      "ore": "plateAluminium"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 77,
+    "count": 4
+  }
+}

@@ -16,7 +16,7 @@ public class ContainerComputerCubeGuide extends ContainerComputerCube {
 
     public ContainerComputerCubeGuide(EntityPlayer player, TileEntityComputerCube base) {
         super(player, base, 206);
-        
+
         addSlotToContainer(SlotInteractive.serverOnly(190, 146, () -> {
             ((ComputerCubeGuide) base.getActiveModule()).previousPage();
             displayStacks();
@@ -30,24 +30,24 @@ public class ContainerComputerCubeGuide extends ContainerComputerCube {
 
         ComputerCubeGuide module = (ComputerCubeGuide) base.getActiveModule();
         this.displaySlots = IntStreamEx.range(0, 5)
-                .mapToObj(i -> new SlotInvSlot(module.displayStacks, i, 206, 38 + 18 * i))
-                .peek(this::addSlotToContainer)
-                .toList();
-        
+            .mapToObj(i -> new SlotInvSlot(module.displayStacks, i, 206, 38 + 18 * i))
+            .peek(this::addSlotToContainer)
+            .toList();
+
         displayStacks();
     }
-    
+
     private void displayStacks() {
         ComputerCubeGuide.GuidePage page = ((ComputerCubeGuide) this.base.getActiveModule()).getCurrentPage();
         int size = this.displaySlots.size();
-        
+
         for (int i = size - 1; i >= 0; i--) {
             Slot slot = this.displaySlots.get(i);
             int j = size - 1 - i;
-                        
+
             if (page.stacks.size() > j) slot.putStack(page.stacks.get(j));
             else slot.putStack(ItemStack.EMPTY);
-                        
+
             slot.onSlotChanged();
         }
     }

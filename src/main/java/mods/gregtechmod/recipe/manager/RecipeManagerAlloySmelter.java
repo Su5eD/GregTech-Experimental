@@ -15,14 +15,14 @@ public class RecipeManagerAlloySmelter extends RecipeManagerMultiInput<IRecipeUn
         boolean ret = super.addRecipe(recipe, overwrite);
         if (ret && recipe.isUniversal()) {
             recipe.getOutput()
-                    .forEach(output -> {
-                        int energy = output.getCount() * 1000;
-                        ItemStack sand = new ItemStack(Blocks.SAND);
-                        recipe.getInput().get(0).getMatchingInputs().forEach(stack -> {
-                            GameRegistry.addSmelting(stack, output, 0);
-                            ModHandler.addInductionSmelterRecipe(stack, sand, output, ItemStack.EMPTY, energy, 0);
-                        });
+                .forEach(output -> {
+                    int energy = output.getCount() * 1000;
+                    ItemStack sand = new ItemStack(Blocks.SAND);
+                    recipe.getInput().get(0).getMatchingInputs().forEach(stack -> {
+                        GameRegistry.addSmelting(stack, output, 0);
+                        ModHandler.addInductionSmelterRecipe(stack, sand, output, ItemStack.EMPTY, energy, 0);
                     });
+                });
         }
         return ret;
     }

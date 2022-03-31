@@ -8,7 +8,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
  * Fixes advancements breaking because of replacement of certain vanilla recipes<br></br>
- * 
+ * <p>
  * Code taken from Harvestcraft <a href="https://github.com/MatrexsVigil/harvestcraft/pull/242">PR 242</a>
  */
 public class DummyRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {

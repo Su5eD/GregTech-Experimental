@@ -16,6 +16,6 @@ public class WrapperIndustrialBlastFurnace extends WrapperMultiInput<IRecipeBlas
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         JEIUtils.drawInfo(minecraft, recipe, -10, true);
-        minecraft.fontRenderer.drawString(GtLocale.translateInfo("heat_capacity", JavaUtil.formatNumber(recipe.getHeat())), 2,80, GuiColors.BLACK, false);
+        minecraft.fontRenderer.drawString(GtLocale.translateInfo("heat_capacity", JavaUtil.formatNumber(recipe.getHeat())), 2, 80, GuiColors.BLACK, false);
     }
 }

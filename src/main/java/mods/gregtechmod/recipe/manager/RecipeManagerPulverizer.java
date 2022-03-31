@@ -39,18 +39,25 @@ public class RecipeManagerPulverizer extends RecipeManagerBasic<IRecipePulverize
     private static void addPulverisationRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance, boolean overwrite) {
         if (!input.getItem().hasContainerItem(input)) {
             if (!OreDictUnificator.isItemInstanceOf(primaryOutput, "dustWood", false) && !OreDictUnificator.isItemInstanceOf(primaryOutput, "dustSmallWood", false)) {
-                if (OreDictUnificator.isItemInstanceOf(input, "ingot", true)) ModHandler.addAEGrinderRecipe(input, primaryOutput, 5);
+                if (OreDictUnificator.isItemInstanceOf(input, "ingot", true))
+                    ModHandler.addAEGrinderRecipe(input, primaryOutput, 5);
                 if (!input.isItemEqual(new ItemStack(Blocks.OBSIDIAN))) {
                     Map<ItemStack, Float> outputs = new HashMap<>();
                     outputs.put(primaryOutput.copy(), 1 / (float) input.getCount());
-                    if (!secondaryOutput.isEmpty()) outputs.put(secondaryOutput.copy(), 0.01F * (chance <= 0 ? 10 : chance) / input.getCount());
+                    if (!secondaryOutput.isEmpty())
+                        outputs.put(secondaryOutput.copy(), 0.01F * (chance <= 0 ? 10 : chance) / input.getCount());
                     ModHandler.addRockCrusherRecipe(input.copy().splitStack(1), outputs);
                 }
-                if (secondaryOutput.isEmpty()) ModHandler.addTEPulverizerRecipe(4000, input.copy(), primaryOutput.copy(), overwrite);
-                else ModHandler.addTEPulverizerRecipe(4000, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), chance <= 0 ? 10 : chance, overwrite);
-            } else {
-                if (secondaryOutput.isEmpty()) ModHandler.addTESawmillRecipe(800, input.copy(), primaryOutput.copy(), overwrite);
-                else ModHandler.addTESawmillRecipe(800, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), chance <= 0 ? 10 : chance, overwrite);
+                if (secondaryOutput.isEmpty())
+                    ModHandler.addTEPulverizerRecipe(4000, input.copy(), primaryOutput.copy(), overwrite);
+                else
+                    ModHandler.addTEPulverizerRecipe(4000, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), chance <= 0 ? 10 : chance, overwrite);
+            }
+            else {
+                if (secondaryOutput.isEmpty())
+                    ModHandler.addTESawmillRecipe(800, input.copy(), primaryOutput.copy(), overwrite);
+                else
+                    ModHandler.addTESawmillRecipe(800, input.copy(), primaryOutput.copy(), secondaryOutput.copy(), chance <= 0 ? 10 : chance, overwrite);
             }
         }
     }

@@ -25,6 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import one.util.streamex.StreamEx;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,11 +35,11 @@ import java.util.Map;
 public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<TileEntityIndustrialBlastFurnace.BlastFurnaceStructure, IRecipeBlastFurnace, List<IRecipeIngredient>, List<ItemStack>, IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeBlastFurnace>> {
     public final GtSlotProcessableItemStack<IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeBlastFurnace>, List<ItemStack>> secondaryInput;
     private final CoilHandler coilHandler;
-    
+
     public TileEntityIndustrialBlastFurnace() {
         super(2, GtRecipes.industrialBlastFurnace);
         this.secondaryInput = getInputSlot("secondary_input", InvSlot.InvSide.BOTTOM, false);
-        
+
         this.coilHandler = addComponent(new CoilHandler(this, 4));
     }
 
@@ -55,43 +56,43 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     @Override
     protected List<List<String>> getStructurePattern() {
         return Arrays.asList(
-                Arrays.asList(
-                        " X ",
-                        "CCC",
-                        "CCC",
-                        "CCC"
-                ),
-                Arrays.asList(
-                        "   ",
-                        "CCC",
-                        "CLC",
-                        "CCC"
-                ),
-                Arrays.asList(
-                        "   ",
-                        "CCC",
-                        "CLC",
-                        "CCC"
-                ),
-                Arrays.asList(
-                        "   ",
-                        "CCC",
-                        "CCC",
-                        "CCC"
-                )
+            Arrays.asList(
+                " X ",
+                "CCC",
+                "CCC",
+                "CCC"
+            ),
+            Arrays.asList(
+                "   ",
+                "CCC",
+                "CLC",
+                "CCC"
+            ),
+            Arrays.asList(
+                "   ",
+                "CCC",
+                "CLC",
+                "CCC"
+            ),
+            Arrays.asList(
+                "   ",
+                "CCC",
+                "CCC",
+                "CCC"
+            )
         );
     }
 
     @Override
     protected Map<Character, Collection<StructureElement>> getStructureElements() {
         return new StructureElementGatherer(this::getWorld)
-                .block('C', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
-                .predicate('L', pos -> {
-                    IBlockState state = world.getBlockState(pos);
-                    Block block = state.getBlock();
-                    return block == Blocks.AIR || state == Blocks.LAVA.getDefaultState();
-                })
-                .gather();
+            .block('C', BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance(), BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance(), BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance())
+            .predicate('L', pos -> {
+                IBlockState state = world.getBlockState(pos);
+                Block block = state.getBlock();
+                return block == Blocks.AIR || state == Blocks.LAVA.getDefaultState();
+            })
+            .gather();
     }
 
     @Override
@@ -109,12 +110,12 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
         boolean ret = super.canProcessRecipe(recipe);
         if (recipe != null && ret) {
             return this.structure.getWorldStructure()
-                    .map(Structure.WorldStructure::getInstance)
-                    .map(instance -> {
-                        int heatCapacity = instance.heatCapacity + this.coilHandler.heatingCoilTier * 500;
-                        return heatCapacity >= recipe.getHeat();
-                    })
-                    .orElse(true);
+                .map(Structure.WorldStructure::getInstance)
+                .map(instance -> {
+                    int heatCapacity = instance.heatCapacity + this.coilHandler.heatingCoilTier * 500;
+                    return heatCapacity >= recipe.getHeat();
+                })
+                .orElse(true);
         }
         return false;
     }
@@ -139,33 +140,36 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiIndustrialBlastFurnace(getGuiContainer(player));
     }
-    
+
     public static class BlastFurnaceStructure {
         private int heatCapacity;
-        
+
         public BlastFurnaceStructure(World world, Map<Character, Collection<BlockPos>> elements) {
-            elements.get('C').stream()
-                    .map(world::getBlockState)
-                    .map(IBlockState::getBlock)
-                    .forEach(block -> {
-                        if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance()) {
-                            heatCapacity += 30;
-                        } else if (block == BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance()) {
-                            heatCapacity += 50;
-                        } else if (block == BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance()) {
-                            heatCapacity += 70;
-                        } else if (block == Blocks.LAVA) {
-                            heatCapacity += 250;
-                        }
-                    });
+            StreamEx.ofValues(elements)
+                .flatMap(Collection::stream)
+                .map(pos -> world.getBlockState(pos).getBlock())
+                .forEach(block -> {
+                    if (block == BlockItems.Block.STANDARD_MACHINE_CASING.getBlockInstance()) {
+                        heatCapacity += 30;
+                    }
+                    else if (block == BlockItems.Block.REINFORCED_MACHINE_CASING.getBlockInstance()) {
+                        heatCapacity += 50;
+                    }
+                    else if (block == BlockItems.Block.ADVANCED_MACHINE_CASING.getBlockInstance()) {
+                        heatCapacity += 70;
+                    }
+                    else if (block == Blocks.LAVA) {
+                        heatCapacity += 250;
+                    }
+                });
         }
     }
-    
+
     public int getHeatCapacity() {
         int heatCapacity = this.structure.getWorldStructure()
-                .map(Structure.WorldStructure::getInstance)
-                .map(instance -> instance.heatCapacity)
-                .orElse(0);
+            .map(Structure.WorldStructure::getInstance)
+            .map(instance -> instance.heatCapacity)
+            .orElse(0);
         return this.coilHandler.heatingCoilTier * 500 + heatCapacity;
     }
 }

@@ -11,7 +11,7 @@ public class GuiLESU extends GuiEnergyStorage {
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        
+
         if (this.container.base.getEUCapacity() >= 1999999999) {
             drawString("teblock.lesu.warning", 48);
             drawString("teblock.lesu.max_reached", 56);

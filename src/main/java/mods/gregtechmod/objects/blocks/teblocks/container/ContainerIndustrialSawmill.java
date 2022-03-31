@@ -10,14 +10,14 @@ public class ContainerIndustrialSawmill extends ContainerMachineBase<TileEntityI
 
     public ContainerIndustrialSawmill(EntityPlayer player, TileEntityIndustrialSawmill base) {
         super(player, base);
-        
+
         addSlotToContainer(new SlotInvSlot(base.inputSlot, 0, 34, 16));
         addSlotToContainer(new SlotInvSlot(base.secondaryInput, 0, 34, 34));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 0, 86, 25));
         addSlotToContainer(new SlotInvSlot(base.outputSlot, 1, 104, 25));
         addSlotToContainer(new SlotInvSlot(base.fluidContainerOutput, 0, 122, 25));
     }
-    
+
     @Override
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);

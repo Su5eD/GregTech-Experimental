@@ -59,15 +59,15 @@ public enum WorldOre {
     }
 
     /**
-     * @param block The generated block
-     * @param dimension The dimension in which the ore will be generated
-     * @param type Ore cluster type
-     * @param amount Amount of clusters in a chunk
-     * @param size Amount of ores in a cluster
+     * @param block       The generated block
+     * @param dimension   The dimension in which the ore will be generated
+     * @param type        Ore cluster type
+     * @param amount      Amount of clusters in a chunk
+     * @param size        Amount of ores in a cluster
      * @param probability Chance of generating a cluster
-     * @param minY Minimum Y to generate
-     * @param maxY Maximum Y to generate
-     * @param biomes Biomes in which the ore spawns. Leave empty for all biomes.
+     * @param minY        Minimum Y to generate
+     * @param maxY        Maximum Y to generate
+     * @param biomes      Biomes in which the ore spawns. Leave empty for all biomes.
      */
     WorldOre(Ore block, BooleanSupplier enabled, DimensionType dimension, OreType type, int amount, int size, int probability, int minY, int maxY, String... biomes) {
         this.block = block;
@@ -81,8 +81,8 @@ public enum WorldOre {
         this.maxY = maxY;
 
         Arrays.stream(biomes)
-                .map(ResourceLocation::new)
-                .forEach(this.biomeList::add);
+            .map(ResourceLocation::new)
+            .forEach(this.biomeList::add);
     }
 
     public enum OreType {

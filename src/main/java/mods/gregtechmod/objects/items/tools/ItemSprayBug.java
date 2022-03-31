@@ -58,9 +58,9 @@ public class ItemSprayBug extends ItemToolCrafting {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof ICropTile) {
             ItemStack stack = player.inventory.getCurrentItem();
-            int cropTile = ((ICropTile)tileEntity).getStorageWeedEX();
+            int cropTile = ((ICropTile) tileEntity).getStorageWeedEX();
             if (cropTile <= 100 && GtUtil.damageStack(player, stack, 1)) {
-                ((ICropTile)tileEntity).setStorageWeedEX(cropTile + 100);
+                ((ICropTile) tileEntity).setStorageWeedEX(cropTile + 100);
                 return EnumActionResult.SUCCESS;
             }
         }

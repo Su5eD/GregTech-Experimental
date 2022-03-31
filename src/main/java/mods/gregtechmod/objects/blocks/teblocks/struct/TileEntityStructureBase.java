@@ -22,7 +22,7 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
 
     public TileEntityStructureBase(int outputSlots, RM recipeManager) {
         super(outputSlots, recipeManager);
-        
+
         this.structure = new Structure<>(getStructurePattern(), getStructureElements(), this::createStructureInstance);
     }
 
@@ -33,17 +33,17 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
     }
 
     protected abstract List<List<String>> getStructurePattern();
-    
+
     protected abstract Map<Character, Collection<StructureElement>> getStructureElements();
-    
+
     protected T createStructureInstance(EnumFacing facing, Map<Character, Collection<BlockPos>> elements) {
         return null;
     }
-    
+
     @Override
     protected void updateEntityServer() {
         super.updateEntityServer();
-                
+
         if (this.tickCounter % 5 == 0) {
             this.structure.checkWorldStructure(this.pos, this.getFacing());
         }
@@ -59,7 +59,7 @@ public abstract class TileEntityStructureBase<T, R extends IMachineRecipe<RI, Li
         this.structure.checkWorldStructure(this.pos, this.getFacing());
         return super.getExtendedState(state).withProperty(PROPERTY_VALID, this.structure.isValid());
     }
-    
+
     @Override
     protected boolean needsConstantEnergy() {
         return super.needsConstantEnergy() && this.structure.isValid();

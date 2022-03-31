@@ -10,15 +10,15 @@ public class TileEntityHatchInput extends TileEntityHatchIO {
     public TileEntityHatchInput() {
         super(InvSlotConsumableLiquid.OpType.Drain, true, false, true);
     }
-    
+
     public ItemStack getItem() {
         return this.tank.inputSlot.get();
     }
-    
+
     public FluidStack getFluid() {
         return this.tank.content.getFluid();
     }
-    
+
     public boolean depleteInput(ItemStack stack) {
         if (!stack.isEmpty()) {
             FluidStack fluid = FluidUtil.getFluidContained(stack);

@@ -1,7 +1,6 @@
 package mods.gregtechmod.inventory;
 
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.util.ButtonClick;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;

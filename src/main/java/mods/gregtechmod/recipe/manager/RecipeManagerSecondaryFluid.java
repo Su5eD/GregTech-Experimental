@@ -15,7 +15,7 @@ public class RecipeManagerSecondaryFluid<R extends IMachineRecipe<List<IRecipeIn
     @Override
     public boolean hasRecipeForPrimaryInput(ItemStack input) {
         return this.recipes.stream()
-                .anyMatch(recipe -> recipe.getInput().get(0).apply(input, false));
+            .anyMatch(recipe -> recipe.getInput().get(0).apply(input, false));
     }
 
     @Override
@@ -23,12 +23,12 @@ public class RecipeManagerSecondaryFluid<R extends IMachineRecipe<List<IRecipeIn
         ItemStack primary = input.get(0);
         ItemStack secondary = input.get(1);
         return this.getRecipes().stream()
-                .filter(recipe -> {
-                    List<IRecipeIngredient> inputs = recipe.getInput();
-                    IRecipeIngredientFluid inputFluid = (IRecipeIngredientFluid) inputs.get(1);
-                    return inputs.get(0).apply(primary) && (fluid != null ? inputFluid.apply(fluid) : inputFluid.apply(secondary));
-                })
-                .min(this::compareCount)
-                .orElseGet(() -> getProvidedRecipe(input));
+            .filter(recipe -> {
+                List<IRecipeIngredient> inputs = recipe.getInput();
+                IRecipeIngredientFluid inputFluid = (IRecipeIngredientFluid) inputs.get(1);
+                return inputs.get(0).apply(primary) && (fluid != null ? inputFluid.apply(fluid) : inputFluid.apply(secondary));
+            })
+            .min(this::compareCount)
+            .orElseGet(() -> getProvidedRecipe(input));
     }
 }

@@ -102,7 +102,20 @@
       "electric_translocator_advanced": { "model": "gregtechmod:electric_translocator_advanced" },
       "electric_regulator_advanced": { "model": "gregtechmod:electric_regulator_advanced" },
       "electric_inventory_manager": { "model": "gregtechmod:electric_inventory_manager" },
-      "electric_crafting_table": { "model": "gregtechmod:electric_crafting_table" }
+      "electric_crafting_table": { "model": "gregtechmod:electric_crafting_table" },
+      "player_detector": { "model": "gregtechmod:player_detector" },
+      "player_detector_active": { "model": "gregtechmod:player_detector_active" },
+      "redstone_note_block": { "model": "gregtechmod:redstone_note_block" },
+      "button_panel": { "model": "gregtechmod:button_panel" },
+      "button_panel_active": { "model": "gregtechmod:button_panel_active" },
+      "redstone_display": { "model": "gregtechmod:redstone_display" },
+      "redstone_scale": { "model": "gregtechmod:redstone_scale" },
+      "wood_shelf": { "model": "gregtechmod:wood_shelf" },
+      "metal_shelf": { "model": "gregtechmod:metal_shelf" },
+      "file_cabinet": { "model": "gregtechmod:file_cabinet" },
+      "metal_desk": { "model": "gregtechmod:metal_desk" },
+      "compartment": { "model": "gregtechmod:compartment" },
+      "machine_box": { "model": "gregtechmod:machine_box" }
     },
     "facing": {
       "down": { "x": 90 },

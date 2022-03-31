@@ -53,7 +53,7 @@ public class Maintenance extends GtComponentBase {
             }
         }
     }
-    
+
     @Override
     public void onContainerUpdate(EntityPlayerMP player) {
         GrowingBuffer buf = new GrowingBuffer(8);
@@ -64,10 +64,10 @@ public class Maintenance extends GtComponentBase {
         buf.writeBoolean(this.solderingTool);
         buf.writeBoolean(this.crowbar);
         buf.flip();
-                                    
+
         setNetworkUpdate(player, buf);
     }
-            
+
     @Override
     public void onNetworkUpdate(DataInput in) throws IOException {
         this.wrench = in.readBoolean();
@@ -77,7 +77,7 @@ public class Maintenance extends GtComponentBase {
         this.solderingTool = in.readBoolean();
         this.crowbar = in.readBoolean();
     }
-    
+
     public void collectMaintenanceStatus(Maintenance source) {
         getAndResetMaintenanceStatus(source::getWrench, this::setWrench, source::setWrench);
         getAndResetMaintenanceStatus(source::getScrewdriver, this::setScrewdriver, source::setScrewdriver);
@@ -86,12 +86,12 @@ public class Maintenance extends GtComponentBase {
         getAndResetMaintenanceStatus(source::getSolderingTool, this::setSolderingTool, source::setSolderingTool);
         getAndResetMaintenanceStatus(source::getCrowbar, this::setCrowbar, source::setCrowbar);
     }
-    
+
     private void getAndResetMaintenanceStatus(Supplier<Boolean> getter, Consumer<Boolean> setter, Consumer<Boolean> resetter) {
         if (getter.get()) setter.accept(true);
         resetter.accept(false);
     }
-    
+
     public void setAll(boolean value) {
         this.wrench = this.screwdriver = this.softHammer = this.hardHammer = this.solderingTool = this.crowbar = value;
     }

@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiElectricSorter<T extends ContainerElectricBuffer<? extends TileEntityElectricSorterBase>> extends GuiElectricBuffer<T> {
     public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("electric_sorter");
-    
+
     public GuiElectricSorter(T container) {
         super(container);
     }
@@ -15,7 +15,7 @@ public class GuiElectricSorter<T extends ContainerElectricBuffer<? extends TileE
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        
+
         drawString(138, 7, this.container.base.getOppositeFacing().name(), GuiColors.WHITE, false);
         drawString(100, 65, this.container.base.getTargetFacing().name(), GuiColors.WHITE, false);
     }

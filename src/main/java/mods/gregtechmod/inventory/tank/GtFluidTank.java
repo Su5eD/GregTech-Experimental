@@ -20,20 +20,20 @@ public class GtFluidTank extends Fluids.InternalFluidTank {
 
     @Override
     public boolean canFill(EnumFacing side) {
-        if (this.parent instanceof IGregTechMachine && !((IGregTechMachine) this.parent).isAllowedToWork()) return false; 
-        
+        if (this.parent instanceof IGregTechMachine && !((IGregTechMachine) this.parent).isAllowedToWork()) return false;
+
         ICover cover = parent.getCoverAtSide(side);
         return super.canFill(side) && (cover == null || cover.letsLiquidsIn());
     }
 
     @Override
     public boolean canDrain(EnumFacing side) {
-        if (this.parent instanceof IGregTechMachine && !((IGregTechMachine) this.parent).isAllowedToWork()) return false; 
-        
+        if (this.parent instanceof IGregTechMachine && !((IGregTechMachine) this.parent).isAllowedToWork()) return false;
+
         ICover cover = parent.getCoverAtSide(side);
         return super.canDrain(side) && (cover == null || cover.letsLiquidsOut());
     }
-    
+
     public boolean isEmpty() {
         return getFluidAmount() <= 0;
     }

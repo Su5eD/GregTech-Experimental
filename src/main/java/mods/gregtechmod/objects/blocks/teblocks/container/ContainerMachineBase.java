@@ -10,7 +10,7 @@ public class ContainerMachineBase<T extends IInventory> extends ContainerGtInven
     public ContainerMachineBase(EntityPlayer player, T base) {
         super(player, base);
     }
-    
+
     @Override
     public void getNetworkedFields(List<? super String> list) {
         list.add("progress");

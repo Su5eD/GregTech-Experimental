@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#metal_desk"
+    }
+  ],
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 81
+  }
+}

@@ -68,7 +68,7 @@ public class ItemRubberHammer extends ItemHammer {
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         TileEntity te = world.getTileEntity(pos);
 
-        if(te instanceof IGregTechMachine && GtUtil.damageStack(player, player.inventory.getCurrentItem(), 1)) {
+        if (te instanceof IGregTechMachine && GtUtil.damageStack(player, player.inventory.getCurrentItem(), 1)) {
             ((IGregTechMachine) te).setAllowedToWork(!((IGregTechMachine) te).isAllowedToWork());
 
             GtUtil.sendMessage(player, GtLocale.buildKeyItem(this, "processing_" + (((IGregTechMachine) te).isAllowedToWork() ? "enabled" : "disabled")));

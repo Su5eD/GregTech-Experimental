@@ -24,10 +24,10 @@ public class ItemTeslaStaff extends ItemElectricBase {
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         if (target instanceof EntityPlayer && ElectricItem.manager.canUse(stack, 9000000)) {
             ElectricItem.manager.use(stack, 9000000, attacker);
-            for (int i = 0; i<4; i++) {
-                ItemStack armor = ((EntityPlayer)target).inventory.armorInventory.get(i);
+            for (int i = 0; i < 4; i++) {
+                ItemStack armor = ((EntityPlayer) target).inventory.armorInventory.get(i);
                 if (armor.getItem() instanceof IElectricItem) {
-                    ((EntityPlayer)target).inventory.armorInventory.set(i, ItemStack.EMPTY);
+                    ((EntityPlayer) target).inventory.armorInventory.set(i, ItemStack.EMPTY);
                     target.renderBrokenItemStack(armor);
                 }
             }

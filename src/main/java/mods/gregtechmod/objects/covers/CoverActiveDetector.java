@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class CoverActiveDetector extends CoverGeneric {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("active_detector");
-    
+
     @NBTPersistent
     protected DetectorMode mode = DetectorMode.NORMAL;
 
@@ -38,10 +38,12 @@ public class CoverActiveDetector extends CoverGeneric {
             if (mode == DetectorMode.NORMAL || mode == DetectorMode.INVERTED) {
                 if (strength > 0 && machine.isActive()) {
                     machine.setRedstoneOutput(side, mode.inverted ? 15 - strength : strength);
-                } else {
+                }
+                else {
                     machine.setRedstoneOutput(side, mode.inverted ? 15 : 0);
                 }
-            } else {
+            }
+            else {
                 machine.setRedstoneOutput(side, (mode == DetectorMode.READY) != (machine.getProgress() == 0) ? 0 : 15);
             }
         }
@@ -49,9 +51,9 @@ public class CoverActiveDetector extends CoverGeneric {
 
     @Override
     public boolean onScrewdriverClick(EntityPlayer player) {
-       mode = mode.next();
-       GtUtil.sendMessage(player, mode.getMessageKey());
-       return true;
+        mode = mode.next();
+        GtUtil.sendMessage(player, mode.getMessageKey());
+        return true;
     }
 
     @Override

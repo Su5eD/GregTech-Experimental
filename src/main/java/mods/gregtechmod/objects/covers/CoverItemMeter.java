@@ -27,7 +27,7 @@ public class CoverItemMeter extends CoverMeter {
 
     @Override
     public int getRedstoneStrength() {
-        IItemHandler handler = ((TileEntity)te).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+        IItemHandler handler = ((TileEntity) te).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
         return ItemHandlerHelper.calcRedstoneFromInventory(handler);
     }
 

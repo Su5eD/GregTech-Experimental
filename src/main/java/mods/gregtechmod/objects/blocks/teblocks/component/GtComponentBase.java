@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.List;
 
@@ -18,15 +19,15 @@ public abstract class GtComponentBase extends TileEntityComponent {
     public GtComponentBase(TileEntityBlock parent) {
         super(parent);
     }
-    
+
     public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {}
-    
+
     public boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         return false;
     }
 
-    public void getScanInfo(List<String> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
-    
+    public void getScanInfo(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {}
+
     @Override
     public void readFromNbt(NBTTagCompound nbt) {
         NBTSaveHandler.readClassFromNBT(this, nbt);

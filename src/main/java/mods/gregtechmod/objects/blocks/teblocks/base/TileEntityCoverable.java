@@ -11,7 +11,6 @@ import mods.gregtechmod.objects.covers.CoverVent;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.VerticalRotation;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -35,42 +34,44 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
 
     @Override
     protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        return beforeActivated(player.inventory.getCurrentItem(), player, side, hitX, hitY, hitZ) 
-            || super.onActivated(player, hand, side, hitX, hitY, hitZ);
+        return beforeActivated(player.inventory.getCurrentItem(), player, side, hitX, hitY, hitZ)
+            || onActivatedChecked(player, hand, side, hitX, hitY, hitZ);
     }
-    
+
+    protected boolean onActivatedChecked(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        return super.onActivated(player, hand, side, hitX, hitY, hitZ);
+    }
+
     protected boolean beforeActivated(ItemStack stack, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (CoverGeneric.isGenericCover(stack)) {
             placeCover(Cover.GENERIC, player, side, stack);
             return true;
-        } else if (CoverVent.isVent(stack)) {
+        }
+        else if (CoverVent.isVent(stack)) {
             placeCover(Cover.VENT, player, side, stack);
             return true;
-        } else if (GtUtil.isScrewdriver(stack)) {
+        }
+        else if (GtUtil.isScrewdriver(stack)) {
             return onScrewdriverActivated(stack, side, player, hitX, hitY, hitZ);
         }
         return attemptUseCrowbar(stack, side, player);
     }
-    
+
     protected boolean onScrewdriverActivated(ItemStack stack, EnumFacing side, EntityPlayer player, float hitX, float hitY, float hitZ) {
         ICover existing = getCoverAtSide(side);
-        if (existing != null) {
-            if (existing.onScrewdriverClick(player)) {
-                stack.damageItem(1, player);
-                return true;
-            }
+        if (existing != null && existing.onScrewdriverClick(player)) {
+            stack.damageItem(1, player);
+            return true;
         }
-        
+
         ICover cover = Cover.NORMAL.instance.get().constructCover(side, this, ItemStack.EMPTY);
         return placeCoverAtSide(cover, player, side, false);
     }
 
     public boolean attemptUseCrowbar(ItemStack stack, EnumFacing side, EntityPlayer player) {
-        if (GtUtil.isCrowbar(stack)) {
-            if (removeCover(side, false)) {
-                stack.damageItem(1, player);
-                return true;
-            }
+        if (GtUtil.isCrowbar(stack) && removeCover(side, false)) {
+            stack.damageItem(1, player);
+            return true;
         }
         return false;
     }
@@ -95,7 +96,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
         Ic2BlockStateInstance ret = state.withProperty(PropertyHelper.VERTICAL_ROTATION_PROPERTY, getVerticalRotation());
         return this.coverHandler != null ? ret.withProperty(CoverHandler.COVER_HANDLER_PROPERTY, this.coverHandler) : ret;
     }
-    
+
     protected VerticalRotation getVerticalRotation() {
         return VerticalRotation.MIRROR_BACK;
     }
@@ -104,7 +105,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
     public ICover getCoverAtSide(EnumFacing side) {
         return this.coverHandler.covers.get(side);
     }
-    
+
     @Override
     public void getNetworkedFields(List<? super String> list) {
         list.add("coverHandler");
@@ -127,9 +128,7 @@ public abstract class TileEntityCoverable extends TileEntityAutoNBT implements I
             ItemStack coverItem = cover.getItem();
             if (this.coverHandler.removeCover(side, false)) {
                 if (coverItem != null && !this.world.isRemote) {
-                    EntityItem entity = new EntityItem(this.world, pos.getX() + side.getXOffset() + 0.5, pos.getY() + side.getYOffset() + 0.5, pos.getZ() + side.getZOffset() + 0.5, coverItem);
-                    entity.motionX = entity.motionY = entity.motionZ = 0;
-                    this.world.spawnEntity(entity);
+                    GtUtil.spawnItemInWorld(this.world, this.pos, side, coverItem);
                 }
                 return true;
             }

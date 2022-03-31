@@ -25,15 +25,15 @@ public class BlockItemLoader {
     private static final Set<net.minecraft.block.Block> BLOCKS = new LinkedHashSet<>();
     private static final Set<Item> ITEMS = new LinkedHashSet<>();
     private static final Set<Item> ITEM_BLOCKS = new LinkedHashSet<>();
-    
+
     public static Collection<Item> getAllItems() {
         return JavaUtil.mergeCollection(ITEM_BLOCKS, ITEMS);
     }
-    
+
     public static Set<Block> getBlocks() {
         return Collections.unmodifiableSet(BLOCKS);
     }
-    
+
     public static Set<Item> getItems() {
         return Collections.unmodifiableSet(ITEMS);
     }
@@ -56,9 +56,9 @@ public class BlockItemLoader {
         BlockItems.classicCells = Stream.<FluidLoader.IFluidProvider>concat(
                 Arrays.stream(FluidLoader.Liquid.values()),
                 Arrays.stream(FluidLoader.Gas.values())
-        )
-                .filter(FluidLoader.IFluidProvider::hasClassicCell)
-                .collect(Collectors.toMap(FluidLoader.IFluidProvider::getName, provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
+            )
+            .filter(FluidLoader.IFluidProvider::hasClassicCell)
+            .collect(Collectors.toMap(FluidLoader.IFluidProvider::getName, provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
         if (FluidRegistry.isFluidRegistered("biomass")) BlockItems.classicCells.put("biomass", new ItemCellClassic("biomass", null, FluidRegistry.getFluid("biomass")));
         if (FluidRegistry.isFluidRegistered("bio.ethanol")) BlockItems.classicCells.put("bio.ethanol", new ItemCellClassic("bio.ethanol", null, FluidRegistry.getFluid("bio.ethanol")));
 
@@ -67,13 +67,13 @@ public class BlockItemLoader {
         Arrays.stream(BlockItems.Ore.values()).map(BlockItems.Ore::getBlockInstance).forEach(BlockItemLoader::registerBlockItem);
         Stream.<IItemProvider[]>of(BlockItems.Miscellaneous.values(), BlockItems.Ingot.values(), BlockItems.Plate.values(), BlockItems.Rod.values(), BlockItems.Dust.values(),
                 BlockItems.Smalldust.values(), BlockItems.Nugget.values(), BlockItems.Cell.values(), BlockItems.CoverItem.values(), BlockItems.Component.values(),
-                BlockItems.Upgrade.values(), BlockItems.Armor.values(), BlockItems.NuclearCoolantPack.values(), BlockItems.NuclearFuelRod.values(), BlockItems.JackHammer.values(), 
+                BlockItems.Upgrade.values(), BlockItems.Armor.values(), BlockItems.NuclearCoolantPack.values(), BlockItems.NuclearFuelRod.values(), BlockItems.JackHammer.values(),
                 BlockItems.Tool.values(), BlockItems.Wrench.values(), BlockItems.Hammer.values(), BlockItems.SolderingMetal.values(), BlockItems.TurbineRotor.values(),
                 BlockItems.File.values(), BlockItems.Saw.values(), BlockItems.ColorSpray.values()
-        )
-                .flatMap(Arrays::stream)
-                .map(IItemProvider::getInstance)
-                .forEach(BlockItemLoader::registerItem);
+            )
+            .flatMap(Arrays::stream)
+            .map(IItemProvider::getInstance)
+            .forEach(BlockItemLoader::registerItem);
         BlockItems.classicCells.values().forEach(BlockItemLoader::registerItem);
         if (Loader.isModLoaded("energycontrol")) registerEnergyControlItems();
     }

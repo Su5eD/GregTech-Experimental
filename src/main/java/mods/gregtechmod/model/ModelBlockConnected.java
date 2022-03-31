@@ -1,116 +1,153 @@
 package mods.gregtechmod.model;
 
+import com.google.common.collect.ImmutableMap;
 import ic2.core.util.Util;
 import mods.gregtechmod.objects.blocks.BlockConnected;
 import mods.gregtechmod.objects.blocks.BlockConnectedTurbine;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.struct.Rotor;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockPartFace;
+import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.util.vector.Vector3f;
+import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
+import org.apache.commons.lang3.BooleanUtils;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class ModelBlockConnected extends ModelBase {
+public class ModelBlockConnected extends ModelCached<ModelBlockConnected.ModelConnectedKey> {
     public static final List<String> TEXTURE_PARTS = Arrays.asList(
-            "", "en", "ens", "ensw", "enw", "es",
-            "esw", "ew", "ns", "nsw", "nw", "sw"
+        "", "en", "ens", "ensw", "enw", "es",
+        "esw", "ew", "ns", "nsw", "nw", "sw"
     );
-    private static final Map<String, String> TEXTURE_ALIASES = new HashMap<>();
+    private static final Map<String, String> TEXTURE_ALIASES = ImmutableMap.of(
+        "w", "ew",
+        "e", "ew",
+        "n", "ns",
+        "s", "ns"
+    );
+
     private final Map<String, ResourceLocation> textures;
-    
-    static {
-        TEXTURE_ALIASES.put("w", "ew");
-        TEXTURE_ALIASES.put("e", "ew");
-        TEXTURE_ALIASES.put("n", "ns");
-        TEXTURE_ALIASES.put("s", "ns");
-    }
-    
+
     @SafeVarargs
-    public ModelBlockConnected(Map<String, ResourceLocation> mainTextures, Map<String, ResourceLocation>... extras) {
-        this(true, mainTextures, extras);
+    public ModelBlockConnected(Block block, Map<String, ResourceLocation> mainTextures, Map<String, ResourceLocation>... extras) {
+        super(block, mainTextures.get(""), getTextures(mainTextures, extras).values().toImmutableList());
+        this.textures = getTextures(mainTextures, extras).toImmutableMap();
     }
 
     @SafeVarargs
-    protected ModelBlockConnected(boolean enableCache, Map<String, ResourceLocation> mainTextures, Map<String, ResourceLocation>... extras) {
-        super(mainTextures.get(""), getTextures(mainTextures, extras).map(Map.Entry::getValue).collect(Collectors.toList()), enableCache);
-        this.textures = getTextures(mainTextures, extras).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-    
-    @SafeVarargs
-    private static Stream<Map.Entry<String, ResourceLocation>> getTextures(Map<String, ResourceLocation> mainTextures, Map<String, ResourceLocation>... extras) {
-        return Stream.concat(mainTextures.entrySet().stream(), Arrays.stream(extras).map(Map::entrySet).flatMap(Collection::stream));
+    private static EntryStream<String, ResourceLocation> getTextures(Map<String, ResourceLocation> mainTextures, Map<String, ResourceLocation>... extras) {
+        return EntryStream.of(mainTextures)
+            .append(StreamEx.of(extras)
+                .flatMapToEntry(Function.identity()));
     }
 
     @Override
-    protected IBakedModel generateModel(IBlockState state) {
-        Map<EnumFacing, List<BakedQuad>> faceQuads = Arrays.stream(EnumFacing.VALUES)
-                .collect(Collectors.toMap(Function.identity(), facing -> {
-                    String texture = getTexture(state, facing);
-                    TextureAtlasSprite sprite = this.sprites.get(this.textures.get(texture));
-                    return Collections.singletonList(getQuad(new Vector3f(0, 0, 0), new Vector3f(16, facing == EnumFacing.DOWN ? 0 : 16, 16), texture, facing, sprite));
-                }));
-        
-        return new SimpleBakedModel(Collections.emptyList(), faceQuads, true, true, getParticleTexture(), ItemCameraTransforms.DEFAULT, ItemOverrideList.NONE);
-    }
-    
-    private String getTexture(IBlockState state, EnumFacing side) {
-        Rotor rotor = GtUtil.getStateValueSafely(state, BlockConnectedTurbine.TURBINE_ROTOR);
-        if (rotor != null && rotor != Rotor.DISABLED && rotor.side == side) {
-            return rotor.getTexture();
-        }
-        
+    protected ModelConnectedKey getModelKey(IBlockState state) {
         Map<EnumFacing, Boolean> connections = getConnections(state);
-        Map<EnumFacing, Boolean> relativeConnections = connections.keySet().stream()
-                .filter(facing -> !Util.verticalFacings.contains(facing))
-                .collect(Collectors.toMap(Function.identity(), facing -> connections.get(getRelativeSide(side, facing))));
-        
-        String connectionStringRaw = relativeConnections.entrySet().stream()
-                .filter(Map.Entry::getValue)
-                .map(entry -> {
-                    EnumFacing facing = entry.getKey();
-                    if (side == EnumFacing.DOWN && facing.getAxis() == EnumFacing.Axis.Z || Util.horizontalFacings.contains(side) && facing.getAxis() == EnumFacing.Axis.X) facing = facing.getOpposite();
-                    return facing.getName().toLowerCase(Locale.ROOT).substring(0, 1);
-                })
-                .sorted()
-                .collect(Collectors.joining());
+        boolean turbine = BooleanUtils.toBoolean(GtUtil.getStateValueSafely(state, BlockConnectedTurbine.TURBINE));
+        Rotor rotor = GtUtil.getStateValueSafely(state, BlockConnectedTurbine.TURBINE_ROTOR);
+        return new ModelConnectedKey(connections, turbine, rotor);
+    }
+
+    @Override
+    protected Map<ModelConnectedKey, Map<EnumFacing, List<BakedQuad>>> populateCache(List<ModelConnectedKey> keys) {
+        return StreamEx.of(keys)
+            .mapToEntry(key -> StreamEx.of(EnumFacing.VALUES)
+                .toMap(facing -> getQuads(key, facing)))
+            .toImmutableMap();
+    }
+
+    @Override
+    protected List<BakedQuad> getQuads(IBlockState state, EnumFacing side) {
+        ModelConnectedKey key = getModelKey(state);
+        return getQuads(key, side);
+    }
+
+    private List<BakedQuad> getQuads(ModelConnectedKey key, EnumFacing side) {
+        String texture = getTexture(key, side);
+        TextureAtlasSprite sprite = this.sprites.get(this.textures.get(texture));
+        BakedQuad quad = BAKERY.makeBakedQuad(ModelBase.ZERO, side == EnumFacing.DOWN ? MAX_DOWN : MAX, new BlockPartFace(side.getOpposite(), 0, this.textures.get(texture).toString(), FACE_UV), sprite, side, ModelRotation.X0_Y0, null, true, true);
+        return Collections.singletonList(quad);
+    }
+
+    private String getTexture(ModelConnectedKey key, EnumFacing side) {
+        if (key.rotor != null && key.rotor != Rotor.DISABLED && key.rotor.side == side) {
+            return key.rotor.getTexture();
+        }
+
+        String connectionStringRaw = StreamEx.of(Util.horizontalFacings)
+            .filter(facing -> key.connections.get(getRelativeSide(side, facing)))
+            .map(facing -> {
+                EnumFacing actualFacing = side == EnumFacing.DOWN && facing.getAxis() == EnumFacing.Axis.Z || Util.horizontalFacings.contains(side) && facing.getAxis() == EnumFacing.Axis.X
+                    ? facing.getOpposite()
+                    : facing;
+                return actualFacing.getName().toLowerCase(Locale.ROOT).substring(0, 1);
+            })
+            .sorted()
+            .joining();
         String connectionString = TEXTURE_ALIASES.getOrDefault(connectionStringRaw, connectionStringRaw);
-        
+
         return this.textures.containsKey(connectionString) ? connectionString : "";
     }
-    
-    private EnumFacing getRelativeSide(EnumFacing facing, EnumFacing relative) {
+
+    private static EnumFacing getRelativeSide(EnumFacing facing, EnumFacing relative) {
         boolean verticalFacing = Util.verticalFacings.contains(facing);
-        
-        if (!verticalFacing && (relative == EnumFacing.NORTH || relative == EnumFacing.SOUTH)) {
+
+        if (!verticalFacing && relative.getAxis() == EnumFacing.Axis.Z) {
             return relative == EnumFacing.NORTH ? EnumFacing.UP : EnumFacing.DOWN;
         }
-        else if (facing == EnumFacing.NORTH || verticalFacing) return relative;
+        else if (facing == EnumFacing.NORTH || verticalFacing) {
+            return relative;
+        }
         else if (!Util.verticalFacings.contains(relative)) {
-            if (facing == EnumFacing.SOUTH) return relative.getOpposite();
-            else return relative.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? facing.rotateY() : facing.rotateY().getOpposite();
+            return relative.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? facing.rotateY() : facing.rotateYCCW();
         }
         return facing;
     }
-    
+
     protected Map<EnumFacing, Boolean> getConnections(IBlockState state) {
-        Map<EnumFacing, Boolean> connections = new HashMap<>();
-        connections.put(EnumFacing.DOWN, state.getValue(BlockConnected.CONNECTED_DOWN));
-        connections.put(EnumFacing.UP, state.getValue(BlockConnected.CONNECTED_UP));
-        connections.put(EnumFacing.NORTH, state.getValue(BlockConnected.CONNECTED_NORTH));
-        connections.put(EnumFacing.SOUTH, state.getValue(BlockConnected.CONNECTED_SOUTH));
-        connections.put(EnumFacing.WEST, state.getValue(BlockConnected.CONNECTED_WEST));
-        connections.put(EnumFacing.EAST, state.getValue(BlockConnected.CONNECTED_EAST));
-        return connections;
+        return EntryStream.of(
+            EnumFacing.DOWN, state.getValue(BlockConnected.CONNECTED_DOWN),
+            EnumFacing.UP, state.getValue(BlockConnected.CONNECTED_UP),
+            EnumFacing.NORTH, state.getValue(BlockConnected.CONNECTED_NORTH),
+            EnumFacing.SOUTH, state.getValue(BlockConnected.CONNECTED_SOUTH),
+            EnumFacing.WEST, state.getValue(BlockConnected.CONNECTED_WEST),
+            EnumFacing.EAST, state.getValue(BlockConnected.CONNECTED_EAST)
+        )
+            .toImmutableMap();
     }
-    
-    private BakedQuad getQuad(Vector3f from, Vector3f to, String texture, EnumFacing direction, TextureAtlasSprite sprite) {
-        return bakery.makeBakedQuad(from, to, new BlockPartFace(direction.getOpposite(), 0, this.textures.get(texture).toString(), new BlockFaceUV(new float[]{ 0, 0, 16, 16 }, 0)), sprite, direction, ModelRotation.X0_Y0, null, true, true);
+
+    public static class ModelConnectedKey {
+        public final Map<EnumFacing, Boolean> connections;
+        public final boolean turbine;
+        @Nullable
+        public final Rotor rotor;
+
+        public ModelConnectedKey(Map<EnumFacing, Boolean> connections, boolean turbine, Rotor rotor) {
+            this.connections = connections;
+            this.turbine = turbine;
+            this.rotor = rotor;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ModelConnectedKey that = (ModelConnectedKey) o;
+            return this.turbine == that.turbine && this.connections.equals(that.connections) && Objects.equals(this.rotor, that.rotor);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.connections, this.turbine, this.rotor);
+        }
     }
 }

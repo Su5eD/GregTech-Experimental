@@ -19,7 +19,7 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     public TileEntityQuantumTank() {
         Fluids fluids = addComponent(new Fluids(this));
         this.tank = addComponent(new BasicTank(this, GregTechConfig.FEATURES.quantumTankCapacity, fluids));
-        
+
         this.coverBlacklist.add(CoverType.ENERGY);
     }
 

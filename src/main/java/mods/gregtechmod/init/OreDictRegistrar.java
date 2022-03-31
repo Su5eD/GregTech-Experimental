@@ -47,7 +47,7 @@ public class OreDictRegistrar {
         registerOres(BlockItems.NuclearCoolantPack.values());
         registerOres(BlockItems.Armor.values());
         registerOres(BlockItems.Miscellaneous.values());
-        
+
         registerOreWildcard("lithiumBattery", BlockItems.Component.LITHIUM_BATTERY);
         registerOreWildcard("crafting100kEUStore", BlockItems.Component.LITHIUM_BATTERY);
         registerOreWildcard("craftingToolSaw", BlockItems.Tool.SAW_ADVANCED);
@@ -303,7 +303,8 @@ public class OreDictRegistrar {
         if (GregTechMod.classic) {
             registerOre("craftingUUMatter", IC2Items.getItem("misc_resource", "matter"));
             registerOreWildcard("craftingLappack", ModHandler.ic2ItemApi.getItem("lappack"));
-        } else {
+        }
+        else {
             registerOreWildcard("craftingEnergyPack", ModHandler.ic2ItemApi.getItem("energy_pack"));
             registerOre("stoneBasalt", IC2Items.getItem("resource", "basalt"));
         }
@@ -337,7 +338,7 @@ public class OreDictRegistrar {
         registerOre("craftingSolarPanel", IC2Items.getItem("te", "solar_generator"));
 
         registerOre("craftingCentrifuge", GregTechObjectAPI.getTileEntity("industrial_centrifuge"));
-        //registerOre("craftingRawMachineTier01", GregTechTEBlock.machine_box); TODO add machine box to oredict when added
+        registerOre("craftingRawMachineTier01", GregTechObjectAPI.getTileEntity("machine_box"));
         //registerOre("craftingCircuitTier03", GregTechTEBlock.restone_circuit_block); TODO add redstone circuit block to oredict when added
         registerOre("craftingCircuitTier10", GregTechObjectAPI.getTileEntity("computer_cube"));
         registerOre("craftingWorkBench", GregTechObjectAPI.getTileEntity("electric_crafting_table"));
@@ -387,36 +388,36 @@ public class OreDictRegistrar {
             registerOre("plantForestGrass", ModHandler.getModItem("twilightforest", "twilight_plant", 5));
         }
     }
-    
+
     public static <T extends Enum<?> & IItemProvider> void registerOres(String prefix, T[] providers) {
         registerOres(prefix, providers, false);
     }
-    
+
     public static <T extends Enum<?> & IItemProvider> void registerOres(String prefix, T[] providers, boolean filterProfile) {
         registerOres(prefix, providers, filterProfile, false);
     }
-    
+
     public static <T extends Enum<?> & IItemProvider> void registerOresWildcardPrefix(String prefix, T[] providers) {
         registerOres(prefix, providers, false, true);
     }
-    
+
     public static <T extends Enum<?> & IItemProvider> void registerOres(String prefix, T[] providers, boolean filterProfile, boolean wildcard) {
         for (T provider : providers) {
             if (!filterProfile || ProfileDelegate.shouldEnable(provider)) {
                 String name = prefix + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, provider.name());
-                
+
                 if (wildcard) registerOreWildcard(name, provider.getInstance());
                 else registerOre(name, provider.getItemStack());
             }
         }
     }
-    
+
     public static <T extends Enum<?> & IItemProvider> void registerOresWildcard(String name, T[] providers) {
         for (T provider : providers) {
             registerOreWildcard(name, provider);
         }
     }
-    
+
     public static <T extends Enum<?> & IOreDictItemProvider> void registerOres(T[] providers) {
         for (T provider : providers) {
             String oreDict = provider.getOreDictName();
@@ -426,19 +427,19 @@ public class OreDictRegistrar {
             }
         }
     }
-    
+
     public static void registerOreWildcard(String name, IItemProvider provider) {
         registerOreWildcard(name, provider.getInstance());
     }
-    
+
     public static void registerOreWildcard(String name, Item item) {
         registerOre(name, new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE));
     }
-    
+
     public static void registerOre(String name, net.minecraft.block.Block block) {
         registerOre(name, new ItemStack(block));
     }
-    
+
     public static void registerOre(String name, IItemProvider provider) {
         registerOre(name, provider.getItemStack());
     }

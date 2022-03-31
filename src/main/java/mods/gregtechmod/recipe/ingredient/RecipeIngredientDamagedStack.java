@@ -8,7 +8,7 @@ public class RecipeIngredientDamagedStack extends RecipeIngredientItemStack {
     private RecipeIngredientDamagedStack(int count, ItemStack... stacks) {
         super(count, stacks);
     }
-    
+
     public static RecipeIngredientItemStack create(ItemStack stack, int count) {
         return stack.isEmpty() ? EMPTY : new RecipeIngredientDamagedStack(count, stack);
     }
@@ -21,6 +21,6 @@ public class RecipeIngredientDamagedStack extends RecipeIngredientItemStack {
     @Override
     public boolean apply(IRecipeIngredient ingredient) {
         return ingredient.stream()
-                .anyMatch(stack -> super.apply(stack, false)) && ingredient.getCount() >= this.count;
+            .anyMatch(stack -> super.apply(stack, false)) && ingredient.getCount() >= this.count;
     }
 }
