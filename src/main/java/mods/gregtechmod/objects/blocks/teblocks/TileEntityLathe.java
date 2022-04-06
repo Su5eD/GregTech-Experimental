@@ -33,8 +33,7 @@ public class TileEntityLathe extends TileEntityBasicMachineSingleInput<IMachineR
     @Override
     protected IMachineRecipe<IRecipeIngredient, List<ItemStack>> fitRecipe(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
         if (recipe != null) {
-            List<ItemStack> output = recipe.getOutput();
-            if (this.queueOutputSlot.canAdd(output.get(0)) && (output.size() <= 1 || this.outputSlot.canAdd(output.get(1)))) {
+            if (canAddOutput(recipe)) {
                 this.outputBlocked = false;
                 return recipe;
             }
@@ -49,5 +48,11 @@ public class TileEntityLathe extends TileEntityBasicMachineSingleInput<IMachineR
         if (output.size() > 1) this.outputSlot.add(output.get(1));
 
         dumpOutput();
+    }
+
+    @Override
+    protected boolean canAddOutput(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
+        List<ItemStack> output = recipe.getOutput();
+        return this.queueOutputSlot.canAdd(output.get(0)) && (output.size() <= 1 || this.outputSlot.canAdd(output.get(1)));
     }
 }
