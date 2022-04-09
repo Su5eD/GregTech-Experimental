@@ -31,6 +31,7 @@ public class ModRecipes {
         convertBasicRecipes(Recipes.compressor.getRecipes(), COMPRESSOR);
 
         EntryStream.of(FurnaceRecipes.instance().getSmeltingList())
+            .filterKeyValue((input, output) -> !input.isEmpty() && !output.isEmpty())
             .mapKeys(RecipeIngredientItemStack::create)
             .mapKeyValue(RecipeFurnace::create)
             .forEach(FURNACE::addRecipe);
