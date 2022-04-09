@@ -11,7 +11,6 @@ import mods.gregtechmod.api.util.TriFunction;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.gui.GuiElectricCraftingTable;
 import mods.gregtechmod.inventory.invslot.GtSlot;
-import mods.gregtechmod.inventory.invslot.GtSlotCraftingGrid;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerElectricCraftingTable;
@@ -50,7 +49,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
 
     public final GtSlot input;
     public final GtSlot crafting;
-    public final GtSlotCraftingGrid craftingGrid;
+    public final GtSlot craftingGrid;
     public final GtSlot output;
     public final GtSlot buffer;
 
@@ -60,7 +59,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
 
         this.input = new GtSlot(this, "input", InvSlot.Access.I, 9);
         this.crafting = new GtSlot(this, "crafting", InvSlot.Access.NONE, 1);
-        this.craftingGrid = new GtSlotCraftingGrid(this, "craftingGrid", 9);
+        this.craftingGrid = new GtSlot(this, "craftingGrid", InvSlot.Access.NONE, 9);
         this.output = new GtSlot(this, "output", InvSlot.Access.O, 1);
         this.buffer = new GtSlot(this, "buffer", InvSlot.Access.O, 9);
 
