@@ -550,7 +550,7 @@
     - ore: dustTanzanite
   conditions:
     - type: ore_exists
-      ore: dustTopaz
+      ore: dustTanzanite
 - input:
     ore: gemCoal
   output:
