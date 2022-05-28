@@ -115,7 +115,9 @@
       "file_cabinet": { "model": "gregtechmod:file_cabinet" },
       "metal_desk": { "model": "gregtechmod:metal_desk" },
       "compartment": { "model": "gregtechmod:compartment" },
-      "machine_box": { "model": "gregtechmod:machine_box" }
+      "machine_box": { "model": "gregtechmod:machine_box" },
+      "fusion_energy_injector": { "model": "gregtechmod:fusion_energy_injector" },
+      "fusion_energy_injector_active": { "model": "gregtechmod:fusion_energy_injector_active" }
     },
     "facing": {
       "down": { "x": 90 },

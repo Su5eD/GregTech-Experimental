@@ -983,6 +983,8 @@ gregtechmod.teblock.metal_desk=Metal encased Desk
 gregtechmod.teblock.compartment=Compartment
 gregtechmod.teblock.machine_box=Machine Box
 gregtechmod.teblock.machine_box.description=You just need §5i§dm§4a§cg§ei§an§ba§3t§9i§1o§5n§7 to use this.
+gregtechmod.teblock.fusion_energy_injector=Fusion Energy Injector
+gregtechmod.teblock.fusion_energy_injector.description=Stores 10kk EU for the Fusion Reactor
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
