@@ -20,7 +20,8 @@
     },
     "W":
     {
-      "item": "minecraft:chest"
+      "type": "forge:ore_dict",
+      "ore": "chestWood"
     },
     "P":
     {
@@ -31,6 +32,6 @@
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 85
   }
 }

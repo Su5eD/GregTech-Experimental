@@ -987,6 +987,8 @@ gregtechmod.teblock.fusion_energy_injector=Fusion Energy Injector
 gregtechmod.teblock.fusion_energy_injector.description=Stores 10kk EU for the Fusion Reactor
 gregtechmod.teblock.fusion_material_injector=Fusion Material Injector
 gregtechmod.teblock.fusion_material_injector.description=To inject your fusable Liquids into the Coils
+gregtechmod.teblock.fusion_material_extractor=Fusion Material Extractor
+gregtechmod.teblock.fusion_material_extractor.description=Extracts your fused Materials out of the Coils
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s

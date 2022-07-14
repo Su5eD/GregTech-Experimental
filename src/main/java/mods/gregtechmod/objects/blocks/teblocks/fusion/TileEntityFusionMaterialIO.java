@@ -16,18 +16,22 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityFusionMaterialInjector extends TileEntityCoverBehavior implements IHasGui {
+public class TileEntityFusionMaterialIO extends TileEntityCoverBehavior implements IHasGui {
     public final BasicTank tank;
     
-    public TileEntityFusionMaterialInjector() {
+    public TileEntityFusionMaterialIO() {
         Fluids fluids = addComponent(new Fluids(this));
-        this.tank = addComponent(new BasicTank(this, fluids, new GtFluidTankProcessable(this, "content", GtRecipes.fusionFluid, Util.allFacings, Util.allFacings, 10000), InvSlotConsumableLiquid.OpType.Both, true));
+        this.tank = addComponent(createTank(fluids));
 
         this.coverBlacklist.add(CoverType.ENERGY);
     }
+    
+    protected BasicTank createTank(Fluids fluids) {
+        return new BasicTank(this, fluids, new GtFluidTankProcessable(this, "content", GtRecipes.fusionFluid, Util.allFacings, Util.allFacings, 10000), InvSlotConsumableLiquid.OpType.Both, true);
+    }
 
     @Override
-    public ContainerBasicTank<TileEntityFusionMaterialInjector> getGuiContainer(EntityPlayer entityPlayer) {
+    public ContainerBasicTank<TileEntityFusionMaterialIO> getGuiContainer(EntityPlayer entityPlayer) {
         return new ContainerBasicTank<>(entityPlayer, this);
     }
 

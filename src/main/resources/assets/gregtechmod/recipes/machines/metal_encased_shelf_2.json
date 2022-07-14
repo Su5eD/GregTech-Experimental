@@ -3,13 +3,12 @@
   "ingredients": [
     {
       "item": "gregtechmod:teblock",
-      "data": "???",
-      "_comment": "compartment"
+      "data": 81
     }
   ],
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 78
   }
 }
