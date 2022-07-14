@@ -8,7 +8,7 @@ import net.minecraft.inventory.IInventory;
 import java.util.List;
 
 public abstract class ContainerBasicTank<T extends IInventory> extends ContainerGtInventory<T> {
-
+    
     public ContainerBasicTank(EntityPlayer player, T base) {
         super(player, base);
         initSlots();
@@ -19,6 +19,7 @@ public abstract class ContainerBasicTank<T extends IInventory> extends Container
         addSlotToContainer(new SlotInvSlot(getOutputSlot(), 0, 80, 53));
     }
 
+    // TODO Interface
     protected abstract InvSlot getInputSlot();
 
     protected abstract InvSlot getOutputSlot();

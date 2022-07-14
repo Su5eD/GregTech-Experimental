@@ -71,7 +71,7 @@ public class ItemRubberHammer extends ItemHammer {
         if (te instanceof IGregTechMachine && GtUtil.damageStack(player, player.inventory.getCurrentItem(), 1)) {
             ((IGregTechMachine) te).setAllowedToWork(!((IGregTechMachine) te).isAllowedToWork());
 
-            GtUtil.sendMessage(player, GtLocale.buildKeyItem(this, "processing_" + (((IGregTechMachine) te).isAllowedToWork() ? "enabled" : "disabled")));
+            GtUtil.sendMessage(player, GtLocale.buildKeyItem("hammer_rubber", "processing_" + (((IGregTechMachine) te).isAllowedToWork() ? "enabled" : "disabled")));
             IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1, 1);
             return EnumActionResult.SUCCESS;
         }

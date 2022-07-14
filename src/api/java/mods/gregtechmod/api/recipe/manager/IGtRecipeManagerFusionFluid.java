@@ -11,7 +11,7 @@ import java.util.List;
 public interface IGtRecipeManagerFusionFluid extends IGtRecipeManager<List<IRecipeIngredientFluid>, List<ItemStack>, IRecipeFusion<IRecipeIngredientFluid, FluidStack>> {
     IRecipeFusion<IRecipeIngredientFluid, FluidStack> getRecipeForFluid(List<FluidStack> input);
 
-    boolean hasRecipeForFluid(List<FluidStack> input);
+    boolean hasRecipeForFluids(List<FluidStack> input);
 
-    boolean hasRecipeForFluid(Fluid input);
+    boolean hasRecipeFor(Fluid input);
 }

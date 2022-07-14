@@ -117,7 +117,9 @@
       "compartment": { "model": "gregtechmod:compartment" },
       "machine_box": { "model": "gregtechmod:machine_box" },
       "fusion_energy_injector": { "model": "gregtechmod:fusion_energy_injector" },
-      "fusion_energy_injector_active": { "model": "gregtechmod:fusion_energy_injector_active" }
+      "fusion_energy_injector_active": { "model": "gregtechmod:fusion_energy_injector_active" },
+      "fusion_material_injector": { "model": "gregtechmod:fusion_material_injector" },
+      "fusion_material_injector_active": { "model": "gregtechmod:fusion_material_injector_active" }
     },
     "facing": {
       "down": { "x": 90 },

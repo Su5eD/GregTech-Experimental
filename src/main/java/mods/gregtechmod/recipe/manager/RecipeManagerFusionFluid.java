@@ -25,7 +25,7 @@ public class RecipeManagerFusionFluid extends RecipeManagerMultiInput<IRecipeFus
     }
 
     @Override
-    public boolean hasRecipeForFluid(List<FluidStack> input) {
+    public boolean hasRecipeForFluids(List<FluidStack> input) {
         return this.recipes.stream()
             .anyMatch(recipe -> recipe.getInput().stream()
                 .allMatch(ingredient -> input.stream()
@@ -33,7 +33,7 @@ public class RecipeManagerFusionFluid extends RecipeManagerMultiInput<IRecipeFus
     }
 
     @Override
-    public boolean hasRecipeForFluid(Fluid input) {
+    public boolean hasRecipeFor(Fluid input) {
         return this.recipes.stream()
             .anyMatch(recipe -> recipe.getInput().stream()
                 .anyMatch(ingredient -> ingredient.apply(input)));

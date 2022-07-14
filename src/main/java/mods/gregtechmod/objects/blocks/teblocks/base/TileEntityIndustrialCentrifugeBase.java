@@ -37,7 +37,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     protected TileEntityIndustrialCentrifugeBase(int tankCapacity, IGtRecipeManagerCellular recipeManager) {
         super(4, recipeManager);
         this.cellSlot = new GtConsumableCell(this, "cellSlot", 1);
-        this.tank = this.fluids.addTank(new GtFluidTankProcessable<>(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), tankCapacity));
+        this.tank = this.fluids.addTank(new GtFluidTankProcessable(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), tankCapacity));
     }
 
     @Override

@@ -17,6 +17,7 @@ import mods.gregtechmod.objects.blocks.teblocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.objects.blocks.teblocks.energy.*;
 import mods.gregtechmod.objects.blocks.teblocks.fusion.TileEntityFusionEnergyInjector;
+import mods.gregtechmod.objects.blocks.teblocks.fusion.TileEntityFusionMaterialInjector;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
 import mods.gregtechmod.objects.blocks.teblocks.inv.*;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.*;
@@ -124,7 +125,8 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     METAL_DESK(TileEntityMetalDesk.class, 80, NO_ACTIVE, Util.horizontalFacings),
     COMPARTMENT(TileEntityCompartment.class, 81, NO_ACTIVE, Util.horizontalFacings, ModelType.COMPARTMENT),
     MACHINE_BOX(TileEntityMachineBox.class, 82, NO_ACTIVE, Util.allFacings, ModelType.MACHINE_BOX),
-    FUSION_ENERGY_INJECTOR(TileEntityFusionEnergyInjector.class, 83, ACTIVE_GUI, Util.noFacings);
+    FUSION_ENERGY_INJECTOR(TileEntityFusionEnergyInjector.class, 83, ACTIVE_GUI, Util.noFacings),
+    FUSION_MATERIAL_INJECTOR(TileEntityFusionMaterialInjector.class, 84, ACTIVE_GUI, Util.onlyNorth);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();
