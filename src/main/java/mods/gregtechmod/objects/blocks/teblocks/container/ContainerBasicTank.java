@@ -1,13 +1,14 @@
 package mods.gregtechmod.objects.blocks.teblocks.container;
 
-import ic2.core.block.invslot.InvSlot;
+import ic2.core.block.TileEntityBlock;
 import ic2.core.slot.SlotInvSlot;
+import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 
 import java.util.List;
 
-public abstract class ContainerBasicTank<T extends IInventory> extends ContainerGtInventory<T> {
+public class ContainerBasicTank<T extends TileEntityBlock & IInventory> extends ContainerGtInventory<T> {
     
     public ContainerBasicTank(EntityPlayer player, T base) {
         super(player, base);
@@ -15,14 +16,12 @@ public abstract class ContainerBasicTank<T extends IInventory> extends Container
     }
 
     protected void initSlots() {
-        addSlotToContainer(new SlotInvSlot(getInputSlot(), 0, 80, 17));
-        addSlotToContainer(new SlotInvSlot(getOutputSlot(), 0, 80, 53));
+        BasicTank tank = this.base.getComponent(BasicTank.class);
+        if (tank == null) throw new IllegalStateException("TileEntity " + this.base.getName() + " is missing a BasicTank component");
+        
+        addSlotToContainer(new SlotInvSlot(tank.inputSlot, 0, 80, 17));
+        addSlotToContainer(new SlotInvSlot(tank.outputSlot, 0, 80, 53));
     }
-
-    // TODO Interface
-    protected abstract InvSlot getInputSlot();
-
-    protected abstract InvSlot getOutputSlot();
 
     @Override
     public void getNetworkedFields(List<? super String> list) {

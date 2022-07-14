@@ -10,7 +10,7 @@ import mods.gregtechmod.gui.GuiBasicTank;
 import mods.gregtechmod.inventory.tank.GtFluidTankProcessable;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFusionMaterialInjector;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicTank;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,8 +27,8 @@ public class TileEntityFusionMaterialInjector extends TileEntityCoverBehavior im
     }
 
     @Override
-    public ContainerFusionMaterialInjector getGuiContainer(EntityPlayer entityPlayer) {
-        return new ContainerFusionMaterialInjector(entityPlayer, this);
+    public ContainerBasicTank<TileEntityFusionMaterialInjector> getGuiContainer(EntityPlayer entityPlayer) {
+        return new ContainerBasicTank<>(entityPlayer, this);
     }
 
     @Override

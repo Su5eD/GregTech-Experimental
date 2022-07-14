@@ -7,7 +7,7 @@ import mods.gregtechmod.core.GregTechConfig;
 import mods.gregtechmod.gui.GuiBasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerQuantumTank;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicTank;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,8 +24,8 @@ public class TileEntityQuantumTank extends TileEntityCoverBehavior implements IH
     }
 
     @Override
-    public ContainerQuantumTank getGuiContainer(EntityPlayer entityPlayer) {
-        return new ContainerQuantumTank(entityPlayer, this);
+    public ContainerBasicTank<TileEntityQuantumTank> getGuiContainer(EntityPlayer entityPlayer) {
+        return new ContainerBasicTank<>(entityPlayer, this);
     }
 
     @Override

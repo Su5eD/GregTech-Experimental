@@ -3,7 +3,7 @@ package mods.gregtechmod.objects.blocks.teblocks.generator;
 import mods.gregtechmod.api.recipe.fuel.GtFuels;
 import mods.gregtechmod.gui.GuiPlasmaGenerator;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityFluidGenerator;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerPlasmaGenerator;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFluidGenerator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,8 +26,8 @@ public class TileEntityPlasmaGenerator extends TileEntityFluidGenerator {
     }
 
     @Override
-    public ContainerPlasmaGenerator getGuiContainer(EntityPlayer player) {
-        return new ContainerPlasmaGenerator(player, this);
+    public ContainerFluidGenerator getGuiContainer(EntityPlayer player) {
+        return new ContainerFluidGenerator(player, this);
     }
 
     @Override

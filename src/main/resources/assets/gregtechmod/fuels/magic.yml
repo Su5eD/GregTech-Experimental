@@ -131,7 +131,5 @@
     item: minecraft:beacon
   energy: 100000
 - input:
-    cell: mercury
-  output:
-    cell: empty
+    fluid: mercury
   energy: 8

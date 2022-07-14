@@ -12,7 +12,7 @@ import mods.gregtechmod.inventory.tank.DynamicGtFluidTank;
 import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerHatchIO;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicTank;
 import mods.gregtechmod.util.JavaUtil;
 import mods.gregtechmod.util.PropertyHelper;
 import mods.gregtechmod.util.PropertyHelper.TextureOverride;
@@ -58,8 +58,8 @@ public abstract class TileEntityHatchIO extends TileEntityCoverBehavior implemen
     }
 
     @Override
-    public ContainerHatchIO getGuiContainer(EntityPlayer player) {
-        return new ContainerHatchIO(player, this);
+    public ContainerBasicTank<TileEntityHatchIO> getGuiContainer(EntityPlayer player) {
+        return new ContainerBasicTank<>(player, this);
     }
 
     @Override
