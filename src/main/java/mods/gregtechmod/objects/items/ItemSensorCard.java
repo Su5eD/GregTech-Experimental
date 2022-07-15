@@ -2,15 +2,15 @@ package mods.gregtechmod.objects.items;
 
 import com.zuxelus.energycontrol.api.*;
 import mods.gregtechmod.api.machine.IPanelInfoProvider;
-import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemBase;
-import mods.gregtechmod.util.GtLocale;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,35 +19,22 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
     public static final int DISPLAY_MAIN = 1;
     public static final int DISPLAY_SECOND = 2;
     public static final int DISPLAY_TERTIARY = 4;
-    public static final int CARD_ID = 800; //Because why would Energy Control use ResourceLocations?
 
     public ItemSensorCard() {
         super("sensor_card");
+        setRegistryName("sensor_card");
+        setTranslationKey("sensor_card");
         setMaxStackSize(1);
-    }
-
-    @Override
-    public int getDamage() {
-        return CARD_ID;
-    }
-
-    @Override
-    public String getName() {
-        return Reference.MODID + ":sensor_card";
-    }
-
-    @Override
-    public String getUnlocalizedName() {
-        return GtLocale.buildKeyItem("gregtechmod.sensor_card");
+        setCreativeTab(GregTechMod.GREGTECH_TAB);
     }
 
     @Override
     public CardState update(World world, ICardReader card, int i, BlockPos blockPos) {
-        TileEntity tileEntity = world.getTileEntity(card.getTarget());
-        if (tileEntity instanceof IPanelInfoProvider && ((IPanelInfoProvider) tileEntity).isGivingInformation()) {
-            card.setString("mainInfo", ((IPanelInfoProvider) tileEntity).getMainInfo());
-            card.setString("secondaryInfo", ((IPanelInfoProvider) tileEntity).getSecondaryInfo());
-            card.setString("tertiaryInfo", ((IPanelInfoProvider) tileEntity).getTertiaryInfo());
+        TileEntity te = world.getTileEntity(card.getTarget());
+        if (te instanceof IPanelInfoProvider && ((IPanelInfoProvider) te).isGivingInformation()) {
+            card.setString("mainInfo", ((IPanelInfoProvider) te).getMainInfo());
+            card.setString("secondaryInfo", ((IPanelInfoProvider) te).getSecondaryInfo());
+            card.setString("tertiaryInfo", ((IPanelInfoProvider) te).getTertiaryInfo());
             return CardState.OK;
         }
         return CardState.NO_TARGET;
@@ -76,26 +63,16 @@ public class ItemSensorCard extends ItemBase implements IItemCard {
     }
 
     @Override
-    public List<PanelSetting> getSettingsList() {
-        List<PanelSetting> result = new ArrayList<>(3);
-        result.add(new PanelSetting("Primary", DISPLAY_MAIN, 800));
-        result.add(new PanelSetting("Secondary", DISPLAY_SECOND, 800));
-        result.add(new PanelSetting("Tertiary", DISPLAY_TERTIARY, 800));
-        return result;
+    public List<PanelSetting> getSettingsList(ItemStack stack) {
+        return Arrays.asList(
+            new PanelSetting("Primary", DISPLAY_MAIN),
+            new PanelSetting("Secondary", DISPLAY_SECOND),
+            new PanelSetting("Tertiary", DISPLAY_TERTIARY)
+        );
     }
 
     @Override
-    public boolean isRemoteCard() {
+    public boolean isRemoteCard(ItemStack stack) {
         return false;
-    }
-
-    @Override
-    public int getKitFromCard() {
-        return ItemSensorKit.KIT_ID;
-    }
-
-    @Override
-    public Object[] getRecipe() {
-        return null;
     }
 }

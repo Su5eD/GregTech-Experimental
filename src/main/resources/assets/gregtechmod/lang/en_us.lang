@@ -211,9 +211,9 @@ gregtechmod.item.solar_panel_lv.description=Makes energy from the Sun at 8EU/t
 gregtechmod.item.solar_panel_mv.name=MV Solar Panel
 gregtechmod.item.solar_panel_mv.description=Makes energy from the Sun at 64EU/t
 
-gregtechmod.item.gregtechmod.sensor_kit.name=GregTech Sensor Kit
+gregtechmod.item.sensor_kit.name=GregTech Sensor Kit
 gregtechmod.item.sensor_kit.description=Attach to GregTech Machines
-gregtechmod.item.gregtechmod.sensor_card.name=GregTech Sensor Card
+gregtechmod.item.sensor_card.name=GregTech Sensor Card
 gregtechmod.item.sensor_card.description=Insert into a display panel
 gregtechmod.item.mortar.description=Used to turn ingots into dust
 gregtechmod.item.mortar_iron.name=Iron Mortar

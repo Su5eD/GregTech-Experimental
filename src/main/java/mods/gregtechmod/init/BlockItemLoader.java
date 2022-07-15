@@ -1,21 +1,15 @@
 package mods.gregtechmod.init;
 
-import com.zuxelus.energycontrol.api.EnergyControlRegister;
-import com.zuxelus.energycontrol.api.IItemCard;
-import com.zuxelus.energycontrol.api.IItemKit;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.items.ItemCellClassic;
-import mods.gregtechmod.objects.items.ItemSensorCard;
-import mods.gregtechmod.objects.items.ItemSensorKit;
 import mods.gregtechmod.util.IItemProvider;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Optional;
+import one.util.streamex.StreamEx;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,10 +47,8 @@ public class BlockItemLoader {
     }
 
     static void init() {
-        BlockItems.classicCells = Stream.<FluidLoader.IFluidProvider>concat(
-                Arrays.stream(FluidLoader.Liquid.values()),
-                Arrays.stream(FluidLoader.Gas.values())
-            )
+        BlockItems.classicCells = StreamEx.<FluidLoader.IFluidProvider>of(FluidLoader.Liquid.values())
+            .append(FluidLoader.Gas.values())
             .filter(FluidLoader.IFluidProvider::hasClassicCell)
             .collect(Collectors.toMap(FluidLoader.IFluidProvider::getName, provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
         if (FluidRegistry.isFluidRegistered("biomass")) BlockItems.classicCells.put("biomass", new ItemCellClassic("biomass", null, FluidRegistry.getFluid("biomass")));
@@ -70,19 +62,10 @@ public class BlockItemLoader {
                 BlockItems.Upgrade.values(), BlockItems.Armor.values(), BlockItems.NuclearCoolantPack.values(), BlockItems.NuclearFuelRod.values(), BlockItems.JackHammer.values(),
                 BlockItems.Tool.values(), BlockItems.Wrench.values(), BlockItems.Hammer.values(), BlockItems.SolderingMetal.values(), BlockItems.TurbineRotor.values(),
                 BlockItems.File.values(), BlockItems.Saw.values(), BlockItems.ColorSpray.values()
-            )
+        )
             .flatMap(Arrays::stream)
             .map(IItemProvider::getInstance)
             .forEach(BlockItemLoader::registerItem);
         BlockItems.classicCells.values().forEach(BlockItemLoader::registerItem);
-        if (Loader.isModLoaded("energycontrol")) registerEnergyControlItems();
-    }
-
-    @Optional.Method(modid = "energycontrol")
-    public static void registerEnergyControlItems() {
-        BlockItems.sensorKit = new ItemSensorKit();
-        BlockItems.sensorCard = new ItemSensorCard();
-        EnergyControlRegister.registerKit((IItemKit) BlockItems.sensorKit);
-        EnergyControlRegister.registerCard((IItemCard) BlockItems.sensorCard);
     }
 }

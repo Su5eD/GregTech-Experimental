@@ -43,8 +43,6 @@ public class BlockItems {
     private static final String DESCRIPTION_DELEGATE = GregTechMod.classic ? "classic_description" : "description";
 
     public static net.minecraft.block.Block lightSource;
-    public static Item sensorKit;
-    public static Item sensorCard;
     public static Map<String, ItemCellClassic> classicCells;
 
     public enum Block implements IItemProvider {
@@ -1237,7 +1235,9 @@ public class BlockItems {
         MORTAR_IRON(() -> new ItemMortar("iron", 63, IC2Items.getItem("dust", "iron"))
             .setRegistryName("mortar_iron")
             .setTranslationKey("mortar_iron")
-            .setCreativeTab(GregTechMod.GREGTECH_TAB));
+            .setCreativeTab(GregTechMod.GREGTECH_TAB)),
+        SENSOR_KIT(ItemSensorKit::new),
+        SENSOR_CARD(ItemSensorCard::new);
 
         private final LazyValue<Item> instance;
         public final String oreDict;
