@@ -1,6 +1,6 @@
 modLoader="javafml"
 
-loaderVersion="[36,)"
+loaderVersion="[40,)"
 license="GNU Lesser General Public License v3.0"
 issueTrackerURL="https://github.com/Su5eD/GregTech-Experimental/issues" 
 
@@ -20,13 +20,13 @@ Fusion reactors, lightning rods and many other technologies and convenient recip
 [[dependencies.gregtechmod]]
     modId="forge"
     mandatory=true
-    versionRange="[36,)"
+    versionRange="[40,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.gregtechmod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.1]"
+    versionRange="[1.18.2]"
     ordering="NONE"
     side="BOTH"
 #[[dependencies.gregtechmod]]

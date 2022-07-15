@@ -68,7 +68,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     public void updateRenderClient() {
-        GtUtil.ensureClient(this.level);
+        GtUtil.assertClientSide(this.level);
 
         requestModelDataUpdate();
         BlockState state = getBlockState();

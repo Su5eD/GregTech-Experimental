@@ -42,7 +42,7 @@ public class FieldHandle {
     public Optional<?> getValue(Object instance) {
         try {
             Object value = this.handle.get(instance);
-            return Optional.of(value).filter(this.optional);
+            return Optional.ofNullable(value).filter(this.optional);
         } catch (Exception e) {
             throw new RuntimeException("Could not get field value", e);
         }

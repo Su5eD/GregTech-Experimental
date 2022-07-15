@@ -16,7 +16,7 @@ plugins {
     `maven-publish`
     id("net.minecraftforge.gradle") version "5.1.+"
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
-    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("com.github.johnrengelman.shadow") version "7.1.+"
     id("wtf.gofancy.fancygradle") version "1.1.+"
 }
 
@@ -29,12 +29,6 @@ version = getGitVersion()
 
 val api: SourceSet by sourceSets.creating
 val apiDep: Configuration by configurations.creating
-val generated: SourceSet by sourceSets.creating {
-    val main = sourceSets.main.get()
-
-    java.srcDir(main.java.srcDirs)
-    resources.srcDir(main.resources.srcDirs)
-}
 val shade: Configuration by configurations.creating
 
 val relocateTarget = "dev.gregtechmod.repack"
@@ -49,7 +43,7 @@ val manifestAttributes = mapOf(
 )
 
 minecraft {
-    mappings("parchment", "2022.01.23-1.18.1")
+    mappings("parchment", "2022.07.10-1.18.2")
 
     runs {
         val config = Action<RunConfig> {
@@ -68,10 +62,7 @@ minecraft {
         create("server", config)
 
         create("data") {
-            property("forge.logging.console.level", "debug")
-            sources(generated, api)
-            workingDirectory = project.file("run").canonicalPath
-            forceExit = false
+            config(this)
             args(
                 "--mod", "gregtechmod",
                 "--all",
@@ -101,20 +92,16 @@ java {
 }
 
 configurations {
-    "apiCompileOnly" {
+    "apiCompileClasspath" {
         extendsFrom(apiDep, configurations.minecraft.get())
     }
 
     apiElements {
-        setExtendsFrom(setOf(apiDep, shade))
+        setExtendsFrom(setOf(apiDep))
     }
 
     implementation {
         extendsFrom(shade)
-    }
-
-    "generatedCompileOnly" {
-        extendsFrom(apiDep, shade, compileOnly.get(), configurations.minecraft.get())
     }
 }
 
@@ -179,18 +166,13 @@ reobf {
 
 repositories {
     maven {
-        name = "IC2"
-        url = uri("https://maven.ic2.player.to")
-    }
-    maven {
         name = "Progwml6 maven"
         url = uri("https://dvs1.progwml6.com/files/maven")
     }
     ivy {
-        val ic2build = versionIC2.split("+").first().substringAfterLast('.')
-
+        val build = versionIC2.split("+").first().substringAfterLast('.')
         name = "IC2 Jenkins"
-        url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.18/$ic2build/artifact/tmp/out")
+        url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.18/$build/artifact/tmp/out")
         patternLayout {
             artifact("[module]-[revision]-$versionMc-forge.[ext]")
         }
@@ -202,15 +184,17 @@ repositories {
 }
 
 dependencies {
-    minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.1-39.0.79")
+    minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.2-40.1.60")
 
-    compileOnly(api.output)
-    "generatedCompileOnly"(api.output)
+    implementation(api.output)
+    "apiCompileOnly"(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
+    // Manually change to compileOnly before running datagen. Thanks, IC2
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
-    apiDep(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2)) // TODO Use api jar when available
 
-    runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc", version = versionJEI))
-    compileOnly(group = "mezz.jei", name = "jei-$versionMc", version = versionJEI, classifier = "api")
+    compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-common-api", version = versionJEI))
+    compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge-api", version = versionJEI))
+    runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge", version = versionJEI))
+    implementation(fg.deobf(curse(mod = "neat", projectId = 238372, fileId = 3593906)))
 
     apiDep(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.13.1"))
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.13.1")
@@ -225,9 +209,7 @@ afterEvaluate {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            groupId = project.group as String
             artifactId = "gregtechmod"
-            version = project.version as String
 
             from(components["java"])
 
@@ -250,7 +232,7 @@ publishing {
 
 fun getGitVersion(): String {
     val jgitver = GitVersionCalculator.location(rootDir)
-        .setNonQualifierBranches("forge-1.18.1")
+        .setNonQualifierBranches("forge-1.18.2")
         .setStrategy(Strategies.SCRIPT)
         .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version

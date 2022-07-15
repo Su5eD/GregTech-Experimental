@@ -27,7 +27,13 @@ public final class GregTechNetwork {
 
     public static void registerPackets() {
         int id = 0;
-        INSTANCE.registerMessage(id++, BlockEntityUpdate.class, BlockEntityUpdate::encode, BlockEntityUpdate::decode, BlockEntityUpdate::processPacket);
+        INSTANCE.registerMessage(id++,
+            BlockEntityUpdate.class,
+            BlockEntityUpdate::encode,
+            BlockEntityUpdate::decode,
+            BlockEntityUpdate::processPacket,
+            Optional.of(NetworkDirection.PLAY_TO_CLIENT)
+        );
         INSTANCE.registerMessage(id++,
             BlockEntityComponentUpdate.class,
             BlockEntityNamedUpdate::encode,
@@ -45,7 +51,7 @@ public final class GregTechNetwork {
     }
 
     public static void updateClientField(BlockEntity be, String name) {
-        GtUtil.ensureServer(be.getLevel());
+        GtUtil.assertServerSide(be.getLevel());
         FieldHandle field = NBTSaveHandler.getFieldHandle(name, be);
         CompoundTag tag = NBTSaveHandler.serializeFields(be, NBTTarget.SYNC, field);
         BlockEntityUpdate packet = new BlockEntityUpdate(be, tag);
@@ -54,7 +60,7 @@ public final class GregTechNetwork {
     }
 
     public static void updateClientComponent(BaseBlockEntity be, BlockEntityComponent component) {
-        GtUtil.ensureServer(be.getLevel());
+        GtUtil.assertServerSide(be.getLevel());
         CompoundTag tag = component.save(NBTTarget.SYNC);
         BlockEntityComponentUpdate packet = new BlockEntityComponentUpdate(be, tag, component.getName());
 
@@ -62,7 +68,7 @@ public final class GregTechNetwork {
     }
 
     public static <T extends BlockEntity & ICoverable> void updateClientCover(T be, ICover cover) {
-        GtUtil.ensureServer(be.getLevel());
+        GtUtil.assertServerSide(be.getLevel());
         CompoundTag tag = cover.save(NBTTarget.SYNC);
         BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, tag, cover.getName(), cover.getSide());
 

@@ -86,11 +86,11 @@ public final class GtUtil {
         }
     }
     
-    public static void ensureServer(@Nullable Level level) {
+    public static void assertServerSide(@Nullable Level level) {
         Preconditions.checkState(level == null || !level.isClientSide, "Must only be called on the server side");
     }
     
-    public static void ensureClient(@Nullable Level level) {
+    public static void assertClientSide(@Nullable Level level) {
         Preconditions.checkState(level == null || level.isClientSide, "Must only be called on the client side");
     }
 }

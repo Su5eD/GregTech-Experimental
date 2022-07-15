@@ -111,7 +111,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
                 .mapToValuePartial((facing, coverTag) -> {
                     ResourceLocation name = new ResourceLocation(coverTag.getString("name"));
                     Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(coverTag.getString("item")));
-                    ICoverProvider provider = GregTechAPI.coverRegistry.getValue(name);
+                    ICoverProvider provider = GregTechAPI.coverRegistry.get().getValue(name);
 
                     if (provider != null) {
                         ICover cover = provider.constructCover(facing, instance.parent, item);

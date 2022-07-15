@@ -7,7 +7,7 @@ import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 
@@ -50,16 +50,16 @@ public enum Component implements TaggedItemProvider {
     WOLFRAMIUM_GRINDER(ModTags.CRAFTING_GRINDER);
 
     private final Lazy<Item> instance;
-    public final Tag.Named<Item> tag;
+    public final TagKey<Item> tag;
 
-    Component(Tag.Named<Item> tag) {
+    Component(TagKey<Item> tag) {
         this.tag = tag;
 
         String name = getName();
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(GtLocale.profileItemDescriptionKey(name))).registryName(name));
     }
 
-    Component(Supplier<Item> constructor, Tag.Named<Item> tag) {
+    Component(Supplier<Item> constructor, TagKey<Item> tag) {
         this.tag = tag;
 
         this.instance = Lazy.of(() -> constructor.get().setRegistryName(getName()));
@@ -71,7 +71,7 @@ public enum Component implements TaggedItemProvider {
     }
 
     @Override
-    public Tag.Named<Item> getTag() {
+    public TagKey<Item> getTag() {
         return this.tag;
     }
 }

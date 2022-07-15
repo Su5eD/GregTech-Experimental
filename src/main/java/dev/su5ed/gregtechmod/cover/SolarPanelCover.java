@@ -30,7 +30,7 @@ public class SolarPanelCover extends BaseCover {
             Level level = ((BlockEntity) this.be).getLevel();
             BlockPos pos = ((BlockEntity) this.be).getBlockPos();
             if (!level.isThundering()) {
-                boolean rain = level.isRainingAt(pos) && level.getBiome(pos).getDownfall() > 0;
+                boolean rain = level.isRainingAt(pos) && level.getBiome(pos).value().getDownfall() > 0;
                 if ((!rain || level.getSkyDarken() < 4) && getSky(level, pos, this.side)) {
                     machine.addEnergy(rain || !level.isDay() ? this.nighttimeEnergy : this.daytimeEnergy);
                 }

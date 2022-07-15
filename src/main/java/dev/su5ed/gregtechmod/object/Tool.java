@@ -5,7 +5,7 @@ import dev.su5ed.gregtechmod.item.ScrewdriverItem;
 import dev.su5ed.gregtechmod.item.ToolItem;
 import dev.su5ed.gregtechmod.item.ToolItem.ToolItemProperties;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 
@@ -16,9 +16,9 @@ public enum Tool implements TaggedItemProvider {
     SCREWDRIVER(ScrewdriverItem::new, ModTags.SCREWDRIVER);
     
     private final Lazy<Item> instance;
-    private final Tag.Named<Item> tag;
+    private final TagKey<Item> tag;
 
-    Tool(Supplier<Item> supplier, Tag.Named<Item> tag) {
+    Tool(Supplier<Item> supplier, TagKey<Item> tag) {
         this.instance = Lazy.of(() -> supplier.get().setRegistryName(getName()));
         this.tag = tag;
     }
@@ -29,7 +29,7 @@ public enum Tool implements TaggedItemProvider {
     }
 
     @Override
-    public Tag.Named<Item> getTag() {
+    public TagKey<Item> getTag() {
         return this.tag;
     }
 }

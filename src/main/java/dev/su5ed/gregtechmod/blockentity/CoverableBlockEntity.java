@@ -66,7 +66,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
         else if (VentCover.isVent(stack)) {
             return placeCover(Cover.VENT, player, side, stack);
         }
-        else if (ModTags.SCREWDRIVER.contains(stack.getItem())) {
+        else if (stack.is(ModTags.SCREWDRIVER)) {
             return useScrewdriver(stack, side, player);
         }
         return tryUseCrowbar(stack, side, player);
@@ -102,7 +102,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
     }
 
     public boolean tryUseCrowbar(ItemStack stack, Direction side, Player player) {
-        if (ModTags.CROWBAR.contains(stack.getItem()) && removeCover(side, false)) {
+        if (stack.is(ModTags.CROWBAR) && removeCover(side, false)) {
             GtUtil.hurtStack(stack, 1, player);
             return true;
         }
@@ -166,7 +166,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
 
     @Override
     public void updateRender() {
-        GtUtil.ensureServer(this.level);
+        GtUtil.assertServerSide(this.level);
 
         BlockState state = getBlockState();
         this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);

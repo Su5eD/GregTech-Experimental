@@ -14,8 +14,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import one.util.streamex.StreamEx;
+
+import java.util.function.Supplier;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -30,13 +33,13 @@ public final class ModObjects {
     }
 
     @SubscribeEvent
-    public void registerRegistries(RegistryEvent.NewRegistry event) {
-        IForgeRegistry<ICoverProvider> registry = new RegistryBuilder<ICoverProvider>()
+    public void registerRegistries(NewRegistryEvent event) {
+        RegistryBuilder<ICoverProvider> builder = new RegistryBuilder<ICoverProvider>()
             .setName(location("covers"))
             .setType(ICoverProvider.class)
-            .setMaxID(Integer.MAX_VALUE - 1)
-            .create();
-        JavaUtil.setStaticValue(GregTechAPI.class, "coverRegistry", registry);
+            .setMaxID(Integer.MAX_VALUE - 1);
+        Supplier<IForgeRegistry<ICoverProvider>> registrySupplier = event.create(builder);
+        JavaUtil.setStaticValue(GregTechAPI.class, "coverRegistry", registrySupplier);
     }
 
     @SubscribeEvent

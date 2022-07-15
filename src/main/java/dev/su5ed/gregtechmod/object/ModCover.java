@@ -7,7 +7,7 @@ import dev.su5ed.gregtechmod.item.CoverItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 
@@ -33,14 +33,14 @@ public enum ModCover implements TaggedItemProvider {
     SOLAR_PANEL_HV(ModTags.CRAFTING_SOLAR_PANEL_HV);
 
     private final Lazy<Item> instance;
-    public final Tag.Named<Item> tag;
+    public final TagKey<Item> tag;
     
-    ModCover(Tag.Named<Item> tag) {
+    ModCover(TagKey<Item> tag) {
         this.tag = tag;
         this.instance = createItemInstance(Cover.valueOf(name()).getInstance());
     }
 
-    ModCover(Cover cover, Tag.Named<Item> tag) {
+    ModCover(Cover cover, TagKey<Item> tag) {
         this.tag = tag;
         this.instance = createItemInstance(cover.getInstance());
     }
@@ -55,7 +55,7 @@ public enum ModCover implements TaggedItemProvider {
     }
 
     @Override
-    public Tag.Named<Item> getTag() {
+    public TagKey<Item> getTag() {
         return this.tag;
     }
 }

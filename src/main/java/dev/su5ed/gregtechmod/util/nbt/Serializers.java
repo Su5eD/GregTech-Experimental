@@ -3,7 +3,12 @@ package dev.su5ed.gregtechmod.util.nbt;
 import com.mojang.authlib.GameProfile;
 import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.api.util.NBTTarget;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -11,9 +16,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryManager;
 import one.util.streamex.StreamEx;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
 
 public final class Serializers {
 
@@ -65,28 +68,6 @@ public final class Serializers {
             return StreamEx.of(value)
                 .<Tag>map(NBTSaveHandler::writeClassToNBT)
                 .toCollection(ListTag::new);
-        }
-    }
-
-    public abstract static class ListDeserializer<T> implements NBTDeserializer<List<?>, ListTag, T> {
-        private final BiFunction<T, Integer, ?> factory;
-
-        protected ListDeserializer(BiFunction<T, Integer, ?> factory) {
-            this.factory = factory;
-        }
-
-        @Override
-        public List<?> deserialize(ListTag nbt, T instance, Class<?> cls) {
-            List<? super Object> list = new ArrayList<>();
-
-            for (int i = 0; i < nbt.size(); i++) {
-                CompoundTag tag = nbt.getCompound(i);
-                Object value = this.factory.apply(instance, i);
-                NBTSaveHandler.readClassFromNBT(value, tag);
-                list.add(value);
-            }
-
-            return list;
         }
     }
 

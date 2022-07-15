@@ -57,7 +57,7 @@ public class DrainCover extends BaseCover {
         if (LiquidUtil.isFluidTile(be, this.side) && this.mode.isImport) {
             be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, this.side).ifPresent(handler -> {
                 if (this.side == Direction.UP && level.isRainingAt(pos)) {
-                    int amount = (int) (level.getBiome(pos).getDownfall() * 10);
+                    int amount = (int) (level.getBiome(pos).value().getDownfall() * 10);
                     if (amount > 0) {
                         handler.fill(new FluidStack(Fluids.WATER, level.isThundering() ? amount * 2 : amount), FluidAction.EXECUTE);
                     }

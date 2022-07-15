@@ -12,7 +12,7 @@ import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public final class NBTSaveHandler {
+public final class NBTSaveHandler { // TODO Cleanup?
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
     private static final Map<Class<?>, List<FieldHandle>> HANDLES = new HashMap<>();
 
@@ -67,8 +67,8 @@ public final class NBTSaveHandler {
             )
             .forKeyValue((fieldHandle, nbtValue) -> {
                 if (fieldHandle.modifyExisting) {
-                    Object value = fieldHandle.getValue(instance);
-                    modifyExistingField(fieldHandle.type, value, nbtValue);
+                    fieldHandle.getValue(instance)
+                        .ifPresent(value -> modifyExistingField(fieldHandle.type, value, nbtValue));
                 }
                 else {
                     Object deserialized = deserializeField(fieldHandle, nbtValue, instance, notifyListeners);
