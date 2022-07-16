@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.util.Reference;
@@ -25,8 +26,8 @@ public class GenericCover extends BaseCover {
         .map(Plate::getItem)
         .toImmutableSet();
 
-    public GenericCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    public GenericCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -35,8 +36,8 @@ public class GenericCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.GENERIC;
+    public CoverCategory getCategory() {
+        return CoverCategory.GENERIC;
     }
 
     public static boolean isGenericCover(ItemStack stack) {

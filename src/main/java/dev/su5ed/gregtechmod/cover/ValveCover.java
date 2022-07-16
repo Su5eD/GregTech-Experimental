@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -11,8 +12,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class ValveCover extends PumpCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("valve");
 
-    public ValveCover(ResourceLocation name, ICoverable te, Direction side, Item item) {
-        super(name, te, side, item);
+    public ValveCover(CoverType type, ICoverable te, Direction side, Item item) {
+        super(type, te, side, item);
     }
 
     @Override

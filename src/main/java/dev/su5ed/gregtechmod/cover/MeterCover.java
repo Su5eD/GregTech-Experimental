@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
@@ -8,7 +9,6 @@ import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -19,8 +19,8 @@ public abstract class MeterCover extends BaseCover {
     @NBTPersistent
     protected MeterMode mode = MeterMode.NORMAL;
 
-    protected MeterCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    protected MeterCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -101,7 +101,7 @@ public abstract class MeterCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.METER;
+    public CoverCategory getCategory() {
+        return CoverCategory.METER;
     }
 }

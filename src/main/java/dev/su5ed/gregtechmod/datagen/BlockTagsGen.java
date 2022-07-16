@@ -13,6 +13,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 class BlockTagsGen extends BlockTagsProvider {
 
@@ -24,15 +25,15 @@ class BlockTagsGen extends BlockTagsProvider {
     protected void addTags() {
         TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
         TagAppender<Block> ores = tag(Tags.Blocks.ORES);
-        TagAppender<Block> levelStone = tag(BlockTags.NEEDS_STONE_TOOL);
-        TagAppender<Block> levelIron = tag(BlockTags.NEEDS_IRON_TOOL);
-        TagAppender<Block> levelDiamond = tag(BlockTags.NEEDS_DIAMOND_TOOL);
+        Map<HarvestLevel, TagAppender<Block>> harvestLevels = StreamEx.of(HarvestLevel.values())
+            .mapToEntry(level -> tag(level.getTag()))
+            .toMap();
 
         StreamEx.of(ModBlock.values())
             .map(ModBlock::getBlock)
             .forEach(block -> {
                 pickaxe.add(block);
-                levelIron.add(block);
+                harvestLevels.get(HarvestLevel.IRON).add(block);
             });
 
         StreamEx.of(Ore.values())
@@ -40,8 +41,7 @@ class BlockTagsGen extends BlockTagsProvider {
             .forKeyValue((block, level) -> {
                 pickaxe.add(block);
                 ores.add(block);
-                TagAppender<Block> tag = level == HarvestLevel.DIAMOND ? levelDiamond : level == HarvestLevel.IRON ? levelIron : levelStone;
-                tag.add(block);
+                harvestLevels.get(level).add(block);
             });
     }
 

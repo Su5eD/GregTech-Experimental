@@ -1,13 +1,11 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTab;
-import dev.su5ed.gregtechmod.api.GregTechAPI;
-import dev.su5ed.gregtechmod.api.cover.ICoverProvider;
+import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.cover.Cover;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
-import dev.su5ed.gregtechmod.util.JavaUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -24,7 +22,8 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class ModObjects {
     public static final ModObjects INSTANCE = new ModObjects();
-    public static final Item.Properties DEFAULT_ITEM_PROPERTIES = new Item.Properties().tab(GregTechTab.INSTANCE);
+    
+    public static Supplier<IForgeRegistry<CoverType>> coverRegistry;
 
     private ModObjects() {}
 
@@ -34,12 +33,11 @@ public final class ModObjects {
 
     @SubscribeEvent
     public void registerRegistries(NewRegistryEvent event) {
-        RegistryBuilder<ICoverProvider> builder = new RegistryBuilder<ICoverProvider>()
+        RegistryBuilder<CoverType> builder = new RegistryBuilder<CoverType>()
             .setName(location("covers"))
-            .setType(ICoverProvider.class)
+            .setType(CoverType.class)
             .setMaxID(Integer.MAX_VALUE - 1);
-        Supplier<IForgeRegistry<ICoverProvider>> registrySupplier = event.create(builder);
-        JavaUtil.setStaticValue(GregTechAPI.class, "coverRegistry", registrySupplier);
+        coverRegistry = event.create(builder);
     }
 
     @SubscribeEvent
@@ -84,10 +82,10 @@ public final class ModObjects {
     }
 
     @SubscribeEvent
-    public void registerCovers(RegistryEvent.Register<ICoverProvider> event) {
-        IForgeRegistry<ICoverProvider> registry = event.getRegistry();
+    public void registerCovers(RegistryEvent.Register<CoverType> event) {
+        IForgeRegistry<CoverType> registry = event.getRegistry();
         StreamEx.of(Cover.values())
-            .map(Cover::getInstance)
+            .map(Cover::getType)
             .forEach(registry::register);
     }
 }

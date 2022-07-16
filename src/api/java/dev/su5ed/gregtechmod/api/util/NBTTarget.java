@@ -14,6 +14,6 @@ public enum NBTTarget {
     }
 
     public boolean accepts(NBTTarget target) {
-        return this.sync == target.sync || this.save == target.save;
+        return this.sync && target.sync || this.save && target.save;
     }
 }

@@ -1,14 +1,36 @@
 package dev.su5ed.gregtechmod.setup;
 
+import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
-import dev.su5ed.gregtechmod.cover.*;
+import dev.su5ed.gregtechmod.cover.ActiveDetectorCover;
+import dev.su5ed.gregtechmod.cover.ConveyorCover;
+import dev.su5ed.gregtechmod.cover.CraftingCover;
+import dev.su5ed.gregtechmod.cover.DrainCover;
+import dev.su5ed.gregtechmod.cover.EnergyMeterCover;
+import dev.su5ed.gregtechmod.cover.EnergyOnlyCover;
+import dev.su5ed.gregtechmod.cover.ItemMeterCover;
+import dev.su5ed.gregtechmod.cover.LiquidMeterCover;
+import dev.su5ed.gregtechmod.cover.MachineControllerCover;
+import dev.su5ed.gregtechmod.cover.NormalCover;
+import dev.su5ed.gregtechmod.cover.PumpCover;
+import dev.su5ed.gregtechmod.cover.RedstoneConductorCover;
+import dev.su5ed.gregtechmod.cover.RedstoneOnlyCover;
+import dev.su5ed.gregtechmod.cover.RedstoneSignalizerCover;
+import dev.su5ed.gregtechmod.cover.ScreenCover;
+import dev.su5ed.gregtechmod.cover.SolarPanelCover;
+import dev.su5ed.gregtechmod.cover.ValveCover;
+import dev.su5ed.gregtechmod.cover.VentCover;
+import dev.su5ed.gregtechmod.item.LithiumBatteryItem;
 import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
 import dev.su5ed.gregtechmod.model.CoverableModelLoader;
 import dev.su5ed.gregtechmod.model.OreModelLoader;
+import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
+import ic2.api.item.ElectricItem;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -16,6 +38,7 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.IModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import one.util.streamex.StreamEx;
 
 import java.util.function.Supplier;
@@ -27,6 +50,17 @@ public final class ClientSetup {
     public static final ClientSetup INSTANCE = new ClientSetup();
 
     private ClientSetup() {}
+
+    @SubscribeEvent
+    public void clientSetup(final FMLClientSetupEvent event) {
+        GregTechMod.LOGGER.info("Client setup started");
+
+        event.enqueueWork(() -> ItemProperties.register(
+            Component.LITHIUM_RE_BATTERY.getItem(),
+            LithiumBatteryItem.CHARGE_PROPERTY,
+            (stack, level, entity, seed) -> ElectricItem.manager.getCharge(stack) > 0 ? 1 : 0
+        ));
+    }
 
     @SubscribeEvent
     public void onModelRegistryEvent(ModelRegistryEvent event) {

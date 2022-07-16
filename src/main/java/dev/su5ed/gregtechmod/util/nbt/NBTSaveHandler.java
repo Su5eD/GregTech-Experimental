@@ -10,9 +10,15 @@ import javax.annotation.Nullable;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.lang.reflect.Modifier;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
-public final class NBTSaveHandler { // TODO Cleanup?
+public final class NBTSaveHandler {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
     private static final Map<Class<?>, List<FieldHandle>> HANDLES = new HashMap<>();
 
@@ -26,18 +32,18 @@ public final class NBTSaveHandler { // TODO Cleanup?
                 .map(Try.<Field, FieldHandle>of(field -> {
                         field.setAccessible(true);
                         NBTPersistent persistent = field.getAnnotation(NBTPersistent.class);
-                        String annotatedName = persistent.name();
-                        String name = !annotatedName.isEmpty() ? annotatedName : field.getName();
+                        String customName = persistent.name();
+                        String name = !customName.isEmpty() ? customName : field.getName();
                         boolean modifyExisting = field.isAnnotationPresent(ModifyExisting.class);
+                        if (!modifyExisting && Modifier.isFinal(field.getModifiers())) {
+                            throw new IllegalArgumentException("Cannot register deserializer for final field " + formatFieldName(cls, name));
+                        }
 
                         Class<? extends NBTHandler<?, ?, ?>> handler = persistent.handler();
                         boolean customHandler = handler != Serializers.None.class;
                         Class<? extends NBTSerializer<?, ?>> serializer = customHandler ? handler : persistent.serializer();
                         Class<? extends NBTDeserializer<?, ?, ?>> deserializer = customHandler ? handler : persistent.deserializer();
-
-                        VarHandle handle = MethodHandles
-                            .privateLookupIn(cls, LOOKUP)
-                            .unreflectVarHandle(field);
+                        VarHandle handle = MethodHandles.privateLookupIn(cls, LOOKUP).unreflectVarHandle(field);
 
                         checkForDuplicateField(name, cls);
                         return new FieldHandle(persistent.target(), name, field.getType(), handle, serializer, deserializer, persistent.include().predicate, modifyExisting);
@@ -62,22 +68,18 @@ public final class NBTSaveHandler { // TODO Cleanup?
 
     public static void readClassFromNBT(Object instance, CompoundTag nbt, boolean notifyListeners) {
         getFieldHandles(instance.getClass())
-            .cross(fieldHandle -> StreamEx.of(nbt.get(fieldHandle.getName()))
-                .nonNull()
-            )
-            .forKeyValue((fieldHandle, nbtValue) -> {
-                if (fieldHandle.modifyExisting) {
-                    fieldHandle.getValue(instance)
-                        .ifPresent(value -> modifyExistingField(fieldHandle.type, value, nbtValue));
+            .cross(handle -> StreamEx.of(nbt.get(handle.getName())).nonNull())
+            .forKeyValue((handle, tag) -> {
+                if (handle.modifyExisting) {
+                    handle.getValue(instance).ifPresent(value -> modifyExistingField(handle.type, value, tag));
                 }
                 else {
-                    Object deserialized = deserializeField(fieldHandle, nbtValue, instance, notifyListeners);
-
-                    if (deserialized != null) {
-                        fieldHandle.setValue(instance, deserialized);
-                        
-                        if (notifyListeners && instance instanceof FieldUpdateListener listener) listener.onFieldUpdate(fieldHandle.name);
-                    }
+                    deserializeField(handle, tag, instance, notifyListeners).ifPresent(obj -> {
+                        handle.setValue(instance, obj);
+                        if (notifyListeners && instance instanceof FieldUpdateListener listener) {
+                            listener.onFieldUpdate(handle.name);
+                        }
+                    });
                 }
             });
     }
@@ -108,22 +110,22 @@ public final class NBTSaveHandler { // TODO Cleanup?
         NBTSerializer<Object, Tag> serializer;
         if (field.serializer != Serializers.None.class) serializer = NBTHandlerRegistry.getSpecialSerializer(field.serializer);
         else if (isClassRegistered(field.type)) return writeClassToNBT(value, field.target);
-        else serializer = NBTHandlerRegistry.getSerializer(value);
+        else serializer = NBTHandlerRegistry.getSerializer(value.getClass());
         
         return serializer.serialize(value, field.target);
     }
 
     @Nullable
-    private static Object deserializeField(FieldHandle field, Tag tag, Object instance, boolean notifyListeners) {
+    private static Optional<Object> deserializeField(FieldHandle field, Tag tag, Object instance, boolean notifyListeners) {
         NBTDeserializer<Object, Tag, Object> deserializer;
         if (field.deserializer != Serializers.None.class) deserializer = NBTHandlerRegistry.getSpecialDeserializer(field.deserializer);
         else if (isClassRegistered(field.type) && tag instanceof CompoundTag compound) {
             field.getValue(instance).ifPresent(obj -> readClassFromNBT(obj, compound, notifyListeners));
-            return null;
+            return Optional.empty();
         }
         else deserializer = NBTHandlerRegistry.getDeserializer(field.type);
         
-        return deserializer.deserialize(tag, instance, field.type);
+        return Optional.ofNullable(deserializer.deserialize(tag, instance, field.type));
     }
     
     public static boolean isClassRegistered(Class<?> type) {

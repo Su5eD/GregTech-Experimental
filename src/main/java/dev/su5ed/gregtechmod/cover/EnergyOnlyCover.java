@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
@@ -21,8 +22,8 @@ public class EnergyOnlyCover extends BaseCover {
     @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public EnergyOnlyCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    public EnergyOnlyCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class EnergyOnlyCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.OTHER;
+    public CoverCategory getCategory() {
+        return CoverCategory.OTHER;
     }
 }

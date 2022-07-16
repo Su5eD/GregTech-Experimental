@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
@@ -18,8 +19,8 @@ public class RedstoneSignalizerCover extends BaseCover {
     @NBTPersistent
     protected int signal;
 
-    public RedstoneSignalizerCover(ResourceLocation name, ICoverable te, Direction side, Item item) {
-        super(name, te, side, item);
+    public RedstoneSignalizerCover(CoverType type, ICoverable te, Direction side, Item item) {
+        super(type, te, side, item);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class RedstoneSignalizerCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.METER;
+    public CoverCategory getCategory() {
+        return CoverCategory.METER;
     }
 }

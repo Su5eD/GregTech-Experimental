@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
@@ -24,8 +25,8 @@ public class MachineControllerCover extends BaseCover {
     @NBTPersistent
     protected ControllerMode mode = ControllerMode.NORMAL;
 
-    public MachineControllerCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    public MachineControllerCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -39,8 +40,8 @@ public class MachineControllerCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.CONTROLLER;
+    public CoverCategory getCategory() {
+        return CoverCategory.CONTROLLER;
     }
 
     @Override

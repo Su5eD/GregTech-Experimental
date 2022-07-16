@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IMachineProgress;
@@ -23,8 +24,8 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
 public class VentCover extends GenericCover {
     private final double efficiency;
 
-    public VentCover(ResourceLocation name, ICoverable te, Direction side, Item item) {
-        super(name, te, side, item);
+    public VentCover(CoverType type, ICoverable te, Direction side, Item item) {
+        super(type, te, side, item);
         this.efficiency = getVentType(item).efficiency;
     }
 
@@ -89,7 +90,7 @@ public class VentCover extends GenericCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.OTHER;
+    public CoverCategory getCategory() {
+        return CoverCategory.OTHER;
     }
 }

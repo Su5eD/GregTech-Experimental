@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.ModTags;
-import dev.su5ed.gregtechmod.api.cover.ICoverProvider;
+import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.cover.Cover;
 import dev.su5ed.gregtechmod.item.CoverItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
@@ -37,15 +37,15 @@ public enum ModCover implements TaggedItemProvider {
     
     ModCover(TagKey<Item> tag) {
         this.tag = tag;
-        this.instance = createItemInstance(Cover.valueOf(name()).getInstance());
+        this.instance = createItemInstance(Cover.valueOf(name()).getType());
     }
 
     ModCover(Cover cover, TagKey<Item> tag) {
         this.tag = tag;
-        this.instance = createItemInstance(cover.getInstance());
+        this.instance = createItemInstance(cover.getType());
     }
     
-    private Lazy<Item> createItemInstance(ICoverProvider provider) {
+    private Lazy<Item> createItemInstance(CoverType provider) {
         return Lazy.of(() -> new CoverItem(new ExtendedItemProperties<>().description(GtLocale.itemDescriptionKey(getName())), provider).registryName(getName()));
     }
 

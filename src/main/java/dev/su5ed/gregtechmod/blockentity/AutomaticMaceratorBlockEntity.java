@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.blockentity;
 
+import dev.su5ed.gregtechmod.blockentity.base.CoverableBlockEntity;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

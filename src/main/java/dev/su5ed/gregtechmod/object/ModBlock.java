@@ -50,7 +50,7 @@ public enum ModBlock implements BlockItemProvider {
     ModBlock(Supplier<Block> block) {
         String name = getName() + "_block";
         this.block = Lazy.of(() -> block.get().setRegistryName(name));
-        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.DEFAULT_ITEM_PROPERTIES).setRegistryName(name));
+        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()).setRegistryName(name));
     }
 
     @Override

@@ -3,7 +3,7 @@ package dev.su5ed.gregtechmod.network;
 import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.util.NBTTarget;
-import dev.su5ed.gregtechmod.blockentity.BaseBlockEntity;
+import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.nbt.FieldHandle;
@@ -36,8 +36,8 @@ public final class GregTechNetwork {
         );
         INSTANCE.registerMessage(id++,
             BlockEntityComponentUpdate.class,
-            BlockEntityNamedUpdate::encode,
-            buf -> BlockEntityNamedUpdate.decode(buf, BlockEntityComponentUpdate::new),
+            BlockEntityComponentUpdate::encode,
+            buf -> BlockEntityComponentUpdate.decode(buf, BlockEntityComponentUpdate::new),
             BlockEntityComponentUpdate::processPacket,
             Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
@@ -70,7 +70,7 @@ public final class GregTechNetwork {
     public static <T extends BlockEntity & ICoverable> void updateClientCover(T be, ICover cover) {
         GtUtil.assertServerSide(be.getLevel());
         CompoundTag tag = cover.save(NBTTarget.SYNC);
-        BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, tag, cover.getName(), cover.getSide());
+        BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, tag, cover.getType().getRegistryName(), cover.getSide());
 
         sendTrackingChunk(be, packet);
     }

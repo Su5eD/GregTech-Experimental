@@ -17,7 +17,6 @@ import java.util.function.Predicate;
 final class GregTechAPIImpl implements IGregTechAPI {
     private final List<SonictronSound> sonictronSounds = new ArrayList<>();
     private final Map<String, Predicate<JsonNode>> conditions = new HashMap<>();
-
     private final Map<Item, TurbineRotor> turbineRotors = new HashMap<>();
 
     @Override

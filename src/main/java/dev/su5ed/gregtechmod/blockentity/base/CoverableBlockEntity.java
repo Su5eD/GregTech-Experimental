@@ -1,7 +1,7 @@
-package dev.su5ed.gregtechmod.blockentity;
+package dev.su5ed.gregtechmod.blockentity.base;
 
 import dev.su5ed.gregtechmod.ModTags;
-import dev.su5ed.gregtechmod.api.cover.CoverType;
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.ICover;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
@@ -37,7 +37,7 @@ import java.util.Optional;
 
 public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable {
     private final CoverHandler<CoverableBlockEntity> coverHandler;
-    private final Collection<CoverType> coverBlacklist;
+    private final Collection<CoverCategory> coverBlacklist;
 
     public CoverableBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider, pos, state);
@@ -46,7 +46,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
         this.coverBlacklist = getCoverBlacklist();
     }
 
-    protected Collection<CoverType> getCoverBlacklist() {
+    protected Collection<CoverCategory> getCoverBlacklist() {
         return List.of();
     }
 
@@ -73,7 +73,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
     }
 
     private boolean placeCover(Cover type, Player player, Direction side, ItemStack stack) {
-        ICover cover = type.getInstance().constructCover(side, this, stack.getItem());
+        ICover cover = type.getType().create(this, side, stack.getItem());
         if (placeCoverAtSide(cover, player, side, false)) {
             if (!player.isCreative()) stack.shrink(1);
             return true;
@@ -97,7 +97,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
             return true;
         }
 
-        ICover cover = Cover.NORMAL.getInstance().constructCover(side, this, Items.AIR);
+        ICover cover = Cover.NORMAL.getType().create(this, side, Items.AIR);
         return placeCoverAtSide(cover, player, side, false);
     }
 
@@ -139,7 +139,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
 
     @Override
     public boolean placeCoverAtSide(ICover cover, Player player, Direction side, boolean simulate) {
-        return !this.coverBlacklist.contains(cover.getType()) && this.coverHandler.placeCoverAtSide(cover, side, simulate);
+        return !this.coverBlacklist.contains(cover.getCategory()) && this.coverHandler.placeCoverAtSide(cover, side, simulate);
     }
 
     @Override

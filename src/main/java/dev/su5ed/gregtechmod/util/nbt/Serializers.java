@@ -9,11 +9,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
-import net.minecraftforge.registries.RegistryManager;
 import one.util.streamex.StreamEx;
 
 import java.util.List;
@@ -36,28 +32,6 @@ public final class Serializers {
 
     public static CompoundTag serializeGameProfile(GameProfile profile) {
         return NbtUtils.writeGameProfile(new CompoundTag(), profile);
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    public static CompoundTag serializeIForgeRegistryEntry(IForgeRegistryEntry<?> entry) {
-        CompoundTag tag = new CompoundTag();
-        tag.putString("name", entry.getRegistryName().toString());
-        tag.putString("type", entry.getRegistryType().getName());
-        return tag;
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static IForgeRegistryEntry<?> deserializeIForgeRegistryEntry(CompoundTag tag) {
-        try {
-            ResourceLocation name = new ResourceLocation(tag.getString("name"));
-            Class type = Class.forName(tag.getString("type"));
-
-            IForgeRegistry<?> registry = RegistryManager.ACTIVE.getRegistry(type);
-            return registry.getValue(name);
-        } catch (Exception e) {
-            GregTechMod.LOGGER.catching(e);
-            return null;
-        }
     }
 
     public static class ListSerializer implements NBTSerializer<List<?>, ListTag> {

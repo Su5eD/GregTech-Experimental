@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
@@ -9,7 +10,6 @@ import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -18,8 +18,8 @@ public abstract class InventoryCover extends BaseCover {
     @NBTPersistent
     protected InventoryMode mode = InventoryMode.EXPORT;
 
-    protected InventoryCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    protected InventoryCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     public boolean canWork() {
@@ -72,7 +72,7 @@ public abstract class InventoryCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.IO;
+    public CoverCategory getCategory() {
+        return CoverCategory.IO;
     }
 }

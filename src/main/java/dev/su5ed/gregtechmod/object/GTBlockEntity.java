@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.block.BaseEntityBlock;
 import dev.su5ed.gregtechmod.blockentity.AutomaticMaceratorBlockEntity;
-import dev.su5ed.gregtechmod.blockentity.BaseBlockEntity;
+import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
@@ -24,7 +24,7 @@ public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
         String name = getName();
         this.allowedFacings = allowedFacings;
         this.block = Lazy.of(() -> new BaseEntityBlock(this).setRegistryName(name));
-        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.DEFAULT_ITEM_PROPERTIES).setRegistryName(name));
+        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()).setRegistryName(name));
         this.type = BlockEntityType.Builder.of(factory, getBlock()).build(null).setRegistryName(name);
 
         NBTSaveHandler.initClass(cls);

@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -26,8 +27,8 @@ public class CraftingCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
     private static final Component CONTAINER_TITLE = new TranslatableComponent("container.crafting");
 
-    public CraftingCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    public CraftingCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -52,8 +53,8 @@ public class CraftingCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.UTIL;
+    public CoverCategory getCategory() {
+        return CoverCategory.UTIL;
     }
 
     private class CoverCraftingMenu extends CraftingMenu {

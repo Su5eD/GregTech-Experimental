@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
@@ -22,8 +23,8 @@ public class ActiveDetectorCover extends BaseCover {
     @NBTPersistent
     protected DetectorMode mode = DetectorMode.NORMAL;
 
-    public ActiveDetectorCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    public ActiveDetectorCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -100,8 +101,8 @@ public class ActiveDetectorCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.METER;
+    public CoverCategory getCategory() {
+        return CoverCategory.METER;
     }
 
     private enum DetectorMode {

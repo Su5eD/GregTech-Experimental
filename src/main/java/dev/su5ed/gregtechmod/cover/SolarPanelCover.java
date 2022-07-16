@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.GregTechConfig;
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
@@ -18,8 +19,8 @@ public class SolarPanelCover extends BaseCover {
     private final double daytimeEnergy;
     private final double nighttimeEnergy;
 
-    public SolarPanelCover(ResourceLocation name, ICoverable te, Direction side, Item item, double daytimeEnergy, double nighttimeEnergy) {
-        super(name, te, side, item);
+    public SolarPanelCover(CoverType type, ICoverable te, Direction side, Item item, double daytimeEnergy, double nighttimeEnergy) {
+        super(type, te, side, item);
         this.daytimeEnergy = daytimeEnergy;
         this.nighttimeEnergy = nighttimeEnergy;
     }
@@ -54,7 +55,7 @@ public class SolarPanelCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.ENERGY;
+    public CoverCategory getCategory() {
+        return CoverCategory.ENERGY;
     }
 }

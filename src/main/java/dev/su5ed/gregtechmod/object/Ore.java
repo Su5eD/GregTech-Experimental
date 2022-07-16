@@ -41,7 +41,7 @@ public enum Ore implements BlockItemProvider {
     Ore(Supplier<Block> block, HarvestLevel harvestLevel) {
         String name = getName() + "_ore";
         this.block = Lazy.of(() -> block.get().setRegistryName(name));
-        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.DEFAULT_ITEM_PROPERTIES).setRegistryName(name));
+        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()).setRegistryName(name));
         this.harvestLevel = harvestLevel;
     }
 

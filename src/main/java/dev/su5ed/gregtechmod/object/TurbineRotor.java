@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.object;
 
-import dev.su5ed.gregtechmod.item.ResourceItem;
+import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.item.TurbineRotorItem;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.ItemProvider;
@@ -18,9 +18,10 @@ public enum TurbineRotor implements ItemProvider {
 
     TurbineRotor(int efficiency, int efficiencyMultiplier, int durability) {
         this.instance = Lazy.of(() -> new TurbineRotorItem(
-            new ResourceItem.ExtendedItemProperties<>(ModObjects.itemProperties().durability(durability).setNoRepair())
+            new ExtendedItemProperties<>(ModObjects.itemProperties().durability(durability).setNoRepair())
                 .description(GtLocale.translateGenericDescription("turbine_rotor", efficiency))
-                .setNoEnchant(), efficiency, efficiencyMultiplier)
+                .setNoEnchant(),
+            efficiency, efficiencyMultiplier)
             .registryName(getName(), "turbine_rotor")
         );
     }

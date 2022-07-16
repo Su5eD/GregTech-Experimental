@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import net.minecraft.core.Direction;
@@ -11,8 +12,8 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
 public class ScreenCover extends BaseCover {
     public static final ResourceLocation TEXTURE = location("blockentity/adv_machine_screen_random");
 
-    public ScreenCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    public ScreenCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -26,7 +27,7 @@ public class ScreenCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.UTIL;
+    public CoverCategory getCategory() {
+        return CoverCategory.UTIL;
     }
 }

@@ -9,14 +9,22 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
-import javax.annotation.Nullable;
-
 /**
  * Used to create covers, providing <code>{@link ICoverable}</code> machines all the information they need
  */
 public interface ICover {
     
-    ResourceLocation getName();
+    CoverType getType();
+
+    /**
+     * @return The cover's side
+     */
+    Direction getSide();
+
+    /**
+     * @return The cover's associated item
+     */
+    Item getItem();
     
     /**
      * Ticked every n tick(s), depending on the cover's {@link ICover#getTickRate() tick rate}
@@ -58,18 +66,8 @@ public interface ICover {
      * @return The location of the cover's texture
      */
     ResourceLocation getIcon();
-
-    /**
-     * @return The cover's side
-     */
-    Direction getSide();
-
-    /**
-     * @return The cover's associated item
-     */
-    Item getItem();
     
-    CoverType getType();
+    CoverCategory getCategory();
 
     CompoundTag save(NBTTarget target);
 

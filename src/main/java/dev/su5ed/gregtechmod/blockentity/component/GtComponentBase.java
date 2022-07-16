@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.blockentity.component;
 
 import dev.su5ed.gregtechmod.api.util.NBTTarget;
-import dev.su5ed.gregtechmod.blockentity.BaseBlockEntity;
+import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.BlockPos;

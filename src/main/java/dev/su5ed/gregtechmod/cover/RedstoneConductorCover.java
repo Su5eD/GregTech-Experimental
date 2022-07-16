@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.ICoverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
@@ -24,8 +25,8 @@ public class RedstoneConductorCover extends BaseCover {
     @NBTPersistent
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
-    public RedstoneConductorCover(ResourceLocation name, ICoverable be, Direction side, Item item) {
-        super(name, be, side, item);
+    public RedstoneConductorCover(CoverType type, ICoverable be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -128,7 +129,7 @@ public class RedstoneConductorCover extends BaseCover {
     }
 
     @Override
-    public CoverType getType() {
-        return CoverType.UTIL;
+    public CoverCategory getCategory() {
+        return CoverCategory.UTIL;
     }
 }

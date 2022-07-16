@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.blockentity;
+package dev.su5ed.gregtechmod.blockentity.base;
 
 import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
@@ -58,7 +58,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
 
     protected <T extends BlockEntityComponent> T addComponent(T component) {
         ResourceLocation name = component.getName();
-        if (this.components.containsKey(name)) throw new RuntimeException("Duplicate component: " + name + " of type " + component.getClass().getName());
+        if (this.components.containsKey(name)) throw new RuntimeException("Duplicate component: " + name);
         else this.components.put(name, component);
         return component;
     }
