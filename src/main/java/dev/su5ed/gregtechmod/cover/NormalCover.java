@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -21,7 +21,7 @@ public class NormalCover extends BaseCover implements FieldUpdateListener {
     @NBTPersistent(target = NBTTarget.BOTH)
     protected MeterCover.MeterMode mode = MeterCover.MeterMode.NORMAL;
 
-    public NormalCover(CoverType type, ICoverable be, Direction side, Item item) {
+    public NormalCover(CoverType type, Coverable be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

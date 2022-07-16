@@ -1,8 +1,8 @@
 package dev.su5ed.gregtechmod.item;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICover;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Cover;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -25,9 +25,9 @@ public class CoverItem extends ResourceItem {
         if (!player.isShiftKeyDown()) {
             BlockEntity be = context.getLevel().getBlockEntity(context.getClickedPos());
 
-            if (be instanceof ICoverable coverable) {
+            if (be instanceof Coverable coverable) {
                 Direction side = context.getClickedFace();
-                ICover cover = this.coverProvider.create(coverable, side, this);
+                Cover cover = this.coverProvider.create(coverable, side, this);
 
                 if (coverable.placeCoverAtSide(cover, player, side, false)) {
                     if (!player.isCreative()) stack.shrink(1);

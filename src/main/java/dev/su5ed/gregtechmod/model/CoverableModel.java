@@ -1,10 +1,9 @@
 package dev.su5ed.gregtechmod.model;
 
-import dev.su5ed.gregtechmod.api.cover.ICover;
+import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.blockentity.component.CoverHandler;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.VerticalRotation;
-import ic2.core.util.Util;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
@@ -71,10 +70,10 @@ public class CoverableModel extends BaseModel {
     }
     
     private Map<Direction, Material> getCoverData(IModelData data) {
-        Map<Direction, ICover> covers = data.getData(CoverHandler.COVER_HANDLER_PROPERTY);
+        Map<Direction, Cover> covers = data.getData(CoverHandler.COVER_HANDLER_PROPERTY);
         if (covers != null) {
             return EntryStream.of(covers)
-                .mapValues(ICover::getIcon)
+                .mapValues(Cover::getIcon)
                 .mapValues(location -> new Material(InventoryMenu.BLOCK_ATLAS, location))
                 .toImmutableMap();
         }
@@ -84,10 +83,10 @@ public class CoverableModel extends BaseModel {
     private static Direction rotateSide(VerticalRotation behavior, Direction face, Direction side, Collection<Direction> covers) {
         if (!covers.contains(side) && face != Direction.NORTH) {
             if (face == side) return Direction.NORTH;
-            else if (Util.verticalFacings.contains(face)) {
+            else if (GtUtil.isVerticalFacing(face)) {
                 return behavior.rotation.apply(face, side);
             }
-            else if (Util.horizontalFacings.contains(side)) {
+            else if (GtUtil.isHorizontalFacing(side)) {
                 if (face == Direction.SOUTH) return side.getOpposite();
                 else return face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? side.getCounterClockWise() : side.getClockWise();
             }

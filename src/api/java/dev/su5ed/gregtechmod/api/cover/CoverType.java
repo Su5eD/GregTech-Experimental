@@ -12,7 +12,7 @@ public class CoverType extends ForgeRegistryEntry<CoverType> {
         this.factory = factory;
     }
     
-    public ICover create(ICoverable parent, Direction side, Item item) {
+    public Cover create(Coverable parent, Direction side, Item item) {
         return this.factory.create(this, parent, side, item);
     }
 
@@ -24,6 +24,6 @@ public class CoverType extends ForgeRegistryEntry<CoverType> {
          * @param item   The cover <code>{@link Item}</code>
          * @return A new cover instance
          */
-        ICover create(CoverType type, ICoverable parent, Direction side, Item item);
+        Cover create(CoverType type, Coverable parent, Direction side, Item item);
     }
 }

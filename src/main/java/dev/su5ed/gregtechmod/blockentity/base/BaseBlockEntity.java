@@ -7,6 +7,7 @@ import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import one.util.streamex.StreamEx;
@@ -50,6 +52,15 @@ public abstract class BaseBlockEntity extends BlockEntity {
 
     public Optional<ItemStack> getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         return Optional.empty();
+    }
+    
+    public Direction getFacing() {
+        return getBlockState().getValue(BlockStateProperties.FACING);
+    }
+    
+    public void setFacing(Direction side) {
+        BlockState state = getBlockState();
+        this.level.sendBlockUpdated(this.worldPosition, state, state.setValue(BlockStateProperties.FACING, side), Block.UPDATE_ALL);
     }
 
     public void updateClientField(String name) {

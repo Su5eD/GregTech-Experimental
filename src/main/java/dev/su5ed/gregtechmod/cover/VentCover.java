@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IMachineProgress;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.core.BlockPos;
@@ -24,7 +24,7 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
 public class VentCover extends GenericCover {
     private final double efficiency;
 
-    public VentCover(CoverType type, ICoverable te, Direction side, Item item) {
+    public VentCover(CoverType type, Coverable te, Direction side, Item item) {
         super(type, te, side, item);
         this.efficiency = getVentType(item).efficiency;
     }

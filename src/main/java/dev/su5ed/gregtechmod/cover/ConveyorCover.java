@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.InvUtil;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class ConveyorCover extends InventoryCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("conveyor");
 
-    public ConveyorCover(CoverType type, ICoverable be, Direction side, Item item) {
+    public ConveyorCover(CoverType type, Coverable be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

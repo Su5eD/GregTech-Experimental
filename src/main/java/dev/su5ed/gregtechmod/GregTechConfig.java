@@ -24,11 +24,18 @@ public final class GregTechConfig {
 
     public static final class Common {
         public final ForgeConfigSpec.BooleanValue hiddenOres;
+        
+        public final ForgeConfigSpec.IntValue upgradeStackSize;
+        
         public final ForgeConfigSpec.BooleanValue solarPanelCoverOvervoltageProtection;
 
         private Common(ForgeConfigSpec.Builder builder) {
             builder.push("General config");
             this.hiddenOres = builder.define("hiddenOres", true);
+            builder.pop();
+            
+            builder.push("Features");
+            this.upgradeStackSize = builder.defineInRange("upgradeStackSize", 4, 1, 64);
             builder.pop();
             
             builder.push("Balance");

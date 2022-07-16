@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseEntityBlock extends Block implements EntityBlock {
+public class BaseEntityBlock extends Block implements EntityBlock { // TODO Wrenchable
     private final BlockEntityProvider provider;
     
     public BaseEntityBlock(BlockEntityProvider provider) {

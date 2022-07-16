@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public final class ModTags {
+public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_SUPERCONDUCTOR = itemTag("crafting/superconductor");
     public static final TagKey<Item> CRAFTING_LI_BATTERY = itemTag("crafting/li_battery");
     public static final TagKey<Item> CRAFTING_DIAMOND_BLADE = itemTag("crafting/diamond_blade");
@@ -64,6 +64,18 @@ public final class ModTags {
     public static final TagKey<Item> CRAFTING_SOLAR_PANEL_LV = itemTag("crafting/solar_panel_lv");
     public static final TagKey<Item> CRAFTING_SOLAR_PANEL_MV = itemTag("crafting/solar_panel_mv");
     public static final TagKey<Item> CRAFTING_SOLAR_PANEL_HV = itemTag("crafting/solar_panel_hv");
+    
+    public static final TagKey<Item> CRAFTING_HV_TRANSFORMER_UPGRADE = itemTag("crafting/hv_transformer_upgrade");
+    public static final TagKey<Item> CRAFTING_100K_EU_STORE = itemTag("crafting/100k_eu_store");
+    public static final TagKey<Item> CRAFTING_1KK_EU_STORE = itemTag("crafting/1kk_eu_store");
+    public static final TagKey<Item> CRAFTING_10KK_EU_STORE = itemTag("crafting/10kk_eu_store");
+    public static final TagKey<Item> CRAFTING_100KK_EU_STORE = itemTag("crafting/100kk_eu_store");
+    public static final TagKey<Item> CRAFTING_LOCK = itemTag("crafting/lock");
+    public static final TagKey<Item> CRAFTING_QUANTUM_CHEST_UPGRADE = itemTag("crafting/quantum_chest_upgrade");
+    public static final TagKey<Item> CRAFTING_STEAM_UPGRADE = itemTag("crafting/steam_upgrade");
+    public static final TagKey<Item> CRAFTING_STEAM_TANK = itemTag("crafting/steam_tank");
+    public static final TagKey<Item> CRAFTING_PNEUMATIC_GENERATOR = itemTag("crafting/pneumatic_generator");
+    public static final TagKey<Item> CRAFTING_ENERGY_CELL_UPGRADE = itemTag("crafting/energy_cell_upgrade");
 
 //    public static final TagKey<Block> MINABLE_WITH_JACK_HAMMER = BlockTags.bind("minable_with_jack_hammer");
 
@@ -73,7 +85,7 @@ public final class ModTags {
     public static final TagKey<Item> SOFT_HAMMER = forgeItemTag("tools/soft_hammer");
     public static final TagKey<Item> HARD_HAMMER = forgeItemTag("tools/hard_hammer");
 
-    private ModTags() {}
+    private GregTechTags() {}
 
     private static TagKey<Item> forgeItemTag(String name) {
         return ItemTags.create(new ResourceLocation("forge", name));

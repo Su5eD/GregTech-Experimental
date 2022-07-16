@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +27,7 @@ public class CraftingCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
     private static final Component CONTAINER_TITLE = new TranslatableComponent("container.crafting");
 
-    public CraftingCover(CoverType type, ICoverable be, Direction side, Item item) {
+    public CraftingCover(CoverType type, Coverable be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

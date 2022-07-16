@@ -25,6 +25,10 @@ public final class GtLocale {
     public static TranslationKey itemDescriptionKey(String name) {
         return key("item", name, "description");
     }
+    
+    public static TranslationKey itemKey(String name, String... paths) {
+        return key("item", name, paths);
+    }
 
     public static TranslationKey key(String prefix, String first, String... paths) {
         String key = StreamEx.of(prefix, Reference.MODID, first)

@@ -9,13 +9,13 @@ import java.util.Optional;
 /**
  * Lets your {@link net.minecraft.world.level.block.entity.BlockEntity BlockEntity} accept covers.
  */
-public interface ICoverable {
+public interface Coverable {
 
-    Collection<? extends ICover> getCovers();
+    Collection<? extends Cover> getCovers();
 
-    Optional<ICover> getCoverAtSide(Direction side);
+    Optional<Cover> getCoverAtSide(Direction side);
 
-    boolean placeCoverAtSide(ICover cover, Player player, Direction side, boolean simulate);
+    boolean placeCoverAtSide(Cover cover, Player player, Direction side, boolean simulate);
 
     boolean removeCover(Direction side, boolean simulate);
 

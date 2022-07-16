@@ -1,13 +1,13 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICover;
+import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraftforge.common.util.Lazy;
 
 import java.util.Locale;
 
-public enum Cover {
+public enum ModCoverType {
     ACTIVE_DETECTOR(ActiveDetectorCover.class, ActiveDetectorCover::new),
     CONVEYOR(ConveyorCover.class, ConveyorCover::new),
     CRAFTING(CraftingCover.class, CraftingCover::new),
@@ -33,13 +33,13 @@ public enum Cover {
 
     private final Lazy<CoverType> instance;
 
-    Cover(Class<? extends ICover> clazz, CoverType.CoverSupplier factory) {
+    ModCoverType(Class<? extends Cover> clazz, CoverType.CoverSupplier factory) {
         NBTSaveHandler.initClass(clazz);
         this.instance = Lazy.of(() -> new CoverType(factory)
             .setRegistryName(name().toLowerCase(Locale.ROOT)));
     }
 
-    public CoverType getType() {
+    public CoverType get() {
         return this.instance.get();
     }
 }

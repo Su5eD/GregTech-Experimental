@@ -2,10 +2,10 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
-import dev.su5ed.gregtechmod.api.machine.IUpgradableMachine;
+import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -24,7 +24,7 @@ public class EnergyMeterCover extends BaseCover {
     @NBTPersistent
     protected Mode mode = Mode.UNIVERSAL;
 
-    public EnergyMeterCover(CoverType type, ICoverable be, Direction side, Item item) {
+    public EnergyMeterCover(CoverType type, Coverable be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -40,26 +40,26 @@ public class EnergyMeterCover extends BaseCover {
                 strength = (int) (machine.getAverageEUOutput() / (machine.getMaxOutputEUt() / 15));
             }
             else {
-                boolean upgradable = machine instanceof IUpgradableMachine;
+                boolean upgradable = machine instanceof UpgradableBlockEntity;
                 double stored = -1;
                 double capacity = 1;
 
                 if (this.mode == Mode.UNIVERSAL || this.mode == Mode.UNIVERSAL_INVERTED) {
-                    stored = upgradable ? ((IUpgradableMachine) machine).getUniversalEnergy() : machine.getStoredEU();
-                    capacity = upgradable ? ((IUpgradableMachine) machine).getUniversalEnergyCapacity() : machine.getEUCapacity();
+                    stored = upgradable ? ((UpgradableBlockEntity) machine).getUniversalEnergy() : machine.getStoredEU();
+                    capacity = upgradable ? ((UpgradableBlockEntity) machine).getUniversalEnergyCapacity() : machine.getEUCapacity();
                 }
                 else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
                     stored = machine.getStoredEU();
                     capacity = machine.getEUCapacity();
                 }
                 else if (upgradable) {
-                    if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && ((IUpgradableMachine) machine).hasMjUpgrade()) {
-                        stored = ((IUpgradableMachine) machine).getStoredMj();
-                        capacity = ((IUpgradableMachine) machine).getMjCapacity();
+                    if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && ((UpgradableBlockEntity) machine).hasMjUpgrade()) {
+                        stored = ((UpgradableBlockEntity) machine).getStoredMj();
+                        capacity = ((UpgradableBlockEntity) machine).getMjCapacity();
                     }
-                    else if ((this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) && ((IUpgradableMachine) machine).hasSteamTank()) {
-                        stored = ((IUpgradableMachine) machine).getStoredSteam();
-                        capacity = ((IUpgradableMachine) machine).getSteamCapacity();
+                    else if ((this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) && ((UpgradableBlockEntity) machine).hasSteamTank()) {
+                        stored = ((UpgradableBlockEntity) machine).getStoredSteam();
+                        capacity = ((UpgradableBlockEntity) machine).getSteamCapacity();
                     }
                 }
 

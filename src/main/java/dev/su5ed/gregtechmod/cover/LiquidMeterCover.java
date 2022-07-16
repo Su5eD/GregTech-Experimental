@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 public class LiquidMeterCover extends MeterCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("liquid_meter");
 
-    public LiquidMeterCover(CoverType type, ICoverable be, Direction side, Item item) {
+    public LiquidMeterCover(CoverType type, Coverable be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

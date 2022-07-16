@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -19,7 +19,7 @@ public class RedstoneSignalizerCover extends BaseCover {
     @NBTPersistent
     protected int signal;
 
-    public RedstoneSignalizerCover(CoverType type, ICoverable te, Direction side, Item item) {
+    public RedstoneSignalizerCover(CoverType type, Coverable te, Direction side, Item item) {
         super(type, te, side, item);
     }
 

@@ -3,8 +3,8 @@ package dev.su5ed.gregtechmod.blockentity.component;
 import com.google.common.collect.ImmutableMap;
 import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICover;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Cover;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.object.ModObjects;
@@ -24,12 +24,12 @@ import java.util.Optional;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComponentBase<T> {
-    public static final ModelProperty<Map<Direction, ICover>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
+public class CoverHandler<T extends BaseBlockEntity & Coverable> extends GtComponentBase<T> {
+    public static final ModelProperty<Map<Direction, Cover>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
     private static final ResourceLocation NAME = location("cover_handler");
     
     @NBTPersistent(target = NBTTarget.BOTH, handler = CoverMapNBTSerializer.class)
-    private Map<Direction, ICover> covers = new HashMap<>();
+    private Map<Direction, Cover> covers = new HashMap<>();
     
     public CoverHandler(T te) {
         super(te);
@@ -40,15 +40,15 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
         return NAME;
     }
 
-    public Map<Direction, ICover> getCovers() {
+    public Map<Direction, Cover> getCovers() {
         return ImmutableMap.copyOf(this.covers);
     }
 
-    public Optional<ICover> getCoverAtSide(Direction side) {
+    public Optional<Cover> getCoverAtSide(Direction side) {
         return Optional.ofNullable(this.covers.get(side));
     }
 
-    public boolean placeCoverAtSide(ICover cover, Direction side, boolean simulate) {
+    public boolean placeCoverAtSide(Cover cover, Direction side, boolean simulate) {
         if (!this.covers.containsKey(side)) {
             if (isServerSide() && !simulate) {
                 this.covers.put(side, cover);
@@ -79,11 +79,11 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
         if (name.equals("covers")) this.parent.updateRenderClient();
     }
 
-    public static class CoverMapNBTSerializer implements NBTHandler<Map<Direction, ICover>, CompoundTag, CoverHandler<?>> {
+    public static class CoverMapNBTSerializer implements NBTHandler<Map<Direction, Cover>, CompoundTag, CoverHandler<?>> {
         public static final CoverMapNBTSerializer INSTANCE = new CoverMapNBTSerializer();
 
         @Override
-        public CompoundTag serialize(Map<Direction, ICover> value, NBTTarget target) {
+        public CompoundTag serialize(Map<Direction, Cover> value, NBTTarget target) {
             CompoundTag tag = new CompoundTag();
             value.forEach((facing, cover) -> {
                 CompoundTag coverTag = new CompoundTag();
@@ -98,7 +98,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
         }
 
         @Override
-        public Map<Direction, ICover> deserialize(CompoundTag tag, CoverHandler<?> instance, Class<?> cls) {
+        public Map<Direction, Cover> deserialize(CompoundTag tag, CoverHandler<?> instance, Class<?> cls) {
             return StreamEx.of(tag.getAllKeys())
                 .mapToEntry(Direction::valueOf, tag::getCompound)
                 .mapToValuePartial((facing, coverTag) -> {
@@ -107,7 +107,7 @@ public class CoverHandler<T extends BaseBlockEntity & ICoverable> extends GtComp
                     CoverType type = ModObjects.coverRegistry.get().getValue(name);
 
                     if (type != null) {
-                        ICover cover = type.create(instance.parent, facing, item);
+                        Cover cover = type.create(instance.parent, facing, item);
                         cover.load(coverTag.getCompound("cover"), false);
 
                         return Optional.of(cover);

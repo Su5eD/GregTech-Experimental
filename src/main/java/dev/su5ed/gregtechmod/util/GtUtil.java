@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.util;
 
 import com.google.common.base.Preconditions;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -44,7 +44,7 @@ public final class GtUtil {
     }
 
     public static void sendActionBarMessage(Player player, GtLocale.TranslationKey key, Object... args) {
-        if (player instanceof ServerPlayer serverPlayer) serverPlayer.displayClientMessage(key.toComponent(args), true);
+        player.displayClientMessage(key.toComponent(args), true);
     }
 
     public static ResourceLocation getCoverTexture(String name) {
@@ -57,7 +57,7 @@ public final class GtUtil {
             .orElse(FluidStack.EMPTY);
     }
 
-    public static int getStrongestSignal(ICoverable te, Level level, BlockPos pos, Direction excludeFacing) {
+    public static int getStrongestSignal(Coverable te, Level level, BlockPos pos, Direction excludeFacing) {
         return StreamEx.of(Direction.values())
             .filter(side -> excludeFacing == null || side != excludeFacing)
             .mapToInt(side -> getSignalFromSide(side, level, pos, te))
@@ -65,7 +65,7 @@ public final class GtUtil {
             .orElse(0);
     }
 
-    public static int getSignalFromSide(Direction side, Level level, BlockPos pos, ICoverable be) {
+    public static int getSignalFromSide(Direction side, Level level, BlockPos pos, Coverable be) {
         int power = level.getSignal(pos.relative(side), side);
 
         return be.getCoverAtSide(side)

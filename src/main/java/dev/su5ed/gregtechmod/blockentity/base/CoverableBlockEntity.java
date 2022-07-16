@@ -1,13 +1,13 @@
 package dev.su5ed.gregtechmod.blockentity.base;
 
-import dev.su5ed.gregtechmod.ModTags;
+import dev.su5ed.gregtechmod.GregTechTags;
+import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
-import dev.su5ed.gregtechmod.api.cover.ICover;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.blockentity.component.CoverHandler;
-import dev.su5ed.gregtechmod.cover.Cover;
 import dev.su5ed.gregtechmod.cover.GenericCover;
+import dev.su5ed.gregtechmod.cover.ModCoverType;
 import dev.su5ed.gregtechmod.cover.VentCover;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
@@ -35,7 +35,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable {
+public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
     private final CoverHandler<CoverableBlockEntity> coverHandler;
     private final Collection<CoverCategory> coverBlacklist;
 
@@ -61,19 +61,19 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
         ItemStack stack = player.getItemInHand(hand);
         Direction side = hit.getDirection();
         if (GenericCover.isGenericCover(stack)) {
-            return placeCover(Cover.GENERIC, player, side, stack);
+            return placeCover(ModCoverType.GENERIC, player, side, stack);
         }
         else if (VentCover.isVent(stack)) {
-            return placeCover(Cover.VENT, player, side, stack);
+            return placeCover(ModCoverType.VENT, player, side, stack);
         }
-        else if (stack.is(ModTags.SCREWDRIVER)) {
+        else if (stack.is(GregTechTags.SCREWDRIVER)) {
             return useScrewdriver(stack, side, player);
         }
         return tryUseCrowbar(stack, side, player);
     }
 
-    private boolean placeCover(Cover type, Player player, Direction side, ItemStack stack) {
-        ICover cover = type.getType().create(this, side, stack.getItem());
+    private boolean placeCover(ModCoverType type, Player player, Direction side, ItemStack stack) {
+        Cover cover = type.get().create(this, side, stack.getItem());
         if (placeCoverAtSide(cover, player, side, false)) {
             if (!player.isCreative()) stack.shrink(1);
             return true;
@@ -97,12 +97,12 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
             return true;
         }
 
-        ICover cover = Cover.NORMAL.getType().create(this, side, Items.AIR);
+        Cover cover = ModCoverType.NORMAL.get().create(this, side, Items.AIR);
         return placeCoverAtSide(cover, player, side, false);
     }
 
     public boolean tryUseCrowbar(ItemStack stack, Direction side, Player player) {
-        if (stack.is(ModTags.CROWBAR) && removeCover(side, false)) {
+        if (stack.is(GregTechTags.CROWBAR) && removeCover(side, false)) {
             GtUtil.hurtStack(stack, 1, player);
             return true;
         }
@@ -121,24 +121,24 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ICoverable 
     public Optional<ItemStack> getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         if (target instanceof BlockHitResult blockHit) {
             return getCoverAtSide(blockHit.getDirection())
-                .map(ICover::getItem)
+                .map(Cover::getItem)
                 .map(ItemStack::new);
         }
         return super.getCloneItemStack(state, target, world, pos, player);
     }
 
     @Override
-    public Collection<? extends ICover> getCovers() {
+    public Collection<? extends Cover> getCovers() {
         return this.coverHandler.getCovers().values();
     }
 
     @Override
-    public Optional<ICover> getCoverAtSide(Direction side) {
+    public Optional<Cover> getCoverAtSide(Direction side) {
         return this.coverHandler.getCoverAtSide(side);
     }
 
     @Override
-    public boolean placeCoverAtSide(ICover cover, Player player, Direction side, boolean simulate) {
+    public boolean placeCoverAtSide(Cover cover, Player player, Direction side, boolean simulate) {
         return !this.coverBlacklist.contains(cover.getCategory()) && this.coverHandler.placeCoverAtSide(cover, side, simulate);
     }
 

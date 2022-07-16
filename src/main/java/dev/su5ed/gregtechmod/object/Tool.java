@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.object;
 
-import dev.su5ed.gregtechmod.ModTags;
+import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.item.ScrewdriverItem;
 import dev.su5ed.gregtechmod.item.ToolItem;
 import dev.su5ed.gregtechmod.item.ToolItem.ToolItemProperties;
@@ -12,8 +12,8 @@ import net.minecraftforge.common.util.Lazy;
 import java.util.function.Supplier;
 
 public enum Tool implements TaggedItemProvider {
-    CROWBAR(() -> new ToolItem(new ToolItemProperties(ModObjects.itemProperties().durability(256)).autoDescription().attackDamage(6)), ModTags.CROWBAR),
-    SCREWDRIVER(ScrewdriverItem::new, ModTags.SCREWDRIVER);
+    CROWBAR(() -> new ToolItem(new ToolItemProperties(ModObjects.itemProperties().durability(256)).autoDescription().attackDamage(6)), GregTechTags.CROWBAR),
+    SCREWDRIVER(ScrewdriverItem::new, GregTechTags.SCREWDRIVER);
     
     private final Lazy<Item> instance;
     private final TagKey<Item> tag;

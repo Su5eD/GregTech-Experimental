@@ -19,16 +19,14 @@ import java.util.List;
 import java.util.function.Function;
 
 public class ResourceItem extends Item {
-    private final List<Lazy<MutableComponent>> description;
+    private final Lazy<List<MutableComponent>> description;
     private final boolean isFoil;
     private final boolean isEnchantable;
 
     public ResourceItem(ExtendedItemProperties<?> properties) {
         super(properties.properties);
-
-        this.description = StreamEx.of(properties.description)
-            .map(fun -> fun.apply(this))
-            .toImmutableList();
+        
+        this.description = Lazy.of(() -> StreamEx.of(properties.description).map(fun -> fun.apply(this)).toImmutableList());
         this.isFoil = properties.isFoil;
         this.isEnchantable = properties.isEnchantable;
     }
@@ -47,8 +45,8 @@ public class ResourceItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipcomponents, TooltipFlag isAdvanced) {
         super.appendHoverText(stack, level, tooltipcomponents, isAdvanced);
 
-        StreamEx.of(this.description)
-            .map(lazy -> lazy.get().withStyle(ChatFormatting.GRAY))
+        StreamEx.of(this.description.get())
+            .map(lazy -> lazy.withStyle(ChatFormatting.GRAY))
             .forEach(tooltipcomponents::add);
     }
 
@@ -61,7 +59,7 @@ public class ResourceItem extends Item {
     public static class ExtendedItemProperties<T extends ExtendedItemProperties<T>> {
         private final Properties properties;
 
-        private final List<Function<Item, Lazy<MutableComponent>>> description = new ArrayList<>();
+        private final List<Function<Item, MutableComponent>> description = new ArrayList<>();
         boolean isFoil;
         boolean isEnchantable = true;
 
@@ -72,19 +70,24 @@ public class ResourceItem extends Item {
         public ExtendedItemProperties(Properties properties) {
             this.properties = properties;
         }
+        
+        public T stacksTo(int maxStackSize) {
+            this.properties.stacksTo(maxStackSize);
+            return (T) this;
+        }
 
         public T autoDescription() {
-            this.description.add(item -> Lazy.of(() -> GtLocale.itemDescriptionKey(item.getRegistryName().getPath()).toComponent()));
+            this.description.add(item -> GtLocale.profileItemDescriptionKey(item.getRegistryName().getPath()).toComponent());
             return (T) this;
         }
 
         public T multiDescription(int lines) {
             IntStreamEx.range(lines)
-                .<Function<Item, Lazy<MutableComponent>>>mapToObj(i -> item -> Lazy.of(() -> {
+                .<Function<Item, MutableComponent>>mapToObj(i -> item -> {
                     String name = item.getRegistryName().getPath();
                     String path = i == 0 ? "description" : "description_" + i;
                     return GtLocale.key("item", name, path).toComponent();
-                }))
+                })
                 .forEach(this.description::add);
             return (T) this;
         }
@@ -94,7 +97,7 @@ public class ResourceItem extends Item {
         }
 
         public T description(@Nullable MutableComponent component) {
-            if (component != null) this.description.add(item -> Lazy.of(() -> component));
+            if (component != null) this.description.add(item -> component);
             return (T) this;
         }
 

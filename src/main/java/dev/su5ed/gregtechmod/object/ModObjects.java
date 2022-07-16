@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTab;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.cover.Cover;
+import dev.su5ed.gregtechmod.cover.ModCoverType;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
@@ -66,8 +66,9 @@ public final class ModObjects {
             .append(TurbineRotor.values())
             .append(Component.values())
             .append(GTBlockEntity.values())
-            .append(ModCover.values())
+            .append(ModCoverItem.values())
             .append(Tool.values())
+            .append(Upgrade.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }
@@ -84,8 +85,8 @@ public final class ModObjects {
     @SubscribeEvent
     public void registerCovers(RegistryEvent.Register<CoverType> event) {
         IForgeRegistry<CoverType> registry = event.getRegistry();
-        StreamEx.of(Cover.values())
-            .map(Cover::getType)
+        StreamEx.of(ModCoverType.values())
+            .map(ModCoverType::get)
             .forEach(registry::register);
     }
 }

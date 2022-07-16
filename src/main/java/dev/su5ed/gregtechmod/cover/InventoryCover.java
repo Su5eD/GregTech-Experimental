@@ -2,10 +2,10 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
-import dev.su5ed.gregtechmod.api.machine.IUpgradableMachine;
+import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
@@ -18,7 +18,7 @@ public abstract class InventoryCover extends BaseCover {
     @NBTPersistent
     protected InventoryMode mode = InventoryMode.EXPORT;
 
-    protected InventoryCover(CoverType type, ICoverable be, Direction side, Item item) {
+    protected InventoryCover(CoverType type, Coverable be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -28,7 +28,7 @@ public abstract class InventoryCover extends BaseCover {
 
     protected boolean shouldUseEnergy(double minCapacity) {
         if (this.mode.consumesEnergy(this.side) && this.be instanceof IElectricMachine electric) {
-            double capacity = this.be instanceof IUpgradableMachine upgradable ? upgradable.getUniversalEnergyCapacity() : electric.getEUCapacity();
+            double capacity = this.be instanceof UpgradableBlockEntity upgradable ? upgradable.getUniversalEnergyCapacity() : electric.getEUCapacity();
             return capacity >= minCapacity;
         }
         return false;

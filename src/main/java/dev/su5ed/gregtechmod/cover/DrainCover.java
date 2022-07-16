@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.util.GtLocale;
@@ -36,7 +36,7 @@ public class DrainCover extends BaseCover {
     @NBTPersistent
     protected DrainMode mode = DrainMode.IMPORT;
 
-    public DrainCover(CoverType type, ICoverable be, Direction side, Item item) {
+    public DrainCover(CoverType type, Coverable be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

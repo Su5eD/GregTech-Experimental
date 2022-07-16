@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.network;
 
-import dev.su5ed.gregtechmod.api.cover.ICover;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Cover;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
@@ -67,7 +67,7 @@ public final class GregTechNetwork {
         sendTrackingChunk(be, packet);
     }
 
-    public static <T extends BlockEntity & ICoverable> void updateClientCover(T be, ICover cover) {
+    public static <T extends BlockEntity & Coverable> void updateClientCover(T be, Cover cover) {
         GtUtil.assertServerSide(be.getLevel());
         CompoundTag tag = cover.save(NBTTarget.SYNC);
         BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, tag, cover.getType().getRegistryName(), cover.getSide());

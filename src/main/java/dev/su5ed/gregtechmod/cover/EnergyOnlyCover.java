@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.util.GtLocale;
@@ -22,7 +22,7 @@ public class EnergyOnlyCover extends BaseCover {
     @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public EnergyOnlyCover(CoverType type, ICoverable be, Direction side, Item item) {
+    public EnergyOnlyCover(CoverType type, Coverable be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

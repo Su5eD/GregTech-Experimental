@@ -1,8 +1,8 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.ICover;
-import dev.su5ed.gregtechmod.api.cover.ICoverable;
+import dev.su5ed.gregtechmod.api.cover.Cover;
+import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
@@ -13,13 +13,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
-public abstract class BaseCover implements ICover {
+public abstract class BaseCover implements Cover {
     private final CoverType type;
-    protected final ICoverable be;
+    protected final Coverable be;
     protected final Direction side;
     protected final Item item;
 
-    protected BaseCover(CoverType type, ICoverable be, Direction side, Item item) {
+    protected BaseCover(CoverType type, Coverable be, Direction side, Item item) {
         this.type = type;
         this.be = be;
         this.side = side;

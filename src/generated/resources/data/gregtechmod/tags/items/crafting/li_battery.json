@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "gregtechmod:lithium_re_battery"
+    "gregtechmod:lithium_re_battery",
+    "gregtechmod:lithium_battery"
   ]
 }

@@ -14,7 +14,7 @@ import java.util.Set;
  * Provides upgrade item compatibility
  * @author Su5eD
  */
-public interface IUpgradableMachine extends IElectricMachine {
+public interface UpgradableBlockEntity extends IElectricMachine {
 
     /**
      * I'm not responsible for any damage caused by calling this method
@@ -33,6 +33,8 @@ public interface IUpgradableMachine extends IElectricMachine {
     GameProfile getOwner();
     
     void setOwner(GameProfile owner);
+    
+    boolean isOwnedBy(GameProfile profile);
 
     int getExtraEUCapacity();
     

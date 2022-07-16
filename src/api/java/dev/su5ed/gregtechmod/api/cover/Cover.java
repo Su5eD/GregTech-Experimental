@@ -10,9 +10,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
 /**
- * Used to create covers, providing <code>{@link ICoverable}</code> machines all the information they need
+ * Used to create covers, providing <code>{@link Coverable}</code> machines all the information they need
  */
-public interface ICover {
+public interface Cover {
     
     CoverType getType();
 
@@ -27,7 +27,7 @@ public interface ICover {
     Item getItem();
     
     /**
-     * Ticked every n tick(s), depending on the cover's {@link ICover#getTickRate() tick rate}
+     * Ticked every n tick(s), depending on the cover's {@link Cover#getTickRate() tick rate}
      */
     void doCoverThings();
 
