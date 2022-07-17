@@ -4,9 +4,12 @@ import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.VerticalRotation;
+import ic2.api.tile.IWrenchable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -31,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseEntityBlock extends Block implements EntityBlock { // TODO Wrenchable
+public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     private final BlockEntityProvider provider;
     
     public BaseEntityBlock(BlockEntityProvider provider) {
@@ -100,7 +103,33 @@ public class BaseEntityBlock extends Block implements EntityBlock { // TODO Wren
             }
         };
     }
-    
+
+    @Override
+    public Direction getFacing(Level level, BlockPos pos) {
+        return getBlockEntity(level, pos)
+            .map(BaseBlockEntity::getFacing)
+            .orElse(Direction.NORTH);
+    }
+
+    @Override
+    public boolean setFacing(Level level, BlockPos pos, Direction facing, Player player) {
+        return getBlockEntity(level, pos)
+            .map(be -> be.setFacing(facing))
+            .orElse(false);
+    }
+
+    @Override
+    public boolean wrenchCanRemove(Level level, BlockPos pos, Player player) {
+        return getBlockEntity(level, pos)
+            .map(BaseBlockEntity::wrenchCanRemove)
+            .orElse(false);
+    }
+
+    @Override
+    public List<ItemStack> getWrenchDrops(Level level, BlockPos pos, BlockState state, BlockEntity be, Player player, int i) {
+        return getDrops(state, (ServerLevel) level, pos, be, player, player.getUseItem());
+    }
+
     private Optional<BaseBlockEntity> getBlockEntity(BlockGetter world, BlockPos pos) {
         BlockEntity be = world.getBlockEntity(pos);
         return be instanceof BaseBlockEntity baseBe

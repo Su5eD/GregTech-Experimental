@@ -95,13 +95,13 @@ public class CoverableModel extends BaseModel {
         return side;
     }
 
-    private TextureAtlasSprite getSpriteFromDirection(Direction face, Direction side, Direction rotatedSide, BlockState state, Map<Direction, Material> covers) {
+    private TextureAtlasSprite getSpriteFromDirection(Direction face, Direction side, Direction rotatedSide, @Nullable BlockState state, Map<Direction, Material> covers) {
         if (covers.containsKey(side)) return covers.get(rotatedSide).sprite();
 
         return getSprite(face, side, rotatedSide, state);
     }
 
-    protected TextureAtlasSprite getSprite(Direction face, Direction side, Direction rotatedSide, BlockState state) {
+    protected TextureAtlasSprite getSprite(Direction face, Direction side, Direction rotatedSide, @Nullable BlockState state) {
         return this.sprites.get(this.textures.get(rotatedSide));
     }
 

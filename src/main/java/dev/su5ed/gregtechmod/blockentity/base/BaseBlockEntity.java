@@ -18,7 +18,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
@@ -30,14 +29,13 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class BaseBlockEntity extends BlockEntity {
+    protected final BlockEntityProvider.AllowedFacings allowedFacings; 
     private final Map<ResourceLocation, BlockEntityComponent> components = new HashMap<>();
 
     protected BaseBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state) {
-        this(provider.getType(), pos, state);
-    }
-
-    protected BaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+        super(provider.getType(), pos, state);
+        
+        this.allowedFacings = provider.getAllowedFacings();
     }
 
     public void tickClient() {
@@ -58,9 +56,17 @@ public abstract class BaseBlockEntity extends BlockEntity {
         return getBlockState().getValue(BlockStateProperties.FACING);
     }
     
-    public void setFacing(Direction side) {
-        BlockState state = getBlockState();
-        this.level.sendBlockUpdated(this.worldPosition, state, state.setValue(BlockStateProperties.FACING, side), Block.UPDATE_ALL);
+    public boolean setFacing(Direction side) {
+        if (this.allowedFacings.allows(side)) {
+            BlockState state = getBlockState();
+            this.level.setBlock(this.worldPosition, state.setValue(BlockStateProperties.FACING, side), Block.UPDATE_ALL);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean wrenchCanRemove() {
+        return true;
     }
 
     public void updateClientField(String name) {

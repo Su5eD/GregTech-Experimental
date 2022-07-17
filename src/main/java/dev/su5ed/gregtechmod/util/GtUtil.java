@@ -26,6 +26,8 @@ import java.util.EnumSet;
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class GtUtil {
+    public static final Collection<Direction> ALL_FACINGS = EnumSet.allOf(Direction.class);
+    public static final Collection<Direction> NORTH_FACING = EnumSet.of(Direction.NORTH);
     public static final Collection<Direction> VERTICAL_FACINGS = EnumSet.of(Direction.DOWN, Direction.UP);
     public static final Collection<Direction> HORIZONTAL_FACINGS = EnumSet.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 

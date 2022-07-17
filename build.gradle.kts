@@ -4,6 +4,8 @@ import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.common.util.RunConfig
 import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
+import java.util.jar.JarInputStream
+import java.util.jar.JarOutputStream
 
 buildscript {
     dependencies {
@@ -12,7 +14,7 @@ buildscript {
 }
 
 plugins {
-    java
+    `java-library`
     `maven-publish`
     id("net.minecraftforge.gradle") version "5.1.+"
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
@@ -20,18 +22,26 @@ plugins {
     id("wtf.gofancy.fancygradle") version "1.1.+"
 }
 
+group = "dev.su5ed"
+version = getGitVersion()
+
 val versionMc: String by project
 val versionIC2: String by project
 val versionJEI: String by project
 
-group = "dev.su5ed"
-version = getGitVersion()
+val apiArtifact = Attribute.of("apiArtifact", Boolean::class.javaObjectType)
 
 val api: SourceSet by sourceSets.creating
-val apiDep: Configuration by configurations.creating
+val apiCompileOnly: Configuration by configurations.getting
+val customRuntimeMod: Configuration by configurations.creating
+val generatedRuntimeApi: Configuration by configurations.creating {
+    attributes {
+        attribute(apiArtifact, false)
+    }
+}
 val shade: Configuration by configurations.creating
 
-val relocateTarget = "dev.gregtechmod.repack"
+val relocationTarget = "dev.su5ed.gregtechmod.repack"
 val manifestAttributes = mapOf(
     "Specification-Title" to project.name,
     "Specification-Vendor" to "Su5eD",
@@ -50,12 +60,8 @@ minecraft {
             property("forge.logging.console.level", "debug")
             workingDirectory = project.file("run").canonicalPath
             forceExit = false
-            
-            mods {
-                create("gregtechmod") {
-                    sources(sourceSets.main.get(), api)
-                }
-            }
+
+            sources(sourceSets.main.get(), api)
         }
 
         create("client", config)
@@ -69,11 +75,18 @@ minecraft {
                 "--output", file("src/generated/resources/"),
                 "--existing", file("src/main/resources/")
             )
+            lazyToken("minecraft_classpath") {
+                generatedRuntimeApi.resolve()
+                    .joinToString(separator = File.pathSeparator, transform = File::getAbsolutePath)
+            }
         }
 
         all {
+            val existing = lazyTokens["minecraft_classpath"]
             lazyToken("minecraft_classpath") {
-                shade.resolve().joinToString(separator = File.pathSeparator, transform = File::getAbsolutePath)
+                (existing?.get()?.let(::listOf) ?: emptyList())
+                    .plus(shade.resolve().map(File::getAbsolutePath))
+                    .joinToString(separator = File.pathSeparator)
             }
         }
     }
@@ -93,28 +106,14 @@ java {
 
 configurations {
     "apiCompileClasspath" {
-        extendsFrom(apiDep, configurations.minecraft.get())
+        extendsFrom(api.get(), configurations.minecraft.get())
     }
-
-    apiElements {
-        setExtendsFrom(setOf(apiDep))
+    compileClasspath {
+        extendsFrom(customRuntimeMod)
     }
-
     implementation {
         extendsFrom(shade)
     }
-}
-
-val devJar by tasks.registering(ShadowJar::class) {
-    dependsOn("classes", "apiClasses")
-
-    configurations = listOf(shade)
-    manifest.attributes(manifestAttributes)
-
-    from(sourceSets.main.get().output)
-    from(api.output)
-
-    archiveClassifier.set("dev")
 }
 
 val apiJar by tasks.registering(Jar::class) {
@@ -151,11 +150,17 @@ tasks {
 
     withType<ShadowJar>() {
         sequenceOf("com.fasterxml", "org.yaml", "one.util")
-            .forEach { relocate(it, "$relocateTarget.$it") }
+            .forEach { relocate(it, "$relocationTarget.$it") }
+    }
+
+    whenTaskAdded {
+        if (name == "runClient" || name == "runServer") {
+            (this as JavaExec).classpath(customRuntimeMod.resolve())
+        }
     }
 
     assemble {
-        dependsOn(shadowJar, devJar, apiJar)
+        dependsOn(shadowJar, apiJar)
     }
 }
 
@@ -187,18 +192,32 @@ dependencies {
     minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.2-40.1.60")
 
     implementation(api.output)
-    "apiCompileOnly"(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
-    // Manually change to compileOnly before running datagen. Thanks, IC2
-    implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
+    apiCompileOnly(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
+    customRuntimeMod(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
+    generatedRuntimeApi(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2)) {
+        attributes {
+            attribute(apiArtifact, true)
+        }
+    }
 
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-common-api", version = versionJEI))
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge-api", version = versionJEI))
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge", version = versionJEI))
-    implementation(fg.deobf(curse(mod = "neat", projectId = 238372, fileId = 3593906)))
 
-    apiDep(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.13.1"))
+    api(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.13.1"))
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.13.1")
-    apiDep(shade(group = "one.util", name = "streamex", version = "0.8.1"))
+    api(shade(group = "one.util", name = "streamex", version = "0.8.1"))
+
+    attributesSchema {
+        attribute(apiArtifact)
+    }
+    artifactTypes.getByName("jar") {
+        attributes.attribute(apiArtifact, false)
+    }
+    registerTransform(ApiArtifactTransform::class) {
+        from.attribute(apiArtifact, false)
+        to.attribute(apiArtifact, true)
+    }
 }
 
 afterEvaluate {
@@ -213,7 +232,6 @@ publishing {
 
             from(components["java"])
 
-            artifact(devJar)
             artifact(apiJar)
         }
     }
@@ -236,4 +254,35 @@ fun getGitVersion(): String {
         .setStrategy(Strategies.SCRIPT)
         .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version
+}
+
+@CacheableTransform
+abstract class ApiArtifactTransform : TransformAction<TransformParameters.None> {
+    @get:PathSensitive(PathSensitivity.NAME_ONLY)
+    @get:InputArtifact
+    abstract val inputArtifact: Provider<FileSystemLocation>
+
+    private val keepPackage = "ic2/api/"
+
+    override fun transform(outputs: TransformOutputs) {
+        val inputFile = inputArtifact.get().asFile
+        val nameWithoutExtension = inputFile.name.substringBeforeLast('.')
+        val outputFile = outputs.file("${nameWithoutExtension}-api.jar")
+
+        JarOutputStream(outputFile.outputStream()).use { out ->
+            JarInputStream(inputFile.inputStream()).use { input ->
+                var entry = input.nextEntry
+                while (entry != null) {
+                    if (entry.name.startsWith(keepPackage)) {
+                        out.putNextEntry(entry)
+                        out.write(input.readBytes())
+                        out.closeEntry()
+                    }
+
+                    input.closeEntry()
+                    entry = input.nextEntry
+                }
+            }
+        }
+    }
 }

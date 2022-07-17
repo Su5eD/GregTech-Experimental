@@ -3,7 +3,9 @@ package dev.su5ed.gregtechmod.datagen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
+import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
@@ -40,8 +42,9 @@ class LootTableGen extends LootTableProvider {
     }
 
     private void addTables() {
-        StreamEx.of(ModBlock.values())
-            .map(ModBlock::getBlock)
+        StreamEx.<BlockItemProvider>of(ModBlock.values())
+            .append(GTBlockEntity.values())
+            .map(BlockItemProvider::getBlock)
             .forEach(this::addSimpleTable);
     }
 
