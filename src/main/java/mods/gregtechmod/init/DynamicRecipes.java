@@ -35,6 +35,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -142,6 +143,8 @@ class DynamicRecipes {
 
     static void addSmeltingAndAlloySmeltingRecipe(@Nullable String oredict, ItemStack input, ItemStack output, boolean overwrite) {
         if (!input.isEmpty() && !output.isEmpty()) {
+            addSmeltingRecipe(input, output);
+            
             if (overwrite) ModHandler.removeInductionSelterRecipe(input);
             IRecipeIngredient ingredient = oredict != null ? RecipeIngredientOre.create(oredict) : RecipeIngredientItemStack.create(input);
             addAlloySmelterRecipe(RecipeAlloySmelter.create(Collections.singletonList(ingredient), output, 130, 3, true));
@@ -184,15 +187,22 @@ class DynamicRecipes {
         addSmeltingRecipe(input, output);
     }
 
-    public static void addIngotToBlockRecipe(String material, ItemStack input, ItemStack output, boolean crafting, boolean decrafting) {
-        addCompressorRecipe(Recipes.inputFactory.forOreDict(material, 9), output);
-
-        OreDictionary.getOres(material).forEach(stack -> ModHandler.removeFactorizerRecipe(stack, false));
-        ItemStack inputStack = ItemHandlerHelper.copyStackWithSize(input, 9);
-        if (crafting) ModHandler.addFactorizerRecipe(inputStack, output, false);
-
-        if (!decrafting) ModHandler.removeFactorizerRecipe(output, true);
-        else ModHandler.addFactorizerRecipe(output, inputStack, true);
+    public static void addIngotToBlockRecipe(String material, String inputOre, String outputOre, ItemStack input, ItemStack output, boolean crafting, boolean decrafting) {
+        addCompressorRecipe(Recipes.inputFactory.forOreDict(inputOre, 9), output);
+        OreDictionary.getOres(inputOre).forEach(stack -> ModHandler.removeFactorizerRecipe(stack, false));
+        if (crafting) {
+            ModHandler.addShapedRecipe(
+                outputOre + "From" + material,
+                output,
+                "XXX", "XXX", "XXX", 'X', inputOre
+            );
+            ModHandler.addFactorizerRecipe(input, output, false);
+        }
+        if (decrafting) {
+            ModHandler.addShapelessRecipe(outputOre + "To" + material, input, new OreIngredient(outputOre));
+            ModHandler.addFactorizerRecipe(output, input, true);
+        }
+        else ModHandler.removeFactorizerRecipe(output, true);
     }
 
     public static void processCraftingRecipes() {
