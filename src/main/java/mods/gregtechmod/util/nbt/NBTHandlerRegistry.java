@@ -37,7 +37,7 @@ public final class NBTHandlerRegistry {
         addSimpleSerializer(ItemStack.class, Serializers::serializeItemStack, ItemStack::new);
         addSimpleSerializer(GameProfile.class, Serializers::serializeGameProfile, NBTUtil::readGameProfileFromNBT);
         addSimpleSerializer(IForgeRegistryEntry.class, Serializers::serializeIForgeRegistryEntry, Serializers::deserializeIForgeRegistryEntry);
-        addSimpleSerializer(BlockPos.class, Serializers::serializeBlockPos, Serializers::deserializeBlockPos);
+        addSimpleSerializer(BlockPos.class, NBTUtil::createPosTag, NBTUtil::getPosFromTag);
         addSerializer(List.class, Serializers.ListSerializer::new);
 
         addModifyingDeserializer(List.class, Serializers.ListModifyingDeserializer::new);

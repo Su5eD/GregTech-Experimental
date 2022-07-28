@@ -8,8 +8,6 @@ public interface IGtUpgradeItem {
 
     GtUpgradeType getType();
 
-    String getName();
-
     /**
      * Whether the upgrade can be inserted
      */

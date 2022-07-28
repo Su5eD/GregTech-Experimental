@@ -1,6 +1,5 @@
 package mods.gregtechmod.objects.covers;
 
-import ic2.core.util.LiquidUtil;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.api.machine.IGregTechMachine;
@@ -51,8 +50,8 @@ public class CoverDrain extends CoverGeneric {
         BlockPos offset = pos.offset(side);
         Block block = world.getBlockState(offset).getBlock();
 
-        if (LiquidUtil.isFluidTile(te, side) && mode.isImport) {
-            IFluidHandler handler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);
+        IFluidHandler handler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);
+        if (handler != null && mode.isImport) {
             if (side == EnumFacing.UP && world.isRaining()) {
                 if (world.getPrecipitationHeight(pos).getY() - 2 < pos.getY()) {
                     int amount = (int) (world.getBiome(pos).getRainfall() * 10);
