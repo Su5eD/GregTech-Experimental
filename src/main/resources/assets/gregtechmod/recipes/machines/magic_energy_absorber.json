@@ -24,8 +24,8 @@
     },
     "M":
     {
-      "item": "gregtechmod:teblock",
-      "data": 32
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#magic_energy_converter"
     },
     "I":
     {

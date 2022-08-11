@@ -20,8 +20,8 @@
     },
     "G":
     {
-      "item": "ic2:te",
-      "data": 4
+      "type": "gregtechmod:multi",
+      "item": "ic2:te#geo_generator"
     },
     "P":
     {

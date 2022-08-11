@@ -25,8 +25,8 @@
     },
     "E":
     {
-      "item": "gregtechmod:teblock",
-      "data": 20
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#industrial_electrolyzer"
     },
     "P":
     {

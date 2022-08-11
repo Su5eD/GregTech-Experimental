@@ -37,23 +37,17 @@
   "conditions":
   [
     {
-      "type": "forge:and",
-      "values":
-      [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "projectred-expansion"
-        },
-        {
-          "type": "gregtechmod:config",
-          "config":
-          {
-            "category": "harder_recipes",
-            "name": "block_breaker",
-            "value": false
-          }
-        }
-      ]
+      "type": "forge:mod_loaded",
+      "modid": "projectred-expansion"
+    },
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "harder_recipes",
+        "name": "block_breaker",
+        "value": false
+      }
     }
   ]
 }

@@ -20,8 +20,8 @@
     },
     "H":
     {
-      "item": "gregtechmod:teblock",
-      "data": 60
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#electric_buffer_advanced"
     }
   },
   "result":

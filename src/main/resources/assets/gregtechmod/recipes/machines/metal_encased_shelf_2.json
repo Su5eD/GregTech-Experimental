@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "gregtechmod:teblock",
-      "data": 81
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#compartment"
     }
   ],
   "result":

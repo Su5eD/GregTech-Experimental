@@ -21,26 +21,20 @@
   "conditions":
   [
     {
-      "type": "forge:and",
-      "values":
-      [
+      "type": "gregtechmod:experimental"
+    },
+    {
+      "type": "forge:not",
+      "value":
+      {
+        "type": "gregtechmod:config",
+        "config":
         {
-          "type": "gregtechmod:experimental"
-        },
-        {
-          "type": "forge:not",
-          "value":
-          {
-            "type": "gregtechmod:config",
-            "config":
-            {
-              "category": "blast_furnace_requirements",
-              "name": "steel",
-              "value": true
-            }
-          }
+          "category": "blast_furnace_requirements",
+          "name": "steel",
+          "value": true
         }
-      ]
+      }
     }
   ]
 }

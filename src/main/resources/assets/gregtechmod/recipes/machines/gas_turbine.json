@@ -20,8 +20,8 @@
     },
     "W":
     {
-      "item": "ic2:te",
-      "data": 11
+      "type": "gregtechmod:multi",
+      "item": "ic2:te#wind_generator"
     },
     "P":
     {

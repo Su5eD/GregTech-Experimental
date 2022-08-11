@@ -20,8 +20,8 @@
     },
     "Q":
     {
-      "item": "gregtechmod:teblock",
-      "data": 3
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#quantum_chest"
     }
   },
   "result":

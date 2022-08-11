@@ -45,22 +45,16 @@
   "conditions":
   [
     {
-      "type": "forge:and",
-      "values":
-      [
-        {
-          "type": "gregtechmod:config",
-          "config":
-          {
-            "category": "gregtech_recipes",
-            "name": "mining_laser",
-            "value": true
-          }
-        },
-        {
-          "type": "gregtechmod:experimental"
-        }
-      ]
+      "type": "gregtechmod:experimental"
+    },
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "gregtech_recipes",
+        "name": "mining_laser",
+        "value": true
+      }
     }
   ]
 }

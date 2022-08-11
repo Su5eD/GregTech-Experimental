@@ -38,37 +38,25 @@
   "conditions":
   [
     {
-      "type": "forge:and",
-      "values":
-      [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "buildcraftbuilders"
-        },
-        {
-          "type": "forge:and",
-          "values":
-          [
-            {
-              "type": "forge:not",
-              "value":
-              {
-                "type": "forge:mod_loaded",
-                "modid": "railcraft"
-              }
-            },
-            {
-              "type": "gregtechmod:config",
-              "config":
-              {
-                "category": "harder_recipes",
-                "name": "quarry",
-                "value": true
-              }
-            }
-          ]
-        }
-      ]
+      "type": "forge:mod_loaded",
+      "modid": "buildcraftbuilders"
+    },
+    {
+      "type": "forge:not",
+      "value":
+      {
+        "type": "forge:mod_loaded",
+        "modid": "railcraft"
+      }
+    },
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "harder_recipes",
+        "name": "quarry",
+        "value": true
+      }
     }
   ]
 }

@@ -24,22 +24,19 @@
     "item": "ic2:energy_crystal",
     "data": 27
   },
-  "conditions": [
+  "conditions":
+  [
     {
-      "type": "forge:and",
-      "values": [
-        {
-          "type": "gregtechmod:config",
-          "config": {
-            "category": "gregtech_recipes",
-            "name": "energy_crystal_ruby",
-            "value": true
-          }
-        },
-        {
-          "type": "gregtechmod:classic"
-        }
-      ]
+      "type": "gregtechmod:classic"
+    },
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "gregtech_recipes",
+        "name": "energy_crystal_ruby",
+        "value": true
+      }
     }
   ]
 }

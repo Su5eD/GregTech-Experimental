@@ -5,8 +5,8 @@
       "item": "ic2:solar_helmet"
     },
     {
-      "item": "ic2:te",
-      "data": 36
+      "type": "gregtechmod:multi",
+      "item": "ic2:te#luminator_flat"
     }
   ],
   "result":

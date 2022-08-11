@@ -25,8 +25,8 @@
     },
     "H":
     {
-      "item": "ic2:te",
-      "data": 79
+      "type": "gregtechmod:multi",
+      "item": "ic2:te#hv_transformer"
     }
   },
   "result":

@@ -41,17 +41,11 @@
   "conditions":
   [
     {
-      "type": "forge:and",
-      "values":
-      [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "thaumcraft"
-        },
-        {
-          "type": "gregtechmod:classic"
-        }
-      ]
+      "type": "gregtechmod:classic"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thaumcraft"
     }
   ]
 }
