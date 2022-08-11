@@ -3,10 +3,7 @@ package mods.gregtechmod.objects.items.base;
 import ic2.api.item.ElectricItem;
 import ic2.core.item.armor.ItemArmorElectric;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.util.ArmorPerk;
-import mods.gregtechmod.util.GtLocale;
-import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.ICustomItemModel;
+import mods.gregtechmod.util.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +24,7 @@ import one.util.streamex.StreamEx;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomItemModel {
+public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomItemModel, IExhaustingItem {
     private final String name;
     private String folder;
     public final Collection<ArmorPerk> perks;
@@ -183,5 +180,10 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
     @Override
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
         ElectricItem.manager.discharge(stack, damage * this.damageEnergyCost, Integer.MAX_VALUE, true, false, true);
+    }
+
+    @Override
+    public boolean shouldExhaust(boolean isArmor) {
+        return isArmor && !this.perks.isEmpty();
     }
 }
