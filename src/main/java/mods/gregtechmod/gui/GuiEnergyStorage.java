@@ -36,12 +36,12 @@ public class GuiEnergyStorage extends GuiSimple<ContainerEnergyStorage<?>> {
         drawString("teblock.lesu.max_input", offsetY + 16, JavaUtil.formatNumber(this.container.base.getMaxInputEUp()));
         drawString("teblock.lesu.output", offsetY + 24, JavaUtil.formatNumber(this.container.base.getMaxOutputEUp()));
 
-        drawChargeBar(this, this.container.base, this.chargeBoltOffset, 73, this.chargeBarLength);
+        drawChargeBar(this, this.container.base, 8, 73, this.chargeBoltOffset, this.chargeBarLength);
     }
 
-    public static void drawChargeBar(GuiIC2<?> gui, IElectricMachine te, int chargeBoltOffsetX, int offsetY, int chargeBarLength) {
+    public static void drawChargeBar(GuiIC2<?> gui, IElectricMachine te, int offsetX, int offsetY, int chargeBoltOffsetX, int chargeBarLength) {
         double charge = te.getStoredEU() / (double) te.getEUCapacity();
-        gui.drawColoredRect(8, offsetY, (int) (charge * chargeBarLength), 5, -16711681);
+        gui.drawColoredRect(offsetX, offsetY, (int) (charge * chargeBarLength), 5, -16711681);
 
         drawRect(gui, chargeBoltOffsetX + 2, offsetY, 1);
         drawRect(gui, chargeBoltOffsetX + 1, offsetY + 1, 1);

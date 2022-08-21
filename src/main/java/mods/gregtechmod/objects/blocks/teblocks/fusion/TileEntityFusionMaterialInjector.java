@@ -7,7 +7,7 @@ import ic2.core.util.Util;
 import mods.gregtechmod.api.cover.CoverType;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.gui.GuiBasicTank;
-import mods.gregtechmod.inventory.tank.GtFluidTankProcessable;
+import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityCoverBehavior;
 import mods.gregtechmod.objects.blocks.teblocks.component.BasicTank;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerBasicTank;
@@ -16,10 +16,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityFusionMaterialIO extends TileEntityCoverBehavior implements IHasGui {
+public class TileEntityFusionMaterialInjector extends TileEntityCoverBehavior implements IHasGui {
     public final BasicTank tank;
     
-    public TileEntityFusionMaterialIO() {
+    public TileEntityFusionMaterialInjector() {
         Fluids fluids = addComponent(new Fluids(this));
         this.tank = addComponent(createTank(fluids));
 
@@ -27,11 +27,11 @@ public class TileEntityFusionMaterialIO extends TileEntityCoverBehavior implemen
     }
     
     protected BasicTank createTank(Fluids fluids) {
-        return new BasicTank(this, fluids, new GtFluidTankProcessable(this, "content", GtRecipes.fusionFluid, Util.allFacings, Util.allFacings, 10000), InvSlotConsumableLiquid.OpType.Both, true);
+        return new BasicTank(this, fluids, new GtFluidTank(this, "content", Util.allFacings, Util.allFacings, f -> GtRecipes.fusionFluid.hasRecipeFor(f) || GtRecipes.fusionSolid.hasRecipeFor(f), 10000), InvSlotConsumableLiquid.OpType.Both, true);
     }
 
     @Override
-    public ContainerBasicTank<TileEntityFusionMaterialIO> getGuiContainer(EntityPlayer entityPlayer) {
+    public ContainerBasicTank<TileEntityFusionMaterialInjector> getGuiContainer(EntityPlayer entityPlayer) {
         return new ContainerBasicTank<>(entityPlayer, this);
     }
 

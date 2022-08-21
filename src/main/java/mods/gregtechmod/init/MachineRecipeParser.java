@@ -164,8 +164,8 @@ public final class MachineRecipeParser {
         parseAndRegisterRecipes("lathe", RecipeLathe.class, GtRecipes.lathe = new RecipeManagerBasic<>());
         parseAndRegisterRecipes("vacuum_freezer", RecipeVacuumFreezer.class, RecipeFilter.Energy.class, GtRecipes.vacuumFreezer = new RecipeManagerBasic<>());
         parseAndRegisterRecipes("chemical", RecipeChemical.class, RecipeFilter.Energy.class, GtRecipes.chemical = new RecipeManagerMultiInput<>());
-        parseAndRegisterRecipes("fusion_fluid", RecipeFusionFluid.class, GtRecipes.fusionFluid = new RecipeManagerFusionFluid());
-        parseAndRegisterRecipes("fusion_solid", RecipeFusionSolid.class, GtRecipes.fusionSolid = new RecipeManagerMultiInput<>());
+        parseAndRegisterRecipes("fusion_fluid", RecipeFusionFluid.class, GtRecipes.fusionFluid = new RecipeManagerFusion<>());
+        parseAndRegisterRecipes("fusion_solid", RecipeFusionSolid.class, GtRecipes.fusionSolid = new RecipeManagerFusion<>());
         parseAndRegisterRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class, GtRecipes.industrialSawmill = new RecipeManagerSawmill());
         parseAndRegisterRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class, GtRecipes.distillation = new RecipeManagerCellular());
         parseAndRegisterRecipes("printer", RecipePrinter.class, GtRecipes.printer = new RecipeManagerPrinter());

@@ -97,7 +97,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
             this.structure.checkWorldStructure(this.pos, this.getFacing());
         }
 
-        if (--this.startUpCheck >= 0) return;
+        if (--this.startUpCheck >= 0) return; // FIXME
         Optional<Structure<T>.WorldStructure> struct = this.structure.getWorldStructure();
         if (!struct.map(Structure.WorldStructure::isValid).orElse(false)) {
             stopMachine();

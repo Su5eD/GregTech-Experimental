@@ -2,10 +2,12 @@ package mods.gregtechmod.util.nbt;
 
 import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
+import mods.gregtechmod.util.Either;
 import mods.gregtechmod.util.LazyValue;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.*;
@@ -35,6 +37,7 @@ public final class NBTHandlerRegistry {
         addSimpleSerializer(String.class, NBTTagString::new, NBTTagString::getString);
 
         addSimpleSerializer(ItemStack.class, Serializers::serializeItemStack, ItemStack::new);
+        addSimpleSerializer(FluidStack.class, Serializers::serializeFluidStack, FluidStack::loadFluidStackFromNBT);
         addSimpleSerializer(GameProfile.class, Serializers::serializeGameProfile, NBTUtil::readGameProfileFromNBT);
         addSimpleSerializer(IForgeRegistryEntry.class, Serializers::serializeIForgeRegistryEntry, Serializers::deserializeIForgeRegistryEntry);
         addSimpleSerializer(BlockPos.class, NBTUtil::createPosTag, NBTUtil::getPosFromTag);
@@ -44,6 +47,7 @@ public final class NBTHandlerRegistry {
 
         addHandler(Enum.class, Serializers.EnumNBTSerializer::new);
         addHandler(IComputerCubeModule.class, Serializers.ComputerCubeModuleSerializer::new);
+        addHandler(Either.class, Serializers.EitherSerializer::new);
 
         addSpecialHandler(Serializers.ItemStackListNBTSerializer::new);
     }
@@ -95,15 +99,15 @@ public final class NBTHandlerRegistry {
         SPECIAL_DESERIALIZERS.add(new LazyValue(deserializer));
     }
 
-    static INBTSerializer<Object, NBTBase> getSerializer(Object obj) {
+    public static INBTSerializer<Object, NBTBase> getSerializer(Object obj) {
         return getSerializer(obj.getClass());
     }
 
-    static INBTSerializer<Object, NBTBase> getSerializer(Class<?> cls) {
+    public static INBTSerializer<Object, NBTBase> getSerializer(Class<?> cls) {
         return getForClass("serializer", SERIALIZERS, cls);
     }
 
-    static INBTDeserializer<Object, NBTBase> getDeserializer(Class<?> cls) {
+    public static INBTDeserializer<Object, NBTBase> getDeserializer(Class<?> cls) {
         return getForClass("deserializer", DESERIALIZERS, cls);
     }
 

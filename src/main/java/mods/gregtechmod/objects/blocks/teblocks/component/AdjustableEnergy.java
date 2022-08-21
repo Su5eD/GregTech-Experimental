@@ -308,7 +308,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         }
     }
 
-    private class DualDelegate extends SourceDelegate implements IEnergySink {
+    public class DualDelegate extends SourceDelegate implements IEnergySink {
         @Override
         public double getDemandedEnergy() {
             int capacity = getCapacity();
@@ -331,7 +331,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         }
     }
 
-    private class SinkDelegate extends DelegateBase implements IEnergySink {
+    public class SinkDelegate extends DelegateBase implements IEnergySink {
 
         @Override
         public int getSinkTier() {

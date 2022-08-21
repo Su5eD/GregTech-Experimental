@@ -71,6 +71,14 @@ public class StructureElementGatherer {
         public ElementBuilder predicate(Predicate<BlockPos> predicate) {
             return element(new StructureElement(predicate));
         }
+        
+        public ElementBuilder parent(char id) {
+            Collection<StructureElement> parent = StructureElementGatherer.this.elements.get(id);
+            if (parent == null) throw new IllegalArgumentException("Parent element '" + id + "' doesn't exist");
+            
+            this.elements.addAll(parent);
+            return this;
+        }
 
         public ElementBuilder element(StructureElement element) {
             this.elements.add(element);

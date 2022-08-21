@@ -48,10 +48,17 @@ public class RecipeUtil {
     public static <T> List<T> adjustInputCount(String name, List<T> input, Object output, int max) {
         return adjustInputCount(name, input, Collections.singletonList(output), max);
     }
-
+    
     public static <T> List<T> adjustInputCount(String name, List<T> input, List<?> output, int max) {
+        return adjustInputCount(name, input, output, 0, max);
+    }
+
+    public static <T> List<T> adjustInputCount(String name, List<T> input, List<?> output, int min, int max) {
         if (input.size() > max) {
             throw new RuntimeException("Tried to add a " + name + " recipe for " + output + " with too many inputs!");
+        }
+        if (min != 0 && input.size() < min) {
+            throw new RuntimeException("Tried to add a " + name + " recipe for " + output + " with too few inputs!");
         }
 
         return input;

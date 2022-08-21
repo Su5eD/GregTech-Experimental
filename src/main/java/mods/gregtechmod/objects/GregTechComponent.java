@@ -7,6 +7,7 @@ import mods.gregtechmod.objects.blocks.teblocks.component.*;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntityIDSU;
 import mods.gregtechmod.objects.blocks.teblocks.energy.TileEntitySuperconductorWire;
+import mods.gregtechmod.objects.blocks.teblocks.fusion.TileEntityFusionComputer;
 import mods.gregtechmod.objects.blocks.teblocks.inv.TileEntityElectricInventoryManager;
 import mods.gregtechmod.util.nbt.NBTSaveHandler;
 
@@ -25,7 +26,8 @@ public enum GregTechComponent {
     IDSU_ENERGY(TileEntityIDSU.IDSUEnergy.class),
     COMPUTER_CUBE_MODULE(TileEntityComputerCube.ComputerCubeModuleComponent.class),
     GT_REDSTONE_EMITTER(GtRedstoneEmitter.class),
-    SLOT_RANGE_MANAGER(TileEntityElectricInventoryManager.SlotRangeManager.class);
+    SLOT_RANGE_MANAGER(TileEntityElectricInventoryManager.SlotRangeManager.class),
+    FUSION_ENERGY(TileEntityFusionComputer.FusionEnergy.class);
 
     private final Class<? extends GtComponentBase> clazz;
 

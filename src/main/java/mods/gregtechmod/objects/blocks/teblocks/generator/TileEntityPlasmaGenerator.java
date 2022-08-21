@@ -27,7 +27,7 @@ public class TileEntityPlasmaGenerator extends TileEntityFluidGenerator {
 
     @Override
     public ContainerFluidGenerator getGuiContainer(EntityPlayer player) {
-        return new ContainerFluidGenerator(player, this);
+        return new ContainerFluidGenerator(player, this, 85);
     }
 
     @Override

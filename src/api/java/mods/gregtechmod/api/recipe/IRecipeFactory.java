@@ -60,7 +60,7 @@ public interface IRecipeFactory {
 
     IRecipeFusion<IRecipeIngredientFluid, FluidStack> makeFluidFusionRecipe(List<IRecipeIngredientFluid> input, FluidStack output, int duration, double energyCost, double startEnergy);
 
-    IRecipeFusion<IRecipeIngredient, ItemStack> makeSolidFusionRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost, double startEnergy);
+    IRecipeFusion<IRecipeIngredientFluid, ItemStack> makeSolidFusionRecipe(List<IRecipeIngredientFluid> input, ItemStack output, int duration, double energyCost, double startEnergy);
 
     IRecipeUniversal<List<IRecipeIngredient>> makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water, boolean universal);
 }

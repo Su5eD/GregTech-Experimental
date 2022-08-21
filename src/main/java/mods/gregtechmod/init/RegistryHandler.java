@@ -11,7 +11,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.Cover;
 import mods.gregtechmod.objects.GregTechComponent;
 import mods.gregtechmod.objects.GregTechTEBlock;
-import mods.gregtechmod.objects.blocks.tileentities.TileEntityLightSource;
+import mods.gregtechmod.objects.blocks.teblocks.TileEntityLightSource;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.Block;

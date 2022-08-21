@@ -8,6 +8,7 @@ import ic2.api.recipe.MachineRecipe;
 import java.io.IOException;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class MachineRecipeSerializer extends JsonSerializer<MachineRecipe> {
 
     @Override

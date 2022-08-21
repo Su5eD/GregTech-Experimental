@@ -36,7 +36,7 @@ public class CoverActiveDetector extends CoverGeneric {
 
             int strength = (int) ((machine.getProgress() + 4) / machine.getMaxProgress() * 15);
             if (mode == DetectorMode.NORMAL || mode == DetectorMode.INVERTED) {
-                if (strength > 0 && machine.isActive()) {
+                if (strength > 0 && machine.getActive()) {
                     machine.setRedstoneOutput(side, mode.inverted ? 15 - strength : strength);
                 }
                 else {

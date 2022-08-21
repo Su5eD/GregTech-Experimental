@@ -41,6 +41,6 @@ public class FluidStackDeserializer extends JsonDeserializer<FluidStack> {
     }
 
     private static int getAmount(JsonNode node) {
-        return node.has("amount") ? node.get("amount").asInt(1) : 1;
+        return node.has("amount") ? node.get("amount").asInt(Fluid.BUCKET_VOLUME) : Fluid.BUCKET_VOLUME;
     }
 }

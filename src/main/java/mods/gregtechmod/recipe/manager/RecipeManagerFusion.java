@@ -2,7 +2,7 @@ package mods.gregtechmod.recipe.manager;
 
 import mods.gregtechmod.api.recipe.IRecipeFusion;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
-import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerFusionFluid;
+import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerFusion;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -12,10 +12,10 @@ import one.util.streamex.StreamEx;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RecipeManagerFusionFluid extends RecipeManagerMultiInput<IRecipeFusion<IRecipeIngredientFluid, FluidStack>, IRecipeIngredientFluid> implements IGtRecipeManagerFusionFluid {
+public class RecipeManagerFusion<R extends IRecipeFusion<IRecipeIngredientFluid, ?>> extends RecipeManagerMultiInput<R, IRecipeIngredientFluid> implements IGtRecipeManagerFusion<R> {
 
     @Override
-    public IRecipeFusion<IRecipeIngredientFluid, FluidStack> getRecipeForFluid(List<FluidStack> input) {
+    public R getRecipeForFluid(List<FluidStack> input) {
         return this.recipes.stream()
             .filter(recipe -> recipe.getInput().stream()
                 .allMatch(ingredient -> input.stream()
@@ -51,7 +51,7 @@ public class RecipeManagerFusionFluid extends RecipeManagerMultiInput<IRecipeFus
     }
 
     @Override
-    public IRecipeFusion<IRecipeIngredientFluid, FluidStack> getRecipeFor(List<ItemStack> input) {
+    public R getRecipeFor(List<ItemStack> input) {
         List<FluidStack> fluids = StreamEx.of(input)
             .map(FluidUtil::getFluidContained)
             .toImmutableList();

@@ -6,9 +6,11 @@ import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube.ComputerCubeModuleComponent;
+import mods.gregtechmod.util.Either;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -28,6 +30,10 @@ public final class Serializers {
     }
 
     public static NBTTagCompound serializeItemStack(ItemStack stack) {
+        return stack.writeToNBT(new NBTTagCompound());
+    }
+    
+    public static NBTTagCompound serializeFluidStack(FluidStack stack) {
         return stack.writeToNBT(new NBTTagCompound());
     }
 
@@ -165,6 +171,41 @@ public final class Serializers {
         public Enum<?> deserialize(NBTTagString nbt, Object instance, Class cls) {
             String name = nbt.getString();
             return Enum.valueOf(cls, name);
+        }
+    }
+    
+    static class EitherSerializer implements INBTHandler<Either<?, ?>, NBTTagCompound> {
+        @Override
+        public NBTTagCompound serialize(Either<?, ?> value) {
+            boolean isLeft = value.isLeft();
+            String side = isLeft ? "left" : "right";
+            Object obj = isLeft ? value.getLeft() : value.getRight();
+            Class<?> type = obj.getClass();
+            NBTBase serialized = NBTHandlerRegistry.getSerializer(type).serialize(obj);
+
+            NBTTagCompound nbt = new NBTTagCompound();
+            nbt.setString("side", side);
+            nbt.setString("type", type.getName());
+            nbt.setTag("value", serialized);
+            return nbt;
+        }
+        
+        @Override
+        public Either<?, ?> deserialize(NBTTagCompound nbt, Object instance, Class<?> cls) {
+            String side = nbt.getString("side");
+            String type = nbt.getString("type");
+            NBTBase value = nbt.getTag("value");
+            
+            try {
+                Class<?> clazz = Class.forName(type);
+                Object obj = NBTHandlerRegistry.getDeserializer(clazz)
+                    .deserialize(value, instance, clazz);
+                
+                return side.equals("left") ? Either.left(obj) : Either.right(obj);
+            } catch (ClassNotFoundException e) {
+                GregTechMod.LOGGER.error("Failed to deserialize Either", e);
+            }
+            return null;
         }
     }
 

@@ -150,7 +150,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             this.progress = 0;
             this.energyConsume = 0;
             this.maxProgress = 0;
-            pendingRecipe.clear();
+            this.pendingRecipe.clear();
             markDirty();
             setActive(false);
         }
@@ -197,11 +197,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     public abstract R getRecipe();
 
     @Override
-    public boolean isActive() {
-        return getActive();
-    }
-
-    @Override
     public double getProgress() {
         return progress;
     }
@@ -223,7 +218,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
     @Override
     public void getScanInfoPost(List<ITextComponent> scan, EntityPlayer player, BlockPos pos, int scanLevel) {
         super.getScanInfoPost(scan, player, pos, scanLevel);
-        if (scanLevel > 0) scan.add(new TextComponentTranslation(GtLocale.buildKeyInfo("machine_" + (isActive() ? "active" : "inactive"))));
+        if (scanLevel > 0) scan.add(new TextComponentTranslation(GtLocale.buildKeyInfo("machine_" + (this.getActive() ? "active" : "inactive"))));
     }
 
     @Override

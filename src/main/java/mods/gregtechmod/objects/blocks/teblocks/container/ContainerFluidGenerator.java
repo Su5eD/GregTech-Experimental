@@ -11,6 +11,10 @@ public class ContainerFluidGenerator extends ContainerBasicTank<TileEntityFluidG
         super(player, base);
     }
 
+    public ContainerFluidGenerator(EntityPlayer player, TileEntityFluidGenerator base, int xOffset) {
+        super(player, base, xOffset);
+    }
+
     @Override
     public void getNetworkedFields(List<? super String> list) {
         super.getNetworkedFields(list);

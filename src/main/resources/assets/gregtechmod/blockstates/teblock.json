@@ -121,7 +121,9 @@
       "fusion_material_injector": { "model": "gregtechmod:fusion_material_injector" },
       "fusion_material_injector_active": { "model": "gregtechmod:fusion_material_injector_active" },
       "fusion_material_extractor": { "model": "gregtechmod:fusion_material_extractor" },
-      "fusion_material_extractor_active": { "model": "gregtechmod:fusion_material_extractor_active" }
+      "fusion_material_extractor_active": { "model": "gregtechmod:fusion_material_extractor_active" },
+      "fusion_computer": { "model": "gregtechmod:fusion_computer" },
+      "fusion_computer_active": { "model": "gregtechmod:fusion_computer_active" }
     },
     "facing": {
       "down": { "x": 90 },
