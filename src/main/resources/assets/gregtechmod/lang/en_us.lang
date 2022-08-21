@@ -254,6 +254,7 @@ gregtechmod.info.inactive=Inactive
 gregtechmod.info.output=Output: %s EU/t
 gregtechmod.info.progress=Progress:
 gregtechmod.info.energy=Energy: %s
+gregtechmod.info.fusion_start=Start: %s EU
 gregtechmod.generic.turbine_rotor.description=Turbine Efficiency:  %s%%
 gregtechmod.generic.steam=Steam
 gregtechmod.generic.progress=Progress
@@ -995,6 +996,7 @@ gregtechmod.teblock.fusion_computer.description=FUUUUUUU-SION, HAH!
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
 gregtechmod.jei.max_energy=MaxEnergy: %s EU/t
+gregtechmod.jei.fusion=Fusion
 
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium

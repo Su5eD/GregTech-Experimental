@@ -10,6 +10,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -94,6 +95,13 @@ public class FuelIngredientFluid extends RecipeIngredient<Ingredient> implements
     @Override
     public List<Fluid> getMatchingFluids() {
         return this.matchingFluids;
+    }
+
+    @Override
+    public List<FluidStack> getFluidStacks() {
+        return StreamEx.of(this.matchingFluids)
+            .map(fluid -> new FluidStack(fluid, this.milliBuckets))
+            .toList();
     }
 
     @Override

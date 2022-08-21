@@ -279,14 +279,17 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
             .ifPresent(te -> output.when(te::addOutput, te::addOutput));
     }
     
-    private void stop() {
-        this.progress = 0;
-        if (getActive()) setActive(false);
+    private void stop(FusionReactorStructure instance) {
+        stop();
+        if (getActive()) setActive(false, instance);
     }
     
-    private void stop(FusionReactorStructure instance) {
+    private void stop() {
         this.progress = 0;
-        if (getActive()) setActive(false, instance);
+        this.maxProgress = 0;
+        this.energyConsume = 0;
+        this.pendingRecipe = null;
+        if (getActive()) setActive(false);
     }
     
     public void setActive(boolean active, FusionReactorStructure instance) {

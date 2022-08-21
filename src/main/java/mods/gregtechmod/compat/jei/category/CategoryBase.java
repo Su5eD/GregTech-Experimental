@@ -22,8 +22,8 @@ public abstract class CategoryBase<R, W extends IRecipeWrapper> implements IReci
     protected final String name;
     protected final String uid;
     private final LazyValue<IDrawable> background;
-    private final Class<R> recipeClass;
-    private final IRecipeWrapperFactory<R> recipeWrapperFactory;
+    protected final Class<R> recipeClass;
+    protected final IRecipeWrapperFactory<R> recipeWrapperFactory;
 
     public CategoryBase(String name, Class<R> recipeClass, IRecipeWrapperFactory<R> recipeWrapperFactory, IGuiHelper guiHelper) {
         this.name = name;

@@ -10,10 +10,8 @@ import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.recipe.RecipeCellular;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
-import one.util.streamex.StreamEx;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,19 +34,16 @@ public class WrapperCellular implements IRecipeWrapper {
     public void getIngredients(IIngredients ingredients) {
         IRecipeIngredient input = this.recipe.getInput();
         int cells = this.recipe.getCells();
-        int count = input.getCount();
 
         if (input instanceof IRecipeIngredientFluid) {
-            int amount = count * Fluid.BUCKET_VOLUME;
-            List<FluidStack> fluids = StreamEx.of(((IRecipeIngredientFluid) input).getMatchingFluids())
-                .map(fluid -> new FluidStack(fluid, amount))
-                .toList();
+            List<FluidStack> fluids = ((IRecipeIngredientFluid) input).getFluidStacks();
             ingredients.setInputs(VanillaTypes.FLUID, fluids);
 
             ItemStack cell = cells > 0 ? ItemHandlerHelper.copyStackWithSize(ModHandler.emptyCell, cells) : ItemStack.EMPTY;
             ingredients.setInput(VanillaTypes.ITEM, cell);
         }
         else {
+            int count = input.getCount();
             List<List<ItemStack>> inputs = input.stream()
                 .map(stack -> ItemHandlerHelper.copyStackWithSize(stack, count))
                 .toListAndThen(list -> {

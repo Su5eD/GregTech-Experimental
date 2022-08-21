@@ -24,7 +24,8 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     IMPLODING(buildGauge(GuiImplosionCompressor.TEXTURE, 11)),
     FREEZING(buildGauge(GuiVacuumFreezer.TEXTURE, 11)),
     DISTILLING(buildGauge(GuiDistillationTower.TEXTURE, 176, 16, 72, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),
-    SAWING(buildGauge(GuiIndustrialSawmill.TEXTURE, 176, 20, 11, Gauge.GaugePropertyBuilder.GaugeOrientation.Right));
+    SAWING(buildGauge(GuiIndustrialSawmill.TEXTURE, 176, 20, 11, Gauge.GaugePropertyBuilder.GaugeOrientation.Right)),
+    FUSION(buildGauge(GtUtil.getGuiTexture("jei/fusion_reactor"), 176, 25, 17, Gauge.GaugePropertyBuilder.GaugeOrientation.Right));
 
     public final Gauge.GaugeProperties properties;
 

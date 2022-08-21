@@ -11,7 +11,7 @@ public abstract class RecipeFusion<I extends IRecipeIngredient, T> extends Recip
 
     protected RecipeFusion(List<I> input, T output, int duration, double energyCost, double startEnergy) {
         super(input, output, duration, energyCost);
-        this.startEnergy = Math.max(Math.min(startEnergy, 100000000), 0);
+        this.startEnergy = startEnergy;
     }
 
     @Override

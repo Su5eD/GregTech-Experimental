@@ -70,7 +70,7 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
 
     @Override
     public int getMilliBuckets() {
-        return this.count * 1000;
+        return this.count * Fluid.BUCKET_VOLUME;
     }
 
     @Override
@@ -102,6 +102,13 @@ public class RecipeIngredientFluid extends RecipeIngredient<Ingredient> implemen
     @Override
     public List<Fluid> getMatchingFluids() {
         return this.matchingFluids;
+    }
+
+    @Override
+    public List<FluidStack> getFluidStacks() {
+        return StreamEx.of(this.matchingFluids)
+            .map(fluid -> new FluidStack(fluid, getMilliBuckets()))
+            .toList();
     }
 
     @Override
