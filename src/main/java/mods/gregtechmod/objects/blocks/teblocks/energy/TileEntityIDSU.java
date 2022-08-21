@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.blocks.teblocks.energy;
 
 import mods.gregtechmod.gui.GuiIDSU;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIDSU;
 import mods.gregtechmod.world.IDSUData;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,7 +17,6 @@ public class TileEntityIDSU extends TileEntityChargerBase {
         super.onLoaded();
         if (!this.world.isRemote) {
             this.wrapper = IDSUData.get(this.world).getOrCreateWrapper(getOwner().getId());
-            forceAddEnergy(getStoredEU());
         }
     }
 
@@ -39,11 +37,11 @@ public class TileEntityIDSU extends TileEntityChargerBase {
 
     @Override
     protected int getBaseEUCapacity() {
-        return 1000000000;
+        return IDSUData.EnergyWrapper.CAPACITY;
     }
 
     @Override
-    public ContainerEnergyStorage<?> getGuiContainer(EntityPlayer player) {
+    public ContainerIDSU getGuiContainer(EntityPlayer player) {
         return new ContainerIDSU(player, this);
     }
 
@@ -61,17 +59,18 @@ public class TileEntityIDSU extends TileEntityChargerBase {
         }
 
         @Override
+        public void forceCharge(double amount) {}
+
+        @Override
         protected double injectEnergy(double amount) {
-            double ret = super.injectEnergy(amount);
-            TileEntityIDSU.this.wrapper.addEnergy(ret);
-            return ret;
+            double injected = TileEntityIDSU.this.wrapper.addEnergy(amount);
+            updateAverageEUInput(injected);
+            return injected;
         }
 
         @Override
         public double discharge(double amount, boolean simulate) {
-            double ret = super.discharge(amount, simulate);
-            TileEntityIDSU.this.wrapper.removeEnergy(ret);
-            return ret;
+            return TileEntityIDSU.this.wrapper.removeEnergy(amount, simulate);
         }
     }
 }

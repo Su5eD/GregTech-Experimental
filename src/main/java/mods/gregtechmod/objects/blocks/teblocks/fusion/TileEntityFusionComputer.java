@@ -148,6 +148,7 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
     private void onInvalidate(FusionReactorStructure instance) {
         setActive(false, instance);
         ((FusionEnergy) this.energy).setEnergyInjectors(Collections.emptyList());
+        this.startupCheck = 100;
     }
 
     @Override
@@ -451,7 +452,10 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
                 }
                 else break;
             }
-            return amount - remaining;
+            
+            double discharged = amount - remaining;
+            updateAverageEUOutput(discharged);
+            return discharged;
         }
 
         @Override

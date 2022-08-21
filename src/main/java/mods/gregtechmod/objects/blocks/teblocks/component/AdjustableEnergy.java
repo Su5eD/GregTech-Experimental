@@ -69,14 +69,14 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     }
 
     protected double getOfferedEnergy() {
-        return Math.min(storedEnergy, getMaxOutputEUt());
+        return Math.min(getStoredEnergy(), getMaxOutputEUt());
     }
 
     public double getAverageEUInput() {
         return this.averageEUIn;
     }
 
-    private void updateAverageEUInput(double amount) {
+    protected void updateAverageEUInput(double amount) {
         this.averageEUInputIndex = ++this.averageEUInputIndex % this.averageEUInputs.length;
         this.averageEUInputs[this.averageEUInputIndex] = amount;
     }
@@ -85,7 +85,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         return this.averageEUOut;
     }
 
-    private void updateAverageEUOutput(double amount) {
+    protected void updateAverageEUOutput(double amount) {
         this.averageEUOutputIndex = ++this.averageEUOutputIndex % this.averageEUOutputs.length;
         this.averageEUOutputs[this.averageEUOutputIndex] = amount;
     }
@@ -224,11 +224,12 @@ public abstract class AdjustableEnergy extends GtComponentBase {
     public void onWorldTick() {
         this.chargingSlots
             .forEach(slot -> {
-                if (this.storedEnergy > 0) this.discharge(slot.charge(this.storedEnergy));
+                double storedEnergy = getStoredEnergy();
+                if (storedEnergy > 0) this.discharge(slot.charge(storedEnergy));
             });
         this.dischargingSlots
             .forEach(slot -> {
-                double space = getCapacity() - this.storedEnergy;
+                double space = getCapacity() - getStoredEnergy();
 
                 if (space > 0) {
                     double energy = slot.discharge(space, false);
@@ -312,6 +313,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         @Override
         public double getDemandedEnergy() {
             int capacity = getCapacity();
+            double storedEnergy = getStoredEnergy();
             return isSink() && storedEnergy < capacity ? capacity - storedEnergy : 0;
         }
 
@@ -346,6 +348,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
         @Override
         public double getDemandedEnergy() {
             int capacity = getCapacity();
+            double storedEnergy = getStoredEnergy();
             return isSink() && storedEnergy < capacity ? capacity - storedEnergy : 0;
         }
 
