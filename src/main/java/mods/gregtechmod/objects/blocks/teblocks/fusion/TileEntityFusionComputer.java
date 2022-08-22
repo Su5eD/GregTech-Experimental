@@ -281,8 +281,8 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
     }
     
     private void stop(FusionReactorStructure instance) {
-        stop();
         if (getActive()) setActive(false, instance);
+        stop();
     }
     
     private void stop() {
