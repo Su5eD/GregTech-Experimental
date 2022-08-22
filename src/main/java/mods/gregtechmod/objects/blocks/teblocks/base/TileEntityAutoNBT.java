@@ -108,6 +108,12 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
         throw new IllegalArgumentException("Cannot get value for " + name);
     }
 
+    @Override
+    public void setActive(boolean active) {
+        super.setActive(active);
+        markDirty();
+    }
+
     protected boolean isRedstonePowered() {
         return this.world != null && this.world.getRedstonePowerFromNeighbors(this.pos) > 0;
     }

@@ -152,7 +152,6 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
             this.maxProgress = 0;
             this.pendingRecipe.clear();
             markDirty();
-            setActive(false);
         }
     }
 
@@ -177,7 +176,7 @@ public abstract class TileEntityGTMachine<R extends IMachineRecipe<RI, List<Item
 
     protected void stop() {
         if (needsConstantEnergy()) this.progress = 0;
-        setActive(false);
+        if (getActive()) setActive(false);
     }
 
     protected boolean needsConstantEnergy() {
