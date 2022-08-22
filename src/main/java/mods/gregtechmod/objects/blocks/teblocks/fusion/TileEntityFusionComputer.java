@@ -52,7 +52,7 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
     @NBTPersistent
     private Either<ItemStack, FluidStack> pendingRecipe;
     
-    private int startupCheck = 100;
+    private int startupCheck;
 
     public TileEntityFusionComputer() {
         this.structure = new Structure<>(getStructurePattern(), getStructureElements(), this::createStructureInstance, this::onInvalidate);
@@ -155,6 +155,7 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
     protected void onLoaded() {
         super.onLoaded();
         this.structure.checkWorldStructure(this.pos, this.getFacing());
+        if (!getActive()) this.startupCheck = 100;
     }
 
     @Override
@@ -189,6 +190,8 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
             return;
         }
         
+        if (this.startupCheck > 0) this.startupCheck--;
+        
         FusionReactorStructure instance = struct.get().getInstance();
         if (isProcessing()) {
             if (canUseEnergy(this.energyConsume)) {
@@ -198,7 +201,7 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
         }
         else {
             IRecipeFusion<IRecipeIngredientFluid, ?> recipe = getRecipe(instance);
-            if (--this.startupCheck < 0 && canProcessRecipe(recipe)) {
+            if (this.startupCheck == 0 && canProcessRecipe(recipe)) {
                 this.energyConsume = recipe.getEnergyCost();
 
                 if (canUseEnergy(this.energyConsume)) {

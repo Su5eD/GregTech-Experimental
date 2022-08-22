@@ -20,7 +20,6 @@ import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import mods.gregtechmod.util.struct.Structure;
 import mods.gregtechmod.util.struct.StructureElement;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -49,7 +48,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     private int pollution;
     @NBTPersistent
     private int runtime;
-    private int startUpCheck = 100;
+    private int startUpCheck;
     public final Maintenance maintenance;
 
     @NBTPersistent
@@ -75,9 +74,10 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
     protected abstract T createStructureInstance(EnumFacing facing, Map<Character, Collection<BlockPos>> elements);
 
     @Override
-    public void onPlaced(ItemStack stack, EntityLivingBase placer, EnumFacing facing) {
-        super.onPlaced(stack, placer, facing);
+    protected void onLoaded() {
+        super.onLoaded();
         this.structure.checkWorldStructure(this.pos, this.getFacing());
+        if (!getActive()) this.startUpCheck = 100;
     }
 
     @Override
@@ -102,6 +102,8 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
             stopMachine();
             return;
         }
+        
+        if (this.startUpCheck > 0) this.startUpCheck--;
 
         T instance = struct.get().getInstance();
         instance.collectMaintenanceStatus(this.maintenance);
@@ -132,7 +134,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
                     }
                 }
             }
-            else if (--this.startUpCheck < 0) {
+            else if (this.startUpCheck == 0) {
                 checkFuel(instance);
                 this.efficiency = Math.max(0, this.efficiency - 1000);
             }
