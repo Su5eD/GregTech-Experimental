@@ -1,4 +1,4 @@
-package mods.gregtechmod.objects.blocks.tileentities;
+package mods.gregtechmod.objects.blocks.teblocks;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

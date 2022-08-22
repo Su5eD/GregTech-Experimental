@@ -9,17 +9,19 @@ import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mods.gregtechmod.api.recipe.fuel.IFuel;
 import mods.gregtechmod.api.recipe.fuel.IFuelManager;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
-import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.jei.factory.RecipeWrapperFactory;
 import mods.gregtechmod.compat.jei.wrapper.WrapperFuel;
 import mods.gregtechmod.gui.GuiFluidGenerator;
 import mods.gregtechmod.recipe.fuel.FuelSimple;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 
 public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
+    public static final ResourceLocation BACKGROUND = GtUtil.getGuiTexture("jei/fuel");
+    
     private final IFuelManager<? extends IFuel<IRecipeIngredient>, ItemStack> fuelManager;
     protected final Class<? extends GuiFluidGenerator> guiClass;
 
@@ -40,7 +42,7 @@ public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
 
     @Override
     protected IDrawable drawBackground(IGuiHelper guiHelper) {
-        return guiHelper.drawableBuilder(new ResourceLocation(Reference.MODID, "textures/gui/jei/fuel.png"), 60, 34, 56, 18)
+        return guiHelper.drawableBuilder(BACKGROUND, 60, 34, 56, 18)
             .addPadding(20, 20, 60, 60)
             .build();
     }

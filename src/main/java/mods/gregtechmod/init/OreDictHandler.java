@@ -379,44 +379,25 @@ public final class OreDictHandler {
         boolean ingotPresent = ingot.ifPresent(stack -> {
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
 
-            if (storageBlockCrafting) processBlockRecipe(ore, name + "FromIngots");
-
             stack.setCount(9);
             DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, ore, stack);
-            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToIngot", stack, new OreIngredient(name));
-            DynamicRecipes.addIngotToBlockRecipe(ingotName, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+            DynamicRecipes.addIngotToBlockRecipe("Ingots", ingotName, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
         });
-
-        if (!gem.ifPresent(stack -> {
+        boolean gemPresent = gem.ifPresent(stack -> {
             if (ModHandler.getRecipeOutput(stack, stack, ItemStack.EMPTY, stack, stack).itemEquals(ore)) return;
 
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
 
-            if (storageBlockCrafting) processBlockRecipe(ore, name + "FromGems");
-            if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToGem", ItemHandlerHelper.copyStackWithSize(stack, 9), new OreIngredient(name));
+            stack.setCount(9);
+            DynamicRecipes.addIngotToBlockRecipe("Gems", gemName, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+        });
+        dust.ifPresent(stack -> {
+            ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
 
-            DynamicRecipes.addIngotToBlockRecipe(gemName, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
-        })) {
-            dust.ifPresent(stack -> {
-                ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
-                if (!ingotPresent) {
-                    if (storageBlockCrafting) processBlockRecipe(ore, name + "FromDusts");
-                    DynamicRecipes.addIngotToBlockRecipe(dustName, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
-                }
-
-                stack.setCount(9);
-                if (storageBlockDeCrafting) ModHandler.addShapelessRecipe(name + "ToDust", stack, new OreIngredient(name));
-                DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), stack));
-            });
-        }
-    }
-
-    private void processBlockRecipe(ItemStack stack, String name) {
-        ModHandler.addShapedRecipe(
-            name,
-            stack,
-            "XXX", "XXX", "XXX", 'X', name
-        );
+            stack.setCount(9);
+            if (!ingotPresent && !gemPresent) DynamicRecipes.addIngotToBlockRecipe("Dusts", dustName, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+            DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), stack));
+        });
     }
 
     private void processIngot(final ItemStack stack, String name) {

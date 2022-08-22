@@ -1,11 +1,11 @@
 package mods.gregtechmod.gui;
 
 import com.mojang.authlib.GameProfile;
-import mods.gregtechmod.objects.blocks.teblocks.container.ContainerEnergyStorage;
+import mods.gregtechmod.objects.blocks.teblocks.container.ContainerIDSU;
 
 public class GuiIDSU extends GuiEnergyStorage {
 
-    public GuiIDSU(ContainerEnergyStorage container) {
+    public GuiIDSU(ContainerIDSU container) {
         super(container);
     }
 

@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "PWP",
+    "CMC",
+    "PCP"
+  ],
+  "key":
+  {
+    "C":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingCircuitTier07"
+    },
+    "M":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingRawMachineTier04"
+    },
+    "W":
+    {
+      "type": "forge:ore_dict",
+      "ore": "chestWood"
+    },
+    "P":
+    {
+      "type": "forge:ore_dict",
+      "ore": "craftingPump"
+    }
+  },
+  "result":
+  {
+    "item": "gregtechmod:teblock",
+    "data": 84
+  }
+}

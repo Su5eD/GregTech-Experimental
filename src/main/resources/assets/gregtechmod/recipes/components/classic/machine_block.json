@@ -27,22 +27,16 @@
   "conditions":
   [
     {
-      "type": "forge:and",
-      "values":
-      [
-        {
-          "type": "gregtechmod:config",
-          "config":
-          {
-            "category": "harder_recipes",
-            "name": "machine_block",
-            "value": true
-          }
-        },
-        {
-          "type": "gregtechmod:classic"
-        }
-      ]
+      "type": "gregtechmod:classic"
+    },
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "harder_recipes",
+        "name": "machine_block",
+        "value": true
+      }
     }
   ]
 }

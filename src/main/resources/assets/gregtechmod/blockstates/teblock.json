@@ -115,7 +115,15 @@
       "file_cabinet": { "model": "gregtechmod:file_cabinet" },
       "metal_desk": { "model": "gregtechmod:metal_desk" },
       "compartment": { "model": "gregtechmod:compartment" },
-      "machine_box": { "model": "gregtechmod:machine_box" }
+      "machine_box": { "model": "gregtechmod:machine_box" },
+      "fusion_energy_injector": { "model": "gregtechmod:fusion_energy_injector" },
+      "fusion_energy_injector_active": { "model": "gregtechmod:fusion_energy_injector_active" },
+      "fusion_material_injector": { "model": "gregtechmod:fusion_material_injector" },
+      "fusion_material_injector_active": { "model": "gregtechmod:fusion_material_injector_active" },
+      "fusion_material_extractor": { "model": "gregtechmod:fusion_material_extractor" },
+      "fusion_material_extractor_active": { "model": "gregtechmod:fusion_material_extractor_active" },
+      "fusion_computer": { "model": "gregtechmod:fusion_computer" },
+      "fusion_computer_active": { "model": "gregtechmod:fusion_computer_active" }
     },
     "facing": {
       "down": { "x": 90 },

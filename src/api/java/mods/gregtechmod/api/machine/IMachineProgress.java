@@ -1,7 +1,7 @@
 package mods.gregtechmod.api.machine;
 
 public interface IMachineProgress extends IGregTechMachine {
-    boolean isActive();
+    boolean getActive();
 
     double getProgress();
 

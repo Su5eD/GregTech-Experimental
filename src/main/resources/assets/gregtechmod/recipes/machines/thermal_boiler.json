@@ -15,8 +15,8 @@
     },
     "X":
     {
-      "item": "gregtechmod:teblock",
-      "data": 27
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#thermal_generator"
     },
     "M":
     {

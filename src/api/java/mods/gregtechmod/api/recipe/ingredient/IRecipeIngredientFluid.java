@@ -14,4 +14,6 @@ public interface IRecipeIngredientFluid extends IRecipeIngredient {
     int getMilliBuckets();
 
     List<Fluid> getMatchingFluids();
+    
+    List<FluidStack> getFluidStacks();
 }

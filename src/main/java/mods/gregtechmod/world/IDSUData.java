@@ -69,6 +69,7 @@ public class IDSUData extends WorldSavedData {
 
     public static class EnergyWrapper {
         public static final EnergyWrapper EMPTY = new EnergyWrapper(null);
+        public static final int CAPACITY = 1000000000;
 
         private final IDSUData parent;
         private double energy;
@@ -81,14 +82,20 @@ public class IDSUData extends WorldSavedData {
             return this.energy;
         }
 
-        public void addEnergy(double energy) {
-            this.energy += energy;
+        public double addEnergy(double energy) {
+            double injected = Math.min(CAPACITY - this.energy, energy);
+            this.energy += injected;
             if (this.parent != null) this.parent.markDirty();
+            return injected;
         }
 
-        public void removeEnergy(double energy) {
-            this.energy -= energy;
-            if (this.parent != null) this.parent.markDirty();
+        public double removeEnergy(double energy, boolean simulate) {
+            if (this.energy >= energy) {
+                if (!simulate) this.energy -= energy;
+                if (this.parent != null) this.parent.markDirty();
+                return energy;
+            }
+            return 0;
         }
 
         public static class EnergyWrapperEncoder implements INetworkCustomEncoder {

@@ -97,7 +97,6 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
             this.structure.checkWorldStructure(this.pos, this.getFacing());
         }
 
-        if (--this.startUpCheck >= 0) return;
         Optional<Structure<T>.WorldStructure> struct = this.structure.getWorldStructure();
         if (!struct.map(Structure.WorldStructure::isValid).orElse(false)) {
             stopMachine();
@@ -133,7 +132,7 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
                     }
                 }
             }
-            else {
+            else if (--this.startUpCheck < 0) {
                 checkFuel(instance);
                 this.efficiency = Math.max(0, this.efficiency - 1000);
             }
@@ -287,7 +286,9 @@ public abstract class TileEntityMultiBlockBase<T extends TileEntityMultiBlockBas
             .ifPresent(this::onInvalidate);
     }
 
-    protected void onInvalidate(T instance) {}
+    protected void onInvalidate(T instance) {
+        this.startUpCheck = 100;
+    }
 
     @Override
     public Set<GtUpgradeType> getCompatibleGtUpgrades() {

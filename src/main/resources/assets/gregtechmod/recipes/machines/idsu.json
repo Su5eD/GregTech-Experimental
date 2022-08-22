@@ -20,8 +20,8 @@
     },
     "M":
     {
-      "item": "gregtechmod:teblock",
-      "data": 48
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#aesu"
     }
   },
   "result":

@@ -7,6 +7,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.recipe.util.RecipeUtil;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.Collections;
 import java.util.List;
 
 public class RecipeFusionFluid extends RecipeFusion<IRecipeIngredientFluid, FluidStack> {
@@ -21,7 +22,7 @@ public class RecipeFusionFluid extends RecipeFusion<IRecipeIngredientFluid, Flui
                                            @JsonProperty(value = "duration", required = true) int duration,
                                            @JsonProperty(value = "energyCost", required = true) double energyCost,
                                            @JsonProperty(value = "startEnergy", required = true) double startEnergy) {
-        List<IRecipeIngredientFluid> adjustedInput = RecipeUtil.adjustInputCount("fusion", input, output, 2);
+        List<IRecipeIngredientFluid> adjustedInput = RecipeUtil.adjustInputCount("fusion", input, Collections.singletonList(output), 2, 2);
         RecipeFusionFluid recipe = new RecipeFusionFluid(adjustedInput, output, duration, energyCost, startEnergy);
 
         RecipeUtil.validateRecipeInput("fusion", adjustedInput);

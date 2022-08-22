@@ -91,7 +91,7 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IRecipeFusion<IRecipeIngredient, ItemStack> makeSolidFusionRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost, double startEnergy) {
+    public IRecipeFusion<IRecipeIngredientFluid, ItemStack> makeSolidFusionRecipe(List<IRecipeIngredientFluid> input, ItemStack output, int duration, double energyCost, double startEnergy) {
         return RecipeFusionSolid.create(input, output, duration, energyCost, startEnergy);
     }
 

@@ -1,7 +1,6 @@
 package mods.gregtechmod.inventory;
 
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.slot.SlotInvSlot;
 import mods.gregtechmod.util.ButtonClick;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
-public class SlotStackCycle extends SlotInvSlot implements ISlotInteractive {
+public class SlotStackCycle extends SlotReadOnly implements ISlotInteractive {
     private final List<ItemStack> stacks;
     private final Function<List<ItemStack>, Integer> supplier;
 

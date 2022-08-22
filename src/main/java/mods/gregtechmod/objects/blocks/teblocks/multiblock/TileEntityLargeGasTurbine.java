@@ -26,7 +26,7 @@ public class TileEntityLargeGasTurbine extends TileEntityTurbineBase {
             .block('C', casing)
             .block('R', casing)
             .id('H', builder -> builder
-                .block(casing)
+                .parent('C')
                 .tileEntity(TileEntityHatchInput.class, 1)
                 .tileEntity(TileEntityHatchOutput.class)
                 .tileEntity(TileEntityHatchMaintenance.class, 1)

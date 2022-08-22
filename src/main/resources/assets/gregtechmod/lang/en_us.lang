@@ -254,6 +254,7 @@ gregtechmod.info.inactive=Inactive
 gregtechmod.info.output=Output: %s EU/t
 gregtechmod.info.progress=Progress:
 gregtechmod.info.energy=Energy: %s
+gregtechmod.info.fusion_start=Start: %s EU
 gregtechmod.generic.turbine_rotor.description=Turbine Efficiency:  %s%%
 gregtechmod.generic.steam=Steam
 gregtechmod.generic.progress=Progress
@@ -983,10 +984,19 @@ gregtechmod.teblock.metal_desk=Metal encased Desk
 gregtechmod.teblock.compartment=Compartment
 gregtechmod.teblock.machine_box=Machine Box
 gregtechmod.teblock.machine_box.description=You just need §5i§dm§4a§cg§ei§an§ba§3t§9i§1o§5n§7 to use this.
+gregtechmod.teblock.fusion_energy_injector=Fusion Energy Injector
+gregtechmod.teblock.fusion_energy_injector.description=Stores 10kk EU for the Fusion Reactor
+gregtechmod.teblock.fusion_material_injector=Fusion Material Injector
+gregtechmod.teblock.fusion_material_injector.description=To inject your fusable Liquids into the Coils
+gregtechmod.teblock.fusion_material_extractor=Fusion Material Extractor
+gregtechmod.teblock.fusion_material_extractor.description=Extracts your fused Materials out of the Coils
+gregtechmod.teblock.fusion_computer=Fusion Control Computer
+gregtechmod.teblock.fusion_computer.description=FUUUUUUU-SION, HAH!
 
 gregtechmod.jei.energy=EU: %s
 gregtechmod.jei.time=Time: %s s
 gregtechmod.jei.max_energy=MaxEnergy: %s EU/t
+gregtechmod.jei.fusion=Fusion
 
 gregtechmod.fluid.berylium=Berylium
 gregtechmod.fluid.calcium=Calcium

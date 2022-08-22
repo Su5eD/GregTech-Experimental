@@ -15,8 +15,8 @@
     },
     "X":
     {
-      "item": "gregtechmod:teblock",
-      "data": 30
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#gas_turbine"
     },
     "M":
     {

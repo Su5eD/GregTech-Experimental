@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "PWP",
-    "CMC",
-    "PCP"
+    "SCS",
+    "CHC",
+    "SCS"
   ],
   "key":
   {
@@ -13,24 +13,20 @@
       "type": "forge:ore_dict",
       "ore": "craftingCircuitTier07"
     },
-    "M":
+    "H":
+    {
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#supercondensator"
+    },
+    "S":
     {
       "type": "forge:ore_dict",
-      "ore": "craftingRawMachineTier04"
-    },
-    "W":
-    {
-      "item": "minecraft:chest"
-    },
-    "P":
-    {
-      "type": "forge:ore_dict",
-      "ore": "craftingPump"
+      "ore": "craftingSuperconductor"
     }
   },
   "result":
   {
     "item": "gregtechmod:teblock",
-    "data": "???"
+    "data": 83
   }
 }

@@ -20,8 +20,8 @@
     },
     "M":
     {
-      "item": "gregtechmod:teblock",
-      "data": 45
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#supercondensator"
     }
   },
   "result":

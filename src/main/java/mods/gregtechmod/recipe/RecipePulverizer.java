@@ -39,7 +39,7 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite) {
-        return create(input, output, chance, overwrite, false);
+        return create(input, output, chance, overwrite, true);
     }
 
     @JsonCreator

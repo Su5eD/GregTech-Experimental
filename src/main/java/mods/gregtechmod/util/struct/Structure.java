@@ -63,9 +63,7 @@ public class Structure<T> {
                     .removeValues(IGNORED::contains)))
             .flatMapKeyValue((y, layer) ->
                 layer.flatMapKeyValue((z, row) -> row.invert()
-                    .mapValues(x -> new Vec3iRotatable(x, y, z).relativise(root))
-                )
-            )
+                    .mapValues(x -> new Vec3iRotatable(x, y, z).relativise(root))))
             .mapToEntry(Entry::getKey, Entry::getValue)
             .sorted(Entry.comparingByKey())
             .collapseKeys()
@@ -84,8 +82,7 @@ public class Structure<T> {
             .mapValues(EntryStream::of)
             .flatMapValues(layer ->
                 layer.flatMapValues(row -> EntryStream.of(Chars.asList(row.toCharArray()))
-                    .filterValues(STRUCTURE_ROOT::equals))
-            )
+                    .filterValues(STRUCTURE_ROOT::equals)))
             .mapKeyValue((y, layer) -> new Vec3iRotatable(layer.getValue().getKey(), y, layer.getKey()))
             .toListAndThen(list -> {
                 if (list.isEmpty()) throw new RuntimeException("Could not find structure pattern root");

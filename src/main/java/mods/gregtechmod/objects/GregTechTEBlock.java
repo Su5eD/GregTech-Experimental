@@ -16,6 +16,10 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.*;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.objects.blocks.teblocks.energy.*;
+import mods.gregtechmod.objects.blocks.teblocks.fusion.TileEntityFusionComputer;
+import mods.gregtechmod.objects.blocks.teblocks.fusion.TileEntityFusionEnergyInjector;
+import mods.gregtechmod.objects.blocks.teblocks.fusion.TileEntityFusionMaterialExtractor;
+import mods.gregtechmod.objects.blocks.teblocks.fusion.TileEntityFusionMaterialInjector;
 import mods.gregtechmod.objects.blocks.teblocks.generator.*;
 import mods.gregtechmod.objects.blocks.teblocks.inv.*;
 import mods.gregtechmod.objects.blocks.teblocks.multiblock.*;
@@ -122,7 +126,11 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     FILE_CABINET(TileEntityFileCabinet.class, 79, NO_ACTIVE, Util.horizontalFacings),
     METAL_DESK(TileEntityMetalDesk.class, 80, NO_ACTIVE, Util.horizontalFacings),
     COMPARTMENT(TileEntityCompartment.class, 81, NO_ACTIVE, Util.horizontalFacings, ModelType.COMPARTMENT),
-    MACHINE_BOX(TileEntityMachineBox.class, 82, NO_ACTIVE, Util.allFacings, ModelType.MACHINE_BOX);
+    MACHINE_BOX(TileEntityMachineBox.class, 82, NO_ACTIVE, Util.allFacings, ModelType.MACHINE_BOX),
+    FUSION_ENERGY_INJECTOR(TileEntityFusionEnergyInjector.class, 83, ACTIVE_GUI, Util.noFacings),
+    FUSION_MATERIAL_INJECTOR(TileEntityFusionMaterialInjector.class, 84, ACTIVE_GUI, Util.onlyNorth),
+    FUSION_MATERIAL_EXTRACTOR(TileEntityFusionMaterialExtractor.class, 85, ACTIVE_GUI, Util.onlyNorth),
+    FUSION_COMPUTER(TileEntityFusionComputer.class, 86, ACTIVE_GUI, Util.horizontalFacings);
 
     public static final ResourceLocation LOCATION = new ResourceLocation(Reference.MODID, "teblock");
     public static final GregTechTEBlock[] VALUES = values();

@@ -26,7 +26,7 @@ public class CoverVent extends CoverGeneric {
 
     @Override
     public void doCoverThings() {
-        if (this.te instanceof IMachineProgress && ((IMachineProgress) this.te).isActive()) {
+        if (this.te instanceof IMachineProgress && ((IMachineProgress) this.te).getActive()) {
             World world = ((TileEntity) this.te).getWorld();
             BlockPos pos = ((TileEntity) this.te).getPos();
             if (world.getBlockState(pos.offset(this.side)).getCollisionBoundingBox(world, pos) == null) {

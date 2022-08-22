@@ -15,8 +15,8 @@
     },
     "R":
     {
-      "item": "ic2:nuclear",
-      "data": 18
+      "type": "gregtechmod:multi",
+      "item": "ic2:nuclear#re_enriched_uranium"
     },
     "P":
     {
@@ -35,6 +35,9 @@
   },
   "conditions":
   [
+    {
+      "type": "gregtechmod:classic"
+    },
     {
       "type": "gregtechmod:config",
       "config":

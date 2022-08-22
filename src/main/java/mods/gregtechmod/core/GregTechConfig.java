@@ -45,6 +45,7 @@ public class GregTechConfig {
         public boolean smallerStoneToolDurability = true;
         public boolean enhancedWrenchOverlay = true;
 
+        public boolean unsuspiciousHungerConfig = true;
         public boolean showCapes = true;
     }
 

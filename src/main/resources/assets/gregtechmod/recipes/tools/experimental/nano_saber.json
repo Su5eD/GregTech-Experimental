@@ -36,22 +36,16 @@
   "conditions":
   [
     {
-      "type": "forge:and",
-      "values":
-      [
-        {
-          "type": "gregtechmod:config",
-          "config":
-          {
-            "category": "harder_recipes",
-            "name": "nano_saber",
-            "value": true
-          }
-        },
-        {
-          "type": "gregtechmod:experimental"
-        }
-      ]
+      "type": "gregtechmod:experimental"
+    },
+    {
+      "type": "gregtechmod:config",
+      "config":
+      {
+        "category": "harder_recipes",
+        "name": "nano_saber",
+        "value": true
+      }
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/adv_machine",
+    "down": "gregtechmod:blocks/machines/high_adv_machine",
+    "up": "gregtechmod:blocks/machines/high_adv_machine",
+    "north": "gregtechmod:blocks/machines/high_adv_machine_glass_yellow",
+    "south": "gregtechmod:blocks/machines/high_adv_machine_glass_yellow",
+    "east": "gregtechmod:blocks/machines/high_adv_machine_glass_yellow",
+    "west": "gregtechmod:blocks/machines/high_adv_machine_glass_yellow"
+  }
+}

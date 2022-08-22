@@ -98,10 +98,6 @@ public abstract class TileEntityEnergy extends TileEntityCoverBehavior implement
         return this.energy.charge(amount);
     }
 
-    protected void forceAddEnergy(double amount) {
-        this.energy.forceCharge(amount);
-    }
-
     protected int getSourcePackets() {
         return 1;
     }

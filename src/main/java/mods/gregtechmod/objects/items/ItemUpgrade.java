@@ -38,11 +38,6 @@ public class ItemUpgrade extends ItemBase implements IGtUpgradeItem {
     }
 
     @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
     public boolean canBeInserted(ItemStack stack, IUpgradableMachine machine) {
         return this.maxCount > stack.getCount() && this.requiredTier <= Math.max(machine.getSinkTier(), machine.getSourceTier()) && this.condition.test(machine);
     }

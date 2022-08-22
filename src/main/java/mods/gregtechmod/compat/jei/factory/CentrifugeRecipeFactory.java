@@ -26,7 +26,7 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
         List<ItemStack> recipeOutput = GtUtil.copyStackList(output);
 
         int adjustedDuration = getAdjustedDuration(duration, ItemHandlerHelper.copyStackWithSize(fluidCells.get(0), count - cellCount), recipeOutput);
-        return adjustedDuration < 0 ? null : constructCellRecipe(fluidCells, recipeOutput, count, Math.max(cellCount - count, 0), duration, energyCost);
+        return adjustedDuration < 0 ? null : constructCellRecipe(fluidCells, recipeOutput, count, Math.max(cellCount - count, 0), adjustedDuration, energyCost);
     }
 
     protected IRecipeCellular constructCellRecipe(List<ItemStack> fluidCells, List<ItemStack> recipeOutput, int count, int cellCount, int duration, double energyCost) {

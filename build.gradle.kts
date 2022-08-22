@@ -81,6 +81,7 @@ fancyGradle {
         coremods
         codeChickenLib
         asm
+        mergetool
     }
 }
 
@@ -221,12 +222,14 @@ dependencies {
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI))
     compileOnly(group = "mezz.jei", name = "jei_$versionMc", version = versionJEI, classifier = "api")
     compileOnly(fg.deobf(group = "com.mod-buildcraft", name = "buildcraft-main", version = versionBuildCraft))
-    compileOnly(fg.deobf(curse(mod = "energy-control", projectId = 51195, fileId = versionEnergyControl.toLong())))
+    implementation(fg.deobf(curse(mod = "energy-control", projectId = 373450, fileId = versionEnergyControl.toLong())))
     compileOnly(fg.deobf(curse(mod = "railcraft", projectId = 51195, fileId = versionRailcraft.toLong())))
     compileOnly(fg.deobf(curse(mod = "applied-energistics-2", projectId = 223794, fileId = versionAE2.toLong())))
     compileOnly(fg.deobf(curse(mod = "thaumcraft", projectId = 223628, fileId = versionThaumcraft.toLong())))
     compileOnly(fg.deobf(group = "slimeknights.mantle", name = "Mantle", version = versionMantle))
     compileOnly(fg.deobf(group = "slimeknights", name = "TConstruct", version = versionTConstruct))
+    compileOnly(fg.deobf(curse(mod = "spark", projectId = 361579, fileId = 3245793)))
+    implementation(fg.deobf(curse(mod = "ctm", projectId = 267602, fileId = 2915363)))
 
     apiDep(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0"))
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.9.0")

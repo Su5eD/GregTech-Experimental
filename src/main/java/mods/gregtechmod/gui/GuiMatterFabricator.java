@@ -16,7 +16,7 @@ public class GuiMatterFabricator extends GuiInventory<ContainerMatterFabricator>
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
 
         drawString(128, 40, (int) this.container.base.getGuiValue("progress") + "%", GuiColors.WHITE, false);
-        GuiEnergyStorage.drawChargeBar(this, this.container.base, 88, 60, 160);
+        GuiEnergyStorage.drawChargeBar(this, this.container.base, 8, 60, 88, 160);
     }
 
     @Override

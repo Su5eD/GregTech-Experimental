@@ -32,6 +32,7 @@ public class ModRecipes {
 
         EntryStream.of(FurnaceRecipes.instance().getSmeltingList())
             .mapKeys(RecipeIngredientItemStack::create)
+            .removeKeys(IRecipeIngredient::isEmpty)
             .mapKeyValue(RecipeFurnace::create)
             .forEach(FURNACE::addRecipe);
     }

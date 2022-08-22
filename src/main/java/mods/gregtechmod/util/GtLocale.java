@@ -71,10 +71,6 @@ public final class GtLocale {
         return buildKey(paths, "info");
     }
 
-    public static String buildKeyItem(INamedItem item, String... paths) {
-        return buildKeyItem(item.getName(), paths);
-    }
-
     public static String buildKeyItem(String item, String... paths) {
         return buildKey(paths, "item", item);
     }

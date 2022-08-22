@@ -5,6 +5,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerSonictron;
 import mods.gregtechmod.objects.items.base.ItemBase;
+import mods.gregtechmod.util.IExhaustingItem;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ItemSonictron extends ItemBase {
+public class ItemSonictron extends ItemBase implements IExhaustingItem {
 
     public ItemSonictron() {
         super("sonictron_portable", JavaUtil.NULL_SUPPLIER);
@@ -79,6 +80,11 @@ public class ItemSonictron extends ItemBase {
                 setCurrentIndex(stack, currentIndex);
             }
         }
+    }
+
+    @Override
+    public boolean shouldExhaust(boolean isArmor) {
+        return true;
     }
 
     public static int getCurrentIndex(ItemStack stack) {

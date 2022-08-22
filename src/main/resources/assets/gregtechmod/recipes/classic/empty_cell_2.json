@@ -23,27 +23,21 @@
   "conditions":
   [
     {
-      "type": "forge:and",
-      "values":
-      [
+      "type": "gregtechmod:classic"
+    },
+    {
+      "type": "forge:not",
+      "value":
+      {
+        "type": "gregtechmod:config",
+        "config":
         {
-          "type": "forge:not",
-          "value":
-          {
-            "type": "gregtechmod:config",
-            "config":
-            {
-              "category": "harder_recipes",
-              "name": "tin_cells_from_plates",
-              "value": true,
-              "comment": "Classic Profile only"
-            }
-          }
-        },
-        {
-          "type": "gregtechmod:classic"
+          "category": "harder_recipes",
+          "name": "tin_cells_from_plates",
+          "value": true,
+          "comment": "Classic Profile only"
         }
-      ]
+      }
     }
   ]
 }

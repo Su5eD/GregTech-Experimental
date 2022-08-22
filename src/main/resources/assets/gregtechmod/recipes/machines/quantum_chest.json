@@ -20,8 +20,8 @@
     },
     "D":
     {
-      "item": "gregtechmod:teblock",
-      "data": 2
+      "type": "gregtechmod:multi",
+      "item": "gregtechmod:teblock#digital_chest"
     },
     "T":
     {
