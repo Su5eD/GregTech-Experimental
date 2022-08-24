@@ -11,7 +11,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
@@ -54,11 +53,6 @@ public class ItemRubberHammer extends ItemHammer {
     }
 
     @Override
-    public EnumRarity getForgeRarity(ItemStack stack) {
-        return EnumRarity.RARE;
-    }
-
-    @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1.0F, 1.0F);
         return super.hitEntity(stack, target, attacker);
@@ -67,15 +61,22 @@ public class ItemRubberHammer extends ItemHammer {
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         TileEntity te = world.getTileEntity(pos);
+        EnumActionResult result;
 
         if (te instanceof IGregTechMachine && GtUtil.damageStack(player, player.inventory.getCurrentItem(), 1)) {
             ((IGregTechMachine) te).setAllowedToWork(!((IGregTechMachine) te).isAllowedToWork());
 
             GtUtil.sendMessage(player, GtLocale.buildKeyItem("hammer_rubber", "processing_" + (((IGregTechMachine) te).isAllowedToWork() ? "enabled" : "disabled")));
-            IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1, 1);
-            return EnumActionResult.SUCCESS;
+            result = EnumActionResult.SUCCESS;
+        }
+        else {
+            result = super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
         }
 
-        return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
+        if (result == EnumActionResult.SUCCESS) {
+            IC2.platform.playSoundSp("Tools/RubberTrampoline.ogg", 1, 1);
+        }
+        
+        return result;
     }
 }

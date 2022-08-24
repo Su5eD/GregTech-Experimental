@@ -4,10 +4,12 @@ import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IRarity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -22,6 +24,7 @@ public class ItemBase extends Item implements ICustomItemModel {
     protected boolean hasEffect;
     protected boolean isEnchantable;
     protected boolean showDurability = true;
+    protected EnumRarity rarity;
 
     public ItemBase(String name) {
         this(name, name, 0);
@@ -68,6 +71,11 @@ public class ItemBase extends Item implements ICustomItemModel {
         return this;
     }
 
+    public ItemBase setRarity(EnumRarity rarity) {
+        this.rarity = rarity;
+        return this;
+    }
+
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
         return this.isEnchantable;
@@ -81,6 +89,11 @@ public class ItemBase extends Item implements ICustomItemModel {
     @Override
     public boolean isEnchantable(ItemStack stack) {
         return this.isEnchantable;
+    }
+
+    @Override
+    public IRarity getForgeRarity(ItemStack stack) {
+        return this.rarity != null ? this.rarity : super.getForgeRarity(stack);
     }
 
     @Override

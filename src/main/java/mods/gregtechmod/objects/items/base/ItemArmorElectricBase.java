@@ -9,11 +9,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IRarity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -27,6 +28,7 @@ import java.util.*;
 public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomItemModel, IExhaustingItem {
     private final String name;
     private String folder;
+    private EnumRarity rarity;
     public final Collection<ArmorPerk> perks;
     public static Map<EntityPlayer, Float> jumpChargeMap = new HashMap<>();
     public final boolean chargeProvider;
@@ -44,8 +46,13 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public Item setFolder(String folder) {
+    public ItemArmorElectricBase setFolder(String folder) {
         this.folder = folder;
+        return this;
+    }
+
+    public ItemArmorElectricBase setRarity(EnumRarity rarity) {
+        this.rarity = rarity;
         return this;
     }
 
@@ -145,6 +152,11 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
     @Override
     public ResourceLocation getItemModel() {
         return GtUtil.getModelResourceLocation(this.name, this.folder);
+    }
+
+    @Override
+    public IRarity getForgeRarity(ItemStack stack) {
+        return this.rarity != null ? this.rarity : super.getForgeRarity(stack);
     }
 
     @SubscribeEvent

@@ -8,11 +8,12 @@ import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.ItemSensorCard;
 import mods.gregtechmod.objects.items.ItemSensorKit;
+import mods.gregtechmod.objects.items.base.ItemBlockBase;
+import mods.gregtechmod.util.IBlockItemProvider;
 import mods.gregtechmod.util.IItemProvider;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
@@ -46,25 +47,25 @@ public class BlockItemLoader {
         if (!BLOCKS.add(block)) throw new IllegalArgumentException("Duplicate registry entry: " + block.getRegistryName());
     }
 
-    private static void registerBlockItem(Block block) {
+    private static void registerBlockItem(IBlockItemProvider provider) {
+        Block block = provider.getBlockInstance();
         registerBlock(block);
-        Item itemBlock = new ItemBlock(block).setRegistryName(block.getRegistryName());
+        Item itemBlock = new ItemBlockBase(block, provider.getRarity()).setRegistryName(block.getRegistryName());
         if (!ITEM_BLOCKS.add(itemBlock)) throw new IllegalArgumentException("Duplicate registry entry: " + block.getRegistryName());
     }
 
     static void init() {
         BlockItems.classicCells = Stream.<FluidLoader.IFluidProvider>concat(
                 Arrays.stream(FluidLoader.Liquid.values()),
-                Arrays.stream(FluidLoader.Gas.values())
-            )
+                Arrays.stream(FluidLoader.Gas.values()))
             .filter(FluidLoader.IFluidProvider::hasClassicCell)
             .collect(Collectors.toMap(FluidLoader.IFluidProvider::getName, provider -> new ItemCellClassic(provider.getName(), provider.getDescription(), provider.getFluid())));
         if (FluidRegistry.isFluidRegistered("biomass")) BlockItems.classicCells.put("biomass", new ItemCellClassic("biomass", null, FluidRegistry.getFluid("biomass")));
         if (FluidRegistry.isFluidRegistered("bio.ethanol")) BlockItems.classicCells.put("bio.ethanol", new ItemCellClassic("bio.ethanol", null, FluidRegistry.getFluid("bio.ethanol")));
 
         registerBlock(BlockItems.lightSource = new BlockLightSource());
-        Arrays.stream(BlockItems.Block.values()).map(BlockItems.Block::getBlockInstance).forEach(BlockItemLoader::registerBlockItem);
-        Arrays.stream(BlockItems.Ore.values()).map(BlockItems.Ore::getBlockInstance).forEach(BlockItemLoader::registerBlockItem);
+        Arrays.stream(BlockItems.Block.values()).forEach(BlockItemLoader::registerBlockItem);
+        Arrays.stream(BlockItems.Ore.values()).forEach(BlockItemLoader::registerBlockItem);
         Stream.<IItemProvider[]>of(BlockItems.Miscellaneous.values(), BlockItems.Ingot.values(), BlockItems.Plate.values(), BlockItems.Rod.values(), BlockItems.Dust.values(),
                 BlockItems.Smalldust.values(), BlockItems.Nugget.values(), BlockItems.Cell.values(), BlockItems.CoverItem.values(), BlockItems.Component.values(),
                 BlockItems.Upgrade.values(), BlockItems.Armor.values(), BlockItems.NuclearCoolantPack.values(), BlockItems.NuclearFuelRod.values(), BlockItems.JackHammer.values(),

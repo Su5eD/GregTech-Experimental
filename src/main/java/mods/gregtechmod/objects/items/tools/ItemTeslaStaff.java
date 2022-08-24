@@ -6,6 +6,7 @@ import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemElectricBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
@@ -13,6 +14,7 @@ public class ItemTeslaStaff extends ItemElectricBase {
 
     public ItemTeslaStaff() {
         super("tesla_staff", 10000000, 8192, 4);
+        setRarity(EnumRarity.EPIC);
         setRegistryName("tesla_staff");
         setTranslationKey("tesla_staff");
         setFolder("tool");

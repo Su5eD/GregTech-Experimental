@@ -11,10 +11,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IRarity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -31,6 +33,7 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel {
     protected final int damageOnHit;
     protected List<String> effectiveAganist = new ArrayList<>();
     protected final Set<ToolClass> toolClasses;
+    protected EnumRarity rarity;
 
     public ItemToolBase(String name, int durability, float attackDamage) {
         this(name, () -> GtLocale.translateItemDescription(name), durability, attackDamage, ToolMaterial.WOOD, Collections.emptySet(), 3, 0, Collections.emptySet());
@@ -62,6 +65,11 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel {
         setMaxDamage(durability - 1);
         setMaxStackSize(1);
         setNoRepair();
+    }
+
+    public ItemToolBase setRarity(EnumRarity rarity) {
+        this.rarity = rarity;
+        return this;
     }
 
     @Override
@@ -101,6 +109,11 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel {
     @Override
     public boolean isEnchantable(ItemStack stack) {
         return false;
+    }
+
+    @Override
+    public IRarity getForgeRarity(ItemStack stack) {
+        return this.rarity != null ? this.rarity : super.getForgeRarity(stack);
     }
 
     @Override

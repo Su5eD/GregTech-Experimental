@@ -24,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
@@ -47,8 +48,8 @@ public class BlockItems {
     public static Item sensorCard;
     public static Map<String, ItemCellClassic> classicCells;
 
-    public enum Block implements IItemProvider {
-        ADVANCED_MACHINE_CASING(BlockConnected::new, 3, 30, true),
+    public enum Block implements IBlockItemProvider {
+        ADVANCED_MACHINE_CASING(BlockConnected::new, 3, 30, EnumRarity.UNCOMMON, true, null),
         ALUMINIUM(3, 30),
         BRASS(3.5F, 30),
         CHROME(10, 100),
@@ -66,11 +67,11 @@ public class BlockItems {
         OLIVINE(4.5F, 30),
         OSMIUM(4, 900),
         PLATINUM(4, 30),
-        REINFORCED_MACHINE_CASING(BlockConnectedTurbine::new, 3, 60, true, "large_gas_turbine"),
+        REINFORCED_MACHINE_CASING(BlockConnectedTurbine::new, 3, 60, EnumRarity.UNCOMMON, true, "large_gas_turbine"),
         RUBY(4.5F, 30),
         SAPPHIRE(4.5F, 30),
         SILVER(3, 30),
-        STANDARD_MACHINE_CASING(BlockConnectedTurbine::new, 3, 30, true, "large_steam_turbine"),
+        STANDARD_MACHINE_CASING(BlockConnectedTurbine::new, 3, 30, EnumRarity.COMMON, true, "large_steam_turbine"),
         STEEL(3, 100),
         TITANIUM(10, 200),
         TUNGSTEN(4.5F, 100),
@@ -78,6 +79,7 @@ public class BlockItems {
         ZINC(3.5F, 30);
 
         private final LazyValue<net.minecraft.block.Block> instance;
+        private final EnumRarity rarity;
         private final boolean hasConnectedModel;
         @Nullable
         private final String extraTextures;
@@ -91,28 +93,34 @@ public class BlockItems {
         }
 
         Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance, boolean hasConnectedModel) {
-            this(constructor, hardness, resistance, hasConnectedModel, null);
+            this(constructor, hardness, resistance, EnumRarity.COMMON, hasConnectedModel, null);
         }
 
-        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance, boolean hasConnectedModel, @Nullable String extraTextures) {
-            this.instance = new LazyValue<>(() -> constructor.apply(this.name())
-                .setRegistryName("block_" + this.name().toLowerCase(Locale.ROOT))
-                .setTranslationKey("block_" + this.name().toLowerCase(Locale.ROOT))
+        Block(Function<String, net.minecraft.block.Block> constructor, float hardness, float resistance, EnumRarity rarity, boolean hasConnectedModel, @Nullable String extraTextures) {
+            this.instance = new LazyValue<>(() -> constructor.apply(name())
+                .setRegistryName("block_" + name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("block_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)
                 .setHardness(hardness)
                 .setResistance(resistance));
+            this.rarity = rarity;
             this.hasConnectedModel = hasConnectedModel;
             this.extraTextures = extraTextures;
         }
 
+        @Override
         public net.minecraft.block.Block getBlockInstance() {
             return this.instance.get();
         }
-
-
+        
         @Override
         public Item getInstance() {
             return Item.getItemFromBlock(getBlockInstance());
+        }
+
+        @Override
+        public EnumRarity getRarity() {
+            return this.rarity;
         }
 
         public boolean hasConnectedModel() {
@@ -125,9 +133,9 @@ public class BlockItems {
         }
     }
 
-    public enum Ore implements IItemProvider {
-        GALENA(3, 0, 0, (fortune, drops, rand) -> {}),
-        IRIDIUM(HarvestLevel.Diamond, 20, 30, 21, (fortune, drops, rand) -> {
+    public enum Ore implements IBlockItemProvider {
+        GALENA(HarvestLevel.Stone, 3, 0, 0),
+        IRIDIUM(HarvestLevel.Diamond, 20, 30, 21, EnumRarity.UNCOMMON, (fortune, drops, rand) -> {
             ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
             iridium.setCount(1 + rand.nextInt(1 + fortune / 2));
             drops.add(iridium);
@@ -140,21 +148,21 @@ public class BlockItems {
             drops.add(Miscellaneous.SAPPHIRE.getItemStack(1 + rand.nextInt(1 + fortune)));
             if (rand.nextInt(Math.max(1, 64 / (fortune + 1))) == 0) drops.add(Miscellaneous.GREEN_SAPPHIRE.getItemStack());
         }),
-        BAUXITE(3, 0, 0, (fortune, drops, rand) -> {}),
-        PYRITE(2, 1, 1, (fortune, drops, rand) -> {
+        BAUXITE(HarvestLevel.Stone, 3, 0, 0),
+        PYRITE(HarvestLevel.Stone, 2, 1, 1, (fortune, drops, rand) -> {
             drops.add(Dust.PYRITE.getItemStack(2 + rand.nextInt(1 + fortune)));
         }),
         CINNABAR(HarvestLevel.Iron, 3, 3, 3, (fortune, drops, rand) -> {
             drops.add(Dust.CINNABAR.getItemStack(2 + rand.nextInt(1 + fortune)));
             if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(new ItemStack(Items.REDSTONE));
         }),
-        SPHALERITE(2, 1, 1, (fortune, drops, rand) -> {
+        SPHALERITE(HarvestLevel.Stone, 2, 1, 1, (fortune, drops, rand) -> {
             drops.add(Dust.SPHALERITE.getItemStack(2 + rand.nextInt(1 + fortune)));
             if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(Dust.ZINC.getItemStack());
             if (rand.nextInt(Math.max(1, 32 / (fortune + 1))) == 0) drops.add(Dust.YELLOW_GARNET.getItemStack());
         }),
-        TUNGSTATE(HarvestLevel.Iron, 4, 0, 0, (fortune, drops, rand) -> {}),
-        SHELDONITE(HarvestLevel.Diamond, 3.5F, 0, 0, (fortune, drops, rand) -> {}),
+        TUNGSTATE(HarvestLevel.Iron, 4, 0, 0),
+        SHELDONITE(HarvestLevel.Diamond, 3.5F, 0, 0, EnumRarity.UNCOMMON, (fortune, drops, rand) -> {}),
         OLIVINE(HarvestLevel.Diamond, 3, 0, 0, (fortune, drops, rand) -> {
             drops.add(Miscellaneous.OLIVINE.getItemStack(1 + rand.nextInt(1 + fortune)));
         }),
@@ -162,32 +170,43 @@ public class BlockItems {
             drops.add(Dust.SODALITE.getItemStack(6 + 3 * rand.nextInt(1 + fortune)));
             if (rand.nextInt(Math.max(1, 4 / (fortune + 1))) == 0) drops.add(Dust.ALUMINIUM.getItemStack());
         }),
-        TETRAHEDRITE(HarvestLevel.Iron, 3, 0, 0, (fortune, drops, rand) -> {}),
-        CASSITERITE(HarvestLevel.Iron, 3, 0, 0, (fortune, drops, rand) -> {});
+        TETRAHEDRITE(HarvestLevel.Iron, 3, 0, 0),
+        CASSITERITE(HarvestLevel.Iron, 3, 0, 0);
         
         private final LazyValue<net.minecraft.block.Block> instance;
+        private final EnumRarity rarity;
         
-        Ore(float hardness, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
-            this(HarvestLevel.Stone, hardness, dropChance, dropRandom, loot);
+        Ore(HarvestLevel level, float hardness, int dropChance, int dropRandom) {
+            this(level, hardness, dropChance, dropRandom, (fortune, drops, rand) -> {});
         }
 
         Ore(HarvestLevel level, float hardness, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
-            String name = this.name().toLowerCase(Locale.ROOT) + "_ore";
-            this.instance = new LazyValue<>(() -> new BlockOre(this.name().toLowerCase(Locale.ROOT), level, dropChance, dropRandom, loot)
+            this(level, hardness, dropChance, dropRandom, EnumRarity.COMMON, loot);
+        }
+
+        Ore(HarvestLevel level, float hardness, int dropChance, int dropRandom, EnumRarity rarity, TriConsumer<Integer, List<ItemStack>, Random> loot) {
+            String name = name().toLowerCase(Locale.ROOT) + "_ore";
+            this.instance = new LazyValue<>(() -> new BlockOre(name().toLowerCase(Locale.ROOT), level, dropChance, dropRandom, loot)
                 .setRegistryName(name)
                 .setTranslationKey(name)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)
                 .setHardness(hardness));
+            this.rarity = rarity;
         }
 
+        @Override
         public net.minecraft.block.Block getBlockInstance() {
             return this.instance.get();
         }
 
-
         @Override
         public Item getInstance() {
             return Item.getItemFromBlock(getBlockInstance());
+        }
+
+        @Override
+        public EnumRarity getRarity() {
+            return this.rarity;
         }
     }
 
@@ -201,7 +220,7 @@ public class BlockItems {
         HOT_TUNGSTEN_STEEL,
         INVAR("Fe2Ni"),
         IRIDIUM("Ir"),
-        IRIDIUM_ALLOY,
+        IRIDIUM_ALLOY(JavaUtil.NULL_SUPPLIER, false, EnumRarity.UNCOMMON),
         LEAD("Pb"),
         MAGNALIUM("MgAl2"),
         NICKEL("Ni"),
@@ -235,13 +254,18 @@ public class BlockItems {
         Ingot(Supplier<String> description) {
             this(description, false);
         }
-
+        
         Ingot(Supplier<String> description, boolean hasEffect) {
+            this(description, hasEffect, null);
+        }
+
+        Ingot(Supplier<String> description, boolean hasEffect, EnumRarity rarity) {
             this.description = description;
 
-            String name = this.name().toLowerCase(Locale.ROOT);
+            String name = name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemBase(name, this.description, hasEffect)
                 .setFolder("ingot")
+                .setRarity(rarity)
                 .setRegistryName("ingot_" + name)
                 .setTranslationKey("ingot_" + name)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -280,8 +304,8 @@ public class BlockItems {
         }
 
         Nugget(Supplier<String> description) {
-            String name = "nugget_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description)
+            String name = "nugget_" + name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(name().toLowerCase(Locale.ROOT), description)
                 .setFolder("nugget")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -337,9 +361,9 @@ public class BlockItems {
         Plate(Supplier<String> description) {
             this.description = description;
 
-            String name = "plate_" + this.name().toLowerCase(Locale.ROOT);
+            String name = "plate_" + name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> {
-                Item item = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+                Item item = new ItemBase(name().toLowerCase(Locale.ROOT), this.description)
                     .setFolder("plate")
                     .setRegistryName(name)
                     .setTranslationKey(name);
@@ -389,9 +413,9 @@ public class BlockItems {
         Rod(Supplier<String> description) {
             this.description = description;
 
-            String name = "rod_" + this.name().toLowerCase(Locale.ROOT);
+            String name = "rod_" + name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> {
-                Item item = new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description)
+                Item item = new ItemBase(name().toLowerCase(Locale.ROOT), this.description)
                     .setFolder("rod")
                     .setRegistryName(name)
                     .setTranslationKey(name);
@@ -488,8 +512,8 @@ public class BlockItems {
 
         Dust(Supplier<String> description, boolean hasEffect) {
             this.description = description;
-            String name = "dust_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), this.description, hasEffect)
+            String name = "dust_" + name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(name().toLowerCase(Locale.ROOT), this.description, hasEffect)
                 .setFolder("dust")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -591,8 +615,8 @@ public class BlockItems {
         }
 
         Smalldust(Supplier<String> description, boolean hasEffect) {
-            String name = "smalldust_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description, hasEffect)
+            String name = "smalldust_" + name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(name().toLowerCase(Locale.ROOT), description, hasEffect)
                 .setFolder("smalldust")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -608,9 +632,9 @@ public class BlockItems {
     public enum Upgrade implements IOreDictItemProvider {
         HV_TRANSFORMER(GtUpgradeType.TRANSFORMER, 2, 3, "craftingHVTUpgrade", (machine, player) -> machine.addExtraTier()),
         LITHIUM_BATTERY(GtUpgradeType.BATTERY, 16, 1, "craftingLiBattery", (machine, player) -> machine.addExtraEUCapacity(100000)),
-        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
-        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
-        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
+        ENERGY_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 2 : 3, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting100kEUStore" : "crafting1kkEUStore", EnumRarity.COMMON, (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 100000 : 1000000)),
+        LAPOTRON_CRYSTAL(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 3 : 4, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting1kkEUStore" : "crafting10kkEUStore", EnumRarity.UNCOMMON, (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 1000000 : 10000000)),
+        ENERGY_ORB(GtUpgradeType.BATTERY, 16, GregTechMod.classic ? 4 : 5, DESCRIPTION_DELEGATE, GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore", EnumRarity.RARE, (machine, player) -> machine.addExtraEUCapacity(GregTechMod.classic ? 10000000 : 100000000)),
         MACHINE_LOCK(GtUpgradeType.LOCK, 1, 0, "craftingLock", (machine, player) -> {
             if (player != null && !player.getGameProfile().equals(machine.getOwner())) {
                 GtUtil.sendMessage(player, GtLocale.buildKeyItem("machine_lock", "error"));
@@ -645,7 +669,7 @@ public class BlockItems {
         STEAM_UPGRADE(GtUpgradeType.STEAM, 1, 1, "craftingSteamUpgrade", (machine, player) -> {
             if (!machine.hasSteamTank()) machine.addSteamTank();
         }),
-        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", IUpgradableMachine::hasSteamTank, (machine, player) -> {
+        STEAM_TANK(GtUpgradeType.STEAM, 16, 1, "craftingSteamTank", IUpgradableMachine::hasSteamTank, JavaUtil.alwaysFalseBi(), (machine, player) -> {
             FluidTank steamTank = machine.getSteamTank();
             if (steamTank != null) steamTank.setCapacity(steamTank.getCapacity() + 64000);
         }),
@@ -673,12 +697,8 @@ public class BlockItems {
             this(type, maxCount, requiredTier, "description", oreDict, JavaUtil.alwaysTrue(), JavaUtil.alwaysFalseBi(), afterInsert);
         }
 
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, descriptionKey, oreDict, JavaUtil.alwaysTrue(), JavaUtil.alwaysFalseBi(), afterInsert);
-        }
-
-        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, Predicate<IUpgradableMachine> condition, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
-            this(type, maxCount, requiredTier, "description", oreDict, condition, JavaUtil.alwaysFalseBi(), afterInsert);
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, EnumRarity rarity, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, descriptionKey, oreDict, rarity, JavaUtil.alwaysTrue(), JavaUtil.alwaysFalseBi(), afterInsert);
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String oreDict, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
@@ -690,11 +710,16 @@ public class BlockItems {
         }
 
         Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, Predicate<IUpgradableMachine> condition, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
+            this(type, maxCount, requiredTier, descriptionKey, oreDict, null, condition, beforeInsert, afterInsert);
+        }
+
+        Upgrade(GtUpgradeType type, int maxCount, int requiredTier, String descriptionKey, String oreDict, EnumRarity rarity, Predicate<IUpgradableMachine> condition, BiPredicate<IUpgradableMachine, EntityPlayer> beforeInsert, BiConsumer<IUpgradableMachine, EntityPlayer> afterInsert) {
             this.oreDict = oreDict;
 
-            String name = this.name().toLowerCase(Locale.ROOT);
+            String name = name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemUpgrade(name, name + "." + descriptionKey, type, maxCount, requiredTier, condition, beforeInsert, afterInsert)
                 .setFolder("upgrade")
+                .setRarity(rarity)
                 .setRegistryName(name)
                 .setTranslationKey(name)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -717,7 +742,7 @@ public class BlockItems {
         CONVEYOR("craftingConveyor"),
         CRAFTING("craftingWorkBench"),
         DRAIN("craftingDrain"),
-        ENERGY_ONLY("energy_flow_circuit", "craftingCircuitTier07"),
+        ENERGY_ONLY("energy_flow_circuit", "craftingCircuitTier07", EnumRarity.RARE),
         ENERGY_METER("craftingEnergyMeter"),
         ITEM_METER("craftingItemMeter"),
         ITEM_VALVE("craftingItemValve"),
@@ -725,7 +750,7 @@ public class BlockItems {
         MACHINE_CONTROLLER("craftingWorkController"),
         PUMP_MODULE("craftingPump"),
         REDSTONE_CONDUCTOR("craftingRedstoneConductor"),
-        REDSTONE_ONLY("data_control_circuit", "craftingCircuitTier06"),
+        REDSTONE_ONLY("data_control_circuit", "craftingCircuitTier06", EnumRarity.RARE),
         REDSTONE_SIGNALIZER("craftingRedstoneSignalizer"),
         SCREEN("craftingMonitorTier02"),
         SOLAR_PANEL("craftingSolarPanel"),
@@ -739,15 +764,20 @@ public class BlockItems {
         CoverItem(String oreDict) {
             this(null, oreDict);
         }
-
+        
         CoverItem(String itemName, String oreDict) {
+            this(itemName, oreDict, null);
+        }
+
+        CoverItem(String itemName, String oreDict, EnumRarity rarity) {
             this.oreDict = oreDict;
             this.instance = new LazyValue<>(() -> {
-                Cover cover = Cover.valueOf(this.name());
-                String name = itemName != null ? itemName : this.name().toLowerCase(Locale.ROOT);
+                Cover cover = Cover.valueOf(name());
+                String name = itemName != null ? itemName : name().toLowerCase(Locale.ROOT);
 
                 return new ItemCover(cover.name().toLowerCase(Locale.ROOT), cover.instance.get(), name)
                     .setFolder("coveritem")
+                    .setRarity(rarity)
                     .setRegistryName(name)
                     .setTranslationKey(name)
                     .setCreativeTab(GregTechMod.GREGTECH_TAB);
@@ -777,7 +807,7 @@ public class BlockItems {
 
         TurbineRotor(int efficiency, int efficiencyMultiplier, int durability) {
 
-            String name = "turbine_rotor_" + this.name().toLowerCase(Locale.ROOT);
+            String name = "turbine_rotor_" + name().toLowerCase(Locale.ROOT);
             this.instance = new LazyValue<>(() -> new ItemTurbineRotor(name, durability, efficiency, efficiencyMultiplier)
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -791,7 +821,7 @@ public class BlockItems {
     }
 
     public enum Component implements IOreDictItemProvider {
-        SUPERCONDUCTOR("craftingSuperconductor"),
+        SUPERCONDUCTOR("description", "craftingSuperconductor", EnumRarity.RARE),
         DATA_STORAGE_CIRCUIT("craftingCircuitTier05"),
         LITHIUM_BATTERY(ItemLithiumBattery::new, "craftingLiBattery"),
         COIL_KANTHAL("craftingHeatingCoilTier01"),
@@ -812,7 +842,7 @@ public class BlockItems {
         TURBINE_BLADE_MAGNALIUM("craftingTurbineBladeMagnalium"),
         TURBINE_BLADE_STEEL("craftingTurbineBladeSteel"),
         TURBINE_BLADE_TUNGSTEN_STEEL("craftingTurbineBladeTungstenSteel"),
-        GEAR_IRON(DESCRIPTION_DELEGATE, "gearIron"),
+        GEAR_IRON(DESCRIPTION_DELEGATE, "gearIron", null),
         GEAR_BRONZE("gearBronze"),
         GEAR_STEEL("gearSteel"),
         GEAR_TITANIUM("gearTitanium"),
@@ -830,15 +860,16 @@ public class BlockItems {
         public final String oreDict;
 
         Component(String oreDict) {
-            this("description", oreDict);
+            this("description", oreDict, null);
         }
 
-        Component(String descriptionKey, String oreDict) {
-            String name = this.name().toLowerCase(Locale.ROOT);
+        Component(String descriptionKey, String oreDict, EnumRarity rarity) {
+            String name = name().toLowerCase(Locale.ROOT);
             this.oreDict = oreDict;
 
             this.instance = new LazyValue<>(() -> new ItemBase(name, () -> GtLocale.translateItem(name + "." + descriptionKey))
                 .setFolder("component")
+                .setRarity(rarity)
                 .setRegistryName(name)
                 .setTranslationKey(name)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -882,6 +913,7 @@ public class BlockItems {
         DESTRUCTORPACK(ItemDestructorPack::new),
         LAPOTRONIC_ENERGY_ORB(() -> new ItemElectricBase("lapotronic_energy_orb", JavaUtil.NULL_SUPPLIER, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, true)
             .setFolder("tool")
+            .setRarity(EnumRarity.RARE)
             .setRegistryName("lapotronic_energy_orb")
             .setTranslationKey("lapotronic_energy_orb")
             .setCreativeTab(GregTechMod.GREGTECH_TAB), GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore"),
@@ -962,8 +994,8 @@ public class BlockItems {
         private final LazyValue<Item> instance;
 
         Wrench(int durability, int entityDamage) {
-            this.instance = new LazyValue<>(() -> new ItemWrench("wrench_" + this.name().toLowerCase(Locale.ROOT), durability, entityDamage)
-                .setRegistryName("wrench_" + this.name().toLowerCase(Locale.ROOT))
+            this.instance = new LazyValue<>(() -> new ItemWrench("wrench_" + name().toLowerCase(Locale.ROOT), durability, entityDamage)
+                .setRegistryName("wrench_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -981,9 +1013,10 @@ public class BlockItems {
         private final LazyValue<Item> instance;
 
         JackHammer(int operationEnergyCost, int maxCharge, int tier, int transferLimit, float efficiency, boolean canMineObsidian) {
-            this.instance = new LazyValue<>(() -> new ItemJackHammer("jack_hammer_" + this.name().toLowerCase(Locale.ROOT), operationEnergyCost, maxCharge, tier, transferLimit, efficiency, canMineObsidian)
-                .setRegistryName("jack_hammer_" + this.name().toLowerCase(Locale.ROOT))
-                .setTranslationKey("jack_hammer_" + this.name().toLowerCase(Locale.ROOT))
+            this.instance = new LazyValue<>(() -> new ItemJackHammer("jack_hammer_" + name().toLowerCase(Locale.ROOT), operationEnergyCost, maxCharge, tier, transferLimit, efficiency, canMineObsidian)
+                .setRarity(canMineObsidian ? EnumRarity.UNCOMMON : null)
+                .setRegistryName("jack_hammer_" + name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("jack_hammer_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1002,9 +1035,9 @@ public class BlockItems {
         private final LazyValue<Item> instance;
 
         Hammer(int durability, int entityDamage) {
-            this.instance = new LazyValue<>(() -> new ItemHardHammer(this.name().toLowerCase(Locale.ROOT), durability, entityDamage)
-                .setRegistryName("hammer_" + this.name().toLowerCase(Locale.ROOT))
-                .setTranslationKey("hammer_" + this.name().toLowerCase(Locale.ROOT))
+            this.instance = new LazyValue<>(() -> new ItemHardHammer(name().toLowerCase(Locale.ROOT), durability, entityDamage)
+                .setRegistryName("hammer_" + name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("hammer_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1023,9 +1056,9 @@ public class BlockItems {
         private final LazyValue<Item> instance;
 
         Saw(int durability, int efficiency, int entityDamage) {
-            this.instance = new LazyValue<>(() -> new ItemSaw(this.name().toLowerCase(Locale.ROOT), durability, efficiency, entityDamage)
-                .setRegistryName("saw_" + this.name().toLowerCase(Locale.ROOT))
-                .setTranslationKey("saw_" + this.name().toLowerCase(Locale.ROOT))
+            this.instance = new LazyValue<>(() -> new ItemSaw(name().toLowerCase(Locale.ROOT), durability, efficiency, entityDamage)
+                .setRegistryName("saw_" + name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("saw_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1042,9 +1075,9 @@ public class BlockItems {
         private final LazyValue<Item> instance;
 
         SolderingMetal(int durability) {
-            this.instance = new LazyValue<>(() -> new ItemSolderingMetal(this.name().toLowerCase(Locale.ROOT), durability)
-                .setRegistryName("soldering_" + this.name().toLowerCase(Locale.ROOT))
-                .setTranslationKey("soldering_" + this.name().toLowerCase(Locale.ROOT))
+            this.instance = new LazyValue<>(() -> new ItemSolderingMetal(name().toLowerCase(Locale.ROOT), durability)
+                .setRegistryName("soldering_" + name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("soldering_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1068,9 +1101,9 @@ public class BlockItems {
             this.durability = durability;
             this.entityDamage = entityDamage;
 
-            this.instance = new LazyValue<>(() -> new ItemFile(this.name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
-                .setRegistryName("file_" + this.name().toLowerCase(Locale.ROOT))
-                .setTranslationKey("file_" + this.name().toLowerCase(Locale.ROOT))
+            this.instance = new LazyValue<>(() -> new ItemFile(name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
+                .setRegistryName("file_" + name().toLowerCase(Locale.ROOT))
+                .setTranslationKey("file_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1091,8 +1124,8 @@ public class BlockItems {
         private final LazyValue<Item> instance;
 
         Cell(String description) {
-            String name = "cell_" + this.name().toLowerCase(Locale.ROOT);
-            this.instance = new LazyValue<>(() -> new ItemBase(this.name().toLowerCase(Locale.ROOT), description)
+            String name = "cell_" + name().toLowerCase(Locale.ROOT);
+            this.instance = new LazyValue<>(() -> new ItemBase(name().toLowerCase(Locale.ROOT), description)
                 .setFolder("cell")
                 .setRegistryName(name)
                 .setTranslationKey(name)
@@ -1119,8 +1152,8 @@ public class BlockItems {
         NuclearCoolantPack(int heatStorage, String oreDict) {
             this.oreDict = oreDict;
 
-            this.instance = new LazyValue<>(() -> new ItemNuclearHeatStorage(this.name().toLowerCase(Locale.ROOT), heatStorage)
-                .setRegistryName(this.name().toLowerCase(Locale.ROOT))
+            this.instance = new LazyValue<>(() -> new ItemNuclearHeatStorage(name().toLowerCase(Locale.ROOT), heatStorage)
+                .setRegistryName(name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1156,8 +1189,8 @@ public class BlockItems {
         }
 
         NuclearFuelRod(int cells, int duration, float energy, int radiation, float heat, ItemStack depletedStack) {
-            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_" + this.name().toLowerCase(Locale.ROOT), cells, duration, energy, radiation, heat, depletedStack)
-                .setRegistryName("fuel_rod_" + this.name().toLowerCase(Locale.ROOT))
+            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_" + name().toLowerCase(Locale.ROOT), cells, duration, energy, radiation, heat, depletedStack)
+                .setRegistryName("fuel_rod_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1168,9 +1201,9 @@ public class BlockItems {
     }
 
     public enum Armor implements IOreDictItemProvider {
-        CLOAKING_DEVICE(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, false, ArmorPerk.INVISIBILITY_FIELD),
-        LAPOTRONPACK(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, true, GregTechMod.classic ? "crafting10kkEUPack" : "crafting100kkEUPack"),
-        LITHIUM_BATPACK(EntityEquipmentSlot.CHEST, 600000, 128, 1, 0, 0, true, "crafting600kEUPack"),
+        CLOAKING_DEVICE(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, false, null, EnumRarity.EPIC, ArmorPerk.INVISIBILITY_FIELD),
+        LAPOTRONPACK(EntityEquipmentSlot.CHEST, GregTechMod.classic ? 10000000 : 100000000, 8192, GregTechMod.classic ? 4 : 5, 0, 0, true, GregTechMod.classic ? "crafting10kkEUPack" : "crafting100kkEUPack", EnumRarity.EPIC),
+        LITHIUM_BATPACK(EntityEquipmentSlot.CHEST, 600000, 128, 1, 0, 0, true, "crafting600kEUPack", null),
         ULTIMATE_CHEAT_ARMOR(EntityEquipmentSlot.CHEST, 1000000000, Integer.MAX_VALUE, 1, 10, 100, true, ArmorPerk.values()),
         LIGHT_HELMET(EntityEquipmentSlot.HEAD, 10000, 32, 1, 0, 0, false, ArmorPerk.LAMP, ArmorPerk.SOLARPANEL);
 
@@ -1178,16 +1211,17 @@ public class BlockItems {
         public final String oreDict;
 
         Armor(EntityEquipmentSlot slot, int maxCharge, int transferLimit, int tier, int damageEnergyCost, double absorbtionPercentage, boolean chargeProvider, ArmorPerk... perks) {
-            this(slot, maxCharge, transferLimit, tier, damageEnergyCost, absorbtionPercentage, chargeProvider, null, perks);
+            this(slot, maxCharge, transferLimit, tier, damageEnergyCost, absorbtionPercentage, chargeProvider, null, null, perks);
         }
 
-        Armor(EntityEquipmentSlot slot, int maxCharge, int transferLimit, int tier, int damageEnergyCost, double absorbtionPercentage, boolean chargeProvider, String oreDict, ArmorPerk... perks) {
+        Armor(EntityEquipmentSlot slot, int maxCharge, int transferLimit, int tier, int damageEnergyCost, double absorbtionPercentage, boolean chargeProvider, String oreDict, EnumRarity rarity, ArmorPerk... perks) {
             this.oreDict = oreDict;
 
-            this.instance = new LazyValue<>(() -> new ItemArmorElectricBase(this.name().toLowerCase(Locale.ROOT), slot, maxCharge, transferLimit, tier, damageEnergyCost, absorbtionPercentage, chargeProvider, perks)
+            this.instance = new LazyValue<>(() -> new ItemArmorElectricBase(name().toLowerCase(Locale.ROOT), slot, maxCharge, transferLimit, tier, damageEnergyCost, absorbtionPercentage, chargeProvider, perks)
                 .setFolder("armor")
-                .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
+                .setRarity(rarity)
+                .setRegistryName(name().toLowerCase(Locale.ROOT))
+                .setTranslationKey(name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }
 
@@ -1254,10 +1288,10 @@ public class BlockItems {
             this.oreDict = oreDict;
 
             this.instance = new LazyValue<>(() -> {
-                String name = this.name().toLowerCase(Locale.ROOT);
+                String name = name().toLowerCase(Locale.ROOT);
                 return new ItemBase(name, description != null ? description : () -> GtLocale.translateItemDescription(name))
-                    .setRegistryName(this.name().toLowerCase(Locale.ROOT))
-                    .setTranslationKey(this.name().toLowerCase(Locale.ROOT))
+                    .setRegistryName(name().toLowerCase(Locale.ROOT))
+                    .setTranslationKey(name().toLowerCase(Locale.ROOT))
                     .setCreativeTab(GregTechMod.GREGTECH_TAB);
             });
         }
@@ -1297,7 +1331,7 @@ public class BlockItems {
         private final LazyValue<ItemStack> instance;
 
         Book(String author, int pages) {
-            this.instance = new LazyValue<>(() -> getWrittenBook(this.name().toLowerCase(Locale.ROOT), author, pages, this.ordinal()));
+            this.instance = new LazyValue<>(() -> getWrittenBook(name().toLowerCase(Locale.ROOT), author, pages, this.ordinal()));
         }
 
         public ItemStack getInstance() {

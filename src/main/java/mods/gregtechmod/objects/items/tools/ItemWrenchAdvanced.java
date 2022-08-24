@@ -12,6 +12,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
@@ -19,6 +20,7 @@ public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPs
 
     public ItemWrenchAdvanced() {
         super("wrench_advanced", 0);
+        setRarity(EnumRarity.UNCOMMON);
         setRegistryName("wrench_advanced");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
         setNoRepair();
