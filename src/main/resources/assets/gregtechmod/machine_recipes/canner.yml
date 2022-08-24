@@ -173,6 +173,13 @@
     - item: gregtechmod:spray_color_white
   duration: 800
 - input:
+    - item: minecraft:poisonous_potato
+      count: 16
+    - ore: craftingSprayCan
+  output:
+    - item: gregtechmod:spray_bug
+  duration: 800
+- input:
     - ores:
         - itemQuicksilver
         - quicksilver
