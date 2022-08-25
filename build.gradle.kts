@@ -1,9 +1,9 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import fr.brouillard.oss.jgitver.GitVersionCalculator
 import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.common.util.RunConfig
 import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
+import java.util.function.Supplier
 import java.util.jar.JarInputStream
 import java.util.jar.JarOutputStream
 
@@ -18,7 +18,6 @@ plugins {
     `maven-publish`
     id("net.minecraftforge.gradle") version "5.1.+"
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
-    id("com.github.johnrengelman.shadow") version "7.1.+"
     id("wtf.gofancy.fancygradle") version "1.1.+"
 }
 
@@ -26,6 +25,7 @@ group = "dev.su5ed"
 version = getGitVersion()
 
 val versionMc: String by project
+val versionJackson: String by project
 val versionIC2: String by project
 val versionJEI: String by project
 
@@ -43,10 +43,6 @@ val generatedRuntimeApi: Configuration by configurations.creating {
         attribute(apiArtifact, false)
     }
 }
-// Shaded dependencies configuration
-val shade: Configuration by configurations.creating
-// The package all shaded dependencies are relocated to
-val relocationTarget = "dev.su5ed.gregtechmod.repack"
 
 val manifestAttributes = mapOf(
     "Specification-Title" to project.name,
@@ -57,6 +53,8 @@ val manifestAttributes = mapOf(
     "Implementation-Vendor" to "Su5eD",
     "Implementation-Timestamp" to LocalDateTime.now()
 )
+
+jarJar.enable()
 
 minecraft {
     mappings("parchment", "2022.07.10-1.18.2")
@@ -72,9 +70,11 @@ minecraft {
             sources(sourceSets.main.get(), api)
         }
 
-        create("client")
-        create("server")
+        create("client", config)
+        create("server", config)
+        
         create("data") {
+            config(this)
             args(
                 "--mod", "gregtechmod",
                 "--all",
@@ -82,23 +82,7 @@ minecraft {
                 "--existing", file("src/main/resources/")
             )
             // Add datagen-only runtime dependencies to the minecraft_classpath
-            lazyToken("minecraft_classpath") {
-                generatedRuntimeApi.resolve()
-                    .joinToString(separator = File.pathSeparator, transform = File::getAbsolutePath)
-            }
-        }
-
-        all {
-            // Apply common config
-            config(this)
-            // Get existing minecraft_classpath token
-            val existing = lazyTokens["minecraft_classpath"]
-            lazyToken("minecraft_classpath") {
-                // Combine the existing token with shaded dependencies
-                (existing?.get()?.let(::listOf) ?: emptyList())
-                    .plus(shade.resolve().map(File::getAbsolutePath))
-                    .joinToString(separator = File.pathSeparator)
-            }
+            lazyTokenConfig("minecraft_classpath", generatedRuntimeApi)
         }
     }
 }
@@ -115,25 +99,32 @@ java {
     withSourcesJar()
 }
 
-configurations {
-    "apiCompileClasspath" {
-        extendsFrom(api.get(), configurations.minecraft.get())
-    }
-    // Add non-data runtime mods to the compile classpath
-    compileClasspath {
-        extendsFrom(customRuntimeMod)
-    }
-    implementation {
-        extendsFrom(shade)
-    }
-}
-
 val apiJar by tasks.registering(Jar::class) {
     finalizedBy("reobfApiJar")
 
     from(api.allSource, api.output)
     exclude("META-INF/**")
     archiveClassifier.set("api")
+}
+
+configurations {
+    "apiCompileClasspath" {
+        extendsFrom(api.get(), configurations.minecraft.get())
+    }
+    
+    // Add non-data runtime mods to the compile classpath
+    compileClasspath {
+        extendsFrom(customRuntimeMod)
+    }
+    
+    runtimeElements {
+        setExtendsFrom(emptySet())
+        outgoing {
+            artifacts.clear()
+            artifact(tasks.jarJar)
+            artifact(apiJar)
+        }
+    }
 }
 
 tasks {
@@ -145,12 +136,8 @@ tasks {
         archiveClassifier.set("slim")
     }
 
-    shadowJar {
-        finalizedBy("reobfShadowJar")
-
-        configurations = listOf(shade)
-        manifest.attributes(manifestAttributes)
-
+    this.jarJar {
+        finalizedBy("reobfJarJar")
         from(api.output)
 
         archiveClassifier.set("")
@@ -160,28 +147,26 @@ tasks {
         from(api.allSource)
     }
 
-    // Relocate shaded dependencies in all shadow jars
-    withType<ShadowJar> {
-        sequenceOf("com.fasterxml", "org.yaml", "one.util")
-            .forEach { relocate(it, "$relocationTarget.$it") }
-    }
-
     // Add dependencies from customRuntimeMod to the classpath to non-data runs
     whenTaskAdded {
         if (name == "runClient" || name == "runServer") {
             (this as JavaExec).classpath(customRuntimeMod.resolve())
         }
     }
+    
+    processResources {
+        exclude(".cache/**")
+    }
 
     assemble {
-        dependsOn(shadowJar, apiJar)
+        dependsOn(jarJar, apiJar)
     }
 }
 
-// Create reobfuscation tasks for the shadow and api jars
+// Create reobfuscation tasks for the jarJar and api jars
 reobf {
-    create("shadowJar")
     create("apiJar")
+    create("jarJar")
 }
 
 repositories {
@@ -191,7 +176,7 @@ repositories {
     }
     // 1.18 IC2 builds are not available on maven yet, so we grab them from Jenkins using ivy as a workaround
     ivy {
-        val build = versionIC2.split("+").first().substringAfterLast('.')
+        val build = versionIC2.substringBefore('+').substringAfterLast('.')
         name = "IC2 Jenkins"
         url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.18/$build/artifact/tmp/out")
         patternLayout {
@@ -224,9 +209,13 @@ dependencies {
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge-api", version = versionJEI))
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge", version = versionJEI))
 
-    api(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.13.1"))
-    shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.13.1")
-    api(shade(group = "one.util", name = "streamex", version = "0.8.1"))
+    include(api(group = "com.fasterxml.jackson.core", name = "jackson-annotations", version = versionJackson))
+    include(api(group = "com.fasterxml.jackson.core", name = "jackson-core", version = versionJackson))
+    include(api(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = versionJackson))
+    include(implementation(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = versionJackson))
+    include(implementation(group = "org.yaml", name = "snakeyaml", version = "1.30"))
+
+    include(api(group = "one.util", name = "streamex", version = "0.8.1"))
 
     // Register apiArtifact to the attribute schema
     attributesSchema {
@@ -243,20 +232,13 @@ dependencies {
     }
 }
 
-afterEvaluate {
-    // Remove runtimeElements from published variants, as it's replaced by shadowRuntimeElements
-    val component = components["java"] as AdhocComponentWithVariants
-    component.withVariantsFromConfiguration(configurations.runtimeElements.get(), ConfigurationVariantDetails::skip)
-}
-
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             artifactId = "gregtechmod"
+            suppressAllPomMetadataWarnings()
 
             from(components["java"])
-
-            artifact(apiJar)
         }
     }
 
@@ -269,6 +251,32 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Su5eD/GregTech-Experimental")
         }
+    }
+}
+
+/**
+ * Include a non-minecraft dependency in JarJar, also adding it to the minecraft_classpath
+ */
+fun DependencyHandler.include(dependency: ModuleDependency) {
+    dependency.isTransitive = false
+    val nextMajor = dependency.version!!.substringBefore('.').toInt() + 1
+    minecraftLibrary(dependency)
+    jarJar(dependency) { 
+        jarJar.ranged(dependency, "[${dependency.version}, $nextMajor.0)")   
+    }
+}
+
+/**
+ * Append the contents of a configuration to a lazy token
+ */
+fun RunConfig.lazyTokenConfig(name: String, configuration: Configuration) {
+    val oldToken: Supplier<String>? = lazyTokens["minecraft_classpath"]
+    lazyToken(name) {
+        val path = configuration.copyRecursive().resolve()
+            .joinToString(separator = File.pathSeparator, transform = File::getAbsolutePath)
+        
+        if (oldToken == null) path
+        else "${oldToken.get()}${File.pathSeparator}$path"
     }
 }
 

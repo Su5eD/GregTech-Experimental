@@ -10,7 +10,7 @@ version="${file.jarVersion}"
 displayName="GregTech Experimental"
 displayURL="https://github.com/Su5eD/GregTech-Experimental"
 logoFile="GTE_Logo.png"
-credits="Player and his team for IndustrialCraft, Mr. Brain, TheSirusKing and matix for Textures, GregoriousTechnecities for GregTech3"
+credits="Mr. Brain, TheSirusKing and matix for Textures, GregoriousTechnecities for GregTech3"
 authors="Su5eD"
 description='''
 This addon adds the awesome technology of GregTech-Intergalactical to your world!
@@ -20,7 +20,7 @@ Fusion reactors, lightning rods and many other technologies and convenient recip
 [[dependencies.gregtechmod]]
     modId="forge"
     mandatory=true
-    versionRange="[40,)"
+    versionRange="[40.1.60,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.gregtechmod]]
