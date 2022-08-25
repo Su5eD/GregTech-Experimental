@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
 import dev.su5ed.gregtechmod.api.util.IDataOrbSerializable;
-import ic2.core.util.StackUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +23,7 @@ public class DataOrbItem extends ResourceItem {
         
         if (player != null && stack.getCount() == 1 && !level.isClientSide) {
             BlockEntity te = level.getBlockEntity(context.getClickedPos());
-            CompoundTag tag = StackUtil.getOrCreateNbtData(stack);
+            CompoundTag tag = stack.getOrCreateTag();
             String dataTitle = tag.getString("dataTitle");
 
             if (te instanceof IDataOrbSerializable serializable) {

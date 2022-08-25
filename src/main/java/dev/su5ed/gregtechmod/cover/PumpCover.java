@@ -23,15 +23,15 @@ public class PumpCover extends InventoryCover {
     @Override
     public void doCoverThings() {
         if (canWork() && LiquidUtil.isFluidTile((BlockEntity) this.be, this.side)) {
-            LiquidUtil.AdjacentFluidHandler target = LiquidUtil.getAdjacentHandler((BlockEntity) this.be, this.side);
+            BlockEntity target = GtUtil.getNeighborFluidBlockEntity((BlockEntity) this.be, this.side);
             if (target != null) {
-                FluidStack stack = GtUtil.drainBlock(this.mode.isImport ? target.handler : (BlockEntity) this.be, this.mode.isImport ? this.side.getOpposite() : this.side, 1000, FluidAction.EXECUTE);
-                if (stack != null) {
+                FluidStack stack = GtUtil.drainBlock(this.mode.isImport ? target : (BlockEntity) this.be, this.mode.isImport ? this.side.getOpposite() : this.side, 1000, FluidAction.EXECUTE);
+                if (!stack.isEmpty()) {
                     double energy = Math.min(1, stack.getAmount() / 100D);
 
                     if (!shouldUseEnergy(energy) || ((IElectricMachine) this.be).canUseEnergy(energy)) {
                         // TODO GtUtil method
-                        LiquidUtil.transfer(this.mode.isImport ? target.handler : (BlockEntity) this.be, this.mode.isImport ? this.side.getOpposite() : this.side, this.mode.isImport ? (BlockEntity) this.be : target.handler, FluidAttributes.BUCKET_VOLUME);
+                        LiquidUtil.transfer(this.mode.isImport ? target : (BlockEntity) this.be, this.mode.isImport ? this.side.getOpposite() : this.side, this.mode.isImport ? (BlockEntity) this.be : target, FluidAttributes.BUCKET_VOLUME);
                     }
                 }
             }

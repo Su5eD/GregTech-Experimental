@@ -58,6 +58,11 @@ public final class GtUtil {
             .map(handler -> handler.drain(amount, action))
             .orElse(FluidStack.EMPTY);
     }
+    
+    public static BlockEntity getNeighborFluidBlockEntity(BlockEntity be, Direction side) {
+        BlockEntity neighbor = be.getLevel().getBlockEntity(be.getBlockPos().relative(side));
+        return neighbor.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite()).isPresent() ? neighbor : null;
+    }
 
     public static int getStrongestSignal(Coverable te, Level level, BlockPos pos, Direction excludeFacing) {
         return StreamEx.of(Direction.values())
@@ -86,6 +91,15 @@ public final class GtUtil {
         if (player instanceof ServerPlayer sp && !player.isCreative()) {
             stack.hurt(damage, player.getRandom(), sp);
         }
+    }
+    
+    public static boolean stackEquals(ItemStack first, ItemStack second) {
+        return stackEquals(first, second, true);
+    }
+    
+    public static boolean stackEquals(ItemStack first, ItemStack second, boolean matchTag) {
+        return first.sameItem(second)
+            && (!matchTag || first.hasTag() == second.hasTag() && first.hasTag() && first.getTag().equals(second.getTag()));
     }
     
     public static void assertServerSide(@Nullable Level level) {

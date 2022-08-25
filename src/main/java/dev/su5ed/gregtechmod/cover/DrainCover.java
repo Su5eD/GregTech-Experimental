@@ -8,7 +8,6 @@ import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
-import ic2.core.util.LiquidUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -55,7 +54,7 @@ public class DrainCover extends BaseCover {
         BlockPos offset = pos.relative(this.side);
         Block block = level.getBlockState(offset).getBlock();
 
-        if (LiquidUtil.isFluidTile(be, this.side) && this.mode.isImport) {
+        if (this.mode.isImport) {
             be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, this.side).ifPresent(handler -> {
                 if (this.side == Direction.UP && level.isRainingAt(pos)) {
                     int amount = (int) (level.getBiome(pos).value().getDownfall() * 10);
