@@ -4,10 +4,10 @@ import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
-import dev.su5ed.gregtechmod.api.util.NBTTarget;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
+import dev.su5ed.gregtechmod.network.FieldUpdateListener;
+import dev.su5ed.gregtechmod.network.Networked;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.FieldUpdateListener;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,7 +18,7 @@ public class NormalCover extends BaseCover implements FieldUpdateListener {
     public static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
     public static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
 
-    @NBTPersistent(target = NBTTarget.BOTH)
+    @Networked
     protected MeterCover.MeterMode mode = MeterCover.MeterMode.NORMAL;
 
     public NormalCover(CoverType type, Coverable be, Direction side, Item item) {
@@ -43,7 +43,7 @@ public class NormalCover extends BaseCover implements FieldUpdateListener {
     @Override
     protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         this.mode = this.mode.next();
-        return CoverInteractionResult.UPDATE;
+        return CoverInteractionResult.RERENDER;
     }
 
     @Override
@@ -83,6 +83,18 @@ public class NormalCover extends BaseCover implements FieldUpdateListener {
 
     @Override
     public void onFieldUpdate(String name) {
-        if (name.equals("mode")) this.be.updateRenderClient();
+        if (name.equals("mode")) this.be.updateRenderClient(); // TODO builder map method
+    }
+
+    @Override
+    public void save(FriendlyCompoundTag tag) {
+        super.save(tag);
+        tag.putEnum("mode", this.mode);
+    }
+
+    @Override
+    public void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        this.mode = tag.getEnum("mode");
     }
 }

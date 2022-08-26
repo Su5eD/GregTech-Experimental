@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.network;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,11 +12,11 @@ import java.util.function.Supplier;
 
 public class BlockEntityComponentUpdate extends BlockEntityNamedUpdate {
 
-    public BlockEntityComponentUpdate(BlockEntity be, CompoundTag data, ResourceLocation name) {
+    public BlockEntityComponentUpdate(BlockEntity be, FriendlyByteBuf data, ResourceLocation name) {
         super(be, data, name);
     }
 
-    public BlockEntityComponentUpdate(BlockPos pos, CompoundTag data, ResourceLocation name) {
+    public BlockEntityComponentUpdate(BlockPos pos, FriendlyByteBuf data, ResourceLocation name) {
         super(pos, data, name);
     }
 

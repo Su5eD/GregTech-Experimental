@@ -35,8 +35,8 @@ public class CraftingCover extends BaseCover {
     public boolean onCoverRightClick(Player player, InteractionHand hand, Direction side, float hitX, float hitY, float hitZ) {
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.nextContainerCounter();
-            Level level = ((BlockEntity) this.be).getLevel();
-            BlockPos pos = ((BlockEntity) this.be).getBlockPos();
+            Level level = this.be.getLevel();
+            BlockPos pos = this.be.getBlockPos();
             serverPlayer.openMenu(getMenuProvider(level, pos));
         }
         player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);

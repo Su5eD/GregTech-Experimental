@@ -5,9 +5,9 @@ import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,6 @@ import java.util.Locale;
 public class MachineControllerCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
 
-    @NBTPersistent
     protected ControllerMode mode = ControllerMode.NORMAL;
 
     public MachineControllerCover(CoverType type, Coverable be, Direction side, Item item) {
@@ -58,23 +57,7 @@ public class MachineControllerCover extends BaseCover {
     protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         this.mode = this.mode.next();
         GtUtil.sendActionBarMessage(player, this.mode.getMessageKey());
-        return CoverInteractionResult.UPDATE;
-    }
-
-    private enum ControllerMode {
-        NORMAL,
-        INVERTED,
-        DISABLED;
-
-        private static final ControllerMode[] VALUES = values();
-
-        public ControllerMode next() {
-            return VALUES[(ordinal() + 1) % VALUES.length];
-        }
-
-        public GtLocale.TranslationKey getMessageKey() {
-            return GtLocale.key("cover", "mode", name().toLowerCase(Locale.ROOT));
-        }
+        return CoverInteractionResult.CHANGED;
     }
 
     @Override
@@ -113,7 +96,35 @@ public class MachineControllerCover extends BaseCover {
     }
 
     @Override
+    public void save(FriendlyCompoundTag tag) {
+        super.save(tag);
+        tag.putEnum("mode", this.mode);
+    }
+
+    @Override
+    public void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        this.mode = tag.getEnum("mode");
+    }
+
+    @Override
     public boolean acceptsRedstone() {
         return true;
+    }
+
+    private enum ControllerMode {
+        NORMAL,
+        INVERTED,
+        DISABLED;
+
+        private static final ControllerMode[] VALUES = values();
+
+        public ControllerMode next() {
+            return VALUES[(ordinal() + 1) % VALUES.length];
+        }
+
+        public GtLocale.TranslationKey getMessageKey() {
+            return GtLocale.key("cover", "mode", name().toLowerCase(Locale.ROOT));
+        }
     }
 }

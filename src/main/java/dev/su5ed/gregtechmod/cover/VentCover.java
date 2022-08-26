@@ -32,7 +32,7 @@ public class VentCover extends GenericCover {
     @Override
     public void doCoverThings() {
         if (this.be instanceof IMachineProgress machine && machine.isActive()) {
-            Level level = ((BlockEntity) this.be).getLevel(); // TODO add method shortcuts
+            Level level = ((BlockEntity) this.be).getLevel();
             BlockPos pos = ((BlockEntity) this.be).getBlockPos();
             if (level.getBlockState(pos.relative(this.side)).getCollisionShape(level, pos) == null) {
                 int maxProgress = machine.getMaxProgress();

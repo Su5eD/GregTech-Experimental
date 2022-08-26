@@ -1,9 +1,8 @@
 package dev.su5ed.gregtechmod.api.cover;
 
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
-import dev.su5ed.gregtechmod.api.util.NBTTarget;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -69,9 +68,15 @@ public interface Cover {
     
     CoverCategory getCategory();
 
-    CompoundTag save(NBTTarget target);
+    default FriendlyCompoundTag save() {
+        FriendlyCompoundTag tag = new FriendlyCompoundTag();
+        save(tag);
+        return tag;
+    } 
 
-    void load(CompoundTag tag, boolean notifyListeners);
+    void save(FriendlyCompoundTag tag);
+
+    void load(FriendlyCompoundTag tag);
 
     int getTickRate();
 

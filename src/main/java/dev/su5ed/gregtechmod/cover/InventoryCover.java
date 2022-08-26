@@ -7,15 +7,14 @@ import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
 public abstract class InventoryCover extends BaseCover {
-    @NBTPersistent
     protected InventoryMode mode = InventoryMode.EXPORT;
 
     protected InventoryCover(CoverType type, Coverable be, Direction side, Item item) {
@@ -43,7 +42,7 @@ public abstract class InventoryCover extends BaseCover {
     protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         this.mode = this.mode.next();
         GtUtil.sendActionBarMessage(player, this.mode.getMessageKey());
-        return CoverInteractionResult.UPDATE;
+        return CoverInteractionResult.CHANGED;
     }
 
     @Override
@@ -74,5 +73,17 @@ public abstract class InventoryCover extends BaseCover {
     @Override
     public CoverCategory getCategory() {
         return CoverCategory.IO;
+    }
+
+    @Override
+    public void save(FriendlyCompoundTag tag) {
+        super.save(tag);
+        tag.putEnum("mode", this.mode);
+    }
+
+    @Override
+    public void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        this.mode = tag.getEnum("mode");
     }
 }

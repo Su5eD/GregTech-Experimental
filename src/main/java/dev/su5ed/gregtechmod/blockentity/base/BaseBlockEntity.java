@@ -1,11 +1,10 @@
 package dev.su5ed.gregtechmod.blockentity.base;
 
-import dev.su5ed.gregtechmod.api.util.NBTTarget;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -93,51 +92,51 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return saveTag(new CompoundTag(), NBTTarget.SYNC);
+    public void onLoad() {
+        super.onLoad();
+        if (this.level.isClientSide) {
+            GregTechNetwork.requestInitialData(this);
+        }
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        loadTag(tag, true);
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected final void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        saveTag(tag, NBTTarget.SAVE);
+        
+        FriendlyCompoundTag friendlyTag = new FriendlyCompoundTag();
+        saveAdditional(friendlyTag);
+        tag.put("fields", friendlyTag);
+        tag.put("components", saveComponents());
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    public final void load(CompoundTag tag) {
         super.load(tag);
-        loadTag(tag, false);
+        
+        FriendlyCompoundTag fields = new FriendlyCompoundTag(tag.getCompound("fields"));
+        FriendlyCompoundTag components = new FriendlyCompoundTag(tag.getCompound("components"));
+        load(fields);
+        loadComponents(components);
     }
 
-    private CompoundTag saveComponents(NBTTarget target) {
+    protected void saveAdditional(FriendlyCompoundTag tag) {}
+    
+    protected void load(FriendlyCompoundTag tag) {}
+
+    private CompoundTag saveComponents() {
         CompoundTag tag = new CompoundTag();
         this.components.forEach((name, component) -> {
-            CompoundTag compound = component.save(target);
-            tag.put(name.toString(), compound);
+            FriendlyCompoundTag componentTag = component.save();
+            tag.put(name.toString(), componentTag);
         });
         return tag;
     }
 
-    private void loadComponents(CompoundTag tag, boolean notifyListeners) {
+    private void loadComponents(FriendlyCompoundTag tag) {
         StreamEx.of(tag.getAllKeys())
             .mapToEntry(name -> this.components.get(new ResourceLocation(name)), tag::getCompound)
             .nonNullKeys()
-            .forKeyValue((component, compound) -> component.load(compound, notifyListeners));
-    }
-
-    private CompoundTag saveTag(CompoundTag tag, NBTTarget target) {
-        tag.put("fields", NBTSaveHandler.writeClassToNBT(this, target));
-        tag.put("components", saveComponents(target));
-        return tag;
-    }
-
-    private void loadTag(CompoundTag tag, boolean notifyListeners) {
-        NBTSaveHandler.readClassFromNBT(this, tag.getCompound("fields"), notifyListeners);
-        loadComponents(tag.getCompound("components"), notifyListeners);
+            .mapValues(FriendlyCompoundTag::new)
+            .forKeyValue(BlockEntityComponent::load);
     }
 }

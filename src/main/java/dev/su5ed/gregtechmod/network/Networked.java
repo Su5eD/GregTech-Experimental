@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.util.nbt;
+package dev.su5ed.gregtechmod.network;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ModifyExisting {
-
+public @interface Networked {
 }

@@ -5,9 +5,9 @@ import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,6 @@ import java.util.Locale;
 public class RedstoneConductorCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
 
-    @NBTPersistent
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
     public RedstoneConductorCover(CoverType type, Coverable be, Direction side, Item item) {
@@ -65,27 +64,7 @@ public class RedstoneConductorCover extends BaseCover {
     protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         this.mode = this.mode.next();
         GtUtil.sendActionBarMessage(player, this.mode.getMessageKey());
-        return CoverInteractionResult.UPDATE;
-    }
-
-    private enum ConductorMode {
-        STRONGEST,
-        DOWN,
-        UP,
-        NORTH,
-        SOUTH,
-        WEST,
-        EAST;
-
-        private static final ConductorMode[] VALUES = values();
-
-        public ConductorMode next() {
-            return VALUES[(ordinal() + 1) % VALUES.length];
-        }
-
-        public GtLocale.TranslationKey getMessageKey() {
-            return GtLocale.key("cover", "conductor_mode", name().toLowerCase(Locale.ROOT));
-        }
+        return CoverInteractionResult.CHANGED;
     }
 
     @Override
@@ -131,5 +110,37 @@ public class RedstoneConductorCover extends BaseCover {
     @Override
     public CoverCategory getCategory() {
         return CoverCategory.UTIL;
+    }
+
+    @Override
+    public void save(FriendlyCompoundTag tag) {
+        super.save(tag);
+        tag.putEnum("mode", this.mode);
+    }
+
+    @Override
+    public void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        this.mode = tag.getEnum("mode");
+    }
+
+    private enum ConductorMode {
+        STRONGEST,
+        DOWN,
+        UP,
+        NORTH,
+        SOUTH,
+        WEST,
+        EAST;
+
+        private static final ConductorMode[] VALUES = values();
+
+        public ConductorMode next() {
+            return VALUES[(ordinal() + 1) % VALUES.length];
+        }
+
+        public GtLocale.TranslationKey getMessageKey() {
+            return GtLocale.key("cover", "conductor_mode", name().toLowerCase(Locale.ROOT));
+        }
     }
 }

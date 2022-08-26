@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.network;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,13 +11,13 @@ import java.util.function.Supplier;
 
 public class BlockEntityUpdate {
     private final BlockPos pos;
-    private final CompoundTag data;
+    private final FriendlyByteBuf data;
 
-    public BlockEntityUpdate(BlockEntity be, CompoundTag data) {
+    public BlockEntityUpdate(BlockEntity be, FriendlyByteBuf data) {
         this(be.getBlockPos(), data);
     }
 
-    public BlockEntityUpdate(BlockPos pos, CompoundTag data) {
+    public BlockEntityUpdate(BlockPos pos, FriendlyByteBuf data) {
         this.pos = pos;
         this.data = data;
     }
@@ -27,18 +26,20 @@ public class BlockEntityUpdate {
         return this.pos;
     }
 
-    public CompoundTag getData() {
+    public FriendlyByteBuf getData() {
         return this.data;
     }
 
     public static void encode(BlockEntityUpdate packet, FriendlyByteBuf buf) {
         buf.writeBlockPos(packet.pos);
-        buf.writeNbt(packet.data);
+        buf.writeInt(packet.data.readableBytes());
+        buf.writeBytes(packet.data);
     }
 
     public static BlockEntityUpdate decode(FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        CompoundTag data = buf.readNbt();
+        int size = buf.readInt();
+        FriendlyByteBuf data = new FriendlyByteBuf(buf.readBytes(size));
         return new BlockEntityUpdate(pos, data);
     }
 

@@ -10,6 +10,7 @@ import dev.su5ed.gregtechmod.cover.GenericCover;
 import dev.su5ed.gregtechmod.cover.ModCoverType;
 import dev.su5ed.gregtechmod.cover.VentCover;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
+import dev.su5ed.gregtechmod.network.Networked;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
+    @Networked
     private final CoverHandler<CoverableBlockEntity> coverHandler;
     private final Collection<CoverCategory> coverBlacklist;
 
@@ -82,19 +84,19 @@ public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
     }
 
     protected boolean useScrewdriver(ItemStack stack, Direction side, Player player) {
-        boolean success = getCoverAtSide(side)
-            .map(cover -> {
-                CoverInteractionResult result = cover.onScrewdriverClick(player);
-                if (result == CoverInteractionResult.UPDATE) {
-                    GregTechNetwork.updateClientCover(this, cover);
+        Cover existing = getCoverAtSide(side).orElse(null);
+        if (existing != null) {
+            CoverInteractionResult result = existing.onScrewdriverClick(player);
+            if (!player.level.isClientSide && result == CoverInteractionResult.RERENDER) {
+                GregTechNetwork.updateClientCover(this, existing);
+            }
+            if (result.isSuccess()) {
+                if (result.isChanged()) {
+                    setChanged();
+                    GtUtil.hurtStack(stack, 1, player);
                 }
-                return result.isSuccess();
-            })
-            .orElse(false);
-        if (success) {
-            setChanged();
-            GtUtil.hurtStack(stack, 1, player);
-            return true;
+                return true;
+            }
         }
 
         Cover cover = ModCoverType.NORMAL.get().create(this, side, Items.AIR);

@@ -1,17 +1,24 @@
 package dev.su5ed.gregtechmod.api.util;
 
 public enum CoverInteractionResult {
-    UPDATE(true),
-    SUCCESS(true),
-    PASS(false);
+    RERENDER(true, true),
+    CHANGED(true, true),
+    SUCCESS(true, false),
+    PASS(false, false);
     
-    private final boolean isSuccess;
+    private final boolean success;
+    private final boolean changed;
 
-    CoverInteractionResult(boolean isSuccess) {
-        this.isSuccess = isSuccess;
+    CoverInteractionResult(boolean success, boolean changed) {
+        this.success = success;
+        this.changed = changed;
     }
-    
+
     public boolean isSuccess() {
-        return this.isSuccess;
+        return this.success;
+    }
+
+    public boolean isChanged() {
+        return this.changed;
     }
 }

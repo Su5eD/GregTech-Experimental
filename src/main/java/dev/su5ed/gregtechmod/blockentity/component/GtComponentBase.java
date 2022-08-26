@@ -1,12 +1,9 @@
 package dev.su5ed.gregtechmod.blockentity.component;
 
-import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
-import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,14 +39,4 @@ public abstract class GtComponentBase<T extends BaseBlockEntity> implements Bloc
     }
 
     public void getScanInfo(List<Component> scan, Player player, BlockPos pos, int scanLevel) {}
-    
-    @Override
-    public CompoundTag save(NBTTarget target) {
-        return NBTSaveHandler.writeClassToNBT(this, target);
-    }
-    
-    @Override
-    public void load(CompoundTag tag, boolean notifyListeners) {
-        NBTSaveHandler.readClassFromNBT(this, tag, notifyListeners);
-    }
 }

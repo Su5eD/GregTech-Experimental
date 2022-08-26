@@ -5,9 +5,9 @@ import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +16,6 @@ import net.minecraft.world.item.Item;
 import java.util.Locale;
 
 public abstract class MeterCover extends BaseCover {
-    @NBTPersistent
     protected MeterMode mode = MeterMode.NORMAL;
 
     protected MeterCover(CoverType type, Coverable be, Direction side, Item item) {
@@ -40,25 +39,10 @@ public abstract class MeterCover extends BaseCover {
     protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         this.mode = this.mode.next();
         GtUtil.sendActionBarMessage(player, this.mode.getMessageKey());
-        return CoverInteractionResult.UPDATE;
+        return CoverInteractionResult.CHANGED;
     }
 
     public abstract int getRedstoneStrength();
-
-    public enum MeterMode {
-        NORMAL,
-        INVERTED;
-
-        public static final MeterMode[] VALUES = values();
-
-        public MeterMode next() {
-            return VALUES[(ordinal() + 1) % VALUES.length];
-        }
-
-        public GtLocale.TranslationKey getMessageKey() {
-            return GtLocale.key("cover", "mode", name().toLowerCase(Locale.ROOT));
-        }
-    }
 
     @Override
     public void onCoverRemove() {
@@ -103,5 +87,32 @@ public abstract class MeterCover extends BaseCover {
     @Override
     public CoverCategory getCategory() {
         return CoverCategory.METER;
+    }
+
+    @Override
+    public void save(FriendlyCompoundTag tag) {
+        super.save(tag);
+        tag.putEnum("mode", this.mode);
+    }
+
+    @Override
+    public void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        this.mode = tag.getEnum("mode");
+    }
+
+    public enum MeterMode {
+        NORMAL,
+        INVERTED;
+
+        public static final MeterMode[] VALUES = values();
+
+        public MeterMode next() {
+            return VALUES[(ordinal() + 1) % VALUES.length];
+        }
+
+        public GtLocale.TranslationKey getMessageKey() {
+            return GtLocale.key("cover", "mode", name().toLowerCase(Locale.ROOT));
+        }
     }
 }

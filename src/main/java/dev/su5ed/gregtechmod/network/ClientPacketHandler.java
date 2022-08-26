@@ -2,7 +2,6 @@ package dev.su5ed.gregtechmod.network;
 
 import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
-import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,23 +13,24 @@ public final class ClientPacketHandler {
     private ClientPacketHandler() {}
 
     public static void handleBlockEntityUpdatePacket(BlockEntityUpdate packet) {
-        runBlockEntityTask(packet.getPos(), be -> NBTSaveHandler.readClassFromNBT(be, packet.getData()));
+        runBlockEntityTask(packet.getPos(), be -> NetworkHandler.deserializeClass(packet.getData(), be));
     }
 
     public static void handleBlockEntityComponentUpdatePacket(BlockEntityComponentUpdate packet) {
         runBlockEntityTask(packet.getPos(), be -> {
             if (be instanceof BaseBlockEntity base) {
-                base.getComponent(packet.getName()).ifPresent(component -> component.load(packet.getData(), true));
+                base.getComponent(packet.getName())
+                    .ifPresent(component -> NetworkHandler.deserializeClass(packet.getData(), component));
             }
         });
     }
 
     public static void handleBlockEntityCoverUpdatePacket(BlockEntityCoverUpdate packet) {
-        runBlockEntityTask(packet.getPos(), be -> {
+        runBlockEntityTask(packet.pos(), be -> {
             if (be instanceof Coverable coverable) {
-                coverable.getCoverAtSide(packet.getSide())
-                    .filter(cover -> cover.getType().getRegistryName().equals(packet.getName()))
-                    .ifPresent(cover -> cover.load(packet.getData(), true));
+                coverable.getCoverAtSide(packet.side())
+                    .filter(cover -> cover.getType().getRegistryName().equals(packet.name()))
+                    .ifPresent(cover -> NetworkHandler.deserializeClass(packet.data(), cover));
             }
         });
     }
@@ -38,8 +38,10 @@ public final class ClientPacketHandler {
     private static void runBlockEntityTask(BlockPos pos, Consumer<BlockEntity> consumer) {
         Minecraft mc = Minecraft.getInstance();
         mc.doRunTask(() -> {
-            BlockEntity be = mc.level.getBlockEntity(pos);
-            if (be != null) consumer.accept(be);
+            if (mc.level.isLoaded(pos)) {
+                BlockEntity be = mc.level.getBlockEntity(pos);
+                if (be != null) consumer.accept(be);
+            }
         });
     }
 }

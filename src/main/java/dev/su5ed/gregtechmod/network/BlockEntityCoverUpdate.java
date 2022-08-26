@@ -2,7 +2,6 @@ package dev.su5ed.gregtechmod.network;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,35 +11,28 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class BlockEntityCoverUpdate extends BlockEntityNamedUpdate {
-    private final Direction side;
+public record BlockEntityCoverUpdate(BlockPos pos, ResourceLocation name, Direction side, FriendlyByteBuf data) {
 
-    public BlockEntityCoverUpdate(BlockEntity be, CompoundTag data, ResourceLocation name, Direction side) {
-        this(be.getBlockPos(), data, name, side);
+    public BlockEntityCoverUpdate(BlockEntity be, ResourceLocation name, Direction side, FriendlyByteBuf data) {
+        this(be.getBlockPos(), name, side, data);
     }
 
-    public BlockEntityCoverUpdate(BlockPos pos, CompoundTag data, ResourceLocation name, Direction side) {
-        super(pos, data, name);
-
-        this.side = side;
-    }
-
-    public Direction getSide() {
-        return this.side;
-    }
-    
     public static void encode(BlockEntityCoverUpdate packet, FriendlyByteBuf buf) {
-        BlockEntityNamedUpdate.encode(packet, buf);
+        buf.writeBlockPos(packet.pos);
+        buf.writeResourceLocation(packet.name);
         buf.writeEnum(packet.side);
+        buf.writeInt(packet.data.readableBytes());
+        buf.writeBytes(packet.data);
     }
 
     public static BlockEntityCoverUpdate decode(FriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
-        CompoundTag data = buf.readNbt();
         ResourceLocation name = buf.readResourceLocation();
         Direction side = buf.readEnum(Direction.class);
+        int length = buf.readInt();
+        FriendlyByteBuf data = new FriendlyByteBuf(buf.readBytes(length));
 
-        return new BlockEntityCoverUpdate(pos, data, name, side);
+        return new BlockEntityCoverUpdate(pos, name, side, data);
     }
 
     public static void processPacket(BlockEntityCoverUpdate packet, Supplier<NetworkEvent.Context> ctx) {

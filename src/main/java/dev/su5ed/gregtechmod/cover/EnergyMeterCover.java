@@ -7,9 +7,9 @@ import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +21,6 @@ import java.util.Locale;
 public class EnergyMeterCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
 
-    @NBTPersistent
     protected Mode mode = Mode.UNIVERSAL;
 
     public EnergyMeterCover(CoverType type, Coverable be, Direction side, Item item) {
@@ -84,7 +83,7 @@ public class EnergyMeterCover extends BaseCover {
     protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         this.mode = this.mode.next();
         GtUtil.sendActionBarMessage(player, this.mode.getMessageKey());
-        return CoverInteractionResult.UPDATE;
+        return CoverInteractionResult.CHANGED;
     }
 
     @Override
@@ -142,6 +141,18 @@ public class EnergyMeterCover extends BaseCover {
     @Override
     public CoverCategory getCategory() {
         return CoverCategory.METER;
+    }
+
+    @Override
+    public void save(FriendlyCompoundTag tag) {
+        super.save(tag);
+        tag.putEnum("mode", this.mode);
+    }
+
+    @Override
+    public void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        this.mode = tag.getEnum("mode");
     }
 
     private enum Mode {

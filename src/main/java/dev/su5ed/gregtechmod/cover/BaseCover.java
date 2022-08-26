@@ -1,13 +1,11 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.Cover;
+import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
-import dev.su5ed.gregtechmod.api.util.NBTTarget;
-import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +13,7 @@ import net.minecraft.world.item.Item;
 
 public abstract class BaseCover implements Cover {
     private final CoverType type;
-    protected final Coverable be;
+    protected final Coverable be; // TODO Generic covers
     protected final Direction side;
     protected final Item item;
 
@@ -118,13 +116,13 @@ public abstract class BaseCover implements Cover {
     }
 
     @Override
-    public CompoundTag save(NBTTarget target) {
-        return NBTSaveHandler.writeClassToNBT(this, target);
+    public void save(FriendlyCompoundTag tag) {
+        
     }
 
     @Override
-    public void load(CompoundTag tag, boolean notifyListeners) {
-        NBTSaveHandler.readClassFromNBT(this, tag, notifyListeners);
+    public void load(FriendlyCompoundTag tag) {
+
     }
 
     @Override

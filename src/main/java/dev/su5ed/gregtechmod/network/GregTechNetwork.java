@@ -2,13 +2,10 @@ package dev.su5ed.gregtechmod.network;
 
 import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.api.cover.Coverable;
-import dev.su5ed.gregtechmod.api.util.NBTTarget;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.FieldHandle;
-import dev.su5ed.gregtechmod.util.nbt.NBTSaveHandler;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -48,34 +45,48 @@ public final class GregTechNetwork {
             BlockEntityCoverUpdate::processPacket,
             Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         );
+        
+        INSTANCE.registerMessage(id++,
+            InitialDataRequestPacket.class,
+            InitialDataRequestPacket::encode,
+            InitialDataRequestPacket::decode,
+            InitialDataRequestPacket::processPacket,
+            Optional.of(NetworkDirection.PLAY_TO_SERVER)
+        );
+    }
+    
+    public static void requestInitialData(BlockEntity be) {
+        GtUtil.assertClientSide(be.getLevel());
+        InitialDataRequestPacket packet = new InitialDataRequestPacket(be.getBlockPos());
+        
+        INSTANCE.sendToServer(packet);
     }
 
     public static void updateClientField(BlockEntity be, String name) {
         GtUtil.assertServerSide(be.getLevel());
-        FieldHandle field = NBTSaveHandler.getFieldHandle(name, be);
-        CompoundTag tag = NBTSaveHandler.serializeFields(be, NBTTarget.SYNC, field);
-        BlockEntityUpdate packet = new BlockEntityUpdate(be, tag);
+        FriendlyByteBuf data = NetworkHandler.serializeField(be, name);
+        BlockEntityUpdate packet = new BlockEntityUpdate(be, data);
 
         sendTrackingChunk(be, packet);
     }
 
     public static void updateClientComponent(BaseBlockEntity be, BlockEntityComponent component) {
         GtUtil.assertServerSide(be.getLevel());
-        CompoundTag tag = component.save(NBTTarget.SYNC);
-        BlockEntityComponentUpdate packet = new BlockEntityComponentUpdate(be, tag, component.getName());
+        FriendlyByteBuf data = NetworkHandler.serializeClass(component);
+        BlockEntityComponentUpdate packet = new BlockEntityComponentUpdate(be, data, component.getName());
 
         sendTrackingChunk(be, packet);
     }
 
     public static <T extends BlockEntity & Coverable> void updateClientCover(T be, Cover cover) {
         GtUtil.assertServerSide(be.getLevel());
-        CompoundTag tag = cover.save(NBTTarget.SYNC);
-        BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, tag, cover.getType().getRegistryName(), cover.getSide());
+        FriendlyByteBuf tag = NetworkHandler.serializeClass(cover);
+        BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, cover.getType().getRegistryName(), cover.getSide(), tag);
 
         sendTrackingChunk(be, packet);
     }
 
-    private static void sendTrackingChunk(BlockEntity be, Object packet) {
+    public static void sendTrackingChunk(BlockEntity be, Object packet) {
         INSTANCE.send(PacketDistributor.TRACKING_CHUNK.with(() -> be.getLevel().getChunkAt(be.getBlockPos())), packet);
     }
 }

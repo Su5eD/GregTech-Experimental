@@ -5,9 +5,9 @@ import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,7 +19,6 @@ import java.util.Locale;
 public class EnergyOnlyCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
 
-    @NBTPersistent
     protected EnergyMode mode = EnergyMode.ALLOW;
 
     public EnergyOnlyCover(CoverType type, Coverable be, Direction side, Item item) {
@@ -38,9 +37,31 @@ public class EnergyOnlyCover extends BaseCover {
 
     @Override
     protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
-        mode = mode.next();
+        this.mode = this.mode.next();
         GtUtil.sendActionBarMessage(player, this.mode.getMessageKey());
-        return CoverInteractionResult.UPDATE;
+        return CoverInteractionResult.CHANGED;
+    }
+
+    @Override
+    public boolean allowEnergyTransfer() {
+        return !(this.mode.conditional && this.be instanceof IGregTechMachine machine && machine.isAllowedToWork() == this.mode.inverted);
+    }
+
+    @Override
+    public void save(FriendlyCompoundTag tag) {
+        super.save(tag);
+        tag.putEnum("mode", this.mode);
+    }
+
+    @Override
+    public void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        this.mode = tag.getEnum("mode");
+    }
+
+    @Override
+    public CoverCategory getCategory() {
+        return CoverCategory.OTHER;
     }
 
     private enum EnergyMode {
@@ -72,15 +93,5 @@ public class EnergyOnlyCover extends BaseCover {
         public GtLocale.TranslationKey getMessageKey() {
             return GtLocale.key("cover", "energy_mode", name().toLowerCase(Locale.ROOT));
         }
-    }
-
-    @Override
-    public boolean allowEnergyTransfer() {
-        return !(this.mode.conditional && this.be instanceof IGregTechMachine machine && machine.isAllowedToWork() == this.mode.inverted);
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.OTHER;
     }
 }

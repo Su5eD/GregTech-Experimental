@@ -1,9 +1,9 @@
 package dev.su5ed.gregtechmod;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
-import dev.su5ed.gregtechmod.blockentity.component.ModComponent;
 import dev.su5ed.gregtechmod.datagen.DataGenerators;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
+import dev.su5ed.gregtechmod.network.NetworkHandler;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import dev.su5ed.gregtechmod.setup.ClientSetup;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -35,7 +35,7 @@ public class GregTechMod {
         ctx.registerConfig(ModConfig.Type.CLIENT, GregTechConfig.CLIENT_SPEC);
         ctx.registerConfig(ModConfig.Type.COMMON, GregTechConfig.COMMON_SPEC);
 
-        ModComponent.init();
+        NetworkHandler.init();
     }
 
     private void setup(final FMLCommonSetupEvent event) {
