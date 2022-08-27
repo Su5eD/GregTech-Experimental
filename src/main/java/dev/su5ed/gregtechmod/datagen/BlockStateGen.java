@@ -5,7 +5,7 @@ import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.Ore;
-import dev.su5ed.gregtechmod.setup.ClientSetup;
+import dev.su5ed.gregtechmod.ClientSetup;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;

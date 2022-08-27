@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.util;
 
 import com.google.common.base.Preconditions;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
+import dev.su5ed.gregtechmod.Capabilities;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,7 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
@@ -64,22 +66,30 @@ public final class GtUtil {
         return neighbor.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite()).isPresent() ? neighbor : null;
     }
 
-    public static int getStrongestSignal(Coverable te, Level level, BlockPos pos, Direction excludeFacing) {
+    public static int getStrongestSignal(BlockEntity be, Level level, BlockPos pos, Direction excludeFacing) {
         return StreamEx.of(Direction.values())
             .filter(side -> excludeFacing == null || side != excludeFacing)
-            .mapToInt(side -> getSignalFromSide(side, level, pos, te))
+            .mapToInt(side -> getSignalFromSide(side, level, pos, be))
             .max()
             .orElse(0);
     }
 
-    public static int getSignalFromSide(Direction side, Level level, BlockPos pos, Coverable be) {
+    public static int getSignalFromSide(Direction side, Level level, BlockPos pos, BlockEntity be) {
         int power = level.getSignal(pos.relative(side), side);
 
-        return be.getCoverAtSide(side)
+        return be.getCapability(Capabilities.COVERABLE).resolve()
+            .flatMap(handler -> handler.getCoverAtSide(side))
             .map(cover -> cover.letsRedstoneIn() ? Math.max(power, cover.getRedstoneInput()) : 0)
             .orElse(power);
     }
-
+    
+    public static void updateRender(BlockEntity be) {
+        Level level = be.getLevel();
+        if (level.isClientSide) be.requestModelDataUpdate();
+        BlockState state = be.getBlockState();
+        level.sendBlockUpdated(be.getBlockPos(), state, state, Block.UPDATE_IMMEDIATE);
+    }
+    
     public static void damageEntity(LivingEntity target, LivingEntity attacker, float damage) {
         int oldHurtResistanceTime = target.invulnerableTime;
         target.invulnerableTime = 0;

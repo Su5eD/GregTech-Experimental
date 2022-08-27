@@ -1,10 +1,8 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -19,28 +17,21 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class MachineControllerCover extends BaseCover {
+public class MachineControllerCover extends BaseCover<IGregTechMachine> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
 
     protected ControllerMode mode = ControllerMode.NORMAL;
 
-    public MachineControllerCover(CoverType type, Coverable be, Direction side, Item item) {
+    public MachineControllerCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
-    public void doCoverThings() {
-        if (this.be instanceof IGregTechMachine machine) {
-            Level level = ((BlockEntity) this.be).getLevel();
-            BlockPos offset = ((BlockEntity) this.be).getBlockPos().relative(this.side);
-            boolean isPowered = level.hasNeighborSignal(offset) || level.hasSignal(offset, this.side);
-            machine.setAllowedToWork(isPowered == (this.mode == ControllerMode.NORMAL) && this.mode != ControllerMode.DISABLED);
-        }
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.CONTROLLER;
+    public void tick() {
+        Level level = ((BlockEntity) this.be).getLevel();
+        BlockPos offset = ((BlockEntity) this.be).getBlockPos().relative(this.side);
+        boolean isPowered = level.hasNeighborSignal(offset) || level.hasSignal(offset, this.side);
+        this.be.setAllowedToWork(isPowered == (this.mode == ControllerMode.NORMAL) && this.mode != ControllerMode.DISABLED);
     }
 
     @Override
@@ -62,7 +53,7 @@ public class MachineControllerCover extends BaseCover {
 
     @Override
     public void onCoverRemove() {
-        if (this.be instanceof IGregTechMachine machine) machine.setAllowedToWork(true);
+        this.be.setAllowedToWork(true);
     }
 
     @Override

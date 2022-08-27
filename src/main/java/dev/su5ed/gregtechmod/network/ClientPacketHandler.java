@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.network;
 
-import dev.su5ed.gregtechmod.api.cover.Coverable;
+import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -27,11 +27,10 @@ public final class ClientPacketHandler {
 
     public static void handleBlockEntityCoverUpdatePacket(BlockEntityCoverUpdate packet) {
         runBlockEntityTask(packet.pos(), be -> {
-            if (be instanceof Coverable coverable) {
-                coverable.getCoverAtSide(packet.side())
-                    .filter(cover -> cover.getType().getRegistryName().equals(packet.name()))
-                    .ifPresent(cover -> NetworkHandler.deserializeClass(packet.data(), cover));
-            }
+            be.getCapability(Capabilities.COVERABLE).resolve()
+                .flatMap(handler -> handler.getCoverAtSide(packet.side()))
+                .filter(cover -> cover.getType().getRegistryName().equals(packet.name()))
+                .ifPresent(cover -> NetworkHandler.deserializeClass(packet.data(), cover));
         });
     }
 

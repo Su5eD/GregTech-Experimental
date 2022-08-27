@@ -1,10 +1,8 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -16,12 +14,12 @@ import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public class EnergyOnlyCover extends BaseCover {
+public class EnergyOnlyCover extends BaseCover<IGregTechMachine> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
 
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public EnergyOnlyCover(CoverType type, Coverable be, Direction side, Item item) {
+    public EnergyOnlyCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -44,7 +42,7 @@ public class EnergyOnlyCover extends BaseCover {
 
     @Override
     public boolean allowEnergyTransfer() {
-        return !(this.mode.conditional && this.be instanceof IGregTechMachine machine && machine.isAllowedToWork() == this.mode.inverted);
+        return !(this.mode.conditional && this.be.isAllowedToWork() == this.mode.inverted);
     }
 
     @Override
@@ -57,11 +55,6 @@ public class EnergyOnlyCover extends BaseCover {
     public void load(FriendlyCompoundTag tag) {
         super.load(tag);
         this.mode = tag.getEnum("mode");
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.OTHER;
     }
 
     private enum EnergyMode {

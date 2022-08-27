@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.api.machine;
 
 import net.minecraft.core.Direction;
 
-public interface IGregTechMachine {
+public interface IGregTechMachine { // TODO extend IForgeBlockEntity?, remove I prefix
     
     void setRedstoneOutput(Direction side, int strength);
     

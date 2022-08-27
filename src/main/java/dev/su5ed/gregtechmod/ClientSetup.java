@@ -1,6 +1,6 @@
-package dev.su5ed.gregtechmod.setup;
+package dev.su5ed.gregtechmod;
 
-import dev.su5ed.gregtechmod.GregTechMod;
+import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.cover.ActiveDetectorCover;
 import dev.su5ed.gregtechmod.cover.ConveyorCover;
@@ -33,11 +33,13 @@ import ic2.api.item.ElectricItem;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.IModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import one.util.streamex.StreamEx;
 
@@ -46,13 +48,11 @@ import java.util.stream.Stream;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
+@EventBusSubscriber(modid = Reference.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ClientSetup {
-    public static final ClientSetup INSTANCE = new ClientSetup();
-
-    private ClientSetup() {}
 
     @SubscribeEvent
-    public void clientSetup(final FMLClientSetupEvent event) {
+    public static void clientSetup(final FMLClientSetupEvent event) {
         GregTechMod.LOGGER.info("Client setup started");
 
         event.enqueueWork(() -> ItemProperties.register(
@@ -63,7 +63,7 @@ public final class ClientSetup {
     }
 
     @SubscribeEvent
-    public void onModelRegistryEvent(ModelRegistryEvent event) {
+    public static void onModelRegistryEvent(ModelRegistryEvent event) {
         StreamEx.of(ModBlock.values())
             .filter(block -> block.getBlock() instanceof ConnectedBlock)
             .forEach(block -> {
@@ -79,7 +79,7 @@ public final class ClientSetup {
     }
 
     @SubscribeEvent
-    public void onTextureStitchEvent(TextureStitchEvent.Pre event) {
+    public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
         if (event.getAtlas().location().equals(InventoryMenu.BLOCK_ATLAS)) {
             StreamEx.of(ScreenCover.TEXTURE)
                 .append(

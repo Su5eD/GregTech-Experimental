@@ -1,36 +1,31 @@
 package dev.su5ed.gregtechmod.api.cover;
 
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
-/**
- * Used to create covers, providing <code>{@link Coverable}</code> machines all the information they need
- */
-public interface Cover {
-    
-    CoverType getType();
+import javax.annotation.Nullable;
 
-    /**
-     * @return The cover's side
-     */
+public interface Cover<T> { // TODO javadocs
+    CoverType<T> getType();
+
     Direction getSide();
 
-    /**
-     * @return The cover's associated item
-     */
+    @Nullable
     Item getItem();
     
-    /**
-     * Ticked every n tick(s), depending on the cover's {@link Cover#getTickRate() tick rate}
-     */
-    void doCoverThings();
+    boolean shouldTick();
 
-    boolean onCoverRightClick(Player player, InteractionHand hand, Direction side, float hitX, float hitY, float hitZ);
+    void tick();
+
+    boolean use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit);
 
     CoverInteractionResult onScrewdriverClick(Player player);
 
@@ -48,11 +43,6 @@ public interface Cover {
 
     boolean letsItemsOut();
 
-    /**
-     * Declares whether or not can a player access the parent's GUI when activating <b>any of the sides</b>
-     * @param side the activated side
-     * @return a <b>condition</b> under which the gui can be accessed. <b>NEVER</b> return <code>true</code> or <code>false</code> as it will break other covers (especially the Screen). For example, <code>side != this.side</code> or <code>side == this.side</code>
-     */
     boolean opensGui(Direction side);
 
     boolean acceptsRedstone();
@@ -61,18 +51,13 @@ public interface Cover {
 
     int getRedstoneInput();
 
-    /**
-     * @return The location of the cover's texture
-     */
     ResourceLocation getIcon();
-    
-    CoverCategory getCategory();
 
     default FriendlyCompoundTag save() {
         FriendlyCompoundTag tag = new FriendlyCompoundTag();
         save(tag);
         return tag;
-    } 
+    }
 
     void save(FriendlyCompoundTag tag);
 
@@ -80,8 +65,5 @@ public interface Cover {
 
     int getTickRate();
 
-    /**
-     * Called just before the cover is removed from a machine
-     */
     void onCoverRemove();
 }

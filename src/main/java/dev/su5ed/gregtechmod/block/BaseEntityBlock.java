@@ -67,10 +67,18 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-        return getBlockEntity(world, pos)
-            .flatMap(be -> be.getCloneItemStack(state, target, world, pos, player))
-            .orElseGet(() -> super.getCloneItemStack(state, target, world, pos, player));
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+        return getBlockEntity(level, pos)
+            .flatMap(be -> be.getCloneItemStack(state, target, level, pos, player))
+            .orElseGet(() -> super.getCloneItemStack(state, target, level, pos, player));
+    }
+
+    @Override
+    public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntity(level, pos)
+            .map(be -> be.canConnectRedstone(state, level, pos, side))
+            .filter(Boolean::booleanValue)
+            .orElseGet(() -> super.canConnectRedstone(state, level, pos, side));
     }
 
     @Nullable

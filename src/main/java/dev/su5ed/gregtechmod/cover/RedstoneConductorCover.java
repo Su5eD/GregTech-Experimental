@@ -1,10 +1,8 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -19,29 +17,27 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class RedstoneConductorCover extends BaseCover {
+public class RedstoneConductorCover extends BaseCover<IGregTechMachine> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
 
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
-    public RedstoneConductorCover(CoverType type, Coverable be, Direction side, Item item) {
+    public RedstoneConductorCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
-    public void doCoverThings() {
-        if (this.be instanceof IGregTechMachine machine) {
-            BlockPos pos = ((BlockEntity) this.be).getBlockPos();
-            Level level = ((BlockEntity) this.be).getLevel();
+    public void tick() {
+        BlockPos pos = ((BlockEntity) this.be).getBlockPos();
+        Level level = ((BlockEntity) this.be).getLevel();
 
-            if (mode == ConductorMode.STRONGEST) {
-                int strongest = GtUtil.getStrongestSignal(this.be, level, pos, this.side);
-                machine.setRedstoneOutput(this.side, strongest);
-            }
-            else {
-                Direction side = Direction.from3DDataValue(this.mode.ordinal() - 1);
-                machine.setRedstoneOutput(this.side, GtUtil.getSignalFromSide(side, level, pos, this.be) - 1);
-            }
+        if (this.mode == ConductorMode.STRONGEST) {
+            int strongest = GtUtil.getStrongestSignal((BlockEntity) this.be, level, pos, this.side);
+            this.be.setRedstoneOutput(this.side, strongest);
+        }
+        else {
+            Direction side = Direction.from3DDataValue(this.mode.ordinal() - 1);
+            this.be.setRedstoneOutput(this.side, GtUtil.getSignalFromSide(side, level, pos, (BlockEntity) this.be) - 1);
         }
     }
 
@@ -105,11 +101,6 @@ public class RedstoneConductorCover extends BaseCover {
     @Override
     public boolean overrideRedstoneOut() {
         return true;
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.UTIL;
     }
 
     @Override

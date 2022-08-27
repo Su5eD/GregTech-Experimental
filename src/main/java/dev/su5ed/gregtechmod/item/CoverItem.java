@@ -1,22 +1,21 @@
 package dev.su5ed.gregtechmod.item;
 
+import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Cover;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
-import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class CoverItem extends ResourceItem {
-    private final CoverType coverProvider;
+import java.util.function.Supplier;
 
-    public CoverItem(ExtendedItemProperties<?> properties, CoverType coverProvider) {
+public class CoverItem<T> extends ResourceItem {
+    private final Supplier<CoverType<T>> type;
+
+    public CoverItem(ExtendedItemProperties<?> properties, Supplier<CoverType<T>> type) {
         super(properties);
-
-        this.coverProvider = coverProvider;
+        this.type = type;
     }
 
     @Override
@@ -24,17 +23,16 @@ public class CoverItem extends ResourceItem {
         Player player = context.getPlayer();
         if (!player.isShiftKeyDown()) {
             BlockEntity be = context.getLevel().getBlockEntity(context.getClickedPos());
-
-            if (be instanceof Coverable coverable) {
-                Direction side = context.getClickedFace();
-                Cover cover = this.coverProvider.create(coverable, side, this);
-
-                if (coverable.placeCoverAtSide(cover, player, side, false)) {
-                    if (!player.isCreative()) stack.shrink(1);
-                    return InteractionResult.SUCCESS;
-                }
+            if (be != null) {
+                return be.getCapability(Capabilities.COVERABLE)
+                    .filter(handler -> handler.placeCoverAtSide(this.type.get(), context.getClickedFace(), this, false))
+                    .map(handler -> {
+                        if (!player.isCreative()) stack.shrink(1);
+                        return InteractionResult.SUCCESS;
+                    })
+                    .orElse(InteractionResult.PASS);
             }
         }
-        return super.onItemUseFirst(stack, context);
+        return InteractionResult.PASS;
     }
 }

@@ -1,10 +1,8 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -29,12 +27,12 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 import java.util.Locale;
 
-public class DrainCover extends BaseCover {
+public class DrainCover extends BaseCover<IGregTechMachine> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
 
     protected DrainMode mode = DrainMode.IMPORT;
 
-    public DrainCover(CoverType type, Coverable be, Direction side, Item item) {
+    public DrainCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -44,9 +42,7 @@ public class DrainCover extends BaseCover {
     }
 
     @Override
-    public void doCoverThings() {
-        if (!canWork()) return;
-
+    public void tick() {
         BlockEntity be = (BlockEntity) this.be;
         Level level = be.getLevel();
         BlockPos pos = be.getBlockPos();
@@ -100,21 +96,17 @@ public class DrainCover extends BaseCover {
 
     @Override
     public boolean letsLiquidsIn() {
-        return canWork();
+        return shouldTick();
+    }
+
+    @Override
+    public boolean shouldTick() {
+        return !this.mode.conditional || this.be.isAllowedToWork() != this.mode.inverted;
     }
 
     @Override
     public int getTickRate() {
         return this.mode.tickRate;
-    }
-
-    public boolean canWork() {
-        return !(this.mode.conditional && this.be instanceof IGregTechMachine machine && machine.isAllowedToWork() == this.mode.inverted);
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.IO;
     }
 
     @Override

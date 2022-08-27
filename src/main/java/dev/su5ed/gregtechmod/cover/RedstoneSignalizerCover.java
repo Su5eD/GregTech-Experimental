@@ -1,9 +1,7 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -12,14 +10,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class RedstoneSignalizerCover extends BaseCover {
+public class RedstoneSignalizerCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_signalizer");
 
     protected int signal;
 
-    public RedstoneSignalizerCover(CoverType type, Coverable te, Direction side, Item item) {
-        super(type, te, side, item);
+    public RedstoneSignalizerCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+        super(type, be, side, item);
     }
 
     @Override
@@ -42,11 +41,6 @@ public class RedstoneSignalizerCover extends BaseCover {
     @Override
     public ResourceLocation getIcon() {
         return TEXTURE;
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.METER;
     }
 
     @Override

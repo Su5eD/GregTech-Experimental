@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.InvUtil;
@@ -13,20 +12,18 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class ConveyorCover extends InventoryCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("conveyor");
 
-    public ConveyorCover(CoverType type, Coverable be, Direction side, Item item) {
+    public ConveyorCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
-    public void doCoverThings() {
-        if (canWork()) {
-            if (shouldUseEnergy(128)) {
-                if (((IElectricMachine) this.be).canUseEnergy(128)) {
-                    ((IElectricMachine) this.be).useEnergy(moveItemStack((BlockEntity) this.be, this.side, this.mode));
-                }
+    public void tick() {
+        if (shouldUseEnergy(128)) {
+            if (((IElectricMachine) this.be).canUseEnergy(128)) {
+                ((IElectricMachine) this.be).useEnergy(moveItemStack(this.be, this.side, this.mode));
             }
-            else moveItemStack((BlockEntity) this.be, side, mode);
         }
+        else moveItemStack(this.be, side, mode);
     }
 
     public static int moveItemStack(BlockEntity source, Direction side, InventoryMode mode) {

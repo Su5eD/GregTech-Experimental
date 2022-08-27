@@ -1,21 +1,27 @@
 package dev.su5ed.gregtechmod.blockentity.component;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.su5ed.gregtechmod.api.cover.Cover;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
+import dev.su5ed.gregtechmod.api.cover.CoverCategory;
+import dev.su5ed.gregtechmod.api.cover.CoverHandler;
+import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.network.NetworkHandler;
 import dev.su5ed.gregtechmod.network.Networked;
-import dev.su5ed.gregtechmod.object.ModObjects;
+import dev.su5ed.gregtechmod.object.ModCovers;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -23,21 +29,24 @@ import java.util.function.Function;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public class CoverHandler<T extends BaseBlockEntity & Coverable> extends GtComponentBase<T> {
-    public static final ModelProperty<Map<Direction, Cover>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
+public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase<T> implements CoverHandler {
+    public static final ModelProperty<Map<Direction, Cover<?>>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
     private static final ResourceLocation NAME = location("cover_handler");
-    
-    private final Codec<Map<Direction, Cover>> coversCodec = createCoversCodec();
+
+    private final Codec<Map<Direction, Cover<?>>> coversCodec = createCoversCodec();
+    private final Collection<CoverCategory> coverBlacklist;
     
     @Networked
-    private Map<Direction, Cover> covers = new HashMap<>();
-    
+    private Map<Direction, Cover<?>> covers = new HashMap<>();
+
     static {
-        NetworkHandler.registerHandler(CoverHandler.class, "covers", CoverHandler::getCoversCodec);
+        NetworkHandler.registerHandler(CoverHandlerImpl.class, "covers", CoverHandlerImpl::getCoversCodec);
     }
-    
-    public CoverHandler(T te) {
+
+    public CoverHandlerImpl(T te, Collection<CoverCategory> coverBlacklist) {
         super(te);
+        
+        this.coverBlacklist = ImmutableList.copyOf(coverBlacklist);
     }
 
     @Override
@@ -45,17 +54,22 @@ public class CoverHandler<T extends BaseBlockEntity & Coverable> extends GtCompo
         return NAME;
     }
 
-    public Map<Direction, Cover> getCovers() {
+    @Override
+    public Map<Direction, Cover<?>> getCovers() {
         return ImmutableMap.copyOf(this.covers);
     }
 
-    public Optional<Cover> getCoverAtSide(Direction side) {
+    @Override
+    public Optional<Cover<?>> getCoverAtSide(Direction side) {
         return Optional.ofNullable(this.covers.get(side));
     }
 
-    public boolean placeCoverAtSide(Cover cover, Direction side, boolean simulate) {
-        if (!this.covers.containsKey(side)) {
+    @Override
+    public <U> boolean placeCoverAtSide(CoverType<U> type, Direction side, Item item, boolean simulate) {
+        if (!this.covers.containsKey(side) && !this.coverBlacklist.contains(type.getCategory()) && type.getCoverableClass().isInstance(this.parent)) {
             if (isServerSide() && !simulate) {
+                //noinspection unchecked
+                Cover<?> cover = type.create((U) this.parent, side, item);
                 this.covers.put(side, cover);
                 this.parent.setChanged();
                 updateClient();
@@ -65,7 +79,8 @@ public class CoverHandler<T extends BaseBlockEntity & Coverable> extends GtCompo
         return false;
     }
 
-    public boolean removeCover(Direction side, boolean simulate) {
+    @Override    
+    public Optional<Cover<?>> removeCover(Direction side, boolean simulate) {
         return getCoverAtSide(side)
             .map(cover -> {
                 if (isServerSide() && !simulate) {
@@ -74,9 +89,8 @@ public class CoverHandler<T extends BaseBlockEntity & Coverable> extends GtCompo
                     this.parent.setChanged();
                     updateClient();
                 }
-                return true;
-            })
-            .orElse(false);
+                return cover;
+            });
     }
 
     @Override
@@ -93,21 +107,22 @@ public class CoverHandler<T extends BaseBlockEntity & Coverable> extends GtCompo
 
     @Override
     public void onFieldUpdate(String name) {
-        if (name.equals("covers")) this.parent.updateRenderClient();
+        if (name.equals("covers")) GtUtil.updateRender(this.parent);
     }
 
-    private Codec<Map<Direction, Cover>> getCoversCodec() {
+    private Codec<Map<Direction, Cover<?>>> getCoversCodec() {
         return coversCodec;
     }
 
-    private Codec<Map<Direction, Cover>> createCoversCodec() {
-        Codec<Cover> coverCodec = RecordCodecBuilder.create(instance -> instance.group(
-            ModObjects.coverRegistry.get().getCodec().fieldOf("type").forGetter(Cover::getType),
+    private Codec<Map<Direction, Cover<?>>> createCoversCodec() {
+        Codec<Cover<?>> coverCodec = RecordCodecBuilder.create(instance -> instance.group(
+            ModCovers.REGISTRY.get().getCodec().fieldOf("type").forGetter(Cover::getType),
             Direction.CODEC.fieldOf("side").forGetter(Cover::getSide),
-            ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(Cover::getItem),
+            ForgeRegistries.ITEMS.getCodec().fieldOf("stack").forGetter(Cover::getItem),
             FriendlyCompoundTag.CODEC.fieldOf("tag").forGetter(Cover::save)
         ).apply(instance, (type, side, item, tag) -> {
-            Cover cover = type.create(this.parent, side, item);
+            //noinspection unchecked
+            Cover<T> cover = ((CoverType<T>) type).create(this.parent, side, item);
             cover.load(tag);
             return cover;
         }));

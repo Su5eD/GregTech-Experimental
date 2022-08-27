@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import ic2.core.util.LiquidUtil;
@@ -16,22 +15,22 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 public class PumpCover extends InventoryCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("pump");
 
-    public PumpCover(CoverType type, Coverable be, Direction side, Item item) {
+    public PumpCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
-    public void doCoverThings() {
-        if (canWork() && LiquidUtil.isFluidTile((BlockEntity) this.be, this.side)) {
-            BlockEntity target = GtUtil.getNeighborFluidBlockEntity((BlockEntity) this.be, this.side);
+    public void tick() {
+        if (LiquidUtil.isFluidTile(this.be, this.side)) {
+            BlockEntity target = GtUtil.getNeighborFluidBlockEntity(this.be, this.side);
             if (target != null) {
-                FluidStack stack = GtUtil.drainBlock(this.mode.isImport ? target : (BlockEntity) this.be, this.mode.isImport ? this.side.getOpposite() : this.side, 1000, FluidAction.EXECUTE);
+                FluidStack stack = GtUtil.drainBlock(this.mode.isImport ? target : this.be, this.mode.isImport ? this.side.getOpposite() : this.side, 1000, FluidAction.EXECUTE);
                 if (!stack.isEmpty()) {
                     double energy = Math.min(1, stack.getAmount() / 100D);
 
                     if (!shouldUseEnergy(energy) || ((IElectricMachine) this.be).canUseEnergy(energy)) {
                         // TODO GtUtil method
-                        LiquidUtil.transfer(this.mode.isImport ? target : (BlockEntity) this.be, this.mode.isImport ? this.side.getOpposite() : this.side, this.mode.isImport ? (BlockEntity) this.be : target, FluidAttributes.BUCKET_VOLUME);
+                        LiquidUtil.transfer(this.mode.isImport ? target : this.be, this.mode.isImport ? this.side.getOpposite() : this.side, this.mode.isImport ? this.be : target, FluidAttributes.BUCKET_VOLUME);
                     }
                 }
             }
@@ -45,12 +44,12 @@ public class PumpCover extends InventoryCover {
 
     @Override
     public boolean letsLiquidsIn() {
-        return canWork() && this.mode.allowsInput();
+        return shouldTick() && this.mode.allowsInput();
     }
 
     @Override
     public boolean letsLiquidsOut() {
-        return canWork() && this.mode.allowsOutput();
+        return shouldTick() && this.mode.allowsOutput();
     }
 
     @Override

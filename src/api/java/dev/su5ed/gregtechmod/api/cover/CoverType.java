@@ -5,25 +5,37 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class CoverType extends ForgeRegistryEntry<CoverType> {
-    private final CoverSupplier factory;
+public class CoverType<T> extends ForgeRegistryEntry<CoverType<?>> {
+    private final CoverCategory category;
+    private final Class<T> coverableClass;
+    private final CoverSupplier<T> factory;
 
-    public CoverType(CoverSupplier factory) {
+    public CoverType(CoverCategory category, Class<T> coverableClass, CoverSupplier<T> factory) {
+        this.category = category;
+        this.coverableClass = coverableClass;
         this.factory = factory;
     }
-    
-    public Cover create(Coverable parent, Direction side, Item item) {
+
+    public CoverCategory getCategory() {
+        return this.category;
+    }
+
+    public Class<T> getCoverableClass() {
+        return this.coverableClass;
+    }
+
+    public Cover<T> create(T parent, Direction side, Item item) {
         return this.factory.create(this, parent, side, item);
     }
 
     @FunctionalInterface
-    public interface CoverSupplier {
+    public interface CoverSupplier<T> {
         /**
          * @param side   The cover's side
          * @param parent The <code>{@link BlockEntity BlockEntity}</code> being covered
          * @param item   The cover <code>{@link Item}</code>
          * @return A new cover instance
          */
-        Cover create(CoverType type, Coverable parent, Direction side, Item item);
+        Cover<T> create(CoverType<T> type, T parent, Direction side, Item item);
     }
 }

@@ -1,8 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.Plate;
@@ -11,13 +9,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import one.util.streamex.StreamEx;
 
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
 
-public class GenericCover extends BaseCover {
+public class GenericCover extends BaseCover<BlockEntity> {
     private static final Collection<Item> IC2_PLATES = Set.of(
         Ic2Items.BRONZE_PLATE, Ic2Items.COPPER_PLATE, Ic2Items.GOLD_PLATE, Ic2Items.TIN_PLATE,
         Ic2Items.IRON_PLATE, Ic2Items.LAPIS_PLATE, Ic2Items.OBSIDIAN_PLATE, Ic2Items.IRIDIUM
@@ -26,18 +25,13 @@ public class GenericCover extends BaseCover {
         .map(Plate::getItem)
         .toImmutableSet();
 
-    public GenericCover(CoverType type, Coverable be, Direction side, Item item) {
+    public GenericCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
     public ResourceLocation getIcon() {
         return CoverTexture.valueOf(getCoverName(this.item).toUpperCase(Locale.ROOT)).getLocation();
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.GENERIC;
     }
 
     public static boolean isGenericCover(ItemStack stack) {

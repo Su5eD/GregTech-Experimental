@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.model;
 
 import dev.su5ed.gregtechmod.api.cover.Cover;
-import dev.su5ed.gregtechmod.blockentity.component.CoverHandler;
+import dev.su5ed.gregtechmod.blockentity.component.CoverHandlerImpl;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.VerticalRotation;
 import net.minecraft.client.renderer.block.model.*;
@@ -70,7 +70,7 @@ public class CoverableModel extends BaseModel {
     }
     
     private Map<Direction, Material> getCoverData(IModelData data) {
-        Map<Direction, Cover> covers = data.getData(CoverHandler.COVER_HANDLER_PROPERTY);
+        Map<Direction, Cover<?>> covers = data.getData(CoverHandlerImpl.COVER_HANDLER_PROPERTY);
         if (covers != null) {
             return EntryStream.of(covers)
                 .mapValues(Cover::getIcon)

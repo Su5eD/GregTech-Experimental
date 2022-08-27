@@ -1,8 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,21 +20,21 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
-public class CraftingCover extends BaseCover {
+public class CraftingCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
     private static final Component CONTAINER_TITLE = new TranslatableComponent("container.crafting");
 
-    public CraftingCover(CoverType type, Coverable be, Direction side, Item item) {
+    public CraftingCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
-    public boolean onCoverRightClick(Player player, InteractionHand hand, Direction side, float hitX, float hitY, float hitZ) {
+    public boolean use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.nextContainerCounter();
-            Level level = this.be.getLevel();
-            BlockPos pos = this.be.getBlockPos();
             serverPlayer.openMenu(getMenuProvider(level, pos));
         }
         player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
@@ -52,11 +50,6 @@ public class CraftingCover extends BaseCover {
         return TEXTURE;
     }
 
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.UTIL;
-    }
-
     private class CoverCraftingMenu extends CraftingMenu {
 
         public CoverCraftingMenu(int id, Inventory inventory, ContainerLevelAccess access) {
@@ -65,7 +58,6 @@ public class CraftingCover extends BaseCover {
 
         @Override
         public boolean stillValid(Player player) {
-            BlockEntity be = (BlockEntity) CraftingCover.this.be;
             Block block = be.getBlockState().getBlock();
             return be.getLevel().getBlockState(be.getBlockPos()).getBlock().equals(block);
         }

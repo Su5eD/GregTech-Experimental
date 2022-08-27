@@ -1,16 +1,18 @@
 package dev.su5ed.gregtechmod.blockentity.base;
 
+import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
-import dev.su5ed.gregtechmod.blockentity.component.CoverHandler;
+import dev.su5ed.gregtechmod.api.cover.CoverHandler;
+import dev.su5ed.gregtechmod.api.cover.CoverType;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
+import dev.su5ed.gregtechmod.blockentity.component.CoverHandlerImpl;
 import dev.su5ed.gregtechmod.cover.GenericCover;
-import dev.su5ed.gregtechmod.cover.ModCoverType;
 import dev.su5ed.gregtechmod.cover.VentCover;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.network.Networked;
+import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
@@ -21,31 +23,34 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import one.util.streamex.StreamEx;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
+public class CoverableBlockEntity extends BaseBlockEntity {
     @Networked
-    private final CoverHandler<CoverableBlockEntity> coverHandler;
-    private final Collection<CoverCategory> coverBlacklist;
+    private final CoverHandlerImpl<CoverableBlockEntity> coverHandler;
+    private final LazyOptional<CoverHandler> optionalCoverHandler;
 
     public CoverableBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider, pos, state);
 
-        this.coverHandler = addComponent(new CoverHandler<>(this));
-        this.coverBlacklist = getCoverBlacklist();
+        this.coverHandler = addComponent(new CoverHandlerImpl<>(this, getCoverBlacklist()));
+        this.optionalCoverHandler = LazyOptional.of(() -> this.coverHandler);
     }
 
     protected Collection<CoverCategory> getCoverBlacklist() {
@@ -54,7 +59,10 @@ public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        Map<Direction, Cover<?>> covers = this.coverHandler.getCovers(); // TODO check sneaking
         return beforeUse(player, hand, hit)
+            || StreamEx.ofValues(covers).anyMatch(cover -> cover.use(state, level, pos, player, hand, hit))
+            || !StreamEx.ofValues(covers).cross(hit.getDirection()).allMatch(Cover::opensGui)
             ? InteractionResult.SUCCESS
             : super.use(state, level, pos, player, hand, hit);
     }
@@ -63,10 +71,10 @@ public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
         ItemStack stack = player.getItemInHand(hand);
         Direction side = hit.getDirection();
         if (GenericCover.isGenericCover(stack)) {
-            return placeCover(ModCoverType.GENERIC, player, side, stack);
+            return placeCover(ModCovers.GENERIC.get(), player, side, stack);
         }
         else if (VentCover.isVent(stack)) {
-            return placeCover(ModCoverType.VENT, player, side, stack);
+            return placeCover(ModCovers.VENT.get(), player, side, stack);
         }
         else if (stack.is(GregTechTags.SCREWDRIVER)) {
             return useScrewdriver(stack, side, player);
@@ -74,9 +82,8 @@ public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
         return tryUseCrowbar(stack, side, player);
     }
 
-    private boolean placeCover(ModCoverType type, Player player, Direction side, ItemStack stack) {
-        Cover cover = type.get().create(this, side, stack.getItem());
-        if (placeCoverAtSide(cover, player, side, false)) {
+    private boolean placeCover(CoverType<?> type, Player player, Direction side, ItemStack stack) {
+        if (this.coverHandler.placeCoverAtSide(type, side, stack.getItem(), false)) {
             if (!player.isCreative()) stack.shrink(1);
             return true;
         }
@@ -84,7 +91,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
     }
 
     protected boolean useScrewdriver(ItemStack stack, Direction side, Player player) {
-        Cover existing = getCoverAtSide(side).orElse(null);
+        Cover<?> existing = this.coverHandler.getCoverAtSide(side).orElse(null);
         if (existing != null) {
             CoverInteractionResult result = existing.onScrewdriverClick(player);
             if (!player.level.isClientSide && result == CoverInteractionResult.RERENDER) {
@@ -98,59 +105,16 @@ public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
                 return true;
             }
         }
-
-        Cover cover = ModCoverType.NORMAL.get().create(this, side, Items.AIR);
-        return placeCoverAtSide(cover, player, side, false);
+        return this.coverHandler.placeCoverAtSide(ModCovers.NORMAL.get(), side, null, false);
     }
 
     public boolean tryUseCrowbar(ItemStack stack, Direction side, Player player) {
-        if (stack.is(GregTechTags.CROWBAR) && removeCover(side, false)) {
-            GtUtil.hurtStack(stack, 1, player);
-            return true;
-        }
-        return false;
-    }
-
-    @Nonnull
-    @Override
-    public IModelData getModelData() {
-        return new ModelDataMap.Builder()
-            .withInitial(CoverHandler.COVER_HANDLER_PROPERTY, this.coverHandler.getCovers())
-            .build();
-    }
-
-    @Override
-    public Optional<ItemStack> getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-        if (target instanceof BlockHitResult blockHit) {
-            return getCoverAtSide(blockHit.getDirection())
-                .map(Cover::getItem)
-                .map(ItemStack::new);
-        }
-        return super.getCloneItemStack(state, target, world, pos, player);
-    }
-
-    @Override
-    public Collection<? extends Cover> getCovers() {
-        return this.coverHandler.getCovers().values();
-    }
-
-    @Override
-    public Optional<Cover> getCoverAtSide(Direction side) {
-        return this.coverHandler.getCoverAtSide(side);
-    }
-
-    @Override
-    public boolean placeCoverAtSide(Cover cover, Player player, Direction side, boolean simulate) {
-        return !this.coverBlacklist.contains(cover.getCategory()) && this.coverHandler.placeCoverAtSide(cover, side, simulate);
-    }
-
-    @Override
-    public boolean removeCover(Direction side, boolean simulate) {
-        return getCoverAtSide(side)
-            .map(cover -> {
-                Item coverItem = cover.getItem();
-                if (this.coverHandler.removeCover(side, false)) {
-                    if (coverItem != Items.AIR && !this.level.isClientSide) {
+        if (stack.is(GregTechTags.CROWBAR)) {
+            return this.coverHandler.removeCover(side, false)
+                .map(cover -> {
+                    GtUtil.hurtStack(stack, 1, player);
+                    Item coverItem = cover.getItem();
+                    if (coverItem != null && !this.level.isClientSide) {
                         ItemEntity entity = new ItemEntity(
                             this.level,
                             this.worldPosition.getX() + side.getStepX() + 0.5,
@@ -160,17 +124,46 @@ public class CoverableBlockEntity extends BaseBlockEntity implements Coverable {
                         this.level.addFreshEntity(entity);
                     }
                     return true;
-                }
-                return false;
-            })
-            .orElse(false);
+                })
+                .orElse(false);
+        }
+        return false;
+    }
+
+    @Nonnull
+    @Override
+    public IModelData getModelData() {
+        return new ModelDataMap.Builder()
+            .withInitial(CoverHandlerImpl.COVER_HANDLER_PROPERTY, this.coverHandler.getCovers())
+            .build();
     }
 
     @Override
-    public void updateRender() {
-        GtUtil.assertServerSide(this.level);
+    public Optional<ItemStack> getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+        if (target instanceof BlockHitResult blockHit) {
+            return this.coverHandler.getCoverAtSide(blockHit.getDirection())
+                .map(Cover::getItem)
+                .map(ItemStack::new);
+        }
+        return super.getCloneItemStack(state, target, world, pos, player);
+    }
 
-        BlockState state = getBlockState();
-        this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);
+    @Override
+    public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction side) {
+        return side != null && this.coverHandler.getCoverAtSide(side)
+            .map(cover -> cover.letsRedstoneIn() || cover.letsRedstoneOut() || cover.acceptsRedstone() || cover.overrideRedstoneOut())
+            .orElse(false);
+    }
+
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        return Capabilities.COVERABLE.orEmpty(cap, this.optionalCoverHandler);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.optionalCoverHandler.invalidate();
     }
 }

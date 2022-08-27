@@ -1,12 +1,9 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -18,59 +15,61 @@ import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public class EnergyMeterCover extends BaseCover {
+public class EnergyMeterCover extends BaseCover<IElectricMachine> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
 
     protected Mode mode = Mode.UNIVERSAL;
 
-    public EnergyMeterCover(CoverType type, Coverable be, Direction side, Item item) {
+    public EnergyMeterCover(CoverType<IElectricMachine> type, IElectricMachine be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
-    public void doCoverThings() {
-        if (this.be instanceof IElectricMachine machine) {
-            int strength;
+    public void tick() {
+        int strength;
 
-            if (this.mode == Mode.AVERAGE_EU_IN || this.mode == Mode.AVERAGE_EU_IN_INVERTED) {
-                strength = (int) (machine.getAverageEUInput() / (machine.getMaxInputEUp() / 15));
-            }
-            else if (this.mode == Mode.AVERAGE_EU_OUT || this.mode == Mode.AVERAGE_EU_OUT_INVERTED) {
-                strength = (int) (machine.getAverageEUOutput() / (machine.getMaxOutputEUt() / 15));
-            }
-            else {
-                boolean upgradable = machine instanceof UpgradableBlockEntity;
-                double stored = -1;
-                double capacity = 1;
+        if (this.mode == Mode.AVERAGE_EU_IN || this.mode == Mode.AVERAGE_EU_IN_INVERTED) {
+            strength = (int) (this.be.getAverageEUInput() / (this.be.getMaxInputEUp() / 15));
+        }
+        else if (this.mode == Mode.AVERAGE_EU_OUT || this.mode == Mode.AVERAGE_EU_OUT_INVERTED) {
+            strength = (int) (this.be.getAverageEUOutput() / (this.be.getMaxOutputEUt() / 15));
+        }
+        else {
+            double stored = -1;
+            double capacity = 1;
 
-                if (this.mode == Mode.UNIVERSAL || this.mode == Mode.UNIVERSAL_INVERTED) {
-                    stored = upgradable ? ((UpgradableBlockEntity) machine).getUniversalEnergy() : machine.getStoredEU();
-                    capacity = upgradable ? ((UpgradableBlockEntity) machine).getUniversalEnergyCapacity() : machine.getEUCapacity();
+            if (this.mode == Mode.UNIVERSAL || this.mode == Mode.UNIVERSAL_INVERTED) {
+                if (this.be instanceof UpgradableBlockEntity upgradable) {
+                    stored = upgradable.getUniversalEnergy();
+                    capacity = upgradable.getUniversalEnergyCapacity();
+                } else {
+                    stored = this.be.getStoredEU();
+                    capacity = this.be.getEUCapacity();
                 }
-                else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
-                    stored = machine.getStoredEU();
-                    capacity = machine.getEUCapacity();
+            }
+            else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
+                stored = this.be.getStoredEU();
+                capacity = this.be.getEUCapacity();
+            }
+            else if (this.be instanceof UpgradableBlockEntity upgradable) {
+                if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && upgradable.hasMjUpgrade()) {
+                    stored = upgradable.getStoredMj();
+                    capacity = upgradable.getMjCapacity();
                 }
-                else if (upgradable) {
-                    if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && ((UpgradableBlockEntity) machine).hasMjUpgrade()) {
-                        stored = ((UpgradableBlockEntity) machine).getStoredMj();
-                        capacity = ((UpgradableBlockEntity) machine).getMjCapacity();
-                    }
-                    else if ((this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) && ((UpgradableBlockEntity) machine).hasSteamTank()) {
-                        stored = ((UpgradableBlockEntity) machine).getStoredSteam();
-                        capacity = ((UpgradableBlockEntity) machine).getSteamCapacity();
-                    }
+                else if ((this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) && upgradable.hasSteamTank()) {
+                    stored = upgradable.getStoredSteam();
+                    capacity = upgradable.getSteamCapacity();
                 }
-
-                strength = (int) ((stored + 1) / capacity * 15);
             }
 
-            if (strength > 0) {
-                machine.setRedstoneOutput(side, this.mode.inverted ? 15 - strength : strength);
-            }
-            else {
-                machine.setRedstoneOutput(side, this.mode.inverted ? 15 : 0);
-            }
+            strength = (int) ((stored + 1) / capacity * 15);
+        }
+
+        if (strength > 0) {
+            this.be.setRedstoneOutput(side, this.mode.inverted ? 15 - strength : strength);
+        }
+        else {
+            this.be.setRedstoneOutput(side, this.mode.inverted ? 15 : 0);
         }
     }
 
@@ -123,9 +122,7 @@ public class EnergyMeterCover extends BaseCover {
 
     @Override
     public void onCoverRemove() {
-        if (this.be instanceof IGregTechMachine machine) {
-            machine.setRedstoneOutput(this.side, 0);
-        }
+        this.be.setRedstoneOutput(this.side, 0);
     }
 
     @Override
@@ -136,11 +133,6 @@ public class EnergyMeterCover extends BaseCover {
     @Override
     public int getTickRate() {
         return 5;
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.METER;
     }
 
     @Override

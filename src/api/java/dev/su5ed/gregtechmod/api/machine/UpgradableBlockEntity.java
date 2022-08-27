@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import java.util.Set;
 
 /**
- * Provides upgrade item compatibility
+ * Provides upgrade stack compatibility
  * @author Su5eD
  */
 public interface UpgradableBlockEntity extends IElectricMachine {

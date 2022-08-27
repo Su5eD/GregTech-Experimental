@@ -5,7 +5,6 @@ import dev.su5ed.gregtechmod.api.GregTechAPI;
 import dev.su5ed.gregtechmod.api.IGregTechAPI;
 import dev.su5ed.gregtechmod.api.item.TurbineRotor;
 import dev.su5ed.gregtechmod.api.util.SonictronSound;
-import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.JavaUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -41,10 +40,10 @@ final class GregTechAPIImpl implements IGregTechAPI {
     }
 
     @Override
-    public String getSoundFor(ItemStack stack) {
+    public String getSoundFor(Item item) {
         return StreamEx.of(this.sonictronSounds)
-            .filter(sound -> GtUtil.stackEquals(stack, sound.getItem()))
-            .map(SonictronSound::getName)
+            .filter(sound -> item == sound.item().asItem())
+            .map(SonictronSound::name)
             .findFirst()
             .orElse("block.note.harp");
     }

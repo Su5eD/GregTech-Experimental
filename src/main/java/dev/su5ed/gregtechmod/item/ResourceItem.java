@@ -86,7 +86,7 @@ public class ResourceItem extends Item {
                 .<Function<Item, MutableComponent>>mapToObj(i -> item -> {
                     String name = item.getRegistryName().getPath();
                     String path = i == 0 ? "description" : "description_" + i;
-                    return GtLocale.key("item", name, path).toComponent();
+                    return GtLocale.key("stack", name, path).toComponent();
                 })
                 .forEach(this.description::add);
             return (T) this;

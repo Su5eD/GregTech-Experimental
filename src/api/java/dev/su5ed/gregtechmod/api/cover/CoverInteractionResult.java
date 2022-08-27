@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.api.util;
+package dev.su5ed.gregtechmod.api.cover;
 
 public enum CoverInteractionResult {
     RERENDER(true, true),

@@ -15,7 +15,7 @@ public interface IGregTechAPI {
     void registerSonictronSound(SonictronSound sound);
     void registerSonictronSounds(Collection<SonictronSound> sounds);
     List<SonictronSound> getSonictronSounds();
-    String getSoundFor(ItemStack stack);
+    String getSoundFor(Item item);
     
     void registerCondition(String type, Predicate<JsonNode> predicate);
     boolean testCondition(String type, JsonNode node);

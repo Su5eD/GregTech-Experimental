@@ -1,8 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IMachineProgress;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.core.BlockPos;
@@ -21,24 +19,24 @@ import java.util.Locale;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public class VentCover extends GenericCover {
+public class VentCover extends BaseCover<IMachineProgress> {
     private final double efficiency;
 
-    public VentCover(CoverType type, Coverable te, Direction side, Item item) {
-        super(type, te, side, item);
+    public VentCover(CoverType<IMachineProgress> type, IMachineProgress be, Direction side, Item item) {
+        super(type, be, side, item);
         this.efficiency = getVentType(item).efficiency;
     }
 
     @Override
-    public void doCoverThings() {
-        if (this.be instanceof IMachineProgress machine && machine.isActive()) {
+    public void tick() {
+        if (this.be.isActive()) {
             Level level = ((BlockEntity) this.be).getLevel();
             BlockPos pos = ((BlockEntity) this.be).getBlockPos();
             if (level.getBlockState(pos.relative(this.side)).getCollisionShape(level, pos) == null) {
-                int maxProgress = machine.getMaxProgress();
+                int maxProgress = this.be.getMaxProgress();
                 double amplifier = maxProgress / 100D * this.efficiency;
                 double increase = amplifier / (maxProgress - 2D);
-                machine.increaseProgress(increase);
+                this.be.increaseProgress(increase);
             }
         }
     }
@@ -87,10 +85,5 @@ public class VentCover extends GenericCover {
     @Override
     public int getTickRate() {
         return 1;
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.OTHER;
     }
 }

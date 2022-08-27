@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 class ItemModelGen extends ItemModelProvider {
-    private final ResourceLocation generatedParent = mcLoc("item/generated");
+    private final ResourceLocation generatedParent = mcLoc("stack/generated");
     
     public ItemModelGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, Reference.MODID, existingFileHelper);
@@ -46,7 +46,7 @@ class ItemModelGen extends ItemModelProvider {
         String fullName = Component.LITHIUM_RE_BATTERY.getName() + "_full";
         providerModel(Component.LITHIUM_RE_BATTERY, "component")
             .override()
-                .model(singleItemTexture(fullName, this.generatedParent, location("item", "component", fullName)))
+                .model(singleItemTexture(fullName, this.generatedParent, location("stack", "component", fullName)))
                 .predicate(LithiumBatteryItem.CHARGE_PROPERTY, 1)
                 .end();
     }
@@ -64,7 +64,7 @@ class ItemModelGen extends ItemModelProvider {
     
     public ItemModelBuilder providerModel(ItemProvider provider, String folder) {
         String path = provider.getItem().getRegistryName().getPath();
-        ResourceLocation texture = location("item", folder, provider.getName());
+        ResourceLocation texture = location("stack", folder, provider.getName());
         return singleItemTexture(path, this.generatedParent, texture);
     }
     

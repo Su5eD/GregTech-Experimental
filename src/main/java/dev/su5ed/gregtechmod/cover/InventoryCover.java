@@ -1,28 +1,23 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
-public abstract class InventoryCover extends BaseCover {
+public abstract class InventoryCover extends BaseCover<BlockEntity> {
     protected InventoryMode mode = InventoryMode.EXPORT;
 
-    protected InventoryCover(CoverType type, Coverable be, Direction side, Item item) {
+    protected InventoryCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
-    }
-
-    public boolean canWork() {
-        return !(this.be instanceof IGregTechMachine machine) || !(this.mode.conditional && machine.isAllowedToWork() == this.mode.inverted);
     }
 
     protected boolean shouldUseEnergy(double minCapacity) {
@@ -71,11 +66,6 @@ public abstract class InventoryCover extends BaseCover {
     }
 
     @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.IO;
-    }
-
-    @Override
     public void save(FriendlyCompoundTag tag) {
         super.save(tag);
         tag.putEnum("mode", this.mode);
@@ -85,5 +75,10 @@ public abstract class InventoryCover extends BaseCover {
     public void load(FriendlyCompoundTag tag) {
         super.load(tag);
         this.mode = tag.getEnum("mode");
+    }
+    
+    @Override
+    public boolean shouldTick() {
+        return !(this.be instanceof IGregTechMachine machine) || !(this.mode.conditional && machine.isAllowedToWork() == this.mode.inverted);
     }
 }

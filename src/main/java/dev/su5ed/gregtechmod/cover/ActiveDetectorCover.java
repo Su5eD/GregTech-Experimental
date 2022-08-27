@@ -1,11 +1,8 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.machine.IMachineProgress;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -17,12 +14,12 @@ import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public class ActiveDetectorCover extends BaseCover {
+public class ActiveDetectorCover extends BaseCover<IMachineProgress> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("active_detector");
 
     protected DetectorMode mode = DetectorMode.NORMAL;
 
-    public ActiveDetectorCover(CoverType type, Coverable be, Direction side, Item item) {
+    public ActiveDetectorCover(CoverType<IMachineProgress> type, IMachineProgress be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -32,18 +29,16 @@ public class ActiveDetectorCover extends BaseCover {
     }
 
     @Override
-    public void doCoverThings() {
-        if (this.be instanceof IMachineProgress machine) {
-            int strength = (int) ((machine.getProgress() + 4) / machine.getMaxProgress() * 15);
-            if (this.mode == DetectorMode.NORMAL || this.mode == DetectorMode.INVERTED) {
-                int output = strength > 0 && machine.isActive()
-                    ? this.mode.inverted ? 15 - strength : strength
-                    : this.mode.inverted ? 15 : 0;
-                machine.setRedstoneOutput(this.side, output);
-            }
-            else {
-                machine.setRedstoneOutput(this.side, (this.mode == DetectorMode.READY) != (machine.getProgress() == 0) ? 0 : 15);
-            }
+    public void tick() {
+        int strength = (int) ((this.be.getProgress() + 4) / this.be.getMaxProgress() * 15);
+        if (this.mode == DetectorMode.NORMAL || this.mode == DetectorMode.INVERTED) {
+            int output = strength > 0 && this.be.isActive()
+                ? this.mode.inverted ? 15 - strength : strength
+                : this.mode.inverted ? 15 : 0;
+            this.be.setRedstoneOutput(this.side, output);
+        }
+        else {
+            this.be.setRedstoneOutput(this.side, (this.mode == DetectorMode.READY) != (this.be.getProgress() == 0) ? 0 : 15);
         }
     }
 
@@ -96,12 +91,7 @@ public class ActiveDetectorCover extends BaseCover {
 
     @Override
     public void onCoverRemove() {
-        if (be instanceof IGregTechMachine machine) machine.setRedstoneOutput(side, 0);
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.METER;
+        this.be.setRedstoneOutput(side, 0);
     }
 
     @Override

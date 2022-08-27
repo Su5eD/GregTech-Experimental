@@ -2,22 +2,27 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
-public abstract class BaseCover implements Cover {
-    private final CoverType type;
-    protected final Coverable be; // TODO Generic covers
+import javax.annotation.Nullable;
+
+public abstract class BaseCover<T> implements Cover<T> {
+    private final CoverType<T> type;
+    protected final T be;
     protected final Direction side;
     protected final Item item;
 
-    protected BaseCover(CoverType type, Coverable be, Direction side, Item item) {
+    protected BaseCover(CoverType<T> type, T be, Direction side, Item item) {
         this.type = type;
         this.be = be;
         this.side = side;
@@ -25,7 +30,7 @@ public abstract class BaseCover implements Cover {
     }
 
     @Override
-    public CoverType getType() {
+    public CoverType<T> getType() {
         return this.type;
     }
     
@@ -34,21 +39,22 @@ public abstract class BaseCover implements Cover {
         return this.side;
     }
 
+    @Nullable
     @Override
     public Item getItem() {
         return this.item;
     }
 
     @Override
-    public void doCoverThings() {}
+    public void tick() {}
 
     @Override
-    public boolean onCoverRightClick(Player player, InteractionHand hand, Direction side, float hitX, float hitY, float hitZ) {
+    public boolean use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         return false;
     }
 
     @Override
-    public CoverInteractionResult onScrewdriverClick(Player player) {
+    public final CoverInteractionResult onScrewdriverClick(Player player) {
         return !player.level.isClientSide && player instanceof ServerPlayer sp ? onServerScrewdriverClick(sp) : onClientScrewdriverClick(player);
     }
     
@@ -123,6 +129,11 @@ public abstract class BaseCover implements Cover {
     @Override
     public void load(FriendlyCompoundTag tag) {
 
+    }
+
+    @Override
+    public boolean shouldTick() {
+        return true;
     }
 
     @Override

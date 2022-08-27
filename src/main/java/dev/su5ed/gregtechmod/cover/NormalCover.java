@@ -1,9 +1,7 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.network.FieldUpdateListener;
 import dev.su5ed.gregtechmod.network.Networked;
@@ -13,26 +11,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class NormalCover extends BaseCover implements FieldUpdateListener {
+public class NormalCover extends BaseCover<BlockEntity> implements FieldUpdateListener {
     public static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
     public static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
 
     @Networked
     protected MeterCover.MeterMode mode = MeterCover.MeterMode.NORMAL;
 
-    public NormalCover(CoverType type, Coverable be, Direction side, Item item) {
+    public NormalCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
     public ResourceLocation getIcon() {
         return this.mode == MeterCover.MeterMode.NORMAL ? TEXTURE_NORMAL : TEXTURE_NOREDSTONE;
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.GENERIC;
     }
 
     @Override
@@ -83,7 +77,7 @@ public class NormalCover extends BaseCover implements FieldUpdateListener {
 
     @Override
     public void onFieldUpdate(String name) {
-        if (name.equals("mode")) this.be.updateRenderClient(); // TODO builder map method
+        if (name.equals("mode")) GtUtil.updateRender(this.be); // TODO builder map method
     }
 
     @Override

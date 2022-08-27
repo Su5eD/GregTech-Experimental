@@ -1,10 +1,8 @@
 package dev.su5ed.gregtechmod.cover;
 
-import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
-import dev.su5ed.gregtechmod.api.util.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -15,19 +13,17 @@ import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public abstract class MeterCover extends BaseCover {
+public abstract class MeterCover extends BaseCover<IGregTechMachine> {
     protected MeterMode mode = MeterMode.NORMAL;
 
-    protected MeterCover(CoverType type, Coverable be, Direction side, Item item) {
+    protected MeterCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
-    public void doCoverThings() {
-        if (this.be instanceof IGregTechMachine machine) {
-            int strength = getRedstoneStrength();
-            machine.setRedstoneOutput(this.side, this.mode == MeterMode.NORMAL ? strength : 15 - strength);
-        }
+    public void tick() {
+        int strength = getRedstoneStrength();
+        this.be.setRedstoneOutput(this.side, this.mode == MeterMode.NORMAL ? strength : 15 - strength);
     }
 
     @Override
@@ -46,7 +42,7 @@ public abstract class MeterCover extends BaseCover {
 
     @Override
     public void onCoverRemove() {
-        if (this.be instanceof IGregTechMachine machine) machine.setRedstoneOutput(this.side, 0);
+        this.be.setRedstoneOutput(this.side, 0);
     }
 
     @Override
@@ -82,11 +78,6 @@ public abstract class MeterCover extends BaseCover {
     @Override
     public boolean overrideRedstoneOut() {
         return true;
-    }
-
-    @Override
-    public CoverCategory getCategory() {
-        return CoverCategory.METER;
     }
 
     @Override

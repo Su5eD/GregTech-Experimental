@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.cover.Coverable;
+import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -14,14 +14,14 @@ import net.minecraftforge.items.ItemHandlerHelper;
 public class ItemMeterCover extends MeterCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
 
-    public ItemMeterCover(CoverType type, Coverable be, Direction side, Item item) {
+    public ItemMeterCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
-    public void doCoverThings() {
+    public void tick() {
         if (this.be instanceof Container) {
-            super.doCoverThings();
+            super.tick();
         }
     }
 
