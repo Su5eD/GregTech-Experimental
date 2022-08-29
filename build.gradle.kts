@@ -253,7 +253,7 @@ curseforge {
         changelogType = "markdown"
 //        changelog = System.getenv("CHANGELOG") ?: ""
         releaseType = publishReleaseType
-        mainArtifact(tasks.jar.get(), closureOf<CurseArtifact> {
+        mainArtifact(tasks.shadowJar.get(), closureOf<CurseArtifact> {
             displayName = "GregTech Experimental ${project.version}"
             relations(closureOf<CurseRelation> {
                 requiredDependency("industrial-craft")

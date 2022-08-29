@@ -1,14 +1,20 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Su5eD/GregTech-Experimental/forge-1.12.2/src/main/resources/GTE_Logo_medium.png" align="center"/> 
+  <img src="https://raw.githubusercontent.com/Su5eD/GregTech-Experimental/forge-1.12.2/src/main/resources/GTE_Logo_medium.png" alt="Logo" align="center"/> 
 </p>
 <p align="center">
   <a href="https://ci.su5ed.dev/buildConfiguration/GregTechExperimental_BuildBranch">
       <img src="https://ci.su5ed.dev/app/rest/builds/buildType:id:GregTechExperimental_BuildBranch,branch:name:unstable/statusIcon.svg" align="center" alt="TeamCity build status">
   </a>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/gregtech-experimental">
+    <img src="https://cf.way2muchnoise.eu/full_650005_downloads.svg" alt="Download Count" align="center">
+  </a>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/gregtech-experimental">
+    <img src="https://cf.way2muchnoise.eu/versions/650005.svg" alt="Available MC Versions" align="center">
+  </a>
   <a href="https://discord.gg/JPvmNbe">
     <img src="https://discord.com/api/guilds/728217881514606612/widget.png?style=shield" alt="Discord Server" align="center"/>
   </a>
-  <img src="https://www.gnu.org/graphics/lgplv3-88x31.png" align="center" alt="LGPL logo"/>
+  <img src="https://img.shields.io/github/license/Su5eD/GregTech-Experimental?color=brightgreen" align="center" alt="License"/>
 </p>  
 
 # GregTech Experimental
@@ -38,12 +44,12 @@ It offers all features of GT3, in their original form, unchanged. Machines, cove
 
 ### Gallery
 
-Peek at some in-game images of GTE [here](https://gist.github.com/Su5eD/e1240f16335ec14d69d3eb671f588e2c).
+Check out in-game images of GTE [here](https://gist.github.com/Su5eD/e1240f16335ec14d69d3eb671f588e2c).
 
 ## Development Status
-GTE is currently in early development, which is split into 2 main phases - the first one consists of adding the base game mechanics and
-materials, and the second one involves adding all the machines. Progress can be tracked under the 
-[Projects](https://github.com/Su5eD/GregTech-Experimental/projects) tab. If you have any questions, use Discussions or Discord.
+GTE is currently nearing a full release, with the vast majority of machines implemented. The last few remaining
+tasks are mainly code cleanup and bugfixes.  
+Join our discord to keep up with the progress!
 
 ## Documentation
 All documentation is available on the [wiki](https://github.com/Su5eD/GregTech-Experimental/wiki)
@@ -57,9 +63,7 @@ The [GregTech Experimental logo](src/main/resources/GTE_Logo.png) is a derivate 
 ## Downloads
 
 ### Users
-Downloads are currently available under the 
-[packages](https://github.com/Su5eD/GregTech-Experimental/packages/299128) tab. You'll want the jar with no extension.
-GTE will be uploaded to CurseForge upon release.
+Get the latest release on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/gregtech-experimental)!
 
 ### Gradle dependency
 GTE is available on maven via Github Packages, which requires additional authentication. This can be done in a few
