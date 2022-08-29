@@ -4,6 +4,7 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
+import mezz.jei.api.gui.IGuiItemStackGroup;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
@@ -51,9 +52,16 @@ public class CategoryFusionReactor extends CategoryBase<RecipeFusionFluid, Wrapp
     }
 
     @Override
+    protected void initSlots(IGuiItemStackGroup guiItemStacks) {
+        super.initSlots(guiItemStacks);
+        guiItemStacks.init(2, false, 107, 23);
+    }
+
+    @Override
     protected void initFluidsSlots(IGuiFluidStackGroup guiFluidStacks) {
         guiFluidStacks.init(0, true, 48, 6, 16, 16, 1, false, null);
         guiFluidStacks.init(1, true, 48, 42, 16, 16, 1, false, null);
+        guiFluidStacks.init(2, false, 108, 24, 16, 16, 1, false, null);
     }
 
     @Override
