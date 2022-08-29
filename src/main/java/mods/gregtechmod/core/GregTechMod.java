@@ -47,7 +47,7 @@ import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-@Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[0.1.8,]; after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
+@Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[1.12.2-0.1.8,1.12.2-0.2); after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
 public final class GregTechMod {
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
     public static final Logger LOGGER = LogManager.getLogger(Reference.MODID);
