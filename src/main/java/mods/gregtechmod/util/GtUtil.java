@@ -1,7 +1,10 @@
 package mods.gregtechmod.util;
 
+import ic2.api.item.IC2Items;
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.block.invslot.InvSlot.InvSide;
+import ic2.core.item.ItemClassicCell;
+import ic2.core.item.ItemFluidCell;
 import ic2.core.item.upgrade.ItemUpgradeModule;
 import ic2.core.ref.FluidName;
 import ic2.core.util.StackUtil;
@@ -13,8 +16,10 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.QuadFunction;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
+import mods.gregtechmod.objects.items.ItemCellClassic;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -23,6 +28,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
@@ -35,10 +42,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -462,6 +466,50 @@ public final class GtUtil {
         EntityItem entityItem = new EntityItem(world, pos.getX() + facing.getXOffset() + 0.5, pos.getY() + facing.getYOffset() + 0.5, pos.getZ() + facing.getZOffset() + 0.5, stack);
         entityItem.motionX = entityItem.motionY = entityItem.motionZ = 0;
         world.spawnEntity(entityItem);
+    }
+
+    public static boolean isIC2Cell(Item item) {
+        return item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic;
+    }
+
+    public static boolean isCell(Item item) {
+        return isIC2Cell(item) || StackUtil.checkItemEquality(ModHandler.can, item) || StackUtil.checkItemEquality(ModHandler.waxCapsule, item) || StackUtil.checkItemEquality(ModHandler.refractoryCapsule, item);
+    }
+
+    public static boolean isFilledBucket(ItemStack stack) {
+        Item item = stack.getItem();
+        return item instanceof UniversalBucket || item instanceof ItemBucket && FluidUtil.getFluidContained(stack) != null || item instanceof ItemBucketMilk;
+    }
+    
+    public static CellAdditionResult addCellsToOutput(ItemStack input, List<ItemStack> output) {
+        if (output.size() < 4) {
+            Item item = input.getItem();
+            output.add(new ItemStack(item instanceof ItemCellClassic ? ModHandler.emptyCell.getItem() : item, input.getCount()));
+            return CellAdditionResult.ADD;
+        }
+        else {
+            for (ItemStack stack : output) {
+                if (stack.isItemEqual(IC2Items.getItem("ingot", "tin"))) {
+                    stack.grow(getTinForCells(input));
+                    return CellAdditionResult.DISSOLVE;
+                }
+            }
+        }
+
+        return CellAdditionResult.FAIL;
+    }
+
+    private static int getTinForCells(ItemStack stack) {
+        Item item = stack.getItem();
+        if (GtUtil.isIC2Cell(item)) return stack.getCount();
+        else if (StackUtil.checkItemEquality(ModHandler.can, item)) return stack.getCount() / 4;
+        return 0;
+    }
+    
+    public enum CellAdditionResult {
+        ADD,
+        DISSOLVE,
+        FAIL
     }
 
     private static class VoidTank implements IFluidHandler {

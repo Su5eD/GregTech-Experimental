@@ -3,10 +3,10 @@ package mods.gregtechmod.compat.jei.factory;
 import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.recipe.RecipeCentrifuge;
 import mods.gregtechmod.recipe.ingredient.RecipeIngredientItemStack;
 import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtUtil.CellAdditionResult;
 import mods.gregtechmod.util.ProfileDelegate;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -53,7 +53,7 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
         List<ItemStack> capsules = getFluidContainers(input, capsule);
         List<ItemStack> recipeOutput = GtUtil.copyStackList(output);
 
-        TileEntityIndustrialCentrifugeBase.addCellsToOutput(ItemHandlerHelper.copyStackWithSize(capsules.get(0), count), recipeOutput);
+        GtUtil.addCellsToOutput(ItemHandlerHelper.copyStackWithSize(capsules.get(0), count), recipeOutput);
         return constructCapsuleRecipe(capsules, recipeOutput, count, cellCount, duration, energyCost);
     }
 
@@ -69,10 +69,10 @@ public class CentrifugeRecipeFactory extends CellularRecipeFactory {
     }
 
     private int getAdjustedDuration(int duration, ItemStack input, List<ItemStack> output) {
-        TileEntityIndustrialCentrifugeBase.CellAdditionResult result = TileEntityIndustrialCentrifugeBase.addCellsToOutput(input, output);
+        CellAdditionResult result = GtUtil.addCellsToOutput(input, output);
 
-        if (result == TileEntityIndustrialCentrifugeBase.CellAdditionResult.DISSOLVE) return (int) (duration * 1.5);
-        else if (result != TileEntityIndustrialCentrifugeBase.CellAdditionResult.FAIL) return duration;
+        if (result == CellAdditionResult.DISSOLVE) return (int) (duration * 1.5);
+        else if (result != CellAdditionResult.FAIL) return duration;
         else return -1;
     }
 

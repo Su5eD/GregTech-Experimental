@@ -16,7 +16,6 @@ import mods.gregtechmod.objects.blocks.teblocks.TileEntityButtonPanel;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityRedstoneDisplay;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityRedstoneScale;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityShelf;
-import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
 import mods.gregtechmod.objects.covers.*;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
@@ -267,7 +266,6 @@ public final class ClientEventHandler {
         TextureMap map = event.getMap();
 
         StreamEx.of(
-                MACHINES_PATH + "adv_machine_screen_random", //TODO: Remove when implemented in another machine
                 MACHINES_PATH + "adv_machine_pipe_blue",
                 MACHINES_PATH + "adv_machine_pipe_blue_redstone",
                 MACHINES_PATH + "centrifuge/centrifuge_top_active2",
@@ -338,7 +336,7 @@ public final class ClientEventHandler {
 
         FluidStack fluidStack = FluidUtil.getFluidContained(stack);
         Item item = stack.getItem();
-        if (fluidStack != null && TileEntityIndustrialCentrifugeBase.isCell(item) && !(item instanceof ItemCellClassic)) {
+        if (fluidStack != null && GtUtil.isCell(item) && !(item instanceof ItemCellClassic)) {
             Fluid fluid = fluidStack.getFluid();
             StreamEx.of(FluidLoader.FLUIDS)
                 .filter(provider -> provider.getFluid() == fluid)

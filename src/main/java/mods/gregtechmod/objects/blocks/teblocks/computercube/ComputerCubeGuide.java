@@ -87,7 +87,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
         return TEXTURE;
     }
 
-    public enum Page { // TODO
+    public enum Page {
         LIGHTNING_ROD(17, () -> {
             ItemStack ironFence = IC2Items.getItem("fence", "iron");
             return StreamEx.of(GregTechObjectAPI.getTileEntity("lightning_rod"), ironFence, ironFence, ironFence, ironFence);
@@ -120,7 +120,7 @@ public class ComputerCubeGuide implements IComputerCubeModule {
             GregTechObjectAPI.getTileEntity("superconductor_wire"),
             BlockItems.Component.SUPERCONDUCTOR.getItemStack()
         )),
-        PLAYER_DETECTOR(17, StreamEx::empty /*() -> Stream.of(GregTechObjectAPI.getTileEntity("player_detector")*/),
+        PLAYER_DETECTOR(17, "player_detector"),
         MATTER_FABRICATOR(14, () -> StreamEx.of(GregTechObjectAPI.getTileEntity("matter_fabricator"), ModHandler.uuMatter)),
         ELECTRIC_AUTOCRAFTING(17, "electric_crafting_table"),
         AUTOMATION(17, () -> StreamEx.of("electric_translocator", "electric_buffer_small", "electric_buffer_large").map(GregTechObjectAPI::getTileEntity)),

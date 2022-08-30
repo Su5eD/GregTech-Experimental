@@ -7,7 +7,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityIndustrialCentrifugeBase;
+import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -32,7 +32,7 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                         if (ingredient instanceof IRecipeIngredientFluid) {
                             FluidStack fluid = FluidUtil.getFluidContained(input);
                             if (fluid != null) {
-                                if (fluid.amount == Fluid.BUCKET_VOLUME && TileEntityIndustrialCentrifugeBase.isIC2Cell(input.getItem())) {
+                                if (fluid.amount == Fluid.BUCKET_VOLUME && GtUtil.isIC2Cell(input.getItem())) {
                                     availableCells += Math.min(ingredient.getCount(), input.getCount());
                                 }
                             }

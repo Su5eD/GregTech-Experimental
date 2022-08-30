@@ -1,34 +1,25 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
-import ic2.api.item.IC2Items;
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
-import ic2.core.item.ItemClassicCell;
-import ic2.core.item.ItemFluidCell;
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
-import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.inventory.invslot.GtConsumableCell;
 import mods.gregtechmod.inventory.tank.GtFluidTankProcessable;
-import mods.gregtechmod.objects.items.ItemCellClassic;
+import mods.gregtechmod.util.GtUtil;
+import mods.gregtechmod.util.GtUtil.CellAdditionResult;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import java.util.List;
 
 public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMachine<IRecipeCellular, IRecipeIngredient, ItemStack, IGtRecipeManagerCellular> {
     public GtConsumableCell cellSlot;
@@ -66,7 +57,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
             FluidStack fluid = FluidUtil.getFluidContained(input);
             if (fluid != null) {
                 FluidStack fluidInTank = this.tank.getFluid();
-                if (isCell(input.getItem()) || isFilledBucket(input)) {
+                if (GtUtil.isCell(input.getItem()) || GtUtil.isFilledBucket(input)) {
                     int cells = mb / Fluid.BUCKET_VOLUME;
                     if (fluidInTank != null && fluidInTank.isFluidEqual(fluid)) {
                         int drain = cells - input.getCount();
@@ -75,14 +66,16 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
                             this.tank.drainInternal(drain * Fluid.BUCKET_VOLUME, true);
                         }
                     }
-                    if (isFilledBucket(input)) {
+                    if (GtUtil.isFilledBucket(input)) {
                         this.inputSlot.put(new ItemStack(Items.BUCKET));
                     }
                     else if (cells > 0) {
-                        int cellsFromInputSlot = isIC2Cell(input.getItem()) ? Math.min(recipe.getCells(), cells) : 0;
+                        int cellsFromInputSlot = GtUtil.isIC2Cell(input.getItem()) ? Math.min(recipe.getCells(), cells) : 0;
                         this.inputSlot.consume(cells, false, true);
                         this.cellSlot.consume(recipe.getCells() - cellsFromInputSlot);
-                        if (addCellsToOutput(ItemHandlerHelper.copyStackWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.DISSOLVE) this.maxProgress *= 1.5;
+                        if (GtUtil.addCellsToOutput(ItemHandlerHelper.copyStackWithSize(input, cells - cellsFromInputSlot), this.pendingRecipe) == CellAdditionResult.DISSOLVE) {
+                            this.maxProgress *= 1.5;
+                        }
                         return;
                     }
                 }
@@ -109,44 +102,6 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
         this.cellSlot.consume(recipe.getCells());
     }
 
-    public static boolean isIC2Cell(Item item) {
-        return item instanceof ItemFluidCell || item instanceof ItemClassicCell || item instanceof ItemCellClassic;
-    }
-
-    public static boolean isCell(Item item) { // TODO Move to utils
-        return isIC2Cell(item) || StackUtil.checkItemEquality(ModHandler.can, item) || StackUtil.checkItemEquality(ModHandler.waxCapsule, item) || StackUtil.checkItemEquality(ModHandler.refractoryCapsule, item);
-    }
-
-    public static boolean isFilledBucket(ItemStack stack) {
-        Item item = stack.getItem();
-        return item instanceof UniversalBucket || item instanceof ItemBucket && FluidUtil.getFluidContained(stack) != null || item instanceof ItemBucketMilk;
-    }
-
-    public static CellAdditionResult addCellsToOutput(ItemStack input, List<ItemStack> output) {
-        if (output.size() < 4) {
-            Item item = input.getItem();
-            output.add(new ItemStack(item instanceof ItemCellClassic ? ModHandler.emptyCell.getItem() : item, input.getCount()));
-            return CellAdditionResult.ADD;
-        }
-        else {
-            for (ItemStack stack : output) {
-                if (stack.isItemEqual(IC2Items.getItem("ingot", "tin"))) {
-                    stack.grow(getTinForCells(input));
-                    return CellAdditionResult.DISSOLVE;
-                }
-            }
-        }
-
-        return CellAdditionResult.FAIL;
-    }
-
-    private static int getTinForCells(ItemStack stack) {
-        Item item = stack.getItem();
-        if (isIC2Cell(item)) return stack.getCount();
-        else if (StackUtil.checkItemEquality(ModHandler.can, item)) return stack.getCount() / 4;
-        return 0;
-    }
-
     @Override
     public IRecipeCellular getRecipe() {
         ItemStack stack = this.inputSlot.get();
@@ -165,18 +120,12 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
                     if (availableRecipe != null) {
                         IRecipeIngredient input = availableRecipe.getInput();
                         Item item = stack.getItem();
-                        if (isIC2Cell(item)) cells += input.getCount() - this.tank.getFluidAmount() / Fluid.BUCKET_VOLUME;
+                        if (GtUtil.isIC2Cell(item)) cells += input.getCount() - this.tank.getFluidAmount() / Fluid.BUCKET_VOLUME;
                     }
                     recipe = this.recipeManager.getRecipeFor(fluidContained, cells);
                 }
             }
         }
         return recipe;
-    }
-
-    public enum CellAdditionResult {
-        ADD,
-        DISSOLVE,
-        FAIL
     }
 }
