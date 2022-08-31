@@ -59,7 +59,7 @@ public class CoverableBlockEntity extends BaseBlockEntity {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        Map<Direction, Cover<?>> covers = this.coverHandler.getCovers(); // TODO check sneaking
+        Map<Direction, Cover<?>> covers = this.coverHandler.getCovers();
         return beforeUse(player, hand, hit)
             || StreamEx.ofValues(covers).anyMatch(cover -> cover.use(state, level, pos, player, hand, hit))
             || !StreamEx.ofValues(covers).cross(hit.getDirection()).allMatch(Cover::opensGui)

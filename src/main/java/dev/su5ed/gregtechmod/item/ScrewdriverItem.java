@@ -1,6 +1,5 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.object.ModObjects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +14,8 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ScrewdriverItem extends ToolItem {
 
     public ScrewdriverItem() {
-        super(new ToolItemProperties(ModObjects.itemProperties().durability(256))
+        super(new ToolItemProperties<>()
+            .durability(256)
             .multiDescription(3)
             .attackDamage(4)
             .effectiveAganist(

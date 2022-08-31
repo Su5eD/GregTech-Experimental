@@ -82,6 +82,7 @@ public final class GregTechTags {
     public static final TagKey<Item> WRENCH = forgeItemTag("tools/wrench");
     public static final TagKey<Item> CROWBAR = forgeItemTag("tools/crowbar");
     public static final TagKey<Item> SCREWDRIVER = forgeItemTag("tools/screwdriver");
+    public static final TagKey<Item> LARGE_DRILL = forgeItemTag("tools/large_drill");
     public static final TagKey<Item> SOFT_HAMMER = forgeItemTag("tools/soft_hammer");
     public static final TagKey<Item> HARD_HAMMER = forgeItemTag("tools/hard_hammer");
 

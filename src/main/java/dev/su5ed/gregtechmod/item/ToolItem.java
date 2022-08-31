@@ -3,33 +3,54 @@ package dev.su5ed.gregtechmod.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.su5ed.gregtechmod.util.GtUtil;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.TierSortingRegistry;
+import net.minecraftforge.common.ToolAction;
+import one.util.streamex.StreamEx;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ToolItem extends ResourceItem {
     private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> attributeModifiers;
     private final List<String> effectiveAganist;
+    private final int selfDamageOnHit;
+    protected final Tier tier;
+    private final Set<ToolAction> actions;
+    private final Set<TagKey<Block>> blockTags;
 
-    public ToolItem(ToolItemProperties properties) {
-        super(properties);
+    public ToolItem(ToolItemProperties<?> properties) {
+        super(properties.setNoEnchant());
 
         this.attackDamage = properties.attackDamage - 1;
         this.attributeModifiers = ImmutableMultimap.of(
             Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION),
-            Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", -2, AttributeModifier.Operation.ADDITION)
+            Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", properties.attackSpeed, AttributeModifier.Operation.ADDITION)
         );
         this.effectiveAganist = Collections.unmodifiableList(properties.effectiveAganist);
+        this.selfDamageOnHit = properties.selfDamageOnHit;
+        this.tier = properties.tier;
+        this.actions = Collections.unmodifiableSet(properties.actions);
+        this.blockTags = Collections.unmodifiableSet(properties.blockTags);
     }
 
     @Override
@@ -39,7 +60,9 @@ public class ToolItem extends ResourceItem {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.hurtAndBreak(1, attacker, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+        if (this.selfDamageOnHit > 0) {
+            stack.hurtAndBreak(this.selfDamageOnHit, attacker, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+        }
         ResourceLocation name = target.getType().getRegistryName();
         if (this.effectiveAganist.contains(name.toString())) {
             GtUtil.damageEntity(target, attacker, this.attackDamage + 1);
@@ -47,22 +70,91 @@ public class ToolItem extends ResourceItem {
         return true;
     }
 
-    public static class ToolItemProperties extends ExtendedItemProperties<ToolItemProperties> {
+    @Override
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return this.actions.contains(toolAction);
+    }
+
+    @Override
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        return canMineBlock(state) && TierSortingRegistry.isCorrectTierForDrops(this.tier, state);
+    }
+
+    @Override
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        return canMineBlock(state) ? this.tier.getSpeed() : super.getDestroySpeed(stack, state);
+    }
+    
+    private boolean canMineBlock(BlockState state) {
+        return StreamEx.of(this.blockTags)
+            .anyMatch(state::is);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag isAdvanced) {
+        String durability = getDurabilityInfo(stack);
+        if (durability != null) {
+            components.add(new TextComponent(durability));
+        }
+
+        super.appendHoverText(stack, level, components, isAdvanced);
+    }
+    
+    @Nullable
+    protected String getDurabilityInfo(ItemStack stack) {
+        return stack.isDamageableItem() ? (stack.getMaxDamage() - stack.getDamageValue() + 1) + " / " + (stack.getMaxDamage() + 1) : null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static class ToolItemProperties<T extends ToolItemProperties<T>> extends ExtendedItemProperties<T> {
         private float attackDamage;
+        private float attackSpeed;
         private final List<String> effectiveAganist = new ArrayList<>();
+        private int selfDamageOnHit;
+        private Tier tier;
+        private final Set<ToolAction> actions = new HashSet<>();
+        private final Set<TagKey<Block>> blockTags = new HashSet<>();
+
+        public ToolItemProperties() {}
 
         public ToolItemProperties(Properties properties) {
             super(properties);
         }
 
-        public ToolItemProperties attackDamage(float attackDamage) {
+        public T attackDamage(float attackDamage) {
             this.attackDamage = attackDamage;
-            return this;
+            return (T) this;
         }
         
-        public ToolItemProperties effectiveAganist(String... entityNames) {
-            this.effectiveAganist.addAll(Arrays.asList(entityNames));
-            return this;
+        public T attackSpeed(float attackSpeed) {
+            this.attackSpeed = attackSpeed;
+            return (T) this;
+        }
+
+        public T effectiveAganist(String... entityNames) {
+            Collections.addAll(this.effectiveAganist, entityNames);
+            return (T) this;
+        }
+
+        public T selfDamageOnHit(int selfDamageOnHit) {
+            this.selfDamageOnHit = selfDamageOnHit;
+            return (T) this;
+        }
+
+        public T tier(Tier tier) {
+            this.tier = tier;
+            return (T) this;
+        }
+
+        public T actions(ToolAction... actions) {
+            Collections.addAll(this.actions, actions);
+            return (T) this;
+        }
+
+        @SafeVarargs
+        public final T blockTags(TagKey<Block>... tags) {
+            Collections.addAll(this.blockTags, tags);
+            return (T) this;
         }
     }
 }

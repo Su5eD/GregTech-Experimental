@@ -12,7 +12,7 @@ public final class GtLocale {
 
     public static TranslationKey profileItemDescriptionKey(String name) {
         if (GregTechMod.isClassic) {
-            TranslationKey classicKey = key("stack", name, "classic_description");
+            TranslationKey classicKey = key("item", name, "classic_description");
             if (classicKey.exists()) return classicKey;
         }
         return itemDescriptionKey(name);
@@ -23,11 +23,11 @@ public final class GtLocale {
     }
     
     public static TranslationKey itemDescriptionKey(String name) {
-        return key("stack", name, "description");
+        return key("item", name, "description");
     }
     
     public static TranslationKey itemKey(String name, String... paths) {
-        return key("stack", name, paths);
+        return key("item", name, paths);
     }
 
     public static TranslationKey key(String prefix, String first, String... paths) {

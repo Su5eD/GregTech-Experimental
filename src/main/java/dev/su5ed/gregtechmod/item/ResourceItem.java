@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class ResourceItem extends Item {
-    private final Lazy<List<MutableComponent>> description;
+    protected final Lazy<List<MutableComponent>> description;
     private final boolean isFoil;
     private final boolean isEnchantable;
 
@@ -42,12 +43,12 @@ public class ResourceItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipcomponents, TooltipFlag isAdvanced) {
-        super.appendHoverText(stack, level, tooltipcomponents, isAdvanced);
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag isAdvanced) {
+        super.appendHoverText(stack, level, components, isAdvanced);
 
         StreamEx.of(this.description.get())
-            .map(lazy -> lazy.withStyle(ChatFormatting.GRAY))
-            .forEach(tooltipcomponents::add);
+            .map(component -> component.withStyle(ChatFormatting.GRAY))
+            .forEach(components::add);
     }
 
     @Override
@@ -75,6 +76,16 @@ public class ResourceItem extends Item {
             this.properties.stacksTo(maxStackSize);
             return (T) this;
         }
+        
+        public T durability(int maxDamage) {
+            this.properties.durability(maxDamage);
+            return (T) this;
+        }
+        
+        public T rarity(Rarity rarity) {
+            this.properties.rarity(rarity);
+            return (T) this;
+        }
 
         public T autoDescription() {
             this.description.add(item -> GtLocale.profileItemDescriptionKey(item.getRegistryName().getPath()).toComponent());
@@ -86,7 +97,7 @@ public class ResourceItem extends Item {
                 .<Function<Item, MutableComponent>>mapToObj(i -> item -> {
                     String name = item.getRegistryName().getPath();
                     String path = i == 0 ? "description" : "description_" + i;
-                    return GtLocale.key("stack", name, path).toComponent();
+                    return GtLocale.key("item", name, path).toComponent();
                 })
                 .forEach(this.description::add);
             return (T) this;

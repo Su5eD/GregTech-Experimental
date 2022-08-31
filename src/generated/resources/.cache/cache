@@ -72,6 +72,7 @@ c13896307687d39c63446c0470239d12ac54e61f assets/gregtechmod/models/block/titaniu
 8dfb06b3c58ccffcf6163853317e715b9d4d74c1 assets/gregtechmod/models/item/active_detector.json
 b29acecdb5f08c5988911034a4658f92e1af6f92 assets/gregtechmod/models/item/advanced_circuit_board.json
 7715d36143dd71c62055fb1a4867b6531ae9dc22 assets/gregtechmod/models/item/advanced_circuit_parts.json
+8bd4f12982ef9939a5f33ac1d0dadddd0c0d6811 assets/gregtechmod/models/item/advanced_drill.json
 38e9fa66979f79be81828c40f14c8137210fd2e6 assets/gregtechmod/models/item/advanced_machine_casing_block.json
 fa3342d91b0abf490b6e545353454f9a6ce41640 assets/gregtechmod/models/item/almandine_dust.json
 26a02a26c2ba8f104d1993f90a2e9c9f14a4e41d assets/gregtechmod/models/item/almandine_smalldust.json
@@ -410,6 +411,7 @@ c4b0b6f4121a9a0f9880a13a52e026df4764a268 data/forge/tags/items/gears/steel.json
 c299ba7cd5b5c6b2db730b338e9fc86f07a4def5 data/forge/tags/items/gears/tungsten_steel.json
 764dd20917c9442f6199e86668517ddd55451049 data/forge/tags/items/ores.json
 814342e146b42a8ec7e646010326519d9b427e61 data/forge/tags/items/tools/crowbar.json
+d05fe8f3636e55ecdfc51797edfa64ea2362772f data/forge/tags/items/tools/large_drill.json
 c093bb1acd5314f06555cfb9b41525a59aaf8cd3 data/forge/tags/items/tools/screwdriver.json
 880ac36a8df085afa460d17365bf02a53ff6897d data/gregtechmod/loot_tables/blocks/advanced_machine_casing_block.json
 482c3cdde1e5f2ba3e1e5bdf5236715c015d1550 data/gregtechmod/loot_tables/blocks/aluminium_block.json

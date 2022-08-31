@@ -97,7 +97,7 @@ public enum Upgrade implements TaggedItemProvider {
         return this.tag;
     }
     
-    private static boolean requireBuildCraftPresent(UpgradableBlockEntity be, Player player) {
+    private static boolean requireBuildCraftPresent(UpgradableBlockEntity be, Player player) { // TODO BC not available to us anymore
         if (!ModHandler.buildcraftLoaded) {
             player.displayClientMessage(GtLocale.key("info", "buildcraft_absent").toComponent(), false);
             return true;

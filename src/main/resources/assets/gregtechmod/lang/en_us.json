@@ -3,6 +3,8 @@
 
   "info.gregtechmod.no_mob_spawn": "Mobs can't spawn on this Block",
   "info.gregtechmod.buildcraft_absent": "BuildcraftLib is required to apply this upgrade",
+  "info.gregtechmod.energy_tier": "Tier: %s",
+  "info.gregtechmod.empty": "Empty. You need to recharge it.",
 
   "generic.gregtechmod.turbine_rotor.description": "Turbine Efficiency:  %s%%",
 
@@ -473,8 +475,22 @@
   
   "item.gregtechmod.crowbar": "Crowbar",
   "item.gregtechmod.crowbar.description": "To remove covers from machines",
+  "item.gregtechmod.crowbar.description_rc": "Works as a Railcraft crowbar, too",
   "item.gregtechmod.screwdriver": "Screwdriver",
   "item.gregtechmod.screwdriver.description": "To screw covers on machines",
   "item.gregtechmod.screwdriver.description_1": "Can switch the design of certain blocks",
-  "item.gregtechmod.screwdriver.description_2": "Can rotate repeaters and comparators"
+  "item.gregtechmod.screwdriver.description_2": "Can rotate repeaters and comparators",
+  "item.gregtechmod.advanced_drill": "Advanced Drill",
+  "item.gregtechmod.advanced_drill.empty": "Empty Advanced Drill",
+  "item.gregtechmod.advanced_drill.description": "For quickly making holes",
+  "item.gregtechmod.rock_cutter": "Rock Cutter",
+  "item.gregtechmod.soldering_tool": "Electric Soldering Tool",
+  "item.gregtechmod.soldering_tool.empty": "Empty Electric Soldering Tool",
+  "item.gregtechmod.soldering_tool.description": "To repair and construct circuitry",
+  "item.gregtechmod.soldering_tool.metal_requirement": "Needs Soldering Metal in inventory!",
+  "item.gregtechmod.tesla_staff": "Tesla Staff",
+  "item.gregtechmod.tesla_staff.description": "No warranty!",
+  "item.gregtechmod.scanner": "Portable Scanner",
+  "item.gregtechmod.scanner.description": "Tricorder",
+  "item.gregtechmod.debug_scanner": "Debug Scanner"
 }

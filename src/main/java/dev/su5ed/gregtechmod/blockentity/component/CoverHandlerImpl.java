@@ -118,7 +118,7 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
         Codec<Cover<?>> coverCodec = RecordCodecBuilder.create(instance -> instance.group(
             ModCovers.REGISTRY.get().getCodec().fieldOf("type").forGetter(Cover::getType),
             Direction.CODEC.fieldOf("side").forGetter(Cover::getSide),
-            ForgeRegistries.ITEMS.getCodec().fieldOf("stack").forGetter(Cover::getItem),
+            ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(Cover::getItem),
             FriendlyCompoundTag.CODEC.fieldOf("tag").forGetter(Cover::save)
         ).apply(instance, (type, side, item, tag) -> {
             //noinspection unchecked
