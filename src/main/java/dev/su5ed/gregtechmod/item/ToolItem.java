@@ -6,6 +6,7 @@ import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,16 +14,14 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.ToolAction;
 import one.util.streamex.StreamEx;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -34,7 +33,8 @@ public class ToolItem extends ResourceItem {
     private final Multimap<Attribute, AttributeModifier> attributeModifiers;
     private final List<String> effectiveAganist;
     private final int selfDamageOnHit;
-    protected final Tier tier;
+    protected final float destroySpeed;
+    protected final int dropLevel;
     private final Set<ToolAction> actions;
     private final Set<TagKey<Block>> blockTags;
 
@@ -48,7 +48,8 @@ public class ToolItem extends ResourceItem {
         );
         this.effectiveAganist = Collections.unmodifiableList(properties.effectiveAganist);
         this.selfDamageOnHit = properties.selfDamageOnHit;
-        this.tier = properties.tier;
+        this.destroySpeed = properties.destroySpeed;
+        this.dropLevel = properties.dropLevel;
         this.actions = Collections.unmodifiableSet(properties.actions);
         this.blockTags = Collections.unmodifiableSet(properties.blockTags);
     }
@@ -77,12 +78,12 @@ public class ToolItem extends ResourceItem {
 
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        return canMineBlock(state) && TierSortingRegistry.isCorrectTierForDrops(this.tier, state);
+        return canMineBlock(state) && isCorrectTierVanilla(this.dropLevel, state);
     }
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
-        return canMineBlock(state) ? this.tier.getSpeed() : super.getDestroySpeed(stack, state);
+        return canMineBlock(state) ? this.destroySpeed : super.getDestroySpeed(stack, state);
     }
     
     private boolean canMineBlock(BlockState state) {
@@ -104,14 +105,29 @@ public class ToolItem extends ResourceItem {
     protected String getDurabilityInfo(ItemStack stack) {
         return stack.isDamageableItem() ? (stack.getMaxDamage() - stack.getDamageValue() + 1) + " / " + (stack.getMaxDamage() + 1) : null;
     }
-
+    
+    // From TierSortingRegistry#isCorrectTierVanilla
+    private static boolean isCorrectTierVanilla(int level, BlockState state) {
+        if (level < 3 && state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
+            return false;
+        }
+        else if (level < 2 && state.is(BlockTags.NEEDS_IRON_TOOL)) {
+            return false;
+        }
+        else if (level < 1 && state.is(BlockTags.NEEDS_STONE_TOOL)) {
+            return false;
+        }
+        return true;
+    }
+    
     @SuppressWarnings("unchecked")
     public static class ToolItemProperties<T extends ToolItemProperties<T>> extends ExtendedItemProperties<T> {
         private float attackDamage;
         private float attackSpeed;
         private final List<String> effectiveAganist = new ArrayList<>();
         private int selfDamageOnHit;
-        private Tier tier;
+        private float destroySpeed;
+        private int dropLevel;
         private final Set<ToolAction> actions = new HashSet<>();
         private final Set<TagKey<Block>> blockTags = new HashSet<>();
 
@@ -141,8 +157,13 @@ public class ToolItem extends ResourceItem {
             return (T) this;
         }
 
-        public T tier(Tier tier) {
-            this.tier = tier;
+        public T destroySpeed(float destroySpeed) {
+            this.destroySpeed = destroySpeed;
+            return (T) this;
+        }
+        
+        public T dropLevel(int dropLevel) {
+            this.dropLevel = dropLevel;
             return (T) this;
         }
 

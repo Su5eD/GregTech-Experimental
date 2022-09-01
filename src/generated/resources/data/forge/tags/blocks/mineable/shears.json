@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:leaves",
+    "#minecraft:wool",
+    "minecraft:cobweb",
+    "minecraft:grass",
+    "minecraft:fern",
+    "minecraft:dead_bush",
+    "minecraft:hanging_roots",
+    "minecraft:vine",
+    "minecraft:tripwire"
+  ]
+}

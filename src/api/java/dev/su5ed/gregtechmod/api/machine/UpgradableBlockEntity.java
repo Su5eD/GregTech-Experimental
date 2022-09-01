@@ -6,8 +6,8 @@ import dev.su5ed.gregtechmod.api.upgrade.IC2UpgradeType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 
 /**

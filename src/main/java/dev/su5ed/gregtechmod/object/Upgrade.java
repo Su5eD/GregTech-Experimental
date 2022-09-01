@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
@@ -92,6 +93,7 @@ public enum Upgrade implements TaggedItemProvider {
         return this.instance.get();
     }
 
+    @Nullable
     @Override
     public TagKey<Item> getTag() {
         return this.tag;

@@ -4,8 +4,7 @@ import dev.su5ed.gregtechmod.api.recipe.IRecipeCellular;
 import dev.su5ed.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface IGtRecipeManagerCellular extends IGtRecipeManagerFluid<IRecipeIngredient, ItemStack, IRecipeCellular> {
     @Override

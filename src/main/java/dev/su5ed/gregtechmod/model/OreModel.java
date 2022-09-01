@@ -17,9 +17,9 @@ import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -46,9 +46,9 @@ public class OreModel extends BaseModel {
         this.sprites = sprites;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public IModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@NotNull BlockAndTintGetter world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull IModelData tileData) {
         return state.getBlock() instanceof OreBlock block
             ? new ModelDataMap.Builder()
                 .withInitial(OreBlock.ORE_MODEL_KEY, block.getModelKey(world, pos))
@@ -56,9 +56,9 @@ public class OreModel extends BaseModel {
             : tileData;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull Random rand, @NotNull IModelData extraData) {
         if (side != null) {
             OreModelKey key = extraData.getData(OreBlock.ORE_MODEL_KEY);
             Pair<Material, TextureAtlasSprite> texture = getOreTexture(side, key);

@@ -33,9 +33,9 @@ import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import one.util.streamex.StreamEx;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +130,7 @@ public class CoverableBlockEntity extends BaseBlockEntity {
         return false;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public IModelData getModelData() {
         return new ModelDataMap.Builder()
@@ -155,9 +155,9 @@ public class CoverableBlockEntity extends BaseBlockEntity {
             .orElse(false);
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         return Capabilities.COVERABLE.orEmpty(cap, this.optionalCoverHandler);
     }
 

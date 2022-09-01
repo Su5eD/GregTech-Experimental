@@ -13,8 +13,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
 import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;

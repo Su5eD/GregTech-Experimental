@@ -10,8 +10,7 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.StreamEx;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -51,7 +50,7 @@ class ItemModelGen extends ItemModelProvider {
                 .end();
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String getName() {
         return Reference.NAME + " Item Models";

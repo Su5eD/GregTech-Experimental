@@ -9,6 +9,7 @@ import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -69,6 +70,7 @@ public enum Component implements TaggedItemProvider {
         return this.instance.get();
     }
 
+    @Nullable
     @Override
     public TagKey<Item> getTag() {
         return this.tag;

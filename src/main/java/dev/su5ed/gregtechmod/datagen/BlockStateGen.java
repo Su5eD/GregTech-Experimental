@@ -1,11 +1,11 @@
 package dev.su5ed.gregtechmod.datagen;
 
+import dev.su5ed.gregtechmod.ClientSetup;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.Ore;
-import dev.su5ed.gregtechmod.ClientSetup;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -16,8 +16,7 @@ import net.minecraftforge.client.model.generators.CustomLoaderBuilder;
 import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.StreamEx;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -60,7 +59,7 @@ class BlockStateGen extends BlockStateProvider {
             .end());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String getName() {
         return Reference.NAME + " Blockstates";

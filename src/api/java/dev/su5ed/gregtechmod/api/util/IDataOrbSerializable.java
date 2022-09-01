@@ -1,8 +1,7 @@
 package dev.su5ed.gregtechmod.api.util;
 
 import net.minecraft.nbt.CompoundTag;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface IDataOrbSerializable {
     String getDataName();

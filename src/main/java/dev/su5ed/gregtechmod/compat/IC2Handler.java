@@ -5,6 +5,7 @@ import ic2.api.item.IElectricItem;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +34,7 @@ public final class IC2Handler {
         return ElectricItem.manager.canUse(stack, energy);
     }
     
-    static boolean use(ItemStack stack, double energy, LivingEntity user) {
+    static boolean use(ItemStack stack, double energy, @Nullable LivingEntity user) {
         return ElectricItem.manager.use(stack, energy, user);
     }
     

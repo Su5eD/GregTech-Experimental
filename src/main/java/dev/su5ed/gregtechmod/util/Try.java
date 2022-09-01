@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.util;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Function;
 
 public class Try<T, R> implements Function<T, R> {

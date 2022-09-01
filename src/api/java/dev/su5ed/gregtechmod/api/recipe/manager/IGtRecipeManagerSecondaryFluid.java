@@ -4,8 +4,8 @@ import dev.su5ed.gregtechmod.api.recipe.IMachineRecipe;
 import dev.su5ed.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public interface IGtRecipeManagerSecondaryFluid<R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> extends IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, R> {

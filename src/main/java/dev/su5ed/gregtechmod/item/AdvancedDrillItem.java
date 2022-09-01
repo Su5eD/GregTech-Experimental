@@ -5,44 +5,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolActions;
 
 public class AdvancedDrillItem extends ElectricToolItem implements IMiningDrill {
-    private static final Tier ADVANCED_DRILL_TIER = new Tier() {
-        @Override
-        public int getUses() {
-            return 28;
-        }
-
-        @Override
-        public float getSpeed() {
-            return 35;
-        }
-
-        @Override
-        public float getAttackDamageBonus() {
-            return 0;
-        }
-
-        @Override
-        public int getLevel() {
-            return 5;
-        }
-
-        @Override
-        public int getEnchantmentValue() {
-            return 0;
-        }
-
-        @Override
-        public Ingredient getRepairIngredient() {
-            return Ingredient.of();
-        }
-    };
 
     public AdvancedDrillItem() {
         super(new ElectricToolItemProperties()
@@ -52,7 +19,8 @@ public class AdvancedDrillItem extends ElectricToolItem implements IMiningDrill 
             .showTier(false)
             .hasEmptyVariant(true)
             .attackDamage(8)
-            .tier(ADVANCED_DRILL_TIER)
+            .destroySpeed(35)
+            .dropLevel(5)
             .actions(ToolActions.PICKAXE_DIG, ToolActions.SHOVEL_DIG)
             .blockTags(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.MINEABLE_WITH_SHOVEL)
             .rarity(Rarity.UNCOMMON)
@@ -66,7 +34,7 @@ public class AdvancedDrillItem extends ElectricToolItem implements IMiningDrill 
 
     @Override
     public int breakTime(ItemStack stack, Level level, BlockPos pos, BlockState state) {
-        return (int) this.tier.getSpeed();
+        return (int) this.destroySpeed;
     }
 
     @Override

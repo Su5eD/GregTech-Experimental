@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.datagen;
 
+import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.Ore;
@@ -8,11 +9,12 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.StreamEx;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Map;
 
 class BlockTagsGen extends BlockTagsProvider {
@@ -43,6 +45,11 @@ class BlockTagsGen extends BlockTagsProvider {
                 ores.add(block);
                 harvestLevels.get(level).add(block);
             });
+
+        tag(GregTechTags.MINEABLE_WITH_SHEARS)
+            .addTag(BlockTags.LEAVES)
+            .addTag(BlockTags.WOOL)
+            .add(Blocks.COBWEB, Blocks.GRASS, Blocks.FERN, Blocks.DEAD_BUSH, Blocks.HANGING_ROOTS, Blocks.VINE, Blocks.TRIPWIRE);
     }
 
     @Override

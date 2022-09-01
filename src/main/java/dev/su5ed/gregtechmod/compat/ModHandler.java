@@ -6,8 +6,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.ModList;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public final class ModHandler {
@@ -38,7 +38,7 @@ public final class ModHandler {
         return ic2Loaded && IC2Handler.canUse(stack, energy);
     }
 
-    public static boolean use(ItemStack stack, double energy, LivingEntity user) {
+    public static boolean useEnergy(ItemStack stack, double energy, @Nullable LivingEntity user) {
         return ic2Loaded && IC2Handler.use(stack, energy, user);
     }
 

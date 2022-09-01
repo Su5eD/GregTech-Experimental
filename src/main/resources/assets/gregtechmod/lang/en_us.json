@@ -7,6 +7,7 @@
   "info.gregtechmod.empty": "Empty. You need to recharge it.",
 
   "generic.gregtechmod.turbine_rotor.description": "Turbine Efficiency:  %s%%",
+  "generic.gregtechmod.saw.description": "For sawing logs into planks",
 
   "block.gregtechmod.advanced_machine_casing_block": "Advanced Machine Casing",
   "block.gregtechmod.aluminium_block": "Block of Aluminium",
@@ -483,6 +484,8 @@
   "item.gregtechmod.advanced_drill": "Advanced Drill",
   "item.gregtechmod.advanced_drill.empty": "Empty Advanced Drill",
   "item.gregtechmod.advanced_drill.description": "For quickly making holes",
+  "item.gregtechmod.advanced_saw": "Advanced Saw",
+  "item.gregtechmod.advanced_saw.empty": "Empty Advanced Saw",
   "item.gregtechmod.rock_cutter": "Rock Cutter",
   "item.gregtechmod.soldering_tool": "Electric Soldering Tool",
   "item.gregtechmod.soldering_tool.empty": "Empty Electric Soldering Tool",

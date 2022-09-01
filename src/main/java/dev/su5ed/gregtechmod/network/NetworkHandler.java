@@ -13,9 +13,9 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
+import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Type;
 
-import javax.annotation.Nullable;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;

@@ -15,9 +15,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.client.model.data.IModelData;
 import one.util.streamex.EntryStream;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +46,9 @@ public class CoverableModel extends BaseModel {
         this.modelLocation = modelLocation;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull Random rand, @NotNull IModelData extraData) {
         if (side != null) {
             Map<Direction, Material> covers = getCoverData(extraData);
             Direction face = getValueOrDefault(state, BlockStateProperties.FACING, Direction.NORTH);

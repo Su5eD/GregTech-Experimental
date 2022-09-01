@@ -1,13 +1,17 @@
 package dev.su5ed.gregtechmod;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class GregTechTags {
+    public static final TagKey<Block> MINEABLE_WITH_SHEARS = forgeBlockTag("mineable/shears");
+
     public static final TagKey<Item> CRAFTING_SUPERCONDUCTOR = itemTag("crafting/superconductor");
     public static final TagKey<Item> CRAFTING_LI_BATTERY = itemTag("crafting/li_battery");
     public static final TagKey<Item> CRAFTING_DIAMOND_BLADE = itemTag("crafting/diamond_blade");
@@ -101,5 +105,9 @@ public final class GregTechTags {
 
     private static TagKey<Item> itemTag(String name) {
         return ItemTags.create(location(name));
+    }
+    
+    private static TagKey<Block> forgeBlockTag(String name) {
+        return BlockTags.create(new ResourceLocation("forge", name));
     }
 }

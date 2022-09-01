@@ -10,6 +10,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 
 public enum ModCoverItem implements TaggedItemProvider {
     ACTIVE_DETECTOR(ModCovers.ACTIVE_DETECTOR, GregTechTags.CRAFTING_WORK_DETECTOR),
@@ -45,6 +46,7 @@ public enum ModCoverItem implements TaggedItemProvider {
         return this.instance.get();
     }
 
+    @Nullable
     @Override
     public TagKey<Item> getTag() {
         return this.tag;

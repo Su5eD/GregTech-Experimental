@@ -2,11 +2,11 @@ package dev.su5ed.gregtechmod.api.machine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public interface IScannerInfoProvider {
-    @Nonnull
+    @NotNull
     List<String> getScanInfo(Player player, BlockPos pos, int scanLevel);
 }

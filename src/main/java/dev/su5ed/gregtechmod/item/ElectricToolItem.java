@@ -20,12 +20,12 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolActions;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ElectricToolItem extends ToolItem implements IElectricItem {
+public class ElectricToolItem extends ToolItem implements IElectricItem {
     protected final double maxCharge;
     protected final double transferLimit;
     protected final int energyTier;
@@ -34,7 +34,7 @@ public abstract class ElectricToolItem extends ToolItem implements IElectricItem
     protected final boolean providesEnergy;
     protected final boolean hasEmptyVariant;
 
-    protected ElectricToolItem(ElectricToolItemProperties properties) {
+    public ElectricToolItem(ElectricToolItemProperties properties) {
         super(properties);
         
         this.maxCharge = properties.maxCharge;
@@ -53,13 +53,13 @@ public abstract class ElectricToolItem extends ToolItem implements IElectricItem
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return canPerformAction(stack, ToolActions.SWORD_SWEEP) && ModHandler.use(stack, this.operationEnergyCost, attacker) || super.hurtEnemy(stack, target, attacker);
+        return canPerformAction(stack, ToolActions.SWORD_SWEEP) && ModHandler.useEnergy(stack, this.operationEnergyCost, attacker) || super.hurtEnemy(stack, target, attacker);
     }
 
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
         if (!level.isClientSide && state.getDestroySpeed(level, pos) != 0) {
-            ModHandler.use(stack, this.operationEnergyCost, miningEntity);
+            ModHandler.useEnergy(stack, this.operationEnergyCost, miningEntity);
         }
         return true;
     }
