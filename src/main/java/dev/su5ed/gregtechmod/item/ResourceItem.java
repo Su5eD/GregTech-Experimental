@@ -21,8 +21,8 @@ import java.util.function.Function;
 
 public class ResourceItem extends Item {
     protected final Lazy<List<MutableComponent>> description;
-    private final boolean isFoil;
-    private final boolean isEnchantable;
+    protected final boolean isFoil;
+    protected final boolean isEnchantable;
 
     public ResourceItem(ExtendedItemProperties<?> properties) {
         super(properties.properties);
@@ -43,17 +43,22 @@ public class ResourceItem extends Item {
     }
 
     @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return this.isEnchantable;
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return this.isFoil || super.isFoil(stack);
+    }
+    
+    @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag isAdvanced) {
         super.appendHoverText(stack, level, components, isAdvanced);
 
         StreamEx.of(this.description.get())
             .map(component -> component.withStyle(ChatFormatting.GRAY))
             .forEach(components::add);
-    }
-
-    @Override
-    public boolean isFoil(ItemStack stack) {
-        return this.isFoil || super.isFoil(stack);
     }
 
     @SuppressWarnings("unchecked")
