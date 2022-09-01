@@ -11,10 +11,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IRarity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -40,12 +42,12 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
         this(name, () -> GtLocale.translateItemDescription(name), 28, attackDamage, maxCharge, getTransferLimit(tier), tier, operationEnergyCost, false, harvestLevel, toolClasses);
     }
 
-    public ItemToolElectricBase(String name, String descriptionKey, int damage, float attackDamage, double maxCharge, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
-        this(name, () -> GtLocale.translateGenericDescription(descriptionKey), damage, attackDamage, maxCharge, getTransferLimit(tier), tier, operationEnergyCost, providesEnergy, harvestLevel, toolClasses);
+    public ItemToolElectricBase(String name, String descriptionKey, int durability, float attackDamage, double maxCharge, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
+        this(name, () -> GtLocale.translateGenericDescription(descriptionKey), durability, attackDamage, maxCharge, getTransferLimit(tier), tier, operationEnergyCost, providesEnergy, harvestLevel, toolClasses);
     }
 
-    public ItemToolElectricBase(String name, Supplier<String> description, int damage, float attackDamage, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
-        super(name, description, damage, attackDamage, 0, harvestLevel, toolClasses);
+    public ItemToolElectricBase(String name, Supplier<String> description, int durability, float attackDamage, double maxCharge, double transferLimit, int tier, double operationEnergyCost, boolean providesEnergy, int harvestLevel, Set<ToolClass> toolClasses) {
+        super(name, description, durability, attackDamage, 0, harvestLevel, toolClasses);
         this.maxCharge = maxCharge;
         this.transferLimit = transferLimit;
         this.tier = tier;
@@ -60,16 +62,22 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (this.showTier && this.tier > 0) tooltip.add(GtLocale.translateInfo("tier", this.tier));
-        String durability = getDurabilityInfo(stack);
-        if (!durability.isEmpty()) tooltip.add(durability);
+        if (this.showTier && this.tier > 0) {
+            tooltip.add(GtLocale.translateInfo("tier", this.tier));
+        }
+
         String description = this.description.get();
         if (description != null) {
-            if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
+            if (isEmpty(stack)) {
                 tooltip.add(GtLocale.translateInfo("empty"));
             }
             else tooltip.add(description);
         }
+    }
+
+    @Override
+    public IRarity getForgeRarity(ItemStack stack) {
+        return isEmpty(stack) ? EnumRarity.COMMON : super.getForgeRarity(stack);
     }
 
     @Override
@@ -79,8 +87,7 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
 
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-        if (this.toolClasses.contains(ToolClass.Sword) && ElectricItem.manager.use(stack, this.operationEnergyCost, attacker)) return true;
-        return super.hitEntity(stack, target, attacker);
+        return this.toolClasses.contains(ToolClass.Sword) && ElectricItem.manager.use(stack, this.operationEnergyCost, attacker) || super.hitEntity(stack, target, attacker);
     }
 
     @Override
@@ -121,9 +128,13 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
 
     @Override
     public String getTranslationKey(ItemStack stack) {
-        if (this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
+        if (isEmpty(stack)) {
             return super.getTranslationKey(stack) + ".empty";
         }
         return super.getTranslationKey(stack);
+    }
+    
+    private boolean isEmpty(ItemStack stack) {
+        return this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost);
     }
 }
