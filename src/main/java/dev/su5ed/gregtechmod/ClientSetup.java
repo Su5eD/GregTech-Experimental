@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
+import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.cover.ActiveDetectorCover;
 import dev.su5ed.gregtechmod.cover.ConveyorCover;
 import dev.su5ed.gregtechmod.cover.CraftingCover;
@@ -29,7 +30,6 @@ import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
-import ic2.api.item.ElectricItem;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -58,7 +58,7 @@ public final class ClientSetup {
         event.enqueueWork(() -> ItemProperties.register(
             Component.LITHIUM_RE_BATTERY.getItem(),
             LithiumBatteryItem.CHARGE_PROPERTY,
-            (stack, level, entity, seed) -> ElectricItem.manager.getCharge(stack) > 0 ? 1 : 0
+            (stack, level, entity, seed) -> ModHandler.getEnergyCharge(stack) > 0 ? 1 : 0
         ));
     }
 

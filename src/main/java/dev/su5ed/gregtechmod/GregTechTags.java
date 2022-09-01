@@ -85,6 +85,13 @@ public final class GregTechTags {
     public static final TagKey<Item> LARGE_DRILL = forgeItemTag("tools/large_drill");
     public static final TagKey<Item> SOFT_HAMMER = forgeItemTag("tools/soft_hammer");
     public static final TagKey<Item> HARD_HAMMER = forgeItemTag("tools/hard_hammer");
+    
+    public static final TagKey<Item> HEAT_VENT = itemTag("heat_vent");
+    public static final TagKey<Item> COMPONENT_HEAT_VENT = itemTag("component_heat_vent");
+    public static final TagKey<Item> ADVANCED_HEAT_VENT = itemTag("advanced_heat_vent");
+    public static final TagKey<Item> OVERCLOCKED_HEAT_VENT = itemTag("overclocked_heat_vent");
+    public static final TagKey<Item> EMPTY_FLUID_CELL = itemTag("empty_fluid_cell");
+    public static final TagKey<Item> EMPTY_FUEL_CAN = itemTag("empty_fuel_can");
 
     private GregTechTags() {}
 

@@ -2,8 +2,8 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
+import dev.su5ed.gregtechmod.util.ClassicOnly;
 import dev.su5ed.gregtechmod.util.ItemProvider;
-import ic2.core.profile.NotExperimental;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
@@ -26,7 +26,7 @@ public enum Plate implements ItemProvider {
     NICKEL(Ingot.NICKEL.description),
     OSMIUM(Ingot.OSMIUM.description),
     PLATINUM(Ingot.PLATINUM.description),
-    @NotExperimental
+    @ClassicOnly
     REFINED_IRON("Fe"),
     SILICON("Si2"),
     SILVER(Ingot.SILVER.description),

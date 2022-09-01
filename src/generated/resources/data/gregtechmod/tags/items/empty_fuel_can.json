@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "ic2:empty_fuel_can",
+      "required": false
+    }
+  ]
+}

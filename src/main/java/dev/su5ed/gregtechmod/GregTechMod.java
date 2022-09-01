@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.datagen.DataGenerators;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
@@ -24,9 +25,9 @@ public class GregTechMod {
     public GregTechMod() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
+        ModHandler.initMods();
         
         GregTechAPIImpl.createAndInject();
-
         ModCovers.init(bus);
         bus.register(ModObjects.INSTANCE);
         bus.register(DataGenerators.INSTANCE);

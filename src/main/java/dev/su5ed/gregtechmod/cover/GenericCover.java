@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Set;
 
 public class GenericCover extends BaseCover<BlockEntity> {
+    // TODO Use tags for compat
     private static final Collection<Item> IC2_PLATES = Set.of(
         Ic2Items.BRONZE_PLATE, Ic2Items.COPPER_PLATE, Ic2Items.GOLD_PLATE, Ic2Items.TIN_PLATE,
         Ic2Items.IRON_PLATE, Ic2Items.LAPIS_PLATE, Ic2Items.OBSIDIAN_PLATE, Ic2Items.IRIDIUM
@@ -24,27 +25,25 @@ public class GenericCover extends BaseCover<BlockEntity> {
     private static final Collection<Item> GT_PLATES = StreamEx.of(Plate.values())
         .map(Plate::getItem)
         .toImmutableSet();
+    
+    private final CoverTexture texture;
 
     public GenericCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
+        
+        String coverName = item.getRegistryName().getPath().replace("_plate", "");
+        this.texture = CoverTexture.valueOf(coverName.toUpperCase(Locale.ROOT));
     }
 
     @Override
     public ResourceLocation getIcon() {
-        return CoverTexture.valueOf(getCoverName(this.item).toUpperCase(Locale.ROOT)).getLocation();
+        return this.texture.getLocation();
     }
 
     public static boolean isGenericCover(ItemStack stack) {
         Item item = stack.getItem();
 
         return GT_PLATES.contains(item) || IC2_PLATES.contains(item);
-    }
-
-    private String getCoverName(Item item) {
-        if (item != null) {
-            return item == Ic2Items.IRIDIUM ? "iridium_alloy" : item.getRegistryName().getPath().replace("_plate", "");
-        }
-        return "";
     }
 
     private enum CoverTexture {
@@ -72,11 +71,11 @@ public class GenericCover extends BaseCover<BlockEntity> {
         TIN(ModHandler.IC2_MODID, CoverTexture.IC2_BLOCK_PATH, "tin_block"),
         REFINED_IRON(ModHandler.IC2_MODID, CoverTexture.IC2_BLOCK_PATH, "machine"),
         //Minecraft
-        IRON("minecraft", "block/iron_block"),
-        GOLD("minecraft", "block/gold_block"),
-        LAPIS("minecraft", "block/lapis_block"),
-        OBSIDIAN("minecraft", "block/obsidian"),
-        WOOD("minecraft", "block/oak_planks");
+        IRON("minecraft", CoverTexture.BLOCK_PATH, "iron_block"),
+        GOLD("minecraft", CoverTexture.BLOCK_PATH, "gold_block"),
+        LAPIS("minecraft", CoverTexture.BLOCK_PATH, "lapis_block"),
+        OBSIDIAN("minecraft", CoverTexture.BLOCK_PATH, "obsidian"),
+        WOOD("minecraft", CoverTexture.BLOCK_PATH, "oak_planks");
 
         private static final String BLOCK_PATH = "block";
         private static final String IC2_BLOCK_PATH = "blocks/resource";

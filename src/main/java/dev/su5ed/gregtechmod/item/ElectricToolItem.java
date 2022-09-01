@@ -1,8 +1,9 @@
 package dev.su5ed.gregtechmod.item;
 
+import com.google.common.base.Strings;
 import dev.su5ed.gregtechmod.compat.IC2Handler;
+import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.util.GtLocale;
-import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -47,18 +48,18 @@ public abstract class ElectricToolItem extends ToolItem implements IElectricItem
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
-        return !ElectricItem.manager.canUse(stack, this.operationEnergyCost) ? 1 : super.getDestroySpeed(stack, state);
+        return !ModHandler.canUseEnergy(stack, this.operationEnergyCost) ? 1 : super.getDestroySpeed(stack, state);
     }
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return canPerformAction(stack, ToolActions.SWORD_SWEEP) && ElectricItem.manager.use(stack, this.operationEnergyCost, attacker) || super.hurtEnemy(stack, target, attacker);
+        return canPerformAction(stack, ToolActions.SWORD_SWEEP) && ModHandler.use(stack, this.operationEnergyCost, attacker) || super.hurtEnemy(stack, target, attacker);
     }
 
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
         if (!level.isClientSide && state.getDestroySpeed(level, pos) != 0) {
-            ElectricItem.manager.use(stack, this.operationEnergyCost, miningEntity);
+            ModHandler.use(stack, this.operationEnergyCost, miningEntity);
         }
         return true;
     }
@@ -116,9 +117,9 @@ public abstract class ElectricToolItem extends ToolItem implements IElectricItem
         }
         description.forEach(component -> components.add(component.withStyle(ChatFormatting.GRAY)));
         
-        String euTooltip = ElectricItem.manager.getToolTip(stack);
-        if (euTooltip != null && !euTooltip.trim().isEmpty()) {
-            components.add(new TextComponent(euTooltip).withStyle(ChatFormatting.GRAY));
+        String energyTooltip = ModHandler.getEnergyTooltip(stack);
+        if (!Strings.isNullOrEmpty(energyTooltip)) {
+            components.add(new TextComponent(energyTooltip).withStyle(ChatFormatting.GRAY));
         }
     }
 
@@ -129,16 +130,16 @@ public abstract class ElectricToolItem extends ToolItem implements IElectricItem
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return (int) Math.round(ElectricItem.manager.getChargeLevel(stack) * 13.0);
+        return (int) Math.round(ModHandler.getChargeLevel(stack) * 13.0);
     }
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return Mth.hsvToRgb((float) (ElectricItem.manager.getChargeLevel(stack) / 3.0), 1.0F, 1.0F);
+        return Mth.hsvToRgb((float) (ModHandler.getChargeLevel(stack) / 3.0), 1.0F, 1.0F);
     }
 
     private boolean isEmpty(ItemStack stack) {
-        return this.hasEmptyVariant && !ElectricItem.manager.canUse(stack, this.operationEnergyCost);
+        return this.hasEmptyVariant && !ModHandler.canUseEnergy(stack, this.operationEnergyCost);
     }
 
     private static double calculateTransferLimit(int tier) {

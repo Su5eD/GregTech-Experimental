@@ -1,6 +1,8 @@
 package dev.su5ed.gregtechmod.datagen;
 
+import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
 import dev.su5ed.gregtechmod.object.Ore;
@@ -11,6 +13,7 @@ import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
@@ -18,7 +21,9 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ItemTagsGen extends ItemTagsProvider {
@@ -42,6 +47,23 @@ public class ItemTagsGen extends ItemTagsProvider {
             .append(Upgrade.values())
             .mapToEntry(provider -> tags.computeIfAbsent(provider.getTag(), this::tag), ItemProvider::getItem)
             .forKeyValue(TagAppender::add);
+
+        StreamEx.of(GregTechTags.HEAT_VENT, GregTechTags.COMPONENT_HEAT_VENT, GregTechTags.ADVANCED_HEAT_VENT, GregTechTags.OVERCLOCKED_HEAT_VENT)
+            .mapToEntry(this::tag, tag -> getAllBaseModItems(tag.location().getPath()))
+            .flatMapValues(Collection::stream)
+            .forKeyValue(TagAppender::addOptional);
+        
+        TagAppender<Item> emptyFluidCell = tag(GregTechTags.EMPTY_FLUID_CELL);
+        emptyFluidCell.addOptional(new ResourceLocation(ModHandler.IC2_MODID, "empty_cell"));
+        
+        TagAppender<Item> emptyFuelCan = tag(GregTechTags.EMPTY_FUEL_CAN);
+        emptyFuelCan.addOptional(new ResourceLocation(ModHandler.IC2_MODID, "empty_fuel_can"));
+    }
+
+    private static List<ResourceLocation> getAllBaseModItems(String name) {
+        return StreamEx.of(ModHandler.BASE_MODS)
+            .map(modid -> new ResourceLocation(modid, name))
+            .toList();
     }
 
     @Override
