@@ -1,4 +1,5 @@
 {
+  "type": "minecraft:block",
   "pools": [
     {
       "rolls": 1.0,
@@ -7,6 +8,11 @@
         {
           "type": "minecraft:item",
           "name": "gregtechmod:olivine_block"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
         }
       ]
     }

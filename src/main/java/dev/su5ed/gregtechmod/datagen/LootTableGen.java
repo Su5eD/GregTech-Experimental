@@ -17,6 +17,8 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
@@ -35,10 +37,10 @@ class LootTableGen extends LootTableProvider {
     protected final Map<Block, LootTable.Builder> lootTables = new HashMap<>();
     private final DataGenerator generator;
 
-    public LootTableGen(DataGenerator pGenerator) {
-        super(pGenerator);
+    public LootTableGen(DataGenerator generator) {
+        super(generator);
 
-        this.generator = pGenerator;
+        this.generator = generator;
     }
 
     private void addTables() {
@@ -49,13 +51,13 @@ class LootTableGen extends LootTableProvider {
     }
 
     @Override
-    public void run(HashCache pCache) {
+    public void run(HashCache cache) {
         addTables();
         Map<ResourceLocation, LootTable> tables = EntryStream.of(this.lootTables)
             .mapKeys(BlockBehaviour::getLootTable)
             .mapValues(LootTable.Builder::build)
             .toImmutableMap();
-        writeTables(pCache, tables);
+        writeTables(cache, tables);
     }
 
     private void writeTables(HashCache cache, Map<ResourceLocation, LootTable> tables) {
@@ -73,8 +75,11 @@ class LootTableGen extends LootTableProvider {
     protected void addSimpleTable(Block block) {
         LootPool.Builder builder = LootPool.lootPool()
             .setRolls(ConstantValue.exactly(1))
+            .when(ExplosionCondition.survivesExplosion())
             .add(LootItem.lootTableItem(block));
-        LootTable.Builder table = LootTable.lootTable().withPool(builder);
+        LootTable.Builder table = LootTable.lootTable()
+            .setParamSet(LootContextParamSets.BLOCK)
+            .withPool(builder);
 
         this.lootTables.put(block, table);
     }
