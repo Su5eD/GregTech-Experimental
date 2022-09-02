@@ -5,6 +5,7 @@ import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.Dust;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.Ingot;
+import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
 import dev.su5ed.gregtechmod.object.Nugget;
@@ -47,12 +48,11 @@ public final class GregTechTab extends CreativeModeTab {
             .append(Plate.values())
             .append(TurbineRotor.values())
             .append(Component.values())
-            .append(GTBlockEntity.values())
             .append(ModCoverItem.values())
             .append(Tool.values())
             .append(Upgrade.values())
+            .append(Miscellaneous.values())
             .map(ItemProvider::getItem)
             .forEach(item -> item.fillItemCategory(this, items));
-        // TODO Fluids, books
     }
 }

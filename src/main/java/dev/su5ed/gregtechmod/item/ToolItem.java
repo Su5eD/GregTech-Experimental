@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.su5ed.gregtechmod.util.GtUtil;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
@@ -119,7 +121,13 @@ public class ToolItem extends ResourceItem {
         }
         return true;
     }
-    
+
+    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+        return super.initCapabilities(stack, nbt);
+    }
+
     @SuppressWarnings("unchecked")
     public static class ToolItemProperties<T extends ToolItemProperties<T>> extends ExtendedItemProperties<T> {
         private float attackDamage;

@@ -21,6 +21,10 @@ public final class IC2Handler {
         ElectricItem.manager.charge(stack, charge, Integer.MAX_VALUE, true, false);
         return stack;
     }
+    
+    static boolean isEnergyItem(ItemStack stack) {
+        return stack.getItem() instanceof IElectricItem;
+    }
 
     static double getCharge(ItemStack stack) {
         return ElectricItem.manager.getCharge(stack);
@@ -40,6 +44,12 @@ public final class IC2Handler {
     
     static String getEnergyTooltip(ItemStack stack) {
         return ElectricItem.manager.getToolTip(stack);
+    }
+    
+    static void depleteStackEnergy(ItemStack stack) {
+        if (stack.getItem() instanceof IElectricItem) {
+            ElectricItem.manager.discharge(stack, Double.MAX_VALUE, Integer.MAX_VALUE, true, false, false);
+        }
     }
     
     private IC2Handler() {}

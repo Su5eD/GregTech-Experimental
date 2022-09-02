@@ -89,6 +89,7 @@ public final class GregTechTags {
     public static final TagKey<Item> LARGE_DRILL = forgeItemTag("tools/large_drill");
     public static final TagKey<Item> SOFT_HAMMER = forgeItemTag("tools/soft_hammer");
     public static final TagKey<Item> HARD_HAMMER = forgeItemTag("tools/hard_hammer");
+    public static final TagKey<Item> SOLDERING_IRON = forgeItemTag("tools/soldering_iron");
     
     public static final TagKey<Item> HEAT_VENT = itemTag("heat_vent");
     public static final TagKey<Item> COMPONENT_HEAT_VENT = itemTag("component_heat_vent");

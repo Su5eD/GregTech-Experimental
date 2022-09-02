@@ -1,10 +1,16 @@
 package dev.su5ed.gregtechmod.util;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import dev.su5ed.gregtechmod.Capabilities;
+import dev.su5ed.gregtechmod.compat.ModHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,8 +28,10 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -118,5 +126,26 @@ public final class GtUtil {
     
     public static void assertClientSide(@Nullable Level level) {
         Preconditions.checkState(level == null || level.isClientSide, "Must only be called on the client side");
+    }
+    
+    public static double calculateTransferLimit(int tier) {
+        return (1 << tier) * 128;
+    }
+    
+    public static void appendEnergyHoverText(ItemStack stack, List<Component> components, int energyTier, List<MutableComponent> description, boolean showTier, boolean isEmpty) {
+        if (showTier && energyTier > 0) {
+            components.add(GtLocale.key("info", "energy_tier").toComponent(energyTier).withStyle(ChatFormatting.GRAY));
+        }
+
+        List<MutableComponent> list = new ArrayList<>(description);
+        if (!list.isEmpty() && isEmpty) {
+            list.set(0, GtLocale.key("info", "empty").toComponent());
+        }
+        list.forEach(component -> components.add(component.withStyle(ChatFormatting.GRAY)));
+
+        String energyTooltip = ModHandler.getEnergyTooltip(stack);
+        if (!Strings.isNullOrEmpty(energyTooltip)) {
+            components.add(new TextComponent(energyTooltip).withStyle(ChatFormatting.GRAY));
+        }
     }
 }

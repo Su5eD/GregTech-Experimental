@@ -25,6 +25,10 @@ public final class ModHandler {
             throw new IllegalStateException("At least one of the following base mods is required: " + BASE_MODS);
         }
     }
+    
+    public static boolean isEnergyItem(ItemStack stack) {
+        return ic2Loaded && IC2Handler.isEnergyItem(stack); 
+    }
 
     public static double getEnergyCharge(ItemStack stack) {
         return ic2Loaded ? IC2Handler.getCharge(stack) : 0;
@@ -45,6 +49,10 @@ public final class ModHandler {
     @Nullable
     public static String getEnergyTooltip(ItemStack stack) {
         return ic2Loaded ? IC2Handler.getEnergyTooltip(stack) : null;
+    }
+    
+    public static void depleteStackEnergy(ItemStack stack) {
+        if (ic2Loaded) IC2Handler.depleteStackEnergy(stack);
     }
     
     public static boolean matchCellType(CellType type, ItemStack stack) {

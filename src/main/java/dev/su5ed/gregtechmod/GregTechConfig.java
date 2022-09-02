@@ -26,6 +26,7 @@ public final class GregTechConfig {
         public final ForgeConfigSpec.BooleanValue hiddenOres;
         
         public final ForgeConfigSpec.IntValue upgradeStackSize;
+        public final ForgeConfigSpec.BooleanValue teslaStaffDestroysArmor;
         
         public final ForgeConfigSpec.BooleanValue solarPanelCoverOvervoltageProtection;
 
@@ -36,6 +37,7 @@ public final class GregTechConfig {
             
             builder.push("Features");
             this.upgradeStackSize = builder.defineInRange("upgradeStackSize", 4, 1, 64);
+            this.teslaStaffDestroysArmor = builder.define("teslaStaffDestroysArmor", false);
             builder.pop();
             
             builder.push("Balance");

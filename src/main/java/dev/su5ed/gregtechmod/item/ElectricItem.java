@@ -4,23 +4,19 @@ import dev.su5ed.gregtechmod.compat.IC2Handler;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import ic2.api.item.IElectricItem;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ElectricToolItem extends ToolItem implements IElectricItem {
+public class ElectricItem extends ResourceItem implements IElectricItem {
     protected final double maxCharge;
     protected final double transferLimit;
     protected final int energyTier;
@@ -29,9 +25,9 @@ public class ElectricToolItem extends ToolItem implements IElectricItem {
     protected final boolean providesEnergy;
     protected final boolean hasEmptyVariant;
 
-    public ElectricToolItem(ElectricToolItemProperties properties) {
+    public ElectricItem(ElectricItemProperties properties) {
         super(properties);
-        
+
         this.maxCharge = properties.maxCharge;
         this.transferLimit = properties.transferLimit < 1 ? GtUtil.calculateTransferLimit(properties.energyTier) : properties.transferLimit;
         this.energyTier = properties.energyTier;
@@ -39,24 +35,6 @@ public class ElectricToolItem extends ToolItem implements IElectricItem {
         this.operationEnergyCost = properties.operationEnergyCost;
         this.providesEnergy = properties.providesEnergy;
         this.hasEmptyVariant = properties.hasEmptyVariant;
-    }
-
-    @Override
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
-        return !ModHandler.canUseEnergy(stack, this.operationEnergyCost) ? 1 : super.getDestroySpeed(stack, state);
-    }
-
-    @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return canPerformAction(stack, ToolActions.SWORD_SWEEP) && ModHandler.useEnergy(stack, this.operationEnergyCost, attacker) || super.hurtEnemy(stack, target, attacker);
-    }
-
-    @Override
-    public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
-        if (!level.isClientSide && state.getDestroySpeed(level, pos) != 0) {
-            ModHandler.useEnergy(stack, this.operationEnergyCost, miningEntity);
-        }
-        return true;
     }
 
     @Override
@@ -123,8 +101,8 @@ public class ElectricToolItem extends ToolItem implements IElectricItem {
     private boolean isEmpty(ItemStack stack) {
         return this.hasEmptyVariant && !ModHandler.canUseEnergy(stack, this.operationEnergyCost);
     }
-    
-    public static class ElectricToolItemProperties extends ToolItemProperties<ElectricToolItemProperties> {
+
+    public static class ElectricItemProperties extends ExtendedItemProperties<ElectricItemProperties> {
         private double maxCharge;
         private double transferLimit;
         private int energyTier;
@@ -133,43 +111,43 @@ public class ElectricToolItem extends ToolItem implements IElectricItem {
         private boolean hasEmptyVariant;
         private boolean showTier = true;
 
-        public ElectricToolItemProperties() {}
+        public ElectricItemProperties() {}
 
-        public ElectricToolItemProperties(Properties properties) {
+        public ElectricItemProperties(Properties properties) {
             super(properties);
         }
-        
-        public ElectricToolItemProperties maxCharge(double maxCharge) {
+
+        public ElectricItemProperties maxCharge(double maxCharge) {
             this.maxCharge = maxCharge;
             return this;
         }
 
-        public ElectricToolItemProperties transferLimit(double transferLimit) {
+        public ElectricItemProperties transferLimit(double transferLimit) {
             this.transferLimit = transferLimit;
             return this;
         }
 
-        public ElectricToolItemProperties energyTier(int energyTier) {
+        public ElectricItemProperties energyTier(int energyTier) {
             this.energyTier = energyTier;
             return this;
         }
 
-        public ElectricToolItemProperties operationEnergyCost(int operationEnergyCost) {
+        public ElectricItemProperties operationEnergyCost(int operationEnergyCost) {
             this.operationEnergyCost = operationEnergyCost;
             return this;
         }
 
-        public ElectricToolItemProperties providesEnergy(boolean providesEnergy) {
+        public ElectricItemProperties providesEnergy(boolean providesEnergy) {
             this.providesEnergy = providesEnergy;
             return this;
         }
 
-        public ElectricToolItemProperties hasEmptyVariant(boolean hasEmptyVariant) {
+        public ElectricItemProperties hasEmptyVariant(boolean hasEmptyVariant) {
             this.hasEmptyVariant = hasEmptyVariant;
             return this;
         }
 
-        public ElectricToolItemProperties showTier(boolean showTier) {
+        public ElectricItemProperties showTier(boolean showTier) {
             this.showTier = showTier;
             return this;
         }

@@ -2,7 +2,21 @@ package dev.su5ed.gregtechmod.datagen;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.item.LithiumBatteryItem;
-import dev.su5ed.gregtechmod.object.*;
+import dev.su5ed.gregtechmod.object.Component;
+import dev.su5ed.gregtechmod.object.Dust;
+import dev.su5ed.gregtechmod.object.GTBlockEntity;
+import dev.su5ed.gregtechmod.object.Ingot;
+import dev.su5ed.gregtechmod.object.Miscellaneous;
+import dev.su5ed.gregtechmod.object.ModBlock;
+import dev.su5ed.gregtechmod.object.ModCoverItem;
+import dev.su5ed.gregtechmod.object.Nugget;
+import dev.su5ed.gregtechmod.object.Ore;
+import dev.su5ed.gregtechmod.object.Plate;
+import dev.su5ed.gregtechmod.object.Rod;
+import dev.su5ed.gregtechmod.object.Smalldust;
+import dev.su5ed.gregtechmod.object.Tool;
+import dev.su5ed.gregtechmod.object.TurbineRotor;
+import dev.su5ed.gregtechmod.object.Upgrade;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -11,8 +25,10 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.util.Reference.locationNullable;
 
 class ItemModelGen extends ItemModelProvider {
     private final ResourceLocation generatedParent = mcLoc("item/generated");
@@ -41,6 +57,7 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(ModCoverItem.values(), "cover");
         registerItems(Tool.values(), "tool");
         registerItems(Upgrade.values(), "upgrade");
+        registerItems(Miscellaneous.values(), null);
         
         String fullName = Component.LITHIUM_RE_BATTERY.getName() + "_full";
         providerModel(Component.LITHIUM_RE_BATTERY, "component")
@@ -56,14 +73,14 @@ class ItemModelGen extends ItemModelProvider {
         return Reference.NAME + " Item Models";
     }
 
-    private void registerItems(ItemProvider[] providers, String folder) {
+    private void registerItems(ItemProvider[] providers, @Nullable String folder) {
         StreamEx.of(providers)
             .forEach(provider -> providerModel(provider, folder));
     }
     
-    public ItemModelBuilder providerModel(ItemProvider provider, String folder) {
+    public ItemModelBuilder providerModel(ItemProvider provider, @Nullable String folder) {
         String path = provider.getItem().getRegistryName().getPath();
-        ResourceLocation texture = location("item", folder, provider.getName());
+        ResourceLocation texture = locationNullable("item", folder, provider.getName());
         return singleItemTexture(path, this.generatedParent, texture);
     }
     

@@ -495,5 +495,9 @@
   "item.gregtechmod.tesla_staff.description": "No warranty!",
   "item.gregtechmod.scanner": "Portable Scanner",
   "item.gregtechmod.scanner.description": "Tricorder",
-  "item.gregtechmod.debug_scanner": "Debug Scanner"
+  "item.gregtechmod.debug_scanner": "Debug Scanner",
+  
+  "item.gregtechmod.soldering_lead": "Soldering Lead",
+  "item.gregtechmod.soldering_tin": "Soldering Tin",
+  "item.gregtechmod.soldering_metal.description": "Used in conjunction with soldering tools"
 }

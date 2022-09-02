@@ -5,6 +5,8 @@ import dev.su5ed.gregtechmod.item.AdvancedDrillItem;
 import dev.su5ed.gregtechmod.item.AdvancedSawItem;
 import dev.su5ed.gregtechmod.item.RockCutterItem;
 import dev.su5ed.gregtechmod.item.ScrewdriverItem;
+import dev.su5ed.gregtechmod.item.SolderingToolItem;
+import dev.su5ed.gregtechmod.item.TeslaStaffItem;
 import dev.su5ed.gregtechmod.item.ToolItem;
 import dev.su5ed.gregtechmod.item.ToolItem.ToolItemProperties;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
@@ -23,7 +25,9 @@ public enum Tool implements TaggedItemProvider {
     SCREWDRIVER(ScrewdriverItem::new, GregTechTags.SCREWDRIVER),
     ADVANCED_DRILL(AdvancedDrillItem::new, GregTechTags.LARGE_DRILL),
     ADVANCED_SAW(AdvancedSawItem::new),
-    ROCK_CUTTER(RockCutterItem::new);
+    ROCK_CUTTER(RockCutterItem::new),
+    SOLDERING_TOOL(SolderingToolItem::new, GregTechTags.SOLDERING_IRON),
+    TESLA_STAFF(TeslaStaffItem::new);
     // TODO
     // Item Scanner
     // Debug Item Scanner

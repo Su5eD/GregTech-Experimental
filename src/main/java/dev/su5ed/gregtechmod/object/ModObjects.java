@@ -50,6 +50,7 @@ public final class ModObjects {
             .append(ModCoverItem.values())
             .append(Tool.values())
             .append(Upgrade.values())
+            .append(Miscellaneous.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }
