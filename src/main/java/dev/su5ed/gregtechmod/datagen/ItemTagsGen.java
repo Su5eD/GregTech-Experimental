@@ -4,8 +4,13 @@ import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.Component;
+import dev.su5ed.gregtechmod.object.Dust;
+import dev.su5ed.gregtechmod.object.Ingot;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
+import dev.su5ed.gregtechmod.object.Nugget;
 import dev.su5ed.gregtechmod.object.Ore;
+import dev.su5ed.gregtechmod.object.Plate;
+import dev.su5ed.gregtechmod.object.Rod;
 import dev.su5ed.gregtechmod.object.Tool;
 import dev.su5ed.gregtechmod.object.Upgrade;
 import dev.su5ed.gregtechmod.util.ItemProvider;
@@ -18,6 +23,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,27 +34,41 @@ import java.util.Map;
 
 public class ItemTagsGen extends ItemTagsProvider {
 
-    public ItemTagsGen(DataGenerator pGenerator, BlockTagsProvider pBlockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(pGenerator, pBlockTagsProvider, Reference.MODID, existingFileHelper);
+    public ItemTagsGen(DataGenerator generator, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
+        super(generator, blockTagsProvider, Reference.MODID, existingFileHelper);
     }
 
     @Override
     protected void addTags() {
-        TagAppender<Item> ores = tag(Tags.Items.ORES);
-
-        StreamEx.of(Ore.values())
-            .map(Ore::getItem)
-            .forEach(ores::add);
-
         Map<TagKey<Item>, TagAppender<Item>> tags = new HashMap<>();
         StreamEx.<TaggedItemProvider>of(Component.values())
+            .append(Dust.values())
+            .append(Ingot.values())
             .append(ModCoverItem.values())
+            .append(Nugget.values())
+            .append(Ore.values())
+            .append(Plate.values())
+            .append(Rod.values())
             .append(Tool.values())
             .append(Upgrade.values())
             .mapToEntry(TaggedItemProvider::getTag, ItemProvider::getItem)
             .nonNullKeys()
             .mapKeys(tag -> tags.computeIfAbsent(tag, this::tag))
             .forKeyValue(TagAppender::add);
+
+        EntryStream.of(
+            Tags.Items.ORES, Ore.values(),
+            Tags.Items.DUSTS, Dust.values(),
+            Tags.Items.INGOTS, Ingot.values(),
+            Tags.Items.NUGGETS, Nugget.values(),
+            GregTechTags.PLATES, Plate.values(),
+            Tags.Items.RODS, Rod.values()
+        )
+            .mapKeys(this::tag)
+            .flatMapValues(providers -> StreamEx.of(providers)
+                .map(TaggedItemProvider::getTag)
+                .nonNull())
+            .forKeyValue(TagAppender::addTag);
 
         StreamEx.of(GregTechTags.HEAT_VENT, GregTechTags.COMPONENT_HEAT_VENT, GregTechTags.ADVANCED_HEAT_VENT, GregTechTags.OVERCLOCKED_HEAT_VENT)
             .mapToEntry(this::tag, tag -> getAllBaseModItems(tag.location().getPath()))

@@ -8,6 +8,7 @@ import dev.su5ed.gregtechmod.util.HarvestLevel;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
@@ -19,8 +20,8 @@ import java.util.Map;
 
 class BlockTagsGen extends BlockTagsProvider {
 
-    public BlockTagsGen(DataGenerator pGenerator, @Nullable ExistingFileHelper existingFileHelper) {
-        super(pGenerator, Reference.MODID, existingFileHelper);
+    public BlockTagsGen(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
+        super(generator, Reference.MODID, existingFileHelper);
     }
 
     @Override
@@ -39,11 +40,15 @@ class BlockTagsGen extends BlockTagsProvider {
             });
 
         StreamEx.of(Ore.values())
-            .mapToEntry(Ore::getBlock, Ore::getHarvestLevel)
-            .forKeyValue((block, level) -> {
+            .forEach(ore -> {
+                Block block = ore.getBlock();
+                HarvestLevel level = ore.getHarvestLevel();
+                TagKey<Block> tag = ore.getBlockTag();
+
                 pickaxe.add(block);
-                ores.add(block);
                 harvestLevels.get(level).add(block);
+                ores.addTag(tag);
+                tag(tag).add(block);
             });
 
         tag(GregTechTags.MINEABLE_WITH_SHEARS)

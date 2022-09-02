@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:ingots/aluminium",
+    "#forge:ingots/antimony",
+    "#forge:ingots/battery_alloy",
+    "#forge:ingots/brass",
+    "#forge:ingots/chrome",
+    "#forge:ingots/electrum",
+    "#forge:ingots/hot_tungsten_steel",
+    "#forge:ingots/invar",
+    "#forge:ingots/iridium",
+    "#forge:ingots/iridium_alloy",
+    "#forge:ingots/lead",
+    "#forge:ingots/magnalium",
+    "#forge:ingots/nickel",
+    "#forge:ingots/osmium",
+    "#forge:ingots/platinum",
+    "#forge:ingots/plutonium",
+    "#forge:ingots/silver",
+    "#forge:ingots/soldering_alloy",
+    "#forge:ingots/steel",
+    "#forge:ingots/thorium",
+    "#forge:ingots/titanium",
+    "#forge:ingots/tungsten",
+    "#forge:ingots/tungsten_steel",
+    "#forge:ingots/zinc"
+  ]
+}

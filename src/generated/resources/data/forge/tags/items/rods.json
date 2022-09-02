@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:rods/aluminium",
+    "#forge:rods/brass",
+    "#forge:rods/bronze",
+    "#forge:rods/chrome",
+    "#forge:rods/copper",
+    "#forge:rods/electrum",
+    "#forge:rods/gold",
+    "#forge:rods/invar",
+    "#forge:rods/iridium",
+    "#forge:rods/iron",
+    "#forge:rods/lead",
+    "#forge:rods/nickel",
+    "#forge:rods/osmium",
+    "#forge:rods/platinum",
+    "#forge:rods/refined_iron",
+    "#forge:rods/silver",
+    "#forge:rods/steel",
+    "#forge:rods/tin",
+    "#forge:rods/titanium",
+    "#forge:rods/tungsten",
+    "#forge:rods/tungsten_steel",
+    "#forge:rods/zinc"
+  ]
+}

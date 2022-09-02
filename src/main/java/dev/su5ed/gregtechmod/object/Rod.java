@@ -3,13 +3,17 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.ClassicOnly;
-import dev.su5ed.gregtechmod.util.ItemProvider;
+import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.Nullable;
 
-public enum Rod implements ItemProvider {
+public enum Rod implements TaggedItemProvider {
     ALUMINIUM(Ingot.ALUMINIUM.description),
     BRASS(Ingot.BRASS.description),
     BRONZE("SnCu3"),
@@ -35,6 +39,7 @@ public enum Rod implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
+    private final TagKey<Item> tag;
     public final MutableComponent description;
 
     Rod(String description) {
@@ -43,12 +48,18 @@ public enum Rod implements ItemProvider {
 
     Rod(MutableComponent description) {
         this.description = description;
-
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)).registryName(getName(), "rod"));
+        this.tag = ItemTags.create(new ResourceLocation("forge", "rods/" + getName()));
     }
 
     @Override
     public Item getItem() {
         return this.instance.get();
+    }
+    
+    @Nullable
+    @Override
+    public TagKey<Item> getTag() {
+        return this.tag;
     }
 }

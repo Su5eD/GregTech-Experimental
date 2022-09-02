@@ -1,16 +1,22 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.block.OreBlock;
-import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.HarvestLevel;
+import dev.su5ed.gregtechmod.util.TaggedBlockProvider;
+import dev.su5ed.gregtechmod.util.TaggedItemProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public enum Ore implements BlockItemProvider {
+public enum Ore implements TaggedBlockProvider, TaggedItemProvider {
     GALENA(3),
     IRIDIUM(20, HarvestLevel.DIAMOND),
     RUBY(4, HarvestLevel.IRON),
@@ -28,8 +34,10 @@ public enum Ore implements BlockItemProvider {
 
     private final Lazy<Block> block;
     private final Lazy<Item> item;
+    private final TagKey<Item> itemTag;
+    private final TagKey<Block> blockTag;
     private final HarvestLevel harvestLevel;
-    
+
     Ore(float strength) {
         this(strength, HarvestLevel.STONE);
     }
@@ -43,6 +51,10 @@ public enum Ore implements BlockItemProvider {
         this.block = Lazy.of(() -> block.get().setRegistryName(name));
         this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()).setRegistryName(name));
         this.harvestLevel = harvestLevel;
+
+        ResourceLocation tagName = new ResourceLocation("forge", "ores/" + getName());
+        this.itemTag = ItemTags.create(tagName);
+        this.blockTag = BlockTags.create(tagName);
     }
 
     @Override
@@ -53,6 +65,17 @@ public enum Ore implements BlockItemProvider {
     @Override
     public Item getItem() {
         return this.item.get();
+    }
+
+    @Nullable
+    @Override
+    public TagKey<Item> getTag() {
+        return this.itemTag;
+    }
+
+    @Override
+    public TagKey<Block> getBlockTag() {
+        return this.blockTag;
     }
 
     public HarvestLevel getHarvestLevel() {

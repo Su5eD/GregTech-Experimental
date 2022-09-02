@@ -2,13 +2,17 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
-import dev.su5ed.gregtechmod.util.ItemProvider;
+import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.Nullable;
 
-public enum Nugget implements ItemProvider {
+public enum Nugget implements TaggedItemProvider {
     ALUMINIUM(Ingot.ALUMINIUM.description),
     ANTIMONY(Ingot.ANTIMONY.description),
     BRASS(Ingot.BRASS.description),
@@ -29,6 +33,7 @@ public enum Nugget implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
+    private final TagKey<Item> tag;
 
     Nugget(String description) {
         this(new TextComponent(description));
@@ -36,10 +41,17 @@ public enum Nugget implements ItemProvider {
 
     Nugget(MutableComponent description) {
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)).registryName(getName(), "nugget"));
+        this.tag = ItemTags.create(new ResourceLocation("forge", "tags/" + getName()));
     }
 
     @Override
     public Item getItem() {
         return this.instance.get();
+    }
+
+    @Nullable
+    @Override
+    public TagKey<Item> getTag() {
+        return this.tag;
     }
 }

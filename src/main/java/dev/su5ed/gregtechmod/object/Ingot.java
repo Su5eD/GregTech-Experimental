@@ -3,13 +3,17 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.GtLocale;
-import dev.su5ed.gregtechmod.util.ItemProvider;
+import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.Nullable;
 
-public enum Ingot implements ItemProvider {
+public enum Ingot implements TaggedItemProvider {
     ALUMINIUM("Al"),
     ANTIMONY("Sb"),
     BATTERY_ALLOY("Pb4Sb1"),
@@ -36,6 +40,7 @@ public enum Ingot implements ItemProvider {
     ZINC("Zn");
 
     private final Lazy<Item> instance;
+    private final TagKey<Item> tag;
     final MutableComponent description;
 
     Ingot() {
@@ -53,10 +58,17 @@ public enum Ingot implements ItemProvider {
     Ingot(MutableComponent description, boolean isFoil) {
         this.description = description;
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)).registryName(getName(), "ingot"));
+        this.tag = ItemTags.create(new ResourceLocation("forge", "ingots/" + getName()));
     }
 
     @Override
     public Item getItem() {
         return this.instance.get();
+    }
+
+    @Nullable
+    @Override
+    public TagKey<Item> getTag() {
+        return this.tag;
     }
 }

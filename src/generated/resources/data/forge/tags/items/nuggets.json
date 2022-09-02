@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:tags/aluminium",
+    "#forge:tags/antimony",
+    "#forge:tags/brass",
+    "#forge:tags/chrome",
+    "#forge:tags/copper",
+    "#forge:tags/electrum",
+    "#forge:tags/invar",
+    "#forge:tags/iridium",
+    "#forge:tags/lead",
+    "#forge:tags/nickel",
+    "#forge:tags/osmium",
+    "#forge:tags/platinum",
+    "#forge:tags/silver",
+    "#forge:tags/steel",
+    "#forge:tags/tin",
+    "#forge:tags/titanium",
+    "#forge:tags/tungsten",
+    "#forge:tags/zinc"
+  ]
+}

@@ -12,6 +12,8 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
 public final class GregTechTags {
     public static final TagKey<Block> MINEABLE_WITH_SHEARS = forgeBlockTag("mineable/shears");
 
+    public static final TagKey<Item> PLATES = forgeItemTag("plates");
+
     public static final TagKey<Item> CRAFTING_SUPERCONDUCTOR = itemTag("crafting/superconductor");
     public static final TagKey<Item> CRAFTING_LI_BATTERY = itemTag("crafting/li_battery");
     public static final TagKey<Item> CRAFTING_DIAMOND_BLADE = itemTag("crafting/diamond_blade");
@@ -68,7 +70,7 @@ public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_SOLAR_PANEL_LV = itemTag("crafting/solar_panel_lv");
     public static final TagKey<Item> CRAFTING_SOLAR_PANEL_MV = itemTag("crafting/solar_panel_mv");
     public static final TagKey<Item> CRAFTING_SOLAR_PANEL_HV = itemTag("crafting/solar_panel_hv");
-    
+
     public static final TagKey<Item> CRAFTING_HV_TRANSFORMER_UPGRADE = itemTag("crafting/hv_transformer_upgrade");
     public static final TagKey<Item> CRAFTING_100K_EU_STORE = itemTag("crafting/100k_eu_store");
     public static final TagKey<Item> CRAFTING_1KK_EU_STORE = itemTag("crafting/1kk_eu_store");
@@ -90,7 +92,7 @@ public final class GregTechTags {
     public static final TagKey<Item> SOFT_HAMMER = forgeItemTag("tools/soft_hammer");
     public static final TagKey<Item> HARD_HAMMER = forgeItemTag("tools/hard_hammer");
     public static final TagKey<Item> SOLDERING_IRON = forgeItemTag("tools/soldering_iron");
-    
+
     public static final TagKey<Item> HEAT_VENT = itemTag("heat_vent");
     public static final TagKey<Item> COMPONENT_HEAT_VENT = itemTag("component_heat_vent");
     public static final TagKey<Item> ADVANCED_HEAT_VENT = itemTag("advanced_heat_vent");
@@ -107,7 +109,7 @@ public final class GregTechTags {
     private static TagKey<Item> itemTag(String name) {
         return ItemTags.create(location(name));
     }
-    
+
     private static TagKey<Block> forgeBlockTag(String name) {
         return BlockTags.create(new ResourceLocation("forge", name));
     }
