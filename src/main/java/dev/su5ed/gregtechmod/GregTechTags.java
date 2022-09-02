@@ -7,12 +7,16 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class GregTechTags {
     public static final TagKey<Block> MINEABLE_WITH_SHEARS = forgeBlockTag("mineable/shears");
 
     public static final TagKey<Item> PLATES = forgeItemTag("plates");
+    public static final TagKey<Item> IRIDIUM_ALLOY = itemTag("plates/iridium_alloy");
 
     public static final TagKey<Item> CRAFTING_SUPERCONDUCTOR = itemTag("crafting/superconductor");
     public static final TagKey<Item> CRAFTING_LI_BATTERY = itemTag("crafting/li_battery");
@@ -100,7 +104,11 @@ public final class GregTechTags {
     public static final TagKey<Item> EMPTY_FLUID_CELL = itemTag("empty_fluid_cell");
     public static final TagKey<Item> EMPTY_FUEL_CAN = itemTag("empty_fuel_can");
 
-    private GregTechTags() {}
+    private static final Map<String, TagKey<Item>> PLATES_CACHE = new HashMap<>();
+
+    public static TagKey<Item> plate(String type) {
+        return PLATES_CACHE.computeIfAbsent(type, s -> forgeItemTag("plates/" + s));
+    }
 
     private static TagKey<Item> forgeItemTag(String name) {
         return ItemTags.create(new ResourceLocation("forge", name));
@@ -113,4 +121,6 @@ public final class GregTechTags {
     private static TagKey<Block> forgeBlockTag(String name) {
         return BlockTags.create(new ResourceLocation("forge", name));
     }
+
+    private GregTechTags() {}
 }

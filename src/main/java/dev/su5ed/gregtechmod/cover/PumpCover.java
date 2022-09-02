@@ -3,7 +3,6 @@ package dev.su5ed.gregtechmod.cover;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import ic2.core.util.LiquidUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -21,17 +20,14 @@ public class PumpCover extends InventoryCover {
 
     @Override
     public void tick() {
-        if (LiquidUtil.isFluidTile(this.be, this.side)) {
-            BlockEntity target = GtUtil.getNeighborFluidBlockEntity(this.be, this.side);
-            if (target != null) {
-                FluidStack stack = GtUtil.drainBlock(this.mode.isImport ? target : this.be, this.mode.isImport ? this.side.getOpposite() : this.side, 1000, FluidAction.EXECUTE);
-                if (!stack.isEmpty()) {
-                    double energy = Math.min(1, stack.getAmount() / 100D);
+        BlockEntity target = GtUtil.getNeighborFluidBlockEntity(this.be, this.side);
+        if (target != null) {
+            FluidStack stack = GtUtil.drainBlock(this.mode.isImport ? target : this.be, this.mode.isImport ? this.side.getOpposite() : this.side, 1000, FluidAction.EXECUTE);
+            if (!stack.isEmpty()) {
+                double energy = Math.min(1, stack.getAmount() / 100D);
 
-                    if (!shouldUseEnergy(energy) || ((IElectricMachine) this.be).canUseEnergy(energy)) {
-                        // TODO GtUtil method
-                        LiquidUtil.transfer(this.mode.isImport ? target : this.be, this.mode.isImport ? this.side.getOpposite() : this.side, this.mode.isImport ? this.be : target, FluidAttributes.BUCKET_VOLUME);
-                    }
+                if (!shouldUseEnergy(energy) || ((IElectricMachine) this.be).canUseEnergy(energy)) {
+                    GtUtil.transportFluid(this.mode.isImport ? target : this.be, this.mode.isImport ? this.side.getOpposite() : this.side, this.mode.isImport ? this.be : target, FluidAttributes.BUCKET_VOLUME);
                 }
             }
         }

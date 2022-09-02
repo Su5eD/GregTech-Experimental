@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "gregtechmod:lead_plate"
+    "gregtechmod:lead_plate",
+    {
+      "id": "ic2:lead_plate",
+      "required": false
+    }
   ]
 }

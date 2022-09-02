@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import one.util.streamex.StreamEx;
@@ -147,5 +148,17 @@ public final class GtUtil {
         if (!Strings.isNullOrEmpty(energyTooltip)) {
             components.add(new TextComponent(energyTooltip).withStyle(ChatFormatting.GRAY));
         }
+    }
+    
+    public static void transportFluid(BlockEntity from, Direction fromSide, BlockEntity to, int amount) {
+        transportFluid(from, fromSide, to, fromSide.getOpposite(), amount);
+    }
+    
+    public static void transportFluid(BlockEntity from, Direction fromSide, BlockEntity to, Direction toSide, int amount) {
+        from.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, fromSide).ifPresent(source -> {
+            to.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, toSide).ifPresent(destination -> {
+                FluidUtil.tryFluidTransfer(destination, source, amount, true);
+            });
+        });
     }
 }

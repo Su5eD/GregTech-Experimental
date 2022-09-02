@@ -80,6 +80,16 @@ public class ItemTagsGen extends ItemTagsProvider {
         
         tag(GregTechTags.EMPTY_FUEL_CAN)
             .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "empty_fuel_can"));
+        
+        // Tag IC2 plates
+        StreamEx.of("bronze_plate", "copper_plate", "gold_plate", "iron_plate",
+            "lapis_plate", "lead_plate", "obsidian_plate", "steel_plate", "tin_plate"
+        )
+            .mapToEntry(name -> tag(GregTechTags.plate(name.replace("_plate", ""))), name -> new ResourceLocation(ModHandler.IC2_MODID, name))
+            .forKeyValue(TagAppender::addOptional);
+        
+        tag(GregTechTags.IRIDIUM_ALLOY)
+            .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "iridium"));
     }
 
     private static List<ResourceLocation> getAllBaseModItems(String name) {

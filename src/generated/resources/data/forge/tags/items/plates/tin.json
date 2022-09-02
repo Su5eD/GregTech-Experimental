@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "gregtechmod:tin_plate"
+    "gregtechmod:tin_plate",
+    {
+      "id": "ic2:tin_plate",
+      "required": false
+    }
   ]
 }
