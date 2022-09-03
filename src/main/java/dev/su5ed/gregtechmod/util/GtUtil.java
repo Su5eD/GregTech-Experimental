@@ -1,18 +1,15 @@
 package dev.su5ed.gregtechmod.util;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 import dev.su5ed.gregtechmod.Capabilities;
-import dev.su5ed.gregtechmod.compat.ModHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
@@ -106,10 +104,20 @@ public final class GtUtil {
         target.invulnerableTime = oldHurtResistanceTime;
     }
     
-    public static void hurtStack(ItemStack stack, int damage, Player player) {
-        if (player instanceof ServerPlayer sp && !player.isCreative()) {
-            stack.hurt(damage, player.getRandom(), sp);
-        }
+    public static boolean hurtStack(ItemStack stack, int damage, Player player) {
+        return hurtStack(stack, damage, player, p -> {});
+    }
+
+    public static boolean hurtStack(ItemStack stack, int damage, Player player, InteractionHand hand) {
+        return hurtStack(stack, damage, player, p -> p.broadcastBreakEvent(hand));
+    }
+
+    public static boolean hurtStack(ItemStack stack, int damage, Player player, Consumer<Player> onBroken) {
+        if (player.level.isClientSide) return true;
+
+        int oldDamage = stack.getDamageValue();
+        stack.hurtAndBreak(damage, player, onBroken);
+        return stack.getDamageValue() != oldDamage;
     }
     
     public static boolean stackEquals(ItemStack first, ItemStack second) {
@@ -133,7 +141,7 @@ public final class GtUtil {
         return (1 << tier) * 128;
     }
     
-    public static void appendEnergyHoverText(ItemStack stack, List<Component> components, int energyTier, List<MutableComponent> description, boolean showTier, boolean isEmpty) {
+    public static void appendEnergyHoverText(List<Component> components, int energyTier, List<MutableComponent> description, boolean showTier, boolean isEmpty) {
         if (showTier && energyTier > 0) {
             components.add(GtLocale.key("info", "energy_tier").toComponent(energyTier).withStyle(ChatFormatting.GRAY));
         }
@@ -143,11 +151,6 @@ public final class GtUtil {
             list.set(0, GtLocale.key("info", "empty").toComponent());
         }
         list.forEach(component -> components.add(component.withStyle(ChatFormatting.GRAY)));
-
-        String energyTooltip = ModHandler.getEnergyTooltip(stack);
-        if (!Strings.isNullOrEmpty(energyTooltip)) {
-            components.add(new TextComponent(energyTooltip).withStyle(ChatFormatting.GRAY));
-        }
     }
     
     public static void transportFluid(BlockEntity from, Direction fromSide, BlockEntity to, int amount) {

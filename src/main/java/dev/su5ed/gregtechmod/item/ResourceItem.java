@@ -98,9 +98,13 @@ public class ResourceItem extends Item {
         }
 
         public T multiDescription(int lines) {
+            return multiDescription(item -> item.getRegistryName().getPath(), lines);
+        }
+
+        public T multiDescription(Function<Item, String> nameFunction, int lines) {
             IntStreamEx.range(lines)
                 .<Function<Item, MutableComponent>>mapToObj(i -> item -> {
-                    String name = item.getRegistryName().getPath();
+                    String name = nameFunction.apply(item);
                     String path = i == 0 ? "description" : "description_" + i;
                     return GtLocale.key("item", name, path).toComponent();
                 })

@@ -20,6 +20,7 @@ public final class DataGenerators {
             BlockTagsProvider blockTags = new BlockTagsGen(generator, helper);
             generator.addProvider(blockTags);
             generator.addProvider(new ItemTagsGen(generator, blockTags, helper));
+            generator.addProvider(new EntityTagsGen(generator, helper));
             generator.addProvider(new LootTableGen(generator));
         }
 

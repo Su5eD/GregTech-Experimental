@@ -3,12 +3,13 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.item.AdvancedDrillItem;
 import dev.su5ed.gregtechmod.item.AdvancedSawItem;
+import dev.su5ed.gregtechmod.item.AdvancedWrenchItem;
+import dev.su5ed.gregtechmod.item.CrowbarItem;
 import dev.su5ed.gregtechmod.item.RockCutterItem;
+import dev.su5ed.gregtechmod.item.RubberHammerItem;
 import dev.su5ed.gregtechmod.item.ScrewdriverItem;
 import dev.su5ed.gregtechmod.item.SolderingToolItem;
 import dev.su5ed.gregtechmod.item.TeslaStaffItem;
-import dev.su5ed.gregtechmod.item.ToolItem;
-import dev.su5ed.gregtechmod.item.ToolItem.ToolItemProperties;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -18,16 +19,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public enum Tool implements TaggedItemProvider {
-    CROWBAR(() -> new ToolItem(new ToolItemProperties<>()
-        .durability(256)
-        .autoDescription()
-        .attackDamage(6)), GregTechTags.CROWBAR),
+    CROWBAR(CrowbarItem::new, GregTechTags.CROWBAR),
     SCREWDRIVER(ScrewdriverItem::new, GregTechTags.SCREWDRIVER),
     ADVANCED_DRILL(AdvancedDrillItem::new, GregTechTags.LARGE_DRILL),
     ADVANCED_SAW(AdvancedSawItem::new),
     ROCK_CUTTER(RockCutterItem::new),
     SOLDERING_TOOL(SolderingToolItem::new, GregTechTags.SOLDERING_IRON),
-    TESLA_STAFF(TeslaStaffItem::new);
+    TESLA_STAFF(TeslaStaffItem::new),
+    RUBBER_HAMMER(RubberHammerItem::new, GregTechTags.SOFT_HAMMER),
+    ADVANCED_WRENCH(AdvancedWrenchItem::new);
     // TODO
     // Item Scanner
     // Debug Item Scanner

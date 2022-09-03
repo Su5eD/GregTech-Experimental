@@ -24,6 +24,7 @@ public final class GregTechConfig {
 
     public static final class Common {
         public final ForgeConfigSpec.BooleanValue hiddenOres;
+        public final ForgeConfigSpec.BooleanValue enhancedWrenchOverlay;
         
         public final ForgeConfigSpec.IntValue upgradeStackSize;
         public final ForgeConfigSpec.BooleanValue teslaStaffDestroysArmor;
@@ -33,6 +34,7 @@ public final class GregTechConfig {
         private Common(ForgeConfigSpec.Builder builder) {
             builder.push("General config");
             this.hiddenOres = builder.define("hiddenOres", true);
+            this.enhancedWrenchOverlay = builder.define("enhancedWrenchOverlay", true);
             builder.pop();
             
             builder.push("Features");

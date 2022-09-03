@@ -42,7 +42,7 @@ public class AdvancedSawItem extends ElectricToolItem implements ElectricCraftin
     }
 
     @Override
-    public boolean canUse(ItemStack stack) {
+    public boolean canUseInCrafting(ItemStack stack) {
         return ModHandler.canUseEnergy(stack, this.craftingEnergyCost);
     }
 }

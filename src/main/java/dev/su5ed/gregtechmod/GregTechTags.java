@@ -4,8 +4,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +15,9 @@ import java.util.Map;
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class GregTechTags {
+    public static final TagKey<EntityType<?>> SCREWDRIVER_EFFECTIVE = entityTag("screwdriver_effective");
+    public static final TagKey<EntityType<?>> WRENCH_EFFECTIVE = entityTag("wrench_effective");
+    
     public static final TagKey<Block> MINEABLE_WITH_SHEARS = forgeBlockTag("mineable/shears");
 
     public static final TagKey<Item> PLATES = forgeItemTag("plates");
@@ -120,6 +125,14 @@ public final class GregTechTags {
 
     private static TagKey<Block> forgeBlockTag(String name) {
         return BlockTags.create(new ResourceLocation("forge", name));
+    }
+    
+    private static TagKey<Block> blockTag(String name) {
+        return BlockTags.create(location(name));
+    }
+    
+    private static TagKey<EntityType<?>> entityTag(String name) {
+        return TagKey.create(ForgeRegistries.Keys.ENTITY_TYPES, location(name));
     }
 
     private GregTechTags() {}

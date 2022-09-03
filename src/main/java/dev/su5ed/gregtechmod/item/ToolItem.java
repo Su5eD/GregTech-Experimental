@@ -3,12 +3,11 @@ package dev.su5ed.gregtechmod.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +31,7 @@ import java.util.Set;
 public class ToolItem extends ResourceItem {
     private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> attributeModifiers;
-    private final List<String> effectiveAganist;
+    private final List<TagKey<EntityType<?>>> effectiveAganist;
     private final int selfDamageOnHit;
     protected final float destroySpeed;
     protected final int dropLevel;
@@ -66,8 +64,7 @@ public class ToolItem extends ResourceItem {
         if (this.selfDamageOnHit > 0) {
             stack.hurtAndBreak(this.selfDamageOnHit, attacker, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         }
-        ResourceLocation name = target.getType().getRegistryName();
-        if (this.effectiveAganist.contains(name.toString())) {
+        if (StreamEx.of(this.effectiveAganist).anyMatch(target.getType()::is)) {
             GtUtil.damageEntity(target, attacker, this.attackDamage + 1);
         }
         return true;
@@ -105,7 +102,7 @@ public class ToolItem extends ResourceItem {
     
     @Nullable
     protected String getDurabilityInfo(ItemStack stack) {
-        return stack.isDamageableItem() ? (stack.getMaxDamage() - stack.getDamageValue() + 1) + " / " + (stack.getMaxDamage() + 1) : null;
+        return stack.isDamageableItem() ? (stack.getMaxDamage() - stack.getDamageValue()) + " / " + stack.getMaxDamage() : null;
     }
     
     // From TierSortingRegistry#isCorrectTierVanilla
@@ -122,17 +119,11 @@ public class ToolItem extends ResourceItem {
         return true;
     }
 
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return super.initCapabilities(stack, nbt);
-    }
-
     @SuppressWarnings("unchecked")
     public static class ToolItemProperties<T extends ToolItemProperties<T>> extends ExtendedItemProperties<T> {
         private float attackDamage;
         private float attackSpeed;
-        private final List<String> effectiveAganist = new ArrayList<>();
+        private final List<TagKey<EntityType<?>>> effectiveAganist = new ArrayList<>();
         private int selfDamageOnHit;
         private float destroySpeed;
         private int dropLevel;
@@ -155,8 +146,9 @@ public class ToolItem extends ResourceItem {
             return (T) this;
         }
 
-        public T effectiveAganist(String... entityNames) {
-            Collections.addAll(this.effectiveAganist, entityNames);
+        @SafeVarargs
+        public final T effectiveAganist(TagKey<EntityType<?>>... tags) {
+            Collections.addAll(this.effectiveAganist, tags);
             return (T) this;
         }
 

@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
+import dev.su5ed.gregtechmod.GregTechTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
@@ -18,14 +19,7 @@ public class ScrewdriverItem extends ToolItem {
             .durability(256)
             .multiDescription(3)
             .attackDamage(4)
-            .effectiveAganist(
-                "minecraft:spider",
-                "minecraft:cave_spider",
-                "twilightforest:hedge_spider",
-                "twilightforest:king_spider",
-                "twilightforest:swarm_spider",
-                "twilightforest:carminite_broodling"
-            ));
+            .effectiveAganist(GregTechTags.SCREWDRIVER_EFFECTIVE));
     }
 
     @Override

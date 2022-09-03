@@ -77,9 +77,9 @@ public class CoverableBlockEntity extends BaseBlockEntity {
             return placeCover(ModCovers.VENT.get(), player, side, stack);
         }
         else if (stack.is(GregTechTags.SCREWDRIVER)) {
-            return useScrewdriver(stack, side, player);
+            return useScrewdriver(stack, side, player, hand);
         }
-        return tryUseCrowbar(stack, side, player);
+        return tryUseCrowbar(stack, side, player, hand);
     }
 
     private boolean placeCover(CoverType<?> type, Player player, Direction side, ItemStack stack) {
@@ -90,7 +90,7 @@ public class CoverableBlockEntity extends BaseBlockEntity {
         return false;
     }
 
-    protected boolean useScrewdriver(ItemStack stack, Direction side, Player player) {
+    protected boolean useScrewdriver(ItemStack stack, Direction side, Player player, InteractionHand hand) {
         Cover<?> existing = this.coverHandler.getCoverAtSide(side).orElse(null);
         if (existing != null) {
             CoverInteractionResult result = existing.onScrewdriverClick(player);
@@ -100,19 +100,20 @@ public class CoverableBlockEntity extends BaseBlockEntity {
             if (result.isSuccess()) {
                 if (result.isChanged()) {
                     setChanged();
-                    GtUtil.hurtStack(stack, 1, player);
+                    GtUtil.hurtStack(stack, 1, player, hand);
                 }
                 return true;
             }
+            return false;
         }
-        return this.coverHandler.placeCoverAtSide(ModCovers.NORMAL.get(), side, null, false);
+        return GtUtil.hurtStack(stack, 1, player, hand) && this.coverHandler.placeCoverAtSide(ModCovers.NORMAL.get(), side, null, false);
     }
 
-    public boolean tryUseCrowbar(ItemStack stack, Direction side, Player player) {
+    public boolean tryUseCrowbar(ItemStack stack, Direction side, Player player, InteractionHand hand) {
         if (stack.is(GregTechTags.CROWBAR)) {
             return this.coverHandler.removeCover(side, false)
                 .map(cover -> {
-                    GtUtil.hurtStack(stack, 1, player);
+                    GtUtil.hurtStack(stack, 1, player, hand);
                     Item coverItem = cover.getItem();
                     if (coverItem != null && !this.level.isClientSide) {
                         ItemEntity entity = new ItemEntity(

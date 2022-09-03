@@ -79,7 +79,7 @@ public class ElectricItem extends ResourceItem implements IElectricItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag isAdvanced) {
-        GtUtil.appendEnergyHoverText(stack, components, this.energyTier, this.description.get(), this.showTier, isEmpty(stack));
+        GtUtil.appendEnergyHoverText(components, this.energyTier, this.description.get(), this.showTier, isEmpty(stack));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ElectricItem extends ResourceItem implements IElectricItem {
 
     @Override
     public int getBarColor(ItemStack stack) {
-        return Mth.hsvToRgb((float) (ModHandler.getChargeLevel(stack) / 3.0), 1.0F, 1.0F);
+        return Mth.hsvToRgb((float) (ModHandler.getChargeLevel(stack) / 3.0), 1, 1);
     }
 
     private boolean isEmpty(ItemStack stack) {
