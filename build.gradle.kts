@@ -1,11 +1,19 @@
 import fr.brouillard.oss.jgitver.GitVersionCalculator
 import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.common.util.RunConfig
+import org.w3c.dom.ElementTraversal
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
 import java.util.function.Supplier
 import java.util.jar.JarInputStream
 import java.util.jar.JarOutputStream
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.transform.OutputKeys
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
 
 buildscript {
     dependencies {
@@ -67,7 +75,11 @@ minecraft {
             // Don't exit the daemon when the game closes
             forceExit = false
 
-            sources(sourceSets.main.get(), api)
+            mods {
+                create("gregtechmod") {
+                    sources(sourceSets.main.get(), api)
+                }
+            }
         }
 
         create("client", config)
@@ -127,6 +139,14 @@ configurations {
     }
 }
 
+val patchIntellijRuns by tasks.registering {
+    doFirst { 
+        modifyGeneratedIntellijRuns("runClient", customRuntimeMod)
+        modifyGeneratedIntellijRuns("runServer", customRuntimeMod)
+        modifyGeneratedIntellijRuns("runData", generatedRuntimeApi)
+    }
+}
+
 tasks {
     jar {
         from(api.output)
@@ -147,10 +167,13 @@ tasks {
         from(api.allSource)
     }
 
-    // Add dependencies from customRuntimeMod to the classpath to non-data runs
     whenTaskAdded {
+        // Add dependencies from customRuntimeMod to the classpath to non-data runs
         if (name == "runClient" || name == "runServer") {
             (this as JavaExec).classpath(customRuntimeMod.resolve())
+        }
+        if (name == "genIntellijRuns") {
+            finalizedBy(patchIntellijRuns)
         }
     }
     
@@ -324,5 +347,45 @@ abstract class ApiArtifactTransform : TransformAction<TransformParameters.None> 
                 }
             }
         }
+    }
+}
+
+/**
+ * Add the required IC2 jars to generated IDEA run configs
+ */
+fun modifyGeneratedIntellijRuns(name: String, configuration: Configuration) {
+    val db = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+    val file = file(".idea/runConfigurations/$name.xml")
+    if (file.exists()) {
+        val doc = db.parse(file)
+        trimWhitespace(doc)
+        
+        val classpathModifications = doc.createElement("classpathModifications")
+        configuration.resolve().forEach { confFile ->
+            val entry = doc.createElement("entry")
+            entry.setAttribute("path", confFile.absolutePath)
+            classpathModifications.appendChild(entry)   
+        }
+        (doc.documentElement as ElementTraversal).firstElementChild.appendChild(classpathModifications)
+
+        val transformerFactory = TransformerFactory.newInstance()
+        val transformer = transformerFactory.newTransformer()
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes")
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
+        val source = DOMSource(doc)
+        val result = StreamResult(file)
+
+        transformer.transform(source, result)
+    }
+}
+
+fun trimWhitespace(node: Node) {
+    val children: NodeList = node.childNodes
+    for (i in 0 until children.length) {
+        val child: Node = children.item(i)
+        if (child.nodeType == Node.TEXT_NODE) {
+            child.textContent = child.textContent.trim()
+        }
+        trimWhitespace(child)
     }
 }
