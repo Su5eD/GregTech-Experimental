@@ -1,6 +1,5 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.compat.IC2Handler;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import ic2.api.item.IElectricItem;
@@ -65,7 +64,7 @@ public class ElectricItem extends ResourceItem implements IElectricItem {
     @Override
     public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
         if (allowdedIn(category)) {
-            items.addAll(IC2Handler.getChargedVariants(this));
+            items.addAll(ModHandler.getChargedVariants(this));
         }
     }
 

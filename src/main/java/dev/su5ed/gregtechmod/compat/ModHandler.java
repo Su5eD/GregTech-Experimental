@@ -2,7 +2,9 @@ package dev.su5ed.gregtechmod.compat;
 
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.recipe.CellType;
+import ic2.api.item.IElectricItem;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.ModList;
@@ -20,14 +22,18 @@ public final class ModHandler {
     public static void initMods() {
         ModList list = ModList.get();
         ic2Loaded = list.isLoaded(IC2_MODID);
-        
+
         if (!DatagenModLoader.isRunningDataGen() && BASE_MODS.stream().noneMatch(list::isLoaded)) {
             throw new IllegalStateException("At least one of the following base mods is required: " + BASE_MODS);
         }
     }
-    
+
     public static boolean isEnergyItem(ItemStack stack) {
-        return ic2Loaded && IC2Handler.isEnergyItem(stack); 
+        return isEnergyItem(stack.getItem());
+    }
+
+    public static boolean isEnergyItem(Item item) {
+        return ic2Loaded && IC2Handler.isEnergyItem(item);
     }
 
     public static double getEnergyCharge(ItemStack stack) {
@@ -50,11 +56,15 @@ public final class ModHandler {
     public static String getEnergyTooltip(ItemStack stack) {
         return ic2Loaded ? IC2Handler.getEnergyTooltip(stack) : null;
     }
-    
+
     public static void depleteStackEnergy(ItemStack stack) {
         if (ic2Loaded) IC2Handler.depleteStackEnergy(stack);
     }
-    
+
+    public static <T extends Item & IElectricItem> List<ItemStack> getChargedVariants(T item) {
+        return ic2Loaded ? IC2Handler.getChargedVariants(item) : List.of();
+    }
+
     public static boolean matchCellType(CellType type, ItemStack stack) {
         // TODO Universal Fluid Cell
         return !stack.hasTag() && (type == CellType.CELL && stack.is(GregTechTags.EMPTY_FLUID_CELL) || type == CellType.FUEL_CAN && stack.is(GregTechTags.EMPTY_FUEL_CAN));
