@@ -2,17 +2,9 @@ package dev.su5ed.gregtechmod.compat;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
-import ic2.api.tile.IWrenchable;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -52,30 +44,6 @@ public final class IC2Handler {
         if (stack.getItem() instanceof IElectricItem) {
             ElectricItem.manager.discharge(stack, Double.MAX_VALUE, Integer.MAX_VALUE, true, false, false);
         }
-    }
-
-    static boolean isWrenchable(Block block) {
-        return block instanceof IWrenchable;
-    }
-
-    static boolean canSetFacing(Block block, Level level, BlockPos pos, Direction direction, Player player) {
-        return ((IWrenchable) block).canSetFacing(level, pos, direction, player);
-    }
-
-    static Direction getFacing(Block block, Level level, BlockPos pos) {
-        return ((IWrenchable) block).getFacing(level, pos);
-    }
-
-    static boolean setFacing(Block block, Level level, BlockPos pos, Direction side, Player player) {
-        return ((IWrenchable) block).setFacing(level, pos, side, player);
-    }
-    
-    static boolean wrenchCanRemove(Block block, Level level, BlockPos pos, Player player) {
-        return ((IWrenchable) block).wrenchCanRemove(level, pos, player);
-    }
-    
-    static List<ItemStack> getWrenchDrops(Block block, Level level, BlockPos pos, BlockState state, BlockEntity be, Player player, int fortune) {
-        return ((IWrenchable) block).getWrenchDrops(level, pos, state, be, player, fortune);
     }
 
     private static ItemStack getChargedStack(Item item, double charge) {

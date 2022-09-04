@@ -7,6 +7,7 @@ import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.JavaUtil;
 import ic2.api.item.IEnhancedOverlayProvider;
+import ic2.api.tile.IWrenchable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,50 +48,12 @@ public class WrenchItem extends ToolItem implements IEnhancedOverlayProvider {
 
     @Override
     public boolean providesEnhancedOverlay(Level level, BlockPos pos, Direction side, Player player, ItemStack stack) {
-        if (GregTechConfig.COMMON.enhancedWrenchOverlay.get()) {
-            Block block = level.getBlockState(pos).getBlock();
-            return ModHandler.isWrenchable(block) && Arrays.stream(Direction.values())
-                .anyMatch(dir -> ModHandler.canWrenchSetFacing(block, level, pos, dir, player));
-        }
-        return false;
+        return ModHandler.ic2Loaded && IC2WrenchHandler.providesEnhancedOverlay(level, pos, player);
     }
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-        Level level = context.getLevel();
-        BlockPos pos = context.getClickedPos();
-        BlockState state = level.getBlockState(pos);
-        Block block = state.getBlock();
-        Player player = context.getPlayer();
-        InteractionHand hand = context.getHand();
-
-        if (canUseWrench(stack, this.rotateCost) && ModHandler.isWrenchable(block)) {
-            Direction face = ModHandler.getFacing(block, level, pos);
-            Vec3 vec = context.getClickLocation();
-            double x = vec.x() - pos.getX();
-            double y = vec.y() - pos.getY();
-            double z = vec.z() - pos.getZ();
-            Direction rotated = rotateWrenchSide(context.getClickedFace(), x, y, z);
-            
-            if (rotated != face && ModHandler.setFacing(block, level, pos, rotated, player)) {
-                useWrench(stack, this.rotateCost, player, hand);
-                return InteractionResult.SUCCESS;
-            }
-            
-            if (ModHandler.wrenchCanRemove(block, level, pos, player) && canUseWrench(stack, this.removeCost)) {
-                useWrench(stack, this.removeCost, player, hand);
-                if (!level.isClientSide) {
-                    block.playerWillDestroy(level, pos, state, player);
-                    if (level.removeBlock(pos, false)) {
-                        block.destroy(level, pos, state);
-                    }
-                    ModHandler.getWrenchDrops(block, level, pos, state, level.getBlockEntity(pos), player, 0)
-                        .forEach(drop -> dropItem(drop, level, pos));
-                }
-                return InteractionResult.SUCCESS;
-            }
-        }
-        return super.onItemUseFirst(stack, context);
+        return ModHandler.ic2Loaded ? IC2WrenchHandler.onItemUseFirst(this, stack, context) : super.onItemUseFirst(stack, context);
     }
     
     @Override
@@ -143,5 +106,53 @@ public class WrenchItem extends ToolItem implements IEnhancedOverlayProvider {
         ItemEntity entity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack);
         entity.setDefaultPickUpDelay();
         level.addFreshEntity(entity);
+    }
+    
+    private static class IC2WrenchHandler {
+        public static boolean providesEnhancedOverlay(Level level, BlockPos pos, Player player) {
+            if (GregTechConfig.COMMON.enhancedWrenchOverlay.get()) {
+                Block block = level.getBlockState(pos).getBlock();
+                return block instanceof IWrenchable wrenchable && Arrays.stream(Direction.values())
+                    .anyMatch(dir -> wrenchable.canSetFacing(level, pos, dir, player));
+            }
+            return false;
+        }
+        
+        public static InteractionResult onItemUseFirst(WrenchItem wrench, ItemStack stack, UseOnContext context) {
+            Level level = context.getLevel();
+            BlockPos pos = context.getClickedPos();
+            BlockState state = level.getBlockState(pos);
+            Block block = state.getBlock();
+            Player player = context.getPlayer();
+            InteractionHand hand = context.getHand();
+
+            if (wrench.canUseWrench(stack, wrench.rotateCost) && block instanceof IWrenchable wrenchable) {
+                Direction face = wrenchable.getFacing(level, pos);
+                Vec3 vec = context.getClickLocation();
+                double x = vec.x() - pos.getX();
+                double y = vec.y() - pos.getY();
+                double z = vec.z() - pos.getZ();
+                Direction rotated = rotateWrenchSide(context.getClickedFace(), x, y, z);
+
+                if (rotated != face && wrenchable.setFacing(level, pos, rotated, player)) {
+                    wrench.useWrench(stack, wrench.rotateCost, player, hand);
+                    return InteractionResult.SUCCESS;
+                }
+
+                if (wrenchable.wrenchCanRemove(level, pos, player) && wrench.canUseWrench(stack, wrench.removeCost)) {
+                    wrench.useWrench(stack, wrench.removeCost, player, hand);
+                    if (!level.isClientSide) {
+                        block.playerWillDestroy(level, pos, state, player);
+                        if (level.removeBlock(pos, false)) {
+                            block.destroy(level, pos, state);
+                        }
+                        wrenchable.getWrenchDrops(level, pos, state, level.getBlockEntity(pos), player, 0)
+                            .forEach(drop -> dropItem(drop, level, pos));
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
+            return InteractionResult.PASS;
+        }
     }
 }
