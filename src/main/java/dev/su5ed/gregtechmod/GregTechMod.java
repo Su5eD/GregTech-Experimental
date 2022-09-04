@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
+import dev.su5ed.gregtechmod.object.ModContainers;
 import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.datagen.DataGenerators;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
@@ -29,6 +30,7 @@ public class GregTechMod {
         
         GregTechAPIImpl.createAndInject();
         ModCovers.init(bus);
+        ModContainers.init(bus);
         bus.register(ModObjects.INSTANCE);
         bus.register(DataGenerators.INSTANCE);
         bus.register(Capabilities.class);

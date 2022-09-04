@@ -91,6 +91,11 @@ public class ResourceItem extends Item {
             this.properties.rarity(rarity);
             return (T) this;
         }
+        
+        public T setNoRepair() {
+            this.properties.setNoRepair();
+            return (T) this;
+        }
 
         public T autoDescription() {
             this.description.add(item -> GtLocale.profileItemDescriptionKey(item.getRegistryName().getPath()).toComponent());

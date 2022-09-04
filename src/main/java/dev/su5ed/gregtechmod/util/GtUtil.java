@@ -164,4 +164,8 @@ public final class GtUtil {
             });
         });
     }
+    
+    public static ResourceLocation guiTexture(String name) {
+        return location("textures/gui/" + name + ".png");
+    }
 }

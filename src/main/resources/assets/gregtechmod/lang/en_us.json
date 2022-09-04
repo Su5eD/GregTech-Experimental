@@ -514,5 +514,7 @@
   "item.gregtechmod.advanced_wrench": "Advanced Wrench",
   "item.gregtechmod.wrench.description": "To dismantle and rotate blocks of most mods",
   "item.gregtechmod.wrench.description_1": "Rotation of target depends on where exactly you click",
-  "item.gregtechmod.wrench.description_bc": "Works as a BuildCraft wrench, too"
+  "item.gregtechmod.wrench.description_bc": "Works as a BuildCraft wrench, too",
+  "item.gregtechmod.destructorpack": "Destructorpack",
+  "item.gregtechmod.destructorpack.description": "Mobile Trash Bin"
 }

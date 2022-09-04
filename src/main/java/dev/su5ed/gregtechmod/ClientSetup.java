@@ -28,8 +28,11 @@ import dev.su5ed.gregtechmod.model.OreModelLoader;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
+import dev.su5ed.gregtechmod.object.ModContainers;
 import dev.su5ed.gregtechmod.object.Ore;
+import dev.su5ed.gregtechmod.screen.DestructorPackScreen;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -55,11 +58,14 @@ public final class ClientSetup {
     public static void clientSetup(final FMLClientSetupEvent event) {
         GregTechMod.LOGGER.info("Client setup started");
 
-        event.enqueueWork(() -> ItemProperties.register(
-            Component.LITHIUM_RE_BATTERY.getItem(),
-            LithiumBatteryItem.CHARGE_PROPERTY,
-            (stack, level, entity, seed) -> ModHandler.getEnergyCharge(stack) > 0 ? 1 : 0
-        ));
+        event.enqueueWork(() -> {
+            ItemProperties.register(
+                Component.LITHIUM_RE_BATTERY.getItem(),
+                LithiumBatteryItem.CHARGE_PROPERTY,
+                (stack, level, entity, seed) -> ModHandler.getEnergyCharge(stack) > 0 ? 1 : 0
+            );
+            MenuScreens.register(ModContainers.DESTRUCTORPACK.get(), DestructorPackScreen::new);
+        });
     }
 
     @SubscribeEvent
