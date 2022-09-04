@@ -13,7 +13,7 @@ public class ContainerDestructorpack extends ContainerHandHeldInventory<HandHeld
 
         addPlayerInventorySlots(player, 166);
 
-        addSlotToContainer(new Slot(DummyInventory.INSTANCE, -1, 80, 17));
+        addSlotToContainer(new Slot(DummyInventory.INSTANCE, -1, 80, 35));
     }
 
     @Override

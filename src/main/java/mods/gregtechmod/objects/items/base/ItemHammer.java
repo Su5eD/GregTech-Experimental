@@ -21,8 +21,8 @@ public class ItemHammer extends ItemToolBase {
         this(material, "hammer_" + material, durability, entityDamage);
     }
 
-    public ItemHammer(String material, String descriptionKey, int durability, int entityDamage) {
-        super("hammer_" + material, () -> GtLocale.translateItemDescription(descriptionKey), durability, entityDamage, ToolMaterial.WOOD);
+    public ItemHammer(String material, String descriptionKey, int durability, int attackDamage) {
+        super("hammer_" + material, () -> GtLocale.translateItemDescription(descriptionKey), durability, attackDamage, ToolMaterial.WOOD);
     }
 
     @Override

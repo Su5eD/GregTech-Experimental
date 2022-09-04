@@ -54,10 +54,9 @@ public class ItemSolderingTool extends ItemElectricBase implements ISolderingToo
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        super.addInformation(stack, worldIn, tooltip, flagIn);
         if (ElectricItem.manager.canUse(stack, this.operationEnergyCost)) {
             tooltip.add(GtLocale.translateItem("soldering_tool.metal_requirement"));
         }
-
-        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }

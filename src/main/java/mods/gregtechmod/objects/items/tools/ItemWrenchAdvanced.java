@@ -36,7 +36,7 @@ public class ItemWrenchAdvanced extends ItemWrench implements IElectricItem, IPs
 
     @Override
     public boolean canTakeDamage(ItemStack stack, int amount) {
-        return ElectricItem.manager.getCharge(stack) >= amount;
+        return ElectricItem.manager.canUse(stack, amount);
     }
 
     @Override
