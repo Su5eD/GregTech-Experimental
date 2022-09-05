@@ -9,6 +9,10 @@ import one.util.streamex.StreamEx;
 public final class GtLocale {
 
     private GtLocale() {}
+    
+    public static TranslatableComponent translateScan(String name, Object... args) {
+        return key("scan", name).toComponent(args);
+    }
 
     public static TranslationKey profileItemDescriptionKey(String name) {
         if (GregTechMod.isClassic) {

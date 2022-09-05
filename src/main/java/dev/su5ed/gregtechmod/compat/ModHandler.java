@@ -72,6 +72,10 @@ public final class ModHandler {
     public static List<ItemStack> getChargedVariants(Item item) {
         return ic2Loaded ? IC2Handler.getChargedVariants(item) : List.of(new ItemStack(item));
     }
+    
+    public static ItemStack getChargedStack(Item item, double charge) {
+        return ic2Loaded ? IC2Handler.getChargedStack(item, charge) : ItemStack.EMPTY;
+    }
 
     public static boolean matchCellType(CellType type, ItemStack stack) {
         // TODO Universal Fluid Cell

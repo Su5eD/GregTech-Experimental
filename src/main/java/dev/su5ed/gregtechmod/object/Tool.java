@@ -7,8 +7,10 @@ import dev.su5ed.gregtechmod.item.AdvancedSawItem;
 import dev.su5ed.gregtechmod.item.AdvancedWrenchItem;
 import dev.su5ed.gregtechmod.item.BugSprayItem;
 import dev.su5ed.gregtechmod.item.CrowbarItem;
+import dev.su5ed.gregtechmod.item.DebugScannerItem;
 import dev.su5ed.gregtechmod.item.DestructorPackItem;
 import dev.su5ed.gregtechmod.item.ElectricItem;
+import dev.su5ed.gregtechmod.item.ElectricItem.ElectricItemProperties;
 import dev.su5ed.gregtechmod.item.FoamSprayItem;
 import dev.su5ed.gregtechmod.item.HardenerSprayItem;
 import dev.su5ed.gregtechmod.item.HydrationSprayItem;
@@ -16,6 +18,7 @@ import dev.su5ed.gregtechmod.item.IceSprayItem;
 import dev.su5ed.gregtechmod.item.PepperSprayItem;
 import dev.su5ed.gregtechmod.item.RockCutterItem;
 import dev.su5ed.gregtechmod.item.RubberHammerItem;
+import dev.su5ed.gregtechmod.item.ScannerItem;
 import dev.su5ed.gregtechmod.item.ScrewdriverItem;
 import dev.su5ed.gregtechmod.item.SolderingToolItem;
 import dev.su5ed.gregtechmod.item.TeslaStaffItem;
@@ -29,36 +32,35 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public enum Tool implements TaggedItemProvider {
-    CROWBAR(CrowbarItem::new, GregTechTags.CROWBAR),
-    SCREWDRIVER(ScrewdriverItem::new, GregTechTags.SCREWDRIVER),
     ADVANCED_DRILL(AdvancedDrillItem::new, GregTechTags.LARGE_DRILL),
     ADVANCED_SAW(AdvancedSawItem::new),
-    ROCK_CUTTER(RockCutterItem::new),
-    SOLDERING_TOOL(SolderingToolItem::new, GregTechTags.SOLDERING_IRON),
-    TESLA_STAFF(TeslaStaffItem::new),
-    RUBBER_HAMMER(RubberHammerItem::new, GregTechTags.SOFT_HAMMER),
     ADVANCED_WRENCH(AdvancedWrenchItem::new),
+    BUG_SPRAY(BugSprayItem::new),
+    CROWBAR(CrowbarItem::new, GregTechTags.CROWBAR),
+    DEBUG_SCANNER(DebugScannerItem::new),
     DESTRUCTORPACK(DestructorPackItem::new),
-    LAPOTRONIC_ENERGY_ORB(() ->  new ElectricItem(new ElectricItem.ElectricItemProperties()
+    FOAM_SPRAY(FoamSprayItem::new),
+    HARDENER_SPRAY(HardenerSprayItem::new),
+    HYDRATION_SPRAY(HydrationSprayItem::new),
+    ICE_SPRAY(IceSprayItem::new),
+    LAPOTRONIC_ENERGY_ORB(() -> new ElectricItem(new ElectricItemProperties()
         .maxCharge(GregTechMod.isClassic ? 10000000 : 100000000)
         .transferLimit(8192)
         .energyTier(GregTechMod.isClassic ? 4 : 5)
         .providesEnergy(true)
         .rarity(Rarity.RARE)), GregTechMod.isClassic ? GregTechTags.CRAFTING_10KK_EU_STORE : GregTechTags.CRAFTING_100KK_EU_STORE),
-    BUG_SPRAY(BugSprayItem::new),
-    ICE_SPRAY(IceSprayItem::new),
-    FOAM_SPRAY(FoamSprayItem::new),
-    HARDENER_SPRAY(HardenerSprayItem::new),
     PEPPER_SPRAY(PepperSprayItem::new),
-    HYDRATION_SPRAY(HydrationSprayItem::new);
-    // TODO
-    // Item Scanner
-    // Debug Item Scanner
-    // Portable Sonictron
-    
+    ROCK_CUTTER(RockCutterItem::new),
+    RUBBER_HAMMER(RubberHammerItem::new, GregTechTags.SOFT_HAMMER),
+    SCANNER(ScannerItem::new),
+    SCREWDRIVER(ScrewdriverItem::new, GregTechTags.SCREWDRIVER),
+    SOLDERING_TOOL(SolderingToolItem::new, GregTechTags.SOLDERING_IRON),
+    TESLA_STAFF(TeslaStaffItem::new);
+    // TODO Portable Sonictron
+
     private final Lazy<Item> instance;
     private final TagKey<Item> tag;
-    
+
     Tool(Supplier<Item> supplier) {
         this(supplier, null);
     }

@@ -11,7 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public final class Capabilities {
     // Block Entity capabilities
-    public static final Capability<CoverHandler> COVERABLE = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<CoverHandler> COVER_HANDLER = CapabilityManager.get(new CapabilityToken<>() {});
     
     // ItemStack capabilites
     public static final Capability<SolderingTool> SOLDERING_TOOL = CapabilityManager.get(new CapabilityToken<>() {});

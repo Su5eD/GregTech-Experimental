@@ -27,7 +27,7 @@ public final class ClientPacketHandler {
 
     public static void handleBlockEntityCoverUpdatePacket(BlockEntityCoverUpdate packet) {
         runBlockEntityTask(packet.pos(), be -> {
-            be.getCapability(Capabilities.COVERABLE).resolve()
+            be.getCapability(Capabilities.COVER_HANDLER).resolve()
                 .flatMap(handler -> handler.getCoverAtSide(packet.side()))
                 .filter(cover -> cover.getType().getRegistryName().equals(packet.name()))
                 .ifPresent(cover -> NetworkHandler.deserializeClass(packet.data(), cover));

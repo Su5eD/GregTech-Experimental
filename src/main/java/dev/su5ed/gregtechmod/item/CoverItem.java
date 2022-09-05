@@ -24,7 +24,7 @@ public class CoverItem<T> extends ResourceItem {
         if (!player.isShiftKeyDown()) {
             BlockEntity be = context.getLevel().getBlockEntity(context.getClickedPos());
             if (be != null) {
-                return be.getCapability(Capabilities.COVERABLE)
+                return be.getCapability(Capabilities.COVER_HANDLER)
                     .filter(handler -> handler.placeCoverAtSide(this.type.get(), context.getClickedFace(), this, false))
                     .map(handler -> {
                         if (!player.isCreative()) stack.shrink(1);

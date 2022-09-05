@@ -84,7 +84,7 @@ public final class GtUtil {
     public static int getSignalFromSide(Direction side, Level level, BlockPos pos, BlockEntity be) {
         int power = level.getSignal(pos.relative(side), side);
 
-        return be.getCapability(Capabilities.COVERABLE).resolve()
+        return be.getCapability(Capabilities.COVER_HANDLER).resolve()
             .flatMap(handler -> handler.getCoverAtSide(side))
             .map(cover -> cover.letsRedstoneIn() ? Math.max(power, cover.getRedstoneInput()) : 0)
             .orElse(power);

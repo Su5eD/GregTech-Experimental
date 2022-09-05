@@ -16,6 +16,12 @@ final class IC2Handler {
         return Arrays.asList(getChargedStack(item, 0), getChargedStack(item, Double.MAX_VALUE));
     }
 
+    static ItemStack getChargedStack(Item item, double charge) {
+        ItemStack stack = new ItemStack(item);
+        ElectricItem.manager.charge(stack, charge, Integer.MAX_VALUE, true, false);
+        return stack;
+    }
+
     static boolean isEnergyItem(Item item) {
         return item instanceof IElectricItem;
     }
@@ -44,12 +50,6 @@ final class IC2Handler {
         if (stack.getItem() instanceof IElectricItem) {
             ElectricItem.manager.discharge(stack, Double.MAX_VALUE, Integer.MAX_VALUE, true, false, false);
         }
-    }
-
-    private static ItemStack getChargedStack(Item item, double charge) {
-        ItemStack stack = new ItemStack(item);
-        ElectricItem.manager.charge(stack, charge, Integer.MAX_VALUE, true, false);
-        return stack;
     }
 
     private IC2Handler() {}

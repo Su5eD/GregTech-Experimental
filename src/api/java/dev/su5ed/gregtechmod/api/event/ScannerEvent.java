@@ -1,15 +1,9 @@
 package dev.su5ed.gregtechmod.api.event;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
-
-import java.util.List;
 
 /**
  * Collects additional information for the scanner.
@@ -17,28 +11,23 @@ import java.util.List;
  */
 @Cancelable
 public class ScannerEvent extends WorldEvent {
-    public final Player player;
-    public final int scanLevel;
-    public final BlockPos pos;
-    public final List<String> list;
-    public final Direction side;
-    public final float hitX, hitY, hitZ;
-    public final BlockEntity tileEntity;
-    public final Block block;
+    public final ItemStack stack;
+    public final UseOnContext context;
 
-    public int euCost = 0;
+    private double euCost = 0;
 
-    public ScannerEvent(Level world, Player player, BlockPos pos, Direction side, int scanLevel, Block block, BlockEntity blockEntity, List<String> list, float hitX, float hitY, float hitZ) {
-        super(world);
-        this.player = player;
-        this.scanLevel = scanLevel;
-        this.tileEntity = blockEntity;
-        this.block = block;
-        this.list = list;
-        this.side = side;
-        this.pos = pos;
-        this.hitX = hitX;
-        this.hitY = hitY;
-        this.hitZ = hitZ;
+    public ScannerEvent(ItemStack stack, UseOnContext context) {
+        super(context.getLevel());
+
+        this.stack = stack;
+        this.context = context;
+    }
+
+    public double getEUCost() {
+        return this.euCost;
+    }
+    
+    public void increaseEUCost(double cost) {
+        this.euCost += cost;
     }
 }

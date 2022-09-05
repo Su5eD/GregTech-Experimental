@@ -159,7 +159,7 @@ public class CoverableBlockEntity extends BaseBlockEntity {
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        return Capabilities.COVERABLE.orEmpty(cap, this.optionalCoverHandler);
+        return Capabilities.COVER_HANDLER.orEmpty(cap, this.optionalCoverHandler);
     }
 
     @Override
