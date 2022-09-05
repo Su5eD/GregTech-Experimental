@@ -23,8 +23,7 @@ public class RockCutterItem extends ElectricToolItem {
             .destroySpeed(2)
             .dropLevel(2)
             .actions(ToolActions.PICKAXE_DIG)
-            .blockTags(BlockTags.MINEABLE_WITH_PICKAXE)
-            .setNoEnchant());
+            .blockTags(BlockTags.MINEABLE_WITH_PICKAXE));
     }
 
     @Override

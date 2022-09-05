@@ -54,7 +54,7 @@ public enum Plate implements TaggedItemProvider {
 
     Plate(MutableComponent description) {
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)).registryName(getName(), "plate"));
-        this.tag = GregTechTags.plate(getName());
+        this.tag = GregTechTags.material("plates", getName());
     }
 
     @Override

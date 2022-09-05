@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.object.ColorSpray;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.Dust;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
@@ -52,6 +53,7 @@ public final class GregTechTab extends CreativeModeTab {
             .append(Tool.values())
             .append(Upgrade.values())
             .append(Miscellaneous.values())
+            .append(ColorSpray.values())
             .map(ItemProvider::getItem)
             .forEach(item -> item.fillItemCategory(this, items));
     }

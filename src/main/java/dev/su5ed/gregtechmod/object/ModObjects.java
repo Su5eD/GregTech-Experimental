@@ -51,6 +51,7 @@ public final class ModObjects {
             .append(Tool.values())
             .append(Upgrade.values())
             .append(Miscellaneous.values())
+            .append(ColorSpray.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }

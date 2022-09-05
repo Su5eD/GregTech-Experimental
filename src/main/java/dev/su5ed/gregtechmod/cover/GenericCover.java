@@ -76,7 +76,7 @@ public class GenericCover extends BaseCover<BlockEntity> {
 
         CoverTexture(String domain, String... path) {
             this.location = new ResourceLocation(domain, String.join("/", path));
-            this.tag = GregTechTags.plate(name().toLowerCase(Locale.ROOT));
+            this.tag = GregTechTags.material("plates", name().toLowerCase(Locale.ROOT));
         }
 
         CoverTexture(TagKey<Item> tag, String domain, String... path) {

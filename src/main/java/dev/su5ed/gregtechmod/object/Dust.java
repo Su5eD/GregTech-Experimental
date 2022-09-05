@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.object;
 
+import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
@@ -96,7 +97,7 @@ public enum Dust implements TaggedItemProvider {
     Dust(MutableComponent description, boolean isFoil) {
         this.description = description;
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)).registryName(getName(), "dust"));
-        this.tag = ItemTags.create(new ResourceLocation("forge", "dusts/" + getName()));
+        this.tag = GregTechTags.material("dusts", getName());
     }
 
     @Override

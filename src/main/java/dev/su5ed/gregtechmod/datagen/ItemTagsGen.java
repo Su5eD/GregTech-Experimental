@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.datagen;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
+import dev.su5ed.gregtechmod.object.ColorSpray;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.Dust;
 import dev.su5ed.gregtechmod.object.Ingot;
@@ -64,7 +65,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             Tags.Items.INGOTS, Ingot.values(),
             Tags.Items.NUGGETS, Nugget.values(),
             GregTechTags.PLATES, Plate.values(),
-            Tags.Items.RODS, Rod.values()
+            Tags.Items.RODS, Rod.values(),
+            Tags.Items.DYES, ColorSpray.values()
         )
             .mapKeys(this::tag)
             .flatMapValues(providers -> StreamEx.of(providers)
@@ -87,7 +89,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         StreamEx.of("bronze_plate", "copper_plate", "gold_plate", "iron_plate",
             "lapis_plate", "lead_plate", "obsidian_plate", "steel_plate", "tin_plate"
         )
-            .mapToEntry(name -> tag(GregTechTags.plate(name.replace("_plate", ""))), name -> new ResourceLocation(ModHandler.IC2_MODID, name))
+            .mapToEntry(name -> tag(GregTechTags.material("plates", name.replace("_plate", ""))), name -> new ResourceLocation(ModHandler.IC2_MODID, name))
             .forKeyValue(TagAppender::addOptional);
         
         tag(GregTechTags.IRIDIUM_ALLOY)

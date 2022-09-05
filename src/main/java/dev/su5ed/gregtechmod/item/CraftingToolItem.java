@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class CraftingToolItem extends ToolItem {
-    private final int craftingDamage;
+    protected final int craftingDamage;
     @Nullable
     private final Item emptyItem;
 

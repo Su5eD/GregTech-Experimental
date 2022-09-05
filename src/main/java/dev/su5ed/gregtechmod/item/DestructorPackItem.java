@@ -28,13 +28,12 @@ public class DestructorPackItem extends ResourceItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (player instanceof ServerPlayer serverPlayer) {
-            NetworkHooks.openGui(serverPlayer, new AllayMapMenuProvider(hand), buf -> buf.writeEnum(hand));
+            NetworkHooks.openGui(serverPlayer, new DestructorPackMenuProvider(hand), buf -> buf.writeEnum(hand));
         }
         return super.use(level, player, hand);
     }
 
-    private record AllayMapMenuProvider(InteractionHand hand) implements MenuProvider {
-
+    private record DestructorPackMenuProvider(InteractionHand hand) implements MenuProvider {
         @Override
         public Component getDisplayName() {
             return Tool.DESTRUCTORPACK.getItem().getDescription();

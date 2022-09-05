@@ -113,10 +113,11 @@ public final class GregTechTags {
     public static final TagKey<Item> EMPTY_FLUID_CELL = itemTag("empty_fluid_cell");
     public static final TagKey<Item> EMPTY_FUEL_CAN = itemTag("empty_fuel_can");
 
-    private static final Map<String, TagKey<Item>> PLATES_CACHE = new HashMap<>();
+    private static final Map<String, Map<String, TagKey<Item>>> FORGE_MATERIALS = new HashMap<>();
 
-    public static TagKey<Item> plate(String type) {
-        return PLATES_CACHE.computeIfAbsent(type, s -> forgeItemTag("plates/" + s));
+    public static TagKey<Item> material(String type, String name) {
+        return FORGE_MATERIALS.computeIfAbsent(type, s -> new HashMap<>())
+            .computeIfAbsent(name, s -> forgeItemTag(type + "/" + name));
     }
 
     private static TagKey<Item> forgeItemTag(String name) {

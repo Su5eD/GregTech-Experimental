@@ -16,16 +16,19 @@ public final class ModHandler {
     public static final String IC2_MODID = "ic2";
     public static final String RAILCRAFT_MODID = "railcraft";
     public static final String TWILIGHT_FOREST_MODID = "twilightforest";
+    public static final String THERMAL_MODID = "thermal";
 
     public static final List<String> BASE_MODS = List.of(IC2_MODID); // More mods to come
     public static boolean ic2Loaded;
     public static boolean buildcraftLoaded;
     public static boolean railcraftLoaded;
+    public static boolean thermalLoaded;
 
     public static void initMods() {
         ModList list = ModList.get();
         ic2Loaded = list.isLoaded(IC2_MODID);
         railcraftLoaded = list.isLoaded(RAILCRAFT_MODID);
+        thermalLoaded = list.isLoaded(THERMAL_MODID);
         
         System.setProperty("coremod." + Reference.MODID + ".ic2_loaded", Boolean.toString(ic2Loaded));
         // (ugly) workaround for https://github.com/MinecraftForge/CoreMods/issues/31

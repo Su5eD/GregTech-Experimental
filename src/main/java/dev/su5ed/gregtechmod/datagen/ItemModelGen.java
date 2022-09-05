@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.datagen;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.item.LithiumBatteryItem;
+import dev.su5ed.gregtechmod.object.ColorSpray;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.Dust;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
@@ -58,6 +59,7 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(Tool.values(), "tool");
         registerItems(Upgrade.values(), "upgrade");
         registerItems(Miscellaneous.values(), null);
+        registerItems(ColorSpray.values(), "color_spray");
         
         String fullName = Component.LITHIUM_RE_BATTERY.getName() + "_full";
         providerModel(Component.LITHIUM_RE_BATTERY, "component")
