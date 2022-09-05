@@ -919,7 +919,7 @@ public class BlockItems {
             .setCreativeTab(GregTechMod.GREGTECH_TAB), GregTechMod.classic ? "crafting10kkEUStore" : "crafting100kkEUStore"),
         SONICTRON_PORTABLE(ItemSonictron::new),
         SPRAY_BUG(ItemSprayBug::new),
-        SPRAY_ICE(ItemSprayIce::new, "molecule_1n"),
+        SPRAY_ICE(ItemSprayIce::new),
         SPRAY_HARDENER(ItemSprayHardener::new),
         SPRAY_FOAM(ItemSprayFoam::new),
         SPRAY_PEPPER(ItemSprayPepper::new),

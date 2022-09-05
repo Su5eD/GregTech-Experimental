@@ -4,13 +4,11 @@ import ic2.api.item.IC2Items;
 import ic2.core.block.wiring.TileEntityCable;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.items.base.ItemToolCrafting;
+import mods.gregtechmod.objects.items.base.ItemSprayBase;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
@@ -23,7 +21,7 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
 
-public class ItemSprayHardener extends ItemToolCrafting {
+public class ItemSprayHardener extends ItemSprayBase {
     private static final MethodHandle CHANGE_FOAM_HANDLE;
     private static final Object HARDENED_CABLE_FOAM;
 
@@ -54,35 +52,26 @@ public class ItemSprayHardener extends ItemToolCrafting {
     }
 
     @Override
-    public ItemStack getEmptyItem() {
-        return BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getItemStack();
-    }
-
-    @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if (!world.isRemote) {
-            IBlockState state = world.getBlockState(pos);
-            Block block = state.getBlock();
-            if (!block.isAir(state, world, pos)) {
-                ItemStack stack = player.inventory.getCurrentItem();
-                TileEntity te = world.getTileEntity(pos);
+        IBlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
+        ItemStack stack = player.inventory.getCurrentItem();
+        TileEntity te = world.getTileEntity(pos);
 
-                if (te instanceof TileEntityCable) {
-                    if (((TileEntityCable) te).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
-                        hardenCableFoam(te);
-                        return EnumActionResult.SUCCESS;
-                    }
+        if (te instanceof TileEntityCable) {
+            if (((TileEntityCable) te).isFoamed() && GtUtil.damageStack(player, stack, 1)) {
+                if (!world.isRemote) hardenCableFoam(te);
+                return EnumActionResult.SUCCESS;
+            }
+        }
+        else {
+            Block blockFoam = Block.getBlockFromItem(IC2Items.getItem("foam", "normal").getItem());
+            if (block == blockFoam && GtUtil.damageStack(player, stack, 1)) {
+                if (!world.isRemote) {
+                    IBlockState wall = ModHandler.ic2ItemApi.getBlockState("wall", "light_gray");
+                    world.setBlockState(pos, wall);
                 }
-                else {
-                    Item itemFoam = IC2Items.getItem("foam", "normal").getItem();
-                    if (block.getRegistryName().equals(itemFoam.getRegistryName())) {
-                        if (GtUtil.damageStack(player, stack, 1)) {
-                            IBlockState wall = ModHandler.ic2ItemApi.getBlockState("wall", "light_gray");
-                            world.setBlockState(pos, wall);
-                        }
-                        return EnumActionResult.SUCCESS;
-                    }
-                }
+                return EnumActionResult.SUCCESS;
             }
         }
         return EnumActionResult.PASS;

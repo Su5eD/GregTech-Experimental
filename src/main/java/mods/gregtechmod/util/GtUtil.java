@@ -26,12 +26,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
@@ -125,22 +123,12 @@ public final class GtUtil {
     }
 
     public static boolean damageStack(EntityPlayer player, ItemStack stack, int damage) {
-        if (stack.isItemStackDamageable()) {
-            if (!player.capabilities.isCreativeMode) {
-                if (stack.attemptDamageItem(damage, player.getRNG(), player instanceof EntityPlayerMP ? (EntityPlayerMP) player : null)) {
-                    if (stack.getItem().hasContainerItem(stack)) {
-                        ItemStack containerStack = stack.getItem().getContainerItem(stack);
-                        if (!containerStack.isEmpty()) {
-                            player.setHeldItem(player.getActiveHand(), containerStack.copy());
-                            return true;
-                        }
-                    }
-                    player.renderBrokenItemStack(stack);
-                    stack.shrink(1);
-                    player.addStat(StatList.getObjectBreakStats(stack.getItem()));
-                    stack.setItemDamage(0);
-                }
-            }
+        if (player.world.isRemote) return true;
+
+        int value = stack.getItemDamage();
+        int maxDamage = stack.getMaxDamage() + 1;
+        if (maxDamage > 1 && value + damage <= maxDamage) {
+            stack.damageItem(damage, player);
             return true;
         }
         return false;

@@ -3,6 +3,7 @@ package mods.gregtechmod.objects.items.tools;
 import mods.gregtechmod.compat.ModCompat;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.BlockItems;
+import mods.gregtechmod.objects.items.base.ItemSprayBase;
 import mods.gregtechmod.objects.items.base.ItemToolCrafting;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
@@ -24,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemSprayColor extends ItemToolCrafting {
+public class ItemSprayColor extends ItemSprayBase {
     public final EnumDyeColor color;
 
     public ItemSprayColor(EnumDyeColor color) {
@@ -33,11 +34,6 @@ public class ItemSprayColor extends ItemToolCrafting {
         setRegistryName("spray_color_" + color.getName());
         setTranslationKey("spray_color_" + color.getName());
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-    }
-
-    @Override
-    public ItemStack getEmptyItem() {
-        return BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getItemStack();
     }
 
     @Override

@@ -2,8 +2,7 @@ package mods.gregtechmod.objects.items.tools;
 
 import ic2.api.crops.ICropTile;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.items.base.ItemToolCrafting;
+import mods.gregtechmod.objects.items.base.ItemSprayBase;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -20,7 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemSprayBug extends ItemToolCrafting {
+public class ItemSprayBug extends ItemSprayBase {
 
     public ItemSprayBug() {
         super("spray_bug", 128, 2, 8, 4);
@@ -35,11 +34,6 @@ public class ItemSprayBug extends ItemToolCrafting {
         this.effectiveAganist.add("twilightforest:tower_broodling");
         this.effectiveAganist.add("twilightforest:fire_beetle");
         this.effectiveAganist.add("twilightforest:slime_beetle");
-    }
-
-    @Override
-    public ItemStack getEmptyItem() {
-        return BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getItemStack();
     }
 
     @Override

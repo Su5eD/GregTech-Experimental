@@ -4,15 +4,14 @@ import ic2.api.item.IC2Items;
 import ic2.core.block.wiring.TileEntityCable;
 import ic2.core.util.StackUtil;
 import mods.gregtechmod.core.GregTechMod;
-import mods.gregtechmod.objects.BlockItems;
-import mods.gregtechmod.objects.items.base.ItemToolCrafting;
+import mods.gregtechmod.objects.items.base.ItemSprayBase;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -31,18 +30,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-public class ItemSprayFoam extends ItemToolCrafting {
+public class ItemSprayFoam extends ItemSprayBase {
 
     public ItemSprayFoam() {
         super("spray_foam", 400, 0, 25, 0);
         setRegistryName("spray_foam");
         setTranslationKey("spray_foam");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
-    }
-
-    @Override
-    public ItemStack getEmptyItem() {
-        return BlockItems.Miscellaneous.SPRAY_CAN_EMPTY.getItemStack();
     }
 
     @Override
@@ -60,7 +54,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if (world.isRemote || player.isSneaking()) return EnumActionResult.PASS;
+        if (player.isSneaking()) return EnumActionResult.PASS;
 
         ItemStack stack = player.inventory.getCurrentItem();
         TileEntity tileEntity = world.getTileEntity(pos);
@@ -72,8 +66,7 @@ public class ItemSprayFoam extends ItemToolCrafting {
             return EnumActionResult.PASS;
         }
         pos = pos.offset(side);
-        Item itemFoam = IC2Items.getItem("foam", "normal").getItem();
-        boolean factorX, factorY, factorZ;
+        IBlockState blockFoam = Block.getBlockFromItem(IC2Items.getItem("foam", "normal").getItem()).getDefaultState();
         int rotationpitch = Math.round(player.rotationPitch);
         EnumFacing facing;
         if (rotationpitch >= 65) {
@@ -101,39 +94,45 @@ public class ItemSprayFoam extends ItemToolCrafting {
                     break;
             }
         }
+
+        boolean success = false;
+        sw:
         switch (getMode(stack)) {
             case SINGLE:
                 if (world.isAirBlock(pos) && GtUtil.damageStack(player, stack, 1)) {
-                    world.setBlockState(pos, Block.getBlockFromItem(itemFoam).getDefaultState());
-                    return EnumActionResult.SUCCESS;
+                    if (!world.isRemote) world.setBlockState(pos, blockFoam);
+                    success = true;
                 }
                 break;
             case LINE:
                 for (int i = 0; i < 4; i++) {
                     if (world.isAirBlock(pos)) {
-                        world.setBlockState(pos, Block.getBlockFromItem(itemFoam).getDefaultState());
-                        if (!GtUtil.damageStack(player, stack, 1)) return EnumActionResult.PASS;
+                        if (!GtUtil.damageStack(player, stack, 1)) break;
+                        if (!world.isRemote) world.setBlockState(pos, blockFoam);
+                        success = true;
                     }
                     pos = pos.subtract(new Vec3i(facing.getXOffset(), facing.getYOffset(), facing.getZOffset()));
                 }
-                return EnumActionResult.SUCCESS;
+                break;
             case AREA:
-                factorX = facing.getXOffset() == 0;
-                factorY = facing.getYOffset() == 0;
-                factorZ = facing.getZOffset() == 0;
+                boolean factorX = facing.getXOffset() == 0;
+                boolean factorY = facing.getYOffset() == 0;
+                boolean factorZ = facing.getZOffset() == 0;
                 pos = pos.subtract(new Vec3i(factorX ? 1 : 0, factorY ? 1 : 0, factorZ ? 1 : 0));
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         BlockPos placePos = new BlockPos(pos.getX() + (factorX ? i : 0), pos.getY() + (!factorX && factorY ? i : 0) + (!factorZ && factorY ? j : 0), pos.getZ() + (factorZ ? j : 0));
                         if (world.isAirBlock(placePos)) {
-                            world.setBlockState(placePos, Block.getBlockFromItem(itemFoam).getDefaultState());
-                            if (!GtUtil.damageStack(player, stack, 1)) return EnumActionResult.PASS;
+                            if (!GtUtil.damageStack(player, stack, 1))
+                                break sw;
+                            if (!world.isRemote) world.setBlockState(placePos, blockFoam);
+                            success = true;
                         }
                     }
                 }
-                return EnumActionResult.SUCCESS;
+                break;
         }
-        return EnumActionResult.PASS;
+        return success ? EnumActionResult.SUCCESS : EnumActionResult.PASS;
     }
 
     public void switchMode(ItemStack stack, EntityPlayer player) {
