@@ -21,12 +21,31 @@ public class EntityTagsGen extends EntityTypeTagsProvider {
     protected void addTags() {
         TagAppender<EntityType<?>> screwdriverEffective = tag(GregTechTags.SCREWDRIVER_EFFECTIVE)
             .add(EntityType.SPIDER, EntityType.CAVE_SPIDER);
-        StreamEx.of("hedge_spider", "king_spider", "swarm_spider", "carminite_broodling")
-            .map(name -> new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, name))
-            .forEach(screwdriverEffective::addOptional);
+        addOptional(screwdriverEffective, ModHandler.TWILIGHT_FOREST_MODID,
+            "hedge_spider", "king_spider", "swarm_spider", "carminite_broodling");
 
         tag(GregTechTags.WRENCH_EFFECTIVE)
             .add(EntityType.IRON_GOLEM)
             .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "carminite_golem"));
+
+        TagAppender<EntityType<?>> bugSprayEffective = tag(GregTechTags.BUG_SPRAY_EFFECTIVE)
+            .add(EntityType.SPIDER, EntityType.CAVE_SPIDER);
+        addOptional(bugSprayEffective, ModHandler.TWILIGHT_FOREST_MODID,
+            "hedge_spider", "king_spider", "swarm_spider", "carminite_broodling", "fire_beetle", "slime_beetle");
+        
+        TagAppender<EntityType<?>> iceSprayEffective = tag(GregTechTags.ICE_SPRAY_EFFECTIVE)
+            .addOptionalTag(GregTechTags.SLIMES.location());
+        addOptional(iceSprayEffective, ModHandler.TWILIGHT_FOREST_MODID, "fire_beetle", "maze_slime", "slime_beetle");
+    }
+
+    @Override
+    public String getName() {
+        return Reference.NAME + " Entity Tags";
+    }
+
+    private static void addOptional(TagAppender<EntityType<?>> tag, String modid, String... names) {
+        StreamEx.of(names)
+            .map(name -> new ResourceLocation(modid, name))
+            .forEach(tag::addOptional);
     }
 }

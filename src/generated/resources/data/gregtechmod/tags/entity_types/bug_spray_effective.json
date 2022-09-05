@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:spider",
+    "minecraft:cave_spider",
+    {
+      "id": "twilightforest:hedge_spider",
+      "required": false
+    },
+    {
+      "id": "twilightforest:king_spider",
+      "required": false
+    },
+    {
+      "id": "twilightforest:swarm_spider",
+      "required": false
+    },
+    {
+      "id": "twilightforest:carminite_broodling",
+      "required": false
+    },
+    {
+      "id": "twilightforest:fire_beetle",
+      "required": false
+    },
+    {
+      "id": "twilightforest:slime_beetle",
+      "required": false
+    }
+  ]
+}

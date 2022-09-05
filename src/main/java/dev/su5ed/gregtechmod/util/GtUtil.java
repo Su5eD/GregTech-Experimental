@@ -115,9 +115,13 @@ public final class GtUtil {
     public static boolean hurtStack(ItemStack stack, int damage, Player player, Consumer<Player> onBroken) {
         if (player.level.isClientSide) return true;
 
-        int oldDamage = stack.getDamageValue();
-        stack.hurtAndBreak(damage, player, onBroken);
-        return stack.getDamageValue() != oldDamage;
+        int value = stack.getDamageValue();
+        int maxDamage = stack.getMaxDamage();
+        if (maxDamage > 0 && value + damage <= maxDamage) {
+            stack.hurtAndBreak(damage, player, onBroken);
+            return true;
+        }
+        return false;
     }
     
     public static boolean stackEquals(ItemStack first, ItemStack second) {

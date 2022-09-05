@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public final class IC2Handler {
+final class IC2Handler {
 
     static List<ItemStack> getChargedVariants(Item item) {
         return Arrays.asList(getChargedStack(item, 0), getChargedStack(item, Double.MAX_VALUE));

@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:slimes",
+      "required": false
+    },
+    {
+      "id": "twilightforest:fire_beetle",
+      "required": false
+    },
+    {
+      "id": "twilightforest:maze_slime",
+      "required": false
+    },
+    {
+      "id": "twilightforest:slime_beetle",
+      "required": false
+    }
+  ]
+}

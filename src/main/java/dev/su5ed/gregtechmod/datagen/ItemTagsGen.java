@@ -6,6 +6,7 @@ import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.Dust;
 import dev.su5ed.gregtechmod.object.Ingot;
+import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
 import dev.su5ed.gregtechmod.object.Nugget;
 import dev.su5ed.gregtechmod.object.Ore;
@@ -44,6 +45,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         StreamEx.<TaggedItemProvider>of(Component.values())
             .append(Dust.values())
             .append(Ingot.values())
+            .append(Miscellaneous.values())
             .append(ModCoverItem.values())
             .append(Nugget.values())
             .append(Ore.values())

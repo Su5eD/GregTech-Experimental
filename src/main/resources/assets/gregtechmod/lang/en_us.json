@@ -506,6 +506,8 @@
   "item.gregtechmod.soldering_lead": "Soldering Lead",
   "item.gregtechmod.soldering_tin": "Soldering Tin",
   "item.gregtechmod.soldering_metal.description": "Used in conjunction with soldering tools",
+  "item.gregtechmod.empty_spray_can": "Empty Spray Can",
+  "item.gregtechmod.empty_spray_can.description": "Used for making Sprays and storing Colors",
 
   "item.gregtechmod.iron_wrench": "Iron Wrench",
   "item.gregtechmod.bronze_wrench": "Bronze Wrench",
@@ -516,5 +518,23 @@
   "item.gregtechmod.wrench.description_1": "Rotation of target depends on where exactly you click",
   "item.gregtechmod.wrench.description_bc": "Works as a BuildCraft wrench, too",
   "item.gregtechmod.destructorpack": "Destructorpack",
-  "item.gregtechmod.destructorpack.description": "Mobile Trash Bin"
+  "item.gregtechmod.destructorpack.description": "Mobile Trash Bin",
+  "item.gregtechmod.lapotronic_energy_orb": "Lapotronic Energy Orb",
+  "item.gregtechmod.bug_spray": "Bug Spray",
+  "item.gregtechmod.bug_spray.description": "A very 'buggy' Spray",
+  "item.gregtechmod.ice_spray": "Freezing Spray",
+  "item.gregtechmod.ice_spray.description": "Very effective against Slimes",
+  "item.gregtechmod.foam_spray": "Construction Spray",
+  "item.gregtechmod.foam_spray.description": "Precision Spray",
+  "item.gregtechmod.foam_spray.mode.single": "Single Block Mode",
+  "item.gregtechmod.foam_spray.mode.line": "4m Line Mode",
+  "item.gregtechmod.foam_spray.mode.area": "3mx3m Area Mode",
+  "item.gregtechmod.hardener_spray": "Hardening Spray",
+  "item.gregtechmod.hardener_spray.description": "Construction Foam Hardener",
+  "item.gregtechmod.pepper_spray": "Pepper Spray",
+  "item.gregtechmod.pepper_spray.description": "To defend yourself against Bears",
+  "item.gregtechmod.pepper_spray.description_1": "especially Pedobears, Care Bears,",
+  "item.gregtechmod.pepper_spray.description_2": "Confession Bears and Bear Grylls",
+  "item.gregtechmod.hydration_spray": "Hydration Spray",
+  "item.gregtechmod.hydration_spray.description": "To hydrate Crops and similar"
 }

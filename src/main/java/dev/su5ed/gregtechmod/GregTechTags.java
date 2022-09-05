@@ -15,9 +15,12 @@ import java.util.Map;
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public final class GregTechTags {
+    public static final TagKey<EntityType<?>> SLIMES = forgeEntityTag("slimes");
     public static final TagKey<EntityType<?>> SCREWDRIVER_EFFECTIVE = entityTag("screwdriver_effective");
     public static final TagKey<EntityType<?>> WRENCH_EFFECTIVE = entityTag("wrench_effective");
-    
+    public static final TagKey<EntityType<?>> BUG_SPRAY_EFFECTIVE = entityTag("bug_spray_effective");
+    public static final TagKey<EntityType<?>> ICE_SPRAY_EFFECTIVE = entityTag("ice_spray_effective");
+
     public static final TagKey<Block> MINEABLE_WITH_SHEARS = forgeBlockTag("mineable/shears");
 
     public static final TagKey<Item> PLATES = forgeItemTag("plates");
@@ -30,6 +33,7 @@ public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_MACHINE_PARTS = itemTag("crafting/machine_parts");
     public static final TagKey<Item> CRAFTING_CIRCUIT_PARTS_TIER_4 = itemTag("crafting/circuit_parts_tier_4");
     public static final TagKey<Item> CRAFTING_DUCT_TAPE = itemTag("crafting/duct_tape");
+    public static final TagKey<Item> CRAFTING_SPRAY_CAN = itemTag("crafting/spray_can");
 
     public static final TagKey<Item> CRAFTING_HEATING_COIL_TIER_0 = itemTag("crafting/heating_coil_tier_0");
     public static final TagKey<Item> CRAFTING_HEATING_COIL_TIER_1 = itemTag("crafting/heating_coil_tier_1");
@@ -123,16 +127,20 @@ public final class GregTechTags {
         return ItemTags.create(location(name));
     }
 
-    private static TagKey<Block> forgeBlockTag(String name) {
-        return BlockTags.create(new ResourceLocation("forge", name));
-    }
-    
     private static TagKey<Block> blockTag(String name) {
         return BlockTags.create(location(name));
     }
-    
+
+    private static TagKey<Block> forgeBlockTag(String name) {
+        return BlockTags.create(new ResourceLocation("forge", name));
+    }
+
     private static TagKey<EntityType<?>> entityTag(String name) {
         return TagKey.create(ForgeRegistries.Keys.ENTITY_TYPES, location(name));
+    }
+
+    private static TagKey<EntityType<?>> forgeEntityTag(String name) {
+        return TagKey.create(ForgeRegistries.Keys.ENTITY_TYPES, new ResourceLocation("forge", name));
     }
 
     private GregTechTags() {}

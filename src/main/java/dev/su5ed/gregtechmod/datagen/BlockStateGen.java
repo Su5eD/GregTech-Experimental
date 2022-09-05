@@ -62,6 +62,6 @@ class BlockStateGen extends BlockStateProvider {
     @NotNull
     @Override
     public String getName() {
-        return Reference.NAME + " Blockstates";
+        return Reference.NAME + " Block States";
     }
 }

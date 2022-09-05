@@ -86,6 +86,6 @@ class LootTableGen extends LootTableProvider {
 
     @Override
     public String getName() {
-        return Reference.NAME + " LootTables";
+        return Reference.NAME + " Loot Tables";
     }
 }

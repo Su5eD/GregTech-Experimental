@@ -6,7 +6,7 @@ import ic2.api.upgrade.UpgradableProperty;
 import java.util.EnumSet;
 import java.util.Set;
 
-public enum IC2UpgradeType {
+public enum IC2UpgradeType { // TODO remove UpgradableProperty
     OVERCLOCKER("Processing", 4, "overclocker"),
     TRANSFORMER(2),
     BATTERY("EnergyStorage", 16);

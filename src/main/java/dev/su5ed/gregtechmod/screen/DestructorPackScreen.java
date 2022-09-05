@@ -20,7 +20,7 @@ public class DestructorPackScreen extends AbstractContainerScreen<DestructorPack
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, partialTick);
-        this.renderTooltip(poseStack, mouseX, mouseY);
+        renderTooltip(poseStack, mouseX, mouseY);
     }
 
     @Override

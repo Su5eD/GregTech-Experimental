@@ -1,11 +1,19 @@
 package dev.su5ed.gregtechmod.object;
 
+import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.item.AdvancedDrillItem;
 import dev.su5ed.gregtechmod.item.AdvancedSawItem;
 import dev.su5ed.gregtechmod.item.AdvancedWrenchItem;
+import dev.su5ed.gregtechmod.item.BugSprayItem;
 import dev.su5ed.gregtechmod.item.CrowbarItem;
 import dev.su5ed.gregtechmod.item.DestructorPackItem;
+import dev.su5ed.gregtechmod.item.ElectricItem;
+import dev.su5ed.gregtechmod.item.FoamSprayItem;
+import dev.su5ed.gregtechmod.item.HardenerSprayItem;
+import dev.su5ed.gregtechmod.item.HydrationSprayItem;
+import dev.su5ed.gregtechmod.item.IceSprayItem;
+import dev.su5ed.gregtechmod.item.PepperSprayItem;
 import dev.su5ed.gregtechmod.item.RockCutterItem;
 import dev.su5ed.gregtechmod.item.RubberHammerItem;
 import dev.su5ed.gregtechmod.item.ScrewdriverItem;
@@ -14,6 +22,7 @@ import dev.su5ed.gregtechmod.item.TeslaStaffItem;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.util.Lazy;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,10 +38,23 @@ public enum Tool implements TaggedItemProvider {
     TESLA_STAFF(TeslaStaffItem::new),
     RUBBER_HAMMER(RubberHammerItem::new, GregTechTags.SOFT_HAMMER),
     ADVANCED_WRENCH(AdvancedWrenchItem::new),
-    DESTRUCTORPACK(DestructorPackItem::new);
+    DESTRUCTORPACK(DestructorPackItem::new),
+    LAPOTRONIC_ENERGY_ORB(() ->  new ElectricItem(new ElectricItem.ElectricItemProperties()
+        .maxCharge(GregTechMod.isClassic ? 10000000 : 100000000)
+        .transferLimit(8192)
+        .energyTier(GregTechMod.isClassic ? 4 : 5)
+        .providesEnergy(true)
+        .rarity(Rarity.RARE)), GregTechMod.isClassic ? GregTechTags.CRAFTING_10KK_EU_STORE : GregTechTags.CRAFTING_100KK_EU_STORE),
+    BUG_SPRAY(BugSprayItem::new),
+    ICE_SPRAY(IceSprayItem::new),
+    FOAM_SPRAY(FoamSprayItem::new),
+    HARDENER_SPRAY(HardenerSprayItem::new),
+    PEPPER_SPRAY(PepperSprayItem::new),
+    HYDRATION_SPRAY(HydrationSprayItem::new);
     // TODO
     // Item Scanner
     // Debug Item Scanner
+    // Portable Sonictron
     
     private final Lazy<Item> instance;
     private final TagKey<Item> tag;
