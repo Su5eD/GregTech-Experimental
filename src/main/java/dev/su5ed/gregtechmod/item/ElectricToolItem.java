@@ -29,7 +29,7 @@ public class ElectricToolItem extends ToolItem implements IElectricItem {
     protected final boolean hasEmptyVariant;
 
     public ElectricToolItem(ElectricToolItemProperties properties) {
-        super(properties);
+        super(properties.stacksTo(1));
         
         this.maxCharge = properties.maxCharge;
         this.transferLimit = properties.transferLimit < 1 ? GtUtil.calculateTransferLimit(properties.energyTier) : properties.transferLimit;

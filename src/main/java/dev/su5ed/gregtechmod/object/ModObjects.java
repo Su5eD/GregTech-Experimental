@@ -52,6 +52,11 @@ public final class ModObjects {
             .append(Upgrade.values())
             .append(Miscellaneous.values())
             .append(ColorSpray.values())
+            .append(Wrench.values())
+            .append(JackHammer.values())
+            .append(Hammer.values())
+            .append(Saw.values())
+            .append(File.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }

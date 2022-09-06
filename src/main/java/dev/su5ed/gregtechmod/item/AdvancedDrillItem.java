@@ -5,11 +5,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.ToolActions;
 
 public class AdvancedDrillItem extends ElectricToolItem implements IMiningDrill {
+    private static final Tier ADVANCED_DRILL_TIER = new ForgeTier(5, 0, 0, 0, 0, null, Ingredient::of);
 
     public AdvancedDrillItem() {
         super(new ElectricToolItemProperties()
@@ -20,7 +24,7 @@ public class AdvancedDrillItem extends ElectricToolItem implements IMiningDrill 
             .hasEmptyVariant(true)
             .attackDamage(8)
             .destroySpeed(35)
-            .dropLevel(5)
+            .tier(ADVANCED_DRILL_TIER)
             .actions(ToolActions.PICKAXE_DIG, ToolActions.SHOVEL_DIG)
             .blockTags(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.MINEABLE_WITH_SHOVEL)
             .rarity(Rarity.UNCOMMON)

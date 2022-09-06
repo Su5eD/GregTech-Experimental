@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:iron_golem",
+    {
+      "id": "twilightforest:carminite_golem",
+      "required": false
+    }
+  ]
+}

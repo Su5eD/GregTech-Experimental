@@ -4,8 +4,11 @@ import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.object.ColorSpray;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.Dust;
+import dev.su5ed.gregtechmod.object.File;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
+import dev.su5ed.gregtechmod.object.Hammer;
 import dev.su5ed.gregtechmod.object.Ingot;
+import dev.su5ed.gregtechmod.object.JackHammer;
 import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
@@ -13,10 +16,12 @@ import dev.su5ed.gregtechmod.object.Nugget;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.object.Plate;
 import dev.su5ed.gregtechmod.object.Rod;
+import dev.su5ed.gregtechmod.object.Saw;
 import dev.su5ed.gregtechmod.object.Smalldust;
 import dev.su5ed.gregtechmod.object.Tool;
 import dev.su5ed.gregtechmod.object.TurbineRotor;
 import dev.su5ed.gregtechmod.object.Upgrade;
+import dev.su5ed.gregtechmod.object.Wrench;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
@@ -51,6 +56,11 @@ public final class GregTechTab extends CreativeModeTab {
             .append(Component.values())
             .append(ModCoverItem.values())
             .append(Tool.values())
+            .append(Wrench.values())
+            .append(JackHammer.values())
+            .append(Hammer.values())
+            .append(Saw.values())
+            .append(File.values())
             .append(Upgrade.values())
             .append(Miscellaneous.values())
             .append(ColorSpray.values())

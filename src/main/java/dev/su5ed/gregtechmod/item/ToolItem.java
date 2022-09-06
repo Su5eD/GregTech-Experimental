@@ -3,9 +3,9 @@ package dev.su5ed.gregtechmod.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.su5ed.gregtechmod.util.GtUtil;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -14,10 +14,12 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.ToolAction;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +36,7 @@ public class ToolItem extends ResourceItem {
     private final List<TagKey<EntityType<?>>> effectiveAganist;
     private final int selfDamageOnHit;
     protected final float destroySpeed;
-    protected final int dropLevel;
+    protected final Tier tier;
     private final Set<ToolAction> actions;
     private final Set<TagKey<Block>> blockTags;
 
@@ -49,7 +51,7 @@ public class ToolItem extends ResourceItem {
         this.effectiveAganist = Collections.unmodifiableList(properties.effectiveAganist);
         this.selfDamageOnHit = properties.selfDamageOnHit;
         this.destroySpeed = properties.destroySpeed;
-        this.dropLevel = properties.dropLevel;
+        this.tier = properties.tier;
         this.actions = Collections.unmodifiableSet(properties.actions);
         this.blockTags = Collections.unmodifiableSet(properties.blockTags);
     }
@@ -77,17 +79,20 @@ public class ToolItem extends ResourceItem {
 
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        return canMineBlock(state) && isCorrectTierVanilla(this.dropLevel, state);
+        return canMineBlock(state) && TierSortingRegistry.isCorrectTierForDrops(this.tier, state);
     }
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         return canMineBlock(state) ? this.destroySpeed : super.getDestroySpeed(stack, state);
     }
-    
-    private boolean canMineBlock(BlockState state) {
-        return StreamEx.of(this.blockTags)
-            .anyMatch(state::is);
+
+    @Override
+    public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
+        if (!this.actions.isEmpty() && !level.isClientSide && isDamageable(stack) && state.getDestroySpeed(level, pos) != 0.0F) {
+            stack.hurtAndBreak(1, miningEntity, player -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+        }
+        return super.mineBlock(stack, level, state, pos, miningEntity);
     }
 
     @Override
@@ -99,24 +104,15 @@ public class ToolItem extends ResourceItem {
 
         super.appendHoverText(stack, level, components, isAdvanced);
     }
-    
+
     @Nullable
     protected String getDurabilityInfo(ItemStack stack) {
         return stack.isDamageableItem() ? (stack.getMaxDamage() - stack.getDamageValue()) + " / " + stack.getMaxDamage() : null;
     }
-    
-    // From TierSortingRegistry#isCorrectTierVanilla
-    private static boolean isCorrectTierVanilla(int level, BlockState state) {
-        if (level < 3 && state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
-            return false;
-        }
-        else if (level < 2 && state.is(BlockTags.NEEDS_IRON_TOOL)) {
-            return false;
-        }
-        else if (level < 1 && state.is(BlockTags.NEEDS_STONE_TOOL)) {
-            return false;
-        }
-        return true;
+
+    private boolean canMineBlock(BlockState state) {
+        return StreamEx.of(this.blockTags)
+            .anyMatch(state::is);
     }
 
     @SuppressWarnings("unchecked")
@@ -126,7 +122,7 @@ public class ToolItem extends ResourceItem {
         private final List<TagKey<EntityType<?>>> effectiveAganist = new ArrayList<>();
         private int selfDamageOnHit;
         private float destroySpeed;
-        private int dropLevel;
+        private Tier tier;
         private final Set<ToolAction> actions = new HashSet<>();
         private final Set<TagKey<Block>> blockTags = new HashSet<>();
 
@@ -140,7 +136,7 @@ public class ToolItem extends ResourceItem {
             this.attackDamage = attackDamage;
             return (T) this;
         }
-        
+
         public T attackSpeed(float attackSpeed) {
             this.attackSpeed = attackSpeed;
             return (T) this;
@@ -161,9 +157,9 @@ public class ToolItem extends ResourceItem {
             this.destroySpeed = destroySpeed;
             return (T) this;
         }
-        
-        public T dropLevel(int dropLevel) {
-            this.dropLevel = dropLevel;
+
+        public T tier(Tier tier) {
+            this.tier = tier;
             return (T) this;
         }
 

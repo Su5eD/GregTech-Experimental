@@ -37,7 +37,8 @@ public class WrenchItem extends ToolItem implements IEnhancedOverlayProvider {
             .attackDamage(attackDamage)
             .selfDamageOnHit(3)
             .durability(durability)
-            .effectiveAganist(GregTechTags.WRENCH_EFFECTIVE), 1, 10);
+            .effectiveAganist(GregTechTags.WRENCH_EFFECTIVE)
+            .multiDescription(i -> "wrench", 2), 1, 10);
     }
 
     public WrenchItem(ToolItemProperties<?> properties, int rotateCost, int removeCost) {

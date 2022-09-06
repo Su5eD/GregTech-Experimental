@@ -24,9 +24,10 @@ public class EntityTagsGen extends EntityTypeTagsProvider {
         addOptional(screwdriverEffective, ModHandler.TWILIGHT_FOREST_MODID,
             "hedge_spider", "king_spider", "swarm_spider", "carminite_broodling");
 
-        tag(GregTechTags.WRENCH_EFFECTIVE)
-            .add(EntityType.IRON_GOLEM)
-            .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "carminite_golem"));
+        StreamEx.of(GregTechTags.WRENCH_EFFECTIVE, GregTechTags.HARD_HAMMER_EFFECTIVE)
+            .forEach(tagKey -> tag(tagKey)
+                .add(EntityType.IRON_GOLEM)
+                .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "carminite_golem")));
 
         TagAppender<EntityType<?>> bugSprayEffective = tag(GregTechTags.BUG_SPRAY_EFFECTIVE)
             .add(EntityType.SPIDER, EntityType.CAVE_SPIDER);

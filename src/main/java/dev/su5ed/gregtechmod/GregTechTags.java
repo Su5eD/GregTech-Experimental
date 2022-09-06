@@ -20,6 +20,7 @@ public final class GregTechTags {
     public static final TagKey<EntityType<?>> WRENCH_EFFECTIVE = entityTag("wrench_effective");
     public static final TagKey<EntityType<?>> BUG_SPRAY_EFFECTIVE = entityTag("bug_spray_effective");
     public static final TagKey<EntityType<?>> ICE_SPRAY_EFFECTIVE = entityTag("ice_spray_effective");
+    public static final TagKey<EntityType<?>> HARD_HAMMER_EFFECTIVE = entityTag("hard_hammer");
 
     public static final TagKey<Block> MINEABLE_WITH_SHEARS = forgeBlockTag("mineable/shears");
 

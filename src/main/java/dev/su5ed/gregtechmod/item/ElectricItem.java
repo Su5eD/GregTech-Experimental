@@ -27,7 +27,8 @@ public class ElectricItem extends ResourceItem implements IElectricItem {
     public ElectricItem(ElectricItemProperties properties) {
         super(properties
             .setNoRepair()
-            .setNoEnchant());
+            .setNoEnchant()
+            .stacksTo(1));
 
         this.maxCharge = properties.maxCharge;
         this.transferLimit = properties.transferLimit < 1 ? GtUtil.calculateTransferLimit(properties.energyTier) : properties.transferLimit;

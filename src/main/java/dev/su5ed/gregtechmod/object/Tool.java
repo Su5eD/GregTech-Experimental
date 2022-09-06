@@ -35,21 +35,21 @@ public enum Tool implements TaggedItemProvider {
     ADVANCED_DRILL(AdvancedDrillItem::new, GregTechTags.LARGE_DRILL),
     ADVANCED_SAW(AdvancedSawItem::new),
     ADVANCED_WRENCH(AdvancedWrenchItem::new),
-    BUG_SPRAY(BugSprayItem::new),
     CROWBAR(CrowbarItem::new, GregTechTags.CROWBAR),
     DEBUG_SCANNER(DebugScannerItem::new),
     DESTRUCTORPACK(DestructorPackItem::new),
+    BUG_SPRAY(BugSprayItem::new),
     FOAM_SPRAY(FoamSprayItem::new),
     HARDENER_SPRAY(HardenerSprayItem::new),
     HYDRATION_SPRAY(HydrationSprayItem::new),
     ICE_SPRAY(IceSprayItem::new),
+    PEPPER_SPRAY(PepperSprayItem::new),
     LAPOTRONIC_ENERGY_ORB(() -> new ElectricItem(new ElectricItemProperties()
         .maxCharge(GregTechMod.isClassic ? 10000000 : 100000000)
         .transferLimit(8192)
         .energyTier(GregTechMod.isClassic ? 4 : 5)
         .providesEnergy(true)
         .rarity(Rarity.RARE)), GregTechMod.isClassic ? GregTechTags.CRAFTING_10KK_EU_STORE : GregTechTags.CRAFTING_100KK_EU_STORE),
-    PEPPER_SPRAY(PepperSprayItem::new),
     ROCK_CUTTER(RockCutterItem::new),
     RUBBER_HAMMER(RubberHammerItem::new, GregTechTags.SOFT_HAMMER),
     SCANNER(ScannerItem::new),

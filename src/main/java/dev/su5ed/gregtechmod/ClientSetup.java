@@ -32,9 +32,12 @@ import dev.su5ed.gregtechmod.object.ModContainers;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.screen.DestructorPackScreen;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -122,5 +125,12 @@ public final class ClientSetup {
 
     public static ResourceLocation getLoaderLocation(String name) {
         return location(name + "_model");
+    }
+
+    public static void playSound(SoundEvent sound, float pitch) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level != null && minecraft.player != null) {
+            minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), sound, SoundSource.BLOCKS, 1, pitch);
+        }
     }
 }

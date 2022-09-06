@@ -7,6 +7,7 @@ import dev.su5ed.gregtechmod.util.GtLocale;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tiers;
 import net.minecraftforge.common.ToolActions;
 
 public class AdvancedSawItem extends ElectricToolItem implements ElectricCraftingTool {
@@ -21,7 +22,7 @@ public class AdvancedSawItem extends ElectricToolItem implements ElectricCraftin
             .hasEmptyVariant(true)
             .attackDamage(12)
             .destroySpeed(12)
-            .dropLevel(4)
+            .tier(Tiers.NETHERITE)
             .actions(ToolActions.AXE_DIG, ToolActions.SWORD_DIG, ToolActions.SWORD_SWEEP, ToolActions.SHEARS_DIG, ToolActions.SHEARS_HARVEST)
             .blockTags(BlockTags.MINEABLE_WITH_AXE, GregTechTags.MINEABLE_WITH_SHEARS)
             .rarity(Rarity.UNCOMMON)
