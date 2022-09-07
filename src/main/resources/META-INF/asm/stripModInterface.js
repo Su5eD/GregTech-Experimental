@@ -15,7 +15,8 @@ function initializeCoreMod() {
                         'dev.su5ed.gregtechmod.item.AdvancedDrillItem',
                         'dev.su5ed.gregtechmod.item.AdvancedWrenchItem',
                         'dev.su5ed.gregtechmod.item.WrenchItem',
-                        'dev.su5ed.gregtechmod.item.BugSprayItem'
+                        'dev.su5ed.gregtechmod.item.BugSprayItem',
+                        'dev.su5ed.gregtechmod.item.ReactorCoolantCellItem'
                     ]
                 }
             },

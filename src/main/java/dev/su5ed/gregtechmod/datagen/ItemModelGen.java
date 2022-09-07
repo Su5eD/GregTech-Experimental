@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.datagen;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.item.LithiumBatteryItem;
+import dev.su5ed.gregtechmod.object.Cell;
 import dev.su5ed.gregtechmod.object.ColorSpray;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.Dust;
@@ -13,6 +14,7 @@ import dev.su5ed.gregtechmod.object.JackHammer;
 import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
+import dev.su5ed.gregtechmod.object.NuclearCoolantPack;
 import dev.su5ed.gregtechmod.object.Nugget;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.object.Plate;
@@ -70,6 +72,8 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(Hammer.values(), "hammer");
         registerItems(Saw.values(), "saw");
         registerItems(File.values(), "file");
+        registerItems(Cell.values(), "cell");
+        registerItems(NuclearCoolantPack.values(), "coolant");
         
         String fullName = Component.LITHIUM_RE_BATTERY.getName() + "_full";
         providerModel(Component.LITHIUM_RE_BATTERY, "component")

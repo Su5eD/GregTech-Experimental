@@ -9,6 +9,7 @@ import dev.su5ed.gregtechmod.object.Dust;
 import dev.su5ed.gregtechmod.object.Ingot;
 import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
+import dev.su5ed.gregtechmod.object.NuclearCoolantPack;
 import dev.su5ed.gregtechmod.object.Nugget;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.object.Plate;
@@ -48,6 +49,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .append(Ingot.values())
             .append(Miscellaneous.values())
             .append(ModCoverItem.values())
+            .append(NuclearCoolantPack.values())
             .append(Nugget.values())
             .append(Ore.values())
             .append(Plate.values())

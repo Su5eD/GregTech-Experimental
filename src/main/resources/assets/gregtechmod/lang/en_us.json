@@ -586,6 +586,23 @@
   "item.gregtechmod.tungsten_steel_file": "Tungstensteel File",
   "item.gregtechmod.file.description": "For sharpening or rounding Edges",
   
+  "item.gregtechmod.carbon_cell": "Carbon Cell",
+  "item.gregtechmod.ice_cell": "Ice Cell",
+  "item.gregtechmod.nitrocarbon_cell": "Nitrocarbon Cell",
+  "item.gregtechmod.sodium_sulfide_cell": "Sodium Sulfide Cell",
+  "item.gregtechmod.sulfur_cell": "Sulfur Cell",
+  "item.gregtechmod.sulfuric_acid_cell": "Sulfuric Acid Cell",
+  
+  "item.gregtechmod.nak_60k_coolant": "60k NaK Coolant cell",
+  "item.gregtechmod.nak_180k_coolant": "180k NaK Coolant cell",
+  "item.gregtechmod.nak_360k_coolant": "360k NaK Coolant cell",
+  "item.gregtechmod.helium_60k_coolant": "60k Helium Coolant cell",
+  "item.gregtechmod.helium_180k_coolant": "180k Helium Coolant cell",
+  "item.gregtechmod.helium_360k_coolant": "360k Helium Coolant cell",
+  "item.gregtechmod.coolant.stored_heat": "Stored heat: %s",
+  "item.gregtechmod.coolant.heat_warning": "Can not be used in the Fluid Reactor",
+  "item.gregtechmod.coolant.heat_warning_1": "Please cool down in the EU Reactor",
+  
   "scan.gregtechmod.name": "Name: %s",
   "scan.gregtechmod.attributes": "Attributes: %s",
   "scan.gregtechmod.conduction_loss": "Conduction Loss: %s",

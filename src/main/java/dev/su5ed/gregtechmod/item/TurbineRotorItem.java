@@ -2,7 +2,6 @@ package dev.su5ed.gregtechmod.item;
 
 import dev.su5ed.gregtechmod.api.GregTechAPI;
 import dev.su5ed.gregtechmod.api.item.TurbineRotor;
-import net.minecraft.network.chat.MutableComponent;
 
 public class TurbineRotorItem extends ResourceItem implements TurbineRotor {
     private final int efficiency;

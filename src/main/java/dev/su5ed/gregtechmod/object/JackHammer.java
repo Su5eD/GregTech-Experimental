@@ -4,11 +4,9 @@ import dev.su5ed.gregtechmod.item.ElectricToolItem;
 import dev.su5ed.gregtechmod.item.ElectricToolItem.ElectricToolItemProperties;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.util.Lazy;
 

@@ -96,6 +96,10 @@ public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_STEAM_TANK = itemTag("crafting/steam_tank");
     public static final TagKey<Item> CRAFTING_PNEUMATIC_GENERATOR = itemTag("crafting/pneumatic_generator");
     public static final TagKey<Item> CRAFTING_ENERGY_CELL_UPGRADE = itemTag("crafting/energy_cell_upgrade");
+    
+    public static final TagKey<Item> CRAFTING_60K_COOLANT_STORE = itemTag("crafting/60k_coolant_store");
+    public static final TagKey<Item> CRAFTING_180K_COOLANT_STORE = itemTag("crafting/180k_coolant_store");
+    public static final TagKey<Item> CRAFTING_360K_COOLANT_STORE = itemTag("crafting/360k_coolant_store");
 
 //    public static final TagKey<Block> MINABLE_WITH_JACK_HAMMER = BlockTags.bind("minable_with_jack_hammer");
 

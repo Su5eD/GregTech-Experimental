@@ -1,8 +1,8 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.Cover;
-import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
+import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
