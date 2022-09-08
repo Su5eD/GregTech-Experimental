@@ -1,19 +1,8 @@
 import fr.brouillard.oss.jgitver.GitVersionCalculator
 import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.common.util.RunConfig
-import org.w3c.dom.ElementTraversal
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
-import java.util.function.Supplier
-import java.util.jar.JarInputStream
-import java.util.jar.JarOutputStream
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.transform.OutputKeys
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.stream.StreamResult
 
 buildscript {
     dependencies {
@@ -37,20 +26,9 @@ val versionJackson: String by project
 val versionIC2: String by project
 val versionJEI: String by project
 
-// Attribute used to mark select dependencies for api transformation
-val apiArtifact = Attribute.of("apiArtifact", Boolean::class.javaObjectType)
-
 // Create api source set
 val api: SourceSet by sourceSets.creating
 val apiCompileOnly: Configuration by configurations.getting
-// Configuration used to add mod dependencies to non-data RunConfigs
-val customRuntimeMod: Configuration by configurations.creating
-// Configuration used for transformable dependencies that are added to datagen's runtime classpath
-val generatedRuntimeApi: Configuration by configurations.creating {
-    attributes {
-        attribute(apiArtifact, false)
-    }
-}
 
 val manifestAttributes = mapOf(
     "Specification-Title" to project.name,
@@ -93,8 +71,6 @@ minecraft {
                 "--output", file("src/generated/resources/"),
                 "--existing", file("src/main/resources/")
             )
-            // Add datagen-only runtime dependencies to the minecraft_classpath
-            lazyTokenConfig("minecraft_classpath", generatedRuntimeApi)
         }
     }
 }
@@ -124,11 +100,6 @@ configurations {
         extendsFrom(api.get(), configurations.minecraft.get())
     }
     
-    // Add non-data runtime mods to the compile classpath
-    compileClasspath {
-        extendsFrom(customRuntimeMod)
-    }
-    
     runtimeElements {
         setExtendsFrom(emptySet())
         outgoing {
@@ -136,14 +107,6 @@ configurations {
             artifact(tasks.jarJar)
             artifact(apiJar)
         }
-    }
-}
-
-val patchIntellijRuns by tasks.registering {
-    doFirst { 
-        modifyGeneratedIntellijRuns("runClient", customRuntimeMod)
-        modifyGeneratedIntellijRuns("runServer", customRuntimeMod)
-        modifyGeneratedIntellijRuns("runData", generatedRuntimeApi)
     }
 }
 
@@ -165,16 +128,6 @@ tasks {
 
     named<Jar>("sourcesJar") {
         from(api.allSource)
-    }
-
-    whenTaskAdded {
-        // Add dependencies from customRuntimeMod to the classpath to non-data runs
-        if (name == "runClient" || name == "runServer") {
-            (this as JavaExec).classpath(customRuntimeMod.resolve())
-        }
-        if (name == "genIntellijRuns") {
-            finalizedBy(patchIntellijRuns)
-        }
     }
     
     processResources {
@@ -216,17 +169,9 @@ dependencies {
     minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.2-40.1.60")
 
     implementation(api.output)
-    // GTE api depends on IC2
+    // GTE api depends on IC2 api
     apiCompileOnly(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
-    // Add IC2 to all non-data runs
-    customRuntimeMod(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
-    // Add the generated IC2 api to datagen
-    generatedRuntimeApi(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2)) {
-        attributes {
-            // Request apiArtifact=true for this dependency, triggering the api transformer
-            attribute(apiArtifact, true)
-        }
-    }
+    implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
 
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-common-api", version = versionJEI))
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge-api", version = versionJEI))
@@ -239,20 +184,6 @@ dependencies {
     include(implementation(group = "org.yaml", name = "snakeyaml", version = "1.30"))
 
     include(api(group = "one.util", name = "streamex", version = "0.8.1"))
-
-    // Register apiArtifact to the attribute schema
-    attributesSchema {
-        attribute(apiArtifact)
-    }
-    // All jars are not transformed by default
-    artifactTypes.getByName("jar") {
-        attributes.attribute(apiArtifact, false)
-    }
-    // Register api transformation
-    registerTransform(ApiArtifactTransform::class) {
-        from.attribute(apiArtifact, false)
-        to.attribute(apiArtifact, true)
-    }
 }
 
 publishing {
@@ -289,103 +220,10 @@ fun DependencyHandler.include(dependency: ModuleDependency) {
     }
 }
 
-/**
- * Append the contents of a configuration to a lazy token
- */
-fun RunConfig.lazyTokenConfig(name: String, configuration: Configuration) {
-    val oldToken: Supplier<String>? = lazyTokens["minecraft_classpath"]
-    lazyToken(name) {
-        val path = configuration.copyRecursive().resolve()
-            .joinToString(separator = File.pathSeparator, transform = File::getAbsolutePath)
-        
-        if (oldToken == null) path
-        else "${oldToken.get()}${File.pathSeparator}$path"
-    }
-}
-
 fun getGitVersion(): String {
     val jgitver = GitVersionCalculator.location(rootDir)
         .setNonQualifierBranches("forge-1.18.2")
         .setStrategy(Strategies.SCRIPT)
         .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version
-}
-
-/**
- * Due to an IC2 bug, IC2 will crash in datagen, and therefore the FML mod cannot be present at runtime.
- * On the other hand, GTE still requires IC2's api to be present. As a workaround, we transform and filter the IC2 jar,
- * leaving only API classes.
- */
-@CacheableTransform
-abstract class ApiArtifactTransform : TransformAction<TransformParameters.None> {
-    @get:PathSensitive(PathSensitivity.NAME_ONLY)
-    @get:InputArtifact
-    abstract val inputArtifact: Provider<FileSystemLocation>
-
-    // Keep all files whose path starts with this string
-    private val keepPackage = "ic2/api/"
-
-    override fun transform(outputs: TransformOutputs) {
-        val inputFile = inputArtifact.get().asFile
-        val nameWithoutExtension = inputFile.name.substringBeforeLast('.')
-        // Inherit the input file name, adding the api classifier to it
-        val outputFile = outputs.file("${nameWithoutExtension}-api.jar")
-
-        // Copy the input jar to output, filtering out entries that don't match keepPackage
-        JarOutputStream(outputFile.outputStream()).use { out ->
-            JarInputStream(inputFile.inputStream()).use { input ->
-                var entry = input.nextEntry
-                while (entry != null) {
-                    if (entry.name.startsWith(keepPackage)) {
-                        out.putNextEntry(entry)
-                        out.write(input.readBytes())
-                        out.closeEntry()
-                    }
-
-                    input.closeEntry()
-                    entry = input.nextEntry
-                }
-            }
-        }
-    }
-}
-
-/**
- * Add the required IC2 jars to generated IDEA run configs
- */
-fun modifyGeneratedIntellijRuns(name: String, configuration: Configuration) {
-    val db = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-    val file = file(".idea/runConfigurations/$name.xml")
-    if (file.exists()) {
-        val doc = db.parse(file)
-        trimWhitespace(doc)
-        
-        val classpathModifications = doc.createElement("classpathModifications")
-        configuration.resolve().forEach { confFile ->
-            val entry = doc.createElement("entry")
-            entry.setAttribute("path", confFile.absolutePath)
-            classpathModifications.appendChild(entry)   
-        }
-        (doc.documentElement as ElementTraversal).firstElementChild.appendChild(classpathModifications)
-
-        val transformerFactory = TransformerFactory.newInstance()
-        val transformer = transformerFactory.newTransformer()
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes")
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
-        val source = DOMSource(doc)
-        val result = StreamResult(file)
-
-        transformer.transform(source, result)
-    }
-}
-
-fun trimWhitespace(node: Node) {
-    val children: NodeList = node.childNodes
-    for (i in 0 until children.length) {
-        val child: Node = children.item(i)
-        if (child.nodeType == Node.TEXT_NODE) {
-            child.textContent = child.textContent.trim()
-        }
-        trimWhitespace(child)
-    }
 }
