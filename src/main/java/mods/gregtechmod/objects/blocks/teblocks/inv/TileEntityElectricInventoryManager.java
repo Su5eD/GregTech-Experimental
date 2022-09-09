@@ -15,6 +15,8 @@ import mods.gregtechmod.util.nbt.*;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
 
@@ -141,6 +143,7 @@ public class TileEntityElectricInventoryManager extends TileEntityUpgradable imp
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiElectricInventoryManager(getGuiContainer(player));
     }

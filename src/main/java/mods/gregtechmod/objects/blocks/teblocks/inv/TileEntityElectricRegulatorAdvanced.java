@@ -9,6 +9,8 @@ import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +85,7 @@ public class TileEntityElectricRegulatorAdvanced extends TileEntityElectricBuffe
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiElectricRegulatorAdvanced(getGuiContainer(player));
     }

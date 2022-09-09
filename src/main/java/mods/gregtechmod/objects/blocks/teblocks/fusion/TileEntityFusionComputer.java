@@ -34,6 +34,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import one.util.streamex.StreamEx;
 
 import java.io.DataInput;
@@ -344,6 +346,7 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiFusionReactor(getGuiContainer(player));
     }

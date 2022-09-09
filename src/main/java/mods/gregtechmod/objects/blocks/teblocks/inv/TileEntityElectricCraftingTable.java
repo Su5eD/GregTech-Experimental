@@ -24,6 +24,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
@@ -278,6 +280,7 @@ public class TileEntityElectricCraftingTable extends TileEntityUpgradable implem
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGui(EntityPlayer player, boolean isAdmin) {
         return new GuiElectricCraftingTable(getGuiContainer(player));
     }

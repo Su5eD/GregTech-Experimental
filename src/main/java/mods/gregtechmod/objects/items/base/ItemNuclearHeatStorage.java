@@ -25,7 +25,7 @@ public class ItemNuclearHeatStorage extends ItemReactorHeatStorage implements IC
 
     @Override
     public String getTranslationKey() {
-        return GtLocale.translateItem(this.name);
+        return GtLocale.buildKeyItem(this.name);
     }
 
     @Override
