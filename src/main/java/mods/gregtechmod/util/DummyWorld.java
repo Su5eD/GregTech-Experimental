@@ -19,11 +19,8 @@ public class DummyWorld extends World {
     public static final DummyWorld INSTANCE = new DummyWorld();
 
     private DummyWorld() {
-        this(new DummySaveHandler(), new WorldInfo(new NBTTagCompound()), new DummyWorldProvider(), new Profiler(), false);
-    }
-
-    protected DummyWorld(ISaveHandler saveHandler, WorldInfo info, WorldProvider provider, Profiler profiler, boolean client) {
-        super(saveHandler, info, provider, profiler, client);
+        super(new DummySaveHandler(), new WorldInfo(new NBTTagCompound()), new DummyWorldProvider(), new Profiler(), false);
+        this.provider.setWorld(this);
     }
 
     @Override
