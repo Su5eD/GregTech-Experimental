@@ -59,6 +59,7 @@ public final class ModObjects {
             .append(File.values())
             .append(Cell.values())
             .append(NuclearCoolantPack.values())
+            .append(NuclearFuelRod.values())
             .map(ItemProvider::getItem)
             .forEach(registry::register);
     }

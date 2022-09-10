@@ -603,6 +603,14 @@
   "item.gregtechmod.coolant.heat_warning": "Can not be used in the Fluid Reactor",
   "item.gregtechmod.coolant.heat_warning_1": "Please cool down in the EU Reactor",
   
+  "item.gregtechmod.thorium_fuel_rod": "Thorium Cell",
+  "item.gregtechmod.dual_thorium_fuel_rod": "Double Thorium Cell",
+  "item.gregtechmod.quad_thorium_fuel_rod": "Quad Thorium Cell",
+  "item.gregtechmod.plutonium_fuel_rod": "Plutonium Cell",
+  "item.gregtechmod.dual_plutonium_fuel_rod": "Double Plutonium Cell",
+  "item.gregtechmod.quad_plutonium_fuel_rod": "Quad Plutonium Cell",
+  "item.gregtechmod.fuel_rod.time_left": "Time left: %s secs",
+  
   "scan.gregtechmod.name": "Name: %s",
   "scan.gregtechmod.attributes": "Attributes: %s",
   "scan.gregtechmod.conduction_loss": "Conduction Loss: %s",

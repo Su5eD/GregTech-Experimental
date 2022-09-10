@@ -15,6 +15,7 @@ import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
 import dev.su5ed.gregtechmod.object.NuclearCoolantPack;
+import dev.su5ed.gregtechmod.object.NuclearFuelRod;
 import dev.su5ed.gregtechmod.object.Nugget;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.object.Plate;
@@ -74,6 +75,7 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(File.values(), "file");
         registerItems(Cell.values(), "cell");
         registerItems(NuclearCoolantPack.values(), "coolant");
+        registerItems(NuclearFuelRod.values(), "fuel_rod");
         
         String fullName = Component.LITHIUM_RE_BATTERY.getName() + "_full";
         providerModel(Component.LITHIUM_RE_BATTERY, "component")

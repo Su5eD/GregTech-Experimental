@@ -49,6 +49,7 @@ minecraft {
         // Common config used for all runs
         val config = Action<RunConfig> {
             property("forge.logging.console.level", "debug")
+            property("forge.logging.markers", "COREMODLOG")
             workingDirectory = project.file("run").canonicalPath
             // Don't exit the daemon when the game closes
             forceExit = false
