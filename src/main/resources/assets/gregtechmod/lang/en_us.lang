@@ -448,7 +448,7 @@ gregtechmod.item.spray_color_red.name=Spray Can (Red)
 gregtechmod.item.spray_color_black.name=Spray Can (Black)
 
 gregtechmod.generic.spray_color.description=To give the World more Color
-gregtechmod.generic.spray_color.description_dying=Enough for dying %s blocks in the world
+gregtechmod.generic.spray_color.description_dyeing=Enough for dying %s blocks in the world
 gregtechmod.generic.spray_color.description_crafting=Enough for crafting %s times
 
 #Color suffixes for sprays

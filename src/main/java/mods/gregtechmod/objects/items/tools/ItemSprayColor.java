@@ -40,28 +40,26 @@ public class ItemSprayColor extends ItemSprayBase {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(GtLocale.translateGeneric("spray_color.description_dying", stack.getMaxDamage() + 1) + " " + GtLocale.translateKey("color", this.color.getTranslationKey()));
+        tooltip.add(GtLocale.translateGeneric("spray_color.description_dyeing", stack.getMaxDamage() + 1) + " " + GtLocale.translateKey("color", this.color.getTranslationKey()));
         tooltip.add(GtLocale.translateGeneric("spray_color.description_crafting", (stack.getMaxDamage() + 1) / this.craftingDamage));
     }
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if (!world.isRemote) {
-            IBlockState state = world.getBlockState(pos);
-            Block block = state.getBlock();
-            if (block != Blocks.AIR) {
-                ItemStack stack = player.inventory.getCurrentItem();
-                if (block == Blocks.WOOL || ModCompat.TF_ROCK_WOOL.equals(block.getRegistryName())) {
-                    int meta = block.getMetaFromState(state);
-                    int targetMeta = this.color.getMetadata();
-                    if (block != Blocks.WOOL) targetMeta = 15 - targetMeta;
+        IBlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
+        ItemStack stack = player.inventory.getCurrentItem();
+        if (block == Blocks.WOOL || ModCompat.TF_ROCK_WOOL.equals(block.getRegistryName())) {
+            int meta = block.getMetaFromState(state);
+            int targetMeta = this.color.getMetadata();
+            if (block != Blocks.WOOL) targetMeta = 15 - targetMeta;
 
-                    if (meta != targetMeta) {
-                        if (GtUtil.damageStack(player, stack, 1)) world.setBlockState(pos, block.getStateFromMeta(targetMeta));
-
-                        return EnumActionResult.SUCCESS;
-                    }
+            if (meta != targetMeta) {
+                if (!world.isRemote && GtUtil.damageStack(player, stack, 1)) {
+                    world.setBlockState(pos, block.getStateFromMeta(targetMeta));
                 }
+
+                return EnumActionResult.SUCCESS;
             }
         }
         return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);

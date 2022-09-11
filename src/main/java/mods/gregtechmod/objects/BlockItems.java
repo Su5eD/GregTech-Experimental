@@ -1094,14 +1094,9 @@ public class BlockItems {
         TUNGSTEN_STEEL(5120, 4);
 
         private final LazyValue<Item> instance;
-        public final int durability;
-        public final int entityDamage;
 
         File(int durability, int entityDamage) {
-            this.durability = durability;
-            this.entityDamage = entityDamage;
-
-            this.instance = new LazyValue<>(() -> new ItemFile(name().toLowerCase(Locale.ROOT), this.durability, this.entityDamage)
+            this.instance = new LazyValue<>(() -> new ItemFile(name().toLowerCase(Locale.ROOT), durability, entityDamage)
                 .setRegistryName("file_" + name().toLowerCase(Locale.ROOT))
                 .setTranslationKey("file_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
@@ -1178,18 +1173,14 @@ public class BlockItems {
         THORIUM(1, 25000, 0.25F, 1, 0.25F),
         THORIUM_DUAL(2, 25000, 0.25F, 1, 0.25F),
         THORIUM_QUAD(4, 25000, 0.25F, 1, 0.25F),
-        PLUTONIUM(1, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_uranium")),
-        PLUTONIUM_DUAL(2, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_dual_uranium")),
-        PLUTONIUM_QUAD(4, 20000, 2, 2, 2, IC2Items.getItem("nuclear", "depleted_quad_uranium"));
+        PLUTONIUM(1, 20000, 2, 2, 2),
+        PLUTONIUM_DUAL(2, 20000, 2, 2, 2),
+        PLUTONIUM_QUAD(4, 20000, 2, 2, 2);
 
         private final LazyValue<Item> instance;
 
         NuclearFuelRod(int cells, int duration, float energy, int radiation, float heat) {
-            this(cells, duration, energy, radiation, heat, null);
-        }
-
-        NuclearFuelRod(int cells, int duration, float energy, int radiation, float heat, ItemStack depletedStack) {
-            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_" + name().toLowerCase(Locale.ROOT), cells, duration, energy, radiation, heat, depletedStack)
+            this.instance = new LazyValue<>(() -> new ItemNuclearFuelRod("fuel_rod_" + name().toLowerCase(Locale.ROOT), cells, duration, energy, radiation, heat, null)
                 .setRegistryName("fuel_rod_" + name().toLowerCase(Locale.ROOT))
                 .setCreativeTab(GregTechMod.GREGTECH_TAB));
         }

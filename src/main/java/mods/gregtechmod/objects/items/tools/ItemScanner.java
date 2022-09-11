@@ -206,7 +206,10 @@ public class ItemScanner extends ItemElectricBase {
 
             if (tileEntity instanceof IUpgradableMachine) {
                 GameProfile owner = ((IUpgradableMachine) tileEntity).getOwner();
-                if (owner != null) ret.add(GtLocale.translateScan("owner", owner.getName()));
+                if (owner != null) {
+                    energyCost += 200;
+                    ret.add(GtLocale.translateScan("owner", owner.getName()));
+                }
             }
 
             if (tileEntity instanceof ICropTile) {
@@ -214,7 +217,7 @@ public class ItemScanner extends ItemElectricBase {
                 CropCard crop = tile.getCrop();
                 if (tile.getScanLevel() < 4) {
                     energyCost += 10000;
-                    tile.setScanLevel((byte) 4);
+                    tile.setScanLevel(4);
                 }
                 energyCost += 1000;
 
