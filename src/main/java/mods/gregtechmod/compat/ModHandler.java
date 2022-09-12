@@ -75,6 +75,7 @@ public class ModHandler {
     public static boolean twilightForest;
     public static boolean enderStorage;
     public static boolean agricraft;
+    public static boolean craftTweaker;
 
     public static IItemAPI ic2ItemApi;
 
@@ -120,6 +121,7 @@ public class ModHandler {
         twilightForest = Loader.isModLoaded("twilightforest");
         enderStorage = Loader.isModLoaded("enderstorage");
         agricraft = Loader.isModLoaded("agricraft");
+        craftTweaker = Loader.isModLoaded("crafttweaker");
     }
 
     public static void gatherModItems() {

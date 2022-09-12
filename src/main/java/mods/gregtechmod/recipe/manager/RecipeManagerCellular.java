@@ -61,6 +61,14 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
     }
 
     @Override
+    public IRecipeCellular getRecipeFor(ItemStack input, int cells) {
+        return this.recipes.stream()
+            .filter(recipe -> recipe.getInput().apply(input) && cells >= recipe.getCells())
+            .min(this::compareCount)
+            .orElseGet(() -> getProvidedRecipe(input));
+    }
+
+    @Override
     protected IRecipeCellular getRecipeForExact(IRecipeCellular recipe) {
         IRecipeIngredient input = recipe.getInput();
         int cells = recipe.getCells();

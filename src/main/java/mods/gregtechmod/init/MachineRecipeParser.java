@@ -112,8 +112,28 @@ public final class MachineRecipeParser {
             );
     }
 
-    private static void setupRecipes() {
+    public static void setupRecipes() {
         GregTechMod.LOGGER.info("Setting up machine recipe parser");
+
+        GtRecipes.industrialCentrifuge = new RecipeManagerCellular();
+        GtRecipes.assembler = new RecipeManagerMultiInput<>();
+        GtRecipes.pulverizer = new RecipeManagerPulverizer();
+        GtRecipes.industrialGrinder = new RecipeManagerSecondaryFluid<>();
+        GtRecipes.industrialBlastFurnace = new RecipeManagerBlastFurnace();
+        GtRecipes.industrialElectrolyzer = new RecipeManagerCellular();
+        GtRecipes.canner = new RecipeManagerMultiInput<>();
+        GtRecipes.alloySmelter = new RecipeManagerAlloySmelter();
+        GtRecipes.implosion = new RecipeManagerMultiInput<>();
+        GtRecipes.wiremill = new RecipeManagerBasic<>();
+        GtRecipes.bender = new RecipeManagerBasic<>();
+        GtRecipes.lathe = new RecipeManagerBasic<>();
+        GtRecipes.vacuumFreezer = new RecipeManagerBasic<>();
+        GtRecipes.chemical = new RecipeManagerMultiInput<>();
+        GtRecipes.fusionFluid = new RecipeManagerFusion<>();
+        GtRecipes.fusionSolid = new RecipeManagerFusion<>();
+        GtRecipes.industrialSawmill = new RecipeManagerSawmill();
+        GtRecipes.distillation = new RecipeManagerCellular();
+        GtRecipes.printer = new RecipeManagerPrinter();
 
         JavaUtil.setStaticValue(GregTechAPI.class, "recipeFactory", new RecipeFactory());
         JavaUtil.setStaticValue(GregTechAPI.class, "ingredientFactory", new RecipeIngredientFactory());
@@ -144,31 +164,30 @@ public final class MachineRecipeParser {
     }
 
     public static void loadRecipes() {
-        setupRecipes();
         progressBar = ProgressManager.push("Parsing Recipes", 21);
 
         GregTechMod.LOGGER.info("Parsing Machine Recipes");
 
         ItemStack gravel = new ItemStack(Blocks.GRAVEL);
-        parseAndRegisterRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class, GtRecipes.industrialCentrifuge = new RecipeManagerCellular());
-        parseAndRegisterRecipes("assembler", RecipeDualInput.class, GtRecipes.assembler = new RecipeManagerMultiInput<>());
-        parseAndRegisterRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class, recipe -> !recipe.getInput().apply(gravel), GtRecipes.pulverizer = new RecipeManagerPulverizer());
-        parseAndRegisterRecipes("industrial_grinder", RecipeGrinder.class, RecipeFilter.Default.class, GtRecipes.industrialGrinder = new RecipeManagerSecondaryFluid<>());
-        parseAndRegisterRecipes("industrial_blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class, GtRecipes.industrialBlastFurnace = new RecipeManagerBlastFurnace());
-        parseAndRegisterRecipes("industrial_electrolyzer", RecipeElectrolyzer.class, GtRecipes.industrialElectrolyzer = new RecipeManagerCellular());
-        parseAndRegisterRecipes("canner", RecipeCanner.class, GtRecipes.canner = new RecipeManagerMultiInput<>());
-        parseAndRegisterRecipes("alloy_smelter", RecipeAlloySmelter.class, GtRecipes.alloySmelter = new RecipeManagerAlloySmelter());
-        parseAndRegisterRecipes("implosion", RecipeImplosion.class, RecipeFilter.Default.class, GtRecipes.implosion = new RecipeManagerMultiInput<>());
-        parseAndRegisterRecipes("wiremill", RecipeSimple.class, GtRecipes.wiremill = new RecipeManagerBasic<>());
-        parseAndRegisterRecipes("bender", RecipeSimple.class, GtRecipes.bender = new RecipeManagerBasic<>());
-        parseAndRegisterRecipes("lathe", RecipeLathe.class, GtRecipes.lathe = new RecipeManagerBasic<>());
-        parseAndRegisterRecipes("vacuum_freezer", RecipeVacuumFreezer.class, RecipeFilter.Energy.class, GtRecipes.vacuumFreezer = new RecipeManagerBasic<>());
-        parseAndRegisterRecipes("chemical", RecipeChemical.class, RecipeFilter.Energy.class, GtRecipes.chemical = new RecipeManagerMultiInput<>());
-        parseAndRegisterRecipes("fusion_fluid", RecipeFusionFluid.class, GtRecipes.fusionFluid = new RecipeManagerFusion<>());
-        parseAndRegisterRecipes("fusion_solid", RecipeFusionSolid.class, GtRecipes.fusionSolid = new RecipeManagerFusion<>());
-        parseAndRegisterRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class, GtRecipes.industrialSawmill = new RecipeManagerSawmill());
-        parseAndRegisterRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class, GtRecipes.distillation = new RecipeManagerCellular());
-        parseAndRegisterRecipes("printer", RecipePrinter.class, GtRecipes.printer = new RecipeManagerPrinter());
+        parseAndRegisterRecipes("industrial_centrifuge", RecipeCentrifuge.class, RecipeFilter.Energy.class, GtRecipes.industrialCentrifuge);
+        parseAndRegisterRecipes("assembler", RecipeDualInput.class, GtRecipes.assembler);
+        parseAndRegisterRecipes("pulverizer", RecipePulverizer.class, RecipeFilter.Default.class, recipe -> !recipe.getInput().apply(gravel), GtRecipes.pulverizer);
+        parseAndRegisterRecipes("industrial_grinder", RecipeGrinder.class, RecipeFilter.Default.class, GtRecipes.industrialGrinder);
+        parseAndRegisterRecipes("industrial_blast_furnace", RecipeBlastFurnace.class, RecipeFilter.Energy.class, GtRecipes.industrialBlastFurnace);
+        parseAndRegisterRecipes("industrial_electrolyzer", RecipeElectrolyzer.class, GtRecipes.industrialElectrolyzer);
+        parseAndRegisterRecipes("canner", RecipeCanner.class, GtRecipes.canner);
+        parseAndRegisterRecipes("alloy_smelter", RecipeAlloySmelter.class, GtRecipes.alloySmelter);
+        parseAndRegisterRecipes("implosion", RecipeImplosion.class, RecipeFilter.Default.class, GtRecipes.implosion);
+        parseAndRegisterRecipes("wiremill", RecipeSimple.class, GtRecipes.wiremill);
+        parseAndRegisterRecipes("bender", RecipeSimple.class, GtRecipes.bender);
+        parseAndRegisterRecipes("lathe", RecipeLathe.class, GtRecipes.lathe);
+        parseAndRegisterRecipes("vacuum_freezer", RecipeVacuumFreezer.class, RecipeFilter.Energy.class, GtRecipes.vacuumFreezer);
+        parseAndRegisterRecipes("chemical", RecipeChemical.class, RecipeFilter.Energy.class, GtRecipes.chemical);
+        parseAndRegisterRecipes("fusion_fluid", RecipeFusionFluid.class, GtRecipes.fusionFluid);
+        parseAndRegisterRecipes("fusion_solid", RecipeFusionSolid.class, GtRecipes.fusionSolid);
+        parseAndRegisterRecipes("sawmill", RecipeSawmill.class, RecipeFilter.Default.class, GtRecipes.industrialSawmill);
+        parseAndRegisterRecipes("distillation", RecipeDistillation.class, RecipeFilter.Energy.class, GtRecipes.distillation);
+        parseAndRegisterRecipes("printer", RecipePrinter.class, GtRecipes.printer);
 
         // IC2 Recipes
         parseAndRegisterRecipes("compressor", (BasicMachineRecipeManager) Recipes.compressor);

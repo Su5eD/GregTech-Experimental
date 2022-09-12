@@ -4,6 +4,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +26,10 @@ public interface IRecipeIngredientFactory {
     IRecipeIngredientFluid fromFluidName(String fluid, int buckets);
 
     IRecipeIngredientFluid fromFluidNames(List<String> fluids, int buckets);
+    
+    default IRecipeIngredientFluid fromFluidStack(FluidStack stack) {
+        return fromFluid(stack.getFluid(), stack.amount);
+    }
 
     IRecipeIngredientFluid fromFluid(Fluid fluid, int buckets);
 

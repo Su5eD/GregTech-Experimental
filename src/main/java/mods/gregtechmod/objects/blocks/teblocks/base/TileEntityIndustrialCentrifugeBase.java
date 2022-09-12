@@ -9,7 +9,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.inventory.invslot.GtConsumableCell;
-import mods.gregtechmod.inventory.tank.GtFluidTankProcessable;
+import mods.gregtechmod.inventory.tank.GtFluidTank;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.GtUtil.CellAdditionResult;
 import net.minecraft.init.Items;
@@ -28,7 +28,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     protected TileEntityIndustrialCentrifugeBase(int tankCapacity, IGtRecipeManagerCellular recipeManager) {
         super(4, recipeManager);
         this.cellSlot = new GtConsumableCell(this, "cellSlot", 1);
-        this.tank = this.fluids.addTank(new GtFluidTankProcessable(this, "tank", GtRecipes.industrialCentrifuge, InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), tankCapacity));
+        this.tank = this.fluids.addTank(new GtFluidTank(this, "tank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtRecipes.industrialCentrifuge::hasRecipeFor, tankCapacity));
     }
 
     @Override

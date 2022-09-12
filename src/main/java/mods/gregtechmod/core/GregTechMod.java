@@ -7,6 +7,7 @@ import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.compat.crafttweaker.CraftTweakerCompat;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
@@ -90,6 +91,8 @@ public final class GregTechMod {
 
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());
         GregTechAPI.instance().registerWrench(ItemName.wrench_new.getInstance());
+        
+        MachineRecipeParser.setupRecipes();
     }
 
     @EventHandler
@@ -131,6 +134,8 @@ public final class GregTechMod {
         MachineRecipeParser.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
+        
+        if (ModHandler.craftTweaker) CraftTweakerCompat.loadScripts();
     }
 
     @EventHandler
