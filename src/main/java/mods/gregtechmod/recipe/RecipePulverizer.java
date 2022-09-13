@@ -35,7 +35,11 @@ public class RecipePulverizer extends Recipe<IRecipeIngredient, List<ItemStack>>
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
-        return create(input, GtUtil.nonEmptyList(primaryOutput, secondaryOutput), chance, false);
+        return create(input, GtUtil.nonEmptyList(primaryOutput, secondaryOutput), chance);
+    }
+
+    public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, int chance) {
+        return create(input, output, chance, false, true);
     }
 
     public static RecipePulverizer create(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite) {

@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 
 public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<ItemStack>> implements IRecipeBlastFurnace {
+    public static final double DEFAULT_ENERGY_COST = 128;
+    
     private final int heat;
     private final boolean universal;
 
@@ -30,7 +32,7 @@ public class RecipeBlastFurnace extends Recipe<List<IRecipeIngredient>, List<Ite
         List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("blast furnace", input, output, 2);
         List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("blast furnace", output, 2);
 
-        RecipeBlastFurnace recipe = new RecipeBlastFurnace(adjustedInput, adjustedOutput, duration, energyCost <= 0 ? 128 : energyCost, heat, universal);
+        RecipeBlastFurnace recipe = new RecipeBlastFurnace(adjustedInput, adjustedOutput, duration, energyCost <= 0 ? DEFAULT_ENERGY_COST : energyCost, heat, universal);
 
         if (!RecipeUtil.validateRecipeIO("blast furnace", adjustedInput, adjustedOutput)) recipe.invalid = true;
 

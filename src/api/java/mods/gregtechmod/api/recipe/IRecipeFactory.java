@@ -14,17 +14,17 @@ public interface IRecipeFactory {
 
     IRecipeCellular makeCentrifugeRecipe(IRecipeIngredient input, List<ItemStack> outputs, int cells, int duration, CellType cellType);
 
-    default IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAssemblerRecipe(IRecipeIngredient input, ItemStack output, int duration, double energyCost) {
-        return makeAssemblerRecipe(input, null, output, duration, energyCost);
-    }
-
     IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAssemblerRecipe(IRecipeIngredient primaryInput, IRecipeIngredient secondaryInput, ItemStack output, int duration, double energyCost);
 
-    default IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack output) {
-        return makePulverizerRecipe(input, output, ItemStack.EMPTY, 0);
-    }
+    IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAssemblerRecipe(List<IRecipeIngredient> inputs, ItemStack output, int duration, double energyCost);
+
+    IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack output);
 
     IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance);
+    
+    IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, List<ItemStack> output, int chance);
+    
+    IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite, boolean universal);
 
     IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeGrinderRecipe(IRecipeIngredient input, IRecipeIngredientFluid fluid, List<ItemStack> output);
 
@@ -42,7 +42,7 @@ public interface IRecipeFactory {
 
     IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeCannerRecipe(List<IRecipeIngredient> input, List<ItemStack> output, int duration, double energyCost);
 
-    IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost);
+    IRecipeUniversal<List<IRecipeIngredient>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost, boolean universal);
 
     IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeImplosionRecipe(IRecipeIngredient input, int tnt, List<ItemStack> output);
 

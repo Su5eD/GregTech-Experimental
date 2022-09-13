@@ -16,6 +16,7 @@ import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -64,8 +65,8 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
     @Override
     public R getRecipe() {
         ItemStack input = this.inputSlot.get();
-
-        return this.recipeManager.getRecipeFor(Arrays.asList(input, this.secondaryInput.get()), this.waterTank.getFluid());
+        FluidStack fluid = this.waterTank.getFluid();
+        return fluid != null ? this.recipeManager.getRecipeFor(input, fluid) : this.recipeManager.getRecipeFor(Arrays.asList(input, this.secondaryInput.get()));
     }
 
     @Override

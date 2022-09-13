@@ -7,8 +7,8 @@ import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSecondaryFluid;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 public class RecipeManagerSecondaryFluid<R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> extends RecipeManagerMultiInput<R, IRecipeIngredient> implements IGtRecipeManagerSecondaryFluid<R> {
 
@@ -19,16 +19,25 @@ public class RecipeManagerSecondaryFluid<R extends IMachineRecipe<List<IRecipeIn
     }
 
     @Override
-    public R getRecipeFor(List<ItemStack> input, @Nullable FluidStack fluid) {
+    public R getRecipeFor(List<ItemStack> input) {
         ItemStack primary = input.get(0);
         ItemStack secondary = input.get(1);
+        return getRecipeFor(primary, secondary, IRecipeIngredientFluid::apply);
+    }
+
+    @Override
+    public R getRecipeFor(ItemStack input, FluidStack fluid) {
+        return getRecipeFor(input, fluid, IRecipeIngredientFluid::apply);
+    }
+    
+    private <T> R getRecipeFor(ItemStack primaryInput, T secondaryInput, BiPredicate<IRecipeIngredientFluid, T> secondaryInputPred) {
         return this.getRecipes().stream()
             .filter(recipe -> {
                 List<IRecipeIngredient> inputs = recipe.getInput();
                 IRecipeIngredientFluid inputFluid = (IRecipeIngredientFluid) inputs.get(1);
-                return inputs.get(0).apply(primary) && (fluid != null ? inputFluid.apply(fluid) : inputFluid.apply(secondary));
+                return inputs.get(0).apply(primaryInput) && secondaryInputPred.test(inputFluid, secondaryInput);
             })
             .min(this::compareCount)
-            .orElseGet(() -> getProvidedRecipe(input));
+            .orElse(null);
     }
 }

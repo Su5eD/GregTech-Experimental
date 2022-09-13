@@ -30,7 +30,7 @@ public class RecipeCanner extends Recipe<List<IRecipeIngredient>, List<ItemStack
         List<IRecipeIngredient> adjustedInput = filterOreDictInput(RecipeUtil.adjustInputCount("canner", input, output, 2), output.get(0));
         List<ItemStack> adjustedOutput = RecipeUtil.adjustOutputCount("canner", output, 2);
 
-        RecipeCanner recipe = new RecipeCanner(adjustedInput, adjustedOutput, duration <= 0 ? 1 : duration, Math.max(energyCost, 1));
+        RecipeCanner recipe = new RecipeCanner(adjustedInput, adjustedOutput, Math.max(1, duration), Math.max(1, energyCost));
 
         if (!RecipeUtil.validateRecipeIO("canner", adjustedInput, adjustedOutput)) recipe.invalid = true;
 

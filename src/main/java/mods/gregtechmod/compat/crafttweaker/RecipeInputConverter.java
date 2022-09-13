@@ -8,6 +8,10 @@ import crafttweaker.api.oredict.IOreDictEntry;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
+import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import one.util.streamex.StreamEx;
+
+import java.util.List;
 
 public final class RecipeInputConverter {
 
@@ -17,12 +21,22 @@ public final class RecipeInputConverter {
             return factory.fromStack(CraftTweakerMC.getItemStack((IItemStack) ingredient));
         }
         else if (ingredient instanceof ILiquidStack) {
-            return factory.fromFluidStack(CraftTweakerMC.getLiquidStack((ILiquidStack) ingredient));
+            return of((ILiquidStack) ingredient);
         }
         else if (ingredient instanceof IOreDictEntry) {
             return factory.fromOre(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
         }
         return new CraftTweakerRecipeIngredient(ingredient);
+    }
+
+    public static IRecipeIngredientFluid of(ILiquidStack liquidStack) {
+        return GregTechAPI.getIngredientFactory().fromFluidStack(CraftTweakerMC.getLiquidStack(liquidStack));
+    }
+    
+    public static List<IRecipeIngredient> of(IIngredient[] ingredients) {
+        return StreamEx.of(ingredients)
+            .map(RecipeInputConverter::of)
+            .toList();
     }
 
     private RecipeInputConverter() {}

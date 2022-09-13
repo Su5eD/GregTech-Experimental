@@ -28,7 +28,7 @@ public interface IRecipeIngredientFactory {
     IRecipeIngredientFluid fromFluidNames(List<String> fluids, int buckets);
     
     default IRecipeIngredientFluid fromFluidStack(FluidStack stack) {
-        return fromFluid(stack.getFluid(), stack.amount);
+        return fromFluid(stack.getFluid(), stack.amount / 1000);
     }
 
     IRecipeIngredientFluid fromFluid(Fluid fluid, int buckets);

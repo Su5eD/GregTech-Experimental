@@ -21,8 +21,28 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
+    public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAssemblerRecipe(List<IRecipeIngredient> inputs, ItemStack output, int duration, double energyCost) {
+        return RecipeDualInput.create(inputs, output, duration, energyCost);
+    }
+
+    @Override
+    public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack output) {
+        return RecipePulverizer.create(input, output);
+    }
+
+    @Override
     public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
         return RecipePulverizer.create(input, primaryOutput, secondaryOutput, chance);
+    }
+
+    @Override
+    public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, List<ItemStack> output, int chance) {
+        return RecipePulverizer.create(input, output, chance);
+    }
+
+    @Override
+    public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite, boolean universal) {
+        return RecipePulverizer.create(input, output, chance, overwrite, universal);
     }
 
     @Override
@@ -46,8 +66,8 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost) {
-        return RecipeAlloySmelter.create(input, output, duration, energyCost);
+    public IRecipeUniversal<List<IRecipeIngredient>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost, boolean universal) {
+        return RecipeAlloySmelter.create(input, output, duration, energyCost, universal);
     }
 
     @Override

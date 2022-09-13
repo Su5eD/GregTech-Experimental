@@ -1,5 +1,6 @@
 package mods.gregtechmod.compat.crafttweaker;
 
+import com.google.common.base.MoreObjects;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import ic2.core.util.StackUtil;
@@ -53,5 +54,12 @@ public class CraftTweakerRecipeIngredient implements IRecipeIngredient {
     @Override
     public boolean isEmpty() {
         return getMatchingInputs().isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+            .add("ingredient", ingredient)
+            .toString();
     }
 }
