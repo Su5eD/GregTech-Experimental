@@ -22,7 +22,7 @@ import java.util.List;
 @ZenClass("mods.gregtechmod.Canner")
 @ZenRegister
 public class CannerRecipes {
-    
+
     @ZenMethod
     public static void addRecipe(IIngredient[] inputs, IItemStack[] outputs, int duration, double energyCost) {
         List<IRecipeIngredient> inputIngredients = RecipeInputConverter.of(inputs);

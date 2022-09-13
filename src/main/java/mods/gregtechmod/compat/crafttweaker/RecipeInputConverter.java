@@ -9,6 +9,8 @@ import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.IRecipeIngredientFactory;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.recipe.ingredient.RecipeIngredientFluid;
+import net.minecraftforge.fluids.Fluid;
 import one.util.streamex.StreamEx;
 
 import java.util.List;
@@ -32,10 +34,26 @@ public final class RecipeInputConverter {
     public static IRecipeIngredientFluid of(ILiquidStack liquidStack) {
         return GregTechAPI.getIngredientFactory().fromFluidStack(CraftTweakerMC.getLiquidStack(liquidStack));
     }
-    
+
     public static List<IRecipeIngredient> of(IIngredient[] ingredients) {
         return StreamEx.of(ingredients)
             .map(RecipeInputConverter::of)
+            .toList();
+    }
+
+    public static List<IRecipeIngredientFluid> of(ILiquidStack[] ingredients) {
+        return StreamEx.of(ingredients)
+            .map(RecipeInputConverter::of)
+            .toList();
+    }
+
+    public static List<IRecipeIngredientFluid> fluids(IIngredient[] ingredients) {
+        return StreamEx.of(ingredients)
+            .mapToEntry(ingredient -> StreamEx.of(ingredient.getLiquids())
+                .map(ILiquidStack::getDefinition)
+                .map(CraftTweakerMC::getFluid)
+                .toList(), ingredient -> ingredient.getAmount() / Fluid.BUCKET_VOLUME)
+            .<IRecipeIngredientFluid>mapKeyValue(RecipeIngredientFluid::fromFluids)
             .toList();
     }
 

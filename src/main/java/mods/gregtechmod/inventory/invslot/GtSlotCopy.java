@@ -2,8 +2,7 @@ package mods.gregtechmod.inventory.invslot;
 
 import ic2.core.block.IInventorySlotHolder;
 import ic2.core.block.invslot.InvSlotConsumable;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import mods.gregtechmod.api.recipe.GtRecipes;
 import net.minecraft.item.ItemStack;
 
 public class GtSlotCopy extends InvSlotConsumable {
@@ -14,7 +13,6 @@ public class GtSlotCopy extends InvSlotConsumable {
 
     @Override
     public boolean accepts(ItemStack stack) {
-        Item item = stack.getItem();
-        return item == Items.WRITTEN_BOOK || item == Items.FILLED_MAP;
+        return GtRecipes.printer.hasRecipeFor(stack);
     }
 }

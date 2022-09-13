@@ -24,10 +24,10 @@ import java.util.List;
 @ZenClass("mods.gregtechmod.Pulverizer")
 @ZenRegister
 public class PulverizerRecipes {
-    
+
     @ZenMethod
     public static void addRecipe(IIngredient input, IItemStack output, @Optional boolean overwrite, @Optional(valueBoolean = true) boolean universal) {
-        addRecipe(input, new IItemStack[] { output } , RecipePulverizer.DEFAULT_CHANCE, overwrite, universal);
+        addRecipe(input, new IItemStack[] { output }, RecipePulverizer.DEFAULT_CHANCE, overwrite, universal);
     }
 
     @ZenMethod

@@ -11,15 +11,13 @@ import mods.gregtechmod.api.recipe.IRecipeFusion;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.upgrade.GtUpgradeType;
 import mods.gregtechmod.api.upgrade.IC2UpgradeType;
+import mods.gregtechmod.api.util.Either;
 import mods.gregtechmod.gui.GuiFusionReactor;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityUpgradable;
 import mods.gregtechmod.objects.blocks.teblocks.component.AdjustableEnergy;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerFusionReactor;
-import mods.gregtechmod.recipe.RecipeFusionFluid;
-import mods.gregtechmod.recipe.RecipeFusionSolid;
-import mods.gregtechmod.util.Either;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.struct.Structure;
@@ -202,7 +200,7 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
             else stop(instance);
         }
         else {
-            IRecipeFusion<IRecipeIngredientFluid, ?> recipe = getRecipe(instance);
+            IRecipeFusion recipe = getRecipe(instance);
             if (this.startupCheck == 0 && canProcessRecipe(recipe)) {
                 this.energyConsume = recipe.getEnergyCost();
 
@@ -218,31 +216,22 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
         }
     }
     
-    public IRecipeFusion<IRecipeIngredientFluid, ?> getRecipe(FusionReactorStructure instance) {
+    public IRecipeFusion getRecipe(FusionReactorStructure instance) {
         List<FluidStack> input = instance.getInput();
-        return StreamEx.of(GtRecipes.fusionFluid, GtRecipes.fusionSolid)
-            .map(manager -> manager.getRecipeForFluid(input))
-            .nonNull()
-            .findFirst()
-            .orElse(null);
+        return GtRecipes.fusion.getRecipeFor(input);
     }
     
-    public boolean canProcessRecipe(IRecipeFusion<IRecipeIngredientFluid, ?> recipe) {
+    public boolean canProcessRecipe(IRecipeFusion recipe) {
         return recipe != null && isAllowedToWork() && (getActive() || canUseEnergy(recipe.getStartEnergy()));
     }
     
-    public void prepareRecipeForProcessing(FusionReactorStructure instance, IRecipeFusion<IRecipeIngredientFluid, ?> recipe) {
-        if (recipe instanceof RecipeFusionSolid) {
-            this.pendingRecipe = Either.left(((RecipeFusionSolid) recipe).getOutput());
-        }
-        if (recipe instanceof RecipeFusionFluid) {
-            this.pendingRecipe = Either.right(((RecipeFusionFluid) recipe).getOutput());
-        }
+    public void prepareRecipeForProcessing(FusionReactorStructure instance, IRecipeFusion recipe) {
+        this.pendingRecipe = recipe.getOutput();
         this.maxProgress = recipe.getDuration();
         consumeInput(instance, recipe);
     }
     
-    public void consumeInput(FusionReactorStructure instance, IRecipeFusion<IRecipeIngredientFluid, ?> recipe) {
+    public void consumeInput(FusionReactorStructure instance, IRecipeFusion recipe) {
         List<IRecipeIngredientFluid> ingredients = recipe.getInput();
         StreamEx.of(instance.getPrimaryMaterialInjectors(), instance.getSecondaryMaterialInjectors())
             .forEach(injectors -> StreamEx.of(injectors)
@@ -256,9 +245,7 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
     }
     
     public boolean isProcessing() {
-        boolean active = this.maxProgress > 0 || this.pendingRecipe != null;
-        if (!active && !isAllowedToWork()) return false;
-        return active;
+        return isAllowedToWork() && (this.maxProgress > 0 || this.pendingRecipe != null);
     }
     
     private void processRecipe(FusionReactorStructure instance) {

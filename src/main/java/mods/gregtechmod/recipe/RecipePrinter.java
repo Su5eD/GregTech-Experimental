@@ -28,8 +28,8 @@ public class RecipePrinter extends Recipe<List<IRecipeIngredient>, List<ItemStac
         return create(input, null, output, duration, energyCost);
     }
 
-    public static RecipePrinter create(List<IRecipeIngredient> input, IRecipeIngredient copy, ItemStack output, int duration, double energyCost) {
-        List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("printer", input, output, 3);
+    public static RecipePrinter create(List<IRecipeIngredient> input, @Nullable IRecipeIngredient copy, ItemStack output, int duration, double energyCost) {
+        List<IRecipeIngredient> adjustedInput = RecipeUtil.adjustInputCount("printer", input, output, 2);
         RecipePrinter recipe = new RecipePrinter(adjustedInput, copy, output, duration, Math.max(energyCost, 1));
 
         if (!RecipeUtil.validateRecipeIO("printer", adjustedInput, output)) recipe.invalid = true;

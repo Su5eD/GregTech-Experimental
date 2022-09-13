@@ -7,8 +7,6 @@ import mods.gregtechmod.api.recipe.IRecipeFusion;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.gui.GuiColors;
-import mods.gregtechmod.recipe.RecipeFusionFluid;
-import mods.gregtechmod.recipe.RecipeFusionSolid;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.client.Minecraft;
@@ -18,9 +16,9 @@ import one.util.streamex.StreamEx;
 import java.util.List;
 
 public class WrapperFusion implements IRecipeWrapper {
-    private final IRecipeFusion<IRecipeIngredientFluid, ?> recipe;
+    private final IRecipeFusion recipe;
 
-    public WrapperFusion(IRecipeFusion<IRecipeIngredientFluid, ?> recipe) {
+    public WrapperFusion(IRecipeFusion recipe) {
         this.recipe = recipe;
     }
 
@@ -31,12 +29,10 @@ public class WrapperFusion implements IRecipeWrapper {
             .toList();
         
         ingredients.setInputLists(VanillaTypes.FLUID, inputs);
-        if (recipe instanceof RecipeFusionSolid) {
-            ingredients.setOutput(VanillaTypes.ITEM, ((RecipeFusionSolid) recipe).getOutput());
-        }
-        else if (recipe instanceof RecipeFusionFluid) {
-            ingredients.setOutput(VanillaTypes.FLUID, ((RecipeFusionFluid) recipe).getOutput());
-        }
+        recipe.getOutput().when(
+            itemStack -> ingredients.setOutput(VanillaTypes.ITEM, itemStack),
+            fluidStack -> ingredients.setOutput(VanillaTypes.FLUID, fluidStack)
+        );
     }
 
     @Override

@@ -13,7 +13,7 @@ import stanhebben.zenscript.annotations.ZenProperty;
 public enum CTCellType {
     @ZenProperty CELL(CellType.CELL),
     @ZenProperty FUEL_CAN(CellType.FUEL_CAN);
-    
+
     private final CellType cellType;
 
     CTCellType(CellType cellType) {

@@ -1,4 +1,4 @@
-package mods.gregtechmod.util;
+package mods.gregtechmod.api.util;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

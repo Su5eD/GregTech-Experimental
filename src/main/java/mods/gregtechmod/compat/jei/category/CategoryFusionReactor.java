@@ -12,8 +12,7 @@ import mods.gregtechmod.compat.jei.JEIUtils;
 import mods.gregtechmod.compat.jei.wrapper.WrapperFusion;
 import mods.gregtechmod.gui.GregtechGauge;
 import mods.gregtechmod.gui.GuiFusionReactor;
-import mods.gregtechmod.recipe.RecipeFusionFluid;
-import mods.gregtechmod.recipe.RecipeFusionSolid;
+import mods.gregtechmod.recipe.RecipeFusion;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.client.Minecraft;
@@ -24,13 +23,13 @@ import one.util.streamex.StreamEx;
 import java.util.Collection;
 import java.util.List;
 
-public class CategoryFusionReactor extends CategoryBase<RecipeFusionFluid, WrapperFusion> {
+public class CategoryFusionReactor extends CategoryBase<RecipeFusion, WrapperFusion> {
     public static final ResourceLocation BACKGROUND = GtUtil.getGuiTexture("jei/fusion_reactor");
     
     private final IDrawable gauge;
 
     public CategoryFusionReactor(IGuiHelper guiHelper) {
-        super("fusion", RecipeFusionFluid.class, WrapperFusion::new, guiHelper);
+        super("fusion", RecipeFusion.class, WrapperFusion::new, guiHelper);
         
         gauge = JEIUtils.gaugeToDrawable(guiHelper, GregtechGauge.FUSION);
     }
@@ -45,7 +44,6 @@ public class CategoryFusionReactor extends CategoryBase<RecipeFusionFluid, Wrapp
     @Override
     public void init(IModRegistry registry) {
         registry.handleRecipes(this.recipeClass, this.recipeWrapperFactory, this.uid);
-        registry.handleRecipes(RecipeFusionSolid.class, WrapperFusion::new, this.uid);
         registry.addRecipes(getRecipes(), this.uid);
         registry.addRecipeCatalyst(GregTechObjectAPI.getTileEntity("fusion_computer"), this.uid);
         registry.addRecipeClickArea(GuiFusionReactor.class, 155, 5, 16, 16, this.uid);
@@ -53,7 +51,6 @@ public class CategoryFusionReactor extends CategoryBase<RecipeFusionFluid, Wrapp
 
     @Override
     protected void initSlots(IGuiItemStackGroup guiItemStacks) {
-        super.initSlots(guiItemStacks);
         guiItemStacks.init(2, false, 107, 23);
     }
 
@@ -66,8 +63,7 @@ public class CategoryFusionReactor extends CategoryBase<RecipeFusionFluid, Wrapp
 
     @Override
     protected Collection<?> getRecipes() {
-        return StreamEx.of(GtRecipes.fusionFluid, GtRecipes.fusionSolid)
-            .flatMap(manager -> StreamEx.of(manager.getRecipes()))
+        return StreamEx.of(GtRecipes.fusion.getRecipes())
             .remove(recipe -> StreamEx.of(recipe.getInput())
                 .map(IRecipeIngredientFluid::getMatchingFluids)
                 .anyMatch(List::isEmpty))

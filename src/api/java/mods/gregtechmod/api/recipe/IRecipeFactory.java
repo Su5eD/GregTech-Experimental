@@ -2,9 +2,11 @@ package mods.gregtechmod.api.recipe;
 
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.api.util.Either;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public interface IRecipeFactory {
@@ -58,9 +60,11 @@ public interface IRecipeFactory {
 
     IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeChemicalRecipe(List<IRecipeIngredient> input, ItemStack output, int duration);
 
-    IRecipeFusion<IRecipeIngredientFluid, FluidStack> makeFluidFusionRecipe(List<IRecipeIngredientFluid> input, FluidStack output, int duration, double energyCost, double startEnergy);
-
-    IRecipeFusion<IRecipeIngredientFluid, ItemStack> makeSolidFusionRecipe(List<IRecipeIngredientFluid> input, ItemStack output, int duration, double energyCost, double startEnergy);
+    IRecipeFusion makeFusionRecipe(List<IRecipeIngredientFluid> input, Either<ItemStack, FluidStack> output, int duration, double energyCost, double startEnergy);
 
     IRecipeUniversal<List<IRecipeIngredient>> makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water, boolean universal);
+    
+    IRecipeCellular makeDistillationRecipe(IRecipeIngredient input, List<ItemStack> output, int cells, int duration);
+    
+    IRecipePrinter makePrinterRecipe(List<IRecipeIngredient> input, @Nullable IRecipeIngredient copy, ItemStack output, int duration, double energyCost);
 }

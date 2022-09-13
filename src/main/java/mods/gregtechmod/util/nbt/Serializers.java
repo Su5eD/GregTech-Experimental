@@ -6,7 +6,7 @@ import mods.gregtechmod.objects.blocks.teblocks.computercube.ComputerCubeModules
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.TileEntityComputerCube.ComputerCubeModuleComponent;
-import mods.gregtechmod.util.Either;
+import mods.gregtechmod.api.util.Either;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;

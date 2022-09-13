@@ -24,7 +24,7 @@ import java.util.List;
 @ZenClass("mods.gregtechmod.IndustrialBlastFurnace")
 @ZenRegister
 public class BlastFurnaceRecipes {
-    
+
     @ZenMethod
     public static void addRecipe(IIngredient[] inputs, IItemStack[] outputs, int duration, int heat, @Optional boolean universal) {
         addRecipe(inputs, outputs, duration, RecipeBlastFurnace.DEFAULT_ENERGY_COST, heat, universal);

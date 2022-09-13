@@ -68,41 +68,6 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
     }
 
     @Override
-    public IRecipePrinter getRecipe() {
-        IRecipePrinter recipe = super.getRecipe();
-        ItemStack primaryInput = this.queueInputSlot.get();
-        if (recipe == null) {
-            ItemStack secondaryInput = this.inputSlot.get();
-            if (OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)) {
-                OptionalItemStack result = ModHandler.getRecipeOutput(primaryInput, secondaryInput);
-                if (result.isPresent()) return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, null, result.get(), 200, 2));
-            }
-
-            ItemStack extra = this.extraSlot.get();
-            if (!extra.isEmpty() && OreDictUnificator.isItemInstanceOf(secondaryInput, "dyeBlack", false)) {
-                Item extraItem = extra.getItem();
-                Item primaryItem = primaryInput.getItem();
-                if (extraItem == Items.WRITTEN_BOOK && primaryItem == Items.BOOK) {
-                    ItemStack copy = extra.copy();
-                    return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, copy, copy, 200, 1));
-                }
-                else if (extraItem == Items.FILLED_MAP && primaryItem == Items.MAP) {
-                    ItemStack copy = extra.copy();
-                    return fitRecipe(addLazyRecipe(primaryInput, secondaryInput, copy, copy, 100, 1));
-                }
-            }
-        }
-
-        return fitRecipe(recipe);
-    }
-
-    private static IRecipePrinter addLazyRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack copy, ItemStack output, int duration, double energyCost) {
-        IRecipePrinter newRecipe = RecipePrinter.create(Arrays.asList(RecipeIngredientItemStack.create(primaryInput), RecipeIngredientItemStack.create(secondaryInput)), copy != null ? RecipeIngredientItemStack.create(copy) : null, output, duration, energyCost);
-        GtRecipes.printer.addRecipe(newRecipe);
-        return newRecipe;
-    }
-
-    @Override
     public void addOutput(List<ItemStack> output) {
         if (this.outputSlot.add(output) > 0) this.queueOutputSlot.add(output);
 
@@ -120,7 +85,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
                 if (OreDictUnificator.isItemInstanceOf(secondaryInput, "dye", true)) {
                     OptionalItemStack result = ModHandler.getRecipeOutput(primaryInput, secondaryInput);
                     if (result.isPresent()) {
-                        return addLazyRecipe(primaryInput, secondaryInput, null, result.get(), 200, 2);
+                        return createRecipe(primaryInput, secondaryInput, null, result.get(), 200, 2);
                     }
                 }
 
@@ -132,11 +97,11 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
                         Item primaryItem = primaryInput.getItem();
                         if (extraItem == Items.WRITTEN_BOOK && primaryItem == Items.BOOK) {
                             ItemStack copy = extra.copy();
-                            return addLazyRecipe(primaryInput, secondaryInput, copy, copy, 200, 1);
+                            return createRecipe(primaryInput, secondaryInput, copy, copy, 200, 1);
                         }
                         else if (extraItem == Items.FILLED_MAP && primaryItem == Items.MAP) {
                             ItemStack copy = extra.copy();
-                            return addLazyRecipe(primaryInput, secondaryInput, copy, copy, 100, 1);
+                            return createRecipe(primaryInput, secondaryInput, copy, copy, 100, 1);
                         }
                     }
                 }
@@ -162,6 +127,10 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
         @Override
         public boolean hasRecipeFor(ItemStack input) {
             return hasRecipeFor(Collections.singletonList(input));
+        }
+
+        private static IRecipePrinter createRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack copy, ItemStack output, int duration, double energyCost) {
+            return RecipePrinter.create(Arrays.asList(RecipeIngredientItemStack.create(primaryInput), RecipeIngredientItemStack.create(secondaryInput)), copy != null ? RecipeIngredientItemStack.create(copy) : null, output, duration, energyCost);
         }
     }
 }

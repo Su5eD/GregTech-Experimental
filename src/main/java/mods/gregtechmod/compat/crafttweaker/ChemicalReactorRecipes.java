@@ -19,26 +19,21 @@ import java.util.Arrays;
 import java.util.List;
 
 @ModOnly(Reference.MODID)
-@ZenClass("mods.gregtechmod.Assembler")
+@ZenClass("mods.gregtechmod.ChemicalReactor")
 @ZenRegister
-public class AssemblerRecipes {
+public class ChemicalReactorRecipes {
 
     @ZenMethod
-    public static void addRecipe(IIngredient[] inputs, IItemStack output, int duration) {
-        addRecipe(inputs, output, duration, 1);
-    }
-
-    @ZenMethod
-    public static void addRecipe(IIngredient[] inputs, IItemStack output, int duration, double energyCost) {
+    public static void addRecipe(IIngredient[] inputs, IItemStack outputs, int duration) {
         List<IRecipeIngredient> inputIngredients = RecipeInputConverter.of(inputs);
-        ItemStack outputStack = CraftTweakerMC.getItemStack(output);
-        IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe = GregTechAPI.getRecipeFactory().makeAssemblerRecipe(inputIngredients, outputStack, duration, energyCost);
-        CraftTweakerAPI.apply(new AddRecipeAction<>(GtRecipes.assembler, recipe));
+        ItemStack outputStack = CraftTweakerMC.getItemStack(outputs);
+        IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe = GregTechAPI.getRecipeFactory().makeChemicalRecipe(inputIngredients, outputStack, duration);
+        CraftTweakerAPI.apply(new AddRecipeAction<>(GtRecipes.chemical, recipe));
     }
 
     @ZenMethod
     public static void removeRecipe(IItemStack[] inputs) {
         List<ItemStack> inputStacks = Arrays.asList(CraftTweakerMC.getItemStacks(inputs));
-        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.assembler, GtRecipes.assembler.getRecipeFor(inputStacks)));
+        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.chemical, GtRecipes.chemical.getRecipeFor(inputStacks)));
     }
 }

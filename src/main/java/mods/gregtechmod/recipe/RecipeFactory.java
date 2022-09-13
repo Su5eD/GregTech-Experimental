@@ -3,9 +3,11 @@ package mods.gregtechmod.recipe;
 import mods.gregtechmod.api.recipe.*;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.api.util.Either;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class RecipeFactory implements IRecipeFactory {
@@ -106,17 +108,22 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IRecipeFusion<IRecipeIngredientFluid, FluidStack> makeFluidFusionRecipe(List<IRecipeIngredientFluid> input, FluidStack output, int duration, double energyCost, double startEnergy) {
-        return RecipeFusionFluid.create(input, output, duration, energyCost, startEnergy);
-    }
-
-    @Override
-    public IRecipeFusion<IRecipeIngredientFluid, ItemStack> makeSolidFusionRecipe(List<IRecipeIngredientFluid> input, ItemStack output, int duration, double energyCost, double startEnergy) {
-        return RecipeFusionSolid.create(input, output, duration, energyCost, startEnergy);
+    public IRecipeFusion makeFusionRecipe(List<IRecipeIngredientFluid> input, Either<ItemStack, FluidStack> output, int duration, double energyCost, double startEnergy) {
+        return RecipeFusion.create(RecipeFusion::new, input, output, duration, energyCost, startEnergy);
     }
 
     @Override
     public IRecipeUniversal<List<IRecipeIngredient>> makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water, boolean universal) {
         return RecipeSawmill.create(input, output, water, universal);
+    }
+
+    @Override
+    public IRecipeCellular makeDistillationRecipe(IRecipeIngredient input, List<ItemStack> output, int cells, int duration) {
+        return RecipeDistillation.create(input, output, cells, duration);
+    }
+
+    @Override
+    public IRecipePrinter makePrinterRecipe(List<IRecipeIngredient> input, @Nullable IRecipeIngredient copy, ItemStack output, int duration, double energyCost) {
+        return RecipePrinter.create(input, copy, output, duration, energyCost);
     }
 }

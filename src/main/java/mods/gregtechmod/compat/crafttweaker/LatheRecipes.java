@@ -6,14 +6,14 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import ic2.api.item.IC2Items;
-import ic2.core.util.StackUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.recipe.RecipeLathe;
 import net.minecraft.item.ItemStack;
+import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -21,21 +21,20 @@ import java.util.Arrays;
 import java.util.List;
 
 @ModOnly(Reference.MODID)
-@ZenClass("mods.gregtechmod.ImplosionCompressor")
+@ZenClass("mods.gregtechmod.Lathe")
 @ZenRegister
-public class ImplosionRecipes {
+public class LatheRecipes {
 
     @ZenMethod
-    public static void addRecipe(IIngredient input, int tnt, IItemStack[] outputs) {
-        IRecipeIngredient inputIngredient = RecipeInputConverter.of(input);
+    public static void addRecipe(IIngredient input, IItemStack[] outputs, int duration, @Optional(valueDouble = RecipeLathe.DEFAULT_ENERGY_COST) double energyCost) {
+        IRecipeIngredient ingredient = RecipeInputConverter.of(input);
         List<ItemStack> outputStacks = Arrays.asList(CraftTweakerMC.getItemStacks(outputs));
-        IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe = GregTechAPI.getRecipeFactory().makeImplosionRecipe(inputIngredient, tnt, outputStacks);
-        CraftTweakerAPI.apply(new AddRecipeAction<>(GtRecipes.implosion, recipe));
+        IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe = GregTechAPI.getRecipeFactory().makeLatheRecipe(ingredient, outputStacks, duration, energyCost);
+        CraftTweakerAPI.apply(new AddRecipeAction<>(GtRecipes.lathe, recipe));
     }
 
     @ZenMethod
-    public static void removeRecipe(IItemStack input, int tnt) {
-        List<ItemStack> inputStacks = Arrays.asList(CraftTweakerMC.getItemStack(input), StackUtil.setSize(IC2Items.getItem("te", "itnt"), tnt));
-        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.implosion, GtRecipes.implosion.getRecipeFor(inputStacks)));
+    public static void removeRecipe(IItemStack input) {
+        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.lathe, GtRecipes.lathe.getRecipeFor(CraftTweakerMC.getItemStack(input))));
     }
 }
