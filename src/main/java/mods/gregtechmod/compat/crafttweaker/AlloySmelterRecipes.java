@@ -35,6 +35,6 @@ public class AlloySmelterRecipes {
     @ZenMethod
     public static void removeRecipe(IItemStack[] inputs) {
         List<ItemStack> inputStacks = Arrays.asList(CraftTweakerMC.getItemStacks(inputs));
-        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.assembler, GtRecipes.assembler.getRecipeFor(inputStacks)));
+        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.alloySmelter, GtRecipes.alloySmelter.getRecipeFor(inputStacks)));
     }
 }
