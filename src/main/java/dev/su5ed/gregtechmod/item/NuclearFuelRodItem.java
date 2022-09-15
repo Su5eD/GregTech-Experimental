@@ -10,6 +10,7 @@ import ic2.core.ref.Ic2Items;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -46,6 +47,21 @@ public class NuclearFuelRodItem extends ResourceItem implements IReactorComponen
         this.radiation = radiation;
         this.heat = heat;
         this.depleted = depleted;
+    }
+
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        return getDuration(stack) < this.maxDuration;
+    }
+
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        return (int) Math.round(getDurationLevel(stack) * 13.0);
+    }
+
+    @Override
+    public int getBarColor(ItemStack stack) {
+        return Mth.hsvToRgb((float) (getDurationLevel(stack) / 3.0), 1, 1);
     }
 
     @Nullable
@@ -164,6 +180,10 @@ public class NuclearFuelRodItem extends ResourceItem implements IReactorComponen
 
     private static int triangularNumber(int x) {
         return (x * x + x) / 2;
+    }
+    
+    private double getDurationLevel(ItemStack stack) {
+        return Mth.clamp(getDuration(stack) / (double) this.maxDuration, 0, 1);
     }
     
     private int getDuration(ItemStack stack) {
