@@ -17,7 +17,6 @@ import mods.gregtechmod.api.upgrade.IC2UpgradeType;
 import mods.gregtechmod.api.util.QuadFunction;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.inventory.invslot.GtSlotProcessableItemStack;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import net.minecraft.block.Block;
@@ -411,17 +410,6 @@ public final class GtUtil {
 
     public static Predicate<Fluid> fluidPredicate(Fluid... fluids) {
         return fluid -> ArrayUtils.contains(fluids, fluid);
-    }
-
-    public static Path extractConfigAsset(String name) {
-        Path source = getAssetPath(name);
-        try {
-            Path dest = GregTechMod.modConfigDir.resolve(name);
-            if (Files.notExists(dest)) return Files.copy(source, dest);
-        } catch (IOException e) {
-            GregTechMod.LOGGER.error("Couldn't extract oredict config", e);
-        }
-        return source;
     }
 
     public static ItemStack[] emptyStackArray(int size) {

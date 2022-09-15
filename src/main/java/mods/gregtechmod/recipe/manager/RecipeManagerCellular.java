@@ -7,6 +7,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerCellular;
 import mods.gregtechmod.core.GregTechMod;
+import mods.gregtechmod.recipe.util.RecipeUtil;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -43,7 +44,7 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                 }
                 return false;
             })
-            .min(this::compareCount)
+            .min(RecipeManagerCellular::compareCount)
             .orElseGet(() -> getProvidedRecipe(input));
     }
 
@@ -56,8 +57,16 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
                 IRecipeIngredient ingredient = recipe.getInput();
                 return ingredient instanceof IRecipeIngredientFluid && ((IRecipeIngredientFluid) ingredient).apply(input) && (cells < 0 || cells >= recipe.getCells());
             })
-            .min(this::compareCount)
+            .min(RecipeManagerCellular::compareCount)
             .orElse(null);
+    }
+
+    @Override
+    public IRecipeCellular getRecipeFor(ItemStack input, int cells) {
+        return this.recipes.stream()
+            .filter(recipe -> recipe.getInput().apply(input) && cells >= recipe.getCells())
+            .min(RecipeManagerCellular::compareCount)
+            .orElseGet(() -> getProvidedRecipe(input));
     }
 
     @Override
@@ -86,12 +95,9 @@ public class RecipeManagerCellular extends RecipeManagerBase<IRecipeCellular> im
             .anyMatch(ingredient -> ingredient.apply(input));
     }
 
-    @Override
-    public int compareCount(IRecipeCellular first, IRecipeCellular second) {
+    public static int compareCount(IRecipeCellular first, IRecipeCellular second) {
         int diff = second.getCells() - first.getCells();
-
-        if (diff == 0) diff += super.compareCount(first, second);
-
+        if (diff == 0) diff += RecipeUtil.compareCount(first, second);
         return diff;
     }
 }

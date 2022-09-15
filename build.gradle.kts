@@ -44,6 +44,7 @@ val versionTConstruct: String by project
 val versionEnergyControl: String by project
 val versionRailcraft: String by project
 val versionThaumcraft: String by project
+val versionCraftTweaker: String by project
 
 group = "mods.su5ed"
 version = getGitVersion()
@@ -209,6 +210,10 @@ repositories {
         name = "CoFH Maven"
         url = uri("https://maven.covers1624.net")
     }
+    maven {
+        name = "CraftTweaker"
+        url = uri("https://maven.blamejared.com")
+    }
     mavenCentral()
 }
 
@@ -238,6 +243,9 @@ dependencies {
     compileOnly(fg.deobf(curse(mod = "thaumcraft", projectId = 223628, fileId = versionThaumcraft.toLong())))
     compileOnly(fg.deobf(group = "slimeknights.mantle", name = "Mantle", version = versionMantle))
     compileOnly(fg.deobf(group = "slimeknights", name = "TConstruct", version = versionTConstruct))
+    compileOnly(fg.deobf(group = "CraftTweaker2", name = "CraftTweaker2-MC1120-Main", version = "1.12-$versionCraftTweaker"))
+    compileOnly(group = "CraftTweaker2", name = "CraftTweaker2-API", version = versionCraftTweaker)
+    compileOnly(group = "CraftTweaker2", name = "ZenScript", version = versionCraftTweaker)
 
     apiDep(shade(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = "2.9.0"))
     shade(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = "2.9.0")
@@ -269,6 +277,7 @@ curseforge {
                 optionalDependency("applied-energistics-2")
                 optionalDependency("thaumcraft")
                 optionalDependency("tinkers-construct")
+                optionalDependency("crafttweaker")
             })
         })
         addGameVersion("Forge")

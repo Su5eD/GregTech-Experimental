@@ -27,7 +27,7 @@ public class TileEntityFusionMaterialInjector extends TileEntityCoverBehavior im
     }
     
     protected BasicTank createTank(Fluids fluids) {
-        return new BasicTank(this, fluids, new GtFluidTank(this, "content", Util.allFacings, Util.allFacings, f -> GtRecipes.fusionFluid.hasRecipeFor(f) || GtRecipes.fusionSolid.hasRecipeFor(f), 10000), InvSlotConsumableLiquid.OpType.Both, true);
+        return new BasicTank(this, fluids, new GtFluidTank(this, "content", Util.allFacings, Util.allFacings, GtRecipes.fusion::hasRecipeFor, 10000), InvSlotConsumableLiquid.OpType.Both, true);
     }
 
     @Override

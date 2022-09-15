@@ -41,17 +41,6 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 class DynamicRecipes {
-    static boolean addPulverizerRecipes;
-    static boolean addAlloySmelterRecipes;
-    static boolean addCannerRecipes;
-    static boolean addLatheRecipes;
-    static boolean addAssemblerRecipes;
-    static boolean addBenderRecipes;
-    static boolean addSawmillRecipes;
-    static boolean addCompressorRecipes;
-    static boolean addExtractorRecipes;
-    static boolean addCentrifugeRecipes;
-
     static final IGtRecipeManager<IRecipeIngredient, ItemStack, IRecipePulverizer> PULVERIZER = new RecipeManagerPulverizer();
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IRecipeUniversal<List<IRecipeIngredient>>> ALLOY_SMELTER = new RecipeManagerAlloySmelter();
     static final IGtRecipeManagerBasic<List<IRecipeIngredient>, List<ItemStack>, IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>> CANNER = new RecipeManagerMultiInput<>();
@@ -82,43 +71,43 @@ class DynamicRecipes {
     }
 
     static void addPulverizerRecipe(IRecipePulverizer recipe) {
-        if (addPulverizerRecipes) PULVERIZER.addRecipe(recipe);
+        PULVERIZER.addRecipe(recipe);
     }
 
     static void addAlloySmelterRecipe(IRecipeUniversal<List<IRecipeIngredient>> recipe) {
-        if (addAlloySmelterRecipes) ALLOY_SMELTER.addRecipe(recipe);
+        ALLOY_SMELTER.addRecipe(recipe);
     }
 
     static void addCannerRecipe(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe) {
-        if (addCannerRecipes) CANNER.addRecipe(recipe);
+        CANNER.addRecipe(recipe);
     }
 
     static void addLatheRecipe(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
-        if (addLatheRecipes) LATHE.addRecipe(recipe);
+        LATHE.addRecipe(recipe);
     }
 
     static void addAssemblerRecipe(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe) {
-        if (addAssemblerRecipes) ASSEMBLER.addRecipe(recipe);
+        ASSEMBLER.addRecipe(recipe);
     }
 
     static void addBenderRecipe(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe) {
-        if (addBenderRecipes) BENDER.addRecipe(recipe);
+        BENDER.addRecipe(recipe);
     }
 
     static void addSawmillRecipe(IRecipeUniversal<List<IRecipeIngredient>> recipe) {
-        if (addSawmillRecipes) SAWMILL.addRecipe(recipe);
+        SAWMILL.addRecipe(recipe);
     }
 
     static void addCentrifugeRecipe(IRecipeCellular recipe) {
-        if (addCentrifugeRecipes) INDUSTRIAL_CENTRIFUGE.addRecipe(recipe);
+        INDUSTRIAL_CENTRIFUGE.addRecipe(recipe);
     }
 
     static void addCompressorRecipe(IRecipeInput input, ItemStack output) {
-        if (addCompressorRecipes) COMPRESSOR.addRecipe(input, output);
+        COMPRESSOR.addRecipe(input, output);
     }
 
     static void addExtractorRecipe(IRecipeInput input, ItemStack output) {
-        if (addExtractorRecipes) EXTRACTOR.addRecipe(input, output);
+        EXTRACTOR.addRecipe(input, output);
     }
 
     static void addInductionSmelterRecipe(ItemStack primaryInput, ItemStack secondaryInput, ItemStack primaryOutput, ItemStack secondaryOutput, int energy, int chance) {

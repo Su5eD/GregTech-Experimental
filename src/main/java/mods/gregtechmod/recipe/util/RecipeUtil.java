@@ -1,5 +1,6 @@
 package mods.gregtechmod.recipe.util;
 
+import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import net.minecraft.item.ItemStack;
 
@@ -48,7 +49,7 @@ public class RecipeUtil {
     public static <T> List<T> adjustInputCount(String name, List<T> input, Object output, int max) {
         return adjustInputCount(name, input, Collections.singletonList(output), max);
     }
-    
+
     public static <T> List<T> adjustInputCount(String name, List<T> input, List<?> output, int max) {
         return adjustInputCount(name, input, output, 0, max);
     }
@@ -70,5 +71,17 @@ public class RecipeUtil {
         }
 
         return output;
+    }
+
+    public static <R extends IMachineRecipe<? extends IRecipeIngredient, ?>> int compareCount(R first, R second) {
+        return second.getInput().getCount() - first.getInput().getCount();
+    }
+
+    public static <R extends IMachineRecipe<List<I>, ?>, I extends IRecipeIngredient> int compareCountMulti(R first, R second) {
+        return second.getInput().stream()
+            .mapToInt(IRecipeIngredient::getCount)
+            .sum() - first.getInput().stream()
+            .mapToInt(IRecipeIngredient::getCount)
+            .sum();
     }
 }

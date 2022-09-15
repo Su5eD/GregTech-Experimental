@@ -5,12 +5,7 @@ import mods.gregtechmod.core.GregTechMod;
 import one.util.streamex.StreamEx;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -113,23 +108,6 @@ public final class JavaUtil {
             field.set(null, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             GregTechMod.LOGGER.catching(e);
-        }
-    }
-
-    public static Path copyDir(Path source, Path target) {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
-            for (Path path : stream) {
-                Path dest = Paths.get(target.toString(), path.getFileName().toString());
-                if (!Files.exists(dest)) {
-                    GregTechMod.LOGGER.debug("Copying file " + path + " to " + dest);
-                    Files.copy(path, dest);
-                    if (Files.isDirectory(path)) copyDir(path, dest);
-                }
-            }
-            return target;
-        } catch (IOException e) {
-            GregTechMod.LOGGER.catching(e);
-            return null;
         }
     }
 

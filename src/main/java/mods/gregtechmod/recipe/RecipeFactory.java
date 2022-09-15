@@ -3,9 +3,11 @@ package mods.gregtechmod.recipe;
 import mods.gregtechmod.api.recipe.*;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
+import mods.gregtechmod.api.util.Either;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class RecipeFactory implements IRecipeFactory {
@@ -21,8 +23,28 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
+    public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAssemblerRecipe(List<IRecipeIngredient> inputs, ItemStack output, int duration, double energyCost) {
+        return RecipeDualInput.create(inputs, output, duration, energyCost);
+    }
+
+    @Override
+    public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack output) {
+        return RecipePulverizer.create(input, output);
+    }
+
+    @Override
     public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, ItemStack primaryOutput, ItemStack secondaryOutput, int chance) {
         return RecipePulverizer.create(input, primaryOutput, secondaryOutput, chance);
+    }
+
+    @Override
+    public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, List<ItemStack> output, int chance) {
+        return RecipePulverizer.create(input, output, chance);
+    }
+
+    @Override
+    public IRecipePulverizer makePulverizerRecipe(IRecipeIngredient input, List<ItemStack> output, int chance, boolean overwrite, boolean universal) {
+        return RecipePulverizer.create(input, output, chance, overwrite, universal);
     }
 
     @Override
@@ -46,8 +68,8 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost) {
-        return RecipeAlloySmelter.create(input, output, duration, energyCost);
+    public IRecipeUniversal<List<IRecipeIngredient>> makeAlloySmelterRecipe(List<IRecipeIngredient> input, ItemStack output, int duration, double energyCost, boolean universal) {
+        return RecipeAlloySmelter.create(input, output, duration, energyCost, universal);
     }
 
     @Override
@@ -86,17 +108,22 @@ public class RecipeFactory implements IRecipeFactory {
     }
 
     @Override
-    public IRecipeFusion<IRecipeIngredientFluid, FluidStack> makeFluidFusionRecipe(List<IRecipeIngredientFluid> input, FluidStack output, int duration, double energyCost, double startEnergy) {
-        return RecipeFusionFluid.create(input, output, duration, energyCost, startEnergy);
-    }
-
-    @Override
-    public IRecipeFusion<IRecipeIngredientFluid, ItemStack> makeSolidFusionRecipe(List<IRecipeIngredientFluid> input, ItemStack output, int duration, double energyCost, double startEnergy) {
-        return RecipeFusionSolid.create(input, output, duration, energyCost, startEnergy);
+    public IRecipeFusion makeFusionRecipe(List<IRecipeIngredientFluid> input, Either<ItemStack, FluidStack> output, int duration, double energyCost, double startEnergy) {
+        return RecipeFusion.create(RecipeFusion::new, input, output, duration, energyCost, startEnergy);
     }
 
     @Override
     public IRecipeUniversal<List<IRecipeIngredient>> makeSawmillRecipe(IRecipeIngredient input, List<ItemStack> output, int water, boolean universal) {
         return RecipeSawmill.create(input, output, water, universal);
+    }
+
+    @Override
+    public IRecipeCellular makeDistillationRecipe(IRecipeIngredient input, List<ItemStack> output, int cells, int duration) {
+        return RecipeDistillation.create(input, output, cells, duration);
+    }
+
+    @Override
+    public IRecipePrinter makePrinterRecipe(List<IRecipeIngredient> input, @Nullable IRecipeIngredient copy, ItemStack output, int duration, double energyCost) {
+        return RecipePrinter.create(input, copy, output, duration, energyCost);
     }
 }

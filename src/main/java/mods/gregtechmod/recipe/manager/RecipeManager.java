@@ -25,8 +25,7 @@ public abstract class RecipeManager<RI, I, R extends IMachineRecipe<RI, ?>> impl
 
     @Override
     public void removeRecipe(R recipe) {
-        R existing = getRecipeForExact(recipe);
-        if (existing != null) this.recipes.remove(existing);
+        if (recipe != null) this.recipes.remove(recipe);
     }
 
     @Override

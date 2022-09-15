@@ -2,7 +2,7 @@ package mods.gregtechmod.util.nbt;
 
 import com.mojang.authlib.GameProfile;
 import mods.gregtechmod.objects.blocks.teblocks.computercube.IComputerCubeModule;
-import mods.gregtechmod.util.Either;
+import mods.gregtechmod.api.util.Either;
 import mods.gregtechmod.util.LazyValue;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;

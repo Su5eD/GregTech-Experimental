@@ -7,6 +7,7 @@ import ic2.core.ref.ItemName;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
+import mods.gregtechmod.compat.crafttweaker.CraftTweakerCompat;
 import mods.gregtechmod.init.*;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntitySonictron;
@@ -47,7 +48,7 @@ import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-@Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[1.12.2-0.1.8,1.12.2-0.2); after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct")
+@Mod(modid = Reference.MODID, dependencies = "required-after:ic2@[2.8.221-ex112,]; after:energycontrol@[1.12.2-0.1.8,1.12.2-0.2); after:thermalexpansion; after:buildcraftenergy; after:forestry; after:tconstruct; after:crafttweaker")
 public final class GregTechMod {
     public static final CreativeTabs GREGTECH_TAB = new GregTechTab();
     public static final Logger LOGGER = LogManager.getLogger(Reference.MODID);
@@ -90,6 +91,9 @@ public final class GregTechMod {
 
         GregTechAPI.instance().registerWrench(ItemName.wrench.getInstance());
         GregTechAPI.instance().registerWrench(ItemName.wrench_new.getInstance());
+        
+        MachineRecipeParser.setupRecipes();
+        MachineRecipeParser.setupFuels();
     }
 
     @EventHandler
@@ -101,10 +105,9 @@ public final class GregTechMod {
         OreDictRegistrar.registerItems();
         JavaUtil.measureTime("Parsing recipes", () -> {
             MachineRecipeParser.loadRecipes();
-            MachineRecipeParser.loadDynamicRecipes();
+            MachineRecipeParser.loadGeneratedRecipes();
             MachineRecipeParser.loadFuels();
         });
-        MachineRecipeParser.registerProviders();
         MachineRecipeLoader.init();
         CraftingRecipeLoader.init();
 
@@ -131,6 +134,8 @@ public final class GregTechMod {
         MachineRecipeParser.registerDynamicRecipes();
         DamagedOreIngredientFixer.fixRecipes();
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
+        
+        if (ModHandler.craftTweaker) CraftTweakerCompat.loadScripts();
     }
 
     @EventHandler

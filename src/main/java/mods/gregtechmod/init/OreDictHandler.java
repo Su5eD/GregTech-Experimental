@@ -40,6 +40,7 @@ import net.minecraftforge.oredict.OreIngredient;
 import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nullable;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -48,9 +49,9 @@ import java.util.regex.Pattern;
 
 public final class OreDictHandler {
     public static final OreDictHandler INSTANCE;
-    public static final Map<String, String> GT_ORE_NAMES;
 
     private static final Pattern GRANITE_PATTERN = Pattern.compile("\\bstone.*Granite");
+    private static final Map<String, String> GT_ORE_NAMES;
     private static final Map<String, Integer> VALUABLE_ORES;
     private static final Map<String, Pair<Supplier<Item>, Supplier<Item>>> BLAST_FURNACE_DUSTS = new HashMap<>();
     private static final Map<String, Supplier<ItemStack>> DUST_TO_INGOT = new HashMap<>();
@@ -60,7 +61,7 @@ public final class OreDictHandler {
     private boolean activated = false;
 
     static {
-        Path path = GtUtil.extractConfigAsset("oredict.json");
+        Path path = GtUtil.getAssetPath("oredict.json");
         JsonObject json = JsonHandler.readJSON(path);
         GT_ORE_NAMES = StreamEx.of(json.getAsJsonObject("ore_aliases").entrySet())
             .toMap(Map.Entry::getKey, entry -> entry.getValue().getAsString());
@@ -116,6 +117,35 @@ public final class OreDictHandler {
     public static void registerValuableOres() {
         VALUABLE_ORES.forEach((key, value) -> OreDictionary.getOres(key)
             .forEach(stack -> OreValues.add(stack, value)));
+    }
+
+    @Nullable
+    public static String getOreAlias(String ore) {
+        return GT_ORE_NAMES.get(ore);
+    }
+
+    public static void addOreAlias(String ore, String alias) {
+        GT_ORE_NAMES.put(ore, alias);
+    }
+
+    public static void removeOreAlias(String ore) {
+        GT_ORE_NAMES.remove(ore);
+    }
+
+    public static void addValuableOre(String ore, int value) {
+        VALUABLE_ORES.put(ore, value);
+    }
+
+    public static void removeValuableOre(String ore) {
+        VALUABLE_ORES.remove(ore);
+    }
+
+    public static void addIgnoredName(String ore) {
+        IGNORED_NAMES.add(ore);
+    }
+
+    public static void removeIgnoredName(String ore) {
+        IGNORED_NAMES.remove(ore);
     }
 
     @SubscribeEvent

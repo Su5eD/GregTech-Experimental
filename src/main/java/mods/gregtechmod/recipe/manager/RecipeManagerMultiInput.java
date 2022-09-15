@@ -34,14 +34,6 @@ public class RecipeManagerMultiInput<R extends IMachineRecipe<List<I>, ?>, I ext
             .orElse(null);
     }
 
-    public int compareCount(R first, R second) {
-        return second.getInput().stream()
-            .mapToInt(IRecipeIngredient::getCount)
-            .sum() - first.getInput().stream()
-            .mapToInt(IRecipeIngredient::getCount)
-            .sum();
-    }
-
     @Override
     public R getRecipeFor(List<ItemStack> input) {
         return this.recipes.stream()
@@ -50,5 +42,13 @@ public class RecipeManagerMultiInput<R extends IMachineRecipe<List<I>, ?>, I ext
                     .anyMatch(ingredient::apply)))
             .min(this::compareCount)
             .orElseGet(() -> getProvidedRecipe(input));
+    }
+
+    public int compareCount(R first, R second) {
+        return second.getInput().stream()
+            .mapToInt(IRecipeIngredient::getCount)
+            .sum() - first.getInput().stream()
+            .mapToInt(IRecipeIngredient::getCount)
+            .sum();
     }
 }
