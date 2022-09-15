@@ -277,6 +277,7 @@ curseforge {
                 optionalDependency("applied-energistics-2")
                 optionalDependency("thaumcraft")
                 optionalDependency("tinkers-construct")
+                optionalDependency("crafttweaker")
             })
         })
         addGameVersion("Forge")
