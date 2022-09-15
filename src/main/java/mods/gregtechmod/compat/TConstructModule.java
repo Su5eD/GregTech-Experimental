@@ -36,7 +36,7 @@ public class TConstructModule {
             ItemStack output = ((CastingRecipe) recipe).getResult();
             if (!output.isEmpty()) {
                 String name = OreDictUnificator.getAssociation(output);
-                String unifiedName = OreDictHandler.GT_ORE_NAMES.get(name);
+                String unifiedName = OreDictHandler.getOreAlias(name);
                 if (unifiedName != null) name = unifiedName;
 
                 ItemStack unified = OreDictUnificator.getUnifiedOre(name);
