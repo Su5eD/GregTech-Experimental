@@ -15,6 +15,7 @@ import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
 import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
 import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
 import net.minecraft.item.ItemStack;
+import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -27,12 +28,7 @@ import java.util.List;
 public class AssemblerRecipes {
 
     @ZenMethod
-    public static void addRecipe(IIngredient[] inputs, IItemStack output, int duration) {
-        addRecipe(inputs, output, duration, 1);
-    }
-
-    @ZenMethod
-    public static void addRecipe(IIngredient[] inputs, IItemStack output, int duration, double energyCost) {
+    public static void addRecipe(IIngredient[] inputs, IItemStack output, int duration, @Optional double energyCost) {
         List<IRecipeIngredient> inputIngredients = RecipeInputConverter.of(inputs);
         ItemStack outputStack = CraftTweakerMC.getItemStack(output);
         IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe = GregTechAPI.getRecipeFactory().makeAssemblerRecipe(inputIngredients, outputStack, duration, energyCost);

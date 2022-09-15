@@ -46,7 +46,6 @@ public class FusionReactorRecipes {
     }
 
     private static void addRecipe(IIngredient[] inputs, Either<ItemStack, FluidStack> output, int duration, double energyCost, double startEnergy) {
-        // TODO Fix other liquid inputs
         List<IRecipeIngredientFluid> inputIngredients = RecipeInputConverter.fluids(inputs);
         IRecipeFusion recipe = GregTechAPI.getRecipeFactory().makeFusionRecipe(inputIngredients, output, duration, energyCost, startEnergy);
         CraftTweakerAPI.apply(new AddRecipeAction<>(GtRecipes.fusion, recipe));
