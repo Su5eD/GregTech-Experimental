@@ -53,7 +53,7 @@ public class TileEntityDragonEggEnergySiphon extends TileEntityGenerator impleme
 
     @Override
     public int getBaseSourceTier() {
-        return EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy);
+        return Math.max(1, EnergyNet.instance.getTierFromPower(GregTechConfig.MACHINES.DRAGON_EGG_ENERGY_SIPHON.dragonEggEnergy));
     }
 
     @Override

@@ -26,7 +26,7 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
 
     @Override
     public int getSourceTier() {
-        return EnergyNet.instance.getTierFromPower(getMaxOutputEUp());
+        return Math.max(1, EnergyNet.instance.getTierFromPower(getMaxOutputEUp()));
     }
 
     @Override
