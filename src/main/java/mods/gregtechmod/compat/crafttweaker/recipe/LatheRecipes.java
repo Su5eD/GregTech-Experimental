@@ -1,4 +1,4 @@
-package mods.gregtechmod.compat.crafttweaker;
+package mods.gregtechmod.compat.crafttweaker.recipe;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ModOnly;
@@ -11,6 +11,9 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
+import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
 import mods.gregtechmod.recipe.RecipeLathe;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.Optional;

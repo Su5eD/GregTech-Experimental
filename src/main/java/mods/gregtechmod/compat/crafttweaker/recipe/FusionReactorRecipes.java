@@ -1,4 +1,4 @@
-package mods.gregtechmod.compat.crafttweaker;
+package mods.gregtechmod.compat.crafttweaker.recipe;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ModOnly;
@@ -13,6 +13,9 @@ import mods.gregtechmod.api.recipe.IRecipeFusion;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.util.Either;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
+import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;

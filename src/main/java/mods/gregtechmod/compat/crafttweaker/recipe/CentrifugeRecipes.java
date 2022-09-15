@@ -1,4 +1,4 @@
-package mods.gregtechmod.compat.crafttweaker;
+package mods.gregtechmod.compat.crafttweaker.recipe;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ModOnly;
@@ -8,10 +8,15 @@ import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import mods.gregtechmod.api.GregTechAPI;
+import mods.gregtechmod.api.recipe.CellType;
 import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
+import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.CTCellType;
+import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
+import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -21,16 +26,16 @@ import java.util.Arrays;
 import java.util.List;
 
 @ModOnly(Reference.MODID)
-@ZenClass("mods.gregtechmod.IndustrialElectrolyzer")
+@ZenClass("mods.gregtechmod.IndustrialCentrifuge")
 @ZenRegister
-public class ElectrolyzerRecipes {
+public class CentrifugeRecipes {
 
     @ZenMethod
-    public static void addRecipe(IIngredient input, IItemStack[] outputs, int cells, int duration, @Optional(valueDouble = 128) double energyCost) {
+    public static void addRecipe(IIngredient input, IItemStack[] outputs, int cells, int duration, @Optional CTCellType cellType) {
         IRecipeIngredient ingredient = RecipeInputConverter.of(input);
         List<ItemStack> outputStacks = Arrays.asList(CraftTweakerMC.getItemStacks(outputs));
-        IRecipeCellular recipe = GregTechAPI.getRecipeFactory().makeElectrolyzerRecipe(ingredient, outputStacks, cells, duration, energyCost);
-        CraftTweakerAPI.apply(new AddRecipeAction<>(GtRecipes.industrialElectrolyzer, recipe));
+        IRecipeCellular recipe = GregTechAPI.getRecipeFactory().makeCentrifugeRecipe(ingredient, outputStacks, cells, duration, cellType != null ? cellType.getCellType() : CellType.CELL);
+        CraftTweakerAPI.apply(new AddRecipeAction<>(GtRecipes.industrialCentrifuge, recipe));
     }
 
     @ZenMethod
@@ -40,7 +45,7 @@ public class ElectrolyzerRecipes {
 
     @ZenMethod
     public static void removeRecipe(ILiquidStack input, int cells) {
-        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.industrialElectrolyzer, GtRecipes.industrialElectrolyzer.getRecipeFor(CraftTweakerMC.getLiquidStack(input), cells)));
+        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.industrialCentrifuge, GtRecipes.industrialCentrifuge.getRecipeFor(CraftTweakerMC.getLiquidStack(input), cells)));
     }
 
     @ZenMethod
@@ -50,6 +55,6 @@ public class ElectrolyzerRecipes {
 
     @ZenMethod
     public static void removeRecipe(IItemStack input, int cells) {
-        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.industrialElectrolyzer, GtRecipes.industrialElectrolyzer.getRecipeFor(CraftTweakerMC.getItemStack(input), cells)));
+        CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.industrialCentrifuge, GtRecipes.industrialCentrifuge.getRecipeFor(CraftTweakerMC.getItemStack(input), cells)));
     }
 }
