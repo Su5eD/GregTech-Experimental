@@ -15,6 +15,7 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.CustomLoaderBuilder;
 import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +32,7 @@ class BlockStateGen extends BlockStateProvider {
         StreamEx.of(ModBlock.values())
             .forEach(modBlock -> {
                 Block block = modBlock.getBlock();
-                String path = block.getRegistryName().getPath();
+                String path = ForgeRegistries.BLOCKS.getKey(block).getPath();
 
                 if (block instanceof ConnectedBlock) bakedModel(block, path);
                 else simpleModel(block, path, modBlock.getName());
@@ -40,7 +41,7 @@ class BlockStateGen extends BlockStateProvider {
         StreamEx.<BlockItemProvider>of(Ore.values())
             .append(GTBlockEntity.values())
             .map(BlockItemProvider::getBlock)
-            .mapToEntry(block -> models().getExistingFile(block.getRegistryName()))
+            .mapToEntry(block -> models().getExistingFile(ForgeRegistries.BLOCKS.getKey(block)))
             .forKeyValue(this::simpleBlock);
     }
 
@@ -53,8 +54,8 @@ class BlockStateGen extends BlockStateProvider {
         simpleBlock(block, models().getBuilder(path)
             .parent(models().getExistingFile(mcLoc("cube")))
             .customLoader((blockModelBuilder, helper) -> {
-                ResourceLocation location = ClientSetup.getLoaderLocation(path);
-                return new CustomLoaderBuilder<BlockModelBuilder>(location, blockModelBuilder, helper) {};
+                String name = ClientSetup.getLoaderName(path);
+                return new CustomLoaderBuilder<BlockModelBuilder>(location(name), blockModelBuilder, helper) {};
             })
             .end());
     }

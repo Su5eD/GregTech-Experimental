@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.WrenchItem;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
@@ -14,7 +15,12 @@ public enum Wrench implements ItemProvider {
     private final Lazy<Item> instance;
 
     Wrench(int durability, int attackDamage) {
-        this.instance = Lazy.of(() -> new WrenchItem(durability, attackDamage).registryName(getName(), "wrench"));
+        this.instance = Lazy.of(() -> new WrenchItem(durability, attackDamage));
+    }
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "wrench");
     }
 
     @Override

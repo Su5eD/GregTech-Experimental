@@ -77,14 +77,14 @@ public class AdvancedWrenchItem extends WrenchItem implements IElectricItem, Ele
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
         ModHandler.useEnergy(stack, 8000, null);
         return stack.copy();
     }
 
     @Override
     public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
-        if (allowdedIn(category)) {
+        if (allowedIn(category)) {
             items.addAll(ModHandler.getChargedVariants(this));
         }
     }

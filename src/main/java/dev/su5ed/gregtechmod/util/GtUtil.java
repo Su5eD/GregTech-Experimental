@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,9 +20,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +40,7 @@ public final class GtUtil {
     public static final Collection<Direction> NORTH_FACING = EnumSet.of(Direction.NORTH);
     public static final Collection<Direction> VERTICAL_FACINGS = EnumSet.of(Direction.DOWN, Direction.UP);
     public static final Collection<Direction> HORIZONTAL_FACINGS = EnumSet.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+    public static final RandomSource RANDOM = RandomSource.create();
 
     private GtUtil() {}
 
@@ -63,14 +65,14 @@ public final class GtUtil {
     }
 
     public static FluidStack drainBlock(BlockEntity blockEntity, Direction side, int amount, FluidAction action) {
-        return blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)
+        return blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER, side)
             .map(handler -> handler.drain(amount, action))
             .orElse(FluidStack.EMPTY);
     }
     
     public static BlockEntity getNeighborFluidBlockEntity(BlockEntity be, Direction side) {
         BlockEntity neighbor = be.getLevel().getBlockEntity(be.getBlockPos().relative(side));
-        return neighbor.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite()).isPresent() ? neighbor : null;
+        return neighbor.getCapability(ForgeCapabilities.FLUID_HANDLER, side.getOpposite()).isPresent() ? neighbor : null;
     }
 
     public static int getStrongestSignal(BlockEntity be, Level level, BlockPos pos, Direction excludeFacing) {
@@ -162,14 +164,16 @@ public final class GtUtil {
     }
     
     public static void transportFluid(BlockEntity from, Direction fromSide, BlockEntity to, Direction toSide, int amount) {
-        from.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, fromSide).ifPresent(source -> {
-            to.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, toSide).ifPresent(destination -> {
-                FluidUtil.tryFluidTransfer(destination, source, amount, true);
-            });
-        });
+        from.getCapability(ForgeCapabilities.FLUID_HANDLER, fromSide).ifPresent(source ->
+            to.getCapability(ForgeCapabilities.FLUID_HANDLER, toSide).ifPresent(destination ->
+                FluidUtil.tryFluidTransfer(destination, source, amount, true)));
     }
     
     public static ResourceLocation guiTexture(String name) {
         return location("textures/gui/" + name + ".png");
+    }
+    
+    public static String registryName(String... names) {
+        return String.join("_", names);
     }
 }

@@ -19,10 +19,10 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 import java.util.Locale;
@@ -50,7 +50,7 @@ public class DrainCover extends BaseCover<IGregTechMachine> {
         Block block = level.getBlockState(offset).getBlock();
 
         if (this.mode.isImport) {
-            be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, this.side).ifPresent(handler -> {
+            be.getCapability(ForgeCapabilities.FLUID_HANDLER, this.side).ifPresent(handler -> {
                 if (this.side == Direction.UP && level.isRainingAt(pos)) {
                     int amount = (int) (level.getBiome(pos).value().getDownfall() * 10);
                     if (amount > 0) {
@@ -59,15 +59,15 @@ public class DrainCover extends BaseCover<IGregTechMachine> {
                 }
 
                 FluidStack liquid;
-                if (block == Blocks.WATER) liquid = new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME);
-                else if (block == Blocks.LAVA) liquid = new FluidStack(Fluids.LAVA, FluidAttributes.BUCKET_VOLUME);
+                if (block == Blocks.WATER) liquid = new FluidStack(Fluids.WATER, FluidType.BUCKET_VOLUME);
+                else if (block == Blocks.LAVA) liquid = new FluidStack(Fluids.LAVA, FluidType.BUCKET_VOLUME);
                 else if (block instanceof IFluidBlock fluid) liquid = fluid.drain(level, offset, FluidAction.SIMULATE);
                 else liquid = null;
 
                 if (liquid != null) {
                     Fluid fluid = liquid.getFluid();
                     if (fluid != null) {
-                        int density = fluid.getAttributes().getDensity();
+                        int density = fluid.getFluidType().getDensity();
 
                         if ((this.side != Direction.DOWN || density <= 0) && (this.side != Direction.UP || density >= 0) && handler.fill(liquid, FluidAction.SIMULATE) == liquid.getAmount()) {
                             handler.fill(liquid, FluidAction.EXECUTE);

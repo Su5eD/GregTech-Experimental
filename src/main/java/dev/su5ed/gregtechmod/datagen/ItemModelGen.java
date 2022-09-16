@@ -32,6 +32,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,7 +52,7 @@ class ItemModelGen extends ItemModelProvider {
         StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ore.values())
             .append(GTBlockEntity.values())
-            .map(block -> block.getItem().getRegistryName().getPath())
+            .map(block -> ForgeRegistries.ITEMS.getKey(block.getItem()).getPath())
             .mapToEntry(name -> location("block", name))
             .forKeyValue(this::withExistingParent);
         
@@ -97,7 +98,7 @@ class ItemModelGen extends ItemModelProvider {
     }
     
     public ItemModelBuilder providerModel(ItemProvider provider, @Nullable String folder) {
-        String path = provider.getItem().getRegistryName().getPath();
+        String path = ForgeRegistries.ITEMS.getKey(provider.getItem()).getPath();
         ResourceLocation texture = locationNullable("item", folder, provider.getName());
         return singleItemTexture(path, this.generatedParent, texture);
     }

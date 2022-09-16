@@ -6,11 +6,9 @@ import dev.su5ed.gregtechmod.compat.ThermalHandler;
 import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
-import dev.su5ed.gregtechmod.util.JavaUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -58,14 +56,14 @@ public class ColorSprayItem extends ResourceItem {
     }
 
     @Override
-    public boolean hasContainerItem(ItemStack stack) {
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
         ItemStack copy = stack.copy();
-        return copy.hurt(8, JavaUtil.RANDOM, null) ? Miscellaneous.EMPTY_SPRAY_CAN.getItemStack() : copy;
+        return copy.hurt(8, GtUtil.RANDOM, null) ? Miscellaneous.EMPTY_SPRAY_CAN.getItemStack() : copy;
     }
 
     @Override
@@ -76,7 +74,7 @@ public class ColorSprayItem extends ResourceItem {
             .toComponent(stack.getMaxDamage())
             .withStyle(ChatFormatting.GRAY)
             .append(" ")
-            .append(new TranslatableComponent("color.minecraft." + this.color.getName())));
+            .append(Component.translatable("color.minecraft." + this.color.getName())));
 
         components.add(GtLocale.itemKey("color_spray", "description_crafting")
             .toComponent(stack.getMaxDamage() / 8)

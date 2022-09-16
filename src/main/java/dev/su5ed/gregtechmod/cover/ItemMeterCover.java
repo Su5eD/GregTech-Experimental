@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ItemMeterCover extends MeterCover {
@@ -27,7 +27,7 @@ public class ItemMeterCover extends MeterCover {
 
     @Override
     public int getRedstoneStrength() {
-        return ((BlockEntity) this.be).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, this.side)
+        return ((BlockEntity) this.be).getCapability(ForgeCapabilities.ITEM_HANDLER, this.side)
             .map(ItemHandlerHelper::calcRedstoneFromInventory)
             .orElse(0);
     }

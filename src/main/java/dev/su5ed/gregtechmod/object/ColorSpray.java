@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ColorSprayItem;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
@@ -31,7 +32,12 @@ public enum ColorSpray implements TaggedItemProvider {
 
     ColorSpray() {
         this.color = DyeColor.valueOf(name());
-        this.instance = Lazy.of(() -> new ColorSprayItem(this.color).registryName(getName(), "color_spray"));
+        this.instance = Lazy.of(() -> new ColorSprayItem(this.color));
+    }
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "color_spray");
     }
 
     @Override

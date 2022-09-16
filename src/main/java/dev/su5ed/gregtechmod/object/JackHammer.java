@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ElectricToolItem;
 import dev.su5ed.gregtechmod.item.ElectricToolItem.ElectricToolItemProperties;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
@@ -26,7 +27,12 @@ public enum JackHammer implements ItemProvider {
             .destroySpeed(efficiency)
             .tier(tier)
             .blockTags(BlockTags.MINEABLE_WITH_PICKAXE)
-            .actions(ToolActions.PICKAXE_DIG)).registryName(getName(), "jack_hammer"));
+            .actions(ToolActions.PICKAXE_DIG)));
+    }
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "jack_hammer");
     }
 
     @Override

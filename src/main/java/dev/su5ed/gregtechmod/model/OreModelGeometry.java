@@ -11,8 +11,8 @@ import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.geometry.IModelGeometry;
+import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
+import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-public class OreModelGeometry implements IModelGeometry<OreModelGeometry> {
+public class OreModelGeometry implements IUnbakedGeometry<OreModelGeometry> {
     private final Material particle;
     private final Map<Direction, Material> textures;
     private final Map<Direction, Material> texturesNether;
@@ -41,21 +41,21 @@ public class OreModelGeometry implements IModelGeometry<OreModelGeometry> {
     }
 
     @Override
-    public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
+    public BakedModel bake(IGeometryBakingContext owner, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
         TextureAtlasSprite particleSprite = spriteGetter.apply(this.particle);
-        Map<Material, TextureAtlasSprite> sprites = StreamEx.of(getTextures())
+        Map<Material, TextureAtlasSprite> sprites = StreamEx.of(getMaterials())
             .mapToEntry(spriteGetter)
             .distinctKeys()
             .toImmutableMap();
-        return new OreModel(particleSprite, overrides, owner.getCameraTransforms(), this.textures, this.texturesNether, this.texturesEnd, sprites, modelLocation);
+        return new OreModel(particleSprite, overrides, owner.getTransforms(), this.textures, this.texturesNether, this.texturesEnd, sprites, modelLocation);
     }
 
     @Override
-    public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return getTextures();
+    public Collection<Material> getMaterials(IGeometryBakingContext context, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+        return getMaterials();
     }
 
-    private Collection<Material> getTextures() {
+    private Collection<Material> getMaterials() {
         return EntryStream.of(this.textures)
             .append(this.texturesNether)
             .append(this.texturesEnd)

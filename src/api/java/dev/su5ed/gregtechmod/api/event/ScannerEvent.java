@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.api.event;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 
 /**
@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.Cancelable;
  * This event is <b>cancelable</b>.
  */
 @Cancelable
-public class ScannerEvent extends WorldEvent {
+public class ScannerEvent extends LevelEvent {
     public final ItemStack stack;
     public final UseOnContext context;
 

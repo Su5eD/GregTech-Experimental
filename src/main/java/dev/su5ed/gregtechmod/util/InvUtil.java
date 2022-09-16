@@ -4,7 +4,7 @@ import dev.su5ed.gregtechmod.api.util.QuadFunction;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import one.util.streamex.IntStreamEx;
@@ -38,8 +38,8 @@ public final class InvUtil {
 
     private static int moveItemStack(BlockEntity from, BlockEntity to, Direction fromSide, Direction toSide, Predicate<IItemHandler> condition, Predicate<ItemStack> filter, QuadFunction<IItemHandler, IItemHandler, ItemStack, Integer, Integer> consumer) {
         if (from != null && to != null) {
-            return from.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, fromSide).resolve()
-                .flatMap(source -> to.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, toSide).resolve()
+            return from.getCapability(ForgeCapabilities.ITEM_HANDLER, fromSide).resolve()
+                .flatMap(source -> to.getCapability(ForgeCapabilities.ITEM_HANDLER, toSide).resolve()
                     .filter(condition)
                     .flatMap(dest -> IntStreamEx.range(source.getSlots()).boxed()
                         .mapToEntry(i -> source.extractItem(i, source.getSlotLimit(i), true))

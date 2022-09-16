@@ -2,16 +2,16 @@ package dev.su5ed.gregtechmod.model;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraftforge.client.model.IModelLoader;
+import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import one.util.streamex.StreamEx;
 
 import java.util.Map;
 
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
-public class ConnectedModelLoader implements IModelLoader<ConnectedModelGeometry> {
+public class ConnectedModelLoader implements IGeometryLoader<ConnectedModelGeometry> {
     private final Map<String, ResourceLocation> textures;
     private final ResourceLocation particle;
     
@@ -25,10 +25,7 @@ public class ConnectedModelLoader implements IModelLoader<ConnectedModelGeometry
     }
 
     @Override
-    public ConnectedModelGeometry read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
+    public ConnectedModelGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
         return new ConnectedModelGeometry(this.particle, this.textures);
     }
-
-    @Override
-    public void onResourceManagerReload(ResourceManager pResourceManager) {}
 }

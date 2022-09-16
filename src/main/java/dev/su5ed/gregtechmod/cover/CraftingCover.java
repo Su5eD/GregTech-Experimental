@@ -5,7 +5,6 @@ import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -25,7 +24,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class CraftingCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
-    private static final Component CONTAINER_TITLE = new TranslatableComponent("container.crafting");
+    private static final Component CONTAINER_TITLE = Component.translatable("container.crafting");
 
     public CraftingCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);

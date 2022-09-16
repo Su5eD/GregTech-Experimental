@@ -28,8 +28,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelDataMap;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelDataManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import one.util.streamex.StreamEx;
@@ -133,9 +133,9 @@ public class CoverableBlockEntity extends BaseBlockEntity {
 
     @NotNull
     @Override
-    public IModelData getModelData() {
-        return new ModelDataMap.Builder()
-            .withInitial(CoverHandlerImpl.COVER_HANDLER_PROPERTY, this.coverHandler.getCovers())
+    public ModelData getModelData() {
+        return ModelData.builder()
+            .with(CoverHandlerImpl.COVER_HANDLER_PROPERTY, this.coverHandler.getCovers())
             .build();
     }
 

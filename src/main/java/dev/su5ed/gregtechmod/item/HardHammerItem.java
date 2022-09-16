@@ -4,7 +4,7 @@ import dev.su5ed.gregtechmod.ClientSetup;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.util.GtLocale;
-import dev.su5ed.gregtechmod.util.JavaUtil;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -54,14 +54,14 @@ public class HardHammerItem extends HammerItem {
     }
 
     @Override
-    public boolean hasContainerItem(ItemStack stack) {
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
         ItemStack copy = stack.copy();
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientSetup.playSound(SoundEvents.ANVIL_USE, JavaUtil.RANDOM.nextFloat() * 0.1F + 0.9F));
-        return copy.hurt(4, JavaUtil.RANDOM, null) ? ItemStack.EMPTY : copy;
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientSetup.playSound(SoundEvents.ANVIL_USE, GtUtil.RANDOM.nextFloat() * 0.1F + 0.9F));
+        return copy.hurt(4, GtUtil.RANDOM, null) ? ItemStack.EMPTY : copy;
     }
 }

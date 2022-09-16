@@ -2,17 +2,17 @@ package dev.su5ed.gregtechmod.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.su5ed.gregtechmod.container.DestructorPackContainer;
+import dev.su5ed.gregtechmod.menu.DestructorPackMenu;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class DestructorPackScreen extends AbstractContainerScreen<DestructorPackContainer> {
+public class DestructorPackScreen extends AbstractContainerScreen<DestructorPackMenu> {
     public static final ResourceLocation BACKGROUND = GtUtil.guiTexture("destructorpack");
 
-    public DestructorPackScreen(DestructorPackContainer menu, Inventory playerInventory, Component title) {
+    public DestructorPackScreen(DestructorPackMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 

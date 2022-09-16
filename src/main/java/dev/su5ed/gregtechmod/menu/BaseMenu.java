@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.container;
+package dev.su5ed.gregtechmod.menu;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -8,9 +8,9 @@ import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BaseContainer extends AbstractContainerMenu {
+public abstract class BaseMenu extends AbstractContainerMenu {
 
-    protected BaseContainer(@Nullable MenuType<?> menuType, int containerId) {
+    protected BaseMenu(@Nullable MenuType<?> menuType, int containerId) {
         super(menuType, containerId);
     }
     

@@ -3,13 +3,8 @@ package dev.su5ed.gregtechmod.util;
 import dev.su5ed.gregtechmod.GregTechMod;
 
 import java.lang.reflect.Field;
-import java.util.Random;
 
 public final class JavaUtil {
-    public static final Random RANDOM = new Random();
-
-    private JavaUtil() {}
-
     public static void setStaticValue(Class<?> clazz, String fieldName, Object value) {
         try {
             Field field = clazz.getDeclaredField(fieldName);
@@ -19,4 +14,6 @@ public final class JavaUtil {
             GregTechMod.LOGGER.catching(e);
         }
     }
+
+    private JavaUtil() {}
 }

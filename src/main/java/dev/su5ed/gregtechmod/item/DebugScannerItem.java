@@ -16,7 +16,7 @@ public class DebugScannerItem extends ScannerItem {
 
     @Override
     public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
-        if (allowdedIn(category)) {
+        if (allowedIn(category)) {
             items.add(ModHandler.getChargedStack(this, Double.MAX_VALUE));
         }
     }

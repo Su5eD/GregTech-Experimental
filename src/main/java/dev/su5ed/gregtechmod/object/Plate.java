@@ -4,9 +4,10 @@ import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.ClassicOnly;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
@@ -49,12 +50,17 @@ public enum Plate implements TaggedItemProvider {
     }
         
     Plate(String description) {
-        this(new TextComponent(description));
+        this(Component.literal(description));
     }
 
     Plate(MutableComponent description) {
-        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)).registryName(getName(), "plate"));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)));
         this.tag = GregTechTags.material("plates", getName());
+    }
+    
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "plate");
     }
 
     @Override

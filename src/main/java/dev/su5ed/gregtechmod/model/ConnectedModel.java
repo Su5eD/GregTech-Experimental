@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.model;
 
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.util.GtUtil;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
@@ -11,20 +12,18 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelDataMap;
+import net.minecraftforge.client.model.data.ModelData;
 import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 public class ConnectedModel extends BaseModel {
@@ -67,19 +66,17 @@ public class ConnectedModel extends BaseModel {
             });
     }
 
-    @NotNull
     @Override
-    public IModelData getModelData(@NotNull BlockAndTintGetter world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull IModelData tileData) {
+    public ModelData getModelData(BlockAndTintGetter level, BlockPos pos, BlockState state, ModelData modelData) {
         return state.getBlock() instanceof ConnectedBlock block
-            ? new ModelDataMap.Builder()
-                .withInitial(ConnectedBlock.DIRECTIONS, block.getConnections(world, pos))
-                .build()
-            : tileData;
+            ? ModelData.builder()
+            .with(ConnectedBlock.DIRECTIONS, block.getConnections(level, pos))
+            .build()
+            : modelData;
     }
 
-    @NotNull
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull Random rand, @NotNull IModelData extraData) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData extraData, @Nullable RenderType renderType) {
         if (side != null) {
             Set<Direction> key = getConnections(extraData);
             Map<Direction, List<BakedQuad>> faceQuads = this.quads.get(key);
@@ -119,8 +116,8 @@ public class ConnectedModel extends BaseModel {
         return facing;
     }
 
-    private static Set<Direction> getConnections(IModelData data) {
-        Set<Direction> directions = data.getData(ConnectedBlock.DIRECTIONS);
+    private static Set<Direction> getConnections(ModelData data) {
+        Set<Direction> directions = data.get(ConnectedBlock.DIRECTIONS);
         return directions != null ? directions : Set.of();
     }
 }

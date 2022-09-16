@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.block.OreBlock;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.HarvestLevel;
 import dev.su5ed.gregtechmod.util.TaggedBlockProvider;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
@@ -47,14 +48,18 @@ public enum Ore implements TaggedBlockProvider, TaggedItemProvider {
     }
 
     Ore(Supplier<Block> block, HarvestLevel harvestLevel) {
-        String name = getName() + "_ore";
-        this.block = Lazy.of(() -> block.get().setRegistryName(name));
-        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()).setRegistryName(name));
+        this.block = Lazy.of(block);
+        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()));
         this.harvestLevel = harvestLevel;
 
         ResourceLocation tagName = new ResourceLocation("forge", "ores/" + getName());
         this.itemTag = ItemTags.create(tagName);
         this.blockTag = BlockTags.create(tagName);
+    }
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName() + "_ore");
     }
 
     @Override

@@ -4,6 +4,7 @@ import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.blockentity.component.CoverHandlerImpl;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.VerticalRotation;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.BlockFaceUV;
@@ -13,19 +14,18 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import one.util.streamex.EntryStream;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class CoverableModel extends BaseModel {
     //Block face UVs in DUNSWE order
@@ -50,9 +50,8 @@ public class CoverableModel extends BaseModel {
         this.modelLocation = modelLocation;
     }
 
-    @NotNull
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull Random rand, @NotNull IModelData extraData) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData extraData, @Nullable RenderType renderType) {
         if (side != null) {
             Map<Direction, Material> covers = getCoverData(extraData);
             Direction face = getValueOrDefault(state, BlockStateProperties.FACING, Direction.NORTH);
@@ -73,8 +72,8 @@ public class CoverableModel extends BaseModel {
         return state == null ? fallback : state.getValue(property);
     }
     
-    private Map<Direction, Material> getCoverData(IModelData data) {
-        Map<Direction, Cover<?>> covers = data.getData(CoverHandlerImpl.COVER_HANDLER_PROPERTY);
+    private Map<Direction, Material> getCoverData(ModelData data) {
+        Map<Direction, Cover<?>> covers = data.get(CoverHandlerImpl.COVER_HANDLER_PROPERTY);
         if (covers != null) {
             return EntryStream.of(covers)
                 .mapValues(Cover::getIcon)

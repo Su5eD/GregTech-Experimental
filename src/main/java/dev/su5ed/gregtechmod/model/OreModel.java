@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.model;
 
 import dev.su5ed.gregtechmod.block.OreBlock;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
@@ -10,19 +11,17 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelDataMap;
+import net.minecraftforge.client.model.data.ModelData;
 import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class OreModel extends BaseModel {
     private static final Material MATERIAL_STONE = new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation("block/stone"));
@@ -46,21 +45,19 @@ public class OreModel extends BaseModel {
         this.sprites = sprites;
     }
 
-    @NotNull
     @Override
-    public IModelData getModelData(@NotNull BlockAndTintGetter world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull IModelData tileData) {
+    public ModelData getModelData(BlockAndTintGetter world, BlockPos pos, BlockState state, ModelData tileData) {
         return state.getBlock() instanceof OreBlock block
-            ? new ModelDataMap.Builder()
-                .withInitial(OreBlock.ORE_MODEL_KEY, block.getModelKey(world, pos))
+            ? ModelData.builder()
+                .with(OreBlock.ORE_MODEL_KEY, block.getModelKey(world, pos))
                 .build()
             : tileData;
     }
 
-    @NotNull
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull Random rand, @NotNull IModelData extraData) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData extraData, @Nullable RenderType renderType) {
         if (side != null) {
-            OreModelKey key = extraData.getData(OreBlock.ORE_MODEL_KEY);
+            OreModelKey key = extraData.get(OreBlock.ORE_MODEL_KEY);
             Pair<Material, TextureAtlasSprite> texture = getOreTexture(side, key);
             BlockElementFace face = new BlockElementFace(side, 0, texture.getLeft().texture().toString(), FACE_UV);
             return bakeSingleQuad(face, texture.getRight(), side, this.modelLocation);
@@ -70,7 +67,9 @@ public class OreModel extends BaseModel {
 
     public Pair<Material, TextureAtlasSprite> getOreTexture(Direction side, @Nullable OreModelKey key) {
         Material texture;
-        if (key == null) texture = getMaterialWithFallback(side);
+        if (key == null) {
+            texture = getMaterialWithFallback(side);
+        }
         else if (key.texture() != OreModelKey.Texture.DEFAULT) {
             Direction override = key.sideOverrides().get(side);
             if (override != null) {
@@ -86,7 +85,9 @@ public class OreModel extends BaseModel {
                 default -> Pair.of(MATERIAL_END_STONE, MATERIAL_END_STONE.sprite());
             };
         }
-        else texture = this.textures.get(null);
+        else {
+            texture = this.textures.get(null);
+        }
         
         return Pair.of(texture, this.sprites.get(texture));
     }

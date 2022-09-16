@@ -56,13 +56,18 @@ public enum Component implements TaggedItemProvider {
         this.tag = tag;
 
         String name = getName();
-        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription()).registryName(name));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription()));
     }
 
     Component(Supplier<Item> constructor, TagKey<Item> tag) {
         this.tag = tag;
 
-        this.instance = Lazy.of(() -> constructor.get().setRegistryName(getName()));
+        this.instance = Lazy.of(constructor);
+    }
+
+    @Override
+    public String getRegistryName() {
+        return getName();
     }
 
     @Override

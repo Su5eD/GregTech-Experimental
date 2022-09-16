@@ -39,8 +39,7 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
 @SuppressWarnings("unused")
 public final class ModCovers {
     private static final DeferredRegister<CoverType<?>> COVER_TYPES = DeferredRegister.create(location("cover_type"), Reference.MODID);
-    @SuppressWarnings("RedundantTypeArguments") // Java can't infer generic types here...
-    public static final Supplier<IForgeRegistry<CoverType<?>>> REGISTRY = COVER_TYPES.<CoverType<?>>makeRegistry(c(CoverType.class), RegistryBuilder::new);
+    public static final Supplier<IForgeRegistry<CoverType<?>>> REGISTRY = COVER_TYPES.makeRegistry(RegistryBuilder::new);
     
     public static final RegistryObject<CoverType<IMachineProgress>> ACTIVE_DETECTOR = register("active_detector", CoverCategory.METER, IMachineProgress.class, ActiveDetectorCover::new);
     public static final RegistryObject<CoverType<BlockEntity>> CONVEYOR = register("conveyor", CoverCategory.IO, BlockEntity.class, ConveyorCover::new);
@@ -71,10 +70,5 @@ public final class ModCovers {
     
     private static <T> RegistryObject<CoverType<T>> register(String name, CoverCategory category, Class<T> coverableClass, CoverType.CoverSupplier<T> factory) {
         return COVER_TYPES.register(name, () -> new CoverType<>(category, coverableClass, factory));
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> Class<T> c(Class<?> cls) {
-        return (Class<T>) cls;
     }
 }

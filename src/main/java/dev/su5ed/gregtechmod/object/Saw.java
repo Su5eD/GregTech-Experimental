@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.item.CraftingToolItem;
 import dev.su5ed.gregtechmod.item.ToolItem;
 import dev.su5ed.gregtechmod.util.GtLocale;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
@@ -26,7 +27,12 @@ public enum Saw implements ItemProvider {
             .actions(ToolActions.AXE_DIG)
             .blockTags(BlockTags.MINEABLE_WITH_AXE, BlockTags.LEAVES)
             .durability(durability)
-            .description(GtLocale.itemDescriptionKey("saw")), 1, null).registryName(getName(), "saw"));
+            .description(GtLocale.itemDescriptionKey("saw")), 1, null));
+    }
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "saw");
     }
 
     @Override

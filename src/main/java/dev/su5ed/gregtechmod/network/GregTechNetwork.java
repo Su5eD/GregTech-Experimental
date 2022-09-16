@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.network;
 import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
+import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -80,7 +81,7 @@ public final class GregTechNetwork {
     public static void updateClientCover(BlockEntity be, Cover<?> cover) {
         GtUtil.assertServerSide(be.getLevel());
         FriendlyByteBuf tag = NetworkHandler.serializeClass(cover);
-        BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, cover.getType().getRegistryName(), cover.getSide(), tag);
+        BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, ModCovers.REGISTRY.get().getKey(cover.getType()), cover.getSide(), tag);
 
         sendTrackingChunk(be, packet);
     }

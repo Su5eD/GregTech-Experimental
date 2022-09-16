@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.network;
 
 import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gregtechmod.object.ModCovers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,12 +27,10 @@ public final class ClientPacketHandler {
     }
 
     public static void handleBlockEntityCoverUpdatePacket(BlockEntityCoverUpdate packet) {
-        runBlockEntityTask(packet.pos(), be -> {
-            be.getCapability(Capabilities.COVER_HANDLER).resolve()
-                .flatMap(handler -> handler.getCoverAtSide(packet.side()))
-                .filter(cover -> cover.getType().getRegistryName().equals(packet.name()))
-                .ifPresent(cover -> NetworkHandler.deserializeClass(packet.data(), cover));
-        });
+        runBlockEntityTask(packet.pos(), be -> be.getCapability(Capabilities.COVER_HANDLER).resolve()
+            .flatMap(handler -> handler.getCoverAtSide(packet.side()))
+            .filter(cover -> ModCovers.REGISTRY.get().getKey(cover.getType()).equals(packet.name()))
+            .ifPresent(cover -> NetworkHandler.deserializeClass(packet.data(), cover)));
     }
 
     private static void runBlockEntityTask(BlockPos pos, Consumer<BlockEntity> consumer) {

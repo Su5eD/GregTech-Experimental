@@ -58,14 +58,14 @@ public class WrenchItem extends ToolItem implements IEnhancedOverlayProvider {
     }
     
     @Override
-    public boolean hasContainerItem(ItemStack stack) {
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
         ItemStack copy = stack.copy();
-        return copy.hurt(8, JavaUtil.RANDOM, null) ? ItemStack.EMPTY : copy;
+        return copy.hurt(8, GtUtil.RANDOM, null) ? ItemStack.EMPTY : copy;
     }
 
     @Override

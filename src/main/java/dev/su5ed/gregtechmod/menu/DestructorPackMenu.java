@@ -1,6 +1,6 @@
-package dev.su5ed.gregtechmod.container;
+package dev.su5ed.gregtechmod.menu;
 
-import dev.su5ed.gregtechmod.object.ModContainers;
+import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.Tool;
 import dev.su5ed.gregtechmod.util.DummyInventory;
 import net.minecraft.world.InteractionHand;
@@ -9,11 +9,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class DestructorPackContainer extends BaseContainer {
+public class DestructorPackMenu extends BaseMenu {
     private final InteractionHand hand;
 
-    public DestructorPackContainer(int containerId, InteractionHand hand, Inventory playerInventory) {
-        super(ModContainers.DESTRUCTORPACK.get(), containerId);
+    public DestructorPackMenu(int containerId, InteractionHand hand, Inventory playerInventory) {
+        super(ModMenus.DESTRUCTORPACK.get(), containerId);
         this.hand = hand;
 
         addPlayerInventorySlots(playerInventory);

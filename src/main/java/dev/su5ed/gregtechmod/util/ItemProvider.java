@@ -9,6 +9,8 @@ public interface ItemProvider {
     default String getName() {
         return name().toLowerCase(Locale.ROOT);
     }
+    
+    String getRegistryName();
 
     Item getItem();
     

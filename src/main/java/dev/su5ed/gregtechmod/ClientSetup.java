@@ -28,33 +28,31 @@ import dev.su5ed.gregtechmod.model.OreModelLoader;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
-import dev.su5ed.gregtechmod.object.ModContainers;
+import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.screen.DestructorPackScreen;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
-
-@EventBusSubscriber(modid = Reference.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Reference.MODID, bus = Bus.MOD, value = Dist.CLIENT)
 public final class ClientSetup {
 
     @SubscribeEvent
@@ -67,24 +65,23 @@ public final class ClientSetup {
                 LithiumBatteryItem.CHARGE_PROPERTY,
                 (stack, level, entity, seed) -> ModHandler.getEnergyCharge(stack) > 0 ? 1 : 0
             );
-            MenuScreens.register(ModContainers.DESTRUCTORPACK.get(), DestructorPackScreen::new);
+            MenuScreens.register(ModMenus.DESTRUCTORPACK.get(), DestructorPackScreen::new);
         });
     }
 
     @SubscribeEvent
-    public static void onModelRegistryEvent(ModelRegistryEvent event) {
+    public static void onModelRegistryEvent(ModelEvent.RegisterGeometryLoaders event) {
         StreamEx.of(ModBlock.values())
             .filter(block -> block.getBlock() instanceof ConnectedBlock)
             .forEach(block -> {
-                String path = block.getBlock().getRegistryName().getPath();
-                ResourceLocation location = getLoaderLocation(path);
-                String name = block.getName();
-                ConnectedModelLoader loader = new ConnectedModelLoader(name);
-                ModelLoaderRegistry.registerLoader(location, loader);
+                String path = ForgeRegistries.BLOCKS.getKey(block.getBlock()).getPath();
+                String name = getLoaderName(path);
+                ConnectedModelLoader loader = new ConnectedModelLoader(block.getName());
+                event.register(name, loader);
             });
 
-        registerBlockProviderModels(Ore.values(), OreModelLoader::new);
-        registerBlockProviderModels(GTBlockEntity.values(), CoverableModelLoader::new);
+        registerBlockProviderModels(event, Ore.values(), OreModelLoader::new);
+        registerBlockProviderModels(event, GTBlockEntity.values(), CoverableModelLoader::new);
     }
 
     @SubscribeEvent
@@ -116,15 +113,15 @@ public final class ClientSetup {
         }
     }
 
-    private static void registerBlockProviderModels(BlockItemProvider[] providers, Supplier<IModelLoader<?>> supplier) {
+    private static void registerBlockProviderModels(ModelEvent.RegisterGeometryLoaders event, BlockItemProvider[] providers, Supplier<IGeometryLoader<?>> supplier) {
         StreamEx.of(providers)
-            .map(provider -> provider.getBlock().getRegistryName().getPath())
-            .map(ClientSetup::getLoaderLocation)
-            .forEach(location -> ModelLoaderRegistry.registerLoader(location, supplier.get()));
+            .map(provider -> ForgeRegistries.BLOCKS.getKey(provider.getBlock()).getPath())
+            .map(ClientSetup::getLoaderName)
+            .forEach(name -> event.register(name, supplier.get()));
     }
 
-    public static ResourceLocation getLoaderLocation(String name) {
-        return location(name + "_model");
+    public static String getLoaderName(String block) {
+        return block + "_model";
     }
 
     public static void playSound(SoundEvent sound, float pitch) {

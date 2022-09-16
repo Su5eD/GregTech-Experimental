@@ -5,11 +5,9 @@ import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import one.util.streamex.StreamEx;
 
 public final class ModObjects {
@@ -22,21 +20,14 @@ public final class ModObjects {
     }
 
     @SubscribeEvent
-    public void registerBlocks(RegistryEvent.Register<Block> event) {
-        IForgeRegistry<Block> registry = event.getRegistry();
-
-        StreamEx.<BlockItemProvider>of(ModBlock.values())
+    public void registerBlocks(RegisterEvent event) {
+        event.register(ForgeRegistries.Keys.BLOCKS, helper -> StreamEx.<BlockItemProvider>of(ModBlock.values())
             .append(Ore.values())
             .append(GTBlockEntity.values())
-            .map(BlockItemProvider::getBlock)
-            .forEach(registry::register);
-    }
+            .mapToEntry(BlockItemProvider::getRegistryName, BlockItemProvider::getBlock)
+            .forKeyValue(helper::register));
 
-    @SubscribeEvent
-    public void registerItems(RegistryEvent.Register<Item> event) {
-        IForgeRegistry<Item> registry = event.getRegistry();
-
-        StreamEx.<ItemProvider>of(ModBlock.values())
+        event.register(ForgeRegistries.Keys.ITEMS, helper -> StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ore.values())
             .append(Ingot.values())
             .append(Nugget.values())
@@ -60,16 +51,11 @@ public final class ModObjects {
             .append(Cell.values())
             .append(NuclearCoolantPack.values())
             .append(NuclearFuelRod.values())
-            .map(ItemProvider::getItem)
-            .forEach(registry::register);
-    }
+            .mapToEntry(ItemProvider::getRegistryName, ItemProvider::getItem)
+            .forKeyValue(helper::register));
 
-    @SubscribeEvent
-    public void registerBlockEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
-        IForgeRegistry<BlockEntityType<?>> registry = event.getRegistry();
-
-        StreamEx.<BlockEntityProvider>of(GTBlockEntity.values())
-            .map(BlockEntityProvider::getType)
-            .forEach(registry::register);
+        event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, helper -> StreamEx.<BlockEntityProvider>of(GTBlockEntity.values())
+            .mapToEntry(BlockEntityProvider::getRegistryName, BlockEntityProvider::getType)
+            .forKeyValue(helper::register));
     }
 }

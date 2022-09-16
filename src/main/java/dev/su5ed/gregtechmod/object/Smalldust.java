@@ -2,9 +2,10 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.ItemProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 
@@ -93,11 +94,16 @@ public enum Smalldust implements ItemProvider {
     }
 
     Smalldust(String description, boolean isFoil) {
-        this(new TextComponent(description), isFoil);
+        this(Component.literal(description), isFoil);
     }
 
     Smalldust(MutableComponent description, boolean isFoil) {
-        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)).registryName(getName(), "smalldust"));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)));
+    }
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "smalldust");
     }
 
     @Override

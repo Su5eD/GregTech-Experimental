@@ -32,12 +32,12 @@ public class AdvancedSawItem extends ElectricToolItem implements ElectricCraftin
     }
     
     @Override
-    public boolean hasContainerItem(ItemStack stack) {
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
         ModHandler.useEnergy(stack, this.craftingEnergyCost, null);
         return stack.copy();
     }

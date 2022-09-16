@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.util.JavaUtil;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -22,13 +22,13 @@ public class CraftingToolItem extends ToolItem {
     }
 
     @Override
-    public boolean hasContainerItem(ItemStack stack) {
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
         ItemStack copy = stack.copy();
-        return copy.hurt(this.craftingDamage, JavaUtil.RANDOM, null) ? getEmptyItem() : copy;
+        return copy.hurt(this.craftingDamage, GtUtil.RANDOM, null) ? getEmptyItem() : copy;
     }
 }

@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -99,7 +98,7 @@ public class ToolItem extends ResourceItem {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag isAdvanced) {
         String durability = getDurabilityInfo(stack);
         if (durability != null) {
-            components.add(new TextComponent(durability));
+            components.add(Component.literal(durability));
         }
 
         super.appendHoverText(stack, level, components, isAdvanced);

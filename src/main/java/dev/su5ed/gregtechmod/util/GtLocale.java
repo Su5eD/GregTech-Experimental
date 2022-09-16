@@ -3,14 +3,15 @@ package dev.su5ed.gregtechmod.util;
 import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import one.util.streamex.StreamEx;
 
 public final class GtLocale {
 
     private GtLocale() {}
     
-    public static TranslatableComponent translateScan(String name, Object... args) {
+    public static MutableComponent translateScan(String name, Object... args) {
         return key("scan", name).toComponent(args);
     }
 
@@ -22,7 +23,7 @@ public final class GtLocale {
         return itemDescriptionKey(name);
     }
 
-    public static TranslatableComponent translateGenericDescription(String name, Object... params) {
+    public static MutableComponent translateGenericDescription(String name, Object... params) {
         return key("generic", name, "description").toComponent(params);
     }
     
@@ -52,8 +53,8 @@ public final class GtLocale {
             return I18n.exists(this.key);
         }
 
-        public TranslatableComponent toComponent(Object... args) {
-            return new TranslatableComponent(this.key, args);
+        public MutableComponent toComponent(Object... args) {
+            return Component.translatable(this.key, args);
         }
     }
 }

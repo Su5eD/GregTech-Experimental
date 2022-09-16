@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.item.ReactorCoolantCellItem;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -20,10 +21,15 @@ public enum NuclearCoolantPack implements TaggedItemProvider {
     private final TagKey<Item> tag;
 
     NuclearCoolantPack(int heatStorage, TagKey<Item> tag) {
-        this.instance = Lazy.of(() -> new ReactorCoolantCellItem(heatStorage).registryName(getName(), "coolant"));
+        this.instance = Lazy.of(() -> new ReactorCoolantCellItem(heatStorage));
         this.tag = tag;
     }
-    
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "coolant");
+    }
+
     @Override
     public Item getItem() {
         return this.instance.get();

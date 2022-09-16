@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.util;
 
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -9,6 +10,8 @@ import java.util.Collection;
 import java.util.function.Function;
 
 public interface BlockEntityProvider {
+    String getRegistryName();
+    
     BlockEntityType<?> getType();
 
     AllowedFacings getAllowedFacings();

@@ -66,7 +66,7 @@ public class ElectricItem extends ResourceItem implements IElectricItem {
 
     @Override
     public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
-        if (allowdedIn(category)) {
+        if (allowedIn(category)) {
             items.addAll(ModHandler.getChargedVariants(this));
         }
     }

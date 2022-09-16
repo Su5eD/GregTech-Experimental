@@ -3,9 +3,8 @@ package dev.su5ed.gregtechmod.api.cover;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class CoverType<T> extends ForgeRegistryEntry<CoverType<?>> {
+public class CoverType<T> {
     private final CoverCategory category;
     private final Class<T> coverableClass;
     private final CoverSupplier<T> factory;

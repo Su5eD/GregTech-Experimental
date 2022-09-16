@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -92,7 +93,7 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
-        pTooltip.add(GtLocale.key("block", getRegistryName().getPath(), "description").toComponent().withStyle(ChatFormatting.GRAY));
+        pTooltip.add(GtLocale.key("block", ForgeRegistries.BLOCKS.getKey(this).getPath(), "description").toComponent().withStyle(ChatFormatting.GRAY));
     }
 
     @Nullable

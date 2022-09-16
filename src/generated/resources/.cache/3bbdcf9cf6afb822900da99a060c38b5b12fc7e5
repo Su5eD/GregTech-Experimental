@@ -1,0 +1,21 @@
+// 1.19.2	2022-09-16T13:22:15.7491803	Gregtech Experimental Block Tags
+84d79d5ecdeb2284d76fdef2e3146e2965430ef8 data/forge/tags/blocks/mineable/shears.json
+49cd44dd0d06195bda6c6bc4699f86425efa8c2b data/forge/tags/blocks/ores.json
+1f2ac14a84ea986aeb72e1b4b93f2009343e674e data/forge/tags/blocks/ores/bauxite.json
+0fa882dd940c3c8098cfe07839de65336bac71ad data/forge/tags/blocks/ores/cassiterite.json
+dbb7411b70e32fc7235a8a1c60bf513c30b4b114 data/forge/tags/blocks/ores/cinnabar.json
+5540355fc61992ed68be0b98dbfb3924da8eac77 data/forge/tags/blocks/ores/galena.json
+6e0fd7f6eee84683d7366074e3c82a9fd41b102b data/forge/tags/blocks/ores/iridium.json
+88900f9426e028ecc63641a6ebeadd257b52f1b2 data/forge/tags/blocks/ores/olivine.json
+12cd88ad243f1967d59913930bf5fc0d1b4a9db8 data/forge/tags/blocks/ores/pyrite.json
+79735cd40e4664ec11f3a6cdbcbaff9c3bbe569e data/forge/tags/blocks/ores/ruby.json
+0bb10222a6a0c790fe4961a770582016a4936b99 data/forge/tags/blocks/ores/sapphire.json
+5211dc869928dfb8ad6036a83eb804794ca26b79 data/forge/tags/blocks/ores/sheldonite.json
+f024b81751ec719b47d8f7e6e327a4bb341cb4e1 data/forge/tags/blocks/ores/sodalite.json
+365684b340ac5e57fe5b6ac43d74d243ca264e2e data/forge/tags/blocks/ores/sphalerite.json
+8cdebad05c0abadef7724a01201b2d045029850a data/forge/tags/blocks/ores/tetrahedrite.json
+04ae0e6cc143cf0a61afbb948ab5831f4c11b972 data/forge/tags/blocks/ores/tungstate.json
+3ef43aff3decd604753309f22de29ac752b793ec data/minecraft/tags/blocks/mineable/pickaxe.json
+bd300fce01628fb0cba19ff4197389e181430e2b data/minecraft/tags/blocks/needs_diamond_tool.json
+70198151592a8716cb5a26b75486ca910f6dd37e data/minecraft/tags/blocks/needs_iron_tool.json
+5c180a1576301821ed8cb0a4c0211b7d096caef6 data/minecraft/tags/blocks/needs_stone_tool.json

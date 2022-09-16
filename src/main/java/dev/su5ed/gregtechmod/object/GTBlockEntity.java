@@ -20,11 +20,15 @@ public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
     private final Lazy<Item> item;
 
     <T extends BaseBlockEntity> GTBlockEntity(BlockEntityType.BlockEntitySupplier<T> factory, AllowedFacings allowedFacings) {
-        String name = getName();
         this.allowedFacings = allowedFacings;
-        this.block = Lazy.of(() -> new BaseEntityBlock(this).setRegistryName(name));
-        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()).setRegistryName(name));
-        this.type = BlockEntityType.Builder.of(factory, getBlock()).build(null).setRegistryName(name);
+        this.block = Lazy.of(() -> new BaseEntityBlock(this));
+        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()));
+        this.type = BlockEntityType.Builder.of(factory, getBlock()).build(null);
+    }
+
+    @Override
+    public String getRegistryName() {
+        return getName();
     }
 
     @Override

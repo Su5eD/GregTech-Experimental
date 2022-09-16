@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.container.DestructorPackContainer;
+import dev.su5ed.gregtechmod.menu.DestructorPackMenu;
 import dev.su5ed.gregtechmod.object.Tool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,7 +28,7 @@ public class DestructorPackItem extends ResourceItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (player instanceof ServerPlayer serverPlayer) {
-            NetworkHooks.openGui(serverPlayer, new DestructorPackMenuProvider(hand), buf -> buf.writeEnum(hand));
+            NetworkHooks.openScreen(serverPlayer, new DestructorPackMenuProvider(hand), buf -> buf.writeEnum(hand));
         }
         return super.use(level, player, hand);
     }
@@ -42,7 +42,7 @@ public class DestructorPackItem extends ResourceItem {
         @Nullable
         @Override
         public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-            return new DestructorPackContainer(containerId, this.hand, playerInventory);
+            return new DestructorPackMenu(containerId, this.hand, playerInventory);
         }
     }
 }

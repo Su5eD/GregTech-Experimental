@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.block.ResourceBlock;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -48,9 +49,13 @@ public enum ModBlock implements BlockItemProvider {
     }
 
     ModBlock(Supplier<Block> block) {
-        String name = getName() + "_block";
-        this.block = Lazy.of(() -> block.get().setRegistryName(name));
-        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()).setRegistryName(name));
+        this.block = Lazy.of(block);
+        this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()));
+    }
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "block");
     }
 
     @Override

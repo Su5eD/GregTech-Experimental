@@ -43,7 +43,7 @@ val manifestAttributes = mapOf(
 jarJar.enable()
 
 minecraft {
-    mappings("parchment", "2022.07.10-1.18.2")
+    mappings("parchment", "2022.09.04-1.19.2")
 
     runs {
         // Common config used for all runs
@@ -151,11 +151,11 @@ repositories {
         name = "Progwml6 maven"
         url = uri("https://dvs1.progwml6.com/files/maven")
     }
-    // 1.18 IC2 builds are not available on maven yet, so we grab them from Jenkins using ivy as a workaround
+    // 1.19 IC2 builds are not available on maven yet, so we grab them from Jenkins using ivy as a workaround
     ivy {
         val build = versionIC2.substringBefore('+').substringAfterLast('.')
         name = "IC2 Jenkins"
-        url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.18/$build/artifact/tmp/out")
+        url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.19/$build/artifact/tmp/out")
         patternLayout {
             artifact("[module]-[revision]-$versionMc-forge.[ext]")
         }
@@ -167,7 +167,7 @@ repositories {
 }
 
 dependencies {
-    minecraft(group = "net.minecraftforge", name = "forge", version = "1.18.2-40.1.60")
+    minecraft(group = "net.minecraftforge", name = "forge", version = "1.19.2-43.1.25")
 
     implementation(api.output)
     // GTE api depends on IC2 api

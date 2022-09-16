@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.object;
 import dev.su5ed.gregtechmod.item.CraftingToolItem;
 import dev.su5ed.gregtechmod.item.ToolItem.ToolItemProperties;
 import dev.su5ed.gregtechmod.util.GtLocale;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
@@ -19,9 +20,13 @@ public enum File implements ItemProvider {
         this.instance = Lazy.of(() -> new CraftingToolItem(new ToolItemProperties<>()
             .attackDamage(attackDamage)
             .durability(durability)
-            .description(GtLocale.itemDescriptionKey("file")), 1, null).registryName(getName(), "file"));
+            .description(GtLocale.itemDescriptionKey("file")), 1, null));
     }
-
+    
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "file");
+    }
 
     @Override
     public Item getItem() {

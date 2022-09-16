@@ -26,8 +26,6 @@ import ic2.api.tile.IWrenchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -38,9 +36,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -90,14 +89,14 @@ public class ScannerItem extends ElectricItem {
         BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
 
-        ret.add(new TextComponent("-------------------"));
+        ret.add(Component.literal("-------------------"));
         ret.add(GtLocale.translateScan("name", block.getName()));
-        ret.add(GtLocale.translateScan("id", block.getRegistryName()));
+        ret.add(GtLocale.translateScan("id", ForgeRegistries.BLOCKS.getKey(block)));
         //noinspection deprecation
         ret.add(GtLocale.translateScan("hardness_resistance", state.getDestroySpeed(level, pos), block.getExplosionResistance()));
 
         if (be != null) {
-            IFluidHandler fluidHandler = be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side).orElse(null);
+            IFluidHandler fluidHandler = be.getCapability(ForgeCapabilities.FLUID_HANDLER, side).orElse(null);
             if (fluidHandler != null) {
                 energyCost += 500;
                 for (int i = 0; i < fluidHandler.getTanks(); i++) {
@@ -238,7 +237,7 @@ public class ScannerItem extends ElectricItem {
                     crop.setScanLevel(4);
                 }
 
-                ret.add(GtLocale.translateScan("crop_type", new TranslatableComponent(card.getUnlocalizedName()), crop.getStatGrowth(), crop.getStatGain(), crop.getStatResistance()));
+                ret.add(GtLocale.translateScan("crop_type", Component.translatable(card.getUnlocalizedName()), crop.getStatGrowth(), crop.getStatGain(), crop.getStatResistance()));
                 ret.add(GtLocale.translateScan("crop_fertilizer", crop.getStorageNutrients(), crop.getStorageWater(), crop.getStorageWeedEX(), crop.getScanLevel()));
                 ret.add(GtLocale.translateScan("crop_environment", crop.getTerrainNutrients(), crop.getTerrainHumidity(), crop.getTerrainAirQuality()));
 

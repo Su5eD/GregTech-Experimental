@@ -5,7 +5,7 @@ import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.datagen.DataGenerators;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.network.NetworkHandler;
-import dev.su5ed.gregtechmod.object.ModContainers;
+import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -30,7 +30,7 @@ public class GregTechMod {
         
         GregTechAPIImpl.createAndInject();
         ModCovers.init(bus);
-        ModContainers.init(bus);
+        ModMenus.init(bus);
         bus.register(ModObjects.INSTANCE);
         bus.register(DataGenerators.INSTANCE);
         bus.register(Capabilities.class);

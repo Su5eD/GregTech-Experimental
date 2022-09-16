@@ -1,6 +1,5 @@
 package dev.su5ed.gregtechmod.object;
 
-import dev.su5ed.gregtechmod.GregTechConfig;
 import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
@@ -82,10 +81,14 @@ public enum Upgrade implements TaggedItemProvider {
     Upgrade(GtUpgradeType type, int maxCount, int requiredTier, TagKey<Item> tag, Predicate<UpgradableBlockEntity> condition,
             BiPredicate<UpgradableBlockEntity, Player> beforeInsert, BiConsumer<UpgradableBlockEntity, Player> afterInsert) {
         this.instance = Lazy.of(() -> new UpgradeItem(
-            new ExtendedItemProperties<>().autoDescription().stacksTo(GregTechConfig.COMMON.upgradeStackSize.get()),
-            type, maxCount, requiredTier, condition, beforeInsert, afterInsert
-        ).registryName(getName()));
+            new ExtendedItemProperties<>().autoDescription(),
+            type, maxCount, requiredTier, condition, beforeInsert, afterInsert));
         this.tag = tag;
+    }
+
+    @Override
+    public String getRegistryName() {
+        return getName();
     }
 
     @Override

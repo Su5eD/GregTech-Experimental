@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
+import dev.su5ed.gregtechmod.GregTechConfig;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.upgrade.GtUpgradeItem;
 import dev.su5ed.gregtechmod.api.upgrade.GtUpgradeType;
@@ -29,6 +30,11 @@ public class UpgradeItem extends ResourceItem implements GtUpgradeItem {
         this.condition = condition;
         this.beforeInsert = beforeInsert;
         this.afterInsert = afterInsert;
+    }
+
+    @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return GregTechConfig.COMMON.upgradeStackSize.get();
     }
 
     @Override

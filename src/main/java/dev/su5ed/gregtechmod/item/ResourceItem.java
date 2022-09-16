@@ -11,6 +11,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
@@ -30,11 +31,6 @@ public class ResourceItem extends Item {
         this.description = Lazy.of(() -> StreamEx.of(properties.description).map(fun -> fun.apply(this)).toImmutableList());
         this.isFoil = properties.isFoil;
         this.isEnchantable = properties.isEnchantable;
-    }
-
-    public ResourceItem registryName(String... paths) {
-        setRegistryName(String.join("_", paths));
-        return this;
     }
 
     @Override
@@ -98,12 +94,12 @@ public class ResourceItem extends Item {
         }
 
         public T autoDescription() {
-            this.description.add(item -> GtLocale.profileItemDescriptionKey(item.getRegistryName().getPath()).toComponent());
+            this.description.add(item -> GtLocale.profileItemDescriptionKey(ForgeRegistries.ITEMS.getKey(item).getPath()).toComponent());
             return (T) this;
         }
 
         public T multiDescription(int lines) {
-            return multiDescription(item -> item.getRegistryName().getPath(), lines);
+            return multiDescription(item -> ForgeRegistries.ITEMS.getKey(item).getPath(), lines);
         }
 
         public T multiDescription(Function<Item, String> nameFunction, int lines) {

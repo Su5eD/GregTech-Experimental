@@ -25,15 +25,19 @@ public enum Miscellaneous implements TaggedItemProvider {
     }
 
     Miscellaneous(Supplier<Item> supplier, TagKey<Item> tag) {
-        this.instance = Lazy.of(() -> supplier.get().setRegistryName(getName()));
+        this.instance = Lazy.of(supplier);
         this.tag = tag;
+    }
+
+    @Override
+    public String getRegistryName() {
+        return getName();
     }
 
     @Override
     public Item getItem() {
         return this.instance.get();
     }
-
 
     @Nullable
     @Override

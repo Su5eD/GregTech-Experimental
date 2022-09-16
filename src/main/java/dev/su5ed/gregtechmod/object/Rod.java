@@ -4,9 +4,10 @@ import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.util.ClassicOnly;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
@@ -42,13 +43,18 @@ public enum Rod implements TaggedItemProvider {
     public final MutableComponent description;
 
     Rod(String description) {
-        this(new TextComponent(description));
+        this(Component.literal(description));
     }
 
     Rod(MutableComponent description) {
         this.description = description;
-        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)).registryName(getName(), "rod"));
+        this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)));
         this.tag = GregTechTags.material("rods", getName());
+    }
+    
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "rod");
     }
 
     @Override

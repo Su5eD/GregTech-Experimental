@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.item.HardHammerItem;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -17,7 +18,12 @@ public enum Hammer implements TaggedItemProvider {
     private final Lazy<Item> instance;
 
     Hammer(int attackDamage, int durability) {
-        this.instance = Lazy.of(() -> new HardHammerItem(attackDamage, durability).registryName(getName(), "hammer"));
+        this.instance = Lazy.of(() -> new HardHammerItem(attackDamage, durability));
+    }
+
+    @Override
+    public String getRegistryName() {
+        return GtUtil.registryName(getName(), "hammer");
     }
 
     @Override
