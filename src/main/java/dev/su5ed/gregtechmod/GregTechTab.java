@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod;
 
 import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.object.Armor;
 import dev.su5ed.gregtechmod.object.Cell;
 import dev.su5ed.gregtechmod.object.ColorSpray;
 import dev.su5ed.gregtechmod.object.Component;
@@ -67,6 +68,7 @@ public final class GregTechTab extends CreativeModeTab {
             .append(Saw.values())
             .append(File.values())
             .append(Upgrade.values())
+            .append(Armor.values())
             .append(Miscellaneous.values())
             .append(ColorSpray.values())
             .append(Cell.values())

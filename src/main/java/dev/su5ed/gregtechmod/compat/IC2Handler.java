@@ -18,7 +18,7 @@ final class IC2Handler {
 
     static ItemStack getChargedStack(Item item, double charge) {
         ItemStack stack = new ItemStack(item);
-        ElectricItem.manager.charge(stack, charge, Integer.MAX_VALUE, true, false);
+        charge(stack, charge, Integer.MAX_VALUE, true, false);
         return stack;
     }
 
@@ -50,6 +50,10 @@ final class IC2Handler {
         if (stack.getItem() instanceof IElectricItem) {
             ElectricItem.manager.discharge(stack, Double.MAX_VALUE, Integer.MAX_VALUE, true, false, false);
         }
+    }
+    
+    static double charge(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean simulate) {
+        return ElectricItem.manager.charge(stack, amount, tier, ignoreTransferLimit, simulate);
     }
 
     private IC2Handler() {}

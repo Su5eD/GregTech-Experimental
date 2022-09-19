@@ -15,6 +15,7 @@ public class HydrationSprayItem extends CraftingToolItem {
 
     public HydrationSprayItem() {
         super(new ToolItemProperties<>()
+            .attackSpeed(-3)
             .durability(2560)
             .autoDescription(), 20, Miscellaneous.EMPTY_SPRAY_CAN.getItem());
     }

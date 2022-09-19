@@ -21,6 +21,7 @@ public class AdvancedSawItem extends ElectricToolItem implements ElectricCraftin
             .showTier(false)
             .hasEmptyVariant(true)
             .attackDamage(12)
+            .attackSpeed(-2.4F)
             .destroySpeed(12)
             .tier(Tiers.NETHERITE)
             .actions(ToolActions.AXE_DIG, ToolActions.SWORD_DIG, ToolActions.SWORD_SWEEP, ToolActions.SHEARS_DIG, ToolActions.SHEARS_HARVEST)

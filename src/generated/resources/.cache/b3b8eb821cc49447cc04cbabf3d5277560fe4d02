@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-16T13:22:15.7436794	Gregtech Experimental Block States
+// 1.19.2	2022-09-16T19:19:12.537243	Gregtech Experimental Block States
 dc537672cd616af8d4f7fba8f673033b84a00fc3 assets/gregtechmod/blockstates/advanced_machine_casing_block.json
 baf2fae69b13d8f1731963cc4a708154c2e547c0 assets/gregtechmod/blockstates/aluminium_block.json
 755354ef2d99c716489331b00e901ad4390eca41 assets/gregtechmod/blockstates/auto_macerator.json
@@ -70,3 +70,4 @@ d96e7f5a0a34748ada6c1eb37b225096e29cd0b7 assets/gregtechmod/models/block/steel_b
 7cb5c5aabd43aaa471e799e7319feae282d32add assets/gregtechmod/models/block/tungsten_block.json
 3015b4343760a2238ed7faecd38b8b4bd082eac6 assets/gregtechmod/models/block/tungsten_steel_block.json
 564a7f2d4762adaf2afacfabec2999b7fe9438c1 assets/gregtechmod/models/block/zinc_block.json
+3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/minecraft/blockstates/air.json

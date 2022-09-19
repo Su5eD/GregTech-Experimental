@@ -33,6 +33,7 @@ public class FoamSprayItem extends CraftingToolItem {
 
     public FoamSprayItem() {
         super(new ToolItemProperties<>()
+            .attackSpeed(-3)
             .durability(400)
             .autoDescription(), 25, Miscellaneous.EMPTY_SPRAY_CAN.getItem());
     }

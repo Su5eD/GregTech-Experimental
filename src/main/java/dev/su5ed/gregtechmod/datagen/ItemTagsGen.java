@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.datagen;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
+import dev.su5ed.gregtechmod.object.Armor;
 import dev.su5ed.gregtechmod.object.ColorSpray;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.Dust;
@@ -56,6 +57,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .append(Rod.values())
             .append(Tool.values())
             .append(Upgrade.values())
+            .append(Armor.values())
             .mapToEntry(TaggedItemProvider::getTag, ItemProvider::getItem)
             .nonNullKeys()
             .mapKeys(tag -> tags.computeIfAbsent(tag, this::tag))

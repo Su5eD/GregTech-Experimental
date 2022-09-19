@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-16T13:22:15.7456816	Gregtech Experimental Item Models
+// 1.19.2	2022-09-17T10:38:40.829551	Gregtech Experimental Item Models
 7611917dbed8e56d65508076e1502658bb2a1c7d assets/gregtechmod/models/item/active_detector.json
 01dc21456a4859a611151f40e2acf5fd3c903f82 assets/gregtechmod/models/item/advanced_circuit_board.json
 e47c61b9aaa60d0123c8874a0b253ef8e84e733a assets/gregtechmod/models/item/advanced_circuit_parts.json
@@ -195,6 +195,7 @@ e546bcf16f4743ed8ef24cb566c03cbfbd83bbb4 assets/gregtechmod/models/item/lead_ing
 54eedf38589a2cf009f9a3056f9580c0320252bc assets/gregtechmod/models/item/lesublock_block.json
 195b016eb83f6bc7da2b97bd703bf5d4adb839ef assets/gregtechmod/models/item/light_blue_color_spray.json
 04ffa74ad2d84b129e63e2d2f21f0f87160238de assets/gregtechmod/models/item/light_gray_color_spray.json
+de23ebf2b9f51ca8dddd8c8b8fc5bbed7e8544c2 assets/gregtechmod/models/item/light_helmet.json
 7cd936124860495c6c64dd47bf0d5e81274b955e assets/gregtechmod/models/item/lime_color_spray.json
 077c048598dab42912216e82fb7dbe9b7d1eea3d assets/gregtechmod/models/item/liquid_meter.json
 1035f2284dade030d1179d534967767bb692f5fc assets/gregtechmod/models/item/lithium_battery.json

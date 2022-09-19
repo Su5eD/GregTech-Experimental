@@ -44,9 +44,6 @@ public class BlockEntityUpdate {
     }
 
     public static void processPacket(BlockEntityUpdate packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() ->
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleBlockEntityUpdatePacket(packet))
-        );
-        ctx.get().setPacketHandled(true);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleBlockEntityUpdatePacket(packet));
     }
 }

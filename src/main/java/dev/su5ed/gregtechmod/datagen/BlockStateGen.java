@@ -5,6 +5,7 @@ import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModBlock;
+import dev.su5ed.gregtechmod.object.ModObjects;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.data.DataGenerator;
@@ -37,6 +38,8 @@ class BlockStateGen extends BlockStateProvider {
                 if (block instanceof ConnectedBlock) bakedModel(block, path);
                 else simpleModel(block, path, modBlock.getName());
             });
+        
+        simpleBlock(ModObjects.LIGHT_SOURCE_BLOCK.get(), models().getExistingFile(new ResourceLocation("block/air")));
 
         StreamEx.<BlockItemProvider>of(Ore.values())
             .append(GTBlockEntity.values())

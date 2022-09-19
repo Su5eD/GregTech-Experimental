@@ -17,7 +17,8 @@ public class CrowbarItem extends ToolItem {
         super(new ToolItemProperties<>()
             .durability(256)
             .autoDescription()
-            .attackDamage(6));
+            .attackDamage(6)
+            .attackSpeed(-3));
     }
 
     @Override

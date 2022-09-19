@@ -16,6 +16,7 @@ public class ScrewdriverItem extends ToolItem {
 
     public ScrewdriverItem() {
         super(new ToolItemProperties<>()
+            .attackSpeed(-2.5F)
             .durability(256)
             .multiDescription(3)
             .attackDamage(4)

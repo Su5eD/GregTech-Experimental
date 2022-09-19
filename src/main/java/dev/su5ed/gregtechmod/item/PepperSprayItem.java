@@ -11,6 +11,7 @@ public class PepperSprayItem extends CraftingToolItem {
     public PepperSprayItem() {
         super(new ToolItemProperties<>()
             .attackDamage(2)
+            .attackSpeed(-3)
             .selfDamageOnHit(8)
             .durability(128)
             .multiDescription(3), 1, Miscellaneous.EMPTY_SPRAY_CAN.getItem());

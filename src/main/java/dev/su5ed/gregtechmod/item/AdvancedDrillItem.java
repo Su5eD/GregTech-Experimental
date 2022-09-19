@@ -23,6 +23,7 @@ public class AdvancedDrillItem extends ElectricToolItem implements IMiningDrill 
             .showTier(false)
             .hasEmptyVariant(true)
             .attackDamage(8)
+            .attackSpeed(-2.5F)
             .destroySpeed(35)
             .tier(ADVANCED_DRILL_TIER)
             .actions(ToolActions.PICKAXE_DIG, ToolActions.SHOVEL_DIG)

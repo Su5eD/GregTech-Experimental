@@ -21,6 +21,7 @@ public class BugSprayItem extends CraftingToolItem {
     public BugSprayItem() {
         super(new ToolItemProperties<>()
             .attackDamage(2)
+            .attackSpeed(-3)
             .selfDamageOnHit(4)
             .effectiveAganist(GregTechTags.BUG_SPRAY_EFFECTIVE)
             .durability(128)

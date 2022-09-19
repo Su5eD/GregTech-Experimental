@@ -36,9 +36,6 @@ public record BlockEntityCoverUpdate(BlockPos pos, ResourceLocation name, Direct
     }
 
     public static void processPacket(BlockEntityCoverUpdate packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() ->
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleBlockEntityCoverUpdatePacket(packet))
-        );
-        ctx.get().setPacketHandled(true);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleBlockEntityCoverUpdatePacket(packet));
     }
 }

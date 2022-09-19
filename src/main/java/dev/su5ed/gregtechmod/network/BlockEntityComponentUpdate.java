@@ -21,9 +21,6 @@ public class BlockEntityComponentUpdate extends BlockEntityNamedUpdate {
     }
 
     public static void processPacket(BlockEntityComponentUpdate packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() ->
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleBlockEntityComponentUpdatePacket(packet))
-        );
-        ctx.get().setPacketHandled(true);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleBlockEntityComponentUpdatePacket(packet));
     }
 }

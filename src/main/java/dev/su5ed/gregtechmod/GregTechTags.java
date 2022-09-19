@@ -90,6 +90,7 @@ public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_1KK_EU_STORE = itemTag("crafting/1kk_eu_store");
     public static final TagKey<Item> CRAFTING_10KK_EU_STORE = itemTag("crafting/10kk_eu_store");
     public static final TagKey<Item> CRAFTING_100KK_EU_STORE = itemTag("crafting/100kk_eu_store");
+    public static final TagKey<Item> CRAFTING_600K_EU_STORE = itemTag("crafting/600k_eu_pack");
     public static final TagKey<Item> CRAFTING_LOCK = itemTag("crafting/lock");
     public static final TagKey<Item> CRAFTING_QUANTUM_CHEST_UPGRADE = itemTag("crafting/quantum_chest_upgrade");
     public static final TagKey<Item> CRAFTING_STEAM_UPGRADE = itemTag("crafting/steam_upgrade");

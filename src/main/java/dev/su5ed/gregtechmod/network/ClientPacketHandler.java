@@ -32,6 +32,11 @@ public final class ClientPacketHandler {
             .filter(cover -> ModCovers.REGISTRY.get().getKey(cover.getType()).equals(packet.name()))
             .ifPresent(cover -> NetworkHandler.deserializeClass(packet.data(), cover)));
     }
+    
+    public static void updateJumpCharge(JumpChargeUpdate packet) {
+        Minecraft.getInstance().player.getCapability(Capabilities.JUMP_CHARGE)
+            .ifPresent(props -> props.setCharge(packet.charge()));
+    }
 
     private static void runBlockEntityTask(BlockPos pos, Consumer<BlockEntity> consumer) {
         Minecraft mc = Minecraft.getInstance();

@@ -21,6 +21,7 @@ public class RockCutterItem extends ElectricToolItem {
             .operationEnergyCost(500)
             .transferLimit(100)
             .attackDamage(1)
+            .attackSpeed(-2.5F)
             .destroySpeed(2)
             .tier(Tiers.IRON)
             .actions(ToolActions.PICKAXE_DIG)
@@ -42,7 +43,7 @@ public class RockCutterItem extends ElectricToolItem {
     @Override
     public boolean isFoil(ItemStack stack) {
         checkEnchantments(stack);
-        return super.isFoil(stack);
+        return false;
     }
 
     private void checkEnchantments(ItemStack stack) {

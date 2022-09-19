@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 public class AdvancedWrenchItem extends WrenchItem implements IElectricItem, ElectricCraftingTool {
 
     public AdvancedWrenchItem() {
-        super(new ToolItemProperties<>(), 1000, 3000);
+        super(new ToolItemProperties<>().attackSpeed(-3), 1000, 3000);
     }
 
     @Override

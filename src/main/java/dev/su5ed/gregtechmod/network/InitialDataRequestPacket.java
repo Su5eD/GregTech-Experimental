@@ -20,17 +20,14 @@ public record InitialDataRequestPacket(BlockPos pos) {
     }
 
     public static void processPacket(InitialDataRequestPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-            if (player.level.isLoaded(packet.pos)) {
-                BlockEntity be = player.level.getBlockEntity(packet.pos);
-                if (be != null) {
-                    FriendlyByteBuf data = NetworkHandler.serializeClass(be);
-                    BlockEntityUpdate response = new BlockEntityUpdate(be, data); 
-                    GregTechNetwork.INSTANCE.reply(response, ctx.get());
-                }
+        ServerPlayer player = ctx.get().getSender();
+        if (player.level.isLoaded(packet.pos)) {
+            BlockEntity be = player.level.getBlockEntity(packet.pos);
+            if (be != null) {
+                FriendlyByteBuf data = NetworkHandler.serializeClass(be);
+                BlockEntityUpdate response = new BlockEntityUpdate(be, data);
+                GregTechNetwork.INSTANCE.reply(response, ctx.get());
             }
-        });
-        ctx.get().setPacketHandled(true);
+        }
     }
 }

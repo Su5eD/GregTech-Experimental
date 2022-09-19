@@ -1,0 +1,93 @@
+package dev.su5ed.gregtechmod;
+
+import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.item.ElectricArmorItem;
+import dev.su5ed.gregtechmod.network.GregTechNetwork;
+import dev.su5ed.gregtechmod.util.capability.JumpChargeProvider;
+import dev.su5ed.gregtechmod.util.capability.LightSourceProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
+
+@EventBusSubscriber(modid = Reference.MODID)
+public final class ForgeEventHandler {
+    
+    @SubscribeEvent
+    public static void onLivingEquipmentChange(LivingEquipmentChangeEvent event) {
+        if (event.getFrom().getItem() instanceof ElectricArmorItem armor && !(event.getTo().getItem() instanceof ElectricArmorItem)) {
+            armor.getPerks().forEach(perk -> perk.unequip(event.getEntity()));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityCapabilityAttach(AttachCapabilitiesEvent<Entity> event) {
+        event.addCapability(location("jump_charge"), new JumpChargeProvider());
+        event.addCapability(location("light_source"), new LightSourceProvider());
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        ServerPlayer player = (ServerPlayer) event.getEntity();
+        syncJumpCharge(player);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
+        ServerPlayer player = (ServerPlayer) event.getEntity();
+        syncJumpCharge(player);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        ServerPlayer player = (ServerPlayer) event.getEntity();
+        syncJumpCharge(player);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        Player original = event.getOriginal();
+        Player clone = event.getEntity();
+        if (!clone.level.isClientSide && event.isWasDeath()) {
+            cloneCapability(Capabilities.JUMP_CHARGE, original, clone);
+            cloneCapability(Capabilities.LIGHT_SOURCE, original, clone);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDeath(LivingDeathEvent event) {
+        LivingEntity entity = event.getEntity();
+
+        entity.getCapability(Capabilities.JUMP_CHARGE)
+            .ifPresent(props -> props.setCharge(0));
+        entity.getCapability(Capabilities.LIGHT_SOURCE)
+            .ifPresent(props -> props.setSourcePos(null));
+    }
+
+    private static void syncJumpCharge(ServerPlayer player) {
+        player.getCapability(Capabilities.JUMP_CHARGE)
+            .ifPresent(props -> GregTechNetwork.updateClientJumpCharge(player, props.getCharge())); // TODO Do we need to sync to client?
+    }
+    
+    private static <T extends INBTSerializable<CompoundTag>> void cloneCapability(Capability<T> capability, Player original, Player clone) {
+        original.getCapability(capability)
+            .ifPresent(props -> {
+                CompoundTag old = props.serializeNBT();
+                clone.getCapability(capability)
+                    .ifPresent(fatigue -> fatigue.deserializeNBT(old));
+            });
+    }
+
+    private ForgeEventHandler() {}
+}

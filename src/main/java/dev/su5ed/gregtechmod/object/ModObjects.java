@@ -1,10 +1,13 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTab;
+import dev.su5ed.gregtechmod.block.LightSourceBlock;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
@@ -12,6 +15,8 @@ import one.util.streamex.StreamEx;
 
 public final class ModObjects {
     public static final ModObjects INSTANCE = new ModObjects();
+    
+    public static final Lazy<Block> LIGHT_SOURCE_BLOCK = Lazy.of(LightSourceBlock::new);
 
     private ModObjects() {}
 
@@ -20,12 +25,16 @@ public final class ModObjects {
     }
 
     @SubscribeEvent
-    public void registerBlocks(RegisterEvent event) {
-        event.register(ForgeRegistries.Keys.BLOCKS, helper -> StreamEx.<BlockItemProvider>of(ModBlock.values())
-            .append(Ore.values())
-            .append(GTBlockEntity.values())
-            .mapToEntry(BlockItemProvider::getRegistryName, BlockItemProvider::getBlock)
-            .forKeyValue(helper::register));
+    public void register(RegisterEvent event) {
+        event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
+            StreamEx.<BlockItemProvider>of(ModBlock.values())
+                .append(Ore.values())
+                .append(GTBlockEntity.values())
+                .mapToEntry(BlockItemProvider::getRegistryName, BlockItemProvider::getBlock)
+                .forKeyValue(helper::register);
+
+            helper.register("light_source", LIGHT_SOURCE_BLOCK.get());
+        });
 
         event.register(ForgeRegistries.Keys.ITEMS, helper -> StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ore.values())
@@ -51,6 +60,7 @@ public final class ModObjects {
             .append(Cell.values())
             .append(NuclearCoolantPack.values())
             .append(NuclearFuelRod.values())
+            .append(Armor.values())
             .mapToEntry(ItemProvider::getRegistryName, ItemProvider::getItem)
             .forKeyValue(helper::register));
 

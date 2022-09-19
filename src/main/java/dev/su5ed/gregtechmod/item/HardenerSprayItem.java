@@ -17,6 +17,7 @@ public class HardenerSprayItem extends CraftingToolItem {
 
     public HardenerSprayItem() {
         super(new ToolItemProperties<>()
+            .attackSpeed(-3)
             .durability(256)
             .autoDescription(), 16, Miscellaneous.EMPTY_SPRAY_CAN.getItem());
     }

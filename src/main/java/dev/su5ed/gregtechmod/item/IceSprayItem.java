@@ -21,6 +21,7 @@ public class IceSprayItem extends CraftingToolItem {
     public IceSprayItem() {
         super(new ToolItemProperties<>()
             .attackDamage(4)
+            .attackSpeed(-3)
             .selfDamageOnHit(16)
             .effectiveAganist(GregTechTags.ICE_SPRAY_EFFECTIVE)
             .durability(512)

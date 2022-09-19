@@ -15,6 +15,7 @@ public class RubberHammerItem extends HammerItem {
     public RubberHammerItem() {
         super(new ToolItemProperties<>()
             .attackDamage(4)
+            .attackSpeed(-2.5F)
             .durability(128)
             .multiDescription(3));
     }

@@ -24,9 +24,9 @@ public class ResourceBlock extends Block {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, tooltip, flag);
         
-        pTooltip.add(GtLocale.key("info", "no_mob_spawn").toComponent().withStyle(ChatFormatting.GRAY));
+        tooltip.add(GtLocale.key("info", "no_mob_spawn").toComponent().withStyle(ChatFormatting.GRAY));
     }
 }
