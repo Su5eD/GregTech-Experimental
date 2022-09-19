@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.Locale;
 
 public enum ModArmorMaterial implements ArmorMaterial {
-    LIGHT_HELMET(ArmorMaterials.IRON);
+    IRON(ArmorMaterials.IRON);
 
     private final ArmorMaterial parent;
 
@@ -25,7 +25,7 @@ public enum ModArmorMaterial implements ArmorMaterial {
 
     @Override
     public int getDefenseForSlot(EquipmentSlot slot) {
-        return this.parent.getDurabilityForSlot(slot);
+        return this.parent.getDefenseForSlot(slot);
     }
 
     @Override

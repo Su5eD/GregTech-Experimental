@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gregtechmod:item/armor/lithium_batpack"
+  }
+}

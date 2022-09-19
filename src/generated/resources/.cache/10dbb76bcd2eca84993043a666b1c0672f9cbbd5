@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-16T13:22:15.7406804	Gregtech Experimental Item Tags
+// 1.19.2	2022-09-19T21:01:22.6078618	Gregtech Experimental Item Tags
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 fff58d6036e8b4a64cc5c26473298fa0fdf02235 data/forge/tags/items/dusts/almandine.json
 3396c96a49ab6b266c0ba2d77f6879cafe0a33ef data/forge/tags/items/dusts/aluminium.json
@@ -191,11 +191,12 @@ e844ce927096575f9700c1e74863703b454e3635 data/gregtechmod/tags/items/circuit_tie
 cb2cbb66d5d9ece82c1ae215da40cf8fcc303239 data/gregtechmod/tags/items/circuit_tier_6.json
 30c1f2599d38481b6996254b3bf454a54d9898b6 data/gregtechmod/tags/items/circuit_tier_8.json
 7ab6ea925a4a52fb5e4dbf87a3a20c6a45df4f9e data/gregtechmod/tags/items/component_heat_vent.json
-96d32dec741e8e091e04032507cb6f1c2efe1f8b data/gregtechmod/tags/items/crafting/100kk_eu_store.json
+526ae0d7782a92b9761b4500d2ad65a2e559375c data/gregtechmod/tags/items/crafting/100kk_eu_store.json
 105eaaad9c41a882aa0194482b6564f490d03d05 data/gregtechmod/tags/items/crafting/10kk_eu_store.json
 1d1cedb184eb038f47eaac4c3f670b91eb659e56 data/gregtechmod/tags/items/crafting/180k_coolant_store.json
 f4ffeabc73b0f24730800506ffc1985ad1b513d1 data/gregtechmod/tags/items/crafting/1kk_eu_store.json
 b8d612a18ed39b4cb3d9a06eb5619cf845b2787e data/gregtechmod/tags/items/crafting/360k_coolant_store.json
+fd6422ea83374cc85afefca01196195c89b4d18e data/gregtechmod/tags/items/crafting/600k_eu_pack.json
 0f68e9818288810672fb8c0ef2671db76df524d6 data/gregtechmod/tags/items/crafting/60k_coolant_store.json
 303f1124dd159b1c9846bc104d30e60cf9f90e53 data/gregtechmod/tags/items/crafting/bronze_turbine_blade.json
 20a3778cd782cfcb1a3f186cffae8f2fbd8cd262 data/gregtechmod/tags/items/crafting/carbon_turbine_blade.json

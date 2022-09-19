@@ -11,13 +11,14 @@ function initializeCoreMod() {
                     return [
                         'dev.su5ed.gregtechmod.item.ElectricItem',
                         'dev.su5ed.gregtechmod.item.ElectricToolItem',
+                        'dev.su5ed.gregtechmod.item.ElectricArmorItem',
                         'dev.su5ed.gregtechmod.block.BaseEntityBlock',
                         'dev.su5ed.gregtechmod.item.AdvancedDrillItem',
                         'dev.su5ed.gregtechmod.item.AdvancedWrenchItem',
                         'dev.su5ed.gregtechmod.item.WrenchItem',
                         'dev.su5ed.gregtechmod.item.BugSprayItem',
                         'dev.su5ed.gregtechmod.item.ReactorCoolantCellItem',
-                        'dev.su5ed.gregtechmod.item.NuclearFuelRodItem',
+                        'dev.su5ed.gregtechmod.item.NuclearFuelRodItem'
                     ]
                 }
             },

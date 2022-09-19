@@ -3,11 +3,19 @@ package dev.su5ed.gregtechmod;
 import com.google.common.base.Strings;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
+import dev.su5ed.gregtechmod.item.ElectricArmorItem;
+import dev.su5ed.gregtechmod.util.ArmorPerk;
+import ic2.api.item.ElectricItem;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import one.util.streamex.StreamEx;
 
 @EventBusSubscriber(modid = Reference.MODID, value = Dist.CLIENT)
 public final class ClientEventHandler {
@@ -17,6 +25,23 @@ public final class ClientEventHandler {
         String energyTooltip = ModHandler.getEnergyTooltip(event.getItemStack());
         if (!Strings.isNullOrEmpty(energyTooltip)) {
             event.getToolTip().add(Component.literal(energyTooltip));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
+        Player player = event.getEntity();
+        boolean fullInvisibility = player.isInvisible() && StreamEx.of(player.getInventory().armor)
+            .remove(ItemStack::isEmpty)
+            .anyMatch(stack -> {
+                Item item = stack.getItem();
+                return item instanceof ElectricArmorItem armor
+                    && armor.hasPerk(ArmorPerk.INVISIBILITY_FIELD)
+                    && ElectricItem.manager.canUse(stack, 10000);
+            });
+
+        if (fullInvisibility) {
+            event.setCanceled(true);
         }
     }
 

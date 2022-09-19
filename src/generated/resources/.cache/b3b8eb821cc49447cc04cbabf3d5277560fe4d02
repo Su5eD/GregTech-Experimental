@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-16T19:19:12.537243	Gregtech Experimental Block States
+// 1.19.2	2022-09-19T21:01:22.6058606	Gregtech Experimental Block States
 dc537672cd616af8d4f7fba8f673033b84a00fc3 assets/gregtechmod/blockstates/advanced_machine_casing_block.json
 baf2fae69b13d8f1731963cc4a708154c2e547c0 assets/gregtechmod/blockstates/aluminium_block.json
 755354ef2d99c716489331b00e901ad4390eca41 assets/gregtechmod/blockstates/auto_macerator.json
@@ -19,6 +19,7 @@ c6cc3b101900435ca473d2860a267e122968b724 assets/gregtechmod/blockstates/iridium_
 91f2c5277ce3a43ae1eefc71f3fb031277a2ce2b assets/gregtechmod/blockstates/iridium_reinforced_tungsten_steel_block.json
 d9e9a7ec56997a89aa18107b07bcb98d5c920219 assets/gregtechmod/blockstates/lead_block.json
 36392b5900b03048c976aac953dcd6e838c1f810 assets/gregtechmod/blockstates/lesublock_block.json
+3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/gregtechmod/blockstates/light_source.json
 092f090b2ea330be7976cd13cd31c28244012d35 assets/gregtechmod/blockstates/nickel_block.json
 f6d551d78cb7ce93ea6fe66e3c111bac8920425d assets/gregtechmod/blockstates/olivine_block.json
 943d4016ada3666dc6eb7806ece662030af69b33 assets/gregtechmod/blockstates/olivine_ore.json
@@ -70,4 +71,3 @@ d96e7f5a0a34748ada6c1eb37b225096e29cd0b7 assets/gregtechmod/models/block/steel_b
 7cb5c5aabd43aaa471e799e7319feae282d32add assets/gregtechmod/models/block/tungsten_block.json
 3015b4343760a2238ed7faecd38b8b4bd082eac6 assets/gregtechmod/models/block/tungsten_steel_block.json
 564a7f2d4762adaf2afacfabec2999b7fe9438c1 assets/gregtechmod/models/block/zinc_block.json
-3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/minecraft/blockstates/air.json

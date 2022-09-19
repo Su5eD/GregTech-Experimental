@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-17T10:38:40.829551	Gregtech Experimental Item Models
+// 1.19.2	2022-09-19T21:01:22.6113635	Gregtech Experimental Item Models
 7611917dbed8e56d65508076e1502658bb2a1c7d assets/gregtechmod/models/item/active_detector.json
 01dc21456a4859a611151f40e2acf5fd3c903f82 assets/gregtechmod/models/item/advanced_circuit_board.json
 e47c61b9aaa60d0123c8874a0b253ef8e84e733a assets/gregtechmod/models/item/advanced_circuit_parts.json
@@ -77,6 +77,7 @@ a002b1178fbb0fefbbf8ca1cf58e14dbdef566f7 assets/gregtechmod/models/item/cinnabar
 210466698409f9fef0b30ff93a9f5ae1dfebf622 assets/gregtechmod/models/item/cinnabar_smalldust.json
 dcb03b709637a9bf73b885a1e9e49b823e5d495d assets/gregtechmod/models/item/clay_dust.json
 1770cbabff910bdb50e59c3f0dafdf2b42fd5f71 assets/gregtechmod/models/item/clay_smalldust.json
+a333f26cbd3359f1f1229074209ef45e526a3bab assets/gregtechmod/models/item/cloaking_device.json
 6972d79fad6b4471cc9df11b1eef99657dfc2065 assets/gregtechmod/models/item/coal_smalldust.json
 8ae9b88abe4f6db481b206ea9c6240ed33d7c7b7 assets/gregtechmod/models/item/conveyor.json
 27a160edd63ab97e3f1c1dcbbb7722837131ddff assets/gregtechmod/models/item/copper_nugget.json
@@ -182,6 +183,7 @@ b3a13a789f991e177d00a14ca3962c2adca46752 assets/gregtechmod/models/item/iron_pla
 5ae5b2eb80a6b67a295d895d0ef897ae3ff5f54c assets/gregtechmod/models/item/item_valve.json
 d126353b716c63c5c257f76f0aca7e6b9323ced8 assets/gregtechmod/models/item/kanthal_coil.json
 e2ea886278fc4fa444df3a108de41721a6047534 assets/gregtechmod/models/item/lapotronic_energy_orb.json
+fd65fb5dae2131bb2540f180cff1f55c4cba69cc assets/gregtechmod/models/item/lapotronpack.json
 c36fe1cf0e3090998c8d3833b44d60e198912510 assets/gregtechmod/models/item/lapotron_crystal.json
 3fe9c727380c79ee895c1070eef731d4c1410a1e assets/gregtechmod/models/item/lazurite_dust.json
 8159d58e62743b03ef9c02d65d02554f7b108628 assets/gregtechmod/models/item/lazurite_smalldust.json
@@ -198,6 +200,7 @@ e546bcf16f4743ed8ef24cb566c03cbfbd83bbb4 assets/gregtechmod/models/item/lead_ing
 de23ebf2b9f51ca8dddd8c8b8fc5bbed7e8544c2 assets/gregtechmod/models/item/light_helmet.json
 7cd936124860495c6c64dd47bf0d5e81274b955e assets/gregtechmod/models/item/lime_color_spray.json
 077c048598dab42912216e82fb7dbe9b7d1eea3d assets/gregtechmod/models/item/liquid_meter.json
+ac9a689165f51b94ee15563ceef18d894d619d41 assets/gregtechmod/models/item/lithium_batpack.json
 1035f2284dade030d1179d534967767bb692f5fc assets/gregtechmod/models/item/lithium_battery.json
 213146e6afca453ab52101228b71aa60790897b7 assets/gregtechmod/models/item/lithium_re_battery.json
 94b6fb3d02d17aec62616a9932eabbe9c27bc3e4 assets/gregtechmod/models/item/lithium_re_battery_full.json
