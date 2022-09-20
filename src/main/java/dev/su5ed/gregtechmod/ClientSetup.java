@@ -32,7 +32,9 @@ import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.screen.DestructorPackScreen;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
+import dev.su5ed.gregtechmod.util.KeyboardHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.sounds.SoundEvent;
@@ -67,6 +69,10 @@ public final class ClientSetup {
             );
             MenuScreens.register(ModMenus.DESTRUCTORPACK.get(), DestructorPackScreen::new);
         });
+        
+        Options options = Minecraft.getInstance().options;
+        ClientEventHandler.KEY_MAP.put(options.keyJump.getKey().getValue(), KeyboardHandler.Key.JUMP);
+        ClientEventHandler.KEY_MAP.put(options.keySprint.getKey().getValue(), KeyboardHandler.Key.SPRINT);
     }
 
     @SubscribeEvent

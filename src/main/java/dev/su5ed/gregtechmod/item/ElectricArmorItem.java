@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
+import dev.su5ed.gregtechmod.api.item.ExhaustingItem;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.ModObjects;
@@ -11,6 +12,7 @@ import ic2.api.item.IMetalArmor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -25,6 +27,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,13 +38,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ElectricArmorItem extends ArmorItem implements IElectricItem, IItemHudInfo, IMetalArmor {
+@EventBusSubscriber(modid = Reference.MODID)
+public class ElectricArmorItem extends ArmorItem implements ExhaustingItem, IElectricItem, IItemHudInfo, IMetalArmor {
     private final double maxCharge;
     private final double transferLimit;
     private final int energyTier;
     private final boolean providesEnergy;
     
     private final Set<ArmorPerk> perks;
+    private final double damageEnergyCost;
 
     public ElectricArmorItem(ArmorMaterial material, EquipmentSlot slot, ElectricArmorItemProperties properties) {
         super(material, slot, properties.properties
@@ -51,6 +58,7 @@ public class ElectricArmorItem extends ArmorItem implements IElectricItem, IItem
         this.energyTier = properties.energyTier;
         this.providesEnergy = properties.providesEnergy;
         this.perks = Collections.unmodifiableSet(properties.perks);
+        this.damageEnergyCost = properties.damageEnergyCost;
     }
 
     public boolean hasPerk(ArmorPerk perk) {
@@ -73,8 +81,11 @@ public class ElectricArmorItem extends ArmorItem implements IElectricItem, IItem
 
     @Override
     public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
-        if (allowedIn(category)) {
+        if (allowedIn(category) && !hasPerk(ArmorPerk.INFINITE_CHARGE)) {
             items.addAll(ModHandler.getChargedVariants(this));
+        }
+        else {
+            super.fillItemCategory(category, items);
         }
     }
 
@@ -145,8 +156,10 @@ public class ElectricArmorItem extends ArmorItem implements IElectricItem, IItem
 
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
-        for (ArmorPerk perk : this.perks) {
-            perk.tick(stack, player, this);
+        if (player instanceof ServerPlayer serverPlayer) {
+            for (ArmorPerk perk : this.perks) {
+                perk.tick(stack, serverPlayer, this);
+            }
         }
     }
     
@@ -165,9 +178,32 @@ public class ElectricArmorItem extends ArmorItem implements IElectricItem, IItem
         return Mth.hsvToRgb((float) (ModHandler.getChargeLevel(stack) / 3.0), 1, 1);
     }
 
+    @SubscribeEvent
+    public static void onEntityLivingFall(LivingFallEvent event) {
+        Entity entity = event.getEntity();
+        if (!entity.level.isClientSide && entity instanceof Player player) {
+            for (ItemStack stack : player.getArmorSlots()) {
+                if (stack.getItem() instanceof ElectricArmorItem armor && armor.hasPerk(ArmorPerk.INERTIA_DAMPER)) {
+                    int distance = (int) (event.getDistance() - 3);
+                    double cost = armor.damageEnergyCost * distance / 4;
+                    if (cost <= ModHandler.dischargeStack(stack, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false, true)) {
+                        ModHandler.dischargeStack(stack, cost, Integer.MAX_VALUE, true, false, false);
+                        event.setCanceled(true);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean shouldExhaust(boolean isArmor) {
+        return isArmor && !this.perks.isEmpty();
+    }
+
     private <T> T checkCharge(ItemStack stack, T ret) {
         if (hasPerk(ArmorPerk.INFINITE_CHARGE)) {
-            ModHandler.chargeStack(stack, 1000000000, this.energyTier, true, false);
+            stack.getOrCreateTag().putDouble("charge", 1000000000);
         }
         return ret;
     }
@@ -180,6 +216,7 @@ public class ElectricArmorItem extends ArmorItem implements IElectricItem, IItem
         private int energyTier;
         private boolean providesEnergy;
         private final Set<ArmorPerk> perks = new HashSet<>();
+        private double damageEnergyCost;
 
         public ElectricArmorItemProperties() {
             this(ModObjects.itemProperties());
@@ -216,6 +253,11 @@ public class ElectricArmorItem extends ArmorItem implements IElectricItem, IItem
         
         public ElectricArmorItemProperties rarity(Rarity rarity) {
             this.properties.rarity(rarity);
+            return this;
+        }
+        
+        public ElectricArmorItemProperties damageEnergyCost(double damageEnergyCost) {
+            this.damageEnergyCost = damageEnergyCost;
             return this;
         }
     }

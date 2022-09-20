@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-19T21:01:22.6113635	Gregtech Experimental Item Models
+// 1.19.2	2022-09-20T16:21:03.5945848	Gregtech Experimental Item Models
 7611917dbed8e56d65508076e1502658bb2a1c7d assets/gregtechmod/models/item/active_detector.json
 01dc21456a4859a611151f40e2acf5fd3c903f82 assets/gregtechmod/models/item/advanced_circuit_board.json
 e47c61b9aaa60d0123c8874a0b253ef8e84e733a assets/gregtechmod/models/item/advanced_circuit_parts.json
@@ -389,6 +389,7 @@ f1f228dd935d48e843924841230102fc3e4db7f5 assets/gregtechmod/models/item/tungsten
 ce00964343583d1abae0cdfebf9fad5b37bfd1a5 assets/gregtechmod/models/item/tungsten_steel_turbine_blade.json
 8a7b10b653e62652bd2dbf889bfa652a8b1cc290 assets/gregtechmod/models/item/tungsten_steel_turbine_rotor.json
 b9974de6dff04af5445c2ca6ad33f7d7d4b0384d assets/gregtechmod/models/item/tungsten_steel_wrench.json
+194ad8d6fa181938eacfd0f54c28f0bac9788813 assets/gregtechmod/models/item/ultimate_cheat_armor.json
 cb8f2dce7780a0bbd2316d1db5f67522f96f735f assets/gregtechmod/models/item/uranium_dust.json
 317cc6913064e8f46d9aa09bd0dc8c6b4771dae1 assets/gregtechmod/models/item/uranium_smalldust.json
 13365b9e24b9f2a6e404f84eeed43f7cc348fea1 assets/gregtechmod/models/item/uvarovite_dust.json

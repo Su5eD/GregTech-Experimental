@@ -10,7 +10,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.Locale;
 
 public enum ModArmorMaterial implements ArmorMaterial {
-    IRON(ArmorMaterials.IRON);
+    IRON(ArmorMaterials.IRON),
+    DIAMOND(ArmorMaterials.DIAMOND);
 
     private final ArmorMaterial parent;
 

@@ -55,6 +55,10 @@ final class IC2Handler {
     static double charge(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean simulate) {
         return ElectricItem.manager.charge(stack, amount, tier, ignoreTransferLimit, simulate);
     }
+    
+    static double discharge(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate) {
+        return ElectricItem.manager.discharge(stack, amount, tier, ignoreTransferLimit, externally, simulate);
+    }
 
     private IC2Handler() {}
 }

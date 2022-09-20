@@ -4,13 +4,19 @@ import com.google.common.base.Strings;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.item.ElectricArmorItem;
+import dev.su5ed.gregtechmod.network.GregTechNetwork;
+import dev.su5ed.gregtechmod.network.KeyPressUpdate;
 import dev.su5ed.gregtechmod.util.ArmorPerk;
+import dev.su5ed.gregtechmod.util.KeyboardHandler;
 import ic2.api.item.ElectricItem;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,6 +25,7 @@ import one.util.streamex.StreamEx;
 
 @EventBusSubscriber(modid = Reference.MODID, value = Dist.CLIENT)
 public final class ClientEventHandler {
+    static final Int2ObjectMap<KeyboardHandler.Key> KEY_MAP = new Int2ObjectOpenHashMap<>();
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
@@ -42,6 +49,18 @@ public final class ClientEventHandler {
 
         if (fullInvisibility) {
             event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onKeyPress(InputEvent.Key event) {
+        KeyboardHandler.Key key = KEY_MAP.get(event.getKey());
+        if (key != null) {
+            int code = event.getAction();
+            KeyPressUpdate.Action action = code == 1 ? KeyPressUpdate.Action.PRESS : code == 0 ? KeyPressUpdate.Action.RELEASE : null;
+            if (action != null) {
+                GregTechNetwork.updateKeyPress(action, key);
+            }
         }
     }
 

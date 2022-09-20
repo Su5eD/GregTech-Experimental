@@ -5,6 +5,7 @@ import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.util.GtUtil;
+import dev.su5ed.gregtechmod.util.KeyboardHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -49,6 +50,11 @@ public final class GregTechNetwork {
             .decoder(InitialDataRequestPacket::decode)
             .consumerMainThread(InitialDataRequestPacket::processPacket)
             .add();
+        INSTANCE.messageBuilder(KeyPressUpdate.class, id++, NetworkDirection.PLAY_TO_SERVER)
+            .encoder(KeyPressUpdate::encode)
+            .decoder(KeyPressUpdate::decode)
+            .consumerMainThread(KeyPressUpdate::processPacket)
+            .add();
     }
 
     public static void requestInitialData(BlockEntity be) {
@@ -82,11 +88,9 @@ public final class GregTechNetwork {
         sendTrackingChunk(be, packet);
     }
 
-    public static void updateClientJumpCharge(ServerPlayer player, double charge) {
-        GtUtil.assertServerSide(player.level);
-
-        JumpChargeUpdate packet = new JumpChargeUpdate(charge);
-        sendToPlayer(player, packet);
+    public static void updateKeyPress(KeyPressUpdate.Action action, KeyboardHandler.Key key) {
+        KeyPressUpdate packet = new KeyPressUpdate(action, key);
+        INSTANCE.sendToServer(packet);
     }
 
     public static void sendTrackingChunk(BlockEntity be, Object packet) {
