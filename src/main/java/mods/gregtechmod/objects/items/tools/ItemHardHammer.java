@@ -2,14 +2,12 @@ package mods.gregtechmod.objects.items.tools;
 
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.api.machine.IGregTechMachine;
-import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.objects.items.base.ItemHammer;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
@@ -17,7 +15,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -42,9 +39,6 @@ public class ItemHardHammer extends ItemHammer {
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
         ItemStack copy = stack.copy();
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            GregTechMod.runProxy(clientProxy -> clientProxy.playSound(SoundEvents.BLOCK_ANVIL_USE, JavaUtil.RANDOM.nextFloat() * 0.1F + 0.9F));
-        }
         return copy.attemptDamageItem(4, JavaUtil.RANDOM, null) ? ItemStack.EMPTY : copy;
     }
 
