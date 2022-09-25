@@ -3,8 +3,8 @@ package mods.gregtechmod.util;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.util.Keys;
-import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.TriConsumer;
+import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.items.base.ItemArmorElectricBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -133,7 +133,7 @@ public enum ArmorPerk {
                 if (armor.perks.contains(ArmorPerk.LAMP) && targetDechargeItem != null && ElectricItem.manager.canUse(targetDechargeItem, 10)) {
                     BlockPos up = player.getPosition().up();
                     if (player.world.getBlockState(up).getBlock() == Blocks.AIR) {
-                        player.world.setBlockState(up, GregTechObjectAPI.getBlock("light_source").getDefaultState());
+                        player.world.setBlockState(up, BlockItems.lightSource.getDefaultState());
                     }
                     ElectricItem.manager.use(targetDechargeItem, 10, player);
                 }

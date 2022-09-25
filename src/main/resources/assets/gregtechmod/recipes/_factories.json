@@ -9,7 +9,6 @@
     "ore_dict": "mods.gregtechmod.recipe.crafting.GtOreIngredientFactory",
     "tool": "mods.gregtechmod.recipe.crafting.ToolOreIngredientFactory",
     "fluid_cell": "mods.gregtechmod.recipe.crafting.FluidCellIngredientFactory",
-    "items": "mods.gregtechmod.recipe.crafting.MultiIngredientFactory",
     "multi": "mods.gregtechmod.recipe.crafting.MultiItemIngredient"
   },
   "recipes": {

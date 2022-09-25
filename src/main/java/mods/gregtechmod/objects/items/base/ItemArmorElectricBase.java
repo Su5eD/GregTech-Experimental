@@ -100,9 +100,9 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
-        if (this.perks.isEmpty()) return;
-
-        for (ArmorPerk perk : this.perks) perk.onTick.accept(stack, player, this);
+        for (ArmorPerk perk : this.perks) {
+            perk.onTick.accept(stack, player, this);
+        }
     }
 
     @Override
@@ -135,11 +135,6 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
     }
 
     @Override
-    public boolean isMetalArmor(ItemStack itemstack, EntityPlayer player) {
-        return true;
-    }
-
-    @Override
     public double getDamageAbsorptionRatio() {
         return this.absorbtionPercentage;
     }
@@ -168,8 +163,8 @@ public class ItemArmorElectricBase extends ItemArmorElectric implements ICustomI
                     if (!armor.isEmpty() && armor.getItem() == this && this.perks.contains(ArmorPerk.INERTIA_DAMPER)) {
                         int distance = (int) (event.getDistance() - 3);
                         int cost = this.damageEnergyCost * distance / 4;
-                        if (cost <= ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true)) {
-                            ElectricItem.manager.discharge(armor, cost, Integer.MAX_VALUE, true, false, true);
+                        if (cost <= ElectricItem.manager.discharge(armor, Integer.MAX_VALUE, Integer.MAX_VALUE, true, false, true)) {
+                            ElectricItem.manager.discharge(armor, cost, Integer.MAX_VALUE, true, false, false);
                             event.setCanceled(true);
                             break;
                         }

@@ -9,20 +9,16 @@
   "key":
   {
     "H":
-    {
-      "type": "gregtechmod:items",
-      "items":
-      [
-        {
-          "type": "gregtechmod:fluid_cell",
-          "fluid": "helium"
-        },
-        {
-          "type": "gregtechmod:fluid_cell",
-          "fluid": "mercury"
-        }
-      ]
-    },
+    [
+      {
+        "type": "gregtechmod:fluid_cell",
+        "fluid": "helium"
+      },
+      {
+        "type": "gregtechmod:fluid_cell",
+        "fluid": "mercury"
+      }
+    ],
     "T":
     {
       "type": "forge:ore_dict",
