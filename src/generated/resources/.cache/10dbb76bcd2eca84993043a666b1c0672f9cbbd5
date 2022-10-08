@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-19T21:01:22.6078618	Gregtech Experimental Item Tags
+// 1.19.2	2022-10-08T20:05:50.7934998	Gregtech Experimental Item Tags
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 fff58d6036e8b4a64cc5c26473298fa0fdf02235 data/forge/tags/items/dusts/almandine.json
 3396c96a49ab6b266c0ba2d77f6879cafe0a33ef data/forge/tags/items/dusts/aluminium.json
@@ -56,16 +56,24 @@ f2331e810419ffe80d6eeaa00b570304d68e8599 data/forge/tags/items/dusts/titanium.js
 b89d581892ac49087435cdbfae85ba917f071bec data/forge/tags/items/dusts/tungsten.json
 e65c03603694cb7a7d2940149263e8beb667c125 data/forge/tags/items/dusts/uranium.json
 0455c8a8c18ae390e795f6c626d4042e8ed022bd data/forge/tags/items/dusts/uvarovite.json
+c0d907a9e3d54432e29b5350ee7911596364fc57 data/forge/tags/items/dusts/wheat.json
 7c5671f07cfca35809160376e8b6c70c68f19904 data/forge/tags/items/dusts/wood.json
 013e7105994f5804f5eb7661896b8f85d6e41d18 data/forge/tags/items/dusts/yellow_garnet.json
 98731a42b458a80752b1139c84e8d0e4c4e6b3fc data/forge/tags/items/dusts/zinc.json
 cb71825dfa6b30d3a676cf9cc3a972bd37368e15 data/forge/tags/items/dyes.json
+8718b33e644e18de931108064528a7d26e97978c data/forge/tags/items/dyes/blue.json
 b33353098103e5756a7ac5de5be67a4608e87e49 data/forge/tags/items/gears/bronze.json
 d462658801b93c6cfea5b10938afc2461b40fbf5 data/forge/tags/items/gears/iridium.json
 4241a2d4898d37a4a29ce517df72e915d59f55c4 data/forge/tags/items/gears/iron.json
 2474f649a98701c197269cd0292e5719ce56900b data/forge/tags/items/gears/steel.json
 0e5140b81b06aa319610c0b740c0777c5cbe28cd data/forge/tags/items/gears/titanium.json
 e12fb772a5d2ff246a55f40ffa7d7e23a4f9204a data/forge/tags/items/gears/tungsten_steel.json
+59b6cadb29c5d484c4ce33cc0268273d876a34ed data/forge/tags/items/gems/green_sapphire.json
+71d8b5f678d3b7bcdf84cef8441d55d1a1e91101 data/forge/tags/items/gems/olivine.json
+b1d1d58c322b50e6d391640bfd410770482360f7 data/forge/tags/items/gems/red_garnet.json
+fd9322a4533efd16b055a24dfb277269eee9c9ea data/forge/tags/items/gems/ruby.json
+9169f314bedec2f07b180ae52fab78154f4c5013 data/forge/tags/items/gems/sapphire.json
+38d800c643f55cdd4588b3dacd662ffcb12a5be0 data/forge/tags/items/gems/yellow_garnet.json
 f8252a6de05c42576a03458a50119b5d5289758d data/forge/tags/items/ingots.json
 e5ba957225cd37bd00c332b662f1bc648782c69c data/forge/tags/items/ingots/aluminium.json
 6dbabc6dfa7766124f2b4b73b57b4fc7eafe9acf data/forge/tags/items/ingots/antimony.json
@@ -245,5 +253,6 @@ c3cde31c378bcd15af99ef7e395d60a458823360 data/gregtechmod/tags/items/crafting/st
 a9de0c5c7bf2718731d263dd536b3171f5e198a6 data/gregtechmod/tags/items/empty_fluid_cell.json
 1c8cd9997de60d0e792cebeaace4c17d4fab3a81 data/gregtechmod/tags/items/empty_fuel_can.json
 226db20920668b1a4c42cd2cc644c60c24529e41 data/gregtechmod/tags/items/heat_vent.json
+70a536b9e0f514cc64b06dd6a6f1e70d84c01d90 data/gregtechmod/tags/items/lazurite_chunk.json
 3f753e6a997883d3e9874fbfc30c4c465c828356 data/gregtechmod/tags/items/overclocked_heat_vent.json
 0801e55af628cdd28bf8dbe39f783e63410c4cab data/gregtechmod/tags/items/plates/iridium_alloy.json

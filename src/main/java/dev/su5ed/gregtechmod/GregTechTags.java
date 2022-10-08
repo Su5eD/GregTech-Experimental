@@ -102,6 +102,8 @@ public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_180K_COOLANT_STORE = itemTag("crafting/180k_coolant_store");
     public static final TagKey<Item> CRAFTING_360K_COOLANT_STORE = itemTag("crafting/360k_coolant_store");
 
+    public static final TagKey<Item> LAZURITE_CHUNK = itemTag("lazurite_chunk");
+
 //    public static final TagKey<Block> MINABLE_WITH_JACK_HAMMER = BlockTags.bind("minable_with_jack_hammer");
 
     public static final TagKey<Item> WRENCH = forgeItemTag("tools/wrench");

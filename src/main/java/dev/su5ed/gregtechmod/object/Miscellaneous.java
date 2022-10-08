@@ -1,25 +1,61 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTags;
+import dev.su5ed.gregtechmod.item.MortarItem;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.item.SolderingMetalItem;
+import dev.su5ed.gregtechmod.util.GtLocale;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.Lazy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
 public enum Miscellaneous implements TaggedItemProvider {
+    COPPER_CREDIT(GtLocale.translateItemDescription("credit", 0.125)),
+    DIAMOND_CREDIT(GtLocale.translateItemDescription("credit", 512)),
+    EMPTY_SPRAY_CAN(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription()), GregTechTags.CRAFTING_SPRAY_CAN),
+    FLINT_MORTAR(GtLocale.translateItemDescription("mortar")),
+    FLOUR(GregTechTags.material("dusts", "wheat")),
+    GOLD_CREDIT(GtLocale.translateItemDescription("credit", 64)),
+    GREEN_SAPPHIRE(Dust.GREEN_SAPPHIRE.description, GregTechTags.material("gems", "green_sapphire")),
+    GREG_COIN(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription())),
+    INDIGO_BLOSSOM((TagKey<Item>) null),
+    INDIGO_DYE(Tags.Items.DYES_BLUE),
+    IRON_MORTAR(() -> new MortarItem(63, 1, () -> new ItemStack(GtUtil.getFirstTagEntry(GregTechTags.material("dusts", "iron"))))),
+    LAZURITE_CHUNK(Component.literal("(Al6Si6Ca8Na8)8"), GregTechTags.LAZURITE_CHUNK),
+    OLIVINE(Dust.OLIVINE.description, GregTechTags.material("gems", "olivine")),
+    RED_GARNET(Dust.RED_GARNET.description, GregTechTags.material("gems", "red_garnet")),
+    RUBY(Dust.RUBY.description, GregTechTags.material("gems", "ruby")),
+    SAPPHIRE(Dust.SAPPHIRE.description, GregTechTags.material("gems", "sapphire")),
+    SILVER_CREDIT(GtLocale.translateItemDescription("credit", 8)),
     SOLDERING_LEAD(() -> new SolderingMetalItem(10)),
     SOLDERING_TIN(() -> new SolderingMetalItem(50)),
-    EMPTY_SPRAY_CAN(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription()), GregTechTags.CRAFTING_SPRAY_CAN);
-    
+    YELLOW_GARNET(Dust.YELLOW_GARNET.description, GregTechTags.material("gems", "yellow_garnet"));
+
     private final Lazy<Item> instance;
     private final TagKey<Item> tag;
+
+    Miscellaneous(TagKey<Item> tag) {
+        this(() -> new ResourceItem(new ExtendedItemProperties<>()), tag);
+    }
     
+    Miscellaneous(MutableComponent description) {
+        this(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)), null);
+    }
+
+    Miscellaneous(MutableComponent description, TagKey<Item> tag) {
+        this(() -> new ResourceItem(new ExtendedItemProperties<>().description(description)), tag);
+    }
+
     Miscellaneous(Supplier<Item> supplier) {
         this(supplier, null);
     }
@@ -42,6 +78,6 @@ public enum Miscellaneous implements TaggedItemProvider {
     @Nullable
     @Override
     public TagKey<Item> getTag() {
-        return this.tag; 
+        return this.tag;
     }
 }

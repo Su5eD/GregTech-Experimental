@@ -10,7 +10,7 @@ import one.util.streamex.StreamEx;
 public final class GtLocale {
 
     private GtLocale() {}
-    
+
     public static MutableComponent translateScan(String name, Object... args) {
         return key("scan", name).toComponent(args);
     }
@@ -26,11 +26,15 @@ public final class GtLocale {
     public static MutableComponent translateGenericDescription(String name, Object... params) {
         return key("generic", name, "description").toComponent(params);
     }
-    
+
+    public static MutableComponent translateItemDescription(String name, Object... params) {
+        return itemDescriptionKey(name).toComponent(params);
+    }
+
     public static TranslationKey itemDescriptionKey(String name) {
         return key("item", name, "description");
     }
-    
+
     public static TranslationKey itemKey(String name, String... paths) {
         return key("item", name, paths);
     }

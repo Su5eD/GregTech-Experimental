@@ -33,6 +33,10 @@ public enum Component implements TaggedItemProvider {
     IRON_GEAR(GregTechTags.IRON_GEAR),
     IRON_HULL(GregTechTags.CRAFTING_RAW_MACHINE_TIER_1),
     KANTHAL_COIL(GregTechTags.CRAFTING_HEATING_COIL_TIER_1),
+    LAVA_FILTER(() -> new ResourceItem(new ExtendedItemProperties<>()
+        .durability(100)
+        .setNoRepair()
+        .autoDescription()), null),
     LITHIUM_RE_BATTERY(LithiumBatteryItem::new, GregTechTags.CRAFTING_LI_BATTERY),
     MACHINE_PARTS(GregTechTags.CRAFTING_MACHINE_PARTS),
     MAGNALIUM_TURBINE_BLADE(GregTechTags.CRAFTING_MAGNALIUM_TURBINE_BLADE),
@@ -53,16 +57,13 @@ public enum Component implements TaggedItemProvider {
     public final TagKey<Item> tag;
 
     Component(TagKey<Item> tag) {
-        this.tag = tag;
-
-        String name = getName();
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription()));
+        this.tag = tag;
     }
 
     Component(Supplier<Item> constructor, TagKey<Item> tag) {
-        this.tag = tag;
-
         this.instance = Lazy.of(constructor);
+        this.tag = tag;
     }
 
     @Override

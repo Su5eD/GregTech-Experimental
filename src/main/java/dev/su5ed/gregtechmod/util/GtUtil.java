@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,6 +25,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.registries.RegistryManager;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
@@ -175,5 +177,12 @@ public final class GtUtil {
     
     public static String registryName(String... names) {
         return String.join("_", names);
+    }
+    
+    public static <T> T getFirstTagEntry(TagKey<T> tag) {
+        return RegistryManager.ACTIVE.<T>getRegistry(tag.registry().location()).tags().getTag(tag)
+            .stream()
+            .findFirst()
+            .orElseThrow();
     }
 }
