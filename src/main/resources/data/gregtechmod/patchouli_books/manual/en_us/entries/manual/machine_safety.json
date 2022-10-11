@@ -1,0 +1,15 @@
+{
+  "name": "GregTech Machine Safety",
+  "icon": "gregtechmod:auto_macerator",
+  "category": "gregtechmod:guidebooks",
+  "sortnum": 2,
+  "pages": [
+    "As you probably know, every electric Machine can be quite fragile under certain circumstances. This Manual explains why your Machines could explode or burn down your Workshop, and how to prevent it.",
+    "1. Do not use a Pickaxe or something else, what is not a Wrench, to dismantle an electric Machine. This will cause either an Explosion or a just broken Machine if you are very lucky.",
+    "2. Keep your Machines away from any explosives! Every electric Machine will cause a chain reaction of Explosions when being broken like that.",
+    "3. Keep your Machines away from Fire. They are inflammable and will explode, if exposed too long to adjacent Fires.",
+    "4. Do not place your Machines outside. They must have a Roof or Rain and ThunderStorms will set them on Fire. A Cover on top of an electric Machine is sufficient to prevent that, so your Solar Panels are automatically safe.",
+    "5. Make sure that the Maximum Input Voltage of a Machine is not exceeded. That will cause an immediate Explosion.",
+    "6. Do not let your Machines explode. If that happens, the Machine will overcharge the adjacent Wiring, which will cause all connected Machines to explode, unless they can receive 8192EU/p."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Microwave Oven Manual",
+  "icon": "minecraft:book",
+  "category": "gregtechmod:guidebooks",
+  "sortnum": 8,
+  "pages": [
+    "You just got a Microwave Oven and asked yourself 'why do I even need it?'. It's simple, the Microwave can cook for just 100 EU and at an insane speed. Not even a normal E-furnace can do it that fast and cheap!",
+    "This is the cheapest and fastest way to cook for you. That is why the Microwave Oven can be found in almost every Kitchen (see $(l:https://youwannabuyakitchen.ly)youwannabuyakitchen.ly$(/l)).",
+    "Long time exposure to Microwaves can cause Cancer, but we doubt Steve lives long enough to die because of that.",
+    "Do not dry Animals with it. It will result in a Hot Dog, no matter which Animal you put into it.",
+    "Do not insert inflammable Objects. The Oven will catch on Fire.",
+    "Do not insert Eggs. Just don't."
+  ]
+}

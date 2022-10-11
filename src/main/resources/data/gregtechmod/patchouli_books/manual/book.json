@@ -1,0 +1,8 @@
+{
+  "name": "GT Engineer's Guide",
+  "landing_text": "The in-game GregTech user guide.",
+  "version": 1,
+  "book_texture": "patchouli:textures/gui/book_blue.png",
+  "model": "patchouli:book_blue",
+  "show_progress": false
+}

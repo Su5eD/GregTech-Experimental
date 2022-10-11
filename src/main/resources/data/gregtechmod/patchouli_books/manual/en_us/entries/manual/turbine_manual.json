@@ -1,0 +1,27 @@
+{
+  "name": "Turbine Manual",
+  "icon": "minecraft:book",
+  "category": "gregtechmod:guidebooks",
+  "sortnum": 9,
+  "pages": [
+    "This Book explains how to set up and run your advanced Gas or Steam Turbine. We are not responsible for any Damage done by this Book itself nor its content.",
+    "First you need to craft the following things for a normal Turbine to Function: The Main Turbine Block, 28 Machine Casings (Gas = Reinforced, Steam = Standard), a Dynamo Hatch, an Input Hatch, an Output Hatch, a Turbine Rotor,",
+    "a bunch of different Tools, in case of the Gas Turbine (not needed for Steam Turbine) a Muffler Hatch, as every Machine, which burns things causes some unwanted Gasses and finally a Maintenance Hatch",
+    "To begin the building, lay out the first 3x4 layer of Machine Casings on the ground, then place the Turbine Block facing outward in the middle of one of the two 3m wide Sides. Now 3 of the Casings should look like Rotors.",
+    "Now grab your Dynamo Hatch and place it on the opposite 3m wide Side also facing outwards. And now the four corners of the Machine need also a Machine Casing. You should have a 2x3 in between the two 'Walls' you just created left by now.",
+    "So, now place a 3x4 of Machine Casings on top, at the 3rd Layer. The Turbine should now look connected. There are 4 Spots left, place the Input, Output, Muffler (or another Machine Casing) and the Maintenance Hatch in the Spots facing outwards.",
+    "When accessing the Turbine Block, it should now stop telling you that the structure is incomplete (bottom Line of that Screen). Now go with a bunch of different Tools (Metal Hammer, Rubber Hammer, Screwdriver, Wrench, Soldering Iron and Crowbar),",
+    "to the Maintenance Hatch and access it. After that you grab the 6 Tools and right click the Slot with each of them in your Hand in the Maintenance GUI. Note that you need Soldering Tin/Lead in your Inventory to use the Soldering Iron.",
+    "The Main Block should now tell you that you need to use the Rubber Hammer on it to (re)activate the Machine. The Rubber Hammer can enable and disable Machines. The Machine disables itself after something important broke.",
+    "And we are now finally able to grab our Turbine Rotor and place it into the Turbine Block. You can repair the Rotor by just using Hammer and Wrench on it on the Workbench. Note that, if the Rotor breaks, the Turbine will explode, so,",
+    "you must look at the Rotor from time to time to repair it or it will break your Turbine into pieces! But that usually takes a few Days of running to happen. 100 Durability ^= guaranteed 1.3888 Hours of not breaking.",
+    "So, now for the Maintenance. After a few Hours of running nonstop, your Turbine will get small Problems, which don't prevent it from running, these Problems just decrease Efficiency. Every Problem listed on the Screen does -10%% Efficiency.",
+    "To fix these Problems, just go to the Maintenance Hatch and click with the problem corresponding Tool on the Slot to repair. If all six possible runtime Problems happen, the Machine will auto-shutdown no matter what. No Explosion, it's just stopping.",
+    "The Steam Turbine will consume 1600 Liters of Steam per tick and outputs up to 800EU/t at 100%% Efficiency. It will also output 10 Liters of Water for these 1600 Liters of Steam, so that closed Boiler cycles are possible.",
+    "If Railcraft's Steam Turbine Rotors are used, they will have 15000 Durability (they lose 2 Durability points each cycle) and the same Efficiency as the regular Steel Rotor, but it can't be repaired without using additional Steel.",
+    "Carbon Rotors are having a 125%% Efficiency and very low durability. This means that Steam Turbines using these Carbon Rotors will output a whopping 1000EU/t. You can't repair Carbon Rotors at all, so it's much like 'burning' the Coal. And it's risky.",
+    "A large Gas Turbine is worth about 42 small Gas Turbines, and as the Turbines get much less Efficient, when not having enough Fuel, you should consider making a large Factory for Methane/Steam.",
+    "Input and Output Slots are fully optional, you can place multiple ones of them or even none on the Machine. A Machine without Input couldn't process any Recipes, while a Machine without Output just voids all outputted Items and Liquids.",
+    "A Turbine needs to have a 3x3 of Air Blocks in front of it, to Function properly, keep that in mind."
+  ]
+}
