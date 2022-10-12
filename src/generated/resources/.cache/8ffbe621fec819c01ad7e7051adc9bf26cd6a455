@@ -1,4 +1,4 @@
-// 1.19.2	2022-10-12T17:17:03.3852904	Gregtech Experimental Item Models
+// 1.19.2	2022-10-12T21:43:21.8773328	Gregtech Experimental Item Models
 7611917dbed8e56d65508076e1502658bb2a1c7d assets/gregtechmod/models/item/active_detector.json
 01dc21456a4859a611151f40e2acf5fd3c903f82 assets/gregtechmod/models/item/advanced_circuit_board.json
 e47c61b9aaa60d0123c8874a0b253ef8e84e733a assets/gregtechmod/models/item/advanced_circuit_parts.json
@@ -264,6 +264,7 @@ a04729fe19c00cd9c33f8b2197530f53e929a6da assets/gregtechmod/models/item/nitrogen
 e3df500727521ea2d523e519e5247b0fc16533a7 assets/gregtechmod/models/item/nitro_diesel_bucket.json
 dbb9208af39e84e1b1e38a7555d7848d4ed844f6 assets/gregtechmod/models/item/obsidian_dust.json
 87e71efc1e8b920ec671a39cc7ff222344c02147 assets/gregtechmod/models/item/obsidian_smalldust.json
+27518e1676295218e1561b2ddbdfaf6c538f99a7 assets/gregtechmod/models/item/oil_berry.json
 109e0ccb9b105f4ec633ba1be2ac40dbab7ab988 assets/gregtechmod/models/item/oil_bucket.json
 4366dd3c0438b7647792168d16b2fa3acec69ab2 assets/gregtechmod/models/item/olivine.json
 be1d0dd742a6f3a9ebbd5fb21e66a4ac4a608ae3 assets/gregtechmod/models/item/olivine_block.json

@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.object;
 
-import dev.su5ed.gregtechmod.fluid.ModFluidType;
+import dev.su5ed.gregtechmod.util.ModFluidType;
 import dev.su5ed.gregtechmod.item.ModBucketItem;
 import dev.su5ed.gregtechmod.util.FluidProvider;
 import dev.su5ed.gregtechmod.util.FluidTextureType;

@@ -9,7 +9,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,7 +24,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.registries.RegistryManager;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +41,7 @@ public final class GtUtil {
     public static final Collection<Direction> VERTICAL_FACINGS = EnumSet.of(Direction.DOWN, Direction.UP);
     public static final Collection<Direction> HORIZONTAL_FACINGS = EnumSet.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
     public static final RandomSource RANDOM = RandomSource.create();
-    
+
     public static final ResourceLocation LIQUID_STILL = location("fluid/liquid_still");
     public static final ResourceLocation LIQUID_DENSE_STILL = location("fluid/liquid_dense_still");
     public static final ResourceLocation LIQUID_FLOW = location("fluid/liquid_flow");
@@ -78,7 +76,7 @@ public final class GtUtil {
             .map(handler -> handler.drain(amount, action))
             .orElse(FluidStack.EMPTY);
     }
-    
+
     public static BlockEntity getNeighborFluidBlockEntity(BlockEntity be, Direction side) {
         BlockEntity neighbor = be.getLevel().getBlockEntity(be.getBlockPos().relative(side));
         return neighbor.getCapability(ForgeCapabilities.FLUID_HANDLER, side.getOpposite()).isPresent() ? neighbor : null;
@@ -100,21 +98,21 @@ public final class GtUtil {
             .map(cover -> cover.letsRedstoneIn() ? Math.max(power, cover.getRedstoneInput()) : 0)
             .orElse(power);
     }
-    
+
     public static void updateRender(BlockEntity be) {
         Level level = be.getLevel();
         if (level.isClientSide) be.requestModelDataUpdate();
         BlockState state = be.getBlockState();
         level.sendBlockUpdated(be.getBlockPos(), state, state, Block.UPDATE_IMMEDIATE);
     }
-    
+
     public static void damageEntity(LivingEntity target, LivingEntity attacker, float damage) {
         int oldHurtResistanceTime = target.invulnerableTime;
         target.invulnerableTime = 0;
         target.hurt(DamageSource.mobAttack(attacker), damage);
         target.invulnerableTime = oldHurtResistanceTime;
     }
-    
+
     public static boolean hurtStack(ItemStack stack, int damage, Player player) {
         return hurtStack(stack, damage, player, p -> {});
     }
@@ -134,28 +132,28 @@ public final class GtUtil {
         }
         return false;
     }
-    
+
     public static boolean stackEquals(ItemStack first, ItemStack second) {
         return stackEquals(first, second, true);
     }
-    
+
     public static boolean stackEquals(ItemStack first, ItemStack second, boolean matchTag) {
         return first.sameItem(second)
             && (!matchTag || first.hasTag() == second.hasTag() && first.hasTag() && first.getTag().equals(second.getTag()));
     }
-    
+
     public static void assertServerSide(@Nullable Level level) {
         Preconditions.checkState(level == null || !level.isClientSide, "Must only be called on the server side");
     }
-    
+
     public static void assertClientSide(@Nullable Level level) {
         Preconditions.checkState(level == null || level.isClientSide, "Must only be called on the client side");
     }
-    
+
     public static double calculateTransferLimit(int tier) {
         return (1 << tier) * 128;
     }
-    
+
     public static void appendEnergyHoverText(List<Component> components, int energyTier, List<MutableComponent> description, boolean showTier, boolean isEmpty) {
         if (showTier && energyTier > 0) {
             components.add(GtLocale.key("info", "energy_tier").toComponent(energyTier).withStyle(ChatFormatting.GRAY));
@@ -167,29 +165,22 @@ public final class GtUtil {
         }
         list.forEach(component -> components.add(component.withStyle(ChatFormatting.GRAY)));
     }
-    
+
     public static void transportFluid(BlockEntity from, Direction fromSide, BlockEntity to, int amount) {
         transportFluid(from, fromSide, to, fromSide.getOpposite(), amount);
     }
-    
+
     public static void transportFluid(BlockEntity from, Direction fromSide, BlockEntity to, Direction toSide, int amount) {
         from.getCapability(ForgeCapabilities.FLUID_HANDLER, fromSide).ifPresent(source ->
             to.getCapability(ForgeCapabilities.FLUID_HANDLER, toSide).ifPresent(destination ->
                 FluidUtil.tryFluidTransfer(destination, source, amount, true)));
     }
-    
+
     public static ResourceLocation guiTexture(String name) {
         return location("textures/gui/" + name + ".png");
     }
-    
+
     public static String registryName(String... names) {
         return String.join("_", names);
-    }
-    
-    public static <T> T getFirstTagEntry(TagKey<T> tag) {
-        return RegistryManager.ACTIVE.<T>getRegistry(tag.registry().location()).tags().getTag(tag)
-            .stream()
-            .findFirst()
-            .orElseThrow();
     }
 }

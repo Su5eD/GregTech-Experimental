@@ -1,12 +1,12 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTags;
+import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.item.MortarItem;
 import dev.su5ed.gregtechmod.item.ResourceItem;
 import dev.su5ed.gregtechmod.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gregtechmod.item.SolderingMetalItem;
 import dev.su5ed.gregtechmod.util.GtLocale;
-import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -30,9 +30,10 @@ public enum Miscellaneous implements TaggedItemProvider {
     GREG_COIN(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription())),
     INDIGO_BLOSSOM((TagKey<Item>) null),
     INDIGO_DYE(Tags.Items.DYES_BLUE),
-    IRON_MORTAR(() -> new MortarItem(63, 1, () -> new ItemStack(GtUtil.getFirstTagEntry(GregTechTags.material("dusts", "iron"))))),
+    IRON_MORTAR(() -> new MortarItem(63, 1, () -> new ItemStack(ModHandler.getModItem("iron_dust")))),
     LAZURITE_CHUNK(Component.literal("(Al6Si6Ca8Na8)8"), GregTechTags.LAZURITE_CHUNK),
     OLIVINE(Dust.OLIVINE.description, GregTechTags.material("gems", "olivine")),
+    OIL_BERRY((TagKey<Item>) null),
     RED_GARNET(Dust.RED_GARNET.description, GregTechTags.material("gems", "red_garnet")),
     RUBY(Dust.RUBY.description, GregTechTags.material("gems", "ruby")),
     SAPPHIRE(Dust.SAPPHIRE.description, GregTechTags.material("gems", "sapphire")),

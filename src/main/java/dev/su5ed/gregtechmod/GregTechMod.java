@@ -5,8 +5,8 @@ import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.datagen.DataGenerators;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.network.NetworkHandler;
-import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.ModCovers;
+import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -27,11 +27,11 @@ public class GregTechMod {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         ModHandler.initMods();
-        
+
         GregTechAPIImpl.createAndInject();
         ModCovers.init(bus);
         ModMenus.init(bus);
-        bus.register(ModObjects.INSTANCE);
+        bus.register(ModObjects.class);
         bus.register(DataGenerators.INSTANCE);
         bus.register(Capabilities.class);
 
@@ -44,7 +44,8 @@ public class GregTechMod {
 
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("Common setup started");
-        
+
         GregTechNetwork.registerPackets();
+        ModHandler.registerCrops();
     }
 }

@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.ClientSetup;
+import dev.su5ed.gregtechmod.setup.ClientSetup;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.util.GtLocale;

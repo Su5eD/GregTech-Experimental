@@ -3,11 +3,15 @@ package dev.su5ed.gregtechmod.compat;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.recipe.CellType;
 import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.setup.CropLoader;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
+import one.util.streamex.EntryStream;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -91,6 +95,26 @@ public final class ModHandler {
     public static boolean matchCellType(CellType type, ItemStack stack) {
         // TODO Universal Fluid Cell
         return !stack.hasTag() && (type == CellType.CELL && stack.is(GregTechTags.EMPTY_FLUID_CELL) || type == CellType.FUEL_CAN && stack.is(GregTechTags.EMPTY_FUEL_CAN));
+    }
+    
+    public static Item getModItem(String name) {
+        return EntryStream.of(
+            ic2Loaded, IC2_MODID
+        )
+            .filterKeys(Boolean::booleanValue)
+            .values()
+            .findFirst()
+            .map(modid -> {
+                ResourceLocation location = new ResourceLocation(modid, name);
+                return ForgeRegistries.ITEMS.getValue(location);
+            })
+            .orElseThrow();
+    }
+    
+    public static void registerCrops() {
+        if (ic2Loaded) {
+            CropLoader.registerCrops();
+        }
     }
 
     private ModHandler() {}

@@ -1,5 +1,6 @@
-package dev.su5ed.gregtechmod;
+package dev.su5ed.gregtechmod.setup;
 
+import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.compat.ModHandler;
@@ -95,7 +96,7 @@ public final class ClientSetup {
             .forEach(block -> {
                 String path = ForgeRegistries.BLOCKS.getKey(block.getBlock()).getPath();
                 String name = getLoaderName(path);
-                ConnectedModelLoader loader = new ConnectedModelLoader(block.getName());
+                ConnectedModelLoader loader = new ConnectedModelLoader(block.getName()); // TODO singleton loader and get texture info from json
                 event.register(name, loader);
             });
 

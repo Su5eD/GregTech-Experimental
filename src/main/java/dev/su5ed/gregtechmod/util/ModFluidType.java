@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.fluid;
+package dev.su5ed.gregtechmod.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;

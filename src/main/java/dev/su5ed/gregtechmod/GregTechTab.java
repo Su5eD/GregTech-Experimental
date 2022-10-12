@@ -42,7 +42,7 @@ public final class GregTechTab extends CreativeModeTab {
 
     @Override
     public ItemStack makeIcon() {
-        return new ItemStack(Items.APPLE);
+        return Miscellaneous.GREG_COIN.getItemStack();
     }
 
     @Override

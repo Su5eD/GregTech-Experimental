@@ -15,8 +15,6 @@ import net.minecraftforge.registries.RegisterEvent;
 import one.util.streamex.StreamEx;
 
 public final class ModObjects {
-    public static final ModObjects INSTANCE = new ModObjects();
-
     public static final Lazy<Block> LIGHT_SOURCE_BLOCK = Lazy.of(LightSourceBlock::new);
 
     private ModObjects() {}
@@ -26,7 +24,7 @@ public final class ModObjects {
     }
 
     @SubscribeEvent
-    public void register(RegisterEvent event) {
+    public static void register(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
             StreamEx.<BlockItemProvider>of(ModBlock.values())
                 .append(Ore.values())

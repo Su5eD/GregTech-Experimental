@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.datagen;
 
-import dev.su5ed.gregtechmod.ClientSetup;
+import dev.su5ed.gregtechmod.setup.ClientSetup;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
