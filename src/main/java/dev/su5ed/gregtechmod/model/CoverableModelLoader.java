@@ -10,7 +10,10 @@ import net.minecraftforge.client.model.geometry.IGeometryLoader;
 
 import java.util.Map;
 
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
+
 public class CoverableModelLoader implements IGeometryLoader<CoverableModelGeometry> {
+    public static final ResourceLocation NAME = location("coverable");
 
     @Override
     public CoverableModelGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {

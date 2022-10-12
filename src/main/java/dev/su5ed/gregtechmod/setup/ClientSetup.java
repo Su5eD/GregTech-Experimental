@@ -2,7 +2,6 @@ package dev.su5ed.gregtechmod.setup;
 
 import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.api.util.Reference;
-import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.cover.ActiveDetectorCover;
 import dev.su5ed.gregtechmod.cover.ConveyorCover;
@@ -27,13 +26,9 @@ import dev.su5ed.gregtechmod.model.ConnectedModelLoader;
 import dev.su5ed.gregtechmod.model.CoverableModelLoader;
 import dev.su5ed.gregtechmod.model.OreModelLoader;
 import dev.su5ed.gregtechmod.object.Component;
-import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.ModFluid;
-import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModMenus;
-import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.screen.DestructorPackScreen;
-import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import dev.su5ed.gregtechmod.util.KeyboardHandler;
 import net.minecraft.client.Minecraft;
@@ -52,15 +47,12 @@ import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.DynamicFluidContainerModel;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Reference.MODID, bus = Bus.MOD, value = Dist.CLIENT)
@@ -91,17 +83,9 @@ public final class ClientSetup {
 
     @SubscribeEvent
     public static void onModelRegistryEvent(ModelEvent.RegisterGeometryLoaders event) {
-        StreamEx.of(ModBlock.values())
-            .filter(block -> block.getBlock() instanceof ConnectedBlock)
-            .forEach(block -> {
-                String path = ForgeRegistries.BLOCKS.getKey(block.getBlock()).getPath();
-                String name = getLoaderName(path);
-                ConnectedModelLoader loader = new ConnectedModelLoader(block.getName()); // TODO singleton loader and get texture info from json
-                event.register(name, loader);
-            });
-
-        registerBlockProviderModels(event, Ore.values(), OreModelLoader::new);
-        registerBlockProviderModels(event, GTBlockEntity.values(), CoverableModelLoader::new);
+        event.register(ConnectedModelLoader.NAME.getPath(), new ConnectedModelLoader());
+        event.register(OreModelLoader.NAME.getPath(), new OreModelLoader());
+        event.register(CoverableModelLoader.NAME.getPath(), new CoverableModelLoader());
     }
 
     @SubscribeEvent
@@ -138,17 +122,6 @@ public final class ClientSetup {
         event.register(BUCKET_ITEM_COLOR, StreamEx.of(ModFluid.values())
             .map(ItemProvider::getItem)
             .toArray(ItemLike[]::new));
-    }
-
-    private static void registerBlockProviderModels(ModelEvent.RegisterGeometryLoaders event, BlockItemProvider[] providers, Supplier<IGeometryLoader<?>> supplier) {
-        StreamEx.of(providers)
-            .map(provider -> ForgeRegistries.BLOCKS.getKey(provider.getBlock()).getPath())
-            .map(ClientSetup::getLoaderName)
-            .forEach(name -> event.register(name, supplier.get()));
-    }
-
-    public static String getLoaderName(String block) {
-        return block + "_model";
     }
 
     public static void playSound(SoundEvent sound, float pitch) {

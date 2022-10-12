@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:pyrite_ore_model",
+  "loader": "gregtechmod:ore",
   "textures": {
     "particle": "gregtechmod:block/ore/nether/pyrite_down_east",
     "": "gregtechmod:block/ore/pyrite"

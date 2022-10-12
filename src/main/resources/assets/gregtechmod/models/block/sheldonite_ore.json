@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:sheldonite_ore_model",
+  "loader": "gregtechmod:ore",
   "textures": {
     "particle": "gregtechmod:block/ore/end/sheldonite_all",
     "": "gregtechmod:block/ore/sheldonite"

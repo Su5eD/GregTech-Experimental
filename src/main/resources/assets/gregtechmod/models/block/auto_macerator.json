@@ -1,6 +1,6 @@
 {
   "parent": "gregtechmod:block/directional_block",
-  "loader": "gregtechmod:auto_macerator_model",
+  "loader": "gregtechmod:coverable",
   "textures": {
     "particle": "gregtechmod:blockentity/machine_side",
     "down": "gregtechmod:blockentity/machine_bottom",

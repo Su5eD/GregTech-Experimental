@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:sphalerite_ore_model",
+  "loader": "gregtechmod:ore",
   "textures": {
     "particle": "gregtechmod:block/ore/overworld/sphalerite_all",
     "down": "gregtechmod:block/ore/overworld/sphalerite_all",

@@ -54,7 +54,7 @@ public class OreModel extends BaseModel {
             : tileData;
     }
 
-    @Override
+    @Override // TODO Change particle depending on dimension
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData extraData, @Nullable RenderType renderType) {
         if (side != null) {
             OreModelKey key = extraData.get(OreBlock.ORE_MODEL_KEY);

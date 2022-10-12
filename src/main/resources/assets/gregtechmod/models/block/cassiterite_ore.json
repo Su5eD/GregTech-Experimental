@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:cassiterite_ore_model",
+  "loader": "gregtechmod:ore",
   "textures": {
     "particle": "gregtechmod:block/ore/overworld/cassiterite_all",
     "down": "gregtechmod:block/ore/overworld/cassiterite_all",

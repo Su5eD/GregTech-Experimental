@@ -1,4 +1,5 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:iridium_reinforced_tungsten_steel_block_model"
+  "loader": "gregtechmod:connected",
+  "name": "iridium_reinforced_tungsten_steel"
 }

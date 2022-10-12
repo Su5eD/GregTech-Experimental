@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:sapphire_ore_model",
+  "loader": "gregtechmod:ore",
   "textures": {
     "particle": "gregtechmod:block/ore/overworld/sapphire_y",
     "down": "gregtechmod:block/ore/overworld/sapphire_y",

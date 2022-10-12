@@ -12,20 +12,17 @@ import java.util.Map;
 import static dev.su5ed.gregtechmod.api.util.Reference.location;
 
 public class ConnectedModelLoader implements IGeometryLoader<ConnectedModelGeometry> {
-    private final Map<String, ResourceLocation> textures;
-    private final ResourceLocation particle;
-    
-    public ConnectedModelLoader(String name) {
-        this.textures = StreamEx.of(ConnectedModel.TEXTURE_PARTS)
+    public static final ResourceLocation NAME = location("connected");
+
+    @Override
+    public ConnectedModelGeometry read(JsonObject json, JsonDeserializationContext deserializationContext) throws JsonParseException {
+        String name = json.get("name").getAsString();
+        Map<String, ResourceLocation> textures = StreamEx.of(ConnectedModel.TEXTURE_PARTS)
             .mapToEntry(part -> name + "_" + part)
             .prepend("", name)
             .mapValues(texture -> location("block", "connected", name, texture))
             .toImmutableMap();
-        this.particle = this.textures.get("");
-    }
-
-    @Override
-    public ConnectedModelGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
-        return new ConnectedModelGeometry(this.particle, this.textures);
+        ResourceLocation particle = textures.get("");
+        return new ConnectedModelGeometry(particle, textures);
     }
 }

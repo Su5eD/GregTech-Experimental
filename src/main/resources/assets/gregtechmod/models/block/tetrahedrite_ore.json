@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:tetrahedrite_ore_model",
+  "loader": "gregtechmod:ore",
   "textures": {
     "particle": "gregtechmod:block/ore/overworld/tetrahedrite_down",
     "down": "gregtechmod:block/ore/overworld/tetrahedrite_down",
