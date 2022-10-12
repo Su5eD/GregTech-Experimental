@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
 import one.util.streamex.StreamEx;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class OreModel extends BaseModel {
             : tileData;
     }
 
-    @Override // TODO Change particle depending on dimension
+    @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData extraData, @Nullable RenderType renderType) {
         if (side != null) {
             OreModelKey key = extraData.get(OreBlock.ORE_MODEL_KEY);
@@ -65,6 +66,15 @@ public class OreModel extends BaseModel {
         return List.of();
     }
 
+    @Override
+    public TextureAtlasSprite getParticleIcon(ModelData data) {
+        OreModelKey key = data.get(OreBlock.ORE_MODEL_KEY);
+        if (key != null && key.texture() != OreModelKey.Texture.DEFAULT) {
+            return getDimensionalTexture(key.texture(), Direction.NORTH).sprite();
+        }
+        return super.getParticleIcon(data);
+    }
+
     public Pair<Material, TextureAtlasSprite> getOreTexture(Direction side, @Nullable OreModelKey key) {
         Material texture;
         if (key == null) {
@@ -73,11 +83,7 @@ public class OreModel extends BaseModel {
         else if (key.texture() != OreModelKey.Texture.DEFAULT) {
             Direction override = key.sideOverrides().get(side);
             if (override != null) {
-                texture = switch (key.texture()) {
-                    case STONE -> getMaterialWithFallback(override);
-                    case NETHERRACK -> getMaterialWithFallback(override, this.texturesNether, this.textures, this.texturesEnd);
-                    default -> getMaterialWithFallback(override, this.texturesEnd, this.textures, this.texturesNether);
-                };
+                texture = getDimensionalTexture(key.texture(), override);
             }
             else return switch (key.texture()) {
                 case STONE -> Pair.of(MATERIAL_STONE, MATERIAL_STONE.sprite());
@@ -90,6 +96,14 @@ public class OreModel extends BaseModel {
         }
         
         return Pair.of(texture, this.sprites.get(texture));
+    }
+    
+    private Material getDimensionalTexture(OreModelKey.Texture texture, Direction side) {
+        return switch (texture) {
+            case STONE -> getMaterialWithFallback(side);
+            case NETHERRACK -> getMaterialWithFallback(side, this.texturesNether, this.textures, this.texturesEnd);
+            default -> getMaterialWithFallback(side, this.texturesEnd, this.textures, this.texturesNether);
+        };
     }
     
     private Material getMaterialWithFallback(Direction side) {
