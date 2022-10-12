@@ -83,11 +83,6 @@ public class ModFluidType extends FluidType {
             return this;
         }
 
-        public FluidProperties viscosity(int viscosity) {
-            this.properties.viscosity(viscosity);
-            return this;
-        }
-
         public FluidProperties stillTexture(ResourceLocation stillTexture) {
             this.stillTexture = stillTexture;
             return this;

@@ -27,7 +27,7 @@ import dev.su5ed.gregtechmod.model.CoverableModelLoader;
 import dev.su5ed.gregtechmod.model.OreModelLoader;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
-import dev.su5ed.gregtechmod.object.Liquid;
+import dev.su5ed.gregtechmod.object.ModFluid;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.Ore;
@@ -83,7 +83,7 @@ public final class ClientSetup {
         ClientEventHandler.KEY_MAP.put(options.keyJump.getKey().getValue(), KeyboardHandler.Key.JUMP);
         ClientEventHandler.KEY_MAP.put(options.keySprint.getKey().getValue(), KeyboardHandler.Key.SPRINT);
 
-        StreamEx.of(Liquid.values())
+        StreamEx.of(ModFluid.values())
             .flatMap(provider -> StreamEx.of(provider.getSourceFluid(), provider.getFlowingFluid()))
             .forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, RenderType.translucent()));
     }
@@ -134,7 +134,7 @@ public final class ClientSetup {
 
     @SubscribeEvent
     public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
-        event.register(BUCKET_ITEM_COLOR, StreamEx.of(Liquid.values())
+        event.register(BUCKET_ITEM_COLOR, StreamEx.of(ModFluid.values())
             .map(ItemProvider::getItem)
             .toArray(ItemLike[]::new));
     }

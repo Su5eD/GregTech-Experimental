@@ -12,7 +12,7 @@ import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.Hammer;
 import dev.su5ed.gregtechmod.object.Ingot;
 import dev.su5ed.gregtechmod.object.JackHammer;
-import dev.su5ed.gregtechmod.object.Liquid;
+import dev.su5ed.gregtechmod.object.ModFluid;
 import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
@@ -92,7 +92,7 @@ class ItemModelGen extends ItemModelProvider {
                 .predicate(LithiumBatteryItem.CHARGE_PROPERTY, 1)
                 .end();
         
-        StreamEx.of(Liquid.values())
+        StreamEx.of(ModFluid.values())
             .forEach(this::registerBucket);
     }
 
@@ -120,6 +120,7 @@ class ItemModelGen extends ItemModelProvider {
     public <T extends FluidProvider & ItemProvider> void registerBucket(T provider) {
         withExistingParent(provider.getRegistryName(), FORGE_BUCKET)
             .customLoader(DynamicFluidContainerModelBuilder::begin)
+            .flipGas(true)
             .fluid(provider.getSourceFluid());
     }
 }

@@ -701,6 +701,15 @@
   "fluid_type.gregtechmod.sodium": "Sodium",
   "fluid_type.gregtechmod.sodium_persulfate": "Sodium Persulfate",
   "fluid_type.gregtechmod.wolframium": "Wolframium",
+  "fluid_type.gregtechmod.deuterium": "Deuterium",
+  "fluid_type.gregtechmod.helium3": "Helium-3",
+  "fluid_type.gregtechmod.helium": "Helium",
+  "fluid_type.gregtechmod.hydrogen": "Hydrogen",
+  "fluid_type.gregtechmod.methane": "Methane",
+  "fluid_type.gregtechmod.nitrogen": "Nitrogen",
+  "fluid_type.gregtechmod.nitrogen_dioxide": "Nitrogen Dioxide",
+  "fluid_type.gregtechmod.tritium": "Tritium",
+  "fluid_type.gregtechmod.steam": "Steam",
   
   "item.gregtechmod.berylium_bucket": "Berylium Bucket",
   "item.gregtechmod.calcium_bucket": "Calcium Bucket",
@@ -719,5 +728,14 @@
   "item.gregtechmod.silicon_bucket": "Silicon Bucket",
   "item.gregtechmod.sodium_bucket": "Sodium Bucket",
   "item.gregtechmod.sodium_persulfate_bucket": "Sodium Persulfate Bucket",
-  "item.gregtechmod.wolframium_bucket": "Wolframium Bucket"
+  "item.gregtechmod.wolframium_bucket": "Wolframium Bucket",
+  "item.gregtechmod.deuterium_bucket": "Deuterium Bucket",
+  "item.gregtechmod.helium3_bucket": "Helium-3 Bucket",
+  "item.gregtechmod.helium_bucket": "Helium Bucket",
+  "item.gregtechmod.hydrogen_bucket": "Hydrogen Bucket",
+  "item.gregtechmod.methane_bucket": "Methane Bucket",
+  "item.gregtechmod.nitrogen_bucket": "Nitrogen Bucket",
+  "item.gregtechmod.nitrogen_dioxide_bucket": "Nitrogen Dioxide Bucket",
+  "item.gregtechmod.tritium_bucket": "Tritium Bucket",
+  "item.gregtechmod.steam_bucket": "Steam Bucket"
 }

@@ -62,7 +62,7 @@ public final class ModObjects {
             .append(NuclearCoolantPack.values())
             .append(NuclearFuelRod.values())
             .append(Armor.values())
-            .append(Liquid.values())
+            .append(ModFluid.values())
             .mapToEntry(ItemProvider::getRegistryName, ItemProvider::getItem)
             .forKeyValue(helper::register));
 
@@ -70,11 +70,11 @@ public final class ModObjects {
             .mapToEntry(BlockEntityProvider::getRegistryName, BlockEntityProvider::getType)
             .forKeyValue(helper::register));
 
-        event.register(ForgeRegistries.Keys.FLUID_TYPES, helper -> StreamEx.of(Liquid.values())
+        event.register(ForgeRegistries.Keys.FLUID_TYPES, helper -> StreamEx.of(ModFluid.values())
             .mapToEntry(FluidProvider::getFluidRegistryName, FluidProvider::getType)
             .forKeyValue(helper::register));
         
-        event.register(ForgeRegistries.Keys.FLUIDS, helper -> StreamEx.of(Liquid.values())
+        event.register(ForgeRegistries.Keys.FLUIDS, helper -> StreamEx.of(ModFluid.values())
             .forEach(provider -> {
                 String name = provider.getName();
                 helper.register(name + "_fluid", provider.getSourceFluid());

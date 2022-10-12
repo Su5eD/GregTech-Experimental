@@ -47,6 +47,7 @@ public final class GtUtil {
     public static final ResourceLocation LIQUID_STILL = location("fluid/liquid_still");
     public static final ResourceLocation LIQUID_DENSE_STILL = location("fluid/liquid_dense_still");
     public static final ResourceLocation LIQUID_FLOW = location("fluid/liquid_flow");
+    public static final ResourceLocation GAS = location("fluid/gas");
     public static final ResourceLocation FLUID_OVERLAY = new ResourceLocation("block/water_overlay");
     public static final ResourceLocation FLUID_RENDER_OVERLAY = new ResourceLocation("textures/misc/underwater.png");
 

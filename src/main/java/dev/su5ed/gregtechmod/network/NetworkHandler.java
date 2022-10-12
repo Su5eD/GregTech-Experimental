@@ -146,7 +146,7 @@ public final class NetworkHandler {
             .toMap();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "deprecation" })
     public static <T, U> void registerHandler(Class<? super T> clazz, String field, Function<T, Codec<? extends U>> factory) {
         SerializationHandler<T, U> handler = new SerializationHandler<>(
             (instance, buf, obj) -> buf.writeWithCodec((Codec<U>) factory.apply(instance), obj),
