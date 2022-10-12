@@ -4,6 +4,7 @@ import dev.su5ed.gregtechmod.GregTechTab;
 import dev.su5ed.gregtechmod.block.LightSourceBlock;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
+import dev.su5ed.gregtechmod.util.FluidProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +16,7 @@ import one.util.streamex.StreamEx;
 
 public final class ModObjects {
     public static final ModObjects INSTANCE = new ModObjects();
-    
+
     public static final Lazy<Block> LIGHT_SOURCE_BLOCK = Lazy.of(LightSourceBlock::new);
 
     private ModObjects() {}
@@ -61,11 +62,23 @@ public final class ModObjects {
             .append(NuclearCoolantPack.values())
             .append(NuclearFuelRod.values())
             .append(Armor.values())
+            .append(Liquid.values())
             .mapToEntry(ItemProvider::getRegistryName, ItemProvider::getItem)
             .forKeyValue(helper::register));
 
         event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, helper -> StreamEx.<BlockEntityProvider>of(GTBlockEntity.values())
             .mapToEntry(BlockEntityProvider::getRegistryName, BlockEntityProvider::getType)
             .forKeyValue(helper::register));
+
+        event.register(ForgeRegistries.Keys.FLUID_TYPES, helper -> StreamEx.of(Liquid.values())
+            .mapToEntry(FluidProvider::getFluidRegistryName, FluidProvider::getType)
+            .forKeyValue(helper::register));
+        
+        event.register(ForgeRegistries.Keys.FLUIDS, helper -> StreamEx.of(Liquid.values())
+            .forEach(provider -> {
+                String name = provider.getName();
+                helper.register(name + "_fluid", provider.getSourceFluid());
+                helper.register("flowing_" + name, provider.getFlowingFluid());
+            }));
     }
 }

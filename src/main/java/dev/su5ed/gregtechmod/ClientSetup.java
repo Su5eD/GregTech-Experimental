@@ -27,22 +27,30 @@ import dev.su5ed.gregtechmod.model.CoverableModelLoader;
 import dev.su5ed.gregtechmod.model.OreModelLoader;
 import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
+import dev.su5ed.gregtechmod.object.Liquid;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.screen.DestructorPackScreen;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
+import dev.su5ed.gregtechmod.util.ItemProvider;
 import dev.su5ed.gregtechmod.util.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
+import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.DynamicFluidContainerModel;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -56,6 +64,7 @@ import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Reference.MODID, bus = Bus.MOD, value = Dist.CLIENT)
 public final class ClientSetup {
+    private static final ItemColor BUCKET_ITEM_COLOR = new DynamicFluidContainerModel.Colors();
 
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
@@ -73,6 +82,10 @@ public final class ClientSetup {
         Options options = Minecraft.getInstance().options;
         ClientEventHandler.KEY_MAP.put(options.keyJump.getKey().getValue(), KeyboardHandler.Key.JUMP);
         ClientEventHandler.KEY_MAP.put(options.keySprint.getKey().getValue(), KeyboardHandler.Key.SPRINT);
+
+        StreamEx.of(Liquid.values())
+            .flatMap(provider -> StreamEx.of(provider.getSourceFluid(), provider.getFlowingFluid()))
+            .forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, RenderType.translucent()));
     }
 
     @SubscribeEvent
@@ -117,6 +130,13 @@ public final class ClientSetup {
                     .map(VentCover.VentType::getIcon))
                 .forEach(event::addSprite);
         }
+    }
+
+    @SubscribeEvent
+    public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
+        event.register(BUCKET_ITEM_COLOR, StreamEx.of(Liquid.values())
+            .map(ItemProvider::getItem)
+            .toArray(ItemLike[]::new));
     }
 
     private static void registerBlockProviderModels(ModelEvent.RegisterGeometryLoaders event, BlockItemProvider[] providers, Supplier<IGeometryLoader<?>> supplier) {

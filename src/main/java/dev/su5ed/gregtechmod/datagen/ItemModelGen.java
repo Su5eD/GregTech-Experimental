@@ -12,6 +12,7 @@ import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.Hammer;
 import dev.su5ed.gregtechmod.object.Ingot;
 import dev.su5ed.gregtechmod.object.JackHammer;
+import dev.su5ed.gregtechmod.object.Liquid;
 import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
@@ -27,11 +28,13 @@ import dev.su5ed.gregtechmod.object.Tool;
 import dev.su5ed.gregtechmod.object.TurbineRotor;
 import dev.su5ed.gregtechmod.object.Upgrade;
 import dev.su5ed.gregtechmod.object.Wrench;
+import dev.su5ed.gregtechmod.util.FluidProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
@@ -42,6 +45,8 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
 import static dev.su5ed.gregtechmod.api.util.Reference.locationNullable;
 
 class ItemModelGen extends ItemModelProvider {
+    private static final ResourceLocation FORGE_BUCKET = new ResourceLocation("forge", "item/bucket");
+    
     private final ResourceLocation generatedParent = mcLoc("item/generated");
     
     public ItemModelGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -86,6 +91,9 @@ class ItemModelGen extends ItemModelProvider {
                 .model(singleItemTexture(fullName, this.generatedParent, location("item", "component", fullName)))
                 .predicate(LithiumBatteryItem.CHARGE_PROPERTY, 1)
                 .end();
+        
+        StreamEx.of(Liquid.values())
+            .forEach(this::registerBucket);
     }
 
     @NotNull
@@ -107,5 +115,11 @@ class ItemModelGen extends ItemModelProvider {
     
     public ItemModelBuilder singleItemTexture(String name, ResourceLocation parent, ResourceLocation texture) {
         return singleTexture(name, parent, "layer0", texture);
+    }
+    
+    public <T extends FluidProvider & ItemProvider> void registerBucket(T provider) {
+        withExistingParent(provider.getRegistryName(), FORGE_BUCKET)
+            .customLoader(DynamicFluidContainerModelBuilder::begin)
+            .fluid(provider.getSourceFluid());
     }
 }
