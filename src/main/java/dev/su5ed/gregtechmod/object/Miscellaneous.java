@@ -28,12 +28,18 @@ public enum Miscellaneous implements TaggedItemProvider {
     GOLD_CREDIT(GtLocale.translateItemDescription("credit", 64)),
     GREEN_SAPPHIRE(Dust.GREEN_SAPPHIRE.description, GregTechTags.material("gems", "green_sapphire")),
     GREG_COIN(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription())),
-    INDIGO_BLOSSOM((TagKey<Item>) null),
+    INDIGO_BLOSSOM,
     INDIGO_DYE(Tags.Items.DYES_BLUE),
     IRON_MORTAR(() -> new MortarItem(63, 1, () -> new ItemStack(ModHandler.getModItem("iron_dust")))),
     LAZURITE_CHUNK(Component.literal("(Al6Si6Ca8Na8)8"), GregTechTags.LAZURITE_CHUNK),
     OLIVINE(Dust.OLIVINE.description, GregTechTags.material("gems", "olivine")),
-    OIL_BERRY((TagKey<Item>) null),
+    OIL_BERRY,
+    RAW_BAUXITE,
+    RAW_CASSITERITE,
+    RAW_GALENA,
+    RAW_SHELDONITE,
+    RAW_TETRAHEDRITE,
+    RAW_TUNGSTATE,
     RED_GARNET(Dust.RED_GARNET.description, GregTechTags.material("gems", "red_garnet")),
     RUBY(Dust.RUBY.description, GregTechTags.material("gems", "ruby")),
     SAPPHIRE(Dust.SAPPHIRE.description, GregTechTags.material("gems", "sapphire")),
@@ -44,6 +50,10 @@ public enum Miscellaneous implements TaggedItemProvider {
 
     private final Lazy<Item> instance;
     private final TagKey<Item> tag;
+    
+    Miscellaneous() {
+        this((TagKey<Item>) null);
+    }
 
     Miscellaneous(TagKey<Item> tag) {
         this(() -> new ResourceItem(new ExtendedItemProperties<>()), tag);

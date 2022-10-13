@@ -570,6 +570,12 @@
   "item.gregtechmod.iron_mortar": "Iron Mortar",
   "item.gregtechmod.flint_mortar": "Flint Mortar",
   "item.gregtechmod.mortar.description": "Used to turn ingots into dust",
+  "item.gregtechmod.raw_bauxite": "Raw Bauxite",
+  "item.gregtechmod.raw_cassiterite": "Raw Cassiterite",
+  "item.gregtechmod.raw_galena": "Raw Galena",
+  "item.gregtechmod.raw_sheldonite": "Raw Sheldonite",
+  "item.gregtechmod.raw_tetrahedrite": "Raw Tetrahedrite",
+  "item.gregtechmod.raw_tungstate": "Raw Tungstate",
   
   "item.gregtechmod.iron_wrench": "Iron Wrench",
   "item.gregtechmod.bronze_wrench": "Bronze Wrench",

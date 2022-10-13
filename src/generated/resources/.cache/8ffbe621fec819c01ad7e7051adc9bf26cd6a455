@@ -1,4 +1,4 @@
-// 1.19.2	2022-10-12T21:43:21.8773328	Gregtech Experimental Item Models
+// 1.19.2	2022-10-13T15:54:52.4365186	Gregtech Experimental Item Models
 7611917dbed8e56d65508076e1502658bb2a1c7d assets/gregtechmod/models/item/active_detector.json
 01dc21456a4859a611151f40e2acf5fd3c903f82 assets/gregtechmod/models/item/advanced_circuit_board.json
 e47c61b9aaa60d0123c8874a0b253ef8e84e733a assets/gregtechmod/models/item/advanced_circuit_parts.json
@@ -307,6 +307,12 @@ ff564d38b3e38f215531cb736a791345b5236d77 assets/gregtechmod/models/item/pyrope_d
 81dca6d84234ed3323e397750d6baa21522ce2d3 assets/gregtechmod/models/item/quad_plutonium_fuel_rod.json
 a7592c00ee0315a5a4f66339e9db735358b810bb assets/gregtechmod/models/item/quad_thorium_fuel_rod.json
 e8e51c3d2f675f0dcd3e168b89096852f17a7476 assets/gregtechmod/models/item/quantum_chest.json
+4f04072526559de364cf4ed501c6693cd9a3d3b0 assets/gregtechmod/models/item/raw_bauxite.json
+b68ba9a383f2c8f61bec59993f5ddb27b1119a98 assets/gregtechmod/models/item/raw_cassiterite.json
+ec6891adc7d8cc00e9b3c649c5559b5621891409 assets/gregtechmod/models/item/raw_galena.json
+f3ecd35f5625200698ada1d4748f539c39798912 assets/gregtechmod/models/item/raw_sheldonite.json
+9f0288816f8665c9a64cd6ae220198fb40c85d62 assets/gregtechmod/models/item/raw_tetrahedrite.json
+3f4d11f77c8728df88d4854817110255b0683b16 assets/gregtechmod/models/item/raw_tungstate.json
 91813ea70791e0ed73c713c6d583fb2b8b8694d6 assets/gregtechmod/models/item/redrock_dust.json
 0ecddfb991775f8eccfad4c1cc43bde0175b1b70 assets/gregtechmod/models/item/redrock_smalldust.json
 db80324f120ba34d5d7146e25bb2d325ad66d8f7 assets/gregtechmod/models/item/redstone_conductor.json
