@@ -68,8 +68,11 @@ public class OreModel extends BaseModel {
     @Override
     public TextureAtlasSprite getParticleIcon(ModelData data) {
         OreModelKey key = data.get(OreBlock.ORE_MODEL_KEY);
-        if (key != null && key.texture() != OreModelKey.Texture.DEFAULT) {
-            return getDimensionalTexture(key.texture(), Direction.NORTH).sprite();
+        if (key != null) {
+            Material material = key.texture() != OreModelKey.Texture.DEFAULT 
+                ? getDimensionalTexture(key.texture(), Direction.NORTH)
+                : this.textures.get(null);
+            return material.sprite();
         }
         return super.getParticleIcon(data);
     }

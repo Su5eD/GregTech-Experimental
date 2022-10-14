@@ -3,7 +3,6 @@ package dev.su5ed.gregtechmod.compat;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.recipe.CellType;
 import dev.su5ed.gregtechmod.api.util.Reference;
-import dev.su5ed.gregtechmod.setup.CropLoader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -15,6 +14,8 @@ import one.util.streamex.EntryStream;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public final class ModHandler {
     public static final String IC2_MODID = "ic2";
@@ -22,7 +23,12 @@ public final class ModHandler {
     public static final String TWILIGHT_FOREST_MODID = "twilightforest";
     public static final String THERMAL_MODID = "thermal";
 
-    public static final List<String> BASE_MODS = List.of(IC2_MODID); // More mods to come
+    public static final Map<String, BaseMod.Provider> BASE_MODS = Map.of( // More mods to come
+        IC2_MODID, new IC2BaseMod.Provider()
+    );
+    private static BaseMod.Provider activeBaseModProvider;
+    private static BaseMod activeBaseMod;
+    
     public static boolean ic2Loaded;
     public static boolean buildcraftLoaded;
     public static boolean railcraftLoaded;
@@ -38,8 +44,18 @@ public final class ModHandler {
         // (ugly) workaround for https://github.com/MinecraftForge/CoreMods/issues/31
         System.setProperty("true", "true");
 
-        if (!DatagenModLoader.isRunningDataGen() && BASE_MODS.stream().noneMatch(list::isLoaded)) {
-            throw new IllegalStateException("At least one of the following base mods is required: " + BASE_MODS);
+        Optional<BaseMod.Provider> baseMod = EntryStream.of(BASE_MODS)
+            .filterKeys(list::isLoaded)
+            .values()
+            .findFirst();
+        if (baseMod.isEmpty()) {
+            if (!DatagenModLoader.isRunningDataGen()) {
+                throw new IllegalStateException("At least one of the following base mods is required: " + BASE_MODS.keySet());
+            }
+        }
+        else {
+            activeBaseModProvider = baseMod.get();
+            activeBaseMod = activeBaseModProvider.createBaseMod();
         }
     }
 
@@ -48,48 +64,48 @@ public final class ModHandler {
     }
 
     public static boolean isEnergyItem(Item item) {
-        return ic2Loaded && IC2Handler.isEnergyItem(item);
+        return activeBaseMod.isEnergyItem(item);
     }
 
     public static double getEnergyCharge(ItemStack stack) {
-        return ic2Loaded ? IC2Handler.getCharge(stack) : 0;
+        return activeBaseMod.getEnergyCharge(stack);
     }
 
     public static double getChargeLevel(ItemStack stack) {
-        return ic2Loaded ? IC2Handler.getChargeLevel(stack) : 0;
+        return activeBaseMod.getChargeLevel(stack);
     }
 
     public static boolean canUseEnergy(ItemStack stack, double energy) {
-        return ic2Loaded && IC2Handler.canUse(stack, energy);
+        return activeBaseMod.canUseEnergy(stack, energy);
     }
 
     public static boolean useEnergy(ItemStack stack, double energy, @Nullable LivingEntity user) {
-        return ic2Loaded && IC2Handler.use(stack, energy, user);
+        return activeBaseMod.useEnergy(stack, energy, user);
     }
 
     @Nullable
     public static String getEnergyTooltip(ItemStack stack) {
-        return ic2Loaded ? IC2Handler.getEnergyTooltip(stack) : null;
+        return activeBaseMod.getEnergyTooltip(stack);
     }
 
     public static void depleteStackEnergy(ItemStack stack) {
-        if (ic2Loaded) IC2Handler.depleteStackEnergy(stack);
+        activeBaseMod.depleteStackEnergy(stack);
     }
 
     public static List<ItemStack> getChargedVariants(Item item) {
-        return ic2Loaded ? IC2Handler.getChargedVariants(item) : List.of(new ItemStack(item));
+        return activeBaseMod.getChargedVariants(item);
     }
     
     public static ItemStack getChargedStack(Item item, double charge) {
-        return ic2Loaded ? IC2Handler.getChargedStack(item, charge) : ItemStack.EMPTY;
+        return activeBaseMod.getChargedStack(item, charge);
     }
     
     public static double chargeStack(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean simulate) {
-        return ic2Loaded ? IC2Handler.charge(stack, amount, tier, ignoreTransferLimit, simulate) : 0;
+        return activeBaseMod.chargeStack(stack, amount, tier, ignoreTransferLimit, simulate);
     }
     
     public static double dischargeStack(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate) {
-        return ic2Loaded ? IC2Handler.discharge(stack, amount, tier, ignoreTransferLimit, externally, simulate) : 0;
+        return activeBaseMod.dischargeStack(stack, amount, tier, ignoreTransferLimit, externally, simulate);
     }
 
     public static boolean matchCellType(CellType type, ItemStack stack) {
@@ -98,17 +114,18 @@ public final class ModHandler {
     }
     
     public static Item getModItem(String name) {
-        return EntryStream.of(
-            ic2Loaded, IC2_MODID
-        )
-            .filterKeys(Boolean::booleanValue)
-            .values()
-            .findFirst()
-            .map(modid -> {
-                ResourceLocation location = new ResourceLocation(modid, name);
-                return ForgeRegistries.ITEMS.getValue(location);
+        String mapped = activeBaseModProvider.mapItemName(name);
+        ResourceLocation location = new ResourceLocation(activeBaseModProvider.getModid(), mapped);
+        return ForgeRegistries.ITEMS.getValue(location);
+    }
+    
+    public static Map<String, ResourceLocation> getAllModItems(String name) {
+        return EntryStream.of(BASE_MODS)
+            .mapToValue((modid, provider) -> {
+                String mapped = provider.mapItemName(name);
+                return new ResourceLocation(modid, mapped);
             })
-            .orElseThrow();
+            .toMap();
     }
     
     public static void registerCrops() {

@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.setup;
+package dev.su5ed.gregtechmod.compat;
 
 import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.api.util.Reference;

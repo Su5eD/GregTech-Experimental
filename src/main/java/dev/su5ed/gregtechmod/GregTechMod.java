@@ -32,7 +32,7 @@ public class GregTechMod {
         ModCovers.init(bus);
         ModMenus.init(bus);
         bus.register(ModObjects.class);
-        bus.register(DataGenerators.INSTANCE);
+        bus.register(DataGenerators.class);
         bus.register(Capabilities.class);
 
         ModLoadingContext ctx = ModLoadingContext.get();

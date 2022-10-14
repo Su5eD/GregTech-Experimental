@@ -6,6 +6,11 @@ import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.FluidProvider;
 import dev.su5ed.gregtechmod.util.ItemProvider;
+import dev.su5ed.gregtechmod.util.loot.FortuneLootFunction;
+import dev.su5ed.gregtechmod.util.loot.LocationLootItem;
+import dev.su5ed.gregtechmod.util.loot.ModLoadedCondition;
+import dev.su5ed.gregtechmod.util.loot.RandomOreDrops;
+import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
@@ -78,5 +83,14 @@ public final class ModObjects {
                 helper.register(name + "_fluid", provider.getSourceFluid());
                 helper.register("flowing_" + name, provider.getFlowingFluid());
             }));
+        
+        event.register(Registry.LOOT_FUNCTION_REGISTRY, helper -> helper.register(FortuneLootFunction.NAME, FortuneLootFunction.TYPE));
+        
+        event.register(Registry.LOOT_ITEM_REGISTRY, helper -> {
+            helper.register(RandomOreDrops.NAME, RandomOreDrops.TYPE);
+            helper.register(ModLoadedCondition.NAME, ModLoadedCondition.TYPE);
+        });
+        
+        event.register(Registry.LOOT_ENTRY_REGISTRY, helper -> helper.register(LocationLootItem.NAME, LocationLootItem.TYPE));
     }
 }

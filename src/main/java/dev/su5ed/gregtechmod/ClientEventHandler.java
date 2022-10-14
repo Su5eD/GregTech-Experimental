@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.setup;
+package dev.su5ed.gregtechmod;
 
 import com.google.common.base.Strings;
 import dev.su5ed.gregtechmod.api.util.Reference;

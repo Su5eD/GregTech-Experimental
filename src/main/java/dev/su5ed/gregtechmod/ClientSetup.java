@@ -1,6 +1,5 @@
-package dev.su5ed.gregtechmod.setup;
+package dev.su5ed.gregtechmod;
 
-import dev.su5ed.gregtechmod.GregTechMod;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.cover.ActiveDetectorCover;

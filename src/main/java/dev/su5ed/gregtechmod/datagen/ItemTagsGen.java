@@ -33,7 +33,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ItemTagsGen extends ItemTagsProvider {
@@ -79,7 +78,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .forKeyValue(TagAppender::addTag);
 
         StreamEx.of(GregTechTags.HEAT_VENT, GregTechTags.COMPONENT_HEAT_VENT, GregTechTags.ADVANCED_HEAT_VENT, GregTechTags.OVERCLOCKED_HEAT_VENT)
-            .mapToEntry(this::tag, tag -> getAllBaseModItems(tag.location().getPath()))
+            .mapToEntry(this::tag, tag -> ModHandler.getAllModItems(tag.location().getPath()).values())
             .flatMapValues(Collection::stream)
             .forKeyValue(TagAppender::addOptional);
         
@@ -98,12 +97,6 @@ public class ItemTagsGen extends ItemTagsProvider {
         
         tag(GregTechTags.IRIDIUM_ALLOY)
             .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "iridium"));
-    }
-
-    private static List<ResourceLocation> getAllBaseModItems(String name) {
-        return StreamEx.of(ModHandler.BASE_MODS)
-            .map(modid -> new ResourceLocation(modid, name))
-            .toList();
     }
 
     @Override

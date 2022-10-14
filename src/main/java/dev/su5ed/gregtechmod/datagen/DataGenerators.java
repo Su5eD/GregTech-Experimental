@@ -7,12 +7,9 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public final class DataGenerators {
-    public static final DataGenerators INSTANCE = new DataGenerators();
-
-    private DataGenerators() {}
 
     @SubscribeEvent
-    public void gatherData(GatherDataEvent event) {
+    public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper helper = event.getExistingFileHelper();
 
@@ -25,4 +22,6 @@ public final class DataGenerators {
         generator.addProvider(event.includeClient(), new BlockStateGen(generator, helper));
         generator.addProvider(event.includeClient(), new ItemModelGen(generator, helper));
     }
+    
+    private DataGenerators() {}
 }
