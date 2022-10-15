@@ -56,7 +56,8 @@ class LootTableGen extends LootTableProvider {
     @Override
     protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
         return List.of(
-            Pair.of(ModBlockLoot::new, LootContextParamSets.BLOCK)
+            Pair.of(ModBlockLoot::new, LootContextParamSets.BLOCK),
+            Pair.of(ModifierChestLoot::new, LootContextParamSets.CHEST)
         );
     }
 

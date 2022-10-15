@@ -1,0 +1,12 @@
+{
+  "entries": [
+    "gregtechmod:chests/jungle_temple_dispenser",
+    "gregtechmod:chests/abandoned_mineshaft",
+    "gregtechmod:chests/simple_dungeon",
+    "gregtechmod:chests/village/village_toolsmith",
+    "gregtechmod:chests/desert_pyramid",
+    "gregtechmod:chests/jungle_temple",
+    "gregtechmod:chests/stronghold_crossing"
+  ],
+  "replace": false
+}

@@ -1,4 +1,4 @@
-// 1.19.2	2022-10-14T15:46:36.7520122	Gregtech Experimental Loot Tables
+// 1.19.2	2022-10-15T17:37:06.3224159	Gregtech Experimental Loot Tables
 348e74e08055c97b2abd4eff6e5085679c2a036b data/gregtechmod/loot_tables/blocks/advanced_machine_casing_block.json
 a9449f4a12aec586847807be2e59f47349f3d02e data/gregtechmod/loot_tables/blocks/aluminium_block.json
 5033cf5087d8b2d47dc57e1afe88b7d570677b47 data/gregtechmod/loot_tables/blocks/auto_macerator.json
@@ -42,3 +42,10 @@ be7f1c9d66533ade372a5398740d0264dbff3457 data/gregtechmod/loot_tables/blocks/sta
 562db2927ff66e840132a4a828f6fbeaede66e9f data/gregtechmod/loot_tables/blocks/tungsten_block.json
 23484729daddb8d7bb1f78c23a144335a370f41d data/gregtechmod/loot_tables/blocks/tungsten_steel_block.json
 6862633f5d4d2a00fbb94e21ff11564985ee0c58 data/gregtechmod/loot_tables/blocks/zinc_block.json
+822a24b291b686e1bf67527736e1084c9ff56bb8 data/gregtechmod/loot_tables/chests/abandoned_mineshaft.json
+4dedb9eb85eff49a0dde9c299c036223d7e831de data/gregtechmod/loot_tables/chests/desert_pyramid.json
+5c082be6429490b8c47adf3c46a16c2289a5ff1b data/gregtechmod/loot_tables/chests/jungle_temple.json
+f19daddbff032ce15815d1d611de7fe8e50ee64c data/gregtechmod/loot_tables/chests/jungle_temple_dispenser.json
+b398eee6eef5014554c4079c31a7d2b6ae85dc2c data/gregtechmod/loot_tables/chests/simple_dungeon.json
+208669e36338ae35b96464901566885c6798e5b2 data/gregtechmod/loot_tables/chests/stronghold_crossing.json
+e7c712dea3feaf4406bc1f5515894bc4c2950c5f data/gregtechmod/loot_tables/chests/village/village_toolsmith.json

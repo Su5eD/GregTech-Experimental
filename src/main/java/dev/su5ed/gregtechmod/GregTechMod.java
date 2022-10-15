@@ -8,6 +8,7 @@ import dev.su5ed.gregtechmod.network.NetworkHandler;
 import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.ModObjects;
+import dev.su5ed.gregtechmod.util.loot.ConditionLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -31,6 +32,7 @@ public class GregTechMod {
         GregTechAPIImpl.createAndInject();
         ModCovers.init(bus);
         ModMenus.init(bus);
+        ConditionLootModifier.LOOT_MODIFIER_REGISTRAR.register(bus);
         bus.register(ModObjects.class);
         bus.register(DataGenerators.class);
         bus.register(Capabilities.class);
