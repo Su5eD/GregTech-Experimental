@@ -46,6 +46,7 @@ public class BlockItems {
     public static net.minecraft.block.Block lightSource;
     public static Item sensorKit;
     public static Item sensorCard;
+    public static Item translatableBook;
     public static Map<String, ItemCellClassic> classicCells;
 
     public enum Block implements IBlockItemProvider {
@@ -176,17 +177,17 @@ public class BlockItems {
         private final LazyValue<net.minecraft.block.Block> instance;
         private final EnumRarity rarity;
         
-        Ore(HarvestLevel level, float hardness, int dropChance, int dropRandom) {
-            this(level, hardness, dropChance, dropRandom, (fortune, drops, rand) -> {});
+        Ore(HarvestLevel level, float hardness, int dropXp, int dropRandomXp) {
+            this(level, hardness, dropXp, dropRandomXp, (fortune, drops, rand) -> {});
         }
 
-        Ore(HarvestLevel level, float hardness, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
-            this(level, hardness, dropChance, dropRandom, EnumRarity.COMMON, loot);
+        Ore(HarvestLevel level, float hardness, int dropXp, int dropRandomXp, TriConsumer<Integer, List<ItemStack>, Random> loot) {
+            this(level, hardness, dropXp, dropRandomXp, EnumRarity.COMMON, loot);
         }
 
-        Ore(HarvestLevel level, float hardness, int dropChance, int dropRandom, EnumRarity rarity, TriConsumer<Integer, List<ItemStack>, Random> loot) {
+        Ore(HarvestLevel level, float hardness, int dropXp, int dropRandomXp, EnumRarity rarity, TriConsumer<Integer, List<ItemStack>, Random> loot) {
             String name = name().toLowerCase(Locale.ROOT) + "_ore";
-            this.instance = new LazyValue<>(() -> new BlockOre(name().toLowerCase(Locale.ROOT), level, dropChance, dropRandom, loot)
+            this.instance = new LazyValue<>(() -> new BlockOre(name().toLowerCase(Locale.ROOT), level, dropXp, dropRandomXp, loot)
                 .setRegistryName(name)
                 .setTranslationKey(name)
                 .setCreativeTab(GregTechMod.GREGTECH_TAB)
@@ -1330,15 +1331,16 @@ public class BlockItems {
         }
 
         public static ItemStack getWrittenBook(String name, String author, int pages, int ordinal) {
-            ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-            stack.setTagInfo("title", new NBTTagString(GtLocale.translateKey("book", name, "name")));
+            ItemStack stack = new ItemStack(BlockItems.translatableBook);
+            stack.setTagInfo("title", new NBTTagString(GtLocale.buildKey("book", name, "name")));
             stack.setTagInfo("author", new NBTTagString(author));
-            NBTTagList tagList = new NBTTagList();
+            
+            NBTTagList pageList = new NBTTagList();
             for (int i = 0; i < pages; i++) {
-                String page = '\"' + GtLocale.translateKey("book", name, "page" + (i < 10 ? "0" + i : i)) + '\"';
+                String page = GtLocale.buildKey("book", name, "page" + (i < 10 ? "0" + i : i));
                 if (i < 48) {
                     if (page.length() < 256) {
-                        tagList.appendTag(new NBTTagString(page));
+                        pageList.appendTag(new NBTTagString(page));
                     }
                     else {
                         GregTechMod.LOGGER.warn("String for written book too long: " + page);
@@ -1349,8 +1351,14 @@ public class BlockItems {
                     break;
                 }
             }
-            tagList.appendTag(new NBTTagString("\"Credits to " + author + " for writing this Book. This was Book Nr. " + (ordinal + 1) + " at its creation. Gotta get 'em all!\""));
-            stack.setTagInfo("pages", tagList);
+            pageList.appendTag(new NBTTagString(GtLocale.buildKey("book", "credits")));
+            stack.setTagInfo("pages", pageList);
+            
+            NBTTagList translationArgs = new NBTTagList();
+            translationArgs.appendTag(new NBTTagString(author));
+            translationArgs.appendTag(new NBTTagString(String.valueOf(ordinal + 1)));
+            stack.setTagInfo("translationArgs", translationArgs);
+            
             return stack;
         }
     }

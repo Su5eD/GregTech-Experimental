@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "manual_book",
           "weight": 2,
           "functions": [
@@ -18,7 +18,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "manual2_book",
           "weight": 1,
           "functions": [
@@ -30,7 +30,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "machine_safety_book",
           "weight": 1,
           "functions": [

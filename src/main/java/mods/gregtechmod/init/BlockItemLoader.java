@@ -8,6 +8,7 @@ import mods.gregtechmod.objects.blocks.BlockLightSource;
 import mods.gregtechmod.objects.items.ItemCellClassic;
 import mods.gregtechmod.objects.items.ItemSensorCard;
 import mods.gregtechmod.objects.items.ItemSensorKit;
+import mods.gregtechmod.objects.items.ItemTranslatableBook;
 import mods.gregtechmod.objects.items.base.ItemBlockBase;
 import mods.gregtechmod.util.IBlockItemProvider;
 import mods.gregtechmod.util.IItemProvider;
@@ -64,6 +65,7 @@ public class BlockItemLoader {
         if (FluidRegistry.isFluidRegistered("bio.ethanol")) BlockItems.classicCells.put("bio.ethanol", new ItemCellClassic("bio.ethanol", null, FluidRegistry.getFluid("bio.ethanol")));
 
         registerBlock(BlockItems.lightSource = new BlockLightSource());
+        registerItem(BlockItems.translatableBook = new ItemTranslatableBook());
         Arrays.stream(BlockItems.Block.values()).forEach(BlockItemLoader::registerBlockItem);
         Arrays.stream(BlockItems.Ore.values()).forEach(BlockItemLoader::registerBlockItem);
         Stream.<IItemProvider[]>of(BlockItems.Miscellaneous.values(), BlockItems.Ingot.values(), BlockItems.Plate.values(), BlockItems.Rod.values(), BlockItems.Dust.values(),

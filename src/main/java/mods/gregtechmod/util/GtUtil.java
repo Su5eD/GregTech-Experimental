@@ -284,8 +284,8 @@ public final class GtUtil {
     }
 
     public static ResourceLocation getModelResourceLocation(String name, String folder) {
-        if (folder == null) return new ResourceLocation(Reference.MODID, name);
-        return new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
+        return folder == null ? new ResourceLocation(Reference.MODID, name)
+            : new ResourceLocation(String.format("%s:%s/%s", Reference.MODID, folder, name));
     }
 
     public static ResourceLocation getGuiTexture(String name) {

@@ -35,15 +35,15 @@ import java.util.Random;
 
 public class BlockOre extends Block implements ICustomItemModel {
     private final String name;
-    private final int dropChance;
-    private final int dropRandom;
+    private final int dropXp;
+    private final int dropRandomXp;
     private final TriConsumer<Integer, List<ItemStack>, Random> loot;
 
-    public BlockOre(String name, HarvestLevel harvestLevel, int dropChance, int dropRandom, TriConsumer<Integer, List<ItemStack>, Random> loot) {
+    public BlockOre(String name, HarvestLevel harvestLevel, int dropXp, int dropRandomXp, TriConsumer<Integer, List<ItemStack>, Random> loot) {
         super(Material.ROCK);
         this.name = name;
-        this.dropChance = dropChance;
-        this.dropRandom = dropRandom;
+        this.dropXp = dropXp;
+        this.dropRandomXp = dropRandomXp;
         this.loot = loot;
         setResistance(10);
         setSoundType(SoundType.STONE);
@@ -58,8 +58,8 @@ public class BlockOre extends Block implements ICustomItemModel {
     @Override
     public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
-        if (this.dropRandom > 0) {
-            int xp = this.dropChance + worldIn.rand.nextInt(this.dropRandom);
+        if (this.dropRandomXp > 0) {
+            int xp = this.dropXp + worldIn.rand.nextInt(this.dropRandomXp);
             if (xp > 0) dropXpOnBlockBreak(worldIn, pos, xp);
         }
     }

@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "manual_book",
           "weight": 2,
           "functions": [
@@ -18,7 +18,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "manual2_book",
           "weight": 1,
           "functions": [
@@ -30,7 +30,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "machine_safety_book",
           "weight": 1,
           "functions": [
@@ -42,7 +42,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "cover_up_book",
           "weight": 2,
           "functions": [
@@ -54,7 +54,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "greg_os_manual_book",
           "weight": 2,
           "functions": [
@@ -66,7 +66,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "greg_os_manual2_book",
           "weight": 2,
           "functions": [
@@ -78,7 +78,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "upgrade_dictionary_book",
           "weight": 1,
           "functions": [
@@ -90,7 +90,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "crop_dictionary_book",
           "weight": 2,
           "functions": [
@@ -102,7 +102,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "energy_systems_book",
           "weight": 1,
           "functions": [
@@ -114,7 +114,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "microwave_oven_manual_book",
           "weight": 1,
           "functions": [
@@ -126,7 +126,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "turbine_manual_book",
           "weight": 2,
           "functions": [
@@ -138,7 +138,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:written_book",
+          "name": "gregtechmod:translatable_book",
           "entryName": "thermal_boiler_manual_book",
           "weight": 2,
           "functions": [

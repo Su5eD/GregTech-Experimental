@@ -1033,6 +1033,8 @@ gregtechmod.crop.coppon=Coppon
 gregtechmod.crop.argentia=Argentia
 gregtechmod.crop.plumbilia=Plumbilia
 
+gregtechmod.book.credits=Credits to %s for writing this Book. This was Book Nr. %s at its creation. Gotta get 'em all!
+
 gregtechmod.book.manual.name=GregTech Manual I (Edition 2)
 gregtechmod.book.manual.page00=So, this is probably your first time using a Product of GregTech Intergalactical, so you might ask yourself where to begin with? This World is very complex, and you may want to acquire a few basic Resources first.
 gregtechmod.book.manual.page01=You need many Resources to start with, as there are: Wood, Sticky Resin or Slimeballs, Sand, Silk, Food, Iron, Copper, Tin, Flint, Redstone, Coal (or another good Fuel for the Oven) and a bunch of Cobblestones would also be very useful.
