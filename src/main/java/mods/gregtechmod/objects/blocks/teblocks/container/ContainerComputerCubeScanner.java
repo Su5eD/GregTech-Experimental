@@ -9,6 +9,8 @@ public class ContainerComputerCubeScanner extends ContainerComputerCube {
 
     public ContainerComputerCubeScanner(EntityPlayer player, TileEntityComputerCube base) {
         super(player, base, 156);
+        
+        addPlayerInventorySlots(player, 166);
 
         ComputerCubeScanner module = (ComputerCubeScanner) base.getActiveModule();
 

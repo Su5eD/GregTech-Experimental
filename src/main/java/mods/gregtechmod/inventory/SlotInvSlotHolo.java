@@ -1,13 +1,14 @@
 package mods.gregtechmod.inventory;
 
 import ic2.core.block.invslot.InvSlot;
+import ic2.core.slot.SlotInvSlotReadOnly;
 import mods.gregtechmod.util.ButtonClick;
 import mods.gregtechmod.util.GtUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class SlotInvSlotHolo extends SlotReadOnly implements ISlotInteractive {
+public class SlotInvSlotHolo extends SlotInvSlotReadOnly implements ISlotInteractive {
 
     public SlotInvSlotHolo(InvSlot invSlot, int index, int x, int y) {
         super(invSlot, index, x, y);

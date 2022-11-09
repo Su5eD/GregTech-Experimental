@@ -11,6 +11,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiComputerCubeReactor;
+import mods.gregtechmod.inventory.invslot.GtSlotReadOnly;
 import mods.gregtechmod.objects.BlockItems;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerComputerCubeReactor;
 import mods.gregtechmod.util.GtUtil;
@@ -92,9 +93,9 @@ public class ComputerCubeReactor implements IComputerCubeModule, IReactor, IData
 
     public ComputerCubeReactor(TileEntityComputerCube parent) {
         this.parent = parent;
-        this.selection = new InvSlot(parent, "selection", InvSlot.Access.NONE, 1);
-        this.content = new InvSlot(parent, "content", InvSlot.Access.NONE, 54);
-        this.contentCopy = new InvSlot(parent, "contentCopy", InvSlot.Access.NONE, 54);
+        this.selection = new GtSlotReadOnly(parent, "selection", InvSlot.Access.NONE, 1);
+        this.content = new GtSlotReadOnly(parent, "content", InvSlot.Access.NONE, 54);
+        this.contentCopy = new GtSlotReadOnly(parent, "contentCopy", InvSlot.Access.NONE, 54);
     }
 
     @Override
