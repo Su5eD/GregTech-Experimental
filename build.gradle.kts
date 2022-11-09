@@ -308,11 +308,11 @@ publishing {
     repositories {
         maven {
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = System.getProperty("MAVEN_USER")
+                password = System.getProperty("MAVEN_TOKEN")
             }
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Su5eD/GregTech-Experimental")
+            name = "Su5eD"
+            url = uri("https://maven.su5ed.dev/releases")
         }
     }
 }
