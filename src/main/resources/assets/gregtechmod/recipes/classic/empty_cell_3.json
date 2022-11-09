@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "gregtechmod:multi",
+      "item": "ic2:cell#air"
+    }
+  ],
+  "result":
+  {
+    "item": "ic2:cell",
+    "data": 0
+  },
+  "conditions":
+  [
+    {
+      "type": "gregtechmod:classic"
+    }
+  ]
+}
