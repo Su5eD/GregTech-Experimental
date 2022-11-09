@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.computercube;
 
 import ic2.api.item.IC2Items;
-import ic2.core.block.invslot.InvSlot;
 import mods.gregtechmod.api.GregTechObjectAPI;
 import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.ModHandler;
@@ -34,15 +33,12 @@ public class ComputerCubeGuide implements IComputerCubeModule {
 
     @NBTPersistent
     private int currentPage;
-    public final InvSlot displayStacks;
 
     public static void addPage(String translationKey, int length, List<ItemStack> stacks) {
         PAGES.add(new GuidePage(translationKey, length, stacks));
     }
 
-    public ComputerCubeGuide(TileEntityComputerCube base) {
-        this.displayStacks = new InvSlot(base, "display", InvSlot.Access.NONE, 5);
-    }
+    public ComputerCubeGuide(TileEntityComputerCube base) {}
 
     public GuidePage getCurrentPage() {
         return PAGES.get(this.currentPage);

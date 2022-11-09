@@ -109,6 +109,12 @@ configurations {
     apiElements {
         setExtendsFrom(setOf(apiDep, shade))
     }
+    
+    shadowRuntimeElements {
+        attributes { 
+            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+        }
+    }
 }
 
 val devJar by tasks.registering(ShadowJar::class) {

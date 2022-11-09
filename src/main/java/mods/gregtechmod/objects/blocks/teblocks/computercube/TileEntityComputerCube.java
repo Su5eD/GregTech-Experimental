@@ -42,18 +42,18 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
     public void switchModule() {
         this.module.activeModule = getNextModule(this.module.activeModule.getName());
         markDirty();
+        updateClientField("module");
         updateRender();
     }
 
     public IComputerCubeModule getNextModule(ResourceLocation current) {
         List<ResourceLocation> list = new ArrayList<>(ComputerCubeModules.MODULES.keySet());
         int size = list.size();
-
-        for (int i = 0; i < size; i++) {
-            ResourceLocation loc = list.get(i);
-            if (ComputerCubeModules.MODULES.get(loc).getLeft().getAsBoolean() && current.equals(loc)) {
-                ResourceLocation next = list.get((i + 1) % size);
-
+        int index = list.indexOf(current);
+        
+        for (int i = index + 1; i < index + list.size(); i++) {
+            ResourceLocation next = list.get(i % size);
+            if (ComputerCubeModules.MODULES.get(next).getLeft().getAsBoolean()) {
                 IComputerCubeModule cached = this.moduleCache.get(next);
                 if (cached != null) return cached;
 
@@ -63,7 +63,7 @@ public class TileEntityComputerCube extends TileEntityUpgradable implements IHas
             }
         }
 
-        throw new IllegalArgumentException("Module " + current + " not found");
+        return this.moduleCache.get(current);
     }
 
     @Override
