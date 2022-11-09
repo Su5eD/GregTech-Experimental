@@ -50,7 +50,7 @@ public class TileEntityPrinter extends TileEntityBasicMachine<IRecipePrinter, Li
     }
 
     @Override
-    public void consumeInput(IRecipePrinter recipe, boolean consumeContainers) {
+    protected void consumeInput(IRecipePrinter recipe, boolean consumeContainers) {
         List<IRecipeIngredient> input = recipe.getInput();
         this.queueInputSlot.consume(input.get(0).getCount());
         if (input.size() > 1) {

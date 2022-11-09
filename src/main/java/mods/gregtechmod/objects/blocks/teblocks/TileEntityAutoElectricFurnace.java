@@ -20,7 +20,7 @@ public class TileEntityAutoElectricFurnace extends TileEntityElectricFurnaceBase
     }
 
     @Override
-    public void consumeInput(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, boolean consumeContainers) {
+    protected void consumeInput(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, boolean consumeContainers) {
         this.inputSlot.consume(recipe == null ? 1 : recipe.getInput().getCount(), consumeContainers);
     }
 }

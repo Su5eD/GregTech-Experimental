@@ -76,7 +76,7 @@ public class TileEntityImplosionCompressor extends TileEntityStructureBase<Objec
     }
 
     @Override
-    public void consumeInput(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, boolean consumeContainers) {
+    protected void consumeInput(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, boolean consumeContainers) {
         List<IRecipeIngredient> input = recipe.getInput();
         this.inputSlot.consume(input.get(0).getCount(), true);
         this.secondaryInput.consume(input.get(1).getCount(), true);

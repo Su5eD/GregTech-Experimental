@@ -37,7 +37,7 @@ public class TileEntityChemicalReactor extends TileEntityGTMachine<IMachineRecip
     }
 
     @Override
-    public void consumeInput(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, boolean consumeContainers) {
+    protected void consumeInput(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, boolean consumeContainers) {
         GtUtil.consumeMultiInput(recipe.getInput(), this.inputSlot, this.secondaryInputSlot);
     }
 

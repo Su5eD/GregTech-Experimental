@@ -73,7 +73,7 @@ public class TileEntityVacuumFreezer extends TileEntityStructureBase<Object, IMa
     }
 
     @Override
-    public void consumeInput(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, boolean consumeContainers) {
+    protected void consumeInput(IMachineRecipe<IRecipeIngredient, List<ItemStack>> recipe, boolean consumeContainers) {
         IRecipeIngredient input = recipe.getInput();
         this.inputSlot.consume(input.getCount(), true);
     }

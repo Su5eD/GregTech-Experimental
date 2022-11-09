@@ -24,7 +24,7 @@ public abstract class TileEntityBasicMachineMultiInput extends TileEntityBasicMa
     protected void relocateStacks() {}
 
     @Override
-    public void consumeInput(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, boolean consumeContainers) {
+    protected void consumeInput(IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe, boolean consumeContainers) {
         GtUtil.consumeMultiInput(recipe.getInput(), this.inputSlot, this.queueInputSlot);
     }
 

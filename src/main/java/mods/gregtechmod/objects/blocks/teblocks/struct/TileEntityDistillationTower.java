@@ -86,7 +86,7 @@ public class TileEntityDistillationTower extends TileEntityStructureBase<Object,
     }
 
     @Override
-    public void consumeInput(IRecipeCellular recipe, boolean consumeContainers) {
+    protected void consumeInput(IRecipeCellular recipe, boolean consumeContainers) {
         IRecipeIngredient input = recipe.getInput();
 
         this.inputSlot.consume(input.getCount(), true);

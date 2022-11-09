@@ -18,7 +18,7 @@ public abstract class TileEntityBasicMachineSingleInput<R extends IMachineRecipe
     }
 
     @Override
-    public void consumeInput(R recipe, boolean consumeContainers) {
+    protected void consumeInput(R recipe, boolean consumeContainers) {
         this.inputSlot.consume(recipe == null ? 1 : recipe.getInput().getCount(), consumeContainers);
     }
 

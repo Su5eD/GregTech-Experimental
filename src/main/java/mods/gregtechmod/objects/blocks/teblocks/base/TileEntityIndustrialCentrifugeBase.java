@@ -37,7 +37,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     }
 
     @Override
-    public void consumeInput(IRecipeCellular recipe, boolean consumeContainers) {
+    protected void consumeInput(IRecipeCellular recipe, boolean consumeContainers) {
         this.inputSlot.consume(recipe == null ? 1 : recipe.getInput().getCount(), consumeContainers);
     }
 

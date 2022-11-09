@@ -46,7 +46,7 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
     }
 
     @Override
-    public void consumeInput(R recipe, boolean consumeContainers) {
+    protected void consumeInput(R recipe, boolean consumeContainers) {
         List<IRecipeIngredient> inputs = recipe.getInput();
         this.inputSlot.consume(inputs.get(0).getCount());
 

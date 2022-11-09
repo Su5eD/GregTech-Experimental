@@ -38,7 +38,7 @@ public class TileEntityAlloySmelter extends TileEntityElectricFurnaceBase<List<I
     }
 
     @Override
-    public void consumeInput(IRecipeUniversal<List<IRecipeIngredient>> recipe, boolean consumeContainers) {
+    protected void consumeInput(IRecipeUniversal<List<IRecipeIngredient>> recipe, boolean consumeContainers) {
         GtUtil.consumeMultiInput(recipe.getInput(), this.inputSlot, this.queueInputSlot);
     }
 }

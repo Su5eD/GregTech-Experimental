@@ -121,7 +121,7 @@ public class TileEntityIndustrialBlastFurnace extends TileEntityStructureBase<Ti
     }
 
     @Override
-    public void consumeInput(IRecipeBlastFurnace recipe, boolean consumeContainers) {
+    protected void consumeInput(IRecipeBlastFurnace recipe, boolean consumeContainers) {
         GtUtil.consumeMultiInput(recipe.getInput(), this.inputSlot, this.secondaryInput);
     }
 
