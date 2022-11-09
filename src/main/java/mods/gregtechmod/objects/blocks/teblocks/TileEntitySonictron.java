@@ -7,6 +7,7 @@ import mods.gregtechmod.api.util.IDataOrbSerializable;
 import mods.gregtechmod.api.util.SonictronSound;
 import mods.gregtechmod.core.GregTechMod;
 import mods.gregtechmod.gui.GuiSonictron;
+import mods.gregtechmod.inventory.invslot.GtSlotReadOnly;
 import mods.gregtechmod.objects.blocks.teblocks.base.TileEntityAutoNBT;
 import mods.gregtechmod.objects.blocks.teblocks.container.ContainerSonictron;
 import mods.gregtechmod.util.nbt.NBTPersistent;
@@ -50,7 +51,7 @@ public class TileEntitySonictron extends TileEntityAutoNBT implements IHasGui, I
     }
 
     public TileEntitySonictron() {
-        this.content = new InvSlot(this, "content", InvSlot.Access.NONE, 64);
+        this.content = new GtSlotReadOnly(this, "content", InvSlot.Access.NONE, 64);
     }
 
     @Override
