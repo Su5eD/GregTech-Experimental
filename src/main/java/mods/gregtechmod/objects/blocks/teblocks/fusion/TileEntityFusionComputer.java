@@ -147,7 +147,10 @@ public class TileEntityFusionComputer extends TileEntityUpgradable implements IH
     
     private void onInvalidate(FusionReactorStructure instance) {
         setActive(false, instance);
-        ((FusionEnergy) this.energy).setEnergyInjectors(Collections.emptyList());
+        // Extra check in case we have an ExplodingEnergySource
+        if (this.energy instanceof FusionEnergy) {
+            ((FusionEnergy) this.energy).setEnergyInjectors(Collections.emptyList());
+        }
         this.startupCheck = 100;
     }
 
