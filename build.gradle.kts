@@ -308,8 +308,8 @@ publishing {
     repositories {
         maven {
             credentials {
-                username = System.getProperty("MAVEN_USER")
-                password = System.getProperty("MAVEN_TOKEN")
+                username = project.findProperty("MAVEN_USER") as String
+                password = project.findProperty("MAVEN_TOKEN") as String
             }
             name = "Su5eD"
             url = uri("https://maven.su5ed.dev/releases")
