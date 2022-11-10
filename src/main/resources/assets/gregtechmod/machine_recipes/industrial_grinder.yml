@@ -510,6 +510,15 @@
     - type: mod_loaded
       modid: mffs
 - input:
+    ore: oreUranium
+  fluid: water
+  output:
+    - item: gregtechmod:dust_uranium
+      count: 2
+    - item: gregtechmod:smalldust_uranium
+      count: 2
+    - item: gregtechmod:dust_thorium
+- input:
     ore: oreThorium
   fluid: water
   output:
