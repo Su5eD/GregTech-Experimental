@@ -66,64 +66,29 @@ The [GregTech Experimental logo](src/main/resources/GTE_Logo.png) is a derivate 
 Get the latest release on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/gregtech-experimental)!
 
 ### Gradle dependency
-GTE is available on maven via Github Packages, which requires additional authentication. This can be done in a few
-simple steps listed below.
 
-#### 1. Generate a Personal Access Token
-Visit your github [token settings](https://github.com/settings/tokens) and generate a new token 
-with the `read:packages` scope. Make sure to copy it, as you can only see it once.
+#### Declaring the repository
 
-#### 2. Storing your Github credentials
-Create a properties file for storing your username and token. Let's call it `github.properties`.
-```properties
-gpr.user=<username>
-gpr.key=<key>
-```
-Copy & paste the text above into the file, and replace `<username>` and `<key>` with your username
-and your access token respectively.
-
-#### 3. Importing your credentials into the gradle project
-Create a `Properties` object and load the `github.properties` file into it:  
-```groovy
-Properties githubProps = new Properties();
-file("github.properties").withInputStream {
-    githubProps.load(it)
-}
-```
-
-#### 4. Declaring the repository
-Declare the Github Packages repository and authenticate using your credentials:  
+First, declare the Su5eD maven repository in your build.gradle:  
 ```groovy
 repositories {
     maven {
-        name = "GitHubPackages"
-        url = "https://maven.pkg.github.com/Su5eD/GregTech-Experimental"
-        credentials {
-            username = githubProps.getProperty("gpr.user")
-            password = githubProps.getProperty("gpr.key")
-        }
+        name = "Su5eD"
+        url = "https://maven.su5ed.dev/releases"
     }
 }
 ```
 
-#### 5. Declaring the dependency
-GregTech Experimental offers 3 artifacts:  
-- The complete, obfuscated jar
-- The API jar. Contains API classes and source code
-- A deobfuscated jar. It's only recommended to use it **if you're using the same mappings as GTE** (currently `stable_39`). 
-  Otherwise use the full jar.
+#### Declaring the dependency
 
-Example dependency declarations:
+Then, add the dependency to your project:
 ```groovy
 dependencies {
-    // The default jar
+    // The full jar
     implementation fg.deobf("mods.su5ed:gregtechmod:<version>")
     
     // The API
     implementation fg.deobf("mods.su5ed:gregtechmod:<version>:api")
-    
-    // The deobfuscated jar
-    implementation "mods.su5ed:gregtechmod:<version>:dev"
 }
 ```
 
