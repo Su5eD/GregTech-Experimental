@@ -6,6 +6,7 @@ import mods.gregtechmod.api.cover.ICover;
 import mods.gregtechmod.api.cover.ICoverable;
 import mods.gregtechmod.objects.Cover;
 import mods.gregtechmod.objects.blocks.teblocks.component.CoverHandler;
+import mods.gregtechmod.objects.covers.CoverBase;
 import mods.gregtechmod.objects.covers.CoverGeneric;
 import mods.gregtechmod.objects.covers.CoverVent;
 import mods.gregtechmod.util.GtUtil;

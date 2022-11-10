@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class CoverVent extends CoverGeneric {
+public class CoverVent extends CoverBase {
     private final double efficiency;
 
     public CoverVent(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {

@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
-public class CoverScreen extends CoverGeneric {
+public class CoverScreen extends CoverBase {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "blocks/machines/adv_machine_screen_random");
 
     public CoverScreen(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {

@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Locale;
 
-public class CoverEnergyOnly extends CoverGeneric {
+public class CoverEnergyOnly extends CoverBase {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
 
     @NBTPersistent

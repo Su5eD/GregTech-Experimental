@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Locale;
 
-public class CoverActiveDetector extends CoverGeneric {
+public class CoverActiveDetector extends CoverBase {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("active_detector");
 
     @NBTPersistent

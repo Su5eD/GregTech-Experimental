@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Locale;
 
-public abstract class CoverMeter extends CoverGeneric {
+public abstract class CoverMeter extends CoverBase {
     @NBTPersistent
     protected MeterMode mode = MeterMode.NORMAL;
 

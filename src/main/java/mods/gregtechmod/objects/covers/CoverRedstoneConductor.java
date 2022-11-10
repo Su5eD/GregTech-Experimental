@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 import java.util.Locale;
 
-public class CoverRedstoneConductor extends CoverGeneric {
+public class CoverRedstoneConductor extends CoverBase {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
 
     @NBTPersistent

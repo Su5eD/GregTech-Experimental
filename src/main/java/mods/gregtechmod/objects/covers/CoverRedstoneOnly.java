@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
-public class CoverRedstoneOnly extends CoverGeneric {
+public class CoverRedstoneOnly extends CoverBase {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_only");
 
     public CoverRedstoneOnly(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {

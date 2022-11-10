@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class CoverInventory extends CoverGeneric {
+public abstract class CoverInventory extends CoverBase {
     @NBTPersistent
     protected InventoryMode mode = InventoryMode.EXPORT;
 

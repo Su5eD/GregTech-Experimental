@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 
-public class CoverCrafting extends CoverGeneric {
+public class CoverCrafting extends CoverBase {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
 
     public CoverCrafting(ResourceLocation name, ICoverable te, EnumFacing side, ItemStack stack) {
