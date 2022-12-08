@@ -12,6 +12,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.common.loot.LootTableIdCondition;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -27,7 +28,8 @@ import static dev.su5ed.gregtechmod.api.util.Reference.location;
  * Source: <a href="https://github.com/ForestryMC/ForestryMC/blob/f46a19abf33b872cb2afefab2fcd5b02f992dac9/src/main/java/forestry/core/loot/ConditionLootModifier.java">Forestry</a>
  */
 public class ConditionLootModifier extends LootModifier {
-    public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_MODIFIER_REGISTRAR = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Reference.MODID);
+    private static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_MODIFIER_REGISTRAR = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Reference.MODID);
+    
     public static final RegistryObject<Codec<ConditionLootModifier>> CODEC = LOOT_MODIFIER_REGISTRAR.register("condition_loot_modifier", () ->
         RecordCodecBuilder.create(inst -> codecStart(inst)
             .and(ResourceLocation.CODEC.fieldOf("tableLocation").forGetter(m -> m.tableLocation))
@@ -50,6 +52,10 @@ public class ConditionLootModifier extends LootModifier {
     private ConditionLootModifier(LootItemCondition[] conditions, ResourceLocation location) {
         super(merge(conditions, LootTableIdCondition.builder(location).build()));
         this.tableLocation = location;
+    }
+    
+    public static void init(IEventBus bus) {
+        LOOT_MODIFIER_REGISTRAR.register(bus);
     }
 
     private static LootItemCondition[] merge(LootItemCondition[] conditions, LootItemCondition condition) {

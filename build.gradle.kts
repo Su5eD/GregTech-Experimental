@@ -167,7 +167,7 @@ repositories {
 }
 
 dependencies {
-    minecraft(group = "net.minecraftforge", name = "forge", version = "1.19.2-43.1.25")
+    minecraft(group = "net.minecraftforge", name = "forge", version = "1.19.2-43.1.43")
 
     implementation(api.output)
     // GTE api depends on IC2 api

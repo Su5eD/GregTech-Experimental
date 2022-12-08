@@ -6,6 +6,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -120,6 +121,8 @@ public final class GregTechTags {
     public static final TagKey<Item> OVERCLOCKED_HEAT_VENT = itemTag("overclocked_heat_vent");
     public static final TagKey<Item> EMPTY_FLUID_CELL = itemTag("empty_fluid_cell");
     public static final TagKey<Item> EMPTY_FUEL_CAN = itemTag("empty_fuel_can");
+    
+    public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
 
     private static final Map<String, Map<String, TagKey<Item>>> FORGE_MATERIALS = new HashMap<>();
 
@@ -150,6 +153,10 @@ public final class GregTechTags {
 
     private static TagKey<EntityType<?>> forgeEntityTag(String name) {
         return TagKey.create(ForgeRegistries.Keys.ENTITY_TYPES, new ResourceLocation("forge", name));
+    }
+    
+    private static TagKey<Biome> biomeTag(String name) {
+        return TagKey.create(ForgeRegistries.Keys.BIOMES, location(name));
     }
 
     private GregTechTags() {}

@@ -6,6 +6,7 @@ import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.KeyboardHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -89,8 +90,10 @@ public final class GregTechNetwork {
     }
 
     public static void updateKeyPress(KeyPressUpdate.Action action, KeyboardHandler.Key key) {
-        KeyPressUpdate packet = new KeyPressUpdate(action, key);
-        INSTANCE.sendToServer(packet);
+        if (Minecraft.getInstance().getConnection() != null) {
+            KeyPressUpdate packet = new KeyPressUpdate(action, key);
+            INSTANCE.sendToServer(packet);
+        }
     }
 
     public static void sendTrackingChunk(BlockEntity be, Object packet) {

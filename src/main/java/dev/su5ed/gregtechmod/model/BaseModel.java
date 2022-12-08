@@ -17,7 +17,6 @@ import java.util.List;
 
 public abstract class BaseModel implements IDynamicBakedModel {
     protected static final FaceBakery BAKERY = new FaceBakery();
-    public static final BlockFaceUV FACE_UV = new BlockFaceUV(new float[] { 0, 0, 16, 16 }, 0);
     public static final Vector3f MAX = new Vector3f(16, 16, 16);
     public static final Vector3f MAX_DOWN = new Vector3f(16, 0, 16);
 
@@ -65,6 +64,10 @@ public abstract class BaseModel implements IDynamicBakedModel {
     @Override
     public ItemTransforms getTransforms() {
         return this.transforms;
+    }
+    
+    protected static BlockFaceUV createFaceUV() {
+        return new BlockFaceUV(new float[] { 0, 0, 16, 16 }, 0);
     }
     
     protected static List<BakedQuad> bakeSingleQuad(BlockElementFace face, TextureAtlasSprite sprite, Direction side, ResourceLocation pModelLocation) {

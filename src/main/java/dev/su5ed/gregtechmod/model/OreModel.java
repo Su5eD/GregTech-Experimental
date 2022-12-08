@@ -59,7 +59,7 @@ public class OreModel extends BaseModel {
         if (side != null) {
             OreModelKey key = extraData.get(OreBlock.ORE_MODEL_KEY);
             Pair<Material, TextureAtlasSprite> texture = getOreTexture(side, key);
-            BlockElementFace face = new BlockElementFace(side, 0, texture.getLeft().texture().toString(), FACE_UV);
+            BlockElementFace face = new BlockElementFace(side, 0, texture.getLeft().texture().toString(), createFaceUV());
             return bakeSingleQuad(face, texture.getRight(), side, this.modelLocation);
         }
         return List.of();
