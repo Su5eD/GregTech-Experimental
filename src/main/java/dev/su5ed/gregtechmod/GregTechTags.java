@@ -123,6 +123,7 @@ public final class GregTechTags {
     public static final TagKey<Item> EMPTY_FUEL_CAN = itemTag("empty_fuel_can");
     
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
+    public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");
 
     private static final Map<String, Map<String, TagKey<Item>>> FORGE_MATERIALS = new HashMap<>();
 

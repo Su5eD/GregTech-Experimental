@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gregtechmod:place_ruby",
+  "features": "gregtechmod:ruby_ore_placed",
+  "step": "underground_ores"
+}

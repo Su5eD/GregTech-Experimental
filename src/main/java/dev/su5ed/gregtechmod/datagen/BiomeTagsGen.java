@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.datagen;
 
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.compat.ModHandler;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -14,8 +15,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class BiomeTagsGen extends BiomeTagsProvider {
     
-    public BiomeTagsGen(DataGenerator pGenerator, @Nullable ExistingFileHelper existingFileHelper) {
-        super(pGenerator, Reference.MODID, existingFileHelper);
+    public BiomeTagsGen(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
+        super(generator, Reference.MODID, existingFileHelper);
     }
 
     @SuppressWarnings("unchecked")
@@ -24,7 +25,11 @@ public class BiomeTagsGen extends BiomeTagsProvider {
         TagAppender<Biome> placeBauxite = tag(GregTechTags.PLACE_BAUXITE)
             .addTags(Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_HILL, BiomeTags.IS_TAIGA);
         StreamEx.of("rainforest", "highland", "pasture", "marsh", "grassland")
-            .map(name -> new ResourceLocation("biomesoplenty", name))
+            .map(name -> new ResourceLocation(ModHandler.BIOMESOP_MODID, name))
             .forEach(placeBauxite::addOptional);
+
+        TagAppender<Biome> placeRuby = tag(GregTechTags.PLACE_RUBY)
+            .addTags(Tags.Biomes.IS_DESERT, BiomeTags.IS_SAVANNA, Tags.Biomes.IS_WASTELAND, BiomeTags.IS_BADLANDS);
+        placeRuby.addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "fire_swamp"));
     }
 }
