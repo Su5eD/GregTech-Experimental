@@ -1,3 +1,4 @@
-// 1.19.2	2022-12-11T22:18:02.1538626	Tags for minecraft:worldgen/biome
+// 1.19.2	2022-12-11T23:01:49.2109715	Tags for minecraft:worldgen/biome
 cd486fa8c06b27954d5f1dfccf5111e5191c1f6b data/gregtechmod/tags/worldgen/biome/place_bauxite.json
 4cffddbd50b47b3471e3c28e9a2dc9a250ab5cea data/gregtechmod/tags/worldgen/biome/place_ruby.json
+669ce1a8139951d008adb9bdfe7d79dc050475f2 data/gregtechmod/tags/worldgen/biome/place_sapphire.json

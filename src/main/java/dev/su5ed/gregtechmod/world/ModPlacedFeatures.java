@@ -24,6 +24,7 @@ public final class ModPlacedFeatures {
     public static final RegistryObject<PlacedFeature> BAUXITE_PLACED = registerPlaceFeature("bauxite_ore_placed", ModConfiguredFeatures.BAUXITE_ORE, 3, 32, 100);
     public static final RegistryObject<PlacedFeature> IRIDIUM_PLACED = registerPlaceFeature("iridium_ore_placed", ModConfiguredFeatures.IRIDIUM_ORE, 2, 0, 80);
     public static final RegistryObject<PlacedFeature> RUBY_PLACED = registerPlaceFeature("ruby_ore_placed", ModConfiguredFeatures.RUBY_ORE, 8, -16, 32);
+    public static final RegistryObject<PlacedFeature> SAPPHIRE_PLACED = registerPlaceFeature("sapphire_ore_placed", ModConfiguredFeatures.SAPPHIRE_ORE, 8, -16, 32);
 
     public static void init(IEventBus bus) {
         PLACED_FEATURES.register(bus);

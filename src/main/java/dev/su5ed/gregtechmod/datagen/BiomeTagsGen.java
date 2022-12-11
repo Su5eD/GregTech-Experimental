@@ -31,5 +31,8 @@ public class BiomeTagsGen extends BiomeTagsProvider {
         TagAppender<Biome> placeRuby = tag(GregTechTags.PLACE_RUBY)
             .addTags(Tags.Biomes.IS_DESERT, BiomeTags.IS_SAVANNA, Tags.Biomes.IS_WASTELAND, BiomeTags.IS_BADLANDS);
         placeRuby.addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "fire_swamp"));
+        
+        tag(GregTechTags.PLACE_SAPPHIRE)
+            .addTags(BiomeTags.IS_OCEAN, BiomeTags.IS_BEACH);
     }
 }

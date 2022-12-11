@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gregtechmod:place_sapphire",
+  "features": "gregtechmod:sapphire_ore_placed",
+  "step": "underground_ores"
+}

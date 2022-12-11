@@ -124,6 +124,7 @@ public final class GregTechTags {
     
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");
+    public static final TagKey<Biome> PLACE_SAPPHIRE = biomeTag("place_sapphire");
 
     private static final Map<String, Map<String, TagKey<Item>>> FORGE_MATERIALS = new HashMap<>();
 
