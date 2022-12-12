@@ -22,7 +22,6 @@ public final class ModHandler {
     public static final String RAILCRAFT_MODID = "railcraft";
     public static final String TWILIGHT_FOREST_MODID = "twilightforest";
     public static final String THERMAL_MODID = "thermal";
-    public static final String BIOMESOP_MODID = "biomesoplenty";
 
     public static final Map<String, BaseMod.Provider> BASE_MODS = Map.of( // More mods to come
         IC2_MODID, new IC2BaseMod.Provider()

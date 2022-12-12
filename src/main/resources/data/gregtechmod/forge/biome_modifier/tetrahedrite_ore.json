@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gregtechmod:place_tetrahedrite",
+  "features": "gregtechmod:tetrahedrite_ore_placed",
+  "step": "underground_ores"
+}

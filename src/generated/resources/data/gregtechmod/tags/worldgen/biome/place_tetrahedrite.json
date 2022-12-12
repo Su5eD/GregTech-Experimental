@@ -1,0 +1,8 @@
+{
+  "values": [
+    "#minecraft:is_jungle",
+    "#forge:is_swamp",
+    "#forge:is_mushroom",
+    "#minecraft:is_mountain"
+  ]
+}

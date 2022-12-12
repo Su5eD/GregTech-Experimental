@@ -2,27 +2,8 @@
   "values": [
     "#forge:is_plains",
     "#minecraft:is_forest",
+    "#minecraft:is_mountain",
     "#minecraft:is_hill",
-    "#minecraft:is_taiga",
-    {
-      "id": "biomesoplenty:rainforest",
-      "required": false
-    },
-    {
-      "id": "biomesoplenty:highland",
-      "required": false
-    },
-    {
-      "id": "biomesoplenty:pasture",
-      "required": false
-    },
-    {
-      "id": "biomesoplenty:marsh",
-      "required": false
-    },
-    {
-      "id": "biomesoplenty:grassland",
-      "required": false
-    }
+    "#minecraft:is_taiga"
   ]
 }

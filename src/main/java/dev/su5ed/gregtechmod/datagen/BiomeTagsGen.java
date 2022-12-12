@@ -7,10 +7,8 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
 public class BiomeTagsGen extends BiomeTagsProvider {
@@ -22,17 +20,17 @@ public class BiomeTagsGen extends BiomeTagsProvider {
     @SuppressWarnings("unchecked")
     @Override
     protected void addTags() {
-        TagAppender<Biome> placeBauxite = tag(GregTechTags.PLACE_BAUXITE)
-            .addTags(Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_HILL, BiomeTags.IS_TAIGA);
-        StreamEx.of("rainforest", "highland", "pasture", "marsh", "grassland")
-            .map(name -> new ResourceLocation(ModHandler.BIOMESOP_MODID, name))
-            .forEach(placeBauxite::addOptional);
+        tag(GregTechTags.PLACE_BAUXITE)
+            .addTags(Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_HILL, BiomeTags.IS_TAIGA);
 
-        TagAppender<Biome> placeRuby = tag(GregTechTags.PLACE_RUBY)
-            .addTags(Tags.Biomes.IS_DESERT, BiomeTags.IS_SAVANNA, Tags.Biomes.IS_WASTELAND, BiomeTags.IS_BADLANDS);
-        placeRuby.addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "fire_swamp"));
+        tag(GregTechTags.PLACE_RUBY)
+            .addTags(Tags.Biomes.IS_DESERT, BiomeTags.IS_SAVANNA, Tags.Biomes.IS_WASTELAND, BiomeTags.IS_BADLANDS)
+            .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "fire_swamp"));
         
         tag(GregTechTags.PLACE_SAPPHIRE)
             .addTags(BiomeTags.IS_OCEAN, BiomeTags.IS_BEACH);
+
+        tag(GregTechTags.PLACE_TETRAHEDRITE)
+            .addTags(BiomeTags.IS_JUNGLE, Tags.Biomes.IS_SWAMP, Tags.Biomes.IS_MUSHROOM, BiomeTags.IS_MOUNTAIN);
     }
 }
