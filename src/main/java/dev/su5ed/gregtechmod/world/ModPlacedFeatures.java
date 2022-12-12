@@ -27,6 +27,7 @@ public final class ModPlacedFeatures {
     public static final RegistryObject<PlacedFeature> RUBY_PLACED = registerCommonPlaceFeature("ruby_ore_placed", ModConfiguredFeatures.RUBY_ORE, 8, -16, 32);
     public static final RegistryObject<PlacedFeature> SAPPHIRE_PLACED = registerCommonPlaceFeature("sapphire_ore_placed", ModConfiguredFeatures.SAPPHIRE_ORE, 8, -16, 32);
     public static final RegistryObject<PlacedFeature> TETRAHEDRITE_PLACED = registerRarePlaceFeature("tetrahedrite_ore_placed", ModConfiguredFeatures.TETRAHEDRITE_ORE, 3, 24, 90);
+    public static final RegistryObject<PlacedFeature> CASSITERITE_PLACED = registerRarePlaceFeature("cassiterite_ore_placed", ModConfiguredFeatures.CASSITERITE_ORE, 5, 16, 80);
 
     public static void init(IEventBus bus) {
         PLACED_FEATURES.register(bus);

@@ -21,7 +21,7 @@ public class BiomeTagsGen extends BiomeTagsProvider {
     @Override
     protected void addTags() {
         tag(GregTechTags.PLACE_BAUXITE)
-            .addTags(Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_HILL, BiomeTags.IS_TAIGA);
+            .addTags(Tags.Biomes.IS_PLAINS, BiomeTags.IS_FOREST, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_HILL);
 
         tag(GregTechTags.PLACE_RUBY)
             .addTags(Tags.Biomes.IS_DESERT, BiomeTags.IS_SAVANNA, Tags.Biomes.IS_WASTELAND, BiomeTags.IS_BADLANDS)
@@ -32,5 +32,8 @@ public class BiomeTagsGen extends BiomeTagsProvider {
 
         tag(GregTechTags.PLACE_TETRAHEDRITE)
             .addTags(BiomeTags.IS_JUNGLE, Tags.Biomes.IS_SWAMP, Tags.Biomes.IS_MUSHROOM, BiomeTags.IS_MOUNTAIN);
+
+        tag(GregTechTags.PLACE_CASSITERITE)
+            .addTags(BiomeTags.IS_TAIGA, Tags.Biomes.IS_MUSHROOM, BiomeTags.IS_MOUNTAIN);
     }
 }

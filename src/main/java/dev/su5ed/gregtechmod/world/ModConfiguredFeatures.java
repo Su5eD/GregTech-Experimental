@@ -25,6 +25,7 @@ public final class ModConfiguredFeatures {
     public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = registerOre("ruby_ore", Ore.RUBY, 3);
     public static final RegistryObject<ConfiguredFeature<?, ?>> SAPPHIRE_ORE = registerOre("sapphire_ore", Ore.SAPPHIRE, 3);
     public static final RegistryObject<ConfiguredFeature<?, ?>> TETRAHEDRITE_ORE = registerOre("tetrahedrite_ore", Ore.TETRAHEDRITE, 32);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CASSITERITE_ORE = registerOre("cassiterite_ore", Ore.CASSITERITE, 32);
 
     public static void init(IEventBus bus) {
         CONFIGURED_FEATURES.register(bus);

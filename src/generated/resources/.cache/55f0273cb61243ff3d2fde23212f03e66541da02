@@ -1,5 +1,6 @@
-// 1.19.2	2022-12-12T15:40:07.0527729	Tags for minecraft:worldgen/biome
-613594785c99f59339079ed1c3d8993535e25803 data/gregtechmod/tags/worldgen/biome/place_bauxite.json
+// 1.19.2	2022-12-12T21:41:30.3427906	Tags for minecraft:worldgen/biome
+fdade6aa54166c4434696ce403a7c5b0e9ecfe6f data/gregtechmod/tags/worldgen/biome/place_bauxite.json
+b13337c627cb54b7537ae028e61bcccafee5921c data/gregtechmod/tags/worldgen/biome/place_cassiterite.json
 4cffddbd50b47b3471e3c28e9a2dc9a250ab5cea data/gregtechmod/tags/worldgen/biome/place_ruby.json
 669ce1a8139951d008adb9bdfe7d79dc050475f2 data/gregtechmod/tags/worldgen/biome/place_sapphire.json
 288aae12d0125dd98f240426b742d636196e3c9f data/gregtechmod/tags/worldgen/biome/place_tetrahedrite.json
