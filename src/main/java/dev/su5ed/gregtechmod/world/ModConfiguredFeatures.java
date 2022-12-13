@@ -8,6 +8,7 @@ import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -27,13 +28,27 @@ public final class ModConfiguredFeatures {
     public static final RegistryObject<ConfiguredFeature<?, ?>> TETRAHEDRITE_ORE = registerOre("tetrahedrite_ore", Ore.TETRAHEDRITE, 32);
     public static final RegistryObject<ConfiguredFeature<?, ?>> CASSITERITE_ORE = registerOre("cassiterite_ore", Ore.CASSITERITE, 32);
 
+    public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_TINY = registerNetherOre("pyrite_ore_tiny", Ore.PYRITE, 4);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_SMALL = registerNetherOre("pyrite_ore_small", Ore.PYRITE, 8);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_MEDIUM = registerNetherOre("pyrite_ore_medium", Ore.PYRITE, 12);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_LARGE = registerNetherOre("pyrite_ore_large", Ore.PYRITE, 24);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_HUGE = registerNetherOre("pyrite_ore_huge", Ore.PYRITE, 32);
+
     public static void init(IEventBus bus) {
         CONFIGURED_FEATURES.register(bus);
     }
-    
+
     private static RegistryObject<ConfiguredFeature<?, ?>> registerOre(String name, BlockItemProvider block, int size) {
+        return registerOre(name, OreFeatures.STONE_ORE_REPLACEABLES, block, size);
+    }
+    
+    private static RegistryObject<ConfiguredFeature<?, ?>> registerNetherOre(String name, BlockItemProvider block, int size) {
+        return registerOre(name, OreFeatures.NETHER_ORE_REPLACEABLES, block, size);
+    }
+
+    private static RegistryObject<ConfiguredFeature<?, ?>> registerOre(String name, RuleTest replaceables, BlockItemProvider block, int size) {
         Supplier<List<OreConfiguration.TargetBlockState>> oreList = Lazy.of(() -> List.of(
-            OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, block.getBlock().defaultBlockState())
+            OreConfiguration.target(replaceables, block.getBlock().defaultBlockState())
         ));
         return CONFIGURED_FEATURES.register(name, () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(oreList.get(), size)));
     }
