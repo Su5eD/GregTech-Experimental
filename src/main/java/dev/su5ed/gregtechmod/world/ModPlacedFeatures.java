@@ -35,7 +35,13 @@ public final class ModPlacedFeatures {
     public static final RegistryObject<PlacedFeature> PYRITE_MEDIUM_PLACED = registerRareCountPlaceFeature("pyrite_ore_medium_placed", ModConfiguredFeatures.PYRITE_ORE_MEDIUM, 4, 4, 0, 64);
     public static final RegistryObject<PlacedFeature> PYRITE_LARGE_PLACED = registerRareCountPlaceFeature("pyrite_ore_large_placed", ModConfiguredFeatures.PYRITE_ORE_LARGE,2, 8, 0, 64);
     public static final RegistryObject<PlacedFeature> PYRITE_HUGE_PLACED = registerRarePlaceFeature("pyrite_ore_huge_placed", ModConfiguredFeatures.PYRITE_ORE_HUGE, 16, 0, 64);
-    
+
+    public static final RegistryObject<PlacedFeature> CINNABAR_TINY_PLACED = registerCommonPlaceFeature("cinnabar_ore_tiny_placed", ModConfiguredFeatures.CINNABAR_ORE_TINY, 14, 64, 128);
+    public static final RegistryObject<PlacedFeature> CINNABAR_SMALL_PLACED = registerRareCountPlaceFeature("cinnabar_ore_small_placed", ModConfiguredFeatures.CINNABAR_ORE_SMALL, 8, 2, 64, 128);
+    public static final RegistryObject<PlacedFeature> CINNABAR_MEDIUM_PLACED = registerRareCountPlaceFeature("cinnabar_ore_medium_placed", ModConfiguredFeatures.CINNABAR_ORE_MEDIUM, 4, 4, 64, 128);
+    public static final RegistryObject<PlacedFeature> CINNABAR_LARGE_PLACED = registerRareCountPlaceFeature("cinnabar_ore_large_placed", ModConfiguredFeatures.CINNABAR_ORE_LARGE, 2, 8, 64, 128);
+    public static final RegistryObject<PlacedFeature> CINNABAR_HUGE_PLACED = registerRarePlaceFeature("cinnabar_ore_huge_placed", ModConfiguredFeatures.CINNABAR_ORE_HUGE, 16, 64, 128);
+
     public static void init(IEventBus bus) {
         PLACED_FEATURES.register(bus);
     }

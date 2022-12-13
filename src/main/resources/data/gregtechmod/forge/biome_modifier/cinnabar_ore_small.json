@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": "gregtechmod:cinnabar_ore_small_placed",
+  "step": "underground_ores"
+}

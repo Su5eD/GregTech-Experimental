@@ -34,6 +34,12 @@ public final class ModConfiguredFeatures {
     public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_LARGE = registerNetherOre("pyrite_ore_large", Ore.PYRITE, 24);
     public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_HUGE = registerNetherOre("pyrite_ore_huge", Ore.PYRITE, 32);
 
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CINNABAR_ORE_TINY = registerNetherOre("cinnabar_ore_tiny", Ore.CINNABAR, 4);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CINNABAR_ORE_SMALL = registerNetherOre("cinnabar_ore_small", Ore.CINNABAR, 8);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CINNABAR_ORE_MEDIUM = registerNetherOre("cinnabar_ore_medium", Ore.CINNABAR, 12);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CINNABAR_ORE_LARGE = registerNetherOre("cinnabar_ore_large", Ore.CINNABAR, 24);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> CINNABAR_ORE_HUGE = registerNetherOre("cinnabar_ore_huge", Ore.CINNABAR, 32);
+
     public static void init(IEventBus bus) {
         CONFIGURED_FEATURES.register(bus);
     }
@@ -41,7 +47,7 @@ public final class ModConfiguredFeatures {
     private static RegistryObject<ConfiguredFeature<?, ?>> registerOre(String name, BlockItemProvider block, int size) {
         return registerOre(name, OreFeatures.STONE_ORE_REPLACEABLES, block, size);
     }
-    
+
     private static RegistryObject<ConfiguredFeature<?, ?>> registerNetherOre(String name, BlockItemProvider block, int size) {
         return registerOre(name, OreFeatures.NETHER_ORE_REPLACEABLES, block, size);
     }
