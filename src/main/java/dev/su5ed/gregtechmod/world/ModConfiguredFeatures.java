@@ -9,6 +9,8 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -19,7 +21,9 @@ import java.util.function.Supplier;
 
 public final class ModConfiguredFeatures {
     private static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.MODID);
+    private static final RuleTest END_STONE_REPLACEABLES = new TagMatchTest(Tags.Blocks.END_STONES);
 
+    // Overworld
     public static final RegistryObject<ConfiguredFeature<?, ?>> GALENA_ORE = registerOre("galena_ore", Ore.GALENA, 16);
     public static final RegistryObject<ConfiguredFeature<?, ?>> BAUXITE_ORE = registerOre("bauxite_ore", Ore.BAUXITE, 16);
     public static final RegistryObject<ConfiguredFeature<?, ?>> IRIDIUM_ORE = registerOre("iridium_ore", Ore.IRIDIUM, 3);
@@ -28,6 +32,7 @@ public final class ModConfiguredFeatures {
     public static final RegistryObject<ConfiguredFeature<?, ?>> TETRAHEDRITE_ORE = registerOre("tetrahedrite_ore", Ore.TETRAHEDRITE, 32);
     public static final RegistryObject<ConfiguredFeature<?, ?>> CASSITERITE_ORE = registerOre("cassiterite_ore", Ore.CASSITERITE, 32);
 
+    // Nether
     public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_TINY = registerNetherOre("pyrite_ore_tiny", Ore.PYRITE, 4);
     public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_SMALL = registerNetherOre("pyrite_ore_small", Ore.PYRITE, 8);
     public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_MEDIUM = registerNetherOre("pyrite_ore_medium", Ore.PYRITE, 12);
@@ -46,6 +51,12 @@ public final class ModConfiguredFeatures {
     public static final RegistryObject<ConfiguredFeature<?, ?>> SPHALERITE_ORE_LARGE = registerNetherOre("sphalerite_ore_large", Ore.SPHALERITE, 24);
     public static final RegistryObject<ConfiguredFeature<?, ?>> SPHALERITE_ORE_HUGE = registerNetherOre("sphalerite_ore_huge", Ore.SPHALERITE, 32);
 
+    // The end
+    public static final RegistryObject<ConfiguredFeature<?, ?>> TUNGSTATE_ORE = registerEndOre("tungstate_ore", Ore.TUNGSTATE, 16);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SHELDONITE_ORE = registerEndOre("sheldonite_ore", Ore.SHELDONITE, 4);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> OLIVINE_ORE = registerEndOre("olivine_ore", Ore.OLIVINE, 8);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SODALITE_ORE = registerEndOre("sodalite_ore", Ore.SODALITE, 16);
+
     public static void init(IEventBus bus) {
         CONFIGURED_FEATURES.register(bus);
     }
@@ -56,6 +67,10 @@ public final class ModConfiguredFeatures {
 
     private static RegistryObject<ConfiguredFeature<?, ?>> registerNetherOre(String name, BlockItemProvider block, int size) {
         return registerOre(name, OreFeatures.NETHER_ORE_REPLACEABLES, block, size);
+    }
+    
+    private static RegistryObject<ConfiguredFeature<?, ?>> registerEndOre(String name, BlockItemProvider block, int size) {
+        return registerOre(name, END_STONE_REPLACEABLES, block, size);
     }
 
     private static RegistryObject<ConfiguredFeature<?, ?>> registerOre(String name, RuleTest replaceables, BlockItemProvider block, int size) {
