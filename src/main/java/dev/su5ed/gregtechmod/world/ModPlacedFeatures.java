@@ -30,7 +30,7 @@ public final class ModPlacedFeatures {
     public static final RegistryObject<PlacedFeature> CASSITERITE_PLACED = registerRarePlaceFeature("cassiterite_ore_placed", ModConfiguredFeatures.CASSITERITE_ORE, 5, 16, 80);
 
     // Nether
-    public static final RegistryObject<PlacedFeature> PYRITE_TINY_PLACED = registerCommonPlaceFeature("pyrite_ore_tiny_placed", ModConfiguredFeatures.PYRITE_ORE_TINY, 16, 0, 64);
+    public static final RegistryObject<PlacedFeature> PYRITE_TINY_PLACED = registerCommonPlaceFeature("pyrite_ore_tiny_placed", ModConfiguredFeatures.PYRITE_ORE_TINY, 14, 0, 64);
     public static final RegistryObject<PlacedFeature> PYRITE_SMALL_PLACED = registerRareCountPlaceFeature("pyrite_ore_small_placed", ModConfiguredFeatures.PYRITE_ORE_SMALL, 8, 2, 0, 64);
     public static final RegistryObject<PlacedFeature> PYRITE_MEDIUM_PLACED = registerRareCountPlaceFeature("pyrite_ore_medium_placed", ModConfiguredFeatures.PYRITE_ORE_MEDIUM, 4, 4, 0, 64);
     public static final RegistryObject<PlacedFeature> PYRITE_LARGE_PLACED = registerRareCountPlaceFeature("pyrite_ore_large_placed", ModConfiguredFeatures.PYRITE_ORE_LARGE,2, 8, 0, 64);
@@ -41,6 +41,12 @@ public final class ModPlacedFeatures {
     public static final RegistryObject<PlacedFeature> CINNABAR_MEDIUM_PLACED = registerRareCountPlaceFeature("cinnabar_ore_medium_placed", ModConfiguredFeatures.CINNABAR_ORE_MEDIUM, 4, 4, 64, 128);
     public static final RegistryObject<PlacedFeature> CINNABAR_LARGE_PLACED = registerRareCountPlaceFeature("cinnabar_ore_large_placed", ModConfiguredFeatures.CINNABAR_ORE_LARGE, 2, 8, 64, 128);
     public static final RegistryObject<PlacedFeature> CINNABAR_HUGE_PLACED = registerRarePlaceFeature("cinnabar_ore_huge_placed", ModConfiguredFeatures.CINNABAR_ORE_HUGE, 16, 64, 128);
+
+    public static final RegistryObject<PlacedFeature> SPHALERITE_TINY_PLACED = registerCommonPlaceFeature("sphalerite_ore_tiny_placed", ModConfiguredFeatures.SPHALERITE_ORE_TINY, 14, 32, 96);
+    public static final RegistryObject<PlacedFeature> SPHALERITE_SMALL_PLACED = registerRareCountPlaceFeature("sphalerite_ore_small_placed", ModConfiguredFeatures.SPHALERITE_ORE_SMALL, 6, 2, 32, 96);
+    public static final RegistryObject<PlacedFeature> SPHALERITE_MEDIUM_PLACED = registerRareCountPlaceFeature("sphalerite_ore_medium_placed", ModConfiguredFeatures.SPHALERITE_ORE_MEDIUM, 4, 4, 32, 96);
+    public static final RegistryObject<PlacedFeature> SPHALERITE_LARGE_PLACED = registerRareCountPlaceFeature("sphalerite_ore_large_placed", ModConfiguredFeatures.SPHALERITE_ORE_LARGE, 2, 8, 32, 96);
+    public static final RegistryObject<PlacedFeature> SPHALERITE_HUGE_PLACED = registerRarePlaceFeature("sphalerite_ore_huge_placed", ModConfiguredFeatures.SPHALERITE_ORE_HUGE, 16, 32, 96);
 
     public static void init(IEventBus bus) {
         PLACED_FEATURES.register(bus);

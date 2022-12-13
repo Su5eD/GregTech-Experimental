@@ -40,6 +40,12 @@ public final class ModConfiguredFeatures {
     public static final RegistryObject<ConfiguredFeature<?, ?>> CINNABAR_ORE_LARGE = registerNetherOre("cinnabar_ore_large", Ore.CINNABAR, 24);
     public static final RegistryObject<ConfiguredFeature<?, ?>> CINNABAR_ORE_HUGE = registerNetherOre("cinnabar_ore_huge", Ore.CINNABAR, 32);
 
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SPHALERITE_ORE_TINY = registerNetherOre("sphalerite_ore_tiny", Ore.SPHALERITE, 4);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SPHALERITE_ORE_SMALL = registerNetherOre("sphalerite_ore_small", Ore.SPHALERITE, 8);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SPHALERITE_ORE_MEDIUM = registerNetherOre("sphalerite_ore_medium", Ore.SPHALERITE, 12);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SPHALERITE_ORE_LARGE = registerNetherOre("sphalerite_ore_large", Ore.SPHALERITE, 24);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SPHALERITE_ORE_HUGE = registerNetherOre("sphalerite_ore_huge", Ore.SPHALERITE, 32);
+
     public static void init(IEventBus bus) {
         CONFIGURED_FEATURES.register(bus);
     }

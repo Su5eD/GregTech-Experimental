@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": "gregtechmod:sphalerite_ore_medium_placed",
+  "step": "underground_ores"
+}
