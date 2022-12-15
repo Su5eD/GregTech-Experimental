@@ -5,6 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.heightproviders.VeryBiasedToBottomHeight;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
@@ -29,6 +30,7 @@ public final class ModPlacedFeatures {
     public static final RegistryObject<PlacedFeature> SAPPHIRE_PLACED = registerCommonPlaceFeature("sapphire_ore_placed", ModConfiguredFeatures.SAPPHIRE_ORE, 8, -16, 32);
     public static final RegistryObject<PlacedFeature> TETRAHEDRITE_PLACED = registerRarePlaceFeature("tetrahedrite_ore_placed", ModConfiguredFeatures.TETRAHEDRITE_ORE, 3, 24, 90);
     public static final RegistryObject<PlacedFeature> CASSITERITE_PLACED = registerRarePlaceFeature("cassiterite_ore_placed", ModConfiguredFeatures.CASSITERITE_ORE, 5, 16, 80);
+    public static final RegistryObject<PlacedFeature> SPHALERITE_OVERWORLD_PLACED = registerPlaceFeature("sphalerite_overworld_ore_placed", ModConfiguredFeatures.SPHALERITE_OVERWORLD_ORE, underLavaPlacement(75));
 
     // Nether
     public static final RegistryObject<PlacedFeature> PYRITE_TINY_PLACED = registerCommonPlaceFeature("pyrite_ore_tiny_placed", ModConfiguredFeatures.PYRITE_ORE_TINY, 14, 0, 64);
@@ -93,6 +95,10 @@ public final class ModPlacedFeatures {
 
     private static List<PlacementModifier> orePlacement(PlacementModifier count, PlacementModifier height) {
         return List.of(count, InSquarePlacement.spread(), height, BiomeFilter.biome());
+    }
+
+    private static List<PlacementModifier> underLavaPlacement(int count) {
+        return List.of(CountPlacement.of(count), InSquarePlacement.spread(), HeightRangePlacement.of(VeryBiasedToBottomHeight.of(VerticalAnchor.bottom(), VerticalAnchor.belowTop(8), 8)), BiomeFilter.biome());
     }
 
     private static HeightRangePlacement heightRange(int minY, int maxY) {

@@ -55,6 +55,9 @@ class BlockTagsGen extends BlockTagsProvider {
             .addTag(BlockTags.LEAVES)
             .addTag(BlockTags.WOOL)
             .add(Blocks.COBWEB, Blocks.GRASS, Blocks.FERN, Blocks.DEAD_BUSH, Blocks.HANGING_ROOTS, Blocks.VINE, Blocks.TRIPWIRE);
+
+        tag(GregTechTags.SUBMERGE_ORE_LAVA)
+            .add(Blocks.LAVA);
     }
 
     @Override

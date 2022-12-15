@@ -1,4 +1,4 @@
-// 1.19.2	2022-10-12T16:57:41.3226697	Gregtech Experimental Block Tags
+// 1.19.2	2022-12-14T18:43:53.8636865	Gregtech Experimental Block Tags
 84d79d5ecdeb2284d76fdef2e3146e2965430ef8 data/forge/tags/blocks/mineable/shears.json
 49cd44dd0d06195bda6c6bc4699f86425efa8c2b data/forge/tags/blocks/ores.json
 1f2ac14a84ea986aeb72e1b4b93f2009343e674e data/forge/tags/blocks/ores/bauxite.json
@@ -15,6 +15,7 @@ f024b81751ec719b47d8f7e6e327a4bb341cb4e1 data/forge/tags/blocks/ores/sodalite.js
 365684b340ac5e57fe5b6ac43d74d243ca264e2e data/forge/tags/blocks/ores/sphalerite.json
 8cdebad05c0abadef7724a01201b2d045029850a data/forge/tags/blocks/ores/tetrahedrite.json
 04ae0e6cc143cf0a61afbb948ab5831f4c11b972 data/forge/tags/blocks/ores/tungstate.json
+db6195d77bd598771b111d12750ba39f41fe35c7 data/gregtechmod/tags/blocks/submerge_ore_lava.json
 3ef43aff3decd604753309f22de29ac752b793ec data/minecraft/tags/blocks/mineable/pickaxe.json
 bd300fce01628fb0cba19ff4197389e181430e2b data/minecraft/tags/blocks/needs_diamond_tool.json
 70198151592a8716cb5a26b75486ca910f6dd37e data/minecraft/tags/blocks/needs_iron_tool.json

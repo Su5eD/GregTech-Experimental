@@ -24,6 +24,7 @@ public final class GregTechTags {
     public static final TagKey<EntityType<?>> HARD_HAMMER_EFFECTIVE = entityTag("hard_hammer");
 
     public static final TagKey<Block> MINEABLE_WITH_SHEARS = forgeBlockTag("mineable/shears");
+    public static final TagKey<Block> SUBMERGE_ORE_LAVA = blockTag("submerge_ore_lava");
 
     public static final TagKey<Item> PLATES = forgeItemTag("plates");
     public static final TagKey<Item> IRIDIUM_ALLOY = itemTag("plates/iridium_alloy");

@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTab;
+import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.block.LightSourceBlock;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
@@ -13,6 +14,7 @@ import dev.su5ed.gregtechmod.util.loot.RandomOreDrops;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;

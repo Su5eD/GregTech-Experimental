@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.world;
 
+import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
@@ -14,23 +15,30 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 public final class ModConfiguredFeatures {
+    private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Reference.MODID);
+    private static final RegistryObject<SingleOreFeature> SINGLE_ORE = FEATURES.register("single_ore", SingleOreFeature::new);
+    private static final RegistryObject<SingleUnderLavaOreFeature> SINGLE_UNDER_LAVA_ORE = FEATURES.register("single_under_lava", SingleUnderLavaOreFeature::new);
+
     private static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.MODID);
     private static final RuleTest END_STONE_REPLACEABLES = new TagMatchTest(Tags.Blocks.END_STONES);
+    private static final RuleTest LAVA_REPLACEABLES = new TagMatchTest(GregTechTags.SUBMERGE_ORE_LAVA);
 
     // Overworld
     public static final RegistryObject<ConfiguredFeature<?, ?>> GALENA_ORE = registerOre("galena_ore", Ore.GALENA, 16);
     public static final RegistryObject<ConfiguredFeature<?, ?>> BAUXITE_ORE = registerOre("bauxite_ore", Ore.BAUXITE, 16);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> IRIDIUM_ORE = registerOre("iridium_ore", Ore.IRIDIUM, 3);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = registerOre("ruby_ore", Ore.RUBY, 3);
-    public static final RegistryObject<ConfiguredFeature<?, ?>> SAPPHIRE_ORE = registerOre("sapphire_ore", Ore.SAPPHIRE, 3);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> IRIDIUM_ORE = registerSingleOre("iridium_ore", Ore.IRIDIUM);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> RUBY_ORE = registerSingleOre("ruby_ore", Ore.RUBY);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SAPPHIRE_ORE = registerSingleOre("sapphire_ore", Ore.SAPPHIRE);
     public static final RegistryObject<ConfiguredFeature<?, ?>> TETRAHEDRITE_ORE = registerOre("tetrahedrite_ore", Ore.TETRAHEDRITE, 32);
     public static final RegistryObject<ConfiguredFeature<?, ?>> CASSITERITE_ORE = registerOre("cassiterite_ore", Ore.CASSITERITE, 32);
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SPHALERITE_OVERWORLD_ORE = registerOre(SINGLE_UNDER_LAVA_ORE, "sphalerite_overworld_ore", LAVA_REPLACEABLES, Ore.SPHALERITE, 3, 1);
 
     // Nether
     public static final RegistryObject<ConfiguredFeature<?, ?>> PYRITE_ORE_TINY = registerNetherOre("pyrite_ore_tiny", Ore.PYRITE, 4);
@@ -58,8 +66,13 @@ public final class ModConfiguredFeatures {
     public static final RegistryObject<ConfiguredFeature<?, ?>> SODALITE_ORE = registerEndOre("sodalite_ore", Ore.SODALITE, 16);
 
     public static void init(IEventBus bus) {
+        FEATURES.register(bus);
         CONFIGURED_FEATURES.register(bus);
     }
+    
+    private static RegistryObject<ConfiguredFeature<?, ?>> registerSingleOre(String name, BlockItemProvider block) {
+            return registerOre(SINGLE_ORE, name, OreFeatures.STONE_ORE_REPLACEABLES, block, 3, 0);
+        }
 
     private static RegistryObject<ConfiguredFeature<?, ?>> registerOre(String name, BlockItemProvider block, int size) {
         return registerOre(name, OreFeatures.STONE_ORE_REPLACEABLES, block, size);
@@ -68,16 +81,20 @@ public final class ModConfiguredFeatures {
     private static RegistryObject<ConfiguredFeature<?, ?>> registerNetherOre(String name, BlockItemProvider block, int size) {
         return registerOre(name, OreFeatures.NETHER_ORE_REPLACEABLES, block, size);
     }
-    
+
     private static RegistryObject<ConfiguredFeature<?, ?>> registerEndOre(String name, BlockItemProvider block, int size) {
         return registerOre(name, END_STONE_REPLACEABLES, block, size);
     }
 
     private static RegistryObject<ConfiguredFeature<?, ?>> registerOre(String name, RuleTest replaceables, BlockItemProvider block, int size) {
+        return registerOre(() -> Feature.ORE, name, replaceables, block, size, 0);
+    }
+
+    private static RegistryObject<ConfiguredFeature<?, ?>> registerOre(Supplier<? extends Feature<OreConfiguration>> feature, String name, RuleTest replaceables, BlockItemProvider block, int size, float discardChanceOnAirExposure) {
         Supplier<List<OreConfiguration.TargetBlockState>> oreList = Lazy.of(() -> List.of(
             OreConfiguration.target(replaceables, block.getBlock().defaultBlockState())
         ));
-        return CONFIGURED_FEATURES.register(name, () -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(oreList.get(), size)));
+        return CONFIGURED_FEATURES.register(name, () -> new ConfiguredFeature<>(feature.get(), new OreConfiguration(oreList.get(), size, discardChanceOnAirExposure)));
     }
 
     private ModConfiguredFeatures() {}
