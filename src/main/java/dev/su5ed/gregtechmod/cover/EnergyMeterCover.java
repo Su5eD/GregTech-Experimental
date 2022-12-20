@@ -5,8 +5,10 @@ import dev.su5ed.gregtechmod.api.cover.CoverType;
 import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
+import dev.su5ed.gregtechmod.api.util.GtFluidTank;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
+import dev.su5ed.gregtechmod.util.power.SteamPowerProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,25 +42,30 @@ public class EnergyMeterCover extends BaseCover<IElectricMachine> {
 
             if (this.mode == Mode.UNIVERSAL || this.mode == Mode.UNIVERSAL_INVERTED) {
                 if (this.be instanceof UpgradableBlockEntity upgradable) {
-                    stored = upgradable.getUniversalEnergy();
-                    capacity = upgradable.getUniversalEnergyCapacity();
+                    stored = upgradable.getStoredEnergy();
+                    capacity = upgradable.getEnergyCapacity();
                 } else {
-                    stored = this.be.getStoredEU();
-                    capacity = this.be.getEUCapacity();
+                    stored = this.be.getStoredEnergy();
+                    capacity = this.be.getEnergyCapacity();
                 }
             }
             else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
-                stored = this.be.getStoredEU();
-                capacity = this.be.getEUCapacity();
+                stored = this.be.getStoredEnergy();
+                capacity = this.be.getEnergyCapacity();
             }
             else if (this.be instanceof UpgradableBlockEntity upgradable) {
-                if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && upgradable.hasMjUpgrade()) {
-                    stored = upgradable.getStoredMj();
-                    capacity = upgradable.getMjCapacity();
-                }
-                else if ((this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) && upgradable.hasSteamTank()) {
-                    stored = upgradable.getStoredSteam();
-                    capacity = upgradable.getSteamCapacity();
+//                if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && upgradable.hasMjUpgrade()) { TODO
+//                    stored = upgradable.getStoredMj();
+//                    capacity = upgradable.getMjCapacity();
+//                }
+                if (this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) {
+                    GtFluidTank steamTank = upgradable.getPowerProvider(SteamPowerProvider.class)
+                        .map(SteamPowerProvider::getSteamTank)
+                        .orElse(null);
+                    if (steamTank != null) {
+                        stored = steamTank.getFluidAmount();
+                        capacity = steamTank.getCapacity();
+                    }
                 }
             }
 

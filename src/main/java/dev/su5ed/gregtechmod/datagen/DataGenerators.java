@@ -18,6 +18,7 @@ public final class DataGenerators {
         generator.addProvider(event.includeServer(), new ItemTagsGen(generator, blockTags, helper));
         generator.addProvider(event.includeServer(), new EntityTagsGen(generator, helper));
         generator.addProvider(event.includeServer(), new BiomeTagsGen(generator, helper));
+        generator.addProvider(event.includeServer(), new FluidTagsGen(generator, helper));
         generator.addProvider(event.includeServer(), new LootTableGen(generator));
         generator.addProvider(event.includeServer(), new LootModifierProvider(generator));
 

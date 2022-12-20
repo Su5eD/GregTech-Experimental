@@ -22,7 +22,7 @@ public abstract class InventoryCover extends BaseCover<BlockEntity> {
 
     protected boolean shouldUseEnergy(double minCapacity) {
         if (this.mode.consumesEnergy(this.side) && this.be instanceof IElectricMachine electric) {
-            double capacity = this.be instanceof UpgradableBlockEntity upgradable ? upgradable.getUniversalEnergyCapacity() : electric.getEUCapacity();
+            double capacity = this.be instanceof UpgradableBlockEntity upgradable ? upgradable.getEnergyCapacity() : electric.getEnergyCapacity();
             return capacity >= minCapacity;
         }
         return false;

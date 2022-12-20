@@ -101,7 +101,9 @@ public final class GtUtil {
 
     public static void updateRender(BlockEntity be) {
         Level level = be.getLevel();
-        if (level.isClientSide) be.requestModelDataUpdate();
+        if (level.isClientSide) {
+            be.requestModelDataUpdate();
+        }
         BlockState state = be.getBlockState();
         level.sendBlockUpdated(be.getBlockPos(), state, state, Block.UPDATE_IMMEDIATE);
     }

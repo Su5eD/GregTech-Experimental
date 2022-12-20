@@ -1,9 +1,11 @@
 package dev.su5ed.gregtechmod.util;
 
+import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import java.util.Collection;
@@ -15,6 +17,8 @@ public interface BlockEntityProvider {
     BlockEntityType<?> getType();
 
     AllowedFacings getAllowedFacings();
+    
+    BaseBlockEntity getDummyInstance();
 
     enum AllowedFacings {
         ALL(GtUtil.ALL_FACINGS, BlockPlaceContext::getNearestLookingDirection),

@@ -8,8 +8,7 @@ import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.IMachineProgress;
 import dev.su5ed.gregtechmod.api.machine.ScannerInfoProvider;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
-import dev.su5ed.gregtechmod.api.upgrade.GtUpgradeType;
-import dev.su5ed.gregtechmod.api.upgrade.IC2UpgradeType;
+import dev.su5ed.gregtechmod.api.upgrade.UpgradeCategory;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import ic2.api.crops.CropCard;
@@ -119,9 +118,9 @@ public class ScannerItem extends ElectricItem {
             if (be instanceof UpgradableBlockEntity upgradable) {
                 energyCost += 500;
                 int value;
-                if ((value = upgradable.getUpgradeCount(IC2UpgradeType.OVERCLOCKER)) > 0) ret.add(GtLocale.translateScan("overclockers", value));
-                if ((value = upgradable.getUpgradeCount(IC2UpgradeType.TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("transformers", value));
-                if ((value = upgradable.getUpgradeCount(GtUpgradeType.TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("hv_transformers", value));
+                if ((value = upgradable.getUpgradeCount(UpgradeCategory.OVERCLOCKER)) > 0) ret.add(GtLocale.translateScan("overclockers", value));
+                if ((value = upgradable.getUpgradeCount(UpgradeCategory.TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("transformers", value));
+                if ((value = upgradable.getUpgradeCount(UpgradeCategory.HV_TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("hv_transformers", value));
                 if ((value = upgradable.getExtraEUCapacity()) > 0) ret.add(GtLocale.translateScan("extra_capacity", value));
             }
 

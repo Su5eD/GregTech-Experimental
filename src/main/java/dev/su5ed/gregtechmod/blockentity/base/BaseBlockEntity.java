@@ -4,15 +4,17 @@ import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
-import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -21,16 +23,23 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import one.util.streamex.StreamEx;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public abstract class BaseBlockEntity extends BlockEntity {
     protected final BlockEntityProvider.AllowedFacings allowedFacings; 
     private final Map<ResourceLocation, BlockEntityComponent> components = new HashMap<>();
+    
+    private int tickCounter;
 
     protected BaseBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider.getType(), pos, state);
@@ -42,6 +51,9 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     public void tickServer() {
+        this.components.values().forEach(BlockEntityComponent::tickServer);
+
+        this.tickCounter++;
     }
     
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
@@ -56,6 +68,12 @@ public abstract class BaseBlockEntity extends BlockEntity {
         return false;
     }
     
+    public void provideAdditionalDrops(List<? super ItemStack> drops) {}
+    
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {}
+    
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {}
+    
     public Direction getFacing() {
         return getBlockState().getValue(BlockStateProperties.FACING);
     }
@@ -68,7 +86,11 @@ public abstract class BaseBlockEntity extends BlockEntity {
         }
         return false;
     }
-    
+
+    public int getTicks() {
+        return this.tickCounter;
+    }
+
     public boolean wrenchCanRemove() {
         return true;
     }
@@ -88,10 +110,14 @@ public abstract class BaseBlockEntity extends BlockEntity {
         return Optional.ofNullable(this.components.get(name));
     }
 
-    public void updateRenderClient() {
-        GtUtil.assertClientSide(this.level);
+    public Collection<BlockEntityComponent> getComponents() {
+        return this.components.values();
+    }
 
-        requestModelDataUpdate();
+    public void updateRender() {
+        if (this.level.isClientSide) {
+            requestModelDataUpdate();
+        }
         BlockState state = getBlockState();
         this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);
     }
@@ -102,6 +128,23 @@ public abstract class BaseBlockEntity extends BlockEntity {
         if (this.level.isClientSide) {
             GregTechNetwork.requestInitialData(this);
         }
+
+        this.components.values().forEach(BlockEntityComponent::onLoad);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        return StreamEx.ofValues(this.components)
+            .map(component -> component.getCapability(cap, side))
+            .findFirst(LazyOptional::isPresent)
+            .orElseGet(() -> super.getCapability(cap, side));
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+
+        this.components.values().forEach(BlockEntityComponent::invalidateCaps);
     }
 
     @Override

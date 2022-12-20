@@ -3,13 +3,18 @@ package dev.su5ed.gregtechmod.util.capability;
 import dev.su5ed.gregtechmod.Capabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
+
 public class LightSourceProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+    public static final ResourceLocation NAME = location("light_source");
+    
     private final LightSource instance = new LightSourceStore();
     private final LazyOptional<LightSource> optionalData = LazyOptional.of(() -> instance);
 

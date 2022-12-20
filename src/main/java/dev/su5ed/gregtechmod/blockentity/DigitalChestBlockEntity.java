@@ -12,6 +12,6 @@ public class DigitalChestBlockEntity extends CoverableBlockEntity {
     }
 
     public void upgradeToQuantumChest() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(); // TODO
     }
 }

@@ -1,22 +1,21 @@
 package dev.su5ed.gregtechmod.api.machine;
 
 public interface IElectricMachine extends IGregTechMachine {
-
     boolean addEnergy(double amount);
 
-    double useEnergy(double amount, boolean simulate);
-    
+    boolean canUseEnergy(double amount);
+
     default double useEnergy(double amount) {
         return useEnergy(amount, false);
     }
-    
-    boolean tryUseEnergy(double amount, boolean simulate);
-    
+
+    double useEnergy(double amount, boolean simulate);
+
     default boolean tryUseEnergy(double amount) {
         return tryUseEnergy(amount, false);
     }
     
-    boolean canUseEnergy(double amount);
+    boolean tryUseEnergy(double amount, boolean simulate);
 
     int getSinkTier();
 
@@ -26,17 +25,14 @@ public interface IElectricMachine extends IGregTechMachine {
 
     double getMaxOutputEUt();
 
-    double getStoredEU();
+    double getStoredEnergy();
 
-    int getEUCapacity();
+    double getEnergyCapacity();
 
     double getAverageEUInput();
 
     double getAverageEUOutput();
-    
-    /**
-     * <img src="https://i.imgur.com/7lZ0uZa.png" alt="Kaboom" width="384" height="382">
-     */
+
     void markForExplosion();
     
     void markForExplosion(float power);

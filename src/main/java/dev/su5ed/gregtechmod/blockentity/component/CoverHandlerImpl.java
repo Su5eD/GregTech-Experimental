@@ -94,6 +94,18 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
     }
 
     @Override
+    public void tickServer() {
+        super.tickServer();
+
+        for (Cover<?> cover : this.covers.values()) {
+            int tickRate = cover.getTickRate();
+            if (tickRate > 0 && this.parent.getTicks() % tickRate == 0) {
+                cover.tick();
+            }
+        }
+    }
+
+    @Override
     public void save(FriendlyCompoundTag tag) {
         super.save(tag);
         tag.put("covers", this.covers, this.coversCodec);
@@ -107,7 +119,9 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
 
     @Override
     public void onFieldUpdate(String name) {
-        if (name.equals("covers")) GtUtil.updateRender(this.parent);
+        if (name.equals("covers")) {
+            this.parent.updateRender();
+        }
     }
 
     private Codec<Map<Direction, Cover<?>>> getCoversCodec() {

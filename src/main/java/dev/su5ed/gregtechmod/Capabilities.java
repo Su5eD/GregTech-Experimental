@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod;
 import dev.su5ed.gregtechmod.api.cover.CoverHandler;
 import dev.su5ed.gregtechmod.api.item.SolderingMetal;
 import dev.su5ed.gregtechmod.api.item.SolderingTool;
+import dev.su5ed.gregtechmod.api.upgrade.Upgrade;
 import dev.su5ed.gregtechmod.util.capability.JumpCharge;
 import dev.su5ed.gregtechmod.util.capability.LightSource;
 import net.minecraftforge.common.capabilities.Capability;
@@ -18,6 +19,7 @@ public final class Capabilities {
     // ItemStack capabilites
     public static final Capability<SolderingTool> SOLDERING_TOOL = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<SolderingMetal> SOLDERING_METAL = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<Upgrade> UPGRADE = CapabilityManager.get(new CapabilityToken<>() {});
     
     // Electric Armor
     public static final Capability<JumpCharge> JUMP_CHARGE = CapabilityManager.get(new CapabilityToken<>() {});

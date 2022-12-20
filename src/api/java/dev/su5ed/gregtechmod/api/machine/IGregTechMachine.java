@@ -1,8 +1,9 @@
 package dev.su5ed.gregtechmod.api.machine;
 
 import net.minecraft.core.Direction;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-public interface IGregTechMachine { // TODO extend IForgeBlockEntity?, remove I prefix
+public interface IGregTechMachine extends ICapabilityProvider { // TODO extend IForgeBlockEntity?, remove I prefix
     
     void setRedstoneOutput(Direction side, int strength);
     

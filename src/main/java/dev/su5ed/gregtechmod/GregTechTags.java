@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
@@ -99,7 +100,7 @@ public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_STEAM_TANK = itemTag("crafting/steam_tank");
     public static final TagKey<Item> CRAFTING_PNEUMATIC_GENERATOR = itemTag("crafting/pneumatic_generator");
     public static final TagKey<Item> CRAFTING_ENERGY_CELL_UPGRADE = itemTag("crafting/energy_cell_upgrade");
-    
+
     public static final TagKey<Item> CRAFTING_60K_COOLANT_STORE = itemTag("crafting/60k_coolant_store");
     public static final TagKey<Item> CRAFTING_180K_COOLANT_STORE = itemTag("crafting/180k_coolant_store");
     public static final TagKey<Item> CRAFTING_360K_COOLANT_STORE = itemTag("crafting/360k_coolant_store");
@@ -122,12 +123,16 @@ public final class GregTechTags {
     public static final TagKey<Item> OVERCLOCKED_HEAT_VENT = itemTag("overclocked_heat_vent");
     public static final TagKey<Item> EMPTY_FLUID_CELL = itemTag("empty_fluid_cell");
     public static final TagKey<Item> EMPTY_FUEL_CAN = itemTag("empty_fuel_can");
-    
+
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");
     public static final TagKey<Biome> PLACE_SAPPHIRE = biomeTag("place_sapphire");
     public static final TagKey<Biome> PLACE_TETRAHEDRITE = biomeTag("place_tetrahedrite");
     public static final TagKey<Biome> PLACE_CASSITERITE = biomeTag("place_cassiterite");
+
+    // Let's keep ic2 steam only tagged for GT now
+    public static final TagKey<Fluid> STEAM = fluidTag("steam");
+    public static final TagKey<Fluid> FORGE_STEAM = forgeFluidTag("steam");
 
     private static final Map<String, Map<String, TagKey<Item>>> FORGE_MATERIALS = new HashMap<>();
 
@@ -159,9 +164,17 @@ public final class GregTechTags {
     private static TagKey<EntityType<?>> forgeEntityTag(String name) {
         return TagKey.create(ForgeRegistries.Keys.ENTITY_TYPES, new ResourceLocation("forge", name));
     }
-    
+
     private static TagKey<Biome> biomeTag(String name) {
         return TagKey.create(ForgeRegistries.Keys.BIOMES, location(name));
+    }
+
+    private static TagKey<Fluid> fluidTag(String name) {
+        return TagKey.create(ForgeRegistries.Keys.FLUIDS, location(name));
+    }
+
+    private static TagKey<Fluid> forgeFluidTag(String name) {
+        return TagKey.create(ForgeRegistries.Keys.FLUIDS, new ResourceLocation("forge", name));
     }
 
     private GregTechTags() {}

@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.network;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import cpw.mods.modlauncher.api.LamdbaExceptionUtils;
 import dev.su5ed.gregtechmod.api.util.TriConsumer;
@@ -46,6 +47,7 @@ public final class NetworkHandler {
         registerSerializer(String.class, FriendlyByteBuf::writeUtf, FriendlyByteBuf::readUtf);
         registerSerializer(ItemStack.class, FriendlyByteBuf::writeItem, FriendlyByteBuf::readItem);
         registerSerializer(BlockPos.class, FriendlyByteBuf::writeBlockPos, FriendlyByteBuf::readBlockPos);
+        registerSerializer(GameProfile.class, FriendlyByteBuf::writeGameProfile, FriendlyByteBuf::readGameProfile);
         //noinspection unchecked
         registerTypeSerializer(Enum.class, FriendlyByteBuf::writeEnum, FriendlyByteBuf::readEnum);
     }

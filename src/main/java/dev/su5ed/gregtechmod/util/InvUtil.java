@@ -1,6 +1,5 @@
 package dev.su5ed.gregtechmod.util;
 
-import dev.su5ed.gregtechmod.api.util.QuadFunction;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -36,7 +35,7 @@ public final class InvUtil {
         });
     }
 
-    private static int moveItemStack(BlockEntity from, BlockEntity to, Direction fromSide, Direction toSide, Predicate<IItemHandler> condition, Predicate<ItemStack> filter, QuadFunction<IItemHandler, IItemHandler, ItemStack, Integer, Integer> consumer) {
+    private static int moveItemStack(BlockEntity from, BlockEntity to, Direction fromSide, Direction toSide, Predicate<IItemHandler> condition, Predicate<ItemStack> filter, ItemTransferCallback callback) {
         if (from != null && to != null) {
             return from.getCapability(ForgeCapabilities.ITEM_HANDLER, fromSide).resolve()
                 .flatMap(source -> to.getCapability(ForgeCapabilities.ITEM_HANDLER, toSide).resolve()
@@ -45,7 +44,7 @@ public final class InvUtil {
                         .mapToEntry(i -> source.extractItem(i, source.getSlotLimit(i), true))
                         .removeValues(ItemStack::isEmpty)
                         .filterValues(filter)
-                        .mapKeyValue((i, stack) -> consumer.apply(source, dest, stack, i))
+                        .mapKeyValue((i, stack) -> callback.transfer(source, dest, stack, i))
                         .findFirst()
                     )
                 )
@@ -71,5 +70,9 @@ public final class InvUtil {
         }
 
         return 0;
+    }
+    
+    private interface ItemTransferCallback {
+        int transfer(IItemHandler source, IItemHandler dest, ItemStack stack, int slot);
     }
 }

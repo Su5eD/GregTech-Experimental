@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.blockentity.base;
 
+import com.mojang.authlib.GameProfile;
 import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.cover.Cover;
@@ -7,6 +8,8 @@ import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverHandler;
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
+import dev.su5ed.gregtechmod.api.machine.ScannerInfoProvider;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.blockentity.component.CoverHandlerImpl;
 import dev.su5ed.gregtechmod.cover.GenericCover;
 import dev.su5ed.gregtechmod.cover.VentCover;
@@ -14,11 +17,16 @@ import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.network.Networked;
 import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
+import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -29,22 +37,26 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.data.ModelDataManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class CoverableBlockEntity extends BaseBlockEntity {
+public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfoProvider {
     @Networked
     private final CoverHandlerImpl<CoverableBlockEntity> coverHandler;
     private final LazyOptional<CoverHandler> optionalCoverHandler;
+    
+    @Networked
+    private GameProfile owner;
+    private boolean isPrivate;
 
     public CoverableBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider, pos, state);
@@ -58,6 +70,16 @@ public class CoverableBlockEntity extends BaseBlockEntity {
     }
 
     @Override
+    public void provideAdditionalDrops(List<? super ItemStack> drops) {
+        super.provideAdditionalDrops(drops);
+        
+        StreamEx.ofValues(this.coverHandler.getCovers())
+            .map(Cover::getItem)
+            .map(ItemStack::new)
+            .toListAndThen(drops::addAll);
+    }
+
+    @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         Map<Direction, Cover<?>> covers = this.coverHandler.getCovers();
         return beforeUse(player, hand, hit)
@@ -67,9 +89,91 @@ public class CoverableBlockEntity extends BaseBlockEntity {
             : super.use(state, level, pos, player, hand, hit);
     }
 
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        
+        if (placer instanceof Player player) {
+            setOwner(player.getGameProfile());
+        }
+    }
+
+    @Override
+    protected void saveAdditional(FriendlyCompoundTag tag) {
+        super.saveAdditional(tag);
+        
+        if (this.owner != null) {
+            tag.put("owner", NbtUtils.writeGameProfile(new CompoundTag(), this.owner));
+        }
+        tag.putBoolean("isPrivate", this.isPrivate);
+    }
+
+    @Override
+    protected void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        
+        if (tag.contains("owner")) {
+            this.owner = NbtUtils.readGameProfile(tag.getCompound("owner"));
+        }
+        this.isPrivate = tag.getBoolean("isPrivate");
+    }
+
+    @Override
+    public List<Component> getScanInfo(Player player, BlockPos pos, int scanLevel) {
+        List<Component> scan = new ArrayList<>();
+        if (scanLevel > 1) {
+            scan.add(GtLocale.key("info", checkAccess(player) ? "machine_accessible" : "machine_not_accessible").toComponent());
+        }
+
+        getScanInfoPre(scan, player, pos, scanLevel);
+        StreamEx.of(getComponents())
+            .forEach(component -> component.getScanInfo(scan, player, pos, scanLevel));
+        getScanInfoPost(scan, player, pos, scanLevel);
+
+        return scan;
+    }
+    
+    public void getScanInfoPre(List<? super Component> scan, Player player, BlockPos pos, int scanLevel) {}
+
+    public void getScanInfoPost(List<? super Component> scan, Player player, BlockPos pos, int scanLevel) {}
+
+    public GameProfile getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(GameProfile owner) {
+        this.owner = owner;
+    }
+    
+    public boolean isPrivate() {
+        return this.isPrivate;
+    }
+
+    public void setPrivate(boolean value) {
+        this.isPrivate = value;
+    }
+    
+    public boolean isOwnedBy(GameProfile profile) {
+        return this.owner.equals(profile);
+    }
+
+    public boolean checkAccess(Player player) {
+        return checkAccess(player.getGameProfile());
+    }
+
+    public boolean checkAccess(GameProfile profile) {
+        return !this.isPrivate || this.owner == null || this.owner.equals(profile);
+    }
+
     protected boolean beforeUse(Player player, InteractionHand hand, BlockHitResult hit) {
         ItemStack stack = player.getItemInHand(hand);
         Direction side = hit.getDirection();
+        
+        if (!checkAccess(player)) {
+            player.displayClientMessage(GtLocale.key("info", "access_error").toComponent(this.owner.getName()), true);
+            return true;
+        }
+        
         if (GenericCover.isGenericCover(stack)) {
             return placeCover(ModCovers.GENERIC.get(), player, side, stack);
         }
@@ -110,25 +214,22 @@ public class CoverableBlockEntity extends BaseBlockEntity {
     }
 
     public boolean tryUseCrowbar(ItemStack stack, Direction side, Player player, InteractionHand hand) {
-        if (stack.is(GregTechTags.CROWBAR)) {
-            return this.coverHandler.removeCover(side, false)
-                .map(cover -> {
-                    GtUtil.hurtStack(stack, 1, player, hand);
-                    Item coverItem = cover.getItem();
-                    if (coverItem != null && !this.level.isClientSide) {
-                        ItemEntity entity = new ItemEntity(
-                            this.level,
-                            this.worldPosition.getX() + side.getStepX() + 0.5,
-                            this.worldPosition.getY() + side.getStepY() + 0.5,
-                            this.worldPosition.getZ() + side.getStepZ() + 0.5,
-                            new ItemStack(coverItem));
-                        this.level.addFreshEntity(entity);
-                    }
-                    return true;
-                })
-                .orElse(false);
-        }
-        return false;
+        return stack.is(GregTechTags.CROWBAR) && this.coverHandler.removeCover(side, false)
+            .map(cover -> {
+                GtUtil.hurtStack(stack, 1, player, hand);
+                Item coverItem = cover.getItem();
+                if (coverItem != null && !this.level.isClientSide) {
+                    ItemEntity entity = new ItemEntity(
+                        this.level,
+                        this.worldPosition.getX() + side.getStepX() + 0.5,
+                        this.worldPosition.getY() + side.getStepY() + 0.5,
+                        this.worldPosition.getZ() + side.getStepZ() + 0.5,
+                        new ItemStack(coverItem));
+                    this.level.addFreshEntity(entity);
+                }
+                return true;
+            })
+            .orElse(false);
     }
 
     @NotNull
@@ -159,7 +260,10 @@ public class CoverableBlockEntity extends BaseBlockEntity {
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        return Capabilities.COVER_HANDLER.orEmpty(cap, this.optionalCoverHandler);
+        if (cap == Capabilities.COVER_HANDLER) {
+            return this.optionalCoverHandler.cast();
+        }
+        return super.getCapability(cap, side);
     }
 
     @Override

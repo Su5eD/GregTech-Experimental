@@ -9,9 +9,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -27,15 +29,30 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static dev.su5ed.gregtechmod.api.util.Reference.location;
+
 public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
+    private static final ResourceLocation CONTENT_KEY = location("content");
+    private static final LootContext.DynamicDrop CONTENT_DROP = (context, stackConsumer) -> {
+        BlockEntity be = context.getParamOrNull(LootContextParams.BLOCK_ENTITY);
+        if (be instanceof BaseBlockEntity base) {
+            List<ItemStack> drops = new ArrayList<>();
+            base.provideAdditionalDrops(drops);
+            drops.forEach(stackConsumer);
+        }
+    };
+
     private final BlockEntityProvider provider;
     
     public BaseEntityBlock(BlockEntityProvider provider) {
@@ -91,9 +108,19 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
-        pTooltip.add(GtLocale.key("block", ForgeRegistries.BLOCKS.getKey(this).getPath(), "description").toComponent().withStyle(ChatFormatting.GRAY));
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        
+        getBlockEntity(level, pos)
+            .ifPresent(be -> be.setPlacedBy(level, pos, state, placer, stack));
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, tooltip, flag);
+        tooltip.add(GtLocale.key("block", ForgeRegistries.BLOCKS.getKey(this).getPath(), "description").toComponent().withStyle(ChatFormatting.GRAY));
+        
+        this.provider.getDummyInstance().appendHoverText(stack, level, tooltip, flag);
     }
 
     @Nullable
@@ -137,6 +164,11 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     @Override
     public List<ItemStack> getWrenchDrops(Level level, BlockPos pos, BlockState state, BlockEntity be, Player player, int i) {
         return getDrops(state, (ServerLevel) level, pos, be, player, player.getUseItem());
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+        return super.getDrops(state, builder.withDynamicDrop(CONTENT_KEY, CONTENT_DROP));
     }
 
     private Optional<BaseBlockEntity> getBlockEntity(BlockGetter world, BlockPos pos) {

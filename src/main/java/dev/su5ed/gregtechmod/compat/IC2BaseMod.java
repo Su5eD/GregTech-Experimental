@@ -1,10 +1,15 @@
 package dev.su5ed.gregtechmod.compat;
 
+import dev.su5ed.gregtechmod.util.upgrade.IC2UpgradeCapabilityProvider;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.upgrade.IUpgradeItem;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -70,7 +75,17 @@ public class IC2BaseMod implements BaseMod {
     public double dischargeStack(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate) {
         return ElectricItem.manager.discharge(stack, amount, tier, ignoreTransferLimit, externally, simulate);
     }
-    
+
+    private static void onItemStackCapabilityAttach(AttachCapabilitiesEvent<ItemStack> event) {
+        ItemStack stack = event.getObject();
+        if (stack.getItem() instanceof IUpgradeItem upgrade) {
+            IC2UpgradeCapabilityProvider.IC2UpgradeAdapter.of(stack, upgrade)
+                .map(adapter -> new IC2UpgradeCapabilityProvider(stack, adapter))
+                .ifPresent(provider -> event.addCapability(IC2UpgradeCapabilityProvider.NAME, provider));
+        }
+    }
+
+    @EventBusSubscriber
     public static class Provider implements BaseMod.Provider {
         @Override
         public String getModid() {
@@ -85,6 +100,13 @@ public class IC2BaseMod implements BaseMod {
         @Override
         public BaseMod createBaseMod() {
             return new IC2BaseMod();
+        }
+
+        @SubscribeEvent
+        public static void onItemStackCapabilityAttach(AttachCapabilitiesEvent<ItemStack> event) {
+            if (ModHandler.ic2Loaded) {
+                IC2BaseMod.onItemStackCapabilityAttach(event);
+            }
         }
     }
 }

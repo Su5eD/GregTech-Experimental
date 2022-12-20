@@ -17,8 +17,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
-
 @EventBusSubscriber(modid = Reference.MODID)
 public final class ForgeEventHandler {
 
@@ -32,8 +30,8 @@ public final class ForgeEventHandler {
 
     @SubscribeEvent
     public static void onEntityCapabilityAttach(AttachCapabilitiesEvent<Entity> event) {
-        event.addCapability(location("jump_charge"), new JumpChargeProvider());
-        event.addCapability(location("light_source"), new LightSourceProvider());
+        event.addCapability(JumpChargeProvider.NAME, new JumpChargeProvider());
+        event.addCapability(LightSourceProvider.NAME, new LightSourceProvider());
     }
 
     @SubscribeEvent

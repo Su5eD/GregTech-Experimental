@@ -5,6 +5,9 @@
   "info.gregtechmod.buildcraft_absent": "BuildcraftLib is required to apply this upgrade",
   "info.gregtechmod.energy_tier": "Tier: %s",
   "info.gregtechmod.empty": "Empty. You need to recharge it.",
+  "info.gregtechmod.possible_upgrades": "Possible Upgrades: %s",
+  "info.gregtechmod.machine_accessible": "Is accessible to you",
+  "info.gregtechmod.machine_not_accessible": "Is not accessible to you",
 
   "generic.gregtechmod.turbine_rotor.description": "Turbine Efficiency:  %s%%",
   "generic.gregtechmod.saw.description": "For sawing logs into planks",
