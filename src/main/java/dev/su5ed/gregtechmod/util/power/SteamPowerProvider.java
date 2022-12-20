@@ -11,12 +11,14 @@ import dev.su5ed.gregtechmod.util.SteamHelper;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import java.util.Set;
+
 public class SteamPowerProvider implements PowerProvider {
     private final GtFluidTank steamTank;
 
     @SuppressWarnings("deprecation")
     public SteamPowerProvider(UpgradableBlockEntity be, CoverHandler coverHandler) {
-        this.steamTank = be.addTank(new GtFluidTankImpl("steam", coverHandler, 0, fluidStack -> fluidStack.getFluid().is(GregTechTags.STEAM), GtUtil.ALL_FACINGS, GtUtil.ALL_FACINGS));
+        this.steamTank = be.addTank(new GtFluidTankImpl("steam", coverHandler, 0, fluidStack -> fluidStack.getFluid().is(GregTechTags.STEAM), GtUtil.ALL_FACINGS, Set.of()));
     }
 
     public GtFluidTank getSteamTank() {

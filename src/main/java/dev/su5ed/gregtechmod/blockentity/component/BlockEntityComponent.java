@@ -16,6 +16,10 @@ public interface BlockEntityComponent extends FieldUpdateListener, ICapabilityPr
     
     ResourceLocation getName();
     
+    default int getPriority() {
+        return 0;
+    }
+    
     void onLoad();
     
     void invalidateCaps();

@@ -25,28 +25,27 @@ import net.minecraft.world.phys.BlockHitResult;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public abstract class UpgradableBlockEntityImpl extends CoverableBlockEntity implements UpgradableBlockEntity {
     public final FluidHandler fluidHandler;
     private final UpgradeManager<UpgradableBlockEntityImpl> upgradeManager;
-    
-    private final SortedSet<PowerProvider> powerProviders = new TreeSet<>(Comparator.comparingInt(PowerProvider::getPriority));
+
+    private final List<PowerProvider> powerProviders = new ArrayList<>();
 
     public UpgradableBlockEntityImpl(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider, pos, state);
 
-        this.fluidHandler = new FluidHandler(this);
+        this.fluidHandler = addComponent(new FluidHandler(this));
         this.upgradeManager = addComponent(new UpgradeManager<>(this, this::onUpdateUpgrade));
     }
 
     protected void onUpdateUpgrade(UpgradeCategory category) {}
-    
+
     @Override
     public <T extends PowerProvider> Optional<T> getPowerProvider(Class<T> type) {
         return StreamEx.of(this.powerProviders)
@@ -57,15 +56,16 @@ public abstract class UpgradableBlockEntityImpl extends CoverableBlockEntity imp
     @Override
     public void addPowerProvider(PowerProvider provider) {
         this.powerProviders.add(provider);
+        this.powerProviders.sort(Comparator.comparingInt(PowerProvider::getPriority).reversed());
         configurePowerProvider(provider);
     }
-    
+
     protected void configurePowerProvider(PowerProvider provider) {
         if (provider instanceof SteamPowerProvider steamProvider) {
             steamProvider.getSteamTank().setCapacity(getSteamCapacity());
         }
     }
-    
+
     protected int getSteamCapacity() {
         return 10000;
     }
@@ -118,7 +118,7 @@ public abstract class UpgradableBlockEntityImpl extends CoverableBlockEntity imp
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        
+
         String upgrades = StreamEx.of(getCompatibleUpgrades())
             .filter(UpgradeCategory::show)
             .map(category -> category.name().substring(0, 1))

@@ -24,13 +24,13 @@ public class SteamTankUpgrade extends UpgradeItemBase {
     }
 
     @Override
-    public void update(UpgradableBlockEntity machine, @Nullable Player player) {
-        super.update(machine, player);
+    public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
+        super.update(machine, player, stack);
         
         machine.getPowerProvider(SteamPowerProvider.class)
             .ifPresent(provider -> {
                 GtFluidTank steamTank = provider.getSteamTank();
-                steamTank.setCapacity(steamTank.getCapacity() + 64000);
+                steamTank.setCapacity(steamTank.getCapacity() + stack.getCount() * 64000);
             });
     }
 }

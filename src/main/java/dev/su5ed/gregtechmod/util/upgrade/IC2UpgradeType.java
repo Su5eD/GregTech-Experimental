@@ -33,7 +33,7 @@ public class IC2UpgradeType implements Upgrade {
     }
 
     @Override
-    public void update(UpgradableBlockEntity machine, @Nullable Player player) {
+    public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
 
     }
 

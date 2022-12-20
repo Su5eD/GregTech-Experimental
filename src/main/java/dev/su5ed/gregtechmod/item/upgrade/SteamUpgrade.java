@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class SteamUpgrade extends UpgradeItemBase {
-    
+
     public SteamUpgrade() {
         super(UpgradeCategory.STEAM, 1, 1);
     }
@@ -25,9 +25,9 @@ public class SteamUpgrade extends UpgradeItemBase {
     }
 
     @Override
-    public void update(UpgradableBlockEntity machine, @Nullable Player player) {
-        super.update(machine, player);
-        
+    public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
+        super.update(machine, player, stack);
+
         CoverHandler coverHandler = machine.getCapability(Capabilities.COVER_HANDLER).orElse(null);
         machine.addPowerProvider(new SteamPowerProvider(machine, coverHandler));
     }

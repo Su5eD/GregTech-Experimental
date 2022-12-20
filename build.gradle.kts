@@ -223,7 +223,7 @@ fun DependencyHandler.include(dependency: ModuleDependency) {
 
 fun getGitVersion(): String {
     val jgitver = GitVersionCalculator.location(rootDir)
-        .setNonQualifierBranches("forge-1.18.2")
+        .setNonQualifierBranches("forge-1.19.2")
         .setStrategy(Strategies.SCRIPT)
         .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version

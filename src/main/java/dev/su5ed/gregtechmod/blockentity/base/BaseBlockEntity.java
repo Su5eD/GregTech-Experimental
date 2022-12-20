@@ -29,21 +29,21 @@ import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public abstract class BaseBlockEntity extends BlockEntity {
-    protected final BlockEntityProvider.AllowedFacings allowedFacings; 
-    private final Map<ResourceLocation, BlockEntityComponent> components = new HashMap<>();
-    
+    protected final BlockEntityProvider.AllowedFacings allowedFacings;
+    private final List<BlockEntityComponent> components = new ArrayList<>();
+
     private int tickCounter;
 
     protected BaseBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider.getType(), pos, state);
-        
+
         this.allowedFacings = provider.getAllowedFacings();
     }
 
@@ -51,11 +51,11 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     public void tickServer() {
-        this.components.values().forEach(BlockEntityComponent::tickServer);
+        this.components.forEach(BlockEntityComponent::tickServer);
 
         this.tickCounter++;
     }
-    
+
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         return InteractionResult.PASS;
     }
@@ -63,21 +63,21 @@ public abstract class BaseBlockEntity extends BlockEntity {
     public Optional<ItemStack> getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         return Optional.empty();
     }
-    
+
     public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction side) {
         return false;
     }
-    
+
     public void provideAdditionalDrops(List<? super ItemStack> drops) {}
-    
+
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {}
-    
+
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {}
-    
+
     public Direction getFacing() {
         return getBlockState().getValue(BlockStateProperties.FACING);
     }
-    
+
     public boolean setFacing(Direction side) {
         if (this.allowedFacings.allows(side)) {
             BlockState state = getBlockState();
@@ -101,17 +101,23 @@ public abstract class BaseBlockEntity extends BlockEntity {
 
     protected <T extends BlockEntityComponent> T addComponent(T component) {
         ResourceLocation name = component.getName();
-        if (this.components.containsKey(name)) throw new RuntimeException("Duplicate component: " + name);
-        else this.components.put(name, component);
+        if (this.components.stream().map(BlockEntityComponent::getName).anyMatch(name::equals)) {
+            throw new RuntimeException("Duplicate component: " + name);
+        }
+        else {
+            this.components.add(component);
+            this.components.sort(Comparator.comparingInt(BlockEntityComponent::getPriority).reversed());
+        }
         return component;
     }
 
     public Optional<BlockEntityComponent> getComponent(ResourceLocation name) {
-        return Optional.ofNullable(this.components.get(name));
+        return StreamEx.of(this.components)
+            .findFirst(c -> c.getName().equals(name));
     }
 
     public Collection<BlockEntityComponent> getComponents() {
-        return this.components.values();
+        return this.components;
     }
 
     public void updateRender() {
@@ -129,12 +135,12 @@ public abstract class BaseBlockEntity extends BlockEntity {
             GregTechNetwork.requestInitialData(this);
         }
 
-        this.components.values().forEach(BlockEntityComponent::onLoad);
+        this.components.forEach(BlockEntityComponent::onLoad);
     }
 
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        return StreamEx.ofValues(this.components)
+        return StreamEx.of(this.components)
             .map(component -> component.getCapability(cap, side))
             .findFirst(LazyOptional::isPresent)
             .orElseGet(() -> super.getCapability(cap, side));
@@ -144,13 +150,13 @@ public abstract class BaseBlockEntity extends BlockEntity {
     public void invalidateCaps() {
         super.invalidateCaps();
 
-        this.components.values().forEach(BlockEntityComponent::invalidateCaps);
+        this.components.forEach(BlockEntityComponent::invalidateCaps);
     }
 
     @Override
     protected final void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        
+
         FriendlyCompoundTag friendlyTag = new FriendlyCompoundTag();
         saveAdditional(friendlyTag);
         tag.put("fields", friendlyTag);
@@ -160,7 +166,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
     @Override
     public final void load(CompoundTag tag) {
         super.load(tag);
-        
+
         FriendlyCompoundTag fields = new FriendlyCompoundTag(tag.getCompound("fields"));
         FriendlyCompoundTag components = new FriendlyCompoundTag(tag.getCompound("components"));
         load(fields);
@@ -168,23 +174,25 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     protected void saveAdditional(FriendlyCompoundTag tag) {}
-    
+
     protected void load(FriendlyCompoundTag tag) {}
 
     private CompoundTag saveComponents() {
         CompoundTag tag = new CompoundTag();
-        this.components.forEach((name, component) -> {
+        this.components.forEach(component -> {
             FriendlyCompoundTag componentTag = component.save();
-            tag.put(name.toString(), componentTag);
+            tag.put(component.getName().toString(), componentTag);
         });
         return tag;
     }
 
     private void loadComponents(FriendlyCompoundTag tag) {
-        StreamEx.of(tag.getAllKeys())
-            .mapToEntry(name -> this.components.get(new ResourceLocation(name)), tag::getCompound)
-            .nonNullKeys()
-            .mapValues(FriendlyCompoundTag::new)
-            .forKeyValue(BlockEntityComponent::load);
+        for (BlockEntityComponent component : this.components) {
+            String name = component.getName().toString();
+            if (tag.contains(name)) {
+                FriendlyCompoundTag compoundTag = new FriendlyCompoundTag(tag.getCompound(name));
+                component.load(compoundTag);
+            }
+        }
     }
 }

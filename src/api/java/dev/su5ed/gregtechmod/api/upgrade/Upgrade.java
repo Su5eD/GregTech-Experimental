@@ -16,7 +16,7 @@ public interface Upgrade {
     /**
      * Called after the upgrade is inserted into the machine
      */
-    void update(UpgradableBlockEntity machine, @Nullable Player player);
+    void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack);
 
     int getExtraEUCapacity();
     

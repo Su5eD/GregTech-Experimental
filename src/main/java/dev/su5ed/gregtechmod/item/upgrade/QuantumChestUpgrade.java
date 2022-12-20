@@ -23,8 +23,8 @@ public class QuantumChestUpgrade extends UpgradeItemBase {
     }
 
     @Override
-    public void update(UpgradableBlockEntity machine, @Nullable Player player) {
-        super.update(machine, player);
+    public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
+        super.update(machine, player, stack);
 
         if (machine instanceof DigitalChestBlockEntity chest) {
             chest.upgradeToQuantumChest();

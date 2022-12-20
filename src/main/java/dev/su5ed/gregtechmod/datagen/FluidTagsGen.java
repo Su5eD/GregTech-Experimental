@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.datagen;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.util.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
+import dev.su5ed.gregtechmod.object.ModFluid;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +18,9 @@ public class FluidTagsGen extends FluidTagsProvider {
 
     @Override
     protected void addTags() {
+        tag(GregTechTags.FORGE_STEAM)
+            .add(ModFluid.STEAM.getSourceFluid(), ModFluid.STEAM.getFlowingFluid());
+        
         tag(GregTechTags.STEAM)
             .addTag(GregTechTags.FORGE_STEAM)
             .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "steam"))

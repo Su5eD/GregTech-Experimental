@@ -44,7 +44,7 @@ public abstract class UpgradeItemBase extends ResourceItem {
         return Upgrade.InjectResult.PASS;
     }
 
-    public void update(UpgradableBlockEntity machine, @Nullable Player player) {
+    public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
 
     }
 
@@ -75,8 +75,8 @@ public abstract class UpgradeItemBase extends ResourceItem {
         }
 
         @Override
-        public void update(UpgradableBlockEntity machine, @Nullable Player player) {
-            this.item.update(machine, player);
+        public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
+            this.item.update(machine, player, stack);
         }
 
         @Override

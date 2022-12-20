@@ -7,6 +7,7 @@ import dev.su5ed.gregtechmod.api.upgrade.Upgrade;
 import dev.su5ed.gregtechmod.api.upgrade.UpgradeCategory;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gregtechmod.util.GtUtil;
 import ic2.core.util.StackUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -41,7 +42,7 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
     public void onLoad() {
         super.onLoad();
         if (!this.parent.getLevel().isClientSide) {
-            StreamEx.of(this.upgrades).forEach(upgrade -> upgrade.upgrade().update(this.parent, null));
+            StreamEx.of(this.upgrades).forEach(upgrade -> upgrade.upgrade().update(this.parent, null, upgrade.stack()));
         }
     }
 
@@ -91,11 +92,11 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
                     return false;
                 }
 
+                ItemStack copy = ItemHandlerHelper.copyStackWithSize(stack, 1);
                 if (areItemsEqual) {
                     existingStack.grow(1);
                 }
                 else {
-                    ItemStack copy = ItemHandlerHelper.copyStackWithSize(stack, 1);
                     Upgrade copyUpgrade = copy.getCapability(Capabilities.UPGRADE)
                         .orElseThrow(() -> new IllegalStateException("Expected cloned ItemStack to contain an Upgrade but got null"));
                     instance = new UpgradeInstance(copy, copyUpgrade);
@@ -106,7 +107,7 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
                     stack.shrink(1);
                 }
 
-                instance.upgrade().update(this.parent, player);
+                instance.upgrade().update(this.parent, player, copy);
                 this.onUpdate.accept(category);
                 this.parent.setChanged();
                 return true;
@@ -118,6 +119,13 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
     @Override
     public ResourceLocation getName() {
         return NAME;
+    }
+
+    @Override
+    public int getPriority() {
+        // Higher priority to ensure we're loaded before FluidHandler
+        // for PowerProvider tank capacities
+        return 1;
     }
 
     @Override
