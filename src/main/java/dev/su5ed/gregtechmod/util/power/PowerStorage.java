@@ -4,10 +4,12 @@ import dev.su5ed.gregtechmod.api.machine.PowerProvider;
 import dev.su5ed.gregtechmod.api.util.ChargingSlot;
 import dev.su5ed.gregtechmod.api.util.DischargingSlot;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.Collection;
 
-public interface PowerStorage extends PowerProvider {
+public interface PowerStorage extends PowerProvider, INBTSerializable<CompoundTag> {
     void load();
 
     void unload();

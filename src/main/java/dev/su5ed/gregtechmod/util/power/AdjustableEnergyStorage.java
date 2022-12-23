@@ -10,13 +10,12 @@ import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.util.JavaUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.INBTSerializable;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-public abstract class AdjustableEnergyStorage<T extends BaseBlockEntity & ElectricBlockEntity> implements PowerStorage, INBTSerializable<CompoundTag> {
+public abstract class AdjustableEnergyStorage<T extends BaseBlockEntity & ElectricBlockEntity> implements PowerStorage {
     protected final T parent;
     private final CoverHandler coverHandler;
 

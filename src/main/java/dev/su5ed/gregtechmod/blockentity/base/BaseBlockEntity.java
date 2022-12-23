@@ -150,11 +150,6 @@ public abstract class BaseBlockEntity extends BlockEntity {
     @Override
     public void setRemoved() {
         super.setRemoved();
-    }
-
-    @Override
-    public void onChunkUnloaded() {
-        super.onChunkUnloaded();
         
         this.components.forEach(BlockEntityComponent::onUnload);
     }

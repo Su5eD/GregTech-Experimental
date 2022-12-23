@@ -3,7 +3,6 @@ package dev.su5ed.gregtechmod;
 import com.fasterxml.jackson.databind.JsonNode;
 import dev.su5ed.gregtechmod.api.GregTechAPI;
 import dev.su5ed.gregtechmod.api.IGregTechAPI;
-import dev.su5ed.gregtechmod.api.item.TurbineRotor;
 import dev.su5ed.gregtechmod.api.util.SonictronSound;
 import dev.su5ed.gregtechmod.util.JavaUtil;
 import net.minecraft.world.item.Item;
@@ -16,7 +15,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 final class GregTechAPIImpl implements IGregTechAPI {

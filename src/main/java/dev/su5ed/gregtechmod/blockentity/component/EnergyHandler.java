@@ -6,6 +6,7 @@ import dev.su5ed.gregtechmod.api.machine.PowerHandler;
 import dev.su5ed.gregtechmod.api.machine.PowerProvider;
 import dev.su5ed.gregtechmod.api.util.ChargingSlot;
 import dev.su5ed.gregtechmod.api.util.DischargingSlot;
+import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.util.power.PowerStorage;
@@ -42,7 +43,7 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     }
 
     @Override
-    public <T extends PowerProvider> Optional<T> getPowerProvider(Class<T> type) {
+    public <U extends PowerProvider> Optional<U> getPowerProvider(Class<U> type) {
         return StreamEx.of(this.powerProviders)
             .select(type)
             .findFirst();
@@ -76,6 +77,20 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
             return this.optional.cast();
         }
         return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void save(FriendlyCompoundTag tag) {
+        super.save(tag);
+        
+        tag.put("storage", this.storage.serializeNBT());
+    }
+
+    @Override
+    public void load(FriendlyCompoundTag tag) {
+        super.load(tag);
+        
+        this.storage.deserializeNBT(tag.getCompound("storage"));
     }
 
     @Override

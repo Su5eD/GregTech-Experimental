@@ -54,7 +54,7 @@ public class SolderingMetalItem extends ResourceItem {
         @NotNull
         @Override
         public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-            return Capabilities.SOLDERING_METAL.orEmpty(cap, optional);
+            return Capabilities.SOLDERING_METAL.orEmpty(cap, this.optional);
         }
     }
 }
