@@ -5,6 +5,6 @@ import dev.su5ed.gregtechmod.api.upgrade.UpgradeCategory;
 public class HVTransformerUpgrade extends UpgradeItemBase {
     
     public HVTransformerUpgrade() {
-        super(UpgradeCategory.HV_TRANSFORMER, 2, 3);
+        super(UpgradeCategory.TRANSFORMER, 2, 3);
     }
 }

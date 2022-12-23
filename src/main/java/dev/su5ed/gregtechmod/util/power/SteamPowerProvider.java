@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.util.power;
 
+import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.cover.CoverHandler;
 import dev.su5ed.gregtechmod.api.machine.PowerProvider;
@@ -17,7 +18,8 @@ public class SteamPowerProvider implements PowerProvider {
     private final GtFluidTank steamTank;
 
     @SuppressWarnings("deprecation")
-    public SteamPowerProvider(UpgradableBlockEntity be, CoverHandler coverHandler) {
+    public SteamPowerProvider(UpgradableBlockEntity be) {
+        CoverHandler coverHandler = be.getCapability(Capabilities.COVER_HANDLER).orElse(null);
         this.steamTank = be.addTank(new GtFluidTankImpl("steam", coverHandler, 0, fluidStack -> fluidStack.getFluid().is(GregTechTags.STEAM), GtUtil.ALL_FACINGS, Set.of()));
     }
 
@@ -51,7 +53,7 @@ public class SteamPowerProvider implements PowerProvider {
     }
 
     @Override
-    public double getCapacity() {
-        return SteamHelper.getEUForSteam(this.steamTank.getFluid(), this.steamTank.getCapacity());
+    public int getCapacity() {
+        return (int) SteamHelper.getEUForSteam(this.steamTank.getFluid(), this.steamTank.getCapacity());
     }
 }

@@ -1,8 +1,10 @@
 package dev.su5ed.gregtechmod.cover;
 
+import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
+import dev.su5ed.gregtechmod.api.machine.PowerHandler;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,19 +15,25 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BaseCover<T> implements Cover<T> {
+public abstract class BaseCover<T extends ICapabilityProvider> implements Cover<T> {
     private final CoverType<T> type;
     protected final T be;
     protected final Direction side;
     protected final Item item;
+    
+    @Nullable
+    protected final PowerHandler energyHandler;
 
     protected BaseCover(CoverType<T> type, T be, Direction side, Item item) {
         this.type = type;
         this.be = be;
         this.side = side;
         this.item = item;
+        
+        this.energyHandler = be.getCapability(Capabilities.ENERGY_HANDLER).orElse(null);
     }
 
     @Override

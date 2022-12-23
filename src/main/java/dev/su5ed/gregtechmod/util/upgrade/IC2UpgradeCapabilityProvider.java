@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class IC2UpgradeCapabilityProvider implements ICapabilityProvider {
     public static final ResourceLocation NAME = location("upgrade");

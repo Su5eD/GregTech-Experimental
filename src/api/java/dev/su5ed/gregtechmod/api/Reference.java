@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.api.util;
+package dev.su5ed.gregtechmod.api;
 
 import net.minecraft.resources.ResourceLocation;
 

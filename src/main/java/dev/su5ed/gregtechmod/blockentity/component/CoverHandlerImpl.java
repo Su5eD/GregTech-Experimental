@@ -13,7 +13,6 @@ import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.network.NetworkHandler;
 import dev.su5ed.gregtechmod.network.Networked;
 import dev.su5ed.gregtechmod.object.ModCovers;
-import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
@@ -27,7 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase<T> implements CoverHandler {
     public static final ModelProperty<Map<Direction, Cover<?>>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
@@ -66,6 +65,7 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
 
     @Override
     public <U> boolean placeCoverAtSide(CoverType<U> type, Direction side, Item item, boolean simulate) {
+        // TODO Use capability conditions rather than hardcoded classes
         if (!this.covers.containsKey(side) && !this.coverBlacklist.contains(type.getCategory()) && type.getCoverableClass().isInstance(this.parent)) {
             if (isServerSide() && !simulate) {
                 //noinspection unchecked

@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class ScreenCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = location("blockentity/adv_machine_screen_random");

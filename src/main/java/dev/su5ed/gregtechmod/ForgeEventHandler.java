@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod;
 
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.item.ElectricArmorItem;
 import dev.su5ed.gregtechmod.util.capability.JumpChargeProvider;
 import dev.su5ed.gregtechmod.util.capability.LightSourceProvider;

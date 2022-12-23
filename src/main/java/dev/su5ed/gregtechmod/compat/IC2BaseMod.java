@@ -1,6 +1,11 @@
 package dev.su5ed.gregtechmod.compat;
 
+import dev.su5ed.gregtechmod.api.machine.ElectricBlockEntity;
+import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gregtechmod.util.power.IC2EnergyStorage;
+import dev.su5ed.gregtechmod.util.power.PowerStorage;
 import dev.su5ed.gregtechmod.util.upgrade.IC2UpgradeCapabilityProvider;
+import ic2.api.energy.EnergyNet;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
@@ -74,6 +79,16 @@ public class IC2BaseMod implements BaseMod {
     @Override
     public double dischargeStack(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate) {
         return ElectricItem.manager.discharge(stack, amount, tier, ignoreTransferLimit, externally, simulate);
+    }
+
+    @Override
+    public double getEnergyFromTier(int tier) {
+        return EnergyNet.instance.getPowerFromTier(tier);
+    }
+
+    @Override
+    public <T extends BaseBlockEntity & ElectricBlockEntity> PowerStorage createEnergyProvider(T parent) {
+        return new IC2EnergyStorage<>(parent);
     }
 
     private static void onItemStackCapabilityAttach(AttachCapabilitiesEvent<ItemStack> event) {

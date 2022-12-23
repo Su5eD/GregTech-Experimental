@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class FortuneLootFunction implements LootItemFunction {
     public static final ResourceLocation NAME = location("fortune");

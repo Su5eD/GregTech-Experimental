@@ -7,7 +7,6 @@ import dev.su5ed.gregtechmod.api.upgrade.Upgrade;
 import dev.su5ed.gregtechmod.api.upgrade.UpgradeCategory;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
-import dev.su5ed.gregtechmod.util.GtUtil;
 import ic2.core.util.StackUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> extends GtComponentBase<T> {
     private static final ResourceLocation NAME = location("upgrade_manager");

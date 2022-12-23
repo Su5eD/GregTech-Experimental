@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod;
 
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.object.Armor;
 import dev.su5ed.gregtechmod.object.Cell;
 import dev.su5ed.gregtechmod.object.ColorSpray;
@@ -30,7 +30,6 @@ import dev.su5ed.gregtechmod.util.ItemProvider;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import one.util.streamex.StreamEx;
 
 public final class GregTechTab extends CreativeModeTab {

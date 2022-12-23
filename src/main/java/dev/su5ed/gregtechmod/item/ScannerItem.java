@@ -4,8 +4,8 @@ import com.mojang.authlib.GameProfile;
 import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.api.cover.CoverHandler;
 import dev.su5ed.gregtechmod.api.event.ScannerEvent;
-import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.IMachineProgress;
+import dev.su5ed.gregtechmod.api.machine.PowerHandler;
 import dev.su5ed.gregtechmod.api.machine.ScannerInfoProvider;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.upgrade.UpgradeCategory;
@@ -120,7 +120,7 @@ public class ScannerItem extends ElectricItem {
                 int value;
                 if ((value = upgradable.getUpgradeCount(UpgradeCategory.OVERCLOCKER)) > 0) ret.add(GtLocale.translateScan("overclockers", value));
                 if ((value = upgradable.getUpgradeCount(UpgradeCategory.TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("transformers", value));
-                if ((value = upgradable.getUpgradeCount(UpgradeCategory.HV_TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("hv_transformers", value));
+//                if ((value = upgradable.getUpgradeCount(UpgradeCategory.HV_TRANSFORMER)) > 0) ret.add(GtLocale.translateScan("hv_transformers", value));
                 if ((value = upgradable.getExtraEUCapacity()) > 0) ret.add(GtLocale.translateScan("extra_capacity", value));
             }
 
@@ -201,13 +201,17 @@ public class ScannerItem extends ElectricItem {
             if (energyTile instanceof IEnergySink sink) {
                 energyCost += 400;
                 ret.add(GtLocale.translateScan("demanded_energy", sink.getDemandedEnergy()));
-                double maxInput = be instanceof IElectricMachine machine ? machine.getMaxInputEUp() : EnergyNet.instance.getPowerFromTier(sink.getSinkTier());
+                double maxInput = be.getCapability(Capabilities.ENERGY_HANDLER)
+                    .map(PowerHandler::getMaxInputEUp)
+                    .orElseGet(() -> EnergyNet.instance.getPowerFromTier(sink.getSinkTier()));
                 ret.add(GtLocale.translateScan("max_safe_input", maxInput));
             }
 
             if (energyTile instanceof IEnergySource source) {
                 energyCost += 400;
-                double maxOutput = be instanceof IElectricMachine machine ? machine.getMaxOutputEUt() : EnergyNet.instance.getPowerFromTier(source.getSourceTier());
+                double maxOutput = be.getCapability(Capabilities.ENERGY_HANDLER)
+                    .map(PowerHandler::getMaxOutputEUp)
+                    .orElseGet(() -> EnergyNet.instance.getPowerFromTier(source.getSourceTier()));
                 ret.add(GtLocale.translateScan("offered_energy", source.getOfferedEnergy()));
                 ret.add(GtLocale.translateScan("max_output", maxOutput));
             }

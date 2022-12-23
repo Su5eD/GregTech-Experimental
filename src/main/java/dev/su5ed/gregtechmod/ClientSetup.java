@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod;
 
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.cover.ActiveDetectorCover;
 import dev.su5ed.gregtechmod.cover.ConveyorCover;

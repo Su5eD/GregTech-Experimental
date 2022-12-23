@@ -22,6 +22,8 @@ public interface BlockEntityComponent extends FieldUpdateListener, ICapabilityPr
     
     void onLoad();
     
+    void onUnload();
+    
     void invalidateCaps();
     
     void tickServer();

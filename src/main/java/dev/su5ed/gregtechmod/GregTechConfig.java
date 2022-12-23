@@ -30,6 +30,9 @@ public final class GregTechConfig {
         public final ForgeConfigSpec.BooleanValue teslaStaffDestroysArmor;
         
         public final ForgeConfigSpec.BooleanValue solarPanelCoverOvervoltageProtection;
+        public final ForgeConfigSpec.IntValue explosionPowerMultiplier;
+        
+        public final ForgeConfigSpec.BooleanValue machineWireFire;
 
         private Common(ForgeConfigSpec.Builder builder) {
             builder.push("General config");
@@ -46,6 +49,14 @@ public final class GregTechConfig {
             this.solarPanelCoverOvervoltageProtection = builder
                 .comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
                 .define("solarPanelCoverOvervoltageProtection", false);
+            this.explosionPowerMultiplier = builder
+                .defineInRange("explosionPowerMultiplier", 2, 0, 100);
+            builder.pop();
+            
+            builder.push("Machines");
+            this.machineWireFire = builder
+                .comment("Wirefire on explosion")
+                .define("machineWireFire", true);
             builder.pop();
         }
     }

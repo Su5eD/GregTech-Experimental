@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.datagen;
 
 import com.mojang.datafixers.util.Pair;
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.Dust;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;

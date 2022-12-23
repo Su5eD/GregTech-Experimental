@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;

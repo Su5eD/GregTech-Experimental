@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.datagen;
 
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.util.loot.ConditionLootModifier;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;

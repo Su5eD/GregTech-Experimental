@@ -1,8 +1,8 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.api.GregTechAPI;
 import dev.su5ed.gregtechmod.api.item.TurbineRotor;
 
+// TODO TurbineRotor capability
 public class TurbineRotorItem extends ResourceItem implements TurbineRotor {
     private final int efficiency;
     private final int efficiencyMultiplier;
@@ -12,7 +12,6 @@ public class TurbineRotorItem extends ResourceItem implements TurbineRotor {
         
         this.efficiency = efficiency;
         this.efficiencyMultiplier = efficiencyMultiplier;
-        GregTechAPI.instance().registerTurbineRotor(this);
     }
 
     @Override

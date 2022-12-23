@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +25,7 @@ public class PumpCover extends InventoryCover {
             if (!stack.isEmpty()) {
                 double energy = Math.min(1, stack.getAmount() / 100D);
 
-                if (!shouldUseEnergy(energy) || ((IElectricMachine) this.be).canUseEnergy(energy)) {
+                if (!shouldUseEnergy(energy) || this.energyHandler.canUseEnergy(energy)) {
                     GtUtil.transportFluid(this.mode.isImport ? target : this.be, this.mode.isImport ? this.side.getOpposite() : this.side, this.mode.isImport ? this.be : target, FluidType.BUCKET_VOLUME);
                 }
             }

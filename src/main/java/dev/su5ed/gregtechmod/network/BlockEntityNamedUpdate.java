@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.network;
 
-import dev.su5ed.gregtechmod.api.util.TriFunction;
+import dev.su5ed.gregtechmod.util.TriFunction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

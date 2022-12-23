@@ -1,5 +1,8 @@
 package dev.su5ed.gregtechmod.compat;
 
+import dev.su5ed.gregtechmod.api.machine.ElectricBlockEntity;
+import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gregtechmod.util.power.PowerStorage;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +33,10 @@ public interface BaseMod {
     double chargeStack(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean simulate);
     
     double dischargeStack(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate);
+    
+    double getEnergyFromTier(int tier);
+    
+    <T extends BaseBlockEntity & ElectricBlockEntity> PowerStorage createEnergyProvider(T parent);
     
     interface Provider {
         String getModid();

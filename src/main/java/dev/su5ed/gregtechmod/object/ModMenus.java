@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.object;
 
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.menu.DestructorPackMenu;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.inventory.MenuType;

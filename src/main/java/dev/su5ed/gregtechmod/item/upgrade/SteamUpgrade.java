@@ -18,17 +18,17 @@ public class SteamUpgrade extends UpgradeItemBase {
 
     @Override
     public Upgrade.InjectResult beforeInsert(UpgradableBlockEntity machine, Player player, ItemStack stack) {
-        if (machine.getPowerProvider(SteamPowerProvider.class).isPresent()) {
-            return Upgrade.InjectResult.REJECT;
-        }
-        return super.beforeInsert(machine, player, stack);
+        boolean hasSteam = machine.getCapability(Capabilities.ENERGY_HANDLER).resolve()
+            .flatMap(power -> power.getPowerProvider(SteamPowerProvider.class))
+            .isPresent();
+        return hasSteam ? Upgrade.InjectResult.REJECT : super.beforeInsert(machine, player, stack);
     }
 
     @Override
     public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
         super.update(machine, player, stack);
-
-        CoverHandler coverHandler = machine.getCapability(Capabilities.COVER_HANDLER).orElse(null);
-        machine.addPowerProvider(new SteamPowerProvider(machine, coverHandler));
+        
+        machine.getCapability(Capabilities.ENERGY_HANDLER)
+            .ifPresent(power -> power.addPowerProvider(new SteamPowerProvider(machine)));
     }
 }

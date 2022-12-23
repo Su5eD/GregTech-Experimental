@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.util;
 
 import dev.su5ed.gregtechmod.GregTechMod;
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

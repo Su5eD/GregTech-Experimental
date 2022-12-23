@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     private static final ResourceLocation CONTENT_KEY = location("content");
@@ -162,13 +162,25 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     }
 
     @Override
-    public List<ItemStack> getWrenchDrops(Level level, BlockPos pos, BlockState state, BlockEntity be, Player player, int i) {
-        return getDrops(state, (ServerLevel) level, pos, be, player, player.getUseItem());
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+        return super.getDrops(state, builder.withDynamicDrop(CONTENT_KEY, CONTENT_DROP));
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        return super.getDrops(state, builder.withDynamicDrop(CONTENT_KEY, CONTENT_DROP));
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return getBlockEntity(level, pos)
+            .map(be -> be.isFlammable(state, level, pos, direction))
+            .orElseGet(() -> super.isFlammable(state, level, pos, direction));
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return super.getFlammability(state, level, pos, direction);
+    }
+
+    @Override
+    public List<ItemStack> getWrenchDrops(Level level, BlockPos pos, BlockState state, BlockEntity be, Player player, int i) {
+        return getDrops(state, (ServerLevel) level, pos, be, player, player.getUseItem());
     }
 
     private Optional<BaseBlockEntity> getBlockEntity(BlockGetter world, BlockPos pos) {

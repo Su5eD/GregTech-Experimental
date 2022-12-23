@@ -33,7 +33,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public final class GtUtil {
     public static final Collection<Direction> ALL_FACINGS = EnumSet.allOf(Direction.class);

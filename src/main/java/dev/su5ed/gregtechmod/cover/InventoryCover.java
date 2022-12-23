@@ -2,9 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
-import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
@@ -21,11 +19,7 @@ public abstract class InventoryCover extends BaseCover<BlockEntity> {
     }
 
     protected boolean shouldUseEnergy(double minCapacity) {
-        if (this.mode.consumesEnergy(this.side) && this.be instanceof IElectricMachine electric) {
-            double capacity = this.be instanceof UpgradableBlockEntity upgradable ? upgradable.getEnergyCapacity() : electric.getEnergyCapacity();
-            return capacity >= minCapacity;
-        }
-        return false;
+        return this.mode.consumesEnergy(this.side) && this.energyHandler != null && this.energyHandler.getEnergyCapacity() >= minCapacity;
     }
 
     @Override

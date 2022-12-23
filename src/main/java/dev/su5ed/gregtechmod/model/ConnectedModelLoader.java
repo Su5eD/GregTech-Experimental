@@ -9,7 +9,7 @@ import one.util.streamex.StreamEx;
 
 import java.util.Map;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class ConnectedModelLoader implements IGeometryLoader<ConnectedModelGeometry> {
     public static final ResourceLocation NAME = location("connected");

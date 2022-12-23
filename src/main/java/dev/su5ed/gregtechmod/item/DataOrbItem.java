@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.api.util.IDataOrbSerializable;
+import dev.su5ed.gregtechmod.api.util.DataOrbSerializable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -22,11 +22,11 @@ public class DataOrbItem extends ResourceItem {
         Player player = context.getPlayer();
         
         if (player != null && stack.getCount() == 1 && !level.isClientSide) {
-            BlockEntity te = level.getBlockEntity(context.getClickedPos());
+            BlockEntity be = level.getBlockEntity(context.getClickedPos());
             CompoundTag tag = stack.getOrCreateTag();
             String dataTitle = tag.getString("dataTitle");
 
-            if (te instanceof IDataOrbSerializable serializable) {
+            if (be instanceof DataOrbSerializable serializable) {
                 String dataName = serializable.getDataName();
                 if (player.isShiftKeyDown()) {
                     if (dataTitle.equals(dataName)) {

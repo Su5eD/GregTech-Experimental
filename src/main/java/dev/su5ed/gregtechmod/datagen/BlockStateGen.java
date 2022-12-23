@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.datagen;
 
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.block.ConnectedBlock;
 import dev.su5ed.gregtechmod.model.ConnectedModelBuilder;
 import dev.su5ed.gregtechmod.object.GTBlockEntity;
@@ -18,7 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 class BlockStateGen extends BlockStateProvider {
 

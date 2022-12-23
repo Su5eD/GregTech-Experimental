@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod;
 
 import com.google.common.base.Strings;
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.item.ElectricArmorItem;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;

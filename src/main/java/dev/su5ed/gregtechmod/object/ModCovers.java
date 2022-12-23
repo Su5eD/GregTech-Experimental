@@ -2,10 +2,10 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
+import dev.su5ed.gregtechmod.api.machine.ElectricBlockEntity;
 import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
 import dev.su5ed.gregtechmod.api.machine.IMachineProgress;
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.cover.ActiveDetectorCover;
 import dev.su5ed.gregtechmod.cover.ConveyorCover;
 import dev.su5ed.gregtechmod.cover.CraftingCover;
@@ -34,7 +34,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 @SuppressWarnings("unused")
 public final class ModCovers {
@@ -46,7 +46,7 @@ public final class ModCovers {
     public static final RegistryObject<CoverType<BlockEntity>> CRAFTING = register("crafting", CoverCategory.UTIL, BlockEntity.class, CraftingCover::new);
     public static final RegistryObject<CoverType<IGregTechMachine>> DRAIN = register("drain", CoverCategory.IO, IGregTechMachine.class, DrainCover::new);
     public static final RegistryObject<CoverType<IGregTechMachine>> ENERGY_ONLY = register("energy_only", CoverCategory.OTHER, IGregTechMachine.class, EnergyOnlyCover::new);
-    public static final RegistryObject<CoverType<IElectricMachine>> ENERGY_METER = register("energy_meter", CoverCategory.METER, IElectricMachine.class, EnergyMeterCover::new);
+    public static final RegistryObject<CoverType<ElectricBlockEntity>> ENERGY_METER = register("energy_meter", CoverCategory.METER, ElectricBlockEntity.class, EnergyMeterCover::new);
     public static final RegistryObject<CoverType<BlockEntity>> GENERIC = register("generic", CoverCategory.GENERIC, BlockEntity.class, GenericCover::new);
     public static final RegistryObject<CoverType<IGregTechMachine>> ITEM_METER = register("item_meter", CoverCategory.METER, IGregTechMachine.class, ItemMeterCover::new);
     public static final RegistryObject<CoverType<BlockEntity>> ITEM_VALVE = register("item_valve", CoverCategory.IO, BlockEntity.class, ValveCover::new);
@@ -58,10 +58,10 @@ public final class ModCovers {
     public static final RegistryObject<CoverType<BlockEntity>> REDSTONE_ONLY = register("redstone_only", CoverCategory.OTHER, BlockEntity.class, RedstoneOnlyCover::new);
     public static final RegistryObject<CoverType<BlockEntity>> REDSTONE_SIGNALIZER = register("redstone_signalizer", CoverCategory.METER, BlockEntity.class, RedstoneSignalizerCover::new);
     public static final RegistryObject<CoverType<BlockEntity>> SCREEN = register("screen", CoverCategory.UTIL, BlockEntity.class, ScreenCover::new);
-    public static final RegistryObject<CoverType<IElectricMachine>> SOLAR_PANEL = register("solar_panel", CoverCategory.ENERGY, IElectricMachine.class, (type, machine, side, item) -> new SolarPanelCover(type, machine, side, item, 1, 0.25));
-    public static final RegistryObject<CoverType<IElectricMachine>> SOLAR_PANEL_LV = register("solar_panel_lv", CoverCategory.ENERGY, IElectricMachine.class, (type, machine, side, item) -> new SolarPanelCover(type, machine, side, item, 8, 1));
-    public static final RegistryObject<CoverType<IElectricMachine>> SOLAR_PANEL_MV = register("solar_panel_mv", CoverCategory.ENERGY, IElectricMachine.class, (type, machine, side, item) -> new SolarPanelCover(type, machine, side, item, 64, 8));
-    public static final RegistryObject<CoverType<IElectricMachine>> SOLAR_PANEL_HV = register("solar_panel_hv", CoverCategory.ENERGY, IElectricMachine.class, (type, machine, side, item) -> new SolarPanelCover(type, machine, side, item, 512, 64));
+    public static final RegistryObject<CoverType<ElectricBlockEntity>> SOLAR_PANEL = register("solar_panel", CoverCategory.ENERGY, ElectricBlockEntity.class, (type, machine, side, item) -> new SolarPanelCover(type, machine, side, item, 1, 0.25));
+    public static final RegistryObject<CoverType<ElectricBlockEntity>> SOLAR_PANEL_LV = register("solar_panel_lv", CoverCategory.ENERGY, ElectricBlockEntity.class, (type, machine, side, item) -> new SolarPanelCover(type, machine, side, item, 8, 1));
+    public static final RegistryObject<CoverType<ElectricBlockEntity>> SOLAR_PANEL_MV = register("solar_panel_mv", CoverCategory.ENERGY, ElectricBlockEntity.class, (type, machine, side, item) -> new SolarPanelCover(type, machine, side, item, 64, 8));
+    public static final RegistryObject<CoverType<ElectricBlockEntity>> SOLAR_PANEL_HV = register("solar_panel_hv", CoverCategory.ENERGY, ElectricBlockEntity.class, (type, machine, side, item) -> new SolarPanelCover(type, machine, side, item, 512, 64));
     public static final RegistryObject<CoverType<IMachineProgress>> VENT = register("vent", CoverCategory.OTHER, IMachineProgress.class, VentCover::new);
 
     public static void init(IEventBus bus) {

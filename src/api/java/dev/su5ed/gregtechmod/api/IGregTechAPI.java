@@ -19,10 +19,6 @@ public interface IGregTechAPI {
     
     void registerCondition(String type, Predicate<JsonNode> predicate);
     boolean testCondition(String type, JsonNode node);
-        
-    <T extends Item & TurbineRotor> void registerTurbineRotor(T rotor);
-    
-    Optional<TurbineRotor> getTurbineRotor(Item item);
     
     void addComputerCubeGuidePage(String translationKey, int length, List<ItemStack> stacks);
 }

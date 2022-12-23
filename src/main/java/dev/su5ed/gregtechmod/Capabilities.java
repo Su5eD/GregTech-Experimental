@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod;
 import dev.su5ed.gregtechmod.api.cover.CoverHandler;
 import dev.su5ed.gregtechmod.api.item.SolderingMetal;
 import dev.su5ed.gregtechmod.api.item.SolderingTool;
+import dev.su5ed.gregtechmod.api.machine.PowerHandler;
 import dev.su5ed.gregtechmod.api.upgrade.Upgrade;
 import dev.su5ed.gregtechmod.util.capability.JumpCharge;
 import dev.su5ed.gregtechmod.util.capability.LightSource;
@@ -15,6 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public final class Capabilities {
     // Block Entity capabilities
     public static final Capability<CoverHandler> COVER_HANDLER = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<PowerHandler> ENERGY_HANDLER = CapabilityManager.get(new CapabilityToken<>() {});
     
     // ItemStack capabilites
     public static final Capability<SolderingTool> SOLDERING_TOOL = CapabilityManager.get(new CapabilityToken<>() {});

@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Set;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class VentCover extends BaseCover<IMachineProgress> {
     private final double efficiency;

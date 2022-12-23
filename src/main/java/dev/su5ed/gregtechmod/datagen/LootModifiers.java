@@ -24,7 +24,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import java.util.Collection;
 import java.util.Map;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class LootModifiers {
     public static final LootModifiers INSTANCE = new LootModifiers();

@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
+import dev.su5ed.gregtechmod.api.machine.ElectricBlockEntity;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +17,8 @@ public class ValveCover extends PumpCover {
 
     @Override
     public void tick() {
-        if (shouldUseEnergy(128) && ((IElectricMachine) this.be).canUseEnergy(128)) {
-            ((IElectricMachine) this.be).useEnergy(ConveyorCover.moveItemStack(this.be, this.side, this.mode));
+        if (shouldUseEnergy(128) && this.energyHandler.canUseEnergy(128)) {
+            this.energyHandler.useEnergy(ConveyorCover.moveItemStack(this.be, this.side, this.mode));
         }
         
         super.tick();

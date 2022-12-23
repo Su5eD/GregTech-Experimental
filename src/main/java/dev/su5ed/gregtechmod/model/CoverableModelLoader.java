@@ -10,7 +10,7 @@ import net.minecraftforge.client.model.geometry.IGeometryLoader;
 
 import java.util.Map;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class CoverableModelLoader implements IGeometryLoader<CoverableModelGeometry> {
     public static final ResourceLocation NAME = location("coverable");

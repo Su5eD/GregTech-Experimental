@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.util;
 
 import dev.su5ed.gregtechmod.Capabilities;
-import dev.su5ed.gregtechmod.api.util.TriConsumer;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.item.ElectricArmorItem;
 import dev.su5ed.gregtechmod.object.ModObjects;

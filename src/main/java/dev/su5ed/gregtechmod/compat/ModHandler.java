@@ -1,13 +1,15 @@
 package dev.su5ed.gregtechmod.compat;
 
 import dev.su5ed.gregtechmod.GregTechTags;
+import dev.su5ed.gregtechmod.api.machine.ElectricBlockEntity;
 import dev.su5ed.gregtechmod.api.recipe.CellType;
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
+import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gregtechmod.util.power.PowerStorage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -109,6 +111,14 @@ public final class ModHandler {
         return activeBaseMod.dischargeStack(stack, amount, tier, ignoreTransferLimit, externally, simulate);
     }
 
+    public static double getEnergyFromTier(int tier) {
+        return activeBaseMod.getEnergyFromTier(tier);
+    }
+    
+    public static <T extends BaseBlockEntity & ElectricBlockEntity> PowerStorage createEnergyProvider(T parent) {
+        return activeBaseMod.createEnergyProvider(parent);
+    }
+    
     public static boolean matchCellType(CellType type, ItemStack stack) {
         // TODO Universal Fluid Cell
         return !stack.hasTag() && (type == CellType.CELL && stack.is(GregTechTags.EMPTY_FLUID_CELL) || type == CellType.FUEL_CAN && stack.is(GregTechTags.EMPTY_FUEL_CAN));

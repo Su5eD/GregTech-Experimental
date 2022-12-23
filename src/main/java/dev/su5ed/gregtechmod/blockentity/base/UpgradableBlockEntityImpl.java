@@ -25,17 +25,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
-public abstract class UpgradableBlockEntityImpl extends CoverableBlockEntity implements UpgradableBlockEntity {
+public abstract class UpgradableBlockEntityImpl extends ElectricBlockEntityImpl implements UpgradableBlockEntity {
     public final FluidHandler fluidHandler;
     private final UpgradeManager<UpgradableBlockEntityImpl> upgradeManager;
-
-    private final List<PowerProvider> powerProviders = new ArrayList<>();
 
     public UpgradableBlockEntityImpl(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider, pos, state);
@@ -46,28 +41,21 @@ public abstract class UpgradableBlockEntityImpl extends CoverableBlockEntity imp
 
     protected void onUpdateUpgrade(UpgradeCategory category) {}
 
-    @Override
-    public <T extends PowerProvider> Optional<T> getPowerProvider(Class<T> type) {
-        return StreamEx.of(this.powerProviders)
-            .select(type)
-            .findFirst();
-    }
-
-    @Override
-    public void addPowerProvider(PowerProvider provider) {
-        this.powerProviders.add(provider);
-        this.powerProviders.sort(Comparator.comparingInt(PowerProvider::getPriority).reversed());
-        configurePowerProvider(provider);
-    }
-
-    protected void configurePowerProvider(PowerProvider provider) {
-        if (provider instanceof SteamPowerProvider steamProvider) {
-            steamProvider.getSteamTank().setCapacity(getSteamCapacity());
-        }
-    }
+    protected abstract int getBaseEUCapacity();
 
     protected int getSteamCapacity() {
         return 10000;
+    }
+
+    protected boolean isMultiplePacketsForTransformer() {
+        return true;
+    }
+
+    @Override
+    public void configurePowerProvider(PowerProvider provider) {
+        if (provider instanceof SteamPowerProvider steamProvider) {
+            steamProvider.getSteamTank().setCapacity(getSteamCapacity());
+        }
     }
 
     @Override
@@ -90,12 +78,29 @@ public abstract class UpgradableBlockEntityImpl extends CoverableBlockEntity imp
         return this.upgradeManager.addUpgrade(stack, player) ? InteractionResult.SUCCESS : super.use(state, level, pos, player, hand, hit);
     }
 
-    // TODO
-    protected boolean isMultiplePacketsForTransformer() {
-        return true;
+    @Override
+    public final int getSourcePackets() {
+        int basePackets = getBaseSourcePackets();
+        return basePackets == 1 && isMultiplePacketsForTransformer() && getUpgradeCount(UpgradeCategory.TRANSFORMER) > 0 ? 4 : basePackets;
     }
 
-    protected abstract int getBaseEUCapacity();
+    @Override
+    public final int getSinkTier() {
+        return getBaseSinkTier() + getUpgradeCount(UpgradeCategory.TRANSFORMER);
+    }
+
+    @Override
+    public final int getSourceTier() {
+        int transformers = getUpgradeCount(UpgradeCategory.TRANSFORMER);
+        int tier = getBaseSourceTier() + transformers;
+
+        return transformers > 0 && isMultiplePacketsForTransformer() ? tier - 1 : tier;
+    }
+
+    @Override
+    public final int getEnergyCapacity() {
+        return getBaseEUCapacity() + getExtraEUCapacity();
+    }
 
     @Override
     public int getExtraEUCapacity() {

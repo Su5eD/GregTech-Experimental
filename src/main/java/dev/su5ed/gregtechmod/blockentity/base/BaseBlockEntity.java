@@ -73,6 +73,10 @@ public abstract class BaseBlockEntity extends BlockEntity {
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {}
 
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {}
+    
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return false;
+    }
 
     public Direction getFacing() {
         return getBlockState().getValue(BlockStateProperties.FACING);
@@ -97,6 +101,11 @@ public abstract class BaseBlockEntity extends BlockEntity {
 
     public void updateClientField(String name) {
         GregTechNetwork.updateClientField(this, name);
+    }
+
+    public void updateRenderNeighbors() {
+        BlockState state = getBlockState();
+        this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_ALL);
     }
 
     protected <T extends BlockEntityComponent> T addComponent(T component) {
@@ -136,6 +145,18 @@ public abstract class BaseBlockEntity extends BlockEntity {
         }
 
         this.components.forEach(BlockEntityComponent::onLoad);
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+    }
+
+    @Override
+    public void onChunkUnloaded() {
+        super.onChunkUnloaded();
+        
+        this.components.forEach(BlockEntityComponent::onUnload);
     }
 
     @Override

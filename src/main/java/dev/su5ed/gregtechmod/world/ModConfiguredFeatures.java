@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.world;
 
 import dev.su5ed.gregtechmod.GregTechTags;
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.object.Ore;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import net.minecraft.core.Registry;

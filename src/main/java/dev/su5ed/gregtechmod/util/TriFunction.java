@@ -1,4 +1,4 @@
-package dev.su5ed.gregtechmod.api.util;
+package dev.su5ed.gregtechmod.util;
 
 @FunctionalInterface
 public interface TriFunction<A, B, C, R> {

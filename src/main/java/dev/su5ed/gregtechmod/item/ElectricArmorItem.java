@@ -1,7 +1,7 @@
 package dev.su5ed.gregtechmod.item;
 
 import dev.su5ed.gregtechmod.api.item.ExhaustingItem;
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import dev.su5ed.gregtechmod.util.ArmorPerk;

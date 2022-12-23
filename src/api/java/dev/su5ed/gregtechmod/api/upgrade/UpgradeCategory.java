@@ -6,14 +6,13 @@ import java.util.Set;
 public enum UpgradeCategory {
     OVERCLOCKER,
     TRANSFORMER,
-    HV_TRANSFORMER(false),
     BATTERY,
     LOCK(false),
     STEAM,
     MJ,
     OTHER(false);
     
-    public static final Set<UpgradeCategory> DEFAULT = EnumSet.of(OVERCLOCKER, TRANSFORMER, HV_TRANSFORMER, BATTERY, LOCK, MJ, STEAM);
+    public static final Set<UpgradeCategory> DEFAULT = EnumSet.of(OVERCLOCKER, TRANSFORMER, BATTERY, LOCK, MJ, STEAM);
     
     public final boolean display;
 

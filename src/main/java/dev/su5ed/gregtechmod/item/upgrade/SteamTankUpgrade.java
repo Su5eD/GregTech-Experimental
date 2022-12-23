@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.item.upgrade;
 
+import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.upgrade.Upgrade;
 import dev.su5ed.gregtechmod.api.upgrade.UpgradeCategory;
@@ -17,17 +18,18 @@ public class SteamTankUpgrade extends UpgradeItemBase {
 
     @Override
     public Upgrade.InjectResult beforeInsert(UpgradableBlockEntity machine, Player player, ItemStack stack) {
-        if (machine.getPowerProvider(SteamPowerProvider.class).isEmpty()) {
-            return Upgrade.InjectResult.REJECT;
-        }
-        return super.beforeInsert(machine, player, stack);
+        boolean hasNoSteam = machine.getCapability(Capabilities.ENERGY_HANDLER).resolve()
+            .flatMap(power -> power.getPowerProvider(SteamPowerProvider.class))
+            .isEmpty();
+        return hasNoSteam ? Upgrade.InjectResult.REJECT : super.beforeInsert(machine, player, stack);
     }
 
     @Override
     public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
         super.update(machine, player, stack);
-        
-        machine.getPowerProvider(SteamPowerProvider.class)
+
+        machine.getCapability(Capabilities.ENERGY_HANDLER).resolve()
+            .flatMap(handler -> handler.getPowerProvider(SteamPowerProvider.class))
             .ifPresent(provider -> {
                 GtFluidTank steamTank = provider.getSteamTank();
                 steamTank.setCapacity(steamTank.getCapacity() + stack.getCount() * 64000);

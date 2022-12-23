@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.datagen;
 
-import dev.su5ed.gregtechmod.api.util.Reference;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.item.LithiumBatteryItem;
 import dev.su5ed.gregtechmod.object.Armor;
 import dev.su5ed.gregtechmod.object.Cell;
@@ -41,8 +41,8 @@ import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
-import static dev.su5ed.gregtechmod.api.util.Reference.locationNullable;
+import static dev.su5ed.gregtechmod.api.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.locationNullable;
 
 class ItemModelGen extends ItemModelProvider {
     private static final ResourceLocation FORGE_BUCKET = new ResourceLocation("forge", "item/bucket");

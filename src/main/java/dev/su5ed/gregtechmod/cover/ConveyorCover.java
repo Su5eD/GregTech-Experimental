@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import dev.su5ed.gregtechmod.util.InvUtil;
 import net.minecraft.core.Direction;
@@ -19,11 +18,13 @@ public class ConveyorCover extends InventoryCover {
     @Override
     public void tick() {
         if (shouldUseEnergy(128)) {
-            if (((IElectricMachine) this.be).canUseEnergy(128)) {
-                ((IElectricMachine) this.be).useEnergy(moveItemStack(this.be, this.side, this.mode));
+            if (this.energyHandler.canUseEnergy(128)) {
+                this.energyHandler.useEnergy(moveItemStack(this.be, this.side, this.mode));
             }
         }
-        else moveItemStack(this.be, side, mode);
+        else {
+            moveItemStack(this.be, side, mode);   
+        }
     }
 
     public static int moveItemStack(BlockEntity source, Direction side, InventoryMode mode) {

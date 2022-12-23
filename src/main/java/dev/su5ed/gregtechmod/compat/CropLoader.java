@@ -1,8 +1,7 @@
 package dev.su5ed.gregtechmod.compat;
 
 import dev.su5ed.gregtechmod.GregTechMod;
-import dev.su5ed.gregtechmod.api.util.Reference;
-import dev.su5ed.gregtechmod.compat.ModHandler;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.object.Dust;
 import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.Nugget;

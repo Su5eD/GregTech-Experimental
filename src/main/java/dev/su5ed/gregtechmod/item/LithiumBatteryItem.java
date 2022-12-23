@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.item;
 
 import net.minecraft.resources.ResourceLocation;
 
-import static dev.su5ed.gregtechmod.api.util.Reference.location;
+import static dev.su5ed.gregtechmod.api.Reference.location;
 
 public class LithiumBatteryItem extends ElectricItem {
     public static final ResourceLocation CHARGE_PROPERTY = location("charge");

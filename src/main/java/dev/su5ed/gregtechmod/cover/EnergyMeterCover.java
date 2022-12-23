@@ -2,7 +2,8 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IElectricMachine;
+import dev.su5ed.gregtechmod.api.machine.ElectricBlockEntity;
+import dev.su5ed.gregtechmod.api.machine.PowerProvider;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.api.util.GtFluidTank;
@@ -17,12 +18,12 @@ import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public class EnergyMeterCover extends BaseCover<IElectricMachine> {
+public class EnergyMeterCover extends BaseCover<ElectricBlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
 
     protected Mode mode = Mode.UNIVERSAL;
 
-    public EnergyMeterCover(CoverType<IElectricMachine> type, IElectricMachine be, Direction side, Item item) {
+    public EnergyMeterCover(CoverType<ElectricBlockEntity> type, ElectricBlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -31,27 +32,23 @@ public class EnergyMeterCover extends BaseCover<IElectricMachine> {
         int strength;
 
         if (this.mode == Mode.AVERAGE_EU_IN || this.mode == Mode.AVERAGE_EU_IN_INVERTED) {
-            strength = (int) (this.be.getAverageEUInput() / (this.be.getMaxInputEUp() / 15));
+            strength = (int) (this.energyHandler.getAverageInput() / (this.energyHandler.getMaxInputEUp() / 15));
         }
         else if (this.mode == Mode.AVERAGE_EU_OUT || this.mode == Mode.AVERAGE_EU_OUT_INVERTED) {
-            strength = (int) (this.be.getAverageEUOutput() / (this.be.getMaxOutputEUt() / 15));
+            strength = (int) (this.energyHandler.getAverageOutput() / (this.energyHandler.getMaxOutputEUt() / 15));
         }
         else {
             double stored = -1;
             double capacity = 1;
 
             if (this.mode == Mode.UNIVERSAL || this.mode == Mode.UNIVERSAL_INVERTED) {
-                if (this.be instanceof UpgradableBlockEntity upgradable) {
-                    stored = upgradable.getStoredEnergy();
-                    capacity = upgradable.getEnergyCapacity();
-                } else {
-                    stored = this.be.getStoredEnergy();
-                    capacity = this.be.getEnergyCapacity();
-                }
+                stored = this.energyHandler.getStoredEnergy();
+                capacity = this.energyHandler.getEnergyCapacity();
             }
             else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
-                stored = this.be.getStoredEnergy();
-                capacity = this.be.getEnergyCapacity();
+                PowerProvider defaultProvider = this.energyHandler.getDefaultPowerProvider();
+                stored = defaultProvider.getStoredEnergy();
+                capacity = defaultProvider.getCapacity();
             }
             else if (this.be instanceof UpgradableBlockEntity upgradable) {
 //                if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && upgradable.hasMjUpgrade()) { TODO
@@ -59,7 +56,7 @@ public class EnergyMeterCover extends BaseCover<IElectricMachine> {
 //                    capacity = upgradable.getMjCapacity();
 //                }
                 if (this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) {
-                    GtFluidTank steamTank = upgradable.getPowerProvider(SteamPowerProvider.class)
+                    GtFluidTank steamTank = this.energyHandler.getPowerProvider(SteamPowerProvider.class)
                         .map(SteamPowerProvider::getSteamTank)
                         .orElse(null);
                     if (steamTank != null) {
@@ -73,10 +70,10 @@ public class EnergyMeterCover extends BaseCover<IElectricMachine> {
         }
 
         if (strength > 0) {
-            this.be.setRedstoneOutput(side, this.mode.inverted ? 15 - strength : strength);
+            this.be.setRedstoneOutput(this.side, this.mode.inverted ? 15 - strength : strength);
         }
         else {
-            this.be.setRedstoneOutput(side, this.mode.inverted ? 15 : 0);
+            this.be.setRedstoneOutput(this.side, this.mode.inverted ? 15 : 0);
         }
     }
 

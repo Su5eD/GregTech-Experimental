@@ -20,7 +20,7 @@ public interface Cover<T> { // TODO javadocs
     @Nullable
     Item getItem();
     
-    boolean shouldTick();
+    boolean shouldTick(); // TODO Do we need this?
 
     void tick();
 
