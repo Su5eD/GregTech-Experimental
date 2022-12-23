@@ -8,6 +8,10 @@
   "info.gregtechmod.possible_upgrades": "Possible Upgrades: %s",
   "info.gregtechmod.machine_accessible": "Is accessible to you",
   "info.gregtechmod.machine_not_accessible": "Is not accessible to you",
+  "info.gregtechmod.max_energy_in": "Max EU/p IN: %s",
+  "info.gregtecgmod.max_energy_out": "Max EU/p OUT: %s",
+  "info.gregtecgmod.output_packets": "Amount of Output Packets: %s",
+  "info.gregtecgmod.eu_storage": "EU Storage: %s",
 
   "generic.gregtechmod.turbine_rotor.description": "Turbine Efficiency:  %s%%",
   "generic.gregtechmod.saw.description": "For sawing logs into planks",
