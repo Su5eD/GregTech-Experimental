@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.item;
 
 import dev.su5ed.gregtechmod.ClientSetup;
 import dev.su5ed.gregtechmod.GregTechTags;
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.BlockPos;
@@ -32,7 +32,7 @@ public class HardHammerItem extends HammerItem {
         BlockPos pos = context.getClickedPos();
         BlockEntity te = level.getBlockEntity(pos);
 
-        if (te instanceof IGregTechMachine machine) {
+        if (te instanceof MachineController machine) {
             if (!level.isClientSide) {
                 boolean input = machine.isInputEnabled();
                 boolean output = machine.isOutputEnabled();

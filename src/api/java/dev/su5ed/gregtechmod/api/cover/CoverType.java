@@ -4,14 +4,17 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import java.util.function.Predicate;
+
+// TODO T extends BlockEntity
 public class CoverType<T> {
     private final CoverCategory category;
-    private final Class<T> coverableClass;
+    private final Predicate<BlockEntity> condition;
     private final CoverSupplier<T> factory;
 
-    public CoverType(CoverCategory category, Class<T> coverableClass, CoverSupplier<T> factory) {
+    public CoverType(CoverCategory category, Predicate<BlockEntity> condition, CoverSupplier<T> factory) {
         this.category = category;
-        this.coverableClass = coverableClass;
+        this.condition = condition;
         this.factory = factory;
     }
 
@@ -19,8 +22,8 @@ public class CoverType<T> {
         return this.category;
     }
 
-    public Class<T> getCoverableClass() {
-        return this.coverableClass;
+    public Predicate<BlockEntity> getCondition() {
+        return this.condition;
     }
 
     public Cover<T> create(T parent, Direction side, Item item) {

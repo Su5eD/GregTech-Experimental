@@ -105,46 +105,4 @@ public abstract class ElectricBlockEntityImpl extends CoverableBlockEntity imple
             tooltip.add(GtLocale.key("info", "eu_storage").toComponent(JavaUtil.formatNumber(this.energy.getEnergyCapacity())));
         }
     }
-
-    // IGregTech Machine TODO
-
-    @Override
-    public void setRedstoneOutput(Direction side, int strength) {
-
-    }
-
-    @Override
-    public void setAllowedToWork(boolean value) {
-
-    }
-
-    @Override
-    public boolean workJustHasBeenEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isAllowedToWork() {
-        return false;
-    }
-
-    @Override
-    public boolean isInputEnabled() {
-        return false;
-    }
-
-    @Override
-    public void setInputEnabled(boolean value) {
-
-    }
-
-    @Override
-    public boolean isOutputEnabled() {
-        return false;
-    }
-
-    @Override
-    public void setOutputEnabled(boolean value) {
-
-    }
 }

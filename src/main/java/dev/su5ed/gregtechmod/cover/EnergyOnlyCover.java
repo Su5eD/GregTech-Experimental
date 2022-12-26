@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -14,12 +14,12 @@ import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public class EnergyOnlyCover extends BaseCover<IGregTechMachine> {
+public class EnergyOnlyCover extends BaseCover<MachineController> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
 
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public EnergyOnlyCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
+    public EnergyOnlyCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

@@ -4,7 +4,7 @@ import net.minecraft.core.Direction;
 
 import java.util.Collection;
 
-public interface ElectricBlockEntity extends IGregTechMachine {
+public interface ElectricBlockEntity {
     Collection<Direction> getSinkSides();
 
     Collection<Direction> getSourceSides();

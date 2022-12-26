@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.api.machine;
 
-public interface IMachineProgress extends IGregTechMachine {
+public interface IMachineProgress extends MachineController {
     boolean isActive();
     
     double getProgress();

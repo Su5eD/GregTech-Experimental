@@ -4,6 +4,7 @@ import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.api.machine.PowerHandler;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import net.minecraft.core.BlockPos;
@@ -25,6 +26,8 @@ public abstract class BaseCover<T extends ICapabilityProvider> implements Cover<
     protected final Item item;
     
     @Nullable
+    protected final MachineController machine;
+    @Nullable
     protected final PowerHandler energyHandler;
 
     protected BaseCover(CoverType<T> type, T be, Direction side, Item item) {
@@ -33,6 +36,7 @@ public abstract class BaseCover<T extends ICapabilityProvider> implements Cover<
         this.side = side;
         this.item = item;
         
+        this.machine = null; // TODO Capability
         this.energyHandler = be.getCapability(Capabilities.ENERGY_HANDLER).orElse(null);
     }
 

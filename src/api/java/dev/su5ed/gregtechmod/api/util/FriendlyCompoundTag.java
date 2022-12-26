@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class FriendlyCompoundTag extends CompoundTag {
+public class FriendlyCompoundTag extends CompoundTag { // TODO interface
     public static final Codec<FriendlyCompoundTag> CODEC = CompoundTag.CODEC.xmap(FriendlyCompoundTag::new, Function.identity());
     
     private static final Logger LOGGER = LogManager.getLogger();

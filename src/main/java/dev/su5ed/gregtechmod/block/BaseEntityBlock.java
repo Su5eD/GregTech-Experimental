@@ -98,6 +98,13 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
             .filter(Boolean::booleanValue)
             .orElseGet(() -> super.canConnectRedstone(state, level, pos, side));
     }
+    
+    @Override
+    public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return getBlockEntity(level, pos)
+            .map(be -> be.getSignal(state, level, pos, direction))
+            .orElseGet(() -> super.getSignal(state, level, pos, direction));
+    }
 
     @Nullable
     @Override

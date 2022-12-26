@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.core.Direction;
@@ -73,6 +73,6 @@ public abstract class InventoryCover extends BaseCover<BlockEntity> {
     
     @Override
     public boolean shouldTick() {
-        return !(this.be instanceof IGregTechMachine machine) || !(this.mode.conditional && machine.isAllowedToWork() == this.mode.inverted);
+        return !(this.be instanceof MachineController machine) || !(this.mode.conditional && machine.isAllowedToWork() == this.mode.inverted);
     }
 }

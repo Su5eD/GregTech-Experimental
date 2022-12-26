@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -17,12 +17,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class RedstoneConductorCover extends BaseCover<IGregTechMachine> {
+public class RedstoneConductorCover extends BaseCover<MachineController> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
 
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
-    public RedstoneConductorCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
+    public RedstoneConductorCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

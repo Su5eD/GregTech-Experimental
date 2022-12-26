@@ -199,7 +199,7 @@ public abstract class AdjustableEnergyStorage<T extends BaseBlockEntity & Electr
             unload();
             load();
 
-            this.parent.updateRenderNeighbors();
+            this.parent.updateNeighbors();
         }
     }
 

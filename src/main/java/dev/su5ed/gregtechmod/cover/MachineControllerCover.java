@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -17,12 +17,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class MachineControllerCover extends BaseCover<IGregTechMachine> {
+public class MachineControllerCover extends BaseCover<MachineController> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
 
     protected ControllerMode mode = ControllerMode.NORMAL;
 
-    public MachineControllerCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
+    public MachineControllerCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

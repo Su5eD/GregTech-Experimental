@@ -77,6 +77,10 @@ public abstract class BaseBlockEntity extends BlockEntity {
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return false;
     }
+    
+    public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 0;
+    }
 
     public Direction getFacing() {
         return getBlockState().getValue(BlockStateProperties.FACING);
@@ -103,7 +107,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
         GregTechNetwork.updateClientField(this, name);
     }
 
-    public void updateRenderNeighbors() {
+    public void updateNeighbors() {
         BlockState state = getBlockState();
         this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_ALL);
     }

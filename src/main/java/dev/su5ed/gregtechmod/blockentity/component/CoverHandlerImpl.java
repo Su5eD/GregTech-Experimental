@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverHandler;
@@ -18,7 +19,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.data.ModelProperty;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,6 +39,7 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
 
     private final Codec<Map<Direction, Cover<?>>> coversCodec = createCoversCodec();
     private final Collection<CoverCategory> coverBlacklist;
+    private final LazyOptional<CoverHandler> optional = LazyOptional.of(() -> this);
     
     @Networked
     private Map<Direction, Cover<?>> covers = new HashMap<>();
@@ -54,6 +60,20 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
     }
 
     @Override
+    public <U> LazyOptional<U> getCapability(@NotNull Capability<U> cap, @Nullable Direction side) {
+        if (cap == Capabilities.COVER_HANDLER) {
+            return this.optional.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.optional.invalidate();
+    }
+
+    @Override
     public Map<Direction, Cover<?>> getCovers() {
         return ImmutableMap.copyOf(this.covers);
     }
@@ -65,8 +85,7 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
 
     @Override
     public <U> boolean placeCoverAtSide(CoverType<U> type, Direction side, Item item, boolean simulate) {
-        // TODO Use capability conditions rather than hardcoded classes
-        if (!this.covers.containsKey(side) && !this.coverBlacklist.contains(type.getCategory()) && type.getCoverableClass().isInstance(this.parent)) {
+        if (!this.covers.containsKey(side) && !this.coverBlacklist.contains(type.getCategory()) && type.getCondition().test(this.parent)) {
             if (isServerSide() && !simulate) {
                 //noinspection unchecked
                 Cover<?> cover = type.create((U) this.parent, side, item);

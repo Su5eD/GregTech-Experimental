@@ -1,6 +1,6 @@
 package dev.su5ed.gregtechmod.item;
 
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
 import net.minecraft.world.InteractionResult;
@@ -34,7 +34,7 @@ public class RubberHammerItem extends HammerItem {
         BlockEntity be = context.getLevel().getBlockEntity(context.getClickedPos());
         InteractionResult result;
 
-        if (be instanceof IGregTechMachine machine && GtUtil.hurtStack(stack, 1, player, context.getHand())) {
+        if (be instanceof MachineController machine && GtUtil.hurtStack(stack, 1, player, context.getHand())) {
             machine.setAllowedToWork(!machine.isAllowedToWork());
 
             String state = machine.isAllowedToWork() ? "enabled" : "disabled";

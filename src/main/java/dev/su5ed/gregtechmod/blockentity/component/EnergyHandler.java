@@ -80,6 +80,12 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     }
 
     @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        this.optional.invalidate();
+    }
+
+    @Override
     public void save(FriendlyCompoundTag tag) {
         super.save(tag);
         

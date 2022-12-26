@@ -2,7 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.IGregTechMachine;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.util.GtLocale;
 import dev.su5ed.gregtechmod.util.GtUtil;
@@ -13,10 +13,10 @@ import net.minecraft.world.item.Item;
 
 import java.util.Locale;
 
-public abstract class MeterCover extends BaseCover<IGregTechMachine> {
+public abstract class MeterCover extends BaseCover<MachineController> {
     protected MeterMode mode = MeterMode.NORMAL;
 
-    protected MeterCover(CoverType<IGregTechMachine> type, IGregTechMachine be, Direction side, Item item) {
+    protected MeterCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

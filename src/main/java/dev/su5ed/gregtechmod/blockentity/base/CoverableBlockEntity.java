@@ -1,16 +1,17 @@
 package dev.su5ed.gregtechmod.blockentity.base;
 
 import com.mojang.authlib.GameProfile;
-import dev.su5ed.gregtechmod.Capabilities;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.api.cover.Cover;
 import dev.su5ed.gregtechmod.api.cover.CoverCategory;
 import dev.su5ed.gregtechmod.api.cover.CoverHandler;
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
+import dev.su5ed.gregtechmod.api.machine.MachineController;
 import dev.su5ed.gregtechmod.api.machine.ScannerInfoProvider;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.blockentity.component.CoverHandlerImpl;
+import dev.su5ed.gregtechmod.blockentity.component.MachineControllerImpl;
 import dev.su5ed.gregtechmod.cover.GenericCover;
 import dev.su5ed.gregtechmod.cover.VentCover;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
@@ -37,8 +38,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,9 +50,9 @@ import java.util.Optional;
 
 public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfoProvider {
     @Networked
-    private final CoverHandlerImpl<CoverableBlockEntity> coverHandler;
-    private final LazyOptional<CoverHandler> optionalCoverHandler;
-    
+    private final CoverHandler coverHandler;
+    protected final MachineController machineController;
+
     @Networked
     private GameProfile owner;
     private boolean isPrivate;
@@ -62,7 +61,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
         super(provider, pos, state);
 
         this.coverHandler = addComponent(new CoverHandlerImpl<>(this, getCoverBlacklist()));
-        this.optionalCoverHandler = LazyOptional.of(() -> this.coverHandler);
+        this.machineController = addComponent(new MachineControllerImpl(this));
     }
 
     protected Collection<CoverCategory> getCoverBlacklist() {
@@ -72,7 +71,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
     @Override
     public void provideAdditionalDrops(List<? super ItemStack> drops) {
         super.provideAdditionalDrops(drops);
-        
+
         StreamEx.ofValues(this.coverHandler.getCovers())
             .map(Cover::getItem)
             .map(ItemStack::new)
@@ -92,16 +91,21 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
-        
+
         if (placer instanceof Player player) {
             setOwner(player.getGameProfile());
         }
     }
 
     @Override
+    public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return this.machineController.getSignal(direction);
+    }
+
+    @Override
     protected void saveAdditional(FriendlyCompoundTag tag) {
         super.saveAdditional(tag);
-        
+
         if (this.owner != null) {
             tag.put("owner", NbtUtils.writeGameProfile(new CompoundTag(), this.owner));
         }
@@ -111,7 +115,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
     @Override
     protected void load(FriendlyCompoundTag tag) {
         super.load(tag);
-        
+
         if (tag.contains("owner")) {
             this.owner = NbtUtils.readGameProfile(tag.getCompound("owner"));
         }
@@ -132,7 +136,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
 
         return scan;
     }
-    
+
     public void getScanInfoPre(List<? super Component> scan, Player player, BlockPos pos, int scanLevel) {}
 
     public void getScanInfoPost(List<? super Component> scan, Player player, BlockPos pos, int scanLevel) {}
@@ -144,7 +148,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
     public void setOwner(GameProfile owner) {
         this.owner = owner;
     }
-    
+
     public boolean isPrivate() {
         return this.isPrivate;
     }
@@ -152,7 +156,7 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
     public void setPrivate(boolean value) {
         this.isPrivate = value;
     }
-    
+
     public boolean isOwnedBy(GameProfile profile) {
         return this.owner.equals(profile);
     }
@@ -168,12 +172,12 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
     protected boolean beforeUse(Player player, InteractionHand hand, BlockHitResult hit) {
         ItemStack stack = player.getItemInHand(hand);
         Direction side = hit.getDirection();
-        
+
         if (!checkAccess(player)) {
             player.displayClientMessage(GtLocale.key("info", "access_error").toComponent(this.owner.getName()), true);
             return true;
         }
-        
+
         if (GenericCover.isGenericCover(stack)) {
             return placeCover(ModCovers.GENERIC.get(), player, side, stack);
         }
@@ -255,20 +259,5 @@ public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfo
         return side != null && this.coverHandler.getCoverAtSide(side)
             .map(cover -> cover.letsRedstoneIn() || cover.letsRedstoneOut() || cover.acceptsRedstone() || cover.overrideRedstoneOut())
             .orElse(false);
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == Capabilities.COVER_HANDLER) {
-            return this.optionalCoverHandler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        this.optionalCoverHandler.invalidate();
     }
 }

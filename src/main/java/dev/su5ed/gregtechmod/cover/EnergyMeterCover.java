@@ -2,9 +2,7 @@ package dev.su5ed.gregtechmod.cover;
 
 import dev.su5ed.gregtechmod.api.cover.CoverInteractionResult;
 import dev.su5ed.gregtechmod.api.cover.CoverType;
-import dev.su5ed.gregtechmod.api.machine.ElectricBlockEntity;
 import dev.su5ed.gregtechmod.api.machine.PowerProvider;
-import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
 import dev.su5ed.gregtechmod.api.util.GtFluidTank;
 import dev.su5ed.gregtechmod.util.GtLocale;
@@ -15,15 +13,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class EnergyMeterCover extends BaseCover<ElectricBlockEntity> {
+public class EnergyMeterCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
 
     protected Mode mode = Mode.UNIVERSAL;
 
-    public EnergyMeterCover(CoverType<ElectricBlockEntity> type, ElectricBlockEntity be, Direction side, Item item) {
+    public EnergyMeterCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -50,19 +49,17 @@ public class EnergyMeterCover extends BaseCover<ElectricBlockEntity> {
                 stored = defaultProvider.getStoredEnergy();
                 capacity = defaultProvider.getCapacity();
             }
-            else if (this.be instanceof UpgradableBlockEntity upgradable) {
-//                if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && upgradable.hasMjUpgrade()) { TODO
-//                    stored = upgradable.getStoredMj();
-//                    capacity = upgradable.getMjCapacity();
-//                }
-                if (this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) {
-                    GtFluidTank steamTank = this.energyHandler.getPowerProvider(SteamPowerProvider.class)
-                        .map(SteamPowerProvider::getSteamTank)
-                        .orElse(null);
-                    if (steamTank != null) {
-                        stored = steamTank.getFluidAmount();
-                        capacity = steamTank.getCapacity();
-                    }
+//            else if ((this.mode == Mode.MJ || this.mode == Mode.MJ_INVERTED) && upgradable.hasMjUpgrade()) { TODO
+//                stored = upgradable.getStoredMj();
+//                capacity = upgradable.getMjCapacity();
+//            }
+            else if (this.mode == Mode.STEAM || this.mode == Mode.STEAM_INVERTED) {
+                GtFluidTank steamTank = this.energyHandler.getPowerProvider(SteamPowerProvider.class)
+                    .map(SteamPowerProvider::getSteamTank)
+                    .orElse(null);
+                if (steamTank != null) {
+                    stored = steamTank.getFluidAmount();
+                    capacity = steamTank.getCapacity();
                 }
             }
 
@@ -70,10 +67,10 @@ public class EnergyMeterCover extends BaseCover<ElectricBlockEntity> {
         }
 
         if (strength > 0) {
-            this.be.setRedstoneOutput(this.side, this.mode.inverted ? 15 - strength : strength);
+            this.machine.setRedstoneOutput(this.side, this.mode.inverted ? 15 - strength : strength);
         }
         else {
-            this.be.setRedstoneOutput(this.side, this.mode.inverted ? 15 : 0);
+            this.machine.setRedstoneOutput(this.side, this.mode.inverted ? 15 : 0);
         }
     }
 
@@ -126,7 +123,7 @@ public class EnergyMeterCover extends BaseCover<ElectricBlockEntity> {
 
     @Override
     public void onCoverRemove() {
-        this.be.setRedstoneOutput(this.side, 0);
+        this.machine.setRedstoneOutput(this.side, 0);
     }
 
     @Override

@@ -3,15 +3,17 @@ package dev.su5ed.gregtechmod.api.machine;
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-public interface IGregTechMachine extends ICapabilityProvider { // TODO extend IForgeBlockEntity?, remove I prefix
+public interface MachineController extends ICapabilityProvider {
     
+    int getSignal(Direction side);
+
     void setRedstoneOutput(Direction side, int strength);
-    
-    void setAllowedToWork(boolean value);
-    
-    boolean workJustHasBeenEnabled();
 
     boolean isAllowedToWork();
+
+    void setAllowedToWork(boolean value);
+
+    boolean workJustHasBeenEnabled();
 
     boolean isInputEnabled();
     
