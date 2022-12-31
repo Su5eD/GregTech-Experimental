@@ -497,3 +497,11 @@
     - item: ic2:ingot#tin
       count: 2
   duration: 10000
+- input:
+    fluid: deuterium
+    count: 4
+  output:
+    - cell: tritium
+      count: 1
+  cells: 1
+  duration: 3000
