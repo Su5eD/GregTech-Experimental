@@ -354,6 +354,7 @@ public abstract class AdjustableEnergy extends GtComponentBase {
 
         @Override
         public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
+            injectedEnergy = true;
             return amount - AdjustableEnergy.this.injectEnergy(amount);
         }
     }

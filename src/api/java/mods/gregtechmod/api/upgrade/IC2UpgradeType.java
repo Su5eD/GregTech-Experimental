@@ -24,7 +24,6 @@ public enum IC2UpgradeType {
         this.itemType = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, propertyName);
     }
 
-
     IC2UpgradeType(String name, int maxCount) {
         this.property = UpgradableProperty.valueOf(name);
         this.maxCount = maxCount;
