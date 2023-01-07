@@ -28,17 +28,22 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static dev.su5ed.gregtechmod.api.Reference.location;
 
@@ -52,9 +57,12 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
             drops.forEach(stackConsumer);
         }
     };
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     private final BlockEntityProvider provider;
-    
+    @Nullable
+    private final Supplier<Component> description;
+
     public BaseEntityBlock(BlockEntityProvider provider) {
         this(Properties.of(Material.METAL)
             .strength(-1, 0), provider);
@@ -62,17 +70,26 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
 
     public BaseEntityBlock(Properties properties, BlockEntityProvider provider) {
         super(properties);
-        
+
         this.provider = provider;
+
+        this.description = Lazy.of(() -> {
+            GtLocale.TranslationKey key = GtLocale.key("block", ForgeRegistries.BLOCKS.getKey(this).getPath(), "description");
+            if (FMLLoader.getDist() == Dist.CLIENT && key.exists()) {
+                return key.toComponent().withStyle(ChatFormatting.GRAY);
+            }
+            return null;
+        });
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder
             .add(BlockStateProperties.FACING)
-            .add(VerticalRotation.ROTATION_PROPERTY);
+            .add(VerticalRotation.ROTATION_PROPERTY)
+            .add(ACTIVE);
     }
-    
+
     protected VerticalRotation getVerticalRotation() {
         return VerticalRotation.MIRROR_BACK;
     }
@@ -98,7 +115,7 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
             .filter(Boolean::booleanValue)
             .orElseGet(() -> super.canConnectRedstone(state, level, pos, side));
     }
-    
+
     @Override
     public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return getBlockEntity(level, pos)
@@ -111,13 +128,14 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return super.getStateForPlacement(context)
             .setValue(BlockStateProperties.FACING, this.provider.getAllowedFacings().getFacing(context))
-            .setValue(VerticalRotation.ROTATION_PROPERTY, getVerticalRotation());
+            .setValue(VerticalRotation.ROTATION_PROPERTY, getVerticalRotation())
+            .setValue(ACTIVE, false);
     }
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
-        
+
         getBlockEntity(level, pos)
             .ifPresent(be -> be.setPlacedBy(level, pos, state, placer, stack));
     }
@@ -125,8 +143,12 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(GtLocale.key("block", ForgeRegistries.BLOCKS.getKey(this).getPath(), "description").toComponent().withStyle(ChatFormatting.GRAY));
-        
+
+        Component desc = this.description.get();
+        if (desc != null) {
+            tooltip.add(desc);
+        }
+
         this.provider.getDummyInstance().appendHoverText(stack, level, tooltip, flag);
     }
 

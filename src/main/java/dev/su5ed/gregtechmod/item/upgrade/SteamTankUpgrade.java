@@ -18,7 +18,7 @@ public class SteamTankUpgrade extends UpgradeItemBase {
 
     @Override
     public Upgrade.InjectResult beforeInsert(UpgradableBlockEntity machine, Player player, ItemStack stack) {
-        boolean hasNoSteam = machine.getCapability(Capabilities.ENERGY_HANDLER).resolve()
+        boolean hasNoSteam = machine.be().getCapability(Capabilities.ENERGY_HANDLER).resolve()
             .flatMap(power -> power.getPowerProvider(SteamPowerProvider.class))
             .isEmpty();
         return hasNoSteam ? Upgrade.InjectResult.REJECT : super.beforeInsert(machine, player, stack);
@@ -28,7 +28,7 @@ public class SteamTankUpgrade extends UpgradeItemBase {
     public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
         super.update(machine, player, stack);
 
-        machine.getCapability(Capabilities.ENERGY_HANDLER).resolve()
+        machine.be().getCapability(Capabilities.ENERGY_HANDLER).resolve()
             .flatMap(handler -> handler.getPowerProvider(SteamPowerProvider.class))
             .ifPresent(provider -> {
                 GtFluidTank steamTank = provider.getSteamTank();

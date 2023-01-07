@@ -18,7 +18,7 @@ public final class GtLocale {
     public static TranslationKey profileItemDescriptionKey(String name) {
         if (GregTechMod.isClassic) {
             TranslationKey classicKey = key("item", name, "classic_description");
-            if (classicKey.exists()) return classicKey;
+            if (classicKey.exists()) return classicKey; // TODO this will crash servers wtf was I thinking
         }
         return itemDescriptionKey(name);
     }

@@ -18,9 +18,9 @@ public class SteamPowerProvider implements PowerProvider {
     private final GtFluidTank steamTank;
 
     @SuppressWarnings("deprecation")
-    public SteamPowerProvider(UpgradableBlockEntity be) {
-        CoverHandler coverHandler = be.getCapability(Capabilities.COVER_HANDLER).orElse(null);
-        this.steamTank = be.addTank(new GtFluidTankImpl("steam", coverHandler, 0, fluidStack -> fluidStack.getFluid().is(GregTechTags.STEAM), GtUtil.ALL_FACINGS, Set.of()));
+    public SteamPowerProvider(UpgradableBlockEntity machine) {
+        CoverHandler coverHandler = machine.be().getCapability(Capabilities.COVER_HANDLER).orElse(null);
+        this.steamTank = machine.addTank(new GtFluidTankImpl("steam", coverHandler, 0, fluidStack -> fluidStack.getFluid().is(GregTechTags.STEAM), GtUtil.ALL_FACINGS, Set.of()));
     }
 
     public GtFluidTank getSteamTank() {

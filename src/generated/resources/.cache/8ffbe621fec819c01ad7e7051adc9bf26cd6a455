@@ -1,4 +1,4 @@
-// 1.19.2	2022-10-13T15:54:52.4365186	Gregtech Experimental Item Models
+// 1.19.2	2023-01-07T14:14:22.5006588	Gregtech Experimental Item Models
 7611917dbed8e56d65508076e1502658bb2a1c7d assets/gregtechmod/models/item/active_detector.json
 01dc21456a4859a611151f40e2acf5fd3c903f82 assets/gregtechmod/models/item/advanced_circuit_board.json
 e47c61b9aaa60d0123c8874a0b253ef8e84e733a assets/gregtechmod/models/item/advanced_circuit_parts.json
@@ -369,6 +369,7 @@ fdc66b1d350e27e3debfa8ef6dc6eb2d8d554e20 assets/gregtechmod/models/item/solar_pa
 d836bfea0374b877634aa6385a9cfcafe40b0c93 assets/gregtechmod/models/item/soldering_lead.json
 b15cc2f524fd2e02bd7fb575bdb3694dd470a34c assets/gregtechmod/models/item/soldering_tin.json
 2558bb17129dc7f0e05a93c4db896928b69ae05b assets/gregtechmod/models/item/soldering_tool.json
+f45c87bef10a1f7d722050cdb1a1587e5c28cc6e assets/gregtechmod/models/item/sonictron.json
 203e4b6d7e1945e0ee03257dcbf077bc04a9e4c8 assets/gregtechmod/models/item/spessartine_dust.json
 d00d8bc9412452fc3a218b0e7dc2034410bc55ff assets/gregtechmod/models/item/spessartine_smalldust.json
 bc62ddac37942ae46d024a0f2d6fed70556cb7d5 assets/gregtechmod/models/item/sphalerite_dust.json

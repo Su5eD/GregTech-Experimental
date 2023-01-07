@@ -56,6 +56,11 @@ public final class GregTechNetwork {
             .decoder(KeyPressUpdate::decode)
             .consumerMainThread(KeyPressUpdate::processPacket)
             .add();
+        INSTANCE.messageBuilder(SlotScrollPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+            .encoder(SlotScrollPacket::encode)
+            .decoder(SlotScrollPacket::decode)
+            .consumerMainThread(SlotScrollPacket::processPacket)
+            .add();
     }
 
     public static void requestInitialData(BlockEntity be) {

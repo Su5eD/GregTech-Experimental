@@ -1,7 +1,6 @@
 package dev.su5ed.gregtechmod.item.upgrade;
 
 import dev.su5ed.gregtechmod.Capabilities;
-import dev.su5ed.gregtechmod.api.cover.CoverHandler;
 import dev.su5ed.gregtechmod.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gregtechmod.api.upgrade.Upgrade;
 import dev.su5ed.gregtechmod.api.upgrade.UpgradeCategory;
@@ -18,7 +17,7 @@ public class SteamUpgrade extends UpgradeItemBase {
 
     @Override
     public Upgrade.InjectResult beforeInsert(UpgradableBlockEntity machine, Player player, ItemStack stack) {
-        boolean hasSteam = machine.getCapability(Capabilities.ENERGY_HANDLER).resolve()
+        boolean hasSteam = machine.be().getCapability(Capabilities.ENERGY_HANDLER).resolve()
             .flatMap(power -> power.getPowerProvider(SteamPowerProvider.class))
             .isPresent();
         return hasSteam ? Upgrade.InjectResult.REJECT : super.beforeInsert(machine, player, stack);
@@ -28,7 +27,7 @@ public class SteamUpgrade extends UpgradeItemBase {
     public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
         super.update(machine, player, stack);
         
-        machine.getCapability(Capabilities.ENERGY_HANDLER)
+        machine.be().getCapability(Capabilities.ENERGY_HANDLER)
             .ifPresent(power -> power.addPowerProvider(new SteamPowerProvider(machine)));
     }
 }

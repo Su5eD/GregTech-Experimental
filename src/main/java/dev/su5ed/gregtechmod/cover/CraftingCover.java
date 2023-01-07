@@ -40,13 +40,13 @@ public class CraftingCover extends BaseCover<BlockEntity> {
         return true;
     }
 
-    public MenuProvider getMenuProvider(Level level, BlockPos pos) {
-        return new SimpleMenuProvider((id, inventory, player) -> new CoverCraftingMenu(id, inventory, ContainerLevelAccess.create(level, pos)), CONTAINER_TITLE);
-    }
-
     @Override
     public ResourceLocation getIcon() {
         return TEXTURE;
+    }
+
+    private MenuProvider getMenuProvider(Level level, BlockPos pos) {
+        return new SimpleMenuProvider((id, inventory, player) -> new CoverCraftingMenu(id, inventory, ContainerLevelAccess.create(level, pos)), CONTAINER_TITLE);
     }
 
     private class CoverCraftingMenu extends CraftingMenu {

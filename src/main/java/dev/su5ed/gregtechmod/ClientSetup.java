@@ -28,6 +28,7 @@ import dev.su5ed.gregtechmod.object.Component;
 import dev.su5ed.gregtechmod.object.ModFluid;
 import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.screen.DestructorPackScreen;
+import dev.su5ed.gregtechmod.screen.SonictronScreen;
 import dev.su5ed.gregtechmod.util.ItemProvider;
 import dev.su5ed.gregtechmod.util.KeyboardHandler;
 import net.minecraft.client.Minecraft;
@@ -68,9 +69,9 @@ public final class ClientSetup {
                 LithiumBatteryItem.CHARGE_PROPERTY,
                 (stack, level, entity, seed) -> ModHandler.getEnergyCharge(stack) > 0 ? 1 : 0
             );
-            MenuScreens.register(ModMenus.DESTRUCTORPACK.get(), DestructorPackScreen::new);
+            registerScreens();
         });
-        
+
         Options options = Minecraft.getInstance().options;
         ClientEventHandler.KEY_MAP.put(options.keyJump.getKey().getValue(), KeyboardHandler.Key.JUMP);
         ClientEventHandler.KEY_MAP.put(options.keySprint.getKey().getValue(), KeyboardHandler.Key.SPRINT);
@@ -128,5 +129,10 @@ public final class ClientSetup {
         if (minecraft.level != null && minecraft.player != null) {
             minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), sound, SoundSource.BLOCKS, 1, pitch);
         }
+    }
+
+    private static void registerScreens() {
+        MenuScreens.register(ModMenus.DESTRUCTORPACK.get(), DestructorPackScreen::new);
+        MenuScreens.register(ModMenus.SONICTRON.get(), SonictronScreen::new);
     }
 }

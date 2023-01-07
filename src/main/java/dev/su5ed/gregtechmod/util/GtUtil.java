@@ -141,7 +141,7 @@ public final class GtUtil {
 
     public static boolean stackEquals(ItemStack first, ItemStack second, boolean matchTag) {
         return first.sameItem(second)
-            && (!matchTag || first.hasTag() == second.hasTag() && first.hasTag() && first.getTag().equals(second.getTag()));
+            && (!matchTag || first.hasTag() == second.hasTag() && (!first.hasTag() || first.getTag().equals(second.getTag())));
     }
 
     public static void assertServerSide(@Nullable Level level) {

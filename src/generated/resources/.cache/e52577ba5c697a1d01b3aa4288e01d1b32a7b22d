@@ -1,7 +1,7 @@
-// 1.19.2	2022-10-12T22:16:12.6440778	Gregtech Experimental Block States
+// 1.19.2	2023-01-07T15:52:37.3695831	Block States: gregtechmod
 dc537672cd616af8d4f7fba8f673033b84a00fc3 assets/gregtechmod/blockstates/advanced_machine_casing_block.json
 baf2fae69b13d8f1731963cc4a708154c2e547c0 assets/gregtechmod/blockstates/aluminium_block.json
-755354ef2d99c716489331b00e901ad4390eca41 assets/gregtechmod/blockstates/auto_macerator.json
+a5d09d7bfe643b44f829eb2ce42f43aa762baa72 assets/gregtechmod/blockstates/auto_macerator.json
 8b2ea7147ad6484d4603c8fe17d38665fccae6e0 assets/gregtechmod/blockstates/bauxite_ore.json
 fb70629b28d25c9df673c11dfbf58c4dd7dfe8eb assets/gregtechmod/blockstates/brass_block.json
 4d18860a1a580aef9fd81dd97e77ed895c931d0b assets/gregtechmod/blockstates/cassiterite_ore.json
@@ -34,6 +34,7 @@ dbcf74db54919fd86b2dd9cc9bc8a380cb97a7dd assets/gregtechmod/blockstates/sapphire
 8669c4211fca2e391d2985d8544c324b74e961df assets/gregtechmod/blockstates/sheldonite_ore.json
 374227bdf471caf716ed12e6544ae597c0ceebd9 assets/gregtechmod/blockstates/silver_block.json
 d13100b3f9dd1a17108971196752629be25165e8 assets/gregtechmod/blockstates/sodalite_ore.json
+3c1a1f68d90153fdf7a95f0c46114477ca3a3d9c assets/gregtechmod/blockstates/sonictron.json
 f965124c8a5767d54b54fffd2c90602a11e312e3 assets/gregtechmod/blockstates/sphalerite_ore.json
 065988301329adb8256bed36f3a1b341c667975e assets/gregtechmod/blockstates/standard_machine_casing_block.json
 4f3dff12a5a8d1e8c29a8b4f5c9fc0b571460d1e assets/gregtechmod/blockstates/steel_block.json

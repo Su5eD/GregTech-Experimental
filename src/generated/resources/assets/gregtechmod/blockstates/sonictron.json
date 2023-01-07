@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gregtechmod:block/sonictron"
+    },
+    "active=true": {
+      "model": "gregtechmod:block/sonictron_active"
+    }
+  }
+}

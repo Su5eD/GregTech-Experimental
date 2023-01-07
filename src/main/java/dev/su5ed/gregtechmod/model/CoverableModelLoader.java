@@ -17,6 +17,7 @@ public class CoverableModelLoader implements IGeometryLoader<CoverableModelGeome
 
     @Override
     public CoverableModelGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
+        // TODO try parsing BlockModel
         JsonObject json = jsonObject.getAsJsonObject("textures");
         ResourceLocation particle = new ResourceLocation(json.get("particle").getAsString());
         Map<Direction, ResourceLocation> textures = ModelUtil.generateTextureMap(json);

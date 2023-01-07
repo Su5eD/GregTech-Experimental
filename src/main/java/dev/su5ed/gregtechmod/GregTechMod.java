@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod;
 
 import dev.su5ed.gregtechmod.api.Reference;
+import dev.su5ed.gregtechmod.blockentity.SonictronBlockEntity;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.datagen.DataGenerators;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
@@ -53,5 +54,6 @@ public class GregTechMod {
 
         GregTechNetwork.registerPackets();
         ModHandler.registerCrops();
+        SonictronBlockEntity.loadSonictronSounds();
     }
 }

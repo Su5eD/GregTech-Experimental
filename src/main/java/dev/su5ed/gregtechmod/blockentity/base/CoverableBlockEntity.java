@@ -48,7 +48,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class CoverableBlockEntity extends BaseBlockEntity implements ScannerInfoProvider {
+public class CoverableBlockEntity extends InventoryBlockEntity implements ScannerInfoProvider {
     @Networked
     private final CoverHandler coverHandler;
     protected final MachineController machineController;

@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.blockentity.base;
 
 import dev.su5ed.gregtechmod.api.util.FriendlyCompoundTag;
+import dev.su5ed.gregtechmod.block.BaseEntityBlock;
 import dev.su5ed.gregtechmod.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gregtechmod.network.GregTechNetwork;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
@@ -9,8 +10,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +28,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.network.NetworkHooks;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +43,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
     protected final BlockEntityProvider.AllowedFacings allowedFacings;
     private final List<BlockEntityComponent> components = new ArrayList<>();
 
+    private boolean isActive;
     private int tickCounter;
 
     protected BaseBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state) {
@@ -57,6 +62,12 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (this instanceof MenuProvider menuProvider) {
+            if (!this.level.isClientSide) {
+                NetworkHooks.openScreen((ServerPlayer) player, menuProvider, this.worldPosition);
+            }
+            return InteractionResult.SUCCESS;
+        }
         return InteractionResult.PASS;
     }
 
@@ -82,6 +93,21 @@ public abstract class BaseBlockEntity extends BlockEntity {
         return 0;
     }
 
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    public void setActive(boolean active) {
+        this.isActive = active;
+        setChanged();
+        if (!this.level.isClientSide) {
+            BlockState state = getBlockState();
+            if (state.getValue(BaseEntityBlock.ACTIVE) != active) {
+                this.level.setBlockAndUpdate(this.worldPosition, state.setValue(BaseEntityBlock.ACTIVE, active));
+            }
+        }
+    }
+
     public Direction getFacing() {
         return getBlockState().getValue(BlockStateProperties.FACING);
     }
@@ -93,6 +119,14 @@ public abstract class BaseBlockEntity extends BlockEntity {
             return true;
         }
         return false;
+    }
+
+    public Component getDisplayName() {
+        return getBlockState().getBlock().getName();
+    }
+
+    protected boolean isRedstonePowered() {
+        return this.level != null && this.level.hasNeighborSignal(this.worldPosition);
     }
 
     public int getTicks() {
@@ -193,9 +227,13 @@ public abstract class BaseBlockEntity extends BlockEntity {
         loadComponents(components);
     }
 
-    protected void saveAdditional(FriendlyCompoundTag tag) {}
+    protected void saveAdditional(FriendlyCompoundTag tag) {
+        tag.putBoolean("isActive", this.isActive);
+    }
 
-    protected void load(FriendlyCompoundTag tag) {}
+    protected void load(FriendlyCompoundTag tag) {
+        this.isActive = tag.getBoolean("isActive");
+    }
 
     private CompoundTag saveComponents() {
         CompoundTag tag = new CompoundTag();

@@ -45,6 +45,8 @@ jarJar.enable()
 minecraft {
     mappings("parchment", "2022.09.04-1.19.2")
 
+    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
+
     runs {
         // Common config used for all runs
         val config = Action<RunConfig> {

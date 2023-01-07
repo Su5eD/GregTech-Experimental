@@ -1,4 +1,4 @@
-// 1.19.2	2022-10-15T17:37:06.3224159	Gregtech Experimental Loot Tables
+// 1.19.2	2023-01-07T14:14:22.5066726	Gregtech Experimental Loot Tables
 348e74e08055c97b2abd4eff6e5085679c2a036b data/gregtechmod/loot_tables/blocks/advanced_machine_casing_block.json
 a9449f4a12aec586847807be2e59f47349f3d02e data/gregtechmod/loot_tables/blocks/aluminium_block.json
 5033cf5087d8b2d47dc57e1afe88b7d570677b47 data/gregtechmod/loot_tables/blocks/auto_macerator.json
@@ -33,6 +33,7 @@ c25f635b38d4ee77eb425c6a1596563f3a003f04 data/gregtechmod/loot_tables/blocks/rub
 9a2b1d5458b18c8edf372f6a603278de8287b59a data/gregtechmod/loot_tables/blocks/sheldonite_ore.json
 bf15d3a1cf94f6d3224b7f8d9d9dfe87e5ec607d data/gregtechmod/loot_tables/blocks/silver_block.json
 358aff57473ea896a129684173be09d1d9ee37f5 data/gregtechmod/loot_tables/blocks/sodalite_ore.json
+4ba6bdbd948c199d834a87fa38fbd5f1fae545c8 data/gregtechmod/loot_tables/blocks/sonictron.json
 e3bea4ce1c97e89365d3431510cca836d6a31779 data/gregtechmod/loot_tables/blocks/sphalerite_ore.json
 be7f1c9d66533ade372a5398740d0264dbff3457 data/gregtechmod/loot_tables/blocks/standard_machine_casing_block.json
 264993be97babc2544054da918be2a67ccf672d5 data/gregtechmod/loot_tables/blocks/steel_block.json

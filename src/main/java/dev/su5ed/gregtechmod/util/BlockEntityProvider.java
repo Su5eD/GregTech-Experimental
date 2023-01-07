@@ -19,6 +19,8 @@ public interface BlockEntityProvider {
     AllowedFacings getAllowedFacings();
     
     BaseBlockEntity getDummyInstance();
+    
+    boolean hasActiveModel();
 
     enum AllowedFacings {
         ALL(GtUtil.ALL_FACINGS, BlockPlaceContext::getNearestLookingDirection),
