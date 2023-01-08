@@ -12,7 +12,7 @@ public final class GtLocale {
     private GtLocale() {}
 
     public static String translateTeBlock(TileEntityAutoNBT te, String key, Object... parameters) {
-        return translateTeBlock(te.getTeBlock().getName(), key, parameters);
+        return translateTeBlock(te.getTeBlockName(), key, parameters);
     }
 
     public static String translateTeBlock(String teBlockName, String key, Object... parameters) {
@@ -64,7 +64,7 @@ public final class GtLocale {
     }
 
     public static String buildKeyTeBlock(TileEntityAutoNBT teBlock, String... paths) {
-        return buildKey(paths, "teblock", teBlock.getTeBlock().getName());
+        return buildKey(paths, "teblock", teBlock.getTeBlockName());
     }
 
     public static String buildKeyInfo(String... paths) {

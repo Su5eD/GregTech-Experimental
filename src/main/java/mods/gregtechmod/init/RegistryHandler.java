@@ -31,7 +31,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -64,7 +63,7 @@ public class RegistryHandler {
         GameRegistry.registerTileEntity(TileEntityLightSource.class, new ResourceLocation(Reference.MODID, "light_source"));
 
         Map<String, ItemStack> teblocks = Arrays.stream(GregTechTEBlock.VALUES)
-            .collect(Collectors.toMap(teblock -> teblock.getName().toLowerCase(Locale.ROOT), teblock -> new ItemStack(GregTechTEBlock.blockTE, 1, teblock.getId())));
+            .collect(Collectors.toMap(GregTechTEBlock::getSimpleName, teblock -> new ItemStack(GregTechTEBlock.blockTE, 1, teblock.getId())));
         JavaUtil.setStaticValue(GregTechObjectAPI.class, "teBlocks", teblocks);
 
         ModCompat.disableCasingFacades();

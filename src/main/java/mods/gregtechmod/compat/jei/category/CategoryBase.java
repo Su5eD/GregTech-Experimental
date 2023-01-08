@@ -68,7 +68,7 @@ public abstract class CategoryBase<R, W extends IRecipeWrapper> implements IReci
 
     @Override
     public String getTitle() {
-        return I18n.format(GtLocale.buildKey("teblock", this.name));
+        return I18n.format(GtLocale.buildKey("teblock", Reference.MODID + "_" + this.name));
     }
 
     @Override

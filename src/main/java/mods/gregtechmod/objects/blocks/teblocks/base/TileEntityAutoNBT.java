@@ -1,7 +1,6 @@
 package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.core.IC2;
-import ic2.core.block.ITeBlock;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import mods.gregtechmod.util.BooleanCountdown;
@@ -168,7 +167,7 @@ public abstract class TileEntityAutoNBT extends TileEntityInventory implements I
         return this.inventoryModified.get();
     }
 
-    public ITeBlock getTeBlock() {
-        return this.teBlock;
+    public String getTeBlockName() {
+        return this.teBlock.getName();
     }
 }

@@ -90,7 +90,7 @@ public final class ClientEventHandler {
         Arrays.stream(GregTechTEBlock.values())
             .filter(GregTechTEBlock::isStructure)
             .filter(GregTechTEBlock::hasItem)
-            .map(GregTechTEBlock::getName)
+            .map(GregTechTEBlock::getSimpleName)
             .forEach(name -> {
                 ItemStack stack = GregTechObjectAPI.getTileEntity(name);
                 ResourceLocation location = new ResourceLocation(Reference.MODID, "teblock/" + name + "_valid");
@@ -109,10 +109,10 @@ public final class ClientEventHandler {
                     registerBakedModel(teBlock, models, loader, ModelTeBlock::new);
                     break;
                 case CONNECTED:
-                    registerConnectedBakedModel(loader, teBlock.getName(), "machines", "", ModelTEBlockConnected::new);
+                    registerConnectedBakedModel(loader, teBlock.getSimpleName(), "machines", "", ModelTEBlockConnected::new);
                     break;
                 case ELECTRIC_BUFFER:
-                    registerElectricBufferModel(teBlock.getName(), models, loader);
+                    registerElectricBufferModel(teBlock, models, loader);
                     break;
                 case BUTTON_PANEL:
                     registerBakedModel(teBlock, models, loader,
@@ -166,8 +166,8 @@ public final class ClientEventHandler {
     }
 
     private static void registerJsonBakedModel(GregTechTEBlock teBlock, JsonObject models, BakedModelLoader loader, TriFunction<JsonHandler, ResourceLocation, Map<EnumFacing, ResourceLocation>, IModel> factory) {
-        String name = teBlock.getName();
-        JsonHandler json = getTeBlockModel(name, models);
+        String name = teBlock.getSimpleName();
+        JsonHandler json = getTeBlockModel(teBlock.getName(), models);
         IModel model;
         if (teBlock.isStructure()) {
             JsonHandler valid = new JsonHandler(getItemModelPath("teblock", name + "_valid"));
@@ -184,13 +184,13 @@ public final class ClientEventHandler {
         }
     }
 
-    private static void registerElectricBufferModel(String name, JsonObject models, BakedModelLoader loader) {
-        JsonHandler json = getTeBlockModel(name, models);
+    private static void registerElectricBufferModel(GregTechTEBlock teBlock, JsonObject models, BakedModelLoader loader) {
+        JsonHandler json = getTeBlockModel(teBlock.getName(), models);
         ResourceLocation textureDown = json.getResouceLocationElement("textureDown");
         ResourceLocation textureDownRedstone = json.getResouceLocationElement("textureDownRedstone");
 
         ModelElectricBuffer model = new ModelElectricBuffer(json.particle, json.generateTextureMap(), json.generateTextureMap("texturesRedstone"), textureDown, textureDownRedstone);
-        loader.register("models/block/" + name, model);
+        loader.register("models/block/" + teBlock.getSimpleName(), model);
     }
 
     private static JsonHandler getTeBlockModel(String name, JsonObject models) {

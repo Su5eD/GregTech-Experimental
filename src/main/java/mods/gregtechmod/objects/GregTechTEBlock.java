@@ -56,7 +56,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     AUTO_RECYCLER(TileEntityAutoRecycler.class, 9, ACTIVE_GUI, Util.horizontalFacings),
     AUTO_ELECTRIC_FURNACE(TileEntityAutoElectricFurnace.class, 10, ACTIVE_GUI, Util.horizontalFacings),
     WIREMILL(TileEntityWiremill.class, 11, ACTIVE_GUI, Util.horizontalFacings),
-    GT_ALLOY_SMELTER(TileEntityAlloySmelter.class, 12, ACTIVE_GUI, Util.horizontalFacings),
+    ALLOY_SMELTER(TileEntityAlloySmelter.class, 12, ACTIVE_GUI, Util.horizontalFacings),
     AUTO_CANNER(TileEntityAutoCanner.class, 13, ACTIVE_GUI, Util.horizontalFacings),
     BENDER(TileEntityBender.class, 14, ACTIVE_GUI, Util.horizontalFacings),
     UNIVERSAL_MACERATOR(TileEntityUniversalMacerator.class, 15, ACTIVE_GUI, Util.horizontalFacings),
@@ -73,7 +73,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     DISTILLATION_TOWER(TileEntityDistillationTower.class, 26, NO_ACTIVE, Util.horizontalFacings, EnumRarity.UNCOMMON, true),
     THERMAL_GENERATOR(TileEntityThermalGenerator.class, 27, ACTIVE_GUI, Util.horizontalFacings),
     DIESEL_GENERATOR(TileEntityDieselGenerator.class, 28, ACTIVE_GUI, Util.horizontalFacings),
-    GT_SEMIFLUID_GENERATOR(TileEntitySemifluidGenerator.class, 29, NO_ACTIVE, Util.horizontalFacings),
+    SEMIFLUID_GENERATOR(TileEntitySemifluidGenerator.class, 29, NO_ACTIVE, Util.horizontalFacings),
     GAS_TURBINE(TileEntityGasTurbine.class, 30, NO_ACTIVE, Util.horizontalFacings),
     PLASMA_GENERATOR(TileEntityPlasmaGenerator.class, 31, ACTIVE_GUI, Util.allFacings, EnumRarity.RARE),
     MAGIC_ENERGY_CONVERTER(TileEntityMagicEnergyConverter.class, 32, ACTIVE_GUI, Util.allFacings, EnumRarity.RARE),
@@ -99,7 +99,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     ADVANCED_PUMP(TileEntityAdvancedPump.class, 52, ACTIVE_GUI, Util.horizontalFacings, EnumRarity.UNCOMMON),
     ADVANCED_SAFE(TileEntityAdvancedSafe.class, 53, NO_ACTIVE, Util.horizontalFacings),
     MATTER_FABRICATOR(TileEntityMatterFabricator.class, 54, ACTIVE_GUI, Util.noFacings),
-    GT_TELEPORTER(TileEntityGtTeleporter.class, 55, ACTIVE_GUI, Util.allFacings, EnumRarity.RARE),
+    TELEPORTER(TileEntityGtTeleporter.class, 55, ACTIVE_GUI, Util.allFacings, EnumRarity.RARE),
     TESSERACT_GENERATOR(TileEntityTesseractGenerator.class, 56, NO_ACTIVE, Util.allFacings, EnumRarity.RARE),
     TESSERACT_TERMINAL(TileEntityTesseractTerminal.class, 57, NO_ACTIVE, Util.allFacings, EnumRarity.RARE),
     ELECTRIC_BUFFER_SMALL(TileEntityElectricBufferSmall.class, 58, NO_ACTIVE, Util.allFacings, ModelType.ELECTRIC_BUFFER),
@@ -181,7 +181,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
         this.modelType = modelType;
         this.isStructure = isStructure;
 
-        GameRegistry.registerTileEntity(teClass, new ResourceLocation(Reference.MODID, getName()));
+        GameRegistry.registerTileEntity(teClass, new ResourceLocation(Reference.MODID, getSimpleName()));
         NBTSaveHandler.initClass(teClass);
     }
 
@@ -262,6 +262,10 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
 
     @Override
     public String getName() {
+        return Reference.MODID + "_" + getSimpleName();
+    }
+    
+    public String getSimpleName() {
         return name().toLowerCase(Locale.ROOT);
     }
 
@@ -283,7 +287,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
     public TileEntityBlock buildDummyTeBlock() {
         if (this.teClass != null) {
             try {
-                GregTechMod.LOGGER.debug("Building dummy TeBlock for {}", getName());
+                GregTechMod.LOGGER.debug("Building dummy TeBlock for {}", getSimpleName());
                 return this.teClass.newInstance();
             } catch (Exception e) {
                 GregTechMod.LOGGER.catching(e);
@@ -299,7 +303,7 @@ public enum GregTechTEBlock implements ITeBlock, ITeBlockCreativeRegisterer, ITe
 
     @Override
     public ModelResourceLocation getModelLocation(ItemStack stack) {
-        String name = getName();
+        String name = getSimpleName();
         String location = Reference.MODID + ":teblock/" + name;
 
         if (this.isStructure) location += "_valid";

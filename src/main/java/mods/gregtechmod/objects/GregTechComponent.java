@@ -25,7 +25,7 @@ public enum GregTechComponent {
     CONDUCTOR_ENERGY(TileEntitySuperconductorWire.ConductorEnergy.class),
     IDSU_ENERGY(TileEntityIDSU.IDSUEnergy.class),
     COMPUTER_CUBE_MODULE(TileEntityComputerCube.ComputerCubeModuleComponent.class),
-    GT_REDSTONE_EMITTER(GtRedstoneEmitter.class),
+    REDSTONE_EMITTER(GtRedstoneEmitter.class),
     SLOT_RANGE_MANAGER(TileEntityElectricInventoryManager.SlotRangeManager.class),
     FUSION_ENERGY(TileEntityFusionComputer.FusionEnergy.class);
 

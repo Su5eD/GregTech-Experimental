@@ -7,7 +7,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiGtTeleporter extends GuiSimple<ContainerGtTeleporter> {
-    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("gt_teleporter");
+    public static final ResourceLocation TEXTURE = GtUtil.getGuiTexture("teleporter");
 
     public GuiGtTeleporter(ContainerGtTeleporter container) {
         super(container);

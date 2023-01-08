@@ -69,7 +69,7 @@ public class JEIModule implements IModPlugin {
         Collection<CategoryBase<?, ?>> categories = Arrays.asList(
             new CategoryCentrifuge(guiHelper),
             new CategoryBasicMachineSingle<>("wiremill", RecipeSimple.class, GuiWiremill.class, GtRecipes.wiremill, true, GregtechGauge.EXTRUDING, guiHelper),
-            new CategoryBasicMachineMulti<>("gt_alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
+            new CategoryBasicMachineMulti<>("alloy_smelter", RecipeAlloySmelter.class, GuiAlloySmelter.class, GtRecipes.alloySmelter, true, GregtechGauge.SMELTING, guiHelper),
             new CategoryBasicMachineMulti<>("auto_canner", RecipeCanner.class, GuiAutoCanner.class, GtRecipes.canner, false, true, GregtechGauge.CANNING, guiHelper),
             new CategoryBasicMachineSingle<>("bender", RecipeSimple.class, GuiBender.class, GtRecipes.bender, true, GregtechGauge.BENDING, guiHelper),
             new CategoryBasicMachineMulti<>("assembler", RecipeDualInput.class, GuiAssembler.class, GtRecipes.assembler, true, GregtechGauge.ASSEMBLING, guiHelper),
@@ -84,7 +84,7 @@ public class JEIModule implements IModPlugin {
             new CategoryDistillationTower(guiHelper),
             CategoryGenerator.createFluidGeneratorCategory("thermal_generator", GuiThermalGenerator.class, GtFuels.hot, guiHelper),
             CategoryGenerator.createFluidGeneratorCategory("diesel_generator", GuiDieselGenerator.class, GtFuels.diesel, guiHelper),
-            CategoryGenerator.createFluidGeneratorCategory("gt_semifluid_generator", GuiSemifluidGenerator.class, GtFuels.denseLiquid, guiHelper),
+            CategoryGenerator.createFluidGeneratorCategory("semifluid_generator", GuiSemifluidGenerator.class, GtFuels.denseLiquid, guiHelper),
             CategoryGenerator.createFluidGeneratorCategory("gas_turbine", GuiGasTurbine.class, GtFuels.gas, guiHelper),
             new CategoryPlasmaGenerator(guiHelper),
             CategoryGenerator.createFluidGeneratorCategory("magic_energy_converter", GuiMagicEnergyConverter.class, GtFuels.magic, guiHelper),
@@ -112,7 +112,7 @@ public class JEIModule implements IModPlugin {
 
         StreamEx.of(GregTechTEBlock.VALUES)
             .remove(teBlock -> Version.shouldEnable(teBlock.getTeClass()))
-            .map(GregTechTEBlock::getName)
+            .map(GregTechTEBlock::getSimpleName)
             .map(GregTechObjectAPI::getTileEntity)
             .forEach(HIDDEN_ITEMS::add);
 

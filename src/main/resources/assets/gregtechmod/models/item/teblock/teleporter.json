@@ -1,0 +1,12 @@
+{
+  "parent": "gregtechmod:block/block_directional",
+  "textures": {
+    "particle": "gregtechmod:blocks/machines/machine_side",
+    "down": "gregtechmod:blocks/machines/teleporter/teleporter_side",
+    "up": "gregtechmod:blocks/machines/teleporter/teleporter_side",
+    "north": "gregtechmod:blocks/machines/teleporter/teleporter_front",
+    "south": "gregtechmod:blocks/machines/teleporter/teleporter_side",
+    "east": "gregtechmod:blocks/machines/teleporter/teleporter_side",
+    "west": "gregtechmod:blocks/machines/teleporter/teleporter_side"
+  }
+}
