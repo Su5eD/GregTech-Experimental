@@ -21,6 +21,7 @@ public final class DataGenerators {
         generator.addProvider(event.includeServer(), new FluidTagsGen(generator, helper));
         generator.addProvider(event.includeServer(), new LootTableGen(generator));
         generator.addProvider(event.includeServer(), new LootModifierProvider(generator));
+        generator.addProvider(event.includeServer(), new RecipeGen(generator));
 
         generator.addProvider(event.includeClient(), new BlockStateGen(generator, helper));
         generator.addProvider(event.includeClient(), new ItemModelGen(generator, helper));

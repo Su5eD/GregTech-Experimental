@@ -41,7 +41,7 @@ public class EntityTagsGen extends EntityTypeTagsProvider {
 
     @Override
     public String getName() {
-        return Reference.NAME + " Entity Tags";
+        return Reference.NAME + super.getName();
     }
 
     private static void addOptional(TagAppender<EntityType<?>> tag, String modid, String... names) {

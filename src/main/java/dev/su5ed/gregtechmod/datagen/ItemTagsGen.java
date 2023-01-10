@@ -101,6 +101,6 @@ public class ItemTagsGen extends ItemTagsProvider {
 
     @Override
     public String getName() {
-        return Reference.NAME + " Item Tags";
+        return Reference.NAME + super.getName();
     }
 }

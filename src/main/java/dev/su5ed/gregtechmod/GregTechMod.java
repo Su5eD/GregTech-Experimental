@@ -9,6 +9,8 @@ import dev.su5ed.gregtechmod.network.NetworkHandler;
 import dev.su5ed.gregtechmod.object.ModCovers;
 import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.ModObjects;
+import dev.su5ed.gregtechmod.recipe.setup.ModRecipeSerializers;
+import dev.su5ed.gregtechmod.recipe.setup.ModRecipeTypes;
 import dev.su5ed.gregtechmod.util.loot.ConditionLootModifier;
 import dev.su5ed.gregtechmod.world.ModConfiguredFeatures;
 import dev.su5ed.gregtechmod.world.ModPlacedFeatures;
@@ -38,6 +40,8 @@ public class GregTechMod {
         ModConfiguredFeatures.init(bus);
         ModPlacedFeatures.init(bus);
         ConditionLootModifier.init(bus);
+        ModRecipeTypes.init(bus);
+        ModRecipeSerializers.init(bus);
         bus.register(ModObjects.class);
         bus.register(DataGenerators.class);
         bus.register(Capabilities.class);

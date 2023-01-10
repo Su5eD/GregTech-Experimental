@@ -62,6 +62,6 @@ class BlockTagsGen extends BlockTagsProvider {
 
     @Override
     public String getName() {
-        return Reference.NAME + " Block Tags";
+        return Reference.NAME + super.getName();
     }
 }

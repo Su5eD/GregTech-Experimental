@@ -12,10 +12,10 @@ import dev.su5ed.gregtechmod.object.GTBlockEntity;
 import dev.su5ed.gregtechmod.object.Hammer;
 import dev.su5ed.gregtechmod.object.Ingot;
 import dev.su5ed.gregtechmod.object.JackHammer;
-import dev.su5ed.gregtechmod.object.ModFluid;
 import dev.su5ed.gregtechmod.object.Miscellaneous;
 import dev.su5ed.gregtechmod.object.ModBlock;
 import dev.su5ed.gregtechmod.object.ModCoverItem;
+import dev.su5ed.gregtechmod.object.ModFluid;
 import dev.su5ed.gregtechmod.object.NuclearCoolantPack;
 import dev.su5ed.gregtechmod.object.NuclearFuelRod;
 import dev.su5ed.gregtechmod.object.Nugget;
@@ -38,7 +38,6 @@ import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerM
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static dev.su5ed.gregtechmod.api.Reference.location;
@@ -94,12 +93,6 @@ class ItemModelGen extends ItemModelProvider {
         
         StreamEx.of(ModFluid.values())
             .forEach(this::registerBucket);
-    }
-
-    @NotNull
-    @Override
-    public String getName() {
-        return Reference.NAME + " Item Models";
     }
 
     private void registerItems(ItemProvider[] providers, @Nullable String folder) {
