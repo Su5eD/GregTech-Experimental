@@ -21,7 +21,8 @@
   "result":
   {
     "item": "ic2:dust",
-    "data": 6
+    "data": 6,
+    "count": 9
   },
   "conditions":
   [
