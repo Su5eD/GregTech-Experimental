@@ -55,6 +55,7 @@ public class CategoryGenerator<R> extends CategoryBase<R, WrapperFuel<?>> {
     @Override
     protected void initSlots(IGuiItemStackGroup guiItemStacks) {
         guiItemStacks.init(0, true, 60, 20);
+        guiItemStacks.init(1, false, 98, 20);
     }
 
     @Override
