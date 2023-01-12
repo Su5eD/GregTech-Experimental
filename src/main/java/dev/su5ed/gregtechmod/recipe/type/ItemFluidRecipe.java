@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public abstract class ItemFluidRecipe extends BaseRecipe<ItemFluidRecipeType<? extends ItemFluidRecipe>> {
+public abstract class ItemFluidRecipe extends BaseRecipe<ItemFluidRecipeType<? extends ItemFluidRecipe>, ItemFluidRecipe.Input, ItemFluidRecipe> {
     protected final RecipeIngredient<ItemStack> input;
     protected final RecipeIngredient<FluidStack> fluid;
     protected final List<ItemStack> outputs;
@@ -21,12 +21,18 @@ public abstract class ItemFluidRecipe extends BaseRecipe<ItemFluidRecipeType<? e
         this.outputs = outputs;
     }
 
-    public boolean matches(ItemStack input, FluidStack fluid) {
-        return this.input.test(input) && this.fluid.test(fluid);
-    }
-
     public List<ItemStack> getOutputs() {
         return this.outputs;
+    }
+
+    @Override
+    public boolean matches(Input input) {
+        return this.input.test(input.item) && this.fluid.test(input.fluid);
+    }
+
+    @Override
+    public int compareInputCount(ItemFluidRecipe other) {
+        return this.input.getCount() - other.input.getCount(); // TODO compare fluid
     }
 
     @Override
@@ -38,4 +44,6 @@ public abstract class ItemFluidRecipe extends BaseRecipe<ItemFluidRecipeType<? e
             outputType.toNetwork(buffer, this.outputs.get(i));
         }
     }
+    
+    public record Input(ItemStack item, FluidStack fluid) {}
 }

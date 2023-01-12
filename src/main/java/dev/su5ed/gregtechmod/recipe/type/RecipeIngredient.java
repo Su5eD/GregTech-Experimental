@@ -17,6 +17,8 @@ import java.util.function.Predicate;
 
 public interface RecipeIngredient<T> extends Predicate<T> {
     RecipeIngredientType<?> getType();
+    
+    int getCount();
 
     void toNetwork(FriendlyByteBuf buffer);
     

@@ -9,7 +9,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public abstract class BaseRecipe<T extends RecipeType<?>> implements Recipe<Container> {
+public abstract class BaseRecipe<T extends RecipeType<?>, I, C extends BaseRecipe<T, I, C>> implements Recipe<Container> {
     protected final T type;
     protected final RecipeSerializer<?> serializer;
     protected final ResourceLocation id;
@@ -21,6 +21,10 @@ public abstract class BaseRecipe<T extends RecipeType<?>> implements Recipe<Cont
     }
 
     public abstract void toNetwork(FriendlyByteBuf buffer);
+    
+    public abstract boolean matches(I input);
+    
+    public abstract int compareInputCount(C other);
 
     @Override
     public boolean matches(Container container, Level level) {

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Single Input, Multi Output recipe
  */
-public abstract class SIMORecipe<O> extends BaseRecipe<SIMORecipeType<?, O>> {
+public abstract class SIMORecipe<O> extends BaseRecipe<SIMORecipeType<?, O>, SIMORecipe.Input, SIMORecipe<O>> {
     protected final RecipeIngredient<ItemStack> input;
     protected final List<O> outputs;
 
@@ -20,12 +20,18 @@ public abstract class SIMORecipe<O> extends BaseRecipe<SIMORecipeType<?, O>> {
         this.outputs = outputs;
     }
 
-    public boolean matches(ItemStack input) {
-        return this.input.test(input);
-    }
-
     public List<O> getOutputs() {
         return this.outputs;
+    }
+
+    @Override
+    public boolean matches(Input input) {
+        return this.input.test(input.item);
+    }
+
+    @Override
+    public int compareInputCount(SIMORecipe<O> other) {
+        return this.input.getCount() - other.input.getCount();
     }
 
     @Override
@@ -36,4 +42,6 @@ public abstract class SIMORecipe<O> extends BaseRecipe<SIMORecipeType<?, O>> {
             outputType.toNetwork(buffer, this.outputs.get(i));
         }
     }
+    
+    public record Input(ItemStack item) {}
 }

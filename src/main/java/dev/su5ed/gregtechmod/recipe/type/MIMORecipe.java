@@ -4,13 +4,16 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Multi Input, Multi Output recipe
  */
-public abstract class MIMORecipe<O> extends BaseRecipe<MIMORecipeType<?, O>> {
+public abstract class MIMORecipe<O> extends BaseRecipe<MIMORecipeType<?, O>, MIMORecipe.Input, MIMORecipe<O>> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
     protected final List<O> outputs;
 
@@ -37,6 +40,17 @@ public abstract class MIMORecipe<O> extends BaseRecipe<MIMORecipeType<?, O>> {
     }
 
     @Override
+    public boolean matches(Input input) {
+        return this.inputs.size() == input.items.size() && EntryStream.zip(this.inputs, input.items).allMatch(Predicate::test);
+    }
+
+    @Override
+    public int compareInputCount(MIMORecipe<O> other) {
+        return StreamEx.of(this.inputs).mapToInt(RecipeIngredient::getCount).sum()
+            - StreamEx.of(other.inputs).mapToInt(RecipeIngredient::getCount).sum();
+    }
+
+    @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         for (RecipeIngredient<ItemStack> input : this.inputs) {
             input.toNetwork(buffer);
@@ -48,4 +62,6 @@ public abstract class MIMORecipe<O> extends BaseRecipe<MIMORecipeType<?, O>> {
             outputType.toNetwork(buffer, this.outputs.get(i));
         }
     }
+    
+    public record Input(List<ItemStack> items) {}
 }

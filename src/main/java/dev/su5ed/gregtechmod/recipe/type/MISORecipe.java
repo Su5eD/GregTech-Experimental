@@ -4,13 +4,16 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Multi Input, Single Output recipe
  */
-public abstract class MISORecipe<O> extends BaseRecipe<MISORecipeType<?, O>> {
+public abstract class MISORecipe<O> extends BaseRecipe<MISORecipeType<?, O>, MISORecipe.Input, MISORecipe<O>> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
     protected final O output;
 
@@ -20,20 +23,19 @@ public abstract class MISORecipe<O> extends BaseRecipe<MISORecipeType<?, O>> {
         this.output = output;
     }
 
-    public boolean matches(List<ItemStack> inputs) {
-        if (this.inputs.size() == inputs.size()) {
-            for (int i = 0; i < this.inputs.size(); i++) {
-                if (!this.inputs.get(i).test(inputs.get(i))) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
     public O getOutput() {
         return this.output;
+    }
+
+    @Override
+    public boolean matches(Input input) {
+        return this.inputs.size() == input.items.size() && EntryStream.zip(this.inputs, input.items).allMatch(Predicate::test);
+    }
+
+    @Override
+    public int compareInputCount(MISORecipe<O> other) {
+        return StreamEx.of(this.inputs).mapToInt(RecipeIngredient::getCount).sum()
+            - StreamEx.of(other.inputs).mapToInt(RecipeIngredient::getCount).sum();
     }
 
     @Override
@@ -43,4 +45,6 @@ public abstract class MISORecipe<O> extends BaseRecipe<MISORecipeType<?, O>> {
         }
         this.type.getOutputType().toNetwork(buffer, this.output);
     }
+
+    public record Input(List<ItemStack> items) {}
 }
