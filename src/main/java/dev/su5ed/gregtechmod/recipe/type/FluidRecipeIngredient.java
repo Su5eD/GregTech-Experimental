@@ -40,6 +40,16 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     }
 
     @Override
+    public int getCount() {
+        return this.value.amount(); // TODO Bucket count?
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.value.isEmpty() || getCount() <= 0;
+    }
+
+    @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         this.value.toNetwork(buffer);
     }
@@ -55,6 +65,10 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     }
 
     public interface Value extends Predicate<FluidStack> {
+        int amount();
+        
+        boolean isEmpty();
+        
         void toNetwork(FriendlyByteBuf buffer);
     }
 
@@ -62,6 +76,16 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
         @Override
         public boolean test(FluidStack fluid) {
             return fluid.containsFluid(this.fluidStack);
+        }
+
+        @Override
+        public int amount() {
+            return this.fluidStack.getAmount();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return this.fluidStack.isEmpty();
         }
 
         @Override
@@ -75,6 +99,11 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
         @Override
         public boolean test(FluidStack fluidStack) {
             return StreamEx.of(this.list).allMatch(fluid -> fluidStack.getFluid() == fluid) && fluidStack.getAmount() >= this.amount;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return this.list.isEmpty();
         }
 
         @Override
@@ -92,6 +121,11 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
         @Override
         public boolean test(FluidStack fluidStack) {
             return fluidStack.getFluid().is(this.tag) && fluidStack.getAmount() >= this.amount;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
         }
 
         @Override

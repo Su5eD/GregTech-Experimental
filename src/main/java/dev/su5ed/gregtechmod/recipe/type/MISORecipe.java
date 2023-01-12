@@ -19,20 +19,20 @@ public abstract class MISORecipe extends BaseRecipe<MISORecipeType<?>, MISORecip
 
     public MISORecipe(MISORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output) {
         super(type, serializer, id);
+
         this.inputs = inputs;
         this.output = output;
+
+        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
+        RecipeUtil.validateItem(this.id, "output", this.output);
+    }
+
+    public List<? extends RecipeIngredient<ItemStack>> getInputs() {
+        return this.inputs;
     }
 
     public ItemStack getOutput() {
         return this.output;
-    }
-
-    @Override
-    public void validate() {
-        super.validate();
-
-        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
-        RecipeUtil.validateItem(this.id, "output", this.output);
     }
 
     @Override

@@ -16,20 +16,16 @@ public abstract class SIMORecipe extends BaseRecipe<SIMORecipeType<?>, SIMORecip
 
     public SIMORecipe(SIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> outputs) {
         super(type, serializer, id);
+
         this.input = input;
         this.outputs = outputs;
+
+        RecipeUtil.validateInput(this.id, "input", this.input);
+        RecipeUtil.validateItemList(this.id, "output", this.outputs, this.type.outputTypes.size());
     }
 
     public List<ItemStack> getOutputs() {
         return this.outputs;
-    }
-
-    @Override
-    public void validate() {
-        super.validate();
-
-        RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateItemList(this.id, "output", this.outputs, this.type.outputTypes.size());
     }
 
     @Override
@@ -50,6 +46,6 @@ public abstract class SIMORecipe extends BaseRecipe<SIMORecipeType<?>, SIMORecip
             outputType.toNetwork(buffer, this.outputs.get(i));
         }
     }
-    
+
     public record Input(ItemStack item) {}
 }

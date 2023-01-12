@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.recipe.type;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import dev.su5ed.gregtechmod.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -26,13 +27,14 @@ public interface RecipeIngredient<T> extends Predicate<T> {
     
     JsonElement toJson();
 
-    static List<RecipeIngredient<ItemStack>> parseInputs(JsonElement json) {
-        if (json.isJsonArray()) {
-            return StreamEx.of(json.getAsJsonArray().iterator())
-                .map(RecipeIngredient::parseItem)
+    static List<? extends RecipeIngredient<ItemStack>> parseInputs(List<? extends RecipeIngredientType<? extends RecipeIngredient<ItemStack>>> inputTypes, JsonArray json) {
+        if (inputTypes.size() == json.size()) {
+            return StreamEx.of(inputTypes)
+                .zipWith(StreamEx.of(json.getAsJsonArray().iterator()))
+                .mapKeyValue(RecipeIngredientType::create)
                 .toList();
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Input type and json sizes differ");
     }
 
     static RecipeIngredient<FluidStack> parseFluid(JsonElement json) {
@@ -45,7 +47,7 @@ public interface RecipeIngredient<T> extends Predicate<T> {
             Ingredient ingredient = Ingredient.fromJson(json);
             return new VanillaRecipeIngredient(ingredient);
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Not a JSON object");
     }
 
     static ItemStack parseItemStack(JsonElement json) {

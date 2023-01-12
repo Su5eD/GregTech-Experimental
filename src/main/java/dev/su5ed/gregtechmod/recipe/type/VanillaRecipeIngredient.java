@@ -1,6 +1,7 @@
 package dev.su5ed.gregtechmod.recipe.type;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import dev.su5ed.gregtechmod.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +42,10 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
 
     @Override
     public JsonElement toJson() {
-        return this.ingredient.toJson();
+        JsonObject json = new JsonObject();
+        json.add("value", this.ingredient.toJson());
+        json.addProperty("count", this.count);
+        return json;
     }
 
     @Override

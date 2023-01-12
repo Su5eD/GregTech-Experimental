@@ -19,20 +19,20 @@ public abstract class MIMORecipe extends BaseRecipe<MIMORecipeType<?>, MIMORecip
 
     public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs) {
         super(type, serializer, id);
+        
         this.inputs = inputs;
         this.outputs = outputs;
+
+        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
+        RecipeUtil.validateItemList(this.id, "outputs", this.outputs, this.type.outputTypes.size());
+    }
+
+    public List<? extends RecipeIngredient<ItemStack>> getInputs() {
+        return this.inputs;
     }
 
     public List<ItemStack> getOutputs() {
         return this.outputs;
-    }
-
-    @Override
-    public void validate() {
-        super.validate();
-
-        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
-        RecipeUtil.validateItemList(this.id, "outputs", this.outputs, this.type.outputTypes.size());
     }
 
     @Override

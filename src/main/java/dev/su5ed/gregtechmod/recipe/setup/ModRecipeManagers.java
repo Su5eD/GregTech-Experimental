@@ -22,7 +22,7 @@ public final class ModRecipeManagers {
     public static final Lazy<RecipeManager<AssemblerRecipe, MISORecipe.Input>> ASSEMBLER = create(ModRecipeTypes.ASSEMBLER);
     public static final Lazy<RecipeManager<CanningMachineRecipe, MIMORecipe.Input>> CANNING_MACHINE = create(ModRecipeTypes.CANNING_MACHINE);
     public static final Lazy<RecipeManager<IndustrialGrinderRecipe, ItemFluidRecipe.Input>> INDUSTRIAL_GRINDER = create(ModRecipeTypes.INDUSTRIAL_GRINDER);
-    public static final Lazy<RecipeManager<PulverizerRecipe, SIMORecipe.Input>> PULVERIZE = create(ModRecipeTypes.PULVERIZER);
+    public static final Lazy<RecipeManager<PulverizerRecipe, SIMORecipe.Input>> PULVERIZER = create(ModRecipeTypes.PULVERIZER);
 
     private static <R extends BaseRecipe<?, I, ? super R>, I> Lazy<RecipeManager<R, I>> create(Supplier<? extends RecipeType<R>> recipeType) {
         return Lazy.of(() -> new BaseRecipeManager<>(recipeType.get()));

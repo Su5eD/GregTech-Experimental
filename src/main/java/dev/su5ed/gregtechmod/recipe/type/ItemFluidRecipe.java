@@ -19,19 +19,14 @@ public abstract class ItemFluidRecipe extends BaseRecipe<ItemFluidRecipeType<? e
         this.input = input;
         this.fluid = fluid;
         this.outputs = outputs;
-    }
-
-    public List<ItemStack> getOutputs() {
-        return this.outputs;
-    }
-
-    @Override
-    public void validate() {
-        super.validate();
 
         RecipeUtil.validateInput(this.id, "input", this.input);
         RecipeUtil.validateInput(this.id, "fluid", this.fluid);
         RecipeUtil.validateItemList(this.id, "outputs", this.outputs, this.type.outputTypes.size());
+    }
+
+    public List<ItemStack> getOutputs() {
+        return this.outputs;
     }
 
     @Override

@@ -11,19 +11,21 @@ import one.util.streamex.StreamEx;
 
 import java.util.List;
 
-public class SIMORecipeType<T extends SIMORecipe> implements BaseRecipeType<T> {
+public class SIMORecipeType<R extends SIMORecipe> extends BaseRecipeTypeImpl<R> {
     protected final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
     protected final List<RecipeOutputType<ItemStack>> outputTypes;
-    protected final SIMORecipeFactory<T> factory;
+    protected final SIMORecipeFactory<R> factory;
 
-    public SIMORecipeType(List<RecipeOutputType<ItemStack>> outputTypes, SIMORecipeFactory<T> factory) {
+    public SIMORecipeType(ResourceLocation name, List<RecipeOutputType<ItemStack>> outputTypes, SIMORecipeFactory<R> factory) {
+        super(name);
+
         this.inputType = ModRecipeIngredientTypes.ITEM;
         this.outputTypes = outputTypes;
         this.factory = factory;
     }
 
     @Override
-    public T fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
+    public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
         JsonElement inputJson = GsonHelper.getAsJsonArray(serializedRecipe, "input");
         JsonElement outputJson = serializedRecipe.get("output");
 
@@ -36,7 +38,7 @@ public class SIMORecipeType<T extends SIMORecipe> implements BaseRecipeType<T> {
     }
 
     @Override
-    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         RecipeIngredient<ItemStack> input = this.inputType.create(buffer);
         List<ItemStack> outputs = StreamEx.of(this.outputTypes)
             .map(type -> type.fromNetwork(buffer))

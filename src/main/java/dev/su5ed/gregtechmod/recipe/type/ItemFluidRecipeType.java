@@ -13,13 +13,15 @@ import one.util.streamex.StreamEx;
 
 import java.util.List;
 
-public class ItemFluidRecipeType<T extends ItemFluidRecipe> implements BaseRecipeType<T> {
+public class ItemFluidRecipeType<R extends ItemFluidRecipe> extends BaseRecipeTypeImpl<R> {
     public final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
     public final RecipeIngredientType<? extends RecipeIngredient<FluidStack>> fluidType;
     public final List<RecipeOutputType<ItemStack>> outputTypes;
-    public final ItemFluidRecipeFactory<T> factory;
+    public final ItemFluidRecipeFactory<R> factory;
 
-    public ItemFluidRecipeType(int outputCount, ItemFluidRecipeFactory<T> factory) {
+    public ItemFluidRecipeType(ResourceLocation name, int outputCount, ItemFluidRecipeFactory<R> factory) {
+        super(name);
+
         this.inputType = ModRecipeIngredientTypes.ITEM;
         this.fluidType = ModRecipeIngredientTypes.FLUID;
         this.outputTypes = StreamEx.constant(ModRecipeOutputTypes.ITEM, outputCount).toList();
@@ -27,7 +29,7 @@ public class ItemFluidRecipeType<T extends ItemFluidRecipe> implements BaseRecip
     }
 
     @Override
-    public T fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
+    public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
         JsonElement inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
         JsonElement fluidJson = GsonHelper.getAsJsonObject(serializedRecipe, "fluid");
         JsonElement outputJson = serializedRecipe.get("output");
@@ -42,7 +44,7 @@ public class ItemFluidRecipeType<T extends ItemFluidRecipe> implements BaseRecip
     }
 
     @Override
-    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         RecipeIngredient<ItemStack> input = this.inputType.create(buffer);
         RecipeIngredient<FluidStack> fluid = this.fluidType.create(buffer);
         List<ItemStack> outputs = StreamEx.of(this.outputTypes)

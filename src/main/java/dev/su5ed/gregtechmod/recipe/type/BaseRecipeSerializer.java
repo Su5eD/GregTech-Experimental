@@ -6,26 +6,26 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
 
-public class BaseRecipeSerializer<T extends BaseRecipe<?>> implements RecipeSerializer<T> {
-    private final BaseRecipeType<T> recipeType;
+public class BaseRecipeSerializer<R extends BaseRecipe<?, ?, ? super R>> implements RecipeSerializer<R> {
+    private final BaseRecipeType<R> recipeType;
 
-    public BaseRecipeSerializer(BaseRecipeType<T> recipeType) {
+    public BaseRecipeSerializer(BaseRecipeType<R> recipeType) {
         this.recipeType = recipeType;
     }
 
     @Override
-    public T fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
+    public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
         return this.recipeType.fromJson(recipeId, serializedRecipe);
     }
 
     @Nullable
     @Override
-    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         return this.recipeType.fromNetwork(recipeId, buffer);
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, T recipe) {
+    public void toNetwork(FriendlyByteBuf buffer, R recipe) {
         recipe.toNetwork(buffer);
     }
 }
