@@ -11,13 +11,13 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.List;
 
-public class MIMORecipeBuilder<O> extends ModRecipeBuilder {
-    protected final MIMORecipeType<?, O> recipeType;
+public class MIMORecipeBuilder extends ModRecipeBuilder {
+    protected final MIMORecipeType<?> recipeType;
     protected final RecipeSerializer<?> recipeSerializer;
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
-    protected final List<O> outputs;
+    protected final List<ItemStack> outputs;
 
-    public MIMORecipeBuilder(MIMORecipeType<?, O> recipeType, RecipeSerializer<?> recipeSerializer, List<? extends RecipeIngredient<ItemStack>> inputs, List<O> outputs) {
+    public MIMORecipeBuilder(MIMORecipeType<?> recipeType, RecipeSerializer<?> recipeSerializer, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs) {
         this.recipeType = recipeType;
         this.recipeSerializer = recipeSerializer;
         this.inputs = inputs;
@@ -44,9 +44,8 @@ public class MIMORecipeBuilder<O> extends ModRecipeBuilder {
             json.add("input", inputs);
             
             JsonArray outputs = new JsonArray(MIMORecipeBuilder.this.outputs.size());
-            List<? extends RecipeOutputType<O>> outputTypes = MIMORecipeBuilder.this.recipeType.getOutputTypes();
-            for (int i = 0; i < outputTypes.size(); i++) {
-                outputs.add(outputTypes.get(i).toJson(MIMORecipeBuilder.this.outputs.get(i)));
+            for (int i = 0; i < MIMORecipeBuilder.this.recipeType.outputTypes.size(); i++) {
+                outputs.add(MIMORecipeBuilder.this.recipeType.outputTypes.get(i).toJson(MIMORecipeBuilder.this.outputs.get(i)));
             }
             json.add("output", outputs);
         }

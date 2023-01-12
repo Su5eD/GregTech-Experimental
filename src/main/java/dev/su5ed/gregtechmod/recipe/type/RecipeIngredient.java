@@ -19,6 +19,8 @@ public interface RecipeIngredient<T> extends Predicate<T> {
     RecipeIngredientType<?> getType();
     
     int getCount();
+    
+    boolean isEmpty();
 
     void toNetwork(FriendlyByteBuf buffer);
     

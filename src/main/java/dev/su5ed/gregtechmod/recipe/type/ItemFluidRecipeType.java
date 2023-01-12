@@ -14,10 +14,10 @@ import one.util.streamex.StreamEx;
 import java.util.List;
 
 public class ItemFluidRecipeType<T extends ItemFluidRecipe> implements BaseRecipeType<T> {
-    protected final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
-    protected final RecipeIngredientType<? extends RecipeIngredient<FluidStack>> fluidType;
-    protected final List<RecipeOutputType<ItemStack>> outputTypes;
-    protected final ItemFluidRecipeFactory<T> factory;
+    public final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
+    public final RecipeIngredientType<? extends RecipeIngredient<FluidStack>> fluidType;
+    public final List<RecipeOutputType<ItemStack>> outputTypes;
+    public final ItemFluidRecipeFactory<T> factory;
 
     public ItemFluidRecipeType(int outputCount, ItemFluidRecipeFactory<T> factory) {
         this.inputType = ModRecipeIngredientTypes.ITEM;

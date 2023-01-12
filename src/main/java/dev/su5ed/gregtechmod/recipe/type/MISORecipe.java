@@ -13,18 +13,26 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Single Output recipe
  */
-public abstract class MISORecipe<O> extends BaseRecipe<MISORecipeType<?, O>, MISORecipe.Input, MISORecipe<O>> {
+public abstract class MISORecipe extends BaseRecipe<MISORecipeType<?>, MISORecipe.Input, MISORecipe> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
-    protected final O output;
+    protected final ItemStack output;
 
-    public MISORecipe(MISORecipeType<?, O> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, O output) {
+    public MISORecipe(MISORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output) {
         super(type, serializer, id);
         this.inputs = inputs;
         this.output = output;
     }
 
-    public O getOutput() {
+    public ItemStack getOutput() {
         return this.output;
+    }
+
+    @Override
+    public void validate() {
+        super.validate();
+
+        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
+        RecipeUtil.validateItem(this.id, "output", this.output);
     }
 
     @Override
@@ -33,7 +41,7 @@ public abstract class MISORecipe<O> extends BaseRecipe<MISORecipeType<?, O>, MIS
     }
 
     @Override
-    public int compareInputCount(MISORecipe<O> other) {
+    public int compareInputCount(MISORecipe other) {
         return StreamEx.of(this.inputs).mapToInt(RecipeIngredient::getCount).sum()
             - StreamEx.of(other.inputs).mapToInt(RecipeIngredient::getCount).sum();
     }
@@ -43,7 +51,7 @@ public abstract class MISORecipe<O> extends BaseRecipe<MISORecipeType<?, O>, MIS
         for (RecipeIngredient<ItemStack> input : this.inputs) {
             input.toNetwork(buffer);
         }
-        this.type.getOutputType().toNetwork(buffer, this.output);
+        this.type.outputType.toNetwork(buffer, this.output);
     }
 
     public record Input(List<ItemStack> items) {}

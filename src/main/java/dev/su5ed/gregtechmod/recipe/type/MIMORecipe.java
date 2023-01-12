@@ -13,30 +13,26 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Multi Output recipe
  */
-public abstract class MIMORecipe<O> extends BaseRecipe<MIMORecipeType<?, O>, MIMORecipe.Input, MIMORecipe<O>> {
+public abstract class MIMORecipe extends BaseRecipe<MIMORecipeType<?>, MIMORecipe.Input, MIMORecipe> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
-    protected final List<O> outputs;
+    protected final List<ItemStack> outputs;
 
-    public MIMORecipe(MIMORecipeType<?, O> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<O> outputs) {
+    public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs) {
         super(type, serializer, id);
         this.inputs = inputs;
         this.outputs = outputs;
     }
 
-    public boolean matches(List<ItemStack> inputs) {
-        if (this.inputs.size() == inputs.size()) {
-            for (int i = 0; i < this.inputs.size(); i++) {
-                if (!this.inputs.get(i).test(inputs.get(i))) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+    public List<ItemStack> getOutputs() {
+        return this.outputs;
     }
 
-    public List<O> getOutputs() {
-        return this.outputs;
+    @Override
+    public void validate() {
+        super.validate();
+
+        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
+        RecipeUtil.validateItemList(this.id, "outputs", this.outputs, this.type.outputTypes.size());
     }
 
     @Override
@@ -45,7 +41,7 @@ public abstract class MIMORecipe<O> extends BaseRecipe<MIMORecipeType<?, O>, MIM
     }
 
     @Override
-    public int compareInputCount(MIMORecipe<O> other) {
+    public int compareInputCount(MIMORecipe other) {
         return StreamEx.of(this.inputs).mapToInt(RecipeIngredient::getCount).sum()
             - StreamEx.of(other.inputs).mapToInt(RecipeIngredient::getCount).sum();
     }
@@ -55,13 +51,12 @@ public abstract class MIMORecipe<O> extends BaseRecipe<MIMORecipeType<?, O>, MIM
         for (RecipeIngredient<ItemStack> input : this.inputs) {
             input.toNetwork(buffer);
         }
-        
-        List<? extends RecipeOutputType<O>> outputTypes = this.type.getOutputTypes();
-        for (int i = 0; i < outputTypes.size(); i++) {
-            RecipeOutputType<O> outputType = outputTypes.get(i);
+
+        for (int i = 0; i < this.type.outputTypes.size(); i++) {
+            RecipeOutputType<ItemStack> outputType = this.type.outputTypes.get(i);
             outputType.toNetwork(buffer, this.outputs.get(i));
         }
     }
-    
+
     public record Input(List<ItemStack> items) {}
 }

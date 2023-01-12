@@ -11,19 +11,15 @@ import one.util.streamex.StreamEx;
 
 import java.util.List;
 
-public class MISORecipeType<T extends MISORecipe<O>, O> implements BaseRecipeType<T> {
-    private final List<? extends RecipeIngredientType<? extends RecipeIngredient<ItemStack>>> inputTypes;
-    private final RecipeOutputType<O> outputType;
-    private final MISORecipeFactory<T, O> factory;
+public class MISORecipeType<T extends MISORecipe> implements BaseRecipeType<T> {
+    public final List<? extends RecipeIngredientType<? extends RecipeIngredient<ItemStack>>> inputTypes;
+    public final RecipeOutputType<ItemStack> outputType;
+    private final MISORecipeFactory<T> factory;
 
-    public MISORecipeType(int inputCount, RecipeOutputType<O> outputType, MISORecipeFactory<T, O> factory) {
+    public MISORecipeType(int inputCount, RecipeOutputType<ItemStack> outputType, MISORecipeFactory<T> factory) {
         this.inputTypes = StreamEx.constant(ModRecipeIngredientTypes.ITEM, inputCount).toList();
         this.outputType = outputType;
         this.factory = factory;
-    }
-
-    public RecipeOutputType<O> getOutputType() {
-        return this.outputType;
     }
 
     @Override
@@ -32,7 +28,7 @@ public class MISORecipeType<T extends MISORecipe<O>, O> implements BaseRecipeTyp
         JsonElement outputJson = serializedRecipe.get("output");
 
         List<RecipeIngredient<ItemStack>> inputs = RecipeIngredient.parseInputs(inputJson);
-        O output = this.outputType.fromJson(outputJson);
+        ItemStack output = this.outputType.fromJson(outputJson);
 
         return this.factory.create(recipeId, inputs, output);
     }
@@ -42,11 +38,11 @@ public class MISORecipeType<T extends MISORecipe<O>, O> implements BaseRecipeTyp
         List<? extends RecipeIngredient<ItemStack>> inputs = StreamEx.of(this.inputTypes)
             .map(type -> type.create(buffer))
             .toList();
-        O output = this.outputType.fromNetwork(buffer);
+        ItemStack output = this.outputType.fromNetwork(buffer);
         return this.factory.create(recipeId, inputs, output);
     }
 
-    public interface MISORecipeFactory<T extends MISORecipe<O>, O> {
-        T create(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, O output);
+    public interface MISORecipeFactory<T extends MISORecipe> {
+        T create(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output);
     }
 }

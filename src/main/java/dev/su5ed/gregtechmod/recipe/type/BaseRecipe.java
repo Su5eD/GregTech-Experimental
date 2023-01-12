@@ -18,7 +18,11 @@ public abstract class BaseRecipe<T extends RecipeType<?>, I, C extends BaseRecip
         this.type = type;
         this.serializer = serializer;
         this.id = id;
+        
+        validate();
     }
+    
+    public void validate() {}
 
     public abstract void toNetwork(FriendlyByteBuf buffer);
     

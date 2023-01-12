@@ -11,12 +11,12 @@ import one.util.streamex.StreamEx;
 
 import java.util.List;
 
-public class SIMORecipeType<T extends SIMORecipe<O>, O> implements BaseRecipeType<T> {
+public class SIMORecipeType<T extends SIMORecipe> implements BaseRecipeType<T> {
     protected final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
-    protected final List<RecipeOutputType<O>> outputTypes;
-    protected final SIMORecipeFactory<T, O> factory;
+    protected final List<RecipeOutputType<ItemStack>> outputTypes;
+    protected final SIMORecipeFactory<T> factory;
 
-    public SIMORecipeType(List<RecipeOutputType<O>> outputTypes, SIMORecipeFactory<T, O> factory) {
+    public SIMORecipeType(List<RecipeOutputType<ItemStack>> outputTypes, SIMORecipeFactory<T> factory) {
         this.inputType = ModRecipeIngredientTypes.ITEM;
         this.outputTypes = outputTypes;
         this.factory = factory;
@@ -28,7 +28,7 @@ public class SIMORecipeType<T extends SIMORecipe<O>, O> implements BaseRecipeTyp
         JsonElement outputJson = serializedRecipe.get("output");
 
         RecipeIngredient<ItemStack> input = RecipeIngredient.parseItem(inputJson);
-        List<O> outputs = StreamEx.of(this.outputTypes)
+        List<ItemStack> outputs = StreamEx.of(this.outputTypes)
             .map(type -> type.fromJson(outputJson))
             .toList();
 
@@ -38,13 +38,13 @@ public class SIMORecipeType<T extends SIMORecipe<O>, O> implements BaseRecipeTyp
     @Override
     public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         RecipeIngredient<ItemStack> input = this.inputType.create(buffer);
-        List<O> outputs = StreamEx.of(this.outputTypes)
+        List<ItemStack> outputs = StreamEx.of(this.outputTypes)
             .map(type -> type.fromNetwork(buffer))
             .toList();
         return this.factory.create(recipeId, input, outputs);
     }
 
-    public interface SIMORecipeFactory<T extends SIMORecipe<O>, O> {
-        T create(ResourceLocation id, RecipeIngredient<ItemStack> input, List<O> outputs);
+    public interface SIMORecipeFactory<T extends SIMORecipe> {
+        T create(ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> outputs);
     }
 }

@@ -10,18 +10,26 @@ import java.util.List;
 /**
  * Single Input, Multi Output recipe
  */
-public abstract class SIMORecipe<O> extends BaseRecipe<SIMORecipeType<?, O>, SIMORecipe.Input, SIMORecipe<O>> {
+public abstract class SIMORecipe extends BaseRecipe<SIMORecipeType<?>, SIMORecipe.Input, SIMORecipe> {
     protected final RecipeIngredient<ItemStack> input;
-    protected final List<O> outputs;
+    protected final List<ItemStack> outputs;
 
-    public SIMORecipe(SIMORecipeType<?, O> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, List<O> outputs) {
+    public SIMORecipe(SIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> outputs) {
         super(type, serializer, id);
         this.input = input;
         this.outputs = outputs;
     }
 
-    public List<O> getOutputs() {
+    public List<ItemStack> getOutputs() {
         return this.outputs;
+    }
+
+    @Override
+    public void validate() {
+        super.validate();
+
+        RecipeUtil.validateInput(this.id, "input", this.input);
+        RecipeUtil.validateItemList(this.id, "output", this.outputs, this.type.outputTypes.size());
     }
 
     @Override
@@ -30,7 +38,7 @@ public abstract class SIMORecipe<O> extends BaseRecipe<SIMORecipeType<?, O>, SIM
     }
 
     @Override
-    public int compareInputCount(SIMORecipe<O> other) {
+    public int compareInputCount(SIMORecipe other) {
         return this.input.getCount() - other.input.getCount();
     }
 
@@ -38,7 +46,7 @@ public abstract class SIMORecipe<O> extends BaseRecipe<SIMORecipeType<?, O>, SIM
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
         for (int i = 0; i < this.type.outputTypes.size(); i++) {
-            RecipeOutputType<O> outputType = this.type.outputTypes.get(i);
+            RecipeOutputType<ItemStack> outputType = this.type.outputTypes.get(i);
             outputType.toNetwork(buffer, this.outputs.get(i));
         }
     }

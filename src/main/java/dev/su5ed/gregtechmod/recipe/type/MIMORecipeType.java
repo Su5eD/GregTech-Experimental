@@ -11,18 +11,18 @@ import one.util.streamex.StreamEx;
 
 import java.util.List;
 
-public class MIMORecipeType<T extends MIMORecipe<O>, O> implements BaseRecipeType<T> {
-    private final List<? extends RecipeIngredientType<? extends RecipeIngredient<ItemStack>>> inputTypes;
-    private final List<RecipeOutputType<O>> outputTypes;
-    private final MIMORecipeFactory<T, O> factory;
+public class MIMORecipeType<T extends MIMORecipe> implements BaseRecipeType<T> {
+    public final List<? extends RecipeIngredientType<? extends RecipeIngredient<ItemStack>>> inputTypes;
+    public final List<RecipeOutputType<ItemStack>> outputTypes;
+    private final MIMORecipeFactory<T> factory;
 
-    public MIMORecipeType(int inputCount, List<RecipeOutputType<O>> outputTypes, MIMORecipeFactory<T, O> factory) {
+    public MIMORecipeType(int inputCount, List<RecipeOutputType<ItemStack>> outputTypes, MIMORecipeFactory<T> factory) {
         this.inputTypes = StreamEx.constant(ModRecipeIngredientTypes.ITEM, inputCount).toList();
         this.outputTypes = outputTypes;
         this.factory = factory;
     }
 
-    public List<? extends RecipeOutputType<O>> getOutputTypes() {
+    public List<? extends RecipeOutputType<ItemStack>> getOutputTypes() {
         return this.outputTypes;
     }
 
@@ -32,7 +32,7 @@ public class MIMORecipeType<T extends MIMORecipe<O>, O> implements BaseRecipeTyp
         JsonElement outputJson = serializedRecipe.get("output");
 
         List<RecipeIngredient<ItemStack>> inputs = RecipeIngredient.parseInputs(inputJson);
-        List<O> outputs = StreamEx.of(this.outputTypes)
+        List<ItemStack> outputs = StreamEx.of(this.outputTypes)
             .map(type -> type.fromJson(outputJson))
             .toList();
 
@@ -44,13 +44,13 @@ public class MIMORecipeType<T extends MIMORecipe<O>, O> implements BaseRecipeTyp
         List<? extends RecipeIngredient<ItemStack>> inputs = StreamEx.of(this.inputTypes)
             .map(type -> type.create(buffer))
             .toList();
-        List<O> outputs = StreamEx.of(this.outputTypes)
+        List<ItemStack> outputs = StreamEx.of(this.outputTypes)
             .map(type -> type.fromNetwork(buffer))
             .toList();
         return this.factory.create(recipeId, inputs, outputs);
     }
 
-    public interface MIMORecipeFactory<T extends MIMORecipe<O>, O> {
-        T create(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<O> outputs);
+    public interface MIMORecipeFactory<T extends MIMORecipe> {
+        T create(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs);
     }
 }

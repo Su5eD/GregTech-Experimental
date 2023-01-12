@@ -10,13 +10,13 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.List;
 
-public class MISORecipeBuilder<O> extends ModRecipeBuilder {
-    protected final MISORecipeType<?, O> recipeType;
+public class MISORecipeBuilder extends ModRecipeBuilder {
+    protected final MISORecipeType<?> recipeType;
     protected final RecipeSerializer<?> recipeSerializer;
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
-    protected final O output;
+    protected final ItemStack output;
 
-    public MISORecipeBuilder(MISORecipeType<?, O> recipeType, RecipeSerializer<?> recipeSerializer, List<? extends RecipeIngredient<ItemStack>> inputs, O output) {
+    public MISORecipeBuilder(MISORecipeType<?> recipeType, RecipeSerializer<?> recipeSerializer, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output) {
         this.recipeType = recipeType;
         this.recipeSerializer = recipeSerializer;
         this.inputs = inputs;
@@ -41,7 +41,7 @@ public class MISORecipeBuilder<O> extends ModRecipeBuilder {
                 inputs.add(input.toJson());
             }
             json.add("input", inputs);
-            json.add("output", MISORecipeBuilder.this.recipeType.getOutputType().toJson(MISORecipeBuilder.this.output));
+            json.add("output", MISORecipeBuilder.this.recipeType.outputType.toJson(MISORecipeBuilder.this.output));
         }
     }
 }

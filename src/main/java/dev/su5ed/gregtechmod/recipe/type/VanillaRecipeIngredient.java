@@ -30,6 +30,11 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
     }
 
     @Override
+    public boolean isEmpty() {
+        return this.ingredient.isEmpty() || this.count <= 0;
+    }
+
+    @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         this.ingredient.toNetwork(buffer);
     }

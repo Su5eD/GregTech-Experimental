@@ -26,6 +26,15 @@ public abstract class ItemFluidRecipe extends BaseRecipe<ItemFluidRecipeType<? e
     }
 
     @Override
+    public void validate() {
+        super.validate();
+
+        RecipeUtil.validateInput(this.id, "input", this.input);
+        RecipeUtil.validateInput(this.id, "fluid", this.fluid);
+        RecipeUtil.validateItemList(this.id, "outputs", this.outputs, this.type.outputTypes.size());
+    }
+
+    @Override
     public boolean matches(Input input) {
         return this.input.test(input.item) && this.fluid.test(input.fluid);
     }
@@ -44,6 +53,6 @@ public abstract class ItemFluidRecipe extends BaseRecipe<ItemFluidRecipeType<? e
             outputType.toNetwork(buffer, this.outputs.get(i));
         }
     }
-    
+
     public record Input(ItemStack item, FluidStack fluid) {}
 }
