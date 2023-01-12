@@ -125,6 +125,11 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
         return fitRecipe(recipe);
     }
 
+    @Override
+    protected boolean canAddOutput(R recipe) {
+        return this.queueOutputSlot.canAdd(recipe.getOutput()) || super.canAddOutput(recipe);
+    }
+
     protected R fitRecipe(R recipe) {
         if (recipe != null) {
             List<ItemStack> output = recipe.getOutput();

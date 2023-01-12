@@ -125,7 +125,6 @@ public final class GregTechMod {
     public static void postInit(FMLPostInitializationEvent event) {
         TileEntitySonictron.loadSonictronSounds();
         ItemStackModificator.init();
-        ModRecipes.init();
         TileEntityUniversalMacerator.initMaceratorRecipes();
 
         JavaUtil.measureTime("Activating OreDictionary Handler", OreDictHandler.INSTANCE::activateHandler);
@@ -136,6 +135,8 @@ public final class GregTechMod {
         GtUtil.withModContainerOverride(Loader.instance().getMinecraftModContainer(), AdvancementRecipeFixer::fixAdvancementRecipes);
         
         if (ModHandler.craftTweaker) CraftTweakerCompat.loadScripts();
+        
+        ModRecipes.init();
     }
 
     @EventHandler
