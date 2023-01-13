@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:iridium_gear"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "gregtechmod:iridium_ingot"
+  }
+}

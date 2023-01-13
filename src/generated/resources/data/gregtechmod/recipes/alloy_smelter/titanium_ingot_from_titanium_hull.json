@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:titanium_hull"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "gregtechmod:titanium_ingot"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:tungsten_steel_gear"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "gregtechmod:tungsten_steel_ingot"
+  }
+}

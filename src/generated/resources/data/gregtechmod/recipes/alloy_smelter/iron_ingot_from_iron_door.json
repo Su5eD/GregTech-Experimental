@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:iron_door"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "minecraft:iron_ingot"
+  }
+}

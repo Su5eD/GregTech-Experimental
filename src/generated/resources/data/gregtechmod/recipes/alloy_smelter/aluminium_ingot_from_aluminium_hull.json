@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:aluminium_hull"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "gregtechmod:aluminium_ingot"
+  }
+}

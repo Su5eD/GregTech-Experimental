@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:compass"
+      }
+    }
+  ],
+  "output": {
+    "count": 4,
+    "item": "minecraft:iron_ingot"
+  }
+}

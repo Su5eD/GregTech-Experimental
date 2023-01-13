@@ -1,0 +1,25 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:ingots/aluminium"
+      }
+    },
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/magnalium"
+        },
+        {
+          "tag": "forge:dusts/magnesium"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "count": 3,
+    "item": "gregtechmod:magnalium_ingot"
+  }
+}

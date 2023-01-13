@@ -2,18 +2,19 @@
   "type": "gregtechmod:alloy_smelter",
   "input": [
     {
+      "count": 2,
       "value": {
-        "tag": "forge:ingots/gold"
+        "tag": "forge:ingots/iron"
       }
     },
     {
       "value": {
-        "tag": "forge:ingots/silver"
+        "tag": "forge:ingots/nickel"
       }
     }
   ],
   "output": {
-    "count": 2,
-    "item": "gregtechmod:electrum_ingot"
+    "count": 3,
+    "item": "gregtechmod:invar_ingot"
   }
 }

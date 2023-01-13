@@ -12,8 +12,8 @@ import java.util.List;
 
 public class AlloySmelterRecipe extends MISORecipe {
 
-    public AlloySmelterRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output) {
-        super(ModRecipeTypes.ALLOY_SMELTER.get(), ModRecipeSerializers.ALLOY_SMELTER.get(), id, inputs, output);
+    public AlloySmelterRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
+        super(ModRecipeTypes.ALLOY_SMELTER.get(), ModRecipeSerializers.ALLOY_SMELTER.get(), id, inputs, output, duration, energyCost);
     }
 
     public static BaseRecipeSerializer<AlloySmelterRecipe> createSerializer() {

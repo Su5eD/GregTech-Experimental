@@ -32,8 +32,10 @@ public class MISORecipeType<R extends MISORecipe> extends BaseRecipeTypeImpl<R> 
 
         List<? extends RecipeIngredient<ItemStack>> inputs = RecipeIngredient.parseInputs(this.inputTypes, inputJson);
         ItemStack output = this.outputType.fromJson(outputJson);
+        int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
+        double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");
 
-        return this.factory.create(recipeId, inputs, output);
+        return this.factory.create(recipeId, inputs, output, duration, energyCost);
     }
 
     @Override
@@ -42,10 +44,12 @@ public class MISORecipeType<R extends MISORecipe> extends BaseRecipeTypeImpl<R> 
             .map(type -> type.create(buffer))
             .toList();
         ItemStack output = this.outputType.fromNetwork(buffer);
-        return this.factory.create(recipeId, inputs, output);
+        int duration = buffer.readInt();
+        double energyCost = buffer.readDouble();
+        return this.factory.create(recipeId, inputs, output, duration, energyCost);
     }
 
     public interface MISORecipeFactory<T extends MISORecipe> {
-        T create(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output);
+        T create(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost);
     }
 }

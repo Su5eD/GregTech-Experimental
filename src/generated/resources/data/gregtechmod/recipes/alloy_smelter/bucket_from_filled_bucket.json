@@ -1,0 +1,18 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": [
+        {
+          "item": "minecraft:milk_bucket"
+        },
+        {
+          "item": "minecraft:water_bucket"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "item": "minecraft:bucket"
+  }
+}

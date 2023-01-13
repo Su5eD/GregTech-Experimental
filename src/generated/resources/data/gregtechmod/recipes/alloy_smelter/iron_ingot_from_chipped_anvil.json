@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:chipped_anvil"
+      }
+    }
+  ],
+  "output": {
+    "count": 20,
+    "item": "minecraft:iron_ingot"
+  }
+}

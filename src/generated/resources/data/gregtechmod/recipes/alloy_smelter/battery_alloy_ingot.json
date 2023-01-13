@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:ingots/lead"
+      }
+    },
+    {
+      "value": {
+        "tag": "forge:ingots/antimony"
+      }
+    }
+  ],
+  "output": {
+    "count": 5,
+    "item": "gregtechmod:battery_alloy_ingot"
+  }
+}

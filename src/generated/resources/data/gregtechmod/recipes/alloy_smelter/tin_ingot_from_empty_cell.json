@@ -1,0 +1,19 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "input": [
+    {
+      "value": {
+        "item": "ic2:empty_cell"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:tin_ingot"
+  }
+}

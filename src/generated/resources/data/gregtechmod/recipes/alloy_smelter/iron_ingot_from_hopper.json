@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:hopper"
+      }
+    }
+  ],
+  "output": {
+    "count": 5,
+    "item": "minecraft:iron_ingot"
+  }
+}

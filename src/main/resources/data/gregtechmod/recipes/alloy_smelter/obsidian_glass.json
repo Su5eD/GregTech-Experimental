@@ -1,0 +1,31 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "input": [
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/lead"
+        },
+        {
+          "tag": "forge:dusts/lead"
+        }
+      ]
+    },
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:dusts/obsidian"
+      }
+    }
+  ],
+  "output": {
+    "item": "thermal:obsidian_glass",
+    "count": 2
+  }
+}

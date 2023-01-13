@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:heavy_weighted_pressure_plate"
+      }
+    }
+  ],
+  "output": {
+    "count": 2,
+    "item": "minecraft:iron_ingot"
+  }
+}

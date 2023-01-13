@@ -44,7 +44,9 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
     public JsonElement toJson() {
         JsonObject json = new JsonObject();
         json.add("value", this.ingredient.toJson());
-        json.addProperty("count", this.count);
+        if (this.count > 1) {
+            json.addProperty("count", this.count);
+        }
         return json;
     }
 

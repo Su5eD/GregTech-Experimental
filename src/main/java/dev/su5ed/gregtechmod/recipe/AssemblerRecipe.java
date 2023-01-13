@@ -12,8 +12,8 @@ import java.util.List;
 
 public class AssemblerRecipe extends MISORecipe {
 
-    public AssemblerRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output) {
-        super(ModRecipeTypes.ASSEMBLER.get(), ModRecipeSerializers.ASSEMBLER.get(), id, inputs, output);
+    public AssemblerRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
+        super(ModRecipeTypes.ASSEMBLER.get(), ModRecipeSerializers.ASSEMBLER.get(), id, inputs, output, duration, energyCost);
     }
 
     public static BaseRecipeSerializer<AssemblerRecipe> createSerializer() {

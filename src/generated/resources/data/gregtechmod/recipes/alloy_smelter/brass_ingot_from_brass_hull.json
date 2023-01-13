@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:brass_hull"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "gregtechmod:brass_ingot"
+  }
+}

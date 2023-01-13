@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:bronze_hull"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "ic2:bronze_ingot"
+  }
+}

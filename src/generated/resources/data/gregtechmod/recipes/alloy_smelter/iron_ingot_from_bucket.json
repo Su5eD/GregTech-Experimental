@@ -1,0 +1,14 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:bucket"
+      }
+    }
+  ],
+  "output": {
+    "count": 3,
+    "item": "minecraft:iron_ingot"
+  }
+}

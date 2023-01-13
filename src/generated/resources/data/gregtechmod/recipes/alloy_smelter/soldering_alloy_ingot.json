@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:alloy_smelter",
+  "input": [
+    {
+      "count": 9,
+      "value": {
+        "tag": "forge:ingots/tin"
+      }
+    },
+    {
+      "value": {
+        "tag": "forge:ingots/antimony"
+      }
+    }
+  ],
+  "output": {
+    "count": 10,
+    "item": "gregtechmod:soldering_alloy_ingot"
+  }
+}
