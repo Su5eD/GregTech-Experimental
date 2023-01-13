@@ -27,6 +27,7 @@
   energyCost: 2
 - input:
     - ore: ingotThorium
+    - cell: empty
   output:
     - item: gregtechmod:fuel_rod_thorium
   duration: 100
