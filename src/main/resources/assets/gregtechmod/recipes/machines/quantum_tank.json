@@ -21,7 +21,7 @@
     "Q":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#quantum_chest"
+      "item": "gregtechmod:teblock#gregtechmod_quantum_chest"
     }
   },
   "result":

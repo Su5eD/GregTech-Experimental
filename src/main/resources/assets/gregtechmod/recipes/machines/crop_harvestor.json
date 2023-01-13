@@ -36,7 +36,7 @@
     "H":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#electric_item_clearer"
+      "item": "gregtechmod:teblock#gregtechmod_electric_item_clearer"
     }
   },
   "result":

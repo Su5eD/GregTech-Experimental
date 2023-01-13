@@ -21,7 +21,7 @@
     "M":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#aesu"
+      "item": "gregtechmod:teblock#gregtechmod_aesu"
     }
   },
   "result":

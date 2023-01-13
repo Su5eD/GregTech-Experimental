@@ -31,7 +31,7 @@
     "H":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#electric_translocator"
+      "item": "gregtechmod:teblock#gregtechmod_electric_translocator"
     }
   },
   "result":

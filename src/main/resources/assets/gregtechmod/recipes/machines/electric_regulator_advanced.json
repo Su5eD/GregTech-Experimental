@@ -21,7 +21,7 @@
     "H":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#electric_buffer_advanced"
+      "item": "gregtechmod:teblock#gregtechmod_electric_buffer_advanced"
     }
   },
   "result":

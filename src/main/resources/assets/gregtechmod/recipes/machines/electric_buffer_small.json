@@ -3,7 +3,7 @@
   "ingredients": [
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#electric_buffer_large"
+      "item": "gregtechmod:teblock#gregtechmod_electric_buffer_large"
     }
   ],
   "result":

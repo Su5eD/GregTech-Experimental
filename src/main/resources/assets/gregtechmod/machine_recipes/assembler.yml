@@ -278,7 +278,7 @@
 - input:
     - ore: plateSteel
       count: 2
-    - item: gregtechmod:teblock#gas_turbine
+    - item: gregtechmod:teblock#gregtechmod_gas_turbine
   output:
     item: gregtechmod:steam_upgrade
   duration: 1600
@@ -599,7 +599,7 @@
   duration: 12800
   energyCost: 16
 - input:
-    - item: gregtechmod:teblock#sonictron
+    - item: gregtechmod:teblock#gregtechmod_sonictron
     - item: gregtechmod:data_storage_circuit
       count: 4
   output:
@@ -769,7 +769,7 @@
     - item: minecraft:noteblock
       count: 4
   output:
-    item: gregtechmod:teblock#redstone_note_block
+    item: gregtechmod:teblock#gregtechmod_redstone_note_block
   duration: 800
   energyCost: 1
 - input:
@@ -777,13 +777,13 @@
     - item: minecraft:stone_button
       count: 16
   output:
-    item: gregtechmod:teblock#button_panel
+    item: gregtechmod:teblock#gregtechmod_button_panel
   duration: 800
   energyCost: 1
 - input:
     - ore: craftingRawMachineTier01
     - ore: craftingMachineParts
   output:
-    item: gregtechmod:teblock#machine_box
+    item: gregtechmod:teblock#gregtechmod_machine_box
   duration: 1600
   energyCost: 2

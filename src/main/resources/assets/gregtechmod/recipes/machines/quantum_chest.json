@@ -21,7 +21,7 @@
     "D":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#digital_chest"
+      "item": "gregtechmod:teblock#gregtechmod_digital_chest"
     },
     "T":
     {

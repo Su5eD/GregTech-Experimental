@@ -3,7 +3,7 @@
   "ingredients": [
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#metal_shelf"
+      "item": "gregtechmod:teblock#gregtechmod_metal_shelf"
     }
   ],
   "result":

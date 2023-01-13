@@ -16,7 +16,7 @@
     "H":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#supercondensator"
+      "item": "gregtechmod:teblock#gregtechmod_supercondensator"
     },
     "S":
     {

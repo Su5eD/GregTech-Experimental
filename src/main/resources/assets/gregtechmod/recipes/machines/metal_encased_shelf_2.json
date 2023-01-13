@@ -3,7 +3,7 @@
   "ingredients": [
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#compartment"
+      "item": "gregtechmod:teblock#gregtechmod_compartment"
     }
   ],
   "result":

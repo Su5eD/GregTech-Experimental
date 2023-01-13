@@ -21,12 +21,12 @@
     "R":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#electric_regulator_advanced"
+      "item": "gregtechmod:teblock#gregtechmod_electric_regulator_advanced"
     },
     "S":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#electric_sorter"
+      "item": "gregtechmod:teblock#gregtechmod_electric_sorter"
     },
     "E":
     {

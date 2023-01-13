@@ -25,7 +25,7 @@
     "M":
     {
       "type": "gregtechmod:multi",
-      "item": "gregtechmod:teblock#magic_energy_converter"
+      "item": "gregtechmod:teblock#gregtechmod_magic_energy_converter"
     },
     "I":
     {
