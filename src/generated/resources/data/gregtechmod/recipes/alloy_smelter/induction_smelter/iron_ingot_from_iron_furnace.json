@@ -1,0 +1,23 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "energy": 5000,
+  "ingredient": {
+    "item": "ic2:iron_furnace"
+  },
+  "result": [
+    {
+      "count": 5,
+      "item": "minecraft:iron_ingot"
+    }
+  ]
+}

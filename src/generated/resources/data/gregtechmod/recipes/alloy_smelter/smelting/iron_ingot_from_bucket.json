@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "minecraft:bucket"
+  },
+  "result": {
+    "count": 3,
+    "item": "minecraft:iron_ingot"
+  }
+}

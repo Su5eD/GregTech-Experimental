@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "minecraft:hopper"
+  },
+  "result": {
+    "count": 5,
+    "item": "minecraft:iron_ingot"
+  }
+}

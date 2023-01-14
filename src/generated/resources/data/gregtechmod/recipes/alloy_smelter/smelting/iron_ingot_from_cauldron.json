@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "minecraft:cauldron"
+  },
+  "result": {
+    "count": 7,
+    "item": "minecraft:iron_ingot"
+  }
+}

@@ -36,6 +36,11 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
     }
 
     @Override
+    public Ingredient asIngredient() {
+        return this.ingredient;
+    }
+
+    @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         this.ingredient.toNetwork(buffer);
     }

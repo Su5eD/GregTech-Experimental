@@ -1,0 +1,19 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "energy": 5000,
+  "ingredient": {
+    "item": "minecraft:minecart"
+  },
+  "result": [
+    {
+      "count": 5,
+      "item": "minecraft:iron_ingot"
+    }
+  ]
+}

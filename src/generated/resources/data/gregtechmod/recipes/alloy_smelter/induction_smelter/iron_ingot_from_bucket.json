@@ -1,0 +1,19 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "energy": 3000,
+  "ingredient": {
+    "item": "minecraft:bucket"
+  },
+  "result": [
+    {
+      "count": 3,
+      "item": "minecraft:iron_ingot"
+    }
+  ]
+}

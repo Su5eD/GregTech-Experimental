@@ -22,13 +22,15 @@ public interface RecipeIngredient<T> extends Predicate<T> {
     int getCount();
     
     boolean isEmpty();
+    
+    Ingredient asIngredient();
 
     void toNetwork(FriendlyByteBuf buffer);
     
     JsonElement toJson();
 
     static List<? extends RecipeIngredient<ItemStack>> parseInputs(List<? extends RecipeIngredientType<? extends RecipeIngredient<ItemStack>>> inputTypes, JsonArray json) {
-        if (inputTypes.size() == json.size()) {
+        if (!json.isEmpty() && inputTypes.size() >= json.size()) {
             return StreamEx.of(inputTypes)
                 .zipWith(StreamEx.of(json.getAsJsonArray().iterator()))
                 .mapKeyValue(RecipeIngredientType::create)

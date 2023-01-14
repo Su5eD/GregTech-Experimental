@@ -20,5 +20,7 @@ public class MISORecipeBuilder extends ModRecipeBuilder<MISORecipe> {
         }
         json.add("input", inputs);
         json.add("output", this.recipe.getType().outputType.toJson(this.recipe.getOutput()));
+        json.addProperty("duration", this.recipe.getDuration());
+        json.addProperty("energyCost", this.recipe.getEnergyCost());
     }
 }

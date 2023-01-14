@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "minecraft:compass"
+  },
+  "result": {
+    "count": 4,
+    "item": "minecraft:iron_ingot"
+  }
+}

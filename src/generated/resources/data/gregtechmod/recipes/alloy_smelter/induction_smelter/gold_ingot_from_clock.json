@@ -1,0 +1,19 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "energy": 4000,
+  "ingredient": {
+    "item": "minecraft:clock"
+  },
+  "result": [
+    {
+      "count": 4,
+      "item": "minecraft:gold_ingot"
+    }
+  ]
+}

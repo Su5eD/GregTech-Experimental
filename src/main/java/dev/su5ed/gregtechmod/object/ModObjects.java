@@ -2,6 +2,7 @@ package dev.su5ed.gregtechmod.object;
 
 import dev.su5ed.gregtechmod.GregTechTab;
 import dev.su5ed.gregtechmod.block.LightSourceBlock;
+import dev.su5ed.gregtechmod.recipe.type.SelectedProfileCondition;
 import dev.su5ed.gregtechmod.util.BlockEntityProvider;
 import dev.su5ed.gregtechmod.util.BlockItemProvider;
 import dev.su5ed.gregtechmod.util.FluidProvider;
@@ -13,6 +14,7 @@ import dev.su5ed.gregtechmod.util.loot.RandomOreDrops;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -92,5 +94,7 @@ public final class ModObjects {
         });
         
         event.register(Registry.LOOT_ENTRY_REGISTRY, helper -> helper.register(LocationLootItem.NAME, LocationLootItem.TYPE));
+        
+        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, helper -> CraftingHelper.register(SelectedProfileCondition.Serializer.INSTANCE));
     }
 }

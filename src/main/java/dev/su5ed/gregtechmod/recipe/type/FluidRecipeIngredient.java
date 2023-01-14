@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import dev.su5ed.gregtechmod.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -47,6 +48,11 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     @Override
     public boolean isEmpty() {
         return this.value.isEmpty() || getCount() <= 0;
+    }
+
+    @Override
+    public Ingredient asIngredient() {
+        return Ingredient.EMPTY;
     }
 
     @Override

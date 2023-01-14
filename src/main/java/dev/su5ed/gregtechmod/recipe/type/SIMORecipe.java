@@ -21,7 +21,7 @@ public abstract class SIMORecipe extends BaseRecipe<SIMORecipeType<?>, SIMORecip
         this.outputs = outputs;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateItemList(this.id, "output", this.outputs, this.type.outputTypes.size());
+        RecipeUtil.validateItemList(this.id, "outputs", this.outputs, this.type.outputTypes.size());
     }
 
     public List<ItemStack> getOutputs() {

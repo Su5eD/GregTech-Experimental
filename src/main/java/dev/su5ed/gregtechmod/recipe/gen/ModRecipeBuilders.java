@@ -13,17 +13,17 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 
 public final class ModRecipeBuilders {
-    public static MISORecipeBuilder alloySmelter(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
+    public static AlloySmelterRecipeBuilder alloySmelter(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
         return alloySmelter(List.of(input), output, duration, energyCost);
     }
     
-    public static MISORecipeBuilder alloySmelter(RecipeIngredient<ItemStack> primary, RecipeIngredient<ItemStack> secondary, ItemStack output, int duration, double energyCost) {
+    public static AlloySmelterRecipeBuilder alloySmelter(RecipeIngredient<ItemStack> primary, RecipeIngredient<ItemStack> secondary, ItemStack output, int duration, double energyCost) {
         return alloySmelter(List.of(primary, secondary), output, duration, energyCost);
     }
     
-    public static MISORecipeBuilder alloySmelter(List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
+    public static AlloySmelterRecipeBuilder alloySmelter(List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
         MISORecipe recipe = new AlloySmelterRecipe(null, inputs, output, duration, energyCost);
-        return new MISORecipeBuilder(recipe);
+        return new AlloySmelterRecipeBuilder(recipe);
     }  
     
     private ModRecipeBuilders() {}

@@ -1,9 +1,14 @@
 package dev.su5ed.gregtechmod.recipe.type;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.conditions.ICondition;
 import one.util.streamex.StreamEx;
 
+import java.util.Collection;
 import java.util.List;
 
 public final class RecipeUtil {
@@ -15,7 +20,10 @@ public final class RecipeUtil {
     }
 
     public static void validateInputList(ResourceLocation id, String name, List<? extends RecipeIngredient<?>> ingredients, int maxSize) {
-        if (ingredients.size() > maxSize) {
+        if (ingredients.isEmpty()) {
+            throw new RuntimeException("Empty " + name + " for recipe " + id);
+        }
+        else if (ingredients.size() > maxSize) {
             throw new RuntimeException(name + " exceeded max size of " + maxSize + " for recipe " + id);
         }
         else if (StreamEx.of(ingredients).allMatch(RecipeIngredient::isEmpty)) {
@@ -30,7 +38,10 @@ public final class RecipeUtil {
     }
 
     public static void validateItemList(ResourceLocation id, String name, List<ItemStack> items, int maxSize) {
-        if (items.size() > maxSize) {
+        if (items.isEmpty()) {
+            throw new RuntimeException("Empty " + name + " for recipe " + id);
+        }
+        else if (items.size() > maxSize) {
             throw new RuntimeException(name + " exceeded max size of " + maxSize + " for recipe " + id);
         }
         else if (StreamEx.of(items).allMatch(ItemStack::isEmpty)) {
@@ -40,6 +51,14 @@ public final class RecipeUtil {
 
     public static <R extends BaseRecipe<?, ?, ? super R>> int compareCount(R first, R second) {
         return second.compareInputCount(first);
+    }
+
+    public static JsonArray serializeConditions(Collection<ICondition> conditions) {
+        JsonArray jsonConditions = new JsonArray();
+        for (ICondition condition : conditions) {
+            jsonConditions.add(CraftingHelper.serialize(condition));
+        }
+        return jsonConditions;
     }
 
     private RecipeUtil() {}

@@ -1,0 +1,27 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "gregtechmod:selected_profile",
+      "profile": "experimental"
+    }
+  ],
+  "energy": 6000,
+  "ingredient": {
+    "item": "gregtechmod:iron_gear"
+  },
+  "result": [
+    {
+      "count": 6,
+      "item": "minecraft:iron_ingot"
+    }
+  ]
+}

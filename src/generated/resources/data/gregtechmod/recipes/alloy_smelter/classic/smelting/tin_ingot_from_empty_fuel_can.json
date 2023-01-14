@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "ic2:empty_fuel_can"
+  },
+  "result": {
+    "count": 7,
+    "item": "ic2:tin_ingot"
+  }
+}

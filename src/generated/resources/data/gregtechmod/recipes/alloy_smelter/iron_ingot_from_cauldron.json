@@ -1,5 +1,7 @@
 {
   "type": "gregtechmod:alloy_smelter",
+  "duration": 130,
+  "energyCost": 3.0,
   "input": [
     {
       "value": {

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "minecraft:clock"
+  },
+  "result": {
+    "count": 4,
+    "item": "minecraft:gold_ingot"
+  }
+}

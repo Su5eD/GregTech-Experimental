@@ -1,0 +1,19 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "energy": 2000,
+  "ingredient": {
+    "item": "minecraft:heavy_weighted_pressure_plate"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "minecraft:iron_ingot"
+    }
+  ]
+}

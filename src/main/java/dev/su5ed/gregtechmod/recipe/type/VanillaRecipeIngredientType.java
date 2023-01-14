@@ -38,7 +38,7 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
     @Override
     public VanillaRecipeIngredient create(JsonElement json) {
         JsonObject obj = json.getAsJsonObject();
-        JsonObject value = obj.getAsJsonObject("value");
+        JsonElement value = obj.get("value");
         int count = GsonHelper.getAsInt(obj, "count", 1);
         return new VanillaRecipeIngredient(Ingredient.fromJson(value), count);
     }
