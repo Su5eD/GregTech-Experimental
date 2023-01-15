@@ -12,11 +12,11 @@
     {
       "count": 4,
       "value": {
-        "tag": "gregtechmod:carbon_fibre"
+        "item": "ftbic:carbon_fibers"
       }
     }
   ],
   "output": {
-    "item": "ic2:carbon_mesh"
+    "item": "ftbic:carbon_fiber_mesh"
   }
 }

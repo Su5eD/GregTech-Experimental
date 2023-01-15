@@ -161,7 +161,11 @@ reobf {
 
 repositories {
     maven {
-        name = "Progwml6 maven"
+        name = "Modmaven"
+        url = uri("https://modmaven.dev/")
+    }
+    maven {
+        name = "Progwml6"
         url = uri("https://dvs1.progwml6.com/files/maven")
     }
     // 1.19 IC2 builds are not available on maven yet, so we grab them from Jenkins using ivy as a workaround
@@ -188,6 +192,10 @@ dependencies {
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
 
     datagen(fg.deobf(group = "teamtwilight", name = "twilightforest", version = "4.2.1493", classifier = "universal"))
+    datagen(fg.deobf(curse(mod = "ftb-industrial-contraptions-forge", projectId = 539097, fileId = 3907201)))
+    datagen(fg.deobf(curse(mod = "ftb-library-forge", projectId = 404465, fileId = 3958463)))
+    datagen(fg.deobf(curse(mod = "architectury-api", projectId = 419699, fileId = 4104616)))
+    datagen(fg.deobf(curse(mod = "myrtrees", projectId = 546151, fileId = 3824947)))
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-common-api", version = versionJEI))
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge-api", version = versionJEI))
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge", version = versionJEI))

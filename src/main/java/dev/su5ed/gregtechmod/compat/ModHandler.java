@@ -132,7 +132,8 @@ public final class ModHandler {
     }
 
     public static Item getModItem(String modid, String name) {
-        ResourceLocation location = new ResourceLocation(modid, name);
+        String mapped = BASE_MODS.containsKey(modid) ? BASE_MODS.get(modid).mapItemName(name) : name;
+        ResourceLocation location = new ResourceLocation(modid, mapped);
         return ForgeRegistries.ITEMS.getValue(location);
     }
 

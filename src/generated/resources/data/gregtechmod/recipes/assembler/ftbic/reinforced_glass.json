@@ -3,7 +3,7 @@
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "ic2"
+      "modid": "ftbic"
     }
   ],
   "duration": 400,
@@ -12,7 +12,7 @@
     {
       "count": 4,
       "value": {
-        "tag": "gregtechmod:reinforced_stone"
+        "item": "ftbic:reinforced_stone"
       }
     },
     {
@@ -24,6 +24,6 @@
   ],
   "output": {
     "count": 4,
-    "item": "ic2:reinforced_glass"
+    "item": "ftbic:reinforced_glass"
   }
 }

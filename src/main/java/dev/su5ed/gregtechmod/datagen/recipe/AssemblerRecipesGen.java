@@ -1,5 +1,6 @@
 package dev.su5ed.gregtechmod.datagen.recipe;
 
+import dev.ftb.mods.ftbic.item.FTBICItems;
 import dev.su5ed.gregtechmod.GregTechTags;
 import dev.su5ed.gregtechmod.compat.ModHandler;
 import dev.su5ed.gregtechmod.object.Armor;
@@ -211,10 +212,10 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
             .addConditions(ic2Loaded)
             .build(finishedRecipeConsumer, id("ic2/wind_generator_from_magnalium"));
 
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.CARBON_FIBRE, 2), new ItemStack(ModHandler.getModItem("carbon_mesh")), 800, 2)
+        assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.CARBON_FIBRE, 2), new ItemStack(Ic2Items.CARBON_MESH), 800, 2)
             .addConditions(ic2Loaded)
             .build(finishedRecipeConsumer, id("ic2/carbon_mesh"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ADVANCED_ALLOY, 2), ModRecipeIngredientTypes.ITEM.of(Items.GLASS, 7), new ItemStack(ModHandler.getModItem("reinforced_glass"), 7), 400, 4)
+        assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.ALLOY, 2), ModRecipeIngredientTypes.ITEM.of(Items.GLASS, 7), new ItemStack(Ic2Items.REINFORCED_GLASS, 7), 400, 4)
             .addConditions(ic2Loaded)
             .build(finishedRecipeConsumer, id("ic2/reinforced_glass"));
 //        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_LI_BATTERY, 8), ModRecipeIngredientTypes.ITEM.of(Ic2Items.CROPNALYZER), Tool.SCANNER.getItemStack(), 12800, 16)
@@ -228,7 +229,7 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
 //            .build(finishedRecipeConsumer, id("re_battery"));
 
         // Classic
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ADVANCED_ALLOY), ModRecipeIngredientTypes.ITEM.of(Tags.Items.STONE, 8), new ItemStack(ModHandler.getModItem("reinforced_stone"), 8), 400, 4)
+        assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.ALLOY), ModRecipeIngredientTypes.ITEM.of(Tags.Items.STONE, 8), new ItemStack(Ic2Items.REINFORCED_STONE, 8), 400, 4)
             .addConditions(ic2Loaded, SelectedProfileCondition.CLASSIC)
             .build(finishedRecipeConsumer, id("classic/ic2/reinforced_stone"));
 //        assembler(ModRecipeIngredientTypes.ITEM.ofTags(Plate.REFINED_IRON.getTag(), Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Ic2Items.METER), ModCoverItem.ENERGY_METER.getItemStack(), 800, 16)
@@ -239,13 +240,13 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
         ironProfileRecipes(finishedRecipeConsumer, SelectedProfileCondition.IRON, "regular_iron", Plate.IRON.getTag(), Rod.IRON.getTag());
 
         // FTBIC
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.CARBON_FIBRE, 4), new ItemStack(ModHandler.getModItem("carbon_mesh")), 800, 2)
+        assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.CARBON_FIBERS.item.get(), 4), new ItemStack(FTBICItems.CARBON_FIBER_MESH.item.get()), 800, 2)
             .addConditions(ftbicLoaded)
             .build(finishedRecipeConsumer, id("ftbic/carbon_mesh"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.REINFORCED_STONE, 4), ModRecipeIngredientTypes.ITEM.of(Items.GLASS, 4), new ItemStack(ModHandler.getModItem("reinforced_glass"), 4), 400, 4)
-            .addConditions(ic2Loaded)
+        assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.REINFORCED_STONE.get(), 4), ModRecipeIngredientTypes.ITEM.of(Items.GLASS, 4), new ItemStack(FTBICItems.REINFORCED_GLASS.get(), 4), 400, 4)
+            .addConditions(ftbicLoaded)
             .build(finishedRecipeConsumer, id("ftbic/reinforced_glass"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ADVANCED_ALLOY), ModRecipeIngredientTypes.ITEM.of(Tags.Items.STONE, 8), new ItemStack(ModHandler.getModItem("reinforced_stone"), 4), 400, 4)
+        assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.ADVANCED_ALLOY.item.get()), ModRecipeIngredientTypes.ITEM.of(Tags.Items.STONE, 8), new ItemStack(FTBICItems.REINFORCED_STONE.get(), 4), 400, 4)
             .addConditions(ftbicLoaded)
             .build(finishedRecipeConsumer, id("ftbic/reinforced_stone"));
 
