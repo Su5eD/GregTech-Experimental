@@ -715,9 +715,6 @@
     item: gregtechmod:item_valve
   duration: 3200
   energyCost: 4
-  conditions:
-    - type: mod_loaded
-      modid: railcraft
 - input:
     - item: ic2:crafting#carbon_fibre
       count: 2
