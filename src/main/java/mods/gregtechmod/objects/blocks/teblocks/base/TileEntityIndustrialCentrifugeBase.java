@@ -2,7 +2,6 @@ package mods.gregtechmod.objects.blocks.teblocks.base;
 
 import ic2.core.block.comp.Fluids;
 import ic2.core.block.invslot.InvSlot;
-import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
@@ -28,7 +27,7 @@ public abstract class TileEntityIndustrialCentrifugeBase extends TileEntityGTMac
     protected TileEntityIndustrialCentrifugeBase(int tankCapacity, IGtRecipeManagerCellular recipeManager) {
         super(4, recipeManager);
         this.cellSlot = new GtConsumableCell(this, "cellSlot", 1);
-        this.tank = this.fluids.addTank(new GtFluidTank(this, "tank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), GtRecipes.industrialCentrifuge::hasRecipeFor, tankCapacity));
+        this.tank = this.fluids.addTank(new GtFluidTank(this, "tank", InvSlot.InvSide.ANY.getAcceptedSides(), InvSlot.InvSide.NOTSIDE.getAcceptedSides(), recipeManager::hasRecipeFor, tankCapacity));
     }
 
     @Override

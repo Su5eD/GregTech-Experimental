@@ -443,7 +443,7 @@
       - oreTungstate
   fluid: water
   output:
-    - item: gregtechmod:dust_electrum
+    - item: gregtechmod:dust_tungsten
       count: 2
     - item: gregtechmod:smalldust_iron
       count: 3
