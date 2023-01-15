@@ -16,9 +16,11 @@ public final class GtLocale {
     }
 
     public static TranslationKey profileItemDescriptionKey(String name) {
-        if (GregTechMod.isClassic) {
+        if (GregTechMod.PROFILE_MANAGER.isClassic()) {
             TranslationKey classicKey = key("item", name, "classic_description");
-            if (classicKey.exists()) return classicKey; // TODO this will crash servers wtf was I thinking
+            if (classicKey.exists()) {
+                return classicKey; // FIXME this will crash servers wtf was I thinking
+            }
         }
         return itemDescriptionKey(name);
     }

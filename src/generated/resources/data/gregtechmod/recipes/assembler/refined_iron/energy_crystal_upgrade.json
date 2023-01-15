@@ -1,0 +1,33 @@
+{
+  "type": "gregtechmod:assembler",
+  "conditions": [
+    {
+      "type": "gregtechmod:selected_profile",
+      "properties": {
+        "iron_variant": "refined_iron"
+      }
+    }
+  ],
+  "duration": 1600,
+  "energyCost": 16.0,
+  "input": [
+    {
+      "value": [
+        {
+          "tag": "forge:plates/refined_iron"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ]
+    },
+    {
+      "value": {
+        "tag": "gregtechmod:energy_crystal"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:energy_crystal_upgrade"
+  }
+}

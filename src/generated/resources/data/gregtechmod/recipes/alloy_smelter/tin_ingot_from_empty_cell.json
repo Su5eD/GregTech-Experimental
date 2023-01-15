@@ -1,5 +1,11 @@
 {
   "type": "gregtechmod:alloy_smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
   "duration": 130,
   "energyCost": 3.0,
   "input": [

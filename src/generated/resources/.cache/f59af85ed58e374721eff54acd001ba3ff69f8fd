@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-15T21:14:16.2871007	Item Models: gregtechmod
+// 1.19.2	2023-01-15T22:47:16.9853875	Item Models: gregtechmod
 7611917dbed8e56d65508076e1502658bb2a1c7d assets/gregtechmod/models/item/active_detector.json
 01dc21456a4859a611151f40e2acf5fd3c903f82 assets/gregtechmod/models/item/advanced_circuit_board.json
 e47c61b9aaa60d0123c8874a0b253ef8e84e733a assets/gregtechmod/models/item/advanced_circuit_parts.json
@@ -128,7 +128,7 @@ b8886b9c717c3481555f992d6ad3819afb4510e2 assets/gregtechmod/models/item/electrum
 fbed614988a153b426272261d0a463d0cbbe635d assets/gregtechmod/models/item/ender_pearl_smalldust.json
 f007a17430d77c2b9e37f2763e6883a824d909f1 assets/gregtechmod/models/item/endstone_dust.json
 d7a6165910a10621b29dce437d356bdd533d06b3 assets/gregtechmod/models/item/endstone_smalldust.json
-10ab24168854b9109d8c0a89d8a12b942656687b assets/gregtechmod/models/item/energy_crystal.json
+e277d1e7c87f1ac6ec7a56b9b1b185fb9ca04bf3 assets/gregtechmod/models/item/energy_crystal_upgrade.json
 91aa24cfe36d589016ef45fe172f4978d81c6882 assets/gregtechmod/models/item/energy_flow_circuit.json
 207ed40062206068e67992569fde60aab3be44b7 assets/gregtechmod/models/item/energy_meter.json
 d53c6a4e4c553073b21a5ff0422306cf0d9ba0c8 assets/gregtechmod/models/item/energy_orb.json
@@ -205,7 +205,7 @@ b3a13a789f991e177d00a14ca3962c2adca46752 assets/gregtechmod/models/item/iron_pla
 d126353b716c63c5c257f76f0aca7e6b9323ced8 assets/gregtechmod/models/item/kanthal_coil.json
 e2ea886278fc4fa444df3a108de41721a6047534 assets/gregtechmod/models/item/lapotronic_energy_orb.json
 fd65fb5dae2131bb2540f180cff1f55c4cba69cc assets/gregtechmod/models/item/lapotronpack.json
-c36fe1cf0e3090998c8d3833b44d60e198912510 assets/gregtechmod/models/item/lapotron_crystal.json
+8e5bb30200e30c31d4b0c0234674b7286b1121ae assets/gregtechmod/models/item/lapotron_crystal_upgrade.json
 00322a606b6f744bc0860eaa315e1cf9879c743f assets/gregtechmod/models/item/lava_filter.json
 f4b3128b0e47db4ae944869375b688e32f4ea775 assets/gregtechmod/models/item/lazurite_chunk.json
 3fe9c727380c79ee895c1070eef731d4c1410a1e assets/gregtechmod/models/item/lazurite_dust.json

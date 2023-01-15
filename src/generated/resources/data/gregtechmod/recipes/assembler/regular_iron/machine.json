@@ -1,0 +1,29 @@
+{
+  "type": "gregtechmod:assembler",
+  "conditions": [
+    {
+      "type": "gregtechmod:selected_profile",
+      "properties": {
+        "iron_variant": "iron"
+      }
+    }
+  ],
+  "duration": 400,
+  "energyCost": 8.0,
+  "input": [
+    {
+      "count": 8,
+      "value": {
+        "tag": "forge:plates/iron"
+      }
+    },
+    {
+      "value": {
+        "item": "gregtechmod:machine_parts"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:machine"
+  }
+}

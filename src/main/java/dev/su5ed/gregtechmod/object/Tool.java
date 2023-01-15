@@ -45,11 +45,11 @@ public enum Tool implements TaggedItemProvider {
     ICE_SPRAY(IceSprayItem::new),
     PEPPER_SPRAY(PepperSprayItem::new),
     LAPOTRONIC_ENERGY_ORB(() -> new ElectricItem(new ElectricItemProperties()
-        .maxCharge(GregTechMod.isClassic ? 10000000 : 100000000)
+        .maxCharge(GregTechMod.PROFILE_MANAGER.isClassic() ? 10000000 : 100000000)
         .transferLimit(8192)
-        .energyTier(GregTechMod.isClassic ? 4 : 5)
+        .energyTier(GregTechMod.PROFILE_MANAGER.isClassic() ? 4 : 5)
         .providesEnergy(true)
-        .rarity(Rarity.RARE)), GregTechMod.isClassic ? GregTechTags.CRAFTING_10KK_EU_STORE : GregTechTags.CRAFTING_100KK_EU_STORE),
+        .rarity(Rarity.RARE)), GregTechMod.PROFILE_MANAGER.isClassic() ? GregTechTags.CRAFTING_10KK_EU_STORE : GregTechTags.CRAFTING_100KK_EU_STORE),
     ROCK_CUTTER(RockCutterItem::new),
     RUBBER_HAMMER(RubberHammerItem::new, GregTechTags.SOFT_HAMMER),
     SCANNER(ScannerItem::new),

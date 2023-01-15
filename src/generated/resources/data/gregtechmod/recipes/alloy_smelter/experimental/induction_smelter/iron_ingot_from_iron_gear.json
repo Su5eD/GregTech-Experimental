@@ -6,12 +6,10 @@
       "modid": "thermal"
     },
     {
-      "type": "forge:mod_loaded",
-      "modid": "ic2"
-    },
-    {
       "type": "gregtechmod:selected_profile",
-      "profile": "experimental"
+      "properties": {
+        "layout": "experimental"
+      }
     }
   ],
   "energy": 6000,

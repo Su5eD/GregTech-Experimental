@@ -1,0 +1,30 @@
+{
+  "type": "gregtechmod:assembler",
+  "conditions": [
+    {
+      "type": "gregtechmod:selected_profile",
+      "properties": {
+        "iron_variant": "refined_iron"
+      }
+    }
+  ],
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:rods/refined_iron"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/refined_iron"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:iron_gear"
+  }
+}

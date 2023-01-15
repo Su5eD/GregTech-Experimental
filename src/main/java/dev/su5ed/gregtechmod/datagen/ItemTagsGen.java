@@ -105,6 +105,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.COMPRESSED_COAL_BALL, "coal_block");
         modItem(GregTechTags.IRIDIUM_ALLOY, "iridium");
         modItem(GregTechTags.CARBON_PLATE, "carbon_plate");
+        modItem(GregTechTags.PUMP, "pump");
+        modItem(GregTechTags.ENERGY_CRYSTAL, "energy_crystal");
     }
 
     @Override

@@ -1,5 +1,11 @@
 {
   "type": "gregtechmod:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
   "duration": 150,
   "energyCost": 1.0,
   "input": [

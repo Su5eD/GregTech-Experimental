@@ -95,6 +95,11 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id("iridium_ingot_from_iridium_gear"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Items.MILK_BUCKET, Items.WATER_BUCKET), new ItemStack(Items.BUCKET), 100, 1)
             .build(finishedRecipeConsumer, id("bucket_from_filled_bucket"));
+        
+        // Experimental
+        alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRON_GEAR.getItem()), new ItemStack(Items.IRON_INGOT, 6), 130, 3)
+            .addConditions(SelectedProfileCondition.EXPERIMENTAL)
+            .build(finishedRecipeConsumer, id("experimental/iron_ingot_from_iron_gear"), true);
 
         buildOtherModRecipes(finishedRecipeConsumer);
     }
@@ -108,11 +113,6 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), new ItemStack(Ic2Items.TIN_INGOT), 130, 3)
             .addConditions(ic2Loaded)
             .build(finishedRecipeConsumer, id("tin_ingot_from_empty_cell"), true);
-
-        // Experimental
-        alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRON_GEAR.getItem()), new ItemStack(Items.IRON_INGOT, 6), 130, 3)
-            .addConditions(ic2Loaded, SelectedProfileCondition.EXPERIMENTAL)
-            .build(finishedRecipeConsumer, id("experimental/iron_ingot_from_iron_gear"), true);
 
         // Classic
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_FUEL_CAN), new ItemStack(Ic2Items.TIN_INGOT, 7), 130, 3)

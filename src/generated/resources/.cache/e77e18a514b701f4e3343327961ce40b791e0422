@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-15T21:14:16.2969238	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-01-15T22:47:16.9938867	Gregtech ExperimentalTags for minecraft:item
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 fff58d6036e8b4a64cc5c26473298fa0fdf02235 data/forge/tags/items/dusts/almandine.json
 3396c96a49ab6b266c0ba2d77f6879cafe0a33ef data/forge/tags/items/dusts/aluminium.json
@@ -208,9 +208,9 @@ c57b4b82e9a3949109fa7e75cc1e235c4b7b9390 data/gregtechmod/tags/items/coal_ball.j
 b661a09d9556e39b050dd28dab836f02a3599423 data/gregtechmod/tags/items/compressed_coal_ball.json
 66591b0da119fb08ca946a70a8276c0730ccba38 data/gregtechmod/tags/items/copper_cable.json
 526ae0d7782a92b9761b4500d2ad65a2e559375c data/gregtechmod/tags/items/crafting/100kk_eu_store.json
-105eaaad9c41a882aa0194482b6564f490d03d05 data/gregtechmod/tags/items/crafting/10kk_eu_store.json
+8e169bcf7b450b9fb50a1fd655f90852c2b15f73 data/gregtechmod/tags/items/crafting/10kk_eu_store.json
 1d1cedb184eb038f47eaac4c3f670b91eb659e56 data/gregtechmod/tags/items/crafting/180k_coolant_store.json
-f4ffeabc73b0f24730800506ffc1985ad1b513d1 data/gregtechmod/tags/items/crafting/1kk_eu_store.json
+817dd50544c66d0fb8f8b5e8262a666a67fdd58f data/gregtechmod/tags/items/crafting/1kk_eu_store.json
 b8d612a18ed39b4cb3d9a06eb5619cf845b2787e data/gregtechmod/tags/items/crafting/360k_coolant_store.json
 fd6422ea83374cc85afefca01196195c89b4d18e data/gregtechmod/tags/items/crafting/600k_eu_pack.json
 0f68e9818288810672fb8c0ef2671db76df524d6 data/gregtechmod/tags/items/crafting/60k_coolant_store.json
@@ -260,6 +260,7 @@ c3cde31c378bcd15af99ef7e395d60a458823360 data/gregtechmod/tags/items/crafting/st
 1d49dc358bf37599f04edc4e0706c3c22ad51b01 data/gregtechmod/tags/items/crafting/work_detector.json
 a9de0c5c7bf2718731d263dd536b3171f5e198a6 data/gregtechmod/tags/items/empty_fluid_cell.json
 1c8cd9997de60d0e792cebeaace4c17d4fab3a81 data/gregtechmod/tags/items/empty_fuel_can.json
+75a4fba209919f6466ccfa630a57c1d552106946 data/gregtechmod/tags/items/energy_crystal.json
 fc80d291d3648088962e2c326813ab41aa9edf76 data/gregtechmod/tags/items/generator.json
 d34d6dc6044cccd6f3d58aeccbe03597469bef2b data/gregtechmod/tags/items/gold_cable.json
 226db20920668b1a4c42cd2cc644c60c24529e41 data/gregtechmod/tags/items/heat_vent.json
@@ -270,6 +271,7 @@ a0e8f821e66e3744fbf87b5f1db06017d29bc808 data/gregtechmod/tags/items/lapotron_cr
 70a536b9e0f514cc64b06dd6a6f1e70d84c01d90 data/gregtechmod/tags/items/lazurite_chunk.json
 3f753e6a997883d3e9874fbfc30c4c465c828356 data/gregtechmod/tags/items/overclocked_heat_vent.json
 0801e55af628cdd28bf8dbe39f783e63410c4cab data/gregtechmod/tags/items/plates/iridium_alloy.json
+0f378a0725edd82b1c1c52f12e208c92c2778b9f data/gregtechmod/tags/items/pump.json
 1e5e5564ef2e37edec78b78a52db70157595cdf9 data/gregtechmod/tags/items/reinforced_stone.json
 60b7a1786bcc1d8ef9c6413394ed794d7e14c771 data/gregtechmod/tags/items/resin.json
 a8ed26dd718e8922ba146807df59ecfcee45ee1c data/gregtechmod/tags/items/rubber.json

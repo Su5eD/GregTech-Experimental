@@ -34,6 +34,7 @@ public final class ModHandler {
     private static BaseMod activeBaseMod;
 
     public static boolean ic2Loaded;
+    public static boolean ftbicLoaded;
     public static boolean buildcraftLoaded;
     public static boolean railcraftLoaded;
     public static boolean thermalLoaded;
@@ -41,6 +42,7 @@ public final class ModHandler {
     public static void initMods() {
         ModList list = ModList.get();
         ic2Loaded = list.isLoaded(IC2_MODID);
+        ftbicLoaded = list.isLoaded(FTBIC_MODID);
         railcraftLoaded = list.isLoaded(RAILCRAFT_MODID);
         thermalLoaded = list.isLoaded(THERMAL_MODID);
 

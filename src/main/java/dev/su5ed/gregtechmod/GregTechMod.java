@@ -11,6 +11,7 @@ import dev.su5ed.gregtechmod.object.ModMenus;
 import dev.su5ed.gregtechmod.object.ModObjects;
 import dev.su5ed.gregtechmod.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gregtechmod.recipe.setup.ModRecipeTypes;
+import dev.su5ed.gregtechmod.util.ProfileManager;
 import dev.su5ed.gregtechmod.util.loot.ConditionLootModifier;
 import dev.su5ed.gregtechmod.world.ModConfiguredFeatures;
 import dev.su5ed.gregtechmod.world.ModPlacedFeatures;
@@ -27,9 +28,11 @@ import org.apache.logging.log4j.Logger;
 public class GregTechMod {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static boolean isClassic; // PLACEHOLDER until ic2 profiles are ported
+    public static final ProfileManager PROFILE_MANAGER = new ProfileManager();
 
     public GregTechMod() {
+        PROFILE_MANAGER.init();
+        
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         ModHandler.initMods();

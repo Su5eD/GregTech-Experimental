@@ -1,0 +1,30 @@
+{
+  "type": "gregtechmod:assembler",
+  "conditions": [
+    {
+      "type": "gregtechmod:selected_profile",
+      "properties": {
+        "iron_variant": "iron"
+      }
+    }
+  ],
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:rods/iron"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/iron"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:iron_gear"
+  }
+}

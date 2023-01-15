@@ -1,5 +1,13 @@
 {
   "type": "gregtechmod:alloy_smelter",
+  "conditions": [
+    {
+      "type": "gregtechmod:selected_profile",
+      "properties": {
+        "layout": "experimental"
+      }
+    }
+  ],
   "duration": 130,
   "energyCost": 3.0,
   "input": [

@@ -17,6 +17,8 @@ public class MIMORecipeBuilder extends ModRecipeBuilder<MIMORecipe> {
 
     @Override
     public void serializeRecipeData(JsonObject json) {
+        super.serializeRecipeData(json);
+        
         JsonArray inputs = new JsonArray(this.recipe.getInputs().size());
         for (RecipeIngredient<ItemStack> input : this.recipe.getInputs()) {
             inputs.add(input.toJson());

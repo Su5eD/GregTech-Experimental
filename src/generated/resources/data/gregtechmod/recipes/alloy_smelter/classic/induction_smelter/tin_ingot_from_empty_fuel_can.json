@@ -11,7 +11,9 @@
     },
     {
       "type": "gregtechmod:selected_profile",
-      "profile": "classic"
+      "properties": {
+        "layout": "classic"
+      }
     }
   ],
   "energy": 7000,
