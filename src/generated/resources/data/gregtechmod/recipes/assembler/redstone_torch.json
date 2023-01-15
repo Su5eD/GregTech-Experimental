@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:rods/wooden"
+      }
+    },
+    {
+      "value": {
+        "tag": "forge:dusts/redstone"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:redstone_torch"
+  }
+}

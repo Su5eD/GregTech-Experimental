@@ -54,7 +54,7 @@ public enum Component implements TaggedItemProvider {
     WOLFRAMIUM_GRINDER(GregTechTags.CRAFTING_GRINDER);
 
     private final Lazy<Item> instance;
-    public final TagKey<Item> tag;
+    private final TagKey<Item> tag;
 
     Component(TagKey<Item> tag) {
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription()));

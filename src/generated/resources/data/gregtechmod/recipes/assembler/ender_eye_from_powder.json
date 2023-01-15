@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:ender_pearls"
+      }
+    },
+    {
+      "value": {
+        "item": "minecraft:blaze_powder"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:ender_eye"
+  }
+}

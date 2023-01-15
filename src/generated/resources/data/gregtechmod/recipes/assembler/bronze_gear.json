@@ -1,0 +1,22 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:rods/bronze"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/bronze"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:bronze_gear"
+  }
+}

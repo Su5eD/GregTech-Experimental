@@ -1,0 +1,21 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 300,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "value": {
+        "item": "ic2:iron_cable"
+      }
+    },
+    {
+      "count": 3,
+      "value": {
+        "tag": "gregtechmod:rubber"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:triple_insulated_iron_cable"
+  }
+}

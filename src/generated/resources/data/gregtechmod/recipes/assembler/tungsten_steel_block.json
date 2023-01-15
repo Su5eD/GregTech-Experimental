@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:plates/tungsten_steel"
+      }
+    },
+    {
+      "value": {
+        "tag": "gregtechmod:reinforced_stone"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:tungsten_steel_block"
+  }
+}

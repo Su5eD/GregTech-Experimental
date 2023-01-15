@@ -1,0 +1,21 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 6400,
+  "energyCost": 8.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gregtechmod:generator"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/aluminium"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:water_generator"
+  }
+}

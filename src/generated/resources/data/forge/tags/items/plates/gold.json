@@ -1,9 +1,5 @@
 {
   "values": [
-    "gregtechmod:gold_plate",
-    {
-      "id": "ic2:gold_plate",
-      "required": false
-    }
+    "gregtechmod:gold_plate"
   ]
 }

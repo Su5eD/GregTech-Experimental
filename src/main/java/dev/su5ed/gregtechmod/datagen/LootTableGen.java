@@ -117,7 +117,7 @@ class LootTableGen extends LootTableProvider {
                 .add();
 
             add(Ore.IRIDIUM.getBlock(), block -> {
-                LootPoolEntryContainer.Builder<?> builder = EntryStream.of(ModHandler.getAllModItems("iridium_ore"))
+                LootPoolEntryContainer.Builder<?> builder = EntryStream.of(ModHandler.getAliasedModItems("iridium_ore"))
                     .<LootPoolEntryContainer.Builder<?>>mapKeyValue((modid, item) -> applyExplosionDecay(block, LocationLootItem.lootTableItem(item)
                         .apply(FortuneLootFunction.rareOreDrop())
                         .when(ModLoadedCondition.modLoaded(modid))))

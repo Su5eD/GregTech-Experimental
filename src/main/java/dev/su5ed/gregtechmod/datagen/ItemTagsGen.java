@@ -22,7 +22,6 @@ import dev.su5ed.gregtechmod.util.TaggedItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
@@ -63,14 +62,14 @@ public class ItemTagsGen extends ItemTagsProvider {
             .forKeyValue(TagAppender::add);
 
         EntryStream.of(
-            Tags.Items.ORES, Ore.values(),
-            Tags.Items.DUSTS, Dust.values(),
-            Tags.Items.INGOTS, Ingot.values(),
-            Tags.Items.NUGGETS, Nugget.values(),
-            GregTechTags.PLATES, Plate.values(),
-            Tags.Items.RODS, Rod.values(),
-            Tags.Items.DYES, ColorSpray.values()
-        )
+                Tags.Items.ORES, Ore.values(),
+                Tags.Items.DUSTS, Dust.values(),
+                Tags.Items.INGOTS, Ingot.values(),
+                Tags.Items.NUGGETS, Nugget.values(),
+                GregTechTags.PLATES, Plate.values(),
+                Tags.Items.RODS, Rod.values(),
+                Tags.Items.DYES, ColorSpray.values()
+            )
             .mapKeys(this::tag)
             .flatMapValues(providers -> StreamEx.of(providers)
                 .map(TaggedItemProvider::getTag)
@@ -78,29 +77,43 @@ public class ItemTagsGen extends ItemTagsProvider {
             .forKeyValue(TagAppender::addTag);
 
         StreamEx.of(GregTechTags.HEAT_VENT, GregTechTags.COMPONENT_HEAT_VENT, GregTechTags.ADVANCED_HEAT_VENT, GregTechTags.OVERCLOCKED_HEAT_VENT)
-            .mapToEntry(this::tag, tag -> ModHandler.getAllModItems(tag.location().getPath()).values())
+            .mapToEntry(this::tag, tag -> ModHandler.getAliasedModItems(tag.location().getPath()).values())
             .flatMapValues(Collection::stream)
             .forKeyValue(TagAppender::addOptional);
-        
-        tag(GregTechTags.EMPTY_FLUID_CELL)
-            .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "empty_cell"));
-        
-        tag(GregTechTags.EMPTY_FUEL_CAN)
-            .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "empty_fuel_can"));
-        
-        // Tag IC2 plates
-        StreamEx.of("bronze_plate", "copper_plate", "gold_plate", "iron_plate",
-            "lapis_plate", "lead_plate", "obsidian_plate", "steel_plate", "tin_plate"
-        )
-            .mapToEntry(name -> tag(GregTechTags.material("plates", name.replace("_plate", ""))), name -> new ResourceLocation(ModHandler.IC2_MODID, name))
-            .forKeyValue(TagAppender::addOptional);
-        
-        tag(GregTechTags.IRIDIUM_ALLOY)
-            .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "iridium"));
+
+        modItem(GregTechTags.EMPTY_FLUID_CELL, "empty_cell");
+        modItem(GregTechTags.EMPTY_FUEL_CAN, "empty_fuel_can");
+        modItem(GregTechTags.ADVANCED_CIRCUIT, "advanced_circuit");
+        modItem(GregTechTags.CIRCUIT, "circuit");
+        modItem(GregTechTags.INSULATED_COPPER_CABLE, "insulated_copper_cable");
+        modItem(GregTechTags.COPPER_CABLE, "copper_cable");
+        modItem(GregTechTags.GOLD_CABLE, "gold_cable");
+        modItem(GregTechTags.INSULATED_GOLD_CABLE, "insulated_gold_cable");
+        modItem(GregTechTags.material("plates", "carbon"), "carbon_plate");
+        modItem(GregTechTags.ADVANCED_ALLOY, "alloy");
+        modItem(GregTechTags.REINFORCED_STONE, "reinforced_stone");
+        modItem(GregTechTags.RESIN, "resin");
+        modItem(GregTechTags.RUBBER, "rubber");
+        modItem(GregTechTags.LAPOTRON_CRYSTAL, "lapotron_crystal");
+        modItem(GregTechTags.HV_TRANSFORMER, "hv_transformer");
+        modItem(GregTechTags.TRANSFORMER_UPGRADE, "transformer_upgrade");
+        modItem(GregTechTags.CARBON_MESH, "carbon_mesh");
+        modItem(GregTechTags.CARBON_FIBRE, "carbon_fibre");
+        modItem(GregTechTags.GENERATOR, "generator");
+        modItem(GregTechTags.CRAFTING_RAW_MACHINE_TIER_1, "machine");
+        modItem(GregTechTags.COAL_BALL, "coal_ball");
+        modItem(GregTechTags.COMPRESSED_COAL_BALL, "coal_block");
+        modItem(GregTechTags.IRIDIUM_ALLOY, "iridium");
+        modItem(GregTechTags.CARBON_PLATE, "carbon_plate");
     }
 
     @Override
     public String getName() {
         return Reference.NAME + super.getName();
+    }
+
+    private void modItem(TagKey<Item> key, String name) {
+        TagAppender<Item> appender = tag(key);
+        ModHandler.getAliasedModItems(name).values().forEach(appender::addOptional);
     }
 }

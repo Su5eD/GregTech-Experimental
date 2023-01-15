@@ -1,0 +1,23 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 2,
+      "value": {
+        "tag": "gregtechmod:advanced_alloy"
+      }
+    },
+    {
+      "count": 7,
+      "value": {
+        "item": "minecraft:glass"
+      }
+    }
+  ],
+  "output": {
+    "count": 7,
+    "item": "ic2:reinforced_glass"
+  }
+}

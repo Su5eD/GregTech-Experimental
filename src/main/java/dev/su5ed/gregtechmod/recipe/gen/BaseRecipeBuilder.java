@@ -14,6 +14,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static dev.su5ed.gregtechmod.api.Reference.location;
+
 public abstract class BaseRecipeBuilder {
     protected final List<ICondition> conditions = new ArrayList<>();
 

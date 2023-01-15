@@ -1,0 +1,15 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:plates/tin"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:tin_can"
+  }
+}

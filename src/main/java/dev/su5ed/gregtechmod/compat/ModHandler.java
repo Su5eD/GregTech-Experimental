@@ -1,9 +1,9 @@
 package dev.su5ed.gregtechmod.compat;
 
 import dev.su5ed.gregtechmod.GregTechTags;
+import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.api.machine.ElectricBlockEntity;
 import dev.su5ed.gregtechmod.api.recipe.CellType;
-import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gregtechmod.util.power.PowerStorage;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +22,7 @@ import java.util.Optional;
 
 public final class ModHandler {
     public static final String IC2_MODID = "ic2";
+    public static final String FTBIC_MODID = "ftbic";
     public static final String RAILCRAFT_MODID = "railcraft";
     public static final String TWILIGHT_FOREST_MODID = "twilightforest";
     public static final String THERMAL_MODID = "thermal";
@@ -31,7 +32,7 @@ public final class ModHandler {
     );
     private static BaseMod.Provider activeBaseModProvider;
     private static BaseMod activeBaseMod;
-    
+
     public static boolean ic2Loaded;
     public static boolean buildcraftLoaded;
     public static boolean railcraftLoaded;
@@ -42,7 +43,7 @@ public final class ModHandler {
         ic2Loaded = list.isLoaded(IC2_MODID);
         railcraftLoaded = list.isLoaded(RAILCRAFT_MODID);
         thermalLoaded = list.isLoaded(THERMAL_MODID);
-        
+
         System.setProperty("coremod." + Reference.MODID + ".ic2_loaded", Boolean.toString(ic2Loaded));
         // (ugly) workaround for https://github.com/MinecraftForge/CoreMods/issues/31
         System.setProperty("true", "true");
@@ -98,15 +99,15 @@ public final class ModHandler {
     public static List<ItemStack> getChargedVariants(Item item) {
         return activeBaseMod.getChargedVariants(item);
     }
-    
+
     public static ItemStack getChargedStack(Item item, double charge) {
         return activeBaseMod.getChargedStack(item, charge);
     }
-    
+
     public static double chargeStack(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean simulate) {
         return activeBaseMod.chargeStack(stack, amount, tier, ignoreTransferLimit, simulate);
     }
-    
+
     public static double dischargeStack(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate) {
         return activeBaseMod.dischargeStack(stack, amount, tier, ignoreTransferLimit, externally, simulate);
     }
@@ -114,23 +115,26 @@ public final class ModHandler {
     public static double getEnergyFromTier(int tier) {
         return activeBaseMod.getEnergyFromTier(tier);
     }
-    
+
     public static <T extends BaseBlockEntity & ElectricBlockEntity> PowerStorage createEnergyProvider(T parent) {
         return activeBaseMod.createEnergyProvider(parent);
     }
-    
+
     public static boolean matchCellType(CellType type, ItemStack stack) {
         // TODO Universal Fluid Cell
         return !stack.hasTag() && (type == CellType.CELL && stack.is(GregTechTags.EMPTY_FLUID_CELL) || type == CellType.FUEL_CAN && stack.is(GregTechTags.EMPTY_FUEL_CAN));
     }
-    
+
     public static Item getModItem(String name) {
-        String mapped = activeBaseModProvider.mapItemName(name);
-        ResourceLocation location = new ResourceLocation(activeBaseModProvider.getModid(), mapped);
+        return getModItem(activeBaseModProvider.getModid(), activeBaseModProvider.mapItemName(name));
+    }
+
+    public static Item getModItem(String modid, String name) {
+        ResourceLocation location = new ResourceLocation(modid, name);
         return ForgeRegistries.ITEMS.getValue(location);
     }
-    
-    public static Map<String, ResourceLocation> getAllModItems(String name) {
+
+    public static Map<String, ResourceLocation> getAliasedModItems(String name) {
         return EntryStream.of(BASE_MODS)
             .mapToValue((modid, provider) -> {
                 String mapped = provider.mapItemName(name);
@@ -138,7 +142,7 @@ public final class ModHandler {
             })
             .toMap();
     }
-    
+
     public static void registerCrops() {
         if (ic2Loaded) {
             CropLoader.registerCrops();

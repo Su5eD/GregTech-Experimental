@@ -1,0 +1,25 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:rods/wooden"
+      }
+    },
+    {
+      "value": [
+        {
+          "tag": "minecraft:coals"
+        },
+        {
+          "tag": "gregtechmod:resin"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "item": "minecraft:torch"
+  }
+}

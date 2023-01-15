@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gregtechmod:hv_transformer"
+      }
+    },
+    {
+      "value": {
+        "tag": "gregtechmod:transformer_upgrade"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:hv_transformer_upgrade"
+  }
+}

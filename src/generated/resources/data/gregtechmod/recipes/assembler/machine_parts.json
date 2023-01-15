@@ -1,0 +1,22 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 800,
+  "energyCost": 16.0,
+  "input": [
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:plates/aluminium"
+      }
+    },
+    {
+      "value": {
+        "tag": "gregtechmod:circuit"
+      }
+    }
+  ],
+  "output": {
+    "count": 3,
+    "item": "gregtechmod:machine_parts"
+  }
+}

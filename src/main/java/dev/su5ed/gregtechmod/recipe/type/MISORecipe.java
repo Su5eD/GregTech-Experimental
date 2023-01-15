@@ -29,6 +29,7 @@ public abstract class MISORecipe extends BaseRecipe<MISORecipeType<?>, MISORecip
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
         RecipeUtil.validateItem(this.id, "output", this.output);
+        // TODO validate energyCost and duration
     }
 
     public List<? extends RecipeIngredient<ItemStack>> getInputs() {

@@ -1,0 +1,21 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 8,
+      "value": {
+        "tag": "forge:dusts/coal"
+      }
+    },
+    {
+      "value": {
+        "item": "minecraft:flint"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:coal_block"
+  }
+}

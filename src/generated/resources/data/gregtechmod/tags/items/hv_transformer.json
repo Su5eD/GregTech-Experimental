@@ -1,0 +1,8 @@
+{
+  "values": [
+    {
+      "id": "ic2:hv_transformer",
+      "required": false
+    }
+  ]
+}

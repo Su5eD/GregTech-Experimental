@@ -1,0 +1,21 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 800,
+  "energyCost": 16.0,
+  "input": [
+    {
+      "count": 6,
+      "value": {
+        "tag": "forge:plates/tungsten_steel"
+      }
+    },
+    {
+      "value": {
+        "item": "gregtechmod:machine_parts"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:tungsten_steel_hull"
+  }
+}

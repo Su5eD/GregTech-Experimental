@@ -1,0 +1,22 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:gunpowder"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:sand"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:tnt"
+  }
+}

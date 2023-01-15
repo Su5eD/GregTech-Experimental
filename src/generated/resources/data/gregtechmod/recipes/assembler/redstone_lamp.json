@@ -1,0 +1,22 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:dusts/glowstone"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:dusts/redstone"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:redstone_lamp"
+  }
+}

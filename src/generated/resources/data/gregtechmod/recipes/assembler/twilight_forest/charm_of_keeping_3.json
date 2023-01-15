@@ -1,0 +1,16 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 800,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "item": "twilightforest:charm_of_keeping_2"
+      }
+    }
+  ],
+  "output": {
+    "item": "twilightforest:charm_of_keeping_3"
+  }
+}

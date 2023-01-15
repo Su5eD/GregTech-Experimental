@@ -1,0 +1,21 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 1600,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gregtechmod:circuit"
+      }
+    },
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:plates/electrum"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:advanced_circuit_board"
+  }
+}

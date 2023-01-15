@@ -26,6 +26,7 @@ val versionJackson: String by project
 val versionIC2: String by project
 val versionJEI: String by project
 
+val datagen: Configuration by configurations.creating
 // Create api source set
 val api: SourceSet by sourceSets.creating
 val apiCompileOnly: Configuration by configurations.getting
@@ -103,6 +104,10 @@ configurations {
         extendsFrom(api.get(), configurations.minecraft.get())
     }
     
+    compileOnly {
+        extendsFrom(datagen)
+    }
+    
     runtimeElements {
         setExtendsFrom(emptySet())
         outgoing {
@@ -127,6 +132,12 @@ tasks {
         from(api.output)
 
         archiveClassifier.set("")
+    }
+    
+    whenTaskAdded {
+        if (this.name == "runData") {
+            (this as JavaExec).classpath += datagen
+        }
     }
 
     named<Jar>("sourcesJar") {
@@ -176,6 +187,7 @@ dependencies {
     apiCompileOnly(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
 
+    datagen(fg.deobf(group = "teamtwilight", name = "twilightforest", version = "4.2.1493", classifier = "universal"))
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-common-api", version = versionJEI))
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge-api", version = versionJEI))
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge", version = versionJEI))

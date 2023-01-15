@@ -1,0 +1,22 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:rods/iridium"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/iridium"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:iridium_gear"
+  }
+}

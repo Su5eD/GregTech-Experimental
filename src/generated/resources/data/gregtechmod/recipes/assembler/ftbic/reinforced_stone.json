@@ -1,0 +1,22 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gregtechmod:advanced_alloy"
+      }
+    },
+    {
+      "count": 8,
+      "value": {
+        "tag": "forge:stone"
+      }
+    }
+  ],
+  "output": {
+    "count": 4,
+    "item": "ic2:reinforced_stone"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 12800,
+  "energyCost": 16.0,
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:data_control_circuit"
+      }
+    },
+    {
+      "count": 8,
+      "value": {
+        "item": "gregtechmod:data_storage_circuit"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:data_orb"
+  }
+}

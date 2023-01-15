@@ -1,0 +1,21 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:lithium_re_battery"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/aluminium"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:lithium_battery_upgrade"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 1600,
+  "energyCost": 8.0,
+  "input": [
+    {
+      "count": 16,
+      "value": {
+        "tag": "gregtechmod:carbon_mesh"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:lava_filter"
+  }
+}

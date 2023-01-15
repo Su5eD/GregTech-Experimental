@@ -123,6 +123,25 @@ public final class GregTechTags {
     public static final TagKey<Item> OVERCLOCKED_HEAT_VENT = itemTag("overclocked_heat_vent");
     public static final TagKey<Item> EMPTY_FLUID_CELL = itemTag("empty_fluid_cell");
     public static final TagKey<Item> EMPTY_FUEL_CAN = itemTag("empty_fuel_can");
+    public static final TagKey<Item> CIRCUIT = itemTag("circuit");
+    public static final TagKey<Item> ADVANCED_CIRCUIT = itemTag("advanced_circuit");
+    public static final TagKey<Item> ADVANCED_ALLOY = itemTag("advanced_alloy");
+    public static final TagKey<Item> REINFORCED_STONE = itemTag("reinforced_stone");
+    public static final TagKey<Item> RESIN = itemTag("resin");
+    public static final TagKey<Item> COPPER_CABLE = itemTag("copper_cable");
+    public static final TagKey<Item> GOLD_CABLE = itemTag("gold_cable");
+    public static final TagKey<Item> INSULATED_GOLD_CABLE = itemTag("insulated_gold_cable");
+    public static final TagKey<Item> INSULATED_COPPER_CABLE = itemTag("insulated_copper_cable");
+    public static final TagKey<Item> RUBBER = itemTag("rubber");
+    public static final TagKey<Item> LAPOTRON_CRYSTAL = itemTag("lapotron_crystal");
+    public static final TagKey<Item> HV_TRANSFORMER = itemTag("hv_transformer");
+    public static final TagKey<Item> TRANSFORMER_UPGRADE = itemTag("transformer_upgrade");
+    public static final TagKey<Item> CARBON_MESH = itemTag("carbon_mesh");
+    public static final TagKey<Item> CARBON_FIBRE = itemTag("carbon_fibre");
+    public static final TagKey<Item> GENERATOR = itemTag("generator");
+    public static final TagKey<Item> COAL_BALL = itemTag("coal_ball");
+    public static final TagKey<Item> COMPRESSED_COAL_BALL = itemTag("compressed_coal_ball");
+    public static final TagKey<Item> CARBON_PLATE = itemTag("carbon_plate");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");

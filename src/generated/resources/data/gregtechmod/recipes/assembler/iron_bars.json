@@ -1,0 +1,17 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "count": 3,
+      "value": {
+        "tag": "forge:rods/iron"
+      }
+    }
+  ],
+  "output": {
+    "count": 4,
+    "item": "minecraft:iron_bars"
+  }
+}

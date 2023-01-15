@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:plates/platinum"
+      }
+    },
+    {
+      "value": {
+        "tag": "gregtechmod:advanced_circuit"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:processor_circuit_board"
+  }
+}

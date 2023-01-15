@@ -1,0 +1,16 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:lithium_batpack"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "gregtechmod:lithium_re_battery"
+  }
+}

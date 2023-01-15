@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:gears/steel"
+      }
+    },
+    {
+      "value": {
+        "tag": "gregtechmod:generator"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:pneumatic_generator"
+  }
+}

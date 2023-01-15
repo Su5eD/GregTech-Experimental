@@ -19,8 +19,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 public enum Upgrade implements TaggedItemProvider {
-    HV_TRANSFORMER(HVTransformerUpgrade::new, GregTechTags.CRAFTING_HV_TRANSFORMER_UPGRADE),
-    LITHIUM_BATTERY(() -> new BatteryUpgrade(16, 1, 100000), GregTechTags.CRAFTING_LI_BATTERY),
+    HV_TRANSFORMER_UPGRADE(HVTransformerUpgrade::new, GregTechTags.CRAFTING_HV_TRANSFORMER_UPGRADE),
+    LITHIUM_BATTERY_UPGRADE(() -> new BatteryUpgrade(16, 1, 100000), GregTechTags.CRAFTING_LI_BATTERY),
     ENERGY_CRYSTAL(() -> new BatteryUpgrade(16, GregTechMod.isClassic ? 2 : 3, GregTechMod.isClassic ? 100000 : 1000000), GregTechMod.isClassic ? GregTechTags.CRAFTING_100K_EU_STORE : GregTechTags.CRAFTING_1KK_EU_STORE),
     LAPOTRON_CRYSTAL(() -> new BatteryUpgrade(16, GregTechMod.isClassic ? 3 : 4, GregTechMod.isClassic ? 1000000 : 10000000), GregTechMod.isClassic ? GregTechTags.CRAFTING_1KK_EU_STORE : GregTechTags.CRAFTING_10KK_EU_STORE),
     ENERGY_ORB(() -> new BatteryUpgrade(16, GregTechMod.isClassic ? 4 : 5, GregTechMod.isClassic ? 10000000 : 100000000), GregTechMod.isClassic ? GregTechTags.CRAFTING_10KK_EU_STORE : GregTechTags.CRAFTING_100KK_EU_STORE),

@@ -1,0 +1,22 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:rods/titanium"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/titanium"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:titanium_gear"
+  }
+}

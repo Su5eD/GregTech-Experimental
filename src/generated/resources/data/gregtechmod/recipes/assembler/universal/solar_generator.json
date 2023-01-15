@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 1600,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gregtechmod:crafting/raw_machine_tier_1"
+      }
+    },
+    {
+      "value": {
+        "tag": "gregtechmod:crafting/solar_panel"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:solar_generator"
+  }
+}

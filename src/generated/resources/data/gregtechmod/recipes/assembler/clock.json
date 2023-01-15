@@ -1,0 +1,21 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "forge:ingots/gold"
+      }
+    },
+    {
+      "value": {
+        "tag": "forge:dusts/redstone"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:clock"
+  }
+}

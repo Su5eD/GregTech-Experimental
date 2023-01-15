@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-10T20:08:03.1358502	Item Models: gregtechmod
+// 1.19.2	2023-01-15T21:14:16.2871007	Item Models: gregtechmod
 7611917dbed8e56d65508076e1502658bb2a1c7d assets/gregtechmod/models/item/active_detector.json
 01dc21456a4859a611151f40e2acf5fd3c903f82 assets/gregtechmod/models/item/advanced_circuit_board.json
 e47c61b9aaa60d0123c8874a0b253ef8e84e733a assets/gregtechmod/models/item/advanced_circuit_parts.json
@@ -166,7 +166,7 @@ ef732b3f547b23d8ef1ef6ca272f99a930adb68b assets/gregtechmod/models/item/helium_6
 f82e8e337c956c55593ebe3b1c0ec381b63f4333 assets/gregtechmod/models/item/helium_plasma_bucket.json
 4c74d7bb6d49569304fea58043487246e69c3505 assets/gregtechmod/models/item/highly_advanced_machine_block.json
 8541564b369df3e8bc538c7b38b45ed587422757 assets/gregtechmod/models/item/hot_tungsten_steel_ingot.json
-a88bccc84828a87fc02a24415338238f41210e26 assets/gregtechmod/models/item/hv_transformer.json
+328f9a1c870a05e75295f852748eb25ed7be637d assets/gregtechmod/models/item/hv_transformer_upgrade.json
 1e8502c8819fa5ce1c39af5f9314ddc0b24a9f18 assets/gregtechmod/models/item/hydration_spray.json
 4002087e7b7b9d4b660fb36de0d27d0697b365fd assets/gregtechmod/models/item/hydrogen_bucket.json
 3e1d9864ce6bd270cf06ecb9ca104486b44b0b6c assets/gregtechmod/models/item/ice_cell.json
@@ -224,7 +224,7 @@ de23ebf2b9f51ca8dddd8c8b8fc5bbed7e8544c2 assets/gregtechmod/models/item/light_he
 7cd936124860495c6c64dd47bf0d5e81274b955e assets/gregtechmod/models/item/lime_color_spray.json
 077c048598dab42912216e82fb7dbe9b7d1eea3d assets/gregtechmod/models/item/liquid_meter.json
 ac9a689165f51b94ee15563ceef18d894d619d41 assets/gregtechmod/models/item/lithium_batpack.json
-1035f2284dade030d1179d534967767bb692f5fc assets/gregtechmod/models/item/lithium_battery.json
+f61aaa9b39c4146e7a3f02e38045384988e32dad assets/gregtechmod/models/item/lithium_battery_upgrade.json
 8b6d1b873b6b6f33e5ba0e17f9dbe94fb9ec612a assets/gregtechmod/models/item/lithium_bucket.json
 213146e6afca453ab52101228b71aa60790897b7 assets/gregtechmod/models/item/lithium_re_battery.json
 94b6fb3d02d17aec62616a9932eabbe9c27bc3e4 assets/gregtechmod/models/item/lithium_re_battery_full.json

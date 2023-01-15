@@ -34,7 +34,7 @@ public enum ModCoverItem implements TaggedItemProvider {
     SOLAR_PANEL_HV(ModCovers.SOLAR_PANEL_HV, GregTechTags.CRAFTING_SOLAR_PANEL_HV);
 
     private final Lazy<Item> instance;
-    public final TagKey<Item> tag;
+    private final TagKey<Item> tag;
 
     <T> ModCoverItem(RegistryObject<CoverType<T>> cover, TagKey<Item> tag) {
         this.tag = tag;

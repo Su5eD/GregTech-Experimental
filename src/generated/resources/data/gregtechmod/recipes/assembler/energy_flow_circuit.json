@@ -1,0 +1,20 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "value": {
+        "item": "gregtechmod:processor_circuit_board"
+      }
+    },
+    {
+      "value": {
+        "tag": "gregtechmod:lapotron_crystal"
+      }
+    }
+  ],
+  "output": {
+    "item": "gregtechmod:energy_flow_circuit"
+  }
+}

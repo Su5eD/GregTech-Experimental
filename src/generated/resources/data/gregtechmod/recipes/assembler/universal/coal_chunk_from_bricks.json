@@ -1,0 +1,29 @@
+{
+  "type": "gregtechmod:assembler",
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "count": 8,
+      "value": {
+        "tag": "gregtechmod:compressed_coal_ball"
+      }
+    },
+    {
+      "value": [
+        {
+          "item": "minecraft:bricks"
+        },
+        {
+          "tag": "forge:storage_blocks/iron"
+        },
+        {
+          "tag": "forge:obsidian"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "item": "ic2:coal_chunk"
+  }
+}
