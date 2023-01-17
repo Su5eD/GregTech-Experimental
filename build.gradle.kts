@@ -1,6 +1,8 @@
 import fr.brouillard.oss.jgitver.GitVersionCalculator
 import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.common.util.RunConfig
+import wtf.gofancy.fancygradle.script.extensions.curse
+import wtf.gofancy.fancygradle.script.extensions.curseForge
 import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
 
@@ -180,6 +182,7 @@ repositories {
             artifact()
         }
     }
+    curseForge()
     mavenCentral()
 }
 

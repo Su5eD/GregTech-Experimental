@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.datagen;
 import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.datagen.recipe.AlloySmelterRecipesGen;
 import dev.su5ed.gregtechmod.datagen.recipe.AssemblerRecipesGen;
+import dev.su5ed.gregtechmod.datagen.recipe.BenderRecipeProvider;
 import dev.su5ed.gregtechmod.datagen.recipe.ModRecipeProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -29,7 +30,7 @@ public class RecipeGen extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        List<ModRecipeProvider> providers = List.of(AlloySmelterRecipesGen.INSTANCE, AssemblerRecipesGen.INSTANCE);
+        List<ModRecipeProvider> providers = List.of(AlloySmelterRecipesGen.INSTANCE, AssemblerRecipesGen.INSTANCE, BenderRecipeProvider.INSTANCE);
         
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));
     }

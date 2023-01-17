@@ -107,6 +107,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.CARBON_PLATE, "carbon_plate");
         modItem(GregTechTags.PUMP, "pump");
         modItem(GregTechTags.ENERGY_CRYSTAL, "energy_crystal");
+        modItem(GregTechTags.material("ingots", "mixed_metal"), "mixed_metal_ingot");
     }
 
     @Override

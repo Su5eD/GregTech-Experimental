@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-15T23:30:44.1106173	Gregtech ExperimentalRecipes
+// 1.19.2	2023-01-17T22:10:12.3472228	Gregtech ExperimentalRecipes
 a3f0a051229ee5e256ad53196914c65fa8fb4bda data/gregtechmod/advancements/recipes/gregtechmod/alloy_smelter/smelting/aluminium_ingot_from_aluminium_hull.json
 2e8dea44471b6c96a00df64c6ece2656cdb25859 data/gregtechmod/advancements/recipes/gregtechmod/alloy_smelter/smelting/brass_ingot_from_brass_hull.json
 0367b93e6481d465b3867d64f70a13931195d38f data/gregtechmod/advancements/recipes/gregtechmod/alloy_smelter/smelting/iridium_ingot_from_iridium_gear.json
@@ -228,3 +228,5 @@ ffb9143a3144b51eefe2ecb957bc21c7625b277a data/gregtechmod/recipes/assembler/univ
 48eecbece0cffa24c6b69e73a392ee3aaa7a6dc3 data/gregtechmod/recipes/assembler/universal/empty_cell.json
 fe6db007b5495dde31131adf4b4b1fa5abebdfe9 data/gregtechmod/recipes/assembler/universal/solar_generator.json
 be894fbb9e599ae5176a6d685aa1e09470218c25 data/gregtechmod/recipes/assembler/universal/tin_can.json
+a6b1c199f794374fbfdefb477716ed4f828d664b data/gregtechmod/recipes/bender/ftbic/alloy.json
+c4b9eac0fcd1bec502b41882ab8eebe97176540c data/gregtechmod/recipes/bender/ic2/alloy.json

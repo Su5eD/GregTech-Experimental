@@ -1,0 +1,26 @@
+{
+  "type": "gregtechmod:bender",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 100,
+  "energyCost": 8.0,
+  "input": {
+    "value": {
+      "tag": "forge:ingots/mixed_metal"
+    }
+  },
+  "output": {
+    "item": "ftbic:advanced_alloy"
+  }
+}

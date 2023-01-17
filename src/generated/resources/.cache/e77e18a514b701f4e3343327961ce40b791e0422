@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-15T22:47:16.9938867	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-01-17T22:10:12.3512327	Gregtech ExperimentalTags for minecraft:item
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 fff58d6036e8b4a64cc5c26473298fa0fdf02235 data/forge/tags/items/dusts/almandine.json
 3396c96a49ab6b266c0ba2d77f6879cafe0a33ef data/forge/tags/items/dusts/aluminium.json
@@ -87,6 +87,7 @@ d7dc48a9b4dc35f5f98a21d77c299f616c9dd425 data/forge/tags/items/ingots/invar.json
 9730248e10bc3807529afba8f5771b82184fdf32 data/forge/tags/items/ingots/iridium_alloy.json
 43187499d91ca43a7de16d8bcea0181532c794fb data/forge/tags/items/ingots/lead.json
 2672ee9701f3a75a1d8516c9ce63a315a13ac84e data/forge/tags/items/ingots/magnalium.json
+2e776db070dfb92c06361df4184c236bfabe0468 data/forge/tags/items/ingots/mixed_metal.json
 ac66d2d17b0ae2365a82ce65ce43e099e1772851 data/forge/tags/items/ingots/nickel.json
 32e2813d3917296e665c9f674975a5e291e89e79 data/forge/tags/items/ingots/osmium.json
 169a2dee95f398c58f69764456475cc016baefb9 data/forge/tags/items/ingots/platinum.json

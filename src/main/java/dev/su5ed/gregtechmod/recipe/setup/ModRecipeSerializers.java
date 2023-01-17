@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.recipe.setup;
 import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.recipe.AlloySmelterRecipe;
 import dev.su5ed.gregtechmod.recipe.AssemblerRecipe;
+import dev.su5ed.gregtechmod.recipe.BenderRecipe;
 import dev.su5ed.gregtechmod.recipe.CanningMachineRecipe;
 import dev.su5ed.gregtechmod.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gregtechmod.recipe.PulverizerRecipe;
@@ -20,6 +21,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<CanningMachineRecipe>> CANNING_MACHINE = RECIPE_SERIALIZERS.register("canning_machine", CanningMachineRecipe::createSerializer);
     public static final RegistryObject<RecipeSerializer<PulverizerRecipe>> PULVERIZER = RECIPE_SERIALIZERS.register("pulverizer", PulverizerRecipe::createSerializer);
     public static final RegistryObject<RecipeSerializer<IndustrialGrinderRecipe>> INDUSTRIAL_GRINDER = RECIPE_SERIALIZERS.register("industrial_grinder", IndustrialGrinderRecipe::createSerializer);
+    public static final RegistryObject<RecipeSerializer<BenderRecipe>> BENDER = RECIPE_SERIALIZERS.register("bender", BenderRecipe::createSerializer);
 
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);

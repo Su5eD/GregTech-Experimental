@@ -3,6 +3,7 @@ package dev.su5ed.gregtechmod.recipe.setup;
 import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.recipe.AlloySmelterRecipe;
 import dev.su5ed.gregtechmod.recipe.AssemblerRecipe;
+import dev.su5ed.gregtechmod.recipe.BenderRecipe;
 import dev.su5ed.gregtechmod.recipe.CanningMachineRecipe;
 import dev.su5ed.gregtechmod.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gregtechmod.recipe.PulverizerRecipe;
@@ -15,6 +16,8 @@ import dev.su5ed.gregtechmod.recipe.type.MISORecipeType;
 import dev.su5ed.gregtechmod.recipe.type.RecipeOutputType;
 import dev.su5ed.gregtechmod.recipe.type.SIMORecipe;
 import dev.su5ed.gregtechmod.recipe.type.SIMORecipeType;
+import dev.su5ed.gregtechmod.recipe.type.SISORecipe;
+import dev.su5ed.gregtechmod.recipe.type.SISORecipeType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -35,6 +38,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<MIMORecipeType<CanningMachineRecipe>> CANNING_MACHINE = mimo("canning_machine", 2, List.of(ModRecipeOutputTypes.ITEM, ModRecipeOutputTypes.ITEM), CanningMachineRecipe::new);
     public static final RegistryObject<SIMORecipeType<PulverizerRecipe>> PULVERIZER = simo("pulverizer", List.of(ModRecipeOutputTypes.ITEM, ModRecipeOutputTypes.ITEM), PulverizerRecipe::new);
     public static final RegistryObject<ItemFluidRecipeType<IndustrialGrinderRecipe>> INDUSTRIAL_GRINDER = itemFluid("industrial_grinder", 3, IndustrialGrinderRecipe::new);
+    public static final RegistryObject<SISORecipeType<BenderRecipe>> BENDER = siso("bender", ModRecipeOutputTypes.ITEM, BenderRecipe::new);
 
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);
@@ -54,6 +58,10 @@ public final class ModRecipeTypes {
 
     private static <R extends ItemFluidRecipe> RegistryObject<ItemFluidRecipeType<R>> itemFluid(String name, int outputCount, ItemFluidRecipeType.ItemFluidRecipeFactory<R> factory) {
         return register(name, () -> new ItemFluidRecipeType<>(location(name), outputCount, factory));
+    }
+
+    private static <R extends SISORecipe> RegistryObject<SISORecipeType<R>> siso(String name, RecipeOutputType<ItemStack> outputType, SISORecipeType.SISORecipeFactory<R> factory) {
+        return register(name, () -> new SISORecipeType<>(location(name), outputType, factory));
     }
 
     private static <R extends RecipeType<?>> RegistryObject<R> register(String name, Supplier<R> recipeType) {
