@@ -10,11 +10,13 @@
   "energyCost": 2.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "item": "ic2:insulated_iron_cable"
       }
     },
     {
+      "type": "ingredient",
       "count": 2,
       "value": {
         "tag": "gregtechmod:rubber"

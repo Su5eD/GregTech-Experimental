@@ -27,7 +27,10 @@ public class BaseRecipeManager<R extends BaseRecipe<?, I, ? super R>, I> impleme
 
     @Override
     public boolean hasRecipeFor(I input) {
-        return getRecipeFor(input) != null;
+        return StreamEx.of(this.recipes.get())
+            .anyMatch(r -> r.matches(input))
+            || StreamEx.of(this.providers)
+            .anyMatch(provider -> provider.hasRecipeFor(input));
     }
 
     @Override
@@ -35,7 +38,7 @@ public class BaseRecipeManager<R extends BaseRecipe<?, I, ? super R>, I> impleme
         return StreamEx.of(this.recipes.get())
             .filter(r -> r.matches(input))
             .min(RecipeUtil::compareCount)
-            .orElse(null);
+            .orElseGet(() -> getProvidedRecipe(input));
     }
 
     protected R getProvidedRecipe(I input) {

@@ -4,6 +4,7 @@
   "energyCost": 1.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "forge:plates/tin"
       }

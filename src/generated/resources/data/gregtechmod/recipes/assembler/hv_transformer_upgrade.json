@@ -4,11 +4,13 @@
   "energyCost": 4.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:hv_transformer"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:transformer_upgrade"
       }

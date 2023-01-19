@@ -4,11 +4,13 @@
   "energyCost": 2.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:circuit"
       }
     },
     {
+      "type": "ingredient",
       "count": 2,
       "value": {
         "tag": "forge:plates/electrum"

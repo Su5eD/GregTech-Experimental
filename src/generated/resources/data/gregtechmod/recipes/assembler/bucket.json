@@ -4,6 +4,7 @@
   "energyCost": 1.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 3,
       "value": {
         "tag": "forge:plates/iron"

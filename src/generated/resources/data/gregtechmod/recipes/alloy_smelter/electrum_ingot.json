@@ -4,11 +4,13 @@
   "energyCost": 16.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "forge:ingots/gold"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "tag": "forge:ingots/silver"
       }

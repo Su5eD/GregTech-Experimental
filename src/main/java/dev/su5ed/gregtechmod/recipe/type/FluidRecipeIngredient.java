@@ -1,6 +1,8 @@
 package dev.su5ed.gregtechmod.recipe.type;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import dev.su5ed.gregtechmod.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;
@@ -15,22 +17,19 @@ import java.util.function.Predicate;
 
 public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     private final Value value;
-
-    public static FluidRecipeIngredient fluidStack(FluidStack stack) {
-        Value value = new FluidStackValue(stack);
-        return new FluidRecipeIngredient(value);
+    
+    public FluidRecipeIngredient(FluidStack stack) {
+        this(new FluidStackValue(stack));
     }
 
-    public static FluidRecipeIngredient fluids(List<Fluid> fluids, int amount) {
-        Value value = new FluidsValue(fluids, amount);
-        return new FluidRecipeIngredient(value);
+    public FluidRecipeIngredient(List<Fluid> fluids, int amount) {
+        this(new FluidRecipeIngredient.FluidsValue(fluids, amount));
     }
-
-    public static FluidRecipeIngredient tag(TagKey<Fluid> tag, int amount) {
-        Value value = new FluidTagValue(tag, amount);
-        return new FluidRecipeIngredient(value);
+    
+    public FluidRecipeIngredient(TagKey<Fluid> tag, int amount) {
+        this(new FluidTagValue(tag, amount));
     }
-
+    
     private FluidRecipeIngredient(Value value) {
         this.value = value;
     }
@@ -62,7 +61,10 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
 
     @Override
     public JsonElement toJson() {
-        return null; // TODO
+        JsonObject json = new JsonObject();
+        json.addProperty("type", this.value.name());
+        json.add("value", this.value.toJson());
+        return json;
     }
 
     @Override
@@ -71,14 +73,25 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     }
 
     public interface Value extends Predicate<FluidStack> {
+        String name();
+        
         int amount();
         
         boolean isEmpty();
         
         void toNetwork(FriendlyByteBuf buffer);
+        
+        JsonElement toJson();
     }
 
-    private record FluidStackValue(FluidStack fluidStack) implements Value {
+    public record FluidStackValue(FluidStack fluidStack) implements Value {
+        public static final String NAME = "fluid";
+        
+        @Override
+        public String name() {
+            return NAME;
+        }
+
         @Override
         public boolean test(FluidStack fluid) {
             return fluid.containsFluid(this.fluidStack);
@@ -96,12 +109,27 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer) {
-            buffer.writeUtf("fluid");
+            buffer.writeUtf(name());
             buffer.writeFluidStack(this.fluidStack);
+        }
+
+        @Override
+        public JsonElement toJson() {
+            JsonObject json = new JsonObject();
+            json.addProperty("fluid", ForgeRegistries.FLUIDS.getKey(this.fluidStack.getFluid()).toString());
+            json.addProperty("amount", this.fluidStack.getAmount());
+            return json;
         }
     }
 
-    private record FluidsValue(List<Fluid> list, int amount) implements Value {
+    public record FluidsValue(List<Fluid> list, int amount) implements Value {
+        public static final String NAME = "fluids";
+        
+        @Override
+        public String name() {
+            return NAME;
+        }
+
         @Override
         public boolean test(FluidStack fluidStack) {
             return StreamEx.of(this.list).allMatch(fluid -> fluidStack.getFluid() == fluid) && fluidStack.getAmount() >= this.amount;
@@ -114,16 +142,35 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer) {
-            buffer.writeUtf("fluids");
+            buffer.writeUtf(name());
             buffer.writeInt(this.list.size());
             for (Fluid fluid : this.list) {
                 buffer.writeRegistryId(ForgeRegistries.FLUIDS, fluid);
             }
             buffer.writeInt(this.amount);
         }
+
+        @Override
+        public JsonElement toJson() {
+            JsonObject json = new JsonObject();
+            JsonArray fluids = new JsonArray();
+            for (Fluid fluid : this.list) {
+                fluids.add(ForgeRegistries.FLUIDS.getKey(fluid).toString());
+            }
+            json.add("fluids", fluids);
+            json.addProperty("amount", this.amount);
+            return json;
+        }
     }
 
-    private record FluidTagValue(TagKey<Fluid> tag, int amount) implements Value {
+    public record FluidTagValue(TagKey<Fluid> tag, int amount) implements Value {
+        public static final String NAME = "tag";
+        
+        @Override
+        public String name() {
+            return NAME;
+        }
+
         @Override
         public boolean test(FluidStack fluidStack) {
             return fluidStack.getFluid().is(this.tag) && fluidStack.getAmount() >= this.amount;
@@ -136,7 +183,16 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer) {
-            buffer.writeUtf("fluidTag");
+            buffer.writeUtf(name());
+            buffer.writeResourceLocation(this.tag.location());
+        }
+
+        @Override
+        public JsonElement toJson() {
+            JsonObject json = new JsonObject();
+            json.addProperty("tag", this.tag.location().toString());
+            json.addProperty("amount", this.amount);
+            return json;
         }
     }
 }

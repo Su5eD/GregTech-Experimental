@@ -12,6 +12,7 @@
   "energyCost": 16.0,
   "input": [
     {
+      "type": "ingredient",
       "value": [
         {
           "tag": "forge:plates/iron"
@@ -22,6 +23,7 @@
       ]
     },
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:pump"
       }

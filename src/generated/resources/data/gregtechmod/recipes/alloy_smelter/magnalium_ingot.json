@@ -4,12 +4,14 @@
   "energyCost": 16.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 2,
       "value": {
         "tag": "forge:ingots/aluminium"
       }
     },
     {
+      "type": "ingredient",
       "value": [
         {
           "tag": "forge:ingots/magnalium"

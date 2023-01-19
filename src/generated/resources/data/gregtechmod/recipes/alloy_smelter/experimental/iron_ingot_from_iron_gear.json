@@ -12,6 +12,7 @@
   "energyCost": 3.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:iron_gear"
       }

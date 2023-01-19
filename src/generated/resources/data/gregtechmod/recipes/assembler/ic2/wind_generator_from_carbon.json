@@ -10,11 +10,13 @@
   "energyCost": 8.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:generator"
       }
     },
     {
+      "type": "ingredient",
       "count": 4,
       "value": {
         "tag": "gregtechmod:carbon_plate"

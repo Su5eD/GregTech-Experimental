@@ -4,11 +4,13 @@
   "energyCost": 4.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "forge:gears/steel"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:generator"
       }

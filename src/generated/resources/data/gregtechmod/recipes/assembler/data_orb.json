@@ -4,11 +4,13 @@
   "energyCost": 16.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:data_control_circuit"
       }
     },
     {
+      "type": "ingredient",
       "count": 8,
       "value": {
         "item": "gregtechmod:data_storage_circuit"

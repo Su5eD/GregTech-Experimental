@@ -4,11 +4,13 @@
   "energyCost": 1.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:basic_circuit_board"
       }
     },
     {
+      "type": "ingredient",
       "count": 3,
       "value": {
         "tag": "gregtechmod:insulated_copper_cable"

@@ -38,8 +38,10 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
         List<ItemStack> outputs = StreamEx.of(this.outputTypes) // FIXME this won't do
             .map(type -> type.fromJson(outputJson))
             .toList();
+        int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
+        double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");
 
-        return this.factory.create(recipeId, inputs, outputs);
+        return this.factory.create(recipeId, inputs, outputs, duration, energyCost);
     }
 
     @Override
@@ -50,10 +52,12 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
         List<ItemStack> outputs = StreamEx.of(this.outputTypes)
             .map(type -> type.fromNetwork(buffer))
             .toList();
-        return this.factory.create(recipeId, inputs, outputs);
+        int duration = buffer.readInt();
+        double energyCost = buffer.readDouble();
+        return this.factory.create(recipeId, inputs, outputs, duration, energyCost);
     }
 
     public interface MIMORecipeFactory<T extends MIMORecipe> {
-        T create(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs);
+        T create(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, int duration, double energyCost);
     }
 }

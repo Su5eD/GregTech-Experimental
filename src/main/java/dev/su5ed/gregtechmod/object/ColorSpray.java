@@ -35,6 +35,10 @@ public enum ColorSpray implements TaggedItemProvider {
         this.instance = Lazy.of(() -> new ColorSprayItem(this.color));
     }
 
+    public DyeColor getColor() {
+        return this.color;
+    }
+
     @Override
     public String getRegistryName() {
         return GtUtil.registryName(getName(), "color_spray");

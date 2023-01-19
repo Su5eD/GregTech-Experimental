@@ -4,11 +4,13 @@
   "energyCost": 4.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "forge:plates/iridium"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:tungsten_steel_block"
       }

@@ -16,12 +16,16 @@ import java.util.function.Predicate;
 public abstract class MIMORecipe extends BaseRecipe<MIMORecipeType<?>, MIMORecipe.Input, MIMORecipe> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
     protected final List<ItemStack> outputs;
+    protected final int duration;
+    protected final double energyCost;
 
-    public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs) {
+    public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, int duration, double energyCost) {
         super(type, serializer, id);
-        
+
         this.inputs = inputs;
         this.outputs = outputs;
+        this.duration = duration;
+        this.energyCost = energyCost;
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
         RecipeUtil.validateItemList(this.id, "outputs", this.outputs, this.type.outputTypes.size());
@@ -33,6 +37,14 @@ public abstract class MIMORecipe extends BaseRecipe<MIMORecipeType<?>, MIMORecip
 
     public List<ItemStack> getOutputs() {
         return this.outputs;
+    }
+
+    public int getDuration() {
+        return this.duration;
+    }
+
+    public double getEnergyCost() {
+        return this.energyCost;
     }
 
     @Override
@@ -56,6 +68,9 @@ public abstract class MIMORecipe extends BaseRecipe<MIMORecipeType<?>, MIMORecip
             RecipeOutputType<ItemStack> outputType = this.type.outputTypes.get(i);
             outputType.toNetwork(buffer, this.outputs.get(i));
         }
+
+        buffer.writeInt(this.duration);
+        buffer.writeDouble(this.energyCost);
     }
 
     public record Input(List<ItemStack> items) {}

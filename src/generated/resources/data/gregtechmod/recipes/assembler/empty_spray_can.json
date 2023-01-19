@@ -4,11 +4,13 @@
   "energyCost": 2.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "forge:dusts/redstone"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:empty_fluid_cell"
       }

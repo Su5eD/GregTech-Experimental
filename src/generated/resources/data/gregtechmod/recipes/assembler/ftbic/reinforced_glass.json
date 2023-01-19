@@ -10,12 +10,14 @@
   "energyCost": 4.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 4,
       "value": {
         "item": "ftbic:reinforced_stone"
       }
     },
     {
+      "type": "ingredient",
       "count": 4,
       "value": {
         "item": "minecraft:glass"

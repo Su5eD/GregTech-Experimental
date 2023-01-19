@@ -4,11 +4,13 @@
   "energyCost": 4.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:conveyor"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:pump_module"
       }

@@ -4,11 +4,13 @@
   "energyCost": 4.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:processor_circuit_board"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:lapotron_crystal"
       }

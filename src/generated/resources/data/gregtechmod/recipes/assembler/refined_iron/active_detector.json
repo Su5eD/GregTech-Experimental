@@ -12,11 +12,13 @@
   "energyCost": 16.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "tag": "forge:plates/refined_iron"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "item": "minecraft:comparator"
       }

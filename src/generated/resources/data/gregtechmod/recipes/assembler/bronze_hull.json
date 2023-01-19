@@ -4,12 +4,14 @@
   "energyCost": 8.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 6,
       "value": {
         "tag": "forge:plates/bronze"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:machine_parts"
       }

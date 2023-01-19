@@ -10,12 +10,14 @@
   "energyCost": 2.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 5,
       "value": {
         "tag": "forge:dusts/flint"
       }
     },
     {
+      "type": "ingredient",
       "count": 3,
       "value": {
         "item": "minecraft:tnt"

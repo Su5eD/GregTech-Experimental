@@ -12,8 +12,8 @@ import java.util.List;
 
 public class CanningMachineRecipe extends MIMORecipe {
 
-    public CanningMachineRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs) {
-        super(ModRecipeTypes.CANNING_MACHINE.get(), ModRecipeSerializers.CANNING_MACHINE.get(), id, inputs, outputs);
+    public CanningMachineRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, int duration, double energyCost) {
+        super(ModRecipeTypes.CANNING_MACHINE.get(), ModRecipeSerializers.CANNING_MACHINE.get(), id, inputs, outputs, duration, energyCost);
     }
 
     public static BaseRecipeSerializer<CanningMachineRecipe> createSerializer() {

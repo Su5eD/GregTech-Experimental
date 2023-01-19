@@ -10,12 +10,14 @@
   "energyCost": 4.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 2,
       "value": {
         "item": "ic2:alloy"
       }
     },
     {
+      "type": "ingredient",
       "count": 7,
       "value": {
         "item": "minecraft:glass"

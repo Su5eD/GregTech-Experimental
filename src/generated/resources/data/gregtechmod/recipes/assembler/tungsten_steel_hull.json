@@ -4,12 +4,14 @@
   "energyCost": 16.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 6,
       "value": {
         "tag": "forge:plates/tungsten_steel"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "item": "gregtechmod:machine_parts"
       }

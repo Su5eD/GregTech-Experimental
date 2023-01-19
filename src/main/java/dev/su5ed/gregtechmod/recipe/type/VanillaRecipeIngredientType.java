@@ -2,6 +2,8 @@ package dev.su5ed.gregtechmod.recipe.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.su5ed.gregtechmod.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gregtechmod.util.FluidProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
@@ -9,8 +11,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import one.util.streamex.StreamEx;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public class VanillaRecipeIngredientType implements RecipeIngredientType<VanillaRecipeIngredient> {
@@ -47,17 +52,49 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
     public VanillaRecipeIngredient ofValues(Ingredient.Value... values) {
         return new VanillaRecipeIngredient(Ingredient.fromValues(Stream.of(values)));
     }
+    
+    public VanillaRecipeIngredient ofFluid(FluidStack stack) {
+        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(stack));
+    }
+    
+    public VanillaRecipeIngredient ofFluid(FluidProvider provider, int amount) {
+        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(provider, amount));
+    }
+
+    public VanillaRecipeIngredient ofFluid(List<Fluid> fluids, int amount) {
+        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(fluids, amount));
+    }
+
+    public VanillaRecipeIngredient ofFluid(TagKey<Fluid> tag, int amount) {
+        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(tag, amount));
+    }
+    
+    public VanillaRecipeIngredient ofFluid(RecipeIngredient<FluidStack> fluidIngredient) {
+        return new VanillaRecipeIngredient(fluidIngredient);
+    }
 
     @Override
     public VanillaRecipeIngredient create(JsonElement json) {
         JsonObject obj = json.getAsJsonObject();
         JsonElement value = obj.get("value");
+        String type = GsonHelper.getAsString(obj, "type");
         int count = GsonHelper.getAsInt(obj, "count", 1);
-        return new VanillaRecipeIngredient(Ingredient.fromJson(value), count);
+
+        return switch (type) {
+            case VanillaRecipeIngredient.IngredientValue.NAME -> new VanillaRecipeIngredient(Ingredient.fromJson(value), count);
+            case VanillaRecipeIngredient.FluidIngredientValue.NAME -> new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.create(value));
+            default -> throw new IllegalArgumentException("Unknown ingredient type '" + type + "'");
+        };
     }
 
     @Override
     public VanillaRecipeIngredient create(FriendlyByteBuf buffer) {
-        return new VanillaRecipeIngredient(Ingredient.fromNetwork(buffer));
+        String type = buffer.readUtf();
+        int count = buffer.readInt();
+        return switch (type) {
+            case VanillaRecipeIngredient.IngredientValue.NAME -> new VanillaRecipeIngredient(Ingredient.fromNetwork(buffer), count);
+            case VanillaRecipeIngredient.FluidIngredientValue.NAME -> new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.create(buffer));
+            default -> throw new IllegalArgumentException("Unknown ingredient type '" + type + "'");
+        };
     }
 }

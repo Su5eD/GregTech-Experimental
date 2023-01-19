@@ -4,6 +4,7 @@
   "energyCost": 1.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 2,
       "value": {
         "tag": "forge:ingots/tin"

@@ -10,11 +10,13 @@
   "energyCost": 4.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "item": "ftbic:advanced_alloy"
       }
     },
     {
+      "type": "ingredient",
       "count": 8,
       "value": {
         "tag": "forge:stone"

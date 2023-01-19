@@ -10,6 +10,7 @@
   "energyCost": 2.0,
   "input": [
     {
+      "type": "ingredient",
       "count": 4,
       "value": {
         "item": "ftbic:carbon_fibers"

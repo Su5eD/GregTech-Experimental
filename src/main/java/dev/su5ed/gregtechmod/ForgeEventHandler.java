@@ -2,6 +2,8 @@ package dev.su5ed.gregtechmod;
 
 import dev.su5ed.gregtechmod.api.Reference;
 import dev.su5ed.gregtechmod.item.ElectricArmorItem;
+import dev.su5ed.gregtechmod.recipe.DynamicBenderRecipes;
+import dev.su5ed.gregtechmod.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gregtechmod.util.capability.JumpChargeProvider;
 import dev.su5ed.gregtechmod.util.capability.LightSourceProvider;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +16,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
@@ -52,6 +55,11 @@ public final class ForgeEventHandler {
             .ifPresent(props -> props.setCharge(0));
         entity.getCapability(Capabilities.LIGHT_SOURCE)
             .ifPresent(props -> props.setSourcePos(null));
+    }
+    
+    @SubscribeEvent
+    public static void onServerStarted(ServerStartedEvent event) {
+        ModRecipeManagers.BENDER.get().registerProvider(new DynamicBenderRecipes());
     }
 
     private static <T extends INBTSerializable<CompoundTag>> void cloneCapability(Capability<T> capability, Player original, Player clone) {

@@ -10,11 +10,13 @@
   "energyCost": 2.0,
   "input": [
     {
+      "type": "ingredient",
       "value": {
         "item": "ic2:insulated_gold_cable"
       }
     },
     {
+      "type": "ingredient",
       "value": {
         "tag": "gregtechmod:rubber"
       }

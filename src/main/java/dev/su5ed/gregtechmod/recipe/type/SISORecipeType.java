@@ -24,7 +24,7 @@ public class SISORecipeType<R extends SISORecipe> extends BaseRecipeTypeImpl<R> 
 
     @Override
     public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
-        JsonElement inputJson = GsonHelper.getAsJsonArray(serializedRecipe, "input");
+        JsonElement inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
         JsonElement outputJson = serializedRecipe.get("output");
 
         RecipeIngredient<ItemStack> input = RecipeIngredient.parseItem(inputJson);
