@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/overworld/tetrahedrite_down",
+    "down": "gtexperimental:block/ore/overworld/tetrahedrite_down",
+    "up": "gtexperimental:block/ore/overworld/tetrahedrite_up",
+    "north": "gtexperimental:block/ore/overworld/tetrahedrite_north",
+    "south": "gtexperimental:block/ore/overworld/tetrahedrite_south",
+    "east": "gtexperimental:block/ore/overworld/tetrahedrite_east",
+    "west": "gtexperimental:block/ore/overworld/tetrahedrite_west",
+    "": "gtexperimental:block/ore/tetrahedrite"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "GregTech Manual I",
+  "icon": "gtexperimental:greg_coin",
+  "category": "gtexperimental:guidebooks",
+  "sortnum": 0,
+  "pages": [
+    "So, this is probably your first time using a Product of GregTech Intergalactical, so you might ask yourself where to begin with? This World is very complex, and you may want to acquire a few basic Resources first.",
+    "You need many Resources to start with, as there are: Wood, Sticky Resin or Slimeballs, Sand, Silk, Food, Iron, Copper, Tin, Flint, Redstone, Coal (or another good Fuel for the Oven) and a bunch of Cobblestones would also be very useful.",
+    "All Resources acquired? Good, then cook your Ores, Food and Slimeballs in your Stone Oven, and build a Bed so that you can rest. Then you might need a Mortar for the production of Bronze Dust. Bronze is much better than wasting Iron.",
+    "So, now that you have a set of Tools, you can begin to make an Iron Oven out of your old Stone Oven. And then you can begin to produce Refined Iron, by smelting Iron Ingots again. Also smelt a few clumps of Sticky Resin into Rubber.",
+    "You might have noticed that you need Tools to make Plates from Ingots, and to sharpen Edges, in order to make most of the Metal Items. So craft yourself a Hammer from 6 Ingots and a stick, and then make 2 Plates and put them on a stick to create a File.",
+    "This File is used to create Tools, which need a sharp Edge on a Side, like Swords, Pickaxes, Shovels, Axes and Hoes. The Metal Tools are all crafted in said way. Only Tools made of Gems, or the Wood and Stone Tools don't need this to be crafted.",
+    "Congratulations, you now have all you need for your first Machine, the Extractor. With it, you can get more Rubber from Resin. But you need to power it, so craft yourself a Generator out of your old Iron Furnace.",
+    "So, now that you can electrically extract Rubber, you might want to smelt your Stuff using electric Energy, so just build an electric Furnace out of another Iron Furnace. For the next task you need at least one Compressor.",
+    "All the Machines we made until now were very basic and not really efficient. That is because you can't just smash a few Ingots together to get properly working Machines. You need Plates. And for Plates we need a Plate Bending Machine.",
+    "To make Plate Bending Machines, you need Pistons, Compressors and Conveyor Modules. With this Machine you can now properly flatten all Ingots into the Plates. Those Plates are the core Component for all GregTech Machines.",
+    "You might have found enough Diamonds for a first Macerator during any of these Steps. If not then, you might want to search for them as they are definitely needed for progressing further."
+  ]
+}

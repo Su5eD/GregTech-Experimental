@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 800,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "item": "ftbic:carbon_fibers"
+      }
+    }
+  ],
+  "output": {
+    "item": "ftbic:carbon_fiber_mesh"
+  }
+}

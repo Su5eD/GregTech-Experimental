@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 1600,
+  "energyCost": 8.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 16,
+      "value": {
+        "tag": "gtexperimental:carbon_mesh"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:lava_filter"
+  }
+}

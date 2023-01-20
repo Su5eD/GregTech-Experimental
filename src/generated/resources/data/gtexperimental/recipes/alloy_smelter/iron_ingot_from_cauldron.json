@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "duration": 130,
+  "energyCost": 3.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "minecraft:cauldron"
+      }
+    }
+  ],
+  "output": {
+    "count": 7,
+    "item": "minecraft:iron_ingot"
+  }
+}

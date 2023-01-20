@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtexperimental:item/component/basic_circuit_board"
+  }
+}

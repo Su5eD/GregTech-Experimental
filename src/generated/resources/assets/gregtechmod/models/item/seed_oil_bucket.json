@@ -1,6 +1,0 @@
-{
-  "parent": "forge:item/bucket",
-  "flip_gas": true,
-  "fluid": "gregtechmod:seed_oil_fluid",
-  "loader": "forge:fluid_container"
-}

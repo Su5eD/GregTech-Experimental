@@ -1,0 +1,54 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      {
+                        "enchantment": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "name": "gtexperimental:iridium_ore"
+            },
+            {
+              "type": "gtexperimental:item",
+              "conditions": [
+                {
+                  "condition": "gtexperimental:mod_loaded",
+                  "modid": "ic2"
+                }
+              ],
+              "functions": [
+                {
+                  "fortune_multiplier": 0.5,
+                  "function": "gtexperimental:fortune"
+                },
+                {
+                  "function": "minecraft:explosion_decay"
+                }
+              ],
+              "name": "ic2:iridium_ore"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

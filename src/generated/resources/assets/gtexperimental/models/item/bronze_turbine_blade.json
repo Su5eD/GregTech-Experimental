@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtexperimental:item/component/bronze_turbine_blade"
+  }
+}

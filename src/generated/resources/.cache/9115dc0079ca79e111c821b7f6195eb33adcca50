@@ -1,9 +1,0 @@
-// 1.19.2	2022-10-15T17:42:52.7346415	Global Loot Modifiers : gregtechmod
-685c882079ce2ef62c1d80320612a8598dc1070c data/forge/loot_modifiers/global_loot_modifiers.json
-4b31d96b5e1df1cb904e079a35259c4e12c41646 data/gregtechmod/loot_modifiers/chests/abandoned_mineshaft.json
-bb591d19dfe157606259f1dae2c793ca396c9aa3 data/gregtechmod/loot_modifiers/chests/desert_pyramid.json
-b71a7d6237e7c9ce85d01dd49a7536126363c057 data/gregtechmod/loot_modifiers/chests/jungle_temple.json
-0b1a92b33231c487601d5cea40d89667d456bc06 data/gregtechmod/loot_modifiers/chests/jungle_temple_dispenser.json
-31fd201c54cec50f02e9b1d4afbbe2881444c0c5 data/gregtechmod/loot_modifiers/chests/simple_dungeon.json
-2b6ca149232c4e9f4c62a783bce0b400a7edc5e5 data/gregtechmod/loot_modifiers/chests/stronghold_crossing.json
-85431d4a64056bcc1d68ba38fd216bcec0b203dd data/gregtechmod/loot_modifiers/chests/village/village_toolsmith.json

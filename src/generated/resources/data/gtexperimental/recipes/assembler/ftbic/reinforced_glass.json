@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "item": "ftbic:reinforced_stone"
+      }
+    },
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "item": "minecraft:glass"
+      }
+    }
+  ],
+  "output": {
+    "count": 4,
+    "item": "ftbic:reinforced_glass"
+  }
+}

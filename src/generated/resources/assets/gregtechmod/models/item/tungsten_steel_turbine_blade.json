@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "gregtechmod:item/component/tungsten_steel_turbine_blade"
-  }
-}

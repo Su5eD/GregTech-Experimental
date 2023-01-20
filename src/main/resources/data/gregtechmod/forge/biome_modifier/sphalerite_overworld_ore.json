@@ -1,6 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "#minecraft:is_overworld",
-  "features": "gregtechmod:sphalerite_overworld_ore_placed",
-  "step": "vegetal_decoration"
-}

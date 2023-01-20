@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "iron_variant": "refined_iron"
+      }
+    }
+  ],
+  "duration": 400,
+  "energyCost": 8.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 8,
+      "value": {
+        "tag": "forge:plates/refined_iron"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "gtexperimental:machine_parts"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:machine"
+  }
+}

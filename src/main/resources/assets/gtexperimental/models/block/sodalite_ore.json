@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/end/sodalite_all",
+    "": "gtexperimental:block/ore/sodalite"
+  },
+  "textures_end": {
+    "down": "gtexperimental:block/ore/end/sodalite_all",
+    "up": "gtexperimental:block/ore/end/sodalite_all",
+    "north": "gtexperimental:block/ore/end/sodalite_all",
+    "south": "gtexperimental:block/ore/end/sodalite_all",
+    "east": "gtexperimental:block/ore/end/sodalite_all",
+    "west": "gtexperimental:block/ore/end/sodalite_all"
+  }
+}

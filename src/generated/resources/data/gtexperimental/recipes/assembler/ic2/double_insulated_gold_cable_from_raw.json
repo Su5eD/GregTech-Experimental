@@ -1,0 +1,29 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 200,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "ic2:gold_cable"
+      }
+    },
+    {
+      "type": "ingredient",
+      "count": 2,
+      "value": {
+        "tag": "gtexperimental:rubber"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:double_insulated_gold_cable"
+  }
+}

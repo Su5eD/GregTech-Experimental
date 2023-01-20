@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:plates/tin"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:tin_can"
+  }
+}

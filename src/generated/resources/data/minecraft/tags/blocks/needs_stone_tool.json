@@ -1,8 +1,8 @@
 {
   "values": [
-    "gregtechmod:galena_ore",
-    "gregtechmod:bauxite_ore",
-    "gregtechmod:pyrite_ore",
-    "gregtechmod:sphalerite_ore"
+    "gtexperimental:galena_ore",
+    "gtexperimental:bauxite_ore",
+    "gtexperimental:pyrite_ore",
+    "gtexperimental:sphalerite_ore"
   ]
 }

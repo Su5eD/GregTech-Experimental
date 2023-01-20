@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtexperimental:place_sapphire",
+  "features": "gtexperimental:sapphire_ore_placed",
+  "step": "underground_ores"
+}

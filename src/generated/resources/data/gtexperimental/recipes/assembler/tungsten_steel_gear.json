@@ -1,0 +1,24 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:rods/tungsten_steel"
+      }
+    },
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/tungsten_steel"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:tungsten_steel_gear"
+  }
+}

@@ -60,7 +60,7 @@ minecraft {
             forceExit = false
 
             mods {
-                create("gregtechmod") {
+                create("gtexperimental") {
                     sources(sourceSets.main.get(), api)
                 }
             }
@@ -72,7 +72,7 @@ minecraft {
         create("data") {
             config(this)
             args(
-                "--mod", "gregtechmod",
+                "--mod", "gtexperimental",
                 "--all",
                 "--output", file("src/generated/resources/"),
                 "--existing", file("src/main/resources/")
@@ -215,7 +215,7 @@ dependencies {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            artifactId = "gregtechmod"
+            artifactId = "gtexperimental"
             suppressAllPomMetadataWarnings()
 
             from(components["java"])

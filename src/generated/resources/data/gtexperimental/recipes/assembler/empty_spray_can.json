@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 800,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:dusts/redstone"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "gtexperimental:empty_fluid_cell"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:empty_spray_can"
+  }
+}

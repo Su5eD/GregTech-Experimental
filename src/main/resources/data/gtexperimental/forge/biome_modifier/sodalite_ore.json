@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_end",
+  "features": "gtexperimental:sodalite_ore_placed",
+  "step": "underground_ores"
+}

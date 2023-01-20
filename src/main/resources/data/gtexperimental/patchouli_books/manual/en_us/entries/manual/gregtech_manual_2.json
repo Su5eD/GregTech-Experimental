@@ -1,0 +1,17 @@
+{
+  "name": "GregTech Manual II",
+  "icon": "gtexperimental:debug_scanner",
+  "category": "gtexperimental:guidebooks",
+  "sortnum": 1,
+  "pages": [
+    "You have your Basic Workshop and want to do amazing things with it? You want to build your first Fusion Reactor? Well, this is the wrong Book for that, but we are working on it. Before that we definitely need better ways of making Circuitry.",
+    "The Assembling Machine is perfectly suited for that. It can create Circuitry much cheaper than a normal Steve could do. If you don't have the needed Materials then go mining, and come back when you have crafted the Assembling Machine.",
+    "This Device cuts down your Copper Cable Costs and gives you the possibility to use more advanced Materials for Circuitry. The Assembler might need some time for that, but it's the quality which counts. Well, and you get more quantity.",
+    "You got it? Now build a Wiremill to make more Cables from Copper than you usually do by handcrafting. This increases your efficiency in producing Machines extremely. And people still complain about being too expensive...",
+    "And now we can go to some of the advanced Functions of these Devices. They can automatically output their Content to adjacent Inventories, but not only that, they can also output their contained Energy to adjacent Machines!",
+    "You just need to wrench the output Facing into the correct direction, and keep the first two Buttons inside the GUI enabled. You can also upgrade Macerator, Extractor, Compressor and E-Furnace, using a Conveyor Module to get these abilities.",
+    "Now we go for the Alloy Smelter. Have you been tired of macerating, crafting and smelting Metals to get Alloys? This Machine is the perfect way to get Alloys in just one step! Just put your Ingots into it, and it will smelt them together.",
+    "The Printing Factory is a perfect Way of printing your Papers. This Book was printed using such a Machine. It can not only copy Books or create Maps, it can also make Paper from Reeds or Wood Pulp, and is also capable of Coloring your Wool!",
+    "Also interesting are Industrial Electrolyzer and Industrial Centrifuge. They are capable of separating the components of several Dusts or Liquids. The Centrifuge can work with pumped Lava to produce several nice Metals from it."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:ingots/iron"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:dusts/redstone"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:compass"
+  }
+}

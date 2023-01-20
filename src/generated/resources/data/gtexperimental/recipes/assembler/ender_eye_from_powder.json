@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 400,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:ender_pearls"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "minecraft:blaze_powder"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:ender_eye"
+  }
+}

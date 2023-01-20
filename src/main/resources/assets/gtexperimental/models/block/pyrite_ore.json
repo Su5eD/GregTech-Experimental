@@ -1,0 +1,24 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/nether/pyrite_down_east",
+    "": "gtexperimental:block/ore/pyrite"
+  },
+  "textures_nether": {
+    "down": "gtexperimental:block/ore/nether/pyrite_down_east",
+    "up": "gtexperimental:block/ore/nether/pyrite_up_south",
+    "north": "gtexperimental:block/ore/nether/pyrite_north_west",
+    "south": "gtexperimental:block/ore/nether/pyrite_up_south",
+    "east": "gtexperimental:block/ore/nether/pyrite_down_east",
+    "west": "gtexperimental:block/ore/nether/pyrite_north_west"
+  },
+  "textures_end": {
+    "down": "gtexperimental:block/ore/end/pyrite_all",
+    "up": "gtexperimental:block/ore/end/pyrite_all",
+    "north": "gtexperimental:block/ore/end/pyrite_all",
+    "south": "gtexperimental:block/ore/end/pyrite_all",
+    "east": "gtexperimental:block/ore/end/pyrite_all",
+    "west": "gtexperimental:block/ore/end/pyrite_all"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:rods/bronze"
+      }
+    },
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/bronze"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:bronze_gear"
+  }
+}

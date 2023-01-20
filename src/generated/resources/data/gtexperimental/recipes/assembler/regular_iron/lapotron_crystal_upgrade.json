@@ -1,0 +1,35 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "iron_variant": "iron"
+      }
+    }
+  ],
+  "duration": 3200,
+  "energyCost": 16.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": [
+        {
+          "tag": "forge:plates/iron"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ]
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "gtexperimental:lapotron_crystal"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:lapotron_crystal_upgrade"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "gtexperimental:condition_loot_modifier",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/jungle_temple_dispenser"
+    }
+  ],
+  "tableLocation": "minecraft:chests/jungle_temple_dispenser"
+}

@@ -1,5 +1,0 @@
-{
-  "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:connected",
-  "name": "advanced_machine_casing"
-}

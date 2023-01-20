@@ -1,0 +1,5 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:connected",
+  "name": "tungsten_steel"
+}

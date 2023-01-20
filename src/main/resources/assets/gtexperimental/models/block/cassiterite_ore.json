@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/overworld/cassiterite_all",
+    "down": "gtexperimental:block/ore/overworld/cassiterite_all",
+    "up": "gtexperimental:block/ore/overworld/cassiterite_all",
+    "north": "gtexperimental:block/ore/overworld/cassiterite_all",
+    "south": "gtexperimental:block/ore/overworld/cassiterite_all",
+    "east": "gtexperimental:block/ore/overworld/cassiterite_all",
+    "west": "gtexperimental:block/ore/overworld/cassiterite_all",
+    "": "gtexperimental:block/ore/cassiterite"
+  }
+}

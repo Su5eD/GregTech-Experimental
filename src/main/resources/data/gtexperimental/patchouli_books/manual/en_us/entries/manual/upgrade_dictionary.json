@@ -1,0 +1,29 @@
+{
+  "name": "Upgrade Dictionary",
+  "icon": "ic2:overclocker_upgrade",
+  "category": "gtexperimental:guidebooks",
+  "sortnum": 6,
+  "pages": [
+    "This Book lists all Items, which can be used as a special Upgrade for GregTech Machines. As Books are distributed via Worldgen, this Book can be outdated on older Maps (see Version Number on the Title).",
+    "Reactor Vents of any kind can be used to increase the efficiency of all processing Machines. It only works if the Cover is not obstructed by a solid block. All Objects without Collision Box are not obstructing it (Torches, Buttons, Levers etc.)",
+    "The Drain can be used to extract Liquid Blocks right in front of it into the Block it is attached to. If it is attached on the top side of the Machine, it is also able to collect RainWater. It doesn't work pointing downwards for obvious Reasons.",
+    "A Solar Panel Cover does what a normal Solar Panel does, it powers the Machine with Solar Energy, when the Sun is shining. This works only if the Panel is attached to the upwards pointing face of the Block, as the Sunlight shines straight downwards.",
+    "Computer Screens have the special ability to make only the GUI (or other right click action) of a Block accessible. Anything else gets Blocked. It also looks good, if you want to hide your Machines without having a Crowbar in your hand.",
+    "Valves are ideal for transferring Liquids between Machines. They transfer 1 Bucket per tick! The best pipes can only do 80 Millibuckets per tick! If the Machine with the Valve can consume Energy, then it will consume 10EU per Bucket.",
+    "Conveyor Modules can transport Items from one Machine to another. Just attach them on the right side and they will pump out Items at 2EU per Item, if the Machine can consume Energy at all.",
+    "The Liquid, Item, Energy and Progress Meters, are emitting Redstone depending on the amount of their respective measurement inside the attached Machine. The Energy Meter uses the largest of the 3 Capacities, so it also works for Steam/MJ Machines.",
+    "Work Controller Covers are controlling if the Machine is allowed to work or not, depending on injected Redstone. These Covers can be used for almost every Machine, even for the Button Panel, as a Key locking Method.",
+    "Overclocker Upgrades, as you know them from Industrial Corp, can be used to speed up Progress in GregTech Machines as well, but more efficiently. Every Overclocker doubles the Speed but also quadruples the Energy Costs.",
+    "Transformer Upgrades are used to increase the Voltage which is being handled by a Machine in- and output wise. Also, in case of output, it splits the EU-Packets to four. Higher Voltages such as 2048 and 8192EU/p need an HV-Transformer Upgrade.",
+    "Battery Upgrades of various kinds are increasing the Energy Storage of a Machine. Some Battery Upgrades, like the Lapotronic Energy Orb Upgrade, require a certain Voltage Tier for the Machine to be attached.",
+    "The Pneumatic Generator Upgrade is capable of letting Machines consume Kinetic Energy from Engines, also called MJ (Michael Jacksons). This Upgrade does NOT let you output any of this Energy in form of Electricity!",
+    "Redstone Energy Cell Upgrades just let you store more kinetic Energy inside your Machine, if a Pneumatic Generator is installed.",
+    "Heating Coils are capable of upgrading the Efficiency of all Furnace alike Devices, including the electric Blast Furnace, when using 4 Coils at once. Note, that you need to install the Coils in a certain order for it to work.",
+    "Steam Engine Upgrades, let your Machines work on Steam directly. 2 Steam = 1 EU. Very useful if you have a Boiler running. If there is no Mod with Steam Engine, then you have to use a Gas Turbine in the Assembling Recipe.",
+    "Steam Tank Upgrades just increase the amount of Steam the Machine can buffer by 64 Buckets (32000 EU).",
+    "Wireless Transmitter and Receiver are sending/receiving Redstone Signals Wireless and cross dimensional. A little warning: Chunk reloading causes it to not be stable for a second. Screwdriver for Frequency change, by clicking on the 4 Screws.",
+    "Redstone Signalizers apply a constant Redstone Signal to a Side of a Machine. Signals can be changed via Screwdriver.",
+    "Redstone Conductors take the applied Redstone Signal of a Machine and emit it on their Facing.",
+    "Lock Upgrade. This makes a Machine private and unbreakable (except for explosions). Only the one who applied the Upgrade can interact with the Machine."
+  ]
+}

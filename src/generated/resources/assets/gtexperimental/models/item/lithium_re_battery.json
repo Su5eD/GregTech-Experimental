@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "gtexperimental:item/lithium_re_battery_full",
+      "predicate": {
+        "gtexperimental:charge": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "gtexperimental:item/component/lithium_re_battery"
+  }
+}

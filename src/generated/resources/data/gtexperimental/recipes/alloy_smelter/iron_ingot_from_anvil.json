@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "duration": 130,
+  "energyCost": 3.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "minecraft:anvil"
+      }
+    }
+  ],
+  "output": {
+    "count": 31,
+    "item": "minecraft:iron_ingot"
+  }
+}

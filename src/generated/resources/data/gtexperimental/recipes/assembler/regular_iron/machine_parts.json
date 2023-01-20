@@ -1,0 +1,32 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "iron_variant": "iron"
+      }
+    }
+  ],
+  "duration": 800,
+  "energyCost": 16.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 2,
+      "value": {
+        "tag": "forge:plates/iron"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "gtexperimental:circuit"
+      }
+    }
+  ],
+  "output": {
+    "count": 4,
+    "item": "gtexperimental:machine_parts"
+  }
+}

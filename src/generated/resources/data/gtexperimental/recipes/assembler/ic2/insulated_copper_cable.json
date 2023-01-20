@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 100,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "ic2:copper_cable"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "gtexperimental:rubber"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:insulated_copper_cable"
+  }
+}

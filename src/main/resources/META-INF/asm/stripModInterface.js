@@ -9,21 +9,21 @@ function initializeCoreMod() {
                 'type': 'CLASS',
                 'names': function() {
                     return [
-                        'dev.su5ed.gregtechmod.item.ElectricItem',
-                        'dev.su5ed.gregtechmod.item.ElectricToolItem',
-                        'dev.su5ed.gregtechmod.item.ElectricArmorItem',
-                        'dev.su5ed.gregtechmod.block.BaseEntityBlock',
-                        'dev.su5ed.gregtechmod.item.AdvancedDrillItem',
-                        'dev.su5ed.gregtechmod.item.AdvancedWrenchItem',
-                        'dev.su5ed.gregtechmod.item.WrenchItem',
-                        'dev.su5ed.gregtechmod.item.BugSprayItem',
-                        'dev.su5ed.gregtechmod.item.ReactorCoolantCellItem',
-                        'dev.su5ed.gregtechmod.item.NuclearFuelRodItem'
+                        'dev.su5ed.gtexperimental.item.ElectricItem',
+                        'dev.su5ed.gtexperimental.item.ElectricToolItem',
+                        'dev.su5ed.gtexperimental.item.ElectricArmorItem',
+                        'dev.su5ed.gtexperimental.block.BaseEntityBlock',
+                        'dev.su5ed.gtexperimental.item.AdvancedDrillItem',
+                        'dev.su5ed.gtexperimental.item.AdvancedWrenchItem',
+                        'dev.su5ed.gtexperimental.item.WrenchItem',
+                        'dev.su5ed.gtexperimental.item.BugSprayItem',
+                        'dev.su5ed.gtexperimental.item.ReactorCoolantCellItem',
+                        'dev.su5ed.gtexperimental.item.NuclearFuelRodItem'
                     ]
                 }
             },
             'transformer': function (classNode) {
-                var ic2Loaded = ASMAPI.getSystemPropertyFlag('gregtechmod.ic2_loaded');
+                var ic2Loaded = ASMAPI.getSystemPropertyFlag('gtexperimental.ic2_loaded');
                 var it = classNode.interfaces.iterator();
                 while (it.hasNext()) {
                     var name = it.next().replace('.', '/');

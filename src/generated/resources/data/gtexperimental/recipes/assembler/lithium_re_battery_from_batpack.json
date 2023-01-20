@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "gtexperimental:lithium_batpack"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "gtexperimental:lithium_re_battery"
+  }
+}

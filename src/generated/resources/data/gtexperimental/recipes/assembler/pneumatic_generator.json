@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:gears/steel"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "gtexperimental:generator"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:pneumatic_generator"
+  }
+}

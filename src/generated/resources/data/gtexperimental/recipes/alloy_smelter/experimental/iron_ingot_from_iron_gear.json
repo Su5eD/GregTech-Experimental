@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "experimental"
+      }
+    }
+  ],
+  "duration": 130,
+  "energyCost": 3.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "gtexperimental:iron_gear"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "minecraft:iron_ingot"
+  }
+}

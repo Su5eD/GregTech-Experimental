@@ -1,0 +1,5 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:connected",
+  "name": "reinforced_machine_casing"
+}

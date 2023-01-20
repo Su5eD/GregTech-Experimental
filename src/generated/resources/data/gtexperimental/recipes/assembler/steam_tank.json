@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 1600,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 2,
+      "value": {
+        "tag": "forge:plates/steel"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "minecraft:glass_pane"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:steam_tank"
+  }
+}

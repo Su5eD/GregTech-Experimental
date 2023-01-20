@@ -1,0 +1,36 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    }
+  ],
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "ic2:alloy"
+      }
+    },
+    {
+      "type": "ingredient",
+      "count": 8,
+      "value": {
+        "tag": "forge:stone"
+      }
+    }
+  ],
+  "output": {
+    "count": 8,
+    "item": "ic2:reinforced_stone"
+  }
+}

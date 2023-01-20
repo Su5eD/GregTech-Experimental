@@ -1,0 +1,13 @@
+{
+  "name": "Cover up!",
+  "icon": "gtexperimental:conveyor",
+  "category": "gtexperimental:guidebooks",
+  "sortnum": 3,
+  "pages": [
+    "Have you ever wondered how the Cover System works? This Book is about how to Cover your Machines up properly. But what does a Cover do, except fancy looking? And how to install Covers? And what If you want to remove the Cover?",
+    "Usually every regular Plate like Advanced Alloy, Refined Iron or Bronze Plates can be used as Cover. Even Covers of other Companies can be supported as well. To place a Cover, just get one and right click the Machine with it.",
+    "Covers can do many things such as improving Machines (see Upgrade Dictionary for Details), but their main purpose is preventing interactions between adjacent Blocks.",
+    "To remove a Cover, you need a Blue Crowbar or something similar, like a Red Crowbar for example. Just use the Crowbar on it, to get it back. If you want to adjust Upgrade Covers, you need a Screwdriver. Just screw around until you are set.",
+    "If you are low on Materials, but really need a Cover, then just take your Screwdriver and unscrew the outer hull of the Machine, turn it around, screw it back on and viola, you got a Cover for free."
+  ]
+}

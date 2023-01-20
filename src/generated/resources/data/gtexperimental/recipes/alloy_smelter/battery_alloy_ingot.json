@@ -1,0 +1,24 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "duration": 250,
+  "energyCost": 16.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:ingots/lead"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:ingots/antimony"
+      }
+    }
+  ],
+  "output": {
+    "count": 5,
+    "item": "gtexperimental:battery_alloy_ingot"
+  }
+}

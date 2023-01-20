@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 3,
+      "value": {
+        "tag": "forge:plates/iron"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:bucket"
+  }
+}

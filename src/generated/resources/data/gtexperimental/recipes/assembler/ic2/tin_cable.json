@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 150,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:ingots/tin"
+      }
+    }
+  ],
+  "output": {
+    "count": 4,
+    "item": "ic2:tin_cable"
+  }
+}

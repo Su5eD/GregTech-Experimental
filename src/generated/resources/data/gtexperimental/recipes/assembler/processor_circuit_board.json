@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:plates/platinum"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "gtexperimental:advanced_circuit"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:processor_circuit_board"
+  }
+}

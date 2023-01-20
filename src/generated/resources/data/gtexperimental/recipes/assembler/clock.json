@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:ingots/gold"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:dusts/redstone"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:clock"
+  }
+}

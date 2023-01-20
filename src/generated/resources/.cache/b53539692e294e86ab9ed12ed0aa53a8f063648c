@@ -1,0 +1,9 @@
+// 1.19.2	2023-01-20T21:16:16.1991469	Global Loot Modifiers : gtexperimental
+c8b3e8e4bb06e7f33d471070657e1969790f36b8 data/forge/loot_modifiers/global_loot_modifiers.json
+3c7ec123aee42e584b0fcf93ff0a6b73b6bbe046 data/gtexperimental/loot_modifiers/chests/abandoned_mineshaft.json
+bdea9403dd613b5465f5a7b10d1b5c9c647dc5a5 data/gtexperimental/loot_modifiers/chests/desert_pyramid.json
+377786a52f7cab124e3d01071226b2b27027c7ee data/gtexperimental/loot_modifiers/chests/jungle_temple.json
+e190be0b2cd5c3b6fee85cb6f8bb5b003fb1001a data/gtexperimental/loot_modifiers/chests/jungle_temple_dispenser.json
+68c9a54e63fb5293fb203bb2b7dcd773be99f43d data/gtexperimental/loot_modifiers/chests/simple_dungeon.json
+3ff687a9531c4c0ce58cdd3e2c1396de33a5be51 data/gtexperimental/loot_modifiers/chests/stronghold_crossing.json
+d7083d1f2f3a2e357d0f9b8fb33073568a9cc116 data/gtexperimental/loot_modifiers/chests/village/village_toolsmith.json

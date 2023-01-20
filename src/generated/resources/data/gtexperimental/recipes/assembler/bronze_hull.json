@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 400,
+  "energyCost": 8.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 6,
+      "value": {
+        "tag": "forge:plates/bronze"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "gtexperimental:machine_parts"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:bronze_hull"
+  }
+}

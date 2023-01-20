@@ -1,0 +1,24 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/nether/cinnabar_all",
+    "": "gtexperimental:block/ore/cinnabar"
+  },
+  "textures_nether": {
+    "down": "gtexperimental:block/ore/nether/cinnabar_all",
+    "up": "gtexperimental:block/ore/nether/cinnabar_all",
+    "north": "gtexperimental:block/ore/nether/cinnabar_all",
+    "south": "gtexperimental:block/ore/nether/cinnabar_all",
+    "east": "gtexperimental:block/ore/nether/cinnabar_all",
+    "west": "gtexperimental:block/ore/nether/cinnabar_all"
+  },
+  "textures_end": {
+    "down": "gtexperimental:block/ore/end/cinnabar_all",
+    "up": "gtexperimental:block/ore/end/cinnabar_all",
+    "north": "gtexperimental:block/ore/end/cinnabar_all",
+    "south": "gtexperimental:block/ore/end/cinnabar_all",
+    "east": "gtexperimental:block/ore/end/cinnabar_all",
+    "west": "gtexperimental:block/ore/end/cinnabar_all"
+  }
+}

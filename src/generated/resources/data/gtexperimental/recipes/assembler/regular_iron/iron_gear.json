@@ -1,0 +1,32 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "iron_variant": "iron"
+      }
+    }
+  ],
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:rods/iron"
+      }
+    },
+    {
+      "type": "ingredient",
+      "count": 4,
+      "value": {
+        "tag": "forge:plates/iron"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:iron_gear"
+  }
+}

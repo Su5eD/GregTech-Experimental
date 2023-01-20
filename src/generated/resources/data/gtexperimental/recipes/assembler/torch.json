@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:rods/wooden"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": [
+        {
+          "tag": "minecraft:coals"
+        },
+        {
+          "tag": "gtexperimental:resin"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "item": "minecraft:torch"
+  }
+}

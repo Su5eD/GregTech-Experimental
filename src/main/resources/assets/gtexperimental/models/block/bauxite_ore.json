@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/overworld/bauxite_y",
+    "down": "gtexperimental:block/ore/overworld/bauxite_y",
+    "up": "gtexperimental:block/ore/overworld/bauxite_y",
+    "north": "gtexperimental:block/ore/overworld/bauxite_z",
+    "south": "gtexperimental:block/ore/overworld/bauxite_z",
+    "east": "gtexperimental:block/ore/overworld/bauxite_x",
+    "west": "gtexperimental:block/ore/overworld/bauxite_x",
+    "": "gtexperimental:block/ore/bauxite"
+  }
+}

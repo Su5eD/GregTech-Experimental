@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "gtexperimental:aluminium_hull"
+  },
+  "result": {
+    "count": 6,
+    "item": "gtexperimental:aluminium_ingot"
+  }
+}

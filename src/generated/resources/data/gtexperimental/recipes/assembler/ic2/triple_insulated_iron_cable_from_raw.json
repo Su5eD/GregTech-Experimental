@@ -1,0 +1,29 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 300,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "ic2:iron_cable"
+      }
+    },
+    {
+      "type": "ingredient",
+      "count": 3,
+      "value": {
+        "tag": "gtexperimental:rubber"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:triple_insulated_iron_cable"
+  }
+}

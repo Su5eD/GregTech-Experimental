@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "gtexperimental:tungsten_steel_gear"
+  },
+  "result": {
+    "count": 6,
+    "item": "gtexperimental:tungsten_steel_ingot"
+  }
+}

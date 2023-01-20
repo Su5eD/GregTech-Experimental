@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "duration": 100,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": [
+        {
+          "item": "minecraft:milk_bucket"
+        },
+        {
+          "item": "minecraft:water_bucket"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "item": "minecraft:bucket"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "duration": 150,
+  "energyCost": 16.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "count": 2,
+      "value": {
+        "tag": "forge:ingots/aluminium"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": [
+        {
+          "tag": "forge:ingots/magnalium"
+        },
+        {
+          "tag": "forge:dusts/magnesium"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "count": 3,
+    "item": "gtexperimental:magnalium_ingot"
+  }
+}

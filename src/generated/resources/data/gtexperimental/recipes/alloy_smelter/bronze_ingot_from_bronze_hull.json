@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "duration": 130,
+  "energyCost": 3.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "gtexperimental:bronze_hull"
+      }
+    }
+  ],
+  "output": {
+    "count": 6,
+    "item": "ic2:bronze_ingot"
+  }
+}

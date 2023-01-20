@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gtexperimental:place_bauxite",
+  "features": "gtexperimental:bauxite_ore_placed",
+  "step": "underground_ores"
+}

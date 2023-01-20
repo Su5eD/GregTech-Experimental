@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/overworld/sphalerite_all",
+    "down": "gtexperimental:block/ore/overworld/sphalerite_all",
+    "up": "gtexperimental:block/ore/overworld/sphalerite_all",
+    "north": "gtexperimental:block/ore/overworld/sphalerite_all",
+    "south": "gtexperimental:block/ore/overworld/sphalerite_all",
+    "east": "gtexperimental:block/ore/overworld/sphalerite_all",
+    "west": "gtexperimental:block/ore/overworld/sphalerite_all",
+    "": "gtexperimental:block/ore/sphalerite"
+  },
+  "textures_nether": {
+    "down": "gtexperimental:block/ore/nether/sphalerite_all",
+    "up": "gtexperimental:block/ore/nether/sphalerite_all",
+    "north": "gtexperimental:block/ore/nether/sphalerite_all",
+    "south": "gtexperimental:block/ore/nether/sphalerite_all",
+    "east": "gtexperimental:block/ore/nether/sphalerite_all",
+    "west": "gtexperimental:block/ore/nether/sphalerite_all"
+  },
+  "textures_end": {
+    "down": "gtexperimental:block/ore/end/sphalerite_all",
+    "up": "gtexperimental:block/ore/end/sphalerite_all",
+    "north": "gtexperimental:block/ore/end/sphalerite_all",
+    "south": "gtexperimental:block/ore/end/sphalerite_all",
+    "east": "gtexperimental:block/ore/end/sphalerite_all",
+    "west": "gtexperimental:block/ore/end/sphalerite_all"
+  }
+}

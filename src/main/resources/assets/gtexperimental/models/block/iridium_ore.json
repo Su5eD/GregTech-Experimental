@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/overworld/iridium_all",
+    "down": "gtexperimental:block/ore/overworld/iridium_all",
+    "up": "gtexperimental:block/ore/overworld/iridium_all",
+    "north": "gtexperimental:block/ore/overworld/iridium_all",
+    "south": "gtexperimental:block/ore/overworld/iridium_all",
+    "east": "gtexperimental:block/ore/overworld/iridium_all",
+    "west": "gtexperimental:block/ore/overworld/iridium_all",
+    "": "gtexperimental:block/ore/iridium"
+  }
+}

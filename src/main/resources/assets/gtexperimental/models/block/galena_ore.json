@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:block/cube",
+  "loader": "gtexperimental:ore",
+  "textures": {
+    "particle": "gtexperimental:block/ore/overworld/galena_down",
+    "down": "gtexperimental:block/ore/overworld/galena_down",
+    "up": "gtexperimental:block/ore/overworld/galena_up",
+    "north": "gtexperimental:block/ore/overworld/galena_north",
+    "south": "gtexperimental:block/ore/overworld/galena_south",
+    "east": "gtexperimental:block/ore/overworld/galena_east",
+    "west": "gtexperimental:block/ore/overworld/galena_west",
+    "": "gtexperimental:block/ore/galena"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 4.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "gtexperimental:steel_ingot",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 4.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "gtexperimental:brass_ingot",
+          "weight": 12
+        },
+        {
+          "type": "gtexperimental:item",
+          "conditions": [
+            {
+              "condition": "gtexperimental:mod_loaded",
+              "modid": "ic2"
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 4.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "ic2:bronze_ingot",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 36
+        }
+      ],
+      "name": "materials",
+      "rolls": 1.0
+    }
+  ]
+}

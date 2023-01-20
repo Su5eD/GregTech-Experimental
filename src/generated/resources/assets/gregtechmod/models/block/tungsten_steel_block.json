@@ -1,5 +1,0 @@
-{
-  "parent": "minecraft:block/cube",
-  "loader": "gregtechmod:connected",
-  "name": "tungsten_steel"
-}

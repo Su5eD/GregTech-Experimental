@@ -1,0 +1,156 @@
+{
+  "name": "Crop Dictionary",
+  "icon": "gtexperimental:indigo_blossom",
+  "category": "gtexperimental:guidebooks",
+  "sortnum": 7,
+  "pages": [
+    "This is a List of all Crops I stumbled upon in my tests. Some mutations of them had quite dangerous properties, which almost killed me, so be aware and don't use experimental WeedEx, like I did.",
+    "The generic Crops, like Pumpkins, Melons, Wheat, Sugar Canes, Cacti, Carrots, Potatoes, Nether Wart, Roses, Dandelions, Cocoa, Brown Mushrooms and Red Mushrooms are not being further described here as they are commonly known.",
+    {
+      "type": "patchouli:text",
+      "title": "Weed",
+      "text": "The most dangerous Plant. It grows on empty Crop Sticks, which are very likely used for cross breeding. This Plant will spread over to other non-Weed Plants and assimilate them in a bad way. Use WeedEx on empty sticks to protect them."
+    },
+    "Warning: Highly advanced Crops (fast growing ones) can behave like Weed but are immune to it as well. So you might want to make sure that your good Plants are separated from non resistant Plants.",
+    {
+      "type": "patchouli:text",
+      "title": "Hops",
+      "text": "A plant primary used to brew Beer. Nothing much to say about it."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Coffee",
+      "text": "Well, it grows Coffee Beans, which can then be blended into Coffee Powder to make Coffee."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Indigo",
+      "text": "This Plant is giving you Indigo Blossoms, which can either be used for Blue Dye or Plant Balls. Four of these can also be used to plant new Indigo Plants. They are not Redpower compatible."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Flax",
+      "text": "A Plant to give you just Strings. You can easily get it via cross breeding. It is also not Redpower compatible."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Stick Reed",
+      "text": "That Reeds are sticky. Perfect for making Rubber from them."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Terra Wart",
+      "text": "It is like edible Milk. It cures all Poisons."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Red Wheat",
+      "text": "It's Red, it's Wheat, it drops Redstone Dust."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Trollweed",
+      "text": "Trollweed, uhh I mean Ferru. Grows Iron. Yes, real Iron. Only condition for that is having an Iron Ore Block under the tilled Farmland."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Coppon",
+      "text": "Cotton Candy, I mean Cotton Copper, is an easy way to get Copper from Plants."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Tine",
+      "text": "Name comes from Tin and Pine. This tiny Tree drops Tin Nuggets, yay. Perfect for Tinpinchers."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Plumbilia",
+      "text": "This Heavy Metal Plant seems to like Music. It drops very dense Lead Nuggets, instead of the Bass."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Argentia",
+      "text": "Silver. Well, at least it's something."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Aurelia",
+      "text": "GOLD!!! It looks like troll weed, but instead of Iron it is Gold. Same for the Ore Block under it."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Oil Berries",
+      "text": "These Vine alike Crops are dropping Oil Berries. Four Oil Berries can be put into a Cell to get an Oil Cell."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Bobsyeruncleranks",
+      "text": "Because Bob is your Uncle. Drops Emeralds and Emerald Dust."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Withereed",
+      "text": "Drops Coal. Real Coal, not that cheap Charcoal."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Blazereed",
+      "text": "I think a Blaze Spawner is better than this."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Diareed",
+      "text": "A Direwolfs way to get Diremonds."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Eggplant",
+      "text": "Seems that there is a Chicken hiding somewhere in your Field."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Corium",
+      "text": "This Leathery Plant lets you save the Life of a Million innocent Cows, what practically ruins the Environment, due to the Methane output of these not so innocent Animals."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Corpseplant",
+      "text": "Plants vs. Zombies went a bit wrong. Maybe this Zombie Plant wants to infiltrate your Garden."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Creeperweed",
+      "text": "General Spaz experimented with Crops as well, to finally get rid of Etho. This Plant made it possible for him to gather TNT without killing his good Friends."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Enderbloom",
+      "text": "Seems the Ender Dragon made it finally into cross breeding, and this Ender Flower is what he got."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Meatrose",
+      "text": "This is how to get Meat the beautiful Way, without needing to slaughter harmless Animals."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Milkwart",
+      "text": "Use a Bucket to harvest this Plant."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Slimeplant",
+      "text": "So it's a Tree, and it grows Slimeballs. A very bouncy Plant."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Spidernip",
+      "text": "Cats look ...wait, this isn't Catnip... Spiders loooove this Plant. They just can't stop making their webs there."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Tearstalks",
+      "text": "This Plant drops the probably rarest Item of all. Ghast Tears. These Tears are extremely rare, I guess even more rare than Nether Stars as they can't just be farmed, well, until now."
+    }
+  ]
+}

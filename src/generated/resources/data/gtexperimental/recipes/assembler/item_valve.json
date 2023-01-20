@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 3200,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "gtexperimental:conveyor"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "gtexperimental:pump_module"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:item_valve"
+  }
+}

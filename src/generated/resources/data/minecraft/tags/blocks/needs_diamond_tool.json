@@ -1,7 +1,7 @@
 {
   "values": [
-    "gregtechmod:iridium_ore",
-    "gregtechmod:sheldonite_ore",
-    "gregtechmod:olivine_ore"
+    "gtexperimental:iridium_ore",
+    "gtexperimental:sheldonite_ore",
+    "gtexperimental:olivine_ore"
   ]
 }

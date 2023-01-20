@@ -113,13 +113,13 @@ Example dependency declarations:
 ```groovy
 dependencies {
     // The default jar
-    implementation fg.deobf("mods.su5ed:gregtechmod:<version>")
+    implementation fg.deobf("mods.su5ed:gtexperimental:<version>")
     
     // The API
-    implementation fg.deobf("mods.su5ed:gregtechmod:<version>:api")
+    implementation fg.deobf("mods.su5ed:gtexperimental:<version>:api")
     
     // The deobfuscated jar
-    implementation "mods.su5ed:gregtechmod:<version>:dev"
+    implementation "mods.su5ed:gtexperimental:<version>:dev"
 }
 ```
 

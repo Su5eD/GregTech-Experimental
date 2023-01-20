@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 130,
+  "energyCost": 3.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "item": "ic2:iron_furnace"
+      }
+    }
+  ],
+  "output": {
+    "count": 5,
+    "item": "minecraft:iron_ingot"
+  }
+}

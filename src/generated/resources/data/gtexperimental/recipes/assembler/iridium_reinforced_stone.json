@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 400,
+  "energyCost": 4.0,
+  "input": [
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "forge:plates/iridium"
+      }
+    },
+    {
+      "type": "ingredient",
+      "value": {
+        "tag": "gtexperimental:reinforced_stone"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:iridium_reinforced_stone_block"
+  }
+}
