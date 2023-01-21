@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:chemical",
+  "duration": 3500,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:carbon"
+    },
+    {
+      "type": "tag",
+      "amount": 4000,
+      "tag": "forge:hydrogen"
+    }
+  ],
+  "output": {
+    "amount": 5000,
+    "fluid": "gtexperimental:methane_fluid"
+  }
+}

@@ -13,12 +13,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 
 import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.alloySmelter;
 
 public final class AlloySmelterRecipesGen implements ModRecipeProvider {
@@ -105,21 +104,19 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
     }
 
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        ICondition ic2Loaded = new ModLoadedCondition(ModHandler.IC2_MODID);
-
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.IRON_FURNACE), new ItemStack(Items.IRON_INGOT, 5), 130, 3)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("iron_ingot_from_iron_furnace"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), new ItemStack(Ic2Items.TIN_INGOT), 130, 3)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("tin_ingot_from_empty_cell"), true);
 
         // Classic
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_FUEL_CAN), new ItemStack(Ic2Items.TIN_INGOT, 7), 130, 3)
-            .addConditions(ic2Loaded, SelectedProfileCondition.CLASSIC)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
             .build(finishedRecipeConsumer, id("classic/tin_ingot_from_empty_fuel_can"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRON_GEAR.getItem()), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 6), 130, 3)
-            .addConditions(ic2Loaded, SelectedProfileCondition.CLASSIC)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
             .build(finishedRecipeConsumer, id("classic/refined_iron_ingot_from_iron_gear"), true);
     }
     

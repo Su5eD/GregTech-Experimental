@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:chemical",
+  "duration": 1150,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:sulfur"
+    },
+    {
+      "type": "tag",
+      "amount": 2000,
+      "tag": "minecraft:water"
+    }
+  ],
+  "output": {
+    "amount": 3000,
+    "fluid": "gtexperimental:sulfuric_acid_fluid"
+  }
+}

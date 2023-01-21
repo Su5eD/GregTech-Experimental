@@ -9,12 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
 
 public enum Cell implements ItemProvider {
-    CARBON("C"),
-    ICE("H2O"),
-    NITROCARBON("NC"),
-    SODIUM_SULFIDE("NaS"),
-    SULFUR("S"),
-    SULFURIC_ACID("H2SO4");
+    ICE("H2O");
 
     private final Lazy<Item> instance;
 

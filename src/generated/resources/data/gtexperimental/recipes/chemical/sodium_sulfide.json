@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:chemical",
+  "duration": 100,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:sulfur"
+    },
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:sodium"
+    }
+  ],
+  "output": {
+    "amount": 2000,
+    "fluid": "gtexperimental:sodium_sulfide_fluid"
+  }
+}

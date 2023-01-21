@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:chemical",
+  "duration": 1750,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 3000,
+      "tag": "forge:nitrocarbon"
+    },
+    {
+      "type": "tag",
+      "amount": 3000,
+      "tag": "minecraft:water"
+    }
+  ],
+  "output": {
+    "amount": 6000,
+    "fluid": "gtexperimental:glyceryl_fluid"
+  }
+}

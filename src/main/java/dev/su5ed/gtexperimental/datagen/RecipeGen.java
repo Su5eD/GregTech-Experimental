@@ -1,10 +1,12 @@
 package dev.su5ed.gtexperimental.datagen;
 
 import dev.su5ed.gtexperimental.api.Reference;
+import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.recipe.AlloySmelterRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.AssemblerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.BenderRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.CanningMachineRecipeProvider;
+import dev.su5ed.gtexperimental.datagen.recipe.ChemicalRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -17,6 +19,8 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.common.crafting.conditions.ICondition;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import one.util.streamex.StreamEx;
 
 import java.util.List;
@@ -24,6 +28,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public class RecipeGen extends RecipeProvider {
+    public static final ICondition IC2_LOADED = new ModLoadedCondition(ModHandler.IC2_MODID);
+    public static final ICondition FTBIC_LOADED = new ModLoadedCondition(ModHandler.FTBIC_MODID);
+    public static final ICondition TWILIGHT_FOREST_LOADED = new ModLoadedCondition(ModHandler.TWILIGHT_FOREST_MODID);
 
     public RecipeGen(DataGenerator generator) {
         super(generator);
@@ -31,7 +38,13 @@ public class RecipeGen extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        List<ModRecipeProvider> providers = List.of(AlloySmelterRecipesGen.INSTANCE, AssemblerRecipesGen.INSTANCE, BenderRecipeProvider.INSTANCE, CanningMachineRecipeProvider.INSTANCE);
+        List<ModRecipeProvider> providers = List.of(
+            AlloySmelterRecipesGen.INSTANCE,
+            AssemblerRecipesGen.INSTANCE,
+            BenderRecipeProvider.INSTANCE,
+            CanningMachineRecipeProvider.INSTANCE,
+            ChemicalRecipeProvider.INSTANCE
+        );
         
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));
     }

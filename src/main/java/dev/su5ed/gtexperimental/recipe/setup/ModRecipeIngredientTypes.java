@@ -12,12 +12,22 @@ import java.util.List;
 public final class ModRecipeIngredientTypes {
     public static final VanillaRecipeIngredientType ITEM = new VanillaRecipeIngredientType();
     public static final FluidRecipeIngredientType FLUID = new FluidRecipeIngredientType();
-    
+
     public static <T> void toNetwork(List<? extends RecipeIngredient<T>> ingredients, FriendlyByteBuf buffer) {
         buffer.writeInt(ingredients.size());
         for (RecipeIngredient<T> ingredient : ingredients) {
             ingredient.toNetwork(buffer);
         }
+    }
+
+    public static <T> List<? extends RecipeIngredient<T>> fromNetwork(RecipeIngredientType<? extends RecipeIngredient<T>> ingredientType, int inputCount, FriendlyByteBuf buffer) {
+        int ingredientCount = buffer.readInt();
+        if (inputCount >= ingredientCount) {
+            return StreamEx.generate(() -> ingredientType.create(buffer))
+                .limit(ingredientCount)
+                .toList();
+        }
+        throw new IllegalArgumentException("There are more ingredients than known ingredient types");
     }
 
     public static <T> List<? extends RecipeIngredient<T>> fromNetwork(List<? extends RecipeIngredientType<? extends RecipeIngredient<T>>> ingredientTypes, FriendlyByteBuf buffer) {

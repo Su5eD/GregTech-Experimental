@@ -1,6 +1,8 @@
 {
   "values": [
     "gtexperimental:steam_fluid",
+    "gtexperimental:flowing_steam",
+    "gtexperimental:steam_fluid",
     "gtexperimental:flowing_steam"
   ]
 }

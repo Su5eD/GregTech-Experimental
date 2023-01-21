@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:chemical",
+  "duration": 4000,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 2000,
+      "tag": "forge:sodium_sulfide"
+    },
+    {
+      "type": "tag",
+      "amount": 3000,
+      "tag": "forge:air"
+    }
+  ],
+  "output": {
+    "amount": 5000,
+    "fluid": "gtexperimental:sodium_persulfate_fluid"
+  }
+}

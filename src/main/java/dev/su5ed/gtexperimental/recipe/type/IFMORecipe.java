@@ -10,12 +10,12 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public abstract class ItemFluidRecipe extends BaseRecipeImpl<ItemFluidRecipeType<? extends ItemFluidRecipe>, ItemFluidRecipe.Input, ItemFluidRecipe> {
+public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends IFMORecipe>, IFMORecipe.Input, IFMORecipe> {
     protected final RecipeIngredient<ItemStack> input;
     protected final RecipeIngredient<FluidStack> fluid;
     protected final List<ItemStack> output;
 
-    public ItemFluidRecipe(ItemFluidRecipeType<? extends ItemFluidRecipe> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
+    public IFMORecipe(IFMORecipeType<? extends IFMORecipe> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
         super(type, serializer, id);
 
         this.input = input;
@@ -25,6 +25,10 @@ public abstract class ItemFluidRecipe extends BaseRecipeImpl<ItemFluidRecipeType
         RecipeUtil.validateInput(this.id, "input", this.input);
         RecipeUtil.validateInput(this.id, "fluid", this.fluid);
         RecipeUtil.validateItemList(this.id, "outputs", this.output, this.type.outputTypes.size());
+    }
+
+    public RecipeIngredient<ItemStack> getInput() {
+        return this.input;
     }
 
     public List<ItemStack> getOutput() {
@@ -37,7 +41,7 @@ public abstract class ItemFluidRecipe extends BaseRecipeImpl<ItemFluidRecipeType
     }
 
     @Override
-    public int compareInputCount(ItemFluidRecipe other) {
+    public int compareInputCount(IFMORecipe other) {
         return this.input.getCount() - other.input.getCount();
     }
 

@@ -4,7 +4,6 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
@@ -15,13 +14,13 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Single Output recipe
  */
-public abstract class MISORecipe extends BaseRecipeImpl<MISORecipeType<?>, MISORecipe.Input, MISORecipe> {
-    protected final List<? extends RecipeIngredient<ItemStack>> inputs;
-    protected final ItemStack output;
+public abstract class MISORecipe<T> extends BaseRecipeImpl<MISORecipeType<?, T>, MISORecipe.Input<T>, MISORecipe<T>> {
+    protected final List<? extends RecipeIngredient<T>> inputs;
+    protected final T output;
     protected final int duration;
     protected final double energyCost;
 
-    public MISORecipe(MISORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
+    public MISORecipe(MISORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<T>> inputs, T output, int duration, double energyCost) {
         super(type, serializer, id);
 
         this.inputs = inputs;
@@ -29,16 +28,16 @@ public abstract class MISORecipe extends BaseRecipeImpl<MISORecipeType<?>, MISOR
         this.duration = duration;
         this.energyCost = energyCost;
 
-        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
-        RecipeUtil.validateItem(this.id, "output", this.output);
+        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputCount);
+        this.type.outputType.validate(this.id, "output", this.output);
         // TODO validate energyCost and duration
     }
 
-    public List<? extends RecipeIngredient<ItemStack>> getInputs() {
+    public List<? extends RecipeIngredient<T>> getInputs() {
         return this.inputs;
     }
 
-    public ItemStack getOutput() {
+    public T getOutput() {
         return this.output;
     }
 
@@ -51,12 +50,12 @@ public abstract class MISORecipe extends BaseRecipeImpl<MISORecipeType<?>, MISOR
     }
 
     @Override
-    public boolean matches(Input input) {
+    public boolean matches(Input<T> input) {
         return this.inputs.size() == input.items.size() && EntryStream.zip(this.inputs, input.items).allMatch(Predicate::test);
     }
 
     @Override
-    public int compareInputCount(MISORecipe other) {
+    public int compareInputCount(MISORecipe<T> other) {
         return StreamEx.of(this.inputs).mapToInt(RecipeIngredient::getCount).sum()
             - StreamEx.of(other.inputs).mapToInt(RecipeIngredient::getCount).sum();
     }
@@ -69,5 +68,5 @@ public abstract class MISORecipe extends BaseRecipeImpl<MISORecipeType<?>, MISOR
         buffer.writeDouble(this.energyCost);
     }
 
-    public record Input(List<ItemStack> items) {}
+    public record Input<T>(List<T> items) {}
 }

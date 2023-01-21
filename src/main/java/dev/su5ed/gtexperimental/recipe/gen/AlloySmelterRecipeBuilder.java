@@ -11,9 +11,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class AlloySmelterRecipeBuilder extends MISORecipeBuilder {
+public class AlloySmelterRecipeBuilder extends MISORecipeBuilder<ItemStack> {
 
-    public AlloySmelterRecipeBuilder(MISORecipe recipe) {
+    public AlloySmelterRecipeBuilder(MISORecipe<ItemStack> recipe) {
         super(recipe);
     }
 

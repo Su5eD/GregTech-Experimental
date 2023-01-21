@@ -24,7 +24,7 @@ public abstract class SISORecipe extends BaseRecipeImpl<SISORecipeType<?>, SISOR
         this.energyCost = energyCost;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateItem(this.id, "output", this.output);
+        this.type.outputType.validate(this.id, "output", this.output);
     }
 
     public RecipeIngredient<ItemStack> getInput() {

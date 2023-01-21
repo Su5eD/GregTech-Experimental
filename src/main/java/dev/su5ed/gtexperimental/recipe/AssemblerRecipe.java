@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class AssemblerRecipe extends MISORecipe {
+public class AssemblerRecipe extends MISORecipe<ItemStack> {
 
     public AssemblerRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
         super(ModRecipeTypes.ASSEMBLER.get(), ModRecipeSerializers.ASSEMBLER.get(), id, inputs, output, duration, energyCost);

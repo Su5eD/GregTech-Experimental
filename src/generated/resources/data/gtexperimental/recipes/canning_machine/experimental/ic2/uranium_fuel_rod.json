@@ -1,0 +1,34 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "experimental"
+      }
+    }
+  ],
+  "duration": 100,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "value": {
+        "item": "ic2:uranium"
+      }
+    },
+    {
+      "value": {
+        "item": "ic2:empty_cell"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "ic2:uranium_fuel_rod"
+    }
+  ]
+}

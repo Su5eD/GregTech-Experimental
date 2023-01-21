@@ -5,6 +5,7 @@ import dev.su5ed.gtexperimental.recipe.AlloySmelterRecipe;
 import dev.su5ed.gtexperimental.recipe.AssemblerRecipe;
 import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
+import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -22,6 +23,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<PulverizerRecipe>> PULVERIZER = RECIPE_SERIALIZERS.register("pulverizer", PulverizerRecipe::createSerializer);
     public static final RegistryObject<RecipeSerializer<IndustrialGrinderRecipe>> INDUSTRIAL_GRINDER = RECIPE_SERIALIZERS.register("industrial_grinder", IndustrialGrinderRecipe::createSerializer);
     public static final RegistryObject<RecipeSerializer<BenderRecipe>> BENDER = RECIPE_SERIALIZERS.register("bender", BenderRecipe::createSerializer);
+    public static final RegistryObject<RecipeSerializer<ChemicalRecipe>> CHEMICAL = RECIPE_SERIALIZERS.register("chemical", ChemicalRecipe::createSerializer);
 
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);

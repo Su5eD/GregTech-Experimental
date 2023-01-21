@@ -30,7 +30,7 @@ public class SISORecipeType<R extends SISORecipe> extends BaseRecipeTypeImpl<R> 
         JsonElement inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
         JsonElement outputJson = serializedRecipe.get("output");
 
-        RecipeIngredient<ItemStack> input = RecipeUtil.parseItem(inputJson);
+        RecipeIngredient<ItemStack> input = this.inputType.create(inputJson);
         ItemStack output = ModRecipeOutputTypes.ITEM.fromJson(outputJson);
         int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
         double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");

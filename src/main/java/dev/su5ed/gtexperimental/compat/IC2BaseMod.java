@@ -9,6 +9,8 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.upgrade.IUpgradeItem;
+import ic2.core.ref.Ic2Items;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -89,6 +91,12 @@ public class IC2BaseMod implements BaseMod {
     @Override
     public <T extends BaseBlockEntity & ElectricBlockEntity> PowerStorage createEnergyProvider(T parent) {
         return new IC2EnergyStorage<>(parent);
+    }
+
+    public static ItemStack getFilledFuelCan(int value) {
+        CompoundTag tag = new CompoundTag();
+        tag.putInt("value", value);
+        return new ItemStack(Ic2Items.FILLED_FUEL_CAN, 1, tag);
     }
 
     private static void onItemStackCapabilityAttach(AttachCapabilitiesEvent<ItemStack> event) {

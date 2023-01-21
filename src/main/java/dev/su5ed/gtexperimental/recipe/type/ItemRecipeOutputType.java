@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -32,5 +33,12 @@ public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
     @Override
     public ItemStack fromJson(JsonElement element) {
         return RecipeUtil.parseItemStack(element);
+    }
+
+    @Override
+    public void validate(ResourceLocation id, String name, ItemStack item) {
+        if (item.isEmpty()) {
+            throw new RuntimeException("Empty " + name + " item in recipe " + id);
+        }
     }
 }

@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:chemical",
+  "duration": 10,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 4000,
+      "tag": "forge:hydrogen"
+    },
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:air"
+    }
+  ],
+  "output": {
+    "amount": 5000,
+    "fluid": "minecraft:water"
+  }
+}

@@ -1,3 +1,35 @@
-// 1.19.2	2023-01-20T21:16:16.2051638	Tags for minecraft:fluid
-b9fa74c4bb08213a813503adb8eea8334f2f4895 data/forge/tags/fluids/steam.json
+// 1.19.2	2023-01-21T16:33:51.3959973	Tags for minecraft:fluid
+6b2f9af43a8428786821e2e2de591355dfe9ea3c data/forge/tags/fluids/air.json
+3a758dc3e7548b612b1a7ebd3a3318ef1e38e421 data/forge/tags/fluids/berylium.json
+fa41475682b0630fd317c38838ac7ef3b2c8f681 data/forge/tags/fluids/calcium.json
+233957b0fba31d8989fb37164a63c23455be4f97 data/forge/tags/fluids/calcium_carbonate.json
+3bae88fee069ecd6629bdd754b1c699a2072abae data/forge/tags/fluids/carbon.json
+c79af1af89f52c950627d82e1797134a7e27d323 data/forge/tags/fluids/chlorite.json
+5682819eadef057265472d50eb7f8650f768eda8 data/forge/tags/fluids/deuterium.json
+c1d89d8bd410a0862c36041ef0404a3441c7fc12 data/forge/tags/fluids/diesel.json
+c4d27273f65f8216e4f9556c392e49d80860eb01 data/forge/tags/fluids/glyceryl.json
+ae065ae5f04240ac515c1a5d57c820ea85323f7a data/forge/tags/fluids/helium.json
+66b24a42e1f5c7ddde735587d22133c77490a791 data/forge/tags/fluids/helium3.json
+fb3efc8538f3fa1886b0bde14f08b72d15c1109c data/forge/tags/fluids/helium_plasma.json
+3b506278d7e2a9f6f543fe9f8667fef0a3fef6a0 data/forge/tags/fluids/hydrogen.json
+b264d75b91f710ea948b9fb632650dc9f1e0a6ea data/forge/tags/fluids/lithium.json
+36ee0ec94eddfd869209e6126c97bbcf30584c4e data/forge/tags/fluids/mercury.json
+b0b3d6bfb56bf81f3da38e2b92c2d47f66c2cd9f data/forge/tags/fluids/methane.json
+f2404d6fb4e1f073f739850f32de0cecd6ac53ce data/forge/tags/fluids/nitrocarbon.json
+6d3bdc3166c70d662d4a6f2605355881ed8c8378 data/forge/tags/fluids/nitrogen.json
+c9e348af75375d7e3157f5cd342f8d32e8adbe9e data/forge/tags/fluids/nitrogen_dioxide.json
+c7b150195d6674570dff5c81acc0be285cfabca0 data/forge/tags/fluids/nitro_coalfuel.json
+54ee21767a0f3dfc0cfc76c27df1c1b3ab0c5a11 data/forge/tags/fluids/nitro_diesel.json
+5abafc48583352a7ec6cebc6b35c3b6b47e35db0 data/forge/tags/fluids/oil.json
+f6b3fd6c80974c827706f1e485564b95b01ad95e data/forge/tags/fluids/potassium.json
+5c319053903d655684caa142dd8a1b47b199fa6b data/forge/tags/fluids/seed_oil.json
+1a2b2728fb5a4d0ebc788310dd12a7a65e1b2d9c data/forge/tags/fluids/silicon.json
+7515c163d588e10513947ea1bcabb83cf0d8de4e data/forge/tags/fluids/sodium.json
+0617295e87bc171361405182589027a78a5c2488 data/forge/tags/fluids/sodium_persulfate.json
+218575a784947f2091c0ad9eb75229bc0108794a data/forge/tags/fluids/sodium_sulfide.json
+9ebf6109e9e2d7b230380af7bc8b60d6672362e6 data/forge/tags/fluids/steam.json
+62b7fb107da56e346b23739e3af1b303ec3b62e1 data/forge/tags/fluids/sulfur.json
+0fb02e03ea6e6c3c3f811a4e94bdbd79a7ad8eea data/forge/tags/fluids/sulfuric_acid.json
+86c6ecae5998aab837708f26c441ceb917acc81b data/forge/tags/fluids/tritium.json
+6e55af62303258fc0a24d8e5fb3b5f2290a60643 data/forge/tags/fluids/wolframium.json
 7dbc50fec209f57f47c9dd68243f2a92dc60f4ba data/gtexperimental/tags/fluids/steam.json

@@ -6,9 +6,9 @@ import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import net.minecraft.world.item.ItemStack;
 
-public class MISORecipeBuilder extends ModRecipeBuilder<MISORecipe> {
+public class MISORecipeBuilder<T> extends ModRecipeBuilder<MISORecipe<T>> {
 
-    public MISORecipeBuilder(MISORecipe recipe) {
+    public MISORecipeBuilder(MISORecipe<T> recipe) {
         super(recipe);
     }
 
@@ -17,7 +17,7 @@ public class MISORecipeBuilder extends ModRecipeBuilder<MISORecipe> {
         super.serializeRecipeData(json);
         
         JsonArray inputs = new JsonArray(this.recipe.getInputs().size());
-        for (RecipeIngredient<ItemStack> input : this.recipe.getInputs()) {
+        for (RecipeIngredient<T> input : this.recipe.getInputs()) {
             inputs.add(input.toJson());
         }
         json.add("input", inputs);

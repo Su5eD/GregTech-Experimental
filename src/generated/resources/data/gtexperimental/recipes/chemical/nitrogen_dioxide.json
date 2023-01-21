@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:chemical",
+  "duration": 1250,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:nitrogen"
+    },
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:air"
+    }
+  ],
+  "output": {
+    "amount": 2000,
+    "fluid": "gtexperimental:nitrogen_dioxide_fluid"
+  }
+}

@@ -154,6 +154,7 @@ public final class GregTechTags {
     // Let's keep ic2 steam only tagged for GT now
     public static final TagKey<Fluid> STEAM = fluidTag("steam");
     public static final TagKey<Fluid> FORGE_STEAM = forgeFluidTag("steam");
+    public static final TagKey<Fluid> AIR = forgeFluidTag("air");
 
     private static final Map<String, Map<String, TagKey<Item>>> FORGE_MATERIALS = new HashMap<>();
 
@@ -194,7 +195,7 @@ public final class GregTechTags {
         return TagKey.create(ForgeRegistries.Keys.FLUIDS, location(name));
     }
 
-    private static TagKey<Fluid> forgeFluidTag(String name) {
+    public static TagKey<Fluid> forgeFluidTag(String name) {
         return TagKey.create(ForgeRegistries.Keys.FLUIDS, new ResourceLocation("forge", name));
     }
 

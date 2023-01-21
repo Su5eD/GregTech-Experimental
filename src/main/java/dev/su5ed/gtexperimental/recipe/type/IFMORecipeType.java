@@ -17,13 +17,13 @@ import one.util.streamex.StreamEx;
 
 import java.util.List;
 
-public class ItemFluidRecipeType<R extends ItemFluidRecipe> extends BaseRecipeTypeImpl<R> {
+public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> {
     public final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
     public final RecipeIngredientType<? extends RecipeIngredient<FluidStack>> fluidType;
     public final List<RecipeOutputType<ItemStack>> outputTypes;
-    public final ItemFluidRecipeFactory<R> factory;
+    public final IFMORecipeFactory<R> factory;
 
-    public ItemFluidRecipeType(ResourceLocation name, int outputCount, ItemFluidRecipeFactory<R> factory) {
+    public IFMORecipeType(ResourceLocation name, int outputCount, IFMORecipeFactory<R> factory) {
         super(name);
 
         this.inputType = ModRecipeIngredientTypes.ITEM;
@@ -38,8 +38,8 @@ public class ItemFluidRecipeType<R extends ItemFluidRecipe> extends BaseRecipeTy
         JsonElement fluidJson = GsonHelper.getAsJsonObject(serializedRecipe, "fluid");
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
-        RecipeIngredient<ItemStack> input = RecipeUtil.parseItem(inputJson);
-        RecipeIngredient<FluidStack> fluid = RecipeUtil.parseFluid(fluidJson);
+        RecipeIngredient<ItemStack> input = this.inputType.create(inputJson);
+        RecipeIngredient<FluidStack> fluid = this.fluidType.create(fluidJson);
         List<ItemStack> outputs = RecipeOutputType.parseOutputs(this.outputTypes, outputJson);
 
         return this.factory.create(recipeId, input, fluid, outputs);
@@ -53,7 +53,7 @@ public class ItemFluidRecipeType<R extends ItemFluidRecipe> extends BaseRecipeTy
         return this.factory.create(recipeId, input, fluid, outputs);
     }
 
-    public interface ItemFluidRecipeFactory<T extends ItemFluidRecipe> {
+    public interface IFMORecipeFactory<T extends IFMORecipe> {
         T create(ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> outputs);
     }
 }

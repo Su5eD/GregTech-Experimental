@@ -24,7 +24,11 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     private final int amount;
 
     public FluidRecipeIngredient(FluidStack stack) {
-        this(new FluidStackValue(stack.getFluid()), stack.getAmount());
+        this(stack.getFluid(), stack.getAmount());
+    }
+
+    public FluidRecipeIngredient(Fluid fluid, int amount) {
+        this(new FluidValue(fluid), amount);
     }
 
     public FluidRecipeIngredient(List<Fluid> fluids, int amount) {
@@ -91,7 +95,7 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
         JsonElement toJson();
     }
 
-    public record FluidStackValue(Fluid fluid) implements Value {
+    public record FluidValue(Fluid fluid) implements Value {
         public static final String NAME = "fluid";
 
         @Override

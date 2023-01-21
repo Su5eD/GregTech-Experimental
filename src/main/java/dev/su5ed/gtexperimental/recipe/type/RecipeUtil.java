@@ -4,14 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
-import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 
@@ -21,19 +20,16 @@ import java.util.Optional;
 
 public final class RecipeUtil {
 
-    public static RecipeIngredient<FluidStack> parseFluid(JsonElement json) {
-        return ModRecipeIngredientTypes.FLUID.create(json);
-    }
-
-    public static RecipeIngredient<ItemStack> parseItem(JsonElement json) {
-        if (json.isJsonObject()) {
-            Ingredient ingredient = Ingredient.fromJson(json);
-            return new VanillaRecipeIngredient(ingredient);
+    public static <T> List<? extends RecipeIngredient<T>> parseInputs(RecipeIngredientType<? extends RecipeIngredient<T>> inputType, int inputCount, JsonArray json) {
+        if (!json.isEmpty() && inputCount >= json.size()) {
+            return StreamEx.of(json.getAsJsonArray().iterator())
+                .map(inputType::create)
+                .toList();
         }
-        throw new IllegalArgumentException("Not a JSON object");
+        throw new IllegalArgumentException("Expected " + inputCount + " inputs, got " + json.size());
     }
 
-    public static List<? extends RecipeIngredient<ItemStack>> parseInputs(List<? extends RecipeIngredientType<? extends RecipeIngredient<ItemStack>>> inputTypes, JsonArray json) {
+    public static <T> List<? extends RecipeIngredient<T>> parseInputs(List<? extends RecipeIngredientType<? extends RecipeIngredient<T>>> inputTypes, JsonArray json) {
         if (!json.isEmpty() && inputTypes.size() >= json.size()) {
             return StreamEx.of(inputTypes)
                 .zipWith(StreamEx.of(json.getAsJsonArray().iterator()))
@@ -72,12 +68,6 @@ public final class RecipeUtil {
         }
     }
 
-    public static void validateItem(ResourceLocation id, String name, ItemStack item) {
-        if (item.isEmpty()) {
-            throw new RuntimeException("Empty " + name + " ingredient in recipe " + id);
-        }
-    }
-
     public static void validateItemList(ResourceLocation id, String name, List<ItemStack> items, int maxSize) {
         if (items.isEmpty()) {
             throw new RuntimeException("Empty " + name + " for recipe " + id);
@@ -100,6 +90,15 @@ public final class RecipeUtil {
             jsonConditions.add(CraftingHelper.serialize(condition));
         }
         return jsonConditions;
+    }
+
+    public static Fluid deserializeFluid(String name) {
+        ResourceLocation resourceLocation = new ResourceLocation(name);
+        Fluid fluid = ForgeRegistries.FLUIDS.getValue(resourceLocation);
+        if (fluid == null || fluid == Fluids.EMPTY) {
+            throw new IllegalArgumentException("Fluid '" + resourceLocation + "' not found");
+        }
+        return fluid;
     }
 
     private RecipeUtil() {}

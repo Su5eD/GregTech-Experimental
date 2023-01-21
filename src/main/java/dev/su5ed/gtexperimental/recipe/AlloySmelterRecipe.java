@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class AlloySmelterRecipe extends MISORecipe {
+public class AlloySmelterRecipe extends MISORecipe<ItemStack> {
 
     public AlloySmelterRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
         super(ModRecipeTypes.ALLOY_SMELTER.get(), ModRecipeSerializers.ALLOY_SMELTER.get(), id, inputs, output, duration, energyCost);

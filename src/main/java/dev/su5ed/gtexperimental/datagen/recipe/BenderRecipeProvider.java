@@ -2,19 +2,17 @@ package dev.su5ed.gtexperimental.datagen.recipe;
 
 import dev.ftb.mods.ftbic.item.FTBICItems;
 import dev.su5ed.gtexperimental.GregTechTags;
-import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.crafting.conditions.NotCondition;
 
 import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.bender;
 
 public final class BenderRecipeProvider implements ModRecipeProvider {
@@ -28,18 +26,16 @@ public final class BenderRecipeProvider implements ModRecipeProvider {
     }
 
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        ICondition ic2Loaded = new ModLoadedCondition(ModHandler.IC2_MODID);
-        ICondition ftbicLoaded = new ModLoadedCondition(ModHandler.FTBIC_MODID);
 //        ICondition railcraftLoaded = new ModLoadedCondition(ModHandler.RAILCRAFT_MODID);
 
         // IC2
         bender(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "mixed_metal")), new ItemStack(Ic2Items.ALLOY), 100, 8)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/alloy"));
 
         // FTBIC
         bender(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "mixed_metal")), new ItemStack(FTBICItems.ADVANCED_ALLOY.item.get()), 100, 8)
-            .addConditions(new NotCondition(ic2Loaded), ftbicLoaded)
+            .addConditions(new NotCondition(IC2_LOADED), FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/alloy"));
 
         // Railcraft

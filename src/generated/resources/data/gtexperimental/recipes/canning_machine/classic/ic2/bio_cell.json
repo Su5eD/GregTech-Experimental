@@ -1,0 +1,34 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    }
+  ],
+  "duration": 100,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "item": "ic2:compressed_plants"
+      }
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:empty_fluid_cell"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "ic2:bio_cell"
+    }
+  ]
+}

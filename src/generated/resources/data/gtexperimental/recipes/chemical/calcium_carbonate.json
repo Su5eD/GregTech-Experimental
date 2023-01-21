@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:chemical",
+  "duration": 250,
+  "energyCost": 32.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:calcium"
+    },
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:carbon"
+    }
+  ],
+  "output": {
+    "amount": 2000,
+    "fluid": "gtexperimental:calcium_carbonate_fluid"
+  }
+}

@@ -26,12 +26,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import twilightforest.init.TFItems;
 
 import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.assembler;
 
 public final class AssemblerRecipesGen implements ModRecipeProvider {
@@ -153,9 +153,6 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
     }
 
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        ICondition ic2Loaded = new ModLoadedCondition(ModHandler.IC2_MODID);
-        ICondition ftbicLoaded = new ModLoadedCondition(ModHandler.FTBIC_MODID);
-        ICondition twilightForestLoaded = new ModLoadedCondition(ModHandler.TWILIGHT_FOREST_MODID);
 //        ICondition railcraftLoaded = new ModLoadedCondition(ModHandler.RAILCRAFT_MODID);
 
         // Base mods
@@ -176,47 +173,47 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
 
         // IC2
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.COPPER_CABLE), ModRecipeIngredientTypes.ITEM.of(GregTechTags.RUBBER), new ItemStack(Ic2Items.INSULATED_COPPER_CABLE), 100, 2)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/insulated_copper_cable"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.GOLD_CABLE), ModRecipeIngredientTypes.ITEM.of(GregTechTags.RUBBER, 2), new ItemStack(Ic2Items.DOUBLE_INSULATED_GOLD_CABLE), 200, 2)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/double_insulated_gold_cable_from_raw"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.IRON_CABLE), ModRecipeIngredientTypes.ITEM.of(GregTechTags.RUBBER, 3), new ItemStack(Ic2Items.TRIPLE_INSULATED_IRON_CABLE), 300, 2)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/triple_insulated_iron_cable_from_raw"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.INSULATED_GOLD_CABLE), ModRecipeIngredientTypes.ITEM.of(GregTechTags.RUBBER), new ItemStack(Ic2Items.DOUBLE_INSULATED_GOLD_CABLE), 200, 2)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/double_insulated_gold_cable_from_insulated"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.INSULATED_IRON_CABLE), ModRecipeIngredientTypes.ITEM.of(GregTechTags.RUBBER, 2), new ItemStack(Ic2Items.TRIPLE_INSULATED_IRON_CABLE), 200, 2)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/triple_insulated_iron_cable_from_insulated"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.DOUBLE_INSULATED_IRON_CABLE), ModRecipeIngredientTypes.ITEM.of(GregTechTags.RUBBER), new ItemStack(Ic2Items.TRIPLE_INSULATED_IRON_CABLE), 100, 2)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/triple_insulated_iron_cable_from_double_insulated"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Dust.FLINT.getTag(), 5), ModRecipeIngredientTypes.ITEM.of(Items.TNT, 3), new ItemStack(Ic2Items.ITNT), 800, 2)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/itnt"));
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "tin")), new ItemStack(Ic2Items.TIN_CABLE, 4), 150, 1)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/tin_cable"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.WATER_GENERATOR, 2), new ItemStack(Ic2Items.GENERATOR), 6400, 8)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/generator"));
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.GENERATOR), ModRecipeIngredientTypes.ITEM.of(Plate.ALUMINIUM.getTag(), 4), new ItemStack(Ic2Items.WATER_GENERATOR), 6400, 8)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/water_generator"));
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.GENERATOR), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CARBON_PLATE, 4), new ItemStack(Ic2Items.WIND_GENERATOR), 6400, 8)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/wind_generator_from_carbon"));
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.GENERATOR), ModRecipeIngredientTypes.ITEM.of(Plate.MAGNALIUM.getTag(), 2), new ItemStack(Ic2Items.WIND_GENERATOR), 6400, 8)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/wind_generator_from_magnalium"));
 
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.CARBON_FIBRE, 2), new ItemStack(Ic2Items.CARBON_MESH), 800, 2)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/carbon_mesh"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.ALLOY, 2), ModRecipeIngredientTypes.ITEM.of(Items.GLASS, 7), new ItemStack(Ic2Items.REINFORCED_GLASS, 7), 400, 4)
-            .addConditions(ic2Loaded)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/reinforced_glass"));
 //        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_LI_BATTERY, 8), ModRecipeIngredientTypes.ITEM.of(Ic2Items.CROPNALYZER), Tool.SCANNER.getItemStack(), 12800, 16)
 //            .addConditions(ic2Loaded)
@@ -230,7 +227,7 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
 
         // Classic
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.ALLOY), ModRecipeIngredientTypes.ITEM.of(Tags.Items.STONE, 8), new ItemStack(Ic2Items.REINFORCED_STONE, 8), 400, 4)
-            .addConditions(ic2Loaded, SelectedProfileCondition.CLASSIC)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
             .build(finishedRecipeConsumer, id("classic/ic2/reinforced_stone"));
 //        assembler(ModRecipeIngredientTypes.ITEM.ofTags(Plate.REFINED_IRON.getTag(), Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Ic2Items.METER), ModCoverItem.ENERGY_METER.getItemStack(), 800, 16)
 //            .addConditions(ic2Loaded, SelectedProfileCondition.CLASSIC)
@@ -241,24 +238,24 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
 
         // FTBIC
         assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.CARBON_FIBERS.item.get(), 4), new ItemStack(FTBICItems.CARBON_FIBER_MESH.item.get()), 800, 2)
-            .addConditions(ftbicLoaded)
+            .addConditions(FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/carbon_mesh"));
         assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.REINFORCED_STONE.get(), 4), ModRecipeIngredientTypes.ITEM.of(Items.GLASS, 4), new ItemStack(FTBICItems.REINFORCED_GLASS.get(), 4), 400, 4)
-            .addConditions(ftbicLoaded)
+            .addConditions(FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/reinforced_glass"));
         assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.ADVANCED_ALLOY.item.get()), ModRecipeIngredientTypes.ITEM.of(Tags.Items.STONE, 8), new ItemStack(FTBICItems.REINFORCED_STONE.get(), 4), 400, 4)
-            .addConditions(ftbicLoaded)
+            .addConditions(FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/reinforced_stone"));
 
         // Twilight Forest
         assembler(ModRecipeIngredientTypes.ITEM.of(TFItems.CHARM_OF_LIFE_1.get(), 4), new ItemStack(TFItems.CHARM_OF_LIFE_2.get()), 800, 2)
-            .addConditions(twilightForestLoaded)
+            .addConditions(TWILIGHT_FOREST_LOADED)
             .build(finishedRecipeConsumer, id("twilight_forest/charm_of_life_2"));
         assembler(ModRecipeIngredientTypes.ITEM.of(TFItems.CHARM_OF_KEEPING_1.get(), 4), new ItemStack(TFItems.CHARM_OF_KEEPING_2.get()), 800, 2)
-            .addConditions(twilightForestLoaded)
+            .addConditions(TWILIGHT_FOREST_LOADED)
             .build(finishedRecipeConsumer, id("twilight_forest/charm_of_keeping_2"));
         assembler(ModRecipeIngredientTypes.ITEM.of(TFItems.CHARM_OF_KEEPING_2.get(), 4), new ItemStack(TFItems.CHARM_OF_KEEPING_3.get()), 800, 2)
-            .addConditions(twilightForestLoaded)
+            .addConditions(TWILIGHT_FOREST_LOADED)
             .build(finishedRecipeConsumer, id("twilight_forest/charm_of_keeping_3"));
 
         // Railcraft

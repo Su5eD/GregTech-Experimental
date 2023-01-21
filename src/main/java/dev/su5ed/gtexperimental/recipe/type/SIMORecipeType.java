@@ -33,7 +33,7 @@ public class SIMORecipeType<R extends SIMORecipe> extends BaseRecipeTypeImpl<R> 
         JsonElement inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
-        RecipeIngredient<ItemStack> input = RecipeUtil.parseItem(inputJson);
+        RecipeIngredient<ItemStack> input = this.inputType.create(inputJson);
         List<ItemStack> outputs = RecipeOutputType.parseOutputs(this.outputTypes, outputJson);
 
         return this.factory.create(recipeId, input, outputs);
