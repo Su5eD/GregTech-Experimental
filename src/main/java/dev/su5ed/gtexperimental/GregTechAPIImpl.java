@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import dev.su5ed.gtexperimental.api.GregTechAPI;
 import dev.su5ed.gtexperimental.api.IGregTechAPI;
 import dev.su5ed.gtexperimental.api.util.SonictronSound;
@@ -12,14 +11,10 @@ import one.util.streamex.StreamEx;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
 
 final class GregTechAPIImpl implements IGregTechAPI {
     private final List<SonictronSound> sonictronSounds = new ArrayList<>();
-    private final Map<String, Predicate<JsonNode>> conditions = new HashMap<>();
 
     @Override
     public void registerSonictronSound(SonictronSound sound) {
@@ -43,19 +38,6 @@ final class GregTechAPIImpl implements IGregTechAPI {
             .map(SonictronSound::name)
             .findFirst()
             .orElse("block.note.harp");
-    }
-
-    @Override
-    public void registerCondition(String type, Predicate<JsonNode> predicate) {
-        this.conditions.put(type, predicate);
-    }
-
-    @Override
-    public boolean testCondition(String type, JsonNode node) {
-        Predicate<JsonNode> condition = this.conditions.get(type);
-        if (condition == null) throw new IllegalArgumentException("Unknown condition type: " + type);
-
-        return condition.test(node);
     }
 
     @Override

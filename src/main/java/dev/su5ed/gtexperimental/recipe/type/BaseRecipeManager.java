@@ -1,5 +1,7 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
+import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.common.util.Lazy;
@@ -11,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseRecipeManager<R extends BaseRecipe<?, I, ? super R>, I> implements RecipeManager<R, I> {
+public class BaseRecipeManager<R extends BaseRecipeImpl<?, I, ? super R>, I> implements RecipeManager<R, I> {
     private final Lazy<List<R>> recipes;
     private final Collection<RecipeProvider<R, I>> providers;
 

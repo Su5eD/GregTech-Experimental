@@ -1,4 +1,4 @@
-package dev.su5ed.gtexperimental.recipe.type;
+package dev.su5ed.gtexperimental.api.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;

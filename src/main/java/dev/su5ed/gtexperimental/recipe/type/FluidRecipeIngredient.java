@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;

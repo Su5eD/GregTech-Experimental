@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -30,6 +31,6 @@ public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
 
     @Override
     public ItemStack fromJson(JsonElement element) {
-        return RecipeIngredient.parseItemStack(element);
+        return RecipeUtil.parseItemStack(element);
     }
 }

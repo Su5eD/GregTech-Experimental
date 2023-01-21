@@ -1,5 +1,7 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +15,7 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Single Output recipe
  */
-public abstract class MISORecipe extends BaseRecipe<MISORecipeType<?>, MISORecipe.Input, MISORecipe> {
+public abstract class MISORecipe extends BaseRecipeImpl<MISORecipeType<?>, MISORecipe.Input, MISORecipe> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
     protected final ItemStack output;
     protected final int duration;
@@ -61,9 +63,7 @@ public abstract class MISORecipe extends BaseRecipe<MISORecipeType<?>, MISORecip
 
     @Override
     public void toNetwork(FriendlyByteBuf buffer) {
-        for (RecipeIngredient<ItemStack> input : this.inputs) {
-            input.toNetwork(buffer);
-        }
+        ModRecipeIngredientTypes.toNetwork(this.inputs, buffer);
         this.type.outputType.toNetwork(buffer, this.output);
         buffer.writeInt(this.duration);
         buffer.writeDouble(this.energyCost);

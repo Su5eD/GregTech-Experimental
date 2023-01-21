@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -8,7 +9,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 /**
  * Single Input, Single Output recipe
  */
-public abstract class SISORecipe extends BaseRecipe<SISORecipeType<?>, SISORecipe.Input, SISORecipe> {
+public abstract class SISORecipe extends BaseRecipeImpl<SISORecipeType<?>, SISORecipe.Input, SISORecipe> {
     protected final RecipeIngredient<ItemStack> input;
     protected final ItemStack output;
     protected final int duration;

@@ -6,7 +6,7 @@ import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
-import dev.su5ed.gtexperimental.recipe.type.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.world.item.ItemStack;
 

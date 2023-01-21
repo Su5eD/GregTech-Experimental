@@ -4,7 +4,7 @@ import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeSerializer;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
-import dev.su5ed.gtexperimental.recipe.type.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

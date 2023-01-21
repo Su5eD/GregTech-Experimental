@@ -24,7 +24,6 @@ group = "dev.su5ed"
 version = getGitVersion()
 
 val versionMc: String by project
-val versionJackson: String by project
 val versionIC2: String by project
 val versionJEI: String by project
 
@@ -202,12 +201,6 @@ dependencies {
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-common-api", version = versionJEI))
     compileOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge-api", version = versionJEI))
     runtimeOnly(fg.deobf(group = "mezz.jei", name = "jei-$versionMc-forge", version = versionJEI))
-
-    include(api(group = "com.fasterxml.jackson.core", name = "jackson-annotations", version = versionJackson))
-    include(api(group = "com.fasterxml.jackson.core", name = "jackson-core", version = versionJackson))
-    include(api(group = "com.fasterxml.jackson.core", name = "jackson-databind", version = versionJackson))
-    include(implementation(group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version = versionJackson))
-    include(implementation(group = "org.yaml", name = "snakeyaml", version = "1.30"))
 
     include(api(group = "one.util", name = "streamex", version = "0.8.1"))
 }

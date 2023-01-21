@@ -6,12 +6,12 @@ import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
-import dev.su5ed.gtexperimental.recipe.type.BaseRecipe;
+import dev.su5ed.gtexperimental.recipe.type.BaseRecipeImpl;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManager;
 import dev.su5ed.gtexperimental.recipe.type.ItemFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
-import dev.su5ed.gtexperimental.recipe.type.RecipeManager;
+import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -27,7 +27,7 @@ public final class ModRecipeManagers {
     public static final Lazy<RecipeManager<PulverizerRecipe, SIMORecipe.Input>> PULVERIZER = create(ModRecipeTypes.PULVERIZER);
     public static final Lazy<RecipeManager<BenderRecipe, SISORecipe.Input>> BENDER = create(ModRecipeTypes.BENDER);
 
-    private static <R extends BaseRecipe<?, I, ? super R>, I> Lazy<RecipeManager<R, I>> create(Supplier<? extends RecipeType<R>> recipeType) {
+    private static <R extends BaseRecipeImpl<?, I, ? super R>, I> Lazy<RecipeManager<R, I>> create(Supplier<? extends RecipeType<R>> recipeType) {
         return Lazy.of(() -> new BaseRecipeManager<>(recipeType.get()));
     }
 

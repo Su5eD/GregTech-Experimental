@@ -13,7 +13,7 @@ import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipeType;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipeType;
-import dev.su5ed.gtexperimental.recipe.type.RecipeOutputType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipeType;
 import dev.su5ed.gtexperimental.recipe.type.SISORecipe;

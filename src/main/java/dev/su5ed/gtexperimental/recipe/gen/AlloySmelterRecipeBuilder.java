@@ -2,7 +2,7 @@ package dev.su5ed.gtexperimental.recipe.gen;
 
 import dev.su5ed.gtexperimental.datagen.RecipeGen;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
-import dev.su5ed.gtexperimental.recipe.type.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

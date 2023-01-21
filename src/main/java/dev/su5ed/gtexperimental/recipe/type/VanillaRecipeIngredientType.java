@@ -2,6 +2,8 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.util.FluidProvider;
 import net.minecraft.network.FriendlyByteBuf;

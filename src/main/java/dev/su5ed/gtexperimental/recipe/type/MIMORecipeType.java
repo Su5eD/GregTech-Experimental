@@ -2,7 +2,11 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -33,7 +37,7 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
         JsonArray inputJson = GsonHelper.getAsJsonArray(serializedRecipe, "input");
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
-        List<? extends RecipeIngredient<ItemStack>> inputs = RecipeIngredient.parseInputs(this.inputTypes, inputJson);
+        List<? extends RecipeIngredient<ItemStack>> inputs = RecipeUtil.parseInputs(this.inputTypes, inputJson);
         List<ItemStack> outputs = RecipeOutputType.parseOutputs(this.outputTypes, outputJson);
         int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
         double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");
@@ -46,9 +50,7 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
         List<? extends RecipeIngredient<ItemStack>> inputs = StreamEx.of(this.inputTypes)
             .map(type -> type.create(buffer))
             .toList();
-        List<ItemStack> outputs = StreamEx.of(this.outputTypes)
-            .map(type -> type.fromNetwork(buffer))
-            .toList();
+        List<ItemStack> outputs = ModRecipeOutputTypes.fromNetwork(this.outputTypes, buffer);
         int duration = buffer.readInt();
         double energyCost = buffer.readDouble();
         return this.factory.create(recipeId, inputs, outputs, duration, energyCost);

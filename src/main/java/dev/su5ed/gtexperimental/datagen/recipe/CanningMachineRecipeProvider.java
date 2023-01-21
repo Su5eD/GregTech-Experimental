@@ -14,7 +14,7 @@ import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.recipe.gen.MIMORecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
-import dev.su5ed.gtexperimental.recipe.type.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.util.FluidProvider;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;

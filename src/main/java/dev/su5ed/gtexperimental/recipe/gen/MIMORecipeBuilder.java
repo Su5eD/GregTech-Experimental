@@ -3,8 +3,8 @@ package dev.su5ed.gtexperimental.recipe.gen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
-import dev.su5ed.gtexperimental.recipe.type.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.type.RecipeOutputType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -26,8 +26,8 @@ public class MIMORecipeBuilder extends ModRecipeBuilder<MIMORecipe> {
         json.add("input", inputs);
 
         List<? extends RecipeOutputType<ItemStack>> outputTypes = this.recipe.getType().getOutputTypes();
-        List<ItemStack> outputs = this.recipe.getOutputs();
-        JsonArray outputsJson = new JsonArray(this.recipe.getOutputs().size());
+        List<ItemStack> outputs = this.recipe.getOutput();
+        JsonArray outputsJson = new JsonArray(this.recipe.getOutput().size());
         for (int i = 0; i < outputs.size(); i++) {
             outputsJson.add(outputTypes.get(i).toJson(outputs.get(i)));
         }

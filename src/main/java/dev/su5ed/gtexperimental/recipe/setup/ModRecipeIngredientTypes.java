@@ -1,11 +1,35 @@
 package dev.su5ed.gtexperimental.recipe.setup;
 
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.type.FluidRecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredientType;
+import net.minecraft.network.FriendlyByteBuf;
+import one.util.streamex.StreamEx;
+
+import java.util.List;
 
 public final class ModRecipeIngredientTypes {
     public static final VanillaRecipeIngredientType ITEM = new VanillaRecipeIngredientType();
     public static final FluidRecipeIngredientType FLUID = new FluidRecipeIngredientType();
+    
+    public static <T> void toNetwork(List<? extends RecipeIngredient<T>> ingredients, FriendlyByteBuf buffer) {
+        buffer.writeInt(ingredients.size());
+        for (RecipeIngredient<T> ingredient : ingredients) {
+            ingredient.toNetwork(buffer);
+        }
+    }
+
+    public static <T> List<? extends RecipeIngredient<T>> fromNetwork(List<? extends RecipeIngredientType<? extends RecipeIngredient<T>>> ingredientTypes, FriendlyByteBuf buffer) {
+        int ingredientCount = buffer.readInt();
+        if (ingredientTypes.size() >= ingredientCount) {
+            return StreamEx.of(ingredientTypes)
+                .limit(ingredientCount)
+                .map(type -> type.create(buffer))
+                .toList();
+        }
+        throw new IllegalArgumentException("There are more ingredients than known ingredient types");
+    }
 
     private ModRecipeIngredientTypes() {}
 }

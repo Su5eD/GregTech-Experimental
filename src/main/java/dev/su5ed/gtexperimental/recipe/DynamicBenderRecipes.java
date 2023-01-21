@@ -3,7 +3,7 @@ package dev.su5ed.gtexperimental.recipe;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
-import dev.su5ed.gtexperimental.recipe.type.RecipeProvider;
+import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;

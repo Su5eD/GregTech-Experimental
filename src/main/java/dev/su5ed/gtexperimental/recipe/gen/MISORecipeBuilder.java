@@ -3,7 +3,7 @@ package dev.su5ed.gtexperimental.recipe.gen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
-import dev.su5ed.gtexperimental.recipe.type.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import net.minecraft.world.item.ItemStack;
 
 public class MISORecipeBuilder extends ModRecipeBuilder<MISORecipe> {

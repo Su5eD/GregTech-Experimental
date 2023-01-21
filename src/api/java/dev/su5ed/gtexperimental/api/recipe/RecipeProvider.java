@@ -1,4 +1,4 @@
-package dev.su5ed.gtexperimental.recipe.type;
+package dev.su5ed.gtexperimental.api.recipe;
 
 public interface RecipeProvider<R extends BaseRecipe<?, I, ? super R>, I> extends RecipeHolder<R, I> {
     /**

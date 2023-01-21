@@ -2,6 +2,9 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -27,7 +30,7 @@ public class SISORecipeType<R extends SISORecipe> extends BaseRecipeTypeImpl<R> 
         JsonElement inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
         JsonElement outputJson = serializedRecipe.get("output");
 
-        RecipeIngredient<ItemStack> input = RecipeIngredient.parseItem(inputJson);
+        RecipeIngredient<ItemStack> input = RecipeUtil.parseItem(inputJson);
         ItemStack output = ModRecipeOutputTypes.ITEM.fromJson(outputJson);
         int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
         double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");

@@ -3,6 +3,9 @@ package dev.su5ed.gtexperimental.recipe.type;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +33,7 @@ public class MISORecipeType<R extends MISORecipe> extends BaseRecipeTypeImpl<R> 
         JsonArray inputJson = GsonHelper.getAsJsonArray(serializedRecipe, "input");
         JsonElement outputJson = serializedRecipe.get("output");
 
-        List<? extends RecipeIngredient<ItemStack>> inputs = RecipeIngredient.parseInputs(this.inputTypes, inputJson);
+        List<? extends RecipeIngredient<ItemStack>> inputs = RecipeUtil.parseInputs(this.inputTypes, inputJson);
         ItemStack output = this.outputType.fromJson(outputJson);
         int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
         double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");
@@ -40,9 +43,7 @@ public class MISORecipeType<R extends MISORecipe> extends BaseRecipeTypeImpl<R> 
 
     @Override
     public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-        List<? extends RecipeIngredient<ItemStack>> inputs = StreamEx.of(this.inputTypes)
-            .map(type -> type.create(buffer))
-            .toList();
+        List<? extends RecipeIngredient<ItemStack>> inputs = ModRecipeIngredientTypes.fromNetwork(this.inputTypes, buffer);
         ItemStack output = this.outputType.fromNetwork(buffer);
         int duration = buffer.readInt();
         double energyCost = buffer.readDouble();
