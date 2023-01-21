@@ -4,13 +4,11 @@
   "energyCost": 1.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "tag": "forge:rods/wooden"
       }
     },
     {
-      "type": "ingredient",
       "value": {
         "tag": "forge:cobblestone"
       }

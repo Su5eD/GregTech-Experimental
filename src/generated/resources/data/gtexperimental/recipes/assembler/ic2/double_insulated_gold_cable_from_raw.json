@@ -10,13 +10,11 @@
   "energyCost": 2.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "item": "ic2:gold_cable"
       }
     },
     {
-      "type": "ingredient",
       "count": 2,
       "value": {
         "tag": "gtexperimental:rubber"

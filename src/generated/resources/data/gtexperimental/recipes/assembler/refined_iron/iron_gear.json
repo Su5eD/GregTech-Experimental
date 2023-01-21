@@ -12,14 +12,12 @@
   "energyCost": 4.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 4,
       "value": {
         "tag": "forge:rods/refined_iron"
       }
     },
     {
-      "type": "ingredient",
       "count": 4,
       "value": {
         "tag": "forge:plates/refined_iron"

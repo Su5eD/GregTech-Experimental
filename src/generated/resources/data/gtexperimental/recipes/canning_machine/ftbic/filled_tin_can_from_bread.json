@@ -1,0 +1,47 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 300,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": [
+        {
+          "item": "minecraft:bread"
+        },
+        {
+          "item": "minecraft:cooked_cod"
+        },
+        {
+          "item": "minecraft:cooked_salmon"
+        },
+        {
+          "item": "minecraft:cooked_chicken"
+        },
+        {
+          "item": "minecraft:baked_potato"
+        },
+        {
+          "item": "minecraft:golden_carrot"
+        }
+      ]
+    },
+    {
+      "count": 3,
+      "value": {
+        "item": "ftbic:empty_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "count": 3,
+      "item": "ftbic:canned_food"
+    }
+  ]
+}

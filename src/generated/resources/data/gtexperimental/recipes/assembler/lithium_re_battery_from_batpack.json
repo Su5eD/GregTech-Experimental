@@ -4,7 +4,6 @@
   "energyCost": 4.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "item": "gtexperimental:lithium_batpack"
       }

@@ -4,13 +4,11 @@
   "energyCost": 2.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "tag": "gtexperimental:crafting/raw_machine_tier_1"
       }
     },
     {
-      "type": "ingredient",
       "value": {
         "tag": "gtexperimental:crafting/solar_panel"
       }

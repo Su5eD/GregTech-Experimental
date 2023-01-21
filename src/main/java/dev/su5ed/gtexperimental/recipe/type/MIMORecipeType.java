@@ -1,7 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -32,12 +31,10 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
     @Override
     public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
         JsonArray inputJson = GsonHelper.getAsJsonArray(serializedRecipe, "input");
-        JsonElement outputJson = serializedRecipe.get("output");
+        JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
         List<? extends RecipeIngredient<ItemStack>> inputs = RecipeIngredient.parseInputs(this.inputTypes, inputJson);
-        List<ItemStack> outputs = StreamEx.of(this.outputTypes) // FIXME this won't do
-            .map(type -> type.fromJson(outputJson))
-            .toList();
+        List<ItemStack> outputs = RecipeOutputType.parseOutputs(this.outputTypes, outputJson);
         int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
         double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");
 

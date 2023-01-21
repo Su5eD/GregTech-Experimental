@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.util.FluidProvider;
@@ -37,27 +38,25 @@ public class FluidRecipeIngredientType implements RecipeIngredientType<FluidReci
     public FluidRecipeIngredient create(JsonElement json) {
         if (json.isJsonObject()) {
             JsonObject obj = json.getAsJsonObject();
+            int amount = GsonHelper.getAsInt(obj, "amount");
             if (obj.has(FluidRecipeIngredient.FluidStackValue.NAME)) {
-                JsonObject fluid = GsonHelper.getAsJsonObject(obj, FluidRecipeIngredient.FluidStackValue.NAME);
-                FluidStack fluidStack = deserializeFluid(fluid);
-                return of(fluidStack);
+                String fluidName = GsonHelper.getAsString(obj, FluidRecipeIngredient.FluidStackValue.NAME);
+                Fluid fluid = deserializeFluid(fluidName);
+                return of(new FluidStack(fluid, amount));
             }
             else if (obj.has(FluidRecipeIngredient.FluidsValue.NAME)) {
-                JsonObject fluidsJson = GsonHelper.getAsJsonObject(obj, FluidRecipeIngredient.FluidsValue.NAME);
-                List<Fluid> fluids = StreamEx.of(GsonHelper.getAsJsonArray(fluidsJson, "names").iterator())
+                JsonArray fluidsJson = GsonHelper.getAsJsonArray(obj, FluidRecipeIngredient.FluidsValue.NAME);
+                List<Fluid> fluids = StreamEx.of(fluidsJson.iterator())
                     .map(element -> {
                         ResourceLocation location = new ResourceLocation(element.getAsString());
                         return ForgeRegistries.FLUIDS.getValue(location);
                     })
                     .toList();
-                int amount = GsonHelper.getAsInt(fluidsJson, "amount");
                 return of(fluids, amount);
             }
             else if (obj.has(FluidRecipeIngredient.FluidTagValue.NAME)) {
-                JsonObject fluidTagJson = GsonHelper.getAsJsonObject(obj, FluidRecipeIngredient.FluidTagValue.NAME);
-                String tagName = GsonHelper.getAsString(fluidTagJson, "tag");
+                String tagName = GsonHelper.getAsString(obj, FluidRecipeIngredient.FluidTagValue.NAME);
                 TagKey<Fluid> tag = ForgeRegistries.FLUIDS.tags().createTagKey(new ResourceLocation(tagName));
-                int amount = GsonHelper.getAsInt(fluidTagJson, "amount");
                 return of(tag, amount);
             }
         }
@@ -91,14 +90,12 @@ public class FluidRecipeIngredientType implements RecipeIngredientType<FluidReci
         };
     }
 
-    public static FluidStack deserializeFluid(JsonObject json) {
-        JsonElement count = json.get("amount");
-        int amount = count.getAsJsonPrimitive().getAsInt();
-        ResourceLocation resourceLocation = new ResourceLocation(GsonHelper.getAsString(json, "fluid"));
+    public static Fluid deserializeFluid(String name) {
+        ResourceLocation resourceLocation = new ResourceLocation(name);
         Fluid fluid = ForgeRegistries.FLUIDS.getValue(resourceLocation);
         if (fluid == null || fluid == Fluids.EMPTY) {
             throw new IllegalArgumentException("Fluid '" + resourceLocation + "' not found");
         }
-        return new FluidStack(fluid, amount);
+        return fluid;
     }
 }

@@ -4,7 +4,6 @@
   "energyCost": 8.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 8,
       "value": [
         {
@@ -16,7 +15,6 @@
       ]
     },
     {
-      "type": "ingredient",
       "value": {
         "tag": "gtexperimental:advanced_circuit"
       }

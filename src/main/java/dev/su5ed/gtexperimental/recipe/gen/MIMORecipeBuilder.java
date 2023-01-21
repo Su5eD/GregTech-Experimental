@@ -28,9 +28,11 @@ public class MIMORecipeBuilder extends ModRecipeBuilder<MIMORecipe> {
         List<? extends RecipeOutputType<ItemStack>> outputTypes = this.recipe.getType().getOutputTypes();
         List<ItemStack> outputs = this.recipe.getOutputs();
         JsonArray outputsJson = new JsonArray(this.recipe.getOutputs().size());
-        for (int i = 0; i < outputTypes.size(); i++) {
+        for (int i = 0; i < outputs.size(); i++) {
             outputsJson.add(outputTypes.get(i).toJson(outputs.get(i)));
         }
         json.add("output", outputsJson);
+        json.addProperty("duration", this.recipe.getDuration());
+        json.addProperty("energyCost", this.recipe.getEnergyCost());
     }
 }

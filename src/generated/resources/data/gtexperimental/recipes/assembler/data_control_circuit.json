@@ -4,13 +4,11 @@
   "energyCost": 4.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "item": "gtexperimental:processor_circuit_board"
       }
     },
     {
-      "type": "ingredient",
       "value": {
         "item": "gtexperimental:data_storage_circuit"
       }

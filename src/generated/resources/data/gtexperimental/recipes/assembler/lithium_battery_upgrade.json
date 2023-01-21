@@ -4,13 +4,11 @@
   "energyCost": 4.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "item": "gtexperimental:lithium_re_battery"
       }
     },
     {
-      "type": "ingredient",
       "count": 4,
       "value": {
         "tag": "forge:plates/aluminium"

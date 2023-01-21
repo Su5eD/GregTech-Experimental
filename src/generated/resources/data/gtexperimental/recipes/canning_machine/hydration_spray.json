@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "duration": 1600,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "value": {
+        "type": "gtexperimental:fluid_item_ingredient",
+        "fluid_ingredient": {
+          "type": "tag",
+          "amount": 16000,
+          "tag": "minecraft:water"
+        }
+      }
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:crafting/spray_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:hydration_spray"
+    }
+  ]
+}

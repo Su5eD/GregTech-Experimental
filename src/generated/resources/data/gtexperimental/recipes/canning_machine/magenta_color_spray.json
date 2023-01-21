@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "duration": 800,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "count": 16,
+      "value": {
+        "tag": "forge:dyes/magenta"
+      }
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:crafting/spray_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:magenta_color_spray"
+    }
+  ]
+}

@@ -4,14 +4,12 @@
   "energyCost": 16.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 3,
       "value": {
         "tag": "forge:ingots/copper"
       }
     },
     {
-      "type": "ingredient",
       "value": {
         "tag": "forge:ingots/zinc"
       }

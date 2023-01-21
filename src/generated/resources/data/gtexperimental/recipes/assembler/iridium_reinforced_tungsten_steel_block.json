@@ -4,13 +4,11 @@
   "energyCost": 4.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "tag": "forge:plates/tungsten_steel"
       }
     },
     {
-      "type": "ingredient",
       "value": {
         "item": "gtexperimental:iridium_reinforced_stone_block"
       }

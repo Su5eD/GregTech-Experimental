@@ -10,7 +10,6 @@
   "energyCost": 2.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 2,
       "value": {
         "item": "ic2:carbon_fibre"

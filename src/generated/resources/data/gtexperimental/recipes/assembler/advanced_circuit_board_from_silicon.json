@@ -4,13 +4,11 @@
   "energyCost": 2.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "tag": "forge:plates/silicon"
       }
     },
     {
-      "type": "ingredient",
       "count": 4,
       "value": {
         "tag": "forge:plates/electrum"

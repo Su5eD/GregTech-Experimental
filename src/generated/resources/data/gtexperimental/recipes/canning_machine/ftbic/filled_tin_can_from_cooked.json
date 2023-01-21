@@ -1,0 +1,38 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 400,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": [
+        {
+          "item": "minecraft:cooked_porkchop"
+        },
+        {
+          "item": "minecraft:cooked_beef"
+        },
+        {
+          "item": "minecraft:pumpkin_pie"
+        }
+      ]
+    },
+    {
+      "count": 4,
+      "value": {
+        "item": "ftbic:empty_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "count": 4,
+      "item": "ftbic:canned_food"
+    }
+  ]
+}

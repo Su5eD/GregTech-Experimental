@@ -4,14 +4,12 @@
   "energyCost": 16.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 4,
       "value": {
         "tag": "forge:ingots/lead"
       }
     },
     {
-      "type": "ingredient",
       "value": {
         "tag": "forge:ingots/antimony"
       }

@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "duration": 1600,
+  "energyCost": 2.0,
+  "input": [
+    {
+      "value": {
+        "type": "gtexperimental:fluid_item_ingredient",
+        "fluid_ingredient": {
+          "type": "fluid",
+          "amount": 16000,
+          "fluid": "gtexperimental:nitrogen_fluid"
+        }
+      }
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:crafting/spray_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:ice_spray"
+    },
+    {
+      "count": 16,
+      "item": "ic2:empty_cell"
+    }
+  ]
+}

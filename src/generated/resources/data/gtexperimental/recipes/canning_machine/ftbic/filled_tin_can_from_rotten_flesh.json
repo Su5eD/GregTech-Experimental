@@ -1,0 +1,47 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 200,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": [
+        {
+          "item": "minecraft:rotten_flesh"
+        },
+        {
+          "item": "minecraft:apple"
+        },
+        {
+          "item": "minecraft:porkchop"
+        },
+        {
+          "item": "minecraft:golden_apple"
+        },
+        {
+          "item": "minecraft:beef"
+        },
+        {
+          "item": "minecraft:carrot"
+        }
+      ]
+    },
+    {
+      "count": 2,
+      "value": {
+        "item": "ftbic:empty_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "count": 2,
+      "item": "ftbic:canned_food"
+    }
+  ]
+}

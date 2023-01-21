@@ -12,7 +12,6 @@
   "energyCost": 2.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 5,
       "value": [
         {
@@ -24,7 +23,6 @@
       ]
     },
     {
-      "type": "ingredient",
       "value": [
         {
           "tag": "forge:chests/wooden"

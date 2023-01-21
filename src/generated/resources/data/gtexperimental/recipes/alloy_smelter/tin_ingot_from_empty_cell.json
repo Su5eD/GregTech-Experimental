@@ -10,7 +10,6 @@
   "energyCost": 3.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "item": "ic2:empty_cell"
       }

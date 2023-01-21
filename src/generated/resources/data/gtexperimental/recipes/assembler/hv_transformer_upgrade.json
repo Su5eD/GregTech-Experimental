@@ -4,13 +4,11 @@
   "energyCost": 4.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "tag": "gtexperimental:hv_transformer"
       }
     },
     {
-      "type": "ingredient",
       "value": {
         "tag": "gtexperimental:transformer_upgrade"
       }

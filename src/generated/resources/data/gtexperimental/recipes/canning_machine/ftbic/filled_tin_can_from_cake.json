@@ -1,0 +1,30 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 600,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:cake"
+      }
+    },
+    {
+      "count": 6,
+      "value": {
+        "item": "ftbic:empty_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "count": 6,
+      "item": "ftbic:canned_food"
+    }
+  ]
+}

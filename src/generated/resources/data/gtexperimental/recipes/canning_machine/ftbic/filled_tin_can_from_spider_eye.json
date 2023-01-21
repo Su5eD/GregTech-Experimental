@@ -1,0 +1,54 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 100,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": [
+        {
+          "item": "minecraft:spider_eye"
+        },
+        {
+          "item": "minecraft:poisonous_potato"
+        },
+        {
+          "item": "minecraft:cod"
+        },
+        {
+          "item": "minecraft:salmon"
+        },
+        {
+          "item": "minecraft:tropical_fish"
+        },
+        {
+          "item": "minecraft:cookie"
+        },
+        {
+          "item": "minecraft:melon"
+        },
+        {
+          "item": "minecraft:chicken"
+        },
+        {
+          "item": "minecraft:potato"
+        }
+      ]
+    },
+    {
+      "value": {
+        "item": "ftbic:empty_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "ftbic:canned_food"
+    }
+  ]
+}

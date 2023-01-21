@@ -77,24 +77,12 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
     public VanillaRecipeIngredient create(JsonElement json) {
         JsonObject obj = json.getAsJsonObject();
         JsonElement value = obj.get("value");
-        String type = GsonHelper.getAsString(obj, "type");
         int count = GsonHelper.getAsInt(obj, "count", 1);
-
-        return switch (type) {
-            case VanillaRecipeIngredient.IngredientValue.NAME -> new VanillaRecipeIngredient(Ingredient.fromJson(value), count);
-            case VanillaRecipeIngredient.FluidIngredientValue.NAME -> new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.create(value));
-            default -> throw new IllegalArgumentException("Unknown ingredient type '" + type + "'");
-        };
+        return new VanillaRecipeIngredient(Ingredient.fromJson(value), count);
     }
 
     @Override
     public VanillaRecipeIngredient create(FriendlyByteBuf buffer) {
-        String type = buffer.readUtf();
-        int count = buffer.readInt();
-        return switch (type) {
-            case VanillaRecipeIngredient.IngredientValue.NAME -> new VanillaRecipeIngredient(Ingredient.fromNetwork(buffer), count);
-            case VanillaRecipeIngredient.FluidIngredientValue.NAME -> new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.create(buffer));
-            default -> throw new IllegalArgumentException("Unknown ingredient type '" + type + "'");
-        };
+        return new VanillaRecipeIngredient(Ingredient.fromNetwork(buffer));
     }
 }

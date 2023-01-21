@@ -4,14 +4,12 @@
   "energyCost": 4.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 4,
       "value": {
         "tag": "forge:rods/steel"
       }
     },
     {
-      "type": "ingredient",
       "count": 4,
       "value": {
         "tag": "forge:plates/steel"

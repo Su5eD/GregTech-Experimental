@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 100,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:dusts/tungsten"
+      }
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:empty_fluid_cell"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "ftbic:fluid_cell"
+    }
+  ]
+}

@@ -12,14 +12,12 @@
   "energyCost": 8.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 8,
       "value": {
         "tag": "forge:plates/iron"
       }
     },
     {
-      "type": "ingredient",
       "value": {
         "item": "gtexperimental:machine_parts"
       }

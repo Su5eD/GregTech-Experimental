@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "duration": 100,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:dusts/sulfur"
+      }
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:empty_fluid_cell"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:sulfur_cell"
+    }
+  ]
+}

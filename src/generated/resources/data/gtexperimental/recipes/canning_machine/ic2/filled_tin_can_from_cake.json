@@ -1,0 +1,30 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 600,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:cake"
+      }
+    },
+    {
+      "count": 6,
+      "value": {
+        "item": "ic2:tin_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "count": 6,
+      "item": "ic2:filled_tin_can"
+    }
+  ]
+}

@@ -4,7 +4,6 @@
   "energyCost": 2.0,
   "input": [
     {
-      "type": "ingredient",
       "value": [
         {
           "tag": "forge:gems/lapis"
@@ -15,7 +14,6 @@
       ]
     },
     {
-      "type": "ingredient",
       "value": {
         "tag": "forge:dusts/glowstone"
       }

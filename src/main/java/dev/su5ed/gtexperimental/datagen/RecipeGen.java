@@ -4,6 +4,7 @@ import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.datagen.recipe.AlloySmelterRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.AssemblerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.BenderRecipeProvider;
+import dev.su5ed.gtexperimental.datagen.recipe.CanningMachineRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -30,7 +31,7 @@ public class RecipeGen extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        List<ModRecipeProvider> providers = List.of(AlloySmelterRecipesGen.INSTANCE, AssemblerRecipesGen.INSTANCE, BenderRecipeProvider.INSTANCE);
+        List<ModRecipeProvider> providers = List.of(AlloySmelterRecipesGen.INSTANCE, AssemblerRecipesGen.INSTANCE, BenderRecipeProvider.INSTANCE, CanningMachineRecipeProvider.INSTANCE);
         
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));
     }

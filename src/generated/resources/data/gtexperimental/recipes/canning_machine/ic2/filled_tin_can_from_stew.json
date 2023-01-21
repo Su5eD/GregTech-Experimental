@@ -1,0 +1,33 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 500,
+  "energyCost": 1.0,
+  "input": [
+    {
+      "value": {
+        "item": "minecraft:rabbit_stew"
+      }
+    },
+    {
+      "count": 5,
+      "value": {
+        "item": "ic2:tin_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "count": 5,
+      "item": "ic2:filled_tin_can"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ]
+}

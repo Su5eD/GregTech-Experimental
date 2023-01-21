@@ -10,13 +10,11 @@
   "energyCost": 2.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "item": "ic2:iron_cable"
       }
     },
     {
-      "type": "ingredient",
       "count": 3,
       "value": {
         "tag": "gtexperimental:rubber"

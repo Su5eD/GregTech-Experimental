@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.object;
 import dev.su5ed.gtexperimental.GregTechTab;
 import dev.su5ed.gtexperimental.block.LightSourceBlock;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
+import dev.su5ed.gtexperimental.recipe.type.VanillaFluidIngredient;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;
 import dev.su5ed.gtexperimental.util.BlockItemProvider;
 import dev.su5ed.gtexperimental.util.FluidProvider;
@@ -95,6 +96,9 @@ public final class ModObjects {
         
         event.register(Registry.LOOT_ENTRY_REGISTRY, helper -> helper.register(LocationLootItem.NAME, LocationLootItem.TYPE));
         
-        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, helper -> CraftingHelper.register(SelectedProfileCondition.Serializer.INSTANCE));
+        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, helper -> {
+            CraftingHelper.register(SelectedProfileCondition.Serializer.INSTANCE);
+            CraftingHelper.register(VanillaFluidIngredient.Serializer.NAME, VanillaFluidIngredient.Serializer.INSTANCE);
+        });
     }
 }

@@ -10,13 +10,11 @@
   "energyCost": 8.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "tag": "gtexperimental:generator"
       }
     },
     {
-      "type": "ingredient",
       "count": 2,
       "value": {
         "tag": "forge:plates/magnalium"

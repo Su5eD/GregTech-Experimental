@@ -12,7 +12,6 @@
   "energyCost": 16.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 2,
       "value": [
         {
@@ -24,7 +23,6 @@
       ]
     },
     {
-      "type": "ingredient",
       "count": 2,
       "value": {
         "item": "minecraft:iron_bars"

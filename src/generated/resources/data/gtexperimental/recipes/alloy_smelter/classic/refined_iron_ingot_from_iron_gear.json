@@ -16,7 +16,6 @@
   "energyCost": 3.0,
   "input": [
     {
-      "type": "ingredient",
       "value": {
         "item": "gtexperimental:iron_gear"
       }

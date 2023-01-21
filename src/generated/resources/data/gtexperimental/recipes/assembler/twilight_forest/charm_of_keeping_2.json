@@ -10,7 +10,6 @@
   "energyCost": 2.0,
   "input": [
     {
-      "type": "ingredient",
       "count": 4,
       "value": {
         "item": "twilightforest:charm_of_keeping_1"
