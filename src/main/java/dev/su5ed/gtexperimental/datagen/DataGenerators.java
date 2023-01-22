@@ -15,13 +15,14 @@ public final class DataGenerators {
 
         BlockTagsProvider blockTags = new BlockTagsGen(generator, helper);
         generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), new ItemTagsGen(generator, blockTags, helper));
         generator.addProvider(event.includeServer(), new EntityTagsGen(generator, helper));
         generator.addProvider(event.includeServer(), new BiomeTagsGen(generator, helper));
         generator.addProvider(event.includeServer(), new FluidTagsGen(generator, helper));
         generator.addProvider(event.includeServer(), new LootTableGen(generator));
         generator.addProvider(event.includeServer(), new LootModifierProvider(generator));
         generator.addProvider(event.includeServer(), new RecipeGen(generator));
+        // Always run item tags last
+        generator.addProvider(event.includeServer(), new ItemTagsGen(generator, blockTags, helper));
 
         generator.addProvider(event.includeClient(), new BlockStateGen(generator, helper));
         generator.addProvider(event.includeClient(), new ItemModelGen(generator, helper));

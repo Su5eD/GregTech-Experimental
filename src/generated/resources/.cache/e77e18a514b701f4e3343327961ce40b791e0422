@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-22T14:23:10.2030496	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-01-22T14:53:40.689754	Gregtech ExperimentalTags for minecraft:item
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -13,6 +13,7 @@ dcda373ae5225394e527929835b96d390aa4e42e data/forge/tags/items/dusts/charcoal.js
 a49c179d9cb6c36133348fd2b764316d3d1df083 data/forge/tags/items/dusts/chrome.json
 6d200763fa6fefe5c2ea68ede4b8c75eeb3775cd data/forge/tags/items/dusts/cinnabar.json
 53cc9133d2e94ec7872234e027c1e44e05fa728c data/forge/tags/items/dusts/clay.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/coal.json
 261e293bf5a46961f91e3adb2178bbe67c2bc178 data/forge/tags/items/dusts/dark_ashes.json
 ffeaca3b7da8457838676b31dae2f45118a33fc7 data/forge/tags/items/dusts/diamond.json
 e1f01db86b0ed2f9d9a9f3089823ecb7c32bdc28 data/forge/tags/items/dusts/electrum.json
@@ -97,9 +98,11 @@ a62eaff5bbe149c9496b29f6abb26ea29f760db8 data/forge/tags/items/ingots/silver.jso
 3b279d97c2f7cc175ae807024ddd9eddbec561fb data/forge/tags/items/ingots/soldering_alloy.json
 8ad0f79e2ce3cfcb1489a2a99cb948c8b5ebeac2 data/forge/tags/items/ingots/steel.json
 9d9bae79736d507ecdee7e0401793c40ba421b38 data/forge/tags/items/ingots/thorium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/tin.json
 c1a55bc991abf550d0149973f4918d0e09896c97 data/forge/tags/items/ingots/titanium.json
 ef0e1cdca053fcda109d5682997a39bd34a2cc60 data/forge/tags/items/ingots/tungsten.json
 e22741898e09119c68d496959d06c34ae7ebff6f data/forge/tags/items/ingots/tungsten_steel.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/uranium.json
 c7e8d84c27aa86bfa00463a22a6ea6458270df91 data/forge/tags/items/ingots/zinc.json
 797143e1e42a32089be12bc3a519592047750ab3 data/forge/tags/items/nuggets.json
 f770e8845f60863703ff63093c76c106ed079d33 data/forge/tags/items/nuggets/aluminium.json
@@ -117,6 +120,7 @@ dfa10bb7fe6d26290a444fc0cf5d4dfd336934c9 data/forge/tags/items/nuggets/brass.jso
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/nuggets/plutonium.json
 ba25eed10cd2cc9e87e4f95d0d81e0942c92d7fc data/forge/tags/items/nuggets/silver.json
 5b795255e8c02eda82a442c56aaf885df99e04f9 data/forge/tags/items/nuggets/steel.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/nuggets/thorium.json
 a7ac8f2cfe17ac0e7e54cc4582388b2e1622849b data/forge/tags/items/nuggets/tin.json
 d3591750ec42608dd80fe9c5cba412200f7f781e data/forge/tags/items/nuggets/titanium.json
 a851c8fc60e75dca1321357cc679ebe045221b49 data/forge/tags/items/nuggets/tungsten.json

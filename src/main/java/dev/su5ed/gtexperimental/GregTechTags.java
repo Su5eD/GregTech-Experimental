@@ -10,7 +10,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
+import one.util.streamex.StreamEx;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -162,6 +164,12 @@ public final class GregTechTags {
     public static TagKey<Item> material(String type, String name) {
         return FORGE_MATERIALS.computeIfAbsent(type, s -> new HashMap<>())
             .computeIfAbsent(name, s -> forgeItemTag(type + "/" + name));
+    }
+    
+    public static Collection<TagKey<Item>> getAllMaterials() {
+        return StreamEx.of(FORGE_MATERIALS.values())
+            .flatMap(map -> StreamEx.of(map.values()))
+            .toList();
     }
 
     private static TagKey<Item> forgeItemTag(String name) {
