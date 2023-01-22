@@ -1,36 +1,32 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.minecraft.world.level.Level;
 import one.util.streamex.StreamEx;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseRecipeManager<R extends BaseRecipeImpl<?, I, ? super R>, I> implements RecipeManager<R, I> {
-    private final Lazy<List<R>> recipes;
+public class BaseRecipeManager<R extends BaseRecipe<?, I, ? super R>, I> implements RecipeManager<R, I> {
+    private final List<R> recipes;
     private final Collection<RecipeProvider<R, I>> providers;
 
-    // TODO Support switching between levels
-    public BaseRecipeManager(RecipeType<R> recipeType) {
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        this.recipes = Lazy.of(() -> server.getRecipeManager().getAllRecipesFor(recipeType));
-        this.providers = new HashSet<>();
+    public BaseRecipeManager(RecipeType<R> recipeType, Level level, Collection<RecipeProvider<R, I>> providers) {
+        this.recipes = level.getRecipeManager().getAllRecipesFor(recipeType);
+        this.providers = providers;
     }
 
     public List<R> getRecipes() {
-        return this.recipes.get();
+        return this.recipes;
     }
 
     @Override
     public boolean hasRecipeFor(I input) {
-        return StreamEx.of(this.recipes.get())
+        return StreamEx.of(this.recipes)
             .anyMatch(r -> r.matches(input))
             || StreamEx.of(this.providers)
             .anyMatch(provider -> provider.hasRecipeFor(input));
@@ -38,7 +34,7 @@ public class BaseRecipeManager<R extends BaseRecipeImpl<?, I, ? super R>, I> imp
 
     @Override
     public R getRecipeFor(I input) {
-        return StreamEx.of(this.recipes.get())
+        return StreamEx.of(this.recipes)
             .filter(r -> r.matches(input))
             .min(RecipeUtil::compareCount)
             .orElseGet(() -> getProvidedRecipe(input));
@@ -49,9 +45,5 @@ public class BaseRecipeManager<R extends BaseRecipeImpl<?, I, ? super R>, I> imp
             .mapPartial(provider -> Optional.ofNullable(provider.getRecipeFor(input)))
             .findFirst()
             .orElse(null);
-    }
-
-    public void registerProvider(RecipeProvider<R, I> provider) {
-        this.providers.add(provider);
     }
 }

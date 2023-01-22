@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -86,7 +87,7 @@ public final class RecipeUtil {
         }
     }
 
-    public static <R extends BaseRecipeImpl<?, ?, ? super R>> int compareCount(R first, R second) {
+    public static <R extends BaseRecipe<?, ?, ? super R>> int compareCount(R first, R second) {
         return second.compareInputCount(first);
     }
 

@@ -43,7 +43,7 @@ public class DynamicBenderRecipes implements RecipeProvider<BenderRecipe, SISORe
             .mapToValue((key, output) -> {
                 String path = key.location().getPath();
                 String material = StringUtils.substringAfter(path, "/").replace('/', '_');
-                ResourceLocation id = location("bender", material + "_plate_to_" + ForgeRegistries.ITEMS.getKey(output).getPath());
+                ResourceLocation id = location("bender", material + "_plate_to_" + GtUtil.itemName(output));
                 return new BenderRecipe(id, ModRecipeIngredientTypes.ITEM.of(key), new ItemStack(output), 50, 20);
             })
             .toMap();

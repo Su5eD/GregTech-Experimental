@@ -1,9 +1,9 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
-import dev.su5ed.gtexperimental.recipe.type.BaseRecipeImpl;
+import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
-public abstract class ModRecipeBuilder<R extends BaseRecipeImpl<?, ?, ? super R>> extends BaseRecipeBuilder {
+public abstract class ModRecipeBuilder<R extends BaseRecipe<?, ?, ? super R>> extends BaseRecipeBuilder {
     protected final R recipe;
 
     public ModRecipeBuilder(R recipe) {
