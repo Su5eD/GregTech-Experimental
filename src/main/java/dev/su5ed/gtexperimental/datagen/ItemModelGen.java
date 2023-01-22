@@ -29,6 +29,7 @@ import dev.su5ed.gtexperimental.object.TurbineRotor;
 import dev.su5ed.gtexperimental.object.Upgrade;
 import dev.su5ed.gtexperimental.object.Wrench;
 import dev.su5ed.gtexperimental.util.FluidProvider;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.ItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -57,7 +58,7 @@ class ItemModelGen extends ItemModelProvider {
         StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ore.values())
             .append(GTBlockEntity.values())
-            .map(block -> ForgeRegistries.ITEMS.getKey(block.getItem()).getPath())
+            .map(GtUtil::itemName)
             .mapToEntry(name -> location("block", name))
             .forKeyValue(this::withExistingParent);
         
@@ -101,9 +102,8 @@ class ItemModelGen extends ItemModelProvider {
     }
     
     public ItemModelBuilder providerModel(ItemProvider provider, @Nullable String folder) {
-        String path = ForgeRegistries.ITEMS.getKey(provider.getItem()).getPath();
         ResourceLocation texture = locationNullable("item", folder, provider.getName());
-        return singleItemTexture(path, this.generatedParent, texture);
+        return singleItemTexture(GtUtil.itemName(provider), this.generatedParent, texture);
     }
     
     public ItemModelBuilder singleItemTexture(String name, ResourceLocation parent, ResourceLocation texture) {

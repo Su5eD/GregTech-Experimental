@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.recipe.type;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +18,7 @@ public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
     @Override
     public JsonObject toJson(ItemStack output) {
         JsonObject json = new JsonObject();
-        json.addProperty("item", ForgeRegistries.ITEMS.getKey(output.getItem()).toString());
+        json.addProperty("item", GtUtil.itemId(output));
         int count = output.getCount();
         if (count > 1) {
             json.addProperty("count", count);

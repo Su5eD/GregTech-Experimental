@@ -108,6 +108,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.PUMP, "pump");
         modItem(GregTechTags.ENERGY_CRYSTAL, "energy_crystal");
         modItem(GregTechTags.material("ingots", "mixed_metal"), "mixed_metal_ingot");
+        // TODO automatic for all tags
+        tag(GregTechTags.material("dusts", "iridium"));
+        tag(GregTechTags.material("nuggets", "plutonium"));
+        tag(GregTechTags.material("nuggets", "uranium"));
     }
 
     @Override

@@ -9,13 +9,16 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,6 +27,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
@@ -184,5 +188,33 @@ public final class GtUtil {
 
     public static String registryName(String... names) {
         return String.join("_", names);
+    }
+
+    public static ResourceLocation nestedId(ResourceLocation location, String folder) {
+        String path = location.getPath();
+        int idx = path.lastIndexOf('/') + 1;
+        String pathFolder = path.substring(0, idx);
+        String name = path.substring(idx);
+        return new ResourceLocation(location.getNamespace(), pathFolder + folder + "/" + name);
+    }
+
+    public static String itemName(ItemStack stack) {
+        return itemName(stack.getItem());
+    }
+
+    public static String itemName(ItemLike item) {
+        return ForgeRegistries.ITEMS.getKey(item.asItem()).getPath();
+    }
+    
+    public static String itemId(ItemStack stack) {
+        return itemId(stack.getItem());
+    }
+
+    public static String itemId(ItemLike item) {
+        return ForgeRegistries.ITEMS.getKey(item.asItem()).toString();
+    }
+
+    public static String tagName(TagKey<Item> tag) {
+        return tag.location().getPath().replace('/', '_');
     }
 }

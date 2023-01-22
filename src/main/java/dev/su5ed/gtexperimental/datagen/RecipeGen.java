@@ -7,6 +7,7 @@ import dev.su5ed.gtexperimental.datagen.recipe.AssemblerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.BenderRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.CanningMachineRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.ChemicalRecipeProvider;
+import dev.su5ed.gtexperimental.datagen.recipe.CompressorRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -31,6 +32,7 @@ public class RecipeGen extends RecipeProvider {
     public static final ICondition IC2_LOADED = new ModLoadedCondition(ModHandler.IC2_MODID);
     public static final ICondition FTBIC_LOADED = new ModLoadedCondition(ModHandler.FTBIC_MODID);
     public static final ICondition TWILIGHT_FOREST_LOADED = new ModLoadedCondition(ModHandler.TWILIGHT_FOREST_MODID);
+    public static final ICondition THERMAL_LOADED = new ModLoadedCondition(ModHandler.THERMAL_MODID);
 
     public RecipeGen(DataGenerator generator) {
         super(generator);
@@ -43,7 +45,8 @@ public class RecipeGen extends RecipeProvider {
             AssemblerRecipesGen.INSTANCE,
             BenderRecipeProvider.INSTANCE,
             CanningMachineRecipeProvider.INSTANCE,
-            ChemicalRecipeProvider.INSTANCE
+            ChemicalRecipeProvider.INSTANCE,
+            CompressorRecipesGen.INSTANCE
         );
         
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

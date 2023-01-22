@@ -4,9 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -17,6 +21,8 @@ import one.util.streamex.StreamEx;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import static dev.su5ed.gtexperimental.api.Reference.location;
 
 public final class RecipeUtil {
 
@@ -99,6 +105,14 @@ public final class RecipeUtil {
             throw new IllegalArgumentException("Fluid '" + resourceLocation + "' not found");
         }
         return fluid;
+    }
+
+    public static ResourceLocation createId(ItemLike input, ItemStack output) {
+        return location("%s_to_%s".formatted(GtUtil.itemName(input), GtUtil.itemName(output)));
+    }
+
+    public static ResourceLocation createId(TagKey<Item> input, ItemStack output) {
+        return location("%s_to_%s".formatted(GtUtil.tagName(input), GtUtil.itemName(output)));
     }
 
     private RecipeUtil() {}

@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-20T21:16:16.1871265	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-01-22T14:23:10.2030496	Gregtech ExperimentalTags for minecraft:item
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -25,6 +25,7 @@ bf0f41872ee56e41b4d19552f06c68e6bfe1f199 data/forge/tags/items/dusts/galena.json
 17e03a5e8d65d5bde43dd6c06a691c4685093e56 data/forge/tags/items/dusts/green_sapphire.json
 3315e4fd75392bf625a1347f73395eca86871190 data/forge/tags/items/dusts/grossular.json
 f3f73ab9a0eee7525f845c71e8a7a6f57ea3aa1b data/forge/tags/items/dusts/invar.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/iridium.json
 a02586363a97289b80348ecae7c75aec92d50469 data/forge/tags/items/dusts/lazurite.json
 96a69f21c2831cf70532f3342eb41a3c1829de22 data/forge/tags/items/dusts/lead.json
 afaad85914f165482e28b4c18de47d8b7266ba13 data/forge/tags/items/dusts/magnesium.json
@@ -113,11 +114,13 @@ dfa10bb7fe6d26290a444fc0cf5d4dfd336934c9 data/forge/tags/items/nuggets/brass.jso
 551df6ba5d62d73ee03239869547b2d55f2b19ca data/forge/tags/items/nuggets/nickel.json
 104bb01818e9883438ab2dcee9d05f6d2e9bfa87 data/forge/tags/items/nuggets/osmium.json
 1cf093b5aa8b75a607d2832547b6f5def03af8bb data/forge/tags/items/nuggets/platinum.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/nuggets/plutonium.json
 ba25eed10cd2cc9e87e4f95d0d81e0942c92d7fc data/forge/tags/items/nuggets/silver.json
 5b795255e8c02eda82a442c56aaf885df99e04f9 data/forge/tags/items/nuggets/steel.json
 a7ac8f2cfe17ac0e7e54cc4582388b2e1622849b data/forge/tags/items/nuggets/tin.json
 d3591750ec42608dd80fe9c5cba412200f7f781e data/forge/tags/items/nuggets/titanium.json
 a851c8fc60e75dca1321357cc679ebe045221b49 data/forge/tags/items/nuggets/tungsten.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/nuggets/uranium.json
 3d19fa8490321dd5375ce9a69b49af5441981035 data/forge/tags/items/nuggets/zinc.json
 49cd44dd0d06195bda6c6bc4699f86425efa8c2b data/forge/tags/items/ores.json
 f6818aa318dcfbac470d18dcd2a3be14d0d9dabb data/forge/tags/items/ores/bauxite.json

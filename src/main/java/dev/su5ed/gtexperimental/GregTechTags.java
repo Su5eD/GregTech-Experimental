@@ -158,6 +158,7 @@ public final class GregTechTags {
 
     private static final Map<String, Map<String, TagKey<Item>>> FORGE_MATERIALS = new HashMap<>();
 
+    // TODO shortcut methods with preset type
     public static TagKey<Item> material(String type, String name) {
         return FORGE_MATERIALS.computeIfAbsent(type, s -> new HashMap<>())
             .computeIfAbsent(name, s -> forgeItemTag(type + "/" + name));

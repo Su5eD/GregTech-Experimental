@@ -1,0 +1,22 @@
+{
+  "type": "ic2:compressor",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    }
+  ],
+  "ingredient": {
+    "count": 8,
+    "item": "minecraft:sugar_cane"
+  },
+  "result": {
+    "item": "ic2:compressed_plants"
+  }
+}

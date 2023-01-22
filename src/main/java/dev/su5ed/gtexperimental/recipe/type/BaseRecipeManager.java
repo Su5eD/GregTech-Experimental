@@ -17,6 +17,7 @@ public class BaseRecipeManager<R extends BaseRecipeImpl<?, I, ? super R>, I> imp
     private final Lazy<List<R>> recipes;
     private final Collection<RecipeProvider<R, I>> providers;
 
+    // TODO Support switching between levels
     public BaseRecipeManager(RecipeType<R> recipeType) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         this.recipes = Lazy.of(() -> server.getRecipeManager().getAllRecipesFor(recipeType));

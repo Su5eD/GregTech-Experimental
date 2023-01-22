@@ -1,0 +1,22 @@
+{
+  "type": "ftbic:compressor",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "inputItems": [
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "forge:dusts/iridium"
+      }
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "gtexperimental:iridium_ingot"
+    }
+  ]
+}

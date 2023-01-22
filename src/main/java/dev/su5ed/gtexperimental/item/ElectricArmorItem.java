@@ -6,6 +6,7 @@ import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.ModObjects;
 import dev.su5ed.gtexperimental.util.ArmorPerk;
 import dev.su5ed.gtexperimental.util.GtLocale;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.IItemHudInfo;
 import ic2.api.item.IMetalArmor;
@@ -125,7 +126,7 @@ public class ElectricArmorItem extends ArmorItem implements ExhaustingItem, IEle
     @Nullable
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return Reference.MODID + ":textures/armor/" + ForgeRegistries.ITEMS.getKey(this).getPath() + ".png";
+        return Reference.MODID + ":textures/armor/" + GtUtil.itemName(this) + ".png";
     }
 
     @Override

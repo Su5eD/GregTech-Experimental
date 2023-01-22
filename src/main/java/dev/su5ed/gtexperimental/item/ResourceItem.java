@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.item;
 
 import dev.su5ed.gtexperimental.object.ModObjects;
 import dev.su5ed.gtexperimental.util.GtLocale;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -94,12 +95,12 @@ public class ResourceItem extends Item {
         }
 
         public T autoDescription() {
-            this.description.add(item -> GtLocale.profileItemDescriptionKey(ForgeRegistries.ITEMS.getKey(item).getPath()).toComponent());
+            this.description.add(item -> GtLocale.profileItemDescriptionKey(GtUtil.itemName(item)).toComponent());
             return (T) this;
         }
 
         public T multiDescription(int lines) {
-            return multiDescription(item -> ForgeRegistries.ITEMS.getKey(item).getPath(), lines);
+            return multiDescription(GtUtil::itemName, lines);
         }
 
         public T multiDescription(Function<Item, String> nameFunction, int lines) {

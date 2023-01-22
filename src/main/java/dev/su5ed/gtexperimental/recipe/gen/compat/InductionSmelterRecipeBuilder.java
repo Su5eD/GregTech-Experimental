@@ -1,8 +1,10 @@
-package dev.su5ed.gtexperimental.recipe.gen;
+package dev.su5ed.gtexperimental.recipe.gen.compat;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.compat.ModHandler;
+import dev.su5ed.gtexperimental.datagen.RecipeGen;
+import dev.su5ed.gtexperimental.recipe.gen.BaseRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +17,6 @@ import java.util.List;
 
 public class InductionSmelterRecipeBuilder extends BaseRecipeBuilder {
     private static final ResourceLocation TYPE = new ResourceLocation(ModHandler.THERMAL_MODID, "smelter");
-    private static final ICondition CONDITION = new ModLoadedCondition(ModHandler.THERMAL_MODID);
 
     private final Ingredient ingredient;
     private final List<ItemStack> result;
@@ -26,7 +27,7 @@ public class InductionSmelterRecipeBuilder extends BaseRecipeBuilder {
         this.result = result;
         this.energy = energy;
 
-        addConditions(CONDITION);
+        addConditions(RecipeGen.THERMAL_LOADED);
     }
 
     @Override
@@ -50,6 +51,6 @@ public class InductionSmelterRecipeBuilder extends BaseRecipeBuilder {
 
     @Override
     public RecipeSerializer<?> getType() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }
