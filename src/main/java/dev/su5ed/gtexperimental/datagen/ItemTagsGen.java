@@ -24,6 +24,7 @@ import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.EntryStream;
@@ -111,6 +112,11 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.PUMP, "pump");
         modItem(GregTechTags.ENERGY_CRYSTAL, "energy_crystal");
         modItem(GregTechTags.material("ingots", "mixed_metal"), "mixed_metal_ingot");
+
+        tag(GregTechTags.COLORED_WOOL)
+            .add(Items.ORANGE_WOOL, Items.MAGENTA_WOOL, Items.LIGHT_BLUE_WOOL, Items.YELLOW_WOOL, Items.LIME_WOOL,
+                Items.PINK_WOOL, Items.GRAY_WOOL, Items.LIGHT_GRAY_WOOL, Items.CYAN_WOOL, Items.PURPLE_WOOL,
+                Items.BLUE_WOOL, Items.BROWN_WOOL, Items.GREEN_WOOL, Items.RED_WOOL, Items.BLACK_WOOL);
     }
 
     @Override

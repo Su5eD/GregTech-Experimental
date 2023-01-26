@@ -1,0 +1,22 @@
+{
+  "type": "ftbic:separating",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "inputItems": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "gtexperimental:indigo_blossom"
+      }
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "gtexperimental:indigo_dye"
+    }
+  ]
+}

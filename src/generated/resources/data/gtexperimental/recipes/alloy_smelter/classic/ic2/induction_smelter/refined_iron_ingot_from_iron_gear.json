@@ -1,0 +1,29 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "energy": 6000,
+  "ingredient": {
+    "item": "gtexperimental:iron_gear"
+  },
+  "result": [
+    {
+      "count": 6,
+      "item": "ic2:refined_iron_ingot"
+    }
+  ]
+}

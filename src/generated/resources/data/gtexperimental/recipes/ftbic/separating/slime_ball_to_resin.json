@@ -1,0 +1,27 @@
+{
+  "type": "ftbic:separating",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "inputItems": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "minecraft:slime_ball"
+      }
+    }
+  ],
+  "outputItems": [
+    {
+      "count": 2,
+      "item": "ic2:resin"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "ftbic:compressing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "inputItems": [
+    {
+      "count": 8,
+      "ingredient": {
+        "tag": "forge:dusts/lazurite"
+      }
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "gtexperimental:lazurite_chunk"
+    }
+  ]
+}

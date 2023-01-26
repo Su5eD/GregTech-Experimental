@@ -31,6 +31,10 @@ public class SelectedProfileCondition implements ICondition {
     public SelectedProfileCondition(Map<String, String> properties) {
         this.properties = properties;
     }
+    
+    public String getLayout() {
+        return this.properties.get(ProfileManager.LAYOUT);
+    }
 
     @Override
     public ResourceLocation getID() {

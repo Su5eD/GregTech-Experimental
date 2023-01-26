@@ -2,14 +2,14 @@
   "type": "gtexperimental:assembler",
   "conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "ic2"
-    },
-    {
       "type": "gtexperimental:selected_profile",
       "properties": {
         "layout": "classic"
       }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
     }
   ],
   "duration": 400,

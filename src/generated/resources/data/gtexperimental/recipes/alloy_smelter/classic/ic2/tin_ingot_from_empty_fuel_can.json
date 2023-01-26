@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 130,
+  "energyCost": 3.0,
+  "input": [
+    {
+      "value": {
+        "item": "ic2:empty_fuel_can"
+      }
+    }
+  ],
+  "output": {
+    "count": 7,
+    "item": "ic2:tin_ingot"
+  }
+}

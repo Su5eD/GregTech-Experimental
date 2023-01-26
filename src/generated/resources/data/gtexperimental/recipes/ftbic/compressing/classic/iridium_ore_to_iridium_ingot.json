@@ -1,0 +1,32 @@
+{
+  "type": "ftbic:compressing",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "inputItems": [
+    {
+      "count": 1,
+      "ingredient": {
+        "item": "ic2:iridium_ore"
+      }
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "gtexperimental:iridium_ingot"
+    }
+  ]
+}

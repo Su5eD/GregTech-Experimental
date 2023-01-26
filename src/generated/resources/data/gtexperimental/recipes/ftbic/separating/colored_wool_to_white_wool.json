@@ -1,0 +1,22 @@
+{
+  "type": "ftbic:separating",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "inputItems": [
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "gtexperimental:colored_wool"
+      }
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "minecraft:white_wool"
+    }
+  ]
+}

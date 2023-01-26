@@ -12,7 +12,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class FTBICMachineRecipeBuilder extends BaseRecipeBuilder {
-    public static final ResourceLocation COMPRESSOR = new ResourceLocation(ModHandler.FTBIC_MODID, "compressor");
+    public static final ResourceLocation COMPRESSING = new ResourceLocation(ModHandler.FTBIC_MODID, "compressing");
+    public static final ResourceLocation SEPARATING = new ResourceLocation(ModHandler.FTBIC_MODID, "separating");
 
     private final ResourceLocation type;
     private final Ingredient ingredient;

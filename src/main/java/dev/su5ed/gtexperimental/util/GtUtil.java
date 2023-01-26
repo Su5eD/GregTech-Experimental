@@ -190,6 +190,10 @@ public final class GtUtil {
     public static String registryName(String... names) {
         return String.join("_", names);
     }
+    
+    public static ResourceLocation prefixedId(ResourceLocation location, String prefix) {
+        return new ResourceLocation(location.getNamespace(), prefix + "/" + location.getPath());
+    }
 
     public static ResourceLocation nestedId(ResourceLocation location, String folder) {
         String path = location.getPath();

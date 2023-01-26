@@ -1,0 +1,22 @@
+{
+  "type": "ic2:compressor",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "count": 8,
+    "tag": "forge:crops/wheat"
+  },
+  "result": {
+    "item": "ic2:compressed_plants"
+  }
+}

@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.recipe.gen.compat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.RecipeGen;
 import dev.su5ed.gtexperimental.recipe.gen.BaseRecipeBuilder;
@@ -17,18 +18,15 @@ import net.minecraft.world.level.ItemLike;
 
 public class IC2MachineRecipeBuilder extends BaseRecipeBuilder {
     public static final ResourceLocation COMPRESSOR = new ResourceLocation(ModHandler.IC2_MODID, "compressor");
+    public static final ResourceLocation EXTRACTOR = new ResourceLocation(ModHandler.IC2_MODID, "extractor");
 
     private final ResourceLocation type;
     private final Value ingredient;
     private final int count;
     private final ItemStack result;
 
-    public IC2MachineRecipeBuilder(ResourceLocation type, TagKey<Item> tag, int count, ItemStack result) {
-        this(type, new TagValue(tag), count, result);
-    }
-
-    public IC2MachineRecipeBuilder(ResourceLocation type, ItemLike item, int count, ItemStack result) {
-        this(type, new ItemValue(item), count, result);
+    public IC2MachineRecipeBuilder(ResourceLocation type, Either<ItemLike, TagKey<Item>> input, int count, ItemStack result) {
+        this(type, input.map(ItemValue::new, TagValue::new), count, result);
     }
 
     private IC2MachineRecipeBuilder(ResourceLocation type, Value ingredient, int count, ItemStack result) {

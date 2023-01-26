@@ -1,0 +1,17 @@
+{
+  "type": "ic2:extractor",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "count": 1,
+    "item": "minecraft:slime_ball"
+  },
+  "result": {
+    "count": 2,
+    "item": "ic2:resin"
+  }
+}

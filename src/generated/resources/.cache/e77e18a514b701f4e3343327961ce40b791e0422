@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-22T14:53:40.689754	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-01-26T15:13:28.355832055	Gregtech ExperimentalTags for minecraft:item
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -42,8 +42,8 @@ b62f40835850d54610b1126d7302d01e71016c2a data/forge/tags/items/dusts/osmium.json
 97882a632f854f5d99d322cf166ae986670191f3 data/forge/tags/items/dusts/plutonium.json
 31dd0eca7a2b5defd720c89982dd45f2fe77ab9c data/forge/tags/items/dusts/pyrite.json
 6683a329eac10d277d9175a088514257a56f3531 data/forge/tags/items/dusts/pyrope.json
-63286c224f81bf4cf98771985226d8b84c43b5c3 data/forge/tags/items/dusts/redrock.json
 b3a11194fbcadb2e12962da1943ab16a7f62ddb2 data/forge/tags/items/dusts/red_garnet.json
+63286c224f81bf4cf98771985226d8b84c43b5c3 data/forge/tags/items/dusts/redrock.json
 ae599b5e3e763a405ee9ed479d3a578638a9ae41 data/forge/tags/items/dusts/ruby.json
 e1445d7f7496b84b2c20a3e214c89ee459e9dec1 data/forge/tags/items/dusts/saltpeter.json
 d82b2ea3db640a81c32249c92d2dc27ed7748b20 data/forge/tags/items/dusts/sapphire.json
@@ -212,6 +212,7 @@ ba7ca26622a88198bba0bb93b2d3930e37dc3904 data/gtexperimental/tags/items/circuit_
 597e29aa380ef521e04c003b90441d0bb794f7f9 data/gtexperimental/tags/items/circuit_tier_6.json
 cc329b783965ab17517b69ee82c4ad61e692537c data/gtexperimental/tags/items/circuit_tier_8.json
 c57b4b82e9a3949109fa7e75cc1e235c4b7b9390 data/gtexperimental/tags/items/coal_ball.json
+cafe0ac68c29490bb14f7f7fb812e66ce1e447bc data/gtexperimental/tags/items/colored_wool.json
 7ab6ea925a4a52fb5e4dbf87a3a20c6a45df4f9e data/gtexperimental/tags/items/component_heat_vent.json
 b661a09d9556e39b050dd28dab836f02a3599423 data/gtexperimental/tags/items/compressed_coal_ball.json
 66591b0da119fb08ca946a70a8276c0730ccba38 data/gtexperimental/tags/items/copper_cable.json
@@ -238,8 +239,8 @@ bb043f9161089752e7f444eddc443a600867a5b1 data/gtexperimental/tags/items/crafting
 dceb8efb9d4bc82880175d639d7d1feb8b76b6ed data/gtexperimental/tags/items/crafting/hv_transformer_upgrade.json
 ca3d2b71a509c101352e3b28dd8b71c2b31a90d9 data/gtexperimental/tags/items/crafting/item_meter.json
 4f66d1b177ebcda722949725c75a56cf7b5536e8 data/gtexperimental/tags/items/crafting/item_valve.json
-fb709ccff4499df81dcc59395bdf5e936936d563 data/gtexperimental/tags/items/crafting/liquid_meter.json
 20e51c9a238d56102d2ef991ad827f94b33c4a79 data/gtexperimental/tags/items/crafting/li_battery.json
+fb709ccff4499df81dcc59395bdf5e936936d563 data/gtexperimental/tags/items/crafting/liquid_meter.json
 f50a7a49f9c05bbcc95273be8fbdf995da7981ad data/gtexperimental/tags/items/crafting/lock.json
 ff27b5513b88980f2f08cf6e9bc6364e8622529f data/gtexperimental/tags/items/crafting/machine_parts.json
 25134082937fc37e9035ad1ede1b2efcd8b24cdb data/gtexperimental/tags/items/crafting/magnalium_turbine_blade.json
@@ -263,9 +264,9 @@ b3f591a966a070c84073f15c503e01827b9e3f1c data/gtexperimental/tags/items/crafting
 bbaa4c446a91ec20483d9c85096fd7d30f69e7c0 data/gtexperimental/tags/items/crafting/steel_turbine_blade.json
 ba4f51f3d3fcd51292db10b012f9b41c1d664253 data/gtexperimental/tags/items/crafting/superconductor.json
 90fa3e0813e2958f24d750afe23ad7d404462b29 data/gtexperimental/tags/items/crafting/tungsten_steel_turbine_blade.json
-95c0653a59e6535ecc10b297be94b5340fc02cc2 data/gtexperimental/tags/items/crafting/workbench.json
 e31fbd8b55791ce58bd2f08ed185c5ef6d40be89 data/gtexperimental/tags/items/crafting/work_controller.json
 50f0870ad953a5f12e211addba2fbd1597d92367 data/gtexperimental/tags/items/crafting/work_detector.json
+95c0653a59e6535ecc10b297be94b5340fc02cc2 data/gtexperimental/tags/items/crafting/workbench.json
 a9de0c5c7bf2718731d263dd536b3171f5e198a6 data/gtexperimental/tags/items/empty_fluid_cell.json
 1c8cd9997de60d0e792cebeaace4c17d4fab3a81 data/gtexperimental/tags/items/empty_fuel_can.json
 75a4fba209919f6466ccfa630a57c1d552106946 data/gtexperimental/tags/items/energy_crystal.json

@@ -1,0 +1,22 @@
+{
+  "type": "ftbic:compressing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "inputItems": [
+    {
+      "count": 9,
+      "ingredient": {
+        "tag": "forge:nuggets/osmium"
+      }
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "gtexperimental:osmium_ingot"
+    }
+  ]
+}

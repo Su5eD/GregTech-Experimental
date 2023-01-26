@@ -106,18 +106,18 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.IRON_FURNACE), new ItemStack(Items.IRON_INGOT, 5), 130, 3)
             .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, id("iron_ingot_from_iron_furnace"), true);
+            .build(finishedRecipeConsumer, id("ic2/iron_ingot_from_iron_furnace"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), new ItemStack(Ic2Items.TIN_INGOT), 130, 3)
             .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, id("tin_ingot_from_empty_cell"), true);
+            .build(finishedRecipeConsumer, id("ic2/tin_ingot_from_empty_cell"), true);
 
         // Classic
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_FUEL_CAN), new ItemStack(Ic2Items.TIN_INGOT, 7), 130, 3)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/tin_ingot_from_empty_fuel_can"), true);
+            .build(finishedRecipeConsumer, id("classic/ic2/tin_ingot_from_empty_fuel_can"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRON_GEAR.getItem()), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 6), 130, 3)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/refined_iron_ingot_from_iron_gear"), true);
+            .build(finishedRecipeConsumer, id("classic/ic2/refined_iron_ingot_from_iron_gear"), true);
     }
     
     private static ResourceLocation id(String name) {
