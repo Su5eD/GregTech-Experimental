@@ -1,7 +1,7 @@
 {
   "type": "gtexperimental:assembler",
   "duration": 1600,
-  "energyCost": 8.0,
+  "energy_cost": 8.0,
   "input": [
     {
       "count": 16,

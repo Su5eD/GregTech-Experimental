@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:fusion_solid",
+  "duration": 512,
+  "energy_cost": 32768.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:wolframium"
+    },
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:berylium"
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:platinum_dust"
+  },
+  "start_energy": 1.0E8
+}

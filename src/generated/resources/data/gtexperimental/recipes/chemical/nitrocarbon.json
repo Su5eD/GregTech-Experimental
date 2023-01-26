@@ -1,7 +1,6 @@
 {
   "type": "gtexperimental:chemical",
   "duration": 1500,
-  "energyCost": 32.0,
   "input": [
     {
       "type": "tag",

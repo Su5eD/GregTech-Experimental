@@ -2,6 +2,10 @@
   "type": "ftbic:compressing",
   "conditions": [
     {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    },
+    {
       "type": "gtexperimental:selected_profile",
       "properties": {
         "layout": "experimental"
@@ -10,10 +14,6 @@
     {
       "type": "forge:mod_loaded",
       "modid": "ic2"
-    },
-    {
-      "type": "forge:mod_loaded",
-      "modid": "ftbic"
     }
   ],
   "inputItems": [

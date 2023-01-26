@@ -14,48 +14,57 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Single Output recipe
  */
-public abstract class MISORecipe<T> extends BaseRecipeImpl<MISORecipeType<?, T>, MISORecipe.Input<T>, MISORecipe<T>> {
-    protected final List<? extends RecipeIngredient<T>> inputs;
-    protected final T output;
-    protected final int duration;
-    protected final double energyCost;
+public abstract class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<?, IN, OUT>, MISORecipe.Input<IN>, MISORecipe<IN, OUT>> {
+    protected final List<? extends RecipeIngredient<IN>> inputs;
+    protected final OUT output;
+    protected final RecipePropertyMap properties;
 
-    public MISORecipe(MISORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<T>> inputs, T output, int duration, double energyCost) {
+    public MISORecipe(MISORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<IN>> inputs, OUT output, int duration, double energyCost) {
+        this(type, serializer, id, inputs, output, RecipePropertyMap.builder()
+            .duration(duration)
+            .energyCost(energyCost)
+            .build());
+    }
+    
+    public MISORecipe(MISORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<IN>> inputs, OUT output, RecipePropertyMap properties) {
         super(type, serializer, id);
 
         this.inputs = inputs;
         this.output = output;
-        this.duration = duration;
-        this.energyCost = energyCost;
+        this.properties = properties;
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputCount);
         this.type.outputType.validate(this.id, "output", this.output);
-        // TODO validate energyCost and duration
+        this.properties.validate(this.id, this.type.properties);
     }
 
-    public List<? extends RecipeIngredient<T>> getInputs() {
+    public List<? extends RecipeIngredient<IN>> getInputs() {
         return this.inputs;
     }
 
-    public T getOutput() {
+    public OUT getOutput() {
         return this.output;
     }
 
+    public RecipePropertyMap getProperties() {
+        return this.properties;
+    }
+
     public int getDuration() {
-        return this.duration;
+        return this.properties.get(ModRecipeProperty.DURATION);
     }
 
     public double getEnergyCost() {
-        return this.energyCost;
+        return this.properties.get(ModRecipeProperty.ENERGY_COST);
     }
 
     @Override
-    public boolean matches(Input<T> input) {
+    public boolean matches(Input<IN> input) {
         return this.inputs.size() == input.items.size() && EntryStream.zip(this.inputs, input.items).allMatch(Predicate::test);
     }
 
     @Override
-    public int compareInputCount(MISORecipe<T> other) {
+    public int compareInputCount(MISORecipe<IN, OUT> other) {
         return StreamEx.of(this.inputs).mapToInt(RecipeIngredient::getCount).sum()
             - StreamEx.of(other.inputs).mapToInt(RecipeIngredient::getCount).sum();
     }
@@ -64,8 +73,7 @@ public abstract class MISORecipe<T> extends BaseRecipeImpl<MISORecipeType<?, T>,
     public void toNetwork(FriendlyByteBuf buffer) {
         ModRecipeIngredientTypes.toNetwork(this.inputs, buffer);
         this.type.outputType.toNetwork(buffer, this.output);
-        buffer.writeInt(this.duration);
-        buffer.writeDouble(this.energyCost);
+        this.properties.toNetwork(buffer);
     }
 
     public record Input<T>(List<T> items) {}

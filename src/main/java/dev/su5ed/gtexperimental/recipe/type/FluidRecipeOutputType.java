@@ -12,8 +12,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class FluidRecipeOutputType implements RecipeOutputType<FluidStack> {
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, FluidStack output) {
-        buffer.writeFluidStack(output);
+    public void toNetwork(FriendlyByteBuf buffer, FluidStack value) {
+        buffer.writeFluidStack(value);
     }
 
     @Override
@@ -22,10 +22,10 @@ public class FluidRecipeOutputType implements RecipeOutputType<FluidStack> {
     }
 
     @Override
-    public JsonObject toJson(FluidStack output) {
+    public JsonElement toJson(FluidStack value) {
         JsonObject json = new JsonObject();
-        json.addProperty("fluid", ForgeRegistries.FLUIDS.getKey(output.getFluid()).toString());
-        json.addProperty("amount", output.getAmount());
+        json.addProperty("fluid", ForgeRegistries.FLUIDS.getKey(value.getFluid()).toString());
+        json.addProperty("amount", value.getAmount());
         return json;
     }
 
@@ -39,8 +39,8 @@ public class FluidRecipeOutputType implements RecipeOutputType<FluidStack> {
     }
 
     @Override
-    public void validate(ResourceLocation id, String name, FluidStack item) {
-        if (item.isEmpty()) {
+    public void validate(ResourceLocation id, String name, FluidStack value) {
+        if (value.isEmpty()) {
             throw new RuntimeException("Empty " + name + " fluid in recipe " + id);
         }
     }

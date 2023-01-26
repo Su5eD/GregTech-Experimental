@@ -1,0 +1,34 @@
+{
+  "type": "gtexperimental:fusion_solid",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 512,
+  "energy_cost": 32768.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:wolframium"
+    },
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:lithium"
+    }
+  ],
+  "output": {
+    "item": "ftbic:iridium_chunk"
+  },
+  "start_energy": 1.5E8
+}

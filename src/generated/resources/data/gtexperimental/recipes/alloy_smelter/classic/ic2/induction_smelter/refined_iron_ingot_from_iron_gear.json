@@ -2,18 +2,18 @@
   "type": "thermal:smelter",
   "conditions": [
     {
-      "type": "gtexperimental:selected_profile",
-      "properties": {
-        "layout": "classic"
-      }
-    },
-    {
       "type": "forge:mod_loaded",
       "modid": "thermal"
     },
     {
       "type": "forge:mod_loaded",
       "modid": "ic2"
+    },
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
     }
   ],
   "energy": 6000,

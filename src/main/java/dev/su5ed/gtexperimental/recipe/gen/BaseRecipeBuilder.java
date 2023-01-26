@@ -9,21 +9,24 @@ import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public abstract class BaseRecipeBuilder {
-    protected final Set<ICondition> conditions = new HashSet<>();
+    protected final Collection<ICondition> conditions = new ArrayList<>();
 
     public BaseRecipeBuilder addConditions(ICondition... conditions) {
         return addConditions(List.of(conditions));
     }
 
     public BaseRecipeBuilder addConditions(Collection<ICondition> conditions) {
-        this.conditions.addAll(conditions);
+        for (ICondition condition : conditions) {
+            if (!this.conditions.contains(condition)) {
+                this.conditions.add(condition);
+            }
+        }
         return this;
     }
 

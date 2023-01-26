@@ -4,9 +4,9 @@ import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
 
-public class MISORecipeBuilder<T> extends ModRecipeBuilder<MISORecipe<T>> {
+public class MISORecipeBuilder<IN, OUT> extends ModRecipeBuilder<MISORecipe<IN, OUT>> {
 
-    public MISORecipeBuilder(MISORecipe<T> recipe) {
+    public MISORecipeBuilder(MISORecipe<IN, OUT> recipe) {
         super(recipe);
     }
 
@@ -16,7 +16,6 @@ public class MISORecipeBuilder<T> extends ModRecipeBuilder<MISORecipe<T>> {
 
         json.add("input", ModRecipeIngredientTypes.toJson(this.recipe.getInputs()));
         json.add("output", this.recipe.getType().outputType.toJson(this.recipe.getOutput()));
-        json.addProperty("duration", this.recipe.getDuration());
-        json.addProperty("energyCost", this.recipe.getEnergyCost());
+        this.recipe.getProperties().toJson(json);
     }
 }

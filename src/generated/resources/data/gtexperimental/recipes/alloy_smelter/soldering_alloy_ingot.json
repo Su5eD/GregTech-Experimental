@@ -1,7 +1,7 @@
 {
   "type": "gtexperimental:alloy_smelter",
   "duration": 500,
-  "energyCost": 16.0,
+  "energy_cost": 16.0,
   "input": [
     {
       "count": 9,

@@ -14,19 +14,25 @@ import java.util.List;
 public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>, SIMORecipe.Input<T>, SIMORecipe<T>> {
     protected final RecipeIngredient<T> input;
     protected final List<T> output;
-    protected final int duration;
-    protected final double energyCost;
-
+    protected final RecipePropertyMap properties;
+    
     public SIMORecipe(SIMORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<T> input, List<T> output, int duration, double energyCost) {
+        this(type, serializer, id, input, output, RecipePropertyMap.builder()
+            .duration(duration)
+            .energyCost(energyCost)
+            .build());
+    }
+
+    public SIMORecipe(SIMORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<T> input, List<T> output, RecipePropertyMap properties) {
         super(type, serializer, id);
 
         this.input = input;
         this.output = output;
-        this.duration = duration;
-        this.energyCost = energyCost;
+        this.properties = properties;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
         RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output);
+        this.properties.validate(this.id, this.type.properties);
     }
 
     public RecipeIngredient<T> getInput() {
@@ -38,11 +44,11 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
     }
 
     public int getDuration() {
-        return this.duration;
+        return this.properties.get(ModRecipeProperty.DURATION);
     }
 
     public double getEnergyCost() {
-        return this.energyCost;
+        return this.properties.get(ModRecipeProperty.ENERGY_COST);
     }
 
     @Override
@@ -59,8 +65,7 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
         ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
-        buffer.writeInt(this.duration);
-        buffer.writeDouble(this.energyCost);
+        this.properties.toNetwork(buffer);
     }
 
     public record Input<T>(T item) {}

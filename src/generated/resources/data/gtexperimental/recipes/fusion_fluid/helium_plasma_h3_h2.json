@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:fusion_fluid",
+  "duration": 128,
+  "energy_cost": 4096.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:tritium"
+    },
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:deuterium"
+    }
+  ],
+  "output": {
+    "amount": 1000,
+    "fluid": "gtexperimental:helium_plasma_fluid"
+  },
+  "start_energy": 4.0E7
+}

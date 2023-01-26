@@ -3,11 +3,11 @@
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "ic2"
+      "modid": "ftbic"
     },
     {
       "type": "forge:mod_loaded",
-      "modid": "ftbic"
+      "modid": "ic2"
     }
   ],
   "inputItems": [

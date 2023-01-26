@@ -7,7 +7,10 @@ import dev.su5ed.gtexperimental.recipe.AssemblerRecipe;
 import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
+import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.DynamicBenderRecipes;
+import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
+import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManager;
@@ -31,6 +34,9 @@ public final class ModRecipeManagers {
     public static final RecipeManagerProvider<PulverizerRecipe, SIMORecipe.Input<ItemStack>> PULVERIZER = create(ModRecipeTypes.PULVERIZER);
     public static final RecipeManagerProvider<BenderRecipe, SISORecipe.Input> BENDER = create(ModRecipeTypes.BENDER);
     public static final RecipeManagerProvider<ChemicalRecipe, MISORecipe.Input<FluidStack>> CHEMICAL = create(ModRecipeTypes.CHEMICAL);
+    public static final RecipeManagerProvider<DistillationRecipe, SIMORecipe.Input<FluidStack>> DISTILLATION = create(ModRecipeTypes.DISTILLATION);
+    public static final RecipeManagerProvider<FusionSolidRecipe, MISORecipe.Input<FluidStack>> FUSION_SOLID = create(ModRecipeTypes.FUSION_SOLID);
+    public static final RecipeManagerProvider<FusionFluidRecipe, MISORecipe.Input<FluidStack>> FUSION_FLUID = create(ModRecipeTypes.FUSION_FLUID);
 
     static {
         BENDER.registerProvider(DynamicBenderRecipes::new);

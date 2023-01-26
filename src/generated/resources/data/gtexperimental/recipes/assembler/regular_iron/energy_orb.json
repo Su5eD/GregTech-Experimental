@@ -9,7 +9,7 @@
     }
   ],
   "duration": 6400,
-  "energyCost": 16.0,
+  "energy_cost": 16.0,
   "input": [
     {
       "value": [

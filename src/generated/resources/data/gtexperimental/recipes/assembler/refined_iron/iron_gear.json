@@ -9,7 +9,7 @@
     }
   ],
   "duration": 3200,
-  "energyCost": 4.0,
+  "energy_cost": 4.0,
   "input": [
     {
       "count": 4,

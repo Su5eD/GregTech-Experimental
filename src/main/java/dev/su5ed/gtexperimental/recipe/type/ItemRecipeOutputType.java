@@ -7,19 +7,18 @@ import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, ItemStack output) {
-        buffer.writeItem(output);
+    public void toNetwork(FriendlyByteBuf buffer, ItemStack value) {
+        buffer.writeItem(value);
     }
 
     @Override
-    public JsonObject toJson(ItemStack output) {
+    public JsonElement toJson(ItemStack value) {
         JsonObject json = new JsonObject();
-        json.addProperty("item", GtUtil.itemId(output));
-        int count = output.getCount();
+        json.addProperty("item", GtUtil.itemId(value));
+        int count = value.getCount();
         if (count > 1) {
             json.addProperty("count", count);
         }
@@ -37,8 +36,8 @@ public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
     }
 
     @Override
-    public void validate(ResourceLocation id, String name, ItemStack item) {
-        if (item.isEmpty()) {
+    public void validate(ResourceLocation id, String name, ItemStack value) {
+        if (value.isEmpty()) {
             throw new RuntimeException("Empty " + name + " item in recipe " + id);
         }
     }

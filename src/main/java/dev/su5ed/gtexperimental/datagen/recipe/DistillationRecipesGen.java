@@ -24,7 +24,7 @@ public final class DistillationRecipesGen implements ModRecipeProvider {
             ModFluid.SULFURIC_ACID.getFluidStack(buckets(16)),
             ModFluid.GLYCERYL.getFluidStack(buckets(1)),
             ModFluid.METHANE.getFluidStack(buckets(16)),
-            16000, 16
+            16000
         )
             .build(finishedRecipeConsumer, id("oil"));
         
