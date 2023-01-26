@@ -40,7 +40,7 @@ public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> 
 
         RecipeIngredient<ItemStack> input = this.inputType.create(inputJson);
         RecipeIngredient<FluidStack> fluid = this.fluidType.create(fluidJson);
-        List<ItemStack> outputs = RecipeOutputType.parseOutputs(this.outputTypes, outputJson);
+        List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputTypes, outputJson);
 
         return this.factory.create(recipeId, input, fluid, outputs);
     }

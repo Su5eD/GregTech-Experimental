@@ -1,13 +1,12 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.google.gson.JsonObject;
-import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
-import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
+import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
 
-public class MIMORecipeBuilder extends ModRecipeBuilder<MIMORecipe> {
+public class SIMORecipeBuilder<T> extends ModRecipeBuilder<SIMORecipe<T>> {
 
-    public MIMORecipeBuilder(MIMORecipe recipe) {
+    public SIMORecipeBuilder(SIMORecipe<T> recipe) {
         super(recipe);
     }
 
@@ -15,7 +14,7 @@ public class MIMORecipeBuilder extends ModRecipeBuilder<MIMORecipe> {
     public void serializeRecipeData(JsonObject json) {
         super.serializeRecipeData(json);
 
-        json.add("input", ModRecipeIngredientTypes.toJson(this.recipe.getInputs()));
+        json.add("input", this.recipe.getInput().toJson());
         json.add("output", ModRecipeOutputTypes.toJson(this.recipe.getType().getOutputTypes(), this.recipe.getOutput()));
         json.addProperty("duration", this.recipe.getDuration());
         json.addProperty("energyCost", this.recipe.getEnergyCost());

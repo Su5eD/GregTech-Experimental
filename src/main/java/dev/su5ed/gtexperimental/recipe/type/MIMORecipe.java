@@ -31,7 +31,7 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMOR
         this.energyCost = energyCost;
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
-        RecipeUtil.validateItemList(this.id, "outputs", this.output, this.type.outputTypes.size());
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputTypes, this.output);
     }
 
     public List<? extends RecipeIngredient<ItemStack>> getInputs() {

@@ -28,7 +28,7 @@ public final class ModRecipeManagers {
     public static final RecipeManagerProvider<AssemblerRecipe, MISORecipe.Input<ItemStack>> ASSEMBLER = create(ModRecipeTypes.ASSEMBLER);
     public static final RecipeManagerProvider<CanningMachineRecipe, MIMORecipe.Input> CANNING_MACHINE = create(ModRecipeTypes.CANNING_MACHINE);
     public static final RecipeManagerProvider<IndustrialGrinderRecipe, IFMORecipe.Input> INDUSTRIAL_GRINDER = create(ModRecipeTypes.INDUSTRIAL_GRINDER);
-    public static final RecipeManagerProvider<PulverizerRecipe, SIMORecipe.Input> PULVERIZER = create(ModRecipeTypes.PULVERIZER);
+    public static final RecipeManagerProvider<PulverizerRecipe, SIMORecipe.Input<ItemStack>> PULVERIZER = create(ModRecipeTypes.PULVERIZER);
     public static final RecipeManagerProvider<BenderRecipe, SISORecipe.Input> BENDER = create(ModRecipeTypes.BENDER);
     public static final RecipeManagerProvider<ChemicalRecipe, MISORecipe.Input<FluidStack>> CHEMICAL = create(ModRecipeTypes.CHEMICAL);
 

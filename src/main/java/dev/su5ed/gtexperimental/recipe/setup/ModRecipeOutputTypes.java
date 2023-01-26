@@ -1,5 +1,7 @@
 package dev.su5ed.gtexperimental.recipe.setup;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.recipe.type.FluidRecipeOutputType;
 import dev.su5ed.gtexperimental.recipe.type.ItemRecipeOutputType;
@@ -26,12 +28,23 @@ public final class ModRecipeOutputTypes {
     }
 
     public static <T> void toNetwork(List<? extends RecipeOutputType<T>> outputTypes, List<T> outputs, FriendlyByteBuf buffer) {
-        if (outputs.size() >= outputTypes.size()) {
+        if (outputTypes.size() >= outputs.size()) {
             buffer.writeInt(outputs.size());
             for (int i = 0; i < outputs.size(); i++) {
                 RecipeOutputType<T> outputType = outputTypes.get(i);
                 outputType.toNetwork(buffer, outputs.get(i));
             }
+        }
+        throw new IllegalArgumentException("There are more outputs than known output types");
+    }
+    
+    public static <T> JsonElement toJson(List<? extends RecipeOutputType<T>> outputTypes, List<T> outputs) {
+        if (outputTypes.size() >= outputs.size()) {
+            JsonArray json = new JsonArray(outputs.size());
+            for (int i = 0; i < outputs.size(); i++) {
+                json.add(outputTypes.get(i).toJson(outputs.get(i)));
+            }
+            return json;
         }
         throw new IllegalArgumentException("There are more outputs than known output types");
     }

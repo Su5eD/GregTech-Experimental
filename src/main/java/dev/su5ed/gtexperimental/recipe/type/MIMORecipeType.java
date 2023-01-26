@@ -38,7 +38,7 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
         List<? extends RecipeIngredient<ItemStack>> inputs = RecipeUtil.parseInputs(this.inputTypes, inputJson);
-        List<ItemStack> outputs = RecipeOutputType.parseOutputs(this.outputTypes, outputJson);
+        List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputTypes, outputJson);
         int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
         double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");
 

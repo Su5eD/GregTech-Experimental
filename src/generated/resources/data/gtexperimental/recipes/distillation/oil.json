@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:distillation",
+  "duration": 16000,
+  "energyCost": 16.0,
+  "input": {
+    "type": "fluid",
+    "amount": 16000,
+    "fluid": "gtexperimental:oil_fluid"
+  },
+  "output": [
+    {
+      "amount": 16000,
+      "fluid": "gtexperimental:diesel_fluid"
+    },
+    {
+      "amount": 16000,
+      "fluid": "gtexperimental:sulfuric_acid_fluid"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:glyceryl_fluid"
+    },
+    {
+      "amount": 16000,
+      "fluid": "gtexperimental:methane_fluid"
+    }
+  ]
+}

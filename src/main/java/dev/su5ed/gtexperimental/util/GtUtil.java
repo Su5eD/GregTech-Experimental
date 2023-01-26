@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -205,7 +206,7 @@ public final class GtUtil {
     public static String itemName(ItemLike item) {
         return ForgeRegistries.ITEMS.getKey(item.asItem()).getPath();
     }
-    
+
     public static String itemId(ItemStack stack) {
         return itemId(stack.getItem());
     }
@@ -216,5 +217,9 @@ public final class GtUtil {
 
     public static String tagName(TagKey<Item> tag) {
         return tag.location().getPath().replace('/', '_');
+    }
+
+    public static int buckets(int buckets) {
+        return buckets * FluidType.BUCKET_VOLUME;
     }
 }

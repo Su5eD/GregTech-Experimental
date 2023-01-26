@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -46,11 +47,20 @@ public final class RecipeUtil {
         throw new IllegalArgumentException("There are more inputs than known Input types");
     }
 
+    public static <T> List<T> parseOutputs(List<? extends RecipeOutputType<T>> outputTypes, JsonArray json) {
+        if (!json.isEmpty() && outputTypes.size() >= json.size()) {
+            return StreamEx.of(outputTypes)
+                .zipWith(StreamEx.of(json.getAsJsonArray().iterator()))
+                .mapKeyValue(RecipeOutputType::fromJson)
+                .toList();
+        }
+        throw new IllegalArgumentException("Output type and json sizes differ");
+    }
+
     public static ItemStack parseItemStack(JsonElement json) {
         if (json.isJsonObject()) {
             return ShapedRecipe.itemStackFromJson(json.getAsJsonObject());
-        }
-        else {
+        } else {
             String resultJson = json.getAsString();
             ResourceLocation name = new ResourceLocation(resultJson);
             return new ItemStack(Optional.ofNullable(ForgeRegistries.ITEMS.getValue(name)).orElseThrow(() -> new IllegalStateException("Item: " + resultJson + " does not exist")));
@@ -66,25 +76,22 @@ public final class RecipeUtil {
     public static void validateInputList(ResourceLocation id, String name, List<? extends RecipeIngredient<?>> ingredients, int maxSize) {
         if (ingredients.isEmpty()) {
             throw new RuntimeException("Empty " + name + " for recipe " + id);
-        }
-        else if (ingredients.size() > maxSize) {
+        } else if (ingredients.size() > maxSize) {
             throw new RuntimeException(name + " exceeded max size of " + maxSize + " for recipe " + id);
-        }
-        else if (StreamEx.of(ingredients).allMatch(RecipeIngredient::isEmpty)) {
+        } else if (StreamEx.of(ingredients).allMatch(RecipeIngredient::isEmpty)) {
             throw new RuntimeException(name + " contained no ingredients for recipe " + id);
         }
     }
 
-    public static void validateItemList(ResourceLocation id, String name, List<ItemStack> items, int maxSize) {
-        if (items.isEmpty()) {
+    public static <T> void validateOutputList(ResourceLocation id, String name, List<RecipeOutputType<T>> outputTypes, List<T> outputs) {
+        if (outputs.isEmpty()) {
             throw new RuntimeException("Empty " + name + " for recipe " + id);
+        } else if (outputs.size() > outputTypes.size()) {
+            throw new RuntimeException(name + " exceeded max size of " + outputTypes.size() + " for recipe " + id);
         }
-        else if (items.size() > maxSize) {
-            throw new RuntimeException(name + " exceeded max size of " + maxSize + " for recipe " + id);
-        }
-        else if (StreamEx.of(items).allMatch(ItemStack::isEmpty)) {
-            throw new RuntimeException(name + " contained no items for recipe " + id);
-        }
+        StreamEx.of(outputs)
+            .zipWith(StreamEx.of(outputTypes))
+            .forKeyValue((output, type) -> type.validate(id, name, output));
     }
 
     public static <R extends BaseRecipe<?, ?, ? super R>> int compareCount(R first, R second) {

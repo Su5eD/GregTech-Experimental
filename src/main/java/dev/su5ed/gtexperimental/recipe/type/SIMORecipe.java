@@ -4,7 +4,6 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.List;
@@ -12,31 +11,47 @@ import java.util.List;
 /**
  * Single Input, Multi Output recipe
  */
-public abstract class SIMORecipe extends BaseRecipeImpl<SIMORecipeType<?>, SIMORecipe.Input, SIMORecipe> {
-    protected final RecipeIngredient<ItemStack> input;
-    protected final List<ItemStack> output;
+public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>, SIMORecipe.Input<T>, SIMORecipe<T>> {
+    protected final RecipeIngredient<T> input;
+    protected final List<T> output;
+    protected final int duration;
+    protected final double energyCost;
 
-    public SIMORecipe(SIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> output) {
+    public SIMORecipe(SIMORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<T> input, List<T> output, int duration, double energyCost) {
         super(type, serializer, id);
 
         this.input = input;
         this.output = output;
+        this.duration = duration;
+        this.energyCost = energyCost;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateItemList(this.id, "outputs", this.output, this.type.outputTypes.size());
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputTypes, this.output);
     }
 
-    public List<ItemStack> getOutput() {
+    public RecipeIngredient<T> getInput() {
+        return this.input;
+    }
+
+    public List<T> getOutput() {
         return this.output;
     }
 
+    public int getDuration() {
+        return this.duration;
+    }
+
+    public double getEnergyCost() {
+        return this.energyCost;
+    }
+
     @Override
-    public boolean matches(Input input) {
+    public boolean matches(Input<T> input) {
         return this.input.test(input.item);
     }
 
     @Override
-    public int compareInputCount(SIMORecipe other) {
+    public int compareInputCount(SIMORecipe<T> other) {
         return this.input.getCount() - other.input.getCount();
     }
 
@@ -44,7 +59,9 @@ public abstract class SIMORecipe extends BaseRecipeImpl<SIMORecipeType<?>, SIMOR
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
         ModRecipeOutputTypes.toNetwork(this.type.outputTypes, this.output, buffer);
+        buffer.writeInt(this.duration);
+        buffer.writeDouble(this.energyCost);
     }
 
-    public record Input(ItemStack item) {}
+    public record Input<T>(T item) {}
 }

@@ -8,6 +8,7 @@ import dev.su5ed.gtexperimental.datagen.recipe.BenderRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.CanningMachineRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.ChemicalRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.CompressorRecipesGen;
+import dev.su5ed.gtexperimental.datagen.recipe.DistillationRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -46,7 +47,8 @@ public class RecipeGen extends RecipeProvider {
             BenderRecipeProvider.INSTANCE,
             CanningMachineRecipeProvider.INSTANCE,
             ChemicalRecipeProvider.INSTANCE,
-            CompressorRecipesGen.INSTANCE
+            CompressorRecipesGen.INSTANCE,
+            DistillationRecipesGen.INSTANCE
         );
         
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.chemical;
+import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
 public final class ChemicalRecipeProvider implements ModRecipeProvider {
     public static final ChemicalRecipeProvider INSTANCE = new ChemicalRecipeProvider();
@@ -50,9 +51,5 @@ public final class ChemicalRecipeProvider implements ModRecipeProvider {
 
     private static ResourceLocation id(String name) {
         return location("chemical/" + name);
-    }
-
-    private static int buckets(int buckets) {
-        return buckets * FluidType.BUCKET_VOLUME;
     }
 }

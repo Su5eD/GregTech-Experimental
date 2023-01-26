@@ -6,7 +6,10 @@ import dev.su5ed.gtexperimental.recipe.AssemblerRecipe;
 import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
+import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
+import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
+import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -67,8 +70,17 @@ public final class ModRecipeBuilders {
     }
 
     public static MISORecipeBuilder<FluidStack> chemical(List<? extends RecipeIngredient<FluidStack>> inputs, FluidStack output, int duration) {
-        ChemicalRecipe recipe = new ChemicalRecipe(null, inputs, output, duration, 32);
+        MISORecipe<FluidStack> recipe = new ChemicalRecipe(null, inputs, output, duration, 32);
         return new MISORecipeBuilder<>(recipe);
+    }
+    
+    public static SIMORecipeBuilder<FluidStack> distillation(RecipeIngredient<FluidStack> input, FluidStack first, FluidStack second, FluidStack third, FluidStack fourth, int duration, double energyCost) {
+        return distillation(input, List.of(first, second, third, fourth), duration, energyCost);
+    }
+    
+    public static SIMORecipeBuilder<FluidStack> distillation(RecipeIngredient<FluidStack> input, List<FluidStack> outputs, int duration, double energyCost) {
+        SIMORecipe<FluidStack> recipe = new DistillationRecipe(null, input, outputs, duration, energyCost);
+        return new SIMORecipeBuilder<>(recipe);
     }
 
     private ModRecipeBuilders() {}

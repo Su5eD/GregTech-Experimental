@@ -23,7 +23,7 @@ public final class CompressorRecipesGen implements ModRecipeProvider {
     public static final CompressorRecipesGen INSTANCE = new CompressorRecipesGen();
 
     private CompressorRecipesGen() {}
-    
+
     @Override
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         compressor(Dust.WOOD.getTag(), 8, Plate.WOOD.getItemStack(), finishedRecipeConsumer);
@@ -37,7 +37,11 @@ public final class CompressorRecipesGen implements ModRecipeProvider {
         compressor(GregTechTags.material("nuggets", "plutonium"), 9, Ingot.PLATINUM.getItemStack(), finishedRecipeConsumer);
         compressor(GregTechTags.material("nuggets", "thorium"), 9, Ingot.THORIUM.getItemStack(), finishedRecipeConsumer);
         compressor(Tags.Items.GEMS_PRISMARINE, 9, new ItemStack(Items.PRISMARINE_BRICKS), finishedRecipeConsumer);
-        
+
+        buildOtherModRecipes(finishedRecipeConsumer);
+    }
+
+    private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         // IC2
         // Classic
         ic2Compressor(Ic2Items.IRIDIUM_ORE, 1, Ingot.IRIDIUM.getItemStack(), finishedRecipeConsumer, SelectedProfileCondition.CLASSIC);
@@ -49,7 +53,7 @@ public final class CompressorRecipesGen implements ModRecipeProvider {
         ic2Compressor(Items.CACTUS, 8, new ItemStack(Ic2Items.COMPRESSED_PLANTS), finishedRecipeConsumer, SelectedProfileCondition.CLASSIC);
         ic2Compressor(Miscellaneous.INDIGO_BLOSSOM, 8, new ItemStack(Ic2Items.COMPRESSED_PLANTS), finishedRecipeConsumer, SelectedProfileCondition.CLASSIC);
         ic2Compressor(Dust.URANIUM, 8, new ItemStack(Ic2Items.URANIUM_INGOT), finishedRecipeConsumer, SelectedProfileCondition.CLASSIC);
-        
+
         // Experimental
         ic2Compressor(Dust.URANIUM, 1, new ItemStack(Ic2Items.URANIUM_238), finishedRecipeConsumer, SelectedProfileCondition.EXPERIMENTAL);
     }
