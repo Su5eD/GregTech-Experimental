@@ -16,20 +16,28 @@ import one.util.streamex.StreamEx;
 import java.util.List;
 
 public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> {
-    public final List<? extends RecipeIngredientType<? extends RecipeIngredient<ItemStack>>> inputTypes;
-    public final List<RecipeOutputType<ItemStack>> outputTypes;
+    public final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
+    public final int inputCount;
+    public final RecipeOutputType<ItemStack> outputType;
+    public final int outputCount;
     private final MIMORecipeFactory<R> factory;
 
-    public MIMORecipeType(ResourceLocation name, int inputCount, List<RecipeOutputType<ItemStack>> outputTypes, MIMORecipeFactory<R> factory) {
+    public MIMORecipeType(ResourceLocation name, int inputCount, int outputCount, MIMORecipeFactory<R> factory) {
         super(name);
 
-        this.inputTypes = StreamEx.constant(ModRecipeIngredientTypes.ITEM, inputCount).toList();
-        this.outputTypes = outputTypes;
+        this.inputType = ModRecipeIngredientTypes.ITEM;
+        this.inputCount = inputCount;
+        this.outputType = ModRecipeOutputTypes.ITEM;
+        this.outputCount = outputCount;
         this.factory = factory;
     }
 
-    public List<? extends RecipeOutputType<ItemStack>> getOutputTypes() {
-        return this.outputTypes;
+    public RecipeOutputType<ItemStack> getOutputType() {
+        return this.outputType;
+    }
+
+    public int getOutputCount() {
+        return outputCount;
     }
 
     @Override
@@ -37,8 +45,8 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
         JsonArray inputJson = GsonHelper.getAsJsonArray(serializedRecipe, "input");
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
-        List<? extends RecipeIngredient<ItemStack>> inputs = RecipeUtil.parseInputs(this.inputTypes, inputJson);
-        List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputTypes, outputJson);
+        List<? extends RecipeIngredient<ItemStack>> inputs = RecipeUtil.parseInputs(this.inputType, this.inputCount, inputJson);
+        List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
         int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
         double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");
 
@@ -47,10 +55,8 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
 
     @Override
     public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-        List<? extends RecipeIngredient<ItemStack>> inputs = StreamEx.of(this.inputTypes)
-            .map(type -> type.create(buffer))
-            .toList();
-        List<ItemStack> outputs = ModRecipeOutputTypes.fromNetwork(this.outputTypes, buffer);
+        List<? extends RecipeIngredient<ItemStack>> inputs = ModRecipeIngredientTypes.fromNetwork(this.inputType, this.inputCount, buffer);
+        List<ItemStack> outputs = ModRecipeOutputTypes.fromNetwork(this.outputType, this.outputCount, buffer);
         int duration = buffer.readInt();
         double energyCost = buffer.readDouble();
         return this.factory.create(recipeId, inputs, outputs, duration, energyCost);

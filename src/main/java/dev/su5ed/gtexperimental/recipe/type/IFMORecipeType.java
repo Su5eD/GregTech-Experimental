@@ -13,14 +13,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import one.util.streamex.StreamEx;
 
 import java.util.List;
 
 public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> {
     public final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
     public final RecipeIngredientType<? extends RecipeIngredient<FluidStack>> fluidType;
-    public final List<RecipeOutputType<ItemStack>> outputTypes;
+    public final RecipeOutputType<ItemStack> outputType;
+    public final int outputCount;
     public final IFMORecipeFactory<R> factory;
 
     public IFMORecipeType(ResourceLocation name, int outputCount, IFMORecipeFactory<R> factory) {
@@ -28,7 +28,8 @@ public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> 
 
         this.inputType = ModRecipeIngredientTypes.ITEM;
         this.fluidType = ModRecipeIngredientTypes.FLUID;
-        this.outputTypes = StreamEx.constant(ModRecipeOutputTypes.ITEM, outputCount).toList();
+        this.outputType = ModRecipeOutputTypes.ITEM;
+        this.outputCount = outputCount;
         this.factory = factory;
     }
 
@@ -40,7 +41,7 @@ public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> 
 
         RecipeIngredient<ItemStack> input = this.inputType.create(inputJson);
         RecipeIngredient<FluidStack> fluid = this.fluidType.create(fluidJson);
-        List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputTypes, outputJson);
+        List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
 
         return this.factory.create(recipeId, input, fluid, outputs);
     }
@@ -49,7 +50,7 @@ public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> 
     public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         RecipeIngredient<ItemStack> input = this.inputType.create(buffer);
         RecipeIngredient<FluidStack> fluid = this.fluidType.create(buffer);
-        List<ItemStack> outputs = ModRecipeOutputTypes.fromNetwork(this.outputTypes, buffer);
+        List<ItemStack> outputs = ModRecipeOutputTypes.fromNetwork(this.outputType, this.outputCount, buffer);
         return this.factory.create(recipeId, input, fluid, outputs);
     }
 

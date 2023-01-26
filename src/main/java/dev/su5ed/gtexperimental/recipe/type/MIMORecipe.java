@@ -30,8 +30,8 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMOR
         this.duration = duration;
         this.energyCost = energyCost;
 
-        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputTypes.size());
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputTypes, this.output);
+        RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputCount);
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output);
     }
 
     public List<? extends RecipeIngredient<ItemStack>> getInputs() {
@@ -64,7 +64,7 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMOR
     @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         ModRecipeIngredientTypes.toNetwork(this.inputs, buffer);
-        ModRecipeOutputTypes.toNetwork(this.type.outputTypes, this.output, buffer);
+        ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
         buffer.writeInt(this.duration);
         buffer.writeDouble(this.energyCost);
     }

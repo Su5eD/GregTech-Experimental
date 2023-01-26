@@ -16,7 +16,7 @@ public class MIMORecipeBuilder extends ModRecipeBuilder<MIMORecipe> {
         super.serializeRecipeData(json);
 
         json.add("input", ModRecipeIngredientTypes.toJson(this.recipe.getInputs()));
-        json.add("output", ModRecipeOutputTypes.toJson(this.recipe.getType().getOutputTypes(), this.recipe.getOutput()));
+        json.add("output", ModRecipeOutputTypes.toJson(this.recipe.getType().getOutputType(), this.recipe.getType().getOutputCount(), this.recipe.getOutput()));
         json.addProperty("duration", this.recipe.getDuration());
         json.addProperty("energyCost", this.recipe.getEnergyCost());
     }

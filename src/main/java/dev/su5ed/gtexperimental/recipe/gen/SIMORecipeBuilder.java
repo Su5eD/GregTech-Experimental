@@ -15,7 +15,7 @@ public class SIMORecipeBuilder<T> extends ModRecipeBuilder<SIMORecipe<T>> {
         super.serializeRecipeData(json);
 
         json.add("input", this.recipe.getInput().toJson());
-        json.add("output", ModRecipeOutputTypes.toJson(this.recipe.getType().getOutputTypes(), this.recipe.getOutput()));
+        json.add("output", ModRecipeOutputTypes.toJson(this.recipe.getType().getOutputType(), this.recipe.getType().getOutputCount(), this.recipe.getOutput()));
         json.addProperty("duration", this.recipe.getDuration());
         json.addProperty("energyCost", this.recipe.getEnergyCost());
     }

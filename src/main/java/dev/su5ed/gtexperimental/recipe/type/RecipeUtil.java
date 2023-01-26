@@ -37,19 +37,9 @@ public final class RecipeUtil {
         throw new IllegalArgumentException("Expected " + inputCount + " inputs, got " + json.size());
     }
 
-    public static <T> List<? extends RecipeIngredient<T>> parseInputs(List<? extends RecipeIngredientType<? extends RecipeIngredient<T>>> inputTypes, JsonArray json) {
-        if (!json.isEmpty() && inputTypes.size() >= json.size()) {
-            return StreamEx.of(inputTypes)
-                .zipWith(StreamEx.of(json.getAsJsonArray().iterator()))
-                .mapKeyValue(RecipeIngredientType::create)
-                .toList();
-        }
-        throw new IllegalArgumentException("There are more inputs than known Input types");
-    }
-
-    public static <T> List<T> parseOutputs(List<? extends RecipeOutputType<T>> outputTypes, JsonArray json) {
-        if (!json.isEmpty() && outputTypes.size() >= json.size()) {
-            return StreamEx.of(outputTypes)
+    public static <T> List<T> parseOutputs(RecipeOutputType<T> outputType, int outputCount, JsonArray json) {
+        if (!json.isEmpty() && outputCount >= json.size()) {
+            return StreamEx.of(outputType)
                 .zipWith(StreamEx.of(json.getAsJsonArray().iterator()))
                 .mapKeyValue(RecipeOutputType::fromJson)
                 .toList();
@@ -83,15 +73,13 @@ public final class RecipeUtil {
         }
     }
 
-    public static <T> void validateOutputList(ResourceLocation id, String name, List<RecipeOutputType<T>> outputTypes, List<T> outputs) {
+    public static <T> void validateOutputList(ResourceLocation id, String name, RecipeOutputType<T> outputType, int outputCount, List<T> outputs) {
         if (outputs.isEmpty()) {
             throw new RuntimeException("Empty " + name + " for recipe " + id);
-        } else if (outputs.size() > outputTypes.size()) {
-            throw new RuntimeException(name + " exceeded max size of " + outputTypes.size() + " for recipe " + id);
+        } else if (outputs.size() > outputCount) {
+            throw new RuntimeException(name + " exceeded max size of " + outputCount + " for recipe " + id);
         }
-        StreamEx.of(outputs)
-            .zipWith(StreamEx.of(outputTypes))
-            .forKeyValue((output, type) -> type.validate(id, name, output));
+        outputs.forEach(output -> outputType.validate(id, name, output));
     }
 
     public static <R extends BaseRecipe<?, ?, ? super R>> int compareCount(R first, R second) {

@@ -16,33 +16,31 @@ public final class ModRecipeOutputTypes {
     public static final RecipeOutputType<ItemStack> ITEM = new ItemRecipeOutputType();
     public static final RecipeOutputType<FluidStack> FLUID = new FluidRecipeOutputType();
 
-    public static <T> List<T> fromNetwork(List<? extends RecipeOutputType<T>> outputTypes, FriendlyByteBuf buffer) {
+    public static <T> List<T> fromNetwork(RecipeOutputType<T> outputType, int outputTypeCount, FriendlyByteBuf buffer) {
         int outputCount = buffer.readInt();
-        if (outputTypes.size() >= outputCount) {
-            return StreamEx.of(outputTypes)
+        if (outputTypeCount >= outputCount) {
+            return StreamEx.generate(() -> outputType.fromNetwork(buffer))
                 .limit(outputCount)
-                .map(type -> type.fromNetwork(buffer))
                 .toList();
         }
         throw new IllegalArgumentException("There are more outputs than known output types");
     }
 
-    public static <T> void toNetwork(List<? extends RecipeOutputType<T>> outputTypes, List<T> outputs, FriendlyByteBuf buffer) {
-        if (outputTypes.size() >= outputs.size()) {
+    public static <T> void toNetwork(RecipeOutputType<T> outputType, int outputCount, List<T> outputs, FriendlyByteBuf buffer) {
+        if (outputCount >= outputs.size()) {
             buffer.writeInt(outputs.size());
-            for (int i = 0; i < outputs.size(); i++) {
-                RecipeOutputType<T> outputType = outputTypes.get(i);
-                outputType.toNetwork(buffer, outputs.get(i));
+            for (T output : outputs) {
+                outputType.toNetwork(buffer, output);
             }
         }
         throw new IllegalArgumentException("There are more outputs than known output types");
     }
-    
-    public static <T> JsonElement toJson(List<? extends RecipeOutputType<T>> outputTypes, List<T> outputs) {
-        if (outputTypes.size() >= outputs.size()) {
+
+    public static <T> JsonElement toJson(RecipeOutputType<T> outputType, int outputCount, List<T> outputs) {
+        if (outputCount >= outputs.size()) {
             JsonArray json = new JsonArray(outputs.size());
-            for (int i = 0; i < outputs.size(); i++) {
-                json.add(outputTypes.get(i).toJson(outputs.get(i)));
+            for (T output : outputs) {
+                json.add(outputType.toJson(output));
             }
             return json;
         }

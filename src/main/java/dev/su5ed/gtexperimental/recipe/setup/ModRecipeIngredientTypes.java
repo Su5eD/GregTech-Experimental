@@ -7,7 +7,6 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.type.FluidRecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredientType;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.item.ItemStack;
 import one.util.streamex.StreamEx;
 
 import java.util.List;
@@ -28,17 +27,6 @@ public final class ModRecipeIngredientTypes {
         if (inputCount >= ingredientCount) {
             return StreamEx.generate(() -> ingredientType.create(buffer))
                 .limit(ingredientCount)
-                .toList();
-        }
-        throw new IllegalArgumentException("There are more ingredients than known ingredient types");
-    }
-
-    public static <T> List<? extends RecipeIngredient<T>> fromNetwork(List<? extends RecipeIngredientType<? extends RecipeIngredient<T>>> ingredientTypes, FriendlyByteBuf buffer) {
-        int ingredientCount = buffer.readInt();
-        if (ingredientTypes.size() >= ingredientCount) {
-            return StreamEx.of(ingredientTypes)
-                .limit(ingredientCount)
-                .map(type -> type.create(buffer))
                 .toList();
         }
         throw new IllegalArgumentException("There are more ingredients than known ingredient types");

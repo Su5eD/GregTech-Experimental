@@ -24,7 +24,7 @@ public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends
 
         RecipeUtil.validateInput(this.id, "input", this.input);
         RecipeUtil.validateInput(this.id, "fluid", this.fluid);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputTypes, this.output);
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output);
     }
 
     public RecipeIngredient<ItemStack> getInput() {
@@ -49,7 +49,7 @@ public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
         this.fluid.toNetwork(buffer);
-        ModRecipeOutputTypes.toNetwork(this.type.outputTypes, this.output, buffer);
+        ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
     }
 
     public record Input(ItemStack item, FluidStack fluid) {}

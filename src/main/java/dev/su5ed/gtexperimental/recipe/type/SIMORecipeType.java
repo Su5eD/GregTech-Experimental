@@ -10,26 +10,30 @@ import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
 public class SIMORecipeType<R extends SIMORecipe<T>, T> extends BaseRecipeTypeImpl<R> {
     protected final RecipeIngredientType<? extends RecipeIngredient<T>> inputType;
-    protected final List<RecipeOutputType<T>> outputTypes;
+    protected final RecipeOutputType<T> outputType;
+    protected final int outputCount;
     protected final SIMORecipeFactory<R, T> factory;
 
-    public SIMORecipeType(ResourceLocation name, RecipeIngredientType<? extends RecipeIngredient<T>> inputType, List<RecipeOutputType<T>> outputTypes, SIMORecipeFactory<R, T> factory) {
+    public SIMORecipeType(ResourceLocation name, RecipeIngredientType<? extends RecipeIngredient<T>> inputType, RecipeOutputType<T> outputType, int outputCount, SIMORecipeFactory<R, T> factory) {
         super(name);
 
-        // TODO Single output type
         this.inputType = inputType;
-        this.outputTypes = outputTypes;
+        this.outputType = outputType;
+        this.outputCount = outputCount;
         this.factory = factory;
     }
 
-    public List<? extends RecipeOutputType<T>> getOutputTypes() {
-        return this.outputTypes;
+    public RecipeOutputType<T> getOutputType() {
+        return this.outputType;
+    }
+
+    public int getOutputCount() {
+        return this.outputCount;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class SIMORecipeType<R extends SIMORecipe<T>, T> extends BaseRecipeTypeIm
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
         RecipeIngredient<T> input = this.inputType.create(inputJson);
-        List<T> outputs = RecipeUtil.parseOutputs(this.outputTypes, outputJson);
+        List<T> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
         int duration = GsonHelper.getAsInt(serializedRecipe, "duration");
         double energyCost = GsonHelper.getAsDouble(serializedRecipe, "energyCost");
 
@@ -48,7 +52,7 @@ public class SIMORecipeType<R extends SIMORecipe<T>, T> extends BaseRecipeTypeIm
     @Override
     public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         RecipeIngredient<T> input = this.inputType.create(buffer);
-        List<T> outputs = ModRecipeOutputTypes.fromNetwork(this.outputTypes, buffer);
+        List<T> outputs = ModRecipeOutputTypes.fromNetwork(this.outputType, this.outputCount, buffer);
         int duration = buffer.readInt();
         double energyCost = buffer.readDouble();
         return this.factory.create(recipeId, input, outputs, duration, energyCost);

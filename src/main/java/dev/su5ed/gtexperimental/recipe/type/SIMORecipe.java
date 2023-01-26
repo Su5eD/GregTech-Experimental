@@ -26,7 +26,7 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
         this.energyCost = energyCost;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputTypes, this.output);
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output);
     }
 
     public RecipeIngredient<T> getInput() {
@@ -58,7 +58,7 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
     @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
-        ModRecipeOutputTypes.toNetwork(this.type.outputTypes, this.output, buffer);
+        ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
         buffer.writeInt(this.duration);
         buffer.writeDouble(this.energyCost);
     }
