@@ -8,6 +8,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeProperty;
 import dev.su5ed.gtexperimental.recipe.AlloySmelterRecipe;
 import dev.su5ed.gtexperimental.recipe.AssemblerRecipe;
 import dev.su5ed.gtexperimental.recipe.BenderRecipe;
+import dev.su5ed.gtexperimental.recipe.BlastFurnaceRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
@@ -57,13 +58,18 @@ public final class ModRecipeTypes {
     public static final RegistryObject<MISORecipeType<FusionSolidRecipe, FluidStack, ItemStack>> FUSION_SOLID = ModRecipeTypes.<FusionSolidRecipe, FluidStack, ItemStack>miso("fusion_solid", ModRecipeIngredientTypes.FLUID, 2, ModRecipeOutputTypes.ITEM, FUSION_PROPERTIES, FusionSolidRecipe::new);
     public static final RegistryObject<MISORecipeType<FusionFluidRecipe, FluidStack, FluidStack>> FUSION_FLUID = ModRecipeTypes.<FusionFluidRecipe, FluidStack, FluidStack>miso("fusion_fluid", ModRecipeIngredientTypes.FLUID, 2, ModRecipeOutputTypes.FLUID, FUSION_PROPERTIES, FusionFluidRecipe::new);
     public static final RegistryObject<SIMORecipeType<ImplosionRecipe, ItemStack>> IMPLOSION = ModRecipeTypes.<ImplosionRecipe, ItemStack>simo("implosion", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, 2, List.of(ModRecipeProperty.TNT), ImplosionRecipe::new);
+    public static final RegistryObject<MIMORecipeType<BlastFurnaceRecipe>> BLAST_FURNACE = mimo("blast_furnace", 2, 2, List.of(ModRecipeProperty.DURATION, ModRecipeProperty.HEAT), BlastFurnaceRecipe::new);
 
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);
     }
-
+    
     private static <R extends MIMORecipe> RegistryObject<MIMORecipeType<R>> mimo(String name, int inputCount, int outputCount, MIMORecipeType.MIMORecipeFactory<R> factory) {
-        return register(name, () -> new MIMORecipeType<>(location(name), inputCount, outputCount, factory));
+        return mimo(name, inputCount, outputCount, BASIC_PROPERTIES, factory);
+    }
+
+    private static <R extends MIMORecipe> RegistryObject<MIMORecipeType<R>> mimo(String name, int inputCount, int outputCount, List<RecipeProperty<?>> properties, MIMORecipeType.MIMORecipeFactory<R> factory) {
+        return register(name, () -> new MIMORecipeType<>(location(name), inputCount, outputCount, properties, factory));
     }
 
     private static <R extends SIMORecipe<T>, T> RegistryObject<SIMORecipeType<R, T>> simo(String name, RecipeIngredientType<? extends RecipeIngredient<T>> inputType, RecipeOutputType<T> outputType, int outputCount, SIMORecipeType.SIMORecipeFactory<R, T> factory) {

@@ -27,8 +27,4 @@ public class DistillationRecipe extends SIMORecipe<FluidStack> {
     public double getEnergyCost() {
         return 16;
     }
-
-    public static BaseRecipeSerializer<DistillationRecipe> createSerializer() {
-        return new BaseRecipeSerializer<>(ModRecipeTypes.DISTILLATION.get());
-    }
 }

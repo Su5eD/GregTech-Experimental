@@ -43,6 +43,10 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
         return this.output;
     }
 
+    public RecipePropertyMap getProperties() {
+        return this.properties;
+    }
+
     public int getDuration() {
         return this.properties.get(ModRecipeProperty.DURATION);
     }

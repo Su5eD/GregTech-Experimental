@@ -20,8 +20,4 @@ public class AlloySmelterRecipe extends MISORecipe<ItemStack, ItemStack> {
     public AlloySmelterRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, RecipePropertyMap properties) {
         super(ModRecipeTypes.ALLOY_SMELTER.get(), ModRecipeSerializers.ALLOY_SMELTER.get(), id, inputs, output, properties);
     }
-
-    public static BaseRecipeSerializer<AlloySmelterRecipe> createSerializer() {
-        return new BaseRecipeSerializer<>(ModRecipeTypes.ALLOY_SMELTER.get());
-    }
 }

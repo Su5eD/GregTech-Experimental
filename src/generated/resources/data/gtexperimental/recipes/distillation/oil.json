@@ -1,7 +1,6 @@
 {
   "type": "gtexperimental:distillation",
   "duration": 16000,
-  "energyCost": 16.0,
   "input": {
     "type": "fluid",
     "amount": 16000,

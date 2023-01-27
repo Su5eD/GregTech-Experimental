@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 200,
+  "heat": 1700,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:dusts/aluminium"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:aluminium_ingot"
+    }
+  ]
+}

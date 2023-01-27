@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 1000,
+  "heat": 1500,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:dusts/titanium"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:titanium_ingot"
+    }
+  ]
+}

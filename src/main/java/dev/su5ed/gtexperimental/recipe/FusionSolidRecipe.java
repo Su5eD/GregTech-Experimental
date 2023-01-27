@@ -30,8 +30,4 @@ public class FusionSolidRecipe extends MISORecipe<FluidStack, ItemStack> {
     public double getStartEnergy() {
         return this.properties.get(ModRecipeProperty.START_ENERGY);
     }
-
-    public static BaseRecipeSerializer<FusionSolidRecipe> createSerializer() {
-        return new BaseRecipeSerializer<>(ModRecipeTypes.FUSION_SOLID.get());
-    }
 }

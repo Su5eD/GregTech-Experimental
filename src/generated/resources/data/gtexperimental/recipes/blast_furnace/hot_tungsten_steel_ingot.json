@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 2000,
+  "heat": 3000,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:ingots/tungsten"
+      }
+    },
+    {
+      "value": {
+        "tag": "forge:ingots/steel"
+      }
+    }
+  ],
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:hot_tungsten_steel_ingot"
+    },
+    {
+      "count": 4,
+      "item": "gtexperimental:dark_ashes_dust"
+    }
+  ]
+}

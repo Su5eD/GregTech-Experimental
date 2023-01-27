@@ -13,8 +13,6 @@
       "modid": "ftbic"
     }
   ],
-  "duration": 20,
-  "energyCost": 32.0,
   "input": {
     "value": {
       "tag": "forge:ingots/iridium_alloy"
@@ -28,5 +26,6 @@
       "count": 4,
       "item": "gtexperimental:dark_ashes_dust"
     }
-  ]
+  ],
+  "tnt": 8
 }

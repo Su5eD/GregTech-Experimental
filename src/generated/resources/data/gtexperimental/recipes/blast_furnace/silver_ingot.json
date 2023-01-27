@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 20,
+  "heat": 1500,
+  "input": [
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:dusts/galena"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:silver_ingot"
+    },
+    {
+      "item": "gtexperimental:lead_ingot"
+    }
+  ]
+}

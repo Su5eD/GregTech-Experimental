@@ -6,8 +6,6 @@
       "modid": "ic2"
     }
   ],
-  "duration": 20,
-  "energyCost": 32.0,
   "input": {
     "count": 4,
     "value": {
@@ -23,5 +21,6 @@
       "count": 16,
       "item": "gtexperimental:dark_ashes_dust"
     }
-  ]
+  ],
+  "tnt": 32
 }

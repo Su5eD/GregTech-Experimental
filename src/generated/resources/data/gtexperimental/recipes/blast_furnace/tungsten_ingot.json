@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 2000,
+  "heat": 2500,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:dusts/tungsten"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:tungsten_ingot"
+    }
+  ]
+}

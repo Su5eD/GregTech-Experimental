@@ -27,8 +27,4 @@ public class ChemicalRecipe extends MISORecipe<FluidStack, FluidStack> {
     public double getEnergyCost() {
         return 32;
     }
-
-    public static BaseRecipeSerializer<ChemicalRecipe> createSerializer() {
-        return new BaseRecipeSerializer<>(ModRecipeTypes.CHEMICAL.get());
-    }
 }

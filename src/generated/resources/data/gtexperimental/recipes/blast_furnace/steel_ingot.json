@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 100,
+  "heat": 1000,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:dusts/steel"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:steel_ingot"
+    }
+  ]
+}

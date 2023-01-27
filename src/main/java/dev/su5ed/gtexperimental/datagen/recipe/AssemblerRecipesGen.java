@@ -235,7 +235,7 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
 //            .build(finishedRecipeConsumer, id("classic/ic2/energy_meter"));
 
         ironProfileRecipes(finishedRecipeConsumer, SelectedProfileCondition.REFINED_IRON, "refined_iron", Plate.REFINED_IRON.getTag(), Rod.REFINED_IRON.getTag());
-        ironProfileRecipes(finishedRecipeConsumer, SelectedProfileCondition.IRON, "regular_iron", Plate.IRON.getTag(), Rod.IRON.getTag());
+        ironProfileRecipes(finishedRecipeConsumer, SelectedProfileCondition.REGULAR_IRON, "regular_iron", Plate.IRON.getTag(), Rod.IRON.getTag());
 
         // FTBIC
         assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.CARBON_FIBERS.item.get(), 4), new ItemStack(FTBICItems.CARBON_FIBER_MESH.item.get()), 800, 2)

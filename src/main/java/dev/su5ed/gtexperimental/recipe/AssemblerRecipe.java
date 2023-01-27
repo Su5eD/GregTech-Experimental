@@ -20,8 +20,4 @@ public class AssemblerRecipe extends MISORecipe<ItemStack, ItemStack> {
     public AssemblerRecipe(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, RecipePropertyMap properties) {
         super(ModRecipeTypes.ASSEMBLER.get(), ModRecipeSerializers.ASSEMBLER.get(), id, inputs, output, properties);
     }
-
-    public static BaseRecipeSerializer<AssemblerRecipe> createSerializer() {
-        return new BaseRecipeSerializer<>(ModRecipeTypes.ASSEMBLER.get());
-    }
 }

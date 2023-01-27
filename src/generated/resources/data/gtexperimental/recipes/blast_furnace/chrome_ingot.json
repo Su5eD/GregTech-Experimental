@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 800,
+  "heat": 1700,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:dusts/chrome"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:chrome_ingot"
+    }
+  ]
+}

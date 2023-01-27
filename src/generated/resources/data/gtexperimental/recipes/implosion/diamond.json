@@ -1,7 +1,5 @@
 {
   "type": "gtexperimental:implosion",
-  "duration": 20,
-  "energyCost": 32.0,
   "input": {
     "value": {
       "tag": "gtexperimental:coal_chunk"
@@ -15,5 +13,6 @@
       "count": 4,
       "item": "gtexperimental:dark_ashes_dust"
     }
-  ]
+  ],
+  "tnt": 8
 }

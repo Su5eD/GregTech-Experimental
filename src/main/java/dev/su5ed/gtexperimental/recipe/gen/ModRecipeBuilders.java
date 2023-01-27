@@ -4,6 +4,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.AlloySmelterRecipe;
 import dev.su5ed.gtexperimental.recipe.AssemblerRecipe;
 import dev.su5ed.gtexperimental.recipe.BenderRecipe;
+import dev.su5ed.gtexperimental.recipe.BlastFurnaceRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
@@ -111,6 +112,27 @@ public final class ModRecipeBuilders {
     public static SIMORecipeBuilder<ItemStack> implosion(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int tnt) {
         SIMORecipe<ItemStack> recipe = new ImplosionRecipe(null, input, outputs, tnt);
         return new SIMORecipeBuilder<>(recipe);
+    }
+
+    public static MIMORecipeBuilder blastFurnace(RecipeIngredient<ItemStack> input, ItemStack output, int duration, int heat) {
+        return blastFurnace(List.of(input), List.of(output), duration, heat);
+    }
+
+    public static MIMORecipeBuilder blastFurnace(RecipeIngredient<ItemStack> input, ItemStack primaryOutput, ItemStack secondaryOutput, int duration, int heat) {
+        return blastFurnace(List.of(input), List.of(primaryOutput, secondaryOutput), duration, heat);
+    }
+
+    public static MIMORecipeBuilder blastFurnace(RecipeIngredient<ItemStack> primary, RecipeIngredient<ItemStack> secondary, ItemStack output, int duration, int heat) {
+        return blastFurnace(List.of(primary, secondary), List.of(output), duration, heat);
+    }
+
+    public static MIMORecipeBuilder blastFurnace(RecipeIngredient<ItemStack> primary, RecipeIngredient<ItemStack> secondary, ItemStack primaryOutput, ItemStack secondaryOutput, int duration, int heat) {
+        return blastFurnace(List.of(primary, secondary), List.of(primaryOutput, secondaryOutput), duration, heat);
+    }
+
+    public static MIMORecipeBuilder blastFurnace(List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, int duration, int heat) {
+        MIMORecipe recipe = new BlastFurnaceRecipe(null, inputs, outputs, duration, heat);
+        return new MIMORecipeBuilder(recipe);
     }
 
     private ModRecipeBuilders() {}

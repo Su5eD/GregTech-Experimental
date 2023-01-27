@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 1000,
+  "heat": 1500,
+  "input": [
+    {
+      "value": {
+        "type": "gtexperimental:fluid_item_ingredient",
+        "fluid_ingredient": {
+          "type": "tag",
+          "amount": 2000,
+          "tag": "forge:silicon"
+        }
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:silicon_plate"
+    }
+  ]
+}

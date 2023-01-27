@@ -29,8 +29,4 @@ public class FusionFluidRecipe extends MISORecipe<FluidStack, FluidStack> {
     public double getStartEnergy() {
         return this.properties.get(ModRecipeProperty.START_ENERGY);
     }
-
-    public static BaseRecipeSerializer<FusionFluidRecipe> createSerializer() {
-        return new BaseRecipeSerializer<>(ModRecipeTypes.FUSION_FLUID.get());
-    }
 }

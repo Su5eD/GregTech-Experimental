@@ -5,6 +5,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeManagerProvider;
 import dev.su5ed.gtexperimental.recipe.AlloySmelterRecipe;
 import dev.su5ed.gtexperimental.recipe.AssemblerRecipe;
 import dev.su5ed.gtexperimental.recipe.BenderRecipe;
+import dev.su5ed.gtexperimental.recipe.BlastFurnaceRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
@@ -39,6 +40,7 @@ public final class ModRecipeManagers {
     public static final RecipeManagerProvider<FusionSolidRecipe, MISORecipe.Input<FluidStack>> FUSION_SOLID = create(ModRecipeTypes.FUSION_SOLID);
     public static final RecipeManagerProvider<FusionFluidRecipe, MISORecipe.Input<FluidStack>> FUSION_FLUID = create(ModRecipeTypes.FUSION_FLUID);
     public static final RecipeManagerProvider<ImplosionRecipe, SIMORecipe.Input<ItemStack>> IMPLOSION = create(ModRecipeTypes.IMPLOSION);
+    public static final RecipeManagerProvider<BlastFurnaceRecipe, MIMORecipe.Input> BLAST_FURNACE = create(ModRecipeTypes.BLAST_FURNACE);
 
     static {
         BENDER.registerProvider(DynamicBenderRecipes::new);

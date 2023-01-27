@@ -15,6 +15,7 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
     public static final ModRecipeProperty<Double> ENERGY_COST = new ModRecipeProperty<>("energy_cost", FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, JsonPrimitive::new, JsonElement::getAsDouble, ModRecipeProperty::greaterThanZero);
     public static final ModRecipeProperty<Double> START_ENERGY = new ModRecipeProperty<>("start_energy", FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, JsonPrimitive::new, JsonElement::getAsDouble, ModRecipeProperty::greaterThanZero);
     public static final ModRecipeProperty<Integer> TNT = new ModRecipeProperty<>("tnt", FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, between(1, 64));
+    public static final ModRecipeProperty<Integer> HEAT = new ModRecipeProperty<>("heat", FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, num -> true);
 
     private final String name;
     private final BiConsumer<FriendlyByteBuf, T> networkSerializer;

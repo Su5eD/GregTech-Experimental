@@ -16,8 +16,4 @@ public class IndustrialGrinderRecipe extends IFMORecipe {
     public IndustrialGrinderRecipe(ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> outputs) {
         super(ModRecipeTypes.INDUSTRIAL_GRINDER.get(), ModRecipeSerializers.INDUSTRIAL_GRINDER.get(), id, input, fluid, outputs);
     }
-
-    public static BaseRecipeSerializer<IndustrialGrinderRecipe> createSerializer() {
-        return new BaseRecipeSerializer<>(ModRecipeTypes.INDUSTRIAL_GRINDER.get());
-    }
 }

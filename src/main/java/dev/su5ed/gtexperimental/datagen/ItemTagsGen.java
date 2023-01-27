@@ -113,6 +113,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.PUMP, "pump");
         modItem(GregTechTags.ENERGY_CRYSTAL, "energy_crystal");
         modItem(GregTechTags.material("ingots", "mixed_metal"), "mixed_metal_ingot");
+        modItem(GregTechTags.material("ingots", "refined_iron"), "refined_iron_ingot");
 
         tag(GregTechTags.COLORED_WOOL)
             .add(Items.ORANGE_WOOL, Items.MAGENTA_WOOL, Items.LIGHT_BLUE_WOOL, Items.YELLOW_WOOL, Items.LIME_WOOL,

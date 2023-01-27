@@ -5,6 +5,7 @@ import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.recipe.AlloySmelterRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.AssemblerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.BenderRecipeProvider;
+import dev.su5ed.gtexperimental.datagen.recipe.BlastFurnaceRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.CanningMachineRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.ChemicalRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.CompressorRecipesGen;
@@ -56,7 +57,8 @@ public class RecipeGen extends RecipeProvider {
             DistillationRecipesGen.INSTANCE,
             ExtractorRecipesGen.INSTANCE,
             FusionRecipesGen.INSTANCE,
-            ImplosionRecipesGen.INSTANCE
+            ImplosionRecipesGen.INSTANCE,
+            BlastFurnaceRecipesGen.INSTANCE
         );
 
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

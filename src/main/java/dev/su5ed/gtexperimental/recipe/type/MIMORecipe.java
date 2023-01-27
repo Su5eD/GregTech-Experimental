@@ -19,19 +19,25 @@ import java.util.function.Predicate;
 public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMORecipe.Input, MIMORecipe> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
     protected final List<ItemStack> output;
-    protected final int duration;
-    protected final double energyCost;
-
+    protected final RecipePropertyMap properties;
+    
     public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> output, int duration, double energyCost) {
+        this(type, serializer, id, inputs, output, RecipePropertyMap.builder()
+            .duration(duration)
+            .energyCost(energyCost)
+            .build());
+    }
+
+    public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> output, RecipePropertyMap properties) {
         super(type, serializer, id);
 
         this.inputs = inputs;
         this.output = output;
-        this.duration = duration;
-        this.energyCost = energyCost;
+        this.properties = properties;
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputCount);
         RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output);
+        this.properties.validate(this.id, this.type.properties);
     }
 
     public List<? extends RecipeIngredient<ItemStack>> getInputs() {
@@ -42,12 +48,16 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMOR
         return this.output;
     }
 
+    public RecipePropertyMap getProperties() {
+        return this.properties;
+    }
+
     public int getDuration() {
-        return this.duration;
+        return this.properties.get(ModRecipeProperty.DURATION);
     }
 
     public double getEnergyCost() {
-        return this.energyCost;
+        return this.properties.get(ModRecipeProperty.ENERGY_COST);
     }
 
     @Override
@@ -65,8 +75,7 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMOR
     public void toNetwork(FriendlyByteBuf buffer) {
         ModRecipeIngredientTypes.toNetwork(this.inputs, buffer);
         ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
-        buffer.writeInt(this.duration);
-        buffer.writeDouble(this.energyCost);
+        this.properties.toNetwork(buffer);
     }
 
     public record Input(List<ItemStack> items) {}

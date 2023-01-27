@@ -32,8 +32,4 @@ public class ImplosionRecipe extends SIMORecipe<ItemStack> {
     public double getEnergyCost() {
         return 32;
     }
-
-    public static BaseRecipeSerializer<ImplosionRecipe> createSerializer() {
-        return new BaseRecipeSerializer<>(ModRecipeTypes.IMPLOSION.get());
-    }
 }
