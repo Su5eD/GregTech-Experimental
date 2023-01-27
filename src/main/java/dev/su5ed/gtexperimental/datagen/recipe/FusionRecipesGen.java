@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.fusionFluid;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.fusionSolid;
 import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
@@ -46,8 +47,8 @@ public final class FusionRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, solidId("ic2/iridium_ore"));
 
         // FTBIC
-        fusionSolid(ModRecipeIngredientTypes.FLUID.of(ModFluid.WOLFRAMIUM.getTag()), ModRecipeIngredientTypes.FLUID.of(ModFluid.LITHIUM.getTag()), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.CHUNK).orElseThrow().get()), 512, 32768, 150000000)
-            .addConditions(new NotCondition(IC2_LOADED), FTBIC_LOADED)
+        fusionSolid(ModRecipeIngredientTypes.FLUID.of(ModFluid.WOLFRAMIUM.getTag()), ModRecipeIngredientTypes.FLUID.of(ModFluid.LITHIUM.getTag()), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.INGOT).orElseThrow().get()), 512, 32768, 150000000)
+            .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
             .build(finishedRecipeConsumer, solidId("ftbic/iridium_chunk"));
     }
 

@@ -110,6 +110,10 @@ public class RecipePropertyMap {
             return put(ModRecipeProperty.START_ENERGY, startEnergy);
         }
 
+        public Builder tnt(int tnt) {
+            return put(ModRecipeProperty.TNT, tnt);
+        }
+
         private <T> Builder put(RecipeProperty<T> property, T value) {
             this.properties.put(property, value);
             return this;

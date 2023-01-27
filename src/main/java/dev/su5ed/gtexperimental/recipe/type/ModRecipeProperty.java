@@ -14,6 +14,7 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
     public static final ModRecipeProperty<Integer> DURATION = new ModRecipeProperty<>("duration", FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, ModRecipeProperty::greaterThanZero);
     public static final ModRecipeProperty<Double> ENERGY_COST = new ModRecipeProperty<>("energy_cost", FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, JsonPrimitive::new, JsonElement::getAsDouble, ModRecipeProperty::greaterThanZero);
     public static final ModRecipeProperty<Double> START_ENERGY = new ModRecipeProperty<>("start_energy", FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, JsonPrimitive::new, JsonElement::getAsDouble, ModRecipeProperty::greaterThanZero);
+    public static final ModRecipeProperty<Integer> TNT = new ModRecipeProperty<>("tnt", FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, between(1, 64));
 
     private final String name;
     private final BiConsumer<FriendlyByteBuf, T> networkSerializer;
@@ -64,5 +65,9 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
 
     private static <T extends Number> boolean greaterThanZero(T number) {
         return number.doubleValue() > 0;
+    }
+    
+    private static <T extends Number> Predicate<T> between(int minInclusive, int maxInclusive) {
+        return num -> num.doubleValue() >= minInclusive && num.doubleValue() <= maxInclusive;
     }
 }

@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-26T15:13:28.355832055	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-01-27T15:02:15.874101239	Gregtech ExperimentalTags for minecraft:item
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -212,6 +212,7 @@ ba7ca26622a88198bba0bb93b2d3930e37dc3904 data/gtexperimental/tags/items/circuit_
 597e29aa380ef521e04c003b90441d0bb794f7f9 data/gtexperimental/tags/items/circuit_tier_6.json
 cc329b783965ab17517b69ee82c4ad61e692537c data/gtexperimental/tags/items/circuit_tier_8.json
 c57b4b82e9a3949109fa7e75cc1e235c4b7b9390 data/gtexperimental/tags/items/coal_ball.json
+ee49f7b30e03f0b551b063b6e84401ca8ef2ab42 data/gtexperimental/tags/items/coal_chunk.json
 cafe0ac68c29490bb14f7f7fb812e66ce1e447bc data/gtexperimental/tags/items/colored_wool.json
 7ab6ea925a4a52fb5e4dbf87a3a20c6a45df4f9e data/gtexperimental/tags/items/component_heat_vent.json
 b661a09d9556e39b050dd28dab836f02a3599423 data/gtexperimental/tags/items/compressed_coal_ball.json

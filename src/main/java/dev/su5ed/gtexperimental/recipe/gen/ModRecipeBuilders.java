@@ -9,6 +9,7 @@ import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
+import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
@@ -101,6 +102,15 @@ public final class ModRecipeBuilders {
     public static MISORecipeBuilder<FluidStack, FluidStack> fusionFluid(List<? extends RecipeIngredient<FluidStack>> inputs, FluidStack output, int duration, double energyCost, double startEnergy) {
         MISORecipe<FluidStack, FluidStack> recipe = new FusionFluidRecipe(null, inputs, output, duration, energyCost, startEnergy);
         return new MISORecipeBuilder<>(recipe);
+    }
+
+    public static SIMORecipeBuilder<ItemStack> implosion(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, int tnt) {
+        return implosion(input, List.of(first, second), tnt);
+    }
+
+    public static SIMORecipeBuilder<ItemStack> implosion(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int tnt) {
+        SIMORecipe<ItemStack> recipe = new ImplosionRecipe(null, input, outputs, tnt);
+        return new SIMORecipeBuilder<>(recipe);
     }
 
     private ModRecipeBuilders() {}

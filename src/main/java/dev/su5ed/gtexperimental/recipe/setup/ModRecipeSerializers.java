@@ -9,6 +9,7 @@ import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
+import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -30,6 +31,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<DistillationRecipe>> DISTILLATION = RECIPE_SERIALIZERS.register("distillation", DistillationRecipe::createSerializer);
     public static final RegistryObject<RecipeSerializer<FusionSolidRecipe>> FUSION_SOLID = RECIPE_SERIALIZERS.register("fusion_solid", FusionSolidRecipe::createSerializer);
     public static final RegistryObject<RecipeSerializer<FusionFluidRecipe>> FUSION_FLUID = RECIPE_SERIALIZERS.register("fusion_fluid", FusionFluidRecipe::createSerializer);
+    public static final RegistryObject<RecipeSerializer<ImplosionRecipe>> IMPLOSION = RECIPE_SERIALIZERS.register("implosion", ImplosionRecipe::createSerializer);
 
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);

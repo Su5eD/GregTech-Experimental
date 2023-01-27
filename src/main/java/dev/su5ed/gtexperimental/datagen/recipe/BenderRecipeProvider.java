@@ -35,7 +35,7 @@ public final class BenderRecipeProvider implements ModRecipeProvider {
 
         // FTBIC
         bender(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "mixed_metal")), new ItemStack(FTBICItems.ADVANCED_ALLOY.item.get()), 100, 8)
-            .addConditions(new NotCondition(IC2_LOADED), FTBIC_LOADED)
+            .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/alloy"));
 
         // Railcraft

@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:implosion",
+  "duration": 20,
+  "energyCost": 32.0,
+  "input": {
+    "count": 4,
+    "value": {
+      "tag": "forge:dusts/ruby"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "gtexperimental:ruby"
+    },
+    {
+      "count": 12,
+      "item": "gtexperimental:dark_ashes_dust"
+    }
+  ]
+}

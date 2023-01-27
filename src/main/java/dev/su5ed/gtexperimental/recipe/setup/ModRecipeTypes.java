@@ -13,6 +13,7 @@ import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
+import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
@@ -55,6 +56,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<SIMORecipeType<DistillationRecipe, FluidStack>> DISTILLATION = ModRecipeTypes.<DistillationRecipe, FluidStack>simo("distillation", ModRecipeIngredientTypes.FLUID, ModRecipeOutputTypes.FLUID, 4, List.of(ModRecipeProperty.DURATION), DistillationRecipe::new);
     public static final RegistryObject<MISORecipeType<FusionSolidRecipe, FluidStack, ItemStack>> FUSION_SOLID = ModRecipeTypes.<FusionSolidRecipe, FluidStack, ItemStack>miso("fusion_solid", ModRecipeIngredientTypes.FLUID, 2, ModRecipeOutputTypes.ITEM, FUSION_PROPERTIES, FusionSolidRecipe::new);
     public static final RegistryObject<MISORecipeType<FusionFluidRecipe, FluidStack, FluidStack>> FUSION_FLUID = ModRecipeTypes.<FusionFluidRecipe, FluidStack, FluidStack>miso("fusion_fluid", ModRecipeIngredientTypes.FLUID, 2, ModRecipeOutputTypes.FLUID, FUSION_PROPERTIES, FusionFluidRecipe::new);
+    public static final RegistryObject<SIMORecipeType<ImplosionRecipe, ItemStack>> IMPLOSION = ModRecipeTypes.<ImplosionRecipe, ItemStack>simo("implosion", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, 2, List.of(ModRecipeProperty.TNT), ImplosionRecipe::new);
 
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);

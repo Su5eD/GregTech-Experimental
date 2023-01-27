@@ -144,6 +144,7 @@ public final class GregTechTags {
     public static final TagKey<Item> GENERATOR = itemTag("generator");
     public static final TagKey<Item> COAL_BALL = itemTag("coal_ball");
     public static final TagKey<Item> COMPRESSED_COAL_BALL = itemTag("compressed_coal_ball");
+    public static final TagKey<Item> COAL_CHUNK = itemTag("coal_chunk");
     public static final TagKey<Item> CARBON_PLATE = itemTag("carbon_plate");
     public static final TagKey<Item> PUMP = itemTag("pump");
     public static final TagKey<Item> ENERGY_CRYSTAL = itemTag("energy_crystal");

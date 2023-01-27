@@ -11,6 +11,7 @@ import dev.su5ed.gtexperimental.datagen.recipe.CompressorRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.DistillationRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ExtractorRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.FusionRecipesGen;
+import dev.su5ed.gtexperimental.datagen.recipe.ImplosionRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
+import net.minecraftforge.common.crafting.conditions.NotCondition;
 import one.util.streamex.StreamEx;
 
 import java.util.List;
@@ -33,6 +35,7 @@ import java.util.function.Consumer;
 
 public class RecipeGen extends RecipeProvider {
     public static final ICondition IC2_LOADED = new ModLoadedCondition(ModHandler.IC2_MODID);
+    public static final ICondition NOT_IC2_LOADED = new NotCondition(IC2_LOADED);
     public static final ICondition FTBIC_LOADED = new ModLoadedCondition(ModHandler.FTBIC_MODID);
     public static final ICondition TWILIGHT_FOREST_LOADED = new ModLoadedCondition(ModHandler.TWILIGHT_FOREST_MODID);
     public static final ICondition THERMAL_LOADED = new ModLoadedCondition(ModHandler.THERMAL_MODID);
@@ -52,7 +55,8 @@ public class RecipeGen extends RecipeProvider {
             CompressorRecipesGen.INSTANCE,
             DistillationRecipesGen.INSTANCE,
             ExtractorRecipesGen.INSTANCE,
-            FusionRecipesGen.INSTANCE
+            FusionRecipesGen.INSTANCE,
+            ImplosionRecipesGen.INSTANCE
         );
 
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

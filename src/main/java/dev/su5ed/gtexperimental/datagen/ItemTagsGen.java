@@ -107,6 +107,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.CRAFTING_RAW_MACHINE_TIER_1, "machine");
         modItem(GregTechTags.COAL_BALL, "coal_ball");
         modItem(GregTechTags.COMPRESSED_COAL_BALL, "coal_block");
+        modItem(GregTechTags.COAL_CHUNK, "coal_chunk");
         modItem(GregTechTags.IRIDIUM_ALLOY, "iridium");
         modItem(GregTechTags.CARBON_PLATE, "carbon_plate");
         modItem(GregTechTags.PUMP, "pump");
