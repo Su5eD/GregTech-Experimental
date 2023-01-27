@@ -1,0 +1,14 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 40,
+  "input": {
+    "type": "fluid",
+    "amount": 1000,
+    "tag": "forge:calcium_carbonate"
+  },
+  "output": [
+    {
+      "item": "gtexperimental:calcite_dust"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 1000,
+  "input": {
+    "type": "item",
+    "count": 3,
+    "value": {
+      "tag": "forge:dusts/invar"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "ic2:iron_dust"
+    },
+    {
+      "item": "gtexperimental:nickel_dust"
+    }
+  ]
+}

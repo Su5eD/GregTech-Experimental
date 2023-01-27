@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1500,
+  "input": {
+    "type": "item",
+    "value": {
+      "tag": "forge:dusts/brass"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "gtexperimental:copper_smalldust"
+    },
+    {
+      "item": "gtexperimental:zinc_smalldust"
+    }
+  ]
+}

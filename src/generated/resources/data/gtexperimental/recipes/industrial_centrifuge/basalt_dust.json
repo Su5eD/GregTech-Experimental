@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 2040,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:dusts/basalt"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:olivine_dust"
+    },
+    {
+      "count": 3,
+      "item": "gtexperimental:calcite_dust"
+    },
+    {
+      "count": 8,
+      "item": "gtexperimental:flint_dust"
+    },
+    {
+      "count": 4,
+      "item": "gtexperimental:dark_ashes_dust"
+    }
+  ]
+}

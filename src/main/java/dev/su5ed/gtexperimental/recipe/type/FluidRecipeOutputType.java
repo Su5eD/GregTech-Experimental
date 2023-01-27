@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -22,7 +21,7 @@ public class FluidRecipeOutputType implements RecipeOutputType<FluidStack> {
     }
 
     @Override
-    public JsonElement toJson(FluidStack value) {
+    public JsonObject toJson(FluidStack value) {
         JsonObject json = new JsonObject();
         json.addProperty("fluid", ForgeRegistries.FLUIDS.getKey(value.getFluid()).toString());
         json.addProperty("amount", value.getAmount());
@@ -30,8 +29,7 @@ public class FluidRecipeOutputType implements RecipeOutputType<FluidStack> {
     }
 
     @Override
-    public FluidStack fromJson(JsonElement element) {
-        JsonObject json = element.getAsJsonObject();
+    public FluidStack fromJson(JsonObject json) {
         String name = GsonHelper.getAsString(json, "fluid");
         Fluid fluid = RecipeUtil.deserializeFluid(name);
         int amount = GsonHelper.getAsInt(json, "amount");

@@ -1,0 +1,15 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 3000,
+  "input": {
+    "type": "fluid",
+    "amount": 4000,
+    "tag": "forge:helium3"
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:deuterium_fluid"
+    }
+  ]
+}

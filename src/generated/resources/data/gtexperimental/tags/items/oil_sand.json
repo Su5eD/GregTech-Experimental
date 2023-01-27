@@ -1,0 +1,8 @@
+{
+  "values": [
+    {
+      "id": "thermal:oil_sand",
+      "required": false
+    }
+  ]
+}

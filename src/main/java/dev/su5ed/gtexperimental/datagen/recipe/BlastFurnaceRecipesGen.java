@@ -52,7 +52,7 @@ public final class BlastFurnaceRecipesGen implements ModRecipeProvider {
 
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         // Regular Iron
-        blastFurnace(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_IRON), ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("dusts", "coal"), 2), Ingot.STEEL.getItemStack(), Dust.DARK_ASHES.getItemStack(2), 500, 1000)
+        blastFurnace(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_IRON), ModRecipeIngredientTypes.ITEM.of(GregTechTags.dust("coal"), 2), Ingot.STEEL.getItemStack(), Dust.DARK_ASHES.getItemStack(2), 500, 1000)
             .addConditions(SelectedProfileCondition.REGULAR_IRON)
             .build(finishedRecipeConsumer, id("regular_iron/steel_ingot"));
         blastFurnace(ModRecipeIngredientTypes.ITEM.of(ItemTags.IRON_ORES), ModRecipeIngredientTypes.ITEM.of(Dust.CALCITE.getTag()), new ItemStack(Items.IRON_INGOT, 3), Dust.DARK_ASHES.getItemStack(), 500, 1500)

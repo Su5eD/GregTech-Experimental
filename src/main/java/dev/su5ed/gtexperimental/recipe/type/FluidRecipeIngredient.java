@@ -72,7 +72,7 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     }
 
     @Override
-    public JsonElement toJson() {
+    public JsonObject toJson() {
         JsonObject json = new JsonObject();
         json.addProperty("type", this.value.name());
         json.add(this.value.name(), this.value.toJson());

@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1000,
+  "input": {
+    "type": "item",
+    "count": 2,
+    "value": {
+      "tag": "gtexperimental:oil_sand"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:oil_fluid"
+    },
+    {
+      "item": "minecraft:sand"
+    }
+  ]
+}

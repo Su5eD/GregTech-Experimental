@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 4800,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:dusts/endstone"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:helium3_fluid"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:wolframium_fluid"
+    },
+    {
+      "item": "gtexperimental:tungsten_smalldust"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:sand"
+    }
+  ]
+}

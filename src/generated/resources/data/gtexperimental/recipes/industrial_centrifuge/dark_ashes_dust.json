@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 250,
+  "input": {
+    "type": "item",
+    "count": 2,
+    "value": {
+      "tag": "forge:dusts/dark_ashes"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:dark_ashes_dust"
+    },
+    {
+      "item": "gtexperimental:ashes_dust"
+    }
+  ]
+}

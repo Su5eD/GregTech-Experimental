@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 5000,
+  "input": {
+    "type": "item",
+    "count": 32,
+    "value": [
+      {
+        "item": "minecraft:apple"
+      },
+      {
+        "item": "minecraft:spider_eye"
+      },
+      {
+        "item": "minecraft:nether_wart"
+      }
+    ]
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:methane_fluid"
+    }
+  ]
+}

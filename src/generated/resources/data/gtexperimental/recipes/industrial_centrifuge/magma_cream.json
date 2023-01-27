@@ -1,0 +1,18 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 500,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "minecraft:magma_cream"
+    }
+  },
+  "output": [
+    {
+      "item": "minecraft:blaze_powder"
+    },
+    {
+      "item": "minecraft:slime_ball"
+    }
+  ]
+}

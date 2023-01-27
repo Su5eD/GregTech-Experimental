@@ -31,6 +31,7 @@ public final class RecipeUtil {
     public static <T> List<? extends RecipeIngredient<T>> parseInputs(RecipeIngredientType<? extends RecipeIngredient<T>> inputType, int inputCount, JsonArray json) {
         if (!json.isEmpty() && inputCount >= json.size()) {
             return StreamEx.of(json.getAsJsonArray().iterator())
+                .map(JsonElement::getAsJsonObject)
                 .map(inputType::create)
                 .toList();
         }
@@ -41,6 +42,7 @@ public final class RecipeUtil {
         if (!json.isEmpty() && outputCount >= json.size()) {
             return StreamEx.of(outputType)
                 .zipWith(StreamEx.of(json.getAsJsonArray().iterator()))
+                .mapValues(JsonElement::getAsJsonObject)
                 .mapKeyValue(RecipeOutputType::fromJson)
                 .toList();
         }

@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -15,7 +14,7 @@ public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
     }
 
     @Override
-    public JsonElement toJson(ItemStack value) {
+    public JsonObject toJson(ItemStack value) {
         JsonObject json = new JsonObject();
         json.addProperty("item", GtUtil.itemId(value));
         int count = value.getCount();
@@ -31,8 +30,8 @@ public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
     }
 
     @Override
-    public ItemStack fromJson(JsonElement element) {
-        return RecipeUtil.parseItemStack(element);
+    public ItemStack fromJson(JsonObject json) {
+        return RecipeUtil.parseItemStack(json);
     }
 
     @Override

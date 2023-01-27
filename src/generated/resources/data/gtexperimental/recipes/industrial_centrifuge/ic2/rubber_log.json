@@ -1,0 +1,35 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 5000,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:logs/rubber"
+    }
+  },
+  "output": [
+    {
+      "count": 8,
+      "item": "ic2:resin"
+    },
+    {
+      "count": 6,
+      "item": "ic2:plant_ball"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:methane_fluid"
+    },
+    {
+      "amount": 4000,
+      "fluid": "gtexperimental:carbon_fluid"
+    }
+  ]
+}

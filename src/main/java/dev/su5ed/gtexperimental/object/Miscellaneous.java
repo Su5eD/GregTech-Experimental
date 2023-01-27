@@ -24,7 +24,7 @@ public enum Miscellaneous implements TaggedItemProvider {
     DIAMOND_CREDIT(GtLocale.translateItemDescription("credit", 512)),
     EMPTY_SPRAY_CAN(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription()), GregTechTags.CRAFTING_SPRAY_CAN),
     FLINT_MORTAR(GtLocale.translateItemDescription("mortar")),
-    FLOUR(GregTechTags.material("dusts", "wheat")),
+    FLOUR(GregTechTags.dust("wheat")),
     GOLD_CREDIT(GtLocale.translateItemDescription("credit", 64)),
     GREEN_SAPPHIRE(Dust.GREEN_SAPPHIRE.description, GregTechTags.material("gems", "green_sapphire")),
     GREG_COIN(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription())),

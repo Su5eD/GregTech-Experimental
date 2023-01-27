@@ -1,0 +1,38 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 10000,
+  "input": {
+    "type": "fluid",
+    "amount": 16000,
+    "tag": "minecraft:lava"
+  },
+  "output": [
+    {
+      "item": "gtexperimental:electrum_ingot"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "gtexperimental:tungsten_smalldust"
+    },
+    {
+      "count": 2,
+      "item": "ftbic:tin_ingot"
+    }
+  ]
+}

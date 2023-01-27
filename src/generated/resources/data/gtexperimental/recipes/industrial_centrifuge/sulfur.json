@@ -1,0 +1,14 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 40,
+  "input": {
+    "type": "fluid",
+    "amount": 1000,
+    "tag": "forge:sulfur"
+  },
+  "output": [
+    {
+      "item": "gtexperimental:sulfur_dust"
+    }
+  ]
+}

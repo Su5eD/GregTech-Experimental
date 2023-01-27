@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 3500,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:dusts/yellow_garnet"
+    }
+  },
+  "output": [
+    {
+      "count": 5,
+      "item": "gtexperimental:andradite_dust"
+    },
+    {
+      "count": 8,
+      "item": "gtexperimental:grossular_dust"
+    },
+    {
+      "count": 3,
+      "item": "gtexperimental:uvarovite_dust"
+    }
+  ]
+}

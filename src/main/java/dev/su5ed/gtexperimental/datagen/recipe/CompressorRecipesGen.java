@@ -27,7 +27,7 @@ public final class CompressorRecipesGen implements ModRecipeProvider {
     @Override
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         compressor(Dust.WOOD.getTag(), 8, Plate.WOOD.getItemStack(), finishedRecipeConsumer);
-        compressor(GregTechTags.material("dusts", "iridium"), 1, Ingot.IRIDIUM.getItemStack(), finishedRecipeConsumer);
+        compressor(GregTechTags.dust("iridium"), 1, Ingot.IRIDIUM.getItemStack(), finishedRecipeConsumer);
         compressor(Dust.OSMIUM.getTag(), 1, Ingot.OSMIUM.getItemStack(), finishedRecipeConsumer);
         compressor(Dust.PLUTONIUM.getTag(), 1, Ingot.PLUTONIUM.getItemStack(), finishedRecipeConsumer);
         compressor(Dust.THORIUM.getTag(), 1, Ingot.THORIUM.getItemStack(), finishedRecipeConsumer);

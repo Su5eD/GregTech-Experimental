@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
+import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.AlloySmelterRecipe;
 import dev.su5ed.gtexperimental.recipe.AssemblerRecipe;
@@ -11,6 +12,7 @@ import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
+import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
@@ -133,6 +135,37 @@ public final class ModRecipeBuilders {
     public static MIMORecipeBuilder blastFurnace(List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, int duration, int heat) {
         MIMORecipe recipe = new BlastFurnaceRecipe(null, inputs, outputs, duration, heat);
         return new MIMORecipeBuilder(recipe);
+    }
+
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, int duration) {
+        return industrialCentrifuge(input, List.of(convert(first)), duration);
+    }
+
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, int duration) {
+        return industrialCentrifuge(input, List.of(convert(first), convert(second)), duration);
+    }
+
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, int duration) {
+        return industrialCentrifuge(input, List.of(convert(first), convert(second), convert(third)), duration);
+    }
+
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, Object fourth, int duration) {
+        return industrialCentrifuge(input, List.of(convert(first), convert(second), convert(third), convert(fourth)), duration);
+    }
+
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration) {
+        SIMORecipe<Either<ItemStack, FluidStack>> recipe = new IndustrialCentrifugeRecipe(null, input, outputs, duration);
+        return new SIMORecipeBuilder<>(recipe);
+    }
+
+    private static Either<ItemStack, FluidStack> convert(Object obj) {
+        if (obj instanceof ItemStack item) {
+            return Either.left(item);
+        }
+        if (obj instanceof FluidStack fluid) {
+            return Either.right(fluid);
+        }
+        throw new IllegalArgumentException("Object must either be an item or fluid");
     }
 
     private ModRecipeBuilders() {}

@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 7000,
+  "input": {
+    "type": "item",
+    "count": 10,
+    "value": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:silicon_fluid"
+    },
+    {
+      "count": 5,
+      "item": "gtexperimental:pyrite_dust"
+    },
+    {
+      "item": "gtexperimental:ruby_dust"
+    },
+    {
+      "count": 3,
+      "item": "gtexperimental:mercury_bucket"
+    }
+  ]
+}

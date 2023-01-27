@@ -6,6 +6,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -75,7 +76,7 @@ public class VanillaFluidIngredient extends AbstractIngredient {
 
         @Override
         public VanillaFluidIngredient parse(JsonObject json) {
-            JsonElement value = json.get("fluid_ingredient");
+            JsonObject value = GsonHelper.getAsJsonObject(json, "fluid_ingredient");
             RecipeIngredient<FluidStack> fluidIngredient = ModRecipeIngredientTypes.FLUID.create(value);
             return new VanillaFluidIngredient(fluidIngredient);
         }

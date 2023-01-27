@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 100,
+  "input": {
+    "type": "item",
+    "value": {
+      "tag": "forge:dusts/quicksilver"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:mercury_fluid"
+    }
+  ]
+}

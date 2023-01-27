@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1055,
+  "input": {
+    "type": "item",
+    "count": 8,
+    "value": {
+      "tag": "forge:dusts/marble"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:magnesium_dust"
+    },
+    {
+      "count": 7,
+      "item": "gtexperimental:calcite_dust"
+    }
+  ]
+}

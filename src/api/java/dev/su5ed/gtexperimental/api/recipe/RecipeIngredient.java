@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.api.recipe;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -17,5 +18,5 @@ public interface RecipeIngredient<T> extends Predicate<T> {
 
     void toNetwork(FriendlyByteBuf buffer);
     
-    JsonElement toJson();
+    JsonObject toJson();
 }

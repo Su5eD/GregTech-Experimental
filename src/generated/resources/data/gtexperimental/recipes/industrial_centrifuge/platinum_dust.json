@@ -1,0 +1,18 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 3000,
+  "input": {
+    "type": "item",
+    "value": {
+      "tag": "forge:dusts/platinum"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:iridium_nugget"
+    },
+    {
+      "item": "gtexperimental:nickel_smalldust"
+    }
+  ]
+}

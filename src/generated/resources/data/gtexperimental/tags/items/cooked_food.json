@@ -1,0 +1,19 @@
+{
+  "values": [
+    "minecraft:cooked_chicken",
+    "minecraft:cooked_beef",
+    "minecraft:cooked_porkchop",
+    "minecraft:cooked_mutton",
+    "minecraft:cooked_cod",
+    "minecraft:cooked_rabbit",
+    "minecraft:cooked_salmon",
+    {
+      "id": "twilightforest:cooked_meef",
+      "required": false
+    },
+    {
+      "id": "twilightforest:cooked_venison",
+      "required": false
+    }
+  ]
+}

@@ -35,7 +35,7 @@ public class MISORecipeType<R extends MISORecipe<IN, OUT>, IN, OUT> extends Base
     @Override
     public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
         JsonArray inputJson = GsonHelper.getAsJsonArray(serializedRecipe, "input");
-        JsonElement outputJson = serializedRecipe.get("output");
+        JsonObject outputJson = GsonHelper.getAsJsonObject(serializedRecipe, "output");
 
         List<? extends RecipeIngredient<IN>> inputs = RecipeUtil.parseInputs(this.inputType, this.inputCount, inputJson);
         OUT output = this.outputType.fromJson(outputJson);

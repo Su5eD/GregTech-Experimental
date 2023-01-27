@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 5000,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": [
+      {
+        "item": "minecraft:pumpkin"
+      },
+      {
+        "item": "minecraft:rotten_flesh"
+      },
+      {
+        "item": "minecraft:carrot"
+      },
+      {
+        "item": "minecraft:potato"
+      },
+      {
+        "item": "minecraft:mushroom_stew"
+      }
+    ]
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:methane_fluid"
+    }
+  ]
+}

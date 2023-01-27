@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1850,
+  "input": {
+    "type": "item",
+    "count": 2,
+    "value": {
+      "tag": "forge:dusts/ender_eye"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:ender_pearl_dust"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ]
+}

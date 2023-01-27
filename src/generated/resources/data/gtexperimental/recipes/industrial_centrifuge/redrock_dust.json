@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 100,
+  "input": {
+    "type": "item",
+    "count": 4,
+    "value": {
+      "tag": "forge:dusts/redrock"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:calcite_dust"
+    },
+    {
+      "item": "gtexperimental:flint_dust"
+    },
+    {
+      "item": "gtexperimental:clay_dust"
+    }
+  ]
+}

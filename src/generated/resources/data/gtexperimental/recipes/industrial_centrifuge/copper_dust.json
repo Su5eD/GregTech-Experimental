@@ -1,0 +1,18 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 2400,
+  "input": {
+    "type": "item",
+    "value": {
+      "tag": "forge:dusts/copper"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:gold_smalldust"
+    },
+    {
+      "item": "gtexperimental:nickel_smalldust"
+    }
+  ]
+}

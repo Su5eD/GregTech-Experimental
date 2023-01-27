@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 3000,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:dusts/red_garnet"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "gtexperimental:pyrope_dust"
+    },
+    {
+      "count": 5,
+      "item": "gtexperimental:almandine_dust"
+    },
+    {
+      "count": 8,
+      "item": "gtexperimental:spessartine_dust"
+    }
+  ]
+}

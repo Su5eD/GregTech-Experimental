@@ -2,8 +2,10 @@ package dev.su5ed.gtexperimental.recipe.setup;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.recipe.type.FluidRecipeOutputType;
+import dev.su5ed.gtexperimental.recipe.type.HybridRecipeOutputType;
 import dev.su5ed.gtexperimental.recipe.type.ItemRecipeOutputType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +17,7 @@ import java.util.List;
 public final class ModRecipeOutputTypes {
     public static final RecipeOutputType<ItemStack> ITEM = new ItemRecipeOutputType();
     public static final RecipeOutputType<FluidStack> FLUID = new FluidRecipeOutputType();
+    public static final RecipeOutputType<Either<ItemStack, FluidStack>> HYBRID = new HybridRecipeOutputType();
 
     public static <T> List<T> fromNetwork(RecipeOutputType<T> outputType, int outputTypeCount, FriendlyByteBuf buffer) {
         int outputCount = buffer.readInt();

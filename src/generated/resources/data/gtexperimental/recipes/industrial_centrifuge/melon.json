@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 5000,
+  "input": {
+    "type": "item",
+    "count": 64,
+    "value": [
+      {
+        "item": "minecraft:melon"
+      },
+      {
+        "item": "minecraft:cookie"
+      },
+      {
+        "item": "minecraft:bread"
+      }
+    ]
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:methane_fluid"
+    }
+  ]
+}

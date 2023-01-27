@@ -22,6 +22,7 @@ import dev.su5ed.gtexperimental.util.TaggedItemProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -114,11 +115,22 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.ENERGY_CRYSTAL, "energy_crystal");
         modItem(GregTechTags.material("ingots", "mixed_metal"), "mixed_metal_ingot");
         modItem(GregTechTags.material("ingots", "refined_iron"), "refined_iron_ingot");
+        tag(GregTechTags.OIL_SAND)
+            .addOptional(new ResourceLocation(ModHandler.THERMAL_MODID, "oil_sand"));
 
         tag(GregTechTags.COLORED_WOOL)
             .add(Items.ORANGE_WOOL, Items.MAGENTA_WOOL, Items.LIGHT_BLUE_WOOL, Items.YELLOW_WOOL, Items.LIME_WOOL,
                 Items.PINK_WOOL, Items.GRAY_WOOL, Items.LIGHT_GRAY_WOOL, Items.CYAN_WOOL, Items.PURPLE_WOOL,
                 Items.BLUE_WOOL, Items.BROWN_WOOL, Items.GREEN_WOOL, Items.RED_WOOL, Items.BLACK_WOOL);
+
+        tag(GregTechTags.RAW_FOOD)
+            .add(Items.CHICKEN, Items.BEEF, Items.PORKCHOP, Items.MUTTON, Items.COD, Items.RABBIT, Items.SALMON)
+            .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "raw_meef"))
+            .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "raw_venison"));
+        tag(GregTechTags.COOKED_FOOD)
+            .add(Items.COOKED_CHICKEN, Items.COOKED_BEEF, Items.COOKED_PORKCHOP, Items.COOKED_MUTTON, Items.COOKED_COD, Items.COOKED_RABBIT, Items.COOKED_SALMON)
+            .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "cooked_meef"))
+            .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "cooked_venison"));
     }
 
     @Override

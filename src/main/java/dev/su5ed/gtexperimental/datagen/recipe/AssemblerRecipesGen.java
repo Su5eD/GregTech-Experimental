@@ -167,7 +167,7 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
         // FIXME cant use modhandler here
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.COMPRESSED_COAL_BALL, 8), ModRecipeIngredientTypes.ITEM.ofValues(new Ingredient.ItemValue(new ItemStack(Items.BRICKS)), new Ingredient.TagValue(Tags.Items.STORAGE_BLOCKS_IRON), new Ingredient.TagValue(Tags.Items.OBSIDIAN)), new ItemStack(ModHandler.getModItem("coal_chunk")), 400, 4)
             .build(finishedRecipeConsumer, id("universal/coal_chunk_from_bricks"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("dusts", "coal"), 8), ModRecipeIngredientTypes.ITEM.of(Items.FLINT), new ItemStack(ModHandler.getModItem("coal_block")), 400, 4)
+        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.dust("coal"), 8), ModRecipeIngredientTypes.ITEM.of(Items.FLINT), new ItemStack(ModHandler.getModItem("coal_block")), 400, 4)
             .build(finishedRecipeConsumer, id("universal/compressed_coal_ball"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Component.ADVANCED_CIRCUIT_BOARD), ModRecipeIngredientTypes.ITEM.of(Component.ADVANCED_CIRCUIT_PARTS, 2), new ItemStack(ModHandler.getModItem("advanced_circuit")), 1600, 2)
             .build(finishedRecipeConsumer, id("universal/advanced_circuit"));

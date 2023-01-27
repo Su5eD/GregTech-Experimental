@@ -109,6 +109,8 @@ public final class GregTechTags {
 
     public static final TagKey<Item> LAZURITE_CHUNK = itemTag("lazurite_chunk");
     public static final TagKey<Item> COLORED_WOOL = itemTag("colored_wool");
+    public static final TagKey<Item> RAW_FOOD = itemTag("raw_food");
+    public static final TagKey<Item> COOKED_FOOD = itemTag("cooked_food");
 
 //    public static final TagKey<Block> MINABLE_WITH_JACK_HAMMER = BlockTags.bind("minable_with_jack_hammer");
 
@@ -148,6 +150,7 @@ public final class GregTechTags {
     public static final TagKey<Item> CARBON_PLATE = itemTag("carbon_plate");
     public static final TagKey<Item> PUMP = itemTag("pump");
     public static final TagKey<Item> ENERGY_CRYSTAL = itemTag("energy_crystal");
+    public static final TagKey<Item> OIL_SAND = itemTag("oil_sand");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");
@@ -162,7 +165,10 @@ public final class GregTechTags {
 
     private static final Map<String, Map<String, TagKey<Item>>> FORGE_MATERIALS = new HashMap<>();
 
-    // TODO shortcut methods with preset type
+    public static TagKey<Item> dust(String name) {
+        return material("dusts", name);
+    }
+
     public static TagKey<Item> material(String type, String name) {
         return FORGE_MATERIALS.computeIfAbsent(type, s -> new HashMap<>())
             .computeIfAbsent(name, s -> forgeItemTag(type + "/" + name));

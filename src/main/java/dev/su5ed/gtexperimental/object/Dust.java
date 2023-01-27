@@ -96,7 +96,7 @@ public enum Dust implements TaggedItemProvider {
     Dust(MutableComponent description, boolean isFoil) {
         this.description = description;
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)));
-        this.tag = GregTechTags.material("dusts", getName());
+        this.tag = GregTechTags.dust(getName());
     }
     
     @Override

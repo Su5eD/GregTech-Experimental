@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 10000,
+  "input": {
+    "type": "item",
+    "value": [
+      {
+        "item": "minecraft:golden_apple"
+      },
+      {
+        "item": "minecraft:golden_carrot"
+      }
+    ]
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:methane_fluid"
+    },
+    {
+      "count": 6,
+      "item": "minecraft:gold_nugget"
+    }
+  ]
+}

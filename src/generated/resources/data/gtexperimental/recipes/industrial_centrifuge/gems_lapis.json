@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1500,
+  "input": {
+    "type": "item",
+    "value": {
+      "tag": "forge:gems/lapis"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "gtexperimental:lazurite_dust"
+    },
+    {
+      "item": "gtexperimental:lazurite_smalldust"
+    },
+    {
+      "item": "gtexperimental:calcite_smalldust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:sodalite_smalldust"
+    }
+  ]
+}

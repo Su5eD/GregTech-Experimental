@@ -1,0 +1,19 @@
+{
+  "values": [
+    "minecraft:chicken",
+    "minecraft:beef",
+    "minecraft:porkchop",
+    "minecraft:mutton",
+    "minecraft:cod",
+    "minecraft:rabbit",
+    "minecraft:salmon",
+    {
+      "id": "twilightforest:raw_meef",
+      "required": false
+    },
+    {
+      "id": "twilightforest:raw_venison",
+      "required": false
+    }
+  ]
+}

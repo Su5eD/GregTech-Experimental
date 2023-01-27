@@ -13,6 +13,7 @@ import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
+import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeSerializer;
@@ -39,6 +40,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<FusionFluidRecipe>> FUSION_FLUID = register("fusion_fluid", ModRecipeTypes.FUSION_FLUID);
     public static final RegistryObject<RecipeSerializer<ImplosionRecipe>> IMPLOSION = register("implosion", ModRecipeTypes.IMPLOSION);
     public static final RegistryObject<RecipeSerializer<BlastFurnaceRecipe>> BLAST_FURNACE = register("blast_furnace", ModRecipeTypes.BLAST_FURNACE);
+    public static final RegistryObject<RecipeSerializer<IndustrialCentrifugeRecipe>> INDUSTRIAL_CENTRIFUGE = register("industrial_centrifuge", ModRecipeTypes.INDUSTRIAL_CENTRIFUGE);
 
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);

@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
@@ -53,7 +52,7 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
     }
 
     @Override
-    public JsonElement toJson() {
+    public JsonObject toJson() {
         JsonObject json = new JsonObject();
         json.add("value", this.ingredient.toJson());
         if (this.count > 1) {

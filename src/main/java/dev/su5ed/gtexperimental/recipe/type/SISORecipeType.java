@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
@@ -27,8 +26,8 @@ public class SISORecipeType<R extends SISORecipe> extends BaseRecipeTypeImpl<R> 
 
     @Override
     public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
-        JsonElement inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
-        JsonElement outputJson = serializedRecipe.get("output");
+        JsonObject inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
+        JsonObject outputJson = GsonHelper.getAsJsonObject(serializedRecipe, "output");
 
         RecipeIngredient<ItemStack> input = this.inputType.create(inputJson);
         ItemStack output = ModRecipeOutputTypes.ITEM.fromJson(outputJson);

@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 5000,
+  "input": {
+    "type": "item",
+    "count": 12,
+    "value": [
+      {
+        "item": "minecraft:poisonous_potato"
+      },
+      {
+        "item": "minecraft:brown_mushroom_block"
+      },
+      {
+        "item": "minecraft:red_mushroom_block"
+      }
+    ]
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:methane_fluid"
+    }
+  ]
+}

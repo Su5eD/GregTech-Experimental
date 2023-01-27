@@ -25,6 +25,10 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
         return new VanillaRecipeIngredient(Ingredient.of(items));
     }
 
+    public VanillaRecipeIngredient of(int count, ItemLike... items) {
+        return new VanillaRecipeIngredient(Ingredient.of(items), count);
+    }
+
     public VanillaRecipeIngredient of(ItemLike item, int count) {
         return new VanillaRecipeIngredient(Ingredient.of(item), count);
     }
@@ -54,11 +58,12 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
     public VanillaRecipeIngredient ofValues(Ingredient.Value... values) {
         return new VanillaRecipeIngredient(Ingredient.fromValues(Stream.of(values)));
     }
-    
+
+    // TODO use buckets instead of amount
     public VanillaRecipeIngredient ofFluid(FluidStack stack) {
         return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(stack));
     }
-    
+
     public VanillaRecipeIngredient ofFluid(FluidProvider provider, int amount) {
         return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(provider, amount));
     }
@@ -70,16 +75,15 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
     public VanillaRecipeIngredient ofFluid(TagKey<Fluid> tag, int amount) {
         return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(tag, amount));
     }
-    
+
     public VanillaRecipeIngredient ofFluid(RecipeIngredient<FluidStack> fluidIngredient) {
         return new VanillaRecipeIngredient(fluidIngredient);
     }
 
     @Override
-    public VanillaRecipeIngredient create(JsonElement json) {
-        JsonObject obj = json.getAsJsonObject();
-        JsonElement value = obj.get("value");
-        int count = GsonHelper.getAsInt(obj, "count", 1);
+    public VanillaRecipeIngredient create(JsonObject json) {
+        JsonElement value = json.get("value");
+        int count = GsonHelper.getAsInt(json, "count", 1);
         return new VanillaRecipeIngredient(Ingredient.fromJson(value), count);
     }
 

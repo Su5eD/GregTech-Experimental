@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.setup;
 
+import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
@@ -15,6 +16,7 @@ import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
+import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
@@ -59,6 +61,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<MISORecipeType<FusionFluidRecipe, FluidStack, FluidStack>> FUSION_FLUID = ModRecipeTypes.<FusionFluidRecipe, FluidStack, FluidStack>miso("fusion_fluid", ModRecipeIngredientTypes.FLUID, 2, ModRecipeOutputTypes.FLUID, FUSION_PROPERTIES, FusionFluidRecipe::new);
     public static final RegistryObject<SIMORecipeType<ImplosionRecipe, ItemStack>> IMPLOSION = ModRecipeTypes.<ImplosionRecipe, ItemStack>simo("implosion", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, 2, List.of(ModRecipeProperty.TNT), ImplosionRecipe::new);
     public static final RegistryObject<MIMORecipeType<BlastFurnaceRecipe>> BLAST_FURNACE = mimo("blast_furnace", 2, 2, List.of(ModRecipeProperty.DURATION, ModRecipeProperty.HEAT), BlastFurnaceRecipe::new);
+    public static final RegistryObject<SIMORecipeType<IndustrialCentrifugeRecipe, Either<ItemStack, FluidStack>>> INDUSTRIAL_CENTRIFUGE = ModRecipeTypes.<IndustrialCentrifugeRecipe, Either<ItemStack, FluidStack>>simo("industrial_centrifuge", ModRecipeIngredientTypes.HYBRID, ModRecipeOutputTypes.HYBRID, 4, List.of(ModRecipeProperty.DURATION), IndustrialCentrifugeRecipe::new);
 
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);

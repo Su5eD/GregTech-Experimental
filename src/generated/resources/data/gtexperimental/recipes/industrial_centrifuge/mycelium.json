@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1650,
+  "input": {
+    "type": "item",
+    "count": 8,
+    "value": {
+      "item": "minecraft:mycelium"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:sand"
+    }
+  ]
+}

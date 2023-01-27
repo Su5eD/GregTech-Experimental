@@ -20,6 +20,7 @@ public interface FluidProvider {
     @Nullable
     TagKey<Fluid> getTag();
     
+    // TODO getBuckets method
     default FluidStack getFluidStack(int amount) {
         return new FluidStack(getSourceFluid(), amount);
     }

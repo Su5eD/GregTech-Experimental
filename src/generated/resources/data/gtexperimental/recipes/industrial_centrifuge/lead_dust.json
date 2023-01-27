@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 2400,
+  "input": {
+    "type": "item",
+    "count": 2,
+    "value": {
+      "tag": "forge:dusts/lead"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:silver_smalldust"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 5000,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "gtexperimental:cooked_food"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:methane_fluid"
+    }
+  ]
+}

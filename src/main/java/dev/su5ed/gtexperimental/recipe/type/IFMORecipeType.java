@@ -1,7 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
@@ -35,8 +34,8 @@ public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> 
 
     @Override
     public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
-        JsonElement inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
-        JsonElement fluidJson = GsonHelper.getAsJsonObject(serializedRecipe, "fluid");
+        JsonObject inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
+        JsonObject fluidJson = GsonHelper.getAsJsonObject(serializedRecipe, "fluid");
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
         RecipeIngredient<ItemStack> input = this.inputType.create(inputJson);
