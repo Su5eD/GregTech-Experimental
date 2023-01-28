@@ -12,6 +12,7 @@ import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Ore;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -134,7 +135,12 @@ public final class IndustrialGrinderRecipesGen implements ModRecipeProvider {
 
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         // TODO Chunk / raw ore processing
-        
+
+        // Classic
+        industrialGrinder(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ores", "uranium")), WATER, Dust.URANIUM.getItemStack(2), Smalldust.PLUTONIUM.getItemStack(2), Dust.THORIUM.getItemStack())
+            .addConditions(SelectedProfileCondition.CLASSIC)
+            .build(finishedRecipeConsumer, id("classic/uranium_ore"));
+
         // IC2
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Tags.Items.ORES_IRON), WATER, new ItemStack(Ic2Items.IRON_DUST, 2), Smalldust.TIN.getItemStack(), Smalldust.NICKEL.getItemStack())
             .addConditions(IC2_LOADED)
@@ -184,6 +190,11 @@ public final class IndustrialGrinderRecipesGen implements ModRecipeProvider {
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Ore.IRIDIUM.getTag()), MERCURY, new ItemStack(Ic2Items.IRIDIUM_ORE, 2), Dust.PLATINUM.getItemStack(2))
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/iridium_ore_mercury"));
+
+        // Experimental
+        industrialGrinder(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ores", "uranium")), WATER, new ItemStack(Ic2Items.PURIFIED_URANIUM, 2), Smalldust.PLUTONIUM.getItemStack(2), Dust.THORIUM.getItemStack())
+            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
+            .build(finishedRecipeConsumer, id("experimental/ic2/uranium_ore"));
 
         // FTBIC
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Tags.Items.ORES_IRON), WATER, new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRON, ResourceType.DUST).orElseThrow().get(), 2), Smalldust.TIN.getItemStack(), Smalldust.NICKEL.getItemStack())

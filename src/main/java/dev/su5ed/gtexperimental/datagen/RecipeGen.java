@@ -16,6 +16,7 @@ import dev.su5ed.gtexperimental.datagen.recipe.ImplosionRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialCentrifugeRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialElectrolyzerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialGrinderRecipesGen;
+import dev.su5ed.gtexperimental.datagen.recipe.LatheRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -41,6 +42,7 @@ public class RecipeGen extends RecipeProvider {
     public static final ICondition IC2_LOADED = new ModLoadedCondition(ModHandler.IC2_MODID);
     public static final ICondition NOT_IC2_LOADED = new NotCondition(IC2_LOADED);
     public static final ICondition FTBIC_LOADED = new ModLoadedCondition(ModHandler.FTBIC_MODID);
+    public static final ICondition MYRTREES_LOADED = new ModLoadedCondition(ModHandler.MYRTREES_MODID);
     public static final ICondition TWILIGHT_FOREST_LOADED = new ModLoadedCondition(ModHandler.TWILIGHT_FOREST_MODID);
     public static final ICondition THERMAL_LOADED = new ModLoadedCondition(ModHandler.THERMAL_MODID);
 
@@ -64,7 +66,8 @@ public class RecipeGen extends RecipeProvider {
             BlastFurnaceRecipesGen.INSTANCE,
             IndustrialCentrifugeRecipesGen.INSTANCE,
             IndustrialElectrolyzerRecipesGen.INSTANCE,
-            IndustrialGrinderRecipesGen.INSTANCE
+            IndustrialGrinderRecipesGen.INSTANCE,
+            LatheRecipesGen.INSTANCE
         );
 
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

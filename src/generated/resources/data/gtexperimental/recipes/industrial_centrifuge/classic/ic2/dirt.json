@@ -1,0 +1,38 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    }
+  ],
+  "duration": 2500,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "item": "minecraft:dirt"
+    }
+  },
+  "output": [
+    {
+      "item": "ic2:compressed_plants"
+    },
+    {
+      "item": "ic2:plant_ball"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:sand"
+    }
+  ]
+}

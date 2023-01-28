@@ -16,6 +16,7 @@ import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
+import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -43,6 +44,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<BlastFurnaceRecipe>> BLAST_FURNACE = register("blast_furnace", ModRecipeTypes.BLAST_FURNACE);
     public static final RegistryObject<RecipeSerializer<IndustrialCentrifugeRecipe>> INDUSTRIAL_CENTRIFUGE = register("industrial_centrifuge", ModRecipeTypes.INDUSTRIAL_CENTRIFUGE);
     public static final RegistryObject<RecipeSerializer<IndustrialElectrolyzerRecipe>> INDUSTRIAL_ELECTROLYZER = register("industrial_electrolyzer", ModRecipeTypes.INDUSTRIAL_ELECTROLYZER);
+    public static final RegistryObject<RecipeSerializer<LatheRecipe>> LATHE = register("lathe", ModRecipeTypes.LATHE);
 
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);

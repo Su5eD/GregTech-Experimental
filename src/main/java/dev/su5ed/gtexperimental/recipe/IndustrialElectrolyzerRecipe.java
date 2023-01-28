@@ -19,6 +19,6 @@ public class IndustrialElectrolyzerRecipe extends SIMORecipe<Either<ItemStack, F
     }
 
     public IndustrialElectrolyzerRecipe(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> output, RecipePropertyMap properties) {
-        super(ModRecipeTypes.INDUSTRIAL_CENTRIFUGE.get(), ModRecipeSerializers.INDUSTRIAL_CENTRIFUGE.get(), id, input, output, properties);
+        super(ModRecipeTypes.INDUSTRIAL_ELECTROLYZER.get(), ModRecipeSerializers.INDUSTRIAL_ELECTROLYZER.get(), id, input, output, properties);
     }
 }

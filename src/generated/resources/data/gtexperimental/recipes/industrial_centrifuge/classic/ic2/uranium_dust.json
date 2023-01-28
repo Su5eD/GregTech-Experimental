@@ -1,0 +1,39 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    }
+  ],
+  "duration": 10000,
+  "input": {
+    "type": "item",
+    "count": 4,
+    "value": {
+      "tag": "forge:dusts/uranium"
+    }
+  },
+  "output": [
+    {
+      "count": 4,
+      "item": "ic2:uranium_fuel_rod"
+    },
+    {
+      "item": "gtexperimental:plutonium_smalldust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:thorium_dust"
+    },
+    {
+      "item": "gtexperimental:tungsten_dust"
+    }
+  ]
+}

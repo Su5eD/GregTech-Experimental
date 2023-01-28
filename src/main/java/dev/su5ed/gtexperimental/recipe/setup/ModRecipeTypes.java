@@ -19,6 +19,7 @@ import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
+import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipeType;
@@ -65,6 +66,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<MIMORecipeType<BlastFurnaceRecipe>> BLAST_FURNACE = mimo("blast_furnace", 2, 2, List.of(ModRecipeProperty.DURATION, ModRecipeProperty.HEAT), BlastFurnaceRecipe::new);
     public static final RegistryObject<SIMORecipeType<IndustrialCentrifugeRecipe, Either<ItemStack, FluidStack>>> INDUSTRIAL_CENTRIFUGE = ModRecipeTypes.<IndustrialCentrifugeRecipe, Either<ItemStack, FluidStack>>simo("industrial_centrifuge", ModRecipeIngredientTypes.HYBRID, ModRecipeOutputTypes.HYBRID, 4, List.of(ModRecipeProperty.DURATION), IndustrialCentrifugeRecipe::new);
     public static final RegistryObject<SIMORecipeType<IndustrialElectrolyzerRecipe, Either<ItemStack, FluidStack>>> INDUSTRIAL_ELECTROLYZER = ModRecipeTypes.<IndustrialElectrolyzerRecipe, Either<ItemStack, FluidStack>>simo("industrial_electrolyzer", ModRecipeIngredientTypes.HYBRID, ModRecipeOutputTypes.HYBRID, 4, IndustrialElectrolyzerRecipe::new);
+    public static final RegistryObject<SIMORecipeType<LatheRecipe, ItemStack>> LATHE = ModRecipeTypes.<LatheRecipe, ItemStack>simo("lathe", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, 2, LatheRecipe::new);
 
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);

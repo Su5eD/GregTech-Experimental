@@ -2,10 +2,13 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.mojang.datafixers.util.Pair;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
+import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -18,15 +21,19 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.tags.ITagManager;
+import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
 
 public final class RecipeUtil {
+    private static final List<String> MOD_PRIORITY = List.of(ModHandler.FTBIC_MODID, ModHandler.IC2_MODID, Reference.MODID);
 
     public static <T> List<? extends RecipeIngredient<T>> parseInputs(RecipeIngredientType<? extends RecipeIngredient<T>> inputType, int inputCount, JsonArray json) {
         if (!json.isEmpty() && inputCount >= json.size()) {
@@ -111,6 +118,29 @@ public final class RecipeUtil {
 
     public static ResourceLocation createId(TagKey<Item> input, ItemStack output) {
         return location("%s_to_%s".formatted(GtUtil.tagName(input), GtUtil.itemName(output)));
+    }
+
+    public static EntryStream<TagKey<Item>, Pair<TagKey<Item>, Item>> associateTags(String source, String dest) {
+        ITagManager<Item> tags = ForgeRegistries.ITEMS.tags();
+        return StreamEx.of(tags.getTagNames())
+            .filter(key -> key.location().getNamespace().equals("forge") && key.location().getPath().startsWith(source + "/"))
+            .mapToEntry(key -> findAssociatedTag(key, source, dest).orElse(null))
+            .nonNullValues();
+    }
+
+    public static Optional<Pair<TagKey<Item>, Item>> findAssociatedTag(TagKey<Item> tag, String material, String replacement) {
+        ITagManager<Item> tags = ForgeRegistries.ITEMS.tags();
+        TagKey<Item> key = tags.createTagKey(new ResourceLocation(tag.location().toString().replaceFirst(material, replacement)));
+        return tags.isKnownTagName(key) ? findFirstItem(key).map(item -> Pair.of(key, item)) : Optional.empty();
+    }
+
+    public static Optional<Item> findFirstItem(TagKey<Item> tag) {
+        ITagManager<Item> tags = ForgeRegistries.ITEMS.tags();
+        return tags.getTag(tag).stream()
+            .min(Comparator.comparingInt(item -> {
+                String namespace = ForgeRegistries.ITEMS.getKey(item).getNamespace();
+                return MOD_PRIORITY.indexOf(namespace);
+            }));
     }
 
     private RecipeUtil() {}

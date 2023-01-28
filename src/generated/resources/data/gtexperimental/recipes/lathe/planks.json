@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:lathe",
+  "duration": 25,
+  "energy_cost": 8.0,
+  "input": {
+    "value": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "minecraft:stick"
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Ore;
 import dev.su5ed.gtexperimental.object.Plate;
 import dev.su5ed.gtexperimental.object.Rod;
+import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.object.Upgrade;
 import dev.su5ed.gtexperimental.util.ItemProvider;
@@ -50,6 +51,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         StreamEx.<TaggedItemProvider>of(Component.values())
             .append(Dust.values())
+            .append(Smalldust.values())
             .append(Ingot.values())
             .append(Miscellaneous.values())
             .append(ModCoverItem.values())

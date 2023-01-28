@@ -1,15 +1,18 @@
 package dev.su5ed.gtexperimental.object;
 
+import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.item.ResourceItem;
 import dev.su5ed.gtexperimental.item.ResourceItem.ExtendedItemProperties;
 import dev.su5ed.gtexperimental.util.GtUtil;
-import dev.su5ed.gtexperimental.util.ItemProvider;
+import dev.su5ed.gtexperimental.util.TaggedItemProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.Nullable;
 
-public enum Smalldust implements ItemProvider {
+public enum Smalldust implements TaggedItemProvider {
     ALMANDINE(Dust.ALMANDINE.description),
     ALUMINIUM(Dust.ALUMINIUM.description),
     ANDRADITE(Dust.ANDRADITE.description),
@@ -80,6 +83,7 @@ public enum Smalldust implements ItemProvider {
     ZINC(Ingot.ZINC.description);
 
     private final Lazy<Item> instance;
+    private final TagKey<Item> tag;
 
     Smalldust() {
         this((MutableComponent) null);
@@ -99,6 +103,7 @@ public enum Smalldust implements ItemProvider {
 
     Smalldust(MutableComponent description, boolean isFoil) {
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)));
+        this.tag = GregTechTags.material("small_dusts", getName());
     }
 
     @Override
@@ -109,5 +114,11 @@ public enum Smalldust implements ItemProvider {
     @Override
     public Item getItem() {
         return this.instance.get();
+    }
+
+    @Nullable
+    @Override
+    public TagKey<Item> getTag() {
+        return this.tag;
     }
 }

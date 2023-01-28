@@ -10,6 +10,7 @@ import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import io.alwa.mods.myrtrees.common.item.MyrtreesItems;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -24,6 +25,7 @@ import java.util.function.Consumer;
 import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.MYRTREES_LOADED;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.industrialCentrifuge;
 import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
@@ -151,6 +153,40 @@ public final class IndustrialCentrifugeRecipesGen implements ModRecipeProvider {
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/lava"));
 
+        // Classic
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.NEAR_DEPLETED_URANIUM), Dust.THORIUM.getItemStack(), new ItemStack(Ic2Items.EMPTY_CELL), 500)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
+            .build(finishedRecipeConsumer, id("classic/ic2/near_depleted_uranium"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.RE_ENRICHED_URANIUM, 8), new ItemStack(Ic2Items.NEAR_DEPLETED_URANIUM, 3), Dust.PLUTONIUM.getItemStack(), Dust.THORIUM.getItemStack(4), new ItemStack(Ic2Items.EMPTY_CELL, 5), 20000)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
+            .build(finishedRecipeConsumer, id("classic/ic2/re_enriched_uranium"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.DIRT, 16), new ItemStack(Ic2Items.COMPRESSED_PLANTS), new ItemStack(Ic2Items.PLANT_BALL), new ItemStack(Items.CLAY_BALL), new ItemStack(Items.SAND, 8), 2500)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
+            .build(finishedRecipeConsumer, id("classic/ic2/dirt"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.GRASS, 16), new ItemStack(Ic2Items.COMPRESSED_PLANTS, 2), new ItemStack(Ic2Items.PLANT_BALL, 2), new ItemStack(Items.CLAY_BALL), new ItemStack(Items.SAND, 8), 2500)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
+            .build(finishedRecipeConsumer, id("classic/ic2/grass"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.RESIN, 4), new ItemStack(Ic2Items.RUBBER, 14), new ItemStack(Ic2Items.COMPRESSED_PLANTS), new ItemStack(Ic2Items.PLANT_BALL), 1300)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
+            .build(finishedRecipeConsumer, id("classic/ic2/resin"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.URANIUM.getTag(), 4), new ItemStack(Ic2Items.URANIUM_FUEL_ROD, 4), Smalldust.PLUTONIUM.getItemStack(), Dust.THORIUM.getItemStack(2), Dust.TUNGSTEN.getItemStack(), 10000)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
+            .build(finishedRecipeConsumer, id("classic/ic2/uranium_dust"));
+
+        // Experimental
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.DIRT, 16), new ItemStack(Ic2Items.BIO_CHAFF), new ItemStack(Ic2Items.PLANT_BALL), new ItemStack(Items.CLAY_BALL), new ItemStack(Items.SAND, 8), 2500)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
+            .build(finishedRecipeConsumer, id("experimental/ic2/dirt"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.GRASS, 16), new ItemStack(Ic2Items.BIO_CHAFF, 2), new ItemStack(Ic2Items.PLANT_BALL, 2), new ItemStack(Items.CLAY_BALL), new ItemStack(Items.SAND, 8), 2500)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
+            .build(finishedRecipeConsumer, id("experimental/ic2/grass"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.RESIN, 4), new ItemStack(Ic2Items.RUBBER, 14), new ItemStack(Ic2Items.BIO_CHAFF), new ItemStack(Ic2Items.PLANT_BALL), 1300)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
+            .build(finishedRecipeConsumer, id("experimental/ic2/resin"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.URANIUM.getTag(), 4), new ItemStack(Ic2Items.SMALL_URANIUM_235), Smalldust.PLUTONIUM.getItemStack(), Dust.THORIUM.getItemStack(2), Dust.TUNGSTEN.getItemStack(), 10000)
+            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
+            .build(finishedRecipeConsumer, id("experimental/ic2/uranium_dust"));
+
         // FTBIC
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.INVAR.getTag(), 3), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRON, ResourceType.DUST).orElseThrow().get(), 2), Dust.NICKEL.getItemStack(), 1000)
             .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
@@ -162,14 +198,17 @@ public final class IndustrialCentrifugeRecipesGen implements ModRecipeProvider {
             .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/netherrack_dust"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(GregTechTags.material("logs", "rubber"), 16), new ItemStack(MyrtreesItems.LATEX.get(), 8), new ItemStack(Items.VINE, 6), ModFluid.METHANE.getBuckets(1), ModFluid.CARBON.getBuckets(4), 5000)
-            .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
-            .build(finishedRecipeConsumer, id("ftbic/rubber_log"));
+            .addConditions(NOT_IC2_LOADED, MYRTREES_LOADED)
+            .build(finishedRecipeConsumer, id("myrtrees/rubber_log"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.SOUL_SAND, 16), ModFluid.OIL.getBuckets(1), Dust.SALTPETER.getItemStack(4), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.COAL, ResourceType.DUST).orElseThrow().get()), new ItemStack(Items.SAND, 10), 2500)
             .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/soul_sand"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(FluidTags.LAVA, buckets(16)), Ingot.ELECTRUM.getItemStack(), new ItemStack(Items.COPPER_INGOT, 4), Smalldust.TUNGSTEN.getItemStack(), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.TIN, ResourceType.INGOT).orElseThrow().get(), 2), 10000)
             .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/lava"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(MyrtreesItems.LATEX.get(), 4), new ItemStack(FTBICItems.RUBBER.item.get(), 14), new ItemStack(Items.VINE), new ItemStack(Items.GRASS), 1300)
+            .addConditions(FTBIC_LOADED, MYRTREES_LOADED)
+            .build(finishedRecipeConsumer, id("ftbic/latex"));
     }
 
     private static ResourceLocation id(String name) {

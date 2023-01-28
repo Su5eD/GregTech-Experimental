@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProperty;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import one.util.streamex.StreamEx;
 
 import java.util.Collections;
@@ -62,7 +61,7 @@ public class RecipePropertyMap {
     public static RecipePropertyMap fromJson(List<RecipeProperty<?>> properties, JsonObject json) {
         Map<RecipeProperty<?>, Object> map = StreamEx.of(properties)
             .<Object>mapToEntry(property -> {
-                JsonElement element = GsonHelper.getAsJsonObject(json, property.getName());
+                JsonElement element = json.get(property.getName());
                 return property.fromJson(element);
             })
             .toMap();

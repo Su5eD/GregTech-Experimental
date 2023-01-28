@@ -23,6 +23,7 @@ import java.util.Optional;
 public final class ModHandler {
     public static final String IC2_MODID = "ic2";
     public static final String FTBIC_MODID = "ftbic";
+    public static final String MYRTREES_MODID = "myrtrees";
     public static final String RAILCRAFT_MODID = "railcraft";
     public static final String TWILIGHT_FOREST_MODID = "twilightforest";
     public static final String THERMAL_MODID = "thermal";

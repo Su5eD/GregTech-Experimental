@@ -11,12 +11,14 @@ import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.DynamicBenderRecipes;
+import dev.su5ed.gtexperimental.recipe.DynamicLatheRecipes;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
+import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManager;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManagerProvider;
@@ -46,9 +48,11 @@ public final class ModRecipeManagers {
     public static final RecipeManagerProvider<BlastFurnaceRecipe, MIMORecipe.Input> BLAST_FURNACE = create(ModRecipeTypes.BLAST_FURNACE);
     public static final RecipeManagerProvider<IndustrialCentrifugeRecipe, SIMORecipe.Input<Either<ItemStack, FluidStack>>> INDUSTRIAL_CENTRIFUGE = create(ModRecipeTypes.INDUSTRIAL_CENTRIFUGE);
     public static final RecipeManagerProvider<IndustrialElectrolyzerRecipe, SIMORecipe.Input<Either<ItemStack, FluidStack>>> INDUSTRIAL_ELECTROLYZER = create(ModRecipeTypes.INDUSTRIAL_ELECTROLYZER);
+    public static final RecipeManagerProvider<LatheRecipe, SIMORecipe.Input<ItemStack>> LATHE = create(ModRecipeTypes.LATHE);
 
     static {
         BENDER.registerProvider(DynamicBenderRecipes::new);
+        LATHE.registerProvider(DynamicLatheRecipes::new);
     }
     
     private static <R extends BaseRecipe<?, I, ? super R>, I> RecipeManagerProvider<R, I> create(Supplier<? extends RecipeType<R>> recipeType) {

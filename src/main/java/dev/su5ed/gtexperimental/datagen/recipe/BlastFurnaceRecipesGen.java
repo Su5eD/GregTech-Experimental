@@ -68,7 +68,7 @@ public final class BlastFurnaceRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id("refined_iron/steel_ingot"));
         // IC2
         // TODO Use calcite dust?
-        blastFurnace(ModRecipeIngredientTypes.ITEM.of(ItemTags.IRON_ORES), ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.CALCIUM_CARBONATE, buckets(1)), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 3), 100, 1000)
+        blastFurnace(ModRecipeIngredientTypes.ITEM.of(Tags.Items.ORES_IRON), ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.CALCIUM_CARBONATE, buckets(1)), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 3), 100, 1000)
             .addConditions(IC2_LOADED, SelectedProfileCondition.REFINED_IRON)
             .build(finishedRecipeConsumer, id("refined_iron/ic2/refined_iron_ingot_from_iron_ore"));
         blastFurnace(ModRecipeIngredientTypes.ITEM.of(Ore.PYRITE.getTag()), ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.CALCIUM_CARBONATE, buckets(1)), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 2), 100, 1500)

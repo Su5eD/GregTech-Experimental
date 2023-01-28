@@ -64,6 +64,11 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
         }
     }
 
+    @Override
+    public String toString() {
+        return "ModRecipeProperty{%s}".formatted(this.name);
+    }
+
     private static <T extends Number> boolean greaterThanZero(T number) {
         return number.doubleValue() > 0;
     }

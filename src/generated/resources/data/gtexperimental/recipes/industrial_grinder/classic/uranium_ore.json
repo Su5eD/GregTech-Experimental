@@ -1,0 +1,34 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "classic"
+      }
+    }
+  ],
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/uranium"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:uranium_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:plutonium_smalldust"
+    },
+    {
+      "item": "gtexperimental:thorium_dust"
+    }
+  ]
+}
