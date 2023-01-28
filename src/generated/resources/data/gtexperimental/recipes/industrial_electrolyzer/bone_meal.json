@@ -1,0 +1,18 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 24,
+  "energy_cost": 106.0,
+  "input": {
+    "type": "item",
+    "count": 3,
+    "value": {
+      "item": "minecraft:bone_meal"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:calcium_fluid"
+    }
+  ]
+}

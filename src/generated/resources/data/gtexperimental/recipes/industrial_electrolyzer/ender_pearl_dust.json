@@ -1,0 +1,30 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1300,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:dusts/ender_pearl"
+    }
+  },
+  "output": [
+    {
+      "amount": 5000,
+      "fluid": "gtexperimental:nitrogen_fluid"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:berylium_fluid"
+    },
+    {
+      "amount": 4000,
+      "fluid": "gtexperimental:potassium_fluid"
+    },
+    {
+      "amount": 6000,
+      "fluid": "gtexperimental:chlorite_fluid"
+    }
+  ]
+}

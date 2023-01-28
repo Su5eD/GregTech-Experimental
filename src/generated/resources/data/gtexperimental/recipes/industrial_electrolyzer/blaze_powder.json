@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 300,
+  "energy_cost": 25.0,
+  "input": {
+    "type": "item",
+    "count": 4,
+    "value": {
+      "item": "minecraft:blaze_powder"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:dark_ashes_dust"
+    },
+    {
+      "item": "gtexperimental:sulfur_dust"
+    }
+  ]
+}

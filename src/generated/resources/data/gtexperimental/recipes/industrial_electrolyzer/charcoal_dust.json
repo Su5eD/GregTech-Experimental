@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 20,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "tag": "forge:dusts/charcoal"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:carbon_fluid"
+    }
+  ]
+}

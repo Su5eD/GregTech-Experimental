@@ -1,0 +1,33 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 40,
+  "energy_cost": 100.0,
+  "input": {
+    "type": "fluid",
+    "amount": 7,
+    "tag": "forge:sulfuric_acid"
+  },
+  "output": [
+    {
+      "amount": 2000,
+      "fluid": "gtexperimental:hydrogen_fluid"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:sulfur_fluid"
+    }
+  ]
+}

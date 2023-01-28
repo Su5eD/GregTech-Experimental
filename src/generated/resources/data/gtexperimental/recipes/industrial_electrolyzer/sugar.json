@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 210,
+  "energy_cost": 32.0,
+  "input": {
+    "type": "item",
+    "count": 32,
+    "value": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "output": [
+    {
+      "amount": 2000,
+      "fluid": "gtexperimental:carbon_fluid"
+    },
+    {
+      "amount": 5000,
+      "fluid": "minecraft:water"
+    }
+  ]
+}

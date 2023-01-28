@@ -1,0 +1,30 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 200,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 8,
+    "value": {
+      "item": "minecraft:clay"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:lithium_fluid"
+    },
+    {
+      "amount": 2000,
+      "fluid": "gtexperimental:silicon_fluid"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:aluminium_dust"
+    },
+    {
+      "amount": 2000,
+      "fluid": "gtexperimental:sodium_fluid"
+    }
+  ]
+}

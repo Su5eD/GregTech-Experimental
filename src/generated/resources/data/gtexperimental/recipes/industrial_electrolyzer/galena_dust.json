@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1000,
+  "energy_cost": 120.0,
+  "input": {
+    "type": "item",
+    "count": 2,
+    "value": {
+      "tag": "forge:dusts/galena"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "gtexperimental:silver_smalldust"
+    },
+    {
+      "count": 3,
+      "item": "gtexperimental:lead_smalldust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:sulfur_smalldust"
+    }
+  ]
+}

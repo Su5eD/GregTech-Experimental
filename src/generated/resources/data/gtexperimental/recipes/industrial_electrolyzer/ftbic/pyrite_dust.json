@@ -1,0 +1,34 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 120,
+  "energy_cost": 128.0,
+  "input": {
+    "type": "item",
+    "count": 3,
+    "value": {
+      "tag": "forge:dusts/pyrite"
+    }
+  },
+  "output": [
+    {
+      "item": "ftbic:iron_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:sulfur_dust"
+    }
+  ]
+}

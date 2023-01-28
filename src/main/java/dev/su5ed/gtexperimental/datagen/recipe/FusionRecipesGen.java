@@ -10,7 +10,6 @@ import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.crafting.conditions.NotCondition;
 
 import java.util.function.Consumer;
 
@@ -20,7 +19,6 @@ import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.fusionFluid;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.fusionSolid;
-import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
 public final class FusionRecipesGen implements ModRecipeProvider {
     public static final FusionRecipesGen INSTANCE = new FusionRecipesGen();
@@ -32,9 +30,9 @@ public final class FusionRecipesGen implements ModRecipeProvider {
         fusionSolid(ModRecipeIngredientTypes.FLUID.of(ModFluid.WOLFRAMIUM.getTag()), ModRecipeIngredientTypes.FLUID.of(ModFluid.BERYLIUM.getTag()), Dust.PLATINUM.getItemStack(), 512, 32768, 100000000)
             .build(finishedRecipeConsumer, solidId("platinum_dust"));
 
-        fusionFluid(ModRecipeIngredientTypes.FLUID.of(ModFluid.TRITIUM.getTag()), ModRecipeIngredientTypes.FLUID.of(ModFluid.DEUTERIUM.getTag()), ModFluid.HELIUM_PLASMA.getFluidStack(buckets(1)), 128, 4096, 40000000)
+        fusionFluid(ModRecipeIngredientTypes.FLUID.of(ModFluid.TRITIUM.getTag()), ModRecipeIngredientTypes.FLUID.of(ModFluid.DEUTERIUM.getTag()), ModFluid.HELIUM_PLASMA.getBuckets(1), 128, 4096, 40000000)
             .build(finishedRecipeConsumer, fluidId("helium_plasma_h3_h2"));
-        fusionFluid(ModRecipeIngredientTypes.FLUID.of(ModFluid.HELIUM3.getTag()), ModRecipeIngredientTypes.FLUID.of(ModFluid.DEUTERIUM.getTag()), ModFluid.HELIUM_PLASMA.getFluidStack(buckets(1)), 128, 2048, 60000000)
+        fusionFluid(ModRecipeIngredientTypes.FLUID.of(ModFluid.HELIUM3.getTag()), ModRecipeIngredientTypes.FLUID.of(ModFluid.DEUTERIUM.getTag()), ModFluid.HELIUM_PLASMA.getBuckets(1), 128, 2048, 60000000)
             .build(finishedRecipeConsumer, fluidId("helium_plasma_he3_h2"));
 
         buildOtherModRecipes(finishedRecipeConsumer);

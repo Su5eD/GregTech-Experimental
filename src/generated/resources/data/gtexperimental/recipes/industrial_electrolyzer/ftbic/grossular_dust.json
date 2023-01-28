@@ -1,0 +1,39 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 2050,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 20,
+    "value": {
+      "tag": "forge:dusts/grossular"
+    }
+  },
+  "output": [
+    {
+      "amount": 3000,
+      "fluid": "gtexperimental:calcium_fluid"
+    },
+    {
+      "count": 2,
+      "item": "ftbic:iron_dust"
+    },
+    {
+      "amount": 3000,
+      "fluid": "gtexperimental:silicon_fluid"
+    }
+  ]
+}

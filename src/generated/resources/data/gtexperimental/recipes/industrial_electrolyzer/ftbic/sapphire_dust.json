@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 400,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 8,
+    "value": {
+      "tag": "forge:dusts/sapphire"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:aluminium_dust"
+    }
+  ]
+}

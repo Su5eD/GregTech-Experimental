@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 150,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "fluid",
+    "amount": 5000,
+    "tag": "forge:methane"
+  },
+  "output": [
+    {
+      "amount": 4000,
+      "fluid": "gtexperimental:hydrogen_fluid"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:carbon_fluid"
+    }
+  ]
+}

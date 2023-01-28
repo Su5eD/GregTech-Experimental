@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 400,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 8,
+    "value": {
+      "tag": "forge:dusts/sapphire"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:aluminium_dust"
+    },
+    {
+      "amount": 3000,
+      "fluid": "ic2:air"
+    }
+  ]
+}

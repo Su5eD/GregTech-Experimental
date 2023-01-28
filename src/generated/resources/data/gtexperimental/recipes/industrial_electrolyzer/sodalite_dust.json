@@ -1,0 +1,30 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1350,
+  "energy_cost": 90.0,
+  "input": {
+    "type": "item",
+    "count": 23,
+    "value": {
+      "tag": "forge:dusts/sodalite"
+    }
+  },
+  "output": [
+    {
+      "amount": 4000,
+      "fluid": "gtexperimental:sodium_fluid"
+    },
+    {
+      "count": 3,
+      "item": "gtexperimental:aluminium_dust"
+    },
+    {
+      "amount": 3000,
+      "fluid": "gtexperimental:silicon_fluid"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:chlorite_fluid"
+    }
+  ]
+}

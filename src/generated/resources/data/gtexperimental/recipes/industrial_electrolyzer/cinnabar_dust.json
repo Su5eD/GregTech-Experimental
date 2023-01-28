@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 100,
+  "energy_cost": 128.0,
+  "input": {
+    "type": "item",
+    "count": 2,
+    "value": {
+      "tag": "forge:dusts/cinnabar"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:mercury_fluid"
+    },
+    {
+      "item": "gtexperimental:sulfur_dust"
+    }
+  ]
+}

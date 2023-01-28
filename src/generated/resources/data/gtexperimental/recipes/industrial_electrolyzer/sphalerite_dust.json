@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 150,
+  "energy_cost": 100.0,
+  "input": {
+    "type": "item",
+    "count": 2,
+    "value": {
+      "tag": "forge:dusts/sphalerite"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:zinc_dust"
+    },
+    {
+      "item": "gtexperimental:sulfur_dust"
+    }
+  ]
+}

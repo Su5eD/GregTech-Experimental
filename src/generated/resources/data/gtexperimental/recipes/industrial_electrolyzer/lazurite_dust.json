@@ -1,0 +1,30 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1475,
+  "energy_cost": 100.0,
+  "input": {
+    "type": "item",
+    "count": 29,
+    "value": {
+      "tag": "forge:dusts/lazurite"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "gtexperimental:aluminium_dust"
+    },
+    {
+      "amount": 3000,
+      "fluid": "gtexperimental:silicon_fluid"
+    },
+    {
+      "amount": 4000,
+      "fluid": "gtexperimental:calcium_fluid"
+    },
+    {
+      "amount": 4000,
+      "fluid": "gtexperimental:sodium_fluid"
+    }
+  ]
+}

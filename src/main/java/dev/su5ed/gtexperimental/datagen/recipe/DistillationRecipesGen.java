@@ -20,10 +20,10 @@ public final class DistillationRecipesGen implements ModRecipeProvider {
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         distillation(
             ModRecipeIngredientTypes.FLUID.of(ModFluid.OIL, buckets(16)),
-            ModFluid.DIESEL.getFluidStack(buckets(16)),
-            ModFluid.SULFURIC_ACID.getFluidStack(buckets(16)),
-            ModFluid.GLYCERYL.getFluidStack(buckets(1)),
-            ModFluid.METHANE.getFluidStack(buckets(16)),
+            ModFluid.DIESEL.getBuckets(16),
+            ModFluid.SULFURIC_ACID.getBuckets(16),
+            ModFluid.GLYCERYL.getBuckets(1),
+            ModFluid.METHANE.getBuckets(16),
             16000
         )
             .build(finishedRecipeConsumer, id("oil"));

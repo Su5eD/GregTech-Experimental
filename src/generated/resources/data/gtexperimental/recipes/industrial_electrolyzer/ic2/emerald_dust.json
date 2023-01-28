@@ -1,0 +1,36 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 600,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 29,
+    "value": {
+      "tag": "forge:dusts/emerald"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:aluminium_dust"
+    },
+    {
+      "amount": 3000,
+      "fluid": "gtexperimental:berylium_fluid"
+    },
+    {
+      "amount": 6000,
+      "fluid": "gtexperimental:silicon_fluid"
+    },
+    {
+      "amount": 9000,
+      "fluid": "ic2:air"
+    }
+  ]
+}
