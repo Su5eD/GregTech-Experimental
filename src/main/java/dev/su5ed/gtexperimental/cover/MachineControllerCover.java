@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
-import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -17,21 +16,21 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class MachineControllerCover extends BaseCover<MachineController> {
+public class MachineControllerCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
 
     protected ControllerMode mode = ControllerMode.NORMAL;
 
-    public MachineControllerCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
+    public MachineControllerCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
     public void tick() {
-        Level level = ((BlockEntity) this.be).getLevel();
-        BlockPos offset = ((BlockEntity) this.be).getBlockPos().relative(this.side);
+        Level level = this.be.getLevel();
+        BlockPos offset = this.be.getBlockPos().relative(this.side);
         boolean isPowered = level.hasNeighborSignal(offset) || level.hasSignal(offset, this.side);
-        this.be.setAllowedToWork(isPowered == (this.mode == ControllerMode.NORMAL) && this.mode != ControllerMode.DISABLED);
+        this.machineController.setAllowedToWork(isPowered == (this.mode == ControllerMode.NORMAL) && this.mode != ControllerMode.DISABLED);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class MachineControllerCover extends BaseCover<MachineController> {
 
     @Override
     public void onCoverRemove() {
-        this.be.setAllowedToWork(true);
+        this.machineController.setAllowedToWork(true);
     }
 
     @Override

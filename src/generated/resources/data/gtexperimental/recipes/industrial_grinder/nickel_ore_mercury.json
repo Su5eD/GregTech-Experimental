@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "gtexperimental:mercury_fluid"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/nickel"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "gtexperimental:nickel_dust"
+    },
+    {
+      "item": "gtexperimental:platinum_dust"
+    }
+  ]
+}

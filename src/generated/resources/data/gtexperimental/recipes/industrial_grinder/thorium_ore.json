@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/thorium"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:thorium_dust"
+    },
+    {
+      "item": "gtexperimental:uranium_smalldust"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/coal"
+    }
+  },
+  "output": [
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "ic2:coal_dust"
+    },
+    {
+      "item": "gtexperimental:thorium_smalldust"
+    }
+  ]
+}

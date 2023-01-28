@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class RecipePropertyMap {
+    private static final RecipePropertyMap EMPTY = new RecipePropertyMap(Map.of());
+    
     private final Map<RecipeProperty<?>, ?> properties;
 
     public RecipePropertyMap(Map<RecipeProperty<?>, ?> properties) {
@@ -85,6 +87,10 @@ public class RecipePropertyMap {
             return new RecipePropertyMap(propToValue);
         }
         throw new IllegalArgumentException("Expected " + properties.size() + " properties, received " + size);
+    }
+    
+    public static RecipePropertyMap empty() {
+        return EMPTY;
     }
 
     public static Builder builder() {

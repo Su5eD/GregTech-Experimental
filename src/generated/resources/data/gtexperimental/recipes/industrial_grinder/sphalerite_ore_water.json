@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/sphalerite"
+    }
+  },
+  "output": [
+    {
+      "count": 5,
+      "item": "gtexperimental:sphalerite_dust"
+    },
+    {
+      "item": "gtexperimental:zinc_dust"
+    },
+    {
+      "item": "gtexperimental:yellow_garnet_smalldust"
+    }
+  ]
+}

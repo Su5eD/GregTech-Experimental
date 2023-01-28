@@ -67,10 +67,10 @@ public class EnergyMeterCover extends BaseCover<BlockEntity> {
         }
 
         if (strength > 0) {
-            this.machine.setRedstoneOutput(this.side, this.mode.inverted ? 15 - strength : strength);
+            this.machineController.setRedstoneOutput(this.side, this.mode.inverted ? 15 - strength : strength);
         }
         else {
-            this.machine.setRedstoneOutput(this.side, this.mode.inverted ? 15 : 0);
+            this.machineController.setRedstoneOutput(this.side, this.mode.inverted ? 15 : 0);
         }
     }
 
@@ -123,7 +123,7 @@ public class EnergyMeterCover extends BaseCover<BlockEntity> {
 
     @Override
     public void onCoverRemove() {
-        this.machine.setRedstoneOutput(this.side, 0);
+        this.machineController.setRedstoneOutput(this.side, 0);
     }
 
     @Override

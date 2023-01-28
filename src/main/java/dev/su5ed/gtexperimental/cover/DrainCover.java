@@ -27,12 +27,12 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 import java.util.Locale;
 
-public class DrainCover extends BaseCover<MachineController> {
+public class DrainCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
 
     protected DrainMode mode = DrainMode.IMPORT;
 
-    public DrainCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
+    public DrainCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -43,14 +43,13 @@ public class DrainCover extends BaseCover<MachineController> {
 
     @Override
     public void tick() {
-        BlockEntity be = (BlockEntity) this.be;
-        Level level = be.getLevel();
-        BlockPos pos = be.getBlockPos();
+        Level level = this.be.getLevel();
+        BlockPos pos = this.be.getBlockPos();
         BlockPos offset = pos.relative(this.side);
         Block block = level.getBlockState(offset).getBlock();
 
         if (this.mode.isImport) {
-            be.getCapability(ForgeCapabilities.FLUID_HANDLER, this.side).ifPresent(handler -> {
+            this.be.getCapability(ForgeCapabilities.FLUID_HANDLER, this.side).ifPresent(handler -> {
                 if (this.side == Direction.UP && level.isRainingAt(pos)) {
                     int amount = (int) (level.getBiome(pos).value().getDownfall() * 10);
                     if (amount > 0) {
@@ -101,7 +100,7 @@ public class DrainCover extends BaseCover<MachineController> {
 
     @Override
     public boolean shouldTick() {
-        return !this.mode.conditional || this.be.isAllowedToWork() != this.mode.inverted;
+        return !this.mode.conditional || this.machineController.isAllowedToWork() != this.mode.inverted;
     }
 
     @Override

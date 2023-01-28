@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
-import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -10,20 +9,21 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public abstract class MeterCover extends BaseCover<MachineController> {
+public abstract class MeterCover extends BaseCover<BlockEntity> {
     protected MeterMode mode = MeterMode.NORMAL;
 
-    protected MeterCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
+    protected MeterCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
     public void tick() {
         int strength = getRedstoneStrength();
-        this.be.setRedstoneOutput(this.side, this.mode == MeterMode.NORMAL ? strength : 15 - strength);
+        this.machineController.setRedstoneOutput(this.side, this.mode == MeterMode.NORMAL ? strength : 15 - strength);
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class MeterCover extends BaseCover<MachineController> {
 
     @Override
     public void onCoverRemove() {
-        this.be.setRedstoneOutput(this.side, 0);
+        this.machineController.setRedstoneOutput(this.side, 0);
     }
 
     @Override

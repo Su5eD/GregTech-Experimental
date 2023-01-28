@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeProperty;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,16 +21,26 @@ public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> 
     public final RecipeIngredientType<? extends RecipeIngredient<FluidStack>> fluidType;
     public final RecipeOutputType<ItemStack> outputType;
     public final int outputCount;
+    public final List<RecipeProperty<?>> properties;
     public final IFMORecipeFactory<R> factory;
 
-    public IFMORecipeType(ResourceLocation name, int outputCount, IFMORecipeFactory<R> factory) {
+    public IFMORecipeType(ResourceLocation name, int outputCount, List<RecipeProperty<?>> properties, IFMORecipeFactory<R> factory) {
         super(name);
 
         this.inputType = ModRecipeIngredientTypes.ITEM;
         this.fluidType = ModRecipeIngredientTypes.FLUID;
         this.outputType = ModRecipeOutputTypes.ITEM;
         this.outputCount = outputCount;
+        this.properties = properties;
         this.factory = factory;
+    }
+
+    public RecipeOutputType<ItemStack> getOutputType() {
+        return this.outputType;
+    }
+
+    public int getOutputCount() {
+        return this.outputCount;
     }
 
     @Override
@@ -41,8 +52,9 @@ public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> 
         RecipeIngredient<ItemStack> input = this.inputType.create(inputJson);
         RecipeIngredient<FluidStack> fluid = this.fluidType.create(fluidJson);
         List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
+        RecipePropertyMap properties = RecipePropertyMap.fromJson(this.properties, serializedRecipe);
 
-        return this.factory.create(recipeId, input, fluid, outputs);
+        return this.factory.create(recipeId, input, fluid, outputs, properties);
     }
 
     @Override
@@ -50,10 +62,12 @@ public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R> 
         RecipeIngredient<ItemStack> input = this.inputType.create(buffer);
         RecipeIngredient<FluidStack> fluid = this.fluidType.create(buffer);
         List<ItemStack> outputs = ModRecipeOutputTypes.fromNetwork(this.outputType, this.outputCount, buffer);
-        return this.factory.create(recipeId, input, fluid, outputs);
+        RecipePropertyMap properties = RecipePropertyMap.fromNetwork(this.properties, buffer);
+        
+        return this.factory.create(recipeId, input, fluid, outputs, properties);
     }
 
     public interface IFMORecipeFactory<T extends IFMORecipe> {
-        T create(ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> outputs);
+        T create(ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> outputs, RecipePropertyMap properties);
     }
 }

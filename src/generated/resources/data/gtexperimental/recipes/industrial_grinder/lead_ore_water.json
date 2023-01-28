@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/lead"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:lead_dust"
+    },
+    {
+      "item": "gtexperimental:silver_smalldust"
+    }
+  ]
+}

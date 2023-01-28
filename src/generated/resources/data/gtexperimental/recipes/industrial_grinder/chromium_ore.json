@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/chromium"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:chrome_dust"
+    },
+    {
+      "item": "gtexperimental:ruby_smalldust"
+    }
+  ]
+}

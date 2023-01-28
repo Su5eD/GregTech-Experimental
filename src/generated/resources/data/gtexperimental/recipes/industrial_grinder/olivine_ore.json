@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/olivine"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:olivine"
+    },
+    {
+      "count": 6,
+      "item": "gtexperimental:olivine_smalldust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:emerald_smalldust"
+    }
+  ]
+}

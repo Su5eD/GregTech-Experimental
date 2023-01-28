@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/copper"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "ic2:copper_dust"
+    },
+    {
+      "item": "gtexperimental:gold_smalldust"
+    },
+    {
+      "item": "gtexperimental:nickel_smalldust"
+    }
+  ]
+}

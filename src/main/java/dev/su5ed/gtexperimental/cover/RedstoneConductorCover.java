@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
-import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -17,27 +16,27 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class RedstoneConductorCover extends BaseCover<MachineController> {
+public class RedstoneConductorCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
 
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
-    public RedstoneConductorCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
+    public RedstoneConductorCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
     @Override
     public void tick() {
-        BlockPos pos = ((BlockEntity) this.be).getBlockPos();
-        Level level = ((BlockEntity) this.be).getLevel();
+        BlockPos pos = this.be.getBlockPos();
+        Level level = this.be.getLevel();
 
         if (this.mode == ConductorMode.STRONGEST) {
-            int strongest = GtUtil.getStrongestSignal((BlockEntity) this.be, level, pos, this.side);
-            this.be.setRedstoneOutput(this.side, strongest);
+            int strongest = GtUtil.getStrongestSignal(this.be, level, pos, this.side);
+            this.machineController.setRedstoneOutput(this.side, strongest);
         }
         else {
             Direction side = Direction.from3DDataValue(this.mode.ordinal() - 1);
-            this.be.setRedstoneOutput(this.side, GtUtil.getSignalFromSide(side, level, pos, (BlockEntity) this.be) - 1);
+            this.machineController.setRedstoneOutput(this.side, GtUtil.getSignalFromSide(side, level, pos, this.be) - 1);
         }
     }
 

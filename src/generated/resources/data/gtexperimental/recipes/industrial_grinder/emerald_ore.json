@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/emerald"
+    }
+  },
+  "output": [
+    {
+      "item": "minecraft:emerald"
+    },
+    {
+      "count": 6,
+      "item": "gtexperimental:emerald_smalldust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:olivine_smalldust"
+    }
+  ]
+}

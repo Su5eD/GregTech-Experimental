@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/aluminium"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "gtexperimental:aluminium_dust"
+    },
+    {
+      "item": "gtexperimental:titanium_smalldust"
+    }
+  ]
+}

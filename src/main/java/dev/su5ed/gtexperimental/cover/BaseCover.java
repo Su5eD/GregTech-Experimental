@@ -26,7 +26,7 @@ public abstract class BaseCover<T extends ICapabilityProvider> implements Cover<
     protected final Item item;
     
     @Nullable
-    protected final MachineController machine;
+    protected final MachineController machineController;
     @Nullable
     protected final PowerHandler energyHandler;
 
@@ -36,7 +36,7 @@ public abstract class BaseCover<T extends ICapabilityProvider> implements Cover<
         this.side = side;
         this.item = item;
         
-        this.machine = null; // TODO Capability
+        this.machineController = be.getCapability(Capabilities.MACHINE_CONTROLLER).orElse(null);
         this.energyHandler = be.getCapability(Capabilities.ENERGY_HANDLER).orElse(null);
     }
 

@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/green_sapphire"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:green_sapphire"
+    },
+    {
+      "count": 6,
+      "item": "gtexperimental:green_sapphire_smalldust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:sapphire_smalldust"
+    }
+  ]
+}

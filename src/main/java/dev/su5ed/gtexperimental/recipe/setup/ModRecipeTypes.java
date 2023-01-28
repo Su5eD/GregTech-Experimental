@@ -47,6 +47,7 @@ import static dev.su5ed.gtexperimental.api.Reference.location;
 @SuppressWarnings("RedundantTypeArguments")
 public final class ModRecipeTypes {
     private static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Reference.MODID);
+    private static final List<RecipeProperty<?>> NO_PROPERTIES = List.of();
     private static final List<RecipeProperty<?>> BASIC_PROPERTIES = List.of(ModRecipeProperty.DURATION, ModRecipeProperty.ENERGY_COST);
     private static final List<RecipeProperty<?>> FUSION_PROPERTIES = List.of(ModRecipeProperty.DURATION, ModRecipeProperty.ENERGY_COST, ModRecipeProperty.START_ENERGY);
 
@@ -54,7 +55,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<MISORecipeType<AssemblerRecipe, ItemStack, ItemStack>> ASSEMBLER = ModRecipeTypes.<AssemblerRecipe, ItemStack, ItemStack>miso("assembler", ModRecipeIngredientTypes.ITEM, 2, ModRecipeOutputTypes.ITEM, AssemblerRecipe::new);
     public static final RegistryObject<MIMORecipeType<CanningMachineRecipe>> CANNING_MACHINE = mimo("canning_machine", 2, 2, CanningMachineRecipe::new);
     public static final RegistryObject<SIMORecipeType<PulverizerRecipe, ItemStack>> PULVERIZER = ModRecipeTypes.<PulverizerRecipe, ItemStack>simo("pulverizer", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, 2, PulverizerRecipe::new);
-    public static final RegistryObject<IFMORecipeType<IndustrialGrinderRecipe>> INDUSTRIAL_GRINDER = ifmo("industrial_grinder", 3, IndustrialGrinderRecipe::new);
+    public static final RegistryObject<IFMORecipeType<IndustrialGrinderRecipe>> INDUSTRIAL_GRINDER = ifmo("industrial_grinder", 3, NO_PROPERTIES, IndustrialGrinderRecipe::new);
     public static final RegistryObject<SISORecipeType<BenderRecipe>> BENDER = siso("bender", ModRecipeOutputTypes.ITEM, BenderRecipe::new);
     public static final RegistryObject<MISORecipeType<ChemicalRecipe, FluidStack, FluidStack>> CHEMICAL = ModRecipeTypes.<ChemicalRecipe, FluidStack, FluidStack>miso("chemical", ModRecipeIngredientTypes.FLUID, 2, ModRecipeOutputTypes.FLUID, List.of(ModRecipeProperty.DURATION), ChemicalRecipe::new);
     public static final RegistryObject<SIMORecipeType<DistillationRecipe, FluidStack>> DISTILLATION = ModRecipeTypes.<DistillationRecipe, FluidStack>simo("distillation", ModRecipeIngredientTypes.FLUID, ModRecipeOutputTypes.FLUID, 4, List.of(ModRecipeProperty.DURATION), DistillationRecipe::new);
@@ -93,8 +94,8 @@ public final class ModRecipeTypes {
         return register(name, () -> new MISORecipeType<>(location(name), inputType, inputCount, outputType, properties, factory));
     }
 
-    private static <R extends IFMORecipe> RegistryObject<IFMORecipeType<R>> ifmo(String name, int outputCount, IFMORecipeType.IFMORecipeFactory<R> factory) {
-        return register(name, () -> new IFMORecipeType<>(location(name), outputCount, factory));
+    private static <R extends IFMORecipe> RegistryObject<IFMORecipeType<R>> ifmo(String name, int outputCount, List<RecipeProperty<?>> properties, IFMORecipeType.IFMORecipeFactory<R> factory) {
+        return register(name, () -> new IFMORecipeType<>(location(name), outputCount, properties, factory));
     }
 
     private static <R extends SISORecipe> RegistryObject<SISORecipeType<R>> siso(String name, RecipeOutputType<ItemStack> outputType, SISORecipeType.SISORecipeFactory<R> factory) {

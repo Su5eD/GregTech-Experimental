@@ -14,6 +14,8 @@ import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
+import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
+import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
@@ -178,6 +180,23 @@ public final class ModRecipeBuilders {
     public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration, double energyCost) {
         SIMORecipe<Either<ItemStack, FluidStack>> recipe = new IndustrialElectrolyzerRecipe(null, input, outputs, duration, energyCost);
         return new SIMORecipeBuilder<>(recipe);
+    }
+    
+    public static IFMORecipeBuilder industrialGrinder(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, ItemStack output) {
+        return industrialGrinder(input, fluid, List.of(output));
+    }
+    
+    public static IFMORecipeBuilder industrialGrinder(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, ItemStack first, ItemStack second) {
+        return industrialGrinder(input, fluid, List.of(first, second));
+    }
+    
+    public static IFMORecipeBuilder industrialGrinder(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, ItemStack first, ItemStack second, ItemStack third) {
+            return industrialGrinder(input, fluid, List.of(first, second, third));
+        }
+    
+    public static IFMORecipeBuilder industrialGrinder(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
+        IFMORecipe recipe = new IndustrialGrinderRecipe(null, input, fluid, output);
+        return new IFMORecipeBuilder(recipe);
     }
 
     private static Either<ItemStack, FluidStack> convert(Object obj) {

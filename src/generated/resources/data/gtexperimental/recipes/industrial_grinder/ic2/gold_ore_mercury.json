@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "gtexperimental:mercury_fluid"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/gold"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "ic2:gold_dust"
+    },
+    {
+      "item": "gtexperimental:copper_smalldust"
+    },
+    {
+      "item": "gtexperimental:nickel_smalldust"
+    }
+  ]
+}

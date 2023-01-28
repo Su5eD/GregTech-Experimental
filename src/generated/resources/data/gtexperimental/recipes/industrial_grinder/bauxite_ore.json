@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/bauxite"
+    }
+  },
+  "output": [
+    {
+      "count": 4,
+      "item": "gtexperimental:bauxite_dust"
+    },
+    {
+      "item": "gtexperimental:aluminium_dust"
+    }
+  ]
+}

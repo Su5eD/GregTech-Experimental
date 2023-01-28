@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
-import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -11,15 +10,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class EnergyOnlyCover extends BaseCover<MachineController> {
+public class EnergyOnlyCover extends BaseCover<BlockEntity> {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
 
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public EnergyOnlyCover(CoverType<MachineController> type, MachineController be, Direction side, Item item) {
+    public EnergyOnlyCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -42,7 +42,7 @@ public class EnergyOnlyCover extends BaseCover<MachineController> {
 
     @Override
     public boolean allowEnergyTransfer() {
-        return !(this.mode.conditional && this.be.isAllowedToWork() == this.mode.inverted);
+        return !(this.mode.conditional && this.machineController.isAllowedToWork() == this.mode.inverted);
     }
 
     @Override

@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/saltpeter"
+    }
+  },
+  "output": [
+    {
+      "count": 7,
+      "item": "gtexperimental:saltpeter_dust"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/tungstate"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:tungsten_dust"
+    },
+    {
+      "count": 3,
+      "item": "gtexperimental:iron_smalldust"
+    },
+    {
+      "count": 3,
+      "item": "gtexperimental:manganese_smalldust"
+    }
+  ]
+}

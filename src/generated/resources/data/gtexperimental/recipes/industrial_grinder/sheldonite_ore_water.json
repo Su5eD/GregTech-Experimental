@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/sheldonite"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:platinum_dust"
+    },
+    {
+      "item": "gtexperimental:nickel_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:iridium_nugget"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-27T22:15:35.960434968	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-01-28T18:16:15.866340622	Gregtech ExperimentalTags for minecraft:item
 0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -134,20 +134,41 @@ a851c8fc60e75dca1321357cc679ebe045221b49 data/forge/tags/items/nuggets/tungsten.
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/nuggets/uranium.json
 3d19fa8490321dd5375ce9a69b49af5441981035 data/forge/tags/items/nuggets/zinc.json
 49cd44dd0d06195bda6c6bc4699f86425efa8c2b data/forge/tags/items/ores.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/aluminium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/antimony.json
 f6818aa318dcfbac470d18dcd2a3be14d0d9dabb data/forge/tags/items/ores/bauxite.json
 39c7c261e4b8d437aa246a4e140137b4883c8e7f data/forge/tags/items/ores/cassiterite.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/chromium.json
 186c5bade7b590d47d418ac638684b642bd15aa3 data/forge/tags/items/ores/cinnabar.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/copper.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/electrum.json
 b8d1ebdc72bdad04b94db3d00120a136d9a8517e data/forge/tags/items/ores/galena.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/green_sapphire.json
 a0e85c15a777d3e7341cda5e4a8139e55141926c data/forge/tags/items/ores/iridium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/lead.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/magnesium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/manganese.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/nickel.json
 b09b55bab12f562cdf45a478504aee59fca8306b data/forge/tags/items/ores/olivine.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/platinum.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/plutonium.json
 81aa7f0e5c428280cbf2d358b8eab4df90695cf2 data/forge/tags/items/ores/pyrite.json
 693150a8a7373a4818d4efc46acb28a1c7a9b3fe data/forge/tags/items/ores/ruby.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/saltpeter.json
 bfe3b8f6c2778791bae09f1f0fc10a1d75043bf1 data/forge/tags/items/ores/sapphire.json
 f408768a6fc2cafde93cab212dbee7e20f217ad9 data/forge/tags/items/ores/sheldonite.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/silver.json
 239d0ca74b092c70a0936c0d9c90ff982a596918 data/forge/tags/items/ores/sodalite.json
 6faa0885a500a818a1b8e473a4eb24da883703ad data/forge/tags/items/ores/sphalerite.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/steel.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/sulfur.json
 50b1f7f8668e1817bcd71da0dedfa5bcb5cce131 data/forge/tags/items/ores/tetrahedrite.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/thorium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/tin.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/titanium.json
 7bf798ae4bdb53f092ac94be759be50181d7a729 data/forge/tags/items/ores/tungstate.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/uranium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/zinc.json
 ba14db6ffcac6ad04b626a139cded9610f223558 data/forge/tags/items/plates.json
 567f1fddcc58b80d1d507ebf9eec8a55f5c04935 data/forge/tags/items/plates/aluminium.json
 a80166385a18e3f62e33eaf1f7009d8b99d8d213 data/forge/tags/items/plates/battery_alloy.json
