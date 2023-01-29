@@ -20,6 +20,7 @@ import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
+import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipeType;
@@ -67,6 +68,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<SIMORecipeType<IndustrialCentrifugeRecipe, Either<ItemStack, FluidStack>>> INDUSTRIAL_CENTRIFUGE = ModRecipeTypes.<IndustrialCentrifugeRecipe, Either<ItemStack, FluidStack>>simo("industrial_centrifuge", ModRecipeIngredientTypes.HYBRID, ModRecipeOutputTypes.HYBRID, 4, List.of(ModRecipeProperty.DURATION), IndustrialCentrifugeRecipe::new);
     public static final RegistryObject<SIMORecipeType<IndustrialElectrolyzerRecipe, Either<ItemStack, FluidStack>>> INDUSTRIAL_ELECTROLYZER = ModRecipeTypes.<IndustrialElectrolyzerRecipe, Either<ItemStack, FluidStack>>simo("industrial_electrolyzer", ModRecipeIngredientTypes.HYBRID, ModRecipeOutputTypes.HYBRID, 4, IndustrialElectrolyzerRecipe::new);
     public static final RegistryObject<SIMORecipeType<LatheRecipe, ItemStack>> LATHE = ModRecipeTypes.<LatheRecipe, ItemStack>simo("lathe", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, 2, LatheRecipe::new);
+    public static final RegistryObject<MISORecipeType<PrinterRecipe, ItemStack, ItemStack>> PRINTER = ModRecipeTypes.<PrinterRecipe, ItemStack, ItemStack>miso("printer", ModRecipeIngredientTypes.ITEM, 2, ModRecipeOutputTypes.ITEM, PrinterRecipe::new);
 
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);

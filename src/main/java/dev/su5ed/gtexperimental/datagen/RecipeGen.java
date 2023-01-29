@@ -18,6 +18,7 @@ import dev.su5ed.gtexperimental.datagen.recipe.IndustrialElectrolyzerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialGrinderRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.LatheRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
+import dev.su5ed.gtexperimental.datagen.recipe.PrinterRecipesGen;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -67,7 +68,8 @@ public class RecipeGen extends RecipeProvider {
             IndustrialCentrifugeRecipesGen.INSTANCE,
             IndustrialElectrolyzerRecipesGen.INSTANCE,
             IndustrialGrinderRecipesGen.INSTANCE,
-            LatheRecipesGen.INSTANCE
+            LatheRecipesGen.INSTANCE,
+            PrinterRecipesGen.INSTANCE
         );
 
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

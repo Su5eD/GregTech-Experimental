@@ -16,6 +16,7 @@ import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
+import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
@@ -199,7 +200,7 @@ public final class ModRecipeBuilders {
         IFMORecipe recipe = new IndustrialGrinderRecipe(null, input, fluid, output);
         return new IFMORecipeBuilder(recipe);
     }
-    
+
     public static SIMORecipeBuilder<ItemStack> lathe(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
         return lathe(input, List.of(output), duration, energyCost);
     }
@@ -207,6 +208,19 @@ public final class ModRecipeBuilders {
     public static SIMORecipeBuilder<ItemStack> lathe(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int duration, double energyCost) {
         SIMORecipe<ItemStack> recipe = new LatheRecipe(null, input, outputs, duration, energyCost);
         return new SIMORecipeBuilder<>(recipe);
+    }
+
+    public static MISORecipeBuilder<ItemStack, ItemStack> printer(RecipeIngredient<ItemStack> primary, ItemStack output, int duration, double energyCost) {
+        return printer(List.of(primary), output, duration, energyCost);
+    }
+
+    public static MISORecipeBuilder<ItemStack, ItemStack> printer(RecipeIngredient<ItemStack> primary, RecipeIngredient<ItemStack> secondary, ItemStack output, int duration, double energyCost) {
+        return printer(List.of(primary, secondary), output, duration, energyCost);
+    }
+
+    public static MISORecipeBuilder<ItemStack, ItemStack> printer(List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
+        MISORecipe<ItemStack, ItemStack> recipe = new PrinterRecipe(null, inputs, output, duration, energyCost);
+        return new MISORecipeBuilder<>(recipe);
     }
 
     private static Either<ItemStack, FluidStack> convert(Object obj) {

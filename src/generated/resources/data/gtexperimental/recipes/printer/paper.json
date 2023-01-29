@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:printer",
+  "duration": 200,
+  "energy_cost": 1.0,
+  "input": [
+    {
+      "value": [
+        {
+          "tag": "forge:dusts/wood"
+        },
+        {
+          "item": "minecraft:sugar_cane"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "item": "minecraft:paper"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:printer",
+  "duration": 400,
+  "energy_cost": 2.0,
+  "input": [
+    {
+      "count": 3,
+      "value": {
+        "item": "minecraft:paper"
+      }
+    },
+    {
+      "value": {
+        "item": "minecraft:leather"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:book"
+  }
+}

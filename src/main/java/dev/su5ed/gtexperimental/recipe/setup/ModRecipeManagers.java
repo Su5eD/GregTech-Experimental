@@ -19,6 +19,7 @@ import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
+import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManager;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManagerProvider;
@@ -49,6 +50,7 @@ public final class ModRecipeManagers {
     public static final RecipeManagerProvider<IndustrialCentrifugeRecipe, SIMORecipe.Input<Either<ItemStack, FluidStack>>> INDUSTRIAL_CENTRIFUGE = create(ModRecipeTypes.INDUSTRIAL_CENTRIFUGE);
     public static final RecipeManagerProvider<IndustrialElectrolyzerRecipe, SIMORecipe.Input<Either<ItemStack, FluidStack>>> INDUSTRIAL_ELECTROLYZER = create(ModRecipeTypes.INDUSTRIAL_ELECTROLYZER);
     public static final RecipeManagerProvider<LatheRecipe, SIMORecipe.Input<ItemStack>> LATHE = create(ModRecipeTypes.LATHE);
+    public static final RecipeManagerProvider<PrinterRecipe, MISORecipe.Input<ItemStack>> PRINTER = create(ModRecipeTypes.PRINTER);
 
     static {
         BENDER.registerProvider(DynamicBenderRecipes::new);

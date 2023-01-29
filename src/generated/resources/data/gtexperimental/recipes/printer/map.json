@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:printer",
+  "duration": 400,
+  "energy_cost": 2.0,
+  "input": [
+    {
+      "count": 8,
+      "value": {
+        "item": "minecraft:paper"
+      }
+    },
+    {
+      "value": {
+        "item": "minecraft:compass"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:map"
+  }
+}
