@@ -125,7 +125,7 @@
   duration: 1500
 - input:
     ore: dustTin
-    count:
+    count: 2
   output:
     - item: gregtechmod:smalldust_zinc
     - item: gregtechmod:smalldust_iron
