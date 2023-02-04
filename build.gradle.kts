@@ -24,11 +24,14 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("wtf.gofancy.fancygradle") version "1.1.+"
     id("com.matthewprenger.cursegradle") version "1.4.+"
+    id("com.modrinth.minotaur") version "2.+"
     id("wtf.gofancy.git-changelog") version "1.0.+"
 }
 
 val versionMc: String by project
 val curseForgeId: String by project
+val modrinthId: String by project
+val modrinthVersionIC2: String by project
 val versionIC2: String by project
 val versionBuildCraft: String by project
 val versionJEI: String by project
@@ -289,6 +292,21 @@ curseforge {
         addGameVersion("Forge")
         addGameVersion(versionMc)
     })
+}
+
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set(modrinthId)
+    versionName.set("GregTech Experimental ${project.version}")
+    versionType.set(publishReleaseType)
+    uploadFile.set(tasks.shadowJar.get())
+    gameVersions.addAll(versionMc)
+    dependencies {
+        required.version("industrial-craft", modrinthVersionIC2)
+        optional.project("jei")
+        optional.project("tinkers-construct")
+    }
+    changelog.set(changelogText)
 }
 
 publishing {
