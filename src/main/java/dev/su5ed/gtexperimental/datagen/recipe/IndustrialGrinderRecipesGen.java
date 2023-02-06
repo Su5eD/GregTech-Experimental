@@ -239,10 +239,10 @@ public final class IndustrialGrinderRecipesGen implements ModRecipeProvider {
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Ore.TETRAHEDRITE.getTag()), SODIUM_PERSULFATE, new ItemStack(FTBICItems.getResourceFromType(ResourceElements.COPPER, ResourceType.DUST).orElseThrow().get(), 3), Smalldust.ZINC.getItemStack(2), Smalldust.ANTIMONY.getItemStack())
             .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/tetrahedrite_ore_sodium_persulfate"));
-        industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Ore.IRIDIUM.getTag()), WATER, new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.CHUNK).orElseThrow().get(), 2), Smalldust.PLATINUM.getItemStack(2))
+        industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Ore.IRIDIUM.getTag()), WATER, new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.DUST).orElseThrow().get(), 2), Smalldust.PLATINUM.getItemStack(2))
             .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/iridium_ore_water"));
-        industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Ore.IRIDIUM.getTag()), MERCURY, new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.CHUNK).orElseThrow().get(), 2), Dust.PLATINUM.getItemStack(2))
+        industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Ore.IRIDIUM.getTag()), MERCURY, new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.DUST).orElseThrow().get(), 2), Dust.PLATINUM.getItemStack(2))
             .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/iridium_ore_mercury"));
 

@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": [
+      {
+        "tag": "forge:stone/marble"
+      },
+      {
+        "tag": "forge:stone/quarried"
+      }
+    ]
+  },
+  "output": [
+    {
+      "item": "gtexperimental:marble_dust"
+    },
+    {
+      "item": "gtexperimental:marble_dust"
+    }
+  ]
+}

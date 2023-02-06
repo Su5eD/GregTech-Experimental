@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:gems/apatite"
+    }
+  },
+  "output": [
+    {
+      "count": 4,
+      "item": "ic2:fertilizer"
+    },
+    {
+      "item": "gtexperimental:phosphorus_dust"
+    }
+  ]
+}

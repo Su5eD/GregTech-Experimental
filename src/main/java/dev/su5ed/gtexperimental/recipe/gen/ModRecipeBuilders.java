@@ -17,6 +17,7 @@ import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
+import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
@@ -221,6 +222,27 @@ public final class ModRecipeBuilders {
     public static MISORecipeBuilder<ItemStack, ItemStack> printer(List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
         MISORecipe<ItemStack, ItemStack> recipe = new PrinterRecipe(null, inputs, output, duration, energyCost);
         return new MISORecipeBuilder<>(recipe);
+    }
+
+    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack output) {
+        return pulverizer(input, List.of(output), 3, 10);
+    }
+
+    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second) {
+        return pulverizer(input, List.of(first, second), 3, 10);
+    }
+
+    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, int chance) {
+        return pulverizer(input, List.of(first, second), 3, 10);
+    }
+
+    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, double energyCost, int chance) {
+        return pulverizer(input, List.of(first, second), energyCost, chance);
+    }
+
+    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, double energyCost, int chance) {
+        SIMORecipe<ItemStack> recipe = new PulverizerRecipe(null, input, outputs, energyCost, chance);
+        return new SIMORecipeBuilder<>(recipe);
     }
 
     private static Either<ItemStack, FluidStack> convert(Object obj) {

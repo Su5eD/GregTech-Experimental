@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:ores/quartz"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "minecraft:quartz"
+    },
+    {
+      "item": "gtexperimental:netherrack_dust"
+    }
+  ]
+}

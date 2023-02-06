@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-21T16:33:51.3974971	Item Models: gtexperimental
+// 1.19.2	2023-02-06T17:42:27.3424807	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -44,6 +44,7 @@ cb6886d67b156a92ac9119c8fc16bebfcd6ed097 assets/gtexperimental/models/item/brass
 49954f54678ccc3bbf34fba93ad4c6ba36b98fb4 assets/gtexperimental/models/item/brass_plate.json
 7d5f915a689f45bc155c94a09b26af2c563ae8ea assets/gtexperimental/models/item/brass_rod.json
 6d18667add8bd73a69336b90fba78d8c6bdbccd7 assets/gtexperimental/models/item/brass_smalldust.json
+cfad3ad9a7a12ab05909eb639a012bba3fd660d9 assets/gtexperimental/models/item/bronze_dust.json
 a1c3545d5864edb74da6fc3d6e647eb016701efa assets/gtexperimental/models/item/bronze_file.json
 51a499e99affe315e9d8995a320c287f66107a98 assets/gtexperimental/models/item/bronze_gear.json
 64e11275ee544e60ee9f8952a5d672f8ba3593e2 assets/gtexperimental/models/item/bronze_hammer.json
@@ -82,9 +83,11 @@ ed8648b7ff5adaeb3afe41504e3b0ffcf8a90a5c assets/gtexperimental/models/item/cinna
 5c449ac65427a4071bf2a3c04f5efea9c78e55b5 assets/gtexperimental/models/item/clay_dust.json
 4aff44b86eba4e37471876af4854ac751b48e0c9 assets/gtexperimental/models/item/clay_smalldust.json
 f80a34df505f19719c992de07cdc4085a87d63c2 assets/gtexperimental/models/item/cloaking_device.json
+d4b75ba4b2ef099ecee86570620b3439cd2b747c assets/gtexperimental/models/item/coal_dust.json
 70ace97c9e69d138ca8c43709ca01ca07857784e assets/gtexperimental/models/item/coal_smalldust.json
 0edb5d026f4c6aa9715ffd9ac53a348e7b1cc5ff assets/gtexperimental/models/item/conveyor.json
 c5fbcd2a6c2c79948c2ea8bf306e40a5ca5c698c assets/gtexperimental/models/item/copper_credit.json
+52908e05a05b3501282522ba26656f557ac92176 assets/gtexperimental/models/item/copper_dust.json
 5cbcc049f2a5ea67fbdcd5fd3c6bdfce2c7a3009 assets/gtexperimental/models/item/copper_nugget.json
 667c51703c500986edaaebca813103fd63d896d4 assets/gtexperimental/models/item/copper_plate.json
 51585a07cd543a5829e1ad198668888c331ad786 assets/gtexperimental/models/item/copper_rod.json
@@ -144,6 +147,7 @@ be5fe99ba1d6c099724c7c2d513c49bdfde12517 assets/gtexperimental/models/item/galen
 bd307eb400e5e85eca8ec1b825ea0c0801c79b42 assets/gtexperimental/models/item/glowstone_smalldust.json
 26e4866031c194af95406a6a96b91cd52b30f0c7 assets/gtexperimental/models/item/glyceryl_bucket.json
 b218b10390f58d73c7744a3f6e177923238b8346 assets/gtexperimental/models/item/gold_credit.json
+48752082708ff70bacca286fcd5c3a14e0c07e91 assets/gtexperimental/models/item/gold_dust.json
 1bca3a40507b32b69c7f2c3437550ef0186fd35c assets/gtexperimental/models/item/gold_plate.json
 1e4c47fab5ec2f58ffa26e5774a5782c8dc05d86 assets/gtexperimental/models/item/gold_rod.json
 0aeb52866f7968bfcd77332e99f4cd4061c4501b assets/gtexperimental/models/item/gold_smalldust.json
@@ -190,6 +194,7 @@ c6ff455b441b76c6fe54b21bb30b4c2d712b917d assets/gtexperimental/models/item/iridi
 b5f04e47f497f02843a0704c7dfcdd4433e2d9d5 assets/gtexperimental/models/item/iridium_reinforced_stone_block.json
 ea26e4a8b4ccca1199695312333f2eabac5e9773 assets/gtexperimental/models/item/iridium_reinforced_tungsten_steel_block.json
 9a34070e5a37647ad7baf05c5a8b1af5c7ce8759 assets/gtexperimental/models/item/iridium_rod.json
+a372a9a9a9884f33944afca0b93636b616ccf42f assets/gtexperimental/models/item/iron_dust.json
 9afd368ec03b493b3cf40b0db5977bfbf812ad23 assets/gtexperimental/models/item/iron_file.json
 667ad59511de0cdbb05ace5d97cfbfba78810210 assets/gtexperimental/models/item/iron_gear.json
 dfe5b3115d2e6f9cdab2872103831db3e9927871 assets/gtexperimental/models/item/iron_hammer.json
@@ -406,6 +411,7 @@ dceca7b16d3292b859bbc988ed9e22c78fcf5167 assets/gtexperimental/models/item/thori
 83c65aa5934c2852eb4781fb4248a6a1bfdf2243 assets/gtexperimental/models/item/thorium_fuel_rod.json
 9ee4ea63017bbcff4740a9489d95bde4896865bb assets/gtexperimental/models/item/thorium_ingot.json
 287204d18d6ec96f96792703ea1ed399697e6a4e assets/gtexperimental/models/item/thorium_smalldust.json
+98085068ea6ef1d34ba9df2b3b9ff1e554e620c5 assets/gtexperimental/models/item/tin_dust.json
 09a15b0359f959ebf42fc92717db3a085922953a assets/gtexperimental/models/item/tin_nugget.json
 02f8bb047cf4cc1ee5fbb0a56694a2c23c37b8ce assets/gtexperimental/models/item/tin_plate.json
 7fa00ee47ddf667903203a50603dc0fe426900ba assets/gtexperimental/models/item/tin_rod.json

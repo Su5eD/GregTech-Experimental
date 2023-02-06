@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "item": "minecraft:enchanting_table"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:diamond_dust"
+    },
+    {
+      "count": 4,
+      "item": "gtexperimental:obsidian_dust"
+    }
+  ]
+}

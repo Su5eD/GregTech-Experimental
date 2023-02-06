@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:ores/chromium"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:chrome_dust"
+    },
+    {
+      "item": "gtexperimental:ruby_dust"
+    }
+  ]
+}

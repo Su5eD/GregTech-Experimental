@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "item": "gtexperimental:brass_hull"
+    }
+  },
+  "output": [
+    {
+      "count": 6,
+      "item": "gtexperimental:brass_dust"
+    }
+  ]
+}

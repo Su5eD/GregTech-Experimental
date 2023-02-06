@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:ores/thorium"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:thorium_dust"
+    },
+    {
+      "item": "gtexperimental:titanium_dust"
+    }
+  ]
+}

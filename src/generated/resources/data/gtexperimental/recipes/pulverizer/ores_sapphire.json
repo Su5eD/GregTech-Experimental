@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:ores/sapphire"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:sapphire_dust"
+    },
+    {
+      "item": "gtexperimental:green_sapphire_dust"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
-// 1.19.2	2023-01-28T20:45:07.554600469	Gregtech ExperimentalTags for minecraft:item
-0b54d5be6982c27d71d830f2d18f3a75c739446e data/forge/tags/items/dusts.json
+// 1.19.2	2023-02-06T17:42:27.3339776	Gregtech ExperimentalTags for minecraft:item
+4d2ce2bc79bf4511cae3261bc7b03e37f53e3979 data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
 886885e6749cee38a520495164be8f64f6f66121 data/forge/tags/items/dusts/andradite.json
@@ -8,13 +8,14 @@ f04bb0376d04d2a4c9ad35eaaa4b11405fe3fb8a data/forge/tags/items/dusts/antimony.js
 4bc67192e159fe295004457732b307007722d558 data/forge/tags/items/dusts/basalt.json
 74a4aa08402c97241e2fc05b41153fc87ece1388 data/forge/tags/items/dusts/bauxite.json
 04089cd06bed22a3a53b32b9ebfe42ffa9ccb7d3 data/forge/tags/items/dusts/brass.json
+4927150b5668bd33516381d2c6ac58ac1bf93d5a data/forge/tags/items/dusts/bronze.json
 05d42725132dc6295baa204b38432844d06703fa data/forge/tags/items/dusts/calcite.json
 dcda373ae5225394e527929835b96d390aa4e42e data/forge/tags/items/dusts/charcoal.json
 a49c179d9cb6c36133348fd2b764316d3d1df083 data/forge/tags/items/dusts/chrome.json
 6d200763fa6fefe5c2ea68ede4b8c75eeb3775cd data/forge/tags/items/dusts/cinnabar.json
 53cc9133d2e94ec7872234e027c1e44e05fa728c data/forge/tags/items/dusts/clay.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/coal.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/copper.json
+2af1a609a2644fd7d934b982147cc0ef26a03491 data/forge/tags/items/dusts/coal.json
+3f8a1083626fbba588a29bedeed295bdd876bfb0 data/forge/tags/items/dusts/copper.json
 261e293bf5a46961f91e3adb2178bbe67c2bc178 data/forge/tags/items/dusts/dark_ashes.json
 ffeaca3b7da8457838676b31dae2f45118a33fc7 data/forge/tags/items/dusts/diamond.json
 e1f01db86b0ed2f9d9a9f3089823ecb7c32bdc28 data/forge/tags/items/dusts/electrum.json
@@ -24,12 +25,12 @@ ff8074354b69f6449fe7fe1b8181f5ffe3832a78 data/forge/tags/items/dusts/ender_eye.j
 5dcdebb83f11f7445d16c705e5e7f12e080d0c85 data/forge/tags/items/dusts/endstone.json
 1a075fab0d5699d674abc93a55b42734dcf4af98 data/forge/tags/items/dusts/flint.json
 bf0f41872ee56e41b4d19552f06c68e6bfe1f199 data/forge/tags/items/dusts/galena.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/gold.json
+f5b69af958d6969ab6f3bfa7db6d5b62c4126d9a data/forge/tags/items/dusts/gold.json
 17e03a5e8d65d5bde43dd6c06a691c4685093e56 data/forge/tags/items/dusts/green_sapphire.json
 3315e4fd75392bf625a1347f73395eca86871190 data/forge/tags/items/dusts/grossular.json
 f3f73ab9a0eee7525f845c71e8a7a6f57ea3aa1b data/forge/tags/items/dusts/invar.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/iridium.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/iron.json
+8879654d4e64a90db5ff6bd0239eab075156bc2d data/forge/tags/items/dusts/iron.json
 a02586363a97289b80348ecae7c75aec92d50469 data/forge/tags/items/dusts/lazurite.json
 96a69f21c2831cf70532f3342eb41a3c1829de22 data/forge/tags/items/dusts/lead.json
 afaad85914f165482e28b4c18de47d8b7266ba13 data/forge/tags/items/dusts/magnesium.json
@@ -46,8 +47,8 @@ b62f40835850d54610b1126d7302d01e71016c2a data/forge/tags/items/dusts/osmium.json
 31dd0eca7a2b5defd720c89982dd45f2fe77ab9c data/forge/tags/items/dusts/pyrite.json
 6683a329eac10d277d9175a088514257a56f3531 data/forge/tags/items/dusts/pyrope.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/quicksilver.json
-b3a11194fbcadb2e12962da1943ab16a7f62ddb2 data/forge/tags/items/dusts/red_garnet.json
 63286c224f81bf4cf98771985226d8b84c43b5c3 data/forge/tags/items/dusts/redrock.json
+b3a11194fbcadb2e12962da1943ab16a7f62ddb2 data/forge/tags/items/dusts/red_garnet.json
 ae599b5e3e763a405ee9ed479d3a578638a9ae41 data/forge/tags/items/dusts/ruby.json
 e1445d7f7496b84b2c20a3e214c89ee459e9dec1 data/forge/tags/items/dusts/saltpeter.json
 d82b2ea3db640a81c32249c92d2dc27ed7748b20 data/forge/tags/items/dusts/sapphire.json
@@ -58,7 +59,7 @@ e5e6aa619e7ccab428d1a69d9f252989ea31cd13 data/forge/tags/items/dusts/sphalerite.
 8fd8bd31556b2409d5753ca9613604cd86b518e6 data/forge/tags/items/dusts/steel.json
 8c6e4dd54e62071a76d6faef5e3c65111d5d52f5 data/forge/tags/items/dusts/sulfur.json
 4417cf0b5c9aa408ffb1973e5231b548dab44a06 data/forge/tags/items/dusts/thorium.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/tin.json
+cc44c39b188181ed76970c3a5fd915b7c4bd75a5 data/forge/tags/items/dusts/tin.json
 83a2d8f141bd074980444842369e8e8bb5d39e0a data/forge/tags/items/dusts/titanium.json
 b10b7491634a8d96a000c154d3606a9ea452240c data/forge/tags/items/dusts/tungsten.json
 7ce7302ce828c1e192ad72aa3bf0e4895f29756c data/forge/tags/items/dusts/uranium.json
@@ -75,6 +76,7 @@ cb71825dfa6b30d3a676cf9cc3a972bd37368e15 data/forge/tags/items/dyes.json
 f3f9c3029c8260470cfa66372a99a0c3b4da22be data/forge/tags/items/gears/steel.json
 380a900e2876180aea3380cf95975fcc555b9d4f data/forge/tags/items/gears/titanium.json
 7918956addbd8b1b3c34b1aa8aa7e4606bcb26f1 data/forge/tags/items/gears/tungsten_steel.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/gems/apatite.json
 ce2d1883f39d5d972e8d57956bbcee1780f92761 data/forge/tags/items/gems/green_sapphire.json
 c0e74da882af551320acc4f36a0272d10797480d data/forge/tags/items/gems/olivine.json
 fda07404f9191ca747589a5ffdf7a38bf0fd1194 data/forge/tags/items/gems/red_garnet.json
@@ -86,6 +88,7 @@ fdf0f525235f2ec65b5c1732111fcc09535281b3 data/forge/tags/items/ingots/aluminium.
 f3d6a9268c16ecc97ea938de449f2269ad33451c data/forge/tags/items/ingots/antimony.json
 2cb176b94cca5dc83e7cac42248f340bb5905feb data/forge/tags/items/ingots/battery_alloy.json
 488d84a7872192c97100f44826f4acfb2a8c390e data/forge/tags/items/ingots/brass.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/bronze.json
 1c843fbe3e1fa630dfb95e4fd3c3f50f47b4e7b8 data/forge/tags/items/ingots/chrome.json
 133a7a0bbd8b508f93f4eef284cb74d9bcc519de data/forge/tags/items/ingots/electrum.json
 da99fc1141614ddf6e8a6bca2e630aa34d05ebc0 data/forge/tags/items/ingots/hot_tungsten_steel.json
@@ -94,6 +97,8 @@ e9b7ade8ebd52ac60cf00b4ef463dd6e161e7ed7 data/forge/tags/items/ingots/iridium.js
 7f8cbf3621709bcbb3f61efcfa8419434e22fa00 data/forge/tags/items/ingots/iridium_alloy.json
 0d41e5f391bf7b704e2f8e3e374dd4d41cbabceb data/forge/tags/items/ingots/lead.json
 30a5fbb14feed2bbba6e78793b0d03fb2157bc08 data/forge/tags/items/ingots/magnalium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/magnesium.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/manganese.json
 2e776db070dfb92c06361df4184c236bfabe0468 data/forge/tags/items/ingots/mixed_metal.json
 29de3777277b42d32c009624ca4d3868797b201f data/forge/tags/items/ingots/nickel.json
 3b3815b6c4f7b72b26f65bdf34eed7e750a28f13 data/forge/tags/items/ingots/osmium.json
@@ -150,6 +155,7 @@ a0e85c15a777d3e7341cda5e4a8139e55141926c data/forge/tags/items/ores/iridium.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/manganese.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/nickel.json
 b09b55bab12f562cdf45a478504aee59fca8306b data/forge/tags/items/ores/olivine.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/phosphorite.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/platinum.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/plutonium.json
 81aa7f0e5c428280cbf2d358b8eab4df90695cf2 data/forge/tags/items/ores/pyrite.json
@@ -267,9 +273,9 @@ eafc0fbacd4116a86e76950542dc5d4c1b8ac1fd data/forge/tags/items/small_dusts/olivi
 84e1c474ba3800f6d158a61d67d393710450e760 data/forge/tags/items/small_dusts/plutonium.json
 91c499ac4889e12382e1f63195eb24700df83419 data/forge/tags/items/small_dusts/pyrite.json
 59e3fd6d5f0902d317dda2e0cdc372053028d111 data/forge/tags/items/small_dusts/pyrope.json
-5379130911425df4907bf7ecc099807d5a4ccf65 data/forge/tags/items/small_dusts/red_garnet.json
 7a4a55ab9957cc2d54f2ae92e7760b8e8dd67f73 data/forge/tags/items/small_dusts/redrock.json
 c001e2923d96f4fa73ab8f226a4f20b3ef5d5e9a data/forge/tags/items/small_dusts/redstone.json
+5379130911425df4907bf7ecc099807d5a4ccf65 data/forge/tags/items/small_dusts/red_garnet.json
 7c8c886422d54eab2fb4a446a28965c6a004ecbc data/forge/tags/items/small_dusts/ruby.json
 a1817482056a6211f452fd6104e064d401fde1f2 data/forge/tags/items/small_dusts/saltpeter.json
 98aae00fb7baefe4b3b37f6c5713a2d4e2123195 data/forge/tags/items/small_dusts/sapphire.json
@@ -288,6 +294,10 @@ dea21fb5a7581ffa667f80315a7c8a6a9abcc6de data/forge/tags/items/small_dusts/uvaro
 f2c23cb2cae78a8e2c87cab8e64d98a542d1d522 data/forge/tags/items/small_dusts/wood.json
 365707ac1ded3d3053214255b8b0b74734614800 data/forge/tags/items/small_dusts/yellow_garnet.json
 861bae49268d78f6769641d9c99ae2916f07a265 data/forge/tags/items/small_dusts/zinc.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/stone/abyssal.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/stone/basalt.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/stone/marble.json
+1ac625c01cb6186ba722a4e6ee1b8dc945dd222e data/forge/tags/items/stone/quarried.json
 f35664459a38341e72b5cb19f41fed869a7f44b5 data/forge/tags/items/tools/crowbar.json
 b9fe75299f3f3c0e12502b238e4a1a2a07e46467 data/forge/tags/items/tools/large_drill.json
 9e21d9c88e0ae8c9e7e69aea3e77a3f54d8e524a data/forge/tags/items/tools/screwdriver.json
@@ -337,8 +347,8 @@ bb043f9161089752e7f444eddc443a600867a5b1 data/gtexperimental/tags/items/crafting
 dceb8efb9d4bc82880175d639d7d1feb8b76b6ed data/gtexperimental/tags/items/crafting/hv_transformer_upgrade.json
 ca3d2b71a509c101352e3b28dd8b71c2b31a90d9 data/gtexperimental/tags/items/crafting/item_meter.json
 4f66d1b177ebcda722949725c75a56cf7b5536e8 data/gtexperimental/tags/items/crafting/item_valve.json
-20e51c9a238d56102d2ef991ad827f94b33c4a79 data/gtexperimental/tags/items/crafting/li_battery.json
 fb709ccff4499df81dcc59395bdf5e936936d563 data/gtexperimental/tags/items/crafting/liquid_meter.json
+20e51c9a238d56102d2ef991ad827f94b33c4a79 data/gtexperimental/tags/items/crafting/li_battery.json
 f50a7a49f9c05bbcc95273be8fbdf995da7981ad data/gtexperimental/tags/items/crafting/lock.json
 ff27b5513b88980f2f08cf6e9bc6364e8622529f data/gtexperimental/tags/items/crafting/machine_parts.json
 25134082937fc37e9035ad1ede1b2efcd8b24cdb data/gtexperimental/tags/items/crafting/magnalium_turbine_blade.json
@@ -362,9 +372,9 @@ b3f591a966a070c84073f15c503e01827b9e3f1c data/gtexperimental/tags/items/crafting
 bbaa4c446a91ec20483d9c85096fd7d30f69e7c0 data/gtexperimental/tags/items/crafting/steel_turbine_blade.json
 ba4f51f3d3fcd51292db10b012f9b41c1d664253 data/gtexperimental/tags/items/crafting/superconductor.json
 90fa3e0813e2958f24d750afe23ad7d404462b29 data/gtexperimental/tags/items/crafting/tungsten_steel_turbine_blade.json
+95c0653a59e6535ecc10b297be94b5340fc02cc2 data/gtexperimental/tags/items/crafting/workbench.json
 e31fbd8b55791ce58bd2f08ed185c5ef6d40be89 data/gtexperimental/tags/items/crafting/work_controller.json
 50f0870ad953a5f12e211addba2fbd1597d92367 data/gtexperimental/tags/items/crafting/work_detector.json
-95c0653a59e6535ecc10b297be94b5340fc02cc2 data/gtexperimental/tags/items/crafting/workbench.json
 a9de0c5c7bf2718731d263dd536b3171f5e198a6 data/gtexperimental/tags/items/empty_fluid_cell.json
 1c8cd9997de60d0e792cebeaace4c17d4fab3a81 data/gtexperimental/tags/items/empty_fuel_can.json
 75a4fba209919f6466ccfa630a57c1d552106946 data/gtexperimental/tags/items/energy_crystal.json

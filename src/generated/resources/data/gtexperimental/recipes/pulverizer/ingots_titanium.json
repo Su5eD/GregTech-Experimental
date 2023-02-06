@@ -1,0 +1,15 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:ingots/titanium"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:titanium_dust"
+    }
+  ]
+}

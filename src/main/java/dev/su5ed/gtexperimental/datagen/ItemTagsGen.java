@@ -119,6 +119,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.material("ingots", "refined_iron"), "refined_iron_ingot");
         tag(GregTechTags.OIL_SAND)
             .addOptional(new ResourceLocation(ModHandler.THERMAL_MODID, "oil_sand"));
+        tag(GregTechTags.stone("quarried"))
+            .addOptionalTag(new ResourceLocation(ModHandler.RAILCRAFT_MODID, "quarried"));
 
         tag(GregTechTags.COLORED_WOOL)
             .add(Items.ORANGE_WOOL, Items.MAGENTA_WOOL, Items.LIGHT_BLUE_WOOL, Items.YELLOW_WOOL, Items.LIME_WOOL,

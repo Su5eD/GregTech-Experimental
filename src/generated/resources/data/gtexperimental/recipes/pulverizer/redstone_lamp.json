@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "item": "minecraft:redstone_lamp"
+    }
+  },
+  "output": [
+    {
+      "count": 4,
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:redstone"
+    }
+  ]
+}

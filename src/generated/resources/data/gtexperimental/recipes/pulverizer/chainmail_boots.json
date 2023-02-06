@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "item": "minecraft:chainmail_boots"
+    }
+  },
+  "output": [
+    {
+      "count": 4,
+      "item": "gtexperimental:steel_smalldust"
+    }
+  ]
+}

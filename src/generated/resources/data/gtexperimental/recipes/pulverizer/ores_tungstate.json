@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:ores/tungstate"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:tungsten_dust"
+    },
+    {
+      "item": "gtexperimental:manganese_dust"
+    }
+  ]
+}

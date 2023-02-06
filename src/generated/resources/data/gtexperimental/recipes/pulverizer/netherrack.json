@@ -1,0 +1,18 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:netherrack"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:netherrack_dust"
+    },
+    {
+      "item": "gtexperimental:netherrack_dust"
+    }
+  ]
+}

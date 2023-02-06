@@ -11,11 +11,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class ModRecipeProperty<T> implements RecipeProperty<T> {
-    public static final ModRecipeProperty<Integer> DURATION = new ModRecipeProperty<>("duration", FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, ModRecipeProperty::greaterThanZero);
-    public static final ModRecipeProperty<Double> ENERGY_COST = new ModRecipeProperty<>("energy_cost", FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, JsonPrimitive::new, JsonElement::getAsDouble, ModRecipeProperty::greaterThanZero);
-    public static final ModRecipeProperty<Double> START_ENERGY = new ModRecipeProperty<>("start_energy", FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, JsonPrimitive::new, JsonElement::getAsDouble, ModRecipeProperty::greaterThanZero);
-    public static final ModRecipeProperty<Integer> TNT = new ModRecipeProperty<>("tnt", FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, between(1, 64));
-    public static final ModRecipeProperty<Integer> HEAT = new ModRecipeProperty<>("heat", FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, num -> true);
+    public static final ModRecipeProperty<Integer> DURATION = intProperty("duration", ModRecipeProperty::greaterThanZero);
+    public static final ModRecipeProperty<Double> ENERGY_COST = doubleProperty("energy_cost", ModRecipeProperty::greaterThanZero);
+    public static final ModRecipeProperty<Double> START_ENERGY = doubleProperty("start_energy", ModRecipeProperty::greaterThanZero);
+    public static final ModRecipeProperty<Integer> TNT = intProperty("tnt", between(1, 64));
+    public static final ModRecipeProperty<Integer> HEAT = intProperty("heat", num -> true);
+    public static final ModRecipeProperty<Integer> CHANCE = intProperty("chance", ModRecipeProperty::greaterThanZero);
 
     private final String name;
     private final BiConsumer<FriendlyByteBuf, T> networkSerializer;
@@ -68,6 +69,14 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
     public String toString() {
         return "ModRecipeProperty{%s}".formatted(this.name);
     }
+    
+    private static ModRecipeProperty<Integer> intProperty(String name, Predicate<Integer> validator) {
+        return new ModRecipeProperty<>(name, FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, validator);
+    }
+    
+    private static ModRecipeProperty<Double> doubleProperty(String name, Predicate<Double> validator) {
+            return new ModRecipeProperty<>(name, FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, JsonPrimitive::new, JsonElement::getAsDouble, validator);
+        }
 
     private static <T extends Number> boolean greaterThanZero(T number) {
         return number.doubleValue() > 0;

@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:ores/steel"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:steel_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:nickel_dust"
+    }
+  ]
+}

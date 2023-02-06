@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 public class RecipePropertyMap {
     private static final RecipePropertyMap EMPTY = new RecipePropertyMap(Map.of());
-    
+
     private final Map<RecipeProperty<?>, ?> properties;
 
     public RecipePropertyMap(Map<RecipeProperty<?>, ?> properties) {
@@ -47,7 +47,7 @@ public class RecipePropertyMap {
             json.add(property.getName(), element);
         });
     }
-    
+
     @SuppressWarnings("unchecked")
     public void validate(ResourceLocation id, List<RecipeProperty<?>> expected) {
         for (RecipeProperty<?> property : expected) {
@@ -87,7 +87,7 @@ public class RecipePropertyMap {
         }
         throw new IllegalArgumentException("Expected " + properties.size() + " properties, received " + size);
     }
-    
+
     public static RecipePropertyMap empty() {
         return EMPTY;
     }
@@ -118,9 +118,13 @@ public class RecipePropertyMap {
         public Builder tnt(int tnt) {
             return put(ModRecipeProperty.TNT, tnt);
         }
-        
+
         public Builder heat(int heat) {
             return put(ModRecipeProperty.HEAT, heat);
+        }
+
+        public Builder chance(int chance) {
+            return put(ModRecipeProperty.CHANCE, chance);
         }
 
         private <T> Builder put(RecipeProperty<T> property, T value) {

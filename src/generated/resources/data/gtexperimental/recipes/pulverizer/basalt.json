@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": [
+      {
+        "tag": "forge:stone/basalt"
+      },
+      {
+        "tag": "forge:stone/abyssal"
+      }
+    ]
+  },
+  "output": [
+    {
+      "item": "gtexperimental:basalt_dust"
+    },
+    {
+      "item": "gtexperimental:basalt_dust"
+    }
+  ]
+}
