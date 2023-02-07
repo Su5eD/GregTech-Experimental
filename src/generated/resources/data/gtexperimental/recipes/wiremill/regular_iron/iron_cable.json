@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:wiremill",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "iron_variant": "iron"
+      }
+    }
+  ],
+  "duration": 200,
+  "energyCost": 2.0,
+  "input": {
+    "value": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "output": {
+    "count": 6,
+    "item": "ic2:iron_cable"
+  }
+}

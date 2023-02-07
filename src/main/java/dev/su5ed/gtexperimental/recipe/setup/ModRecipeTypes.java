@@ -25,6 +25,7 @@ import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
+import dev.su5ed.gtexperimental.recipe.WiremillRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipeType;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
@@ -75,6 +76,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<IFMORecipeType<IndustrialSawmillRecipe>> INDUSTRIAL_SAWMILL = ifmo("industrial_sawmill", 2, NO_PROPERTIES, IndustrialSawmillRecipe::new);
     public static final RegistryObject<SISORecipeType<VacuumFreezerSolidRecipe, ItemStack>> VACUUM_FREEZER_SOLID = siso("vacuum_freezer_solid", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, List.of(ModRecipeProperty.DURATION), VacuumFreezerSolidRecipe::new);
     public static final RegistryObject<SISORecipeType<VacuumFreezerFluidRecipe, FluidStack>> VACUUM_FREEZER_FLUID = siso("vacuum_freezer_fluid", ModRecipeIngredientTypes.FLUID, ModRecipeOutputTypes.FLUID, List.of(ModRecipeProperty.DURATION), VacuumFreezerFluidRecipe::new);
+    public static final RegistryObject<SISORecipeType<WiremillRecipe, ItemStack>> WIREMILL = siso("wiremill", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, WiremillRecipe::new);
 
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);

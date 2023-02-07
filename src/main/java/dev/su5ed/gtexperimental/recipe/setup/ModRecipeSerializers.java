@@ -22,6 +22,7 @@ import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
+import dev.su5ed.gtexperimental.recipe.WiremillRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -53,6 +54,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<IndustrialSawmillRecipe>> INDUSTRIAL_SAWMILL = register("industrial_sawmill", ModRecipeTypes.INDUSTRIAL_SAWMILL);
     public static final RegistryObject<RecipeSerializer<VacuumFreezerSolidRecipe>> VACUUM_FREEZER_SOLID = register("vacuum_freezer_solid", ModRecipeTypes.VACUUM_FREEZER_SOLID);
     public static final RegistryObject<RecipeSerializer<VacuumFreezerFluidRecipe>> VACUUM_FREEZER_FLUID = register("vacuum_freezer_fluid", ModRecipeTypes.VACUUM_FREEZER_FLUID);
+    public static final RegistryObject<RecipeSerializer<WiremillRecipe>> WIREMILL = register("wiremill", ModRecipeTypes.WIREMILL);
 
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);

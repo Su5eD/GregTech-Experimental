@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-06T17:42:27.3339776	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-07T21:30:03.8097854	Gregtech ExperimentalTags for minecraft:item
 4d2ce2bc79bf4511cae3261bc7b03e37f53e3979 data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -90,16 +90,19 @@ f3d6a9268c16ecc97ea938de449f2269ad33451c data/forge/tags/items/ingots/antimony.j
 488d84a7872192c97100f44826f4acfb2a8c390e data/forge/tags/items/ingots/brass.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/bronze.json
 1c843fbe3e1fa630dfb95e4fd3c3f50f47b4e7b8 data/forge/tags/items/ingots/chrome.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/cupronickel.json
 133a7a0bbd8b508f93f4eef284cb74d9bcc519de data/forge/tags/items/ingots/electrum.json
 da99fc1141614ddf6e8a6bca2e630aa34d05ebc0 data/forge/tags/items/ingots/hot_tungsten_steel.json
 058ce97dbcfb79124d23f6b86af9e3b132bef777 data/forge/tags/items/ingots/invar.json
 e9b7ade8ebd52ac60cf00b4ef463dd6e161e7ed7 data/forge/tags/items/ingots/iridium.json
 7f8cbf3621709bcbb3f61efcfa8419434e22fa00 data/forge/tags/items/ingots/iridium_alloy.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/kanthal.json
 0d41e5f391bf7b704e2f8e3e374dd4d41cbabceb data/forge/tags/items/ingots/lead.json
 30a5fbb14feed2bbba6e78793b0d03fb2157bc08 data/forge/tags/items/ingots/magnalium.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/magnesium.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/manganese.json
 2e776db070dfb92c06361df4184c236bfabe0468 data/forge/tags/items/ingots/mixed_metal.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/nichrome.json
 29de3777277b42d32c009624ca4d3868797b201f data/forge/tags/items/ingots/nickel.json
 3b3815b6c4f7b72b26f65bdf34eed7e750a28f13 data/forge/tags/items/ingots/osmium.json
 3201146ca4c803b3400c311df74b19bd5d6c38ac data/forge/tags/items/ingots/platinum.json

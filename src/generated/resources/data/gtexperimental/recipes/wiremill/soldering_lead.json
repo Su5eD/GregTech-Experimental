@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:wiremill",
+  "duration": 100,
+  "energyCost": 4.0,
+  "input": {
+    "value": {
+      "tag": "forge:ingots/lead"
+    }
+  },
+  "output": {
+    "item": "gtexperimental:soldering_lead"
+  }
+}

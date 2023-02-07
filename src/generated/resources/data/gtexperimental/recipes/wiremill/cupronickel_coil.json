@@ -1,0 +1,14 @@
+{
+  "type": "gtexperimental:wiremill",
+  "duration": 300,
+  "energyCost": 8.0,
+  "input": {
+    "count": 3,
+    "value": {
+      "tag": "forge:ingots/cupronickel"
+    }
+  },
+  "output": {
+    "item": "gtexperimental:cupronickel_coil"
+  }
+}

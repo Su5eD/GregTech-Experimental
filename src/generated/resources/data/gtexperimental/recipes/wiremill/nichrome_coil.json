@@ -1,0 +1,14 @@
+{
+  "type": "gtexperimental:wiremill",
+  "duration": 600,
+  "energyCost": 16.0,
+  "input": {
+    "count": 5,
+    "value": {
+      "tag": "forge:ingots/nichrome"
+    }
+  },
+  "output": {
+    "item": "gtexperimental:nichrome_coil"
+  }
+}

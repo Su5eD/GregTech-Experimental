@@ -21,6 +21,7 @@ import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
+import dev.su5ed.gtexperimental.recipe.WiremillRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
@@ -264,6 +265,11 @@ public final class ModRecipeBuilders {
 
     public static SISORecipeBuilder<FluidStack> vacuumFreezerFluid(RecipeIngredient<FluidStack> input, FluidStack output, int duration) {
         SISORecipe<FluidStack> recipe = new VacuumFreezerFluidRecipe(null, input, output, duration);
+        return new SISORecipeBuilder<>(recipe);
+    }
+
+    public static SISORecipeBuilder<ItemStack> wiremill(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
+        SISORecipe<ItemStack> recipe = new WiremillRecipe(null, input, output, duration, energyCost);
         return new SISORecipeBuilder<>(recipe);
     }
 
