@@ -33,14 +33,10 @@ public class DummyInventory implements Container {
     }
 
     @Override
-    public void setItem(int slot, ItemStack stack) {
-        
-    }
+    public void setItem(int slot, ItemStack stack) {}
 
     @Override
-    public void setChanged() {
-
-    }
+    public void setChanged() {}
 
     @Override
     public boolean stillValid(Player pPlayer) {
@@ -48,7 +44,5 @@ public class DummyInventory implements Container {
     }
 
     @Override
-    public void clearContent() {
-
-    }
+    public void clearContent() {}
 }

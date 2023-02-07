@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:vacuum_freezer_solid",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 100,
+  "energyCost": 128.0,
+  "input": {
+    "value": {
+      "type": "gtexperimental:damaged_ic2_reactor_component",
+      "item": "ic2:reactor_coolant_cell"
+    }
+  },
+  "output": {
+    "item": "ic2:reactor_coolant_cell"
+  }
+}

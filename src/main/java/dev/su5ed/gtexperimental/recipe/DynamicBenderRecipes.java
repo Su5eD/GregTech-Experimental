@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Pair;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
-import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
 
-public class DynamicBenderRecipes implements RecipeProvider<BenderRecipe, SISORecipe.Input> {
+public class DynamicBenderRecipes implements RecipeProvider<BenderRecipe, ItemStack> {
     private final Map<TagKey<Item>, BenderRecipe> recipes;
 
     public DynamicBenderRecipes() {
@@ -34,17 +33,15 @@ public class DynamicBenderRecipes implements RecipeProvider<BenderRecipe, SISORe
     }
 
     @Override
-    public boolean hasRecipeFor(SISORecipe.Input input) {
-        ItemStack item = input.item();
+    public boolean hasRecipeFor(ItemStack input) {
         return StreamEx.ofKeys(this.recipes)
-            .anyMatch(item::is);
+            .anyMatch(input::is);
     }
 
     @Override
-    public BenderRecipe getRecipeFor(SISORecipe.Input input) {
-        ItemStack item = input.item();
+    public BenderRecipe getRecipeFor(ItemStack input) {
         return EntryStream.of(this.recipes)
-            .findFirst(entry -> item.is(entry.getKey()))
+            .findFirst(entry -> input.is(entry.getKey()))
             .map(Map.Entry::getValue)
             .orElse(null);
     }

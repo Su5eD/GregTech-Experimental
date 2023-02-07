@@ -1,0 +1,29 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "item": "twilightforest:liveroot"
+    }
+  },
+  "output": [
+    {
+      "count": 4,
+      "item": "minecraft:stick"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:stick"
+    }
+  ]
+}

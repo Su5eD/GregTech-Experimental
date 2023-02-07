@@ -23,6 +23,8 @@ import dev.su5ed.gtexperimental.recipe.IndustrialSawmillRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
+import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
+import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipeType;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
@@ -59,7 +61,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<MIMORecipeType<CanningMachineRecipe>> CANNING_MACHINE = mimo("canning_machine", 2, 2, CanningMachineRecipe::new);
     public static final RegistryObject<SIMORecipeType<PulverizerRecipe, ItemStack>> PULVERIZER = ModRecipeTypes.<PulverizerRecipe, ItemStack>simo("pulverizer", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, 2, List.of(ModRecipeProperty.ENERGY_COST, ModRecipeProperty.CHANCE), PulverizerRecipe::new);
     public static final RegistryObject<IFMORecipeType<IndustrialGrinderRecipe>> INDUSTRIAL_GRINDER = ifmo("industrial_grinder", 3, NO_PROPERTIES, IndustrialGrinderRecipe::new);
-    public static final RegistryObject<SISORecipeType<BenderRecipe>> BENDER = siso("bender", ModRecipeOutputTypes.ITEM, BenderRecipe::new);
+    public static final RegistryObject<SISORecipeType<BenderRecipe, ItemStack>> BENDER = siso("bender", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, BenderRecipe::new);
     public static final RegistryObject<MISORecipeType<ChemicalRecipe, FluidStack, FluidStack>> CHEMICAL = ModRecipeTypes.<ChemicalRecipe, FluidStack, FluidStack>miso("chemical", ModRecipeIngredientTypes.FLUID, 2, ModRecipeOutputTypes.FLUID, List.of(ModRecipeProperty.DURATION), ChemicalRecipe::new);
     public static final RegistryObject<SIMORecipeType<DistillationRecipe, FluidStack>> DISTILLATION = ModRecipeTypes.<DistillationRecipe, FluidStack>simo("distillation", ModRecipeIngredientTypes.FLUID, ModRecipeOutputTypes.FLUID, 4, List.of(ModRecipeProperty.DURATION), DistillationRecipe::new);
     public static final RegistryObject<MISORecipeType<FusionSolidRecipe, FluidStack, ItemStack>> FUSION_SOLID = ModRecipeTypes.<FusionSolidRecipe, FluidStack, ItemStack>miso("fusion_solid", ModRecipeIngredientTypes.FLUID, 2, ModRecipeOutputTypes.ITEM, FUSION_PROPERTIES, FusionSolidRecipe::new);
@@ -71,6 +73,8 @@ public final class ModRecipeTypes {
     public static final RegistryObject<SIMORecipeType<LatheRecipe, ItemStack>> LATHE = ModRecipeTypes.<LatheRecipe, ItemStack>simo("lathe", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, 2, LatheRecipe::new);
     public static final RegistryObject<MISORecipeType<PrinterRecipe, ItemStack, ItemStack>> PRINTER = ModRecipeTypes.<PrinterRecipe, ItemStack, ItemStack>miso("printer", ModRecipeIngredientTypes.ITEM, 2, ModRecipeOutputTypes.ITEM, PrinterRecipe::new);
     public static final RegistryObject<IFMORecipeType<IndustrialSawmillRecipe>> INDUSTRIAL_SAWMILL = ifmo("industrial_sawmill", 2, NO_PROPERTIES, IndustrialSawmillRecipe::new);
+    public static final RegistryObject<SISORecipeType<VacuumFreezerSolidRecipe, ItemStack>> VACUUM_FREEZER_SOLID = siso("vacuum_freezer_solid", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, List.of(ModRecipeProperty.DURATION), VacuumFreezerSolidRecipe::new);
+    public static final RegistryObject<SISORecipeType<VacuumFreezerFluidRecipe, FluidStack>> VACUUM_FREEZER_FLUID = siso("vacuum_freezer_fluid", ModRecipeIngredientTypes.FLUID, ModRecipeOutputTypes.FLUID, List.of(ModRecipeProperty.DURATION), VacuumFreezerFluidRecipe::new);
 
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);
@@ -104,8 +108,12 @@ public final class ModRecipeTypes {
         return register(name, () -> new IFMORecipeType<>(location(name), outputCount, properties, factory));
     }
 
-    private static <R extends SISORecipe> RegistryObject<SISORecipeType<R>> siso(String name, RecipeOutputType<ItemStack> outputType, SISORecipeType.SISORecipeFactory<R> factory) {
-        return register(name, () -> new SISORecipeType<>(location(name), outputType, factory));
+    private static <R extends SISORecipe<T>, T> RegistryObject<SISORecipeType<R, T>> siso(String name, RecipeIngredientType<? extends RecipeIngredient<T>> inputType, RecipeOutputType<T> outputType, SISORecipeType.SISORecipeFactory<R, T> factory) {
+        return siso(name, inputType, outputType, BASIC_PROPERTIES, factory);
+    }
+
+    private static <R extends SISORecipe<T>, T> RegistryObject<SISORecipeType<R, T>> siso(String name, RecipeIngredientType<? extends RecipeIngredient<T>> inputType, RecipeOutputType<T> outputType, List<RecipeProperty<?>> properties, SISORecipeType.SISORecipeFactory<R, T> factory) {
+        return register(name, () -> new SISORecipeType<>(location(name), inputType, outputType, properties, factory));
     }
 
     private static <R extends RecipeType<?>> RegistryObject<R> register(String name, Supplier<R> recipeType) {

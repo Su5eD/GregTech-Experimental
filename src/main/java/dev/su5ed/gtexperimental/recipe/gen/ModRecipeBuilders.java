@@ -19,6 +19,8 @@ import dev.su5ed.gtexperimental.recipe.IndustrialSawmillRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
+import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
+import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
@@ -56,9 +58,9 @@ public final class ModRecipeBuilders {
         return new MISORecipeBuilder<>(recipe);
     }
 
-    public static SISORecipeBuilder bender(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
-        SISORecipe recipe = new BenderRecipe(null, input, output, duration, energyCost);
-        return new SISORecipeBuilder(recipe);
+    public static SISORecipeBuilder<ItemStack> bender(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
+        SISORecipe<ItemStack> recipe = new BenderRecipe(null, input, output, duration, energyCost);
+        return new SISORecipeBuilder<>(recipe);
     }
 
     public static MIMORecipeBuilder canningMachine(RecipeIngredient<ItemStack> primary, RecipeIngredient<ItemStack> secondary, ItemStack output, int duration, double energyCost) {
@@ -253,6 +255,16 @@ public final class ModRecipeBuilders {
     public static IFMORecipeBuilder industrialSawmill(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
         IFMORecipe recipe = new IndustrialSawmillRecipe(null, input, fluid, output);
         return new IFMORecipeBuilder(recipe);
+    }
+
+    public static SISORecipeBuilder<ItemStack> vacuumFreezerSolid(RecipeIngredient<ItemStack> input, ItemStack output, int duration) {
+        SISORecipe<ItemStack> recipe = new VacuumFreezerSolidRecipe(null, input, output, duration);
+        return new SISORecipeBuilder<>(recipe);
+    }
+
+    public static SISORecipeBuilder<FluidStack> vacuumFreezerFluid(RecipeIngredient<FluidStack> input, FluidStack output, int duration) {
+        SISORecipe<FluidStack> recipe = new VacuumFreezerFluidRecipe(null, input, output, duration);
+        return new SISORecipeBuilder<>(recipe);
     }
 
     private static Either<ItemStack, FluidStack> convert(Object obj) {

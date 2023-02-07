@@ -18,16 +18,18 @@ import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
+import dev.su5ed.gtexperimental.recipe.IndustrialSawmillRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
+import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
+import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManager;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManagerProvider;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
-import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fluids.FluidStack;
@@ -40,7 +42,7 @@ public final class ModRecipeManagers {
     public static final RecipeManagerProvider<CanningMachineRecipe, MIMORecipe.Input> CANNING_MACHINE = create(ModRecipeTypes.CANNING_MACHINE);
     public static final RecipeManagerProvider<IndustrialGrinderRecipe, IFMORecipe.Input> INDUSTRIAL_GRINDER = create(ModRecipeTypes.INDUSTRIAL_GRINDER);
     public static final RecipeManagerProvider<PulverizerRecipe, SIMORecipe.Input<ItemStack>> PULVERIZER = create(ModRecipeTypes.PULVERIZER);
-    public static final RecipeManagerProvider<BenderRecipe, SISORecipe.Input> BENDER = create(ModRecipeTypes.BENDER);
+    public static final RecipeManagerProvider<BenderRecipe, ItemStack> BENDER = create(ModRecipeTypes.BENDER);
     public static final RecipeManagerProvider<ChemicalRecipe, MISORecipe.Input<FluidStack>> CHEMICAL = create(ModRecipeTypes.CHEMICAL);
     public static final RecipeManagerProvider<DistillationRecipe, SIMORecipe.Input<FluidStack>> DISTILLATION = create(ModRecipeTypes.DISTILLATION);
     public static final RecipeManagerProvider<FusionSolidRecipe, MISORecipe.Input<FluidStack>> FUSION_SOLID = create(ModRecipeTypes.FUSION_SOLID);
@@ -51,6 +53,9 @@ public final class ModRecipeManagers {
     public static final RecipeManagerProvider<IndustrialElectrolyzerRecipe, SIMORecipe.Input<Either<ItemStack, FluidStack>>> INDUSTRIAL_ELECTROLYZER = create(ModRecipeTypes.INDUSTRIAL_ELECTROLYZER);
     public static final RecipeManagerProvider<LatheRecipe, SIMORecipe.Input<ItemStack>> LATHE = create(ModRecipeTypes.LATHE);
     public static final RecipeManagerProvider<PrinterRecipe, MISORecipe.Input<ItemStack>> PRINTER = create(ModRecipeTypes.PRINTER);
+    public static final RecipeManagerProvider<IndustrialSawmillRecipe, IFMORecipe.Input> INDUSTRIAL_SAWMILL = create(ModRecipeTypes.INDUSTRIAL_SAWMILL);
+    public static final RecipeManagerProvider<VacuumFreezerSolidRecipe, ItemStack> VACUUM_FREEZER_SOLID = create(ModRecipeTypes.VACUUM_FREEZER_SOLID);
+    public static final RecipeManagerProvider<VacuumFreezerFluidRecipe, FluidStack> VACUUM_FREEZER_FLUID = create(ModRecipeTypes.VACUUM_FREEZER_FLUID);
 
     static {
         BENDER.registerProvider(DynamicBenderRecipes::new);

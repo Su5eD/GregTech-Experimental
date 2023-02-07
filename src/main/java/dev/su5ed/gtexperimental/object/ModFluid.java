@@ -125,7 +125,6 @@ public enum ModFluid implements ItemProvider, FluidProvider {
         return this.flowingFluid.get();
     }
 
-    @Nullable
     @Override
     public TagKey<Fluid> getTag() {
         return this.tag;

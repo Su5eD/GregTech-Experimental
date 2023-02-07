@@ -45,6 +45,10 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
         return new VanillaRecipeIngredient(Ingredient.of(tag), count);
     }
 
+    public VanillaRecipeIngredient ofDamaged(ItemLike item) {
+        return new VanillaRecipeIngredient(new VanillaDamagedIngredient(new ItemStack(item)));
+    }
+
     @SafeVarargs
     public final VanillaRecipeIngredient ofTags(TagKey<Item>... tags) {
         return ofTags(1, tags);

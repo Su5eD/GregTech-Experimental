@@ -78,5 +78,6 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMOR
         this.properties.toNetwork(buffer);
     }
 
+    // TODO Remove
     public record Input(List<ItemStack> items) {}
 }

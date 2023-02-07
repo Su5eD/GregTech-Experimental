@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:vacuum_freezer_solid",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 300,
+  "energyCost": 128.0,
+  "input": {
+    "value": {
+      "type": "gtexperimental:damaged_item",
+      "item": "ftbic:medium_coolant_cell"
+    }
+  },
+  "output": {
+    "item": "ftbic:medium_coolant_cell"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "type": "gtexperimental:pulverizer",
-  "chance": 10,
+  "chance": 30,
   "conditions": [
     {
       "type": "forge:mod_loaded",

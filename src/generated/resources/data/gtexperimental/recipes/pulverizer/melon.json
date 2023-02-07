@@ -1,6 +1,6 @@
 {
   "type": "gtexperimental:pulverizer",
-  "chance": 10,
+  "chance": 80,
   "energy_cost": 3.0,
   "input": {
     "value": {

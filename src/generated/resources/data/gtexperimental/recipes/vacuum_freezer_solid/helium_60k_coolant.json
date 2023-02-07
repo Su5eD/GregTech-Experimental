@@ -1,0 +1,14 @@
+{
+  "type": "gtexperimental:vacuum_freezer_solid",
+  "duration": 700,
+  "energyCost": 128.0,
+  "input": {
+    "value": {
+      "type": "gtexperimental:damaged_item",
+      "item": "gtexperimental:helium_60k_coolant"
+    }
+  },
+  "output": {
+    "item": "gtexperimental:helium_60k_coolant"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "gtexperimental:vacuum_freezer_fluid",
+  "duration": 100,
+  "energyCost": 128.0,
+  "input": {
+    "type": "tag",
+    "amount": 1000,
+    "tag": "forge:helium_plasma"
+  },
+  "output": {
+    "amount": 1000,
+    "fluid": "gtexperimental:helium_fluid"
+  }
+}

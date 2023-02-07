@@ -16,7 +16,7 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
     public VanillaRecipeIngredient(Ingredient ingredient) {
         this(ingredient, 1);
     }
-    
+
     public VanillaRecipeIngredient(RecipeIngredient<FluidStack> ingredient) {
         this(new VanillaFluidIngredient(ingredient), 1);
     }

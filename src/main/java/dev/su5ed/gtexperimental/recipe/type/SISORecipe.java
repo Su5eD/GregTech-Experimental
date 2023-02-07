@@ -3,53 +3,58 @@ package dev.su5ed.gtexperimental.recipe.type;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 /**
  * Single Input, Single Output recipe
  */
-public abstract class SISORecipe extends BaseRecipeImpl<SISORecipeType<?>, SISORecipe.Input, SISORecipe> {
-    protected final RecipeIngredient<ItemStack> input;
-    protected final ItemStack output;
-    protected final int duration;
-    protected final double energyCost;
+public abstract class SISORecipe<T> extends BaseRecipeImpl<SISORecipeType<?, T>, T, SISORecipe<T>> {
+    protected final RecipeIngredient<T> input;
+    protected final T output;
+    protected final RecipePropertyMap properties;
+    
+    public SISORecipe(SISORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<T> input, T output, int duration, double energyCost) {
+        this(type, serializer, id, input, output, RecipePropertyMap.builder()
+            .duration(duration)
+            .energyCost(energyCost)
+            .build());
+    }
 
-    public SISORecipe(SISORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
+    public SISORecipe(SISORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<T> input, T output, RecipePropertyMap properties) {
         super(type, serializer, id);
 
         this.input = input;
         this.output = output;
-        this.duration = duration;
-        this.energyCost = energyCost;
+        this.properties = properties;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
         this.type.outputType.validate(this.id, "output", this.output);
+        this.properties.validate(this.id, this.type.properties);
     }
 
-    public RecipeIngredient<ItemStack> getInput() {
+    public RecipeIngredient<T> getInput() {
         return this.input;
     }
 
-    public ItemStack getOutput() {
+    public T getOutput() {
         return this.output;
     }
 
     public int getDuration() {
-        return this.duration;
+        return this.properties.get(ModRecipeProperty.DURATION);
     }
 
     public double getEnergyCost() {
-        return this.energyCost;
+        return this.properties.get(ModRecipeProperty.ENERGY_COST);
     }
 
     @Override
-    public boolean matches(Input input) {
-        return this.input.test(input.item);
+    public boolean matches(T input) {
+        return this.input.test(input);
     }
 
     @Override
-    public int compareInputCount(SISORecipe other) {
+    public int compareInputCount(SISORecipe<T> other) {
         return this.input.getCount() - other.input.getCount();
     }
 
@@ -57,9 +62,6 @@ public abstract class SISORecipe extends BaseRecipeImpl<SISORecipeType<?>, SISOR
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
         this.type.outputType.toNetwork(buffer, this.output);
-        buffer.writeInt(this.duration);
-        buffer.writeDouble(this.energyCost);
+        this.properties.toNetwork(buffer);
     }
-
-    public record Input(ItemStack item) {}
 }
