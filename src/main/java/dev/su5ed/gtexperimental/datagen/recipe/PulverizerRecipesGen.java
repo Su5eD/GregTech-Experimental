@@ -139,6 +139,7 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         simple(Component.BRASS_HULL, Dust.BRASS, 6, finishedRecipeConsumer);
         simple(Component.STEEL_HULL, Dust.STEEL, 6, finishedRecipeConsumer);
         simple(Component.TITANIUM_HULL, Dust.TITANIUM, 6, finishedRecipeConsumer);
+        simple(Component.IRON_GEAR, Dust.IRON, 6, finishedRecipeConsumer);
         simple(Component.BRONZE_GEAR, Dust.BRONZE, 6, finishedRecipeConsumer);
         simple(Component.STEEL_GEAR, Dust.STEEL, 6, finishedRecipeConsumer);
         simple(Component.TITANIUM_GEAR, Dust.TITANIUM, 6, finishedRecipeConsumer);
@@ -230,6 +231,20 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Ic2Items.CROP_STICK), Dust.WOOD.getItemStack())
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/crop_stick"));
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Ic2Items.MACHINE), Dust.IRON.getItemStack(8))
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, id("ic2/machine"));
+
+        // Classic
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_FUEL_CAN), Dust.TIN.getItemStack(7))
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, id("classic/ic2/empty_fuel_can")); // Overwrite
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), Dust.TIN.getItemStack())
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, id("classic/ic2/empty_cell")); // Overwrite
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Ic2Items.PLANT_BALL), new ItemStack(Items.DIRT))
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, id("classic/ic2/plant_ball")); // Overwrite
 
         // FTBIC
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Ore.IRIDIUM.getTag()), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.DUST).orElseThrow().get(), 2), Dust.PLATINUM.getItemStack())
@@ -241,6 +256,9 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Component.IRIDIUM_GEAR), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.DUST).orElseThrow().get(), 6))
             .addConditions(FTBIC_LOADED)
             .build(finishedRecipeConsumer, id("ftbic/iridium_gear"));
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(FTBICItems.MACHINE_BLOCK.get()), Dust.IRON.getItemStack(8))
+            .addConditions(FTBIC_LOADED)
+            .build(finishedRecipeConsumer, id("ftbic/machine_block"));
 
         // Twilight Forest
         pulverizer(ModRecipeIngredientTypes.ITEM.of(TFItems.LIVEROOT.get()), new ItemStack(Items.STICK, 2), new ItemStack(Items.STICK), 30)

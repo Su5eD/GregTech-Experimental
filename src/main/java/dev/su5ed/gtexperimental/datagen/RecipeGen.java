@@ -16,6 +16,7 @@ import dev.su5ed.gtexperimental.datagen.recipe.ImplosionRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialCentrifugeRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialElectrolyzerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialGrinderRecipesGen;
+import dev.su5ed.gtexperimental.datagen.recipe.IndustrialSawmillRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.LatheRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.PrinterRecipesGen;
@@ -71,7 +72,8 @@ public class RecipeGen extends RecipeProvider {
             IndustrialGrinderRecipesGen.INSTANCE,
             LatheRecipesGen.INSTANCE,
             PrinterRecipesGen.INSTANCE,
-            PulverizerRecipesGen.INSTANCE
+            PulverizerRecipesGen.INSTANCE,
+            IndustrialSawmillRecipesGen.INSTANCE
         );
 
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

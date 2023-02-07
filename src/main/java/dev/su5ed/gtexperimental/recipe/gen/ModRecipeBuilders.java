@@ -15,6 +15,7 @@ import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
+import dev.su5ed.gtexperimental.recipe.IndustrialSawmillRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
@@ -233,7 +234,7 @@ public final class ModRecipeBuilders {
     }
 
     public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, int chance) {
-        return pulverizer(input, List.of(first, second), 3, 10);
+        return pulverizer(input, List.of(first, second), 3, chance);
     }
 
     public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, double energyCost, int chance) {
@@ -243,6 +244,15 @@ public final class ModRecipeBuilders {
     public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, double energyCost, int chance) {
         SIMORecipe<ItemStack> recipe = new PulverizerRecipe(null, input, outputs, energyCost, chance);
         return new SIMORecipeBuilder<>(recipe);
+    }
+
+    public static IFMORecipeBuilder industrialSawmill(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, ItemStack first, ItemStack second) {
+        return industrialGrinder(input, fluid, List.of(first, second));
+    }
+
+    public static IFMORecipeBuilder industrialSawmill(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
+        IFMORecipe recipe = new IndustrialSawmillRecipe(null, input, fluid, output);
+        return new IFMORecipeBuilder(recipe);
     }
 
     private static Either<ItemStack, FluidStack> convert(Object obj) {

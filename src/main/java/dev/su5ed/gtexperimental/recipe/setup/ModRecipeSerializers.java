@@ -16,6 +16,7 @@ import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
+import dev.su5ed.gtexperimental.recipe.IndustrialSawmillRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
@@ -47,6 +48,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<IndustrialElectrolyzerRecipe>> INDUSTRIAL_ELECTROLYZER = register("industrial_electrolyzer", ModRecipeTypes.INDUSTRIAL_ELECTROLYZER);
     public static final RegistryObject<RecipeSerializer<LatheRecipe>> LATHE = register("lathe", ModRecipeTypes.LATHE);
     public static final RegistryObject<RecipeSerializer<PrinterRecipe>> PRINTER = register("printer", ModRecipeTypes.PRINTER);
+    public static final RegistryObject<RecipeSerializer<IndustrialSawmillRecipe>> INDUSTRIAL_SAWMILL = register("industrial_sawmill", ModRecipeTypes.INDUSTRIAL_SAWMILL);
 
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);
