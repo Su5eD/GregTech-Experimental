@@ -1,0 +1,16 @@
+{
+  "type": "ic2:macerator",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/phosphorite"
+  },
+  "result": {
+    "count": 3,
+    "item": "gtexperimental:phosphorus_dust"
+  }
+}

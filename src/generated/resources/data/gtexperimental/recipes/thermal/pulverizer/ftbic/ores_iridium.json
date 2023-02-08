@@ -1,0 +1,33 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/iridium"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "ftbic:iridium_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:platinum_dust"
+    }
+  ]
+}

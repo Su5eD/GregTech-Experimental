@@ -1,0 +1,23 @@
+{
+  "type": "thermal:sawmill",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "energy": 800,
+  "ingredient": {
+    "item": "minecraft:redstone_torch"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "gtexperimental:wood_smalldust"
+    },
+    {
+      "chance": 0.95,
+      "item": "minecraft:redstone"
+    }
+  ]
+}

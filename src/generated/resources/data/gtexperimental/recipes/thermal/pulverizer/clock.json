@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:clock"
+  },
+  "result": [
+    {
+      "count": 4,
+      "item": "gtexperimental:gold_dust"
+    },
+    {
+      "chance": 0.95,
+      "item": "minecraft:redstone"
+    }
+  ]
+}

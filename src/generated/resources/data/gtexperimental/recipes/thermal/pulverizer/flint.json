@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:flint"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "gtexperimental:flint_smalldust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:flint_smalldust"
+    }
+  ]
+}

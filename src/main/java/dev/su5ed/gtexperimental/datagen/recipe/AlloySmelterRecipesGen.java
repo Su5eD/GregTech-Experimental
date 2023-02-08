@@ -1,30 +1,30 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.alloySmelter;
 
 public final class AlloySmelterRecipesGen implements ModRecipeProvider {
     public static final AlloySmelterRecipesGen INSTANCE = new AlloySmelterRecipesGen();
-    
+
     private AlloySmelterRecipesGen() {}
-    
+
     @Override
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_GOLD), ModRecipeIngredientTypes.ITEM.of(Ingot.SILVER.getTag()), Ingot.ELECTRUM.getItemStack(2), 100, 16)
@@ -94,11 +94,11 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id("iridium_ingot_from_iridium_gear"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Items.MILK_BUCKET, Items.WATER_BUCKET), new ItemStack(Items.BUCKET), 100, 1)
             .build(finishedRecipeConsumer, id("bucket_from_filled_bucket"));
-        
+
         // Experimental
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRON_GEAR.getItem()), new ItemStack(Items.IRON_INGOT, 6), 130, 3)
             .addConditions(SelectedProfileCondition.EXPERIMENTAL)
-            .build(finishedRecipeConsumer, id("experimental/iron_ingot_from_iron_gear"), true);
+            .build(finishedRecipeConsumer, profileId("experimental", "iron_ingot_from_iron_gear"), true);
 
         buildOtherModRecipes(finishedRecipeConsumer);
     }
@@ -114,13 +114,17 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
         // Classic
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_FUEL_CAN), new ItemStack(Ic2Items.TIN_INGOT, 7), 130, 3)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/ic2/tin_ingot_from_empty_fuel_can"), true);
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/tin_ingot_from_empty_fuel_can"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRON_GEAR.getItem()), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 6), 130, 3)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/ic2/refined_iron_ingot_from_iron_gear"), true);
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/refined_iron_ingot_from_iron_gear"), true);
     }
-    
-    private static ResourceLocation id(String name) {
-        return location("alloy_smelter/" + name);
+
+    private static RecipeName id(String name) {
+        return profileId(null, name);
+    }
+
+    private static RecipeName profileId(String profile, String name) {
+        return RecipeName.profile(Reference.MODID, "alloy_smelter", profile, name);
     }
 }

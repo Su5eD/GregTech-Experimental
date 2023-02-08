@@ -1,40 +1,32 @@
 package dev.su5ed.gtexperimental.recipe.gen.compat;
 
-import com.google.gson.JsonElement;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.RecipeGen;
 import dev.su5ed.gtexperimental.recipe.gen.BaseRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
-import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.ItemLike;
 
 public class IC2MachineRecipeBuilder extends BaseRecipeBuilder {
     public static final ResourceLocation COMPRESSOR = new ResourceLocation(ModHandler.IC2_MODID, "compressor");
     public static final ResourceLocation EXTRACTOR = new ResourceLocation(ModHandler.IC2_MODID, "extractor");
+    public static final ResourceLocation MACERATOR = new ResourceLocation(ModHandler.IC2_MODID, "macerator");
 
     private final ResourceLocation type;
-    private final Value ingredient;
+    private final Ingredient ingredient;
     private final int count;
     private final ItemStack result;
 
-    public IC2MachineRecipeBuilder(ResourceLocation type, Either<ItemLike, TagKey<Item>> input, int count, ItemStack result) {
-        this(type, input.map(ItemValue::new, TagValue::new), count, result);
-    }
-
-    private IC2MachineRecipeBuilder(ResourceLocation type, Value ingredient, int count, ItemStack result) {
+    public IC2MachineRecipeBuilder(ResourceLocation type, Ingredient ingredient, int count, ItemStack result) {
         this.type = type;
         this.ingredient = ingredient;
         this.count = count;
         this.result = result;
-        
+
         addConditions(RecipeGen.IC2_LOADED);
     }
 
@@ -47,9 +39,32 @@ public class IC2MachineRecipeBuilder extends BaseRecipeBuilder {
     public void serializeRecipeData(JsonObject json) {
         super.serializeRecipeData(json);
 
-        JsonObject ingredient = new JsonObject();
-        ingredient.add(this.ingredient.name(), this.ingredient.toJson());
-        ingredient.addProperty("count", this.count);
+        JsonObject ingredient;
+        if (this.ingredient.values.length == 1) {
+            Ingredient.Value value = this.ingredient.values[0];
+            if (value instanceof Ingredient.ItemValue || value instanceof Ingredient.TagValue) {
+                ingredient = value.serialize();
+            }
+            else {
+                throw new IllegalArgumentException("Invalid ingredient value " + value);
+            }
+        }
+        else {
+            ingredient = new JsonObject();
+            JsonArray values = new JsonArray();
+            for (Ingredient.Value value : this.ingredient.values) {
+                if (value instanceof Ingredient.ItemValue || value instanceof Ingredient.TagValue) {
+                    values.add(value.serialize());
+                }
+                else {
+                    throw new IllegalArgumentException("Invalid ingredient value " + value);
+                }
+            }
+            ingredient.add("any", values);
+        }
+        if (this.count > 1) {
+            ingredient.addProperty("count", this.count);
+        }
         json.add("ingredient", ingredient);
         json.add("result", ModRecipeOutputTypes.ITEM.toJson(this.result));
     }
@@ -57,37 +72,5 @@ public class IC2MachineRecipeBuilder extends BaseRecipeBuilder {
     @Override
     public RecipeSerializer<?> getType() {
         throw new UnsupportedOperationException();
-    }
-
-    public interface Value {
-        String name();
-
-        JsonElement toJson();
-    }
-
-    private record ItemValue(ItemLike item) implements Value {
-
-        @Override
-        public String name() {
-            return "item";
-        }
-
-        @Override
-        public JsonElement toJson() {
-            return new JsonPrimitive(GtUtil.itemId(this.item));
-        }
-    }
-
-    private record TagValue(TagKey<Item> tag) implements Value {
-
-        @Override
-        public String name() {
-            return "tag";
-        }
-
-        @Override
-        public JsonElement toJson() {
-            return new JsonPrimitive(this.tag.location().toString());
-        }
     }
 }

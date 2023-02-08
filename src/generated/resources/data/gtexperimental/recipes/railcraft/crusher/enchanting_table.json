@@ -1,0 +1,29 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:enchanting_table"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 2,
+        "item": "gtexperimental:diamond_dust"
+      }
+    },
+    {
+      "probability": 0.9500000000000001,
+      "stack": {
+        "count": 4,
+        "item": "gtexperimental:obsidian_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

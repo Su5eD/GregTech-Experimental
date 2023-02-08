@@ -1,0 +1,21 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:melon_slice"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "minecraft:melon_seeds"
+      }
+    }
+  ],
+  "tickCost": 100
+}

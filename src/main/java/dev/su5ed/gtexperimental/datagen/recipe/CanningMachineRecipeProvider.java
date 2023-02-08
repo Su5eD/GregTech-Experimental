@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.datagen.recipe;
 import dev.ftb.mods.ftbic.item.FTBICItems;
 import dev.ftb.mods.ftbic.item.FluidCellItem;
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.compat.IC2BaseMod;
 import dev.su5ed.gtexperimental.compat.ModHandler;
@@ -15,11 +16,11 @@ import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.recipe.gen.MIMORecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import dev.su5ed.gtexperimental.util.FluidProvider;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,7 +31,6 @@ import net.minecraftforge.fluids.FluidType;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.canningMachine;
@@ -83,22 +83,22 @@ public final class CanningMachineRecipeProvider implements ModRecipeProvider {
         // Classic
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.GRIN_POWDER), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), new ItemStack(Ic2Items.WEED_EX_CELL), 800, 1)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/ic2/weed_ex_cell"));
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/weed_ex_cell"));
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.COMPRESSED_PLANTS), ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FLUID_CELL), new ItemStack(Ic2Items.BIO_CELL), 100, 1)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/ic2/bio_cell"));
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/bio_cell"));
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.COMPRESSED_HYDRATED_COAL), ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FLUID_CELL), new ItemStack(Ic2Items.HYDRATED_COAL_CELL), 100, 1)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/ic2/hydrated_coal_cell"));
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/hydrated_coal_cell"));
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.BIOFUEL_CELL, 6), ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FUEL_CAN), IC2BaseMod.getFilledFuelCan(5208), new ItemStack(Ic2Items.EMPTY_CELL), 600, 1)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/ic2/filled_fuel_can_bioduel"));
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/filled_fuel_can_bioduel"));
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.COALFUEL_CELL, 6), ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FUEL_CAN), IC2BaseMod.getFilledFuelCan(15288), new ItemStack(Ic2Items.EMPTY_CELL), 600, 1)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/ic2/filled_fuel_can_coalfuel"));
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/filled_fuel_can_coalfuel"));
         canningMachine(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "uranium")), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), new ItemStack(Ic2Items.URANIUM_FUEL_ROD), 100, 2)
             .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/ic2/uranium_fuel_rod"));
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/uranium_fuel_rod"));
 
         // Experiences
 //        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.GRIN_POWDER), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), WEED_EX_FLUID_CELL, 800, 1)
@@ -106,7 +106,7 @@ public final class CanningMachineRecipeProvider implements ModRecipeProvider {
 //            .build(finishedRecipeConsumer, id("experimental/ic2/weed_ex_cell"));
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.URANIUM), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), new ItemStack(Ic2Items.URANIUM_FUEL_ROD), 100, 2)
             .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
-            .build(finishedRecipeConsumer, id("experimental/ic2/uranium_fuel_rod"));
+            .build(finishedRecipeConsumer, profileId("experimental", "ic2/uranium_fuel_rod"));
 
         // TODO Dynamic Fluid filling recipes
 //        canningMachine(ModRecipeIngredientTypes.ITEM.of(Miscellaneous.OIL_BERRY, 4), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), OIL_CELL, 100, 1)
@@ -122,12 +122,12 @@ public final class CanningMachineRecipeProvider implements ModRecipeProvider {
         ItemStack ic2Can = new ItemStack(Ic2Items.FILLED_TIN_CAN, canCount);
         canningMachine(List.of(input, ModRecipeIngredientTypes.ITEM.of(Ic2Items.TIN_CAN, canCount)), output.isEmpty() ? List.of(ic2Can) : List.of(ic2Can, output), duration, 1)
             .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, id(ModHandler.IC2_MODID, name));
+            .build(finishedRecipeConsumer, id(ModHandler.IC2_MODID + "/" + name));
 
         ItemStack ftbicCan = new ItemStack(FTBICItems.CANNED_FOOD.get(), canCount);
         canningMachine(List.of(input, ModRecipeIngredientTypes.ITEM.of(FTBICItems.EMPTY_CAN.item.get(), canCount)), output.isEmpty() ? List.of(ftbicCan) : List.of(ftbicCan, output), duration, 1)
             .addConditions(FTBIC_LOADED)
-            .build(finishedRecipeConsumer, id(ModHandler.FTBIC_MODID, name));
+            .build(finishedRecipeConsumer, id(ModHandler.FTBIC_MODID + "/" + name));
     }
 
     private static void fluidCellFilling(RecipeIngredient<ItemStack> input, FluidProvider output, Consumer<FinishedRecipe> finishedRecipeConsumer) {
@@ -145,7 +145,11 @@ public final class CanningMachineRecipeProvider implements ModRecipeProvider {
         return ModRecipeBuilders.canningMachine(primary, ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FLUID_CELL), output, duration, energyCost);
     }
 
-    private static ResourceLocation id(String... names) {
-        return location("canning_machine/" + String.join("/", names));
+    private static RecipeName id(String name) {
+        return profileId(null, name);
+    }
+
+    private static RecipeName profileId(String profile, String name) {
+        return RecipeName.profile(Reference.MODID, "canning_machine", profile, name);
     }
 }

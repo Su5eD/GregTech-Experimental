@@ -4,6 +4,7 @@ import dev.ftb.mods.ftbic.item.FTBICItems;
 import dev.ftb.mods.ftbic.world.ResourceElements;
 import dev.ftb.mods.ftbic.world.ResourceType;
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Ingot;
@@ -11,11 +12,11 @@ import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.object.Ore;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.TaggedItemProvider;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -27,7 +28,6 @@ import twilightforest.init.TFItems;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.pulverizer;
 
@@ -238,13 +238,13 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         // Classic
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_FUEL_CAN), Dust.TIN.getItemStack(7))
             .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, id("classic/ic2/empty_fuel_can")); // Overwrite
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/empty_fuel_can")); // Overwrite
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), Dust.TIN.getItemStack())
             .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, id("classic/ic2/empty_cell")); // Overwrite
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/empty_cell")); // Overwrite
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Ic2Items.PLANT_BALL), new ItemStack(Items.DIRT))
             .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, id("classic/ic2/plant_ball")); // Overwrite
+            .build(finishedRecipeConsumer, profileId("classic", "ic2/plant_ball")); // Overwrite
 
         // FTBIC
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Ore.IRIDIUM.getTag()), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.DUST).orElseThrow().get(), 2), Dust.PLATINUM.getItemStack())
@@ -283,7 +283,7 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
     }
 
     private static void simple(TagKey<Item> tag, ItemLike output, int count, Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        pulverizer(ModRecipeIngredientTypes.ITEM.of(tag), new ItemStack(output))
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(tag), new ItemStack(output, count))
             .build(finishedRecipeConsumer, id(GtUtil.tagName(tag)));
     }
 
@@ -304,7 +304,11 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id(GtUtil.tagName(tag))); // Overwrite
     }
 
-    private static ResourceLocation id(String name) {
-        return location("pulverizer/" + name);
+    private static RecipeName id(String name) {
+        return profileId(null, name);
+    }
+
+    private static RecipeName profileId(String profile, String name) {
+        return RecipeName.profile(Reference.MODID, "pulverizer", profile, name);
     }
 }

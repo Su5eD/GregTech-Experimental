@@ -1,0 +1,19 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "result": [
+    {
+      "count": 3,
+      "item": "gtexperimental:iron_smalldust"
+    }
+  ]
+}

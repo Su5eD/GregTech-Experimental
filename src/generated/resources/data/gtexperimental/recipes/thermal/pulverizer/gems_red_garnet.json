@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:gems/red_garnet"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:red_garnet_dust"
+    }
+  ]
+}

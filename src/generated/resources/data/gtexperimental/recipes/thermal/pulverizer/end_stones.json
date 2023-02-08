@@ -1,0 +1,21 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:end_stones"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:endstone_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:endstone_dust"
+    }
+  ]
+}

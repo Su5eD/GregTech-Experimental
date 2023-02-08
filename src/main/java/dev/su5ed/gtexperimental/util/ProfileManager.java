@@ -2,7 +2,9 @@ package dev.su5ed.gtexperimental.util;
 
 import dev.su5ed.gtexperimental.compat.ModHandler;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ProfileManager {
     public static final String LAYOUT = "layout";
@@ -12,6 +14,8 @@ public class ProfileManager {
     public static final String IRON_VARIANT = "iron_variant";
     public static final String REFINED_IRON_VARIANT = "refined_iron";
     public static final String REGULAR_IRON_VARIANT = "iron";
+    
+    public static final Set<String> KEYWORDS = Set.of(CLASSIC_LAYOUT, EXPERIMENTAL_LAYOUT, REFINED_IRON_VARIANT, REGULAR_IRON_VARIANT);
     
     private ModProfile profile = ModProfile.EXPERIMENTAL;
     private boolean isClassic;

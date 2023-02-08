@@ -1,12 +1,11 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.datagen.RecipeGen;
 import dev.su5ed.gtexperimental.recipe.gen.compat.InductionSmelterRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
-import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -20,7 +19,7 @@ public class AlloySmelterRecipeBuilder extends MISORecipeBuilder<ItemStack, Item
     }
 
     @Override
-    public void build(Consumer<FinishedRecipe> finishedRecipeConsumer, ResourceLocation recipeId, boolean universal) {
+    public void build(Consumer<FinishedRecipe> finishedRecipeConsumer, RecipeName recipeId, boolean universal) {
         super.build(finishedRecipeConsumer, recipeId, universal);
 
         if (universal) {
@@ -34,12 +33,13 @@ public class AlloySmelterRecipeBuilder extends MISORecipeBuilder<ItemStack, Item
                 200
             )
                 .unlockedBy("has_ingredient", RecipeGen.hasIngredient(ingredient))
-                .build(finishedRecipeConsumer, GtUtil.nestedId(recipeId, "smelting"));
+                .addConditions(this.conditions)
+                .build(finishedRecipeConsumer, recipeId.withType("smelting"));
 
             int energy = output.getCount() * 1000;
             new InductionSmelterRecipeBuilder(ingredient, List.of(output), energy)
                 .addConditions(this.conditions)
-                .build(finishedRecipeConsumer, GtUtil.nestedId(recipeId, "induction_smelter"));
+                .build(finishedRecipeConsumer, recipeId.toForeign(InductionSmelterRecipeBuilder.TYPE));
         }
     }
 }

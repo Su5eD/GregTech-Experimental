@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/lapis"
+  },
+  "result": [
+    {
+      "count": 12,
+      "item": "minecraft:lapis_lazuli"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:lazurite_dust"
+    }
+  ]
+}

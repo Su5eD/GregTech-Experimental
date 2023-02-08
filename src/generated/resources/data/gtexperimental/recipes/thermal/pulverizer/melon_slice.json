@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:melon_slice"
+  },
+  "result": [
+    {
+      "item": "minecraft:melon_seeds"
+    }
+  ]
+}

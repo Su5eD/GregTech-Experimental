@@ -112,12 +112,12 @@ public final class RecipeUtil {
         return fluid;
     }
 
-    public static ResourceLocation createId(ItemLike input, ItemStack output) {
-        return location("%s_to_%s".formatted(GtUtil.itemName(input), GtUtil.itemName(output)));
+    public static String createName(ItemLike input, ItemStack output) {
+        return "%s_to_%s".formatted(GtUtil.itemName(input), GtUtil.itemName(output));
     }
 
-    public static ResourceLocation createId(TagKey<Item> input, ItemStack output) {
-        return location("%s_to_%s".formatted(GtUtil.tagName(input), GtUtil.itemName(output)));
+    public static String createName(TagKey<Item> input, ItemStack output) {
+        return "%s_to_%s".formatted(GtUtil.tagName(input), GtUtil.itemName(output));
     }
 
     public static EntryStream<TagKey<Item>, Pair<TagKey<Item>, Item>> associateTags(String source, String dest) {

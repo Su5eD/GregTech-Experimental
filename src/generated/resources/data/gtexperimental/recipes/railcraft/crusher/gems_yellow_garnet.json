@@ -1,0 +1,21 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:gems/yellow_garnet"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "gtexperimental:yellow_garnet_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

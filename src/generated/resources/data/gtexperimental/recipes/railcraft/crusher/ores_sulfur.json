@@ -1,0 +1,28 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/sulfur"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 8,
+        "item": "gtexperimental:sulfur_dust"
+      }
+    },
+    {
+      "probability": 0.1,
+      "stack": {
+        "item": "gtexperimental:sulfur_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

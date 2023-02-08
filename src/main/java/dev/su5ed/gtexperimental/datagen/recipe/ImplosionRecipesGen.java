@@ -2,22 +2,20 @@ package dev.su5ed.gtexperimental.datagen.recipe;
 
 import dev.ftb.mods.ftbic.item.FTBICItems;
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_IC2_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.implosion;
 
 public final class ImplosionRecipesGen implements ModRecipeProvider {
@@ -66,7 +64,7 @@ public final class ImplosionRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id("ftbic/iridium_alloy"));
     }
 
-    private static ResourceLocation id(String name) {
-        return location("implosion/" + name);
+    private static RecipeName id(String name) {
+        return RecipeName.common(Reference.MODID, "implosion", name);
     }
 }

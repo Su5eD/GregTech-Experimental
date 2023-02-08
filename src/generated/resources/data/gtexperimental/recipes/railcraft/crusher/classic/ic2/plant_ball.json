@@ -1,0 +1,25 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "item": "ic2:plant_ball"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "minecraft:dirt"
+      }
+    }
+  ],
+  "tickCost": 100
+}

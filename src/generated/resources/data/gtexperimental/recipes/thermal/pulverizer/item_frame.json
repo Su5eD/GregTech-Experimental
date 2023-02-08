@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:item_frame"
+  },
+  "result": [
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "chance": 0.95,
+      "count": 4,
+      "item": "gtexperimental:wood_dust"
+    }
+  ]
+}

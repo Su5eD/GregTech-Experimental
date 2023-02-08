@@ -1,0 +1,21 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:coal"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "gtexperimental:coal_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

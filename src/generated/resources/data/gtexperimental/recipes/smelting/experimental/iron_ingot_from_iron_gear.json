@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:smelting",
+  "conditions": [
+    {
+      "type": "gtexperimental:selected_profile",
+      "properties": {
+        "layout": "experimental"
+      }
+    }
+  ],
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "gtexperimental:iron_gear"
+  },
+  "result": {
+    "count": 6,
+    "item": "minecraft:iron_ingot"
+  }
+}

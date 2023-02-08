@@ -1,0 +1,32 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": [
+    {
+      "tag": "forge:stone/basalt"
+    },
+    {
+      "tag": "forge:stone/abyssal"
+    }
+  ],
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "gtexperimental:basalt_dust"
+      }
+    },
+    {
+      "probability": 0.1,
+      "stack": {
+        "item": "gtexperimental:basalt_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

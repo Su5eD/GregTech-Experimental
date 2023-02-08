@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ingots/manganese"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:manganese_dust"
+    }
+  ]
+}

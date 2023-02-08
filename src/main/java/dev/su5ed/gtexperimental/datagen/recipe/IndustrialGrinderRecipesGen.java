@@ -4,6 +4,7 @@ import dev.ftb.mods.ftbic.item.FTBICItems;
 import dev.ftb.mods.ftbic.world.ResourceElements;
 import dev.ftb.mods.ftbic.world.ResourceType;
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
@@ -12,10 +13,10 @@ import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Ore;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
@@ -24,10 +25,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_IC2_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.industrialGrinder;
 import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
@@ -139,7 +137,7 @@ public final class IndustrialGrinderRecipesGen implements ModRecipeProvider {
         // Classic
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ores", "uranium")), WATER, Dust.URANIUM.getItemStack(2), Smalldust.PLUTONIUM.getItemStack(2), Dust.THORIUM.getItemStack())
             .addConditions(SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, id("classic/uranium_ore"));
+            .build(finishedRecipeConsumer, profileId("classic", "uranium_ore"));
 
         // IC2
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Tags.Items.ORES_IRON), WATER, new ItemStack(Ic2Items.IRON_DUST, 2), Smalldust.TIN.getItemStack(), Smalldust.NICKEL.getItemStack())
@@ -194,7 +192,7 @@ public final class IndustrialGrinderRecipesGen implements ModRecipeProvider {
         // Experimental
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ores", "uranium")), WATER, new ItemStack(Ic2Items.PURIFIED_URANIUM, 2), Smalldust.PLUTONIUM.getItemStack(2), Dust.THORIUM.getItemStack())
             .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
-            .build(finishedRecipeConsumer, id("experimental/ic2/uranium_ore"));
+            .build(finishedRecipeConsumer, profileId("experimental", "ic2/uranium_ore"));
 
         // FTBIC
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(Tags.Items.ORES_IRON), WATER, new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRON, ResourceType.DUST).orElseThrow().get(), 2), Smalldust.TIN.getItemStack(), Smalldust.NICKEL.getItemStack())
@@ -255,7 +253,11 @@ public final class IndustrialGrinderRecipesGen implements ModRecipeProvider {
 //            .build(finishedRecipeConsumer, id("monazite_ore"));
     }
 
-    private static ResourceLocation id(String name) {
-        return location("industrial_grinder/" + name);
+    private static RecipeName id(String name) {
+        return profileId(null, name);
+    }
+
+    private static RecipeName profileId(String profile, String name) {
+        return RecipeName.profile(Reference.MODID, "industrial_grinder", profile, name);
     }
 }

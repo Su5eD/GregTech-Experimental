@@ -1,21 +1,21 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
 import dev.ftb.mods.ftbic.item.FTBICItems;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.compat.DamagedIC2ReactorComponentIngredient;
 import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.NuclearCoolantPack;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.vacuumFreezerFluid;
@@ -73,11 +73,11 @@ public final class VacuumFreezerRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, solidId(GtUtil.itemName(item)));
     }
 
-    private static ResourceLocation solidId(String name) {
-        return location("vacuum_freezer_solid/" + name);
+    private static RecipeName solidId(String name) {
+        return RecipeName.common(Reference.MODID, "vacuum_freezer_solid", name);
     }
 
-    private static ResourceLocation fluidId(String name) {
-        return location("vacuum_freezer_fluid/" + name);
+    private static RecipeName fluidId(String name) {
+        return RecipeName.common(Reference.MODID, "vacuum_freezer_fluid", name);
     }
 }

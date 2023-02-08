@@ -1,0 +1,29 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/steel"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 2,
+        "item": "gtexperimental:steel_dust"
+      }
+    },
+    {
+      "probability": 0.1,
+      "stack": {
+        "count": 2,
+        "item": "gtexperimental:nickel_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

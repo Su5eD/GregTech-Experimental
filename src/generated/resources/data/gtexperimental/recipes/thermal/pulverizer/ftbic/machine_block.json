@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "ingredient": {
+    "item": "ftbic:machine_block"
+  },
+  "result": [
+    {
+      "count": 8,
+      "item": "gtexperimental:iron_dust"
+    }
+  ]
+}

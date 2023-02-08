@@ -1,0 +1,17 @@
+{
+  "type": "railcraft:blast_furnace",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "cookingTime": 100,
+  "ingredient": {
+    "tag": "forge:dusts/steel"
+  },
+  "result": {
+    "item": "gtexperimental:steel_ingot"
+  },
+  "slagOutput": 0
+}

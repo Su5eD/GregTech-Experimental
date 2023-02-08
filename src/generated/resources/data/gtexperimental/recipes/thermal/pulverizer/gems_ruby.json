@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:gems/ruby"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:ruby_dust"
+    }
+  ]
+}

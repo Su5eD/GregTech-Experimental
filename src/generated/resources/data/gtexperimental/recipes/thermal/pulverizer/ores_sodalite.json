@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/sodalite"
+  },
+  "result": [
+    {
+      "count": 12,
+      "item": "gtexperimental:sodalite_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:aluminium_dust"
+    }
+  ]
+}

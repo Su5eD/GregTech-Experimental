@@ -1,0 +1,28 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:item_frame"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "minecraft:leather"
+      }
+    },
+    {
+      "probability": 0.9500000000000001,
+      "stack": {
+        "count": 4,
+        "item": "gtexperimental:wood_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

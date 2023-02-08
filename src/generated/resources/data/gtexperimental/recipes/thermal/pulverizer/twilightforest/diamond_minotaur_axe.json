@@ -1,0 +1,25 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "ingredient": {
+    "item": "twilightforest:diamond_minotaur_axe"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:diamond_dust"
+    },
+    {
+      "chance": 0.5,
+      "item": "gtexperimental:wood_dust"
+    }
+  ]
+}

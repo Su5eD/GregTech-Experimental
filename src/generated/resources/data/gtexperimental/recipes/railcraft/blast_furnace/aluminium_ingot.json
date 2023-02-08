@@ -1,0 +1,17 @@
+{
+  "type": "railcraft:blast_furnace",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "cookingTime": 200,
+  "ingredient": {
+    "tag": "forge:dusts/aluminium"
+  },
+  "result": {
+    "item": "gtexperimental:aluminium_ingot"
+  },
+  "slagOutput": 0
+}

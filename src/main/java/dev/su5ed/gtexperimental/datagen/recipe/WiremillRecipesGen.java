@@ -2,21 +2,21 @@ package dev.su5ed.gtexperimental.datagen.recipe;
 
 import dev.ftb.mods.ftbic.item.FTBICItems;
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.wiremill;
 
@@ -56,12 +56,12 @@ public final class WiremillRecipesGen implements ModRecipeProvider {
         // Regular Iron
         wiremill(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_IRON), new ItemStack(Ic2Items.IRON_CABLE, 6), 200, 2)
             .addConditions(IC2_LOADED, SelectedProfileCondition.REGULAR_IRON)
-            .build(finishedRecipeConsumer, id("regular_iron/iron_cable"));
+            .build(finishedRecipeConsumer, profileId("regular_iron", "iron_cable"));
 
         // Refined Iron
         wiremill(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ingot("refined_iron")), new ItemStack(Ic2Items.IRON_CABLE, 6), 200, 2)
             .addConditions(IC2_LOADED, SelectedProfileCondition.REFINED_IRON)
-            .build(finishedRecipeConsumer, id("refined_iron/iron_cable"));
+            .build(finishedRecipeConsumer, profileId("refined_iron", "iron_cable"));
 
         // FTBIC
         wiremill(ModRecipeIngredientTypes.ITEM.of(Dust.COAL.getTag(), 4), new ItemStack(FTBICItems.CARBON_FIBERS.item.get()), 400, 2)
@@ -69,7 +69,11 @@ public final class WiremillRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id("ftbic/carbon_fibre"));
     }
 
-    private static ResourceLocation id(String name) {
-        return location("wiremill/" + name);
+    private static RecipeName id(String name) {
+        return profileId(null, name);
+    }
+
+    private static RecipeName profileId(String profile, String name) {
+        return RecipeName.profile(Reference.MODID, "wiremill", profile, name);
     }
 }

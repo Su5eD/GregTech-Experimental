@@ -1,0 +1,26 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": [
+    {
+      "tag": "forge:stone/marble"
+    },
+    {
+      "tag": "forge:stone/quarried"
+    }
+  ],
+  "result": [
+    {
+      "item": "gtexperimental:marble_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:marble_dust"
+    }
+  ]
+}

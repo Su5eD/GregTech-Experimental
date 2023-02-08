@@ -1,0 +1,26 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "ingredient": {
+    "item": "gtexperimental:iridium_gear"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 6,
+        "item": "ftbic:iridium_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

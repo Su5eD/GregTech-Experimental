@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/lead"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "gtexperimental:lead_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:silver_dust"
+    }
+  ]
+}

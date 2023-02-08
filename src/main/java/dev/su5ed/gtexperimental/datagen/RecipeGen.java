@@ -50,6 +50,8 @@ public class RecipeGen extends RecipeProvider {
     public static final ICondition MYRTREES_LOADED = new ModLoadedCondition(ModHandler.MYRTREES_MODID);
     public static final ICondition TWILIGHT_FOREST_LOADED = new ModLoadedCondition(ModHandler.TWILIGHT_FOREST_MODID);
     public static final ICondition THERMAL_LOADED = new ModLoadedCondition(ModHandler.THERMAL_MODID);
+    public static final ICondition RAILCRAFT_LOADED = new ModLoadedCondition(ModHandler.RAILCRAFT_MODID);
+    public static final ICondition NOT_RAILCRAFT_LOADED = new NotCondition(RAILCRAFT_LOADED);
 
     public RecipeGen(DataGenerator generator) {
         super(generator);

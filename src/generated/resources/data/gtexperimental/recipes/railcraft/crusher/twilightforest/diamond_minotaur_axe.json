@@ -1,0 +1,31 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "ingredient": {
+    "item": "twilightforest:diamond_minotaur_axe"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "gtexperimental:diamond_dust"
+      }
+    },
+    {
+      "probability": 0.5,
+      "stack": {
+        "item": "gtexperimental:wood_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

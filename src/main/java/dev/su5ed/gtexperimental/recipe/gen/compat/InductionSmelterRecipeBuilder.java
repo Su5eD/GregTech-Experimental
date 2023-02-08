@@ -10,13 +10,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 
 import java.util.List;
 
 public class InductionSmelterRecipeBuilder extends BaseRecipeBuilder {
-    private static final ResourceLocation TYPE = new ResourceLocation(ModHandler.THERMAL_MODID, "smelter");
+    public static final ResourceLocation TYPE = new ResourceLocation(ModHandler.THERMAL_MODID, "smelter");
 
     private final Ingredient ingredient;
     private final List<ItemStack> result;

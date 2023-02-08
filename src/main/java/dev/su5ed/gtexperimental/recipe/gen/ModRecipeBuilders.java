@@ -144,7 +144,7 @@ public final class ModRecipeBuilders {
 
     public static MIMORecipeBuilder blastFurnace(List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, int duration, int heat) {
         MIMORecipe recipe = new BlastFurnaceRecipe(null, inputs, outputs, duration, heat);
-        return new MIMORecipeBuilder(recipe);
+        return new BlastFurnaceRecipeBuilder(recipe);
     }
 
     public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, int duration) {
@@ -245,8 +245,8 @@ public final class ModRecipeBuilders {
     }
 
     public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, double energyCost, int chance) {
-        SIMORecipe<ItemStack> recipe = new PulverizerRecipe(null, input, outputs, energyCost, chance);
-        return new SIMORecipeBuilder<>(recipe);
+        PulverizerRecipe recipe = new PulverizerRecipe(null, input, outputs, energyCost, chance);
+        return new PulverizerRecipeBuilder(recipe);
     }
 
     public static IFMORecipeBuilder industrialSawmill(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, ItemStack first, ItemStack second) {
@@ -255,7 +255,7 @@ public final class ModRecipeBuilders {
 
     public static IFMORecipeBuilder industrialSawmill(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
         IFMORecipe recipe = new IndustrialSawmillRecipe(null, input, fluid, output);
-        return new IFMORecipeBuilder(recipe);
+        return new SawmillRecipeBuilder(recipe);
     }
 
     public static SISORecipeBuilder<ItemStack> vacuumFreezerSolid(RecipeIngredient<ItemStack> input, ItemStack output, int duration) {

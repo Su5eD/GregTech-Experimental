@@ -1,0 +1,22 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "item": "gtexperimental:titanium_hull"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 6,
+        "item": "gtexperimental:titanium_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

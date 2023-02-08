@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -56,13 +57,14 @@ public class SmeltingRecipeBuilder extends BaseRecipeBuilder {
     }
 
     @Override
-    public void build(Consumer<FinishedRecipe> finishedRecipeConsumer, ResourceLocation recipeId, boolean universal) {
+    public void build(Consumer<FinishedRecipe> finishedRecipeConsumer, RecipeName recipeId, boolean universal) {
         ensureValid(recipeId);
+        ResourceLocation location = recipeId.toLocation();
         this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
-            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
-            .rewards(AdvancementRewards.Builder.recipe(recipeId))
+            .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(location))
+            .rewards(AdvancementRewards.Builder.recipe(location))
             .requirements(RequirementsStrategy.OR);
-        finishedRecipeConsumer.accept(new SmeltingResult(recipeId));
+        finishedRecipeConsumer.accept(new SmeltingResult(location));
     }
 
     @Nullable
@@ -71,7 +73,7 @@ public class SmeltingRecipeBuilder extends BaseRecipeBuilder {
         return this.advancement.serializeToJson();
     }
 
-    private void ensureValid(ResourceLocation id) {
+    private void ensureValid(Object id) {
         if (this.advancement.getCriteria().isEmpty()) {
             throw new IllegalStateException("No way of obtaining recipe " + id);
         }

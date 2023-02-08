@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/olivine"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "gtexperimental:olivine_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:emerald_dust"
+    }
+  ]
+}

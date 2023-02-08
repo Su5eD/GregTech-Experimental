@@ -1,0 +1,17 @@
+{
+  "type": "railcraft:blast_furnace",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "cookingTime": 2000,
+  "ingredient": {
+    "tag": "forge:dusts/tungsten"
+  },
+  "result": {
+    "item": "gtexperimental:tungsten_ingot"
+  },
+  "slagOutput": 0
+}

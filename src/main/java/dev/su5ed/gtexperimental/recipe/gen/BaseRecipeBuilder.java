@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.google.gson.JsonObject;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -49,12 +50,12 @@ public abstract class BaseRecipeBuilder {
         }
     }
 
-    public void build(Consumer<FinishedRecipe> finishedRecipeConsumer, ResourceLocation recipeId) {
+    public void build(Consumer<FinishedRecipe> finishedRecipeConsumer, RecipeName recipeId) {
         build(finishedRecipeConsumer, recipeId, false);
     }
 
-    public void build(Consumer<FinishedRecipe> finishedRecipeConsumer, ResourceLocation recipeId, boolean universal) {
-        BaseFinishedRecipe finishedRecipe = new BaseFinishedRecipe(recipeId);
+    public void build(Consumer<FinishedRecipe> finishedRecipeConsumer, RecipeName recipeId, boolean universal) {
+        BaseFinishedRecipe finishedRecipe = new BaseFinishedRecipe(recipeId.toLocation());
         finishedRecipeConsumer.accept(finishedRecipe);
     }
 

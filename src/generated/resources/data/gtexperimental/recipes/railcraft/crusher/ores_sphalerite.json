@@ -1,0 +1,28 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/sphalerite"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 3,
+        "item": "gtexperimental:sphalerite_dust"
+      }
+    },
+    {
+      "probability": 0.1,
+      "stack": {
+        "item": "gtexperimental:zinc_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

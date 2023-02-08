@@ -1,0 +1,26 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "ingredient": {
+    "item": "twilightforest:liveroot"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "minecraft:stick"
+    },
+    {
+      "chance": 0.3,
+      "item": "minecraft:stick"
+    }
+  ]
+}

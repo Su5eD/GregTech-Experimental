@@ -1,0 +1,28 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/quartz"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 3,
+        "item": "minecraft:quartz"
+      }
+    },
+    {
+      "probability": 0.1,
+      "stack": {
+        "item": "gtexperimental:netherrack_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

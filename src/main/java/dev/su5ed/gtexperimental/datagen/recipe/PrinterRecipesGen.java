@@ -1,16 +1,16 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.printer;
 
 public final class PrinterRecipesGen implements ModRecipeProvider {
@@ -28,7 +28,7 @@ public final class PrinterRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id("map"));
     }
 
-    private static ResourceLocation id(String name) {
-        return location("printer/" + name);
+    private static RecipeName id(String name) {
+        return RecipeName.common(Reference.MODID, "printer", name);
     }
 }

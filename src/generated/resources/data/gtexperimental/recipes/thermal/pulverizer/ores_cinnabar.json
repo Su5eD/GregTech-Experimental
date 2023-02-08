@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/cinnabar"
+  },
+  "result": [
+    {
+      "count": 3,
+      "item": "gtexperimental:cinnabar_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "minecraft:redstone"
+    }
+  ]
+}

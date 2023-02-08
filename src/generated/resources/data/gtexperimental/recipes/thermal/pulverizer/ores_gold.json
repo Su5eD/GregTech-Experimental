@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/gold"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "gtexperimental:gold_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:copper_dust"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:melon"
+  },
+  "result": [
+    {
+      "count": 8,
+      "item": "minecraft:melon"
+    },
+    {
+      "chance": 0.8,
+      "item": "minecraft:melon_seeds"
+    }
+  ]
+}

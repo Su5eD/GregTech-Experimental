@@ -1,0 +1,22 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:iron_bars"
+  },
+  "output": [
+    {
+      "probability": 0.5,
+      "stack": {
+        "count": 3,
+        "item": "gtexperimental:iron_smalldust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

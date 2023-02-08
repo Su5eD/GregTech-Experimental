@@ -1,0 +1,32 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": [
+    {
+      "tag": "forge:stone/marble"
+    },
+    {
+      "tag": "forge:stone/quarried"
+    }
+  ],
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "gtexperimental:marble_dust"
+      }
+    },
+    {
+      "probability": 0.1,
+      "stack": {
+        "item": "gtexperimental:marble_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

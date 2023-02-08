@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/sphalerite"
+  },
+  "result": [
+    {
+      "count": 3,
+      "item": "gtexperimental:sphalerite_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:zinc_dust"
+    }
+  ]
+}

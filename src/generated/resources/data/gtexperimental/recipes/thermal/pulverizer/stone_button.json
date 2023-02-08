@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:stone_button"
+  },
+  "result": [
+    {
+      "item": "minecraft:sand"
+    }
+  ]
+}

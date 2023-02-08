@@ -1,0 +1,15 @@
+{
+  "type": "ic2:macerator",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "tag": "minecraft:wooden_buttons"
+  },
+  "result": {
+    "item": "gtexperimental:wood_dust"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/galena"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "gtexperimental:galena_dust"
+    },
+    {
+      "chance": 0.5,
+      "item": "gtexperimental:sulfur_dust"
+    }
+  ]
+}

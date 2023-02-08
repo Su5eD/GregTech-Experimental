@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:gems/green_sapphire"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:green_sapphire_dust"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "item": "ic2:plant_ball"
+  },
+  "result": [
+    {
+      "item": "minecraft:dirt"
+    }
+  ]
+}

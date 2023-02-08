@@ -1,15 +1,15 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.lathe;
 
 public final class LatheRecipesGen implements ModRecipeProvider {
@@ -23,7 +23,7 @@ public final class LatheRecipesGen implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id("planks"));
     }
 
-    private static ResourceLocation id(String name) {
-        return location("lathe/" + name);
+    private static RecipeName id(String name) {
+        return RecipeName.common(Reference.MODID, "lathe", name);
     }
 }

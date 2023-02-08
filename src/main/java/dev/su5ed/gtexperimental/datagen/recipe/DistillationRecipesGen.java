@@ -1,13 +1,13 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.distillation;
 import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
@@ -43,7 +43,7 @@ public final class DistillationRecipesGen implements ModRecipeProvider {
 //            .build(finishedRecipeConsumer, id("forestry/biomass"));
     }
 
-    private static ResourceLocation id(String name) {
-        return location("distillation/" + name);
+    private static RecipeName id(String name) {
+        return RecipeName.common(Reference.MODID, "distillation", name);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:redstone_lamp"
+  },
+  "result": [
+    {
+      "count": 4,
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "chance": 0.9,
+      "count": 4,
+      "item": "minecraft:redstone"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:red_sandstone"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:redrock_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:redrock_dust"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "ic2:macerator",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "any": [
+      {
+        "tag": "forge:stone/marble"
+      },
+      {
+        "tag": "forge:stone/quarried"
+      }
+    ]
+  },
+  "result": {
+    "item": "gtexperimental:marble_dust"
+  }
+}

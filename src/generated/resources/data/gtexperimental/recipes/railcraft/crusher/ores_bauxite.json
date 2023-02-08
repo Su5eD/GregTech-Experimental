@@ -1,0 +1,28 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/bauxite"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 4,
+        "item": "gtexperimental:bauxite_dust"
+      }
+    },
+    {
+      "probability": 0.1,
+      "stack": {
+        "item": "gtexperimental:aluminium_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

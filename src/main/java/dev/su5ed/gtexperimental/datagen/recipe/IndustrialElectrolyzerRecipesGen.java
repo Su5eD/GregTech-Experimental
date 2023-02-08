@@ -4,14 +4,15 @@ import dev.ftb.mods.ftbic.item.FTBICItems;
 import dev.ftb.mods.ftbic.world.ResourceElements;
 import dev.ftb.mods.ftbic.world.ResourceType;
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import ic2.core.ref.Ic2Fluids;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,10 +21,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_IC2_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.industrialElectrolyzer;
 import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
@@ -185,7 +183,11 @@ public final class IndustrialElectrolyzerRecipesGen implements ModRecipeProvider
             .build(finishedRecipeConsumer, id("ftbic/sand"));
     }
 
-    private static ResourceLocation id(String name) {
-        return location("industrial_electrolyzer/" + name);
+    private static RecipeName id(String name) {
+        return profileId(null, name);
+    }
+
+    private static RecipeName profileId(String profile, String name) {
+        return RecipeName.profile(Reference.MODID, "industrial_electrolyzer", profile, name);
     }
 }

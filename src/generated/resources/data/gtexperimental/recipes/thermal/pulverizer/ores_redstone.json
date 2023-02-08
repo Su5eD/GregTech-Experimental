@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/redstone"
+  },
+  "result": [
+    {
+      "count": 10,
+      "item": "minecraft:redstone"
+    },
+    {
+      "chance": 0.1,
+      "item": "minecraft:glowstone_dust"
+    }
+  ]
+}

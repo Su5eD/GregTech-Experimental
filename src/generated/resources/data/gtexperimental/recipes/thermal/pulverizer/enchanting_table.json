@@ -1,0 +1,23 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:enchanting_table"
+  },
+  "result": [
+    {
+      "count": 2,
+      "item": "gtexperimental:diamond_dust"
+    },
+    {
+      "chance": 0.95,
+      "count": 4,
+      "item": "gtexperimental:obsidian_dust"
+    }
+  ]
+}

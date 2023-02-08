@@ -1,0 +1,16 @@
+{
+  "type": "ic2:macerator",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "item": "ic2:empty_fuel_can"
+  },
+  "result": {
+    "count": 7,
+    "item": "gtexperimental:tin_dust"
+  }
+}

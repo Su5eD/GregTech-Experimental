@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/bauxite"
+  },
+  "result": [
+    {
+      "count": 4,
+      "item": "gtexperimental:bauxite_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:aluminium_dust"
+    }
+  ]
+}

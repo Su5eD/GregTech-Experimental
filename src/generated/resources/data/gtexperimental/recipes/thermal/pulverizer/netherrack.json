@@ -1,0 +1,21 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:netherrack"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:netherrack_dust"
+    },
+    {
+      "chance": 0.1,
+      "item": "gtexperimental:netherrack_dust"
+    }
+  ]
+}

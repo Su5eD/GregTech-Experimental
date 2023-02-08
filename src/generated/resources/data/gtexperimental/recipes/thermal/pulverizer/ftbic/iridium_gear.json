@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "ingredient": {
+    "item": "gtexperimental:iridium_gear"
+  },
+  "result": [
+    {
+      "count": 6,
+      "item": "ftbic:iridium_dust"
+    }
+  ]
+}

@@ -190,9 +190,20 @@ public final class GtUtil {
     public static String registryName(String... names) {
         return String.join("_", names);
     }
-    
+
     public static ResourceLocation prefixedId(ResourceLocation location, String prefix) {
         return new ResourceLocation(location.getNamespace(), prefix + "/" + location.getPath());
+    }
+
+    public static ResourceLocation flatId(ResourceLocation location, String folder) {
+        String path = location.getPath();
+        int idx = path.lastIndexOf('/');
+        String pathFile = path.substring(idx);
+        String newPath = StreamEx.of(ProfileManager.KEYWORDS)
+            .findFirst(str -> path.contains("/" + str + "/"))
+            .map(str -> folder + "/" + str + pathFile)
+            .orElseGet(() -> folder + pathFile);
+        return new ResourceLocation(location.getNamespace(), newPath);
     }
 
     public static ResourceLocation nestedId(ResourceLocation location, String folder) {

@@ -1,0 +1,21 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:gems/red_garnet"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "item": "gtexperimental:red_garnet_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

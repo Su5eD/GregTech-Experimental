@@ -1,0 +1,28 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/green_sapphire"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "stack": {
+        "count": 2,
+        "item": "gtexperimental:green_sapphire_dust"
+      }
+    },
+    {
+      "probability": 0.1,
+      "stack": {
+        "item": "gtexperimental:sapphire_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

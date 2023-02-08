@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:wheat"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:flour"
+    }
+  ]
+}

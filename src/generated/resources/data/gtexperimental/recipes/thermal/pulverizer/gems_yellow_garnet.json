@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:gems/yellow_garnet"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:yellow_garnet_dust"
+    }
+  ]
+}

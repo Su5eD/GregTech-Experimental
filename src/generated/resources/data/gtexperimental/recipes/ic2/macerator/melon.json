@@ -1,0 +1,16 @@
+{
+  "type": "ic2:macerator",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:melon"
+  },
+  "result": {
+    "count": 8,
+    "item": "minecraft:melon"
+  }
+}
