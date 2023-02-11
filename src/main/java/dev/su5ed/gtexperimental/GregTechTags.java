@@ -49,6 +49,7 @@ public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_1 = itemTag("crafting/raw_machine_tier_1");
     public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_2 = itemTag("crafting/raw_machine_tier_2");
     public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_3 = itemTag("crafting/raw_machine_tier_3");
+    public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_4 = itemTag("crafting/raw_machine_tier_4"); // TODO
 
     public static final TagKey<Item> CRAFTING_BRONZE_TURBINE_BLADE = itemTag("crafting/bronze_turbine_blade");
     public static final TagKey<Item> CRAFTING_CARBON_TURBINE_BLADE = itemTag("crafting/carbon_turbine_blade");
@@ -70,6 +71,7 @@ public final class GregTechTags {
     public static final TagKey<Item> CIRCUIT_TIER_0 = itemTag("circuit_tier_0");
     public static final TagKey<Item> CIRCUIT_TIER_5 = itemTag("circuit_tier_5");
     public static final TagKey<Item> CIRCUIT_TIER_6 = itemTag("circuit_tier_6");
+    public static final TagKey<Item> CIRCUIT_TIER_7 = itemTag("circuit_tier_7");
     public static final TagKey<Item> CIRCUIT_TIER_8 = itemTag("circuit_tier_8");
 
     public static final TagKey<Item> CRAFTING_WORK_DETECTOR = itemTag("crafting/work_detector");
@@ -151,6 +153,11 @@ public final class GregTechTags {
     public static final TagKey<Item> PUMP = itemTag("pump");
     public static final TagKey<Item> ENERGY_CRYSTAL = itemTag("energy_crystal");
     public static final TagKey<Item> OIL_SAND = itemTag("oil_sand");
+    public static final TagKey<Item> LAPPACK = itemTag("lappack"); // TODO
+    public static final TagKey<Item> BATPACK = itemTag("batpack");
+    public static final TagKey<Item> SOLAR_HELMET = itemTag("solar_helmet");
+    public static final TagKey<Item> ILLUMINATOR_FLAT = itemTag("illuminator");
+    public static final TagKey<Item> IRIDIUM_NEUTRON_REFLECTOR = itemTag("illuminator");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");

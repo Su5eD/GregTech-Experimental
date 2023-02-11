@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "gtexperimental:chrome_plate"
+    },
+    "M": {
+      "tag": "gtexperimental:crafting/raw_machine_tier_2"
+    },
+    "T": {
+      "item": "gtexperimental:titanium_plate"
+    }
+  },
+  "pattern": [
+    "CTC",
+    "TMT",
+    "CTC"
+  ],
+  "result": {
+    "item": "gtexperimental:highly_advanced_machine_block"
+  }
+}

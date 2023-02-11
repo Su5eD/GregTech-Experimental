@@ -7,7 +7,6 @@
     }
   ],
   "duration": 300,
-  "energyCost": 128.0,
   "input": {
     "value": {
       "type": "gtexperimental:damaged_ic2_reactor_component",

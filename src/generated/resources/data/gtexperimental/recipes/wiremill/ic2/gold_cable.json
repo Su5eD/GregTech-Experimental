@@ -7,7 +7,7 @@
     }
   ],
   "duration": 200,
-  "energyCost": 1.0,
+  "energy_cost": 1.0,
   "input": {
     "value": {
       "tag": "forge:ingots/gold"

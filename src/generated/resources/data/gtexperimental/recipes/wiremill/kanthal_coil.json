@@ -1,7 +1,7 @@
 {
   "type": "gtexperimental:wiremill",
   "duration": 450,
-  "energyCost": 12.0,
+  "energy_cost": 12.0,
   "input": {
     "count": 4,
     "value": {

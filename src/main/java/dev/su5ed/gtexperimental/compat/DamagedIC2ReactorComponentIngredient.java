@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.compat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
 import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredient;
 import ic2.api.reactor.IReactorComponent;
 import net.minecraft.network.FriendlyByteBuf;
@@ -15,6 +16,7 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
@@ -22,7 +24,11 @@ import static dev.su5ed.gtexperimental.api.Reference.location;
 public class DamagedIC2ReactorComponentIngredient extends AbstractIngredient {
 
     public DamagedIC2ReactorComponentIngredient(ItemStack stack) {
-        super(Stream.of(new ItemValue(stack)));
+        this(Stream.of(new ItemValue(stack)));
+    }
+
+    private DamagedIC2ReactorComponentIngredient(Stream<? extends Value> values) {
+        super(values);
     }
 
     @Override
@@ -66,17 +72,17 @@ public class DamagedIC2ReactorComponentIngredient extends AbstractIngredient {
 
         @Override
         public DamagedIC2ReactorComponentIngredient parse(FriendlyByteBuf buffer) {
-            return (DamagedIC2ReactorComponentIngredient) Ingredient.fromNetwork(buffer);
+            return new DamagedIC2ReactorComponentIngredient(RecipeUtil.ingredientFromNetwork(buffer));
         }
 
         @Override
         public DamagedIC2ReactorComponentIngredient parse(JsonObject json) {
-            return (DamagedIC2ReactorComponentIngredient) Ingredient.fromJson(json);
+            return new DamagedIC2ReactorComponentIngredient(RecipeUtil.ingredientFromJson(json));
         }
 
         @Override
         public void write(FriendlyByteBuf buffer, DamagedIC2ReactorComponentIngredient ingredient) {
-            ingredient.toNetwork(buffer);
+            buffer.writeCollection(List.of(ingredient.getItems()), FriendlyByteBuf::writeItem);
         }
     }
 }

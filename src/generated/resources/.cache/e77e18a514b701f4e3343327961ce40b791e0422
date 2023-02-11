@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-07T21:30:03.8097854	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-11T12:26:46.3204423	Gregtech ExperimentalTags for minecraft:item
 4d2ce2bc79bf4511cae3261bc7b03e37f53e3979 data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -316,9 +316,9 @@ d1b73b33b83b5672addac294fd2401d47d4ecb0a data/gtexperimental/tags/items/circuit.
 0fd1bd28e03403f6635c90b6e7b9d06c8e1203f7 data/gtexperimental/tags/items/circuit_board_tier_2.json
 53649ebcfc4a49fbb6c2ca72a1020c75a9063287 data/gtexperimental/tags/items/circuit_board_tier_4.json
 4d7d7cfa318d718348bb173fc6f298774f3c6232 data/gtexperimental/tags/items/circuit_board_tier_6.json
-78b769a8e3b2c48d2eedd9912cedd778f536abfd data/gtexperimental/tags/items/circuit_tier_0.json
 ba7ca26622a88198bba0bb93b2d3930e37dc3904 data/gtexperimental/tags/items/circuit_tier_5.json
 597e29aa380ef521e04c003b90441d0bb794f7f9 data/gtexperimental/tags/items/circuit_tier_6.json
+78b769a8e3b2c48d2eedd9912cedd778f536abfd data/gtexperimental/tags/items/circuit_tier_7.json
 cc329b783965ab17517b69ee82c4ad61e692537c data/gtexperimental/tags/items/circuit_tier_8.json
 c57b4b82e9a3949109fa7e75cc1e235c4b7b9390 data/gtexperimental/tags/items/coal_ball.json
 ee49f7b30e03f0b551b063b6e84401ca8ef2ab42 data/gtexperimental/tags/items/coal_chunk.json

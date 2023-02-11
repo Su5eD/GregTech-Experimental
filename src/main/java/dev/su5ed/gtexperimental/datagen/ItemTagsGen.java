@@ -20,6 +20,7 @@ import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.object.Upgrade;
 import dev.su5ed.gtexperimental.util.ItemProvider;
 import dev.su5ed.gtexperimental.util.TaggedItemProvider;
+import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;

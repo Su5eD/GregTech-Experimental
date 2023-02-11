@@ -7,7 +7,7 @@
     }
   ],
   "duration": 100,
-  "energyCost": 8.0,
+  "energy_cost": 8.0,
   "input": {
     "value": {
       "tag": "forge:ingots/mixed_metal"

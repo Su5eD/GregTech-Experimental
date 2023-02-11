@@ -15,6 +15,8 @@ import dev.su5ed.gtexperimental.util.ProfileManager;
 import dev.su5ed.gtexperimental.util.loot.ConditionLootModifier;
 import dev.su5ed.gtexperimental.world.ModConfiguredFeatures;
 import dev.su5ed.gtexperimental.world.ModPlacedFeatures;
+import net.minecraft.server.packs.PackType;
+import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -35,6 +37,7 @@ public class GregTechMod {
         
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
+        bus.addListener(this::addPackFinders);
         ModHandler.initMods();
 
         GregTechAPIImpl.createAndInject();
@@ -62,5 +65,11 @@ public class GregTechMod {
         GregTechNetwork.registerPackets();
         ModHandler.registerCrops();
         SonictronBlockEntity.loadSonictronSounds();
+    }
+
+    private void addPackFinders(final AddPackFindersEvent event) {
+        if (event.getPackType() == PackType.SERVER_DATA) {
+            event.addRepositorySource(GregTechPacks.INSTANCE);
+        }
     }
 }

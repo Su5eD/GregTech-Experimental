@@ -7,7 +7,6 @@
     }
   ],
   "duration": 100,
-  "energyCost": 128.0,
   "input": {
     "value": {
       "type": "gtexperimental:damaged_item",

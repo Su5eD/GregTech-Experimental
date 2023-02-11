@@ -1,7 +1,7 @@
 {
   "type": "gtexperimental:wiremill",
   "duration": 100,
-  "energyCost": 4.0,
+  "energy_cost": 4.0,
   "input": {
     "value": {
       "tag": "forge:ingots/soldering_alloy"

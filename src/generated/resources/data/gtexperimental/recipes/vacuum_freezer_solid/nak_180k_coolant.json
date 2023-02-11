@@ -1,7 +1,6 @@
 {
   "type": "gtexperimental:vacuum_freezer_solid",
   "duration": 1500,
-  "energyCost": 128.0,
   "input": {
     "value": {
       "type": "gtexperimental:damaged_item",

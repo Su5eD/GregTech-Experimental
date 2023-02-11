@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "gtexperimental:advanced_circuit"
+    },
+    "M": {
+      "tag": "gtexperimental:crafting/raw_machine_tier_2"
+    },
+    "S": {
+      "tag": "forge:plates/steel"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "CMC",
+    "SSS"
+  ],
+  "result": {
+    "count": 4,
+    "item": "gtexperimental:reinforced_machine_casing_block"
+  }
+}

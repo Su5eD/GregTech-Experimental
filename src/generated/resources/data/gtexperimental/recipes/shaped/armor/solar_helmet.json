@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "gtexperimental:solar_helmet"
+    },
+    {
+      "tag": "gtexperimental:illuminator"
+    }
+  ],
+  "result": {
+    "item": "gtexperimental:light_helmet"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "gtexperimental:selected_profile",
+          "properties": {
+            "iron_variant": "iron"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "B": [
+            {
+              "tag": "forge:ingots/iron"
+            },
+            {
+              "tag": "forge:ingots/bronze"
+            },
+            {
+              "tag": "forge:ingots/aluminium"
+            },
+            {
+              "tag": "forge:ingots/steel"
+            },
+            {
+              "tag": "forge:ingots/titanium"
+            }
+          ],
+          "C": {
+            "tag": "forge:cobblestone"
+          },
+          "R": {
+            "tag": "forge:dusts/redstone"
+          },
+          "W": {
+            "tag": "minecraft:planks"
+          }
+        },
+        "pattern": [
+          "WWW",
+          "CBC",
+          "CRC"
+        ],
+        "result": {
+          "item": "minecraft:piston"
+        }
+      }
+    }
+  ]
+}

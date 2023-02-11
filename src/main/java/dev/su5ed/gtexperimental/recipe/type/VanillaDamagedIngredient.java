@@ -11,6 +11,7 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
@@ -53,17 +54,17 @@ public class VanillaDamagedIngredient extends AbstractIngredient {
 
         @Override
         public VanillaDamagedIngredient parse(FriendlyByteBuf buffer) {
-            return (VanillaDamagedIngredient) Ingredient.fromNetwork(buffer);
+            return new VanillaDamagedIngredient(RecipeUtil.ingredientFromNetwork(buffer));
         }
 
         @Override
         public VanillaDamagedIngredient parse(JsonObject json) {
-            return (VanillaDamagedIngredient) Ingredient.fromJson(json);
+            return new VanillaDamagedIngredient(RecipeUtil.ingredientFromJson(json));
         }
 
         @Override
         public void write(FriendlyByteBuf buffer, VanillaDamagedIngredient ingredient) {
-            ingredient.toNetwork(buffer);
+            buffer.writeCollection(List.of(ingredient.getItems()), FriendlyByteBuf::writeItem);
         }
     }
 }

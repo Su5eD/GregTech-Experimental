@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.util.Pair;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
@@ -10,10 +11,13 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
@@ -25,12 +29,13 @@ import net.minecraftforge.registries.tags.ITagManager;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public final class RecipeUtil {
     private static final List<String> MOD_PRIORITY = List.of(ModHandler.FTBIC_MODID, ModHandler.IC2_MODID, Reference.MODID);
@@ -59,7 +64,8 @@ public final class RecipeUtil {
     public static ItemStack parseItemStack(JsonElement json) {
         if (json.isJsonObject()) {
             return ShapedRecipe.itemStackFromJson(json.getAsJsonObject());
-        } else {
+        }
+        else {
             String resultJson = json.getAsString();
             ResourceLocation name = new ResourceLocation(resultJson);
             return new ItemStack(Optional.ofNullable(ForgeRegistries.ITEMS.getValue(name)).orElseThrow(() -> new IllegalStateException("Item: " + resultJson + " does not exist")));
@@ -75,9 +81,11 @@ public final class RecipeUtil {
     public static void validateInputList(ResourceLocation id, String name, List<? extends RecipeIngredient<?>> ingredients, int maxSize) {
         if (ingredients.isEmpty()) {
             throw new RuntimeException("Empty " + name + " for recipe " + id);
-        } else if (ingredients.size() > maxSize) {
+        }
+        else if (ingredients.size() > maxSize) {
             throw new RuntimeException(name + " exceeded max size of " + maxSize + " for recipe " + id);
-        } else if (StreamEx.of(ingredients).allMatch(RecipeIngredient::isEmpty)) {
+        }
+        else if (StreamEx.of(ingredients).allMatch(RecipeIngredient::isEmpty)) {
             throw new RuntimeException(name + " contained no ingredients for recipe " + id);
         }
     }
@@ -85,7 +93,8 @@ public final class RecipeUtil {
     public static <T> void validateOutputList(ResourceLocation id, String name, RecipeOutputType<T> outputType, int outputCount, List<T> outputs) {
         if (outputs.isEmpty()) {
             throw new RuntimeException("Empty " + name + " for recipe " + id);
-        } else if (outputs.size() > outputCount) {
+        }
+        else if (outputs.size() > outputCount) {
             throw new RuntimeException(name + " exceeded max size of " + outputCount + " for recipe " + id);
         }
         outputs.forEach(output -> outputType.validate(id, name, output));
@@ -141,6 +150,35 @@ public final class RecipeUtil {
                 String namespace = ForgeRegistries.ITEMS.getKey(item).getNamespace();
                 return MOD_PRIORITY.indexOf(namespace);
             }));
+    }
+
+    public static Stream<? extends Ingredient.Value> ingredientFromNetwork(FriendlyByteBuf buffer) {
+        var size = buffer.readVarInt();
+        return Stream.generate(() -> new Ingredient.ItemValue(buffer.readItem())).limit(size);
+    }
+
+    public static Stream<? extends Ingredient.Value> ingredientFromJson(@Nullable JsonElement json) {
+        if (json != null && !json.isJsonNull()) {
+            if (json.isJsonObject()) {
+                return Stream.of(Ingredient.valueFromJson(json.getAsJsonObject()));
+            }
+            else if (json.isJsonArray()) {
+                JsonArray array = json.getAsJsonArray();
+                if (array.size() == 0) {
+                    throw new JsonSyntaxException("Item array cannot be empty, at least one item must be defined");
+                }
+                else {
+                    return StreamSupport.stream(array.spliterator(), false)
+                        .map(element -> Ingredient.valueFromJson(GsonHelper.convertToJsonObject(element, "item")));
+                }
+            }
+            else {
+                throw new JsonSyntaxException("Expected item to be object or array of objects");
+            }
+        }
+        else {
+            throw new JsonSyntaxException("Item cannot be null");
+        }
     }
 
     private RecipeUtil() {}
