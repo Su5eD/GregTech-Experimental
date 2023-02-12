@@ -2,8 +2,13 @@ package dev.su5ed.gtexperimental.object;
 
 import dev.su5ed.gtexperimental.block.ConnectedBlock;
 import dev.su5ed.gtexperimental.block.ResourceBlock;
-import dev.su5ed.gtexperimental.util.BlockItemProvider;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.util.TaggedBlockProvider;
+import dev.su5ed.gtexperimental.util.TaggedItemProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -11,7 +16,7 @@ import net.minecraftforge.common.util.Lazy;
 
 import java.util.function.Supplier;
 
-public enum ModBlock implements BlockItemProvider {
+public enum ModBlock implements TaggedBlockProvider, TaggedItemProvider {
     ADVANCED_MACHINE_CASING(() -> new ConnectedBlock(3, 30)),
     ALUMINIUM(3, 30),
     BRASS(3.5F, 30),
@@ -43,6 +48,8 @@ public enum ModBlock implements BlockItemProvider {
 
     private final Lazy<Block> block;
     private final Lazy<Item> item;
+    private final TagKey<Item> itemTag;
+    private final TagKey<Block> blockTag;
 
     ModBlock(float strength, float resistance) {
         this(() -> new ResourceBlock(strength, resistance));
@@ -51,6 +58,10 @@ public enum ModBlock implements BlockItemProvider {
     ModBlock(Supplier<Block> block) {
         this.block = Lazy.of(block);
         this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()));
+
+        ResourceLocation tagName = new ResourceLocation("forge", "storage_blocks/" + getName());
+        this.itemTag = ItemTags.create(tagName);
+        this.blockTag = BlockTags.create(tagName);
     }
 
     @Override
@@ -66,5 +77,15 @@ public enum ModBlock implements BlockItemProvider {
     @Override
     public Item getItem() {
         return this.item.get();
+    }
+
+    @Override
+    public TagKey<Item> getTag() {
+        return this.itemTag;
+    }
+
+    @Override
+    public TagKey<Block> getBlockTag() {
+        return this.blockTag;
     }
 }

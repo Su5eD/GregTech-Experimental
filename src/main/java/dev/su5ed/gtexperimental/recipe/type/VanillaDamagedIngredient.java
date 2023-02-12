@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.AbstractIngredient;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
@@ -18,8 +19,8 @@ public class VanillaDamagedIngredient extends AbstractIngredient {
     public static final ResourceLocation NAME = location("damaged_item");
     public static final IIngredientSerializer<VanillaDamagedIngredient> SERIALIZER = new SimpleIngredientSerializer<>(VanillaDamagedIngredient::new);
 
-    public VanillaDamagedIngredient(ItemStack stack) {
-        this(Stream.of(new ItemValue(stack)));
+    public static VanillaDamagedIngredient of(ItemLike item) {
+        return new VanillaDamagedIngredient(Stream.of(new ItemValue(new ItemStack(item))));
     }
 
     protected VanillaDamagedIngredient(Stream<? extends Value> values) {

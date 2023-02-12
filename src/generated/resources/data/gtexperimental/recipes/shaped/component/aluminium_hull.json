@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:tool_crafting_shaped",
+  "key": {
+    "R": {
+      "tag": "forge:plates/aluminium"
+    },
+    "W": {
+      "type": "gtexperimental:tool",
+      "damage": 8,
+      "value": {
+        "tag": "gtexperimental:tools/wrench"
+      }
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RWR",
+    "RRR"
+  ],
+  "result": {
+    "item": "gtexperimental:aluminium_hull"
+  }
+}

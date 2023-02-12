@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "tag": "gtexperimental:advanced_circuit"
+    },
+    "E": {
+      "tag": "gtexperimental:circuit_tier_5"
+    },
+    "I": {
+      "tag": "gtexperimental:plates/iridium_alloy"
+    }
+  },
+  "pattern": [
+    "AEA",
+    "EIE",
+    "AEA"
+  ],
+  "result": {
+    "count": 4,
+    "item": "gtexperimental:data_control_circuit"
+  }
+}

@@ -1,26 +1,77 @@
 {
-  "type": "gtexperimental:tool_crafting_shaped",
-  "key": {
-    "P": {
-      "tag": "forge:plates/iron"
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "gtexperimental:selected_profile",
+          "properties": {
+            "iron_variant": "iron"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "gtexperimental:tool_crafting_shaped",
+        "key": {
+          "P": {
+            "tag": "forge:plates/iron"
+          },
+          "S": {
+            "tag": "forge:rods/iron"
+          },
+          "W": {
+            "type": "gtexperimental:tool",
+            "damage": 8,
+            "value": {
+              "tag": "gtexperimental:tools/wrench"
+            }
+          }
+        },
+        "pattern": [
+          "SPS",
+          "PWP",
+          "SPS"
+        ],
+        "result": {
+          "item": "gtexperimental:iron_gear"
+        }
+      }
     },
-    "S": {
-      "tag": "forge:rods/iron"
-    },
-    "W": {
-      "type": "gtexperimental:tool",
-      "damage": 8,
-      "value": {
-        "tag": "gtexperimental:tools/wrench"
+    {
+      "conditions": [
+        {
+          "type": "gtexperimental:selected_profile",
+          "properties": {
+            "iron_variant": "refined_iron"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "gtexperimental:tool_crafting_shaped",
+        "key": {
+          "P": {
+            "tag": "forge:plates/refined_iron"
+          },
+          "S": {
+            "tag": "forge:rods/refined_iron"
+          },
+          "W": {
+            "type": "gtexperimental:tool",
+            "damage": 8,
+            "value": {
+              "tag": "gtexperimental:tools/wrench"
+            }
+          }
+        },
+        "pattern": [
+          "SPS",
+          "PWP",
+          "SPS"
+        ],
+        "result": {
+          "item": "gtexperimental:iron_gear"
+        }
       }
     }
-  },
-  "pattern": [
-    "SPS",
-    "PWP",
-    "SPS"
-  ],
-  "result": {
-    "item": "gtexperimental:iron_gear"
-  }
+  ]
 }

@@ -27,10 +27,13 @@ public final class DataGenerators {
 
         generator.addProvider(event.includeClient(), new BlockStateGen(generator, helper));
         generator.addProvider(event.includeClient(), new ItemModelGen(generator, helper));
-        
-        DataGenerator plateRecipePackGenerator = new DataGenerator(generator.getOutputFolder().resolve("packs/plate_recipes"), generator.getInputFolders(), SharedConstants.getCurrentVersion(), false);
-        generator.addProvider(event.includeServer(), new PlateRecipePackGen(plateRecipePackGenerator));
+
+        DataGenerator plateRecipesPackGenerator = new DataGenerator(generator.getOutputFolder().resolve("packs/plate_recipes"), generator.getInputFolders(), SharedConstants.getCurrentVersion(), false);
+        generator.addProvider(event.includeServer(), new PlateRecipesPackGen(plateRecipesPackGenerator));
+
+        DataGenerator harderRecipesPackGenerator = new DataGenerator(generator.getOutputFolder().resolve("packs/harder_recipes"), generator.getInputFolders(), SharedConstants.getCurrentVersion(), false);
+        generator.addProvider(event.includeServer(), new HarderRecipesPackGen(harderRecipesPackGenerator));
     }
-    
+
     private DataGenerators() {}
 }

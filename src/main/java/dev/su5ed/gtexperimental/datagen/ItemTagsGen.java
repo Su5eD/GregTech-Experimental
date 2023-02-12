@@ -11,6 +11,7 @@ import dev.su5ed.gtexperimental.object.File;
 import dev.su5ed.gtexperimental.object.Hammer;
 import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
+import dev.su5ed.gtexperimental.object.ModBlock;
 import dev.su5ed.gtexperimental.object.ModCoverItem;
 import dev.su5ed.gtexperimental.object.NuclearCoolantPack;
 import dev.su5ed.gtexperimental.object.Nugget;
@@ -64,6 +65,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .append(NuclearCoolantPack.values())
             .append(Nugget.values())
             .append(Ore.values())
+            .append(ModBlock.values())
             .append(Plate.values())
             .append(Rod.values())
             .append(Smalldust.values())
@@ -103,6 +105,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.COPPER_CABLE, "copper_cable");
         modItem(GregTechTags.GOLD_CABLE, "gold_cable");
         modItem(GregTechTags.INSULATED_GOLD_CABLE, "insulated_gold_cable");
+        modItem(GregTechTags.DOUBLE_INSULATED_GOLD_CABLE, "double_insulated_gold_cable");
         modItem(GregTechTags.material("plates", "carbon"), "carbon_plate");
         modItem(GregTechTags.ADVANCED_ALLOY, "alloy");
         modItem(GregTechTags.REINFORCED_STONE, "reinforced_stone");
@@ -125,16 +128,16 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.material("ingots", "mixed_metal"), "mixed_metal_ingot");
         modItem(GregTechTags.material("ingots", "refined_iron"), "refined_iron_ingot");
         modItem(GregTechTags.RE_BATTERY, "re_battery");
+        modItem(GregTechTags.TELEPORTER, "teleporter");
+        modItem(GregTechTags.CRAFTING_SOLAR_PANEL, "solar_generator");
         tag(GregTechTags.OIL_SAND)
             .addOptional(new ResourceLocation(ModHandler.THERMAL_MODID, "oil_sand"));
         tag(GregTechTags.stone("quarried"))
             .addOptionalTag(new ResourceLocation(ModHandler.RAILCRAFT_MODID, "quarried"));
-
         tag(GregTechTags.COLORED_WOOL)
             .add(Items.ORANGE_WOOL, Items.MAGENTA_WOOL, Items.LIGHT_BLUE_WOOL, Items.YELLOW_WOOL, Items.LIME_WOOL,
                 Items.PINK_WOOL, Items.GRAY_WOOL, Items.LIGHT_GRAY_WOOL, Items.CYAN_WOOL, Items.PURPLE_WOOL,
                 Items.BLUE_WOOL, Items.BROWN_WOOL, Items.GREEN_WOOL, Items.RED_WOOL, Items.BLACK_WOOL);
-
         tag(GregTechTags.RAW_FOOD)
             .add(Items.CHICKEN, Items.BEEF, Items.PORKCHOP, Items.MUTTON, Items.COD, Items.RABBIT, Items.SALMON)
             .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "raw_meef"))
@@ -143,7 +146,6 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(Items.COOKED_CHICKEN, Items.COOKED_BEEF, Items.COOKED_PORKCHOP, Items.COOKED_MUTTON, Items.COOKED_COD, Items.COOKED_RABBIT, Items.COOKED_SALMON)
             .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "cooked_meef"))
             .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "cooked_venison"));
-
         tag(GregTechTags.WRENCH)
             .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "wrench"))
             .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "electric_wrench"));

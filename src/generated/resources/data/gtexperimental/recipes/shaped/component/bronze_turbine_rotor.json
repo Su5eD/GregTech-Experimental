@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "forge:blocks/bronze"
+    },
+    "T": {
+      "tag": "gtexperimental:crafting/bronze_turbine_blade"
+    }
+  },
+  "pattern": [
+    "TTT",
+    "TBT",
+    "TTT"
+  ],
+  "result": {
+    "item": "gtexperimental:bronze_turbine_rotor"
+  }
+}

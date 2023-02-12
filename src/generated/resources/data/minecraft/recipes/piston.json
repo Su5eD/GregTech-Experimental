@@ -6,7 +6,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "iron"
+            "iron_variant": "refined_iron"
           }
         }
       ],
@@ -28,6 +28,9 @@
             },
             {
               "tag": "forge:ingots/titanium"
+            },
+            {
+              "tag": "forge:ingots/refined_iron"
             }
           ],
           "C": {
@@ -55,7 +58,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "refined_iron"
+            "iron_variant": "iron"
           }
         }
       ],
@@ -77,9 +80,6 @@
             },
             {
               "tag": "forge:ingots/titanium"
-            },
-            {
-              "tag": "forge:ingots/refined_iron"
             }
           ],
           "C": {

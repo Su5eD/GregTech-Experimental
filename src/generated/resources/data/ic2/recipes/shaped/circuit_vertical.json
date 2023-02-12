@@ -6,7 +6,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "iron"
+            "iron_variant": "refined_iron"
           }
         },
         {
@@ -21,7 +21,7 @@
             "item": "ic2:insulated_copper_cable"
           },
           "I": {
-            "tag": "forge:plates/iron"
+            "tag": "forge:plates/refined_iron"
           },
           "R": {
             "tag": "forge:dusts/redstone"
@@ -42,7 +42,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "refined_iron"
+            "iron_variant": "iron"
           }
         },
         {
@@ -57,7 +57,7 @@
             "item": "ic2:insulated_copper_cable"
           },
           "I": {
-            "tag": "forge:plates/refined_iron"
+            "tag": "forge:plates/iron"
           },
           "R": {
             "tag": "forge:dusts/redstone"

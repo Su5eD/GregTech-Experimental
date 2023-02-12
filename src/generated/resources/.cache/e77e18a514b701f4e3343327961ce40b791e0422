@@ -1,5 +1,6 @@
-// 1.19.2	2023-02-12T11:23:54.1705722	Gregtech ExperimentalTags for minecraft:item
-4d2ce2bc79bf4511cae3261bc7b03e37f53e3979 data/forge/tags/items/dusts.json
+// 1.19.2	2023-02-12T22:36:35.4119613	Gregtech ExperimentalTags for minecraft:item
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/blocks/bronze.json
+85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
 886885e6749cee38a520495164be8f64f6f66121 data/forge/tags/items/dusts/andradite.json
@@ -31,7 +32,7 @@ f5b69af958d6969ab6f3bfa7db6d5b62c4126d9a data/forge/tags/items/dusts/gold.json
 f3f73ab9a0eee7525f845c71e8a7a6f57ea3aa1b data/forge/tags/items/dusts/invar.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/iridium.json
 8879654d4e64a90db5ff6bd0239eab075156bc2d data/forge/tags/items/dusts/iron.json
-a02586363a97289b80348ecae7c75aec92d50469 data/forge/tags/items/dusts/lazurite.json
+a02586363a97289b80348ecae7c75aec92d50469 data/forge/tags/items/dusts/lapis.json
 96a69f21c2831cf70532f3342eb41a3c1829de22 data/forge/tags/items/dusts/lead.json
 afaad85914f165482e28b4c18de47d8b7266ba13 data/forge/tags/items/dusts/magnesium.json
 5227f7c59d7eb064a64e6bbb39aa9cffe44b17b8 data/forge/tags/items/dusts/manganese.json
@@ -316,6 +317,34 @@ f2c23cb2cae78a8e2c87cab8e64d98a542d1d522 data/forge/tags/items/small_dusts/wood.
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/stone/basalt.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/stone/marble.json
 1ac625c01cb6186ba722a4e6ee1b8dc945dd222e data/forge/tags/items/stone/quarried.json
+b751d948f8ef357345d13b7e23755ca732a734a7 data/forge/tags/items/storage_blocks/advanced_machine_casing.json
+95a6bac560bc4284502fc27625d92155225ffd17 data/forge/tags/items/storage_blocks/aluminium.json
+e8baa971b24b3a826130d1aaf7277da60540e280 data/forge/tags/items/storage_blocks/brass.json
+33a51aba1071b46c9d2e8f20bd3074fc8657e602 data/forge/tags/items/storage_blocks/chrome.json
+68b85e69703778fdfcc62abb4176e5cfd17be897 data/forge/tags/items/storage_blocks/electrum.json
+721ed17c2bc3b0a89d6debc8777934a063e2f79c data/forge/tags/items/storage_blocks/fusion_coil.json
+4b5cbbcdbffa89f5936570999b69e35f0cd958e7 data/forge/tags/items/storage_blocks/green_sapphire.json
+2a4f40817aafc80e81b97f834f6f873bb30d4189 data/forge/tags/items/storage_blocks/highly_advanced_machine.json
+61c3dc0668bdee8fa30a27c9a4fb0c3dbae817c6 data/forge/tags/items/storage_blocks/invar.json
+2865b95900f2dd60a053c95f7623621e4c7640e7 data/forge/tags/items/storage_blocks/iridium.json
+19ab50409bcc23ec985e17915697ab22de23dea9 data/forge/tags/items/storage_blocks/iridium_reinforced_stone.json
+8fcc188ca66d496252b0944b0b965e9ec58f7940 data/forge/tags/items/storage_blocks/iridium_reinforced_tungsten_steel.json
+baab99c1c7103185e8a103cf7de726395534ea77 data/forge/tags/items/storage_blocks/lead.json
+50fcb00bedbb9e35d202a6ed845837b0dfbd4b34 data/forge/tags/items/storage_blocks/lesublock.json
+a872e29b7166381dbe0459ff16636f98bdacda7a data/forge/tags/items/storage_blocks/nickel.json
+36caa321f6f6af9516d25779a48028f33af814f1 data/forge/tags/items/storage_blocks/olivine.json
+75f918414d573b1f98f492cafcb50462a1591946 data/forge/tags/items/storage_blocks/osmium.json
+7f5d8626063b15f03254bce94a104ab811420b37 data/forge/tags/items/storage_blocks/platinum.json
+e8a49ec51e094d3135c335a268b4f4f935cf9c8d data/forge/tags/items/storage_blocks/reinforced_machine_casing.json
+d1dd02db0d38fe292914270b4ca9fab5265d42bf data/forge/tags/items/storage_blocks/ruby.json
+9d9f7cb96ed29c11b7bc15ab7c0019dc731fb691 data/forge/tags/items/storage_blocks/sapphire.json
+abd25412ccee7c320bd2440cd796b1bbee0e2e4d data/forge/tags/items/storage_blocks/silver.json
+71ddec94e81f82aeda8a15e253a54014f0cbebd3 data/forge/tags/items/storage_blocks/standard_machine_casing.json
+17ffd4b39f786d0412e8ae34f8dd18fd74c4b61b data/forge/tags/items/storage_blocks/steel.json
+37dd6364b2f8c15df4dbe100c53aa0b262503877 data/forge/tags/items/storage_blocks/titanium.json
+b8714ce0365a9e39c8940d42a629cb2c102e011c data/forge/tags/items/storage_blocks/tungsten.json
+6a7fd5282afdecbf6b0411235d8801e7b143dfe5 data/forge/tags/items/storage_blocks/tungsten_steel.json
+af39080e93b35ecc4db5c3882d96860e841662e6 data/forge/tags/items/storage_blocks/zinc.json
 f35664459a38341e72b5cb19f41fed869a7f44b5 data/forge/tags/items/tools/crowbar.json
 1ddc5148021a20bdac46e82f8f31bbb4eb72b756 data/forge/tags/items/tools/file.json
 20e30fa61a10a2fe696ef4678651c6c6bf611cff data/forge/tags/items/tools/hard_hammer.json
@@ -382,7 +411,7 @@ a3bc3e624da27fc4dfa921289dbc6d7d435de322 data/gtexperimental/tags/items/crafting
 ded2c32fd064ff20245d6d49e5a6224496ecb637 data/gtexperimental/tags/items/crafting/raw_machine_tier_3.json
 6bc34aeb96f321e25c231dbc28dbfaf845c7cf8d data/gtexperimental/tags/items/crafting/redstone_conductor.json
 919c93007716547ac807cf252d16ff9b05cdf9d6 data/gtexperimental/tags/items/crafting/redstone_signalizer.json
-6d65fd25769f5a713aa7e6bae9ee7cea90b1e627 data/gtexperimental/tags/items/crafting/solar_panel.json
+e582cf87eda37c19b307932dc2a3bf17860ffadd data/gtexperimental/tags/items/crafting/solar_panel.json
 5149c19ab4e460389ebd92ca88aefad4bf3688f6 data/gtexperimental/tags/items/crafting/solar_panel_hv.json
 a3de1b7b878b1e99708a8836e996bacfa207d652 data/gtexperimental/tags/items/crafting/solar_panel_lv.json
 aedabce4c73952250283ff47856d8896ec145d27 data/gtexperimental/tags/items/crafting/solar_panel_mv.json
@@ -395,6 +424,7 @@ ba4f51f3d3fcd51292db10b012f9b41c1d664253 data/gtexperimental/tags/items/crafting
 95c0653a59e6535ecc10b297be94b5340fc02cc2 data/gtexperimental/tags/items/crafting/workbench.json
 e31fbd8b55791ce58bd2f08ed185c5ef6d40be89 data/gtexperimental/tags/items/crafting/work_controller.json
 50f0870ad953a5f12e211addba2fbd1597d92367 data/gtexperimental/tags/items/crafting/work_detector.json
+f1e44b56ac6277582997be32bd4f5ac5b7b20ba2 data/gtexperimental/tags/items/double_insulated_gold_cable.json
 a9de0c5c7bf2718731d263dd536b3171f5e198a6 data/gtexperimental/tags/items/empty_fluid_cell.json
 1c8cd9997de60d0e792cebeaace4c17d4fab3a81 data/gtexperimental/tags/items/empty_fuel_can.json
 75a4fba209919f6466ccfa630a57c1d552106946 data/gtexperimental/tags/items/energy_crystal.json
@@ -415,5 +445,6 @@ f24521955fe4ee79baa22cd1e5f7c3e8d7d4c4bc data/gtexperimental/tags/items/lazurite
 60b7a1786bcc1d8ef9c6413394ed794d7e14c771 data/gtexperimental/tags/items/resin.json
 4f5062139a4d649e660ee7627d0ef8cd1c7a2940 data/gtexperimental/tags/items/re_battery.json
 a8ed26dd718e8922ba146807df59ecfcee45ee1c data/gtexperimental/tags/items/rubber.json
+413eb8ccc67712fb8b5b79d07159e5ea3659d948 data/gtexperimental/tags/items/teleporter.json
 af4b74070facf78d4ad12eaf3d2801a9de682b5e data/gtexperimental/tags/items/tools/wrench.json
 2f5bd061e161a45448520e431ce280cdf2d10ba2 data/gtexperimental/tags/items/transformer_upgrade.json

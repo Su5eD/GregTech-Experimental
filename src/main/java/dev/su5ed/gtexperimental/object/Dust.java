@@ -43,7 +43,7 @@ public enum Dust implements TaggedItemProvider {
     GROSSULAR("Ca3Al2Si3O12"),
     INVAR(Ingot.INVAR.description),
     IRON("Fe"),
-    LAZURITE("Al6Si6Ca8Na8"),
+    LAZURITE(Component.literal("Al6Si6Ca8Na8"), GregTechTags.dust("lapis"), false),
     LEAD(Ingot.LEAD.description),
     MAGNESIUM("Mg"),
     MANGANESE("Mn"),
@@ -100,9 +100,13 @@ public enum Dust implements TaggedItemProvider {
     }
 
     Dust(MutableComponent description, boolean isFoil) {
+        this(description, null, isFoil);
+    }
+    
+    Dust(MutableComponent description, TagKey<Item> tag, boolean isFoil) {
         this.description = description;
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)));
-        this.tag = GregTechTags.dust(getName());
+        this.tag = tag != null ? tag : GregTechTags.dust(getName());
     }
     
     @Override

@@ -139,6 +139,7 @@ public final class GregTechTags {
     public static final TagKey<Item> COPPER_CABLE = itemTag("copper_cable");
     public static final TagKey<Item> GOLD_CABLE = itemTag("gold_cable");
     public static final TagKey<Item> INSULATED_GOLD_CABLE = itemTag("insulated_gold_cable");
+    public static final TagKey<Item> DOUBLE_INSULATED_GOLD_CABLE = itemTag("double_insulated_gold_cable");
     public static final TagKey<Item> INSULATED_COPPER_CABLE = itemTag("insulated_copper_cable");
     public static final TagKey<Item> RUBBER = itemTag("rubber");
     public static final TagKey<Item> LAPOTRON_CRYSTAL = itemTag("lapotron_crystal");
@@ -160,6 +161,7 @@ public final class GregTechTags {
     public static final TagKey<Item> ILLUMINATOR_FLAT = itemTag("illuminator");
     public static final TagKey<Item> IRIDIUM_NEUTRON_REFLECTOR = itemTag("illuminator");
     public static final TagKey<Item> RE_BATTERY = itemTag("re_battery");
+    public static final TagKey<Item> TELEPORTER = itemTag("teleporter");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");

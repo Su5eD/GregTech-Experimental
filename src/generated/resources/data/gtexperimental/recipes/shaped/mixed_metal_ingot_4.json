@@ -1,0 +1,51 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "X": [
+            {
+              "tag": "forge:plates/titanium"
+            },
+            {
+              "tag": "forge:plates/tungsten"
+            }
+          ],
+          "Y": [
+            {
+              "tag": "forge:plates/bronze"
+            },
+            {
+              "tag": "forge:plates/brass"
+            }
+          ],
+          "Z": [
+            {
+              "tag": "forge:plates/tin"
+            },
+            {
+              "tag": "forge:plates/zinc"
+            }
+          ]
+        },
+        "pattern": [
+          "X",
+          "Y",
+          "Z"
+        ],
+        "result": {
+          "count": 3,
+          "item": "ic2:mixed_metal_ingot"
+        }
+      }
+    }
+  ]
+}

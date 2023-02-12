@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "F": {
+      "tag": "forge:tools/file"
+    },
+    "H": {
+      "tag": "forge:tools/hard_hammer"
+    },
+    "P": {
+      "tag": "forge:plates/carbon"
+    }
+  },
+  "pattern": [
+    " H ",
+    "PPP",
+    " F "
+  ],
+  "result": {
+    "item": "gtexperimental:carbon_turbine_blade"
+  }
+}

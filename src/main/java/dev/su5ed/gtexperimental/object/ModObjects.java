@@ -4,7 +4,7 @@ import dev.su5ed.gtexperimental.GregTechTab;
 import dev.su5ed.gtexperimental.block.LightSourceBlock;
 import dev.su5ed.gtexperimental.compat.DamagedIC2ReactorComponentIngredient;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
-import dev.su5ed.gtexperimental.recipe.type.ToolCraftingIngredient;
+import dev.su5ed.gtexperimental.recipe.crafting.ToolCraftingIngredient;
 import dev.su5ed.gtexperimental.recipe.type.VanillaDamagedIngredient;
 import dev.su5ed.gtexperimental.recipe.type.VanillaFluidIngredient;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "tag": "gtexperimental:circuit_tier_8"
+    },
+    "B": {
+      "tag": "gtexperimental:crafting/raw_machine_tier_4"
+    },
+    "D": {
+      "tag": "forge:plates/aluminium"
+    },
+    "S": {
+      "tag": "gtexperimental:crafting/monitor_tier_2"
+    },
+    "T": {
+      "tag": "gtexperimental:teleporter"
+    }
+  },
+  "pattern": [
+    "ASA",
+    "BTB",
+    "ADA"
+  ],
+  "result": {
+    "item": "gtexperimental:quantum_chest"
+  }
+}

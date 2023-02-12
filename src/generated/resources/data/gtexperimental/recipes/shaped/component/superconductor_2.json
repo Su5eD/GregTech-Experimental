@@ -1,0 +1,39 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "item": "ic2:sextuple_reactor_coolant_cell"
+          },
+          "I": {
+            "tag": "gtexperimental:plates/iridium_alloy"
+          },
+          "L": {
+            "tag": "gtexperimental:circuit_tier_7"
+          },
+          "W": {
+            "tag": "forge:plates/tungsten"
+          }
+        },
+        "pattern": [
+          "CCC",
+          "WIW",
+          "LLL"
+        ],
+        "result": {
+          "count": 4,
+          "item": "gtexperimental:superconductor"
+        }
+      }
+    }
+  ]
+}

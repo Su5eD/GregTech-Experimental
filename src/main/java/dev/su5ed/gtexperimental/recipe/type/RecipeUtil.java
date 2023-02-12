@@ -10,11 +10,14 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.compat.ModHandler;
+import dev.su5ed.gtexperimental.recipe.crafting.ToolCraftingIngredient;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -179,6 +182,24 @@ public final class RecipeUtil {
         else {
             throw new JsonSyntaxException("Item cannot be null");
         }
+    }
+
+    public static NonNullList<ItemStack> getRemainingToolItems(NonNullList<Ingredient> ingredients, CraftingContainer container) {
+        NonNullList<ItemStack> list = NonNullList.withSize(container.getContainerSize(), ItemStack.EMPTY);
+        outer:
+        for (int i = 0; i < list.size(); i++) {
+            ItemStack stack = container.getItem(i);
+            for (Ingredient ingredient : ingredients) {
+                if (ingredient instanceof ToolCraftingIngredient tool && tool.test(stack)) {
+                    list.set(i, tool.damageItem(stack).copy());
+                    continue outer;
+                }
+            }
+            if (stack.hasCraftingRemainingItem()) {
+                list.set(i, stack.getCraftingRemainingItem());
+            }
+        }
+        return list;
     }
 
     private RecipeUtil() {}

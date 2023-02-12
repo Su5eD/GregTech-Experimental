@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "gtexperimental:advanced_circuit"
+    },
+    "G": {
+      "tag": "forge:glass_panes/colorless"
+    },
+    "P": {
+      "tag": "gtexperimental:carbon_plate"
+    },
+    "S": {
+      "tag": "forge:plates/silicon"
+    }
+  },
+  "pattern": [
+    "SGS",
+    "PCP"
+  ],
+  "result": {
+    "item": "gtexperimental:solar_panel"
+  }
+}
