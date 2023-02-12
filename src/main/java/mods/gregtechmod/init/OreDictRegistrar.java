@@ -38,6 +38,7 @@ public class OreDictRegistrar {
         registerOresWildcard("craftingToolSaw", BlockItems.Saw.values());
         registerOresWildcard("craftingToolSolderingMetal", BlockItems.SolderingMetal.values());
         registerOresWildcard("craftingToolWrench", BlockItems.Wrench.values());
+        registerOreWildcard("craftingToolWrench", BlockItems.Tool.WRENCH_ADVANCED);
         registerOresWildcardPrefix("dye", BlockItems.ColorSpray.values());
         registerOresWildcardPrefix("cell", BlockItems.Cell.values());
         registerOres(BlockItems.Upgrade.values());

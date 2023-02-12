@@ -1,7 +1,7 @@
 package mods.gregtechmod.recipe.crafting;
 
 import ic2.api.item.ElectricItem;
-import ic2.core.item.tool.ItemElectricTool;
+import ic2.api.item.IElectricItem;
 import mods.gregtechmod.util.IElectricCraftingTool;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,15 +23,10 @@ public class ToolOreIngredient extends OreIngredient {
 
     @Override
     public boolean apply(@Nullable ItemStack input) {
-        boolean ret = super.apply(input);
-
-        if (ret) {
-            Item item = input.getItem();
-            if (item instanceof IElectricCraftingTool && !((IElectricCraftingTool) item).canUse(input) ||
-                item instanceof ItemElectricTool && !ElectricItem.manager.canUse(input, this.damage * 1000) ||
-                input.getMaxDamage() - input.getItemDamage() < this.damage) return false;
-        }
-
-        return ret;
+        Item item = input.getItem();
+        return super.apply(input) && (item instanceof IElectricCraftingTool && ((IElectricCraftingTool) item).canUse(input)
+            || item instanceof IElectricItem && ElectricItem.manager.canUse(input, this.damage * 1000)
+            || input.getMaxDamage() - input.getItemDamage() >= this.damage
+        );
     }
 }

@@ -19,10 +19,8 @@ public class RecipeManagerPrinter extends RecipeManagerMultiInput<IRecipePrinter
                         if (!recipeInputs.get(i).apply(input.get(i))) return false;
                     }
                     IRecipeIngredient copy = recipe.getCopyIngredient();
-                    if (copy != null) return copy.apply(input.get(2));
-                    return true;
+                    return copy == null || copy.apply(input.get(2));
                 }
-
                 return false;
             })
             .min(this::compareCount)
