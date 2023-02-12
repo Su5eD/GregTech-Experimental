@@ -116,14 +116,15 @@ public final class GregTechTags {
 
 //    public static final TagKey<Block> MINABLE_WITH_JACK_HAMMER = BlockTags.bind("minable_with_jack_hammer");
 
-    public static final TagKey<Item> WRENCH = forgeItemTag("tools/wrench");
     public static final TagKey<Item> CROWBAR = forgeItemTag("tools/crowbar");
     public static final TagKey<Item> SCREWDRIVER = forgeItemTag("tools/screwdriver");
     public static final TagKey<Item> LARGE_DRILL = forgeItemTag("tools/large_drill");
     public static final TagKey<Item> SOFT_HAMMER = forgeItemTag("tools/soft_hammer");
     public static final TagKey<Item> HARD_HAMMER = forgeItemTag("tools/hard_hammer");
+    public static final TagKey<Item> FILE = forgeItemTag("tools/file");
     public static final TagKey<Item> SOLDERING_IRON = forgeItemTag("tools/soldering_iron");
 
+    public static final TagKey<Item> WRENCH = itemTag("tools/wrench");
     public static final TagKey<Item> HEAT_VENT = itemTag("heat_vent");
     public static final TagKey<Item> COMPONENT_HEAT_VENT = itemTag("component_heat_vent");
     public static final TagKey<Item> ADVANCED_HEAT_VENT = itemTag("advanced_heat_vent");
@@ -158,6 +159,7 @@ public final class GregTechTags {
     public static final TagKey<Item> SOLAR_HELMET = itemTag("solar_helmet");
     public static final TagKey<Item> ILLUMINATOR_FLAT = itemTag("illuminator");
     public static final TagKey<Item> IRIDIUM_NEUTRON_REFLECTOR = itemTag("illuminator");
+    public static final TagKey<Item> RE_BATTERY = itemTag("re_battery");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");

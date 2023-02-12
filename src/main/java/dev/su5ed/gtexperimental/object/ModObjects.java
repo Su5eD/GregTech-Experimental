@@ -4,6 +4,7 @@ import dev.su5ed.gtexperimental.GregTechTab;
 import dev.su5ed.gtexperimental.block.LightSourceBlock;
 import dev.su5ed.gtexperimental.compat.DamagedIC2ReactorComponentIngredient;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
+import dev.su5ed.gtexperimental.recipe.type.ToolCraftingIngredient;
 import dev.su5ed.gtexperimental.recipe.type.VanillaDamagedIngredient;
 import dev.su5ed.gtexperimental.recipe.type.VanillaFluidIngredient;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;
@@ -101,8 +102,9 @@ public final class ModObjects {
         event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, helper -> {
             CraftingHelper.register(SelectedProfileCondition.Serializer.INSTANCE);
             CraftingHelper.register(VanillaFluidIngredient.Serializer.NAME, VanillaFluidIngredient.Serializer.INSTANCE);
-            CraftingHelper.register(DamagedIC2ReactorComponentIngredient.Serializer.NAME, DamagedIC2ReactorComponentIngredient.Serializer.INSTANCE);
-            CraftingHelper.register(VanillaDamagedIngredient.Serializer.NAME, VanillaDamagedIngredient.Serializer.INSTANCE);
+            CraftingHelper.register(DamagedIC2ReactorComponentIngredient.NAME, DamagedIC2ReactorComponentIngredient.SERIALIZER);
+            CraftingHelper.register(VanillaDamagedIngredient.NAME, VanillaDamagedIngredient.SERIALIZER);
+            CraftingHelper.register(ToolCraftingIngredient.Serializer.NAME, ToolCraftingIngredient.Serializer.INSTANCE);
         });
     }
 }

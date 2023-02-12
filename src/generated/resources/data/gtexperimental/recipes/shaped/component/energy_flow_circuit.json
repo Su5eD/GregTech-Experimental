@@ -1,0 +1,77 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "gtexperimental:selected_profile",
+          "properties": {
+            "layout": "classic"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "A": {
+            "tag": "gtexperimental:advanced_circuit"
+          },
+          "I": {
+            "tag": "gtexperimental:plates/iridium_alloy"
+          },
+          "L": {
+            "tag": "gtexperimental:crafting/1kk_eu_store"
+          },
+          "W": {
+            "tag": "forge:plates/tungsten"
+          }
+        },
+        "pattern": [
+          "AWA",
+          "LIL",
+          "AWA"
+        ],
+        "result": {
+          "count": 4,
+          "item": "gtexperimental:energy_flow_circuit"
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "gtexperimental:selected_profile",
+          "properties": {
+            "layout": "experimental"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "A": {
+            "tag": "gtexperimental:advanced_circuit"
+          },
+          "I": {
+            "tag": "gtexperimental:plates/iridium_alloy"
+          },
+          "L": {
+            "tag": "gtexperimental:crafting/10kk_eu_store"
+          },
+          "W": {
+            "tag": "forge:plates/tungsten"
+          }
+        },
+        "pattern": [
+          "AWA",
+          "LIL",
+          "AWA"
+        ],
+        "result": {
+          "count": 4,
+          "item": "gtexperimental:energy_flow_circuit"
+        }
+      }
+    }
+  ]
+}

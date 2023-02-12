@@ -1,0 +1,81 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "gtexperimental:selected_profile",
+          "properties": {
+            "layout": "classic"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "tag": "gtexperimental:circuit_tier_7"
+          },
+          "I": {
+            "tag": "gtexperimental:plates/iridium_alloy"
+          },
+          "L": {
+            "tag": "gtexperimental:crafting/10kk_eu_store"
+          },
+          "P": {
+            "tag": "gtexperimental:lappack"
+          },
+          "S": {
+            "tag": "gtexperimental:crafting/superconductor"
+          }
+        },
+        "pattern": [
+          "CLC",
+          "SPS",
+          "CIC"
+        ],
+        "result": {
+          "item": "gtexperimental:lapotronpack"
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "gtexperimental:selected_profile",
+          "properties": {
+            "layout": "experimental"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "tag": "gtexperimental:circuit_tier_7"
+          },
+          "I": {
+            "tag": "gtexperimental:plates/iridium_alloy"
+          },
+          "L": {
+            "tag": "gtexperimental:crafting/100kk_eu_store"
+          },
+          "P": {
+            "tag": "gtexperimental:lappack"
+          },
+          "S": {
+            "tag": "gtexperimental:crafting/superconductor"
+          }
+        },
+        "pattern": [
+          "CLC",
+          "SPS",
+          "CIC"
+        ],
+        "result": {
+          "item": "gtexperimental:lapotronpack"
+        }
+      }
+    }
+  ]
+}

@@ -1,20 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "A": {
-      "tag": "forge:plates/aluminium"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "gtexperimental:solar_helmet"
     },
-    "C": {
-      "tag": "gtexperimental:advanced_circuit"
-    },
-    "L": {
-      "tag": "gtexperimental:crafting/li_battery"
+    {
+      "tag": "gtexperimental:illuminator"
     }
-  },
-  "pattern": [
-    "LCL",
-    "LAL",
-    "L L"
   ],
   "result": {
     "item": "gtexperimental:light_helmet"

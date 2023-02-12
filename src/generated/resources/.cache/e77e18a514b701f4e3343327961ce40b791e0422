@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-11T12:26:46.3204423	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-12T11:23:54.1705722	Gregtech ExperimentalTags for minecraft:item
 4d2ce2bc79bf4511cae3261bc7b03e37f53e3979 data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -69,7 +69,22 @@ d096de5f6c67df2c3792275ccb14c6ca6ce3e895 data/forge/tags/items/dusts/wheat.json
 d6f8c92ea785b04057d1321208ffeaaef52c4630 data/forge/tags/items/dusts/yellow_garnet.json
 1885e15670176c2b05b0b42ea9d7487f65d1491d data/forge/tags/items/dusts/zinc.json
 cb71825dfa6b30d3a676cf9cc3a972bd37368e15 data/forge/tags/items/dyes.json
-71aba9053dcf45f87c44591c844e70eb5c6c1434 data/forge/tags/items/dyes/blue.json
+170f996b0a3b0beb2cf6a1801d8750457f1208da data/forge/tags/items/dyes/black.json
+869fc20500218ce50281c214d371170e6bfaff6d data/forge/tags/items/dyes/blue.json
+46a17dcab99245f9f4b9e6089fb5f78436aff272 data/forge/tags/items/dyes/brown.json
+21cd96266def2b359ebe961459f3ca50825a1f25 data/forge/tags/items/dyes/cyan.json
+df33012782f94f06a5028eba9bd948399ea7ad80 data/forge/tags/items/dyes/gray.json
+e2d92dd9baa5f5afb9a8a4b5447f30125f6a4d3d data/forge/tags/items/dyes/green.json
+1eea092be6b436a490b6edb4b5718224bc834452 data/forge/tags/items/dyes/light_blue.json
+6f3188d06f91a0b4c7fb20752c1bd5955d392c9e data/forge/tags/items/dyes/light_gray.json
+da968ac12d23264e383f482f10f5ab024dac6b7c data/forge/tags/items/dyes/lime.json
+b55d900c7517308b9fc796b8d2e9647373706b46 data/forge/tags/items/dyes/magenta.json
+138663b4cc3d44c79ab7a09edaa18bc25a038c0e data/forge/tags/items/dyes/orange.json
+ce1476a2ed1be19f7648c48a093e804e0f94cd05 data/forge/tags/items/dyes/pink.json
+6782fd3abf72cb64cf46499d00520f8f8e9458d2 data/forge/tags/items/dyes/purple.json
+b605a7b0853971893a971ab740195c7dfe572584 data/forge/tags/items/dyes/red.json
+e0bf6f1b3aee9ef8930f1d593029762093225897 data/forge/tags/items/dyes/white.json
+62c6698fd22e1326f800cd7141fec19f0b4b3454 data/forge/tags/items/dyes/yellow.json
 1a1028025c9bd24dff1d4168d30860de3683bd51 data/forge/tags/items/gears/bronze.json
 68fb233400eb8fc36fd3ea1e55a996840e06295f data/forge/tags/items/gears/iridium.json
 99a08dc1df2b1bfd90714bf1a1d5f1cdbb7bc69c data/forge/tags/items/gears/iron.json
@@ -302,6 +317,8 @@ f2c23cb2cae78a8e2c87cab8e64d98a542d1d522 data/forge/tags/items/small_dusts/wood.
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/stone/marble.json
 1ac625c01cb6186ba722a4e6ee1b8dc945dd222e data/forge/tags/items/stone/quarried.json
 f35664459a38341e72b5cb19f41fed869a7f44b5 data/forge/tags/items/tools/crowbar.json
+1ddc5148021a20bdac46e82f8f31bbb4eb72b756 data/forge/tags/items/tools/file.json
+20e30fa61a10a2fe696ef4678651c6c6bf611cff data/forge/tags/items/tools/hard_hammer.json
 b9fe75299f3f3c0e12502b238e4a1a2a07e46467 data/forge/tags/items/tools/large_drill.json
 9e21d9c88e0ae8c9e7e69aea3e77a3f54d8e524a data/forge/tags/items/tools/screwdriver.json
 3c8ebe113f85229e42ae1c33361c2ac2900642f4 data/forge/tags/items/tools/soft_hammer.json
@@ -327,7 +344,7 @@ cafe0ac68c29490bb14f7f7fb812e66ce1e447bc data/gtexperimental/tags/items/colored_
 b661a09d9556e39b050dd28dab836f02a3599423 data/gtexperimental/tags/items/compressed_coal_ball.json
 3c894751cbbcc77b7798cfc66bb6896d41fe19ad data/gtexperimental/tags/items/cooked_food.json
 66591b0da119fb08ca946a70a8276c0730ccba38 data/gtexperimental/tags/items/copper_cable.json
-7e56ffeb20de4c62631e4080392cc5fd3b87f148 data/gtexperimental/tags/items/crafting/100kk_eu_store.json
+9ebe1dba54a8099926fa8084522d12711c04b07f data/gtexperimental/tags/items/crafting/100kk_eu_store.json
 f3800e2e4c2ef842bde2c3e0b397291623a96994 data/gtexperimental/tags/items/crafting/10kk_eu_store.json
 cf14f3209a56fcf6282cd950e820f1949351dc52 data/gtexperimental/tags/items/crafting/180k_coolant_store.json
 eafc2e3797549fe6ba07c4ff88dbc80aff9830cb data/gtexperimental/tags/items/crafting/1kk_eu_store.json
@@ -396,5 +413,7 @@ f24521955fe4ee79baa22cd1e5f7c3e8d7d4c4bc data/gtexperimental/tags/items/lazurite
 80fc8e5adcd286fc047917064417a8626cb3d311 data/gtexperimental/tags/items/raw_food.json
 1e5e5564ef2e37edec78b78a52db70157595cdf9 data/gtexperimental/tags/items/reinforced_stone.json
 60b7a1786bcc1d8ef9c6413394ed794d7e14c771 data/gtexperimental/tags/items/resin.json
+4f5062139a4d649e660ee7627d0ef8cd1c7a2940 data/gtexperimental/tags/items/re_battery.json
 a8ed26dd718e8922ba146807df59ecfcee45ee1c data/gtexperimental/tags/items/rubber.json
+af4b74070facf78d4ad12eaf3d2801a9de682b5e data/gtexperimental/tags/items/tools/wrench.json
 2f5bd061e161a45448520e431ce280cdf2d10ba2 data/gtexperimental/tags/items/transformer_upgrade.json

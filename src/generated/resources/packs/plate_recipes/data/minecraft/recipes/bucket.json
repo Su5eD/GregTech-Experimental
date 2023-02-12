@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "T": {
+      "tag": "forge:tools/hard_hammer"
+    },
+    "X": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "pattern": [
+    "XTX",
+    " X "
+  ],
+  "result": {
+    "item": "minecraft:bucket"
+  }
+}

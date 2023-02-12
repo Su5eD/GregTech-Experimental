@@ -3,10 +3,9 @@ package dev.su5ed.gtexperimental.compat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
+import dev.su5ed.gtexperimental.recipe.type.SimpleIngredientSerializer;
 import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredient;
 import ic2.api.reactor.IReactorComponent;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -16,12 +15,13 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
 
 public class DamagedIC2ReactorComponentIngredient extends AbstractIngredient {
+    public static final ResourceLocation NAME = location("damaged_ic2_reactor_component");
+    public static final IIngredientSerializer<DamagedIC2ReactorComponentIngredient> SERIALIZER = new SimpleIngredientSerializer<>(DamagedIC2ReactorComponentIngredient::new);
 
     public DamagedIC2ReactorComponentIngredient(ItemStack stack) {
         this(Stream.of(new ItemValue(stack)));
@@ -38,13 +38,13 @@ public class DamagedIC2ReactorComponentIngredient extends AbstractIngredient {
 
     @Override
     public IIngredientSerializer<? extends Ingredient> getSerializer() {
-        return Serializer.INSTANCE;
+        return SERIALIZER;
     }
 
     @Override
     public JsonElement toJson() {
         JsonObject json = this.values[0].serialize();
-        json.addProperty("type", CraftingHelper.getID(Serializer.INSTANCE).toString());
+        json.addProperty("type", CraftingHelper.getID(SERIALIZER).toString());
         return json;
     }
 
@@ -64,25 +64,5 @@ public class DamagedIC2ReactorComponentIngredient extends AbstractIngredient {
 
     public static RecipeIngredient<ItemStack> recipeIngredient(ItemLike item) {
         return new VanillaRecipeIngredient(new DamagedIC2ReactorComponentIngredient(new ItemStack(item)));
-    }
-
-    public static class Serializer implements IIngredientSerializer<DamagedIC2ReactorComponentIngredient> {
-        public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation NAME = location("damaged_ic2_reactor_component");
-
-        @Override
-        public DamagedIC2ReactorComponentIngredient parse(FriendlyByteBuf buffer) {
-            return new DamagedIC2ReactorComponentIngredient(RecipeUtil.ingredientFromNetwork(buffer));
-        }
-
-        @Override
-        public DamagedIC2ReactorComponentIngredient parse(JsonObject json) {
-            return new DamagedIC2ReactorComponentIngredient(RecipeUtil.ingredientFromJson(json));
-        }
-
-        @Override
-        public void write(FriendlyByteBuf buffer, DamagedIC2ReactorComponentIngredient ingredient) {
-            buffer.writeCollection(List.of(ingredient.getItems()), FriendlyByteBuf::writeItem);
-        }
     }
 }

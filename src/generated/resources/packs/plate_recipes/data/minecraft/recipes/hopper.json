@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "forge:chests/wooden"
+    },
+    "W": {
+      "tag": "gtexperimental:tools/wrench"
+    },
+    "X": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "pattern": [
+    "XWX",
+    "XCX",
+    " X "
+  ],
+  "result": {
+    "item": "minecraft:hopper"
+  }
+}

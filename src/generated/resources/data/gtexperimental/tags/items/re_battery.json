@@ -1,0 +1,8 @@
+{
+  "values": [
+    {
+      "id": "ic2:re_battery",
+      "required": false
+    }
+  ]
+}

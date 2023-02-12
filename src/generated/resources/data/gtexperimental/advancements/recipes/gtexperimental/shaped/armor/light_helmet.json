@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_crafting_li_battery": {
+    "has_solar_helmet": {
       "conditions": {
         "items": [
           {
-            "tag": "gtexperimental:crafting/li_battery"
+            "tag": "gtexperimental:solar_helmet"
           }
         ]
       },
@@ -20,7 +20,7 @@
   },
   "requirements": [
     [
-      "has_crafting_li_battery",
+      "has_solar_helmet",
       "has_the_recipe"
     ]
   ],

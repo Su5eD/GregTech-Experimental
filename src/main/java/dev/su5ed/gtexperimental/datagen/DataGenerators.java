@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.datagen;
 
+import net.minecraft.SharedConstants;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -26,6 +27,9 @@ public final class DataGenerators {
 
         generator.addProvider(event.includeClient(), new BlockStateGen(generator, helper));
         generator.addProvider(event.includeClient(), new ItemModelGen(generator, helper));
+        
+        DataGenerator plateRecipePackGenerator = new DataGenerator(generator.getOutputFolder().resolve("packs/plate_recipes"), generator.getInputFolders(), SharedConstants.getCurrentVersion(), false);
+        generator.addProvider(event.includeServer(), new PlateRecipePackGen(plateRecipePackGenerator));
     }
     
     private DataGenerators() {}

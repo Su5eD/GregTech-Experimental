@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "tag": "forge:plates/aluminium"
+    },
+    "C": {
+      "tag": "gtexperimental:advanced_circuit"
+    },
+    "L": {
+      "tag": "gtexperimental:crafting/li_battery"
+    }
+  },
+  "pattern": [
+    "LCL",
+    "LAL",
+    "L L"
+  ],
+  "result": {
+    "item": "gtexperimental:lithium_batpack"
+  }
+}

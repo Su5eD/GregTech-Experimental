@@ -7,6 +7,8 @@ import dev.su5ed.gtexperimental.object.Armor;
 import dev.su5ed.gtexperimental.object.ColorSpray;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
+import dev.su5ed.gtexperimental.object.File;
+import dev.su5ed.gtexperimental.object.Hammer;
 import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.object.ModCoverItem;
@@ -18,9 +20,9 @@ import dev.su5ed.gtexperimental.object.Rod;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.object.Upgrade;
+import dev.su5ed.gtexperimental.object.Wrench;
 import dev.su5ed.gtexperimental.util.ItemProvider;
 import dev.su5ed.gtexperimental.util.TaggedItemProvider;
-import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -50,9 +52,12 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         GregTechTags.getAllMaterials().forEach(key -> tags.put(key, tag(key)));
 
-        StreamEx.<TaggedItemProvider>of(Component.values())
+        StreamEx.<TaggedItemProvider>of(Armor.values())
+            .append(ColorSpray.values())
+            .append(Component.values())
             .append(Dust.values())
-            .append(Smalldust.values())
+            .append(File.values())
+            .append(Hammer.values())
             .append(Ingot.values())
             .append(Miscellaneous.values())
             .append(ModCoverItem.values())
@@ -61,9 +66,10 @@ public class ItemTagsGen extends ItemTagsProvider {
             .append(Ore.values())
             .append(Plate.values())
             .append(Rod.values())
+            .append(Smalldust.values())
             .append(Tool.values())
             .append(Upgrade.values())
-            .append(Armor.values())
+            .append(Wrench.values())
             .mapToEntry(TaggedItemProvider::getTag, ItemProvider::getItem)
             .nonNullKeys()
             .mapKeys(tag -> tags.computeIfAbsent(tag, this::tag))
@@ -118,6 +124,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.ENERGY_CRYSTAL, "energy_crystal");
         modItem(GregTechTags.material("ingots", "mixed_metal"), "mixed_metal_ingot");
         modItem(GregTechTags.material("ingots", "refined_iron"), "refined_iron_ingot");
+        modItem(GregTechTags.RE_BATTERY, "re_battery");
         tag(GregTechTags.OIL_SAND)
             .addOptional(new ResourceLocation(ModHandler.THERMAL_MODID, "oil_sand"));
         tag(GregTechTags.stone("quarried"))
@@ -136,6 +143,10 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(Items.COOKED_CHICKEN, Items.COOKED_BEEF, Items.COOKED_PORKCHOP, Items.COOKED_MUTTON, Items.COOKED_COD, Items.COOKED_RABBIT, Items.COOKED_SALMON)
             .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "cooked_meef"))
             .addOptional(new ResourceLocation(ModHandler.TWILIGHT_FOREST_MODID, "cooked_venison"));
+
+        tag(GregTechTags.WRENCH)
+            .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "wrench"))
+            .addOptional(new ResourceLocation(ModHandler.IC2_MODID, "electric_wrench"));
     }
 
     @Override
