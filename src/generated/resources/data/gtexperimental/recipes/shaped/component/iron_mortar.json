@@ -6,7 +6,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "iron"
+            "iron_variant": "refined_iron"
           }
         }
       ],
@@ -14,7 +14,7 @@
         "type": "minecraft:crafting_shaped",
         "key": {
           "R": {
-            "tag": "forge:ingots/iron"
+            "tag": "forge:ingots/refined_iron"
           },
           "S": {
             "tag": "minecraft:stone_bricks"
@@ -35,7 +35,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "refined_iron"
+            "iron_variant": "iron"
           }
         }
       ],
@@ -43,7 +43,7 @@
         "type": "minecraft:crafting_shaped",
         "key": {
           "R": {
-            "tag": "forge:ingots/refined_iron"
+            "tag": "forge:ingots/iron"
           },
           "S": {
             "tag": "minecraft:stone_bricks"

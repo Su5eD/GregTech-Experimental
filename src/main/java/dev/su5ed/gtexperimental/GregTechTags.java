@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental;
 
+import dev.su5ed.gtexperimental.object.Smalldust;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -113,6 +114,7 @@ public final class GregTechTags {
     public static final TagKey<Item> COLORED_WOOL = itemTag("colored_wool");
     public static final TagKey<Item> RAW_FOOD = itemTag("raw_food");
     public static final TagKey<Item> COOKED_FOOD = itemTag("cooked_food");
+    public static final TagKey<Item> MORTAR = itemTag("mortar");
 
 //    public static final TagKey<Block> MINABLE_WITH_JACK_HAMMER = BlockTags.bind("minable_with_jack_hammer");
 
@@ -186,6 +188,10 @@ public final class GregTechTags {
 
     public static TagKey<Item> stone(String name) {
         return material("stone", name);
+    }
+    
+    public static TagKey<Item> smallDust(String name) {
+        return material("small_dusts", name);
     }
 
     public static TagKey<Item> material(String type, String name) {

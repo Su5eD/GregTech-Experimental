@@ -3,14 +3,13 @@ package dev.su5ed.gtexperimental.datagen;
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.Plate;
-import dev.su5ed.gtexperimental.recipe.gen.ConditionalShapedRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -27,7 +26,7 @@ public class HarderRecipesPackGen extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        ConditionalShapedRecipeBuilder.shaped(Ic2Items.MACHINE)
+        ConditionalShapedRecipeBuilder.conditionalShaped(Ic2Items.MACHINE)
             .define(SelectedProfileCondition.REFINED_IRON, 'R', Plate.REFINED_IRON.getTag())
             .define(SelectedProfileCondition.REGULAR_IRON, 'R', Plate.IRON.getTag())
             .define('W', GregTechTags.WRENCH)
@@ -37,7 +36,7 @@ public class HarderRecipesPackGen extends RecipeProvider {
             .unlockedBy("has_wrench", has(GregTechTags.WRENCH))
             .addCondition(IC2_LOADED)
             .save(finishedRecipeConsumer, ic2("shaped/machine"));
-        ConditionalShapedRecipeBuilder.shaped(Ic2Items.RE_BATTERY)
+        ConditionalShapedRecipeBuilder.conditionalShaped(Ic2Items.RE_BATTERY)
             .define('R', Tags.Items.DUSTS_REDSTONE)
             .define('C', GregTechTags.INSULATED_COPPER_CABLE)
             .define('T', Plate.TIN)

@@ -37,6 +37,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -185,13 +186,33 @@ public final class RecipeUtil {
     }
 
     public static NonNullList<ItemStack> getRemainingToolItems(NonNullList<Ingredient> ingredients, CraftingContainer container) {
+        return getRemainingItems(ingredients, container, (ingredient, stack) -> {
+            if (ingredient instanceof ToolCraftingIngredient tool && tool.test(stack)) {
+                return Optional.of(tool.damageItem(stack));
+            }
+            return Optional.empty();
+        });
+    }
+
+    public static NonNullList<ItemStack> getRemainingFluidItems(NonNullList<Ingredient> ingredients, CraftingContainer container) {
+        return getRemainingItems(ingredients, container, (ingredient, stack) -> {
+            if (ingredient instanceof VanillaFluidIngredient fluid && fluid.test(stack)) {
+                fluid.drainFluid(stack);
+                return Optional.of(stack);
+            }
+            return Optional.empty();
+        });
+    }
+
+    public static NonNullList<ItemStack> getRemainingItems(NonNullList<Ingredient> ingredients, CraftingContainer container, BiFunction<Ingredient, ItemStack, Optional<ItemStack>> processor) {
         NonNullList<ItemStack> list = NonNullList.withSize(container.getContainerSize(), ItemStack.EMPTY);
         outer:
         for (int i = 0; i < list.size(); i++) {
             ItemStack stack = container.getItem(i);
             for (Ingredient ingredient : ingredients) {
-                if (ingredient instanceof ToolCraftingIngredient tool && tool.test(stack)) {
-                    list.set(i, tool.damageItem(stack).copy());
+                ItemStack processed = processor.apply(ingredient, stack).orElse(ItemStack.EMPTY);
+                if (!processed.isEmpty()) {
+                    list.set(i, stack.copy());
                     continue outer;
                 }
             }

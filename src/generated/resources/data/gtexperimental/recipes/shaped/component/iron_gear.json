@@ -6,7 +6,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "iron"
+            "iron_variant": "refined_iron"
           }
         }
       ],
@@ -14,10 +14,10 @@
         "type": "gtexperimental:tool_crafting_shaped",
         "key": {
           "P": {
-            "tag": "forge:plates/iron"
+            "tag": "forge:plates/refined_iron"
           },
           "S": {
-            "tag": "forge:rods/iron"
+            "tag": "forge:rods/refined_iron"
           },
           "W": {
             "type": "gtexperimental:tool",
@@ -42,7 +42,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "refined_iron"
+            "iron_variant": "iron"
           }
         }
       ],
@@ -50,10 +50,10 @@
         "type": "gtexperimental:tool_crafting_shaped",
         "key": {
           "P": {
-            "tag": "forge:plates/refined_iron"
+            "tag": "forge:plates/iron"
           },
           "S": {
-            "tag": "forge:rods/refined_iron"
+            "tag": "forge:rods/iron"
           },
           "W": {
             "type": "gtexperimental:tool",

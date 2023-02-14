@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:small_dusts/copper"
+    },
+    {
+      "tag": "forge:small_dusts/copper"
+    },
+    {
+      "tag": "forge:small_dusts/copper"
+    },
+    {
+      "tag": "forge:small_dusts/tin"
+    }
+  ],
+  "result": {
+    "item": "gtexperimental:bronze_dust"
+  }
+}

@@ -1,6 +1,6 @@
-package dev.su5ed.gtexperimental.recipe.gen;
+package dev.su5ed.gtexperimental.recipe.crafting;
 
-import dev.su5ed.gtexperimental.recipe.crafting.WrappedShapedRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.gen.ConditionRecipeBuilder;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -25,11 +25,11 @@ public class ConditionalShapedRecipeBuilder extends ConditionRecipeBuilder<Condi
         super(result, count, builderFactory);
     }
 
-    public static ConditionalShapedRecipeBuilder shaped(ItemLike result) {
-        return shaped(result, 1);
+    public static ConditionalShapedRecipeBuilder conditionalShaped(ItemLike result) {
+        return conditionalShaped(result, 1);
     }
 
-    public static ConditionalShapedRecipeBuilder shaped(ItemLike result, int count) {
+    public static ConditionalShapedRecipeBuilder conditionalShaped(ItemLike result, int count) {
         return new ConditionalShapedRecipeBuilder(result, count, ShapedRecipeBuilder::new);
     }
 

@@ -103,7 +103,7 @@ public enum Smalldust implements TaggedItemProvider {
 
     Smalldust(MutableComponent description, boolean isFoil) {
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)));
-        this.tag = GregTechTags.material("small_dusts", getName());
+        this.tag = GregTechTags.smallDust(getName());
     }
 
     @Override

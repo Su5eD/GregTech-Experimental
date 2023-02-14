@@ -1,7 +1,9 @@
 package dev.su5ed.gtexperimental.blockentity;
 
+import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.GregTechMod;
 import dev.su5ed.gtexperimental.api.GregTechAPI;
+import dev.su5ed.gtexperimental.api.util.DataOrbSerializable;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.api.util.SonictronSound;
 import dev.su5ed.gtexperimental.blockentity.base.InventoryBlockEntity;
@@ -9,6 +11,8 @@ import dev.su5ed.gtexperimental.menu.SonictronMenu;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.util.inventory.InventorySlot;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -22,17 +26,20 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SonictronBlockEntity extends InventoryBlockEntity implements MenuProvider {
+public class SonictronBlockEntity extends InventoryBlockEntity implements MenuProvider, DataOrbSerializable {
     private static final Map<Integer, String> RECORD_NAMES = new HashMap<>();
 
+    private final LazyOptional<DataOrbSerializable> dataOrbOptional = LazyOptional.of(() -> this);
     public final InventorySlot content;
     public int currentIndex = -1;
 
@@ -64,7 +71,7 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
         if (isRedstonePowered() && this.currentIndex < 0) {
             this.currentIndex = 0;
         }
-        
+
         setActive(this.currentIndex > -1);
 
         if (getTicks() % 2 == 0 && this.currentIndex > -1) {
@@ -74,6 +81,32 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
                 this.currentIndex = -1;
             }
         }
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+        if (cap == Capabilities.DATA_ORB) {
+            return this.dataOrbOptional.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public String getDataName() {
+        return "Sonictron-Data";
+    }
+
+    @Override
+    public CompoundTag saveDataToOrb() {
+        CompoundTag tag = new CompoundTag();
+        tag.put("content", this.content.serializeNBT());
+        return tag;
+    }
+
+    @Override
+    public void loadDataFromOrb(CompoundTag tag) {
+        CompoundTag content = tag.getCompound("content");
+        this.content.deserializeNBT(content);
     }
 
     public static void loadSonictronSounds() {
@@ -152,7 +185,7 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
         if (sound == null) {
             throw new IllegalArgumentException("Attempted to play invalid sound " + name);
         }
-        
+
         level.playSound(null, pos, sound, SoundSource.BLOCKS, volume, pitch);
     }
 

@@ -25,6 +25,14 @@ public class WrappedShapelessRecipeBuilder extends ShapelessRecipeBuilder {
         return new WrappedShapelessRecipeBuilder(result, count, ModRecipeSerializers.TOOL_SHAPELESS_RECIPE.get());
     }
 
+    public static WrappedShapelessRecipeBuilder fluidShapeless(ItemLike result) {
+        return fluidShapeless(result, 1);
+    }
+
+    public static WrappedShapelessRecipeBuilder fluidShapeless(ItemLike result, int count) {
+        return new WrappedShapelessRecipeBuilder(result, count, ModRecipeSerializers.FLUID_SHAPELESS_RECIPE.get());
+    }
+
     @Override
     public void save(Consumer<FinishedRecipe> finishedRecipeConsumer, ResourceLocation recipeId) {
         super.save(finishedRecipe -> finishedRecipeConsumer.accept(new FinishedRecipeWrapper(finishedRecipe, this.type)), recipeId);

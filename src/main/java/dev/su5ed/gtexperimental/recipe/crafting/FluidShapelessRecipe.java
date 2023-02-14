@@ -7,17 +7,17 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 
-public class FluidShapedRecipe extends ShapedRecipe {
-    public static final RecipeSerializer<ShapedRecipe> SERIALIZER = new SimpleRecipeSerializer<>(RecipeSerializer.SHAPED_RECIPE, FluidShapedRecipe::new);
+public class FluidShapelessRecipe extends ShapelessRecipe {
+    public static final RecipeSerializer<ShapelessRecipe> SERIALIZER = new SimpleRecipeSerializer<>(RecipeSerializer.SHAPELESS_RECIPE, FluidShapelessRecipe::new);
 
-    public FluidShapedRecipe(ResourceLocation id, ShapedRecipe recipe) {
-        this(id, recipe.getGroup(), recipe.getWidth(), recipe.getHeight(), recipe.getIngredients(), recipe.getResultItem());
+    public FluidShapelessRecipe(ResourceLocation id, ShapelessRecipe recipe) {
+        this(id, recipe.getGroup(), recipe.getResultItem(), recipe.getIngredients());
     }
-
-    public FluidShapedRecipe(ResourceLocation id, String group, int width, int height, NonNullList<Ingredient> recipeItems, ItemStack result) {
-        super(id, group, width, height, recipeItems, result);
+    
+    public FluidShapelessRecipe(ResourceLocation id, String group, ItemStack result, NonNullList<Ingredient> ingredients) {
+        super(id, group, result, ingredients);
     }
 
     @Override

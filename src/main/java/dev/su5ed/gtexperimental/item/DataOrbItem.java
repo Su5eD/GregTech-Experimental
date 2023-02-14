@@ -3,12 +3,15 @@ package dev.su5ed.gtexperimental.item;
 import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.api.util.DataOrbSerializable;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+
+import java.util.Optional;
 
 public class DataOrbItem extends ResourceItem {
 
@@ -17,16 +20,26 @@ public class DataOrbItem extends ResourceItem {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
-        ItemStack stack = context.getItemInHand();
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        if (player.isShiftKeyDown() && !level.isClientSide) {
+            ItemStack stack = player.getItemInHand(usedHand);
+            stack.setTag(null);
+            return InteractionResultHolder.consume(stack);
+        }
+        return super.use(level, player, usedHand);
+    }
+
+    @Override
+    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         Level level = context.getLevel();
         Player player = context.getPlayer();
 
         if (player != null && stack.getCount() == 1 && !level.isClientSide) {
-            BlockEntity be = level.getBlockEntity(context.getClickedPos());
             CompoundTag tag = stack.getOrCreateTag();
             String dataTitle = tag.getString("dataTitle");
-            DataOrbSerializable serializable = be.getCapability(Capabilities.DATA_ORB).orElse(null);
+            DataOrbSerializable serializable = Optional.ofNullable(level.getBlockEntity(context.getClickedPos()))
+                .flatMap(be -> be.getCapability(Capabilities.DATA_ORB).resolve())
+                .orElse(null);
 
             if (serializable != null) {
                 String dataName = serializable.getDataName();
@@ -49,6 +62,6 @@ public class DataOrbItem extends ResourceItem {
             }
         }
 
-        return super.useOn(context);
+        return InteractionResult.FAIL;
     }
 }

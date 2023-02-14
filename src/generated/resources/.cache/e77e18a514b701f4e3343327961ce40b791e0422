@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-12T22:36:35.4119613	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-14T15:19:42.7016705	Gregtech ExperimentalTags for minecraft:item
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/blocks/bronze.json
 85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
@@ -50,6 +50,7 @@ b62f40835850d54610b1126d7302d01e71016c2a data/forge/tags/items/dusts/osmium.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/quicksilver.json
 63286c224f81bf4cf98771985226d8b84c43b5c3 data/forge/tags/items/dusts/redrock.json
 b3a11194fbcadb2e12962da1943ab16a7f62ddb2 data/forge/tags/items/dusts/red_garnet.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/refined_iron.json
 ae599b5e3e763a405ee9ed479d3a578638a9ae41 data/forge/tags/items/dusts/ruby.json
 e1445d7f7496b84b2c20a3e214c89ee459e9dec1 data/forge/tags/items/dusts/saltpeter.json
 d82b2ea3db640a81c32249c92d2dc27ed7748b20 data/forge/tags/items/dusts/sapphire.json
@@ -295,6 +296,7 @@ eafc0fbacd4116a86e76950542dc5d4c1b8ac1fd data/forge/tags/items/small_dusts/olivi
 7a4a55ab9957cc2d54f2ae92e7760b8e8dd67f73 data/forge/tags/items/small_dusts/redrock.json
 c001e2923d96f4fa73ab8f226a4f20b3ef5d5e9a data/forge/tags/items/small_dusts/redstone.json
 5379130911425df4907bf7ecc099807d5a4ccf65 data/forge/tags/items/small_dusts/red_garnet.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/small_dusts/refined_iron.json
 7c8c886422d54eab2fb4a446a28965c6a004ecbc data/forge/tags/items/small_dusts/ruby.json
 a1817482056a6211f452fd6104e064d401fde1f2 data/forge/tags/items/small_dusts/saltpeter.json
 98aae00fb7baefe4b3b37f6c5713a2d4e2123195 data/forge/tags/items/small_dusts/sapphire.json
@@ -436,6 +438,7 @@ d34d6dc6044cccd6f3d58aeccbe03597469bef2b data/gtexperimental/tags/items/gold_cab
 cd96b223e51ca722d658247579b63866b6a29b59 data/gtexperimental/tags/items/insulated_gold_cable.json
 a0e8f821e66e3744fbf87b5f1db06017d29bc808 data/gtexperimental/tags/items/lapotron_crystal.json
 f24521955fe4ee79baa22cd1e5f7c3e8d7d4c4bc data/gtexperimental/tags/items/lazurite_chunk.json
+be008c2cb723eb00b1b604d07593c3d88e38b607 data/gtexperimental/tags/items/mortar.json
 6f8cd5032131d5b64832d41a94cbd662c5e78ef5 data/gtexperimental/tags/items/oil_sand.json
 3f753e6a997883d3e9874fbfc30c4c465c828356 data/gtexperimental/tags/items/overclocked_heat_vent.json
 0801e55af628cdd28bf8dbe39f783e63410c4cab data/gtexperimental/tags/items/plates/iridium_alloy.json

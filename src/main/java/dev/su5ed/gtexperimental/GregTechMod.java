@@ -9,12 +9,14 @@ import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.object.ModCovers;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.object.ModObjects;
+import dev.su5ed.gtexperimental.recipe.crafting.FluidItemPredicate;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import dev.su5ed.gtexperimental.util.ProfileManager;
 import dev.su5ed.gtexperimental.util.loot.ConditionLootModifier;
 import dev.su5ed.gtexperimental.world.ModConfiguredFeatures;
 import dev.su5ed.gtexperimental.world.ModPlacedFeatures;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.server.packs.PackType;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -65,6 +67,8 @@ public class GregTechMod {
         GregTechNetwork.registerPackets();
         ModHandler.registerCrops();
         SonictronBlockEntity.loadSonictronSounds();
+        
+        event.enqueueWork(() -> ItemPredicate.register(FluidItemPredicate.NAME, FluidItemPredicate::fromJson));
     }
 
     private void addPackFinders(final AddPackFindersEvent event) {
