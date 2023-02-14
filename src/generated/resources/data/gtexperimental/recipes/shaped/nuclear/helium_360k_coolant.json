@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "gtexperimental:dense_copper_plate"
+    },
+    "H": {
+      "tag": "gtexperimental:crafting/180k_coolant_store"
+    },
+    "T": {
+      "tag": "forge:plates/tin"
+    }
+  },
+  "pattern": [
+    "THT",
+    "TCT",
+    "THT"
+  ],
+  "result": {
+    "item": "gtexperimental:helium_360k_coolant"
+  }
+}

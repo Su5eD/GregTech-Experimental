@@ -6,7 +6,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "layout": "experimental"
+            "layout": "classic"
           }
         }
       ],
@@ -20,7 +20,7 @@
             "tag": "gtexperimental:plates/iridium_alloy"
           },
           "L": {
-            "tag": "gtexperimental:crafting/100kk_eu_store"
+            "tag": "gtexperimental:crafting/10kk_eu_store"
           },
           "P": {
             "tag": "gtexperimental:lappack"
@@ -44,7 +44,7 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "layout": "classic"
+            "layout": "experimental"
           }
         }
       ],
@@ -58,7 +58,7 @@
             "tag": "gtexperimental:plates/iridium_alloy"
           },
           "L": {
-            "tag": "gtexperimental:crafting/10kk_eu_store"
+            "tag": "gtexperimental:crafting/100kk_eu_store"
           },
           "P": {
             "tag": "gtexperimental:lappack"

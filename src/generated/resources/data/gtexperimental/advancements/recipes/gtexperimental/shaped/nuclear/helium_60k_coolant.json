@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gtexperimental:shaped/nuclear/helium_60k_coolant"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tin_plate": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:plates/tin"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tin_plate",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gtexperimental:shaped/nuclear/helium_60k_coolant"
+    ]
+  }
+}

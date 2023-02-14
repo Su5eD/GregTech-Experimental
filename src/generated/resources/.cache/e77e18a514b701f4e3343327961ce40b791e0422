@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-14T15:19:42.7016705	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-14T20:21:49.3613537	Gregtech ExperimentalTags for minecraft:item
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/blocks/bronze.json
 85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
@@ -426,6 +426,7 @@ ba4f51f3d3fcd51292db10b012f9b41c1d664253 data/gtexperimental/tags/items/crafting
 95c0653a59e6535ecc10b297be94b5340fc02cc2 data/gtexperimental/tags/items/crafting/workbench.json
 e31fbd8b55791ce58bd2f08ed185c5ef6d40be89 data/gtexperimental/tags/items/crafting/work_controller.json
 50f0870ad953a5f12e211addba2fbd1597d92367 data/gtexperimental/tags/items/crafting/work_detector.json
+4a1cc02a9cce0b464bb36a5ea30c75f4cef9b218 data/gtexperimental/tags/items/dense_copper_plate.json
 f1e44b56ac6277582997be32bd4f5ac5b7b20ba2 data/gtexperimental/tags/items/double_insulated_gold_cable.json
 a9de0c5c7bf2718731d263dd536b3171f5e198a6 data/gtexperimental/tags/items/empty_fluid_cell.json
 1c8cd9997de60d0e792cebeaace4c17d4fab3a81 data/gtexperimental/tags/items/empty_fuel_can.json
@@ -444,6 +445,7 @@ be008c2cb723eb00b1b604d07593c3d88e38b607 data/gtexperimental/tags/items/mortar.j
 0801e55af628cdd28bf8dbe39f783e63410c4cab data/gtexperimental/tags/items/plates/iridium_alloy.json
 0f378a0725edd82b1c1c52f12e208c92c2778b9f data/gtexperimental/tags/items/pump.json
 80fc8e5adcd286fc047917064417a8626cb3d311 data/gtexperimental/tags/items/raw_food.json
+5fd554d7696ea4eb2be438ed865ebb95e61a6627 data/gtexperimental/tags/items/reactor_coolant_cell.json
 1e5e5564ef2e37edec78b78a52db70157595cdf9 data/gtexperimental/tags/items/reinforced_stone.json
 60b7a1786bcc1d8ef9c6413394ed794d7e14c771 data/gtexperimental/tags/items/resin.json
 4f5062139a4d649e660ee7627d0ef8cd1c7a2940 data/gtexperimental/tags/items/re_battery.json

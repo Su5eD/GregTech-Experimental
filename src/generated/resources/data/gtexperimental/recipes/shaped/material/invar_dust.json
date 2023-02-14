@@ -6,34 +6,6 @@
         {
           "type": "gtexperimental:selected_profile",
           "properties": {
-            "iron_variant": "iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          {
-            "item": "gtexperimental:nickel_dust"
-          },
-          {
-            "tag": "forge:dusts/iron"
-          },
-          {
-            "tag": "forge:dusts/iron"
-          }
-        ],
-        "result": {
-          "count": 3,
-          "item": "gtexperimental:invar_dust"
-        }
-      }
-    },
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
             "iron_variant": "refined_iron"
           }
         }
@@ -60,6 +32,34 @@
               "tag": "forge:dusts/refined_iron"
             }
           ]
+        ],
+        "result": {
+          "count": 3,
+          "item": "gtexperimental:invar_dust"
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "gtexperimental:selected_profile",
+          "properties": {
+            "iron_variant": "iron"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          {
+            "item": "gtexperimental:nickel_dust"
+          },
+          {
+            "tag": "forge:dusts/iron"
+          },
+          {
+            "tag": "forge:dusts/iron"
+          }
         ],
         "result": {
           "count": 3,

@@ -164,6 +164,8 @@ public final class GregTechTags {
     public static final TagKey<Item> IRIDIUM_NEUTRON_REFLECTOR = itemTag("illuminator");
     public static final TagKey<Item> RE_BATTERY = itemTag("re_battery");
     public static final TagKey<Item> TELEPORTER = itemTag("teleporter");
+    public static final TagKey<Item> DENSE_COPPER_PLATE = itemTag("dense_copper_plate");
+    public static final TagKey<Item> REACTOR_COOLANT_CELL = itemTag("reactor_coolant_cell");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");

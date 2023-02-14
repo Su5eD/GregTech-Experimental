@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "type": "gtexperimental:fluid_item_ingredient",
+      "fluid_ingredient": {
+        "type": "tag",
+        "amount": 1000,
+        "tag": "forge:helium"
+      }
+    },
+    "T": {
+      "tag": "forge:plates/tin"
+    }
+  },
+  "pattern": [
+    " T ",
+    "THT",
+    " T "
+  ],
+  "result": {
+    "item": "gtexperimental:helium_60k_coolant"
+  }
+}

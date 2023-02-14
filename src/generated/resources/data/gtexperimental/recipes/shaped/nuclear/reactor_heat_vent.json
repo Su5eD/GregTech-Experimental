@@ -1,0 +1,32 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "A": {
+            "tag": "forge:plates/aluminium"
+          },
+          "I": {
+            "item": "minecraft:iron_bars"
+          }
+        },
+        "pattern": [
+          "AIA",
+          "I I",
+          "AIA"
+        ],
+        "result": {
+          "item": "ic2:reactor_heat_vent"
+        }
+      }
+    }
+  ]
+}

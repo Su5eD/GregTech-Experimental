@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "gtexperimental:plutonium_fuel_rod"
+    },
+    "P": [
+      {
+        "tag": "forge:plates/copper"
+      },
+      {
+        "tag": "forge:plates/lead"
+      }
+    ]
+  },
+  "pattern": [
+    "CPC"
+  ],
+  "result": {
+    "item": "gtexperimental:dual_plutonium_fuel_rod"
+  }
+}

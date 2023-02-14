@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          {
+            "item": "ic2:reactor_plating"
+          },
+          {
+            "item": "gtexperimental:lead_plate"
+          }
+        ],
+        "result": {
+          "item": "ic2:containment_reactor_plating"
+        }
+      }
+    }
+  ]
+}

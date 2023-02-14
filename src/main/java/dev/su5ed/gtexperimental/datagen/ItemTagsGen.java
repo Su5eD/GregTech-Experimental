@@ -130,6 +130,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.RE_BATTERY, "re_battery");
         modItem(GregTechTags.TELEPORTER, "teleporter");
         modItem(GregTechTags.CRAFTING_SOLAR_PANEL, "solar_generator");
+        modItem(GregTechTags.DENSE_COPPER_PLATE, "dense_copper_plate");
+        modItem(GregTechTags.REACTOR_COOLANT_CELL, "reactor_coolant_cell");
         tag(GregTechTags.OIL_SAND)
             .addOptional(new ResourceLocation(ModHandler.THERMAL_MODID, "oil_sand"));
         tag(GregTechTags.stone("quarried"))

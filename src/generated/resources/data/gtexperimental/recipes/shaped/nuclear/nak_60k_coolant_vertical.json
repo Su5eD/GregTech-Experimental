@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "gtexperimental:reactor_coolant_cell"
+    },
+    "K": {
+      "type": "gtexperimental:fluid_item_ingredient",
+      "fluid_ingredient": {
+        "type": "tag",
+        "amount": 1000,
+        "tag": "forge:potassium"
+      }
+    },
+    "N": {
+      "type": "gtexperimental:fluid_item_ingredient",
+      "fluid_ingredient": {
+        "type": "tag",
+        "amount": 1000,
+        "tag": "forge:sodium"
+      }
+    },
+    "T": {
+      "tag": "forge:plates/tin"
+    }
+  },
+  "pattern": [
+    "TKT",
+    "NCN",
+    "TKT"
+  ],
+  "result": {
+    "item": "gtexperimental:nak_60k_coolant"
+  }
+}

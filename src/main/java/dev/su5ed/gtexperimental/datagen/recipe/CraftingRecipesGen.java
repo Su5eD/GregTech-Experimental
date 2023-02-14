@@ -11,6 +11,7 @@ import dev.su5ed.gtexperimental.object.ModBlock;
 import dev.su5ed.gtexperimental.object.ModCoverItem;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.NuclearCoolantPack;
+import dev.su5ed.gtexperimental.object.NuclearFuelRod;
 import dev.su5ed.gtexperimental.object.Plate;
 import dev.su5ed.gtexperimental.object.Rod;
 import dev.su5ed.gtexperimental.object.Smalldust;
@@ -162,24 +163,30 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
         shapeless(Dust.TIN).requires(GregTechTags.MORTAR).requires(GregTechTags.ingot("tin")).unlockedBy("has_mortar", has(GregTechTags.MORTAR)).save(finishedRecipeConsumer, id("material/tin_dust"));
         shapeless(Dust.FLINT).requires(Miscellaneous.IRON_MORTAR).requires(Tags.Items.GRAVEL).unlockedBy("has_iron_mortar", has(Miscellaneous.IRON_MORTAR)).save(finishedRecipeConsumer, id("material/flint_dust"));
 
+        // Nuclear
+        shaped(NuclearCoolantPack.HELIUM_60K).define('H', VanillaFluidIngredient.of(ModFluid.HELIUM.getTag(), buckets(1))).define('T', Plate.TIN.getTag()).pattern(" T ").pattern("THT").pattern(" T ").unlockedBy("has_tin_plate", has(Plate.TIN.getTag())).save(finishedRecipeConsumer, id("nuclear/helium_60k_coolant"));
+        shaped(NuclearCoolantPack.HELIUM_180K).define('H', NuclearCoolantPack.HELIUM_60K.getTag()).define('T', Plate.TIN.getTag()).pattern("TTT").pattern("HHH").pattern("TTT").unlockedBy("has_helium_60k_coolant", has(NuclearCoolantPack.HELIUM_60K.getTag())).save(finishedRecipeConsumer, id("nuclear/helium_180k_coolant"));
+        shaped(NuclearCoolantPack.HELIUM_360K).define('H', NuclearCoolantPack.HELIUM_180K.getTag()).define('T', Plate.TIN.getTag()).define('C', GregTechTags.DENSE_COPPER_PLATE).pattern("THT").pattern("TCT").pattern("THT").unlockedBy("has_helium_180k_coolant", has(NuclearCoolantPack.HELIUM_180K.getTag())).save(finishedRecipeConsumer, id("nuclear/helium_360k_coolant"));
+        shaped(NuclearCoolantPack.NAK_60K).define('N', VanillaFluidIngredient.of(ModFluid.SODIUM.getTag(), buckets(1))).define('K', VanillaFluidIngredient.of(ModFluid.POTASSIUM.getTag(), buckets(1))).define('T', Plate.TIN.getTag()).define('C', GregTechTags.REACTOR_COOLANT_CELL).pattern("TNT").pattern("KCK").pattern("TNT").unlockedBy("has_reactor_coolant_cell", has(GregTechTags.REACTOR_COOLANT_CELL)).save(finishedRecipeConsumer, id("nuclear/nak_60k_coolant"));
+        shaped(NuclearCoolantPack.NAK_60K).define('N', VanillaFluidIngredient.of(ModFluid.SODIUM.getTag(), buckets(1))).define('K', VanillaFluidIngredient.of(ModFluid.POTASSIUM.getTag(), buckets(1))).define('T', Plate.TIN.getTag()).define('C', GregTechTags.REACTOR_COOLANT_CELL).pattern("TKT").pattern("NCN").pattern("TKT").unlockedBy("has_reactor_coolant_cell", has(GregTechTags.REACTOR_COOLANT_CELL)).save(finishedRecipeConsumer, id("nuclear/nak_60k_coolant_vertical"));
+        shaped(NuclearCoolantPack.NAK_180K).define('H', NuclearCoolantPack.NAK_60K.getTag()).define('T', Plate.TIN.getTag()).pattern("TTT").pattern("HHH").pattern("TTT").unlockedBy("has_nak_60k_coolant", has(NuclearCoolantPack.NAK_60K.getTag())).save(finishedRecipeConsumer, id("nuclear/nak_180k_coolant"));
+        shaped(NuclearCoolantPack.NAK_360K).define('H', NuclearCoolantPack.NAK_180K.getTag()).define('T', Plate.TIN.getTag()).define('C', GregTechTags.DENSE_COPPER_PLATE).pattern("THT").pattern("TCT").pattern("THT").unlockedBy("has_nak_180k_coolant", has(NuclearCoolantPack.NAK_180K.getTag())).save(finishedRecipeConsumer, id("nuclear/nak_360k_coolant"));
+        shaped(NuclearFuelRod.DUAL_PLUTONIUM).define('C', NuclearFuelRod.PLUTONIUM).define('P', tagsIngredient(Plate.COPPER.getTag(), Plate.LEAD.getTag())).pattern("CPC").unlockedBy("has_plutonium_fuel_rod", has(NuclearFuelRod.PLUTONIUM)).save(finishedRecipeConsumer, id("nuclear/dual_plutonium_fuel_rod"));
+        shaped(NuclearFuelRod.QUAD_PLUTONIUM).define('C', NuclearFuelRod.DUAL_PLUTONIUM).define('P', tagsIngredient(Plate.COPPER.getTag(), Plate.LEAD.getTag())).pattern(" C ").pattern("PPP").pattern(" C ").unlockedBy("has_dual_plutonium_fuel_rod", has(NuclearFuelRod.DUAL_PLUTONIUM)).save(finishedRecipeConsumer, id("nuclear/quad_plutonium_fuel_rod"));
+        shaped(NuclearFuelRod.DUAL_THORIUM).define('C', NuclearFuelRod.THORIUM).define('P', tagsIngredient(Plate.COPPER.getTag(), Plate.LEAD.getTag())).pattern("CPC").unlockedBy("has_thorium_fuel_rod", has(NuclearFuelRod.THORIUM)).save(finishedRecipeConsumer, id("nuclear/dual_thorium_fuel_rod"));
+        shaped(NuclearFuelRod.QUAD_THORIUM).define('C', NuclearFuelRod.DUAL_THORIUM).define('P', tagsIngredient(Plate.COPPER.getTag(), Plate.LEAD.getTag())).pattern(" C ").pattern("PPP").pattern(" C ").unlockedBy("has_dual_thorium_fuel_rod", has(NuclearFuelRod.DUAL_THORIUM)).save(finishedRecipeConsumer, id("nuclear/quad_thorium_fuel_rod"));
+
         buildOtherModRecipes(finishedRecipeConsumer);
     }
 
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
 //        shaped(Ic2Items.LAPPACK).define('C', GregTechTags.CIRCUIT_TIER_4).define('B', GregTechTags.BATPACK).define('L', GregTechTags.LAZURITE_CHUNK).pattern("LCL").pattern("LBL").pattern("L L").unlockedBy("has_circuit_tier_4", has(GregTechTags.CIRCUIT_TIER_4)).save(finishedRecipeConsumer, id("ic2/lappack"));
-
-        conditionalShapeless(Ic2Items.COAL_FUEL_DUST)
-            .requires(Tool.HYDRATION_SPRAY)
-            .requires(Dust.COAL.getTag())
-            .unlockedBy("has_hydration_spray", has(Tool.HYDRATION_SPRAY))
-            .addCondition(IC2_LOADED)
-            .save(finishedRecipeConsumer, id("material/coal_fuel_dust"));
-        conditionalShapeless(Ic2Items.COAL_FUEL_DUST)
-            .requires(GregTechTags.MORTAR)
-            .requires(Dust.COAL.getTag())
-            .unlockedBy("has_mortar", has(GregTechTags.MORTAR))
-            .addCondition(IC2_LOADED)
-            .save(finishedRecipeConsumer, id("material/coal_fuel_dust_crushing"));
+        conditionalShapeless(Ic2Items.COAL_FUEL_DUST).requires(Tool.HYDRATION_SPRAY).requires(Dust.COAL.getTag()).unlockedBy("has_hydration_spray", has(Tool.HYDRATION_SPRAY)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, id("material/coal_fuel_dust"));
+        conditionalShapeless(Ic2Items.COAL_FUEL_DUST).requires(GregTechTags.MORTAR).requires(Dust.COAL.getTag()).unlockedBy("has_mortar", has(GregTechTags.MORTAR)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, id("material/coal_fuel_dust_crushing"));
+        conditionalShapeless(Ic2Items.CONTAINMENT_REACTOR_PLATING).requires(Ic2Items.REACTOR_PLATING).requires(Plate.LEAD).unlockedBy("has_reactor_plating", has(Ic2Items.REACTOR_PLATING)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, id("nuclear/containment_reactor_plating"));
+        conditionalShaped(Ic2Items.DUAL_URANIUM_FUEL_ROD).define('C', Ic2Items.URANIUM_FUEL_ROD).define('P', tagsIngredient(Plate.COPPER.getTag(), Plate.LEAD.getTag())).pattern("CPC").unlockedBy("has_uranium_fuel_rod", has(Ic2Items.URANIUM_FUEL_ROD)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, id("nuclear/dual_uranium_fuel_rod"));
+        conditionalShaped(Ic2Items.QUAD_URANIUM_FUEL_ROD).define('C', Ic2Items.DUAL_URANIUM_FUEL_ROD).define('P', tagsIngredient(Plate.COPPER.getTag(), Plate.LEAD.getTag())).pattern(" C ").pattern("PPP").pattern(" C ").unlockedBy("has_dual_uranium_fuel_rod", has(Ic2Items.DUAL_URANIUM_FUEL_ROD)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, id("nuclear/quad_uranium_fuel_rod"));
+        conditionalShaped(Ic2Items.REACTOR_HEAT_VENT).define('I', Items.IRON_BARS).define('A', Plate.ALUMINIUM.getTag()).pattern("AIA").pattern("I I").pattern("AIA").unlockedBy("has_aluminium_plate", has(Plate.ALUMINIUM.getTag())).addCondition(IC2_LOADED).save(finishedRecipeConsumer, id("nuclear/reactor_heat_vent"));
     }
 
     private static void gear(String name, ItemLike result, Consumer<FinishedRecipe> finishedRecipeConsumer) {
