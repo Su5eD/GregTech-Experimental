@@ -4,12 +4,6 @@
     {
       "conditions": [
         {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "refined_iron"
-          }
-        },
-        {
           "type": "forge:mod_loaded",
           "modid": "ic2"
         }
@@ -21,43 +15,7 @@
             "item": "ic2:insulated_copper_cable"
           },
           "I": {
-            "tag": "forge:plates/refined_iron"
-          },
-          "R": {
-            "tag": "forge:dusts/redstone"
-          }
-        },
-        "pattern": [
-          "CCC",
-          "RIR",
-          "CCC"
-        ],
-        "result": {
-          "item": "ic2:circuit"
-        }
-      }
-    },
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "iron"
-          }
-        },
-        {
-          "type": "forge:mod_loaded",
-          "modid": "ic2"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "C": {
-            "item": "ic2:insulated_copper_cable"
-          },
-          "I": {
-            "tag": "forge:plates/iron"
+            "tag": "gtexperimental:plates/universal_iron"
           },
           "R": {
             "tag": "forge:dusts/redstone"

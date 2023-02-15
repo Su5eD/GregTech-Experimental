@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "tag": "forge:plates/bronze"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "P",
+    "P",
+    "S"
+  ],
+  "result": {
+    "item": "gtexperimental:bronze_file"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "gtexperimental:crafting/100k_eu_store"
+    },
+    "C": {
+      "tag": "gtexperimental:advanced_circuit"
+    },
+    "D": {
+      "tag": "forge:dusts/diamond"
+    },
+    "S": [
+      {
+        "tag": "forge:rods/titanium"
+      },
+      {
+        "tag": "forge:rods/tungsten_steel"
+      }
+    ]
+  },
+  "pattern": [
+    "SBS",
+    " C ",
+    " D "
+  ],
+  "result": {
+    "item": "gtexperimental:diamond_jack_hammer"
+  }
+}

@@ -223,5 +223,10 @@ public final class RecipeUtil {
         return list;
     }
 
+    @SafeVarargs
+    public static Ingredient tagsIngredient(TagKey<Item>... tags) {
+        return Ingredient.fromValues(Stream.of(tags).map(Ingredient.TagValue::new));
+    }
+
     private RecipeUtil() {}
 }

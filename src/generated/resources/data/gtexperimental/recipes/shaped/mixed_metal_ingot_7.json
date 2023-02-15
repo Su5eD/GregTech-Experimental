@@ -4,12 +4,6 @@
     {
       "conditions": [
         {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "refined_iron"
-          }
-        },
-        {
           "type": "forge:mod_loaded",
           "modid": "ic2"
         }
@@ -19,61 +13,7 @@
         "key": {
           "X": [
             {
-              "tag": "forge:plates/refined_iron"
-            },
-            {
-              "tag": "forge:plates/nickel"
-            }
-          ],
-          "Y": [
-            {
-              "tag": "forge:plates/bronze"
-            },
-            {
-              "tag": "forge:plates/brass"
-            }
-          ],
-          "Z": [
-            {
-              "tag": "forge:plates/tin"
-            },
-            {
-              "tag": "forge:plates/zinc"
-            },
-            {
-              "tag": "forge:plates/aluminium"
-            }
-          ]
-        },
-        "pattern": [
-          "X",
-          "Y",
-          "Z"
-        ],
-        "result": {
-          "item": "ic2:mixed_metal_ingot"
-        }
-      }
-    },
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "iron"
-          }
-        },
-        {
-          "type": "forge:mod_loaded",
-          "modid": "ic2"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "X": [
-            {
-              "tag": "forge:plates/iron"
+              "tag": "gtexperimental:plates/universal_iron"
             },
             {
               "tag": "forge:plates/nickel"

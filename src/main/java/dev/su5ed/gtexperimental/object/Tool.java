@@ -49,7 +49,7 @@ public enum Tool implements TaggedItemProvider {
         .transferLimit(8192)
         .energyTier(GregTechMod.PROFILE_MANAGER.isClassic() ? 4 : 5)
         .providesEnergy(true)
-        .rarity(Rarity.RARE)), GregTechMod.PROFILE_MANAGER.isClassic() ? GregTechTags.CRAFTING_10KK_EU_STORE : GregTechTags.CRAFTING_100KK_EU_STORE),
+        .rarity(Rarity.RARE)), GregTechTags.LARGE_EU_STORE),
     ROCK_CUTTER(RockCutterItem::new),
     RUBBER_HAMMER(RubberHammerItem::new, GregTechTags.SOFT_HAMMER),
     SCANNER(ScannerItem::new),

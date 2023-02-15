@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-14T20:21:49.3613537	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-15T16:04:55.8075948	Gregtech ExperimentalTags for minecraft:item
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/blocks/bronze.json
 85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
@@ -50,7 +50,6 @@ b62f40835850d54610b1126d7302d01e71016c2a data/forge/tags/items/dusts/osmium.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/quicksilver.json
 63286c224f81bf4cf98771985226d8b84c43b5c3 data/forge/tags/items/dusts/redrock.json
 b3a11194fbcadb2e12962da1943ab16a7f62ddb2 data/forge/tags/items/dusts/red_garnet.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/dusts/refined_iron.json
 ae599b5e3e763a405ee9ed479d3a578638a9ae41 data/forge/tags/items/dusts/ruby.json
 e1445d7f7496b84b2c20a3e214c89ee459e9dec1 data/forge/tags/items/dusts/saltpeter.json
 d82b2ea3db640a81c32249c92d2dc27ed7748b20 data/forge/tags/items/dusts/sapphire.json
@@ -296,7 +295,6 @@ eafc0fbacd4116a86e76950542dc5d4c1b8ac1fd data/forge/tags/items/small_dusts/olivi
 7a4a55ab9957cc2d54f2ae92e7760b8e8dd67f73 data/forge/tags/items/small_dusts/redrock.json
 c001e2923d96f4fa73ab8f226a4f20b3ef5d5e9a data/forge/tags/items/small_dusts/redstone.json
 5379130911425df4907bf7ecc099807d5a4ccf65 data/forge/tags/items/small_dusts/red_garnet.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/small_dusts/refined_iron.json
 7c8c886422d54eab2fb4a446a28965c6a004ecbc data/forge/tags/items/small_dusts/ruby.json
 a1817482056a6211f452fd6104e064d401fde1f2 data/forge/tags/items/small_dusts/saltpeter.json
 98aae00fb7baefe4b3b37f6c5713a2d4e2123195 data/forge/tags/items/small_dusts/sapphire.json
@@ -375,10 +373,7 @@ cafe0ac68c29490bb14f7f7fb812e66ce1e447bc data/gtexperimental/tags/items/colored_
 b661a09d9556e39b050dd28dab836f02a3599423 data/gtexperimental/tags/items/compressed_coal_ball.json
 3c894751cbbcc77b7798cfc66bb6896d41fe19ad data/gtexperimental/tags/items/cooked_food.json
 66591b0da119fb08ca946a70a8276c0730ccba38 data/gtexperimental/tags/items/copper_cable.json
-9ebe1dba54a8099926fa8084522d12711c04b07f data/gtexperimental/tags/items/crafting/100kk_eu_store.json
-f3800e2e4c2ef842bde2c3e0b397291623a96994 data/gtexperimental/tags/items/crafting/10kk_eu_store.json
 cf14f3209a56fcf6282cd950e820f1949351dc52 data/gtexperimental/tags/items/crafting/180k_coolant_store.json
-eafc2e3797549fe6ba07c4ff88dbc80aff9830cb data/gtexperimental/tags/items/crafting/1kk_eu_store.json
 15452e26e610c9042544400979623f7a7593d799 data/gtexperimental/tags/items/crafting/360k_coolant_store.json
 11538c32f68e1d18e8ebbc92558077da176df38c data/gtexperimental/tags/items/crafting/600k_eu_pack.json
 e157b06d65493665c7f862406f05c110dc9043ab data/gtexperimental/tags/items/crafting/60k_coolant_store.json
@@ -438,7 +433,9 @@ d34d6dc6044cccd6f3d58aeccbe03597469bef2b data/gtexperimental/tags/items/gold_cab
 20128f3798b800793048ba7c7b1be65d8717f13f data/gtexperimental/tags/items/insulated_copper_cable.json
 cd96b223e51ca722d658247579b63866b6a29b59 data/gtexperimental/tags/items/insulated_gold_cable.json
 a0e8f821e66e3744fbf87b5f1db06017d29bc808 data/gtexperimental/tags/items/lapotron_crystal.json
+9ebe1dba54a8099926fa8084522d12711c04b07f data/gtexperimental/tags/items/large_eu_store.json
 f24521955fe4ee79baa22cd1e5f7c3e8d7d4c4bc data/gtexperimental/tags/items/lazurite_chunk.json
+f3800e2e4c2ef842bde2c3e0b397291623a96994 data/gtexperimental/tags/items/medium_eu_store.json
 be008c2cb723eb00b1b604d07593c3d88e38b607 data/gtexperimental/tags/items/mortar.json
 6f8cd5032131d5b64832d41a94cbd662c5e78ef5 data/gtexperimental/tags/items/oil_sand.json
 3f753e6a997883d3e9874fbfc30c4c465c828356 data/gtexperimental/tags/items/overclocked_heat_vent.json
@@ -450,6 +447,7 @@ be008c2cb723eb00b1b604d07593c3d88e38b607 data/gtexperimental/tags/items/mortar.j
 60b7a1786bcc1d8ef9c6413394ed794d7e14c771 data/gtexperimental/tags/items/resin.json
 4f5062139a4d649e660ee7627d0ef8cd1c7a2940 data/gtexperimental/tags/items/re_battery.json
 a8ed26dd718e8922ba146807df59ecfcee45ee1c data/gtexperimental/tags/items/rubber.json
+eafc2e3797549fe6ba07c4ff88dbc80aff9830cb data/gtexperimental/tags/items/small_eu_store.json
 413eb8ccc67712fb8b5b79d07159e5ea3659d948 data/gtexperimental/tags/items/teleporter.json
 af4b74070facf78d4ad12eaf3d2801a9de682b5e data/gtexperimental/tags/items/tools/wrench.json
 2f5bd061e161a45448520e431ce280cdf2d10ba2 data/gtexperimental/tags/items/transformer_upgrade.json

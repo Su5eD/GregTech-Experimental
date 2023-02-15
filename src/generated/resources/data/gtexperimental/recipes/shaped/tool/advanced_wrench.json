@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "gtexperimental:crafting/li_battery"
+    },
+    "C": {
+      "tag": "gtexperimental:advanced_circuit"
+    },
+    "T": {
+      "tag": "forge:plates/tungsten_steel"
+    }
+  },
+  "pattern": [
+    "T T",
+    "TCT",
+    " B "
+  ],
+  "result": {
+    "item": "gtexperimental:advanced_wrench"
+  }
+}

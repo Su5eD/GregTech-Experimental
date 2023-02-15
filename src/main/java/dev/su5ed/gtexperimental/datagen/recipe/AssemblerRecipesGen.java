@@ -20,13 +20,10 @@ import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.conditions.ICondition;
 import twilightforest.init.TFItems;
 
 import java.util.function.Consumer;
@@ -106,7 +103,7 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
         assembler(ModRecipeIngredientTypes.ITEM.of(Rod.IRIDIUM.getTag(), 4), ModRecipeIngredientTypes.ITEM.of(Plate.IRIDIUM.getTag(), 4), Component.IRIDIUM_GEAR.getItemStack(), 3200, 4)
             .build(finishedRecipeConsumer, id("iridium_gear"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Plate.ALUMINIUM.getTag(), 2), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CIRCUIT), Component.MACHINE_PARTS.getItemStack(3), 800, 16)
-            .build(finishedRecipeConsumer, id("machine_parts"));
+            .build(finishedRecipeConsumer, id("machine_parts_from_aluminium"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Plate.ALUMINIUM.getTag(), 6), ModRecipeIngredientTypes.ITEM.of(Component.MACHINE_PARTS), Component.ALUMINIUM_HULL.getItemStack(), 400, 8)
             .build(finishedRecipeConsumer, id("aluminium_hull"));
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.CIRCUIT), ModRecipeIngredientTypes.ITEM.of(Plate.ELECTRUM.getTag(), 2), Component.ADVANCED_CIRCUIT_BOARD.getItemStack(), 1600, 2)
@@ -146,14 +143,50 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
 //        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_RAW_MACHINE_TIER_1), ModRecipeIngredientTypes.ITEM.of(Component.MACHINE_PARTS.getTag()), GTBlockEntity.MACHINE_BOX, 1600, 2)
 //            .build(finishedRecipeConsumer, id("machine_box"));
 
-        // Classic
-
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(5, GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.ofTags(Tags.Items.CHESTS_WOODEN, Tags.Items.CHESTS_TRAPPED), new ItemStack(Items.HOPPER), 800, 2)
+            .build(finishedRecipeConsumer, id("hopper"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(GregTechTags.PUMP), ModCoverItem.PUMP_MODULE.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("pump_module"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.HEAVY_WEIGHTED_PRESSURE_PLATE), ModCoverItem.ITEM_METER.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("item_meter"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.LIGHT_WEIGHTED_PRESSURE_PLATE), ModCoverItem.LIQUID_METER.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("liquid_meter"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(2, GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.IRON_BARS, 2), ModCoverItem.DRAIN.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("drain"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE), ModRecipeIngredientTypes.ITEM.of(Items.COMPARATOR), ModCoverItem.ACTIVE_DETECTOR.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("active_detector"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.LEVER), ModCoverItem.MACHINE_CONTROLLER.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("machine_controller"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.CRAFTING_TABLE), ModCoverItem.CRAFTING.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("crafting"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(GregTechTags.ENERGY_CRYSTAL), Upgrade.ENERGY_CRYSTAL_UPGRADE.getItemStack(), 1600, 16)
+            .build(finishedRecipeConsumer, id("energy_crystal_upgrade"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(GregTechTags.LAPOTRON_CRYSTAL), Upgrade.LAPOTRON_CRYSTAL_UPGRADE.getItemStack(), 3200, 16)
+            .build(finishedRecipeConsumer, id("lapotron_crystal_upgrade"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Tool.LAPOTRONIC_ENERGY_ORB), Upgrade.ENERGY_ORB.getItemStack(), 6400, 16)
+            .build(finishedRecipeConsumer, id("energy_orb"));
+        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.UNIVERSAL_IRON_PLATE, 2), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CIRCUIT), Component.MACHINE_PARTS.getItemStack(4), 800, 16)
+            .build(finishedRecipeConsumer, id("machine_parts_from_iron"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Plate.ELECTRUM.getTag(), 2), Component.BASIC_CIRCUIT_BOARD.getItemStack(2), 800, 1)
+            .build(finishedRecipeConsumer, id("basic_circuit_board"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Plate.IRIDIUM.getTag()), Upgrade.MACHINE_LOCK.getItemStack(), 1600, 2)
+            .build(finishedRecipeConsumer, id("machine_lock"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Tags.Items.DUSTS_REDSTONE), ModCoverItem.REDSTONE_CONDUCTOR.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("redstone_conductor"));
+        assembler(ModRecipeIngredientTypes.ITEM.ofTags(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.REDSTONE_TORCH), ModCoverItem.REDSTONE_SIGNALIZER.getItemStack(), 800, 16)
+            .build(finishedRecipeConsumer, id("redstone_signalizer"));
+        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.UNIVERSAL_IRON_ROD, 4), ModRecipeIngredientTypes.ITEM.of(GregTechTags.UNIVERSAL_IRON_PLATE, 4), Component.IRON_GEAR.getItemStack(), 3200, 4)
+            .build(finishedRecipeConsumer, id("iron_gear"));
 
         buildOtherModRecipes(finishedRecipeConsumer);
     }
 
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
 //        ICondition railcraftLoaded = new ModLoadedCondition(ModHandler.RAILCRAFT_MODID);
+
+        // TODO Base Mod output item recipe for each base mod
+        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.UNIVERSAL_IRON_PLATE, 8), ModRecipeIngredientTypes.ITEM.of(Component.MACHINE_PARTS), new ItemStack(ModHandler.getModItem("machine")), 400, 8)
+            .build(finishedRecipeConsumer, id("machine"));
 
         // Base mods
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "tin"), 2), new ItemStack(ModHandler.getModItem("empty_cell")), 400, 1)
@@ -234,9 +267,6 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
 //            .addConditions(ic2Loaded, SelectedProfileCondition.CLASSIC)
 //            .build(finishedRecipeConsumer, id("classic/ic2/energy_meter"));
 
-        ironProfileRecipes(finishedRecipeConsumer, SelectedProfileCondition.REFINED_IRON, "refined_iron", Plate.REFINED_IRON.getTag(), Rod.REFINED_IRON.getTag());
-        ironProfileRecipes(finishedRecipeConsumer, SelectedProfileCondition.REGULAR_IRON, "regular_iron", Plate.IRON.getTag(), Rod.IRON.getTag());
-
         // FTBIC
         assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.CARBON_FIBERS.item.get(), 4), new ItemStack(FTBICItems.CARBON_FIBER_MESH.item.get()), 800, 2)
             .addConditions(FTBIC_LOADED)
@@ -286,64 +316,6 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
 //        assembler(ModRecipeIngredientTypes.ITEM.of(ENERGY_CONTROL_ITEM_CARD), new ItemStack(ModHandler.getModItem("circuit")), 1600, 2)
 //            .addConditions(energyControlLoaded)
 //            .build(finishedRecipeConsumer, id("circuit_from_item_kit"));
-    }
-
-    private static void ironProfileRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer, ICondition condition, String profile, TagKey<Item> ironPlate, TagKey<Item> ironRod) {
-        // TODO Base Mod output item recipe for each base mod
-        assembler(ModRecipeIngredientTypes.ITEM.of(ironPlate, 8), ModRecipeIngredientTypes.ITEM.of(Component.MACHINE_PARTS), new ItemStack(ModHandler.getModItem("machine")), 400, 8)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "machine"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(5, ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.ofTags(Tags.Items.CHESTS_WOODEN, Tags.Items.CHESTS_TRAPPED), new ItemStack(Items.HOPPER), 800, 2)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "hopper"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(GregTechTags.PUMP), ModCoverItem.PUMP_MODULE.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "pump_module"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.HEAVY_WEIGHTED_PRESSURE_PLATE), ModCoverItem.ITEM_METER.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "item_meter"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.LIGHT_WEIGHTED_PRESSURE_PLATE), ModCoverItem.LIQUID_METER.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "liquid_meter"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(2, ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.IRON_BARS, 2), ModCoverItem.DRAIN.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "drain"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate), ModRecipeIngredientTypes.ITEM.of(Items.COMPARATOR), ModCoverItem.ACTIVE_DETECTOR.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "active_detector"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.LEVER), ModCoverItem.MACHINE_CONTROLLER.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "machine_controller"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.CRAFTING_TABLE), ModCoverItem.CRAFTING.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "crafting"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(GregTechTags.ENERGY_CRYSTAL), Upgrade.ENERGY_CRYSTAL_UPGRADE.getItemStack(), 1600, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "energy_crystal_upgrade"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(GregTechTags.LAPOTRON_CRYSTAL), Upgrade.LAPOTRON_CRYSTAL_UPGRADE.getItemStack(), 3200, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "lapotron_crystal_upgrade"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Tool.LAPOTRONIC_ENERGY_ORB), Upgrade.ENERGY_ORB.getItemStack(), 6400, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "energy_orb"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(ironPlate, 2), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CIRCUIT), Component.MACHINE_PARTS.getItemStack(4), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "machine_parts"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Plate.ELECTRUM.getTag(), 2), Component.BASIC_CIRCUIT_BOARD.getItemStack(2), 800, 1)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "basic_circuit_board"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Plate.IRIDIUM.getTag()), Upgrade.MACHINE_LOCK.getItemStack(), 1600, 2)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "machine_lock"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Tags.Items.DUSTS_REDSTONE), ModCoverItem.REDSTONE_CONDUCTOR.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "redstone_conductor"));
-        assembler(ModRecipeIngredientTypes.ITEM.ofTags(ironPlate, Plate.ALUMINIUM.getTag()), ModRecipeIngredientTypes.ITEM.of(Items.REDSTONE_TORCH), ModCoverItem.REDSTONE_SIGNALIZER.getItemStack(), 800, 16)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "redstone_signalizer"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(ironRod, 4), ModRecipeIngredientTypes.ITEM.of(ironPlate, 4), Component.IRON_GEAR.getItemStack(), 3200, 4)
-            .addConditions(condition)
-            .build(finishedRecipeConsumer, profileId(profile, "iron_gear"));
     }
 
     private static RecipeName id(String name) {

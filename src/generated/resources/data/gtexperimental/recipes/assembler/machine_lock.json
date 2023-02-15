@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 1600,
+  "energy_cost": 2.0,
+  "input": [
+    {
+      "value": [
+        {
+          "tag": "gtexperimental:plates/universal_iron"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ]
+    },
+    {
+      "value": {
+        "tag": "forge:plates/iridium"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:machine_lock"
+  }
+}

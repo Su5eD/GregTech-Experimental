@@ -13,7 +13,7 @@
   "input": [
     {
       "value": {
-        "tag": "minecraft:iron_ores"
+        "tag": "forge:ores/iron"
       }
     },
     {

@@ -1,63 +1,19 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "refined_iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "R": {
-            "tag": "forge:ingots/refined_iron"
-          },
-          "S": {
-            "tag": "minecraft:stone_bricks"
-          }
-        },
-        "pattern": [
-          " R ",
-          "SRS",
-          "SSS"
-        ],
-        "result": {
-          "item": "gtexperimental:iron_mortar"
-        }
-      }
+  "type": "gtexperimental:tool_crafting_shaped",
+  "key": {
+    "R": {
+      "tag": "gtexperimental:ingots/universal_iron"
     },
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "R": {
-            "tag": "forge:ingots/iron"
-          },
-          "S": {
-            "tag": "minecraft:stone_bricks"
-          }
-        },
-        "pattern": [
-          " R ",
-          "SRS",
-          "SSS"
-        ],
-        "result": {
-          "item": "gtexperimental:iron_mortar"
-        }
-      }
+    "S": {
+      "tag": "minecraft:stone_bricks"
     }
-  ]
+  },
+  "pattern": [
+    " R ",
+    "SRS",
+    "SSS"
+  ],
+  "result": {
+    "item": "gtexperimental:iron_mortar"
+  }
 }

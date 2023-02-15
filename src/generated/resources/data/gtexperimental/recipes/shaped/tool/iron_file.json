@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "tag": "gtexperimental:plates/universal_iron"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "P",
+    "P",
+    "S"
+  ],
+  "result": {
+    "item": "gtexperimental:iron_file"
+  }
+}

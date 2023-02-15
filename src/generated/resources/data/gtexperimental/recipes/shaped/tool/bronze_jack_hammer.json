@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "gtexperimental:re_battery"
+    },
+    "C": {
+      "tag": "gtexperimental:circuit"
+    },
+    "I": {
+      "tag": "forge:ingots/bronze"
+    },
+    "S": {
+      "tag": "forge:rods/bronze"
+    }
+  },
+  "pattern": [
+    "SBS",
+    " C ",
+    " I "
+  ],
+  "result": {
+    "item": "gtexperimental:bronze_jack_hammer"
+  }
+}

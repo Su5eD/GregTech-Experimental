@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_advanced_circuit": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "gtexperimental:advanced_circuit"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gtexperimental:shaped/tool/destructorpack"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_advanced_circuit",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gtexperimental:shaped/tool/destructorpack"
+    ]
+  }
+}

@@ -1,81 +1,28 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "refined_iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "A": [
-            {
-              "tag": "forge:plates/refined_iron"
-            },
-            {
-              "tag": "forge:plates/aluminium"
-            }
-          ],
-          "C": {
-            "tag": "gtexperimental:circuit"
-          },
-          "M": {
-            "tag": "gtexperimental:crafting/raw_machine_tier_1"
-          }
-        },
-        "pattern": [
-          "AAA",
-          "CMC",
-          "AAA"
-        ],
-        "result": {
-          "count": 4,
-          "item": "gtexperimental:standard_machine_casing_block"
-        }
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": [
+      {
+        "tag": "gtexperimental:plates/universal_iron"
+      },
+      {
+        "tag": "forge:plates/aluminium"
       }
+    ],
+    "C": {
+      "tag": "gtexperimental:circuit"
     },
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "A": [
-            {
-              "tag": "forge:plates/iron"
-            },
-            {
-              "tag": "forge:plates/aluminium"
-            }
-          ],
-          "C": {
-            "tag": "gtexperimental:circuit"
-          },
-          "M": {
-            "tag": "gtexperimental:crafting/raw_machine_tier_1"
-          }
-        },
-        "pattern": [
-          "AAA",
-          "CMC",
-          "AAA"
-        ],
-        "result": {
-          "count": 4,
-          "item": "gtexperimental:standard_machine_casing_block"
-        }
-      }
+    "M": {
+      "tag": "gtexperimental:crafting/raw_machine_tier_1"
     }
-  ]
+  },
+  "pattern": [
+    "AAA",
+    "CMC",
+    "AAA"
+  ],
+  "result": {
+    "count": 4,
+    "item": "gtexperimental:standard_machine_casing_block"
+  }
 }

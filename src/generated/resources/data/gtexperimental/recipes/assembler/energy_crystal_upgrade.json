@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 1600,
+  "energy_cost": 16.0,
+  "input": [
+    {
+      "value": [
+        {
+          "tag": "gtexperimental:plates/universal_iron"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ]
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:energy_crystal"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:energy_crystal_upgrade"
+  }
+}

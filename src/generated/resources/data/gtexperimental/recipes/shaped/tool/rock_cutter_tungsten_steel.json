@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "gtexperimental:re_battery"
+    },
+    "C": {
+      "tag": "gtexperimental:circuit"
+    },
+    "D": {
+      "tag": "forge:dusts/diamond"
+    },
+    "P": {
+      "tag": "forge:plates/tungsten_steel"
+    },
+    "S": {
+      "tag": "forge:rods/tungsten_steel"
+    }
+  },
+  "pattern": [
+    "DS ",
+    "DP ",
+    "DCB"
+  ],
+  "result": {
+    "item": "gtexperimental:rock_cutter"
+  }
+}

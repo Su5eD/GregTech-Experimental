@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 6400,
+  "energy_cost": 16.0,
+  "input": [
+    {
+      "value": [
+        {
+          "tag": "gtexperimental:plates/universal_iron"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ]
+    },
+    {
+      "value": {
+        "item": "gtexperimental:lapotronic_energy_orb"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:energy_orb"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "tag": "gtexperimental:rubber"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RRR",
+    " S "
+  ],
+  "result": {
+    "item": "gtexperimental:rubber_hammer"
+  }
+}

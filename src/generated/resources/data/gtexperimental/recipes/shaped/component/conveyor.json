@@ -1,85 +1,30 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "layout": "classic"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "A": [
-            {
-              "tag": "forge:plates/refined_iron"
-            },
-            {
-              "tag": "forge:plates/aluminium"
-            }
-          ],
-          "B": {
-            "tag": "gtexperimental:re_battery"
-          },
-          "C": {
-            "tag": "gtexperimental:circuit"
-          },
-          "G": {
-            "tag": "forge:glass/colorless"
-          }
-        },
-        "pattern": [
-          "GGG",
-          "AAA",
-          "CBC"
-        ],
-        "result": {
-          "item": "gtexperimental:conveyor"
-        }
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": [
+      {
+        "tag": "gtexperimental:plates/universal_iron"
+      },
+      {
+        "tag": "forge:plates/aluminium"
       }
+    ],
+    "B": {
+      "tag": "gtexperimental:re_battery"
     },
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "layout": "experimental"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "A": [
-            {
-              "tag": "forge:plates/iron"
-            },
-            {
-              "tag": "forge:plates/aluminium"
-            }
-          ],
-          "B": {
-            "tag": "gtexperimental:re_battery"
-          },
-          "C": {
-            "tag": "gtexperimental:circuit"
-          },
-          "G": {
-            "tag": "forge:glass/colorless"
-          }
-        },
-        "pattern": [
-          "GGG",
-          "AAA",
-          "CBC"
-        ],
-        "result": {
-          "item": "gtexperimental:conveyor"
-        }
-      }
+    "C": {
+      "tag": "gtexperimental:circuit"
+    },
+    "G": {
+      "tag": "forge:glass/colorless"
     }
-  ]
+  },
+  "pattern": [
+    "GGG",
+    "AAA",
+    "CBC"
+  ],
+  "result": {
+    "item": "gtexperimental:conveyor"
+  }
 }

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "tag": "gtexperimental:advanced_circuit"
+    },
+    "L": {
+      "item": "minecraft:lava_bucket"
+    },
+    "R": [
+      {
+        "tag": "gtexperimental:plates/universal_iron"
+      },
+      {
+        "tag": "forge:plates/aluminium"
+      }
+    ]
+  },
+  "pattern": [
+    "ARA",
+    "RLR",
+    "ARA"
+  ],
+  "result": {
+    "item": "gtexperimental:destructorpack"
+  }
+}

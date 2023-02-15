@@ -9,7 +9,6 @@ import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
-import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -52,16 +51,9 @@ public final class WiremillRecipesGen implements ModRecipeProvider {
         wiremill(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_GOLD), new ItemStack(Ic2Items.GOLD_CABLE, 6), 200, 1)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, id("ic2/gold_cable"));
-
-        // Regular Iron
-        wiremill(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_IRON), new ItemStack(Ic2Items.IRON_CABLE, 6), 200, 2)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.REGULAR_IRON)
-            .build(finishedRecipeConsumer, profileId("regular_iron", "iron_cable"));
-
-        // Refined Iron
-        wiremill(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ingot("refined_iron")), new ItemStack(Ic2Items.IRON_CABLE, 6), 200, 2)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.REFINED_IRON)
-            .build(finishedRecipeConsumer, profileId("refined_iron", "iron_cable"));
+        wiremill(ModRecipeIngredientTypes.ITEM.of(GregTechTags.UNIVERSAL_IRON_INGOT), new ItemStack(Ic2Items.IRON_CABLE, 6), 200, 2)
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, id("ic2/iron_cable"));
 
         // FTBIC
         wiremill(ModRecipeIngredientTypes.ITEM.of(Dust.COAL.getTag(), 4), new ItemStack(FTBICItems.CARBON_FIBERS.item.get()), 400, 2)

@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental;
 
-import dev.su5ed.gtexperimental.object.Smalldust;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -31,7 +30,6 @@ public final class GregTechTags {
     public static final TagKey<Block> SUBMERGE_ORE_LAVA = blockTag("submerge_ore_lava");
 
     public static final TagKey<Item> PLATES = forgeItemTag("plates");
-    public static final TagKey<Item> IRIDIUM_ALLOY = itemTag("plates/iridium_alloy");
 
     public static final TagKey<Item> CRAFTING_SUPERCONDUCTOR = itemTag("crafting/superconductor");
     public static final TagKey<Item> CRAFTING_LI_BATTERY = itemTag("crafting/li_battery");
@@ -94,11 +92,20 @@ public final class GregTechTags {
     public static final TagKey<Item> CRAFTING_SOLAR_PANEL_HV = itemTag("crafting/solar_panel_hv");
 
     public static final TagKey<Item> CRAFTING_HV_TRANSFORMER_UPGRADE = itemTag("crafting/hv_transformer_upgrade");
+    // Small EU store: 100K / 1KK
+    public static final TagKey<Item> SMALL_EU_STORE = itemTag("small_eu_store");
+    // Medium EU store: 1KK / 10KK
+    public static final TagKey<Item> MEDIUM_EU_STORE = itemTag("medium_eu_store");
+    // Large EU store: 10KK / 100KK
+    public static final TagKey<Item> LARGE_EU_STORE = itemTag("large_eu_store");
+
+    // TODO add to respective datapacks
     public static final TagKey<Item> CRAFTING_100K_EU_STORE = itemTag("crafting/100k_eu_store");
     public static final TagKey<Item> CRAFTING_1KK_EU_STORE = itemTag("crafting/1kk_eu_store");
     public static final TagKey<Item> CRAFTING_10KK_EU_STORE = itemTag("crafting/10kk_eu_store");
     public static final TagKey<Item> CRAFTING_100KK_EU_STORE = itemTag("crafting/100kk_eu_store");
     public static final TagKey<Item> CRAFTING_600K_EU_STORE = itemTag("crafting/600k_eu_pack");
+
     public static final TagKey<Item> CRAFTING_LOCK = itemTag("crafting/lock");
     public static final TagKey<Item> CRAFTING_QUANTUM_CHEST_UPGRADE = itemTag("crafting/quantum_chest_upgrade");
     public static final TagKey<Item> CRAFTING_STEAM_UPGRADE = itemTag("crafting/steam_upgrade");
@@ -126,6 +133,7 @@ public final class GregTechTags {
     public static final TagKey<Item> FILE = forgeItemTag("tools/file");
     public static final TagKey<Item> SOLDERING_IRON = forgeItemTag("tools/soldering_iron");
 
+    public static final TagKey<Item> IRIDIUM_ALLOY = itemTag("plates/iridium_alloy");
     public static final TagKey<Item> WRENCH = itemTag("tools/wrench");
     public static final TagKey<Item> HEAT_VENT = itemTag("heat_vent");
     public static final TagKey<Item> COMPONENT_HEAT_VENT = itemTag("component_heat_vent");
@@ -166,6 +174,16 @@ public final class GregTechTags {
     public static final TagKey<Item> TELEPORTER = itemTag("teleporter");
     public static final TagKey<Item> DENSE_COPPER_PLATE = itemTag("dense_copper_plate");
     public static final TagKey<Item> REACTOR_COOLANT_CELL = itemTag("reactor_coolant_cell");
+    // TODO
+    // Regular iron / Refined iron
+    public static final TagKey<Item> UNIVERSAL_IRON_INGOT = itemTag("ingots/universal_iron");
+    public static final TagKey<Item> UNIVERSAL_IRON_PLATE = itemTag("plates/universal_iron");
+    public static final TagKey<Item> UNIVERSAL_IRON_ROD = itemTag("rods/universal_iron");
+    public static final TagKey<Item> UNIVERSAL_IRON_DUST = itemTag("dusts/universal_iron");
+    // Regular Iron [+ Refined iron]
+    public static final TagKey<Item> ANY_IRON_INGOT = itemTag("ingots/any_iron");
+    public static final TagKey<Item> ANY_IRON_DUST = itemTag("dusts/any_iron");
+    public static final TagKey<Item> ANY_IRON_SMALLDUST = itemTag("small_dusts/any_iron");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");

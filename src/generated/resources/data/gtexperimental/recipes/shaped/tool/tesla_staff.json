@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": {
+      "tag": "gtexperimental:plates/iridium_alloy"
+    },
+    "L": {
+      "tag": "gtexperimental:large_eu_store"
+    },
+    "S": {
+      "tag": "gtexperimental:crafting/superconductor"
+    }
+  },
+  "pattern": [
+    "LS ",
+    "SI ",
+    "  I"
+  ],
+  "result": {
+    "item": "gtexperimental:tesla_staff"
+  }
+}

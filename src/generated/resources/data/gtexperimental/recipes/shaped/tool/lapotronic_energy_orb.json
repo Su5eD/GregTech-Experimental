@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": {
+      "tag": "gtexperimental:plates/iridium_alloy"
+    },
+    "L": {
+      "tag": "gtexperimental:medium_eu_store"
+    }
+  },
+  "pattern": [
+    "LLL",
+    "LIL",
+    "LLL"
+  ],
+  "result": {
+    "item": "gtexperimental:lapotronic_energy_orb"
+  }
+}

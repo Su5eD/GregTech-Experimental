@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gtexperimental:shaped/component/iron_gear"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wrench": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "gtexperimental:tools/wrench"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_wrench",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gtexperimental:shaped/component/iron_gear"
+    ]
+  }
+}

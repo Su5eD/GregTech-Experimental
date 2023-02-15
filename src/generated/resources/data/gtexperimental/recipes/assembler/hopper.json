@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 800,
+  "energy_cost": 2.0,
+  "input": [
+    {
+      "count": 5,
+      "value": [
+        {
+          "tag": "gtexperimental:plates/universal_iron"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ]
+    },
+    {
+      "value": [
+        {
+          "tag": "forge:chests/wooden"
+        },
+        {
+          "tag": "forge:chests/trapped"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "item": "minecraft:hopper"
+  }
+}

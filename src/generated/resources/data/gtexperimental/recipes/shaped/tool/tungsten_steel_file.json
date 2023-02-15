@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "tag": "forge:plates/tungsten_steel"
+    },
+    "S": {
+      "tag": "forge:rods/steel"
+    }
+  },
+  "pattern": [
+    "P",
+    "P",
+    "S"
+  ],
+  "result": {
+    "item": "gtexperimental:tungsten_steel_file"
+  }
+}

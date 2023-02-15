@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_circuit_tier_6": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "gtexperimental:circuit_tier_6"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gtexperimental:shaped/tool/advanced_drill"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_circuit_tier_6",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gtexperimental:shaped/tool/advanced_drill"
+    ]
+  }
+}

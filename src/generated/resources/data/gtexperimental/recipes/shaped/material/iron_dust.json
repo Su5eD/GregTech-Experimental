@@ -1,58 +1,14 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "refined_iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          {
-            "item": "gtexperimental:iron_mortar"
-          },
-          [
-            {
-              "tag": "forge:ingots/iron"
-            },
-            {
-              "tag": "forge:ingots/refined_iron"
-            }
-          ]
-        ],
-        "result": {
-          "item": "gtexperimental:iron_dust"
-        }
-      }
+      "item": "gtexperimental:iron_mortar"
     },
     {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          {
-            "item": "gtexperimental:iron_mortar"
-          },
-          {
-            "tag": "forge:ingots/iron"
-          }
-        ],
-        "result": {
-          "item": "gtexperimental:iron_dust"
-        }
-      }
+      "tag": "gtexperimental:ingots/any_iron"
     }
-  ]
+  ],
+  "result": {
+    "item": "gtexperimental:iron_dust"
+  }
 }

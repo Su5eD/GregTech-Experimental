@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 3200,
+  "energy_cost": 4.0,
+  "input": [
+    {
+      "count": 4,
+      "value": {
+        "tag": "gtexperimental:rods/universal_iron"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "tag": "gtexperimental:plates/universal_iron"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:iron_gear"
+  }
+}

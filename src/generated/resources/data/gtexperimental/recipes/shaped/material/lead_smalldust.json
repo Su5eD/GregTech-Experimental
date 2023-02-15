@@ -1,60 +1,15 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
     {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "refined_iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          {
-            "tag": "forge:small_dusts/nickel"
-          },
-          [
-            {
-              "tag": "forge:small_dusts/iron"
-            },
-            {
-              "tag": "forge:small_dusts/refined_iron"
-            }
-          ]
-        ],
-        "result": {
-          "count": 3,
-          "item": "gtexperimental:lead_smalldust"
-        }
-      }
+      "tag": "gtexperimental:small_dusts/any_iron"
     },
     {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          {
-            "tag": "forge:small_dusts/nickel"
-          },
-          {
-            "tag": "forge:small_dusts/iron"
-          }
-        ],
-        "result": {
-          "count": 3,
-          "item": "gtexperimental:lead_smalldust"
-        }
-      }
+      "tag": "forge:small_dusts/nickel"
     }
-  ]
+  ],
+  "result": {
+    "count": 3,
+    "item": "gtexperimental:lead_smalldust"
+  }
 }

@@ -33,11 +33,11 @@ public class ConditionalShapedRecipeBuilder extends ConditionRecipeBuilder<Condi
         return new ConditionalShapedRecipeBuilder(result, count, ShapedRecipeBuilder::new);
     }
 
-    public static ConditionalShapedRecipeBuilder toolShaped(ItemLike result) {
-        return toolShaped(result, 1);
+    public static ConditionalShapedRecipeBuilder conditionalToolShaped(ItemLike result) {
+        return conditionalToolShaped(result, 1);
     }
 
-    public static ConditionalShapedRecipeBuilder toolShaped(ItemLike result, int count) {
+    public static ConditionalShapedRecipeBuilder conditionalToolShaped(ItemLike result, int count) {
         return new ConditionalShapedRecipeBuilder(result, count, WrappedShapedRecipeBuilder::toolShaped);
     }
 

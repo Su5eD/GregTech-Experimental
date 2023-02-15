@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "T": {
+      "tag": "forge:ingots/tungsten_steel"
+    }
+  },
+  "pattern": [
+    "T T",
+    "TTT",
+    " T "
+  ],
+  "result": {
+    "item": "gtexperimental:tungsten_steel_wrench"
+  }
+}

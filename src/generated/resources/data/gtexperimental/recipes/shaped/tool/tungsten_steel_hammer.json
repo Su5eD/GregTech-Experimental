@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "tag": "forge:ingots/tungsten_steel"
+    },
+    "S": {
+      "tag": "forge:rods/steel"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RRR",
+    " S "
+  ],
+  "result": {
+    "item": "gtexperimental:tungsten_steel_hammer"
+  }
+}

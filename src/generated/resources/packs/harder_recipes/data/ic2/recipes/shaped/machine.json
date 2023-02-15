@@ -4,12 +4,6 @@
     {
       "conditions": [
         {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "refined_iron"
-          }
-        },
-        {
           "type": "forge:mod_loaded",
           "modid": "ic2"
         }
@@ -18,40 +12,7 @@
         "type": "minecraft:crafting_shaped",
         "key": {
           "R": {
-            "tag": "forge:plates/refined_iron"
-          },
-          "W": {
-            "tag": "gtexperimental:tools/wrench"
-          }
-        },
-        "pattern": [
-          "RRR",
-          "RWR",
-          "RRR"
-        ],
-        "result": {
-          "item": "ic2:machine"
-        }
-      }
-    },
-    {
-      "conditions": [
-        {
-          "type": "gtexperimental:selected_profile",
-          "properties": {
-            "iron_variant": "iron"
-          }
-        },
-        {
-          "type": "forge:mod_loaded",
-          "modid": "ic2"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "R": {
-            "tag": "forge:plates/iron"
+            "tag": "gtexperimental:plates/universal_iron"
           },
           "W": {
             "tag": "gtexperimental:tools/wrench"
