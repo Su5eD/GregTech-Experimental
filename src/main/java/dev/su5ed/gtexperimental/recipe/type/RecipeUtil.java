@@ -10,8 +10,15 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.compat.ModHandler;
+import dev.su5ed.gtexperimental.object.ModFluid;
+import dev.su5ed.gtexperimental.recipe.crafting.FluidItemPredicate;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolCraftingIngredient;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +34,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITagManager;
 import one.util.streamex.EntryStream;
@@ -41,7 +49,11 @@ import java.util.function.BiFunction;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
+
 public final class RecipeUtil {
+    public static final RecipeIngredient<FluidStack> WATER = ModRecipeIngredientTypes.FLUID.of(Fluids.WATER, buckets(1));
+    public static final RecipeIngredient<FluidStack> MERCURY = ModRecipeIngredientTypes.FLUID.of(ModFluid.MERCURY, buckets(1));
     private static final List<String> MOD_PRIORITY = List.of(ModHandler.FTBIC_MODID, ModHandler.IC2_MODID, Reference.MODID);
 
     public static <T> List<? extends RecipeIngredient<T>> parseInputs(RecipeIngredientType<? extends RecipeIngredient<T>> inputType, int inputCount, JsonArray json) {
@@ -226,6 +238,23 @@ public final class RecipeUtil {
     @SafeVarargs
     public static Ingredient tagsIngredient(TagKey<Item>... tags) {
         return Ingredient.fromValues(Stream.of(tags).map(Ingredient.TagValue::new));
+    }
+
+    @SafeVarargs
+    public static InventoryChangeTrigger.TriggerInstance hasTags(TagKey<Item>... tags) {
+        ItemPredicate.Builder builder = ItemPredicate.Builder.item();
+        for (TagKey<Item> tag : tags) {
+            builder.of(tag);
+        }
+        return inventoryTrigger(builder.build());
+    }
+
+    public static InventoryChangeTrigger.TriggerInstance hasFluid(TagKey<Fluid> tag) {
+        return inventoryTrigger(FluidItemPredicate.of(tag));
+    }
+
+    public static InventoryChangeTrigger.TriggerInstance inventoryTrigger(ItemPredicate... predicates) {
+        return new InventoryChangeTrigger.TriggerInstance(EntityPredicate.Composite.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, predicates);
     }
 
     private RecipeUtil() {}

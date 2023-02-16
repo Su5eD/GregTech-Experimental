@@ -1,0 +1,36 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          {
+            "item": "ic2:fertilizer"
+          },
+          {
+            "tag": "forge:dusts/sulfur"
+          },
+          {
+            "type": "gtexperimental:fluid_item_ingredient",
+            "fluid_ingredient": {
+              "type": "tag",
+              "amount": 1000,
+              "tag": "forge:calcium"
+            }
+          }
+        ],
+        "result": {
+          "count": 3,
+          "item": "ic2:fertilizer"
+        }
+      }
+    }
+  ]
+}

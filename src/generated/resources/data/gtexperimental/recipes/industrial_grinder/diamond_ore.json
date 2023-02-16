@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/diamond"
+    }
+  },
+  "output": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 6,
+      "item": "gtexperimental:diamond_smalldust"
+    },
+    {
+      "item": "gtexperimental:coal_dust"
+    }
+  ]
+}

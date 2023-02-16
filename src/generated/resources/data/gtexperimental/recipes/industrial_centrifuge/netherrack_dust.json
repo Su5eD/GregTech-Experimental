@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 2400,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:dusts/netherrack"
+    }
+  },
+  "output": [
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "count": 4,
+      "item": "gtexperimental:sulfur_dust"
+    },
+    {
+      "item": "gtexperimental:coal_dust"
+    },
+    {
+      "item": "minecraft:gold_nugget"
+    }
+  ]
+}

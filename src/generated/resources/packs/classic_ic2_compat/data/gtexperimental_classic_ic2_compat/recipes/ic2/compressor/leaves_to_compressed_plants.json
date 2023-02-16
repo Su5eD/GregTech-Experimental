@@ -1,0 +1,16 @@
+{
+  "type": "ic2:compressor",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "count": 8,
+    "tag": "minecraft:leaves"
+  },
+  "result": {
+    "item": "ic2:compressed_plants"
+  }
+}

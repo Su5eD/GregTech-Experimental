@@ -1,18 +1,10 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
-import dev.ftb.mods.ftbic.item.FTBICItems;
-import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.Reference;
-import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
-import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
-
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
-import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.bender;
 
 public final class BenderRecipeProvider implements ModRecipeProvider {
     public static final BenderRecipeProvider INSTANCE = new BenderRecipeProvider();
@@ -25,18 +17,6 @@ public final class BenderRecipeProvider implements ModRecipeProvider {
     }
 
     private void buildOtherModRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-//        ICondition railcraftLoaded = new ModLoadedCondition(ModHandler.RAILCRAFT_MODID);
-
-        // IC2
-        bender(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "mixed_metal")), new ItemStack(Ic2Items.ALLOY), 100, 8)
-            .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, id("ic2/alloy"));
-
-        // FTBIC
-        bender(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "mixed_metal")), new ItemStack(FTBICItems.ADVANCED_ALLOY.item.get()), 100, 8)
-            .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
-            .build(finishedRecipeConsumer, id("ftbic/alloy"));
-
         // Railcraft
 //        bender(ModRecipeIngredientTypes.ITEM.of(Rod.ALUMINIUM.getTag(), 3), new ItemStack(RAILCRAFT_RAIL), 150, 10)
 //            .addConditions(railcraftLoaded)

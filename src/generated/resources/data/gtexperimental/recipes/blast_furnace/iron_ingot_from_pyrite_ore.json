@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 100,
+  "heat": 1500,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:ores/pyrite"
+      }
+    },
+    {
+      "value": {
+        "tag": "forge:dusts/calcite"
+      }
+    }
+  ],
+  "output": [
+    {
+      "count": 2,
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "gtexperimental:dark_ashes_dust"
+    }
+  ]
+}

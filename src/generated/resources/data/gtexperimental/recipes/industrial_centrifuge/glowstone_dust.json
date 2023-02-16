@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 25000,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:dusts/glowstone"
+    }
+  },
+  "output": [
+    {
+      "count": 8,
+      "item": "minecraft:redstone"
+    },
+    {
+      "count": 8,
+      "item": "gtexperimental:gold_dust"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:helium_fluid"
+    }
+  ]
+}

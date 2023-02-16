@@ -1,0 +1,29 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "B": {
+            "tag": "forge:ingots/bronze"
+          }
+        },
+        "pattern": [
+          " B ",
+          "BBB",
+          "B B"
+        ],
+        "result": {
+          "item": "gtexperimental:bronze_wrench"
+        }
+      }
+    }
+  ]
+}

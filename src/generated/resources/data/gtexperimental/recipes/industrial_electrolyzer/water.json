@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 775,
+  "energy_cost": 120.0,
+  "input": {
+    "type": "fluid",
+    "amount": 6,
+    "tag": "minecraft:water"
+  },
+  "output": [
+    {
+      "amount": 4000,
+      "fluid": "gtexperimental:hydrogen_fluid"
+    }
+  ]
+}

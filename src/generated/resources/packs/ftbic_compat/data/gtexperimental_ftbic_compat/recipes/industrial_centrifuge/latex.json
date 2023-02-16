@@ -1,0 +1,29 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "myrtrees"
+    }
+  ],
+  "duration": 1300,
+  "input": {
+    "type": "item",
+    "count": 4,
+    "value": {
+      "item": "myrtrees:latex"
+    }
+  },
+  "output": [
+    {
+      "count": 14,
+      "item": "ftbic:rubber"
+    },
+    {
+      "item": "minecraft:vine"
+    },
+    {
+      "item": "minecraft:grass"
+    }
+  ]
+}

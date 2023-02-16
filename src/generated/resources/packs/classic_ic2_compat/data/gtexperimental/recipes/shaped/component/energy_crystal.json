@@ -1,0 +1,32 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "D": {
+            "tag": "forge:dusts/redstone"
+          },
+          "R": {
+            "tag": "forge:gems/ruby"
+          }
+        },
+        "pattern": [
+          "DDD",
+          "DRD",
+          "DDD"
+        ],
+        "result": {
+          "item": "ic2:energy_crystal"
+        }
+      }
+    }
+  ]
+}

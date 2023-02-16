@@ -1,0 +1,22 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "item": "ic2:machine"
+  },
+  "result": [
+    {
+      "count": 8,
+      "item": "gtexperimental:iron_dust"
+    }
+  ]
+}

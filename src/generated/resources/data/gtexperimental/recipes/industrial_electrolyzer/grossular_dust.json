@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 2050,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 20,
+    "value": {
+      "tag": "forge:dusts/grossular"
+    }
+  },
+  "output": [
+    {
+      "amount": 3000,
+      "fluid": "gtexperimental:calcium_fluid"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:iron_dust"
+    },
+    {
+      "amount": 3000,
+      "fluid": "gtexperimental:silicon_fluid"
+    }
+  ]
+}

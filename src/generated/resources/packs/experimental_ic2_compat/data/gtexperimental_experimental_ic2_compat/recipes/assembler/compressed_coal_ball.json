@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 400,
+  "energy_cost": 4.0,
+  "input": [
+    {
+      "count": 8,
+      "value": {
+        "tag": "forge:dusts/coal"
+      }
+    },
+    {
+      "value": {
+        "item": "minecraft:flint"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:coal_block"
+  }
+}

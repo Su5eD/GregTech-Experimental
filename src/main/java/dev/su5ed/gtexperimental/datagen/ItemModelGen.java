@@ -3,7 +3,6 @@ package dev.su5ed.gtexperimental.datagen;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.item.LithiumBatteryItem;
 import dev.su5ed.gtexperimental.object.Armor;
-import dev.su5ed.gtexperimental.object.Cell;
 import dev.su5ed.gtexperimental.object.ColorSpray;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
@@ -37,7 +36,6 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,7 +78,6 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(Hammer.values(), "hammer");
         registerItems(Saw.values(), "saw");
         registerItems(File.values(), "file");
-        registerItems(Cell.values(), "cell");
         registerItems(NuclearCoolantPack.values(), "coolant");
         registerItems(NuclearFuelRod.values(), "fuel_rod");
         registerItems(Armor.values(), "armor");

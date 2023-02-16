@@ -32,10 +32,8 @@ import org.apache.logging.log4j.Logger;
 public class GregTechMod {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final ProfileManager PROFILE_MANAGER = new ProfileManager();
-
     public GregTechMod() {
-        PROFILE_MANAGER.init();
+        ProfileManager.INSTANCE.init();
         
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);

@@ -2,10 +2,8 @@ package dev.su5ed.gtexperimental.recipe.gen.compat;
 
 import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.Reference;
-import dev.su5ed.gtexperimental.datagen.RecipeGen;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
-import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -18,14 +16,21 @@ import net.minecraftforge.common.crafting.conditions.ICondition;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
+
 public final class CompatRecipeBuilders {
 
-    public static void ic2Compressor(ItemLike item, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer, SelectedProfileCondition profile) {
-        compressor(Either.left(item), count, output, finishedRecipeConsumer, RecipeName.common(Reference.MODID, "type", RecipeUtil.createName(item, output)), Set.of(RecipeGen.IC2_LOADED, profile));
+    public static void ic2Compressor(ItemLike item, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer, String namespace) {
+        ic2Compressor(Ingredient.of(item), count, output, finishedRecipeConsumer, RecipeName.common(namespace, "type", RecipeUtil.createName(item, output)));
     }
 
-    public static void ic2Compressor(TagKey<Item> tag, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer, SelectedProfileCondition profile) {
-        compressor(Either.right(tag), count, output, finishedRecipeConsumer, RecipeName.common(Reference.MODID, "type", RecipeUtil.createName(tag, output)), Set.of(RecipeGen.IC2_LOADED, profile));
+    public static void ic2Compressor(TagKey<Item> tag, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer, String namespace) {
+        ic2Compressor(Ingredient.of(tag), count, output, finishedRecipeConsumer, RecipeName.common(namespace, "type", RecipeUtil.createName(tag, output)));
+    }
+
+    public static void ic2Compressor(Ingredient ingredient, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer, RecipeName id) {
+        new IC2MachineRecipeBuilder(IC2MachineRecipeBuilder.COMPRESSOR, ingredient, count, output)
+            .build(finishedRecipeConsumer, id.toForeign(IC2MachineRecipeBuilder.COMPRESSOR));
     }
 
     public static void compressor(ItemLike item, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer) {
@@ -40,8 +45,9 @@ public final class CompatRecipeBuilders {
         machineRecipe(IC2MachineRecipeBuilder.COMPRESSOR, FTBICMachineRecipeBuilder.COMPRESSING, input, count, output, finishedRecipeConsumer, id, conditions);
     }
 
-    public static void ic2Extractor(ItemLike item, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        extractor(Either.left(item), count, output, finishedRecipeConsumer, recipeName(item, output), Set.of(RecipeGen.IC2_LOADED));
+    public static void ic2Extractor(ItemLike item, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer, String namespace) {
+        new IC2MachineRecipeBuilder(IC2MachineRecipeBuilder.EXTRACTOR, Ingredient.of(item), count, output)
+            .build(finishedRecipeConsumer, RecipeName.common(namespace, IC2MachineRecipeBuilder.EXTRACTOR.getPath(), RecipeUtil.createName(item, output)));
     }
 
     public static void extractor(ItemLike item, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer) {

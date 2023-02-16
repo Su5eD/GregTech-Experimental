@@ -1,0 +1,23 @@
+{
+  "type": "ic2:macerator",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "any": [
+      {
+        "tag": "forge:ores/sheldonite"
+      },
+      {
+        "tag": "forge:ores/platinum"
+      }
+    ]
+  },
+  "result": {
+    "count": 2,
+    "item": "gtexperimental:platinum_dust"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 1300,
+  "input": {
+    "type": "item",
+    "count": 4,
+    "value": {
+      "item": "ic2:resin"
+    }
+  },
+  "output": [
+    {
+      "count": 14,
+      "item": "ic2:rubber"
+    },
+    {
+      "item": "ic2:compressed_plants"
+    },
+    {
+      "item": "ic2:plant_ball"
+    }
+  ]
+}

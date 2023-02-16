@@ -1,0 +1,24 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 500,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "ic2:near_depleted_uranium"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:thorium_dust"
+    },
+    {
+      "item": "ic2:empty_cell"
+    }
+  ]
+}

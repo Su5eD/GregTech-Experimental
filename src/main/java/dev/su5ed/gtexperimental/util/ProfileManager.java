@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class ProfileManager {
+    public static final ProfileManager INSTANCE = new ProfileManager();
+    
     public static final String LAYOUT = "layout";
     public static final String CLASSIC_LAYOUT = "classic";
     public static final String EXPERIMENTAL_LAYOUT = "experimental";
@@ -19,6 +21,8 @@ public class ProfileManager {
     
     private ModProfile profile = ModProfile.EXPERIMENTAL;
     private boolean isClassic;
+
+    private ProfileManager() {}
 
     public ModProfile getProfile() {
         return this.profile;

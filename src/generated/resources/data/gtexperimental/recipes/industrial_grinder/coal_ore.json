@@ -1,0 +1,24 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/coal"
+    }
+  },
+  "output": [
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "gtexperimental:coal_dust"
+    },
+    {
+      "item": "gtexperimental:thorium_smalldust"
+    }
+  ]
+}

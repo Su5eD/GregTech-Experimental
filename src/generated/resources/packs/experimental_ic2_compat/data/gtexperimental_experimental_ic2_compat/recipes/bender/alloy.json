@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:bender",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 100,
+  "energy_cost": 8.0,
+  "input": {
+    "value": {
+      "tag": "forge:ingots/mixed_metal"
+    }
+  },
+  "output": {
+    "item": "ic2:alloy"
+  }
+}

@@ -67,7 +67,6 @@ public final class ModObjects {
             .append(Hammer.values())
             .append(Saw.values())
             .append(File.values())
-            .append(Cell.values())
             .append(NuclearCoolantPack.values())
             .append(NuclearFuelRod.values())
             .append(Armor.values())

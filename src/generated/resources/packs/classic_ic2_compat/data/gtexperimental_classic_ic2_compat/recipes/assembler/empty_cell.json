@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 400,
+  "energy_cost": 1.0,
+  "input": [
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:ingots/tin"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:empty_cell"
+  }
+}

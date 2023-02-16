@@ -1,7 +1,6 @@
 package dev.su5ed.gtexperimental.object;
 
 import dev.su5ed.gtexperimental.GregTechTags;
-import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.item.MortarItem;
 import dev.su5ed.gtexperimental.item.ResourceItem;
 import dev.su5ed.gtexperimental.item.ResourceItem.ExtendedItemProperties;
@@ -12,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.Lazy;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +28,7 @@ public enum Miscellaneous implements TaggedItemProvider {
     GREG_COIN(() -> new ResourceItem(new ExtendedItemProperties<>().autoDescription())),
     INDIGO_BLOSSOM,
     INDIGO_DYE(Tags.Items.DYES_BLUE),
-    IRON_MORTAR(() -> new MortarItem(63, 1, () -> new ItemStack(ModHandler.getModItem("iron_dust"))), GregTechTags.MORTAR),
+    IRON_MORTAR(() -> new MortarItem(63, 1, Dust.IRON), GregTechTags.MORTAR),
     LAZURITE_CHUNK(Component.literal("(Al6Si6Ca8Na8)8"), GregTechTags.LAZURITE_CHUNK),
     OLIVINE(Dust.OLIVINE.description, GregTechTags.material("gems", "olivine")),
     OIL_BERRY,

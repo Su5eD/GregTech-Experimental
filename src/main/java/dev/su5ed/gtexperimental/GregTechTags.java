@@ -174,6 +174,7 @@ public final class GregTechTags {
     public static final TagKey<Item> TELEPORTER = itemTag("teleporter");
     public static final TagKey<Item> DENSE_COPPER_PLATE = itemTag("dense_copper_plate");
     public static final TagKey<Item> REACTOR_COOLANT_CELL = itemTag("reactor_coolant_cell");
+    public static final TagKey<Item> SEXTUPLE_REACTOR_COOLANT_CELL = itemTag("sextuple_reactor_coolant_cell");
     // TODO
     // Regular iron / Refined iron
     public static final TagKey<Item> UNIVERSAL_IRON_INGOT = itemTag("ingots/universal_iron");
@@ -209,9 +210,13 @@ public final class GregTechTags {
     public static TagKey<Item> stone(String name) {
         return material("stone", name);
     }
-    
+
     public static TagKey<Item> smallDust(String name) {
         return material("small_dusts", name);
+    }
+
+    public static TagKey<Item> ore(String name) {
+        return material("ores", name);
     }
 
     public static TagKey<Item> material(String type, String name) {

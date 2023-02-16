@@ -1,0 +1,44 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "tag": "gtexperimental:insulated_copper_cable"
+          },
+          "L": {
+            "tag": "forge:dusts/lead"
+          },
+          "S": {
+            "type": "gtexperimental:fluid_item_ingredient",
+            "fluid_ingredient": {
+              "type": "tag",
+              "amount": 1000,
+              "tag": "forge:sulfuric_acid"
+            }
+          },
+          "T": {
+            "tag": "forge:plates/tin"
+          }
+        },
+        "pattern": [
+          " C ",
+          "TLT",
+          "TST"
+        ],
+        "result": {
+          "count": 2,
+          "item": "ic2:re_battery"
+        }
+      }
+    }
+  ]
+}

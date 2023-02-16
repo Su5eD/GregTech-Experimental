@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:dead_bush"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "minecraft:stick"
+  }
+}

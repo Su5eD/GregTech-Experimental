@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:wiremill",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 200,
+  "energy_cost": 1.0,
+  "input": {
+    "value": {
+      "tag": "forge:ingots/gold"
+    }
+  },
+  "output": {
+    "count": 6,
+    "item": "ic2:gold_cable"
+  }
+}

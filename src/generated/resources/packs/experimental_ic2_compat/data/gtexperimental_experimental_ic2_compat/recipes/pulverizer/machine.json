@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "item": "ic2:machine"
+    }
+  },
+  "output": [
+    {
+      "count": 8,
+      "item": "gtexperimental:iron_dust"
+    }
+  ]
+}

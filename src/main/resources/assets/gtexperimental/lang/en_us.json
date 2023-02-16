@@ -68,6 +68,7 @@
   "item.gtexperimental.antimony_ingot": "Antimony Ingot",
   "item.gtexperimental.battery_alloy_ingot": "Battery Alloy Ingot",
   "item.gtexperimental.brass_ingot": "Brass Ingot",
+  "item.gtexperimental.bronze_ingot": "Bronze Ingot",
   "item.gtexperimental.chrome_ingot": "Chrome Ingot",
   "item.gtexperimental.copper_ingot": "Copper Ingot",
   "item.gtexperimental.electrum_ingot": "Electrum Ingot",
@@ -84,6 +85,7 @@
   "item.gtexperimental.silver_ingot": "Silver Ingot",
   "item.gtexperimental.soldering_alloy_ingot": "Soldering Alloy Ingot",
   "item.gtexperimental.steel_ingot": "Steel Ingot",
+  "item.gtexperimental.tin_ingot": "Tin Ingot",
   "item.gtexperimental.thorium_ingot": "Thorium Ingot",
   "item.gtexperimental.titanium_ingot": "Titanium Ingot",
   "item.gtexperimental.tungsten_ingot": "Tungsten Ingot",
@@ -626,8 +628,6 @@
   "item.gtexperimental.steel_file": "Steel File",
   "item.gtexperimental.tungsten_steel_file": "Tungstensteel File",
   "item.gtexperimental.file.description": "For sharpening or rounding Edges",
-  
-  "item.gtexperimental.ice_cell": "Ice Cell",
   
   "item.gtexperimental.nak_60k_coolant": "60k NaK Coolant cell",
   "item.gtexperimental.nak_180k_coolant": "180k NaK Coolant cell",

@@ -125,8 +125,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         modItem(GregTechTags.CARBON_PLATE, "carbon_plate");
         modItem(GregTechTags.PUMP, "pump");
         modItem(GregTechTags.ENERGY_CRYSTAL, "energy_crystal");
-        modItem(GregTechTags.material("ingots", "mixed_metal"), "mixed_metal_ingot");
-        modItem(GregTechTags.material("ingots", "refined_iron"), "refined_iron_ingot");
+        modItem(GregTechTags.ingot("mixed_metal"), "mixed_metal_ingot");
+        modItem(GregTechTags.ingot("refined_iron"), "refined_iron_ingot");
         modItem(GregTechTags.RE_BATTERY, "re_battery");
         modItem(GregTechTags.TELEPORTER, "teleporter");
         modItem(GregTechTags.CRAFTING_SOLAR_PANEL, "solar_generator");

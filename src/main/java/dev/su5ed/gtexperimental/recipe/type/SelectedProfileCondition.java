@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dev.su5ed.gtexperimental.GregTechMod;
 import dev.su5ed.gtexperimental.util.ProfileManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -44,7 +43,7 @@ public class SelectedProfileCondition implements ICondition {
     @Override
     public boolean test(IContext context) {
         return EntryStream.of(this.properties)
-            .allMatch(GregTechMod.PROFILE_MANAGER.getProfile()::checkProperty);
+            .allMatch(ProfileManager.INSTANCE.getProfile()::checkProperty);
     }
 
     public static class Serializer implements IConditionSerializer<SelectedProfileCondition> {

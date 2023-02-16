@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 2500,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "item": "minecraft:soul_sand"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:oil_fluid"
+    },
+    {
+      "count": 4,
+      "item": "gtexperimental:saltpeter_dust"
+    },
+    {
+      "item": "gtexperimental:coal_dust"
+    },
+    {
+      "count": 10,
+      "item": "minecraft:sand"
+    }
+  ]
+}

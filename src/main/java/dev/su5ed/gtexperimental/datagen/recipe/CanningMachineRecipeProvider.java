@@ -5,7 +5,6 @@ import dev.ftb.mods.ftbic.item.FluidCellItem;
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.compat.IC2BaseMod;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.ColorSpray;
 import dev.su5ed.gtexperimental.object.Dust;
@@ -13,12 +12,11 @@ import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.NuclearFuelRod;
 import dev.su5ed.gtexperimental.object.Tool;
-import dev.su5ed.gtexperimental.recipe.gen.MIMORecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
-import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import dev.su5ed.gtexperimental.util.FluidProvider;
+import dev.su5ed.gtexperimental.util.ItemProvider;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.FluidTags;
@@ -44,23 +42,15 @@ public final class CanningMachineRecipeProvider implements ModRecipeProvider {
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         fluidCellFilling(ModRecipeIngredientTypes.ITEM.of(Dust.TUNGSTEN.getTag()), ModFluid.WOLFRAMIUM, finishedRecipeConsumer);
         fluidCellFilling(ModRecipeIngredientTypes.ITEM.of(Dust.CALCITE.getTag()), ModFluid.CALCIUM_CARBONATE, finishedRecipeConsumer);
-//        fluidCellFilling(ModRecipeIngredientTypes.ITEM.of(QUICKSILVER), ModFluid.MERCURY, finishedRecipeConsumer);
-        cellFilling(ModRecipeIngredientTypes.ITEM.of(Ingot.PLUTONIUM.getTag()), NuclearFuelRod.PLUTONIUM.getItemStack(), 100, 2)
-            .build(finishedRecipeConsumer, id("plutonium_fuel_rod"));
-        cellFilling(ModRecipeIngredientTypes.ITEM.of(Ingot.THORIUM.getTag()), NuclearFuelRod.THORIUM.getItemStack(), 100, 2)
-            .build(finishedRecipeConsumer, id("thorium_fuel_rod"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluid(FluidTags.WATER, 16 * FluidType.BUCKET_VOLUME), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.HYDRATION_SPRAY.getItemStack(), 1600, 2)
-            .build(finishedRecipeConsumer, id("hydration_spray"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(Tags.Items.SAND, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.HARDENER_SPRAY.getItemStack(), 1600, 2)
-            .build(finishedRecipeConsumer, id("hardener_spray"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.NITROGEN, 16 * FluidType.BUCKET_VOLUME), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.ICE_SPRAY.getItemStack(), new ItemStack(Ic2Items.EMPTY_CELL, 16), 1600, 2)
-            .build(finishedRecipeConsumer, id("ice_spray"));
+        cellFilling(ModRecipeIngredientTypes.ITEM.of(Ingot.PLUTONIUM.getTag()), NuclearFuelRod.PLUTONIUM, finishedRecipeConsumer);
+        cellFilling(ModRecipeIngredientTypes.ITEM.of(Ingot.THORIUM.getTag()), NuclearFuelRod.THORIUM, finishedRecipeConsumer);
+        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluid(FluidTags.WATER, 16 * FluidType.BUCKET_VOLUME), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.HYDRATION_SPRAY.getItemStack(), 1600, 2).build(finishedRecipeConsumer, id("hydration_spray"));
+        canningMachine(ModRecipeIngredientTypes.ITEM.of(Tags.Items.SAND, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.HARDENER_SPRAY.getItemStack(), 1600, 2).build(finishedRecipeConsumer, id("hardener_spray"));
+        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.NITROGEN, 16 * FluidType.BUCKET_VOLUME), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.ICE_SPRAY.getItemStack(), new ItemStack(Ic2Items.EMPTY_CELL, 16), 1600, 2).build(finishedRecipeConsumer, id("ice_spray"));
         for (ColorSpray value : ColorSpray.values()) {
-            canningMachine(ModRecipeIngredientTypes.ITEM.of(value.getColor().getTag(), 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), value.getItemStack(), 800, 1)
-                .build(finishedRecipeConsumer, id(value.getRegistryName()));
+            canningMachine(ModRecipeIngredientTypes.ITEM.of(value.getColor().getTag(), 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), value.getItemStack(), 800, 1).build(finishedRecipeConsumer, id(value.getRegistryName()));
         }
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(Items.POISONOUS_POTATO, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.BUG_SPRAY.getItemStack(), 800, 1)
-            .build(finishedRecipeConsumer, id("bug_spray"));
+        canningMachine(ModRecipeIngredientTypes.ITEM.of(Items.POISONOUS_POTATO, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.BUG_SPRAY.getItemStack(), 800, 1).build(finishedRecipeConsumer, id("bug_spray"));
 
         buildOtherModRecipes(finishedRecipeConsumer);
     }
@@ -75,42 +65,9 @@ public final class CanningMachineRecipeProvider implements ModRecipeProvider {
         cannedFood(ModRecipeIngredientTypes.ITEM.of(Items.CAKE), 6, finishedRecipeConsumer, "filled_tin_can_from_cake");
 
         // IC2
-        // TODO FTBIC variant
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.PELLET, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.FOAM_SPRAY.getItemStack(), 1600, 2)
             .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, id("ic2/foam_spray"));
-
-        // Classic
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.GRIN_POWDER), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), new ItemStack(Ic2Items.WEED_EX_CELL), 800, 1)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, profileId("classic", "ic2/weed_ex_cell"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.COMPRESSED_PLANTS), ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FLUID_CELL), new ItemStack(Ic2Items.BIO_CELL), 100, 1)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, profileId("classic", "ic2/bio_cell"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.COMPRESSED_HYDRATED_COAL), ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FLUID_CELL), new ItemStack(Ic2Items.HYDRATED_COAL_CELL), 100, 1)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, profileId("classic", "ic2/hydrated_coal_cell"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.BIOFUEL_CELL, 6), ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FUEL_CAN), IC2BaseMod.getFilledFuelCan(5208), new ItemStack(Ic2Items.EMPTY_CELL), 600, 1)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, profileId("classic", "ic2/filled_fuel_can_bioduel"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.COALFUEL_CELL, 6), ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FUEL_CAN), IC2BaseMod.getFilledFuelCan(15288), new ItemStack(Ic2Items.EMPTY_CELL), 600, 1)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, profileId("classic", "ic2/filled_fuel_can_coalfuel"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "uranium")), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), new ItemStack(Ic2Items.URANIUM_FUEL_ROD), 100, 2)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.CLASSIC)
-            .build(finishedRecipeConsumer, profileId("classic", "ic2/uranium_fuel_rod"));
-
-        // Experiences
-//        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.GRIN_POWDER), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), WEED_EX_FLUID_CELL, 800, 1)
-//            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
-//            .build(finishedRecipeConsumer, id("experimental/ic2/weed_ex_cell"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.URANIUM), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), new ItemStack(Ic2Items.URANIUM_FUEL_ROD), 100, 2)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
-            .build(finishedRecipeConsumer, profileId("experimental", "ic2/uranium_fuel_rod"));
-
-        // TODO Dynamic Fluid filling recipes
-//        canningMachine(ModRecipeIngredientTypes.ITEM.of(Miscellaneous.OIL_BERRY, 4), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), OIL_CELL, 100, 1)
-//            .build(finishedRecipeConsumer, id("ic2/oil_fluid_cell"));
+            .build(finishedRecipeConsumer, id("foam_spray"));
     }
 
     private static void cannedFood(RecipeIngredient<ItemStack> input, int canCount, Consumer<FinishedRecipe> finishedRecipeConsumer, String name) {
@@ -141,15 +98,12 @@ public final class CanningMachineRecipeProvider implements ModRecipeProvider {
             .build(finishedRecipeConsumer, id(fluidName + "_fluid_cell"));
     }
 
-    public static MIMORecipeBuilder cellFilling(RecipeIngredient<ItemStack> primary, ItemStack output, int duration, double energyCost) {
-        return ModRecipeBuilders.canningMachine(primary, ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FLUID_CELL), output, duration, energyCost);
+    private static void cellFilling(RecipeIngredient<ItemStack> primary, ItemProvider output, Consumer<FinishedRecipe> finishedRecipeConsumer) {
+        ModRecipeBuilders.canningMachine(primary, ModRecipeIngredientTypes.ITEM.of(GregTechTags.EMPTY_FLUID_CELL), output.getItemStack(), 100, 2)
+            .build(finishedRecipeConsumer, id(output.getRegistryName()));
     }
 
     private static RecipeName id(String name) {
-        return profileId(null, name);
-    }
-
-    private static RecipeName profileId(String profile, String name) {
-        return RecipeName.profile(Reference.MODID, "canning_machine", profile, name);
+        return RecipeName.common(Reference.MODID, "canning_machine", name);
     }
 }

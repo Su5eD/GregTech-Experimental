@@ -1,0 +1,20 @@
+{
+  "type": "ic2:macerator",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:ores/iridium"
+  },
+  "result": {
+    "count": 2,
+    "item": "ftbic:iridium_dust"
+  }
+}

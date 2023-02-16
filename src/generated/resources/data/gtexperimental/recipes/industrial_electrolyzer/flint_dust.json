@@ -1,0 +1,18 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1000,
+  "energy_cost": 5.0,
+  "input": {
+    "type": "item",
+    "count": 8,
+    "value": {
+      "tag": "forge:dusts/flint"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:silicon_fluid"
+    }
+  ]
+}

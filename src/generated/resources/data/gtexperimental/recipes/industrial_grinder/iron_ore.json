@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/iron"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:iron_dust"
+    },
+    {
+      "item": "gtexperimental:tin_smalldust"
+    },
+    {
+      "item": "gtexperimental:nickel_smalldust"
+    }
+  ]
+}

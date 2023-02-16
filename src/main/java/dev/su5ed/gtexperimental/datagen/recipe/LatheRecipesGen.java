@@ -19,8 +19,7 @@ public final class LatheRecipesGen implements ModRecipeProvider {
 
     @Override
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        lathe(ModRecipeIngredientTypes.ITEM.of(ItemTags.PLANKS), new ItemStack(Items.STICK, 2), 25, 8)
-            .build(finishedRecipeConsumer, id("planks"));
+        lathe(ModRecipeIngredientTypes.ITEM.of(ItemTags.PLANKS), new ItemStack(Items.STICK, 2), 25, 8).build(finishedRecipeConsumer, id("planks"));
     }
 
     private static RecipeName id(String name) {
