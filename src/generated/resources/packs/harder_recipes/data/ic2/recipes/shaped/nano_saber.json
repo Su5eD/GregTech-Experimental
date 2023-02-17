@@ -12,7 +12,7 @@
         "type": "minecraft:crafting_shaped",
         "key": {
           "C": {
-            "tag": "gtexperimental:circuit_tier_7"
+            "tag": "gtexperimental:energy_flow_circuit"
           },
           "I": {
             "tag": "gtexperimental:plates/iridium_alloy"

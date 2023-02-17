@@ -1,10 +1,6 @@
 {
   "values": [
     "gtexperimental:aluminium_hull",
-    "gtexperimental:iron_hull",
-    {
-      "id": "ic2:machine",
-      "required": false
-    }
+    "gtexperimental:iron_hull"
   ]
 }

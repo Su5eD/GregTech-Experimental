@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "B": {
-      "tag": "gtexperimental:crafting/100k_eu_store"
+      "tag": "gtexperimental:small_eu_store"
     },
     "C": {
       "tag": "gtexperimental:advanced_circuit"

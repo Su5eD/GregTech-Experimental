@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.util;
 
-import dev.su5ed.gtexperimental.GregTechMod;
 import dev.su5ed.gtexperimental.api.Reference;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;

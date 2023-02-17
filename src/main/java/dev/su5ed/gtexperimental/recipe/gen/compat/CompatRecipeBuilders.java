@@ -16,8 +16,6 @@ import net.minecraftforge.common.crafting.conditions.ICondition;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
-
 public final class CompatRecipeBuilders {
 
     public static void ic2Compressor(ItemLike item, int count, ItemStack output, Consumer<FinishedRecipe> finishedRecipeConsumer, String namespace) {

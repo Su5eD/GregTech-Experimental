@@ -29,7 +29,7 @@ public enum Miscellaneous implements TaggedItemProvider {
     INDIGO_BLOSSOM,
     INDIGO_DYE(Tags.Items.DYES_BLUE),
     IRON_MORTAR(() -> new MortarItem(63, 1, Dust.IRON), GregTechTags.MORTAR),
-    LAZURITE_CHUNK(Component.literal("(Al6Si6Ca8Na8)8"), GregTechTags.LAZURITE_CHUNK),
+    LAZURITE_CHUNK(Component.literal("(Al6Si6Ca8Na8)8"), GregTechTags.itemTag("lazurite_chunk")),
     OLIVINE(Dust.OLIVINE.description, GregTechTags.material("gems", "olivine")),
     OIL_BERRY,
     RAW_BAUXITE,

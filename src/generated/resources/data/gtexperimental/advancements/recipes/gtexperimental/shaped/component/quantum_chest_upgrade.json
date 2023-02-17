@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_circuit_tier_8": {
+    "has_data_orb": {
       "conditions": {
         "items": [
           {
-            "tag": "gtexperimental:circuit_tier_8"
+            "tag": "gtexperimental:data_orb"
           }
         ]
       },
@@ -20,7 +20,7 @@
   },
   "requirements": [
     [
-      "has_circuit_tier_8",
+      "has_data_orb",
       "has_the_recipe"
     ]
   ],

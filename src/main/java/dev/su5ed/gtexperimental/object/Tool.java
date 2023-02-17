@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.object;
 
-import dev.su5ed.gtexperimental.GregTechMod;
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.item.AdvancedDrillItem;
 import dev.su5ed.gtexperimental.item.AdvancedSawItem;

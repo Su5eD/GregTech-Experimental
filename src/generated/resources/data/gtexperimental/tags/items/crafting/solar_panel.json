@@ -1,9 +1,0 @@
-{
-  "values": [
-    "gtexperimental:solar_panel",
-    {
-      "id": "ic2:solar_generator",
-      "required": false
-    }
-  ]
-}

@@ -23,7 +23,8 @@ import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.MYRTREES_LOADED;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.*;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.MERCURY;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.WATER;
@@ -51,11 +52,6 @@ public class FTBICRecipesPackGen extends RecipeProvider {
         assembler(ModRecipeIngredientTypes.ITEM.of(FTBICItems.ADVANCED_ALLOY.item.get()), ModRecipeIngredientTypes.ITEM.of(Tags.Items.STONE, 8), new ItemStack(FTBICItems.REINFORCED_STONE.get(), 4), 400, 4)
             .addConditions(FTBIC_LOADED)
             .build(finishedRecipeConsumer, assemblerId("reinforced_stone"));
-
-        // Bender
-        bender(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ingot("mixed_metal")), new ItemStack(FTBICItems.ADVANCED_ALLOY.item.get()), 100, 8)
-            .addConditions(FTBIC_LOADED)
-            .build(finishedRecipeConsumer, benderId("alloy"));
 
         // Fusion
         fusionSolid(ModRecipeIngredientTypes.FLUID.of(ModFluid.WOLFRAMIUM.getTag()), ModRecipeIngredientTypes.FLUID.of(ModFluid.LITHIUM.getTag()), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.INGOT).orElseThrow().get()), 512, 32768, 150000000)

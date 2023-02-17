@@ -5,7 +5,6 @@ import dev.su5ed.gtexperimental.compat.DamagedIC2ReactorComponentIngredient;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialElectrolyzerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.IndustrialGrinderRecipesGen;
-import dev.su5ed.gtexperimental.datagen.recipe.PulverizerRecipesGen;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Ingot;
@@ -76,7 +75,7 @@ public class IC2RecipesPackGen extends RecipeProvider {
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_RAW_MACHINE_TIER_1), ModRecipeIngredientTypes.ITEM.of(ModCoverItem.SOLAR_PANEL.getTag()), new ItemStack(Ic2Items.SOLAR_GENERATOR), 1600, 2)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("solar_generator"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(Component.BASIC_CIRCUIT_BOARD), ModRecipeIngredientTypes.ITEM.of(GregTechTags.INSULATED_COPPER_CABLE, 3), new ItemStack(Ic2Items.CIRCUIT), 800, 1)
+        assembler(ModRecipeIngredientTypes.ITEM.of(Component.BASIC_CIRCUIT_BOARD.getTag()), ModRecipeIngredientTypes.ITEM.of(GregTechTags.INSULATED_COPPER_CABLE, 3), new ItemStack(Ic2Items.CIRCUIT), 800, 1)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("circuit"));
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.COMPRESSED_COAL_BALL, 8), ModRecipeIngredientTypes.ITEM.ofValues(new Ingredient.ItemValue(new ItemStack(Items.BRICKS)), new Ingredient.TagValue(Tags.Items.STORAGE_BLOCKS_IRON), new Ingredient.TagValue(Tags.Items.OBSIDIAN)), new ItemStack(Ic2Items.COAL_CHUNK), 400, 4)
@@ -85,7 +84,7 @@ public class IC2RecipesPackGen extends RecipeProvider {
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.dust("coal"), 8), ModRecipeIngredientTypes.ITEM.of(Items.FLINT), new ItemStack(Ic2Items.COAL_BLOCK), 400, 4)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("compressed_coal_ball"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(Component.ADVANCED_CIRCUIT_BOARD), ModRecipeIngredientTypes.ITEM.of(Component.ADVANCED_CIRCUIT_PARTS, 2), new ItemStack(Ic2Items.ADVANCED_CIRCUIT), 1600, 2)
+        assembler(ModRecipeIngredientTypes.ITEM.of(Component.ADVANCED_CIRCUIT_BOARD.getTag()), ModRecipeIngredientTypes.ITEM.of(Component.ADVANCED_CIRCUIT_PARTS, 2), new ItemStack(Ic2Items.ADVANCED_CIRCUIT), 1600, 2)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("advanced_circuit"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.COPPER_CABLE), ModRecipeIngredientTypes.ITEM.of(GregTechTags.RUBBER), new ItemStack(Ic2Items.INSULATED_COPPER_CABLE), 100, 2)
@@ -141,7 +140,7 @@ public class IC2RecipesPackGen extends RecipeProvider {
 //            .build(finishedRecipeConsumer, id("re_battery"));
 
         // Bender
-        bender(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ingot("mixed_metal")), new ItemStack(Ic2Items.ALLOY), 100, 8)
+        bender(ModRecipeIngredientTypes.ITEM.of(Ic2Items.MIXED_METAL_INGOT), new ItemStack(Ic2Items.ALLOY), 100, 8)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, benderId("alloy"));
 

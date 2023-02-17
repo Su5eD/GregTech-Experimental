@@ -4,12 +4,6 @@
     {
       "type": "forge:mod_loaded",
       "modid": "ic2"
-    },
-    {
-      "type": "gtexperimental:selected_profile",
-      "properties": {
-        "layout": "experimental"
-      }
     }
   ],
   "duration": 100,

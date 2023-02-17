@@ -4,13 +4,9 @@
     "gtexperimental:bronze_wrench",
     "gtexperimental:steel_wrench",
     "gtexperimental:tungsten_steel_wrench",
-    {
-      "id": "ic2:wrench",
-      "required": false
-    },
-    {
-      "id": "ic2:electric_wrench",
-      "required": false
-    }
+    "#gtexperimental:tools/wrench",
+    "#gtexperimental:tools/wrench",
+    "#gtexperimental:tools/wrench",
+    "#gtexperimental:tools/wrench"
   ]
 }

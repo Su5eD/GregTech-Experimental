@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.util;
 
 import dev.su5ed.gtexperimental.compat.ModHandler;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

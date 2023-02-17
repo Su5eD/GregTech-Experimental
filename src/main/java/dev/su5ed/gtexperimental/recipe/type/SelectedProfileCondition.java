@@ -15,9 +15,6 @@ import static dev.su5ed.gtexperimental.api.Reference.location;
 
 public class SelectedProfileCondition implements ICondition {
     public static final SelectedProfileCondition CLASSIC = new SelectedProfileCondition(ProfileManager.LAYOUT, ProfileManager.CLASSIC_LAYOUT);
-    public static final SelectedProfileCondition EXPERIMENTAL = new SelectedProfileCondition(ProfileManager.LAYOUT, ProfileManager.EXPERIMENTAL_LAYOUT);
-    public static final SelectedProfileCondition REFINED_IRON = new SelectedProfileCondition(ProfileManager.IRON_VARIANT, ProfileManager.REFINED_IRON_VARIANT);
-    public static final SelectedProfileCondition REGULAR_IRON = new SelectedProfileCondition(ProfileManager.IRON_VARIANT, ProfileManager.REGULAR_IRON_VARIANT);
     
     private static final ResourceLocation NAME = location("selected_profile");
 

@@ -5,7 +5,7 @@
       "tag": "forge:blocks/bronze"
     },
     "T": {
-      "tag": "gtexperimental:crafting/bronze_turbine_blade"
+      "tag": "gtexperimental:bronze_turbine_blade"
     }
   },
   "pattern": [

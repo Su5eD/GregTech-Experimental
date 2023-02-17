@@ -2,10 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "C": {
-      "tag": "gtexperimental:crafting/heating_coil_tier_2"
+      "tag": "gtexperimental:nichrome_coil"
     },
     "E": {
-      "tag": "gtexperimental:circuit_tier_7"
+      "tag": "gtexperimental:energy_flow_circuit"
     },
     "I": {
       "tag": "gtexperimental:illuminator"
@@ -14,7 +14,7 @@
       "tag": "gtexperimental:crafting/raw_machine_tier_4"
     },
     "S": {
-      "tag": "gtexperimental:crafting/superconductor"
+      "tag": "gtexperimental:superconductor"
     }
   },
   "pattern": [

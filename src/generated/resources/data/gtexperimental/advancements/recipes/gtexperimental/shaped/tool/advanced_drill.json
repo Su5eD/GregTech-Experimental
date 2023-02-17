@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_circuit_tier_6": {
+    "has_data_control_circuit": {
       "conditions": {
         "items": [
           {
-            "tag": "gtexperimental:circuit_tier_6"
+            "tag": "gtexperimental:data_control_circuit"
           }
         ]
       },
@@ -20,7 +20,7 @@
   },
   "requirements": [
     [
-      "has_circuit_tier_6",
+      "has_data_control_circuit",
       "has_the_recipe"
     ]
   ],

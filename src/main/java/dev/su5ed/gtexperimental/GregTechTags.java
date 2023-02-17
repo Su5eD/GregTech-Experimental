@@ -31,67 +31,20 @@ public final class GregTechTags {
 
     public static final TagKey<Item> PLATES = forgeItemTag("plates");
 
-    public static final TagKey<Item> CRAFTING_SUPERCONDUCTOR = itemTag("crafting/superconductor");
+    // Action tags, used for interacting with machines
+    public static final TagKey<Item> DUCT_TAPE = itemTag("duct_tape");
+
     public static final TagKey<Item> CRAFTING_LI_BATTERY = itemTag("crafting/li_battery");
-    public static final TagKey<Item> CRAFTING_DIAMOND_BLADE = itemTag("crafting/diamond_blade");
     public static final TagKey<Item> CRAFTING_GRINDER = itemTag("crafting/grinder");
-    public static final TagKey<Item> CRAFTING_MACHINE_PARTS = itemTag("crafting/machine_parts");
-    public static final TagKey<Item> CRAFTING_CIRCUIT_PARTS_TIER_4 = itemTag("crafting/circuit_parts_tier_4");
-    public static final TagKey<Item> CRAFTING_DUCT_TAPE = itemTag("crafting/duct_tape");
     public static final TagKey<Item> CRAFTING_SPRAY_CAN = itemTag("crafting/spray_can");
-
-    public static final TagKey<Item> CRAFTING_HEATING_COIL_TIER_0 = itemTag("crafting/heating_coil_tier_0");
-    public static final TagKey<Item> CRAFTING_HEATING_COIL_TIER_1 = itemTag("crafting/heating_coil_tier_1");
-    public static final TagKey<Item> CRAFTING_HEATING_COIL_TIER_2 = itemTag("crafting/heating_coil_tier_2");
-
     public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_0 = itemTag("crafting/raw_machine_tier_0");
     public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_1 = itemTag("crafting/raw_machine_tier_1");
     public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_2 = itemTag("crafting/raw_machine_tier_2");
     public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_3 = itemTag("crafting/raw_machine_tier_3");
-    public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_4 = itemTag("crafting/raw_machine_tier_4"); // TODO
-
-    public static final TagKey<Item> CRAFTING_BRONZE_TURBINE_BLADE = itemTag("crafting/bronze_turbine_blade");
-    public static final TagKey<Item> CRAFTING_CARBON_TURBINE_BLADE = itemTag("crafting/carbon_turbine_blade");
-    public static final TagKey<Item> CRAFTING_MAGNALIUM_TURBINE_BLADE = itemTag("crafting/magnalium_turbine_blade");
-    public static final TagKey<Item> CRAFTING_STEEL_TURBINE_BLADE = itemTag("crafting/steel_turbine_blade");
-    public static final TagKey<Item> CRAFTING_TUNGSTEN_STEEL_TURBINE_BLADE = itemTag("crafting/tungsten_steel_turbine_blade");
-
-    public static final TagKey<Item> IRON_GEAR = forgeItemTag("gears/iron");
-    public static final TagKey<Item> BRONZE_GEAR = forgeItemTag("gears/bronze");
-    public static final TagKey<Item> STEEL_GEAR = forgeItemTag("gears/steel");
-    public static final TagKey<Item> TITANIUM_GEAR = forgeItemTag("gears/titanium");
-    public static final TagKey<Item> TUNGSTEN_STEEL_GEAR = forgeItemTag("gears/tungsten_steel");
-    public static final TagKey<Item> IRIDIUM_GEAR = forgeItemTag("gears/iridium");
-
-    public static final TagKey<Item> CIRCUIT_BOARD_TIER_2 = itemTag("circuit_board_tier_2");
-    public static final TagKey<Item> CIRCUIT_BOARD_TIER_4 = itemTag("circuit_board_tier_4");
-    public static final TagKey<Item> CIRCUIT_BOARD_TIER_6 = itemTag("circuit_board_tier_6");
-
-    public static final TagKey<Item> CIRCUIT_TIER_0 = itemTag("circuit_tier_0");
-    public static final TagKey<Item> CIRCUIT_TIER_5 = itemTag("circuit_tier_5");
-    public static final TagKey<Item> CIRCUIT_TIER_6 = itemTag("circuit_tier_6");
-    public static final TagKey<Item> CIRCUIT_TIER_7 = itemTag("circuit_tier_7");
-    public static final TagKey<Item> CIRCUIT_TIER_8 = itemTag("circuit_tier_8");
-
-    public static final TagKey<Item> CRAFTING_WORK_DETECTOR = itemTag("crafting/work_detector");
-    public static final TagKey<Item> CRAFTING_CONVEYOR = itemTag("crafting/conveyor");
-    public static final TagKey<Item> CRAFTING_WORKBENCH = itemTag("crafting/workbench");
-    public static final TagKey<Item> CRAFTING_DRAIN = itemTag("crafting/drain");
-    public static final TagKey<Item> CRAFTING_ENERGY_METER = itemTag("crafting/energy_meter");
-    public static final TagKey<Item> CRAFTING_ITEM_METER = itemTag("crafting/item_meter");
-    public static final TagKey<Item> CRAFTING_ITEM_VALVE = itemTag("crafting/item_valve");
-    public static final TagKey<Item> CRAFTING_LIQUID_METER = itemTag("crafting/liquid_meter");
-    public static final TagKey<Item> CRAFTING_WORK_CONTROLLER = itemTag("crafting/work_controller");
-    public static final TagKey<Item> CRAFTING_PUMP = itemTag("crafting/pump");
-    public static final TagKey<Item> CRAFTING_REDSTONE_CONDUCTOR = itemTag("crafting/redstone_conductor");
-    public static final TagKey<Item> CRAFTING_REDSTONE_SIGNALIZER = itemTag("crafting/redstone_signalizer");
-    public static final TagKey<Item> CRAFTING_MONITOR_TIER_2 = itemTag("crafting/monitor_tier_2");
-    public static final TagKey<Item> CRAFTING_SOLAR_PANEL = itemTag("crafting/solar_panel");
-    public static final TagKey<Item> CRAFTING_SOLAR_PANEL_LV = itemTag("crafting/solar_panel_lv");
-    public static final TagKey<Item> CRAFTING_SOLAR_PANEL_MV = itemTag("crafting/solar_panel_mv");
-    public static final TagKey<Item> CRAFTING_SOLAR_PANEL_HV = itemTag("crafting/solar_panel_hv");
-
-    public static final TagKey<Item> CRAFTING_HV_TRANSFORMER_UPGRADE = itemTag("crafting/hv_transformer_upgrade");
+    public static final TagKey<Item> CRAFTING_RAW_MACHINE_TIER_4 = itemTag("crafting/raw_machine_tier_4");
+    public static final TagKey<Item> CRAFTING_60K_COOLANT_STORE = itemTag("crafting/60k_coolant_store");
+    public static final TagKey<Item> CRAFTING_180K_COOLANT_STORE = itemTag("crafting/180k_coolant_store");
+    public static final TagKey<Item> CRAFTING_360K_COOLANT_STORE = itemTag("crafting/360k_coolant_store");
     // Small EU store: 100K / 1KK
     public static final TagKey<Item> SMALL_EU_STORE = itemTag("small_eu_store");
     // Medium EU store: 1KK / 10KK
@@ -99,32 +52,10 @@ public final class GregTechTags {
     // Large EU store: 10KK / 100KK
     public static final TagKey<Item> LARGE_EU_STORE = itemTag("large_eu_store");
 
-    // TODO add to respective datapacks
-    public static final TagKey<Item> CRAFTING_100K_EU_STORE = itemTag("crafting/100k_eu_store");
-    public static final TagKey<Item> CRAFTING_1KK_EU_STORE = itemTag("crafting/1kk_eu_store");
-    public static final TagKey<Item> CRAFTING_10KK_EU_STORE = itemTag("crafting/10kk_eu_store");
-    public static final TagKey<Item> CRAFTING_100KK_EU_STORE = itemTag("crafting/100kk_eu_store");
-    public static final TagKey<Item> CRAFTING_600K_EU_STORE = itemTag("crafting/600k_eu_pack");
-
-    public static final TagKey<Item> CRAFTING_LOCK = itemTag("crafting/lock");
-    public static final TagKey<Item> CRAFTING_QUANTUM_CHEST_UPGRADE = itemTag("crafting/quantum_chest_upgrade");
-    public static final TagKey<Item> CRAFTING_STEAM_UPGRADE = itemTag("crafting/steam_upgrade");
-    public static final TagKey<Item> CRAFTING_STEAM_TANK = itemTag("crafting/steam_tank");
-    public static final TagKey<Item> CRAFTING_PNEUMATIC_GENERATOR = itemTag("crafting/pneumatic_generator");
-    public static final TagKey<Item> CRAFTING_ENERGY_CELL_UPGRADE = itemTag("crafting/energy_cell_upgrade");
-
-    public static final TagKey<Item> CRAFTING_60K_COOLANT_STORE = itemTag("crafting/60k_coolant_store");
-    public static final TagKey<Item> CRAFTING_180K_COOLANT_STORE = itemTag("crafting/180k_coolant_store");
-    public static final TagKey<Item> CRAFTING_360K_COOLANT_STORE = itemTag("crafting/360k_coolant_store");
-
-    public static final TagKey<Item> LAZURITE_CHUNK = itemTag("lazurite_chunk");
     public static final TagKey<Item> COLORED_WOOL = itemTag("colored_wool");
     public static final TagKey<Item> RAW_FOOD = itemTag("raw_food");
     public static final TagKey<Item> COOKED_FOOD = itemTag("cooked_food");
     public static final TagKey<Item> MORTAR = itemTag("mortar");
-
-//    public static final TagKey<Block> MINABLE_WITH_JACK_HAMMER = BlockTags.bind("minable_with_jack_hammer");
-
     public static final TagKey<Item> CROWBAR = forgeItemTag("tools/crowbar");
     public static final TagKey<Item> SCREWDRIVER = forgeItemTag("tools/screwdriver");
     public static final TagKey<Item> LARGE_DRILL = forgeItemTag("tools/large_drill");
@@ -133,58 +64,50 @@ public final class GregTechTags {
     public static final TagKey<Item> FILE = forgeItemTag("tools/file");
     public static final TagKey<Item> SOLDERING_IRON = forgeItemTag("tools/soldering_iron");
 
-    public static final TagKey<Item> IRIDIUM_ALLOY = itemTag("plates/iridium_alloy");
-    public static final TagKey<Item> WRENCH = itemTag("tools/wrench");
-    public static final TagKey<Item> HEAT_VENT = itemTag("heat_vent");
-    public static final TagKey<Item> COMPONENT_HEAT_VENT = itemTag("component_heat_vent");
+    // Mod Items
+    public static final TagKey<Item> ADVANCED_CIRCUIT = itemTag("advanced_circuit");
     public static final TagKey<Item> ADVANCED_HEAT_VENT = itemTag("advanced_heat_vent");
-    public static final TagKey<Item> OVERCLOCKED_HEAT_VENT = itemTag("overclocked_heat_vent");
+    public static final TagKey<Item> BATPACK = itemTag("batpack");
+    public static final TagKey<Item> CARBON_MESH = itemTag("carbon_mesh");
+    public static final TagKey<Item> CARBON_PLATE = itemTag("carbon_plate");
+    public static final TagKey<Item> CIRCUIT = itemTag("circuit");
+    public static final TagKey<Item> COAL_CHUNK = itemTag("coal_chunk");
+    public static final TagKey<Item> COMPONENT_HEAT_VENT = itemTag("component_heat_vent");
+    public static final TagKey<Item> COMPRESSED_COAL_BALL = itemTag("compressed_coal_ball");
+    public static final TagKey<Item> DENSE_COPPER_PLATE = itemTag("dense_copper_plate");
+    public static final TagKey<Item> DOUBLE_INSULATED_GOLD_CABLE = itemTag("double_insulated_gold_cable");
     public static final TagKey<Item> EMPTY_FLUID_CELL = itemTag("empty_fluid_cell");
     public static final TagKey<Item> EMPTY_FUEL_CAN = itemTag("empty_fuel_can");
-    public static final TagKey<Item> CIRCUIT = itemTag("circuit");
-    public static final TagKey<Item> ADVANCED_CIRCUIT = itemTag("advanced_circuit");
-    public static final TagKey<Item> ADVANCED_ALLOY = itemTag("advanced_alloy");
+    public static final TagKey<Item> ENERGY_CRYSTAL = itemTag("energy_crystal");
+    public static final TagKey<Item> GENERATOR = itemTag("generator");
+    public static final TagKey<Item> HEAT_VENT = itemTag("heat_vent");
+    public static final TagKey<Item> HV_TRANSFORMER = itemTag("hv_transformer");
+    public static final TagKey<Item> ILLUMINATOR_FLAT = itemTag("illuminator");
+    public static final TagKey<Item> INSULATED_COPPER_CABLE = itemTag("insulated_copper_cable");
+    public static final TagKey<Item> IRIDIUM_ALLOY = itemTag("plates/iridium_alloy");
+    public static final TagKey<Item> IRIDIUM_NEUTRON_REFLECTOR = itemTag("illuminator");
+    public static final TagKey<Item> LAPOTRON_CRYSTAL = itemTag("lapotron_crystal");
+    public static final TagKey<Item> LAPPACK = itemTag("lappack");
+    public static final TagKey<Item> OIL_SAND = itemTag("oil_sand");
+    public static final TagKey<Item> OVERCLOCKED_HEAT_VENT = itemTag("overclocked_heat_vent");
+    public static final TagKey<Item> PUMP = itemTag("pump");
+    public static final TagKey<Item> REACTOR_COOLANT_CELL = itemTag("reactor_coolant_cell");
     public static final TagKey<Item> REINFORCED_STONE = itemTag("reinforced_stone");
     public static final TagKey<Item> RESIN = itemTag("resin");
-    public static final TagKey<Item> COPPER_CABLE = itemTag("copper_cable");
-    public static final TagKey<Item> GOLD_CABLE = itemTag("gold_cable");
-    public static final TagKey<Item> INSULATED_GOLD_CABLE = itemTag("insulated_gold_cable");
-    public static final TagKey<Item> DOUBLE_INSULATED_GOLD_CABLE = itemTag("double_insulated_gold_cable");
-    public static final TagKey<Item> INSULATED_COPPER_CABLE = itemTag("insulated_copper_cable");
-    public static final TagKey<Item> RUBBER = itemTag("rubber");
-    public static final TagKey<Item> LAPOTRON_CRYSTAL = itemTag("lapotron_crystal");
-    public static final TagKey<Item> HV_TRANSFORMER = itemTag("hv_transformer");
-    public static final TagKey<Item> TRANSFORMER_UPGRADE = itemTag("transformer_upgrade");
-    public static final TagKey<Item> CARBON_MESH = itemTag("carbon_mesh");
-    public static final TagKey<Item> CARBON_FIBRE = itemTag("carbon_fibre");
-    public static final TagKey<Item> GENERATOR = itemTag("generator");
-    public static final TagKey<Item> COAL_BALL = itemTag("coal_ball");
-    public static final TagKey<Item> COMPRESSED_COAL_BALL = itemTag("compressed_coal_ball");
-    public static final TagKey<Item> COAL_CHUNK = itemTag("coal_chunk");
-    public static final TagKey<Item> CARBON_PLATE = itemTag("carbon_plate");
-    public static final TagKey<Item> PUMP = itemTag("pump");
-    public static final TagKey<Item> ENERGY_CRYSTAL = itemTag("energy_crystal");
-    public static final TagKey<Item> OIL_SAND = itemTag("oil_sand");
-    public static final TagKey<Item> LAPPACK = itemTag("lappack"); // TODO
-    public static final TagKey<Item> BATPACK = itemTag("batpack");
-    public static final TagKey<Item> SOLAR_HELMET = itemTag("solar_helmet");
-    public static final TagKey<Item> ILLUMINATOR_FLAT = itemTag("illuminator");
-    public static final TagKey<Item> IRIDIUM_NEUTRON_REFLECTOR = itemTag("illuminator");
     public static final TagKey<Item> RE_BATTERY = itemTag("re_battery");
-    public static final TagKey<Item> TELEPORTER = itemTag("teleporter");
-    public static final TagKey<Item> DENSE_COPPER_PLATE = itemTag("dense_copper_plate");
-    public static final TagKey<Item> REACTOR_COOLANT_CELL = itemTag("reactor_coolant_cell");
+    public static final TagKey<Item> RUBBER = itemTag("rubber");
     public static final TagKey<Item> SEXTUPLE_REACTOR_COOLANT_CELL = itemTag("sextuple_reactor_coolant_cell");
-    // TODO
-    // Regular iron / Refined iron
+    public static final TagKey<Item> SOLAR_GENERATOR = itemTag("solar_generator");
+    public static final TagKey<Item> SOLAR_HELMET = itemTag("solar_helmet");
+    public static final TagKey<Item> TELEPORTER = itemTag("teleporter");
+    public static final TagKey<Item> TRANSFORMER_UPGRADE = itemTag("transformer_upgrade");
+    public static final TagKey<Item> WRENCH = itemTag("tools/wrench");
+    // Regular Iron OR Refined Iron
     public static final TagKey<Item> UNIVERSAL_IRON_INGOT = itemTag("ingots/universal_iron");
     public static final TagKey<Item> UNIVERSAL_IRON_PLATE = itemTag("plates/universal_iron");
     public static final TagKey<Item> UNIVERSAL_IRON_ROD = itemTag("rods/universal_iron");
-    public static final TagKey<Item> UNIVERSAL_IRON_DUST = itemTag("dusts/universal_iron");
-    // Regular Iron [+ Refined iron]
+    // Regular Iron AND Refined iron
     public static final TagKey<Item> ANY_IRON_INGOT = itemTag("ingots/any_iron");
-    public static final TagKey<Item> ANY_IRON_DUST = itemTag("dusts/any_iron");
-    public static final TagKey<Item> ANY_IRON_SMALLDUST = itemTag("small_dusts/any_iron");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");
@@ -219,6 +142,10 @@ public final class GregTechTags {
         return material("ores", name);
     }
 
+    public static TagKey<Item> gear(String name) {
+        return material("gears", name);
+    }
+
     public static TagKey<Item> material(String type, String name) {
         return FORGE_MATERIALS.computeIfAbsent(type, s -> new HashMap<>())
             .computeIfAbsent(name, s -> forgeItemTag(type + "/" + name));
@@ -234,7 +161,7 @@ public final class GregTechTags {
         return ItemTags.create(new ResourceLocation("forge", name));
     }
 
-    private static TagKey<Item> itemTag(String name) {
+    public static TagKey<Item> itemTag(String name) {
         return ItemTags.create(location(name));
     }
 

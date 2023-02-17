@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "A": {
-      "tag": "gtexperimental:circuit_tier_8"
+      "tag": "gtexperimental:data_orb"
     },
     "B": {
       "tag": "gtexperimental:crafting/raw_machine_tier_4"
@@ -11,7 +11,7 @@
       "tag": "forge:plates/aluminium"
     },
     "S": {
-      "tag": "gtexperimental:crafting/monitor_tier_2"
+      "item": "gtexperimental:screen"
     },
     "T": {
       "tag": "gtexperimental:teleporter"

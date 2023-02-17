@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "C": {
-      "tag": "gtexperimental:circuit_board_tier_6"
+      "tag": "gtexperimental:processor_circuit_board"
     },
     "M": {
       "tag": "gtexperimental:crafting/raw_machine_tier_4"

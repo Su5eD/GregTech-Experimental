@@ -1,8 +1,8 @@
 package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.GregTechTags;
-import dev.su5ed.gtexperimental.api.cover.CoverType;
 import dev.su5ed.gtexperimental.api.Reference;
+import dev.su5ed.gtexperimental.api.cover.CoverType;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;

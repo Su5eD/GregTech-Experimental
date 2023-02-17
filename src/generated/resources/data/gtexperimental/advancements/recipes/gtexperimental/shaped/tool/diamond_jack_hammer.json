@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_100k_eu_store": {
+    "has_small_eu_store": {
       "conditions": {
         "items": [
           {
-            "tag": "gtexperimental:crafting/100k_eu_store"
+            "tag": "gtexperimental:small_eu_store"
           }
         ]
       },
@@ -20,7 +20,7 @@
   },
   "requirements": [
     [
-      "has_100k_eu_store",
+      "has_small_eu_store",
       "has_the_recipe"
     ]
   ],

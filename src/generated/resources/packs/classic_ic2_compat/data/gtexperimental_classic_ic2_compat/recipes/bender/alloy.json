@@ -10,7 +10,7 @@
   "energy_cost": 8.0,
   "input": {
     "value": {
-      "tag": "forge:ingots/mixed_metal"
+      "item": "ic2:mixed_metal_ingot"
     }
   },
   "output": {

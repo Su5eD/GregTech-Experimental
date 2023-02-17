@@ -3,7 +3,9 @@ package dev.su5ed.gtexperimental.datagen;
 import dev.su5ed.gtexperimental.datagen.pack.ClassicIC2RecipesPackGen;
 import dev.su5ed.gtexperimental.datagen.pack.ExperimentalIC2RecipesPackGen;
 import dev.su5ed.gtexperimental.datagen.pack.FTBICRecipesPackGen;
+import dev.su5ed.gtexperimental.datagen.pack.FTBICTagsGen;
 import dev.su5ed.gtexperimental.datagen.pack.HarderRecipesPackGen;
+import dev.su5ed.gtexperimental.datagen.pack.IC2TagsGen;
 import dev.su5ed.gtexperimental.datagen.pack.PlateRecipesPackGen;
 import net.minecraft.SharedConstants;
 import net.minecraft.data.DataGenerator;
@@ -41,12 +43,15 @@ public final class DataGenerators {
 
         DataGenerator classicIc2PackGenerator = createGenerator(generator, ClassicIC2RecipesPackGen.NAME);
         generator.addProvider(event.includeServer(), new ClassicIC2RecipesPackGen(classicIc2PackGenerator));
+        generator.addProvider(event.includeServer(), new IC2TagsGen.Classic(classicIc2PackGenerator, blockTags, helper));
 
         DataGenerator experimentalIc2PackGenerator = createGenerator(generator, ExperimentalIC2RecipesPackGen.NAME);
         generator.addProvider(event.includeServer(), new ExperimentalIC2RecipesPackGen(experimentalIc2PackGenerator));
+        generator.addProvider(event.includeServer(), new IC2TagsGen(experimentalIc2PackGenerator, blockTags, helper));
 
         DataGenerator ftbicPackGenerator = createGenerator(generator, FTBICRecipesPackGen.NAME);
         generator.addProvider(event.includeServer(), new FTBICRecipesPackGen(ftbicPackGenerator));
+        generator.addProvider(event.includeServer(), new FTBICTagsGen(ftbicPackGenerator, blockTags, helper));
     }
 
     private DataGenerators() {}

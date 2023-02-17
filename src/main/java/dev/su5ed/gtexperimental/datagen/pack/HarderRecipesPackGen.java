@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.datagen.pack;
 
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.compat.ModHandler;
+import dev.su5ed.gtexperimental.object.ModCoverItem;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Plate;
@@ -113,7 +114,7 @@ public class HarderRecipesPackGen extends RecipeProvider {
             .define('L', GregTechTags.MEDIUM_EU_STORE)
             .define('I', GregTechTags.IRIDIUM_ALLOY)
             .define('P', Plate.PLATINUM.getTag())
-            .define('C', GregTechTags.CIRCUIT_TIER_7)
+            .define('C', ModCoverItem.ENERGY_FLOW_CIRCUIT.getTag())
             .pattern("PI ")
             .pattern("PI ")
             .pattern("CLC")

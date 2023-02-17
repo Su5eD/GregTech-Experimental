@@ -7,7 +7,6 @@ import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
-import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -37,7 +36,7 @@ public class ExperimentalIC2RecipesPackGen extends IC2RecipesPackGen {
 
         // Canning Machine
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.URANIUM), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), new ItemStack(Ic2Items.URANIUM_FUEL_ROD), 100, 2)
-            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
+            .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, canningMachineId("uranium_fuel_rod"));
 //        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.GRIN_POWDER), ModRecipeIngredientTypes.ITEM.of(Ic2Items.EMPTY_CELL), WEED_EX_FLUID_CELL, 800, 1)
 //            .addConditions(IC2_LOADED, SelectedProfileCondition.EXPERIMENTAL)
