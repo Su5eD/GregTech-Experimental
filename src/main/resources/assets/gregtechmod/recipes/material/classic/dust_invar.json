@@ -3,11 +3,11 @@
   "ingredients": [
     {
       "type": "gregtechmod:ore_dict",
-      "ores": [ "ingotIron", "ingotRefinedIron" ]
+      "ores": [ "dustIron", "dustRefinedIron" ]
     },
     {
       "type": "gregtechmod:ore_dict",
-      "ores": [ "ingotIron", "ingotRefinedIron" ]
+      "ores": [ "dustIron", "dustRefinedIron" ]
     },
     {
       "type": "forge:ore_dict",

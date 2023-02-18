@@ -2,8 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "gregtechmod:mortar_flint",
-      "data": 32767
+      "item": "#MORTARS"
     },
     {
       "type": "forge:ore_dict",
