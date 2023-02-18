@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.datagen.pack;
 
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.Reference;
+import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.recipe.PulverizerRecipesGen;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
@@ -10,6 +11,7 @@ import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
@@ -20,7 +22,7 @@ import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.*;
 import static dev.su5ed.gtexperimental.recipe.gen.compat.CompatRecipeBuilders.ic2Compressor;
-import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.WATER;
+import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.*;
 
 public class ExperimentalIC2RecipesPackGen extends IC2RecipesPackGen {
     public static final String NAME = "experimental_ic2_compat";
@@ -62,6 +64,11 @@ public class ExperimentalIC2RecipesPackGen extends IC2RecipesPackGen {
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, industrialCentrifugeId("uranium_dust"));
 
+        // Implosion
+        implosion(ModRecipeIngredientTypes.ITEM.of(Dust.DIAMOND.getTag(), 4), new ItemStack(Items.DIAMOND, 3), Dust.DARK_ASHES.getItemStack(16), 32)
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, implosionId("industrial_diamond"));
+
         // Industrial Grinder
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ore("uranium")), WATER, new ItemStack(Ic2Items.PURIFIED_URANIUM, 2), Smalldust.PLUTONIUM.getItemStack(2), Dust.THORIUM.getItemStack())
             .addConditions(IC2_LOADED)
@@ -85,5 +92,15 @@ public class ExperimentalIC2RecipesPackGen extends IC2RecipesPackGen {
             .unlockedBy("has_gems_ruby", has(Miscellaneous.RUBY.getTag()))
             .addCondition(IC2_LOADED)
             .save(finishedRecipeConsumer, shapedId("component/energium_dust"));
+        conditionalShaped(Ic2Items.GLASS_FIBRE_CABLE, 6)
+            .define('G', Items.GLASS)
+            .define('R', tagsIngredient(Dust.SILVER.getTag(), Dust.ELECTRUM.getTag()))
+            .define('D', tagsIngredient(Tags.Items.GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .pattern("GGG")
+            .pattern("DRD")
+            .pattern("GGG")
+            .unlockedBy("has_gems_diamond", hasTags(Tags.Items.GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .addCondition(IC2_LOADED)
+            .save(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/glass_fibre_cable"));
     }
 }

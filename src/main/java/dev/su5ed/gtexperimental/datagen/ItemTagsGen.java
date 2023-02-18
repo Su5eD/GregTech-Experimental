@@ -18,6 +18,7 @@ import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Ore;
 import dev.su5ed.gtexperimental.object.Plate;
 import dev.su5ed.gtexperimental.object.Rod;
+import dev.su5ed.gtexperimental.object.Saw;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.object.Upgrade;
@@ -62,6 +63,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .append(ModBlock.values())
             .append(Plate.values())
             .append(Rod.values())
+            .append(Saw.values())
             .append(Smalldust.values())
             .append(Tool.values())
             .append(Upgrade.values())
@@ -106,6 +108,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(GregTechTags.ANY_IRON_INGOT)
             .addTag(Tags.Items.INGOTS_IRON)
             .addTag(GregTechTags.UNIVERSAL_IRON_INGOT);
+        tag(GregTechTags.ANY_GEMS_DIAMOND)
+            .addTag(Tags.Items.GEMS_DIAMOND);
 
         // Mods
         tag(GregTechTags.OIL_SAND)

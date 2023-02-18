@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.datagen.pack;
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.compat.IC2BaseMod;
+import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.recipe.BlastFurnaceRecipesGen;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
@@ -15,6 +16,7 @@ import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,7 +28,7 @@ import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.*;
 import static dev.su5ed.gtexperimental.recipe.gen.compat.CompatRecipeBuilders.ic2Compressor;
-import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.WATER;
+import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.*;
 import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
 public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
@@ -121,6 +123,11 @@ public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, industrialCentrifugeId("uranium_dust"));
 
+        // Implosion
+        implosion(ModRecipeIngredientTypes.ITEM.of(Dust.DIAMOND.getTag(), 4), new ItemStack(Ic2Items.INDUTRIAL_DIAMOND, 3), Dust.DARK_ASHES.getItemStack(16), 32)
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, implosionId("industrial_diamond"));
+
         // Industrial Grinder
         industrialGrinder(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ore("uranium")), WATER, Dust.URANIUM.getItemStack(2), Smalldust.PLUTONIUM.getItemStack(2), Dust.THORIUM.getItemStack())
             .addConditions(IC2_LOADED)
@@ -147,5 +154,44 @@ public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
             .unlockedBy("has_gems_ruby", has(Miscellaneous.RUBY.getTag()))
             .addCondition(IC2_LOADED)
             .save(finishedRecipeConsumer, shapedId("component/energy_crystal"));
+        conditionalShaped(Ic2Items.GLASS_FIBRE_CABLE, 4)
+            .define('G', Items.GLASS)
+            .define('R', Tags.Items.DUSTS_REDSTONE)
+            .define('D', tagsIngredient(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .pattern("GGG")
+            .pattern("DRD")
+            .pattern("GGG")
+            .unlockedBy("has_gems_diamond", hasTags(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .addCondition(IC2_LOADED)
+            .save(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/glass_fibre_cable"));
+        conditionalShaped(Ic2Items.GLASS_FIBRE_CABLE, 6)
+            .define('G', Items.GLASS)
+            .define('R', Ingot.SILVER.getTag())
+            .define('D', tagsIngredient(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .pattern("GGG")
+            .pattern("DRD")
+            .pattern("GGG")
+            .unlockedBy("has_gems_diamond", hasTags(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .addCondition(IC2_LOADED)
+            .save(finishedRecipeConsumer, shapedId("glass_fibre_cable_silver"));
+        conditionalShaped(Ic2Items.GLASS_FIBRE_CABLE, 8)
+            .define('G', Items.GLASS)
+            .define('R', Ingot.ELECTRUM.getTag())
+            .define('D', tagsIngredient(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .pattern("GGG")
+            .pattern("DRD")
+            .pattern("GGG")
+            .unlockedBy("has_gems_diamond", hasTags(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .addCondition(IC2_LOADED)
+            .save(finishedRecipeConsumer, shapedId("glass_fibre_cable_electrum"));
+        conditionalShaped(Ic2Items.DOUBLE_INSULATED_GOLD_CABLE, 4)
+            .define('R', GregTechTags.RUBBER)
+            .define('G', Tags.Items.INGOTS_GOLD)
+            .pattern("RRR")
+            .pattern("RGR")
+            .pattern("RRR")
+            .unlockedBy("has_rubber", has(GregTechTags.RUBBER))
+            .addCondition(IC2_LOADED)
+            .save(finishedRecipeConsumer, shapedId("double_insulated_gold_cable"));
     }
 }

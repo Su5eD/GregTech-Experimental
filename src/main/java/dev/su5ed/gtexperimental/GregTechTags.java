@@ -63,6 +63,7 @@ public final class GregTechTags {
     public static final TagKey<Item> HARD_HAMMER = forgeItemTag("tools/hard_hammer");
     public static final TagKey<Item> FILE = forgeItemTag("tools/file");
     public static final TagKey<Item> SOLDERING_IRON = forgeItemTag("tools/soldering_iron");
+    public static final TagKey<Item> SAW = forgeItemTag("tools/saw");
 
     // Mod Items
     public static final TagKey<Item> ADVANCED_CIRCUIT = itemTag("advanced_circuit");
@@ -108,6 +109,8 @@ public final class GregTechTags {
     public static final TagKey<Item> UNIVERSAL_IRON_ROD = itemTag("rods/universal_iron");
     // Regular Iron AND Refined iron
     public static final TagKey<Item> ANY_IRON_INGOT = itemTag("ingots/any_iron");
+    // Diamond AND Industrial Diamond
+    public static final TagKey<Item> ANY_GEMS_DIAMOND = itemTag("gems/any_diamond");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");

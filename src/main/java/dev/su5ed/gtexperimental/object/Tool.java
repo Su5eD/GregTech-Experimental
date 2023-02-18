@@ -33,7 +33,7 @@ import java.util.function.Supplier;
 
 public enum Tool implements TaggedItemProvider {
     ADVANCED_DRILL(AdvancedDrillItem::new, GregTechTags.LARGE_DRILL),
-    ADVANCED_SAW(AdvancedSawItem::new),
+    ADVANCED_SAW(AdvancedSawItem::new, GregTechTags.SAW),
     ADVANCED_WRENCH(AdvancedWrenchItem::new),
     CROWBAR(CrowbarItem::new, GregTechTags.CROWBAR),
     DEBUG_SCANNER(DebugScannerItem::new),

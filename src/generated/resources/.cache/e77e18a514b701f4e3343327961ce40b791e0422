@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-17T20:44:23.2968355	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-18T15:23:37.734248	Gregtech ExperimentalTags for minecraft:item
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/blocks/bronze.json
 85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
@@ -344,6 +344,7 @@ f35664459a38341e72b5cb19f41fed869a7f44b5 data/forge/tags/items/tools/crowbar.jso
 1ddc5148021a20bdac46e82f8f31bbb4eb72b756 data/forge/tags/items/tools/file.json
 20e30fa61a10a2fe696ef4678651c6c6bf611cff data/forge/tags/items/tools/hard_hammer.json
 b9fe75299f3f3c0e12502b238e4a1a2a07e46467 data/forge/tags/items/tools/large_drill.json
+63150fe26f5ff1616a836eb461ba5e4e0390e3b0 data/forge/tags/items/tools/saw.json
 9e21d9c88e0ae8c9e7e69aea3e77a3f54d8e524a data/forge/tags/items/tools/screwdriver.json
 3c8ebe113f85229e42ae1c33361c2ac2900642f4 data/forge/tags/items/tools/soft_hammer.json
 7e810108fa36cff02453232ad23b2b4e83c4e4c7 data/forge/tags/items/tools/soldering_iron.json
@@ -371,6 +372,7 @@ ba7ca26622a88198bba0bb93b2d3930e37dc3904 data/gtexperimental/tags/items/data_sto
 9337c87230b2ba02647690ac7381560da40c0288 data/gtexperimental/tags/items/diamond_sawblade.json
 3fb857fa664336e57b6f7f3e4d72fd538dc2f6b2 data/gtexperimental/tags/items/duct_tape.json
 78b769a8e3b2c48d2eedd9912cedd778f536abfd data/gtexperimental/tags/items/energy_flow_circuit.json
+a38efefda0bff84df4844f584f966a588fcac9de data/gtexperimental/tags/items/gems/any_diamond.json
 ee572f5348f87a92bf2577e7dd9397b84575431b data/gtexperimental/tags/items/ingots/any_iron.json
 1a95ba6c8de8bf45015131964d973d94d905f8b8 data/gtexperimental/tags/items/ingots/universal_iron.json
 bb043f9161089752e7f444eddc443a600867a5b1 data/gtexperimental/tags/items/kanthal_coil.json

@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-17T20:44:23.2823114	Gregtech Experimental Recipes
+// 1.19.2	2023-02-18T16:06:20.5417135	Gregtech Experimental Recipes
 aa8aca32b06c78b08062a18afebc694d49fa00c8 data/gtexperimental/advancements/recipes/gtexperimental/shaped/armor/cloaking_device.json
 b89d3627e72420ac6bcf01ee7953dd4ba09e63bf data/gtexperimental/advancements/recipes/gtexperimental/shaped/armor/lapotronpack.json
 d5ea86baaa7c6426c4e41db8a90c7c658be343ca data/gtexperimental/advancements/recipes/gtexperimental/shaped/armor/lithium_batpack.json
@@ -923,6 +923,9 @@ dfdc8193a0567500d78a8c8a1f97e6a89c913fe9 data/gtexperimental/recipes/shaped/comp
 342b29d6b4b006d156ac45d730876476481ffaf8 data/gtexperimental/recipes/shaped/component/tungsten_steel_turbine_rotor.json
 4105562d19508748f247bd925ad1431788a755bd data/gtexperimental/recipes/shaped/component/tungsten_steel_turbine_rotor_repair.json
 f767e59d774a4cc37e57a3c6f8109c01d1a8481c data/gtexperimental/recipes/shaped/component/wolframium_grinder.json
+a56e8c7dcf68b6f32d84bc02af2133a4f5a37ce5 data/gtexperimental/recipes/shaped/cupronickel_coil.json
+fdaed9647da9426f5edb8ee22f491603bfd5999f data/gtexperimental/recipes/shaped/kanthal_coil.json
+2f5c63c17eb0e0358a9355d3bbaa9ad46ecdad76 data/gtexperimental/recipes/shaped/nichrome_coil.json
 aca47980ada0c271c6113bdc5d4abd6c7b1e856b data/gtexperimental/recipes/shaped/nuclear/dual_plutonium_fuel_rod.json
 bf664eb81f91bb591392b919ec08995cbc7cdeb5 data/gtexperimental/recipes/shaped/nuclear/dual_thorium_fuel_rod.json
 1436b2b2de9f10358289ba95ce861ad58699d09d data/gtexperimental/recipes/shaped/nuclear/helium_180k_coolant.json

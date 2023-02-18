@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental;
 
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.item.ElectricArmorItem;
+import dev.su5ed.gtexperimental.recipe.crafting.RecipeReplacer;
 import dev.su5ed.gtexperimental.util.capability.JumpChargeProvider;
 import dev.su5ed.gtexperimental.util.capability.LightSourceProvider;
 import net.minecraft.nbt.CompoundTag;
@@ -10,15 +11,21 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 @EventBusSubscriber(modid = Reference.MODID)
 public final class ForgeEventHandler {
+    private static final Queue<Runnable> tagReloadListeners = new ArrayDeque<>();
 
     @SubscribeEvent
     public static void onLivingEquipmentChange(LivingEquipmentChangeEvent event) {
@@ -52,6 +59,18 @@ public final class ForgeEventHandler {
             .ifPresent(props -> props.setCharge(0));
         entity.getCapability(Capabilities.LIGHT_SOURCE)
             .ifPresent(props -> props.setSourcePos(null));
+    }
+
+    @SubscribeEvent
+    public static void resourceReload(AddReloadListenerEvent event) {
+        tagReloadListeners.add(() -> RecipeReplacer.runReplacements(event.getServerResources()));
+    }
+
+    @SubscribeEvent
+    public static void tagsUpdated(TagsUpdatedEvent event) {
+        if (event.getUpdateCause() == TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD) {
+            tagReloadListeners.forEach(Runnable::run);
+        }
     }
 
     private static <T extends INBTSerializable<CompoundTag>> void cloneCapability(Capability<T> capability, Player original, Player clone) {

@@ -51,6 +51,7 @@ public class IC2TagsGen extends ItemTagsProvider {
         tag(GregTechTags.RE_BATTERY).add(Ic2Items.RE_BATTERY);
         tag(GregTechTags.ingot("refined_iron")).add(Ic2Items.REFINED_IRON_INGOT);
         tag(GregTechTags.RUBBER).add(Ic2Items.RUBBER);
+//        tag(GregTechTags.SAW).add(Ic2Items.CHAINSAW);
         tag(GregTechTags.SEXTUPLE_REACTOR_COOLANT_CELL).add(Ic2Items.SEXTUPLE_REACTOR_COOLANT_CELL);
         tag(GregTechTags.SOLAR_GENERATOR).add(Ic2Items.SOLAR_GENERATOR);
 //        tag(GregTechTags.SOLAR_HELMET).add(Ic2Items.SOLAR_HELMET);
@@ -69,6 +70,8 @@ public class IC2TagsGen extends ItemTagsProvider {
         protected void addTags() {
             super.addTags();
 
+            tag(GregTechTags.ANY_GEMS_DIAMOND)
+                .add(Ic2Items.INDUTRIAL_DIAMOND);
             // TODO Fix tag replace serialization in forge
 //            tag(GregTechTags.UNIVERSAL_IRON_INGOT)
 //                .addTag(GregTechTags.ingot("refined_iron"))

@@ -17,6 +17,7 @@ import dev.su5ed.gtexperimental.object.Plate;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.object.Wrench;
+import dev.su5ed.gtexperimental.recipe.crafting.RemovedRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.VanillaFluidIngredient;
@@ -35,7 +36,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapelessRecipeBuilder.conditionalShapeless;
@@ -153,9 +153,6 @@ public class IC2RecipesPackGen extends RecipeProvider {
             .build(finishedRecipeConsumer, fluidSolidId("iridium_ore"));
 
         // Implosion
-        implosion(ModRecipeIngredientTypes.ITEM.of(Dust.DIAMOND.getTag(), 4), new ItemStack(Ic2Items.INDUTRIAL_DIAMOND, 3), Dust.DARK_ASHES.getItemStack(16), 32)
-            .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, implosionId("industrial_diamond"));
         implosion(ModRecipeIngredientTypes.ITEM.of(Ingot.IRIDIUM_ALLOY.getTag()), new ItemStack(Ic2Items.IRIDIUM), Dust.DARK_ASHES.getItemStack(4), 8)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, implosionId("iridium"));
@@ -322,6 +319,12 @@ public class IC2RecipesPackGen extends RecipeProvider {
         conditionalShapeless(Ic2Items.FERTILIZER, 3).requires(Ic2Items.FERTILIZER).requires(VanillaFluidIngredient.of(ModFluid.SULFUR.getTag(), buckets(1))).requires(VanillaFluidIngredient.of(ModFluid.CALCIUM.getTag(), buckets(1))).unlockedBy("has_sulfur_fluid", hasFluid(ModFluid.SULFUR.getTag())).addCondition(IC2_LOADED).save(finishedRecipeConsumer, shapelessId("fertilizer_sulfur_fluid"));
         conditionalShapeless(Ic2Items.FERTILIZER, 2).requires(Ic2Items.FERTILIZER).requires(Dust.ASHES.getTag(), 3).unlockedBy("has_ashes_dust", has(Dust.ASHES.getTag())).addCondition(IC2_LOADED).save(finishedRecipeConsumer, shapelessId("fertilizer_ashes"));
         conditionalShapeless(Ic2Items.FERTILIZER, 2).requires(Ic2Items.FERTILIZER).requires(Dust.DARK_ASHES.getTag()).unlockedBy("has_dark_ashes_dust", has(Dust.DARK_ASHES.getTag())).addCondition(IC2_LOADED).save(finishedRecipeConsumer, shapelessId("fertilizer_dark_ashes"));
+
+        // Removed (replaced) recipes
+        RemovedRecipeBuilder.build(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/plant_ball_7"));
+        RemovedRecipeBuilder.build(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/solar_generator"));
+        RemovedRecipeBuilder.build(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/wind_generator"));
+        RemovedRecipeBuilder.build(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/water_generator"));
     }
 
     protected RecipeName alloySmelterId(String name) {
@@ -368,11 +371,11 @@ public class IC2RecipesPackGen extends RecipeProvider {
         return RecipeName.common(this.name, "wiremill", name);
     }
 
-    protected static ResourceLocation shapedId(String name) {
-        return location("shaped/" + name);
+    protected ResourceLocation shapedId(String name) {
+        return new ResourceLocation(this.name, "shaped/" + name);
     }
 
-    protected static ResourceLocation shapelessId(String name) {
-        return location("shapeless/" + name);
+    protected ResourceLocation shapelessId(String name) {
+        return new ResourceLocation(this.name, "shapeless/" + name);
     }
 }

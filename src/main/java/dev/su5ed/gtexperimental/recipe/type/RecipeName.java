@@ -25,7 +25,7 @@ public final class RecipeName {
         this.profile = profile;
         this.name = name;
     }
-    
+
     public RecipeName withType(String type) {
         return new RecipeName(this.namespace, this.modid, type, this.profile, this.name);
     }

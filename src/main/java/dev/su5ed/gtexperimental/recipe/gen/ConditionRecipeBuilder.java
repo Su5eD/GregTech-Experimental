@@ -13,7 +13,6 @@ import one.util.streamex.StreamEx;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,6 @@ public abstract class ConditionRecipeBuilder<T extends ConditionRecipeBuilder<T,
 
     private final BiFunction<ItemLike, Integer, B> builderFactory;
     private final List<ICondition> conditions = new ArrayList<>();
-    private final Map<ICondition, Map<String, CriterionTriggerInstance>> conditionalAdvancement = new LinkedHashMap<>();
 
     public ConditionRecipeBuilder(ItemLike result, int count, BiFunction<ItemLike, Integer, B> builderFactory) {
         this.result = result;
@@ -44,15 +42,6 @@ public abstract class ConditionRecipeBuilder<T extends ConditionRecipeBuilder<T,
 
     public T unlockedBy(String criterionName, CriterionTriggerInstance criterionTrigger) {
         this.advancement.put(criterionName, criterionTrigger);
-        return (T) this;
-    }
-
-    public T unlockedBy(ICondition condition, String criterionName, CriterionTriggerInstance criterionTrigger) {
-        Map<String, CriterionTriggerInstance> conditionKeyMap = this.conditionalAdvancement.computeIfAbsent(condition, c -> new HashMap<>());
-        if (conditionKeyMap.containsKey(criterionName)) {
-            throw new IllegalArgumentException("Criterion '" + criterionName + "' is already defined!");
-        }
-        conditionKeyMap.put(criterionName, criterionTrigger);
         return (T) this;
     }
 
@@ -73,17 +62,12 @@ public abstract class ConditionRecipeBuilder<T extends ConditionRecipeBuilder<T,
     public void save(Consumer<FinishedRecipe> finishedRecipeConsumer, ResourceLocation recipeId) {
         ConditionalRecipe.Builder conditionalBuilder = ConditionalRecipe.builder();
         StreamEx.of(getKeys())
-            .append(this.conditionalAdvancement.keySet())
             .distinct()
             .ifEmpty((ICondition) null)
             .forEach(condition -> {
                 B builder = this.builderFactory.apply(this.result, this.count);
                 buildRecipe(condition, builder);
                 this.advancement.forEach(builder::unlockedBy);
-                Map<String, CriterionTriggerInstance> conditionalAdvancementMap = this.conditionalAdvancement.get(condition);
-                if (conditionalAdvancementMap != null) {
-                    conditionalAdvancementMap.forEach(builder::unlockedBy);
-                }
                 builder.group(this.group);
                 if (condition != null) {
                     conditionalBuilder.addCondition(condition);

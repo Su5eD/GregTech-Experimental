@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Armor;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
@@ -23,11 +24,14 @@ import dev.su5ed.gtexperimental.object.TurbineRotor;
 import dev.su5ed.gtexperimental.object.Upgrade;
 import dev.su5ed.gtexperimental.object.Wrench;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolCraftingIngredient;
+import dev.su5ed.gtexperimental.recipe.gen.compat.RCRollingRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.VanillaDamagedIngredient;
 import dev.su5ed.gtexperimental.recipe.type.VanillaFluidIngredient;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -37,11 +41,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
 
 import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_IC2_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapedRecipeBuilder.fluidShaped;
 import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapedRecipeBuilder.toolShaped;
@@ -191,6 +196,29 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
         shapeless(Miscellaneous.SILVER_CREDIT, 8).requires(Miscellaneous.GOLD_CREDIT).unlockedBy("has_gold_credit", has(Miscellaneous.GOLD_CREDIT)).save(finishedRecipeConsumer, shapelessId("silver_credit"));
         shapeless(Miscellaneous.FLOUR).requires(GregTechTags.MORTAR).requires(Tags.Items.CROPS_WHEAT).unlockedBy("has_mortar", hasTags(GregTechTags.MORTAR)).save(finishedRecipeConsumer, shapelessId("flour"));
         shapeless(Items.STICK, 2).requires(Items.DEAD_BUSH).unlockedBy("has_dead_bush", has(Items.DEAD_BUSH)).save(finishedRecipeConsumer, shapelessId("stick"));
+
+        // Misc
+        RecipeName kanthalCoilId = RecipeName.common(Reference.MODID, "shaped", "kanthal_coil");
+        ConditionalRecipe.builder()
+            .addCondition(RAILCRAFT_LOADED)
+            .addRecipe(cons -> new RCRollingRecipeBuilder(Component.KANTHAL_COIL.getItemStack(3)).define('A', GregTechTags.UNIVERSAL_IRON_INGOT).define('B', Ingot.CHROME.getTag()).define('C', Ingot.ALUMINIUM.getTag()).pattern("AAA").pattern("BCC").pattern("BBC").build(cons, kanthalCoilId))
+            .addCondition(NOT_RAILCRAFT_LOADED)
+            .addRecipe(cons -> ShapedRecipeBuilder.shaped(Component.KANTHAL_COIL, 3).define('A', GregTechTags.UNIVERSAL_IRON_INGOT).define('B', Ingot.CHROME.getTag()).define('C', Ingot.ALUMINIUM.getTag()).pattern("AAA").pattern("BCC").pattern("BBC").unlockedBy("has_chrome_ingot", hasTags(Ingot.CHROME.getTag())).save(cons, kanthalCoilId.toLocation()))
+            .build(finishedRecipeConsumer, kanthalCoilId.toLocation());
+        RecipeName nichromeCoilId = RecipeName.common(Reference.MODID, "shaped", "nichrome_coil");
+        ConditionalRecipe.builder()
+            .addCondition(RAILCRAFT_LOADED)
+            .addRecipe(cons -> new RCRollingRecipeBuilder(Component.NICHROME_COIL.getItemStack()).define('A', Ingot.CHROME.getTag()).define('B', Ingot.NICKEL.getTag()).pattern(" B ").pattern("BAB").pattern(" B ").build(cons, nichromeCoilId))
+            .addCondition(NOT_RAILCRAFT_LOADED)
+            .addRecipe(cons -> ShapedRecipeBuilder.shaped(Component.NICHROME_COIL).define('A', Ingot.CHROME.getTag()).define('B', Ingot.NICKEL.getTag()).pattern(" B ").pattern("BAB").pattern(" B ").unlockedBy("has_chrome_ingot", hasTags(Ingot.CHROME.getTag())).save(cons, nichromeCoilId.toLocation()))
+            .build(finishedRecipeConsumer, nichromeCoilId.toLocation());
+        RecipeName cupronickelCoilId = RecipeName.common(Reference.MODID, "shaped", "cupronickel_coil");
+        ConditionalRecipe.builder()
+            .addCondition(RAILCRAFT_LOADED)
+            .addRecipe(cons -> new RCRollingRecipeBuilder(Component.CUPRONICKEL_COIL.getItemStack()).define('A', Tags.Items.INGOTS_COPPER).define('B', Ingot.NICKEL.getTag()).pattern("BAB").pattern("A A").pattern("BAB").build(cons, cupronickelCoilId))
+            .addCondition(NOT_RAILCRAFT_LOADED)
+            .addRecipe(cons -> ShapedRecipeBuilder.shaped(Component.CUPRONICKEL_COIL).define('A', Tags.Items.INGOTS_COPPER).define('B', Ingot.NICKEL.getTag()).pattern("BAB").pattern("A A").pattern("BAB").unlockedBy("has_nickel_ingot", hasTags(Ingot.NICKEL.getTag())).save(cons, cupronickelCoilId.toLocation()))
+            .build(finishedRecipeConsumer, cupronickelCoilId.toLocation());
     }
 
     private static void gear(String name, ItemLike result, Consumer<FinishedRecipe> finishedRecipeConsumer) {
