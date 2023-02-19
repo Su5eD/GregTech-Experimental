@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.compat;
 
+import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.machine.ElectricBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.util.power.IC2EnergyStorage;
@@ -8,12 +9,15 @@ import dev.su5ed.gtexperimental.util.upgrade.IC2UpgradeCapabilityProvider;
 import ic2.api.energy.EnergyNet;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.recipe.Recipes;
 import ic2.api.upgrade.IUpgradeItem;
+import ic2.core.recipe.input.RecipeInputIngredient;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -97,6 +101,10 @@ public class IC2BaseMod implements BaseMod {
         CompoundTag tag = new CompoundTag();
         tag.putInt("value", value);
         return new ItemStack(Ic2Items.FILLED_FUEL_CAN, 1, tag);
+    }
+    
+    public static void initRecyclerBlackList() {
+        Recipes.recyclerBlacklist.add(new RecipeInputIngredient(Ingredient.of(GregTechTags.SMALL_DUSTS), 1));
     }
 
     private static void onItemStackCapabilityAttach(AttachCapabilitiesEvent<ItemStack> event) {

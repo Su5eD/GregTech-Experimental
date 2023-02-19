@@ -38,7 +38,7 @@ public class MISORecipeType<R extends MISORecipe<IN, OUT>, IN, OUT> extends Base
 
         List<? extends RecipeIngredient<IN>> inputs = RecipeUtil.parseInputs(this.inputType, this.inputCount, inputJson);
         OUT output = this.outputType.fromJson(outputJson);
-        RecipePropertyMap properties = RecipePropertyMap.fromJson(this.properties, serializedRecipe);
+        RecipePropertyMap properties = RecipePropertyMap.fromJson(recipeId, this.properties, serializedRecipe);
 
         return this.factory.create(recipeId, inputs, output, properties);
     }

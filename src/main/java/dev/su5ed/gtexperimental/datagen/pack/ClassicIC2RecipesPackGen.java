@@ -12,14 +12,18 @@ import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.Ore;
 import dev.su5ed.gtexperimental.object.Smalldust;
+import dev.su5ed.gtexperimental.recipe.gen.SmeltingRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import ic2.core.ref.Ic2Items;
+import ic2.core.util.StackUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
@@ -157,31 +161,31 @@ public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
         conditionalShaped(Ic2Items.GLASS_FIBRE_CABLE, 4)
             .define('G', Items.GLASS)
             .define('R', Tags.Items.DUSTS_REDSTONE)
-            .define('D', tagsIngredient(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .define('D', tagsIngredient(Tags.Items.GEMS_DIAMOND, Dust.DIAMOND.getTag()))
             .pattern("GGG")
             .pattern("DRD")
             .pattern("GGG")
-            .unlockedBy("has_gems_diamond", hasTags(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .unlockedBy("has_gems_diamond", hasTags(Tags.Items.GEMS_DIAMOND, Dust.DIAMOND.getTag()))
             .addCondition(IC2_LOADED)
             .save(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/glass_fibre_cable"));
         conditionalShaped(Ic2Items.GLASS_FIBRE_CABLE, 6)
             .define('G', Items.GLASS)
             .define('R', Ingot.SILVER.getTag())
-            .define('D', tagsIngredient(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .define('D', tagsIngredient(Tags.Items.GEMS_DIAMOND, Dust.DIAMOND.getTag()))
             .pattern("GGG")
             .pattern("DRD")
             .pattern("GGG")
-            .unlockedBy("has_gems_diamond", hasTags(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .unlockedBy("has_gems_diamond", hasTags(Tags.Items.GEMS_DIAMOND, Dust.DIAMOND.getTag()))
             .addCondition(IC2_LOADED)
             .save(finishedRecipeConsumer, shapedId("glass_fibre_cable_silver"));
         conditionalShaped(Ic2Items.GLASS_FIBRE_CABLE, 8)
             .define('G', Items.GLASS)
             .define('R', Ingot.ELECTRUM.getTag())
-            .define('D', tagsIngredient(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .define('D', tagsIngredient(Tags.Items.GEMS_DIAMOND, Dust.DIAMOND.getTag()))
             .pattern("GGG")
             .pattern("DRD")
             .pattern("GGG")
-            .unlockedBy("has_gems_diamond", hasTags(GregTechTags.ANY_GEMS_DIAMOND, Dust.DIAMOND.getTag()))
+            .unlockedBy("has_gems_diamond", hasTags(Tags.Items.GEMS_DIAMOND, Dust.DIAMOND.getTag()))
             .addCondition(IC2_LOADED)
             .save(finishedRecipeConsumer, shapedId("glass_fibre_cable_electrum"));
         conditionalShaped(Ic2Items.DOUBLE_INSULATED_GOLD_CABLE, 4)
@@ -193,5 +197,11 @@ public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
             .unlockedBy("has_rubber", has(GregTechTags.RUBBER))
             .addCondition(IC2_LOADED)
             .save(finishedRecipeConsumer, shapedId("double_insulated_gold_cable"));
+
+        // Smelting
+        new SmeltingRecipeBuilder(Ingredient.of(Ic2Items.MACHINE), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 8), 0, 200)
+            .unlockedBy("has_machine", has(Ic2Items.MACHINE))
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, RecipeName.common(NAME, "smelting", "machine"));
     }
 }

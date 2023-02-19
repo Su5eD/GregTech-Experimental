@@ -76,12 +76,12 @@ public class ItemTagsGen extends ItemTagsProvider {
         EntryStream.of(
                 Tags.Items.ORES, Ore.values(),
                 Tags.Items.DUSTS, Dust.values(),
+                GregTechTags.SMALL_DUSTS, Smalldust.values(),
                 Tags.Items.INGOTS, Ingot.values(),
                 Tags.Items.NUGGETS, Nugget.values(),
                 GregTechTags.PLATES, Plate.values(),
                 Tags.Items.RODS, Rod.values(),
-                Tags.Items.DYES, ColorSpray.values(),
-                GregTechTags.WRENCH, Wrench.values()
+                Tags.Items.DYES, ColorSpray.values()
             )
             .mapKeys(this::tag)
             .flatMapValues(providers -> StreamEx.of(providers)
@@ -108,10 +108,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(GregTechTags.ANY_IRON_INGOT)
             .addTag(Tags.Items.INGOTS_IRON)
             .addTag(GregTechTags.UNIVERSAL_IRON_INGOT);
-        tag(GregTechTags.ANY_GEMS_DIAMOND)
-            .addTag(Tags.Items.GEMS_DIAMOND);
 
         // Mods
+        tag(GregTechTags.CRAFTING_RAW_MACHINE_TIER_0)
+            .addOptional(new ResourceLocation(ModHandler.THERMAL_MODID, "machine_frame"));
         tag(GregTechTags.OIL_SAND)
             .addOptional(new ResourceLocation(ModHandler.THERMAL_MODID, "oil_sand"));
         tag(GregTechTags.stone("quarried"))

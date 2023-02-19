@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 2,
         "item": "minecraft:string"
       }
     },
     {
       "probability": 0.5,
-      "stack": {
+      "result": {
         "item": "minecraft:string"
       }
     }

@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 3,
         "item": "minecraft:string"
       }
     },
     {
       "probability": 0.9500000000000001,
-      "stack": {
+      "result": {
         "count": 3,
         "item": "gtexperimental:wood_smalldust"
       }

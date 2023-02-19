@@ -1,6 +1,10 @@
 {
   "values": [
     "gtexperimental:brass_hull",
-    "gtexperimental:bronze_hull"
+    "gtexperimental:bronze_hull",
+    {
+      "id": "thermal:machine_frame",
+      "required": false
+    }
   ]
 }

@@ -12,7 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -29,9 +28,7 @@ public class DynamicLatheRecipes implements RecipeProvider<LatheRecipe, SIMOReci
                     .map(smallDustPair -> Pair.of(smallDustPair.getSecond(), 50))
                     .orElseGet(() -> Pair.of(rodPair.getSecond(), 150));
                 Item outputItem = output.getFirst();
-                String path = key.location().getPath();
-                String material = StringUtils.substringAfter(path, "/").replace('/', '_');
-                ResourceLocation id = location("lathe", material + "_ingot_to_" + GtUtil.itemName(outputItem));
+                ResourceLocation id = location("lathe", GtUtil.tagName(key) + "_to_" + GtUtil.itemName(outputItem));
                 return new LatheRecipe(id, ModRecipeIngredientTypes.ITEM.of(key), List.of(new ItemStack(rodPair.getSecond()), new ItemStack(outputItem)), output.getSecond(), 16);
             })
             .toMap();

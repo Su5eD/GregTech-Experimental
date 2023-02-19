@@ -33,6 +33,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -43,7 +44,9 @@ import one.util.streamex.StreamEx;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
@@ -255,6 +258,52 @@ public final class RecipeUtil {
 
     public static InventoryChangeTrigger.TriggerInstance inventoryTrigger(ItemPredicate... predicates) {
         return new InventoryChangeTrigger.TriggerInstance(EntityPredicate.Composite.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, predicates);
+    }
+
+    public static class Shape {
+        private final Map<Character, ItemStack> keys;
+        private final String pattern;
+        private final int width;
+        private final int height;
+
+        public Shape(String... pattern) {
+            this(Map.of(), pattern);
+        }
+        
+        public Shape(Map<Character, ItemLike> keys, String... pattern) {
+            this.keys = EntryStream.of(keys).mapValues(ItemStack::new).toMap();
+            this.pattern = String.join("", pattern);
+            this.width = StreamEx.of(pattern).mapToInt(String::length).max().orElseThrow();
+            this.height = pattern.length;
+        }
+
+        public boolean matches(IShapedRecipe<?> recipe) {
+            try {
+                Map<Character, Ingredient> patternIngredient = new HashMap<>();
+                NonNullList<Ingredient> ingredients = recipe.getIngredients();
+                if (ingredients.size() >= this.pattern.length() && recipe.getRecipeWidth() == this.width && recipe.getRecipeHeight() == this.height) {
+                    for (int i = 0; i < this.pattern.length(); i++) {
+                        char ch = this.pattern.charAt(i);
+                        boolean empty = ch == ' ';
+                        final int finalIndex = i;
+                        Ingredient ingredient = ingredients.get(i);
+                        Ingredient matchingIngredient = patternIngredient.computeIfAbsent(ch, c -> ingredients.get(finalIndex));
+                        if (ingredient.isEmpty() != empty || !empty && ingredient != matchingIngredient || this.keys.containsKey(ch) && !matchingIngredient.test(this.keys.get(ch))) {
+                            return false;
+                        }
+                    }
+                    for (int i = this.pattern.length(); i < ingredients.size(); i++) {
+                        if (!ingredients.get(i).isEmpty()) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            } catch (Throwable ignored) {
+
+            }
+            return false;
+        }
     }
 
     private RecipeUtil() {}

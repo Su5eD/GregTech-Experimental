@@ -18,6 +18,7 @@ import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.object.Wrench;
 import dev.su5ed.gtexperimental.recipe.crafting.RemovedRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.gen.compat.TEBottlerRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.VanillaFluidIngredient;
@@ -26,6 +27,7 @@ import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
@@ -325,6 +327,15 @@ public class IC2RecipesPackGen extends RecipeProvider {
         RemovedRecipeBuilder.build(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/solar_generator"));
         RemovedRecipeBuilder.build(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/wind_generator"));
         RemovedRecipeBuilder.build(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/water_generator"));
+
+        // Smelting
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(Tags.Items.SLIMEBALLS), Ic2Items.RESIN, 0, 200)
+            .unlockedBy("has_slimeball", has(Tags.Items.SLIMEBALLS))
+            .save(finishedRecipeConsumer, smeltingId("resin"));
+
+        // Fluid Encapsulator
+        new TEBottlerRecipeBuilder(Ingredient.of(Dust.COAL.getTag()), FluidTags.WATER, 125, new ItemStack(Ic2Items.COAL_FUEL_DUST), 1250)
+            .build(finishedRecipeConsumer, RecipeName.foreign(TEBottlerRecipeBuilder.TYPE, "coal_fuel_dust"));
     }
 
     protected RecipeName alloySmelterId(String name) {
@@ -377,5 +388,9 @@ public class IC2RecipesPackGen extends RecipeProvider {
 
     protected ResourceLocation shapelessId(String name) {
         return new ResourceLocation(this.name, "shapeless/" + name);
+    }
+
+    protected ResourceLocation smeltingId(String name) {
+        return new ResourceLocation(this.name, "smelting/" + name);
     }
 }

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:ores/sulfur"
+  },
+  "result": {
+    "count": 3,
+    "item": "gtexperimental:sulfur_dust"
+  }
+}

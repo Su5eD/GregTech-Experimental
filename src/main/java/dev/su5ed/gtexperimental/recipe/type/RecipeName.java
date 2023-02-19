@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import dev.su5ed.gtexperimental.api.Reference;
 import net.minecraft.resources.ResourceLocation;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
@@ -16,6 +17,10 @@ public final class RecipeName {
 
     public static RecipeName common(String namespace, String type, String name) {
         return new RecipeName(namespace, null, type, null, name);
+    }
+
+    public static RecipeName foreign(ResourceLocation type, String name) {
+        return new RecipeName(Reference.MODID, type.getNamespace(), type.getPath(), null, name);
     }
 
     private RecipeName(String namespace, @Nullable String modid, String type, @Nullable String profile, String name) {

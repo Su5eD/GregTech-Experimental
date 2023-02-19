@@ -70,8 +70,6 @@ public class IC2TagsGen extends ItemTagsProvider {
         protected void addTags() {
             super.addTags();
 
-            tag(GregTechTags.ANY_GEMS_DIAMOND)
-                .add(Ic2Items.INDUTRIAL_DIAMOND);
             // TODO Fix tag replace serialization in forge
 //            tag(GregTechTags.UNIVERSAL_IRON_INGOT)
 //                .addTag(GregTechTags.ingot("refined_iron"))

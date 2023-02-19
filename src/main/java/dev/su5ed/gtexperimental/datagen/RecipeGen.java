@@ -22,6 +22,7 @@ import dev.su5ed.gtexperimental.datagen.recipe.LatheRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.PrinterRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.PulverizerRecipesGen;
+import dev.su5ed.gtexperimental.datagen.recipe.SmeltingRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.VacuumFreezerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.WiremillRecipesGen;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
@@ -81,7 +82,8 @@ public class RecipeGen extends RecipeProvider {
             IndustrialSawmillRecipesGen.INSTANCE,
             VacuumFreezerRecipesGen.INSTANCE,
             WiremillRecipesGen.INSTANCE,
-            CraftingRecipesGen.INSTANCE
+            CraftingRecipesGen.INSTANCE,
+            SmeltingRecipesGen.INSTANCE
         );
 
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

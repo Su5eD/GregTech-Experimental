@@ -11,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -21,12 +20,10 @@ public class DynamicBenderRecipes implements RecipeProvider<BenderRecipe, ItemSt
     private final Map<TagKey<Item>, BenderRecipe> recipes;
 
     public DynamicBenderRecipes() {
-        this.recipes = RecipeUtil.associateTags("plates", "ingots")
+        this.recipes = RecipeUtil.associateTags("ingots", "plates")
             .mapValues(Pair::getSecond)
             .mapToValue((key, output) -> {
-                String path = key.location().getPath();
-                String material = StringUtils.substringAfter(path, "/").replace('/', '_');
-                ResourceLocation id = location("bender", material + "_plate_to_" + GtUtil.itemName(output));
+                ResourceLocation id = location("bender", GtUtil.tagName(key) + "_to_" + GtUtil.itemName(output));
                 return new BenderRecipe(id, ModRecipeIngredientTypes.ITEM.of(key), new ItemStack(output), 50, 20);
             })
             .toMap();

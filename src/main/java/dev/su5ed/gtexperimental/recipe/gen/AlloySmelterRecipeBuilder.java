@@ -37,7 +37,7 @@ public class AlloySmelterRecipeBuilder extends MISORecipeBuilder<ItemStack, Item
                 .build(finishedRecipeConsumer, recipeId.withType("smelting"));
 
             int energy = output.getCount() * 1000;
-            new InductionSmelterRecipeBuilder(ingredient, List.of(output), energy)
+            new InductionSmelterRecipeBuilder(ingredient, List.of(new InductionSmelterRecipeBuilder.Result(output)), energy)
                 .addConditions(this.conditions)
                 .build(finishedRecipeConsumer, recipeId.toForeign(InductionSmelterRecipeBuilder.TYPE));
         }

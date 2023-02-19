@@ -2,23 +2,29 @@ package dev.su5ed.gtexperimental.datagen.pack;
 
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.compat.ModHandler;
+import dev.su5ed.gtexperimental.object.Dust;
+import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.ModCoverItem;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Plate;
+import dev.su5ed.gtexperimental.recipe.gen.compat.RCRollingRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.SelectedProfileCondition;
 import dev.su5ed.gtexperimental.recipe.type.VanillaFluidIngredient;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.tagsIngredient;
 import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
@@ -137,6 +143,13 @@ public class HarderRecipesPackGen extends RecipeProvider {
             .requires(Nugget.STEEL.getTag())
             .unlockedBy("has_steel_nugget", has(Nugget.STEEL.getTag()))
             .save(finishedRecipeConsumer, new ResourceLocation("flint_and_steel"));
+        RecipeName iridiumAlloyId = RecipeName.common(ModHandler.IC2_MODID, "shaped", "iridium");
+        ConditionalRecipe.builder()
+            .addCondition(RAILCRAFT_LOADED).addCondition(IC2_LOADED)
+            .addRecipe(cons -> new RCRollingRecipeBuilder(Ingot.IRIDIUM_ALLOY.getItemStack()).define('I', Plate.IRIDIUM.getTag()).define('A', Ic2Items.ALLOY).define('D', Dust.DIAMOND.getTag()).pattern("IAI").pattern("ADA").pattern("IAI").build(cons, iridiumAlloyId))
+            .addCondition(NOT_RAILCRAFT_LOADED).addCondition(IC2_LOADED)
+            .addRecipe(cons -> ShapedRecipeBuilder.shaped(Ingot.IRIDIUM_ALLOY).define('I', Plate.IRIDIUM.getTag()).define('A', Ic2Items.ALLOY).define('D', Dust.DIAMOND.getTag()).pattern("IAI").pattern("ADA").pattern("IAI").unlockedBy("has_iridium_plate", has(Plate.IRIDIUM.getTag())).save(cons, iridiumAlloyId.toLocation()))
+            .build(finishedRecipeConsumer, iridiumAlloyId.toLocation());
     }
 
     private static ResourceLocation ic2(String name) {

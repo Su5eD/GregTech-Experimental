@@ -53,7 +53,7 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
 
         List<? extends RecipeIngredient<ItemStack>> inputs = RecipeUtil.parseInputs(this.inputType, this.inputCount, inputJson);
         List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
-        RecipePropertyMap properties = RecipePropertyMap.fromJson(this.properties, serializedRecipe);
+        RecipePropertyMap properties = RecipePropertyMap.fromJson(recipeId, this.properties, serializedRecipe);
 
         return this.factory.create(recipeId, inputs, outputs, properties);
     }

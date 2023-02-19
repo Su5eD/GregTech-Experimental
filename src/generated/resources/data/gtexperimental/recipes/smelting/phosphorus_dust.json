@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:ores/phosphorus"
+  },
+  "result": {
+    "count": 2,
+    "item": "gtexperimental:phosphorus_dust"
+  }
+}

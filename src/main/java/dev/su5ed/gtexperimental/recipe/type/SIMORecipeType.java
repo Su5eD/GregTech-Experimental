@@ -49,7 +49,7 @@ public class SIMORecipeType<R extends SIMORecipe<T>, T> extends BaseRecipeTypeIm
 
         RecipeIngredient<T> input = this.inputType.create(inputJson);
         List<T> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
-        RecipePropertyMap properties = RecipePropertyMap.fromJson(this.properties, serializedRecipe);
+        RecipePropertyMap properties = RecipePropertyMap.fromJson(recipeId, this.properties, serializedRecipe);
 
         return this.factory.create(recipeId, input, outputs, properties);
     }

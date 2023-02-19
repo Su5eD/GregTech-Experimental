@@ -20,12 +20,12 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
 @EventBusSubscriber(modid = Reference.MODID)
 public final class ForgeEventHandler {
-    private static final Queue<Runnable> tagReloadListeners = new ArrayDeque<>();
+    private static final List<Runnable> recipeReplaceListeners = new ArrayList<>();
 
     @SubscribeEvent
     public static void onLivingEquipmentChange(LivingEquipmentChangeEvent event) {
@@ -63,14 +63,13 @@ public final class ForgeEventHandler {
 
     @SubscribeEvent
     public static void resourceReload(AddReloadListenerEvent event) {
-        tagReloadListeners.add(() -> RecipeReplacer.runReplacements(event.getServerResources()));
+        recipeReplaceListeners.add(() -> new RecipeReplacer(event.getServerResources()).run());
     }
 
     @SubscribeEvent
     public static void tagsUpdated(TagsUpdatedEvent event) {
-        if (event.getUpdateCause() == TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD) {
-            tagReloadListeners.forEach(Runnable::run);
-        }
+        recipeReplaceListeners.forEach(Runnable::run);
+        recipeReplaceListeners.clear();
     }
 
     private static <T extends INBTSerializable<CompoundTag>> void cloneCapability(Capability<T> capability, Player original, Player clone) {

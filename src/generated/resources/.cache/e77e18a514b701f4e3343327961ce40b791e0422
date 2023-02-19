@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-18T15:23:37.734248	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-19T14:43:04.2440424	Gregtech ExperimentalTags for minecraft:item
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/blocks/bronze.json
 85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
@@ -170,6 +170,7 @@ a0e85c15a777d3e7341cda5e4a8139e55141926c data/forge/tags/items/ores/iridium.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/nickel.json
 b09b55bab12f562cdf45a478504aee59fca8306b data/forge/tags/items/ores/olivine.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/phosphorite.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/phosphorus.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/platinum.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ores/plutonium.json
 81aa7f0e5c428280cbf2d358b8eab4df90695cf2 data/forge/tags/items/ores/pyrite.json
@@ -240,6 +241,7 @@ b4abb4aa258aa075855b6ba8eb78750cf63e1010 data/forge/tags/items/rods/titanium.jso
 238f81d52bbb5eed9852bb451e1e291893e7ddcc data/forge/tags/items/rods/tungsten.json
 84556bafd20fb4ab20be2c7c1f50ea0d77507045 data/forge/tags/items/rods/tungsten_steel.json
 ff90f661a5f53773479b6b7d70fb22dcb4ba90c5 data/forge/tags/items/rods/zinc.json
+3e10715157a02b1d1a3f74bf7975db11537b0a5a data/forge/tags/items/small_dusts.json
 bfba13ac16745671cc36b683f98e0cc80ee6fb35 data/forge/tags/items/small_dusts/almandine.json
 8221bde75752f36f9182571a4f21e6a9ca8d5afe data/forge/tags/items/small_dusts/aluminium.json
 1e515605ae8d3ccef8ae83a6f7d332a704513c52 data/forge/tags/items/small_dusts/andradite.json
@@ -359,7 +361,7 @@ cf14f3209a56fcf6282cd950e820f1949351dc52 data/gtexperimental/tags/items/crafting
 e157b06d65493665c7f862406f05c110dc9043ab data/gtexperimental/tags/items/crafting/60k_coolant_store.json
 1c7ca967ed9a0af2fd0807a585636c5ed5be66cb data/gtexperimental/tags/items/crafting/grinder.json
 20e51c9a238d56102d2ef991ad827f94b33c4a79 data/gtexperimental/tags/items/crafting/li_battery.json
-2bdc95b4f455d14a8e1b744085d85e753e443aa4 data/gtexperimental/tags/items/crafting/raw_machine_tier_0.json
+d210b2ad49a2134fc0c89d1490e16ed7069b53a0 data/gtexperimental/tags/items/crafting/raw_machine_tier_0.json
 1e3439de5606cc56cb5d0e8adbb49b0446bd92dc data/gtexperimental/tags/items/crafting/raw_machine_tier_1.json
 7d7710dd986130bc0c8f76d507c5c9d716490166 data/gtexperimental/tags/items/crafting/raw_machine_tier_2.json
 ded2c32fd064ff20245d6d49e5a6224496ecb637 data/gtexperimental/tags/items/crafting/raw_machine_tier_3.json
@@ -372,7 +374,6 @@ ba7ca26622a88198bba0bb93b2d3930e37dc3904 data/gtexperimental/tags/items/data_sto
 9337c87230b2ba02647690ac7381560da40c0288 data/gtexperimental/tags/items/diamond_sawblade.json
 3fb857fa664336e57b6f7f3e4d72fd538dc2f6b2 data/gtexperimental/tags/items/duct_tape.json
 78b769a8e3b2c48d2eedd9912cedd778f536abfd data/gtexperimental/tags/items/energy_flow_circuit.json
-a38efefda0bff84df4844f584f966a588fcac9de data/gtexperimental/tags/items/gems/any_diamond.json
 ee572f5348f87a92bf2577e7dd9397b84575431b data/gtexperimental/tags/items/ingots/any_iron.json
 1a95ba6c8de8bf45015131964d973d94d905f8b8 data/gtexperimental/tags/items/ingots/universal_iron.json
 bb043f9161089752e7f444eddc443a600867a5b1 data/gtexperimental/tags/items/kanthal_coil.json
@@ -392,5 +393,5 @@ c0e97df2b734b50526e3fad8949dffd7d75d6b22 data/gtexperimental/tags/items/small_eu
 6d65fd25769f5a713aa7e6bae9ee7cea90b1e627 data/gtexperimental/tags/items/solar_generator.json
 bbaa4c446a91ec20483d9c85096fd7d30f69e7c0 data/gtexperimental/tags/items/steel_turbine_blade.json
 ba4f51f3d3fcd51292db10b012f9b41c1d664253 data/gtexperimental/tags/items/superconductor.json
-39a3a9ee84c54e2c948a524c328a7c010e3b2447 data/gtexperimental/tags/items/tools/wrench.json
+69a9f7f753fdf779517c1611a0443ebec99540a8 data/gtexperimental/tags/items/tools/wrench.json
 90fa3e0813e2958f24d750afe23ad7d404462b29 data/gtexperimental/tags/items/tungsten_steel_turbine_blade.json

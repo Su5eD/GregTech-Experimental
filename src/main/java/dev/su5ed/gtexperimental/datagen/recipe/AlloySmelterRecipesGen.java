@@ -55,6 +55,7 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRIDIUM_GEAR.getItem()), Ingot.IRIDIUM.getItemStack(6), 130, 3).build(finishedRecipeConsumer, id("iridium_ingot_from_iridium_gear"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Items.MILK_BUCKET, Items.WATER_BUCKET), new ItemStack(Items.BUCKET), 100, 1).build(finishedRecipeConsumer, id("bucket_from_filled_bucket"));
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRON_GEAR.getItem()), new ItemStack(Items.IRON_INGOT, 6), 130, 3).build(finishedRecipeConsumer, id("iron_ingot_from_iron_gear"), true);
+        // TODO Thermal Obsidian glass recipe
     }
 
     public static RecipeName id(String name) {

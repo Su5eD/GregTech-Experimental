@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 3,
         "item": "minecraft:quartz"
       }
     },
     {
       "probability": 0.1,
-      "stack": {
+      "result": {
         "item": "gtexperimental:netherrack_dust"
       }
     }

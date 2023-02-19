@@ -30,6 +30,7 @@ public final class GregTechTags {
     public static final TagKey<Block> SUBMERGE_ORE_LAVA = blockTag("submerge_ore_lava");
 
     public static final TagKey<Item> PLATES = forgeItemTag("plates");
+    public static final TagKey<Item> SMALL_DUSTS = forgeItemTag("small_dusts");
 
     // Action tags, used for interacting with machines
     public static final TagKey<Item> DUCT_TAPE = itemTag("duct_tape");
@@ -109,8 +110,6 @@ public final class GregTechTags {
     public static final TagKey<Item> UNIVERSAL_IRON_ROD = itemTag("rods/universal_iron");
     // Regular Iron AND Refined iron
     public static final TagKey<Item> ANY_IRON_INGOT = itemTag("ingots/any_iron");
-    // Diamond AND Industrial Diamond
-    public static final TagKey<Item> ANY_GEMS_DIAMOND = itemTag("gems/any_diamond");
 
     public static final TagKey<Biome> PLACE_BAUXITE = biomeTag("place_bauxite");
     public static final TagKey<Biome> PLACE_RUBY = biomeTag("place_ruby");

@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 4,
         "item": "gtexperimental:iron_dust"
       }
     },
     {
       "probability": 0.9500000000000001,
-      "stack": {
+      "result": {
         "item": "minecraft:redstone"
       }
     }

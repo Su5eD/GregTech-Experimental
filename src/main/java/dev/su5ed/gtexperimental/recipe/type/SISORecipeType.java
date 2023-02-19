@@ -45,7 +45,7 @@ public class SISORecipeType<R extends SISORecipe<T>, T> extends BaseRecipeTypeIm
 
         RecipeIngredient<T> input = this.inputType.create(inputJson);
         T output = this.outputType.fromJson(outputJson);
-        RecipePropertyMap properties = RecipePropertyMap.fromJson(this.properties, serializedRecipe);
+        RecipePropertyMap properties = RecipePropertyMap.fromJson(recipeId, this.properties, serializedRecipe);
 
         return this.factory.create(recipeId, input, output, properties);
     }

@@ -3,10 +3,6 @@
     "gtexperimental:iron_wrench",
     "gtexperimental:bronze_wrench",
     "gtexperimental:steel_wrench",
-    "gtexperimental:tungsten_steel_wrench",
-    "#gtexperimental:tools/wrench",
-    "#gtexperimental:tools/wrench",
-    "#gtexperimental:tools/wrench",
-    "#gtexperimental:tools/wrench"
+    "gtexperimental:tungsten_steel_wrench"
   ]
 }

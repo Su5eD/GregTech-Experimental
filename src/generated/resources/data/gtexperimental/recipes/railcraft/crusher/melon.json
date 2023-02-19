@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 8,
         "item": "minecraft:melon"
       }
     },
     {
       "probability": 0.8,
-      "stack": {
+      "result": {
         "item": "minecraft:melon_seeds"
       }
     }

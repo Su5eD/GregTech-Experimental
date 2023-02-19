@@ -169,6 +169,9 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         pulverizer(ModRecipeIngredientTypes.ITEM.of(ItemTags.WOOL), new ItemStack(Items.STRING, 2), new ItemStack(Items.STRING), 50).build(finishedRecipeConsumer, id("wool"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ore("uranium")), Dust.URANIUM.getItemStack(2), Dust.PLUTONIUM.getItemStack()).build(finishedRecipeConsumer, id("ores_uranium"));
 
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.RAIL), Dust.IRON.getItemStack(6), Smalldust.WOOD.getItemStack(2), 95).build(finishedRecipeConsumer, id("rail"));        
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.POWERED_RAIL), Dust.GOLD.getItemStack(6), new ItemStack(Items.REDSTONE), 95).build(finishedRecipeConsumer, id("powered_rail"));        
+
         buildOtherModRecipes(finishedRecipeConsumer);
     }
 

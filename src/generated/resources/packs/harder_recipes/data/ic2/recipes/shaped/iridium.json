@@ -1,0 +1,77 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "railcraft"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "railcraft:rolling",
+        "key": {
+          "A": {
+            "item": "ic2:alloy"
+          },
+          "D": {
+            "tag": "forge:dusts/diamond"
+          },
+          "I": {
+            "tag": "forge:plates/iridium"
+          }
+        },
+        "pattern": [
+          "IAI",
+          "ADA",
+          "IAI"
+        ],
+        "result": {
+          "item": "gtexperimental:iridium_alloy_ingot"
+        },
+        "tickCost": 100
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:mod_loaded",
+            "modid": "railcraft"
+          }
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "A": {
+            "item": "ic2:alloy"
+          },
+          "D": {
+            "tag": "forge:dusts/diamond"
+          },
+          "I": {
+            "tag": "forge:plates/iridium"
+          }
+        },
+        "pattern": [
+          "IAI",
+          "ADA",
+          "IAI"
+        ],
+        "result": {
+          "item": "gtexperimental:iridium_alloy_ingot"
+        }
+      }
+    }
+  ]
+}
