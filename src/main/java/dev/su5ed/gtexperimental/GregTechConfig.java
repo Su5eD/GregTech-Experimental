@@ -29,6 +29,8 @@ public final class GregTechConfig {
         public final ForgeConfigSpec.BooleanValue woodNeedsSawForCrafting;
         public final ForgeConfigSpec.BooleanValue toolPlateCrafting;
         public final ForgeConfigSpec.BooleanValue armorPlateCrafting;
+        public final ForgeConfigSpec.BooleanValue storageBlockCrafting;
+        public final ForgeConfigSpec.BooleanValue storageBlockDecrafting;
         
         public final ForgeConfigSpec.IntValue upgradeStackSize;
         public final ForgeConfigSpec.BooleanValue teslaStaffDestroysArmor;
@@ -48,6 +50,8 @@ public final class GregTechConfig {
             this.woodNeedsSawForCrafting = builder.define("woodNeedsSawForCrafting", true);
             this.toolPlateCrafting = builder.define("toolPlateCrafting", true);
             this.armorPlateCrafting = builder.define("armorPlateCrafting", true);
+            this.storageBlockCrafting = builder.define("storageBlockCrafting", false);
+            this.storageBlockDecrafting = builder.define("storageBlockDecrafting", false);
             builder.pop();
             
             builder.push("Features");

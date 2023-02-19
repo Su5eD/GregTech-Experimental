@@ -29,6 +29,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -81,7 +82,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 Tags.Items.NUGGETS, Nugget.values(),
                 GregTechTags.PLATES, Plate.values(),
                 Tags.Items.RODS, Rod.values(),
-                Tags.Items.DYES, ColorSpray.values()
+                Tags.Items.DYES, ColorSpray.values(),
+                Tags.Items.STORAGE_BLOCKS, ModBlock.values()
             )
             .mapKeys(this::tag)
             .flatMapValues(providers -> StreamEx.of(providers)
@@ -89,6 +91,16 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .nonNull())
             .forKeyValue(TagAppender::addTag);
 
+        tag(Tags.Items.GEMS)
+            .addTag(Miscellaneous.GREEN_SAPPHIRE.getTag())
+            .addTag(Miscellaneous.OLIVINE.getTag())
+            .addTag(Miscellaneous.RED_GARNET.getTag())
+            .addTag(Miscellaneous.RUBY.getTag())
+            .addTag(Miscellaneous.SAPPHIRE.getTag())
+            .addTag(Miscellaneous.YELLOW_GARNET.getTag())
+            .addTag(GregTechTags.gem("coal"));
+        tag(Tags.Items.STORAGE_BLOCKS)
+            .add(Items.WAXED_COPPER_BLOCK);
         tag(GregTechTags.SMALL_EU_STORE)
             .add(Component.LITHIUM_RE_BATTERY.asItem());
         tag(GregTechTags.CRAFTING_RAW_MACHINE_TIER_4)
@@ -101,6 +113,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(Items.CHICKEN, Items.BEEF, Items.PORKCHOP, Items.MUTTON, Items.COD, Items.RABBIT, Items.SALMON);
         tag(GregTechTags.COOKED_FOOD)
             .add(Items.COOKED_CHICKEN, Items.COOKED_BEEF, Items.COOKED_PORKCHOP, Items.COOKED_MUTTON, Items.COOKED_COD, Items.COOKED_RABBIT, Items.COOKED_SALMON);
+        tag(GregTechTags.gem("coal"))
+            .addTag(ItemTags.COALS);
 
         tag(GregTechTags.UNIVERSAL_IRON_INGOT).addTag(Tags.Items.INGOTS_IRON);
         tag(GregTechTags.UNIVERSAL_IRON_PLATE).addTag(Plate.IRON.getTag());

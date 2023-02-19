@@ -37,12 +37,12 @@ public final class SmeltingRecipesGen implements ModRecipeProvider {
         new SmeltingRecipeBuilder(Ingredient.of(Miscellaneous.FLOUR.getTag()), new ItemStack(Items.BREAD), 0, 200)
             .unlockedBy("has_flour", hasTags(Miscellaneous.FLOUR.getTag()))
             .build(finishedRecipeConsumer, id("bread"));
-        
+
         new InductionSmelterRecipeBuilder(Ingredient.of(Ore.PYRITE.getTag()), List.of(new InductionSmelterRecipeBuilder.Result(new ItemStack(Items.IRON_INGOT), 95)), 3000)
             .build(finishedRecipeConsumer, RecipeName.foreign(InductionSmelterRecipeBuilder.TYPE, "iron_ingot"));
     }
 
-    private static RecipeName id(String name) {
+    public static RecipeName id(String name) {
         return RecipeName.common(Reference.MODID, "smelting", name);
     }
 }

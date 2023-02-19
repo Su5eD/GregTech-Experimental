@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-19T14:43:04.2440424	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-02-19T23:45:36.2054476	Gregtech ExperimentalTags for minecraft:item
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/blocks/bronze.json
 85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
@@ -92,7 +92,9 @@ e0bf6f1b3aee9ef8930f1d593029762093225897 data/forge/tags/items/dyes/white.json
 f3f9c3029c8260470cfa66372a99a0c3b4da22be data/forge/tags/items/gears/steel.json
 380a900e2876180aea3380cf95975fcc555b9d4f data/forge/tags/items/gears/titanium.json
 7918956addbd8b1b3c34b1aa8aa7e4606bcb26f1 data/forge/tags/items/gears/tungsten_steel.json
+b3716b3d6691bd965e9931a2e8e0b66e72fff3c5 data/forge/tags/items/gems.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/gems/apatite.json
+39e7cbc13d6896bbaa2202a49668b8bae9971b85 data/forge/tags/items/gems/coal.json
 ce2d1883f39d5d972e8d57956bbcee1780f92761 data/forge/tags/items/gems/green_sapphire.json
 c0e74da882af551320acc4f36a0272d10797480d data/forge/tags/items/gems/olivine.json
 fda07404f9191ca747589a5ffdf7a38bf0fd1194 data/forge/tags/items/gems/red_garnet.json
@@ -314,6 +316,7 @@ f2c23cb2cae78a8e2c87cab8e64d98a542d1d522 data/forge/tags/items/small_dusts/wood.
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/stone/basalt.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/stone/marble.json
 1ac625c01cb6186ba722a4e6ee1b8dc945dd222e data/forge/tags/items/stone/quarried.json
+9dc2ad8caff515711ad53e1c3dd45c897198885b data/forge/tags/items/storage_blocks.json
 b751d948f8ef357345d13b7e23755ca732a734a7 data/forge/tags/items/storage_blocks/advanced_machine_casing.json
 95a6bac560bc4284502fc27625d92155225ffd17 data/forge/tags/items/storage_blocks/aluminium.json
 e8baa971b24b3a826130d1aaf7277da60540e280 data/forge/tags/items/storage_blocks/brass.json

@@ -148,6 +148,10 @@ public final class GregTechTags {
         return material("gears", name);
     }
 
+    public static TagKey<Item> gem(String name) {
+        return material("gems", name);
+    }
+
     public static TagKey<Item> material(String type, String name) {
         return FORGE_MATERIALS.computeIfAbsent(type, s -> new HashMap<>())
             .computeIfAbsent(name, s -> forgeItemTag(type + "/" + name));

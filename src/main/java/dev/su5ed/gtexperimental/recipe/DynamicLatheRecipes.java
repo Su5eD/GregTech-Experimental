@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
@@ -35,18 +36,21 @@ public class DynamicLatheRecipes implements RecipeProvider<LatheRecipe, SIMOReci
     }
 
     @Override
-    public boolean hasRecipeFor(SIMORecipe.Input<ItemStack> input) {
+    public boolean hasRecipeFor(Level level, SIMORecipe.Input<ItemStack> input) {
         ItemStack item = input.item();
         return StreamEx.ofKeys(this.recipes)
             .anyMatch(item::is);
     }
 
     @Override
-    public LatheRecipe getRecipeFor(SIMORecipe.Input<ItemStack> input) {
+    public LatheRecipe getRecipeFor(Level level, SIMORecipe.Input<ItemStack> input) {
         ItemStack item = input.item();
         return EntryStream.of(this.recipes)
             .findFirst(entry -> item.is(entry.getKey()))
             .map(Map.Entry::getValue)
             .orElse(null);
     }
+
+    @Override
+    public void reset() {}
 }

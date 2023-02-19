@@ -6,7 +6,11 @@ import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import one.util.streamex.EntryStream;
 import org.jetbrains.annotations.Nullable;
 
 public class IC2TagsGen extends ItemTagsProvider {
@@ -58,6 +62,29 @@ public class IC2TagsGen extends ItemTagsProvider {
         tag(GregTechTags.TELEPORTER).add(Ic2Items.TELEPORTER);
         tag(GregTechTags.TRANSFORMER_UPGRADE).add(Ic2Items.TRANSFORMER_UPGRADE);
         tag(GregTechTags.WRENCH).add(Ic2Items.WRENCH, Ic2Items.ELECTRIC_WRENCH);
+        
+        // Help IC2 tag its items accordingly
+        tag(Tags.Items.TOOLS_SWORDS).add(Ic2Items.BRONZE_SWORD);
+        tag(Tags.Items.TOOLS_PICKAXES).add(Ic2Items.BRONZE_PICKAXE);
+        tag(Tags.Items.TOOLS_AXES).add(Ic2Items.BRONZE_AXE);
+        tag(Tags.Items.TOOLS_SHOVELS).add(Ic2Items.BRONZE_SHOVEL);
+        tag(Tags.Items.TOOLS_HOES).add(Ic2Items.BRONZE_HOE);
+        tag(Tags.Items.ARMORS_HELMETS).add(Ic2Items.BRONZE_HELMET);
+        tag(Tags.Items.ARMORS_CHESTPLATES).add(Ic2Items.BRONZE_CHESTPLATE);
+        tag(Tags.Items.ARMORS_LEGGINGS).add(Ic2Items.BRONZE_LEGGINGS);
+        tag(Tags.Items.ARMORS_BOOTS).add(Ic2Items.BRONZE_BOOTS);
+        EntryStream.of(
+            "steel", Ic2Items.STEEL_BLOCK,
+            "tin", Ic2Items.TIN_BLOCK,
+            "lead", Ic2Items.LEAD_BLOCK,
+            "silver", Ic2Items.SILVER_BLOCK,
+            "bronze", Ic2Items.BRONZE_BLOCK,
+            "uranium", Ic2Items.URANIUM_BLOCK
+        ).forKeyValue((name, block) -> {
+            TagKey<Item> tag = GregTechTags.material("storage_blocks", name);
+            tag(tag).add(block);
+            tag(Tags.Items.STORAGE_BLOCKS).addTag(tag);
+        });
     }
 
     public static class Classic extends IC2TagsGen {

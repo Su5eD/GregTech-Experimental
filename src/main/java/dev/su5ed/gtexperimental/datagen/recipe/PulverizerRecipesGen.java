@@ -148,7 +148,7 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         simple(Items.WHEAT, Miscellaneous.FLOUR, 1, finishedRecipeConsumer);
         simple(Items.ENDER_EYE, Dust.ENDER_EYE, 2, finishedRecipeConsumer);
 
-        pulverizer(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("gems", "apatite")), new ItemStack(Ic2Items.FERTILIZER, 4), Dust.PHOSPHORUS.getItemStack(), 50).build(finishedRecipeConsumer, id("gems_apatite"));
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(GregTechTags.gem("apatite")), new ItemStack(Ic2Items.FERTILIZER, 4), Dust.PHOSPHORUS.getItemStack(), 50).build(finishedRecipeConsumer, id("gems_apatite"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.COAL), Dust.COAL.getItemStack()).build(finishedRecipeConsumer, id("coal"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.CLOCK), Dust.GOLD.getItemStack(4), new ItemStack(Items.REDSTONE), 95).build(finishedRecipeConsumer, id("clock"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.COMPASS), Dust.IRON.getItemStack(4), new ItemStack(Items.REDSTONE), 95).build(finishedRecipeConsumer, id("compass"));

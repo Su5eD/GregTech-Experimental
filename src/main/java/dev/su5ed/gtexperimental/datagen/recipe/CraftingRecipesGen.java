@@ -24,14 +24,20 @@ import dev.su5ed.gtexperimental.object.TurbineRotor;
 import dev.su5ed.gtexperimental.object.Upgrade;
 import dev.su5ed.gtexperimental.object.Wrench;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolCraftingIngredient;
+import dev.su5ed.gtexperimental.recipe.gen.SmeltingRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.gen.compat.RCRollingRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.recipe.type.VanillaDamagedIngredient;
 import dev.su5ed.gtexperimental.recipe.type.VanillaFluidIngredient;
+import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.util.JavaUtil;
+import dev.su5ed.gtexperimental.util.TaggedItemProvider;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -51,6 +57,7 @@ import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBu
 import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapedRecipeBuilder.fluidShaped;
 import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapedRecipeBuilder.toolShaped;
 import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapelessRecipeBuilder.toolShapeless;
+import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.alloySmelter;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.*;
 import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 import static net.minecraft.data.recipes.ShapedRecipeBuilder.shaped;
@@ -197,6 +204,36 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
         shapeless(Miscellaneous.FLOUR).requires(GregTechTags.MORTAR).requires(Tags.Items.CROPS_WHEAT).unlockedBy("has_mortar", hasTags(GregTechTags.MORTAR)).save(finishedRecipeConsumer, shapelessId("flour"));
         shapeless(Items.STICK, 2).requires(Items.DEAD_BUSH).unlockedBy("has_dead_bush", has(Items.DEAD_BUSH)).save(finishedRecipeConsumer, shapelessId("stick"));
 
+        // Metal storage block crafting / decrafting / smelting
+        for (ModBlock block : ModBlock.values()) {
+            Ingot ingot = JavaUtil.getEnumConstantSafely(Ingot.class, block.name());
+            Miscellaneous gem = JavaUtil.getEnumConstantSafely(Miscellaneous.class, block.name());
+            TaggedItemProvider provider = ingot != null ? ingot : gem;
+            if (provider != null) {
+                TagKey<Item> storageBlockTag = block.getTag();
+                TagKey<Item> inputTag = provider.getTag();
+                String decraftingId = provider.getRegistryName() + "_from_" + block.getRegistryName();
+                ShapedRecipeBuilder.shaped(block)
+                    .define('I', inputTag)
+                    .pattern("III")
+                    .pattern("III")
+                    .pattern("III")
+                    .unlockedBy("has_" + GtUtil.tagName(inputTag), hasTags(inputTag))
+                    .save(finishedRecipeConsumer, shapedId(block.getRegistryName() + "_from_" + provider.getRegistryName()));
+                ShapelessRecipeBuilder.shapeless(provider, 9)
+                    .requires(block.getTag())
+                    .unlockedBy("has_" + GtUtil.tagName(storageBlockTag), hasTags(storageBlockTag))
+                    .save(finishedRecipeConsumer, shapelessId(decraftingId));
+                if (provider == ingot) {
+                    new SmeltingRecipeBuilder(Ingredient.of(storageBlockTag), provider.getItemStack(9), 0, 200)
+                        .unlockedBy("has_" + GtUtil.tagName(storageBlockTag), hasTags(storageBlockTag))
+                        .build(finishedRecipeConsumer, SmeltingRecipesGen.id(decraftingId));
+                    alloySmelter(ModRecipeIngredientTypes.ITEM.of(storageBlockTag), provider.getItemStack(9), 130, 3)
+                        .build(finishedRecipeConsumer, AlloySmelterRecipesGen.id(decraftingId));
+                }
+            }
+        }
+
         // Misc
         RecipeName kanthalCoilId = RecipeName.common(Reference.MODID, "shaped", "kanthal_coil");
         ConditionalRecipe.builder()
@@ -276,11 +313,11 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
     }
 
     private static ResourceLocation shapedId(String name) {
-        return location("shaped/" + name);
+        return location("shaped", name);
     }
 
     private static ResourceLocation shapelessId(String name) {
-        return location("shapeless/" + name);
+        return location("shapeless", name);
     }
 
     private static InventoryChangeTrigger.TriggerInstance has(ItemLike item) {

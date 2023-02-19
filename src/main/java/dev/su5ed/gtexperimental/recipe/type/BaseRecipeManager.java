@@ -7,42 +7,59 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import one.util.streamex.StreamEx;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class BaseRecipeManager<R extends BaseRecipe<?, I, ? super R>, I> implements RecipeManager<R, I> {
-    private final List<R> recipes;
-    private final Collection<RecipeProvider<R, I>> providers;
+    private final Supplier<? extends RecipeType<R>> recipeType;
+    private final Collection<RecipeProvider<R, I>> providers = new ArrayList<>();
 
-    public BaseRecipeManager(RecipeType<R> recipeType, Level level, Collection<RecipeProvider<R, I>> providers) {
-        this.recipes = level.getRecipeManager().getAllRecipesFor(recipeType);
-        this.providers = providers;
+    private List<R> recipes;
+
+    public BaseRecipeManager(Supplier<? extends RecipeType<R>> recipeType) {
+        this.recipeType = recipeType;
     }
 
-    public List<R> getRecipes() {
+    @Override
+    public List<R> getRecipes(Level level) {
+        if (this.recipes == null) {
+            this.recipes = level.getRecipeManager().getAllRecipesFor(this.recipeType.get());
+        }
         return this.recipes;
     }
 
     @Override
-    public boolean hasRecipeFor(I input) {
-        return StreamEx.of(this.recipes)
+    public boolean hasRecipeFor(Level level, I input) {
+        return StreamEx.of(getRecipes(level))
             .anyMatch(r -> r.matches(input))
             || StreamEx.of(this.providers)
-            .anyMatch(provider -> provider.hasRecipeFor(input));
+            .anyMatch(provider -> provider.hasRecipeFor(level, input));
     }
 
     @Override
-    public R getRecipeFor(I input) {
-        return StreamEx.of(this.recipes)
+    public R getRecipeFor(Level level, I input) {
+        return StreamEx.of(getRecipes(level))
             .filter(r -> r.matches(input))
             .min(RecipeUtil::compareCount)
-            .orElseGet(() -> getProvidedRecipe(input));
+            .orElseGet(() -> getProvidedRecipe(level, input));
     }
 
-    protected R getProvidedRecipe(I input) {
+    @Override
+    public void registerProvider(RecipeProvider<R, I> provider) {
+        this.providers.add(provider);
+    }
+
+    @Override
+    public void reset() {
+        this.recipes = null;
+    }
+
+    protected R getProvidedRecipe(Level level, I input) {
         return StreamEx.of(this.providers)
-            .mapPartial(provider -> Optional.ofNullable(provider.getRecipeFor(input)))
+            .mapPartial(provider -> Optional.ofNullable(provider.getRecipeFor(level, input)))
             .findFirst()
             .orElse(null);
     }

@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 
@@ -30,16 +31,19 @@ public class DynamicBenderRecipes implements RecipeProvider<BenderRecipe, ItemSt
     }
 
     @Override
-    public boolean hasRecipeFor(ItemStack input) {
+    public boolean hasRecipeFor(Level level, ItemStack input) {
         return StreamEx.ofKeys(this.recipes)
             .anyMatch(input::is);
     }
 
     @Override
-    public BenderRecipe getRecipeFor(ItemStack input) {
+    public BenderRecipe getRecipeFor(Level level, ItemStack input) {
         return EntryStream.of(this.recipes)
             .findFirst(entry -> input.is(entry.getKey()))
             .map(Map.Entry::getValue)
             .orElse(null);
     }
+
+    @Override
+    public void reset() {}
 }

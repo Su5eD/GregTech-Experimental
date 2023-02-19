@@ -60,7 +60,7 @@ public enum Ingot implements TaggedItemProvider {
     Ingot(MutableComponent description, boolean isFoil) {
         this.description = description;
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)));
-        this.tag = GregTechTags.material("ingots", getName());
+        this.tag = GregTechTags.ingot(getName());
     }
 
     @Override

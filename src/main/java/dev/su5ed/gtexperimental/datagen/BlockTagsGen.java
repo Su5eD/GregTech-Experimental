@@ -38,6 +38,7 @@ class BlockTagsGen extends BlockTagsProvider {
                 pickaxe.add(block);
                 harvestLevels.get(HarvestLevel.IRON).add(block);
                 tag(provider.getBlockTag()).add(block);
+                tag(Tags.Blocks.STORAGE_BLOCKS).addTag(provider.getBlockTag());
             });
 
         StreamEx.of(Ore.values())

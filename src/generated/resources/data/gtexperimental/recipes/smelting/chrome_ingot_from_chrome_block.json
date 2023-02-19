@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:storage_blocks/chrome"
+  },
+  "result": {
+    "count": 9,
+    "item": "gtexperimental:chrome_ingot"
+  }
+}

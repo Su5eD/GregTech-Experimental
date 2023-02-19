@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:storage_blocks/invar"
+  },
+  "result": {
+    "count": 9,
+    "item": "gtexperimental:invar_ingot"
+  }
+}

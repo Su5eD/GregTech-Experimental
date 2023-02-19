@@ -5,19 +5,29 @@ import com.mojang.datafixers.util.Pair;
 import dev.su5ed.gtexperimental.GregTechConfig;
 import dev.su5ed.gtexperimental.GregTechMod;
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.recipe.LatheRecipe;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import ic2.api.recipe.IRecipeInput;
+import ic2.api.recipe.MachineRecipe;
+import ic2.core.recipe.input.RecipeInputIngredient;
+import ic2.core.recipe.v2.RecipeHolder;
+import ic2.core.ref.Ic2RecipeSerializers;
+import ic2.core.ref.Ic2RecipeTypes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
@@ -51,12 +61,13 @@ public class RecipeReplacer {
     private static final RecipeUtil.Shape SHOVEL_SHAPE = new RecipeUtil.Shape(STICK_KEY, "X", "S", "S");
     private static final RecipeUtil.Shape AXE_SHAPE = new RecipeUtil.Shape(STICK_KEY, "XX", "XS", " S");
     private static final RecipeUtil.Shape HOE_SHAPE = new RecipeUtil.Shape(STICK_KEY, "XX", " S", " S");
+    private static final RecipeUtil.Shape STORAGE_BLOCK_SHAPE = new RecipeUtil.Shape("XXX", "XXX", "XXX");
 
-    private final ReloadableServerResources resources;
+    private final RecipeManager recipeManager;
     private final Map<TagKey<Item>, TagKey<Item>> ingotToPlate;
 
     public RecipeReplacer(ReloadableServerResources resources) {
-        this.resources = resources;
+        this.recipeManager = resources.getRecipeManager();
         this.ingotToPlate = RecipeUtil.associateTags("ingots", "plates")
             .mapValues(Pair::getFirst)
             .toMap();
@@ -64,29 +75,28 @@ public class RecipeReplacer {
 
     public void run() {
         GregTechMod.LOGGER.info("Processing recipes...");
-        RecipeManager manager = this.resources.getRecipeManager();
         Stopwatch stopwatch = Stopwatch.createStarted();
-        Collection<Recipe<?>> modifiedRecipes = StreamEx.of(manager.getRecipes())
+        Collection<Recipe<?>> modifiedRecipes = StreamEx.of(this.recipeManager.getRecipes())
             .flatMap(this::mapCraftingRecipe)
             .append(getAdditionalRecipes())
             .toList();
-        manager.replaceRecipes(modifiedRecipes);
+        this.recipeManager.replaceRecipes(modifiedRecipes);
         stopwatch.stop();
         GregTechMod.LOGGER.info("Finished processing recipes in {} ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
 
     public Stream<Recipe<?>> mapCraftingRecipe(Recipe<?> recipe) {
+        ItemStack result = recipe.getResultItem();
         if (recipe instanceof IShapedRecipe<?> shapedRecipe) {
             // Replace plank -> stick recipes
             if (shapedRecipe.getRecipeWidth() == 1 && shapedRecipe.getRecipeHeight() == 2
-                && recipe.getResultItem().is(Tags.Items.RODS_WOODEN)
-                && recipe.getIngredients().size() == 2 && StreamEx.of(recipe.getIngredients()).flatMap(i -> Stream.of(i.getItems())).allMatch(stack -> stack.is(ItemTags.PLANKS))) {
+                && result.is(Tags.Items.RODS_WOODEN)
+                && recipe.getIngredients().size() == 2 && testIngredient(recipe, ItemTags.PLANKS)) {
                 // Sawing
                 ResourceLocation sawingId = replacedId(recipe.getId(), "sawing");
                 NonNullList<Ingredient> ingredients = NonNullList.createWithCapacity(3);
                 ingredients.add(ToolCraftingIngredient.of(GregTechTags.SAW, 1));
                 ingredients.addAll(recipe.getIngredients());
-                ItemStack result = recipe.getResultItem();
                 // Non-sawing
                 ResourceLocation rawId = replacedId(recipe.getId());
                 ItemStack rawOutput = GregTechConfig.COMMON.woodNeedsSawForCrafting.get() ? ItemHandlerHelper.copyStackWithSize(result, result.getCount() / 2) : result;
@@ -106,7 +116,7 @@ public class RecipeReplacer {
             }
             // Plate tool recipes
             if (GregTechConfig.COMMON.toolPlateCrafting.get()) {
-                if (SWORD_SHAPE.matches(shapedRecipe) && recipe.getResultItem().is(Tags.Items.TOOLS_SWORDS)) {
+                if (SWORD_SHAPE.matches(shapedRecipe) && result.is(Tags.Items.TOOLS_SWORDS)) {
                     NonNullList<Ingredient> ingredients = toPlates(recipe.getIngredients(), true);
                     if (ingredients != null) {
                         NonNullList<Ingredient> allIngredients = NonNullList.withSize(9, Ingredient.EMPTY);
@@ -115,20 +125,20 @@ public class RecipeReplacer {
                         allIngredients.set(4, ingredients.get(1));
                         allIngredients.set(5, Ingredient.of(GregTechTags.HARD_HAMMER));
                         allIngredients.set(7, ingredients.get(2));
-                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), 3, 3, allIngredients, recipe.getResultItem()));
+                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), 3, 3, allIngredients, result));
                     }
                 }
-                else if (PICKAXE_SHAPE.matches(shapedRecipe) && recipe.getResultItem().is(Tags.Items.TOOLS_PICKAXES)) {
+                else if (PICKAXE_SHAPE.matches(shapedRecipe) && result.is(Tags.Items.TOOLS_PICKAXES)) {
                     NonNullList<Ingredient> ingredients = recipe.getIngredients();
                     Ingredient plate = toPlate(ingredients.get(0));
                     if (plate != null) {
                         ingredients.set(0, plate);
                         ingredients.set(3, Ingredient.of(GregTechTags.FILE));
                         ingredients.set(5, Ingredient.of(GregTechTags.HARD_HAMMER));
-                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), shapedRecipe.getRecipeWidth(), shapedRecipe.getRecipeHeight(), ingredients, recipe.getResultItem()));
+                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), shapedRecipe.getRecipeWidth(), shapedRecipe.getRecipeHeight(), ingredients, result));
                     }
                 }
-                else if (SHOVEL_SHAPE.matches(shapedRecipe) && recipe.getResultItem().is(Tags.Items.TOOLS_SHOVELS)) {
+                else if (SHOVEL_SHAPE.matches(shapedRecipe) && result.is(Tags.Items.TOOLS_SHOVELS)) {
                     NonNullList<Ingredient> ingredients = toPlates(recipe.getIngredients(), true);
                     if (ingredients != null) {
                         NonNullList<Ingredient> allIngredients = NonNullList.withSize(9, Ingredient.EMPTY);
@@ -137,10 +147,10 @@ public class RecipeReplacer {
                         allIngredients.set(2, Ingredient.of(GregTechTags.HARD_HAMMER));
                         allIngredients.set(4, ingredients.get(1));
                         allIngredients.set(7, ingredients.get(2));
-                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), 3, 3, allIngredients, recipe.getResultItem()));
+                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), 3, 3, allIngredients, result));
                     }
                 }
-                else if (AXE_SHAPE.matches(shapedRecipe) && recipe.getResultItem().is(Tags.Items.TOOLS_AXES)) {
+                else if (AXE_SHAPE.matches(shapedRecipe) && result.is(Tags.Items.TOOLS_AXES)) {
                     NonNullList<Ingredient> ingredients = recipe.getIngredients();
                     Ingredient plate = toPlate(ingredients.get(0));
                     if (plate != null) {
@@ -152,10 +162,10 @@ public class RecipeReplacer {
                         allIngredients.set(4, ingredients.get(3));
                         allIngredients.set(6, Ingredient.of(GregTechTags.FILE));
                         allIngredients.set(7, ingredients.get(5));
-                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), 3, 3, allIngredients, recipe.getResultItem()));
+                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), 3, 3, allIngredients, result));
                     }
                 }
-                else if (HOE_SHAPE.matches(shapedRecipe) && recipe.getResultItem().is(Tags.Items.TOOLS_HOES)) {
+                else if (HOE_SHAPE.matches(shapedRecipe) && result.is(Tags.Items.TOOLS_HOES)) {
                     NonNullList<Ingredient> ingredients = recipe.getIngredients();
                     Ingredient plate = toPlate(ingredients.get(0));
                     if (plate != null) {
@@ -166,15 +176,53 @@ public class RecipeReplacer {
                         allIngredients.set(3, Ingredient.of(GregTechTags.FILE));
                         allIngredients.set(4, ingredients.get(3));
                         allIngredients.set(7, ingredients.get(5));
-                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), 3, 3, allIngredients, recipe.getResultItem()));
+                        return Stream.of(new ShapedRecipe(replacedId(recipe.getId()), recipe.getGroup(), 3, 3, allIngredients, result));
                     }
                 }
+            }
+            // Storage block crafting
+            if (STORAGE_BLOCK_SHAPE.matches(shapedRecipe) && result.is(Tags.Items.STORAGE_BLOCKS)) {
+                // TODO Move to custom class
+                Ingredient ingredient = shapedRecipe.getIngredients().get(0);
+                if (!ingredient.isEmpty() && !ic2RecipeExists(Ic2RecipeTypes.COMPRESSOR, ingredient.getItems()[0])) {
+                    MachineRecipe<IRecipeInput, Collection<ItemStack>> compressorRecipe = new MachineRecipe<>(new RecipeInputIngredient(shapedRecipe.getIngredients().get(0), 9), List.of(result));
+                    RecipeHolder<IRecipeInput, Collection<ItemStack>> compressorRecipeHolder = new RecipeHolder<>(compressorRecipe, location("generated", "ic2", "compressor", recipe.getId().getPath()), Ic2RecipeSerializers.COMPRESSOR, Ic2RecipeTypes.COMPRESSOR);
+                    return GregTechConfig.COMMON.storageBlockCrafting.get() ? Stream.of(recipe, compressorRecipeHolder) : Stream.of(compressorRecipeHolder);
+                }
+                return GregTechConfig.COMMON.storageBlockCrafting.get() ? Stream.of(recipe) : Stream.empty();
+            }
+            // Storage block decrafting
+            if (shapedRecipe.getRecipeWidth() == 1 && shapedRecipe.getRecipeHeight() == 1 
+                && testIngredient(recipe, Tags.Items.STORAGE_BLOCKS)
+                && result.getCount() == 9 && !GregTechConfig.COMMON.storageBlockDecrafting.get() && !result.is(Tags.Items.GEMS)) {
+                return Stream.empty();
+            }
+        }
+        else if (recipe instanceof ShapelessRecipe) {
+            // Storage block decrafting
+            if (recipe.getIngredients().size() == 1
+                && testIngredient(recipe, Tags.Items.STORAGE_BLOCKS)
+                && result.getCount() == 9 && !GregTechConfig.COMMON.storageBlockDecrafting.get() && !result.is(Tags.Items.GEMS)) {
+                return Stream.empty();
             }
         }
         return Stream.of(recipe);
     }
 
-    public static Collection<Recipe<?>> getAdditionalRecipes() {
+    private static boolean testIngredient(Recipe<?> recipe, TagKey<Item> tag) {
+        for (Ingredient ingredient : recipe.getIngredients()) {
+            if (!ingredient.isEmpty()) {
+                for (ItemStack item : ingredient.getItems()) {
+                    if (item.is(tag)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public Collection<Recipe<?>> getAdditionalRecipes() {
         List<Recipe<?>> recipes = new ArrayList<>();
 
         // Ore crushing recipes
@@ -200,7 +248,54 @@ public class RecipeReplacer {
             })
             .forEach(recipes::add);
 
+        // Ingot -> Rod
+        RecipeUtil.associateTags("ingots", "rods")
+            .flatMapKeyValue((key, rodPair) -> {
+                Pair<Item, Integer> output = RecipeUtil.findAssociatedTag(rodPair.getFirst(), "rods", "small_dusts")
+                    .map(smallDustPair -> Pair.of(smallDustPair.getSecond(), 50))
+                    .orElseGet(() -> Pair.of(rodPair.getSecond(), 150));
+                Item outputItem = output.getFirst();
+                ResourceLocation id = location("lathe", "generated", GtUtil.tagName(key) + "_to_" + GtUtil.itemName(outputItem));
+                ResourceLocation filingId = location("generated", "shaped", "filing_" + GtUtil.tagName(key));
+                return Stream.of(
+                    new ShapedRecipe(filingId, "", 1, 2, NonNullList.of(Ingredient.EMPTY, Ingredient.of(GregTechTags.FILE), Ingredient.of(key)), new ItemStack(rodPair.getSecond())),
+                    new LatheRecipe(id, ModRecipeIngredientTypes.ITEM.of(key), List.of(new ItemStack(rodPair.getSecond()), new ItemStack(outputItem)), output.getSecond(), 16)
+                );
+            })
+            .forEach(recipes::add);
+
+        // Storage block macerating
+        RecipeUtil.associateTags("storage_blocks", "dusts")
+            .flatMapKeyValue((key, dustPair) -> {
+                if (!ic2RecipeExists(Ic2RecipeTypes.MACERATOR, key)) {
+                    // TODO Move to class
+                    MachineRecipe<IRecipeInput, Collection<ItemStack>> maceratorRecipe = new MachineRecipe<>(new RecipeInputIngredient(Ingredient.of(key), 1), List.of(new ItemStack(dustPair.getSecond(), 9)));
+                    RecipeHolder<IRecipeInput, Collection<ItemStack>> maceratorRecipeHolder = new RecipeHolder<>(maceratorRecipe, location("generated", "ic2", "macerator", GtUtil.tagName(key) + "_to_" + GtUtil.itemName(dustPair.getSecond())), Ic2RecipeSerializers.MACERATOR, Ic2RecipeTypes.MACERATOR);
+                    return Stream.of(maceratorRecipeHolder);
+                }
+                return Stream.empty();
+            })
+            .forEach(recipes::add);
+
         return recipes;
+    }
+
+    private <C extends Container, T extends Recipe<C>> boolean ic2RecipeExists(RecipeType<T> type, TagKey<Item> input) {
+        return RecipeUtil.findFirstItem(input)
+            .map(item -> ic2RecipeExists(type, new ItemStack(item)))
+            .orElse(false);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <C extends Container, T extends Recipe<C>> boolean ic2RecipeExists(RecipeType<T> type, ItemStack stack) {
+        return this.recipeManager.getAllRecipesFor(type).stream()
+            .anyMatch(holder -> {
+                try {
+                    return ((RecipeHolder<IRecipeInput, ?>) holder).recipe().getInput().getIngredient().test(stack);
+                } catch (Throwable t) {
+                    return false;
+                }
+            });
     }
 
     private Stream<Recipe<?>> replaceArmorRecipe(IShapedRecipe<?> recipe, int hammerIndex) {

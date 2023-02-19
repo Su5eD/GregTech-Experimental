@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.util;
 
 import dev.su5ed.gtexperimental.GregTechMod;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.Collection;
@@ -25,6 +26,15 @@ public final class JavaUtil {
 
     public static String formatNumber(int num) {
         return INT_FORMAT.format(num);
+    }
+
+    @Nullable
+    public static <T extends Enum<T>> T getEnumConstantSafely(Class<T> clazz, String name) {
+        try {
+            return Enum.valueOf(clazz, name);
+        } catch (IllegalArgumentException ignored) {
+            return null;
+        }
     }
 
     private JavaUtil() {}

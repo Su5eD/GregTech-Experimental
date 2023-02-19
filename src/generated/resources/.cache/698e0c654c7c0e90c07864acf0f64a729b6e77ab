@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-12T22:36:35.4264953	Gregtech ExperimentalTags for minecraft:block
+// 1.19.2	2023-02-19T19:27:35.221122	Gregtech ExperimentalTags for minecraft:block
 84d79d5ecdeb2284d76fdef2e3146e2965430ef8 data/forge/tags/blocks/mineable/shears.json
 49cd44dd0d06195bda6c6bc4699f86425efa8c2b data/forge/tags/blocks/ores.json
 f6818aa318dcfbac470d18dcd2a3be14d0d9dabb data/forge/tags/blocks/ores/bauxite.json
@@ -15,6 +15,7 @@ f408768a6fc2cafde93cab212dbee7e20f217ad9 data/forge/tags/blocks/ores/sheldonite.
 6faa0885a500a818a1b8e473a4eb24da883703ad data/forge/tags/blocks/ores/sphalerite.json
 50b1f7f8668e1817bcd71da0dedfa5bcb5cce131 data/forge/tags/blocks/ores/tetrahedrite.json
 7bf798ae4bdb53f092ac94be759be50181d7a729 data/forge/tags/blocks/ores/tungstate.json
+8bb453dd7becf21f13bd5bfa6d5f30184f35831b data/forge/tags/blocks/storage_blocks.json
 b751d948f8ef357345d13b7e23755ca732a734a7 data/forge/tags/blocks/storage_blocks/advanced_machine_casing.json
 95a6bac560bc4284502fc27625d92155225ffd17 data/forge/tags/blocks/storage_blocks/aluminium.json
 e8baa971b24b3a826130d1aaf7277da60540e280 data/forge/tags/blocks/storage_blocks/brass.json
