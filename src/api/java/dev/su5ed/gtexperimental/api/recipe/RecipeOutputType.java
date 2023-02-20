@@ -13,5 +13,5 @@ public interface RecipeOutputType<T> {
 
     T fromJson(JsonObject json);
     
-    void validate(ResourceLocation id, String name, T value);
+    void validate(ResourceLocation id, String name, T value, boolean allowEmpty);
 }

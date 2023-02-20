@@ -34,7 +34,7 @@ public abstract class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<
         this.properties = properties;
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputCount);
-        this.type.outputType.validate(this.id, "output", this.output);
+        this.type.outputType.validate(this.id, "output", this.output, false);
         this.properties.validate(this.id, this.type.properties);
     }
 

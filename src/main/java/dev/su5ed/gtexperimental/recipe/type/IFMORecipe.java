@@ -26,7 +26,7 @@ public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends
 
         RecipeUtil.validateInput(this.id, "input", this.input);
         RecipeUtil.validateInput(this.id, "fluid", this.fluid);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output);
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output, false);
         this.properties.validate(this.id, this.type.properties);
     }
 

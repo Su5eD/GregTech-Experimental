@@ -37,8 +37,11 @@ public class FluidRecipeOutputType implements RecipeOutputType<FluidStack> {
     }
 
     @Override
-    public void validate(ResourceLocation id, String name, FluidStack value) {
-        if (value.isEmpty()) {
+    public void validate(ResourceLocation id, String name, FluidStack value, boolean allowEmpty) {
+        if (value == null) {
+            throw new RuntimeException("Null " + name + " fluid in recipe " + id);
+        }
+        else if (!allowEmpty && value.isEmpty()) {
             throw new RuntimeException("Empty " + name + " fluid in recipe " + id);
         }
     }

@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "B": {
-      "tag": "forge:blocks/bronze"
+      "tag": "forge:storage_blocks/bronze"
     },
     "T": {
       "tag": "gtexperimental:bronze_turbine_blade"

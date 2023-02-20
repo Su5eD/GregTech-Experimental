@@ -34,8 +34,8 @@ public class HybridRecipeOutputType implements RecipeOutputType<Either<ItemStack
     }
 
     @Override
-    public void validate(ResourceLocation id, String name, Either<ItemStack, FluidStack> value) {
-        value.ifLeft(item -> ModRecipeOutputTypes.ITEM.validate(id, name, item))
-            .ifRight(fluid -> ModRecipeOutputTypes.FLUID.validate(id, name, fluid));
+    public void validate(ResourceLocation id, String name, Either<ItemStack, FluidStack> value, boolean allowEmpty) {
+        value.ifLeft(item -> ModRecipeOutputTypes.ITEM.validate(id, name, item, allowEmpty))
+            .ifRight(fluid -> ModRecipeOutputTypes.FLUID.validate(id, name, fluid, allowEmpty));
     }
 }

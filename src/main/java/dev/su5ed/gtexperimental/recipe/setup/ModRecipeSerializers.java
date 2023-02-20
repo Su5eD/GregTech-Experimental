@@ -9,6 +9,7 @@ import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.BlastFurnaceRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
+import dev.su5ed.gtexperimental.recipe.DenseLiquidFuel;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
@@ -60,6 +61,8 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<VacuumFreezerSolidRecipe>> VACUUM_FREEZER_SOLID = register("vacuum_freezer_solid", ModRecipeTypes.VACUUM_FREEZER_SOLID);
     public static final RegistryObject<RecipeSerializer<VacuumFreezerFluidRecipe>> VACUUM_FREEZER_FLUID = register("vacuum_freezer_fluid", ModRecipeTypes.VACUUM_FREEZER_FLUID);
     public static final RegistryObject<RecipeSerializer<WiremillRecipe>> WIREMILL = register("wiremill", ModRecipeTypes.WIREMILL);
+
+    public static final RegistryObject<RecipeSerializer<DenseLiquidFuel>> DENSE_LIQUID_FUEL = register("fuels/dense_liquid", ModRecipeTypes.DENSE_LIQUID_FUEL);
     
     public static final RegistryObject<RecipeSerializer<ShapedRecipe>> TOOL_SHAPED_RECIPE = RECIPE_SERIALIZERS.register("tool_crafting_shaped", () -> ToolShapedRecipe.SERIALIZER);
     public static final RegistryObject<RecipeSerializer<ShapelessRecipe>> TOOL_SHAPELESS_RECIPE = RECIPE_SERIALIZERS.register("tool_crafting_shapeless", () -> ToolShapelessRecipe.SERIALIZER);

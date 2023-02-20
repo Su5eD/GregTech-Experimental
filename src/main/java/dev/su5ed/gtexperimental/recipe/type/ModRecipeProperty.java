@@ -17,6 +17,7 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
     public static final ModRecipeProperty<Integer> TNT = intProperty("tnt", between(1, 64));
     public static final ModRecipeProperty<Integer> HEAT = intProperty("heat", num -> true);
     public static final ModRecipeProperty<Integer> CHANCE = intProperty("chance", ModRecipeProperty::greaterThanZero);
+    public static final ModRecipeProperty<Double> ENERGY = doubleProperty("energy", ModRecipeProperty::greaterThanZero);
 
     private final String name;
     private final BiConsumer<FriendlyByteBuf, T> networkSerializer;

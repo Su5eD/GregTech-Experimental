@@ -28,7 +28,7 @@ public abstract class SISORecipe<T> extends BaseRecipeImpl<SISORecipeType<?, T>,
         this.properties = properties;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
-        this.type.outputType.validate(this.id, "output", this.output);
+        this.type.outputType.validate(this.id, "output", this.output, allowEmptyOutput());
         this.properties.validate(this.id, this.type.properties);
     }
 
@@ -50,6 +50,10 @@ public abstract class SISORecipe<T> extends BaseRecipeImpl<SISORecipeType<?, T>,
 
     public RecipePropertyMap getProperties() {
         return this.properties;
+    }
+    
+    protected boolean allowEmptyOutput() {
+        return false;
     }
 
     @Override

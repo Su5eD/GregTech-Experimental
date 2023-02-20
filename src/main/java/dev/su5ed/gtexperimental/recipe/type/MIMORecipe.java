@@ -36,7 +36,7 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, List<
         this.properties = properties;
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputCount);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output);
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output, false);
         this.properties.validate(this.id, this.type.properties);
     }
 

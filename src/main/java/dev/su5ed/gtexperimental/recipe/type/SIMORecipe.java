@@ -31,7 +31,7 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
         this.properties = properties;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output);
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output, false);
         this.properties.validate(this.id, this.type.properties);
     }
 

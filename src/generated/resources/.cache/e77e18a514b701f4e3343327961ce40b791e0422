@@ -1,5 +1,4 @@
-// 1.19.2	2023-02-19T23:45:36.2054476	Gregtech ExperimentalTags for minecraft:item
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/blocks/bronze.json
+// 1.19.2	2023-02-20T16:50:12.4759579	Gregtech ExperimentalTags for minecraft:item
 85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -320,6 +319,7 @@ f2c23cb2cae78a8e2c87cab8e64d98a542d1d522 data/forge/tags/items/small_dusts/wood.
 b751d948f8ef357345d13b7e23755ca732a734a7 data/forge/tags/items/storage_blocks/advanced_machine_casing.json
 95a6bac560bc4284502fc27625d92155225ffd17 data/forge/tags/items/storage_blocks/aluminium.json
 e8baa971b24b3a826130d1aaf7277da60540e280 data/forge/tags/items/storage_blocks/brass.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/storage_blocks/bronze.json
 33a51aba1071b46c9d2e8f20bd3074fc8657e602 data/forge/tags/items/storage_blocks/chrome.json
 68b85e69703778fdfcc62abb4176e5cfd17be897 data/forge/tags/items/storage_blocks/electrum.json
 721ed17c2bc3b0a89d6debc8777934a063e2f79c data/forge/tags/items/storage_blocks/fusion_coil.json

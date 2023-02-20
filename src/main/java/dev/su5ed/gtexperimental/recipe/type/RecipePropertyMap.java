@@ -130,6 +130,10 @@ public class RecipePropertyMap {
             return put(ModRecipeProperty.CHANCE, chance);
         }
 
+        public Builder energy(double energy) {
+            return put(ModRecipeProperty.ENERGY, energy);
+        }
+
         private <T> Builder put(RecipeProperty<T> property, T value) {
             this.properties.put(property, value);
             return this;

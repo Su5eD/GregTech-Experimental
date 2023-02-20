@@ -35,8 +35,11 @@ public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
     }
 
     @Override
-    public void validate(ResourceLocation id, String name, ItemStack value) {
-        if (value.isEmpty()) {
+    public void validate(ResourceLocation id, String name, ItemStack value, boolean allowEmpty) {
+        if (value == null) {
+            throw new RuntimeException("Null " + name + " item in recipe " + id);
+        }
+        else if (!allowEmpty && value.isEmpty()) {
             throw new RuntimeException("Empty " + name + " item in recipe " + id);
         }
     }

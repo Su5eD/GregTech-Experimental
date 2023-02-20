@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/dense_liquid",
+  "energy": 64.0,
+  "input": {
+    "type": "tag",
+    "amount": 1000,
+    "tag": "forge:oil"
+  },
+  "output": {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  }
+}

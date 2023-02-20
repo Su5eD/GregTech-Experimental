@@ -12,6 +12,7 @@ import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.BlastFurnaceRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
+import dev.su5ed.gtexperimental.recipe.DenseLiquidFuel;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
@@ -56,6 +57,7 @@ public final class ModRecipeTypes {
     private static final List<RecipeProperty<?>> NO_PROPERTIES = List.of();
     private static final List<RecipeProperty<?>> BASIC_PROPERTIES = List.of(ModRecipeProperty.DURATION, ModRecipeProperty.ENERGY_COST);
     private static final List<RecipeProperty<?>> FUSION_PROPERTIES = List.of(ModRecipeProperty.DURATION, ModRecipeProperty.ENERGY_COST, ModRecipeProperty.START_ENERGY);
+    private static final List<RecipeProperty<?>> FUEL_PROPERTIES = List.of(ModRecipeProperty.ENERGY);
 
     public static final RegistryObject<MISORecipeType<AlloySmelterRecipe, ItemStack, ItemStack>> ALLOY_SMELTER = ModRecipeTypes.<AlloySmelterRecipe, ItemStack, ItemStack>miso("alloy_smelter", ModRecipeIngredientTypes.ITEM, 2, ModRecipeOutputTypes.ITEM, AlloySmelterRecipe::new);
     public static final RegistryObject<MISORecipeType<AssemblerRecipe, ItemStack, ItemStack>> ASSEMBLER = ModRecipeTypes.<AssemblerRecipe, ItemStack, ItemStack>miso("assembler", ModRecipeIngredientTypes.ITEM, 2, ModRecipeOutputTypes.ITEM, AssemblerRecipe::new);
@@ -78,6 +80,8 @@ public final class ModRecipeTypes {
     public static final RegistryObject<SISORecipeType<VacuumFreezerFluidRecipe, FluidStack>> VACUUM_FREEZER_FLUID = siso("vacuum_freezer_fluid", ModRecipeIngredientTypes.FLUID, ModRecipeOutputTypes.FLUID, List.of(ModRecipeProperty.DURATION), VacuumFreezerFluidRecipe::new);
     public static final RegistryObject<SISORecipeType<WiremillRecipe, ItemStack>> WIREMILL = siso("wiremill", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, WiremillRecipe::new);
 
+    public static final RegistryObject<SISORecipeType<DenseLiquidFuel, FluidStack>> DENSE_LIQUID_FUEL = siso("fuels/dense_liquid", ModRecipeIngredientTypes.FLUID, ModRecipeOutputTypes.FLUID, FUEL_PROPERTIES, DenseLiquidFuel::new);
+    
     public static void init(IEventBus bus) {
         RECIPE_TYPES.register(bus);
     }
