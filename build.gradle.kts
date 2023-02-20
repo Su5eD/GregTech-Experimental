@@ -302,9 +302,9 @@ modrinth {
     uploadFile.set(tasks.shadowJar.get())
     gameVersions.addAll(versionMc)
     dependencies {
-        required.version("industrial-craft", modrinthVersionIC2)
-        optional.project("jei")
-        optional.project("tinkers-construct")
+        required.version("wTncj5gs", modrinthVersionIC2) // IC2
+        optional.project("u6dRKJwZ") // JEI
+        optional.project("rxIIYO6c") // Tinkers' Construct
     }
     changelog.set(changelogText)
 }
