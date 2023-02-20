@@ -1,5 +1,5 @@
 {
-  "type": "gtexperimental:industrial_centrifuge",
+  "type": "gtexperimental:industrial_electrolyzer",
   "duration": 2050,
   "energy_cost": 50.0,
   "input": {

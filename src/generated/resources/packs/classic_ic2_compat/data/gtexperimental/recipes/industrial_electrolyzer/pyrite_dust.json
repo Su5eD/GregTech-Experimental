@@ -1,5 +1,5 @@
 {
-  "type": "gtexperimental:industrial_centrifuge",
+  "type": "gtexperimental:industrial_electrolyzer",
   "conditions": [
     {
       "type": "forge:mod_loaded",

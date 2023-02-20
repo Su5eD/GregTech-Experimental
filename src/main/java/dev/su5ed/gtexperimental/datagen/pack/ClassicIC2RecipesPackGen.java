@@ -207,10 +207,10 @@ public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
             .build(finishedRecipeConsumer, smeltingId("machine"));
 
         // Diesel Fuel
-        diesel(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.BIOFUEL_CELL), 6).build(finishedRecipeConsumer, RecipeName.common(NAME, "fuels/diesel", "biofuel"));
-        diesel(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.COALFUEL_CELL), 16).build(finishedRecipeConsumer, RecipeName.common(NAME, "fuels/diesel", "coalfuel"));
+        diesel(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.BIOFUEL_CELL), 6).build(finishedRecipeConsumer, RecipeName.common(NAMESPACE, "fuels/diesel", "biofuel"));
+        diesel(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.COALFUEL_CELL), 16).build(finishedRecipeConsumer, RecipeName.common(NAMESPACE, "fuels/diesel", "coalfuel"));
 
         // Hot Fuel
-        hot(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.HEATPACK), List.of(new ItemStack(Ic2Items.EMPTY_CELL)), 30).build(finishedRecipeConsumer, RecipeName.common(NAME, "fuels/hot", "heatpack"));
+        hot(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.HEATPACK), List.of(new ItemStack(Ic2Items.EMPTY_CELL)), 30).build(finishedRecipeConsumer, RecipeName.common(NAMESPACE, "fuels/hot", "heatpack"));
     }
 }

@@ -11,7 +11,10 @@ import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolCraftingIngredient;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolShapedRecipe;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
+import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
+import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
+import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredient;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.core.NonNullList;
@@ -272,7 +275,7 @@ public class RecipeProcessor {
                 ResourceLocation filingId = location("generated", "shaped", "filing_" + GtUtil.tagName(key));
                 return Stream.of(
                     new ShapedRecipe(filingId, "", 1, 2, NonNullList.of(Ingredient.EMPTY, Ingredient.of(GregTechTags.FILE), Ingredient.of(key)), new ItemStack(rodPair.getSecond())),
-                    new LatheRecipe(id, ModRecipeIngredientTypes.ITEM.of(key), List.of(new ItemStack(rodPair.getSecond()), new ItemStack(outputItem)), output.getSecond(), 16)
+                    SIMORecipe.lathe(id, ModRecipeIngredientTypes.ITEM.of(key), List.of(new ItemStack(rodPair.getSecond()), new ItemStack(outputItem)), RecipePropertyMap.builder().duration(output.getSecond()).energyCost(16).build())
                 );
             })
             .forEach(recipes::add);
@@ -282,7 +285,7 @@ public class RecipeProcessor {
             .mapValues(Pair::getSecond)
             .mapKeyValue((key, output) -> {
                 ResourceLocation id = location("generated", "bender", GtUtil.tagName(key) + "_to_" + GtUtil.itemName(output));
-                return new BenderRecipe(id, ModRecipeIngredientTypes.ITEM.of(key), new ItemStack(output), 50, 20);
+                return SISORecipe.bender(id, ModRecipeIngredientTypes.ITEM.of(key), new ItemStack(output), RecipePropertyMap.builder().duration(50).energyCost(20).build());
             })
             .forEach(recipes::add);
 

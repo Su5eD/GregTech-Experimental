@@ -2,29 +2,22 @@ package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.AlloySmelterRecipe;
-import dev.su5ed.gtexperimental.recipe.AssemblerRecipe;
-import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.BlastFurnaceRecipe;
-import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
-import dev.su5ed.gtexperimental.recipe.IndustrialElectrolyzerRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
 import dev.su5ed.gtexperimental.recipe.IndustrialSawmillRecipe;
-import dev.su5ed.gtexperimental.recipe.LatheRecipe;
-import dev.su5ed.gtexperimental.recipe.PrinterRecipe;
 import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
-import dev.su5ed.gtexperimental.recipe.WiremillRecipe;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
+import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
 import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.world.item.ItemStack;
@@ -42,7 +35,7 @@ public final class ModRecipeBuilders {
     }
 
     public static AlloySmelterRecipeBuilder alloySmelter(List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
-        AlloySmelterRecipe recipe = new AlloySmelterRecipe(null, inputs, output, duration, energyCost);
+        MISORecipe<ItemStack, ItemStack> recipe = MISORecipe.alloySmelter(null, inputs, output, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).build());
         return new AlloySmelterRecipeBuilder(recipe);
     }
 
@@ -55,12 +48,12 @@ public final class ModRecipeBuilders {
     }
 
     public static MISORecipeBuilder<ItemStack, ItemStack> assembler(List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
-        AssemblerRecipe recipe = new AssemblerRecipe(null, inputs, output, duration, energyCost);
+        MISORecipe<ItemStack, ItemStack> recipe = MISORecipe.assembler(null, inputs, output, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).build());
         return new MISORecipeBuilder<>(recipe);
     }
 
     public static SISORecipeBuilder<ItemStack, ItemStack> bender(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
-        SISORecipe<ItemStack, ItemStack> recipe = new BenderRecipe(null, input, output, duration, energyCost);
+        SISORecipe<ItemStack, ItemStack> recipe = SISORecipe.bender(null, input, output, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).build());
         return new SISORecipeBuilder<>(recipe);
     }
 
@@ -73,7 +66,7 @@ public final class ModRecipeBuilders {
     }
 
     public static MIMORecipeBuilder canningMachine(List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, int duration, double energyCost) {
-        MIMORecipe recipe = new CanningMachineRecipe(null, inputs, outputs, duration, energyCost);
+        MIMORecipe recipe = MIMORecipe.canningMachine(null, inputs, outputs, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).build());
         return new MIMORecipeBuilder(recipe);
     }
 
@@ -185,7 +178,7 @@ public final class ModRecipeBuilders {
     }
 
     public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration, double energyCost) {
-        SIMORecipe<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> recipe = new IndustrialElectrolyzerRecipe(null, input, outputs, duration, energyCost);
+        SIMORecipe<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> recipe = SIMORecipe.industrialElectrolyzer(null, input, outputs, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).build());
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -211,7 +204,7 @@ public final class ModRecipeBuilders {
     }
 
     public static SIMORecipeBuilder<ItemStack, ItemStack> lathe(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int duration, double energyCost) {
-        SIMORecipe<ItemStack, ItemStack> recipe = new LatheRecipe(null, input, outputs, duration, energyCost);
+        SIMORecipe<ItemStack, ItemStack> recipe = SIMORecipe.lathe(null, input, outputs, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).build());
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -224,7 +217,7 @@ public final class ModRecipeBuilders {
     }
 
     public static MISORecipeBuilder<ItemStack, ItemStack> printer(List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, int duration, double energyCost) {
-        MISORecipe<ItemStack, ItemStack> recipe = new PrinterRecipe(null, inputs, output, duration, energyCost);
+        MISORecipe<ItemStack, ItemStack> recipe = MISORecipe.printer(null, inputs, output, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).build());
         return new MISORecipeBuilder<>(recipe);
     }
 
@@ -269,7 +262,7 @@ public final class ModRecipeBuilders {
     }
 
     public static SISORecipeBuilder<ItemStack, ItemStack> wiremill(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
-        SISORecipe<ItemStack, ItemStack> recipe = new WiremillRecipe(null, input, output, duration, energyCost);
+        SISORecipe<ItemStack, ItemStack> recipe = SISORecipe.wiremill(null, input, output, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).build());
         return new SISORecipeBuilder<>(recipe);
     }
 

@@ -36,6 +36,7 @@ public enum Component implements TaggedItemProvider {
     LAVA_FILTER(() -> new ResourceItem(new ExtendedItemProperties<>()
         .durability(100)
         .setNoRepair()
+        .setNoEnchant()
         .autoDescription()), null),
     LITHIUM_RE_BATTERY(LithiumBatteryItem::new, GregTechTags.CRAFTING_LI_BATTERY),
     MACHINE_PARTS(GregTechTags.itemTag("machine_parts")),

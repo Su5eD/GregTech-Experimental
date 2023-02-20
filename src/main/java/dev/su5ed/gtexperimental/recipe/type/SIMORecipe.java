@@ -20,18 +20,26 @@ public class SIMORecipe<IN, OUT> extends BaseRecipeImpl<SIMORecipeType<?, IN, OU
     protected final RecipeIngredient<IN> input;
     protected final List<OUT> output;
     protected final RecipePropertyMap properties;
-    
-    public static SIMORecipe<Either<ItemStack, FluidStack>, ItemStack> hotFuel(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<ItemStack> output, RecipePropertyMap properties) {
-        return new SIMORecipe<>(ModRecipeTypes.HOT_FUEL.get(), ModRecipeSerializers.HOT_FUEL.get(), id, input, output, properties, true); 
+
+    public static SIMORecipe<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialElectrolyzer(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> output, RecipePropertyMap properties) {
+        return new SIMORecipe<>(ModRecipeTypes.INDUSTRIAL_ELECTROLYZER.get(), ModRecipeSerializers.INDUSTRIAL_ELECTROLYZER.get(), id, input, output, properties);
     }
-    
+
+    public static SIMORecipe<ItemStack, ItemStack> lathe(ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> output, RecipePropertyMap properties) {
+        return new SIMORecipe<>(ModRecipeTypes.LATHE.get(), ModRecipeSerializers.LATHE.get(), id, input, output, properties);
+    }
+
+    public static SIMORecipe<Either<ItemStack, FluidStack>, ItemStack> hotFuel(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<ItemStack> output, RecipePropertyMap properties) {
+        return new SIMORecipe<>(ModRecipeTypes.HOT_FUEL.get(), ModRecipeSerializers.HOT_FUEL.get(), id, input, output, properties, true);
+    }
+
     public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, List<OUT> output, int duration, double energyCost) {
         this(type, serializer, id, input, output, RecipePropertyMap.builder()
             .duration(duration)
             .energyCost(energyCost)
             .build());
     }
-    
+
     public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, List<OUT> output, RecipePropertyMap properties) {
         this(type, serializer, id, input, output, properties, false);
     }

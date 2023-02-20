@@ -18,6 +18,14 @@ public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OU
     protected final OUT output;
     protected final RecipePropertyMap properties;
 
+    public static SISORecipe<ItemStack, ItemStack> bender(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
+        return new SISORecipe<>(ModRecipeTypes.BENDER.get(), ModRecipeSerializers.BENDER.get(), id, input, output, properties);
+    }
+
+    public static SISORecipe<ItemStack, ItemStack> wiremill(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
+        return new SISORecipe<>(ModRecipeTypes.WIREMILL.get(), ModRecipeSerializers.WIREMILL.get(), id, input, output, properties);
+    }
+
     public static SISORecipe<FluidStack, FluidStack> denseLiquid(ResourceLocation id, RecipeIngredient<FluidStack> input, FluidStack output, RecipePropertyMap properties) {
         return new SISORecipe<>(ModRecipeTypes.DENSE_LIQUID_FUEL.get(), ModRecipeSerializers.DENSE_LIQUID_FUEL.get(), id, input, output, properties, true);
     }

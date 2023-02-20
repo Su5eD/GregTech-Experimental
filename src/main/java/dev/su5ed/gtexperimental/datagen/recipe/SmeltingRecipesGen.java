@@ -9,7 +9,7 @@ import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.object.Ore;
 import dev.su5ed.gtexperimental.object.Plate;
 import dev.su5ed.gtexperimental.recipe.gen.SmeltingRecipeBuilder;
-import dev.su5ed.gtexperimental.recipe.gen.compat.InductionSmelterRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.gen.compat.TEInductionSmelterRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -90,8 +90,8 @@ public final class SmeltingRecipesGen implements ModRecipeProvider {
             .mapKeys(Dust::getTag)
             .forKeyValue((dust, ingot) -> simple(dust, ingot, 1, finishedRecipeConsumer, GtUtil.tagName(dust) + "_to_ingot"));
 
-        new InductionSmelterRecipeBuilder(Ingredient.of(Ore.PYRITE.getTag()), List.of(new InductionSmelterRecipeBuilder.Result(new ItemStack(Items.IRON_INGOT), 95)), 3000)
-            .build(finishedRecipeConsumer, RecipeName.foreign(InductionSmelterRecipeBuilder.TYPE, "iron_ingot"));
+        new TEInductionSmelterRecipeBuilder(Ingredient.of(Ore.PYRITE.getTag()), List.of(new TEInductionSmelterRecipeBuilder.Result(new ItemStack(Items.IRON_INGOT), 95)), 3000)
+            .build(finishedRecipeConsumer, RecipeName.foreign(TEInductionSmelterRecipeBuilder.TYPE, "iron_ingot"));
     }
     
     private static void simple(TagKey<Item> input, ItemLike output, int outputCount, Consumer<FinishedRecipe> finishedRecipeConsumer) {

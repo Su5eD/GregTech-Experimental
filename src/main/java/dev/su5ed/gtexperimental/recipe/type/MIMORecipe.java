@@ -3,6 +3,8 @@ package dev.su5ed.gtexperimental.recipe.type;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -16,10 +18,14 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Multi Output recipe
  */
-public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, List<ItemStack>, MIMORecipe> {
+public class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, List<ItemStack>, MIMORecipe> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
     protected final List<ItemStack> output;
     protected final RecipePropertyMap properties;
+
+    public static MIMORecipe canningMachine(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, RecipePropertyMap properties) {
+        return new MIMORecipe(ModRecipeTypes.CANNING_MACHINE.get(), ModRecipeSerializers.CANNING_MACHINE.get(), id, inputs, outputs, properties);
+    }
     
     public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> output, int duration, double energyCost) {
         this(type, serializer, id, inputs, output, RecipePropertyMap.builder()

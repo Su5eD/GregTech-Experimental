@@ -13,14 +13,14 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.List;
 
-public class InductionSmelterRecipeBuilder extends BaseRecipeBuilder {
+public class TEInductionSmelterRecipeBuilder extends BaseRecipeBuilder {
     public static final ResourceLocation TYPE = new ResourceLocation(ModHandler.THERMAL_MODID, "smelter");
 
     private final Ingredient ingredient;
     private final List<Result> result;
     private final int energy;
 
-    public InductionSmelterRecipeBuilder(Ingredient ingredient, List<Result> result, int energy) {
+    public TEInductionSmelterRecipeBuilder(Ingredient ingredient, List<Result> result, int energy) {
         this.ingredient = ingredient;
         this.result = result;
         this.energy = energy;
