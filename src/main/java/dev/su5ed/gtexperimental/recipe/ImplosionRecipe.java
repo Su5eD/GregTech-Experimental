@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class ImplosionRecipe extends SIMORecipe<ItemStack> {
+public class ImplosionRecipe extends SIMORecipe<ItemStack, ItemStack> {
 
     public ImplosionRecipe(ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int tnt) {
         super(ModRecipeTypes.IMPLOSION.get(), ModRecipeSerializers.IMPLOSION.get(), id, input, outputs, RecipePropertyMap.builder()

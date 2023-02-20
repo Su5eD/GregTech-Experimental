@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public class IndustrialElectrolyzerRecipe extends SIMORecipe<Either<ItemStack, FluidStack>> {
+public class IndustrialElectrolyzerRecipe extends SIMORecipe<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> {
 
     public IndustrialElectrolyzerRecipe(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> output, int duration, double energyCost) {
         super(ModRecipeTypes.INDUSTRIAL_CENTRIFUGE.get(), ModRecipeSerializers.INDUSTRIAL_CENTRIFUGE.get(), id, input, output, duration, energyCost);

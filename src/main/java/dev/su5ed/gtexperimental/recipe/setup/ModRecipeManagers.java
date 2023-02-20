@@ -24,6 +24,8 @@ import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeManager;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
+import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
+import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.ItemStack;
@@ -57,8 +59,16 @@ public final class ModRecipeManagers {
     public static final RecipeManager<VacuumFreezerSolidRecipe, ItemStack> VACUUM_FREEZER_SOLID = create(ModRecipeTypes.VACUUM_FREEZER_SOLID);
     public static final RecipeManager<VacuumFreezerFluidRecipe, FluidStack> VACUUM_FREEZER_FLUID = create(ModRecipeTypes.VACUUM_FREEZER_FLUID);
 
-    private static <R extends BaseRecipe<?, I, ? super R>, I> RecipeManager<R, I> create(Supplier<? extends RecipeType<R>> recipeType) {
-        RecipeManager<R, I> manager = new BaseRecipeManager<>(recipeType);
+    public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack> DENSE_LIQUID_FUEL = create(ModRecipeTypes.DENSE_LIQUID_FUEL);
+    public static final RecipeManager<SISORecipe<Either<ItemStack, FluidStack>, FluidStack>, Either<ItemStack, FluidStack>> DIESEL_FUEL = create(ModRecipeTypes.DIESEL_FUEL);
+    public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack> GAS_FUEL = create(ModRecipeTypes.GAS_FUEL);
+    public static final RecipeManager<SIMORecipe<Either<ItemStack, FluidStack>, ItemStack>, Either<ItemStack, FluidStack>> HOT_FUEL = create(ModRecipeTypes.HOT_FUEL);
+    public static final RecipeManager<SISORecipe<Either<ItemStack, FluidStack>, ItemStack>, Either<ItemStack, FluidStack>> MAGIC_FUEL = create(ModRecipeTypes.MAGIC_FUEL);
+    public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack> PLASMA_FUEL = create(ModRecipeTypes.PLASMA_FUEL);
+    public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack> STEAM_FUEL = create(ModRecipeTypes.STEAM_FUEL);
+
+    private static <R extends BaseRecipe<?, IN, ? super R>, IN> RecipeManager<R, IN> create(Supplier<? extends RecipeType<R>> recipeType) {
+        RecipeManager<R, IN> manager = new BaseRecipeManager<>(recipeType);
         RECIPE_MANAGERS.add(manager);
         return manager;
     }

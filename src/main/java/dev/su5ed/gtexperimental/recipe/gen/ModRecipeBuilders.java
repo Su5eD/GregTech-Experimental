@@ -59,8 +59,8 @@ public final class ModRecipeBuilders {
         return new MISORecipeBuilder<>(recipe);
     }
 
-    public static SISORecipeBuilder<ItemStack> bender(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
-        SISORecipe<ItemStack> recipe = new BenderRecipe(null, input, output, duration, energyCost);
+    public static SISORecipeBuilder<ItemStack, ItemStack> bender(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
+        SISORecipe<ItemStack, ItemStack> recipe = new BenderRecipe(null, input, output, duration, energyCost);
         return new SISORecipeBuilder<>(recipe);
     }
 
@@ -90,12 +90,12 @@ public final class ModRecipeBuilders {
         return new MISORecipeBuilder<>(recipe);
     }
 
-    public static SIMORecipeBuilder<FluidStack> distillation(RecipeIngredient<FluidStack> input, FluidStack first, FluidStack second, FluidStack third, FluidStack fourth, int duration) {
+    public static SIMORecipeBuilder<FluidStack, FluidStack> distillation(RecipeIngredient<FluidStack> input, FluidStack first, FluidStack second, FluidStack third, FluidStack fourth, int duration) {
         return distillation(input, List.of(first, second, third, fourth), duration);
     }
 
-    public static SIMORecipeBuilder<FluidStack> distillation(RecipeIngredient<FluidStack> input, List<FluidStack> outputs, int duration) {
-        SIMORecipe<FluidStack> recipe = new DistillationRecipe(null, input, outputs, duration);
+    public static SIMORecipeBuilder<FluidStack, FluidStack> distillation(RecipeIngredient<FluidStack> input, List<FluidStack> outputs, int duration) {
+        SIMORecipe<FluidStack, FluidStack> recipe = new DistillationRecipe(null, input, outputs, duration);
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -117,12 +117,12 @@ public final class ModRecipeBuilders {
         return new MISORecipeBuilder<>(recipe);
     }
 
-    public static SIMORecipeBuilder<ItemStack> implosion(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, int tnt) {
+    public static SIMORecipeBuilder<ItemStack, ItemStack> implosion(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, int tnt) {
         return implosion(input, List.of(first, second), tnt);
     }
 
-    public static SIMORecipeBuilder<ItemStack> implosion(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int tnt) {
-        SIMORecipe<ItemStack> recipe = new ImplosionRecipe(null, input, outputs, tnt);
+    public static SIMORecipeBuilder<ItemStack, ItemStack> implosion(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int tnt) {
+        SIMORecipe<ItemStack, ItemStack> recipe = new ImplosionRecipe(null, input, outputs, tnt);
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -147,45 +147,45 @@ public final class ModRecipeBuilders {
         return new BlastFurnaceRecipeBuilder(recipe);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, int duration) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, int duration) {
         return industrialCentrifuge(input, List.of(convert(first)), duration);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, int duration) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, int duration) {
         return industrialCentrifuge(input, List.of(convert(first), convert(second)), duration);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, int duration) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, int duration) {
         return industrialCentrifuge(input, List.of(convert(first), convert(second), convert(third)), duration);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, Object fourth, int duration) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, Object fourth, int duration) {
         return industrialCentrifuge(input, List.of(convert(first), convert(second), convert(third), convert(fourth)), duration);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration) {
-        SIMORecipe<Either<ItemStack, FluidStack>> recipe = new IndustrialCentrifugeRecipe(null, input, outputs, duration);
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration) {
+        SIMORecipe<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> recipe = new IndustrialCentrifugeRecipe(null, input, outputs, duration);
         return new SIMORecipeBuilder<>(recipe);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, int duration, double energyCost) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, int duration, double energyCost) {
         return industrialElectrolyzer(input, List.of(convert(first)), duration, energyCost);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, int duration, double energyCost) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, int duration, double energyCost) {
         return industrialElectrolyzer(input, List.of(convert(first), convert(second)), duration, energyCost);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, int duration, double energyCost) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, int duration, double energyCost) {
         return industrialElectrolyzer(input, List.of(convert(first), convert(second), convert(third)), duration, energyCost);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, Object fourth, int duration, double energyCost) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, Object first, Object second, Object third, Object fourth, int duration, double energyCost) {
         return industrialElectrolyzer(input, List.of(convert(first), convert(second), convert(third), convert(fourth)), duration, energyCost);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration, double energyCost) {
-        SIMORecipe<Either<ItemStack, FluidStack>> recipe = new IndustrialElectrolyzerRecipe(null, input, outputs, duration, energyCost);
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialElectrolyzer(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration, double energyCost) {
+        SIMORecipe<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> recipe = new IndustrialElectrolyzerRecipe(null, input, outputs, duration, energyCost);
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -206,12 +206,12 @@ public final class ModRecipeBuilders {
         return new IFMORecipeBuilder(recipe);
     }
 
-    public static SIMORecipeBuilder<ItemStack> lathe(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
+    public static SIMORecipeBuilder<ItemStack, ItemStack> lathe(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
         return lathe(input, List.of(output), duration, energyCost);
     }
 
-    public static SIMORecipeBuilder<ItemStack> lathe(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int duration, double energyCost) {
-        SIMORecipe<ItemStack> recipe = new LatheRecipe(null, input, outputs, duration, energyCost);
+    public static SIMORecipeBuilder<ItemStack, ItemStack> lathe(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int duration, double energyCost) {
+        SIMORecipe<ItemStack, ItemStack> recipe = new LatheRecipe(null, input, outputs, duration, energyCost);
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -228,23 +228,23 @@ public final class ModRecipeBuilders {
         return new MISORecipeBuilder<>(recipe);
     }
 
-    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack output) {
+    public static SIMORecipeBuilder<ItemStack, ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack output) {
         return pulverizer(input, List.of(output), 3, 10);
     }
 
-    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second) {
+    public static SIMORecipeBuilder<ItemStack, ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second) {
         return pulverizer(input, List.of(first, second), 3, 10);
     }
 
-    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, int chance) {
+    public static SIMORecipeBuilder<ItemStack, ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, int chance) {
         return pulverizer(input, List.of(first, second), 3, chance);
     }
 
-    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, double energyCost, int chance) {
+    public static SIMORecipeBuilder<ItemStack, ItemStack> pulverizer(RecipeIngredient<ItemStack> input, ItemStack first, ItemStack second, double energyCost, int chance) {
         return pulverizer(input, List.of(first, second), energyCost, chance);
     }
 
-    public static SIMORecipeBuilder<ItemStack> pulverizer(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, double energyCost, int chance) {
+    public static SIMORecipeBuilder<ItemStack, ItemStack> pulverizer(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, double energyCost, int chance) {
         PulverizerRecipe recipe = new PulverizerRecipe(null, input, outputs, energyCost, chance);
         return new PulverizerRecipeBuilder(recipe);
     }
@@ -258,18 +258,18 @@ public final class ModRecipeBuilders {
         return new IndustrialSawmillRecipeBuilder(recipe);
     }
 
-    public static SISORecipeBuilder<ItemStack> vacuumFreezerSolid(RecipeIngredient<ItemStack> input, ItemStack output, int duration) {
-        SISORecipe<ItemStack> recipe = new VacuumFreezerSolidRecipe(null, input, output, duration);
+    public static SISORecipeBuilder<ItemStack, ItemStack> vacuumFreezerSolid(RecipeIngredient<ItemStack> input, ItemStack output, int duration) {
+        SISORecipe<ItemStack, ItemStack> recipe = new VacuumFreezerSolidRecipe(null, input, output, duration);
         return new SISORecipeBuilder<>(recipe);
     }
 
-    public static SISORecipeBuilder<FluidStack> vacuumFreezerFluid(RecipeIngredient<FluidStack> input, FluidStack output, int duration) {
-        SISORecipe<FluidStack> recipe = new VacuumFreezerFluidRecipe(null, input, output, duration);
+    public static SISORecipeBuilder<FluidStack, FluidStack> vacuumFreezerFluid(RecipeIngredient<FluidStack> input, FluidStack output, int duration) {
+        SISORecipe<FluidStack, FluidStack> recipe = new VacuumFreezerFluidRecipe(null, input, output, duration);
         return new SISORecipeBuilder<>(recipe);
     }
 
-    public static SISORecipeBuilder<ItemStack> wiremill(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
-        SISORecipe<ItemStack> recipe = new WiremillRecipe(null, input, output, duration, energyCost);
+    public static SISORecipeBuilder<ItemStack, ItemStack> wiremill(RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
+        SISORecipe<ItemStack, ItemStack> recipe = new WiremillRecipe(null, input, output, duration, energyCost);
         return new SISORecipeBuilder<>(recipe);
     }
 

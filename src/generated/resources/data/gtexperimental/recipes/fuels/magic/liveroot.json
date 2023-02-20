@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:fuels/magic",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "energy": 16.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "twilightforest:liveroot"
+    }
+  },
+  "output": {
+    "count": 2,
+    "item": "minecraft:stick"
+  }
+}

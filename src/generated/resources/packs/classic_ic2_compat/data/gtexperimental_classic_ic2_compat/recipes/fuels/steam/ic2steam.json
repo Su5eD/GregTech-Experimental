@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/steam",
+  "energy": 800.0,
+  "input": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "ic2:steam"
+  },
+  "output": {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  }
+}

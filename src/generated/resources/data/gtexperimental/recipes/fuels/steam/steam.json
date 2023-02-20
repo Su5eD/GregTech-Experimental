@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/steam",
+  "energy": 500.0,
+  "input": {
+    "type": "tag",
+    "amount": 1000,
+    "tag": "forge:steam"
+  },
+  "output": {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  }
+}

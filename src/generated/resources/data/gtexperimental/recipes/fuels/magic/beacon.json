@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/magic",
+  "energy": 100000.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "minecraft:beacon"
+    }
+  },
+  "output": {
+    "item": "minecraft:air"
+  }
+}

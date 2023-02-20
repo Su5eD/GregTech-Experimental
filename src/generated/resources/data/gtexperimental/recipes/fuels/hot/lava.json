@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:fuels/hot",
+  "energy": 30.0,
+  "input": {
+    "type": "fluid",
+    "amount": 1000,
+    "tag": "minecraft:lava"
+  },
+  "output": [
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "gtexperimental:tin_ingot"
+    },
+    {
+      "item": "gtexperimental:electrum_ingot"
+    }
+  ]
+}

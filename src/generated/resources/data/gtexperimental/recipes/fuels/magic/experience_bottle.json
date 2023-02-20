@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/magic",
+  "energy": 10.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "minecraft:experience_bottle"
+    }
+  },
+  "output": {
+    "item": "minecraft:air"
+  }
+}

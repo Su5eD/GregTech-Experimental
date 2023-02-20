@@ -8,7 +8,7 @@ import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class BenderRecipe extends SISORecipe<ItemStack> {
+public class BenderRecipe extends SISORecipe<ItemStack, ItemStack> {
 
     public BenderRecipe(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, int duration, double energyCost) {
         super(ModRecipeTypes.BENDER.get(), ModRecipeSerializers.BENDER.get(), id, input, output, duration, energyCost);

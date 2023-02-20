@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/magic",
+  "energy": 500.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "minecraft:ghast_tear"
+    }
+  },
+  "output": {
+    "item": "minecraft:air"
+  }
+}

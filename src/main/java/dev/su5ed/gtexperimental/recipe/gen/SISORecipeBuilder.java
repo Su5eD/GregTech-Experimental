@@ -3,9 +3,9 @@ package dev.su5ed.gtexperimental.recipe.gen;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 
-public class SISORecipeBuilder<T> extends ModRecipeBuilder<SISORecipe<T>> {
+public class SISORecipeBuilder<IN, OUT> extends ModRecipeBuilder<SISORecipe<IN, OUT>> {
 
-    public SISORecipeBuilder(SISORecipe<T> recipe) {
+    public SISORecipeBuilder(SISORecipe<IN, OUT> recipe) {
         super(recipe);
     }
 

@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/gas",
+  "energy": 15.0,
+  "input": {
+    "type": "tag",
+    "amount": 1000,
+    "tag": "forge:hydrogen"
+  },
+  "output": {
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  }
+}

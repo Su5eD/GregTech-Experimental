@@ -25,10 +25,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
+import static dev.su5ed.gtexperimental.recipe.gen.ModFuelBuilders.diesel;
+import static dev.su5ed.gtexperimental.recipe.gen.ModFuelBuilders.hot;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.*;
 import static dev.su5ed.gtexperimental.recipe.gen.compat.CompatRecipeBuilders.ic2Compressor;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.*;
@@ -201,6 +204,13 @@ public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
         new SmeltingRecipeBuilder(Ingredient.of(Ic2Items.MACHINE), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 8), 0, 200)
             .unlockedBy("has_machine", has(Ic2Items.MACHINE))
             .addConditions(IC2_LOADED)
-            .build(finishedRecipeConsumer, RecipeName.common(NAME, "smelting", "machine"));
+            .build(finishedRecipeConsumer, smeltingId("machine"));
+
+        // Diesel Fuel
+        diesel(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.BIOFUEL_CELL), 6).build(finishedRecipeConsumer, RecipeName.common(NAME, "fuels/diesel", "biofuel"));
+        diesel(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.COALFUEL_CELL), 16).build(finishedRecipeConsumer, RecipeName.common(NAME, "fuels/diesel", "coalfuel"));
+
+        // Hot Fuel
+        hot(ModRecipeIngredientTypes.HYBRID.of(Ic2Items.HEATPACK), List.of(new ItemStack(Ic2Items.EMPTY_CELL)), 30).build(finishedRecipeConsumer, RecipeName.common(NAME, "fuels/hot", "heatpack"));
     }
 }

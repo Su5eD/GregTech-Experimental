@@ -4,9 +4,9 @@ import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
 
-public class SIMORecipeBuilder<T> extends ModRecipeBuilder<SIMORecipe<T>> {
+public class SIMORecipeBuilder<IN, OUT> extends ModRecipeBuilder<SIMORecipe<IN, OUT>> {
 
-    public SIMORecipeBuilder(SIMORecipe<T> recipe) {
+    public SIMORecipeBuilder(SIMORecipe<IN, OUT> recipe) {
         super(recipe);
     }
 

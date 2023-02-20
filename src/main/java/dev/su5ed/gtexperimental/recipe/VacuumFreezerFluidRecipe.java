@@ -8,7 +8,7 @@ import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
-public class VacuumFreezerFluidRecipe extends SISORecipe<FluidStack> {
+public class VacuumFreezerFluidRecipe extends SISORecipe<FluidStack, FluidStack> {
     
     public VacuumFreezerFluidRecipe(ResourceLocation id, RecipeIngredient<FluidStack> input, FluidStack output, int duration) {
         this(id, input, output, RecipePropertyMap.builder()

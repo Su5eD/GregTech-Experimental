@@ -1,0 +1,15 @@
+{
+  "type": "gtexperimental:fuels/hot",
+  "energy": 30.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "ic2:heatpack"
+    }
+  },
+  "output": [
+    {
+      "item": "ic2:empty_cell"
+    }
+  ]
+}

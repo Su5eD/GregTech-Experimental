@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/magic",
+  "energy": 20.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "output": {
+    "item": "minecraft:air"
+  }
+}

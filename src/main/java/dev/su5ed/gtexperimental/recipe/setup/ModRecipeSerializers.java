@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.setup;
 
+import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipeType;
@@ -9,7 +10,6 @@ import dev.su5ed.gtexperimental.recipe.BenderRecipe;
 import dev.su5ed.gtexperimental.recipe.BlastFurnaceRecipe;
 import dev.su5ed.gtexperimental.recipe.CanningMachineRecipe;
 import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
-import dev.su5ed.gtexperimental.recipe.DenseLiquidFuel;
 import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
@@ -28,10 +28,14 @@ import dev.su5ed.gtexperimental.recipe.crafting.FluidShapedRecipe;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolShapedRecipe;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolShapelessRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeSerializer;
+import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
+import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -62,8 +66,14 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<VacuumFreezerFluidRecipe>> VACUUM_FREEZER_FLUID = register("vacuum_freezer_fluid", ModRecipeTypes.VACUUM_FREEZER_FLUID);
     public static final RegistryObject<RecipeSerializer<WiremillRecipe>> WIREMILL = register("wiremill", ModRecipeTypes.WIREMILL);
 
-    public static final RegistryObject<RecipeSerializer<DenseLiquidFuel>> DENSE_LIQUID_FUEL = register("fuels/dense_liquid", ModRecipeTypes.DENSE_LIQUID_FUEL);
-    
+    public static final RegistryObject<RecipeSerializer<SISORecipe<FluidStack, FluidStack>>> DENSE_LIQUID_FUEL = register("fuels/dense_liquid", ModRecipeTypes.DENSE_LIQUID_FUEL);
+    public static final RegistryObject<RecipeSerializer<SISORecipe<Either<ItemStack, FluidStack>, FluidStack>>> DIESEL_FUEL = register("fuels/diesel", ModRecipeTypes.DIESEL_FUEL);
+    public static final RegistryObject<RecipeSerializer<SISORecipe<FluidStack, FluidStack>>> GAS_FUEL = register("fuels/gas", ModRecipeTypes.GAS_FUEL);
+    public static final RegistryObject<RecipeSerializer<SIMORecipe<Either<ItemStack, FluidStack>, ItemStack>>> HOT_FUEL = register("fuels/hot", ModRecipeTypes.HOT_FUEL);
+    public static final RegistryObject<RecipeSerializer<SISORecipe<Either<ItemStack, FluidStack>, ItemStack>>> MAGIC_FUEL = register("fuels/magic", ModRecipeTypes.MAGIC_FUEL);
+    public static final RegistryObject<RecipeSerializer<SISORecipe<FluidStack, FluidStack>>> PLASMA_FUEL = register("fuels/plasma", ModRecipeTypes.PLASMA_FUEL);
+    public static final RegistryObject<RecipeSerializer<SISORecipe<FluidStack, FluidStack>>> STEAM_FUEL = register("fuels/steam", ModRecipeTypes.PLASMA_FUEL);
+
     public static final RegistryObject<RecipeSerializer<ShapedRecipe>> TOOL_SHAPED_RECIPE = RECIPE_SERIALIZERS.register("tool_crafting_shaped", () -> ToolShapedRecipe.SERIALIZER);
     public static final RegistryObject<RecipeSerializer<ShapelessRecipe>> TOOL_SHAPELESS_RECIPE = RECIPE_SERIALIZERS.register("tool_crafting_shapeless", () -> ToolShapelessRecipe.SERIALIZER);
     public static final RegistryObject<RecipeSerializer<ShapedRecipe>> FLUID_SHAPED_RECIPE = RECIPE_SERIALIZERS.register("fluid_crafting_shaped", () -> FluidShapedRecipe.SERIALIZER);
@@ -71,10 +81,10 @@ public final class ModRecipeSerializers {
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);
     }
-    
+
     private static <T extends BaseRecipeType<R>, R extends BaseRecipe<?, ?, ? super R>> RegistryObject<RecipeSerializer<R>> register(String name, Supplier<? extends T> type) {
         return RECIPE_SERIALIZERS.register(name, () -> new BaseRecipeSerializer<>(type.get()));
     }
-    
+
     private ModRecipeSerializers() {}
 }

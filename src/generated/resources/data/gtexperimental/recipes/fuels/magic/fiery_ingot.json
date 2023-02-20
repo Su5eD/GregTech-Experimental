@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:fuels/magic",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "energy": 2048.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "twilightforest:fiery_ingot"
+    }
+  },
+  "output": {
+    "item": "gtexperimental:steel_ingot"
+  }
+}

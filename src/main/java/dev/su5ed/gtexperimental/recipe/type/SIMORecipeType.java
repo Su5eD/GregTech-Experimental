@@ -13,14 +13,14 @@ import net.minecraft.util.GsonHelper;
 
 import java.util.List;
 
-public class SIMORecipeType<R extends SIMORecipe<T>, T> extends BaseRecipeTypeImpl<R> {
-    protected final RecipeIngredientType<? extends RecipeIngredient<T>> inputType;
-    protected final RecipeOutputType<T> outputType;
+public class SIMORecipeType<R extends SIMORecipe<IN, OUT>, IN, OUT> extends BaseRecipeTypeImpl<R> {
+    protected final RecipeIngredientType<? extends RecipeIngredient<IN>> inputType;
+    protected final RecipeOutputType<OUT> outputType;
     protected final int outputCount;
     protected final List<RecipeProperty<?>> properties;
-    protected final SIMORecipeFactory<R, T> factory;
+    protected final SIMORecipeFactory<R, IN, OUT> factory;
 
-    public SIMORecipeType(ResourceLocation name, RecipeIngredientType<? extends RecipeIngredient<T>> inputType, RecipeOutputType<T> outputType, int outputCount, List<RecipeProperty<?>> properties, SIMORecipeFactory<R, T> factory) {
+    public SIMORecipeType(ResourceLocation name, RecipeIngredientType<? extends RecipeIngredient<IN>> inputType, RecipeOutputType<OUT> outputType, int outputCount, List<RecipeProperty<?>> properties, SIMORecipeFactory<R, IN, OUT> factory) {
         super(name);
 
         this.inputType = inputType;
@@ -30,7 +30,7 @@ public class SIMORecipeType<R extends SIMORecipe<T>, T> extends BaseRecipeTypeIm
         this.factory = factory;
     }
 
-    public RecipeOutputType<T> getOutputType() {
+    public RecipeOutputType<OUT> getOutputType() {
         return this.outputType;
     }
 
@@ -47,8 +47,8 @@ public class SIMORecipeType<R extends SIMORecipe<T>, T> extends BaseRecipeTypeIm
         JsonObject inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
-        RecipeIngredient<T> input = this.inputType.create(inputJson);
-        List<T> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
+        RecipeIngredient<IN> input = this.inputType.create(inputJson);
+        List<OUT> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
         RecipePropertyMap properties = RecipePropertyMap.fromJson(recipeId, this.properties, serializedRecipe);
 
         return this.factory.create(recipeId, input, outputs, properties);
@@ -56,14 +56,14 @@ public class SIMORecipeType<R extends SIMORecipe<T>, T> extends BaseRecipeTypeIm
 
     @Override
     public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-        RecipeIngredient<T> input = this.inputType.create(buffer);
-        List<T> outputs = ModRecipeOutputTypes.fromNetwork(this.outputType, this.outputCount, buffer);
+        RecipeIngredient<IN> input = this.inputType.create(buffer);
+        List<OUT> outputs = ModRecipeOutputTypes.fromNetwork(this.outputType, this.outputCount, buffer);
         RecipePropertyMap properties = RecipePropertyMap.fromNetwork(this.properties, buffer);
 
         return this.factory.create(recipeId, input, outputs, properties);
     }
 
-    public interface SIMORecipeFactory<R extends SIMORecipe<T>, T> {
-        R create(ResourceLocation id, RecipeIngredient<T> input, List<T> outputs, RecipePropertyMap properties);
+    public interface SIMORecipeFactory<R extends SIMORecipe<IN, OUT>, IN, OUT> {
+        R create(ResourceLocation id, RecipeIngredient<IN> input, List<OUT> outputs, RecipePropertyMap properties);
     }
 }

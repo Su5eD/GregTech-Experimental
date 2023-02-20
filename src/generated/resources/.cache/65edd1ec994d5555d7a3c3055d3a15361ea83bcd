@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-20T16:50:12.4604253	Gregtech Experimental Recipes
+// 1.19.2	2023-02-20T20:58:33.9973287	Gregtech Experimental Recipes
 bb4db1007c148ab5a8a2f3aebaceea052086708c data/gtexperimental/advancements/recipes/food/smelting/dusts_wheat_to_bread.json
 384bae2cba4be7a899c605f83b3d4a6d05dd4ece data/gtexperimental/advancements/recipes/gtexperimental/shaped/aluminium_block_from_aluminium_ingot.json
 c40afbb733d3f1dca4fea5258130b0c14321b57d data/gtexperimental/advancements/recipes/gtexperimental/shaped/aluminium_ingot_from_nuggets.json
@@ -532,6 +532,22 @@ d7ff4028d47b421f4d327ae52ef54ff1ab8a10f3 data/gtexperimental/recipes/fuels/dense
 1a9ed0fc42346a19a68d8fd033c9f575230f8126 data/gtexperimental/recipes/fuels/dense_liquid/oil.json
 321442fa558f06684b7c6e774699f3ddc251c5ec data/gtexperimental/recipes/fuels/dense_liquid/seed_oil.json
 b1b8cd819373bbaebc74f84e9a08c36ac231924c data/gtexperimental/recipes/fuels/dense_liquid/sodium.json
+6405d38956e336a1dfc001fab27ff08106bf88f3 data/gtexperimental/recipes/fuels/diesel/diesel.json
+c6bcef6b12f0937105198b7868fccbd14b545ccd data/gtexperimental/recipes/fuels/diesel/nitro_coalfuel.json
+99da65ab7129131e3854e230e1d9eea65f626b5b data/gtexperimental/recipes/fuels/diesel/nitro_diesel.json
+aee4de54253d45bb88e8f3e737ae9548698b0440 data/gtexperimental/recipes/fuels/gas/hydrogen.json
+943456a4203f067a887d264d1e7629e4da2da28f data/gtexperimental/recipes/fuels/gas/methane.json
+aba505a74ac6313a8d0bde950fccf08d754f0074 data/gtexperimental/recipes/fuels/hot/lava.json
+09f3779612d35d6e4e0776a685103664bc9d24b1 data/gtexperimental/recipes/fuels/magic/beacon.json
+10556ffbcdcce7bba935b746b4af5ffa8e06b5c2 data/gtexperimental/recipes/fuels/magic/ender_eye.json
+2bf9cff0894ba025a219c80b1e3819115e9bd9e0 data/gtexperimental/recipes/fuels/magic/experience_bottle.json
+a882ee3a89fc481d1d2911f8df996012f176709c data/gtexperimental/recipes/fuels/magic/fiery_ingot.json
+dc7eb6c7d67acae3e70fad4cb4f22c37209f51f9 data/gtexperimental/recipes/fuels/magic/ghast_tear.json
+974cba8bb205bb9b75cb30f0e49e2dac6e7c9523 data/gtexperimental/recipes/fuels/magic/liveroot.json
+37effba18badc5beef089436d58c05491224d111 data/gtexperimental/recipes/fuels/magic/mercury.json
+0bff46b67819854c10324e9a77fcbc29571f83e9 data/gtexperimental/recipes/fuels/magic/nether_star.json
+75df825ba160a595ae9e9848c3074b988eeac37e data/gtexperimental/recipes/fuels/plasma/helium_plasma.json
+d60e662aa7d640134902612c8a71563a092aeb22 data/gtexperimental/recipes/fuels/steam/steam.json
 ae196cb9a43de501f5cc2b26bd6d011c6f771b5c data/gtexperimental/recipes/fusion_fluid/helium_plasma_h3_h2.json
 b499a30cbe13c6d3f3c6400789a1380307a99671 data/gtexperimental/recipes/fusion_fluid/helium_plasma_he3_h2.json
 b01daf367f53a8796dada23c81712e42a524e5dd data/gtexperimental/recipes/fusion_solid/platinum_dust.json

@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/diesel",
+  "energy": 48.0,
+  "input": {
+    "type": "fluid",
+    "amount": 1000,
+    "tag": "forge:nitro_coalfuel"
+  },
+  "output": {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  }
+}

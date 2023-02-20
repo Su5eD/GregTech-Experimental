@@ -1,0 +1,12 @@
+{
+  "type": "gtexperimental:fuels/magic",
+  "energy": 8.0,
+  "input": {
+    "type": "fluid",
+    "amount": 1000,
+    "tag": "forge:mercury"
+  },
+  "output": {
+    "item": "minecraft:air"
+  }
+}

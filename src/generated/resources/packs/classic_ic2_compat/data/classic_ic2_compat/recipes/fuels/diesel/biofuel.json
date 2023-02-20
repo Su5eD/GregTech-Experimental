@@ -1,0 +1,14 @@
+{
+  "type": "gtexperimental:fuels/diesel",
+  "energy": 6.0,
+  "input": {
+    "type": "item",
+    "value": {
+      "item": "ic2:biofuel_cell"
+    }
+  },
+  "output": {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  }
+}

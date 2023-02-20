@@ -1,29 +1,42 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
 /**
  * Single Input, Multi Output recipe
  */
-public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>, T, SIMORecipe<T>> {
-    protected final RecipeIngredient<T> input;
-    protected final List<T> output;
+public class SIMORecipe<IN, OUT> extends BaseRecipeImpl<SIMORecipeType<?, IN, OUT>, IN, SIMORecipe<IN, OUT>> {
+    protected final RecipeIngredient<IN> input;
+    protected final List<OUT> output;
     protected final RecipePropertyMap properties;
     
-    public SIMORecipe(SIMORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<T> input, List<T> output, int duration, double energyCost) {
+    public static SIMORecipe<Either<ItemStack, FluidStack>, ItemStack> hotFuel(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<ItemStack> output, RecipePropertyMap properties) {
+        return new SIMORecipe<>(ModRecipeTypes.HOT_FUEL.get(), ModRecipeSerializers.HOT_FUEL.get(), id, input, output, properties, true); 
+    }
+    
+    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, List<OUT> output, int duration, double energyCost) {
         this(type, serializer, id, input, output, RecipePropertyMap.builder()
             .duration(duration)
             .energyCost(energyCost)
             .build());
     }
+    
+    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, List<OUT> output, RecipePropertyMap properties) {
+        this(type, serializer, id, input, output, properties, false);
+    }
 
-    public SIMORecipe(SIMORecipeType<?, T> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<T> input, List<T> output, RecipePropertyMap properties) {
+    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, List<OUT> output, RecipePropertyMap properties, boolean allowEmptyOutput) {
         super(type, serializer, id);
 
         this.input = input;
@@ -31,15 +44,15 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
         this.properties = properties;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output, false);
+        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output, allowEmptyOutput);
         this.properties.validate(this.id, this.type.properties);
     }
 
-    public RecipeIngredient<T> getInput() {
+    public RecipeIngredient<IN> getInput() {
         return this.input;
     }
 
-    public List<T> getOutput() {
+    public List<OUT> getOutput() {
         return this.output;
     }
 
@@ -56,12 +69,12 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
     }
 
     @Override
-    public boolean matches(T input) {
+    public boolean matches(IN input) {
         return this.input.test(input);
     }
 
     @Override
-    public int compareInputCount(SIMORecipe<T> other) {
+    public int compareInputCount(SIMORecipe<IN, OUT> other) {
         return this.input.getCount() - other.input.getCount();
     }
 

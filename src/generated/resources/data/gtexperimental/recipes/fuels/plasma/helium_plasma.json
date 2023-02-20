@@ -1,0 +1,13 @@
+{
+  "type": "gtexperimental:fuels/plasma",
+  "energy": 8192.0,
+  "input": {
+    "type": "tag",
+    "amount": 1000,
+    "tag": "forge:helium_plasma"
+  },
+  "output": {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  }
+}

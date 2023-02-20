@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public class IndustrialCentrifugeRecipe extends SIMORecipe<Either<ItemStack, FluidStack>> {
+public class IndustrialCentrifugeRecipe extends SIMORecipe<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> {
 
     public IndustrialCentrifugeRecipe(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration) {
         super(ModRecipeTypes.INDUSTRIAL_CENTRIFUGE.get(), ModRecipeSerializers.INDUSTRIAL_CENTRIFUGE.get(), id, input, outputs, RecipePropertyMap.builder()

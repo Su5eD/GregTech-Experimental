@@ -18,6 +18,7 @@ import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.object.Tool;
 import dev.su5ed.gtexperimental.object.Wrench;
 import dev.su5ed.gtexperimental.recipe.crafting.RemovedRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.gen.SmeltingRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.gen.compat.TEBottlerRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
@@ -27,7 +28,6 @@ import ic2.core.ref.Ic2Items;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +41,7 @@ import java.util.function.Consumer;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapelessRecipeBuilder.conditionalShapeless;
+import static dev.su5ed.gtexperimental.recipe.gen.ModFuelBuilders.steam;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.*;
 import static dev.su5ed.gtexperimental.recipe.gen.compat.CompatRecipeBuilders.ic2Extractor;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.*;
@@ -338,9 +339,13 @@ public class IC2RecipesPackGen extends RecipeProvider {
         RemovedRecipeBuilder.build(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/water_generator"));
 
         // Smelting
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(Tags.Items.SLIMEBALLS), Ic2Items.RESIN, 0, 200)
+        new SmeltingRecipeBuilder(Ingredient.of(Tags.Items.SLIMEBALLS), new ItemStack(Ic2Items.RESIN), 0, 200)
             .unlockedBy("has_slimeball", has(Tags.Items.SLIMEBALLS))
-            .save(finishedRecipeConsumer, smeltingId("resin"));
+            .build(finishedRecipeConsumer, smeltingId("resin"));
+
+        // Steam Fuel
+        steam(ModRecipeIngredientTypes.FLUID.of(Ic2Fluids.STEAM.still, buckets(1)), 800).build(finishedRecipeConsumer, steamFuelId("ic2steam"));
+        steam(ModRecipeIngredientTypes.FLUID.of(Ic2Fluids.SUPERHEATED_STEAM.still, buckets(1)), 1000).build(finishedRecipeConsumer, steamFuelId("ic2superheated_steam"));
 
         // Fluid Encapsulator
         new TEBottlerRecipeBuilder(Ingredient.of(Dust.COAL.getTag()), FluidTags.WATER, 125, new ItemStack(Ic2Items.COAL_FUEL_DUST), 1250)
@@ -403,7 +408,11 @@ public class IC2RecipesPackGen extends RecipeProvider {
         return new ResourceLocation(this.name, "shapeless/" + name);
     }
 
-    protected ResourceLocation smeltingId(String name) {
-        return new ResourceLocation(this.name, "smelting/" + name);
+    protected RecipeName smeltingId(String name) {
+        return RecipeName.common(this.name, "smelting", name);
+    }
+
+    protected RecipeName steamFuelId(String name) {
+        return RecipeName.common(this.name, "fuels/steam", name);
     }
 }

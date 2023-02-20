@@ -10,7 +10,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public class DistillationRecipe extends SIMORecipe<FluidStack> {
+public class DistillationRecipe extends SIMORecipe<FluidStack, FluidStack> {
 
     public DistillationRecipe(ResourceLocation id, RecipeIngredient<FluidStack> input, List<FluidStack> outputs, int duration) {
         this(id, input, outputs, RecipePropertyMap.builder()

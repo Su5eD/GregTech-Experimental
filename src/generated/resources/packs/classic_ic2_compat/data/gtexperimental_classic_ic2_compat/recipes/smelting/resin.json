@@ -5,5 +5,7 @@
   "ingredient": {
     "tag": "forge:slimeballs"
   },
-  "result": "ic2:resin"
+  "result": {
+    "item": "ic2:resin"
+  }
 }

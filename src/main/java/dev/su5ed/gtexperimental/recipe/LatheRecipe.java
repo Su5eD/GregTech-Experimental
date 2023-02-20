@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class LatheRecipe extends SIMORecipe<ItemStack> {
+public class LatheRecipe extends SIMORecipe<ItemStack, ItemStack> {
 
     public LatheRecipe(ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> output, int duration, double energyCost) {
         super(ModRecipeTypes.LATHE.get(), ModRecipeSerializers.LATHE.get(), id, input, output, duration, energyCost);

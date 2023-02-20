@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "classic_ic2_compat:smelting/machine"
+        "recipe": "gtexperimental_classic_ic2_compat:smelting/machine"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "classic_ic2_compat:smelting/machine"
+      "gtexperimental_classic_ic2_compat:smelting/machine"
     ]
   }
 }
