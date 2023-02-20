@@ -5,29 +5,26 @@ import com.mojang.datafixers.util.Pair;
 import dev.su5ed.gtexperimental.GregTechConfig;
 import dev.su5ed.gtexperimental.GregTechMod;
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.compat.IC2BaseMod;
+import dev.su5ed.gtexperimental.compat.ModHandler;
+import dev.su5ed.gtexperimental.object.Dust;
+import dev.su5ed.gtexperimental.recipe.IndustrialSawmillRecipe;
 import dev.su5ed.gtexperimental.recipe.LatheRecipe;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
+import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredient;
 import dev.su5ed.gtexperimental.util.GtUtil;
-import ic2.api.recipe.IRecipeInput;
-import ic2.api.recipe.MachineRecipe;
-import ic2.core.recipe.input.RecipeInputIngredient;
-import ic2.core.recipe.v2.RecipeHolder;
-import ic2.core.ref.Ic2RecipeSerializers;
-import ic2.core.ref.Ic2RecipeTypes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
@@ -47,8 +44,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.WATER;
 
-public class RecipeReplacer {
+public class RecipeProcessor {
     private static final Map<RecipeUtil.Shape, Integer> ARMOR_SHAPES = Map.of(
         new RecipeUtil.Shape("XXX", "X X"), 4,
         new RecipeUtil.Shape("X X", "XXX", "XXX"), 1,
@@ -66,7 +64,7 @@ public class RecipeReplacer {
     private final RecipeManager recipeManager;
     private final Map<TagKey<Item>, TagKey<Item>> ingotToPlate;
 
-    public RecipeReplacer(ReloadableServerResources resources) {
+    public RecipeProcessor(ReloadableServerResources resources) {
         this.recipeManager = resources.getRecipeManager();
         this.ingotToPlate = RecipeUtil.associateTags("ingots", "plates")
             .mapValues(Pair::getFirst)
@@ -182,12 +180,10 @@ public class RecipeReplacer {
             }
             // Storage block crafting
             if (STORAGE_BLOCK_SHAPE.matches(shapedRecipe) && result.is(Tags.Items.STORAGE_BLOCKS)) {
-                // TODO Move to custom class
                 Ingredient ingredient = shapedRecipe.getIngredients().get(0);
-                if (!ingredient.isEmpty() && !ic2RecipeExists(Ic2RecipeTypes.COMPRESSOR, ingredient.getItems()[0])) {
-                    MachineRecipe<IRecipeInput, Collection<ItemStack>> compressorRecipe = new MachineRecipe<>(new RecipeInputIngredient(shapedRecipe.getIngredients().get(0), 9), List.of(result));
-                    RecipeHolder<IRecipeInput, Collection<ItemStack>> compressorRecipeHolder = new RecipeHolder<>(compressorRecipe, location("generated", "ic2", "compressor", recipe.getId().getPath()), Ic2RecipeSerializers.COMPRESSOR, Ic2RecipeTypes.COMPRESSOR);
-                    return GregTechConfig.COMMON.storageBlockCrafting.get() ? Stream.of(recipe, compressorRecipeHolder) : Stream.of(compressorRecipeHolder);
+                if (ModHandler.ic2Loaded && !ingredient.isEmpty() && !IC2BaseMod.compressorRecipeExists(this.recipeManager, ingredient.getItems()[0])) {
+                    Recipe<?> compressorRecipe = IC2BaseMod.generateCompressorRecipe(recipe.getId().getPath(), recipe.getIngredients().get(0), 9, result);
+                    return GregTechConfig.COMMON.storageBlockCrafting.get() ? Stream.of(recipe, compressorRecipe) : Stream.of(compressorRecipe);
                 }
                 return GregTechConfig.COMMON.storageBlockCrafting.get() ? Stream.of(recipe) : Stream.empty();
             }
@@ -204,6 +200,23 @@ public class RecipeReplacer {
                 && testIngredient(recipe, Tags.Items.STORAGE_BLOCKS)
                 && result.getCount() == 9 && !GregTechConfig.COMMON.storageBlockDecrafting.get() && !result.is(Tags.Items.GEMS)) {
                 return Stream.empty();
+            }
+            // Log to planks
+            if (recipe.getIngredients().size() == 1
+                && testIngredient(recipe, ItemTags.LOGS)
+                && result.getCount() == 4 && result.is(ItemTags.PLANKS)) {
+                Ingredient ingredient = recipe.getIngredients().get(0);
+                ItemStack planks = ItemHandlerHelper.copyStackWithSize(result, result.getCount() * 3 / 2);
+                String name = GtUtil.itemName(ingredient.getItems()[0]);
+                Recipe<?> sawmillRecipe = new IndustrialSawmillRecipe(location("generated", "industrial_sawmill", name + "_to_planks"), new VanillaRecipeIngredient(ingredient), WATER, List.of(planks, Dust.WOOD.getItemStack()));
+                if (GregTechConfig.COMMON.woodNeedsSawForCrafting.get()) {
+                    return Stream.of(
+                        new ShapelessRecipe(replacedId(recipe.getId()), recipe.getGroup(), ItemHandlerHelper.copyStackWithSize(result, result.getCount() / 2), recipe.getIngredients()),
+                        new ShapedRecipe(location("generated", "shaped", name + "_sawing"), recipe.getGroup(), 1, 2, NonNullList.of(Ingredient.EMPTY, Ingredient.of(GregTechTags.SAW), ingredient), result.copy()),
+                        sawmillRecipe
+                    );
+                }
+                return Stream.of(recipe, sawmillRecipe);
             }
         }
         return Stream.of(recipe);
@@ -267,35 +280,14 @@ public class RecipeReplacer {
         // Storage block macerating
         RecipeUtil.associateTags("storage_blocks", "dusts")
             .flatMapKeyValue((key, dustPair) -> {
-                if (!ic2RecipeExists(Ic2RecipeTypes.MACERATOR, key)) {
-                    // TODO Move to class
-                    MachineRecipe<IRecipeInput, Collection<ItemStack>> maceratorRecipe = new MachineRecipe<>(new RecipeInputIngredient(Ingredient.of(key), 1), List.of(new ItemStack(dustPair.getSecond(), 9)));
-                    RecipeHolder<IRecipeInput, Collection<ItemStack>> maceratorRecipeHolder = new RecipeHolder<>(maceratorRecipe, location("generated", "ic2", "macerator", GtUtil.tagName(key) + "_to_" + GtUtil.itemName(dustPair.getSecond())), Ic2RecipeSerializers.MACERATOR, Ic2RecipeTypes.MACERATOR);
-                    return Stream.of(maceratorRecipeHolder);
+                if (ModHandler.ic2Loaded && !IC2BaseMod.maceratorRecipeExists(this.recipeManager, key)) {
+                    return Stream.of(IC2BaseMod.generateMaceratorRecipe(key, 1, new ItemStack(dustPair.getSecond(), 9)));
                 }
                 return Stream.empty();
             })
             .forEach(recipes::add);
 
         return recipes;
-    }
-
-    private <C extends Container, T extends Recipe<C>> boolean ic2RecipeExists(RecipeType<T> type, TagKey<Item> input) {
-        return RecipeUtil.findFirstItem(input)
-            .map(item -> ic2RecipeExists(type, new ItemStack(item)))
-            .orElse(false);
-    }
-
-    @SuppressWarnings("unchecked")
-    private <C extends Container, T extends Recipe<C>> boolean ic2RecipeExists(RecipeType<T> type, ItemStack stack) {
-        return this.recipeManager.getAllRecipesFor(type).stream()
-            .anyMatch(holder -> {
-                try {
-                    return ((RecipeHolder<IRecipeInput, ?>) holder).recipe().getInput().getIngredient().test(stack);
-                } catch (Throwable t) {
-                    return false;
-                }
-            });
     }
 
     private Stream<Recipe<?>> replaceArmorRecipe(IShapedRecipe<?> recipe, int hammerIndex) {

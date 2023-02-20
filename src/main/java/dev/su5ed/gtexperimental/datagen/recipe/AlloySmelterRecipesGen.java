@@ -5,12 +5,16 @@ import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Ingot;
+import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
+import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.util.JavaUtil;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
+import one.util.streamex.StreamEx;
 
 import java.util.function.Consumer;
 
@@ -55,6 +59,11 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRIDIUM_GEAR.getItem()), Ingot.IRIDIUM.getItemStack(6), 130, 3).build(finishedRecipeConsumer, id("iridium_ingot_from_iridium_gear"), true);
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Items.MILK_BUCKET, Items.WATER_BUCKET), new ItemStack(Items.BUCKET), 100, 1).build(finishedRecipeConsumer, id("bucket_from_filled_bucket"));
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Component.IRON_GEAR.getItem()), new ItemStack(Items.IRON_INGOT, 6), 130, 3).build(finishedRecipeConsumer, id("iron_ingot_from_iron_gear"), true);
+        StreamEx.of(Nugget.values())
+            .without(Nugget.IRIDIUM, Nugget.OSMIUM)
+            .mapToEntry(nugget -> JavaUtil.getEnumConstantSafely(Ingot.class, nugget.name()))
+            .nonNullValues()
+            .forKeyValue((nugget, ingot) -> alloySmelter(ModRecipeIngredientTypes.ITEM.of(nugget.getTag(), 9), ingot.getItemStack(), 200, 1).build(finishedRecipeConsumer, id(ingot.getRegistryName() + "_from_" + GtUtil.tagName(nugget.getTag()))));
         // TODO Thermal Obsidian glass recipe
     }
 

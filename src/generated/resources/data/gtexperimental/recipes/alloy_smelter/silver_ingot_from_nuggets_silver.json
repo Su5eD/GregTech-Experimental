@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "duration": 200,
+  "energy_cost": 1.0,
+  "input": [
+    {
+      "count": 9,
+      "value": {
+        "tag": "forge:nuggets/silver"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:silver_ingot"
+  }
+}

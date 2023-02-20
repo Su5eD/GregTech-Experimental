@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:plates/silver"
+  },
+  "result": {
+    "item": "gtexperimental:silver_ingot"
+  }
+}

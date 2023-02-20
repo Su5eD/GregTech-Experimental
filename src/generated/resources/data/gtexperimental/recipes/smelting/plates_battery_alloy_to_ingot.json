@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:plates/battery_alloy"
+  },
+  "result": {
+    "item": "gtexperimental:battery_alloy_ingot"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "chrome_ingot",
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/chrome"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "result": {
+    "item": "gtexperimental:chrome_ingot"
+  }
+}

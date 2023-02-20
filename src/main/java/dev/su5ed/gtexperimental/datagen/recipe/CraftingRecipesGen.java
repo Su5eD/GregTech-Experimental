@@ -15,6 +15,7 @@ import dev.su5ed.gtexperimental.object.ModCoverItem;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.NuclearCoolantPack;
 import dev.su5ed.gtexperimental.object.NuclearFuelRod;
+import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Plate;
 import dev.su5ed.gtexperimental.object.Rod;
 import dev.su5ed.gtexperimental.object.Saw;
@@ -234,6 +235,25 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
             }
         }
 
+        // Ingot <-> Nugget
+        for (Nugget nugget : Nugget.values()) {
+            Ingot ingot = JavaUtil.getEnumConstantSafely(Ingot.class, nugget.name());
+            if (ingot != null) {
+                ShapedRecipeBuilder.shaped(ingot)
+                    .define('N', nugget.getTag())
+                    .pattern("NNN")
+                    .pattern("NNN")
+                    .pattern("NNN")
+                    .unlockedBy("has_" + GtUtil.tagName(nugget.getTag()), hasTags(nugget.getTag()))
+                    .group(ingot.getRegistryName())
+                    .save(finishedRecipeConsumer, shapedId(ingot.getRegistryName() + "_from_nuggets"));
+                ShapelessRecipeBuilder.shapeless(nugget, 9)
+                    .requires(ingot.getTag())
+                    .unlockedBy("has_" + GtUtil.tagName(ingot.getTag()), hasTags(ingot.getTag()))
+                    .save(finishedRecipeConsumer, shapelessId(nugget.getRegistryName() + "_from_ingot"));
+            }
+        }
+
         // Misc
         RecipeName kanthalCoilId = RecipeName.common(Reference.MODID, "shaped", "kanthal_coil");
         ConditionalRecipe.builder()
@@ -312,7 +332,7 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
             .save(finishedRecipeConsumer, shapedId("component/" + name + "_turbine_rotor_repair"));
     }
 
-    private static ResourceLocation shapedId(String name) {
+    public static ResourceLocation shapedId(String name) {
         return location("shaped", name);
     }
 

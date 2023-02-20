@@ -2,7 +2,7 @@ package dev.su5ed.gtexperimental;
 
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.item.ElectricArmorItem;
-import dev.su5ed.gtexperimental.recipe.crafting.RecipeReplacer;
+import dev.su5ed.gtexperimental.recipe.crafting.RecipeProcessor;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gtexperimental.util.capability.JumpChargeProvider;
 import dev.su5ed.gtexperimental.util.capability.LightSourceProvider;
@@ -64,7 +64,7 @@ public final class ForgeEventHandler {
 
     @SubscribeEvent
     public static void resourceReload(AddReloadListenerEvent event) {
-        recipeReplaceListeners.add(() -> new RecipeReplacer(event.getServerResources()).run());
+        recipeReplaceListeners.add(() -> new RecipeProcessor(event.getServerResources()).run());
         event.addListener(ModRecipeManagers.RecipeReloadListener.INSTANCE);
     }
 

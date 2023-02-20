@@ -16,7 +16,6 @@ import dev.su5ed.gtexperimental.recipe.gen.SmeltingRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import ic2.core.ref.Ic2Items;
-import ic2.core.util.StackUtil;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;

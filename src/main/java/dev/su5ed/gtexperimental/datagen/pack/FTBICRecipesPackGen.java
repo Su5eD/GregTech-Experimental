@@ -82,6 +82,10 @@ public class FTBICRecipesPackGen extends RecipeProvider {
             .addConditions(FTBIC_LOADED)
             .build(finishedRecipeConsumer, industrialGrinderId("iridium_ore_mercury"));
 
+        // Industrial Sawmill
+        industrialSawmill(ModRecipeIngredientTypes.ITEM.of(MyrtreesItems.RUBBERWOOD_LOG.get()), WATER, new ItemStack(MyrtreesItems.LATEX.get()), Dust.WOOD.getItemStack(16))
+            .build(finishedRecipeConsumer, industrialSawmillId("rubberwood_log"), true);
+
         // Pulverizer
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Ore.IRIDIUM.getTag()), new ItemStack(FTBICItems.getResourceFromType(ResourceElements.IRIDIUM, ResourceType.DUST).orElseThrow().get(), 2), Dust.PLATINUM.getItemStack())
             .addConditions(FTBIC_LOADED)
@@ -135,6 +139,10 @@ public class FTBICRecipesPackGen extends RecipeProvider {
 
     protected RecipeName industrialGrinderId(String name) {
         return RecipeName.common(NAMESPACE, "industrial_grinder", name);
+    }
+
+    protected RecipeName industrialSawmillId(String name) {
+        return RecipeName.common(NAMESPACE, "industrial_sawmill", name);
     }
 
     protected RecipeName pulverizerId(String name) {

@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:plates/silver"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:silver_dust"
+    }
+  ]
+}

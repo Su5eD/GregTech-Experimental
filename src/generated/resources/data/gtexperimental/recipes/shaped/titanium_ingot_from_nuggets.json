@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "titanium_ingot",
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/titanium"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "result": {
+    "item": "gtexperimental:titanium_ingot"
+  }
+}

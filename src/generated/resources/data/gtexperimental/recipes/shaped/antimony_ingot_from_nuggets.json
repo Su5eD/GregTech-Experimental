@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "antimony_ingot",
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/antimony"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "result": {
+    "item": "gtexperimental:antimony_ingot"
+  }
+}

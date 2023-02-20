@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "invar_ingot",
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/invar"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "result": {
+    "item": "gtexperimental:invar_ingot"
+  }
+}

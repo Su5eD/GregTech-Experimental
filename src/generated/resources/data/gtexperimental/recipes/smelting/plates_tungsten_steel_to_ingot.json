@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:plates/tungsten_steel"
+  },
+  "result": {
+    "item": "gtexperimental:tungsten_steel_ingot"
+  }
+}

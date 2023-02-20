@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/electrum"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "gtexperimental:electrum_nugget"
+  }
+}

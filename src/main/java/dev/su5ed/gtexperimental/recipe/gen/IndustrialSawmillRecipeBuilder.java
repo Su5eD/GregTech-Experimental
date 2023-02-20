@@ -9,9 +9,9 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
-public class SawmillRecipeBuilder extends IFMORecipeBuilder {
+public class IndustrialSawmillRecipeBuilder extends IFMORecipeBuilder {
     
-    public SawmillRecipeBuilder(IFMORecipe recipe) {
+    public IndustrialSawmillRecipeBuilder(IFMORecipe recipe) {
         super(recipe);
     }
 

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:plates/chrome"
+  },
+  "result": {
+    "item": "gtexperimental:chrome_ingot"
+  }
+}

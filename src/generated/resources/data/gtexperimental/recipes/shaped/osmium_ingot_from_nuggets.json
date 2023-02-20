@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "osmium_ingot",
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/osmium"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "result": {
+    "item": "gtexperimental:osmium_ingot"
+  }
+}

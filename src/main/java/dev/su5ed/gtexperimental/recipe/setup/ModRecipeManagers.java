@@ -63,7 +63,6 @@ public final class ModRecipeManagers {
 
     static {
         BENDER.registerProvider(new DynamicBenderRecipes());
-//        LATHE.registerProvider(DynamicLatheRecipes::new); TODO
     }
 
     private static <R extends BaseRecipe<?, I, ? super R>, I> RecipeManager<R, I> create(Supplier<? extends RecipeType<R>> recipeType) {

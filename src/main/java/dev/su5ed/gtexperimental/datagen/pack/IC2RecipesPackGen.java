@@ -257,6 +257,10 @@ public class IC2RecipesPackGen extends RecipeProvider {
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, pulverizerId("machine"));
 
+        // Industrial Sawmill
+        industrialSawmill(ModRecipeIngredientTypes.ITEM.of(Ic2Items.RUBBER_LOG), WATER, new ItemStack(Ic2Items.RESIN), Dust.WOOD.getItemStack(16))
+            .build(finishedRecipeConsumer, industrialSawmillId("rubber_log"), true);
+
         // Vacuum Freezer
         vacuumFreezerSolid(DamagedIC2ReactorComponentIngredient.recipeIngredient(Ic2Items.REACTOR_COOLANT_CELL), new ItemStack(Ic2Items.REACTOR_COOLANT_CELL), 100)
             .addConditions(IC2_LOADED)
@@ -368,6 +372,10 @@ public class IC2RecipesPackGen extends RecipeProvider {
 
     protected RecipeName industrialGrinderId(String name) {
         return RecipeName.common(this.name, "industrial_grinder", name);
+    }
+
+    protected RecipeName industrialSawmillId(String name) {
+        return RecipeName.common(this.name, "industrial_sawmill", name);
     }
 
     protected RecipeName pulverizerId(String name) {

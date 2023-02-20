@@ -1,0 +1,21 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:plates/nickel"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "result": {
+        "item": "gtexperimental:nickel_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}
