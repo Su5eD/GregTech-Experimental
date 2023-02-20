@@ -68,7 +68,7 @@ public class IC2RecipesPackGen extends RecipeProvider {
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.UNIVERSAL_IRON_PLATE, 8), ModRecipeIngredientTypes.ITEM.of(Component.MACHINE_PARTS), new ItemStack(Ic2Items.MACHINE), 400, 8)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("machine"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.material("ingots", "tin"), 2), new ItemStack(Ic2Items.EMPTY_CELL), 400, 1)
+        assembler(ModRecipeIngredientTypes.ITEM.of(Ingot.TIN.getTag(), 2), new ItemStack(Ic2Items.EMPTY_CELL), 400, 1)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("empty_cell"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Plate.TIN.getTag()), new ItemStack(Ic2Items.TIN_CAN), 400, 1)
@@ -83,7 +83,7 @@ public class IC2RecipesPackGen extends RecipeProvider {
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.COMPRESSED_COAL_BALL, 8), ModRecipeIngredientTypes.ITEM.ofValues(new Ingredient.ItemValue(new ItemStack(Items.BRICKS)), new Ingredient.TagValue(Tags.Items.STORAGE_BLOCKS_IRON), new Ingredient.TagValue(Tags.Items.OBSIDIAN)), new ItemStack(Ic2Items.COAL_CHUNK), 400, 4)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("coal_chunk_from_bricks"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.dust("coal"), 8), ModRecipeIngredientTypes.ITEM.of(Items.FLINT), new ItemStack(Ic2Items.COAL_BLOCK), 400, 4)
+        assembler(ModRecipeIngredientTypes.ITEM.of(Dust.COAL.getTag(), 8), ModRecipeIngredientTypes.ITEM.of(Items.FLINT), new ItemStack(Ic2Items.COAL_BLOCK), 400, 4)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("compressed_coal_ball"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Component.ADVANCED_CIRCUIT_BOARD.getTag()), ModRecipeIngredientTypes.ITEM.of(Component.ADVANCED_CIRCUIT_PARTS, 2), new ItemStack(Ic2Items.ADVANCED_CIRCUIT), 1600, 2)
@@ -110,7 +110,7 @@ public class IC2RecipesPackGen extends RecipeProvider {
         assembler(ModRecipeIngredientTypes.ITEM.of(Dust.FLINT.getTag(), 5), ModRecipeIngredientTypes.ITEM.of(Items.TNT, 3), new ItemStack(Ic2Items.ITNT), 800, 2)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("itnt"));
-        assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ingot("tin")), new ItemStack(Ic2Items.TIN_CABLE, 4), 150, 1)
+        assembler(ModRecipeIngredientTypes.ITEM.of(Ingot.TIN.getTag()), new ItemStack(Ic2Items.TIN_CABLE, 4), 150, 1)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, assemblerId("tin_cable"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Ic2Items.WATER_GENERATOR, 2), new ItemStack(Ic2Items.GENERATOR), 6400, 8)
@@ -318,8 +318,8 @@ public class IC2RecipesPackGen extends RecipeProvider {
         conditionalShaped(Ic2Items.QUAD_URANIUM_FUEL_ROD).define('C', Ic2Items.DUAL_URANIUM_FUEL_ROD).define('P', tagsIngredient(Plate.COPPER.getTag(), Plate.LEAD.getTag())).pattern(" C ").pattern("PPP").pattern(" C ").unlockedBy("has_dual_uranium_fuel_rod", has(Ic2Items.DUAL_URANIUM_FUEL_ROD)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, shapedId("nuclear/quad_uranium_fuel_rod"));
         conditionalShaped(Ic2Items.REACTOR_HEAT_VENT).define('I', Items.IRON_BARS).define('A', Plate.ALUMINIUM.getTag()).pattern("AIA").pattern("I I").pattern("AIA").unlockedBy("has_aluminium_plate", has(Plate.ALUMINIUM.getTag())).addCondition(IC2_LOADED).save(finishedRecipeConsumer, shapedId("nuclear/reactor_heat_vent"));
 //        conditionalShaped(Ic2Items.MINING_LASER).define('C', GregTechTags.ADVANCED_CIRCUIT).define('H', NuclearCoolantPack.HELIUM_360K.getTag()).define('R', Miscellaneous.RUBY.getTag()).define('T', Plate.TITANIUM.getTag()).define(SelectedProfileCondition.CLASSIC, 'E', GregTechTags.CRAFTING_100K_EU_STORE).define(SelectedProfileCondition.EXPERIMENTAL, 'E', GregTechTags.CRAFTING_1KK_EU_STORE).define('A', GregTechTags.ADVANCED_ALLOY).pattern("RHE").pattern("TTC").pattern(" AA").addCondition(IC2_LOADED).save(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/mining_laser"));
-        conditionalShaped(Wrench.BRONZE).define('B', GregTechTags.ingot("bronze")).pattern("B B").pattern("BBB").pattern(" B ").unlockedBy("has_bronze_ingot", has(GregTechTags.ingot("bronze"))).addCondition(IC2_LOADED).save(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/wrench"));
-        conditionalShaped(Wrench.BRONZE).define('B', GregTechTags.ingot("bronze")).pattern(" B ").pattern("BBB").pattern("B B").unlockedBy("has_bronze_ingot", has(GregTechTags.ingot("bronze"))).addCondition(IC2_LOADED).save(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/wrench_down"));
+        conditionalShaped(Wrench.BRONZE).define('B', Ingot.BRONZE.getTag()).pattern("B B").pattern("BBB").pattern(" B ").unlockedBy("has_bronze_ingot", has(Ingot.BRONZE.getTag())).addCondition(IC2_LOADED).save(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/wrench"));
+        conditionalShaped(Wrench.BRONZE).define('B', Ingot.BRONZE.getTag()).pattern(" B ").pattern("BBB").pattern("B B").unlockedBy("has_bronze_ingot", has(Ingot.BRONZE.getTag())).addCondition(IC2_LOADED).save(finishedRecipeConsumer, new ResourceLocation(ModHandler.IC2_MODID, "shaped/wrench_down"));
         conditionalShapeless(Ic2Items.COIN, 8).requires(Miscellaneous.SILVER_CREDIT).unlockedBy("has_silver_credit", has(Miscellaneous.SILVER_CREDIT)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, shapelessId("coin"));
         conditionalShapeless(Ic2Items.COIN).requires(Miscellaneous.COPPER_CREDIT, 8).unlockedBy("has_copper_credit", has(Miscellaneous.COPPER_CREDIT)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, shapelessId("coin_from_copper"));
         conditionalShapeless(Miscellaneous.COPPER_CREDIT, 8).requires(Ic2Items.COIN).unlockedBy("has_coin", has(Ic2Items.COIN)).addCondition(IC2_LOADED).save(finishedRecipeConsumer, shapelessId("copper_credit"));

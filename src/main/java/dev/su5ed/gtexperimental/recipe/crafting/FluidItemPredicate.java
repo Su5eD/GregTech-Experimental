@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class FluidItemPredicate extends ItemPredicate {
     public static final ResourceLocation NAME = location("fluid");

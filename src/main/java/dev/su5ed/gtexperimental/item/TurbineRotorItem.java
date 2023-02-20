@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class TurbineRotorItem extends ResourceItem {
     private final int efficiency;

@@ -28,9 +28,9 @@ public final class AlloySmelterRecipesGen implements ModRecipeProvider {
     @Override
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_GOLD), ModRecipeIngredientTypes.ITEM.of(Ingot.SILVER.getTag()), Ingot.ELECTRUM.getItemStack(2), 100, 16).build(finishedRecipeConsumer, id("electrum_ingot"));
-        alloySmelter(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_COPPER, 3), ModRecipeIngredientTypes.ITEM.of(GregTechTags.ingot("tin")), new ItemStack(Ingot.BRONZE, 2), 100, 16).build(finishedRecipeConsumer, id("bronze_ingot"));
+        alloySmelter(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_COPPER, 3), ModRecipeIngredientTypes.ITEM.of(Ingot.TIN.getTag()), new ItemStack(Ingot.BRONZE, 2), 100, 16).build(finishedRecipeConsumer, id("bronze_ingot"));
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_COPPER, 3), ModRecipeIngredientTypes.ITEM.of(Ingot.ZINC.getTag()), Ingot.BRASS.getItemStack(4), 200, 16).build(finishedRecipeConsumer, id("brass_ingot"));
-        alloySmelter(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ingot("tin"), 9), ModRecipeIngredientTypes.ITEM.of(Ingot.ANTIMONY.getTag()), Ingot.SOLDERING_ALLOY.getItemStack(10), 500, 16).build(finishedRecipeConsumer, id("soldering_alloy_ingot"));
+        alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ingot.TIN.getTag(), 9), ModRecipeIngredientTypes.ITEM.of(Ingot.ANTIMONY.getTag()), Ingot.SOLDERING_ALLOY.getItemStack(10), 500, 16).build(finishedRecipeConsumer, id("soldering_alloy_ingot"));
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ingot.LEAD.getTag(), 4), ModRecipeIngredientTypes.ITEM.of(Ingot.ANTIMONY.getTag()), Ingot.BATTERY_ALLOY.getItemStack(5), 250, 16).build(finishedRecipeConsumer, id("battery_alloy_ingot"));
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Tags.Items.INGOTS_IRON, 2), ModRecipeIngredientTypes.ITEM.of(Ingot.NICKEL.getTag()), Ingot.INVAR.getItemStack(3), 150, 16).build(finishedRecipeConsumer, id("invar_ingot"));
         alloySmelter(ModRecipeIngredientTypes.ITEM.of(Ingot.ALUMINIUM.getTag(), 2), ModRecipeIngredientTypes.ITEM.ofTags(Ingot.MAGNALIUM.getTag(), Dust.MAGNESIUM.getTag()), Ingot.MAGNALIUM.getItemStack(3), 150, 16).build(finishedRecipeConsumer, id("magnalium_ingot"));

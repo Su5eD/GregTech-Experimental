@@ -39,8 +39,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
-import static dev.su5ed.gtexperimental.api.Reference.locationNullable;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.locationNullable;
 
 class ItemModelGen extends ItemModelProvider {
     private static final ResourceLocation FORGE_BUCKET = new ResourceLocation("forge", "item/bucket");

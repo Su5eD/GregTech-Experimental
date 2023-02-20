@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     private static final ResourceLocation CONTENT_KEY = location("content");

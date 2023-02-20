@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Function;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public enum FluidTextureType {
     LIQUID(GtUtil.LIQUID_STILL, GtUtil.LIQUID_FLOW),

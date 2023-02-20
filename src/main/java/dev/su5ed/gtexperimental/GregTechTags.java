@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public final class GregTechTags {
     public static final TagKey<EntityType<?>> SLIMES = forgeEntityTag("slimes");
@@ -126,6 +126,10 @@ public final class GregTechTags {
 
     public static TagKey<Item> ingot(String name) {
         return material("ingots", name);
+    }
+
+    public static TagKey<Item> plate(String name) {
+        return material("plates", name);
     }
 
     public static TagKey<Item> dust(String name) {

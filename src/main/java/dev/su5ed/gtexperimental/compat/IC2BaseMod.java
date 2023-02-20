@@ -40,7 +40,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class IC2BaseMod implements BaseMod {
     @Override

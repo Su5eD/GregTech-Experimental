@@ -8,10 +8,12 @@ import dev.su5ed.gtexperimental.datagen.pack.FTBICRecipesPackGen;
 import dev.su5ed.gtexperimental.util.ProfileManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.repository.RepositorySource;
+import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.forgespi.locating.IModFile;
 import net.minecraftforge.resource.PathPackResources;
@@ -33,6 +35,12 @@ public final class GregTechPacks implements RepositorySource {
         ExperimentalIC2RecipesPackGen.NAME, () -> ModHandler.ic2Loaded && !ProfileManager.INSTANCE.isClassic(),
         FTBICRecipesPackGen.NAME, () -> ModHandler.ftbicLoaded
     );
+
+    public static void addPackFinders(final AddPackFindersEvent event) {
+        if (event.getPackType() == PackType.SERVER_DATA) {
+            event.addRepositorySource(GregTechPacks.INSTANCE);
+        }
+    }
 
     private GregTechPacks() {}
 

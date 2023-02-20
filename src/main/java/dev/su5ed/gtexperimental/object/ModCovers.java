@@ -35,7 +35,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 @SuppressWarnings("unused")
 public final class ModCovers {

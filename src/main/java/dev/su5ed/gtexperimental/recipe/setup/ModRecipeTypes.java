@@ -48,7 +48,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 @SuppressWarnings("RedundantTypeArguments")
 public final class ModRecipeTypes {

@@ -1,6 +1,6 @@
 package dev.su5ed.gtexperimental.menu;
 
-import dev.su5ed.gtexperimental.api.GregTechAPI;
+import dev.su5ed.gtexperimental.GregTechIMC;
 import dev.su5ed.gtexperimental.api.util.SonictronSound;
 import dev.su5ed.gtexperimental.blockentity.SonictronBlockEntity;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
@@ -21,7 +21,7 @@ public class SonictronMenu extends BlockEntityMenu<SonictronBlockEntity> {
     public SonictronMenu(int containerId, BlockPos pos, Player player, Inventory playerInventory) {
         super(ModMenus.SONICTRON.get(), GTBlockEntity.SONICTRON.getType(), containerId, pos, player, playerInventory);
 
-        List<SonictronSound> sonictronSounds = GregTechAPI.instance().getSonictronSounds();
+        List<SonictronSound> sonictronSounds = GregTechIMC.INSTANCE.getSonictronSounds();
         List<ItemStack> stacks = sonictronSounds.stream()
             .map(sound -> new ItemStack(sound.item()))
             .toList();
@@ -47,7 +47,6 @@ public class SonictronMenu extends BlockEntityMenu<SonictronBlockEntity> {
                     if (content.getItem() == sound.item().asItem()) {
                         int count = Math.max(1, (content.getCount() + 1) % (sound.count() + 1));
                         content.setCount(count);
-
                         return;
                     }
                 }
@@ -66,7 +65,6 @@ public class SonictronMenu extends BlockEntityMenu<SonictronBlockEntity> {
                         int mod = direction == ScrollDirection.DOWN ? 1 : -1;
                         int count = Math.max(1, (content.getCount() + mod) % (sound.count() + 1));
                         content.setCount(count);
-
                         return;
                     }
                 }

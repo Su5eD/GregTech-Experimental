@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.util;
 
 import com.google.common.base.Preconditions;
 import dev.su5ed.gtexperimental.Capabilities;
+import dev.su5ed.gtexperimental.api.Reference;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
@@ -37,8 +38,6 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Consumer;
-
-import static dev.su5ed.gtexperimental.api.Reference.location;
 
 public final class GtUtil {
     public static final Collection<Direction> ALL_FACINGS = EnumSet.allOf(Direction.class);
@@ -181,6 +180,14 @@ public final class GtUtil {
         from.getCapability(ForgeCapabilities.FLUID_HANDLER, fromSide).ifPresent(source ->
             to.getCapability(ForgeCapabilities.FLUID_HANDLER, toSide).ifPresent(destination ->
                 FluidUtil.tryFluidTransfer(destination, source, amount, true)));
+    }
+
+    public static ResourceLocation location(String... paths) {
+        return new ResourceLocation(Reference.MODID, String.join("/", paths));
+    }
+
+    public static ResourceLocation locationNullable(String... paths) {
+        return new ResourceLocation(Reference.MODID, StreamEx.of(paths).nonNull().joining("/"));
     }
 
     public static ResourceLocation guiTexture(String name) {

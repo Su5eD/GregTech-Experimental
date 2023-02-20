@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class ToolCraftingIngredient extends AbstractIngredient {
     private final int damage;

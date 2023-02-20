@@ -11,7 +11,7 @@ import one.util.streamex.EntryStream;
 
 import java.util.Map;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class SelectedProfileCondition implements ICondition {
     public static final SelectedProfileCondition CLASSIC = new SelectedProfileCondition(ProfileManager.LAYOUT, ProfileManager.CLASSIC_LAYOUT);

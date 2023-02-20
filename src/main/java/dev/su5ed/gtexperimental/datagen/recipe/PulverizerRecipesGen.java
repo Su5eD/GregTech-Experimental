@@ -92,9 +92,9 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         simple(GregTechTags.ingot("manganese"), Dust.MANGANESE, finishedRecipeConsumer);
         simple(GregTechTags.ingot("magnesium"), Dust.MAGNESIUM, finishedRecipeConsumer);
         simple(Ingot.SILVER, Dust.SILVER, finishedRecipeConsumer);
-        simple(GregTechTags.ingot("bronze"), Dust.BRONZE, finishedRecipeConsumer);
+        simple(Ingot.BRONZE.getTag(), Dust.BRONZE, finishedRecipeConsumer);
         simple(Tags.Items.INGOTS_COPPER, Dust.COPPER, finishedRecipeConsumer);
-        simple(GregTechTags.ingot("tin"), Dust.TIN, finishedRecipeConsumer);
+        simple(Ingot.TIN.getTag(), Dust.TIN, finishedRecipeConsumer);
         simple(Tags.Items.INGOTS_IRON, Dust.IRON, finishedRecipeConsumer);
         simple(Tags.Items.INGOTS_GOLD, Dust.GOLD, finishedRecipeConsumer);
         simple(Ingot.ALUMINIUM, Dust.ALUMINIUM, finishedRecipeConsumer);

@@ -1,8 +1,8 @@
 package dev.su5ed.gtexperimental.blockentity;
 
 import dev.su5ed.gtexperimental.Capabilities;
+import dev.su5ed.gtexperimental.GregTechIMC;
 import dev.su5ed.gtexperimental.GregTechMod;
-import dev.su5ed.gtexperimental.api.GregTechAPI;
 import dev.su5ed.gtexperimental.api.util.DataOrbSerializable;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.api.util.SonictronSound;
@@ -29,10 +29,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
+import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,7 +110,7 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
 
     public static void loadSonictronSounds() {
         GregTechMod.LOGGER.info("Loading Sonictron sounds");
-        Collection<SonictronSound> sounds = Arrays.asList(
+        StreamEx.of(
             new SonictronSound(SoundEvents.NOTE_BLOCK_HARP, Blocks.IRON_BLOCK, 25),
             new SonictronSound(SoundEvents.NOTE_BLOCK_PLING, Blocks.GOLD_BLOCK, 25),
             new SonictronSound(SoundEvents.NOTE_BLOCK_BASEDRUM, Blocks.STONE, 25),
@@ -159,8 +158,7 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
             // new SonictronSound("damage.hurt", Items.DIAMOND_SWORD)
             // new SonictronSound("random.bow", Items.BOW)
             // new SonictronSound("entity.player.breath", Items.BUCKET)
-        );
-        GregTechAPI.instance().registerSonictronSounds(sounds);
+        ).forEach(GregTechIMC.INSTANCE::addSonictronSound);
     }
 
     public static void doSonictronSound(ItemStack stack, Level level, BlockPos pos) {
@@ -170,7 +168,7 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
     public static void doSonictronSound(ItemStack stack, Level level, BlockPos pos, float volume) {
         if (stack.isEmpty()) return;
 
-        String name = GregTechAPI.instance().getSoundFor(stack.getItem());
+        String name = GregTechIMC.INSTANCE.getSoundFor(stack.getItem());
         int count = stack.getCount();
         boolean musicDisc = name.startsWith("music_disc.");
 

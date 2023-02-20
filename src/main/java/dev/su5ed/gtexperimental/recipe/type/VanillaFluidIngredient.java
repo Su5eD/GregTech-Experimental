@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class VanillaFluidIngredient extends AbstractIngredient {
     private final RecipeIngredient<FluidStack> fluidIngredient;

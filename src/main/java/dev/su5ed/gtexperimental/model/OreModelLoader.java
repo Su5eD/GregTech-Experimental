@@ -10,7 +10,7 @@ import net.minecraftforge.client.model.geometry.IGeometryLoader;
 
 import java.util.Map;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class OreModelLoader implements IGeometryLoader<OreModelGeometry> {
     public static final ResourceLocation NAME = location("ore");

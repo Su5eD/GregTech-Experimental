@@ -43,7 +43,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.WATER;
 
 public class RecipeProcessor {

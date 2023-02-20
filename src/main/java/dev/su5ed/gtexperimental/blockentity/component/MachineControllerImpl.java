@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class MachineControllerImpl extends GtComponentBase<BaseBlockEntity> implements MachineController {
     public static final ResourceLocation NAME = location("work_controller");

@@ -13,7 +13,7 @@ import net.minecraftforge.common.crafting.IIngredientSerializer;
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class VanillaDamagedIngredient extends AbstractIngredient {
     public static final ResourceLocation NAME = location("damaged_item");

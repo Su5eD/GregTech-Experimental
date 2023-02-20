@@ -52,7 +52,7 @@ import net.minecraftforge.common.crafting.ConditionalRecipe;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapedRecipeBuilder.fluidShaped;
@@ -79,7 +79,7 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
 
         // Blocks
         shaped(ModBlock.STANDARD_MACHINE_CASING, 4).define('C', GregTechTags.CIRCUIT).define('A', tagsIngredient(GregTechTags.UNIVERSAL_IRON_PLATE, Plate.ALUMINIUM.getTag())).define('M', GregTechTags.CRAFTING_RAW_MACHINE_TIER_1).pattern("AAA").pattern("CMC").pattern("AAA").unlockedBy("has_crafting_raw_machine_tier_1", hasTags(GregTechTags.CRAFTING_RAW_MACHINE_TIER_1)).save(finishedRecipeConsumer, shapedId("block/standard_machine_casing"));
-        shaped(Blocks.PISTON).define('W', ItemTags.PLANKS).define('C', Tags.Items.COBBLESTONE).define('R', Tags.Items.DUSTS_REDSTONE).define('B', tagsIngredient(GregTechTags.ANY_IRON_INGOT, GregTechTags.ingot("bronze"), Ingot.ALUMINIUM.getTag(), Ingot.STEEL.getTag(), Ingot.TITANIUM.getTag())).pattern("WWW").pattern("CBC").pattern("CRC").unlockedBy("has_redstone", has(Items.REDSTONE)).save(finishedRecipeConsumer, new ResourceLocation("piston"));
+        shaped(Blocks.PISTON).define('W', ItemTags.PLANKS).define('C', Tags.Items.COBBLESTONE).define('R', Tags.Items.DUSTS_REDSTONE).define('B', tagsIngredient(GregTechTags.ANY_IRON_INGOT, Ingot.BRONZE.getTag(), Ingot.ALUMINIUM.getTag(), Ingot.STEEL.getTag(), Ingot.TITANIUM.getTag())).pattern("WWW").pattern("CBC").pattern("CRC").unlockedBy("has_redstone", has(Items.REDSTONE)).save(finishedRecipeConsumer, new ResourceLocation("piston"));
         shaped(ModBlock.ADVANCED_MACHINE_CASING, 4).define('C', Component.PROCESSOR_CIRCUIT_BOARD.getTag()).define('T', Plate.CHROME.getTag()).define('M', GregTechTags.CRAFTING_RAW_MACHINE_TIER_4).pattern("TTT").pattern("CMC").pattern("TTT").unlockedBy("has_crafting_raw_machine_tier_4", hasTags(GregTechTags.CRAFTING_RAW_MACHINE_TIER_4)).save(finishedRecipeConsumer, shapedId("block/advanced_machine_casing"));
         shaped(ModBlock.FUSION_COIL).define('I', GregTechTags.IRIDIUM_NEUTRON_REFLECTOR).define('S', Component.SUPERCONDUCTOR.getTag()).define('E', ModCoverItem.ENERGY_FLOW_CIRCUIT.getTag()).define('C', Component.NICHROME_COIL.getTag()).define('M', GregTechTags.CRAFTING_RAW_MACHINE_TIER_4).pattern("ESE").pattern("CMC").pattern("EIE").unlockedBy("has_crafting_raw_machine_tier_4", hasTags(GregTechTags.CRAFTING_RAW_MACHINE_TIER_4)).save(finishedRecipeConsumer, shapedId("block/fusion_coil"));
         shaped(ModBlock.HIGHLY_ADVANCED_MACHINE).define('C', Plate.CHROME).define('T', Plate.TITANIUM).define('M', GregTechTags.CRAFTING_RAW_MACHINE_TIER_2).pattern("CTC").pattern("TMT").pattern("CTC").unlockedBy("has_crafting_raw_machine_tier_2", hasTags(GregTechTags.CRAFTING_RAW_MACHINE_TIER_2)).save(finishedRecipeConsumer, shapedId("block/highly_advanced_machine"));
@@ -123,7 +123,7 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
         turbineBlade("magnalium", Component.MAGNALIUM_TURBINE_BLADE, finishedRecipeConsumer);
         turbineBlade("steel", Component.STEEL_TURBINE_BLADE, finishedRecipeConsumer);
         turbineBlade("tungsten_steel", Component.TUNGSTEN_STEEL_TURBINE_BLADE, finishedRecipeConsumer);
-        turbineRotor("bronze", Component.BRONZE_TURBINE_BLADE.getTag(), GregTechTags.material("blocks", "bronze"), TurbineRotor.BRONZE, finishedRecipeConsumer);
+        turbineRotor("bronze", Component.BRONZE_TURBINE_BLADE.getTag(), GregTechTags.material("storage_blocks", "bronze"), TurbineRotor.BRONZE, finishedRecipeConsumer);
         turbineRotor("carbon", Component.CARBON_TURBINE_BLADE.getTag(), Tags.Items.STORAGE_BLOCKS_IRON, TurbineRotor.CARBON, finishedRecipeConsumer);
         turbineRotor("magnalium", Component.MAGNALIUM_TURBINE_BLADE.getTag(), Tags.Items.STORAGE_BLOCKS_IRON, TurbineRotor.MAGNALIUM, finishedRecipeConsumer);
         turbineRotor("steel", Component.STEEL_TURBINE_BLADE.getTag(), ModBlock.STEEL.getTag(), TurbineRotor.STEEL, finishedRecipeConsumer);
@@ -138,7 +138,7 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
         shapeless(Dust.BRASS).requires(Miscellaneous.IRON_MORTAR).requires(Ingot.BRASS.getTag()).unlockedBy("has_iron_mortar", has(Miscellaneous.IRON_MORTAR)).save(finishedRecipeConsumer, shapelessId("material/brass_dust"));
         shapeless(Dust.BRASS, 4).requires(Ingredient.of(Dust.COPPER.getTag()), 3).requires(Dust.ZINC.getTag()).unlockedBy("has_copper_dust", hasTags(Dust.COPPER.getTag())).save(finishedRecipeConsumer, shapelessId("material/brass_dust_combining"));
         shapeless(Dust.BRASS).requires(Ingredient.of(Smalldust.COPPER.getTag()), 3).requires(Smalldust.ZINC.getTag()).unlockedBy("has_copper_smalldust", hasTags(Smalldust.COPPER.getTag())).save(finishedRecipeConsumer, shapelessId("material/brass_dust_combining_small"));
-        shapeless(Dust.BRONZE).requires(Miscellaneous.IRON_MORTAR).requires(GregTechTags.ingot("bronze")).unlockedBy("has_iron_mortar", has(Miscellaneous.IRON_MORTAR)).save(finishedRecipeConsumer, shapelessId("material/bronze_dust"));
+        shapeless(Dust.BRONZE).requires(Miscellaneous.IRON_MORTAR).requires(Ingot.BRONZE.getTag()).unlockedBy("has_iron_mortar", has(Miscellaneous.IRON_MORTAR)).save(finishedRecipeConsumer, shapelessId("material/bronze_dust"));
         shapeless(Dust.BRONZE, 2).requires(Ingredient.of(Dust.COPPER.getTag()), 3).requires(Dust.TIN.getTag()).unlockedBy("has_copper_dust", hasTags(Dust.COPPER.getTag())).save(finishedRecipeConsumer, shapelessId("material/bronze_dust_combining"));
         shapeless(Dust.BRONZE).requires(Ingredient.of(Smalldust.COPPER.getTag()), 3).requires(Smalldust.TIN.getTag()).unlockedBy("has_copper_smalldust", hasTags(Smalldust.COPPER.getTag())).save(finishedRecipeConsumer, shapelessId("material/bronze_dust_combining_small"));
         shapeless(Dust.CLAY).requires(GregTechTags.MORTAR).requires(Items.CLAY_BALL).unlockedBy("has_mortar", hasTags(GregTechTags.MORTAR)).save(finishedRecipeConsumer, shapelessId("material/clay_dust"));
@@ -149,7 +149,7 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
         shapeless(Dust.GOLD).requires(GregTechTags.MORTAR).requires(Tags.Items.INGOTS_GOLD).unlockedBy("has_mortar", hasTags(GregTechTags.MORTAR)).save(finishedRecipeConsumer, shapelessId("material/gold_dust"));
         shapeless(Dust.SALTPETER, 10).requires(VanillaFluidIngredient.of(ModFluid.POTASSIUM.getTag(), buckets(1)), 2).requires(VanillaFluidIngredient.of(ModFluid.NITROGEN.getTag(), buckets(1)), 2).requires(VanillaFluidIngredient.of(GregTechTags.AIR, buckets(1)), 3).unlockedBy("has_potassium_fluid", hasFluid(ModFluid.POTASSIUM.getTag())).save(finishedRecipeConsumer, shapelessId("material/saltpeter_dust"));
         shapeless(Dust.SILVER).requires(GregTechTags.MORTAR).requires(Ingot.SILVER.getTag()).unlockedBy("has_mortar", hasTags(GregTechTags.MORTAR)).save(finishedRecipeConsumer, shapelessId("material/silver_dust"));
-        shapeless(Dust.TIN).requires(GregTechTags.MORTAR).requires(GregTechTags.ingot("tin")).unlockedBy("has_mortar", hasTags(GregTechTags.MORTAR)).save(finishedRecipeConsumer, shapelessId("material/tin_dust"));
+        shapeless(Dust.TIN).requires(GregTechTags.MORTAR).requires(Ingot.TIN.getTag()).unlockedBy("has_mortar", hasTags(GregTechTags.MORTAR)).save(finishedRecipeConsumer, shapelessId("material/tin_dust"));
         shapeless(Dust.FLINT).requires(Miscellaneous.IRON_MORTAR).requires(Tags.Items.GRAVEL).unlockedBy("has_iron_mortar", has(Miscellaneous.IRON_MORTAR)).save(finishedRecipeConsumer, shapelessId("material/flint_dust"));
 
         // Nuclear
@@ -171,7 +171,7 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
         shaped(File.BRONZE).define('S', Tags.Items.RODS_WOODEN).define('P', Plate.BRONZE.getTag()).pattern("P").pattern("P").pattern("S").unlockedBy("has_bronze_plate", hasTags(Plate.BRONZE.getTag())).save(finishedRecipeConsumer, shapedId("tool/bronze_file"));
         shaped(File.TUNGSTEN_STEEL).define('S', Rod.STEEL.getTag()).define('P', Plate.TUNGSTEN_STEEL.getTag()).pattern("P").pattern("P").pattern("S").unlockedBy("has_tungsten_steel_plate", hasTags(Plate.TUNGSTEN_STEEL.getTag())).save(finishedRecipeConsumer, shapedId("tool/tungsten_steel_file"));
         shaped(Hammer.IRON).define('S', Tags.Items.RODS_WOODEN).define('R', GregTechTags.UNIVERSAL_IRON_INGOT).pattern("RRR").pattern("RRR").pattern(" S ").unlockedBy("has_iron_ingot", hasTags(GregTechTags.UNIVERSAL_IRON_INGOT)).save(finishedRecipeConsumer, shapedId("tool/iron_hammer"));
-        shaped(Hammer.BRONZE).define('S', Tags.Items.RODS_WOODEN).define('R', GregTechTags.ingot("bronze")).pattern("RRR").pattern("RRR").pattern(" S ").unlockedBy("has_bronze_ingot", hasTags(GregTechTags.ingot("bronze"))).save(finishedRecipeConsumer, shapedId("tool/bronze_hammer"));
+        shaped(Hammer.BRONZE).define('S', Tags.Items.RODS_WOODEN).define('R', Ingot.BRONZE.getTag()).pattern("RRR").pattern("RRR").pattern(" S ").unlockedBy("has_bronze_ingot", hasTags(Ingot.BRONZE.getTag())).save(finishedRecipeConsumer, shapedId("tool/bronze_hammer"));
         shaped(Hammer.STEEL).define('S', GregTechTags.UNIVERSAL_IRON_ROD).define('R', Ingot.STEEL.getTag()).pattern("RRR").pattern("RRR").pattern(" S ").unlockedBy("has_steel_ingot", hasTags(Ingot.STEEL.getTag())).save(finishedRecipeConsumer, shapedId("tool/steel_hammer"));
         shaped(Hammer.TUNGSTEN_STEEL).define('S', Rod.STEEL.getTag()).define('R', Ingot.TUNGSTEN_STEEL.getTag()).pattern("RRR").pattern("RRR").pattern(" S ").unlockedBy("has_tungsten_steel_ingot", hasTags(Ingot.TUNGSTEN_STEEL.getTag())).save(finishedRecipeConsumer, shapedId("tool/tungsten_steel_hammer"));
         shaped(Saw.IRON).define('S', Tags.Items.RODS_WOODEN).define('P', GregTechTags.UNIVERSAL_IRON_PLATE).define('F', GregTechTags.FILE).define('H', GregTechTags.HARD_HAMMER).pattern("SSS").pattern("PPS").pattern("FH ").unlockedBy("has_hard_hammer", hasTags(GregTechTags.HARD_HAMMER)).save(finishedRecipeConsumer, shapedId("tool/iron_saw"));
@@ -179,10 +179,10 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
         shaped(Saw.BRONZE).define('S', Tags.Items.RODS_WOODEN).define('P', Plate.BRONZE.getTag()).define('F', GregTechTags.FILE).define('H', GregTechTags.HARD_HAMMER).pattern("SSS").pattern("PPS").pattern("FH ").unlockedBy("has_hard_hammer", hasTags(GregTechTags.HARD_HAMMER)).save(finishedRecipeConsumer, shapedId("tool/bronze_saw"));
         shaped(Saw.TUNGSTEN_STEEL).define('S', Rod.STEEL.getTag()).define('P', Plate.TUNGSTEN_STEEL.getTag()).define('F', GregTechTags.FILE).define('H', GregTechTags.HARD_HAMMER).pattern("SSS").pattern("PPS").pattern("FH ").unlockedBy("has_hard_hammer", hasTags(GregTechTags.HARD_HAMMER)).save(finishedRecipeConsumer, shapedId("tool/tunsten_steel_saw"));
         shaped(Wrench.IRON).define('I', GregTechTags.UNIVERSAL_IRON_INGOT).pattern("I I").pattern("III").pattern(" I ").unlockedBy("has_iron_ingot", hasTags(GregTechTags.UNIVERSAL_IRON_INGOT)).save(finishedRecipeConsumer, shapedId("tool/iron_wrench"));
-        conditionalShaped(Wrench.BRONZE).define('B', GregTechTags.ingot("bronze")).pattern("B B").pattern("BBB").pattern(" B ").unlockedBy("has_bronze_ingot", hasTags(GregTechTags.ingot("bronze"))).addCondition(NOT_IC2_LOADED).save(finishedRecipeConsumer, shapedId("tool/bronze_wrench"));
+        conditionalShaped(Wrench.BRONZE).define('B', Ingot.BRONZE.getTag()).pattern("B B").pattern("BBB").pattern(" B ").unlockedBy("has_bronze_ingot", hasTags(Ingot.BRONZE.getTag())).addCondition(NOT_IC2_LOADED).save(finishedRecipeConsumer, shapedId("tool/bronze_wrench"));
         shaped(Wrench.STEEL).define('S', Ingot.STEEL.getTag()).pattern("S S").pattern("SSS").pattern(" S ").unlockedBy("has_steel_ingot", hasTags(Ingot.STEEL.getTag())).save(finishedRecipeConsumer, shapedId("tool/steel_wrench"));
         shaped(Wrench.TUNGSTEN_STEEL).define('T', Ingot.TUNGSTEN_STEEL.getTag()).pattern("T T").pattern("TTT").pattern(" T ").unlockedBy("has_tungsten_steel", hasTags(Ingot.TUNGSTEN_STEEL.getTag())).save(finishedRecipeConsumer, shapedId("tool/tungsten_steel_wrench"));
-        shaped(JackHammer.BRONZE).define('B', GregTechTags.RE_BATTERY).define('C', GregTechTags.CIRCUIT).define('S', Rod.BRONZE.getTag()).define('I', GregTechTags.ingot("bronze")).pattern("SBS").pattern(" C ").pattern(" I ").unlockedBy("has_re_battery", hasTags(GregTechTags.RE_BATTERY)).save(finishedRecipeConsumer, shapedId("tool/bronze_jack_hammer"));
+        shaped(JackHammer.BRONZE).define('B', GregTechTags.RE_BATTERY).define('C', GregTechTags.CIRCUIT).define('S', Rod.BRONZE.getTag()).define('I', Ingot.BRONZE.getTag()).pattern("SBS").pattern(" C ").pattern(" I ").unlockedBy("has_re_battery", hasTags(GregTechTags.RE_BATTERY)).save(finishedRecipeConsumer, shapedId("tool/bronze_jack_hammer"));
         shaped(JackHammer.STEEL).define('B', GregTechTags.RE_BATTERY).define('C', GregTechTags.ADVANCED_CIRCUIT).define('S', Rod.STEEL.getTag()).define('I', Ingot.STEEL.getTag()).pattern("SBS").pattern(" C ").pattern(" I ").unlockedBy("has_re_battery", hasTags(GregTechTags.RE_BATTERY)).save(finishedRecipeConsumer, shapedId("tool/steel_jack_hammer"));
         shaped(JackHammer.DIAMOND).define('B', GregTechTags.SMALL_EU_STORE).define('C', GregTechTags.ADVANCED_CIRCUIT).define('S', tagsIngredient(Rod.TITANIUM.getTag(), Rod.TUNGSTEN_STEEL.getTag())).define('D', Dust.DIAMOND.getTag()).pattern("SBS").pattern(" C ").pattern(" D ").unlockedBy("has_small_eu_store", hasTags(GregTechTags.SMALL_EU_STORE)).save(finishedRecipeConsumer, shapedId("tool/diamond_jack_hammer"));
         shaped(Tool.ADVANCED_DRILL).define('C', ModCoverItem.DATA_CONTROL_CIRCUIT.getTag()).define('B', GregTechTags.CRAFTING_LI_BATTERY).define('S', Plate.TUNGSTEN_STEEL.getTag()).define('D', Tags.Items.GEMS_DIAMOND).pattern("DDD").pattern("SCS").pattern("SBS").unlockedBy("has_data_control_circuit", hasTags(ModCoverItem.DATA_CONTROL_CIRCUIT.getTag())).save(finishedRecipeConsumer, shapedId("tool/advanced_drill"));
@@ -279,37 +279,40 @@ public final class CraftingRecipesGen implements ModRecipeProvider {
     }
 
     private static void gear(String name, ItemLike result, Consumer<FinishedRecipe> finishedRecipeConsumer) {
+        TagKey<Item> plateTag = GregTechTags.plate(name);
         toolShaped(result)
-            .define('P', GregTechTags.material("plates", name))
+            .define('P', plateTag)
             .define('S', GregTechTags.material("rods", name))
             .define('W', ToolCraftingIngredient.of(GregTechTags.WRENCH, 8))
             .pattern("SPS")
             .pattern("PWP")
             .pattern("SPS")
-            .unlockedBy("has_" + name + "_plate", hasTags(GregTechTags.material("plates", name)))
+            .unlockedBy("has_" + name + "_plate", hasTags(plateTag))
             .save(finishedRecipeConsumer, shapedId("component/" + name + "_gear"));
     }
 
     private static void hull(String name, ItemLike result, Consumer<FinishedRecipe> finishedRecipeConsumer) {
+        TagKey<Item> plateTag = GregTechTags.plate(name);
         toolShaped(result)
-            .define('R', GregTechTags.material("plates", name))
+            .define('R', plateTag)
             .define('W', ToolCraftingIngredient.of(GregTechTags.WRENCH, 8))
             .pattern("RRR")
             .pattern("RWR")
             .pattern("RRR")
-            .unlockedBy("has_" + name + "_plate", hasTags(GregTechTags.material("plates", name)))
+            .unlockedBy("has_" + name + "_plate", hasTags(plateTag))
             .save(finishedRecipeConsumer, shapedId("component/" + name + "_hull"));
     }
 
     private static void turbineBlade(String name, ItemLike result, Consumer<FinishedRecipe> finishedRecipeConsumer) {
+        TagKey<Item> plateTag = GregTechTags.plate(name);
         shaped(result)
-            .define('P', GregTechTags.material("plates", name))
+            .define('P', plateTag)
             .define('H', GregTechTags.HARD_HAMMER)
             .define('F', GregTechTags.FILE)
             .pattern(" H ")
             .pattern("PPP")
             .pattern(" F ")
-            .unlockedBy("has_" + name + "_plate", hasTags(GregTechTags.material("plates", name)))
+            .unlockedBy("has_" + name + "_plate", hasTags(plateTag))
             .save(finishedRecipeConsumer, shapedId("component/" + name + "_turbine_blade"));
     }
 
