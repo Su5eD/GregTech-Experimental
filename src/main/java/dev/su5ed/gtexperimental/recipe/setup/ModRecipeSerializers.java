@@ -24,7 +24,6 @@ import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
 import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
 import dev.su5ed.gtexperimental.recipe.WiremillRecipe;
 import dev.su5ed.gtexperimental.recipe.crafting.FluidShapedRecipe;
-import dev.su5ed.gtexperimental.recipe.crafting.FluidShapelessRecipe;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolShapedRecipe;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolShapelessRecipe;
 import dev.su5ed.gtexperimental.recipe.type.BaseRecipeSerializer;
@@ -65,7 +64,6 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<ShapedRecipe>> TOOL_SHAPED_RECIPE = RECIPE_SERIALIZERS.register("tool_crafting_shaped", () -> ToolShapedRecipe.SERIALIZER);
     public static final RegistryObject<RecipeSerializer<ShapelessRecipe>> TOOL_SHAPELESS_RECIPE = RECIPE_SERIALIZERS.register("tool_crafting_shapeless", () -> ToolShapelessRecipe.SERIALIZER);
     public static final RegistryObject<RecipeSerializer<ShapedRecipe>> FLUID_SHAPED_RECIPE = RECIPE_SERIALIZERS.register("fluid_crafting_shaped", () -> FluidShapedRecipe.SERIALIZER);
-    public static final RegistryObject<RecipeSerializer<ShapelessRecipe>> FLUID_SHAPELESS_RECIPE = RECIPE_SERIALIZERS.register("fluid_crafting_shapeless", () -> FluidShapelessRecipe.SERIALIZER);
 
     public static void init(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);

@@ -75,6 +75,7 @@ public final class IndustrialCentrifugeRecipesGen implements ModRecipeProvider {
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.NETHERRACK.getTag(), 16), new ItemStack(Items.REDSTONE), Dust.SULFUR.getItemStack(4), Dust.COAL.getItemStack(), new ItemStack(Items.GOLD_NUGGET), 2400).build(finishedRecipeConsumer, id("netherrack_dust"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.SOUL_SAND, 16), ModFluid.OIL.getBuckets(1), Dust.SALTPETER.getItemStack(4), Dust.COAL.getItemStack(), new ItemStack(Items.SAND, 10), 2500).build(finishedRecipeConsumer, id("soul_sand"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(FluidTags.LAVA, buckets(16)), Ingot.ELECTRUM.getItemStack(), new ItemStack(Items.COPPER_INGOT, 4), Smalldust.TUNGSTEN.getItemStack(), Ingot.TIN.getItemStack(2), 10000).build(finishedRecipeConsumer, id("lava"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Tags.Items.SEEDS, 64), ModFluid.SEED_OIL.getBuckets(1), 200).build(finishedRecipeConsumer, id("seeds"));
     }
 
     private static RecipeName id(String name) {

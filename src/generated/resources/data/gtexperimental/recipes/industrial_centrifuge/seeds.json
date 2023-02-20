@@ -1,0 +1,17 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 200,
+  "input": {
+    "type": "item",
+    "count": 64,
+    "value": {
+      "tag": "forge:seeds"
+    }
+  },
+  "output": [
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:seed_oil_fluid"
+    }
+  ]
+}

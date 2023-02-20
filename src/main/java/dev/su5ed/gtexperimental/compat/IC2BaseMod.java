@@ -134,11 +134,11 @@ public class IC2BaseMod implements BaseMod {
         return new RecipeHolder<>(maceratorRecipe, location("generated", "ic2", "macerator", GtUtil.tagName(input) + "_to_" + GtUtil.itemName(stack)), Ic2RecipeSerializers.MACERATOR, Ic2RecipeTypes.MACERATOR);
     }
 
-    public static <C extends Container, T extends Recipe<C>> boolean compressorRecipeExists(RecipeManager manager, ItemStack stack) {
+    public static boolean compressorRecipeExists(RecipeManager manager, ItemStack stack) {
         return recipeExists(manager, Ic2RecipeTypes.COMPRESSOR, stack);
     }
 
-    public static <C extends Container, T extends Recipe<C>> boolean maceratorRecipeExists(RecipeManager manager, TagKey<Item> input) {
+    public static boolean maceratorRecipeExists(RecipeManager manager, TagKey<Item> input) {
         return recipeExists(manager, Ic2RecipeTypes.MACERATOR, input);
     }
 

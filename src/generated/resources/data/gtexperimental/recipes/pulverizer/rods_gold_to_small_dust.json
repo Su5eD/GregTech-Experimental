@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:rods/gold"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:gold_smalldust"
+    }
+  ]
+}

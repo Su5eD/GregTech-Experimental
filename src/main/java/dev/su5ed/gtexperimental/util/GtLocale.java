@@ -1,7 +1,6 @@
 package dev.su5ed.gtexperimental.util;
 
 import dev.su5ed.gtexperimental.api.Reference;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import one.util.streamex.StreamEx;
@@ -9,19 +8,19 @@ import one.util.streamex.StreamEx;
 public final class GtLocale {
 
     private GtLocale() {}
+    
+    public static MutableComponent formatNumber(int number) {
+        if (number >= 1000000) {
+            return Component.literal(number / (double) 1000000 + "M");
+        }
+        else if (number >= 10000) {
+            return Component.literal(number / (double) 10000 + "k");
+        }
+        return Component.literal(String.valueOf(number));
+    }
 
     public static MutableComponent translateScan(String name, Object... args) {
         return key("scan", name).toComponent(args);
-    }
-
-    public static TranslationKey profileItemDescriptionKey(String name) {
-        if (ProfileManager.INSTANCE.isClassic()) {
-            TranslationKey classicKey = key("item", name, "classic_description");
-            if (classicKey.exists()) {
-                return classicKey; // FIXME this will crash servers wtf was I thinking
-            }
-        }
-        return itemDescriptionKey(name);
     }
 
     public static MutableComponent translateGenericDescription(String name, Object... params) {
@@ -47,17 +46,7 @@ public final class GtLocale {
         return new TranslationKey(key);
     }
 
-    public static class TranslationKey {
-        private final String key;
-
-        public TranslationKey(String key) {
-            this.key = key;
-        }
-
-        public boolean exists() {
-            return I18n.exists(this.key);
-        }
-
+    public record TranslationKey(String key) {
         public MutableComponent toComponent(Object... args) {
             return Component.translatable(this.key, args);
         }

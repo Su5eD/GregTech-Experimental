@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Single Input, Multi Output recipe
  */
-public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>, SIMORecipe.Input<T>, SIMORecipe<T>> {
+public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>, T, SIMORecipe<T>> {
     protected final RecipeIngredient<T> input;
     protected final List<T> output;
     protected final RecipePropertyMap properties;
@@ -56,8 +56,8 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
     }
 
     @Override
-    public boolean matches(Input<T> input) {
-        return this.input.test(input.item);
+    public boolean matches(T input) {
+        return this.input.test(input);
     }
 
     @Override
@@ -71,6 +71,4 @@ public abstract class SIMORecipe<T> extends BaseRecipeImpl<SIMORecipeType<?, T>,
         ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
         this.properties.toNetwork(buffer);
     }
-
-    public record Input<T>(T item) {}
 }

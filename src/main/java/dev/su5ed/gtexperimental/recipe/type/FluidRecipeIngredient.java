@@ -51,7 +51,7 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
 
     @Override
     public int getCount() {
-        return this.amount; // TODO Bucket count?
+        return this.amount;
     }
 
     @Override

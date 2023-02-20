@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-// TODO Don't extend FluidTank
 public class GtFluidTankImpl extends FluidTank implements GtFluidTank {
     private final String name;
     private final CoverHandler coverHandler;

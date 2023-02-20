@@ -1,9 +1,7 @@
 package dev.su5ed.gtexperimental.compat;
 
-import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.machine.ElectricBlockEntity;
-import dev.su5ed.gtexperimental.api.recipe.CellType;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.util.power.PowerStorage;
 import net.minecraft.resources.ResourceLocation;
@@ -121,11 +119,6 @@ public final class ModHandler {
 
     public static <T extends BaseBlockEntity & ElectricBlockEntity> PowerStorage createEnergyProvider(T parent) {
         return activeBaseMod.createEnergyProvider(parent);
-    }
-
-    public static boolean matchCellType(CellType type, ItemStack stack) {
-        // TODO Universal Fluid Cell
-        return !stack.hasTag() && (type == CellType.CELL && stack.is(GregTechTags.EMPTY_FLUID_CELL) || type == CellType.FUEL_CAN && stack.is(GregTechTags.EMPTY_FUEL_CAN));
     }
 
     public static Item getModItem(String name) {

@@ -7,10 +7,12 @@ import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Ingot;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.object.Ore;
+import dev.su5ed.gtexperimental.object.Rod;
 import dev.su5ed.gtexperimental.object.Smalldust;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.util.JavaUtil;
 import dev.su5ed.gtexperimental.util.TaggedItemProvider;
 import ic2.core.ref.Ic2Items;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -21,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
+import one.util.streamex.StreamEx;
 import twilightforest.init.TFItems;
 
 import java.util.function.Consumer;
@@ -147,6 +150,9 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         simple(Items.MELON_SLICE, Items.MELON_SEEDS, 1, finishedRecipeConsumer);
         simple(Items.WHEAT, Miscellaneous.FLOUR, 1, finishedRecipeConsumer);
         simple(Items.ENDER_EYE, Dust.ENDER_EYE, 2, finishedRecipeConsumer);
+        simple(ItemTags.WOODEN_SLABS, Smalldust.WOOD, 2, finishedRecipeConsumer);
+        simple(ItemTags.PLANKS, Dust.WOOD, 1, finishedRecipeConsumer);
+        simple(ItemTags.SAPLINGS, Dust.WOOD, 2, finishedRecipeConsumer);
 
         pulverizer(ModRecipeIngredientTypes.ITEM.of(GregTechTags.gem("apatite")), new ItemStack(Ic2Items.FERTILIZER, 4), Dust.PHOSPHORUS.getItemStack(), 50).build(finishedRecipeConsumer, id("gems_apatite"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.COAL), Dust.COAL.getItemStack()).build(finishedRecipeConsumer, id("coal"));
@@ -169,8 +175,16 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         pulverizer(ModRecipeIngredientTypes.ITEM.of(ItemTags.WOOL), new ItemStack(Items.STRING, 2), new ItemStack(Items.STRING), 50).build(finishedRecipeConsumer, id("wool"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ore("uranium")), Dust.URANIUM.getItemStack(2), Dust.PLUTONIUM.getItemStack()).build(finishedRecipeConsumer, id("ores_uranium"));
 
-        pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.RAIL), Dust.IRON.getItemStack(6), Smalldust.WOOD.getItemStack(2), 95).build(finishedRecipeConsumer, id("rail"));        
-        pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.POWERED_RAIL), Dust.GOLD.getItemStack(6), new ItemStack(Items.REDSTONE), 95).build(finishedRecipeConsumer, id("powered_rail"));        
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.RAIL), Dust.IRON.getItemStack(6), Smalldust.WOOD.getItemStack(2), 95).build(finishedRecipeConsumer, id("rail"));
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.POWERED_RAIL), Dust.GOLD.getItemStack(6), new ItemStack(Items.REDSTONE), 95).build(finishedRecipeConsumer, id("powered_rail"));
+
+        StreamEx.of(Rod.values())
+            .mapToEntry(rod -> JavaUtil.getEnumConstantSafely(Smalldust.class, rod.name()))
+            .nonNullValues()
+            .mapKeys(Rod::getTag)
+            .mapValues(Smalldust::getItem)
+            .append(Tags.Items.RODS_WOODEN, Smalldust.WOOD.getItem())
+            .forKeyValue((rod, smallDust) -> pulverizer(ModRecipeIngredientTypes.ITEM.of(rod), new ItemStack(smallDust, 2)).build(finishedRecipeConsumer, id(GtUtil.tagName(rod) + "_to_small_dust")));
 
         buildOtherModRecipes(finishedRecipeConsumer);
     }

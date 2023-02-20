@@ -21,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import one.util.streamex.StreamEx;
 
@@ -38,18 +39,12 @@ public final class SmeltingRecipesGen implements ModRecipeProvider {
 
     @Override
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        new SmeltingRecipeBuilder(Ingredient.of(GregTechTags.ore("sulfur")), Dust.SULFUR.getItemStack(3), 0, 200)
-            .unlockedBy("has_ores_sulfur", hasTags(GregTechTags.ore("sulfur")))
-            .build(finishedRecipeConsumer, id("sulfur_dust"));
-        new SmeltingRecipeBuilder(Ingredient.of(GregTechTags.ore("saltpeter")), Dust.SALTPETER.getItemStack(3), 0, 200)
-            .unlockedBy("has_ores_saltpeter", hasTags(GregTechTags.ore("saltpeter")))
-            .build(finishedRecipeConsumer, id("saltpeter_dust"));
-        new SmeltingRecipeBuilder(Ingredient.of(GregTechTags.ore("phosphorus")), Dust.PHOSPHORUS.getItemStack(2), 0, 200)
-            .unlockedBy("has_ores_phosphorus", hasTags(GregTechTags.ore("phosphorus")))
-            .build(finishedRecipeConsumer, id("phosphorus_dust"));
-        new SmeltingRecipeBuilder(Ingredient.of(Miscellaneous.FLOUR.getTag()), new ItemStack(Items.BREAD), 0, 200)
-            .unlockedBy("has_flour", hasTags(Miscellaneous.FLOUR.getTag()))
-            .build(finishedRecipeConsumer, id("bread"));
+        simple(Ore.TUNGSTATE.getTag(), Dust.TUNGSTEN, 1, finishedRecipeConsumer);
+        simple(Ore.SHELDONITE.getTag(), Dust.PLATINUM, 1, finishedRecipeConsumer);
+        simple(GregTechTags.ore("sulfur"), Dust.SULFUR, 3, finishedRecipeConsumer);
+        simple(GregTechTags.ore("saltpeter"), Dust.SALTPETER, 3, finishedRecipeConsumer);
+        simple(GregTechTags.ore("phosphorus"), Dust.PHOSPHORUS, 2, finishedRecipeConsumer);
+        simple(Miscellaneous.FLOUR.getTag(), Items.BREAD, 1, finishedRecipeConsumer);
 
         StreamEx.of(Plate.values())
             .mapToEntry(plate -> JavaUtil.getEnumConstantSafely(Ingot.class, plate.name()))
@@ -84,8 +79,29 @@ public final class SmeltingRecipesGen implements ModRecipeProvider {
                     .save(finishedRecipeConsumer, CraftingRecipesGen.shapedId(GtUtil.tagName(ingotTag) + "_to_plate"));
             });
 
+        StreamEx.of(Dust.values())
+            .without(Dust.STEEL, Dust.CHROME, Dust.TUNGSTEN, Dust.ALUMINIUM)
+            .mapToEntry(dust -> JavaUtil.getEnumConstantSafely(Ingot.class, dust.name()))
+            .nonNullValues()
+            .mapValues(Ingot::getItem)
+            .append(Dust.IRON, Items.IRON_INGOT)
+            .append(Dust.GOLD, Items.GOLD_INGOT)
+            .append(Dust.COPPER, Items.COPPER_INGOT)
+            .mapKeys(Dust::getTag)
+            .forKeyValue((dust, ingot) -> simple(dust, ingot, 1, finishedRecipeConsumer, GtUtil.tagName(dust) + "_to_ingot"));
+
         new InductionSmelterRecipeBuilder(Ingredient.of(Ore.PYRITE.getTag()), List.of(new InductionSmelterRecipeBuilder.Result(new ItemStack(Items.IRON_INGOT), 95)), 3000)
             .build(finishedRecipeConsumer, RecipeName.foreign(InductionSmelterRecipeBuilder.TYPE, "iron_ingot"));
+    }
+    
+    private static void simple(TagKey<Item> input, ItemLike output, int outputCount, Consumer<FinishedRecipe> finishedRecipeConsumer) {
+        simple(input, output, outputCount, finishedRecipeConsumer, GtUtil.tagName(input) + "_to_" + GtUtil.itemName(output));
+    }
+
+    private static void simple(TagKey<Item> input, ItemLike output, int outputCount, Consumer<FinishedRecipe> finishedRecipeConsumer, String name) {
+        new SmeltingRecipeBuilder(Ingredient.of(input), new ItemStack(output, outputCount), 0, 200)
+            .unlockedBy("has_" + GtUtil.tagName(input), hasTags(input))
+            .build(finishedRecipeConsumer, id(name));
     }
 
     public static RecipeName id(String name) {

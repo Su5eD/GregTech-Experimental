@@ -32,22 +32,6 @@ public class ConditionalShapelessRecipeBuilder extends ConditionRecipeBuilder<Co
         return new ConditionalShapelessRecipeBuilder(result, count, ShapelessRecipeBuilder::new);
     }
 
-    public static ConditionalShapelessRecipeBuilder conditionalToolShapeless(ItemLike result) {
-        return conditionalToolShapeless(result, 1);
-    }
-
-    public static ConditionalShapelessRecipeBuilder conditionalToolShapeless(ItemLike result, int count) {
-        return new ConditionalShapelessRecipeBuilder(result, count, WrappedShapelessRecipeBuilder::toolShapeless);
-    }
-
-    public static ConditionalShapelessRecipeBuilder conditionalFluidShapeless(ItemLike result) {
-        return conditionalFluidShapeless(result, 1);
-    }
-
-    public static ConditionalShapelessRecipeBuilder conditionalFluidShapeless(ItemLike result, int count) {
-        return new ConditionalShapelessRecipeBuilder(result, count, WrappedShapelessRecipeBuilder::fluidShapeless);
-    }
-
     public ConditionalShapelessRecipeBuilder requires(TagKey<Item> tag) {
         return requires(Ingredient.of(tag));
     }

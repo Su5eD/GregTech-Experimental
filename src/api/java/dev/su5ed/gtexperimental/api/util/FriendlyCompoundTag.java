@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class FriendlyCompoundTag extends CompoundTag { // TODO interface
+public class FriendlyCompoundTag extends CompoundTag {
     public static final Codec<FriendlyCompoundTag> CODEC = CompoundTag.CODEC.xmap(FriendlyCompoundTag::new, Function.identity());
     
     private static final Logger LOGGER = LogManager.getLogger();
@@ -67,8 +67,8 @@ public class FriendlyCompoundTag extends CompoundTag { // TODO interface
     }
 
     @Override
-    public void write(DataOutput pOutput) throws IOException {
-        this.wrapped.write(pOutput);
+    public void write(DataOutput output) throws IOException {
+        this.wrapped.write(output);
     }
 
     @Override
@@ -83,169 +83,169 @@ public class FriendlyCompoundTag extends CompoundTag { // TODO interface
 
     @Nullable
     @Override
-    public Tag put(String pKey, Tag pValue) {
-        return this.wrapped.put(pKey, pValue);
+    public Tag put(String key, Tag value) {
+        return this.wrapped.put(key, value);
     }
 
     @Override
-    public void putByte(String pKey, byte pValue) {
-        this.wrapped.putByte(pKey, pValue);
+    public void putByte(String key, byte value) {
+        this.wrapped.putByte(key, value);
     }
 
     @Override
-    public void putShort(String pKey, short pValue) {
-        this.wrapped.putShort(pKey, pValue);
+    public void putShort(String key, short value) {
+        this.wrapped.putShort(key, value);
     }
 
     @Override
-    public void putInt(String pKey, int pValue) {
-        this.wrapped.putInt(pKey, pValue);
+    public void putInt(String key, int value) {
+        this.wrapped.putInt(key, value);
     }
 
     @Override
-    public void putLong(String pKey, long pValue) {
-        this.wrapped.putLong(pKey, pValue);
+    public void putLong(String key, long value) {
+        this.wrapped.putLong(key, value);
     }
 
     @Override
-    public void putUUID(String pKey, UUID pValue) {
-        this.wrapped.putUUID(pKey, pValue);
+    public void putUUID(String key, UUID value) {
+        this.wrapped.putUUID(key, value);
     }
 
     @Override
-    public void putFloat(String pKey, float pValue) {
-        this.wrapped.putFloat(pKey, pValue);
+    public void putFloat(String key, float value) {
+        this.wrapped.putFloat(key, value);
     }
 
     @Override
-    public void putDouble(String pKey, double pValue) {
-        this.wrapped.putDouble(pKey, pValue);
+    public void putDouble(String key, double value) {
+        this.wrapped.putDouble(key, value);
     }
 
     @Override
-    public void putString(String pKey, String pValue) {
-        this.wrapped.putString(pKey, pValue);
+    public void putString(String key, String value) {
+        this.wrapped.putString(key, value);
     }
 
     @Override
-    public void putByteArray(String pKey, byte[] pValue) {
-        this.wrapped.putByteArray(pKey, pValue);
+    public void putByteArray(String key, byte[] value) {
+        this.wrapped.putByteArray(key, value);
     }
 
     @Override
-    public void putByteArray(String pKey, List<Byte> pValue) {
-        this.wrapped.putByteArray(pKey, pValue);
+    public void putByteArray(String key, List<Byte> value) {
+        this.wrapped.putByteArray(key, value);
     }
 
     @Override
-    public void putIntArray(String pKey, int[] pValue) {
-        this.wrapped.putIntArray(pKey, pValue);
+    public void putIntArray(String key, int[] value) {
+        this.wrapped.putIntArray(key, value);
     }
 
     @Override
-    public void putIntArray(String pKey, List<Integer> pValue) {
-        this.wrapped.putIntArray(pKey, pValue);
+    public void putIntArray(String key, List<Integer> value) {
+        this.wrapped.putIntArray(key, value);
     }
 
     @Override
-    public void putLongArray(String pKey, long[] pValue) {
-        this.wrapped.putLongArray(pKey, pValue);
+    public void putLongArray(String key, long[] value) {
+        this.wrapped.putLongArray(key, value);
     }
 
     @Override
-    public void putLongArray(String pKey, List<Long> pValue) {
-        this.wrapped.putLongArray(pKey, pValue);
+    public void putLongArray(String key, List<Long> value) {
+        this.wrapped.putLongArray(key, value);
     }
 
     @Override
-    public void putBoolean(String pKey, boolean pValue) {
-        this.wrapped.putBoolean(pKey, pValue);
+    public void putBoolean(String key, boolean value) {
+        this.wrapped.putBoolean(key, value);
     }
 
     @Nullable
     @Override
-    public Tag get(String pKey) {
-        return this.wrapped.get(pKey);
+    public Tag get(String key) {
+        return this.wrapped.get(key);
     }
 
     @Override
-    public byte getTagType(String pKey) {
-        return this.wrapped.getTagType(pKey);
+    public byte getTagType(String key) {
+        return this.wrapped.getTagType(key);
     }
 
     @Override
-    public boolean contains(String pKey) {
-        return this.wrapped.contains(pKey);
+    public boolean contains(String key) {
+        return this.wrapped.contains(key);
     }
 
     @Override
-    public boolean contains(String pKey, int pTagType) {
-        return this.wrapped.contains(pKey, pTagType);
+    public boolean contains(String key, int tagType) {
+        return this.wrapped.contains(key, tagType);
     }
 
     @Override
-    public byte getByte(String pKey) {
-        return this.wrapped.getByte(pKey);
+    public byte getByte(String key) {
+        return this.wrapped.getByte(key);
     }
 
     @Override
-    public short getShort(String pKey) {
-        return this.wrapped.getShort(pKey);
+    public short getShort(String key) {
+        return this.wrapped.getShort(key);
     }
 
     @Override
-    public int getInt(String pKey) {
-        return this.wrapped.getInt(pKey);
+    public int getInt(String key) {
+        return this.wrapped.getInt(key);
     }
 
     @Override
-    public long getLong(String pKey) {
-        return this.wrapped.getLong(pKey);
+    public long getLong(String key) {
+        return this.wrapped.getLong(key);
     }
 
     @Override
-    public float getFloat(String pKey) {
-        return this.wrapped.getFloat(pKey);
+    public float getFloat(String key) {
+        return this.wrapped.getFloat(key);
     }
 
     @Override
-    public double getDouble(String pKey) {
-        return this.wrapped.getDouble(pKey);
+    public double getDouble(String key) {
+        return this.wrapped.getDouble(key);
     }
 
     @Override
-    public String getString(String pKey) {
-        return this.wrapped.getString(pKey);
+    public String getString(String key) {
+        return this.wrapped.getString(key);
     }
 
     @Override
-    public byte[] getByteArray(String pKey) {
-        return this.wrapped.getByteArray(pKey);
+    public byte[] getByteArray(String key) {
+        return this.wrapped.getByteArray(key);
     }
 
     @Override
-    public int[] getIntArray(String pKey) {
-        return this.wrapped.getIntArray(pKey);
+    public int[] getIntArray(String key) {
+        return this.wrapped.getIntArray(key);
     }
 
     @Override
-    public long[] getLongArray(String pKey) {
-        return this.wrapped.getLongArray(pKey);
+    public long[] getLongArray(String key) {
+        return this.wrapped.getLongArray(key);
     }
 
     @Override
-    public CompoundTag getCompound(String pKey) {
-        return this.wrapped.getCompound(pKey);
+    public CompoundTag getCompound(String key) {
+        return this.wrapped.getCompound(key);
     }
 
     @Override
-    public ListTag getList(String pKey, int pTagType) {
-        return this.wrapped.getList(pKey, pTagType);
+    public ListTag getList(String key, int tagType) {
+        return this.wrapped.getList(key, tagType);
     }
 
     @Override
-    public void remove(String pKey) {
-        this.wrapped.remove(pKey);
+    public void remove(String key) {
+        this.wrapped.remove(key);
     }
 
     @Override
@@ -259,8 +259,8 @@ public class FriendlyCompoundTag extends CompoundTag { // TODO interface
     }
 
     @Override
-    public boolean equals(Object pOther) {
-        return this.wrapped.equals(pOther);
+    public boolean equals(Object other) {
+        return this.wrapped.equals(other);
     }
 
     @Override
@@ -269,12 +269,12 @@ public class FriendlyCompoundTag extends CompoundTag { // TODO interface
     }
 
     @Override
-    public CompoundTag merge(CompoundTag pOther) {
-        return this.wrapped.merge(pOther);
+    public CompoundTag merge(CompoundTag other) {
+        return this.wrapped.merge(other);
     }
 
     @Override
-    public StreamTagVisitor.ValueResult accept(StreamTagVisitor pVisitor) {
-        return this.wrapped.accept(pVisitor);
+    public StreamTagVisitor.ValueResult accept(StreamTagVisitor visitor) {
+        return this.wrapped.accept(visitor);
     }
 }

@@ -10,6 +10,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.compat.ModHandler;
+import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.recipe.crafting.FluidItemPredicate;
 import dev.su5ed.gtexperimental.recipe.crafting.ToolCraftingIngredient;

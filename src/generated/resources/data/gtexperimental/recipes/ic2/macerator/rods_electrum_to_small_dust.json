@@ -1,0 +1,16 @@
+{
+  "type": "ic2:macerator",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:rods/electrum"
+  },
+  "result": {
+    "count": 2,
+    "item": "gtexperimental:electrum_smalldust"
+  }
+}

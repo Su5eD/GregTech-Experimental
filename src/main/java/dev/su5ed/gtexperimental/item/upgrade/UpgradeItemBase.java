@@ -21,7 +21,11 @@ public abstract class UpgradeItemBase extends ResourceItem {
     private final int requiredTier;
 
     public UpgradeItemBase(UpgradeCategory upgradeCategory, int maxCount, int requiredTier) {
-        super(new ExtendedItemProperties<>().autoDescription());
+        this(new ExtendedItemProperties<>().autoDescription(), upgradeCategory, maxCount, requiredTier);
+    }
+    
+    public UpgradeItemBase(ExtendedItemProperties<?> properties, UpgradeCategory upgradeCategory, int maxCount, int requiredTier) {
+        super(properties);
 
         this.upgradeCategory = upgradeCategory;
         this.maxCount = maxCount;
@@ -44,9 +48,7 @@ public abstract class UpgradeItemBase extends ResourceItem {
         return Upgrade.InjectResult.PASS;
     }
 
-    public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {
-
-    }
+    public void update(UpgradableBlockEntity machine, @Nullable Player player, ItemStack stack) {}
 
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {

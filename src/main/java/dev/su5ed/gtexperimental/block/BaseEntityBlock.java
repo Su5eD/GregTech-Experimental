@@ -6,6 +6,7 @@ import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.VerticalRotation;
 import ic2.api.tile.IWrenchable;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -72,10 +73,9 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
         super(properties);
 
         this.provider = provider;
-
         this.description = Lazy.of(() -> {
             GtLocale.TranslationKey key = GtLocale.key("block", ForgeRegistries.BLOCKS.getKey(this).getPath(), "description");
-            if (FMLLoader.getDist() == Dist.CLIENT && key.exists()) {
+            if (FMLLoader.getDist() == Dist.CLIENT && I18n.exists(key.key())) {
                 return key.toComponent().withStyle(ChatFormatting.GRAY);
             }
             return null;

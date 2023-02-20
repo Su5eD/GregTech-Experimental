@@ -146,6 +146,11 @@ public class IC2RecipesPackGen extends RecipeProvider {
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, benderId("alloy"));
 
+        // Canning Machine
+        canningMachine(ModRecipeIngredientTypes.ITEM.of(Ic2Items.PELLET, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.FOAM_SPRAY.getItemStack(), 1600, 2)
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, canningMachineId("foam_spray"));
+
         // IC2 Extractor
         ic2Extractor(Items.SLIME_BALL, 1, new ItemStack(Ic2Items.RESIN, 2), finishedRecipeConsumer, this.name);
 

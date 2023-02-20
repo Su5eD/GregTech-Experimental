@@ -93,8 +93,8 @@ public class ResourceItem extends Item {
             return (T) this;
         }
 
-        public T autoDescription() {
-            this.description.add(item -> GtLocale.profileItemDescriptionKey(GtUtil.itemName(item)).toComponent());
+        public T autoDescription(Object... args) {
+            this.description.add(item -> GtLocale.itemDescriptionKey(GtUtil.itemName(item)).toComponent(args));
             return (T) this;
         }
 

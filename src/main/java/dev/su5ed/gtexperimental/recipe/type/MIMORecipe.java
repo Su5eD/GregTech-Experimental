@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Multi Output recipe
  */
-public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMORecipe.Input, MIMORecipe> {
+public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, List<ItemStack>, MIMORecipe> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
     protected final List<ItemStack> output;
     protected final RecipePropertyMap properties;
@@ -61,8 +61,8 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMOR
     }
 
     @Override
-    public boolean matches(Input input) {
-        return this.inputs.size() == input.items.size() && EntryStream.zip(this.inputs, input.items).allMatch(Predicate::test);
+    public boolean matches(List<ItemStack> input) {
+        return this.inputs.size() == input.size() && EntryStream.zip(this.inputs, input).allMatch(Predicate::test);
     }
 
     @Override
@@ -77,7 +77,4 @@ public abstract class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, MIMOR
         ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
         this.properties.toNetwork(buffer);
     }
-
-    // TODO Remove
-    public record Input(List<ItemStack> items) {}
 }
