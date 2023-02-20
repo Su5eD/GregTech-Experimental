@@ -1,0 +1,32 @@
+{
+  "type": "gtexperimental:fluid_crafting_shaped",
+  "key": {
+    "A": [
+      {
+        "tag": "forge:plates/aluminium"
+      },
+      {
+        "tag": "forge:plates/battery_alloy"
+      }
+    ],
+    "C": {
+      "tag": "gtexperimental:double_insulated_gold_cable"
+    },
+    "L": {
+      "type": "gtexperimental:fluid_item_ingredient",
+      "fluid_ingredient": {
+        "type": "tag",
+        "amount": 1000,
+        "tag": "forge:lithium"
+      }
+    }
+  },
+  "pattern": [
+    " C ",
+    "ALA",
+    "ALA"
+  ],
+  "result": {
+    "item": "gtexperimental:lithium_re_battery"
+  }
+}

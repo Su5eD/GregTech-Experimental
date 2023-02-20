@@ -12,7 +12,7 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 6,
         "item": "gtexperimental:brass_dust"
       }

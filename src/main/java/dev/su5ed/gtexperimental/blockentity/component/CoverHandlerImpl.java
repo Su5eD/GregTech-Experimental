@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase<T> implements CoverHandler {
     public static final ModelProperty<Map<Direction, Cover<?>>> COVER_HANDLER_PROPERTY = new ModelProperty<>();

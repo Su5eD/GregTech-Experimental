@@ -1,0 +1,35 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "myrtrees"
+    }
+  ],
+  "duration": 5000,
+  "input": {
+    "type": "item",
+    "count": 16,
+    "value": {
+      "tag": "forge:logs/rubber"
+    }
+  },
+  "output": [
+    {
+      "count": 8,
+      "item": "myrtrees:latex"
+    },
+    {
+      "count": 6,
+      "item": "minecraft:vine"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:methane_fluid"
+    },
+    {
+      "amount": 4000,
+      "fluid": "gtexperimental:carbon_fluid"
+    }
+  ]
+}

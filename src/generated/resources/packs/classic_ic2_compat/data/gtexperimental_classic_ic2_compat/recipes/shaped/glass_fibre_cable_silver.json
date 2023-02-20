@@ -1,0 +1,41 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "D": [
+            {
+              "tag": "forge:gems/diamond"
+            },
+            {
+              "tag": "forge:dusts/diamond"
+            }
+          ],
+          "G": {
+            "item": "minecraft:glass"
+          },
+          "R": {
+            "tag": "forge:ingots/silver"
+          }
+        },
+        "pattern": [
+          "GGG",
+          "DRD",
+          "GGG"
+        ],
+        "result": {
+          "count": 6,
+          "item": "ic2:glass_fibre_cable"
+        }
+      }
+    }
+  ]
+}

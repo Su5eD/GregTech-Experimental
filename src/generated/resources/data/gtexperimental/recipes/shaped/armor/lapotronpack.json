@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "gtexperimental:energy_flow_circuit"
+    },
+    "I": {
+      "tag": "gtexperimental:plates/iridium_alloy"
+    },
+    "L": {
+      "tag": "gtexperimental:large_eu_store"
+    },
+    "P": {
+      "tag": "gtexperimental:lappack"
+    },
+    "S": {
+      "tag": "gtexperimental:superconductor"
+    }
+  },
+  "pattern": [
+    "CLC",
+    "SPS",
+    "CIC"
+  ],
+  "result": {
+    "item": "gtexperimental:lapotronpack"
+  }
+}

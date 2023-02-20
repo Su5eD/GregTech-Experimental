@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "tag": "forge:dusts/diamond"
+    },
+    "G": {
+      "tag": "forge:gems/diamond"
+    },
+    "S": {
+      "tag": "forge:plates/steel"
+    }
+  },
+  "pattern": [
+    "DSD",
+    "SGS",
+    "DSD"
+  ],
+  "result": {
+    "count": 2,
+    "item": "gtexperimental:diamond_grinder"
+  }
+}

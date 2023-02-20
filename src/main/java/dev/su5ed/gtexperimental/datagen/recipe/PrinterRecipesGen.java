@@ -20,12 +20,9 @@ public final class PrinterRecipesGen implements ModRecipeProvider {
 
     @Override
     public void buildCraftingRecipes(Consumer<FinishedRecipe> finishedRecipeConsumer) {
-        printer(ModRecipeIngredientTypes.ITEM.ofValues(new Ingredient.TagValue(Dust.WOOD.getTag()), new Ingredient.ItemValue(new ItemStack(Items.SUGAR_CANE))), new ItemStack(Items.PAPER), 200, 1)
-            .build(finishedRecipeConsumer, id("paper"));
-        printer(ModRecipeIngredientTypes.ITEM.of(Items.PAPER, 3), ModRecipeIngredientTypes.ITEM.of(Items.LEATHER), new ItemStack(Items.BOOK), 400, 2)
-            .build(finishedRecipeConsumer, id("book"));
-        printer(ModRecipeIngredientTypes.ITEM.of(Items.PAPER, 8), ModRecipeIngredientTypes.ITEM.of(Items.COMPASS), new ItemStack(Items.MAP), 400, 2)
-            .build(finishedRecipeConsumer, id("map"));
+        printer(ModRecipeIngredientTypes.ITEM.ofValues(new Ingredient.TagValue(Dust.WOOD.getTag()), new Ingredient.ItemValue(new ItemStack(Items.SUGAR_CANE))), new ItemStack(Items.PAPER), 200, 1).build(finishedRecipeConsumer, id("paper"));
+        printer(ModRecipeIngredientTypes.ITEM.of(Items.PAPER, 3), ModRecipeIngredientTypes.ITEM.of(Items.LEATHER), new ItemStack(Items.BOOK), 400, 2).build(finishedRecipeConsumer, id("book"));
+        printer(ModRecipeIngredientTypes.ITEM.of(Items.PAPER, 8), ModRecipeIngredientTypes.ITEM.of(Items.COMPASS), new ItemStack(Items.MAP), 400, 2).build(finishedRecipeConsumer, id("map"));
     }
 
     private static RecipeName id(String name) {

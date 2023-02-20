@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.util;
 
 import com.google.common.base.Preconditions;
 import dev.su5ed.gtexperimental.Capabilities;
+import dev.su5ed.gtexperimental.api.Reference;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
@@ -37,8 +38,6 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Consumer;
-
-import static dev.su5ed.gtexperimental.api.Reference.location;
 
 public final class GtUtil {
     public static final Collection<Direction> ALL_FACINGS = EnumSet.allOf(Direction.class);
@@ -183,35 +182,20 @@ public final class GtUtil {
                 FluidUtil.tryFluidTransfer(destination, source, amount, true)));
     }
 
+    public static ResourceLocation location(String... paths) {
+        return new ResourceLocation(Reference.MODID, String.join("/", paths));
+    }
+
+    public static ResourceLocation locationNullable(String... paths) {
+        return new ResourceLocation(Reference.MODID, StreamEx.of(paths).nonNull().joining("/"));
+    }
+
     public static ResourceLocation guiTexture(String name) {
         return location("textures/gui/" + name + ".png");
     }
 
     public static String registryName(String... names) {
         return String.join("_", names);
-    }
-
-    public static ResourceLocation prefixedId(ResourceLocation location, String prefix) {
-        return new ResourceLocation(location.getNamespace(), prefix + "/" + location.getPath());
-    }
-
-    public static ResourceLocation flatId(ResourceLocation location, String folder) {
-        String path = location.getPath();
-        int idx = path.lastIndexOf('/');
-        String pathFile = path.substring(idx);
-        String newPath = StreamEx.of(ProfileManager.KEYWORDS)
-            .findFirst(str -> path.contains("/" + str + "/"))
-            .map(str -> folder + "/" + str + pathFile)
-            .orElseGet(() -> folder + pathFile);
-        return new ResourceLocation(location.getNamespace(), newPath);
-    }
-
-    public static ResourceLocation nestedId(ResourceLocation location, String folder) {
-        String path = location.getPath();
-        int idx = path.lastIndexOf('/') + 1;
-        String pathFolder = path.substring(0, idx);
-        String name = path.substring(idx);
-        return new ResourceLocation(location.getNamespace(), pathFolder + folder + "/" + name);
     }
 
     public static String itemName(ItemStack stack) {

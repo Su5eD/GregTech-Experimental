@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:tool_crafting_shaped",
+  "key": {
+    "P": {
+      "tag": "forge:plates/iridium"
+    },
+    "S": {
+      "tag": "forge:rods/iridium"
+    },
+    "W": {
+      "type": "gtexperimental:tool",
+      "damage": 8,
+      "value": {
+        "tag": "gtexperimental:tools/wrench"
+      }
+    }
+  },
+  "pattern": [
+    "SPS",
+    "PWP",
+    "SPS"
+  ],
+  "result": {
+    "item": "gtexperimental:iridium_gear"
+  }
+}

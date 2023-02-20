@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 2,
         "item": "gtexperimental:olivine_dust"
       }
     },
     {
       "probability": 0.1,
-      "stack": {
+      "result": {
         "item": "gtexperimental:emerald_dust"
       }
     }

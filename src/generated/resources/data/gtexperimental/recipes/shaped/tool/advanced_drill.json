@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "gtexperimental:crafting/li_battery"
+    },
+    "C": {
+      "tag": "gtexperimental:data_control_circuit"
+    },
+    "D": {
+      "tag": "forge:gems/diamond"
+    },
+    "S": {
+      "tag": "forge:plates/tungsten_steel"
+    }
+  },
+  "pattern": [
+    "DDD",
+    "SCS",
+    "SBS"
+  ],
+  "result": {
+    "item": "gtexperimental:advanced_drill"
+  }
+}

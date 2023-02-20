@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "T": {
+      "tag": "forge:tools/hard_hammer"
+    },
+    "X": {
+      "tag": "forge:plates/gold"
+    }
+  },
+  "pattern": [
+    "XXT"
+  ],
+  "result": {
+    "item": "minecraft:light_weighted_pressure_plate"
+  }
+}

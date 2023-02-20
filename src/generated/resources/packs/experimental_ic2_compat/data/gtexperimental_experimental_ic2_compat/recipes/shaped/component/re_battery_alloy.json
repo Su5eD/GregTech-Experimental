@@ -1,0 +1,36 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "tag": "gtexperimental:insulated_copper_cable"
+          },
+          "R": {
+            "tag": "forge:dusts/redstone"
+          },
+          "T": {
+            "tag": "forge:plates/battery_alloy"
+          }
+        },
+        "pattern": [
+          " C ",
+          "TRT",
+          "TRT"
+        ],
+        "result": {
+          "count": 2,
+          "item": "ic2:re_battery"
+        }
+      }
+    }
+  ]
+}

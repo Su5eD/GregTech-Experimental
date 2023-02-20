@@ -1,8 +1,8 @@
 package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.GregTechTags;
-import dev.su5ed.gtexperimental.api.cover.CoverType;
 import dev.su5ed.gtexperimental.api.Reference;
+import dev.su5ed.gtexperimental.api.cover.CoverType;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -32,8 +32,7 @@ public class GenericCover extends BaseCover<BlockEntity> {
     }
 
     public static boolean isGenericCover(ItemStack stack) {
-        return StreamEx.of(CoverTexture.values())
-            .anyMatch(ct -> stack.is(ct.tag));
+        return StreamEx.of(CoverTexture.values()).anyMatch(ct -> stack.is(ct.tag));
     }
 
     private enum CoverTexture {
@@ -76,7 +75,7 @@ public class GenericCover extends BaseCover<BlockEntity> {
 
         CoverTexture(String domain, String... path) {
             this.location = new ResourceLocation(domain, String.join("/", path));
-            this.tag = GregTechTags.material("plates", name().toLowerCase(Locale.ROOT));
+            this.tag = GregTechTags.plate(name().toLowerCase(Locale.ROOT));
         }
 
         CoverTexture(TagKey<Item> tag, String domain, String... path) {

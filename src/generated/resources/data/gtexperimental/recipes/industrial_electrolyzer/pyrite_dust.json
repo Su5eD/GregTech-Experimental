@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 120,
+  "energy_cost": 128.0,
+  "input": {
+    "type": "item",
+    "count": 3,
+    "value": {
+      "tag": "forge:dusts/pyrite"
+    }
+  },
+  "output": [
+    {
+      "item": "gtexperimental:iron_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:sulfur_dust"
+    }
+  ]
+}

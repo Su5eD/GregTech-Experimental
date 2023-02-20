@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:smelting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "ic2:empty_fuel_can"
+  },
+  "result": {
+    "count": 7,
+    "item": "gtexperimental:tin_ingot"
+  }
+}

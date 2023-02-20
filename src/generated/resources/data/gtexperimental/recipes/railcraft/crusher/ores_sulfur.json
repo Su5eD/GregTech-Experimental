@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 8,
         "item": "gtexperimental:sulfur_dust"
       }
     },
     {
       "probability": 0.1,
-      "stack": {
+      "result": {
         "item": "gtexperimental:sulfur_dust"
       }
     }

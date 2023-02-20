@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:small_dusts/silver"
+    },
+    {
+      "tag": "forge:small_dusts/silver"
+    },
+    {
+      "tag": "forge:small_dusts/gold"
+    },
+    {
+      "tag": "forge:small_dusts/gold"
+    }
+  ],
+  "result": {
+    "item": "gtexperimental:electrum_dust"
+  }
+}

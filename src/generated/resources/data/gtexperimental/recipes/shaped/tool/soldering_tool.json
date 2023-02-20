@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "gtexperimental:re_battery"
+    },
+    "C": {
+      "tag": "gtexperimental:circuit"
+    },
+    "R": {
+      "tag": "gtexperimental:ingots/universal_iron"
+    }
+  },
+  "pattern": [
+    "R",
+    "C",
+    "B"
+  ],
+  "result": {
+    "item": "gtexperimental:soldering_tool"
+  }
+}

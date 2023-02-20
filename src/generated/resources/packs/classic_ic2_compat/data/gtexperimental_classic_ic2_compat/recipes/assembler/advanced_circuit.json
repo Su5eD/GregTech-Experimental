@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 1600,
+  "energy_cost": 2.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gtexperimental:advanced_circuit_board"
+      }
+    },
+    {
+      "count": 2,
+      "value": {
+        "item": "gtexperimental:advanced_circuit_parts"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:advanced_circuit"
+  }
+}

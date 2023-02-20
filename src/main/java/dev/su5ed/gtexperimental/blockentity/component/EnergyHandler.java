@@ -24,7 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> extends GtComponentBase<T> implements PowerHandler {
     private static final ResourceLocation NAME = location("energy_handler");

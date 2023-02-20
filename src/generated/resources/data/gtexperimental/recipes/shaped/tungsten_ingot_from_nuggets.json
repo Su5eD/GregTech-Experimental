@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "tungsten_ingot",
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/tungsten"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "result": {
+    "item": "gtexperimental:tungsten_ingot"
+  }
+}

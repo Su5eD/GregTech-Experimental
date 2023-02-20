@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:blast_furnace",
+  "duration": 500,
+  "heat": 1000,
+  "input": [
+    {
+      "value": {
+        "tag": "gtexperimental:ingots/universal_iron"
+      }
+    },
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:dusts/coal"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:steel_ingot"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:dark_ashes_dust"
+    }
+  ]
+}

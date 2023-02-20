@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "gtexperimental:nichrome_coil"
+    },
+    "E": {
+      "tag": "gtexperimental:energy_flow_circuit"
+    },
+    "I": {
+      "tag": "gtexperimental:illuminator"
+    },
+    "M": {
+      "tag": "gtexperimental:crafting/raw_machine_tier_4"
+    },
+    "S": {
+      "tag": "gtexperimental:superconductor"
+    }
+  },
+  "pattern": [
+    "ESE",
+    "CMC",
+    "EIE"
+  ],
+  "result": {
+    "item": "gtexperimental:fusion_coil_block"
+  }
+}

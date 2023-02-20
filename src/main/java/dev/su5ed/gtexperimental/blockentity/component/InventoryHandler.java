@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class InventoryHandler extends GtComponentBase<BaseBlockEntity> {
     public static final ResourceLocation NAME = location("inventory_handler");

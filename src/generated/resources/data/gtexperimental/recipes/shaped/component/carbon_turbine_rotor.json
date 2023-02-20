@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "forge:storage_blocks/iron"
+    },
+    "T": {
+      "tag": "gtexperimental:carbon_turbine_blade"
+    }
+  },
+  "pattern": [
+    "TTT",
+    "TBT",
+    "TTT"
+  ],
+  "result": {
+    "item": "gtexperimental:carbon_turbine_rotor"
+  }
+}

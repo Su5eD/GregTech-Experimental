@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gtexperimental:diamond_credit"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "item": "gtexperimental:gold_credit"
+  }
+}

@@ -4,11 +4,12 @@ import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.recipe.AlloySmelterRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.AssemblerRecipesGen;
-import dev.su5ed.gtexperimental.datagen.recipe.BenderRecipeProvider;
+import dev.su5ed.gtexperimental.datagen.recipe.BenderRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.BlastFurnaceRecipesGen;
-import dev.su5ed.gtexperimental.datagen.recipe.CanningMachineRecipeProvider;
-import dev.su5ed.gtexperimental.datagen.recipe.ChemicalRecipeProvider;
+import dev.su5ed.gtexperimental.datagen.recipe.CanningMachineRecipesGen;
+import dev.su5ed.gtexperimental.datagen.recipe.ChemicalRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.CompressorRecipesGen;
+import dev.su5ed.gtexperimental.datagen.recipe.CraftingRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.DistillationRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ExtractorRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.FusionRecipesGen;
@@ -21,6 +22,7 @@ import dev.su5ed.gtexperimental.datagen.recipe.LatheRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.ModRecipeProvider;
 import dev.su5ed.gtexperimental.datagen.recipe.PrinterRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.PulverizerRecipesGen;
+import dev.su5ed.gtexperimental.datagen.recipe.SmeltingRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.VacuumFreezerRecipesGen;
 import dev.su5ed.gtexperimental.datagen.recipe.WiremillRecipesGen;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
@@ -62,9 +64,9 @@ public class RecipeGen extends RecipeProvider {
         List<ModRecipeProvider> providers = List.of(
             AlloySmelterRecipesGen.INSTANCE,
             AssemblerRecipesGen.INSTANCE,
-            BenderRecipeProvider.INSTANCE,
-            CanningMachineRecipeProvider.INSTANCE,
-            ChemicalRecipeProvider.INSTANCE,
+            BenderRecipesGen.INSTANCE,
+            CanningMachineRecipesGen.INSTANCE,
+            ChemicalRecipesGen.INSTANCE,
             CompressorRecipesGen.INSTANCE,
             DistillationRecipesGen.INSTANCE,
             ExtractorRecipesGen.INSTANCE,
@@ -79,7 +81,9 @@ public class RecipeGen extends RecipeProvider {
             PulverizerRecipesGen.INSTANCE,
             IndustrialSawmillRecipesGen.INSTANCE,
             VacuumFreezerRecipesGen.INSTANCE,
-            WiremillRecipesGen.INSTANCE
+            WiremillRecipesGen.INSTANCE,
+            CraftingRecipesGen.INSTANCE,
+            SmeltingRecipesGen.INSTANCE
         );
 
         providers.forEach(provider -> provider.buildCraftingRecipes(finishedRecipeConsumer));

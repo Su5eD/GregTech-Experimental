@@ -1,0 +1,25 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "item": "ic2:empty_cell"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "result": {
+        "item": "gtexperimental:tin_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "B": {
+            "type": "gtexperimental:fluid_item_ingredient",
+            "fluid_ingredient": {
+              "type": "tag",
+              "amount": 1000,
+              "tag": "forge:berylium"
+            }
+          },
+          "N": {
+            "item": "ic2:neutron_reflector"
+          }
+        },
+        "pattern": [
+          " N ",
+          "NBN",
+          " N "
+        ],
+        "result": {
+          "item": "ic2:thick_neutron_reflector"
+        }
+      }
+    }
+  ]
+}

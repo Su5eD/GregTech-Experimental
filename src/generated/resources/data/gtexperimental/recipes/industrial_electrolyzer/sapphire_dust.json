@@ -1,0 +1,18 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 400,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 8,
+    "value": {
+      "tag": "forge:dusts/sapphire"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:aluminium_dust"
+    }
+  ]
+}

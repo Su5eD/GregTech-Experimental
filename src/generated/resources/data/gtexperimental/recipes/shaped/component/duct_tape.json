@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "gtexperimental:carbon_mesh"
+    },
+    "R": {
+      "tag": "gtexperimental:rubber"
+    },
+    "S": {
+      "tag": "gtexperimental:resin"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "RRR",
+    "SSS"
+  ],
+  "result": {
+    "count": 4,
+    "item": "gtexperimental:duct_tape"
+  }
+}

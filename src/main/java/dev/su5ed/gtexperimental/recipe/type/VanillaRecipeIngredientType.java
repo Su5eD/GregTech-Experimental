@@ -46,7 +46,7 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
     }
 
     public VanillaRecipeIngredient ofDamaged(ItemLike item) {
-        return new VanillaRecipeIngredient(new VanillaDamagedIngredient(new ItemStack(item)));
+        return new VanillaRecipeIngredient(VanillaDamagedIngredient.of(item));
     }
 
     @SafeVarargs

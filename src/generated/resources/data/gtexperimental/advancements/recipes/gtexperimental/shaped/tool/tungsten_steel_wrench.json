@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gtexperimental:shaped/tool/tungsten_steel_wrench"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tungsten_steel": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/tungsten_steel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tungsten_steel",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gtexperimental:shaped/tool/tungsten_steel_wrench"
+    ]
+  }
+}

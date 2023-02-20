@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "forge:dyes/blue"
+    },
+    "I": {
+      "tag": "gtexperimental:ingots/universal_iron"
+    }
+  },
+  "pattern": [
+    " BI",
+    "BIB",
+    "IB "
+  ],
+  "result": {
+    "item": "gtexperimental:crowbar"
+  }
+}

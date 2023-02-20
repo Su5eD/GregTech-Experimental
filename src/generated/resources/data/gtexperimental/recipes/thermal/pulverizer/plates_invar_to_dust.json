@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:plates/invar"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:invar_dust"
+    }
+  ]
+}

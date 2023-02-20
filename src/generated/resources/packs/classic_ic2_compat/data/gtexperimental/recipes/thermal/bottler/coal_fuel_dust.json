@@ -1,0 +1,15 @@
+{
+  "type": "thermal:bottler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "energy": 1250,
+  "result": [
+    {
+      "item": "ic2:coal_fuel_dust"
+    }
+  ]
+}

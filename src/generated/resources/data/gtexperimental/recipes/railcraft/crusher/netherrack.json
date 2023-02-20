@@ -12,13 +12,13 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "item": "gtexperimental:netherrack_dust"
       }
     },
     {
       "probability": 0.1,
-      "stack": {
+      "result": {
         "item": "gtexperimental:netherrack_dust"
       }
     }

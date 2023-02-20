@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 1000,
+  "input": {
+    "type": "item",
+    "count": 3,
+    "value": {
+      "tag": "forge:dusts/invar"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:iron_dust"
+    },
+    {
+      "item": "gtexperimental:nickel_dust"
+    }
+  ]
+}

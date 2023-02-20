@@ -1,7 +1,6 @@
 {
   "type": "gtexperimental:vacuum_freezer_solid",
   "duration": 450,
-  "energyCost": 128.0,
   "input": {
     "value": {
       "item": "gtexperimental:hot_tungsten_steel_ingot"

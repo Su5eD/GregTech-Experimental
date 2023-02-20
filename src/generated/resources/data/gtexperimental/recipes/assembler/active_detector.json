@@ -1,0 +1,20 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 800,
+  "energy_cost": 16.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gtexperimental:plates/universal_iron"
+      }
+    },
+    {
+      "value": {
+        "item": "minecraft:comparator"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:active_detector"
+  }
+}

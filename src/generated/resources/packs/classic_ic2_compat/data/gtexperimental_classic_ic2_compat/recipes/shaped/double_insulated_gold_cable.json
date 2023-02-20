@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "G": {
+            "tag": "forge:ingots/gold"
+          },
+          "R": {
+            "tag": "gtexperimental:rubber"
+          }
+        },
+        "pattern": [
+          "RRR",
+          "RGR",
+          "RRR"
+        ],
+        "result": {
+          "count": 4,
+          "item": "ic2:double_insulated_gold_cable"
+        }
+      }
+    }
+  ]
+}

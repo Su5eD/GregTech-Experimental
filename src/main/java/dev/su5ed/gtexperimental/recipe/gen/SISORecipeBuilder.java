@@ -15,7 +15,6 @@ public class SISORecipeBuilder<T> extends ModRecipeBuilder<SISORecipe<T>> {
         
         json.add("input", this.recipe.getInput().toJson());
         json.add("output", this.recipe.getType().outputType.toJson(this.recipe.getOutput()));
-        json.addProperty("duration", this.recipe.getDuration());
-        json.addProperty("energyCost", this.recipe.getEnergyCost());
+        this.recipe.getProperties().toJson(json);
     }
 }

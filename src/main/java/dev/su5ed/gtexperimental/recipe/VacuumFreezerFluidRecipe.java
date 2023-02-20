@@ -6,7 +6,6 @@ import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 public class VacuumFreezerFluidRecipe extends SISORecipe<FluidStack> {

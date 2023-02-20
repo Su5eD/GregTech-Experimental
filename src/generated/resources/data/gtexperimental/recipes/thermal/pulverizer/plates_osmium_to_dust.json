@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:plates/osmium"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:osmium_dust"
+    }
+  ]
+}

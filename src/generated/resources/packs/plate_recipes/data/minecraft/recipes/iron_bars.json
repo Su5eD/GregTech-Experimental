@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "W": {
+      "tag": "gtexperimental:tools/wrench"
+    },
+    "X": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "pattern": [
+    " W ",
+    "XXX",
+    "XXX"
+  ],
+  "result": {
+    "count": 8,
+    "item": "minecraft:iron_bars"
+  }
+}

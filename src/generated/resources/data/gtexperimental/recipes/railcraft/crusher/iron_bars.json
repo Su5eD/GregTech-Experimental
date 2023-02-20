@@ -12,7 +12,7 @@
   "output": [
     {
       "probability": 0.5,
-      "stack": {
+      "result": {
         "count": 3,
         "item": "gtexperimental:iron_smalldust"
       }

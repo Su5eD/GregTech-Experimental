@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 800,
+  "energy_cost": 16.0,
+  "input": [
+    {
+      "value": [
+        {
+          "tag": "gtexperimental:plates/universal_iron"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ]
+    },
+    {
+      "value": {
+        "item": "minecraft:crafting_table"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:crafting"
+  }
+}

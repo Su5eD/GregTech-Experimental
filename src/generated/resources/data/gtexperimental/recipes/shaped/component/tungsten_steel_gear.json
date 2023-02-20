@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:tool_crafting_shaped",
+  "key": {
+    "P": {
+      "tag": "forge:plates/tungsten_steel"
+    },
+    "S": {
+      "tag": "forge:rods/tungsten_steel"
+    },
+    "W": {
+      "type": "gtexperimental:tool",
+      "damage": 8,
+      "value": {
+        "tag": "gtexperimental:tools/wrench"
+      }
+    }
+  },
+  "pattern": [
+    "SPS",
+    "PWP",
+    "SPS"
+  ],
+  "result": {
+    "item": "gtexperimental:tungsten_steel_gear"
+  }
+}

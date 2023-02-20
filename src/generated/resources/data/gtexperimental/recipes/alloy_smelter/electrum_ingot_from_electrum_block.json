@@ -1,0 +1,16 @@
+{
+  "type": "gtexperimental:alloy_smelter",
+  "duration": 130,
+  "energy_cost": 3.0,
+  "input": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/electrum"
+      }
+    }
+  ],
+  "output": {
+    "count": 9,
+    "item": "gtexperimental:electrum_ingot"
+  }
+}

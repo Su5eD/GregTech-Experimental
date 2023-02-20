@@ -255,7 +255,7 @@ public final class ModRecipeBuilders {
 
     public static IFMORecipeBuilder industrialSawmill(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
         IFMORecipe recipe = new IndustrialSawmillRecipe(null, input, fluid, output);
-        return new SawmillRecipeBuilder(recipe);
+        return new IndustrialSawmillRecipeBuilder(recipe);
     }
 
     public static SISORecipeBuilder<ItemStack> vacuumFreezerSolid(RecipeIngredient<ItemStack> input, ItemStack output, int duration) {

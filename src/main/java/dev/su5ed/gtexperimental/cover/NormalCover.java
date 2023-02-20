@@ -77,7 +77,7 @@ public class NormalCover extends BaseCover<BlockEntity> implements FieldUpdateLi
 
     @Override
     public void onFieldUpdate(String name) {
-        if (name.equals("mode")) GtUtil.updateRender(this.be); // TODO builder map method
+        if (name.equals("mode")) GtUtil.updateRender(this.be);
     }
 
     @Override

@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:tool_crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "gtexperimental:damaged_item",
+      "item": "gtexperimental:tungsten_steel_turbine_rotor"
+    },
+    {
+      "tag": "forge:tools/hard_hammer"
+    },
+    {
+      "type": "gtexperimental:tool",
+      "damage": 8,
+      "value": {
+        "tag": "gtexperimental:tools/wrench"
+      }
+    },
+    {
+      "tag": "forge:tools/file"
+    }
+  ],
+  "result": {
+    "item": "gtexperimental:tungsten_steel_turbine_rotor"
+  }
+}

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class FluidHandler extends GtComponentBase<BaseBlockEntity> {
     private static final ResourceLocation NAME = location("fluid_handler");

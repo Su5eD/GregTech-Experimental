@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 2,
         "item": "gtexperimental:steel_dust"
       }
     },
     {
       "probability": 0.1,
-      "stack": {
+      "result": {
         "count": 2,
         "item": "gtexperimental:nickel_dust"
       }

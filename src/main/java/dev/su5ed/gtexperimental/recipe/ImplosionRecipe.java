@@ -3,7 +3,6 @@ package dev.su5ed.gtexperimental.recipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
-import dev.su5ed.gtexperimental.recipe.type.BaseRecipeSerializer;
 import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
 import net.minecraft.resources.ResourceLocation;

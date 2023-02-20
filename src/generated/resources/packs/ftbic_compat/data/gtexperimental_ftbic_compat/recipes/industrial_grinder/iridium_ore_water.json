@@ -1,0 +1,29 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/iridium"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "ftbic:iridium_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:platinum_smalldust"
+    }
+  ]
+}

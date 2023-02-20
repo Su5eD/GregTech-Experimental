@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "F": {
+      "tag": "forge:tools/file"
+    },
+    "H": {
+      "tag": "forge:tools/hard_hammer"
+    },
+    "P": {
+      "tag": "forge:plates/bronze"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "PPS",
+    "FH "
+  ],
+  "result": {
+    "item": "gtexperimental:bronze_saw"
+  }
+}

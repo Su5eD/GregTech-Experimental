@@ -113,7 +113,7 @@ public final class CropLoader {
         SPIDERNIP("Mr. Kenny", Items.STRING, new ItemStack[] { new ItemStack(Items.SPIDER_EYE), new ItemStack(Blocks.COBWEB) }, 4, 4, 600, 1, 4, 2, 1, 4, 1, 3, TOXIC, SILK, SPIDER, FLOWER, INGREDIENT, ADDITCTIVE),
         TEARSTALKS("Neowulf", Items.GHAST_TEAR, 8, 4, 0, 1, 4, 1, 2, 0, 0, 0, HEALING, NETHER, INGREDIENT, REED, GHAST),
         TINE("Gregorius Techneticies", Nugget.TIN, 5, 3, 0, 2, 3, 2, 0, 3, 0, 0, SHINY, METAL, PINE, TIN, BUSH),
-        WITHEREED("CovertJaguar", ModHandler.getModItem("coal_dust"), new ItemStack[] { new ItemStack(Items.COAL), new ItemStack(Items.COAL) }, 8, 4, 0, 1, 4, 2, 0, 4, 1, 3, FIRE, UNDEAD, REED, COAL, ROTTEN, WITHER);
+        WITHEREED("CovertJaguar", Dust.COAL, new ItemStack[] { new ItemStack(Items.COAL), new ItemStack(Items.COAL) }, 8, 4, 0, 1, 4, 2, 0, 4, 1, 3, FIRE, UNDEAD, REED, COAL, ROTTEN, WITHER);
         
         public final String discoverer;
         public final ItemStack[] drops;

@@ -16,7 +16,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import org.jetbrains.annotations.Nullable;
 
 public enum ModFluid implements ItemProvider, FluidProvider {
     // Liquids

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "forge:storage_blocks/steel"
+    },
+    "T": {
+      "tag": "gtexperimental:tungsten_steel_turbine_blade"
+    }
+  },
+  "pattern": [
+    "TTT",
+    "TBT",
+    "TTT"
+  ],
+  "result": {
+    "item": "gtexperimental:tungsten_steel_turbine_rotor"
+  }
+}

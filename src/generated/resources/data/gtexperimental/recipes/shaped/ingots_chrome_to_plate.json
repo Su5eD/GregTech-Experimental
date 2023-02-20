@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "tag": "forge:tools/hard_hammer"
+    },
+    "I": {
+      "tag": "forge:ingots/chrome"
+    }
+  },
+  "pattern": [
+    "H",
+    "I"
+  ],
+  "result": {
+    "item": "gtexperimental:chrome_plate"
+  }
+}

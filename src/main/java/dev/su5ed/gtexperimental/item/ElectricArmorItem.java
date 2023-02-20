@@ -1,7 +1,7 @@
 package dev.su5ed.gtexperimental.item;
 
-import dev.su5ed.gtexperimental.api.item.ExhaustingItem;
 import dev.su5ed.gtexperimental.api.Reference;
+import dev.su5ed.gtexperimental.api.item.ExhaustingItem;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.ModObjects;
 import dev.su5ed.gtexperimental.util.ArmorPerk;
@@ -31,7 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;

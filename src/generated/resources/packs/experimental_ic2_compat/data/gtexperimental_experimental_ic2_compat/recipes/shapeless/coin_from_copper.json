@@ -1,0 +1,45 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          {
+            "item": "gtexperimental:copper_credit"
+          },
+          {
+            "item": "gtexperimental:copper_credit"
+          },
+          {
+            "item": "gtexperimental:copper_credit"
+          },
+          {
+            "item": "gtexperimental:copper_credit"
+          },
+          {
+            "item": "gtexperimental:copper_credit"
+          },
+          {
+            "item": "gtexperimental:copper_credit"
+          },
+          {
+            "item": "gtexperimental:copper_credit"
+          },
+          {
+            "item": "gtexperimental:copper_credit"
+          }
+        ],
+        "result": {
+          "item": "ic2:coin"
+        }
+      }
+    }
+  ]
+}

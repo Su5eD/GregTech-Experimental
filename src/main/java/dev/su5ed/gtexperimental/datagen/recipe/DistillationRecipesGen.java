@@ -25,9 +25,8 @@ public final class DistillationRecipesGen implements ModRecipeProvider {
             ModFluid.GLYCERYL.getBuckets(1),
             ModFluid.METHANE.getBuckets(16),
             16000
-        )
-            .build(finishedRecipeConsumer, id("oil"));
-        
+        ).build(finishedRecipeConsumer, id("oil"));
+
         buildOtherModRecipes(finishedRecipeConsumer);
     }
 

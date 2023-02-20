@@ -16,14 +16,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 2,
         "item": "minecraft:stick"
       }
     },
     {
       "probability": 0.3,
-      "stack": {
+      "result": {
         "item": "minecraft:stick"
       }
     }

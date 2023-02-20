@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "forge:plates/chrome"
+    },
+    "I": {
+      "tag": "gtexperimental:plates/iridium_alloy"
+    },
+    "L": {
+      "tag": "gtexperimental:large_eu_store"
+    }
+  },
+  "pattern": [
+    "CIC",
+    "ILI",
+    "CIC"
+  ],
+  "result": {
+    "item": "gtexperimental:cloaking_device"
+  }
+}

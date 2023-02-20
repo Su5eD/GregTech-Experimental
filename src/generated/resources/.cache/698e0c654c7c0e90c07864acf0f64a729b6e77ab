@@ -1,4 +1,4 @@
-// 1.19.2	2023-01-20T21:16:16.2011457	Gregtech ExperimentalTags for minecraft:block
+// 1.19.2	2023-02-19T19:27:35.221122	Gregtech ExperimentalTags for minecraft:block
 84d79d5ecdeb2284d76fdef2e3146e2965430ef8 data/forge/tags/blocks/mineable/shears.json
 49cd44dd0d06195bda6c6bc4699f86425efa8c2b data/forge/tags/blocks/ores.json
 f6818aa318dcfbac470d18dcd2a3be14d0d9dabb data/forge/tags/blocks/ores/bauxite.json
@@ -15,6 +15,35 @@ f408768a6fc2cafde93cab212dbee7e20f217ad9 data/forge/tags/blocks/ores/sheldonite.
 6faa0885a500a818a1b8e473a4eb24da883703ad data/forge/tags/blocks/ores/sphalerite.json
 50b1f7f8668e1817bcd71da0dedfa5bcb5cce131 data/forge/tags/blocks/ores/tetrahedrite.json
 7bf798ae4bdb53f092ac94be759be50181d7a729 data/forge/tags/blocks/ores/tungstate.json
+8bb453dd7becf21f13bd5bfa6d5f30184f35831b data/forge/tags/blocks/storage_blocks.json
+b751d948f8ef357345d13b7e23755ca732a734a7 data/forge/tags/blocks/storage_blocks/advanced_machine_casing.json
+95a6bac560bc4284502fc27625d92155225ffd17 data/forge/tags/blocks/storage_blocks/aluminium.json
+e8baa971b24b3a826130d1aaf7277da60540e280 data/forge/tags/blocks/storage_blocks/brass.json
+33a51aba1071b46c9d2e8f20bd3074fc8657e602 data/forge/tags/blocks/storage_blocks/chrome.json
+68b85e69703778fdfcc62abb4176e5cfd17be897 data/forge/tags/blocks/storage_blocks/electrum.json
+721ed17c2bc3b0a89d6debc8777934a063e2f79c data/forge/tags/blocks/storage_blocks/fusion_coil.json
+4b5cbbcdbffa89f5936570999b69e35f0cd958e7 data/forge/tags/blocks/storage_blocks/green_sapphire.json
+2a4f40817aafc80e81b97f834f6f873bb30d4189 data/forge/tags/blocks/storage_blocks/highly_advanced_machine.json
+61c3dc0668bdee8fa30a27c9a4fb0c3dbae817c6 data/forge/tags/blocks/storage_blocks/invar.json
+2865b95900f2dd60a053c95f7623621e4c7640e7 data/forge/tags/blocks/storage_blocks/iridium.json
+19ab50409bcc23ec985e17915697ab22de23dea9 data/forge/tags/blocks/storage_blocks/iridium_reinforced_stone.json
+8fcc188ca66d496252b0944b0b965e9ec58f7940 data/forge/tags/blocks/storage_blocks/iridium_reinforced_tungsten_steel.json
+baab99c1c7103185e8a103cf7de726395534ea77 data/forge/tags/blocks/storage_blocks/lead.json
+50fcb00bedbb9e35d202a6ed845837b0dfbd4b34 data/forge/tags/blocks/storage_blocks/lesublock.json
+a872e29b7166381dbe0459ff16636f98bdacda7a data/forge/tags/blocks/storage_blocks/nickel.json
+36caa321f6f6af9516d25779a48028f33af814f1 data/forge/tags/blocks/storage_blocks/olivine.json
+75f918414d573b1f98f492cafcb50462a1591946 data/forge/tags/blocks/storage_blocks/osmium.json
+7f5d8626063b15f03254bce94a104ab811420b37 data/forge/tags/blocks/storage_blocks/platinum.json
+e8a49ec51e094d3135c335a268b4f4f935cf9c8d data/forge/tags/blocks/storage_blocks/reinforced_machine_casing.json
+d1dd02db0d38fe292914270b4ca9fab5265d42bf data/forge/tags/blocks/storage_blocks/ruby.json
+9d9f7cb96ed29c11b7bc15ab7c0019dc731fb691 data/forge/tags/blocks/storage_blocks/sapphire.json
+abd25412ccee7c320bd2440cd796b1bbee0e2e4d data/forge/tags/blocks/storage_blocks/silver.json
+71ddec94e81f82aeda8a15e253a54014f0cbebd3 data/forge/tags/blocks/storage_blocks/standard_machine_casing.json
+17ffd4b39f786d0412e8ae34f8dd18fd74c4b61b data/forge/tags/blocks/storage_blocks/steel.json
+37dd6364b2f8c15df4dbe100c53aa0b262503877 data/forge/tags/blocks/storage_blocks/titanium.json
+b8714ce0365a9e39c8940d42a629cb2c102e011c data/forge/tags/blocks/storage_blocks/tungsten.json
+6a7fd5282afdecbf6b0411235d8801e7b143dfe5 data/forge/tags/blocks/storage_blocks/tungsten_steel.json
+af39080e93b35ecc4db5c3882d96860e841662e6 data/forge/tags/blocks/storage_blocks/zinc.json
 db6195d77bd598771b111d12750ba39f41fe35c7 data/gtexperimental/tags/blocks/submerge_ore_lava.json
 34ca284e48a52d31d95b380fcf531225486a6013 data/minecraft/tags/blocks/mineable/pickaxe.json
 b05cde6094052bb01f4150160d3e37ed0a650a9b data/minecraft/tags/blocks/needs_diamond_tool.json

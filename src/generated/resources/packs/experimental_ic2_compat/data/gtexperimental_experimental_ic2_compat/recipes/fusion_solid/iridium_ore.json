@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:fusion_solid",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 512,
+  "energy_cost": 32768.0,
+  "input": [
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:wolframium"
+    },
+    {
+      "type": "tag",
+      "amount": 1000,
+      "tag": "forge:lithium"
+    }
+  ],
+  "output": {
+    "item": "ic2:iridium_ore"
+  },
+  "start_energy": 1.5E8
+}

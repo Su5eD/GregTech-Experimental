@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:implosion",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "input": {
+    "count": 4,
+    "value": {
+      "tag": "forge:dusts/diamond"
+    }
+  },
+  "output": [
+    {
+      "count": 3,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 16,
+      "item": "gtexperimental:dark_ashes_dust"
+    }
+  ],
+  "tnt": 32
+}

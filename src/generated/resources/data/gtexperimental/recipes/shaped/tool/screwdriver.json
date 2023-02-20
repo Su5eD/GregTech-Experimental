@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": {
+      "tag": "gtexperimental:rods/universal_iron"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "I  ",
+    " I ",
+    "  S"
+  ],
+  "result": {
+    "item": "gtexperimental:screwdriver"
+  }
+}

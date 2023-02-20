@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 4,
         "item": "ic2:fertilizer"
       }
     },
     {
       "probability": 0.5,
-      "stack": {
+      "result": {
         "item": "gtexperimental:phosphorus_dust"
       }
     }

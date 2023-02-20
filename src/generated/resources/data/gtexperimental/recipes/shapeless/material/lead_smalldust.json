@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:dusts/iron"
+    },
+    {
+      "tag": "forge:small_dusts/nickel"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "gtexperimental:lead_smalldust"
+  }
+}

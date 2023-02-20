@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 10000,
+  "input": {
+    "type": "fluid",
+    "amount": 16000,
+    "tag": "minecraft:lava"
+  },
+  "output": [
+    {
+      "item": "gtexperimental:electrum_ingot"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "gtexperimental:tungsten_smalldust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:tin_ingot"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "gtexperimental:tool_crafting_shaped",
+  "key": {
+    "R": {
+      "tag": "forge:plates/brass"
+    },
+    "W": {
+      "type": "gtexperimental:tool",
+      "damage": 8,
+      "value": {
+        "tag": "gtexperimental:tools/wrench"
+      }
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RWR",
+    "RRR"
+  ],
+  "result": {
+    "item": "gtexperimental:brass_hull"
+  }
+}

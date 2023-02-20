@@ -12,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 10,
         "item": "minecraft:redstone"
       }
     },
     {
       "probability": 0.1,
-      "stack": {
+      "result": {
         "item": "minecraft:glowstone_dust"
       }
     }

@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 800,
+  "energy_cost": 1.0,
+  "input": [
+    {
+      "value": [
+        {
+          "tag": "gtexperimental:plates/universal_iron"
+        },
+        {
+          "tag": "forge:plates/aluminium"
+        }
+      ]
+    },
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:plates/electrum"
+      }
+    }
+  ],
+  "output": {
+    "count": 2,
+    "item": "gtexperimental:basic_circuit_board"
+  }
+}

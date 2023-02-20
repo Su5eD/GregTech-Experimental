@@ -1,0 +1,32 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 700,
+  "energy_cost": 80.0,
+  "input": {
+    "type": "item",
+    "count": 10,
+    "value": {
+      "tag": "forge:dusts/calcite"
+    }
+  },
+  "output": [
+    {
+      "amount": 2000,
+      "fluid": "gtexperimental:calcium_fluid"
+    },
+    {
+      "amount": 2000,
+      "fluid": "gtexperimental:carbon_fluid"
+    },
+    {
+      "amount": 3000,
+      "fluid": "ic2:air"
+    }
+  ]
+}

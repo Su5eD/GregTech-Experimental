@@ -1,0 +1,71 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "railcraft"
+        }
+      ],
+      "recipe": {
+        "type": "railcraft:rolling",
+        "key": {
+          "A": {
+            "tag": "gtexperimental:ingots/universal_iron"
+          },
+          "B": {
+            "tag": "forge:ingots/chrome"
+          },
+          "C": {
+            "tag": "forge:ingots/aluminium"
+          }
+        },
+        "pattern": [
+          "AAA",
+          "BCC",
+          "BBC"
+        ],
+        "result": {
+          "count": 3,
+          "item": "gtexperimental:kanthal_coil"
+        },
+        "tickCost": 100
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:mod_loaded",
+            "modid": "railcraft"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "A": {
+            "tag": "gtexperimental:ingots/universal_iron"
+          },
+          "B": {
+            "tag": "forge:ingots/chrome"
+          },
+          "C": {
+            "tag": "forge:ingots/aluminium"
+          }
+        },
+        "pattern": [
+          "AAA",
+          "BCC",
+          "BBC"
+        ],
+        "result": {
+          "count": 3,
+          "item": "gtexperimental:kanthal_coil"
+        }
+      }
+    }
+  ]
+}

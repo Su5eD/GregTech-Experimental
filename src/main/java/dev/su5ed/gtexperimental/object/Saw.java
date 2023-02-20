@@ -1,17 +1,21 @@
 package dev.su5ed.gtexperimental.object;
 
+import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.item.CraftingToolItem;
 import dev.su5ed.gtexperimental.item.ToolItem;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.ItemProvider;
+import dev.su5ed.gtexperimental.util.TaggedItemProvider;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.Nullable;
 
-public enum Saw implements ItemProvider {
+public enum Saw implements TaggedItemProvider {
     IRON(128, 3, 2),
     BRONZE(256, 4, 3),
     STEEL(1280, 6, 4),
@@ -38,5 +42,10 @@ public enum Saw implements ItemProvider {
     @Override
     public Item getItem() {
         return this.instance.get();
+    }
+
+    @Override
+    public TagKey<Item> getTag() {
+        return GregTechTags.SAW;
     }
 }

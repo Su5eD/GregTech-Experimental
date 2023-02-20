@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": [
+      {
+        "tag": "gtexperimental:ingots/any_iron"
+      },
+      {
+        "tag": "forge:ingots/bronze"
+      },
+      {
+        "tag": "forge:ingots/aluminium"
+      },
+      {
+        "tag": "forge:ingots/steel"
+      },
+      {
+        "tag": "forge:ingots/titanium"
+      }
+    ],
+    "C": {
+      "tag": "forge:cobblestone"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "WWW",
+    "CBC",
+    "CRC"
+  ],
+  "result": {
+    "item": "minecraft:piston"
+  }
+}

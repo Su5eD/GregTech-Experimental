@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 50,
+  "energy_cost": 110.0,
+  "input": {
+    "type": "item",
+    "count": 10,
+    "value": {
+      "tag": "forge:dusts/saltpeter"
+    }
+  },
+  "output": [
+    {
+      "amount": 2000,
+      "fluid": "gtexperimental:potassium_fluid"
+    },
+    {
+      "amount": 2000,
+      "fluid": "gtexperimental:nitrogen_fluid"
+    }
+  ]
+}

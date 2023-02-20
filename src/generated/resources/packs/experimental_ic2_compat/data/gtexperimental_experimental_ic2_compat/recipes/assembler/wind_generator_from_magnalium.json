@@ -1,0 +1,27 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 6400,
+  "energy_cost": 8.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gtexperimental:generator"
+      }
+    },
+    {
+      "count": 2,
+      "value": {
+        "tag": "forge:plates/magnalium"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:wind_generator"
+  }
+}

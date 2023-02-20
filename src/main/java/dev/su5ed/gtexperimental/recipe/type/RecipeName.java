@@ -1,5 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import dev.su5ed.gtexperimental.api.Reference;
 import net.minecraft.resources.ResourceLocation;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
@@ -15,21 +16,11 @@ public final class RecipeName {
     private final String name;
 
     public static RecipeName common(String namespace, String type, String name) {
-        return profile(namespace, type, null, name);
+        return new RecipeName(namespace, null, type, null, name);
     }
 
-    // Common recipes: RECIPE_TYPE/[PROFILE]/RECIPE_ID
-    public static RecipeName profile(String namespace, String type, String profile, String name) {
-        return new RecipeName(namespace, null, type, profile, name);
-    }
-
-    public static RecipeName foreign(String namespace, String modid, String type, String name) {
-        return foreign(namespace, modid, type, null, name);
-    }
-
-    // Foreign mod recipes: MODID/RECIPE_TYPE/[PROFILE]/RECIPE_ID
-    public static RecipeName foreign(String namespace, String modid, String type, String profile, String name) {
-        return new RecipeName(namespace, modid, type, profile, name);
+    public static RecipeName foreign(ResourceLocation type, String name) {
+        return new RecipeName(Reference.MODID, type.getNamespace(), type.getPath(), null, name);
     }
 
     private RecipeName(String namespace, @Nullable String modid, String type, @Nullable String profile, String name) {
@@ -39,7 +30,7 @@ public final class RecipeName {
         this.profile = profile;
         this.name = name;
     }
-    
+
     public RecipeName withType(String type) {
         return new RecipeName(this.namespace, this.modid, type, this.profile, this.name);
     }

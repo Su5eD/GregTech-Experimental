@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "F": {
+      "tag": "forge:tools/file"
+    },
+    "T": {
+      "tag": "forge:tools/hard_hammer"
+    },
+    "X": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "pattern": [
+    "XF",
+    "TX"
+  ],
+  "result": {
+    "item": "minecraft:shears"
+  }
+}

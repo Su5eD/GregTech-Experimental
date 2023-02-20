@@ -1,0 +1,37 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "ingredient": [
+    {
+      "tag": "forge:ores/sheldonite"
+    },
+    {
+      "tag": "forge:ores/platinum"
+    }
+  ],
+  "output": [
+    {
+      "probability": 1.0,
+      "result": {
+        "count": 2,
+        "item": "gtexperimental:platinum_dust"
+      }
+    },
+    {
+      "probability": 0.1,
+      "result": {
+        "item": "ftbic:iridium_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

@@ -4,13 +4,6 @@
     {
       "type": "forge:mod_loaded",
       "modid": "railcraft"
-    },
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:mod_loaded",
-        "modid": "ic2"
-      }
     }
   ],
   "ingredient": {
@@ -19,14 +12,14 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "count": 2,
         "item": "gtexperimental:uranium_dust"
       }
     },
     {
       "probability": 0.1,
-      "stack": {
+      "result": {
         "item": "gtexperimental:plutonium_dust"
       }
     }

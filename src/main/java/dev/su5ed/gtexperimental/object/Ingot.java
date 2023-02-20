@@ -18,6 +18,7 @@ public enum Ingot implements TaggedItemProvider {
     ANTIMONY("Sb"),
     BATTERY_ALLOY("Pb4Sb1"),
     BRASS("ZnCu3"),
+    BRONZE("SnCu3"),
     CHROME("Cr"),
     ELECTRUM("AgAu"),
     HOT_TUNGSTEN_STEEL,
@@ -33,6 +34,7 @@ public enum Ingot implements TaggedItemProvider {
     SILVER("Ag"),
     SOLDERING_ALLOY("Sn9Sb1"),
     STEEL("Fe"),
+    TIN("Sn"),
     THORIUM("Th", true),
     TITANIUM("Ti"),
     TUNGSTEN("W"),
@@ -58,7 +60,7 @@ public enum Ingot implements TaggedItemProvider {
     Ingot(MutableComponent description, boolean isFoil) {
         this.description = description;
         this.instance = Lazy.of(() -> new ResourceItem(new ExtendedItemProperties<>().description(description).foil(isFoil)));
-        this.tag = GregTechTags.material("ingots", getName());
+        this.tag = GregTechTags.ingot(getName());
     }
 
     @Override

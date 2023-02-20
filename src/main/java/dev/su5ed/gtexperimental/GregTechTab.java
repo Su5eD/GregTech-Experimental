@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental;
 
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Armor;
-import dev.su5ed.gtexperimental.object.Cell;
 import dev.su5ed.gtexperimental.object.ColorSpray;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
@@ -70,7 +69,6 @@ public final class GregTechTab extends CreativeModeTab {
             .append(Armor.values())
             .append(Miscellaneous.values())
             .append(ColorSpray.values())
-            .append(Cell.values())
             .map(ItemProvider::getItem)
             .forEach(item -> item.fillItemCategory(this, items));
     }

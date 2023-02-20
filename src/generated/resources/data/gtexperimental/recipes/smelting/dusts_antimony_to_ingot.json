@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "tag": "forge:dusts/antimony"
+  },
+  "result": {
+    "item": "gtexperimental:antimony_ingot"
+  }
+}

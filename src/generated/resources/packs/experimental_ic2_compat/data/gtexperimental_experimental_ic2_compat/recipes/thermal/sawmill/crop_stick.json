@@ -1,0 +1,22 @@
+{
+  "type": "thermal:sawmill",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "energy": 800,
+  "ingredient": {
+    "item": "ic2:crop_stick"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:wood_dust"
+    }
+  ]
+}

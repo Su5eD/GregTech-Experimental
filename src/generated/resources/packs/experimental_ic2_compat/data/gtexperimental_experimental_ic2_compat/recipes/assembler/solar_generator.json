@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 1600,
+  "energy_cost": 2.0,
+  "input": [
+    {
+      "value": {
+        "tag": "gtexperimental:crafting/raw_machine_tier_1"
+      }
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:solar_generator"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:solar_generator"
+  }
+}

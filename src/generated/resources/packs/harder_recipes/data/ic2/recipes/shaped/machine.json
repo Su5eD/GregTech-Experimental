@@ -1,0 +1,32 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "R": {
+            "tag": "gtexperimental:plates/universal_iron"
+          },
+          "W": {
+            "tag": "gtexperimental:tools/wrench"
+          }
+        },
+        "pattern": [
+          "RRR",
+          "RWR",
+          "RRR"
+        ],
+        "result": {
+          "item": "ic2:machine"
+        }
+      }
+    }
+  ]
+}

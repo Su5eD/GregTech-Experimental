@@ -17,10 +17,10 @@ public class InductionSmelterRecipeBuilder extends BaseRecipeBuilder {
     public static final ResourceLocation TYPE = new ResourceLocation(ModHandler.THERMAL_MODID, "smelter");
 
     private final Ingredient ingredient;
-    private final List<ItemStack> result;
+    private final List<Result> result;
     private final int energy;
 
-    public InductionSmelterRecipeBuilder(Ingredient ingredient, List<ItemStack> result, int energy) {
+    public InductionSmelterRecipeBuilder(Ingredient ingredient, List<Result> result, int energy) {
         this.ingredient = ingredient;
         this.result = result;
         this.energy = energy;
@@ -38,8 +38,8 @@ public class InductionSmelterRecipeBuilder extends BaseRecipeBuilder {
         super.serializeRecipeData(json);
         json.add("ingredient", this.ingredient.toJson());
         JsonArray resultJson = new JsonArray();
-        for (ItemStack stack : this.result) {
-            resultJson.add(ModRecipeOutputTypes.ITEM.toJson(stack));
+        for (Result result : this.result) {
+            resultJson.add(result.toJson());
         }
         json.add("result", resultJson);
         if (this.energy > 0) {
@@ -50,5 +50,19 @@ public class InductionSmelterRecipeBuilder extends BaseRecipeBuilder {
     @Override
     public RecipeSerializer<?> getType() {
         throw new UnsupportedOperationException();
+    }
+    
+    public record Result(ItemStack item, double chance) {
+        public Result(ItemStack item) {
+            this(item, 1);
+        }
+        
+        public JsonObject toJson() {
+            JsonObject json = ModRecipeOutputTypes.ITEM.toJson(this.item);
+            if (this.chance != 1) {
+                json.addProperty("chance", this.chance);
+            }
+            return json;
+        } 
     }
 }

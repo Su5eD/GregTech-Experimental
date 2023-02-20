@@ -1,0 +1,38 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "tag": "gtexperimental:energy_flow_circuit"
+          },
+          "I": {
+            "tag": "gtexperimental:plates/iridium_alloy"
+          },
+          "L": {
+            "tag": "gtexperimental:medium_eu_store"
+          },
+          "P": {
+            "tag": "forge:plates/platinum"
+          }
+        },
+        "pattern": [
+          "PI ",
+          "PI ",
+          "CLC"
+        ],
+        "result": {
+          "item": "ic2:nano_saber"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "gtexperimental:processor_circuit_board"
+    },
+    "M": {
+      "tag": "gtexperimental:crafting/raw_machine_tier_4"
+    },
+    "T": {
+      "tag": "forge:plates/chrome"
+    }
+  },
+  "pattern": [
+    "TTT",
+    "CMC",
+    "TTT"
+  ],
+  "result": {
+    "count": 4,
+    "item": "gtexperimental:advanced_machine_casing_block"
+  }
+}

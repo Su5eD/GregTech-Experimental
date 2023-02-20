@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.object;
 
-import dev.su5ed.gtexperimental.GregTechMod;
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.item.AdvancedDrillItem;
 import dev.su5ed.gtexperimental.item.AdvancedSawItem;
@@ -22,6 +21,7 @@ import dev.su5ed.gtexperimental.item.ScannerItem;
 import dev.su5ed.gtexperimental.item.ScrewdriverItem;
 import dev.su5ed.gtexperimental.item.SolderingToolItem;
 import dev.su5ed.gtexperimental.item.TeslaStaffItem;
+import dev.su5ed.gtexperimental.util.ProfileManager;
 import dev.su5ed.gtexperimental.util.TaggedItemProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -33,7 +33,7 @@ import java.util.function.Supplier;
 
 public enum Tool implements TaggedItemProvider {
     ADVANCED_DRILL(AdvancedDrillItem::new, GregTechTags.LARGE_DRILL),
-    ADVANCED_SAW(AdvancedSawItem::new),
+    ADVANCED_SAW(AdvancedSawItem::new, GregTechTags.SAW),
     ADVANCED_WRENCH(AdvancedWrenchItem::new),
     CROWBAR(CrowbarItem::new, GregTechTags.CROWBAR),
     DEBUG_SCANNER(DebugScannerItem::new),
@@ -45,11 +45,11 @@ public enum Tool implements TaggedItemProvider {
     ICE_SPRAY(IceSprayItem::new),
     PEPPER_SPRAY(PepperSprayItem::new),
     LAPOTRONIC_ENERGY_ORB(() -> new ElectricItem(new ElectricItemProperties()
-        .maxCharge(GregTechMod.PROFILE_MANAGER.isClassic() ? 10000000 : 100000000)
+        .maxCharge(ProfileManager.INSTANCE.isClassic() ? 10000000 : 100000000)
         .transferLimit(8192)
-        .energyTier(GregTechMod.PROFILE_MANAGER.isClassic() ? 4 : 5)
+        .energyTier(ProfileManager.INSTANCE.isClassic() ? 4 : 5)
         .providesEnergy(true)
-        .rarity(Rarity.RARE)), GregTechMod.PROFILE_MANAGER.isClassic() ? GregTechTags.CRAFTING_10KK_EU_STORE : GregTechTags.CRAFTING_100KK_EU_STORE),
+        .rarity(Rarity.RARE)), GregTechTags.LARGE_EU_STORE),
     ROCK_CUTTER(RockCutterItem::new),
     RUBBER_HAMMER(RubberHammerItem::new, GregTechTags.SOFT_HAMMER),
     SCANNER(ScannerItem::new),

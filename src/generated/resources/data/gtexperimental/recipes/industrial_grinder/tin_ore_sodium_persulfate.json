@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "gtexperimental:sodium_persulfate_fluid"
+  },
+  "input": {
+    "value": {
+      "tag": "forge:ores/tin"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:tin_dust"
+    },
+    {
+      "item": "gtexperimental:iron_smalldust"
+    },
+    {
+      "item": "gtexperimental:zinc_dust"
+    }
+  ]
+}

@@ -9,12 +9,14 @@ import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.object.ModCovers;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.object.ModObjects;
+import dev.su5ed.gtexperimental.recipe.crafting.FluidItemPredicate;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import dev.su5ed.gtexperimental.util.ProfileManager;
 import dev.su5ed.gtexperimental.util.loot.ConditionLootModifier;
 import dev.su5ed.gtexperimental.world.ModConfiguredFeatures;
 import dev.su5ed.gtexperimental.world.ModPlacedFeatures;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -28,16 +30,15 @@ import org.apache.logging.log4j.Logger;
 public class GregTechMod {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final ProfileManager PROFILE_MANAGER = new ProfileManager();
-
     public GregTechMod() {
-        PROFILE_MANAGER.init();
-        
+        ProfileManager.INSTANCE.init();
+
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
+        bus.addListener(GregTechPacks::addPackFinders);
+        bus.addListener(GregTechIMC.INSTANCE::processIMC);
         ModHandler.initMods();
 
-        GregTechAPIImpl.createAndInject();
         ModCovers.init(bus);
         ModMenus.init(bus);
         ModConfiguredFeatures.init(bus);
@@ -62,5 +63,7 @@ public class GregTechMod {
         GregTechNetwork.registerPackets();
         ModHandler.registerCrops();
         SonictronBlockEntity.loadSonictronSounds();
+
+        event.enqueueWork(() -> ItemPredicate.register(FluidItemPredicate.NAME, FluidItemPredicate::fromJson));
     }
 }

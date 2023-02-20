@@ -1,0 +1,28 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:powered_rail"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "result": {
+        "count": 6,
+        "item": "gtexperimental:gold_dust"
+      }
+    },
+    {
+      "probability": 0.9500000000000001,
+      "result": {
+        "item": "minecraft:redstone"
+      }
+    }
+  ],
+  "tickCost": 100
+}

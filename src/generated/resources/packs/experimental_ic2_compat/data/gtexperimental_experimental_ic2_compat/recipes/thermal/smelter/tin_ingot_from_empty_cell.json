@@ -1,0 +1,22 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "energy": 1000,
+  "ingredient": {
+    "item": "ic2:empty_cell"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:tin_ingot"
+    }
+  ]
+}

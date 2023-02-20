@@ -1,0 +1,26 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "duration": 600,
+  "energy_cost": 60.0,
+  "input": {
+    "type": "item",
+    "count": 9,
+    "value": {
+      "tag": "forge:dusts/olivine"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:magnesium_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:iron_dust"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:silicon_fluid"
+    }
+  ]
+}

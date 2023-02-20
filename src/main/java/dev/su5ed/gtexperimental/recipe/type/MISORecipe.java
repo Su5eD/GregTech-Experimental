@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Single Output recipe
  */
-public abstract class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<?, IN, OUT>, MISORecipe.Input<IN>, MISORecipe<IN, OUT>> {
+public abstract class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<?, IN, OUT>, List<IN>, MISORecipe<IN, OUT>> {
     protected final List<? extends RecipeIngredient<IN>> inputs;
     protected final OUT output;
     protected final RecipePropertyMap properties;
@@ -59,8 +59,8 @@ public abstract class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<
     }
 
     @Override
-    public boolean matches(Input<IN> input) {
-        return this.inputs.size() == input.items.size() && EntryStream.zip(this.inputs, input.items).allMatch(Predicate::test);
+    public boolean matches(List<IN> input) {
+        return this.inputs.size() == input.size() && EntryStream.zip(this.inputs, input).allMatch(Predicate::test);
     }
 
     @Override
@@ -75,6 +75,4 @@ public abstract class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<
         this.type.outputType.toNetwork(buffer, this.output);
         this.properties.toNetwork(buffer);
     }
-
-    public record Input<T>(List<T> items) {}
 }

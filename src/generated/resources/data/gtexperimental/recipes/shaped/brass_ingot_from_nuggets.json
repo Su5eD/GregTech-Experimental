@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "brass_ingot",
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/brass"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "result": {
+    "item": "gtexperimental:brass_ingot"
+  }
+}

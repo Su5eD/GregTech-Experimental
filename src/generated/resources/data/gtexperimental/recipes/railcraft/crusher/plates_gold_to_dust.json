@@ -1,0 +1,21 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:plates/gold"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "result": {
+        "item": "gtexperimental:gold_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

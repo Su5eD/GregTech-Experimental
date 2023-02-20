@@ -1,0 +1,35 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "item": "ic2:insulated_copper_cable"
+          },
+          "I": {
+            "tag": "gtexperimental:plates/universal_iron"
+          },
+          "R": {
+            "tag": "forge:dusts/redstone"
+          }
+        },
+        "pattern": [
+          "CRC",
+          "CIC",
+          "CRC"
+        ],
+        "result": {
+          "item": "ic2:circuit"
+        }
+      }
+    }
+  ]
+}

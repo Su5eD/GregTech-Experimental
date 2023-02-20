@@ -1,0 +1,22 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:rods/steel"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "result": {
+        "count": 2,
+        "item": "gtexperimental:steel_smalldust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

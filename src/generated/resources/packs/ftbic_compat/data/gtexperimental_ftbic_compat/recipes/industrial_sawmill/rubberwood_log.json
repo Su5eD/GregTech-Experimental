@@ -1,0 +1,22 @@
+{
+  "type": "gtexperimental:industrial_grinder",
+  "fluid": {
+    "type": "fluid",
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "input": {
+    "value": {
+      "item": "myrtrees:rubberwood_log"
+    }
+  },
+  "output": [
+    {
+      "item": "myrtrees:latex"
+    },
+    {
+      "count": 16,
+      "item": "gtexperimental:wood_dust"
+    }
+  ]
+}

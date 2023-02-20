@@ -1,0 +1,31 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 500,
+  "energy_cost": 50.0,
+  "input": {
+    "type": "item",
+    "count": 9,
+    "value": {
+      "tag": "forge:dusts/ruby"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:aluminium_dust"
+    },
+    {
+      "item": "gtexperimental:chrome_dust"
+    },
+    {
+      "amount": 3000,
+      "fluid": "ic2:air"
+    }
+  ]
+}

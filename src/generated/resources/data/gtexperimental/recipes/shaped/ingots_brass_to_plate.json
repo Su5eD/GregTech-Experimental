@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "tag": "forge:tools/hard_hammer"
+    },
+    "I": {
+      "tag": "forge:ingots/brass"
+    }
+  },
+  "pattern": [
+    "H",
+    "I"
+  ],
+  "result": {
+    "item": "gtexperimental:brass_plate"
+  }
+}

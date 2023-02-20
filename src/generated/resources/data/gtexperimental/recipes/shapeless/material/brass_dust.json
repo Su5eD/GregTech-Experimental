@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gtexperimental:iron_mortar"
+    },
+    {
+      "tag": "forge:ingots/brass"
+    }
+  ],
+  "result": {
+    "item": "gtexperimental:brass_dust"
+  }
+}

@@ -33,10 +33,12 @@ class BlockTagsGen extends BlockTagsProvider {
             .toMap();
 
         StreamEx.of(ModBlock.values())
-            .map(ModBlock::getBlock)
-            .forEach(block -> {
+            .forEach(provider -> {
+                Block block = provider.getBlock();
                 pickaxe.add(block);
                 harvestLevels.get(HarvestLevel.IRON).add(block);
+                tag(provider.getBlockTag()).add(block);
+                tag(Tags.Blocks.STORAGE_BLOCKS).addTag(provider.getBlockTag());
             });
 
         StreamEx.of(Ore.values())

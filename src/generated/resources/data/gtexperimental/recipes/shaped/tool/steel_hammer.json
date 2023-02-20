@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "tag": "forge:ingots/steel"
+    },
+    "S": {
+      "tag": "gtexperimental:rods/universal_iron"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RRR",
+    " S "
+  ],
+  "result": {
+    "item": "gtexperimental:steel_hammer"
+  }
+}

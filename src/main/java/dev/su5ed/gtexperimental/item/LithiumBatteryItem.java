@@ -2,7 +2,7 @@ package dev.su5ed.gtexperimental.item;
 
 import net.minecraft.resources.ResourceLocation;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class LithiumBatteryItem extends ElectricItem {
     public static final ResourceLocation CHARGE_PROPERTY = location("charge");

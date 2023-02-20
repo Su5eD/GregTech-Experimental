@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:smelting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "cookingtime": 200,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "ic2:machine"
+  },
+  "result": {
+    "count": 8,
+    "item": "ic2:refined_iron_ingot"
+  }
+}

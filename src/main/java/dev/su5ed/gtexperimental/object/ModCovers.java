@@ -4,7 +4,6 @@ import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.cover.CoverCategory;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
-import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.machine.IMachineProgress;
 import dev.su5ed.gtexperimental.cover.ActiveDetectorCover;
 import dev.su5ed.gtexperimental.cover.ConveyorCover;
@@ -36,7 +35,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 @SuppressWarnings("unused")
 public final class ModCovers {

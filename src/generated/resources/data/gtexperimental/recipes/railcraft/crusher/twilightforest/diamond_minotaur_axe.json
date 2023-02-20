@@ -16,13 +16,13 @@
   "output": [
     {
       "probability": 1.0,
-      "stack": {
+      "result": {
         "item": "gtexperimental:diamond_dust"
       }
     },
     {
       "probability": 0.5,
-      "stack": {
+      "result": {
         "item": "gtexperimental:wood_dust"
       }
     }

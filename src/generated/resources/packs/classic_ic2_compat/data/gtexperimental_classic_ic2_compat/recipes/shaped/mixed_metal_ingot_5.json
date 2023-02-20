@@ -1,0 +1,46 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "X": [
+            {
+              "tag": "forge:plates/invar"
+            },
+            {
+              "tag": "forge:plates/steel"
+            }
+          ],
+          "Y": [
+            {
+              "tag": "forge:plates/bronze"
+            },
+            {
+              "tag": "forge:plates/brass"
+            }
+          ],
+          "Z": {
+            "tag": "forge:plates/aluminium"
+          }
+        },
+        "pattern": [
+          "X",
+          "Y",
+          "Z"
+        ],
+        "result": {
+          "count": 3,
+          "item": "ic2:mixed_metal_ingot"
+        }
+      }
+    }
+  ]
+}

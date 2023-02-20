@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "tag": "forge:plates/aluminium"
+    },
+    "B": {
+      "tag": "forge:dyes/blue"
+    },
+    "G": {
+      "tag": "forge:dyes/lime"
+    },
+    "L": {
+      "tag": "forge:dusts/glowstone"
+    },
+    "P": {
+      "tag": "forge:glass_panes/colorless"
+    },
+    "R": {
+      "tag": "forge:dyes/red"
+    }
+  },
+  "pattern": [
+    "AGA",
+    "RPB",
+    "ALA"
+  ],
+  "result": {
+    "item": "gtexperimental:screen"
+  }
+}

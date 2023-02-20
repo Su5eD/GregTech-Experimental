@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": [
+      {
+        "tag": "gtexperimental:crafting/60k_coolant_store"
+      },
+      {
+        "tag": "gtexperimental:crafting/60k_coolant_store"
+      }
+    ],
+    "I": {
+      "tag": "gtexperimental:plates/iridium_alloy"
+    },
+    "L": {
+      "tag": "gtexperimental:energy_flow_circuit"
+    },
+    "W": {
+      "tag": "forge:plates/tungsten"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "WIW",
+    "LLL"
+  ],
+  "result": {
+    "count": 4,
+    "item": "gtexperimental:superconductor"
+  }
+}

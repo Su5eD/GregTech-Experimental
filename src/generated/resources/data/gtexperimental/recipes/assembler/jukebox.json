@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 16000,
+  "energy_cost": 1.0,
+  "input": [
+    {
+      "count": 8,
+      "value": {
+        "tag": "minecraft:planks"
+      }
+    },
+    {
+      "value": {
+        "tag": "forge:gems/diamond"
+      }
+    }
+  ],
+  "output": {
+    "item": "minecraft:jukebox"
+  }
+}

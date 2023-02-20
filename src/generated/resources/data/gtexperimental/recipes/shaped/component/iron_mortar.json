@@ -1,0 +1,19 @@
+{
+  "type": "gtexperimental:tool_crafting_shaped",
+  "key": {
+    "R": {
+      "tag": "gtexperimental:ingots/universal_iron"
+    },
+    "S": {
+      "tag": "minecraft:stone_bricks"
+    }
+  },
+  "pattern": [
+    " R ",
+    "SRS",
+    "SSS"
+  ],
+  "result": {
+    "item": "gtexperimental:iron_mortar"
+  }
+}

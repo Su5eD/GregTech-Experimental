@@ -1,0 +1,17 @@
+{
+  "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:plates/nickel"
+  },
+  "result": [
+    {
+      "item": "gtexperimental:nickel_dust"
+    }
+  ]
+}

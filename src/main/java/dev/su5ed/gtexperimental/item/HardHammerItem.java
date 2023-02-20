@@ -61,6 +61,7 @@ public class HardHammerItem extends HammerItem {
     @Override
     public ItemStack getCraftingRemainingItem(ItemStack stack) {
         ItemStack copy = stack.copy();
+        // TODO FIX SOUND
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientSetup.playSound(SoundEvents.ANVIL_USE, GtUtil.RANDOM.nextFloat() * 0.1F + 0.9F));
         return copy.hurt(4, GtUtil.RANDOM, null) ? ItemStack.EMPTY : copy;
     }

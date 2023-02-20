@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "aluminium_ingot",
+  "key": {
+    "N": {
+      "tag": "forge:nuggets/aluminium"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "result": {
+    "item": "gtexperimental:aluminium_ingot"
+  }
+}

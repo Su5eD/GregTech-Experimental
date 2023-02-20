@@ -1,0 +1,24 @@
+{
+  "type": "gtexperimental:implosion",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "input": {
+    "value": {
+      "tag": "forge:ingots/iridium_alloy"
+    }
+  },
+  "output": [
+    {
+      "item": "ic2:iridium"
+    },
+    {
+      "count": 4,
+      "item": "gtexperimental:dark_ashes_dust"
+    }
+  ],
+  "tnt": 8
+}

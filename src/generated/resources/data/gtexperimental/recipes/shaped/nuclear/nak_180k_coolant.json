@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "tag": "gtexperimental:crafting/60k_coolant_store"
+    },
+    "T": {
+      "tag": "forge:plates/tin"
+    }
+  },
+  "pattern": [
+    "TTT",
+    "HHH",
+    "TTT"
+  ],
+  "result": {
+    "item": "gtexperimental:nak_180k_coolant"
+  }
+}

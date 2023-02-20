@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> extends GtComponentBase<T> {
     private static final ResourceLocation NAME = location("upgrade_manager");

@@ -1,0 +1,38 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "tag": "gtexperimental:circuit"
+          },
+          "G": {
+            "tag": "forge:dusts/glowstone"
+          },
+          "L": {
+            "tag": "forge:dusts/lapis"
+          },
+          "S": {
+            "tag": "forge:dusts/redstone"
+          }
+        },
+        "pattern": [
+          "SGS",
+          "LCL",
+          "SGS"
+        ],
+        "result": {
+          "item": "ic2:advanced_circuit"
+        }
+      }
+    }
+  ]
+}

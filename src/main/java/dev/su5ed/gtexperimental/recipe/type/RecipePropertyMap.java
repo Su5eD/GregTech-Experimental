@@ -58,10 +58,13 @@ public class RecipePropertyMap {
         this.properties.forEach((property, value) -> ((RecipeProperty<Object>) property).validate(id, value));
     }
 
-    public static RecipePropertyMap fromJson(List<RecipeProperty<?>> properties, JsonObject json) {
+    public static RecipePropertyMap fromJson(ResourceLocation id, List<RecipeProperty<?>> properties, JsonObject json) {
         Map<RecipeProperty<?>, Object> map = StreamEx.of(properties)
             .<Object>mapToEntry(property -> {
                 JsonElement element = json.get(property.getName());
+                if (element == null) {
+                    throw new IllegalStateException("Recipe " + id + " missing property " + property.getName());
+                }
                 return property.fromJson(element);
             })
             .toMap();

@@ -1,0 +1,36 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 600,
+  "energy_cost": 60.0,
+  "input": {
+    "type": "item",
+    "count": 9,
+    "value": {
+      "tag": "forge:dusts/olivine"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:magnesium_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:iron_dust"
+    },
+    {
+      "amount": 1000,
+      "fluid": "gtexperimental:silicon_fluid"
+    },
+    {
+      "amount": 1000,
+      "fluid": "ic2:air"
+    }
+  ]
+}

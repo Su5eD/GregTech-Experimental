@@ -1,0 +1,23 @@
+{
+  "type": "thermal:smelter",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "energy": 7000,
+  "ingredient": {
+    "item": "ic2:empty_fuel_can"
+  },
+  "result": [
+    {
+      "count": 7,
+      "item": "gtexperimental:tin_ingot"
+    }
+  ]
+}

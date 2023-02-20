@@ -1,0 +1,26 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "item": "ic2:iron_fence"
+  },
+  "output": [
+    {
+      "probability": 0.5,
+      "result": {
+        "count": 3,
+        "item": "gtexperimental:iron_smalldust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

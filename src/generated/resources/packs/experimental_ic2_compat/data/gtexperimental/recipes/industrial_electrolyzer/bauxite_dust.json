@@ -1,0 +1,36 @@
+{
+  "type": "gtexperimental:industrial_centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 2000,
+  "energy_cost": 128.0,
+  "input": {
+    "type": "item",
+    "count": 12,
+    "value": {
+      "tag": "forge:dusts/bauxite"
+    }
+  },
+  "output": [
+    {
+      "count": 8,
+      "item": "gtexperimental:aluminium_dust"
+    },
+    {
+      "count": 2,
+      "item": "gtexperimental:titanium_smalldust"
+    },
+    {
+      "amount": 5000,
+      "fluid": "gtexperimental:hydrogen_fluid"
+    },
+    {
+      "amount": 3000,
+      "fluid": "ic2:air"
+    }
+  ]
+}

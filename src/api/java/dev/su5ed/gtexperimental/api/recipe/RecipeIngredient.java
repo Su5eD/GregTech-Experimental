@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.api.recipe;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.Ingredient;

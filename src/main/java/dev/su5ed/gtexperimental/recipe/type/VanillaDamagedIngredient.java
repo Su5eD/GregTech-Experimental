@@ -2,10 +2,10 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.AbstractIngredient;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
@@ -13,12 +13,14 @@ import net.minecraftforge.common.crafting.IIngredientSerializer;
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class VanillaDamagedIngredient extends AbstractIngredient {
+    public static final ResourceLocation NAME = location("damaged_item");
+    public static final IIngredientSerializer<VanillaDamagedIngredient> SERIALIZER = new SimpleIngredientSerializer<>(VanillaDamagedIngredient::new);
 
-    public VanillaDamagedIngredient(ItemStack stack) {
-        this(Stream.of(new ItemValue(stack)));
+    public static VanillaDamagedIngredient of(ItemLike item) {
+        return new VanillaDamagedIngredient(Stream.of(new ItemValue(new ItemStack(item))));
     }
 
     protected VanillaDamagedIngredient(Stream<? extends Value> values) {
@@ -32,38 +34,18 @@ public class VanillaDamagedIngredient extends AbstractIngredient {
 
     @Override
     public IIngredientSerializer<? extends Ingredient> getSerializer() {
-        return Serializer.INSTANCE;
+        return SERIALIZER;
     }
 
     @Override
     public JsonElement toJson() {
         JsonObject json = this.values[0].serialize();
-        json.addProperty("type", CraftingHelper.getID(Serializer.INSTANCE).toString());
+        json.addProperty("type", CraftingHelper.getID(SERIALIZER).toString());
         return json;
     }
 
     @Override
     public boolean test(@Nullable ItemStack stack) {
         return super.test(stack) && stack.isDamaged();
-    }
-
-    public static class Serializer implements IIngredientSerializer<VanillaDamagedIngredient> {
-        public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation NAME = location("damaged_item");
-
-        @Override
-        public VanillaDamagedIngredient parse(FriendlyByteBuf buffer) {
-            return (VanillaDamagedIngredient) Ingredient.fromNetwork(buffer);
-        }
-
-        @Override
-        public VanillaDamagedIngredient parse(JsonObject json) {
-            return (VanillaDamagedIngredient) Ingredient.fromJson(json);
-        }
-
-        @Override
-        public void write(FriendlyByteBuf buffer, VanillaDamagedIngredient ingredient) {
-            ingredient.toNetwork(buffer);
-        }
     }
 }

@@ -9,7 +9,7 @@ import one.util.streamex.StreamEx;
 
 import java.util.Map;
 
-import static dev.su5ed.gtexperimental.api.Reference.location;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class ConnectedModelLoader implements IGeometryLoader<ConnectedModelGeometry> {
     public static final ResourceLocation NAME = location("connected");

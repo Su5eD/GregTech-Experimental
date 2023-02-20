@@ -53,7 +53,7 @@ public class RCCrusherRecipeBuilder extends BaseRecipeBuilder {
     public record Output(ItemStack stack, double probability) {
         public JsonObject toJson() {
             JsonObject json = new JsonObject();
-            json.add("stack", ModRecipeOutputTypes.ITEM.toJson(this.stack));
+            json.add("result", ModRecipeOutputTypes.ITEM.toJson(this.stack));
             json.addProperty("probability", this.probability);
             return json;
         }

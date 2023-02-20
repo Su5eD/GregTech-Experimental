@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "tag": "forge:tools/hard_hammer"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "pattern": [
+    "H",
+    "I"
+  ],
+  "result": {
+    "item": "gtexperimental:iron_plate"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:ores/iridium"
+    }
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "ftbic:iridium_dust"
+    },
+    {
+      "item": "gtexperimental:platinum_dust"
+    }
+  ]
+}

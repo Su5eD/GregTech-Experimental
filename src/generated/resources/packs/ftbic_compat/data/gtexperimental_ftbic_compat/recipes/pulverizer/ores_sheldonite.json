@@ -1,0 +1,30 @@
+{
+  "type": "gtexperimental:pulverizer",
+  "chance": 10,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "energy_cost": 3.0,
+  "input": {
+    "value": [
+      {
+        "tag": "forge:ores/sheldonite"
+      },
+      {
+        "tag": "forge:ores/platinum"
+      }
+    ]
+  },
+  "output": [
+    {
+      "count": 2,
+      "item": "gtexperimental:platinum_dust"
+    },
+    {
+      "item": "ftbic:iridium_dust"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "type": "gtexperimental:assembler",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "duration": 800,
+  "energy_cost": 2.0,
+  "input": [
+    {
+      "count": 5,
+      "value": {
+        "tag": "forge:dusts/flint"
+      }
+    },
+    {
+      "count": 3,
+      "value": {
+        "item": "minecraft:tnt"
+      }
+    }
+  ],
+  "output": {
+    "item": "ic2:itnt"
+  }
+}

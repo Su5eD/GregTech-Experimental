@@ -48,6 +48,10 @@ public abstract class SISORecipe<T> extends BaseRecipeImpl<SISORecipeType<?, T>,
         return this.properties.get(ModRecipeProperty.ENERGY_COST);
     }
 
+    public RecipePropertyMap getProperties() {
+        return this.properties;
+    }
+
     @Override
     public boolean matches(T input) {
         return this.input.test(input);

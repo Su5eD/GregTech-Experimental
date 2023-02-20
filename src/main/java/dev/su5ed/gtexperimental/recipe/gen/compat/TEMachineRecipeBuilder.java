@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.recipe.gen.compat;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.datagen.RecipeGen;
@@ -43,14 +44,17 @@ public class TEMachineRecipeBuilder extends BaseRecipeBuilder {
     @Override
     public void serializeRecipeData(JsonObject json) {
         super.serializeRecipeData(json);
+        JsonElement input;
         if (this.inputCount == 1) {
-            json.add("ingredient", this.ingredient.toJson());
+            input = this.ingredient.toJson();
         }
         else {
-            JsonObject input = new JsonObject();
-            input.add("value", this.ingredient.toJson());
-            input.addProperty("count", this.inputCount);
+            JsonObject inputJson = new JsonObject();
+            inputJson.add("value", this.ingredient.toJson());
+            inputJson.addProperty("count", this.inputCount);
+            input = inputJson;
         }
+        json.add("ingredient", input);
 
         JsonArray resultJson = new JsonArray();
         for (ItemStack stack : this.result) {

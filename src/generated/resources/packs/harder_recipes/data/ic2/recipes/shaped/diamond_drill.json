@@ -1,0 +1,38 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "A": {
+            "tag": "gtexperimental:advanced_circuit"
+          },
+          "D": {
+            "tag": "forge:gems/diamond"
+          },
+          "M": {
+            "item": "ic2:drill"
+          },
+          "T": {
+            "tag": "forge:plates/titanium"
+          }
+        },
+        "pattern": [
+          " D ",
+          "DMD",
+          "TAT"
+        ],
+        "result": {
+          "item": "ic2:diamond_drill"
+        }
+      }
+    }
+  ]
+}
